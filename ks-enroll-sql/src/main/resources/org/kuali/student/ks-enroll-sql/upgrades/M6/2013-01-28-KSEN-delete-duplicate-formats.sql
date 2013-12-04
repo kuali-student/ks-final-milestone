@@ -89,7 +89,7 @@ CREATE or replace
 
 
 --Delete all the duplicated formats that don't have any LUIs attached to them
-DELETE
+DELETE FROM
     KSLU_CLUCLU_RELTN cr
 WHERE
     RELATED_CLU_ID IN
@@ -157,26 +157,26 @@ WHERE
 
 --Delete orphaned activities
 --Delete activity attributes
-DELETE KSLU_CLU_ATTR WHERE KSLU_CLU_ATTR.OWNER IN (SELECT far.RELATED_CLU_ID FROM KSLU_CLUCLU_RELTN far where far.CLU_ID IN(SELECT orphanF.ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id)))
+DELETE FROM KSLU_CLU_ATTR WHERE KSLU_CLU_ATTR.OWNER IN (SELECT far.RELATED_CLU_ID FROM KSLU_CLUCLU_RELTN far where far.CLU_ID IN(SELECT orphanF.ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id)))
 /
 --Delete activity identifiers
-DELETE KSLU_CLU_IDENT WHERE KSLU_CLU_IDENT.ID IN (SELECT a.OFFIC_CLU_ID FROM KSLU_CLUCLU_RELTN far, KSLU_CLU a WHERE far.RELATED_CLU_ID = a.ID and far.CLU_ID in(SELECT orphanF.ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id)))
+DELETE FROM KSLU_CLU_IDENT WHERE KSLU_CLU_IDENT.ID IN (SELECT a.OFFIC_CLU_ID FROM KSLU_CLUCLU_RELTN far, KSLU_CLU a WHERE far.RELATED_CLU_ID = a.ID and far.CLU_ID in(SELECT orphanF.ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id)))
 /
 --DELETE activity relation for orphaned formats
-DELETE KSLU_CLUCLU_RELTN WHERE CLU_ID IN (SELECT orphanF.ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id))
+DELETE FROM KSLU_CLUCLU_RELTN WHERE CLU_ID IN (SELECT orphanF.ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id))
 /
 --Delete activities that are orphaned
-DELETE KSLU_CLU orphana WHERE LUTYPE_ID LIKE 'kuali.lu.type.activity.%' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanarel WHERE orphanarel.RELATED_CLU_ID=orphana.id)
+DELETE FROM KSLU_CLU orphana WHERE LUTYPE_ID LIKE 'kuali.lu.type.activity.%' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanarel WHERE orphanarel.RELATED_CLU_ID=orphana.id)
 /
 
 --Delete orphaned Formats
 --Delete format attributes
-DELETE KSLU_CLU_ATTR WHERE KSLU_CLU_ATTR.OWNER IN (SELECT orphanF.ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id))
+DELETE FROM KSLU_CLU_ATTR WHERE KSLU_CLU_ATTR.OWNER IN (SELECT orphanF.ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id))
 /
 --Delete activity identifiers
-DELETE KSLU_CLU_IDENT WHERE KSLU_CLU_IDENT.ID IN (SELECT orphanF.OFFIC_CLU_ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id))
+DELETE FROM KSLU_CLU_IDENT WHERE KSLU_CLU_IDENT.ID IN (SELECT orphanF.OFFIC_CLU_ID FROM KSLU_CLU orphanf WHERE orphanf.LUTYPE_ID='kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id))
 /
 --Delete activities that are orphaned
-DELETE KSLU_CLU orphanf WHERE LUTYPE_ID = 'kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id)
+DELETE FROM KSLU_CLU orphanf WHERE LUTYPE_ID = 'kuali.lu.type.CreditCourseFormatShell' AND NOT EXISTS (SELECT * FROM KSLU_CLUCLU_RELTN orphanfrel WHERE orphanfrel.RELATED_CLU_ID=orphanf.id)
 /
 

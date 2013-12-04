@@ -59,19 +59,13 @@
             <list>
                 <ref bean="KS-HolidayCalendar-CopyPage"/>
                 <bean parent="KS-HolidayCalendar-EditPage" p:stickyFooter="true"/>
-                <ref bean="KS-HolidayCalendar-ViewPage"/>
+                <!--<ref bean="KS-HolidayCalendar-ViewPage"/>-->
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/calendar.css</value>
-                <value>ks-enroll/css/hcal.css</value>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
+                <value>themes/ksboot/stylesheets/calendar.css</value>
             </list>
         </property>
 
@@ -99,6 +93,8 @@
                     <property name="render" value="@{!newCalendar}"/>
                     <property name="items">
                         <list>
+                            <bean id="KS-HolidayCalendarView-ActionGroup-Copy" parent="Unified-Right-Header-Group-Action-Copy" p:methodToCall="toCopy" p:render="@{#view.readOnly}"/>
+                            <bean id="KS-HolidayCalendarView-ActionGroup-Edit" parent="Unified-Right-Header-Group-Action-Edit" p:methodToCall="toEdit" p:render="@{#view.readOnly}"/>
                            <bean id="hcal_Official" parent="Unified-Right-Header-Group-Action-MakeOfficial" p:methodToCall="makeOfficial" p:actionLabel="Make Official" p:render="@{!newCalendar and !#view.readOnly and !officialCalendar}" />
                         </list>
                     </property>
@@ -111,8 +107,8 @@
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialCalendar}"/>
-                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialCalendar}"/>
+                                        <bean id="HCAL-Official-Lozenge" parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialCalendar}"/>
+                                        <bean id="HCAL-Draft-Lozenge" parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialCalendar}"/>
                                     </list>
                                 </property>
                             </bean>

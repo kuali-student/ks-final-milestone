@@ -59,7 +59,10 @@ public class LuiServiceDataLoader {
         loadLui("Lui-6", "Lui six", "cluId6", "20122", "kuali.lui.type.course.format.offering", "kuali.lui.state.draft", "<p>Lui Desc 601</p>", "Lui Desc 601", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-7", "Lui seven", "cluId7", "20122", "kuali.lui.type.course.format.offering", "kuali.lui.state.draft", "<p>Lui Desc 701</p>", "Lui Desc 701", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
         loadLui("Lui-8", "Lui eight", "cluId8", "atpId8", "kuali.lui.type.activity.offering.lecture", "kuali.lui.state.draft", "<p>Lui Desc 701</p>", "Lui Desc 701", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
-
+        loadLui("Lui-9", "Lui nine", "cluId9", "atpId9", "kuali.lui.type.exam.offering.final", "kuali.lui.state.draft", "<p>Lui Desc 901</p>", "Lui Desc 901", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+        loadLui("Lui-10", "Lui ten", "cluId10", "atpId10", "kuali.lui.type.exam.offering.final", "kuali.lui.state.draft", "<p>Lui Desc 1001</p>", "Lui Desc 1001", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+        loadLui("Lui-EO-1", "Lui EO one", "cluId10", "examPeriod100", "kuali.lui.type.exam.offering.final", "kuali.lui.exam.offering.state.draft", "<p>Lui Desc 901</p>", "Lui Desc 901", "2011-01-01 00:00:00.0", "2011-12-31 00:00:00.0", 200, 50, "ref.url");
+        
         loadLuiLuiRel("LUILUIREL-1", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-1 Formatted</p>", "LUILUIREL-1 Plain", "Lui-1", "kuali.lui.lui.relation.associated", "Lui-2");
         loadLuiLuiRel("LUILUIREL-2", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-2 Formatted</p>", "LUILUIREL-2 Plain", "Lui-3", "kuali.lui.lui.relation.associated", "Lui-4");
         loadLuiLuiRel("LUILUIREL-3", "2011-01-01 00:00:00.0", "2100-01-01 00:00:00.0", "kuali.lui.lui.relation.state.active", "<p>LUILUIREL-3 Formatted</p>", "LUILUIREL-3 Plain", "Lui-5", "kuali.lui.lui.relation.associated", "Lui-2");
@@ -153,6 +156,8 @@ public class LuiServiceDataLoader {
         addIdentifier("LUI-IDENT-5", "GEOG123", "GEOG", "123", "Geography 123", "Geog 123", "kuali.lui.identifier.type.official", null, "Lui-3");
         addIdentifier("LUI-IDENT-6", "MATH123", "MATH", "123", "Mathematics 123", "Math 123", "kuali.lui.identifier.type.official", null, "Lui-4");
         addIdentifier("LUI-IDENT-7", "MATH123", "MATH", "456", "Mathematics 456", "Math 456", "kuali.lui.identifier.type.cross-listed", null, "Lui-4");
+        addIdentifier("LUI-IDENT-9", "EXAMOFFERING9", "MATH", "123", "Exam Offering 9", "Exam Offering 9", "kuali.lui.identifier.type.official", null, "Lui-9");
+        addIdentifier("LUI-IDENT-10", "EXAMOFFERING1", "MATH", "456", "Exam Offering 1", "Exam Offering 1", "kuali.lui.identifier.type.official", null, "Lui-EO-1");
     }
 
     private void addIdentifier(String id,

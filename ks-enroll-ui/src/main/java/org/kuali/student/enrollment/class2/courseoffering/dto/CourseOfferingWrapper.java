@@ -21,6 +21,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
@@ -52,8 +55,14 @@ public class CourseOfferingWrapper implements Serializable{
     private List<String> ownerAliases;
     private String ownerCode;
     private String coOwningDeptName;
+    private String finalExamDriver;
+    private String finalExamDriverUI;
+    private boolean useFinalExamMatrix;
+    private String useFinalExamMatrixUI;
+    private String examPeriodId;
 
     private boolean isColocatedAoToDelete;
+    private boolean isColocatedAoToCSR;
     /**
      * Usage of this property only in create and edit CO screens. Basically, this is whether to
      * allow the user to select cross lists or not. If it's false, then the cross
@@ -83,6 +92,8 @@ public class CourseOfferingWrapper implements Serializable{
         this.courseOfferingInfo = courseOfferingInfo;
         this.alternateCOCodes = new ArrayList<String>();
         this.ownerAliases = new ArrayList<String>();
+        this.setAttributeFields(courseOfferingInfo);
+
     }
 
     /**
@@ -140,6 +151,7 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setCourseOfferingInfo(CourseOfferingInfo coInfo) {
         this.courseOfferingInfo = coInfo;
+        this.setAttributeFields(coInfo);
     }
 
     public TermInfo getTerm() {
@@ -226,12 +238,14 @@ public class CourseOfferingWrapper implements Serializable{
     */
    @SuppressWarnings("unused")
    public String getAlternateCOCodesUIList(){
-       StringBuffer buffer = new StringBuffer();
+
+       //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+       StringBuilder sb = new StringBuilder();
        for (String code : alternateCOCodes){
-           buffer.append(code + ", ");
+           sb.append(code + ", ");
        }
 
-       return StringUtils.removeEnd(buffer.toString(), ", ");
+       return StringUtils.removeEnd(sb.toString(), ", ");
    }
 
     /**
@@ -243,11 +257,12 @@ public class CourseOfferingWrapper implements Serializable{
     */
    @SuppressWarnings("unused")
    public String getAlternateCOCodesUITooltip(){
-       StringBuffer buffer = new StringBuffer();
+       //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+       StringBuilder sb = new StringBuilder();
        for (String code : alternateCOCodes){
-           buffer.append(code + "<br>");
+           sb.append(code + "<br>");
        }
-       return StringUtils.removeEnd(buffer.toString(), "<br>");
+       return StringUtils.removeEnd(sb.toString(), "<br>");
    }
 
     public List<String> getOwnerAliases() {
@@ -267,15 +282,17 @@ public class CourseOfferingWrapper implements Serializable{
     }
 
     public String getOwnerAliasesUIList(){
-        StringBuffer buffer = new StringBuffer();
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
 
         if(ownerAliases!=null){
             for (String code : ownerAliases){
-                buffer.append(code + ", ");
+                sb.append(code + ", ");
             }
         }
 
-        return StringUtils.removeEnd(buffer.toString(), ", ");
+        return StringUtils.removeEnd(sb.toString(), ", ");
      }
 
     /**
@@ -339,6 +356,13 @@ public class CourseOfferingWrapper implements Serializable{
         isColocatedAoToDelete = colocatedAoToDelete;
     }
 
+    public boolean isColocatedAoToCSR() {
+        return isColocatedAoToCSR;
+    }
+
+    public void setColocatedAoToCSR(boolean isColocatedAoToCSR) {
+        isColocatedAoToCSR = isColocatedAoToCSR;
+    }
     /**
      * This method returns whether alternate code selection is allowed or not.
      * This method reads the configuration property <code>kuali.ks.enrollment.options.selective-crosslisting-allowed</code>
@@ -376,4 +400,61 @@ public class CourseOfferingWrapper implements Serializable{
         this.contextBar = contextBar;
     }
 
+    private void setAttributeFields(CourseOfferingInfo courseOfferingInfo) {
+        // set Final Exam Driver
+        if(!courseOfferingInfo.getAttributes().isEmpty()){
+            for(AttributeInfo attrInfo: courseOfferingInfo.getAttributes()){
+                if(StringUtils.equals(attrInfo.getKey(), CourseOfferingServiceConstants.FINAL_EXAM_DRIVER_ATTR)){
+                    this.finalExamDriver = attrInfo.getValue();
+                    if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY)) {
+                        this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_CO_UI;
+                    } else if (StringUtils.equals(attrInfo.getValue(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
+                        this.finalExamDriverUI = CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_DRIVER_AO_UI;
+                    }
+                } else if(StringUtils.equals(attrInfo.getKey(), CourseOfferingServiceConstants.FINAL_EXAM_USE_MATRIX)) {
+                    this.useFinalExamMatrix = Boolean.valueOf(attrInfo.getValue());
+                }
+            }
+        }
+    }
+
+    public String getFinalExamDriverUI() {
+        return finalExamDriverUI;
+    }
+
+    public void setFinalExamDriverUI(String finalExamDriverUI) {
+        this.finalExamDriverUI = finalExamDriverUI;
+    }
+
+    public String getFinalExamDriver() {
+        return finalExamDriver;
+    }
+
+    public void setFinalExamDriver(String finalExamDriver) {
+        this.finalExamDriver = finalExamDriver;
+    }
+
+    public boolean isUseFinalExamMatrix() {
+        return useFinalExamMatrix;
+    }
+
+    public void setUseFinalExamMatrix(boolean useFinalExamMatrix) {
+        this.useFinalExamMatrix = useFinalExamMatrix;
+    }
+
+    public String getUseFinalExamMatrixUI() {
+        return useFinalExamMatrixUI;
+    }
+
+    public void setUseFinalExamMatrixUI(String useFinalExamMatrixUI) {
+        this.useFinalExamMatrixUI = useFinalExamMatrixUI;
+    }
+
+    public String getExamPeriodId() {
+        return examPeriodId;
+    }
+
+    public void setExamPeriodId(String examPeriodId) {
+        this.examPeriodId = examPeriodId;
+    }
 }

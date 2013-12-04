@@ -40,7 +40,7 @@ import java.util.List;
 //import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 /**
- * This class //TODO ...
+ * This class provides a key value finder for student registration options
  *
  * @author Kuali Student Team
  */

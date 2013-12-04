@@ -17,7 +17,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.exception;
 
 /**
- * This class //TODO ...
+ * This class defines an Exception with additional "typeOfErro" data
  *
  * @author Kuali Student Team
  */

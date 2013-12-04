@@ -40,7 +40,7 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
 
     final static Logger logger = Logger.getLogger(CourseOfferingSetSchedulingRunner.class);
 
-    private final StringBuffer logBuffer = new StringBuffer();
+    private final StringBuilder logBuffer = new StringBuilder();
 
     private final String socId;
 

@@ -92,6 +92,15 @@ public class LuiServiceDecorator
         }
 
     @Override
+    public List<LuiInfo> getLuisByAtpAndType (String atpId, String luiTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException,
+                MissingParameterException,
+                OperationFailedException,
+                PermissionDeniedException {
+        return getNextDecorator().getLuisByAtpAndType(atpId, luiTypeKey, contextInfo);
+    }
+
+    @Override
     public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId, ContextInfo contextInfo) 
         throws InvalidParameterException, MissingParameterException, 
                OperationFailedException, PermissionDeniedException {

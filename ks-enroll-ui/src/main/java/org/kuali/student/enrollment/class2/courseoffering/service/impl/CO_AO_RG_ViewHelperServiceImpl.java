@@ -31,6 +31,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.lum.course.service.CourseService;
 
 import java.util.Calendar;
@@ -49,6 +50,8 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         ActivityOfferingWrapper aoWrapper = new ActivityOfferingWrapper(aoInfo);
 
+        int firstValue = 0;
+
         ContextInfo contextInfo = createContextInfo();
 
         StateInfo state = getStateInfo(aoInfo.getStateKey());
@@ -62,8 +65,9 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         if(scheduleRequestSetInfoList != null && scheduleRequestSetInfoList.size() > 0) {
 
-            StringBuffer buffer = new StringBuffer();
-            buffer.append(" ");
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder sb = new StringBuilder();
+            sb.append(" ");
             CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
 
             if (!scheduleRequestSetInfoList.isEmpty()){
@@ -71,11 +75,11 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                     List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(coloSet.getRefObjectIds(), createContextInfo());
                     for(ActivityOfferingInfo coloActivity : aoList) {
                         if (!StringUtils.equals(coloActivity.getId(),aoInfo.getId())){
-                            buffer.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
+                            sb.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
                         }
                     }
                 }
-                aoWrapper.setColocatedAoInfo(buffer.toString());
+                aoWrapper.setColocatedAoInfo(sb.toString());
             }
          }
 
@@ -118,7 +122,8 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                         for (ScheduleComponentInfo scheduleComponentInfo : scheduleInfo.getScheduleComponents()) {
 
                             String roomId = scheduleComponentInfo.getRoomId();
-                            TimeSlotInfo timeSlotInfo = getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().get(0), contextInfo);
+                            // JIRA Fix : KSENROLL-8726. Added isEmpty check
+                            TimeSlotInfo timeSlotInfo = getSchedulingService().getTimeSlot(scheduleComponentInfo.getTimeSlotIds().isEmpty() ? StringUtils.EMPTY : scheduleComponentInfo.getTimeSlotIds().get(firstValue), contextInfo);
 
                             updateScheduleToAOWrapperForDisplay(aoWrapper, scheduleComponentInfo.getIsTBA(), roomId, timeSlotInfo, appendScheduleRowDisplay);
 
@@ -141,9 +146,10 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
                 boolean appendScheduleRowDisplay = false;
 
-                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfoList.get(0).getScheduleRequestComponents()) {
-                    String roomId = componentInfo.getRoomIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getRoomIds().get(0);
-                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(componentInfo.getTimeSlotIds().get(0),contextInfo);
+                for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfoList.get(firstValue).getScheduleRequestComponents()) {
+                    String roomId = componentInfo.getRoomIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getRoomIds().get(firstValue);
+                    // Changes made as part of KSENROLL-8726. Added isEmpty check
+                    TimeSlotInfo timeSlotInfo =  getSchedulingService().getTimeSlot(componentInfo.getTimeSlotIds().isEmpty() ? StringUtils.EMPTY : componentInfo.getTimeSlotIds().get(firstValue),contextInfo);
 
                     updateScheduleToAOWrapperForDisplay(aoWrapper,componentInfo.getIsTBA(),roomId,timeSlotInfo,appendScheduleRowDisplay);
 
@@ -168,8 +174,6 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     private void updateScheduleToAOWrapperForDisplay(ActivityOfferingWrapper aoWrapper, Boolean isTBA, RoomInfo roomInfo,TimeSlotInfo timeSlot,boolean append) throws Exception{
 
-        Calendar calendar = new GregorianCalendar();
-
         aoWrapper.setTbaDisplayName(isTBA,append);
 
         if (timeSlot != null) {
@@ -179,13 +183,11 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             List<Integer> days = timeSlot.getWeekdays();
 
             if (startTime != null && startTime.getMilliSeconds() != null) {
-                calendar.setTimeInMillis(startTime.getMilliSeconds());
-                aoWrapper.setStartTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()),append);
+                aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime.getMilliSeconds()),append);
             }
 
             if (endTime != null && endTime.getMilliSeconds() != null) {
-                calendar.setTimeInMillis(endTime.getMilliSeconds());
-                aoWrapper.setEndTimeDisplay(DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(calendar.getTime()),append);
+                aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime.getMilliSeconds()),append);
             }
 
             if (days != null && days.size() > 0) {

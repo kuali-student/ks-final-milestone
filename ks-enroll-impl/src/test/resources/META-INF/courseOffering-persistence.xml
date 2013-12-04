@@ -230,10 +230,25 @@
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterAttributeEntity</class>
         <class>org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingSetEntity</class>
 
+        <class>org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity</class>
+        <class>org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntryAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntryEntity</class>
+
         <class>org.kuali.student.r2.core.population.model.PopulationEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationRuleEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationAttributeEntity</class>
         <class>org.kuali.student.r2.core.population.model.PopulationRuleAttributeEntity</class>
+
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleComponentEntity</class>
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
     </persistence-unit>

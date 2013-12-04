@@ -24,7 +24,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultI
 import java.util.ArrayList;
 import java.util.List;
 /**
- * This class //TODO ...
+ * This class provides a form for the Course Offering Rollover Management ui
  *
  * @author Kuali Student Team
  */

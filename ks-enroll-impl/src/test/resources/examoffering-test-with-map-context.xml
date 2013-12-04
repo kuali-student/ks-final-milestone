@@ -6,5 +6,7 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
     <context:annotation-config/>
 
-    <bean id="testExamOfferingService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceMapImpl" />
+    <bean id="testService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceMapImpl" />
+
+
 </beans>

@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides an Inquirable implementation for Activity Offerings
  *
  * @author Kuali Student Team
  */

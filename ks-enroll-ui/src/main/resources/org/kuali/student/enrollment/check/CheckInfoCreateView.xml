@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="CheckInfo-CreateView" parent="KS-Uif-FormView">
+    <bean id="CheckInfo-CreateView" parent="KS-Uif-FormView" p:additionalCssClasses="ks-enrollment-home">
         <property name="id" value="checkCreateView"/>
         <property name="headerText" value="Create Checks"/>
         <property name="formClass"
@@ -37,11 +37,6 @@
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home</value>
-            </list>
         </property>
         <property name="items">
             <list>
@@ -73,18 +68,21 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="25"/>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.hold.dto.HoldIssueInfo"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="id" value="holdIssueId"/>
-                            <entry key="name" value="holdName"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
-                    </property>
-                    <property name="quickfinder.lightBoxLookup">
-                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.hold.dto.HoldIssueInfo">
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="id" value="holdIssueId"/>
+                                    <entry key="name" value="holdName"/>
+                                </map>
+                            </property>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
+                            </property>
+                            <property name="lightBoxLookup">
+                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="Academic Calendar Event"
@@ -93,18 +91,22 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="25"/>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.AcalEventInfo"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="id" value="milestoneTypeKey"/>
-                            <entry key="name" value="eventcalendar"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
-                    </property>
-                    <property name="quickfinder.lightBoxLookup">
-                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.acal.dto.AcalEventInfo"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="id" value="milestoneTypeKey"/>
+                                    <entry key="name" value="eventcalendar"/>
+                                </map>
+                            </property>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
+                            </property>
+                            <property name="lightBoxLookup">
+                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="Process" p:propertyName="childProcessKey"
@@ -112,17 +114,21 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="25"/>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.process.dto.ProcessInfo"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="key" value="childProcessKey"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
-                    </property>
-                    <property name="quickfinder.lightBoxLookup">
-                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.process.dto.ProcessInfo"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="key" value="childProcessKey"/>
+                                </map>
+                            </property>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup"/>
+                            </property>
+                            <property name="lightBoxLookup">
+                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="holdIssueId" p:label="" p:readOnly="true" p:hidden="true" />
@@ -152,11 +158,6 @@
                         </list>
                     </property>
                 </bean>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
             </list>
         </property>
 

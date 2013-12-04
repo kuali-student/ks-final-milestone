@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.class2.acal.util;
 import org.kuali.rice.krad.util.KRADConstants;
 
 /**
- * This class //TODO ...
+ * This class provides constants related to Academic and Holiday Calendars
  *
  * @author Kuali Student Team
  */
@@ -30,7 +30,6 @@ public class CalendarConstants {
     //HolidayCalendar pages
     public static final String HOLIDAYCALENDAR_COPYPAGE = "holidayCalendarCopyPage";
     public static final String HOLIDAYCALENDAR_EDITPAGE = "holidayCalendarEditPage";
-    public static final String HOLIDAYCALENDAR_VIEWPAGE = "holidayCalendarViewPage";
     public static final String HOLIDAYCALENDAR_FLOWVIEW = "holidayCalendarFlowView";
 
     //Dialogs
@@ -99,6 +98,7 @@ public class CalendarConstants {
         public static final String ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED = "error.enroll.acal.term.official.failed";
         public static final String ERROR_ACAL_SAVE_EVENT_FAILED = "error.enroll.acal.event.save.failed";
         public static final String ERROR_ACAL_SAVE_TERM_KEYDATE_FAILED = "error.enroll.acal.term.keydate.save.failed";
+        public static final String ERROR_ACAL_SAVE_TERM_EXAMPERIOD_FAILED = "error.enroll.acal.term.examperiod.save.failed";
         public static final String ERROR_DUPLICATE_HCAL = "error.enroll.acal.duplicate.hcal";
         public static final String ERROR_KEY_DATE_TYPE_REQUIRED = "error.enroll.keydate.type.empty";
         public static final String ERROR_KEY_DATE_GROUP_TYPE_REQUIRED = "error.enroll.keydategroup.type.empty";
@@ -116,6 +116,8 @@ public class CalendarConstants {
         public static final String ERROR_CALCULATING_INSTRUCTIONAL_DAYS = "error.enroll.acal.instructionaldays.calculation";
         public static final String ERROR_NO_PARENT_TERM_FOR_SUBTERM = "error.enroll.acal.term.noParentTermForSubterm";
         public static final String ERROR_INVALID_DATE_TIME = "error.enroll.date.time.invalid";
+        public static final String ERROR_EMPTY_DATES = "error.enroll.examdate.empty";
+        public static final String ERROR_EXAM_PERIOD_DAYS_VALIDATION = "error.enroll.acal.examperiod.days.validation";
     }
 
     public static final String EMPTY_TERM_CODE = "No Code";

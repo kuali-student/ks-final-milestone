@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 
 import java.util.Date;
@@ -131,12 +132,28 @@ public class HolidayWrapper extends TimeSetWrapper implements Comparable<Holiday
 
     //This is for UI display purpose
     public String getStartDateUI(){
-        return formatStartDateUI(holidayInfo.getStartDate());
+        if (holidayInfo.getStartDate() != null) {
+            if (getStartTime()!=null && !getStartTime().isEmpty()){
+                return DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(holidayInfo.getStartDate());
+            }else{
+                return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(holidayInfo.getStartDate());
+            }
+        }else{
+            return StringUtils.EMPTY;
+        }
     }
 
     //This is for UI display purpose
     public String getEndDateUI(){
-        return formatEndDateUI(holidayInfo.getEndDate());
+        if (holidayInfo.getEndDate() != null) {
+            if (getEndTime()!=null && !getEndTime().isEmpty()){
+                return DateFormatters.MONTH_DATE_YEAR_TIME_COMMA_FORMATTER.format(holidayInfo.getEndDate());
+            }else{
+                return DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(holidayInfo.getEndDate());
+            }
+        }else{
+            return StringUtils.EMPTY;
+        }
     }
 
 }

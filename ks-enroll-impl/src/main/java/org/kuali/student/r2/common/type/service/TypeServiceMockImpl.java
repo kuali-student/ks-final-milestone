@@ -3,11 +3,13 @@ package org.kuali.student.r2.common.type.service;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -15,6 +17,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 
 
 import java.util.*;
@@ -28,8 +31,9 @@ public class TypeServiceMockImpl implements TypeService, MockService {
      * The key is the owner type key.
      * The value is a Map with the related type type key as the key and the TypeTypeRelationInfo as the value.
      */
-    private Map<String, Map<String, TypeTypeRelationInfo>> groupTypeTypeRelations = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
-    private Map<String, Map<String, TypeTypeRelationInfo>> allowedTypeTypeRelations = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
+
+    //  Storage for TypeType relations.
+    private Map<String, List<TypeTypeRelationInfo>> typeTypeRelations = new HashMap<String, List<TypeTypeRelationInfo>>();
 
     public TypeServiceMockImpl() {
 		super();
@@ -39,8 +43,7 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     @Override
 	public void clear() {
         this.allTypes.clear();
-        this.allowedTypeTypeRelations.clear();
-    	this.groupTypeTypeRelations.clear();
+        this.typeTypeRelations.clear();
     	init();
 	}
 
@@ -81,11 +84,15 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,  ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        Map<String, TypeTypeRelationInfo> allowedRelations = allowedTypeTypeRelations.get(ownerTypeKey);
+        //  Get all of the "allowed" relations.
+        List<TypeTypeRelationInfo> allowedRelations = typeTypeRelations.get(TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
         List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeTypeRelationInfo relationInfo : allowedRelations.values()) {
-            TypeInfo typeInfo = allTypes.get(relationInfo.getRelatedTypeKey());
-            typeInfos.add(typeInfo);
+        //  Iterate through the list and return the ones where the owner key matches.
+        for (TypeTypeRelationInfo relationInfo : allowedRelations) {
+            if (StringUtils.equals(relationInfo.getOwnerTypeKey(), ownerTypeKey)) {
+               TypeInfo typeInfo = allTypes.get(relationInfo.getRelatedTypeKey());
+                typeInfos.add(typeInfo);
+            }
         }
         return typeInfos;
     }
@@ -130,34 +137,39 @@ public class TypeServiceMockImpl implements TypeService, MockService {
     }
 
     @Override
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType( String ownerTypeKey, String relationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<TypeTypeRelationInfo> typeTypeRelationInfos = new ArrayList<TypeTypeRelationInfo>();
-
-        Map<String, TypeTypeRelationInfo> relations;
-        if (StringUtils.equals(relationTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY)) {
-            relations = allowedTypeTypeRelations.get(ownerTypeKey);
-        } else if (StringUtils.equals(relationTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY) ) {
-            relations = groupTypeTypeRelations.get(ownerTypeKey);
-        } else {
-            throw new OperationFailedException(String.format("Unknown type type relation key [%s].", relationTypeKey));
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerAndType(String ownerTypeKey, String relationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //  Get relations of the given type.
+        List<TypeTypeRelationInfo> relationships = typeTypeRelations.get(relationTypeKey);
+        if (relationships == null) {
+            throw new DoesNotExistException(String.format("No type type relations exist for key [%s].", relationTypeKey));
         }
-        if (relations != null) {
-            typeTypeRelationInfos.addAll(relations.values());
+
+        //  Iterate through the list and return the ones where the owner key matches.
+        List<TypeTypeRelationInfo> typeTypeRelationInfos = new ArrayList<TypeTypeRelationInfo>();
+        for (TypeTypeRelationInfo relationInfo : relationships) {
+            if (StringUtils.equals(relationInfo.getOwnerTypeKey(), ownerTypeKey)) {
+               typeTypeRelationInfos.add(relationInfo);
+            }
         }
         return typeTypeRelationInfos;
     }
 
     @Override
     public List<TypeTypeRelationInfo> getTypeTypeRelationsByRelatedTypeAndType(String relatedTypeKey, String relationTypeKey,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<TypeTypeRelationInfo> list = new ArrayList<TypeTypeRelationInfo>();
-        if (StringUtils.equals(relationTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY)) {
-            appendItemsByRelatedTypeKey(allowedTypeTypeRelations, list, relatedTypeKey);
-        } else if (StringUtils.equals(relationTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY) ) {
-            appendItemsByRelatedTypeKey(groupTypeTypeRelations, list, relatedTypeKey);
-        } else {
-            throw new OperationFailedException(String.format("Unknown type type relation key [%s].", relationTypeKey));
+        //  Get relations of the given type.
+        List<TypeTypeRelationInfo> relationships = typeTypeRelations.get(relationTypeKey);
+        if (relationships == null) {
+            throw new DoesNotExistException(String.format("No type type relations exist for key [%s].", relationTypeKey));
         }
-        return list;
+
+        //  Iterate through the list and return the ones where the owner key matches.
+        List<TypeTypeRelationInfo> typeTypeRelationInfos = new ArrayList<TypeTypeRelationInfo>();
+        for (TypeTypeRelationInfo relationInfo : relationships) {
+            if (StringUtils.equals(relationInfo.getRelatedTypeKey(), relationTypeKey)) {
+               typeTypeRelationInfos.add(relationInfo);
+            }
+        }
+        return typeTypeRelationInfos;
     }
 
     /**
@@ -290,12 +302,30 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         typeArrays.add(new String[] {LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, "Lui Lui Relation Associated", "Lui Lui Relation Associated", LuiServiceConstants.REF_OBJECT_URI_LUI});
         typeArrays.add(new String[] {LuiServiceConstants.LUI_SET_COLOCATED_OFFERING_TYPE_KEY, "Lui Set Colocated Offering", "Lui Set Colocated Offering", LuiServiceConstants.REF_OBJECT_URI_LUI});
 
+        //Exam Offerings - Lui
+        typeArrays.add(new String[] {ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY, "Final Exam Offering", "Final Exam Offering", ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING});
+
         typeArrays.add(new String[] {LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Lpr Instructor Main", "Lpr Instructor Main", LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION});
         typeArrays.add(new String[] {LprServiceConstants.COURSE_OFFERING_INSTRUCTOR_MAIN_TYPE_KEY, "Lpr Course Offering Instructor Main", "Lpr Course Offering Instructor Main", LprServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION});
-        
+
+        String fallTimeSlotType = SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL;
+        String springTimeSlotType = SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING;
+
+        //  Time Slot Types
+        typeArrays.add(new String[] {fallTimeSlotType, "Fall Full", "Fall Full Time Slot", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT });
+        typeArrays.add(new String[] {springTimeSlotType, "Spring Full", "Spring Full Time Slot", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT });
+        typeArrays.add(new String[] {SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC, "Ad Hoc", "Ad Hoc Time Slot", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT} );
+        typeArrays.add(new String[] {SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA, "TBA", "TBA Time Slot", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT} );
+
+        //  Schedule, Schedule Request, Schedule Request Set Types
+        typeArrays.add(new String[] {SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, "Schedule Request", "Schedule Request", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_REQUEST}  );
+        typeArrays.add(new String[] {SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, "Schedule Request Set", "Schedule Request SEt", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_REQUEST_SET} );
+        typeArrays.add(new String[] {SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, "Schedule", "Schedule", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE} );
+
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1], typeArray[2], typeArray[3]);
         }
+
         // Registration Groups Grouping
         Set<TypeInfo> rgGroup = new HashSet<TypeInfo>();
         TypeInfo rgGroupType = createTypeInfo(LuiServiceConstants.ACTIVITY_OFFERING_GROUP_TYPE_KEY, "Group for Registration Groups", "Group for Registration Groups", AtpServiceConstants.REF_OBJECT_URI_ATP);
@@ -538,6 +568,29 @@ public class TypeServiceMockImpl implements TypeService, MockService {
         for (String[] allowedArray : allowedArrays) {
             associate(allowedArray[0], allowedArray[1], allowedArray[2], allowedArray[3], allowedArray[4], allowedArray[5]);
         }
+
+        /*
+         *  Type type relationships for Time Slots.
+         */
+        List<String[]> tsTypeTypeArrays = new ArrayList<String[]>();
+
+        String tsGroupingType = SchedulingServiceConstants.TIME_SLOT_TYPE_GROUPING;
+        String ttRelationGroupType = TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY;
+        String ttTimeSlotToATPType = TypeServiceConstants.TYPE_TYPE_RELATION_ATP2TIMESLOT_TYPE_KEY;
+
+        //  Group Time Slot types.
+        tsTypeTypeArrays.add(new String[] {ttRelationGroupType, tsGroupingType, fallTimeSlotType}  );
+        tsTypeTypeArrays.add(new String[] {ttRelationGroupType, tsGroupingType, springTimeSlotType}  );
+        tsTypeTypeArrays.add(new String[] {ttRelationGroupType, tsGroupingType, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC} );
+        tsTypeTypeArrays.add(new String[] {ttRelationGroupType, tsGroupingType, SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA}  );
+
+        //  Relate Time Slots types to ATP types.
+        tsTypeTypeArrays.add(new String[] {ttTimeSlotToATPType, AtpServiceConstants.ATP_FALL_TYPE_KEY, fallTimeSlotType} );
+        tsTypeTypeArrays.add(new String[] {ttTimeSlotToATPType, AtpServiceConstants.ATP_SPRING_TYPE_KEY, springTimeSlotType} );
+
+        for (String[] tsTt : tsTypeTypeArrays) {
+            createTypeTypeRelationInfo(tsTt[0], tsTt[1], tsTt[2]);
+        }
     }
 
     private TypeInfo createTypeInfo(String typeKey, String typeName, String descr, String refObjectUri) {
@@ -553,56 +606,45 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     /**
      * Creates a TypeTypeRelationInfo.
-     * @param typeKey The type key of the TypeTypeRelationInfo.
+     * @param typeTypeTypeKey The type key of the TypeTypeRelationInfo.
      * @param ownerType The owner TypeInfo.
      * @param relatedType The related TypeInfo.
      * @return A TypeTypeRelationInfo.
      */
-    private TypeTypeRelationInfo createTypeTypeRelationInfo(String typeKey, TypeInfo ownerType, TypeInfo relatedType) {
-        return createTypeTypeRelationInfo(typeKey, ownerType.getKey(), relatedType.getKey());
+    private TypeTypeRelationInfo createTypeTypeRelationInfo(String typeTypeTypeKey, TypeInfo ownerType, TypeInfo relatedType) {
+        return createTypeTypeRelationInfo(typeTypeTypeKey, ownerType.getKey(), relatedType.getKey());
     }
 
     /**
      * Creates a TypeTypeRelationInfo.
      *
-     * @param typeKey  The type key of the TypeTypeRelationInfo.
+     * @param typeTypeTypeKey  The type key of the TypeTypeRelationInfo.
      * @param ownerTypeKey The type key of the owner TypeInfo.
      * @param relatedTypeKey  The type key of the related TypeInfo.
      * @return A TypeTypeRelationInfo.
      */
-    private TypeTypeRelationInfo createTypeTypeRelationInfo(String typeKey, String ownerTypeKey, String relatedTypeKey) {
-        TypeTypeRelationInfo relation = new TypeTypeRelationInfo();
-        relation.setTypeKey(typeKey);
-        relation.setOwnerTypeKey(ownerTypeKey);
-        relation.setRelatedTypeKey(relatedTypeKey);
-
-        Map<String, TypeTypeRelationInfo> relations = groupTypeTypeRelations.get(relation.getOwnerTypeKey());
-        if (null == relations) {
-            relations = (Map) new HashMap<String, Map<String, TypeTypeRelationInfo>>();
-            groupTypeTypeRelations.put(relation.getOwnerTypeKey(), relations);
-        }
-        relations.put(relation.getRelatedTypeKey(), relation);
-        return relation;
+    private TypeTypeRelationInfo createTypeTypeRelationInfo(String typeTypeTypeKey, String ownerTypeKey, String relatedTypeKey) {
+        return associate(UUID.randomUUID().toString(), typeTypeTypeKey, ownerTypeKey, relatedTypeKey, "1", "");
     }
 
-    private void associate(String relationId, String relationTypeKey, String ownerTypeKey, String relatedTypeKey,
-                           String relationRank, String relationName) {
-
-        TypeTypeRelationInfo relation = new TypeTypeRelationInfo();
-        relation.setId(relationId);
-        relation.setTypeKey(relationTypeKey);
-        relation.setOwnerTypeKey(ownerTypeKey);
-        relation.setRelatedTypeKey(relatedTypeKey);
-        relation.setRank(Integer.parseInt(relationRank));
-
-        //  See if an entry for this owner key already exists. If not, create one.
-        Map<String, TypeTypeRelationInfo> relations = allowedTypeTypeRelations.get(relation.getOwnerTypeKey());
-        if (null == relations) {
-            relations = (Map) new HashMap<String, Map<String, TypeTypeRelationInfo>>();
-            allowedTypeTypeRelations.put(relation.getOwnerTypeKey(), relations);
+    private TypeTypeRelationInfo associate(String relationId, String typeTypeTypeKey, String ownerTypeKey, String relatedTypeKey, String relationRank, String name) {
+        //  Initialize storage for the typeTypeType if necessary.
+        List<TypeTypeRelationInfo> relationshipTypeList = typeTypeRelations.get(typeTypeTypeKey);
+        if (relationshipTypeList == null) {
+            relationshipTypeList = new ArrayList<TypeTypeRelationInfo>();
+            typeTypeRelations.put(typeTypeTypeKey, relationshipTypeList);
         }
-        //  Put the new type type relation into the map.
-        relations.put(relation.getRelatedTypeKey(), relation);
+
+        TypeTypeRelationInfo typeTypeRelationInfo = new TypeTypeRelationInfo();
+        typeTypeRelationInfo.setId(relationId);
+        typeTypeRelationInfo.setTypeKey(typeTypeTypeKey);
+        typeTypeRelationInfo.setOwnerTypeKey(ownerTypeKey);
+        typeTypeRelationInfo.setRelatedTypeKey(relatedTypeKey);
+        typeTypeRelationInfo.setRank(Integer.parseInt(relationRank));
+
+        relationshipTypeList.add(typeTypeRelationInfo);
+
+        return typeTypeRelationInfo;
     }
 
     @Override

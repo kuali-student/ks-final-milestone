@@ -1,19 +1,5 @@
 package org.kuali.student.enrollment.class1.lpr.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
-import java.math.BigDecimal;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.sql.DataSource;
-
 import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
@@ -26,8 +12,6 @@ import org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprTestDataLoad
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -38,6 +22,18 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import javax.annotation.Resource;
+import javax.sql.DataSource;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:lpr-test-context.xml" })
@@ -254,6 +250,13 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		lprs = lprService.getLprsByLui(luiId, callContext);
 		
 		assertEquals(2, lprs.size());
+
+         List<String> luiIds = new ArrayList<String>();
+         luiIds.add("lui-1");
+         luiIds.add("lui-2");
+         lprs = lprService.getLprsByLuis(luiIds,callContext);
+
+         assertEquals(3,lprs.size());
 		
 		String lprTypeKey = "kuali.lpr.state.draft";
 		lprs = lprService.getLprsByLuiAndType(luiId, lprTypeKey, callContext);

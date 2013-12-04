@@ -17,14 +17,13 @@
 
 package org.kuali.student.enrollment.class2.courseoffering.dao;
 
-import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class2.courseoffering.model.ActivityOfferingClusterEntity;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides data accessor methods for ActivityOfferingCluster entities
  *
  * @author Kuali Student Team
  */
@@ -53,5 +52,16 @@ public class ActivityOfferingClusterDao
     @Override
     public List<ActivityOfferingClusterEntity> getByCourseOffering(String courseOfferingId) {
         return (List<ActivityOfferingClusterEntity>) em.createNamedQuery("ActivityOfferingClusterENR.getAOCsByCourseOfferingId").setParameter("coId", courseOfferingId).getResultList();
+    }
+
+    /**
+     * Returns all ActivityOfferingClusterEntities that map back to a single course offering
+     *
+     * @param activityOfferingId
+     * @return
+     */
+    @Override
+    public ActivityOfferingClusterEntity getByActivityOffering(String activityOfferingId) {
+        return ( ActivityOfferingClusterEntity) em.createNamedQuery("ActivityOfferingClusterENR.getAOCsByActivityOfferingId").setParameter("aoId", activityOfferingId).getSingleResult();
     }
 }

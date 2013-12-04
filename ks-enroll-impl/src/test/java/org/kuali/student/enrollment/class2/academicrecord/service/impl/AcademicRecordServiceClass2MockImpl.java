@@ -42,6 +42,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.jws.WebParam;
+
 /**
  * @author Kuali Student Team
  */
@@ -55,11 +57,11 @@ public class AcademicRecordServiceClass2MockImpl implements
     private Map<String, GPAInfo> gpasMap = new LinkedHashMap<String, GPAInfo>();
     private List<StudentCourseRecordInfo> courseRecordInfoList = new ArrayList<StudentCourseRecordInfo>();        //to be replaced with studentToCourseRecordsMap
     private Map<String, LoadInfo> loadsMap = new LinkedHashMap<String, LoadInfo>();
-    private Map<String, StudentProgramRecordInfo> studentProgramRecordsMap = new LinkedHashMap<String, StudentProgramRecordInfo>();
     private Map<String, StudentCredentialRecordInfo> studentCredentialRecordsMap = new LinkedHashMap<String, StudentCredentialRecordInfo>();
     private Map<String, StudentTestScoreRecordInfo> studentTestScoreRecordsMap = new LinkedHashMap<String, StudentTestScoreRecordInfo>();
 
     private Map<String, List<StudentCourseRecordInfo>> studentToCourseRecordsMap = new HashMap<String, List<StudentCourseRecordInfo>>();
+    private Map<String, List<StudentProgramRecordInfo>> studentToProgramRecordsMap = new LinkedHashMap<String, List<StudentProgramRecordInfo>>();
     private Map<String, List<StudentCourseRecordInfo>> termToCourseRecordsMap = new HashMap<String, List<StudentCourseRecordInfo>>();
     private Set<StudentCourseRecordInfo> studentCourseRecordsSet = new HashSet<StudentCourseRecordInfo>();
 
@@ -87,7 +89,7 @@ public class AcademicRecordServiceClass2MockImpl implements
         gpasMap.clear();
         courseRecordInfoList.clear();
         loadsMap.clear();
-        studentProgramRecordsMap.clear();
+        studentToProgramRecordsMap.clear();
         studentCredentialRecordsMap.clear();
         studentTestScoreRecordsMap.clear();
     }
@@ -125,6 +127,27 @@ public class AcademicRecordServiceClass2MockImpl implements
         }
 
         termCourseList.add(courseRecord);
+    }
+
+    /**
+     * Store a program record for the term specified.  The caller is responsible for filling in the object correctly.
+     *
+     * @param studentId    the student who completed the course
+     * @param programId       the id of the program
+     * @param programRecord the course record itself.
+     */
+    public void storeStudentProgramRecord(String studentId, String programId, StudentProgramRecordInfo programRecord) {
+
+        // link to student
+        List<StudentProgramRecordInfo> studentProgramList = studentToProgramRecordsMap.get(studentId);
+
+        if (studentProgramList == null) {
+            studentProgramList = new ArrayList<StudentProgramRecordInfo>();
+            studentToProgramRecordsMap.put(studentId, studentProgramList);
+        }
+
+        studentProgramList.add(programRecord);
+
     }
 
     /* (non-Javadoc)
@@ -245,6 +268,30 @@ public class AcademicRecordServiceClass2MockImpl implements
     }
 
     /* (non-Javadoc)
+     * @see org.kuali.student.enrollment.academicrecord.service.AcademicRecordService#calculateGPA(java.util.List<org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo>, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
+     */
+    @Override
+    public GPAInfo calculateGPA(List<StudentCourseRecordInfo> studentCourseRecordInfoList, String calculationTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
+        //This is a mock GPA calculation
+        float totalCredits = 0.0f;
+        float gradePoints = 0.0f;
+        for (StudentCourseRecordInfo info : studentCourseRecordInfoList){
+            float creditsForGPA = Float.parseFloat(info.getCreditsForGPA());
+            gradePoints += Float.parseFloat(info.getCalculatedGradeValue())*creditsForGPA;
+            totalCredits += creditsForGPA;
+        }
+
+        GPAInfo gpa = new GPAInfo();
+        gpa.setCalculationTypeKey(calculationTypeKey);
+        gpa.setScaleKey("1");
+        gpa.setValue(String.valueOf(gradePoints/totalCredits));
+        return gpa;
+    }
+
+    /* (non-Javadoc)
      * @see org.kuali.student.enrollment.academicrecord.service.AcademicRecordService#getCumulativeGPAForProgram(java.lang.String, java.lang.String, java.lang.String, org.kuali.student.r2.common.dto.ContextInfo)
      */
     @Override
@@ -300,7 +347,14 @@ public class AcademicRecordServiceClass2MockImpl implements
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return Collections.singletonList(studentProgramRecordsMap.get("1"));
+
+        List<StudentProgramRecordInfo> resultsList = new ArrayList<StudentProgramRecordInfo>();
+
+        if (!studentToProgramRecordsMap.keySet().contains(personId))
+            throw new DoesNotExistException("No program records for student Id = " + personId);
+
+        return studentToProgramRecordsMap.get(personId);
+
     }
 
     /* (non-Javadoc)
@@ -404,26 +458,13 @@ public class AcademicRecordServiceClass2MockImpl implements
     }
 
     private void createDataForTermResolvers() {
-        //StudentProgramRecordInfo
-        StudentProgramRecordInfo programRecord = new StudentProgramRecordInfo();
-        programRecord.setProgramId("mock.id.program1");
-        programRecord.setProgramTitle("Program One");
-        programRecord.setProgramCode("MP101");
-        programRecord.setProgramTypeKey("mock.program.type.graduate");
-        Calendar cal = Calendar.getInstance();
-        cal.set(2012, Calendar.JANUARY, 1);
-        programRecord.setAdmittedDate(cal.getTime().toString());
-        programRecord.setCreditsEarned("2");
-        programRecord.setClassStanding("14");
-        studentProgramRecordsMap.put("1", programRecord);
-
         //StudentCredentialRecordInfo
         StudentCredentialRecordInfo credentialRecord = new StudentCredentialRecordInfo();
         credentialRecord.setProgramId("mock.id.program1");
         credentialRecord.setProgramCode("MP101");
         credentialRecord.setProgramTitle("Program One");
         credentialRecord.setAwardingInstitution("Mock University of Kuali");
-        cal = Calendar.getInstance();
+        Calendar cal = Calendar.getInstance();
         cal.set(2012, Calendar.JANUARY, 1);
         credentialRecord.setDateAdmitted(cal.getTime());
         cal.set(2012, Calendar.NOVEMBER, 20);

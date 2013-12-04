@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class1.krms.tree;
 
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
@@ -69,20 +70,36 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
             if (childNode.getData() != null) {
                 CompareTreeNode compareTreeNode = childNode.getData();
 
-                if (!compareTreeNode.getFirstElement().trim().isEmpty()) {
-                    compareTreeNode.setFirstElement(compareTreeNode.getFirstElement() + ":");
+                if(colonRequired(firstElement)) {
+                    if(!compareTreeNode.getFirstElement().trim().isEmpty()){
+                        compareTreeNode.setFirstElement(compareTreeNode.getFirstElement() + ":");
+                    }
                 }
 
-                if (!compareTreeNode.getSecondElement().trim().isEmpty()) {
-                    compareTreeNode.setSecondElement(compareTreeNode.getSecondElement() + ":");
+                if(colonRequired(secondElement)) {
+                    if(!compareTreeNode.getSecondElement().trim().isEmpty()){
+                        compareTreeNode.setSecondElement(compareTreeNode.getSecondElement() + ":");
+                    }
                 }
-                if (!compareTreeNode.getThirdElement().trim().isEmpty()) {
-                    compareTreeNode.setThirdElement(compareTreeNode.getThirdElement() + ":");
+
+                if(colonRequired(thirdElement)) {
+                    if(!compareTreeNode.getThirdElement().trim().isEmpty()){
+                        compareTreeNode.setThirdElement(compareTreeNode.getThirdElement() + ":");
+                    }
                 }
             }
         }
 
         return myTree;
+    }
+
+    protected boolean colonRequired(RuleEditor element) {
+        if(element != null && element.getProposition() != null) {
+            if(element.getProposition().getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -92,7 +109,8 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement), this.getDescription(thirdElement));
+        CompareTreeNode tNode = new CompareTreeNode(this.getNodeWidth(currentNode), this.getDescription(firstElement),
+                this.getDescription(secondElement), this.getDescription(thirdElement));
         tNode.setFirstElementItems(this.getListItems(firstElement));
         tNode.setSecondElementItems(this.getListItems(secondElement));
         tNode.setThirdElementItems(this.getListItems(thirdElement));
@@ -142,7 +160,7 @@ public class AORuleCompareTreeBuilder extends KSRuleCompareTreeBuilder {
         } else if (!cluOpCode.equals(aoOpCode)) {
             opNode.setNodeType(KRMSConstants.NODE_TYPE_COMPAREELEMENT);
         }
-        opNode.setData(new CompareTreeNode(coOpCode, cluOpCode, aoOpCode));
+        opNode.setData(new CompareTreeNode(this.getNodeWidth(newNode), coOpCode, cluOpCode, aoOpCode));
         newNode.getChildren().add(opNode);
     }
 

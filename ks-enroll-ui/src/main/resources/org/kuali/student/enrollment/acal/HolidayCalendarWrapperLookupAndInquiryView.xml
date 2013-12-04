@@ -22,7 +22,6 @@
 
     <!-- Overwrite some HolidayCalendarInfoUI attributes for UI -->
     <import resource="classpath:ks-HolidayCalendarInfo-dictionary.xml"/>
-    <import resource="classpath:UifKSDefinitions.xml"/>
 
     <bean id="HolidayCalendarInfoUI" parent="HolidayCalendarInfo-parent">
         <property name="objectLabel" value="Holiday Calendar"/>

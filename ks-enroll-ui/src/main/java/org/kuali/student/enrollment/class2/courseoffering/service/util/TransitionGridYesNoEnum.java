@@ -19,11 +19,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.util;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public enum TransitionGridYesNoEnum {
     YES("yes"), NO("no"), INVALID("invalid");
     public static final List<String> ALLOWED_VALUES;

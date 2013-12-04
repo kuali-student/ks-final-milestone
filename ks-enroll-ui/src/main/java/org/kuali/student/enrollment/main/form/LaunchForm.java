@@ -17,10 +17,5 @@ package org.kuali.student.enrollment.main.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public class LaunchForm extends UifFormBase {
 }

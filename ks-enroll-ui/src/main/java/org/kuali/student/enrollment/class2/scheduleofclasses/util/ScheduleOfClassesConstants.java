@@ -17,7 +17,7 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 
 /**
- * This class //TODO ...
+ * This class defines constants used in the Schedule of Classes ui
  *
  * @author Kuali Student Team
  */
@@ -45,10 +45,22 @@ public class ScheduleOfClassesConstants {
     public static final String SOC_RESULT_PAGE_HELP_HONORS_ACTIVITY = "Honors activity";
 
     // Images locations
-    public static final String SOC_RESULT_PAGE_HONORS_COURSE_IMG = "../ks-enroll/images/h.png";
-    public static final String SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG = "../ks-enroll/images/p.png";
-    public static final String SOC_RESULT_PAGE_STUREG_AUDIT_IMG = "../ks-enroll/images/a.png";
-    public static final String SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG = "../ks-enroll/images/s.png";
-    public static final String SOC_RESULT_PAGE_GRADING_PERCENT_IMG = "../ks-enroll/images/percent.png";
-    public static final String SOC_RESULT_PAGE_SUBTERM_IMG = "../ks-enroll/images/subterm_icon.png";
+    public static final String SOC_RESULT_PAGE_HONORS_COURSE_IMG = "../themes/ksboot/images/h.png";
+    public static final String SOC_RESULT_PAGE_STUREG_PASSFAIL_IMG = "../themes/ksboot/images/p.png";
+    public static final String SOC_RESULT_PAGE_STUREG_AUDIT_IMG = "../themes/ksboot/images/a.png";
+    public static final String SOC_RESULT_PAGE_GRADING_SATISFACTORY_IMG = "../themes/ksboot/images/s.png";
+    public static final String SOC_RESULT_PAGE_GRADING_PERCENT_IMG = "../themes/ksboot/images/percent.png";
+    public static final String SOC_RESULT_PAGE_SUBTERM_IMG = "../themes/ksboot/images/subterm_icon.png";
+
+    public static class ConfigProperties{
+        public static final String AO_DISPLAY_FORMAT = "kuali.ks.enrollment.schoc.options.default_ao_display_format";
+        public static final String ALLOW_SELECTABLE_AO_RENDERING = "kuali.ks.enrollment.schoc.options.allow_selectable_ao_rendering";
+    }
+
+    private ScheduleOfClassesConstants() {
+        /* Sonar-fix: "Utility classes should not have a public or default constructor"
+         * http://sonar.kuali.org/dashboard/index/86872
+         */
+    }
+
 }

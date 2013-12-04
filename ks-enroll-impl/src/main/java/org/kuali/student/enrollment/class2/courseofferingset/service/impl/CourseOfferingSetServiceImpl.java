@@ -218,7 +218,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public Integer deleteCourseOfferingsBySoc(String socId, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
         return this.businessLogic.deleteCourseOfferingsBySoc(socId, context);
     }
 

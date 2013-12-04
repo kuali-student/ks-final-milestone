@@ -30,7 +30,7 @@ import javax.xml.namespace.QName;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a Maintable logic for Format Offerings
  *
  * @author Kuali Student Team
  */

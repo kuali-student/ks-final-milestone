@@ -156,7 +156,13 @@ public class CalendarSearchController  extends UifControllerBase {
         session.setAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_TYPE, searchForm.getCalendarType());
         session.setAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_NAME, searchForm.getName());
         session.setAttribute(CalendarConstants.SESSION_CALENDAR_SEARCH_YEAR, searchForm.getYear());
-        return getUIFModelAndView(searchForm, null);
+        // Cannot just put null as an argument, since two matching method signatures now exist:
+        // getUIFModelAndView(UifFormBase form, String pageId)
+        // and
+        // getUIFModelAndView(UifFormBase form, Map<String, Object> additionalViewAttributes)
+        //
+        String pageId = null;
+        return getUIFModelAndView(searchForm, pageId);
     }
 
     /**
@@ -277,7 +283,10 @@ public class CalendarSearchController  extends UifControllerBase {
 
         Properties urlParameters = new Properties();
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_VIEW);
-        urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
         urlParameters.put("flow", searchForm.getFlowKey());
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.ACADEMIC_CALENDAR_EDIT_PAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");
@@ -291,7 +300,10 @@ public class CalendarSearchController  extends UifControllerBase {
 
         Properties urlParameters = new Properties();
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_FLOWVIEW);
-        urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(true));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(true));
         urlParameters.put("flow", searchForm.getFlowKey());
         urlParameters.put(CalendarConstants.PAGE_ID,CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "startNew");

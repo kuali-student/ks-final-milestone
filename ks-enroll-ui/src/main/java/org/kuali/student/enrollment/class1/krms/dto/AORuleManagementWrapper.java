@@ -16,8 +16,6 @@
 package org.kuali.student.enrollment.class1.krms.dto;
 
 import org.kuali.rice.krms.dto.AgendaEditor;
-import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
-import org.kuali.student.lum.lu.ui.krms.dto.LURuleManagementWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +25,13 @@ import java.util.List;
  */
 public class AORuleManagementWrapper extends CORuleManagementWrapper {
 
-    private List<AgendaEditor> cluAgendas = new ArrayList<AgendaEditor>();
+    private String aoDescription;
 
-    public List<AgendaEditor> getCluAgendas() {
-        return cluAgendas;
+    public String getAoDescription() {
+        return aoDescription;
     }
 
-    public void setCluAgendas(List<AgendaEditor> cluAgendas) {
-        this.cluAgendas = cluAgendas;
+    public void setAoDescription(String aoDescription) {
+        this.aoDescription = aoDescription;
     }
-
 }

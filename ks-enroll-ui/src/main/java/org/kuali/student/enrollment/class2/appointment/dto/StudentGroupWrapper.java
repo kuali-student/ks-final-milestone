@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.class2.appointment.dto;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 
 /**
- * This class //TODO ...
+ * This class is a simple wrapper for Populations that are viewed as Student Groups
  *
  * @author Kuali Student Team
  */

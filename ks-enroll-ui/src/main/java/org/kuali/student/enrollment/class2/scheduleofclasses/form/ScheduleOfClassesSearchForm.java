@@ -16,21 +16,24 @@
  */
 package org.kuali.student.enrollment.class2.scheduleofclasses.form;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a form for the Schedule of Classes ui
  *
  * @author Kuali Student Team
  */
-public class ScheduleOfClassesSearchForm extends UifFormBase {
+public class ScheduleOfClassesSearchForm extends UifFormBase implements ActivityOfferingDisplayUI, CourseOfferingDisplayUI {
 
     private String termCode;
     private String searchType;
@@ -48,17 +51,60 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
 
     // For AJAX purpose
     private String courseOfferingId;
-    private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList;
-    private List<ActivityOfferingDisplayWrapper> aoDisplayWrapperAddList;
-    // Temporal solution to display 2 AO lists simultaneously.
+    private List<ActivityOfferingWrapper> aoWrapperList;
+    private List<ActivityOfferingClusterWrapper> aoClusterWrapperList;
+    private List<RegistrationGroupWrapper> rgResultList;
+    private Map<String,FormatOfferingInfo> foId2aoTypeMap;
+    private boolean hasMoreThanOneCluster = false;
     private String displayCoId;
     private String displayCoIdAdd;
+    private AoDisplayFormat aoDisplayFormat;
+    private boolean allowSelectableAoRendering;
 
-    public ScheduleOfClassesSearchForm (){
+//    /**
+//     * This is used to display CO search result list
+//     */
+//    private List<CourseOfferingListSectionWrapper> courseOfferingResultList;
+
+    /**
+     * Valid display types of activities in schedule of classes.
+     *
+     * The application supports three display types.
+     * 1. Display a flat list of activities for each CourseOffering
+     * 2. Display activities grouped by activity clusters
+     * 3. Display registration group and activities grouped by activity clusters.
+     *
+     * By default, it displays the flat type. If property kuali.ks.enrollment.schoc.options.default_ao_display_format is
+     * configured, display the configured type.
+     */
+    public static enum AoDisplayFormat {
+        /** Display a flat list of activities for each CourseOffering */
+        FLAT( "Flat" ),
+        /** Display activities grouped by activity clusters */
+        CLUSTER( "By Cluster" ),
+        /** Display registration group and activities grouped by activity clusters */
+        REG_GROUP( "By Registration Group" );
+
+        private String text;
+
+        private AoDisplayFormat(String text){
+            this.text = text;
+        }
+
+        public String getText(){
+            return text;
+        }
+    };
+
+    public ScheduleOfClassesSearchForm() {
         coDisplayWrapperList = new ArrayList<CourseOfferingDisplayWrapper>();
-        aoDisplayWrapperList = new ArrayList<ActivityOfferingDisplayWrapper>();
-        aoDisplayWrapperAddList = new ArrayList<ActivityOfferingDisplayWrapper>();
+        aoWrapperList = new ArrayList<ActivityOfferingWrapper>();
+        rgResultList = new ArrayList<RegistrationGroupWrapper>();
+        foId2aoTypeMap = new HashMap<String, FormatOfferingInfo>();
+        aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
         courseOfferingId = "";
+        aoDisplayFormat = AoDisplayFormat.FLAT;
+        allowSelectableAoRendering = false;
     }
 
     public List<CourseOfferingDisplayWrapper> getCoDisplayWrapperList() {
@@ -69,11 +115,11 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
         this.coDisplayWrapperList = coDisplayWrapperList;
     }
 
-    public String getTermCode(){
+    public String getTermCode() {
         return termCode;
     }
 
-    public void setTermCode(String termCode){
+    public void setTermCode(String termCode) {
         this.termCode = termCode;
     }
 
@@ -161,24 +207,28 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
         return courseOfferingId;
     }
 
+    @Override
+    public List<ActivityOfferingWrapper> getActivityWrapperList() {
+        return aoWrapperList;
+    }
+
+    @Override
+    public void setActivityWrapperList(List<ActivityOfferingWrapper> activityWrapperList) {
+        this.aoWrapperList = activityWrapperList;
+    }
+
+    @Override
+    public List<ActivityOfferingClusterWrapper> getClusterResultList() {
+        return aoClusterWrapperList;
+    }
+
+    @Override
+    public void setClusterResultList(List<ActivityOfferingClusterWrapper> clusterResultList) {
+        this.aoClusterWrapperList = clusterResultList;
+    }
+
     public void setCourseOfferingId(String courseOfferingId){
         this.courseOfferingId = courseOfferingId;
-    }
-
-    public List<ActivityOfferingDisplayWrapper> getAoDisplayWrapperList() {
-        return aoDisplayWrapperList;
-    }
-
-    public void setAoDisplayWrapperList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperList) {
-        this.aoDisplayWrapperList = aoDisplayWrapperList;
-    }
-
-    public List<ActivityOfferingDisplayWrapper> getAoDisplayWrapperAddList() {
-        return aoDisplayWrapperAddList;
-    }
-
-    public void setAoDisplayWrapperAddList(List<ActivityOfferingDisplayWrapper> aoDisplayWrapperAddList) {
-        this.aoDisplayWrapperAddList = aoDisplayWrapperAddList;
     }
 
     public String getDisplayCoId() {
@@ -196,4 +246,64 @@ public class ScheduleOfClassesSearchForm extends UifFormBase {
     public void setDisplayCoIdAdd(String displayCoIdAdd) {
         this.displayCoIdAdd = displayCoIdAdd;
     }
+
+    public List<RegistrationGroupWrapper> getRgResultList() {
+        return rgResultList;
+    }
+
+    public void setRgResultList(List<RegistrationGroupWrapper> rgResultList) {
+        this.rgResultList = rgResultList;
+    }
+
+    public Map<String,FormatOfferingInfo> getFoId2aoTypeMap() {
+        return foId2aoTypeMap;
+    }
+
+    public void setFoId2aoTypeMap(Map<String, FormatOfferingInfo> foId2aoTypeMap) {
+        this.foId2aoTypeMap = foId2aoTypeMap;
+    }
+
+    public boolean isHasMoreThanOneCluster() {
+        return hasMoreThanOneCluster;
+    }
+
+    public void setHasMoreThanOneCluster(boolean hasMoreThanOneCluster) {
+        this.hasMoreThanOneCluster = hasMoreThanOneCluster;
+    }
+
+    /**
+     * Returns the display type.
+     * @return
+     */
+    public AoDisplayFormat getAoDisplayFormat() {
+        return aoDisplayFormat;
+    }
+
+    /**
+     * Set the display type
+     *
+     * @param aoDisplayFormat
+     */
+    public void setAoDisplayFormat(AoDisplayFormat aoDisplayFormat) {
+        this.aoDisplayFormat = aoDisplayFormat;
+    }
+
+    /**
+     * Set to display a control to change display format
+     *
+     * @param allowSelectableAoRendering
+     */
+    public void setAllowSelectableAoRendering( boolean allowSelectableAoRendering ) {
+        this.allowSelectableAoRendering = allowSelectableAoRendering;
+    }
+
+    /**
+     * Returns if the control is displayed to change the display format
+     *
+     * @return
+     */
+    public boolean getAllowSelectableAoRendering() {
+        return this.allowSelectableAoRendering;
+    }
+
 }

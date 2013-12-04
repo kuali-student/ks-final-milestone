@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a key value finder for slot rule types in appointment windows
  *
  * @author Kuali Student Team
  */

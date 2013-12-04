@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a key value finder for Waitlist levels
  *
  * @author Kuali Student Team
  */

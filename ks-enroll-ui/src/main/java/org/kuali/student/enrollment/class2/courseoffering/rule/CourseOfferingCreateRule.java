@@ -39,7 +39,7 @@ public class CourseOfferingCreateRule extends KsMaintenanceDocumentRuleBase {
             if ( ! validateDuplicateSuffix(coWrapper)) {
                 return false;
             }
-        }
+            }
 
         return true;
     }

@@ -58,7 +58,7 @@ WHERE
 /
 
 -- Delete the weird LRC result values
-DELETE
+DELETE FROM
     KSEN_LRC_RESULT_VALUE rv
 WHERE
     rv.RESULT_SCALE_ID='kuali.result.scale.credit.degree'

@@ -164,9 +164,13 @@ public class CluFixerImpl implements CluFixer {
             PermissionDeniedException, OperationFailedException, DataValidationErrorException,
             DependentObjectsExistException, UnsupportedActionException, AlreadyExistsException,
             CircularRelationshipException, CircularReferenceException, ReadOnlyException, VersionMismatchException {
+
+        int firstActivityType = 0;
+        int secondActivityType = 1;
+
         List<Map<String, List<String>>> listOfMaps = _getCluLuiActivityTypes("cluLuiActivityTypes.txt");
-        Map<String, List<String>> shortNameToCluLuiTypes = listOfMaps.get(0);
-        Map<String, List<String>> cluTypeToShortNameLuiTypeList = listOfMaps.get(1);
+            Map<String, List<String>> shortNameToCluLuiTypes = listOfMaps.get(firstActivityType);
+            Map<String, List<String>> cluTypeToShortNameLuiTypeList = listOfMaps.get(secondActivityType);
         Map<String, List<String>> courseCodeToFormatList = _loadCourseCodeToFormatList("courseCodeToFormats.txt");
         // Now to get a list of course IDs
         List<String> courseIdsPlus = _loadDataFromFile("validCourseCodeAndCourseIds.sorted.txt");
@@ -228,10 +232,17 @@ public class CluFixerImpl implements CluFixer {
     private Map<String,String> _computeBadCourseInfoMap(String badCourseInfoFilename) {
         Map<String,String> courseIdToCourseCode = new HashMap<String, String>();
         List<String> lines = _loadDataFromFile(badCourseInfoFilename);
+        int firstDataFromFile = 0;
+        int secondDataFromFile = 1;
+
         for (String line: lines) {
             // Each line is a course code, course ID, and version independent ID separated by /
             List<String> parts = Arrays.asList(line.split("/"));
-            courseIdToCourseCode.put(parts.get(1), parts.get(0));
+            //Code Modified for JIRA 8727
+            if(!parts.isEmpty() && parts.size()>1){
+                courseIdToCourseCode.put(parts.get(secondDataFromFile), parts.get(firstDataFromFile));
+            }
+
         }
         return courseIdToCourseCode;
     }
@@ -251,7 +262,8 @@ public class CluFixerImpl implements CluFixer {
                     && Integer.parseInt(activity.getContactHours().getUnitQuantity()) > 0) {
                 // Check that there are contact hours (often it's null when there are none).
                 String activityType = activity.getTypeKey();
-                String shortName = cluTypeToShortNameLuiTypeList.get(activityType).get(0);
+                int firstLuiType= 0;
+                String shortName = cluTypeToShortNameLuiTypeList.get(activityType).get(firstLuiType);
                 if (format == null) {
                     format = shortName;
                 } else {
@@ -287,16 +299,27 @@ public class CluFixerImpl implements CluFixer {
     // Short names are LEC, DIS, LAB, EXP
     private List<Map<String, List<String>>> _getCluLuiActivityTypes(String fileName) {
         // cluLuiActivityTypes.txt
+
+        int firstDataFromFile = 0;
+        int secondDataFromFile = 2;
         List<Map<String, List<String>>> listOfMaps = new ArrayList<Map<String, List<String>>>();
         Map<String, List<String>> shortNameToCluLuiTypes = new HashMap<String, List<String>>();
         Map<String, List<String>> cluTypeToShortNameLuiTypeList = new HashMap<String, List<String>>();
         List<String> lines = _loadDataFromFile(fileName);
         for (String line: lines) {
             List<String> types = new ArrayList<String>(Arrays.asList(line.split("/")));
-            shortNameToCluLuiTypes.put(types.get(0), types.subList(1, types.size()));
+            //Code Modified for JIRA 8727
+            if(!types.isEmpty()){
+                shortNameToCluLuiTypes.put(types.get(firstDataFromFile), types.subList(1, types.size()));
+            }
+
             List<String> shortNameLuiType = new ArrayList<String>();
-            shortNameLuiType.add(types.get(0)); // add the short name like LEC
-            shortNameLuiType.add(types.get(2)); // add the lui type
+            //Code Modified for JIRA 8727
+            if(!types.isEmpty() && types.size()>2){
+                shortNameLuiType.add(types.get(firstDataFromFile)); // add the short name like LEC
+                shortNameLuiType.add(types.get(secondDataFromFile)); // add the lui type
+            }
+
             cluTypeToShortNameLuiTypeList.put(types.get(1), shortNameLuiType);
         }
         listOfMaps.add(shortNameToCluLuiTypes);
@@ -313,6 +336,7 @@ public class CluFixerImpl implements CluFixer {
             PermissionDeniedException, OperationFailedException, DataValidationErrorException, DependentObjectsExistException, UnsupportedActionException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException, ReadOnlyException, VersionMismatchException {
         // Use courseId = BSCI105_COURSE_ID
         CourseInfo course = courseService.getCourse(courseId, context);
+
 
         // Check to see if this course has been processed.  The default (pre-change) is a single Format with
         // four ActivityInfo objects.  After the modifications,
@@ -331,13 +355,15 @@ public class CluFixerImpl implements CluFixer {
         }
         // Now redo the formats
         List<FormatInfo> newFormatList = new ArrayList<FormatInfo>();
+        int firstLuiType = 0;
         for (String format: formatList) {
             List<String> shortNames = Arrays.asList(format.split("/"));
             List<String> activityTypes = new ArrayList<String>();
             for (String shortName: shortNames) {
                 // Get the CLU type which is at index 0 (LUI type is at index 1)
                 // Short name is currently LEC, LAB, DIS, or EXP
-                activityTypes.add(shortNameToCluLuiTypes.get(shortName).get(0));
+                    activityTypes.add(shortNameToCluLuiTypes.get(shortName).get(firstLuiType));
+
             }
             FormatInfo info = new FormatInfo(firstFormat);
             List<ActivityInfo> newActivityTypes = new ArrayList<ActivityInfo>();
@@ -641,9 +667,11 @@ public class CluFixerImpl implements CluFixer {
     private void _printFormats(Map<String, List<String>> courseCodeToFormats, Set<String> uniqueFormats, String fileName) throws IOException {
         // Called by _determineFormats which is the entry point
         PrintStream pOut = _createPrintStream(fileName);
-        for (String courseCode: courseCodeToFormats.keySet()) {
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<String, List<String>> entry: courseCodeToFormats.entrySet()){
+            String courseCode = entry.getKey();
             pOut.print("(" + courseCode + ") ");
-            List<String> formats = courseCodeToFormats.get(courseCode);
+            List<String> formats = entry.getValue();
             boolean firstTime = true;
             for (String format: formats) {
                 if (firstTime) {
@@ -704,8 +732,9 @@ public class CluFixerImpl implements CluFixer {
         }
         // Print info
         PrintStream pOut = _createPrintStream("courseIdsAndCodes.txt");
-        for (String coCode: courseCodeToCourseId.keySet()) {
-            pOut.println(coCode + "/" + courseCodeToCourseId.get(coCode));
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<String, String> entry: courseCodeToCourseId.entrySet()){
+            pOut.println(entry.getKey() + "/" + entry.getValue());
         }
         pOut.close();
         LOGGER.info("Total courses: " + courseIds.size());

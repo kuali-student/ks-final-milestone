@@ -53,18 +53,14 @@
       </property>
       <property name="items">
         <list>
+            <ref bean="KS-CourseOffering-ContextBar" />
             <ref bean="ManageSOCView-termSelection-Section"/>
             <ref bean="ManageSOCView-DetailsSection"/>
         </list>
       </property>
       <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/acal.css</value>
-            </list>
-      </property>
-      <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
+                <value>themes/ksboot/stylesheets/calendar.css</value>
             </list>
       </property>
       <property name="dialogs">
@@ -160,14 +156,13 @@
    </bean>
 
 
-    <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton-Small"
+    <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton"
           p:onClickScript="updateContextBar( null, 'KS-CourseOffering-View-ContextBar-PlaceHolder' );"
           p:actionLabel="Go" p:methodToCall="buildModel" p:valign="bottom"/>
 
     <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
         <property name="items">
             <list>
-                <ref bean="KS-CourseOffering-ContextBar" />
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
                 <ref bean="ManageSOCView-SchedulingDetails-Section"/>
             </list>
@@ -241,7 +236,7 @@
 
     <bean id="ManageSOCView-SchedulingDetails-CloseButton" parent="Uif-PrimaryActionButton" p:methodToCall="closeSOC" p:actionLabel="Close Set" p:disabled="true" p:render="@{showCloseSetButton}"/>
 
-    <bean id="ManageSOCView-SchedulingDetails-ManageCOButton" parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:10px;"
+    <bean id="ManageSOCView-SchedulingDetails-ManageCOButton" parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:5px;"
             p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
 
     <bean id="ManageSOCView-SchedulingDetails-SendToSchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}"/>

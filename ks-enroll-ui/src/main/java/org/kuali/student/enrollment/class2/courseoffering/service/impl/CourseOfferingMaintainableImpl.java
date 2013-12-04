@@ -20,6 +20,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -33,7 +34,6 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCrea
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -60,7 +60,7 @@ import java.util.Set;
  * Base view helper service for both create and edit course offering presentations.
  *
  */
-public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl implements CourseOfferingMaintainable {
+public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl implements Maintainable {
 
     private transient CourseOfferingService courseOfferingService;
     private transient TypeService typeService;
@@ -289,26 +289,6 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         }
 
         return results;
-    }
-
-    public void populateCrossCourseList(InputField field, MaintenanceDocumentForm form){
-
-        CourseOfferingCreateWrapper wrapper = (CourseOfferingCreateWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-
-        CheckboxGroupControl control = (CheckboxGroupControl)field.getControl();
-
-        List<KeyValue> crossListedCos = new ArrayList<KeyValue>();
-
-        if (wrapper.getCourseOfferingInfo().getCrossListings() != null && wrapper.getCourseOfferingInfo().getCrossListings().size() > 0){
-            // Always include an option for Course
-            for(CourseOfferingCrossListingInfo courseInfo : wrapper.getCourseOfferingInfo().getCrossListings())  {
-                crossListedCos.add(new ConcreteKeyValue(courseInfo.getId(), courseInfo.getCode()));
-            }
-         }
-
-        crossListedCos.add(new ConcreteKeyValue("1", "A"));
-        control.setOptions(crossListedCos);
-
     }
 
     /**

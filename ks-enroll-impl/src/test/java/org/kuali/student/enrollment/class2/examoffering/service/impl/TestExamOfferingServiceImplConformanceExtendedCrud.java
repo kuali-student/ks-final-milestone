@@ -44,6 +44,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.MetaTester;
 import org.kuali.student.common.test.util.RichTextTester;
+import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import static org.junit.Assert.assertEquals;
@@ -79,7 +80,7 @@ public class TestExamOfferingServiceImplConformanceExtendedCrud extends TestExam
         expected.setExamPeriodId("examPeriodId01");
         expected.setExamId("examId01");
         expected.setScheduleId("scheduleId01");
-        expected.setSchedulingStateKey("schedulingStateKey01");
+        expected.setSchedulingStateKey(ExamOfferingServiceConstants.EXAM_OFFERING_SCHEDULING_UNSCHEDULED_STATE_KEY);
     }
 
     /*
@@ -108,9 +109,7 @@ public class TestExamOfferingServiceImplConformanceExtendedCrud extends TestExam
         expected.setName("name_Updated");
         expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated", "descr_Updated"));
         expected.setExamPeriodId("examPeriodId_Updated");
-        expected.setExamId("examId_Updated");
         expected.setScheduleId("scheduleId_Updated");
-        expected.setSchedulingStateKey("schedulingStateKey_Updated");
     }
 
     /*
@@ -247,9 +246,9 @@ public class TestExamOfferingServiceImplConformanceExtendedCrud extends TestExam
             throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
     }
 
-    /* Method Name: getExamOfferingRelationIdsByActivityOfferingId */
+    /* Method Name: getExamOfferingRelationIdsByActivityOffering */
     @Test
-    public void test_getExamOfferingRelationIdsByActivityOfferingId()
+    public void test_getExamOfferingRelationIdsByActivityOffering()
             throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
     }
 

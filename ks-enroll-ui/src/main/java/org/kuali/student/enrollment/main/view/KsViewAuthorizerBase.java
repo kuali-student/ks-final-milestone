@@ -17,10 +17,9 @@ import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.uif.widget.Widget;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.enrollment.class2.autogen.form.ARGCourseOfferingManagementForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
 
 import java.util.Collection;
@@ -41,8 +40,8 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
 
     @Override
     protected void addRoleQualification(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
-        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof ARGCourseOfferingManagementForm) {
-            ARGCourseOfferingManagementForm theForm = (ARGCourseOfferingManagementForm) primaryDataObjectOrDocument;
+        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof CourseOfferingManagementForm) {
+            CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) primaryDataObjectOrDocument;
             if(theForm.getAdminOrg() != null){
                 attributes.put("offeringAdminOrgId", theForm.getAdminOrg());
             }
@@ -56,9 +55,9 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                 //Pull out the org ids and pass in the first one as a role qualifier
                 List<String> orgIds = theForm.getTheCourseOffering().getUnitsDeploymentOrgIds();
                 if(orgIds != null && !orgIds.isEmpty()){
-                    String orgIDs = "";
+                    StringBuilder orgIDs = new StringBuilder("");
                     for (String orgId : orgIds) {
-                        orgIDs = orgIDs + orgId + ",";
+                        orgIDs.append(orgId).append(",");
                     }
                     if (orgIDs.length() > 0) {
                         attributes.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length()-1));
@@ -74,8 +73,8 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
 
     @Override
     protected void addPermissionDetails(Object primaryDataObjectOrDocument, Map<String, String> attributes) {
-        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof ARGCourseOfferingManagementForm) {
-            ARGCourseOfferingManagementForm theForm = (ARGCourseOfferingManagementForm) primaryDataObjectOrDocument;
+        if (primaryDataObjectOrDocument !=null && primaryDataObjectOrDocument instanceof CourseOfferingManagementForm) {
+            CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) primaryDataObjectOrDocument;
             // permission based on socState
             String socState = theForm.getSocStateKey();
             socState = socState==null?null:socState.substring(socState.lastIndexOf('.')+1);
@@ -186,8 +185,8 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                     selectedLineIndex = Integer.parseInt(selectedLine);
                 }
 
-                if (model != null && model instanceof ARGCourseOfferingManagementForm) {
-                    ARGCourseOfferingManagementForm theForm = (ARGCourseOfferingManagementForm) model;
+                if (model != null && model instanceof CourseOfferingManagementForm) {
+                    CourseOfferingManagementForm theForm = (CourseOfferingManagementForm) model;
                     Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(theForm, selectedCollectionPath);
                     Object selectedObject = ((List<Object>) collection).get(selectedLineIndex);
                     if(selectedObject instanceof CourseOfferingListSectionWrapper){
@@ -204,10 +203,10 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
                         }
                     }
                 }
-            } else if (model != null && model instanceof ARGCourseOfferingManagementForm) {
-                if (((ARGCourseOfferingManagementForm) model).getCurrentCourseOfferingWrapper() != null &&
-                      ((ARGCourseOfferingManagementForm) model).getCurrentCourseOfferingWrapper().getStateKey() != null) {
-                    String coState = ((ARGCourseOfferingManagementForm) model).getCurrentCourseOfferingWrapper().getStateKey();
+            } else if (model != null && model instanceof CourseOfferingManagementForm) {
+                if (((CourseOfferingManagementForm) model).getCurrentCourseOfferingWrapper() != null &&
+                      ((CourseOfferingManagementForm) model).getCurrentCourseOfferingWrapper().getStateKey() != null) {
+                    String coState = ((CourseOfferingManagementForm) model).getCurrentCourseOfferingWrapper().getStateKey();
                     coState = coState==null?null:coState.substring(coState.lastIndexOf('.')+1);
                     permissionDetails.put("coState", coState);
                 }

@@ -16,13 +16,6 @@
 package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.common.mock.MockService;
@@ -42,7 +35,13 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class CourseWaitListServiceMapImpl implements MockService, CourseWaitListService
@@ -187,14 +186,12 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
             ,ReadOnlyException
     {
         // CREATE
-        if (!courseWaitListTypeKey.equals (courseWaitListInfo.getTypeKey())) {
-            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
-        }
-        CourseWaitListInfo copy = new CourseWaitListInfo(courseWaitListInfo);
+         CourseWaitListInfo copy = new CourseWaitListInfo(courseWaitListInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
+        copy.setTypeKey(courseWaitListTypeKey);
         courseWaitListMap.put(copy.getId(), copy);
         return new CourseWaitListInfo(copy);
     }
@@ -408,7 +405,7 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
         List<CourseWaitListEntryInfo> entries = getCourseWaitListEntriesByCourseWaitList(courseWaitListId, contextInfo);
 
         CourseWaitListEntryInfo copy = new CourseWaitListEntryInfo(courseWaitListEntryInfo);
-        int position = 0;
+        int position;
         if(copy.getPosition() == null) {
             position = entries.size() + 1;
             copy.setPosition(position);

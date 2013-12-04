@@ -447,7 +447,7 @@ public class GradingServiceImpl implements GradingService {
              ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
 
-
+        int firstLprInfo = 0;
         List<LprRosterInfo> lprRosters = lprRosterService.getLprRostersByTypeAndLui(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, courseOfferingId, context);
         Map<String, LprRosterEntryInfo> lprIdToRosterEntryMap = new HashMap<String, LprRosterEntryInfo>();
         for (LprRosterInfo lprRoster : lprRosters) {
@@ -460,7 +460,7 @@ public class GradingServiceImpl implements GradingService {
         }
 
         List<LprInfo> lprs = lprService.getLprsByPersonAndLui(studentId, courseOfferingId, context);
-        LprInfo lpr = lprs.get(0); // TODO throw exception if null?
+        LprInfo lpr = lprs.get(firstLprInfo); // TODO throw exception if null?
         LprRosterEntryInfo entry = lprIdToRosterEntryMap.get(lpr.getId());
 
         return assembleGradeRosterEntry(entry, context);
@@ -540,6 +540,7 @@ public class GradingServiceImpl implements GradingService {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
+        int firstLprRosterEntryInfo = 0;
         List<String> lprRosterEntryIds = new ArrayList();
         lprRosterEntryIds.add(gradeRosterEntryId);
 
@@ -548,7 +549,7 @@ public class GradingServiceImpl implements GradingService {
             throw new DoesNotExistException("Lpr Roster Entry not exists for the id " + gradeRosterEntryId);
         }
 
-        LprRosterEntryInfo entryInfo = entryInfoList.get(0);
+        LprRosterEntryInfo entryInfo = entryInfoList.get(firstLprRosterEntryInfo);
         List<String> lprIds = new ArrayList();
         lprIds.add(entryInfo.getLprId());
 
@@ -676,6 +677,7 @@ public class GradingServiceImpl implements GradingService {
         Map<String, LprRosterEntryInfo> lprIdToRosterEntriesMap = new HashMap<String, LprRosterEntryInfo>();
         List<String> graderIds = new ArrayList<String>();
         List<String> lprRosterEntryIds = new ArrayList<String>();
+        int firstId = 0;
 
         List<LprRosterEntryInfo> lprRosterEntries = lprRosterService.getLprRosterEntriesByLprRoster(lprRosterInfo.getId(), context);
         for (LprRosterEntryInfo lprRosterEntry : lprRosterEntries) {
@@ -703,17 +705,17 @@ public class GradingServiceImpl implements GradingService {
         if (associatedLuiIds == null || associatedLuiIds.size() ==  0) {
             throw new OperationFailedException("LPR Roster does not contain any associated LUI IDs.");
         } else if (associatedLuiIds.size() ==  1) {
-            CourseOfferingInfo courseOffering = courseOfferingService.getCourseOffering(associatedLuiIds.get(0), context);
+            CourseOfferingInfo courseOffering = courseOfferingService.getCourseOffering(associatedLuiIds.get(firstId), context);
             courseOfferingId = courseOffering.getId();
             activityOfferingIds = new ArrayList<String>();
         } else if (associatedLuiIds.size() >  1) {
             activityOfferingIds = associatedLuiIds;
 
-            List<String> relatedLuis = luiService.getLuiIdsByLuiAndRelationType(activityOfferingIds.get(0), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
+            List<String> relatedLuis = luiService.getLuiIdsByLuiAndRelationType(activityOfferingIds.get(firstId), LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
             if (relatedLuis == null || relatedLuis.size() != 1) {
                 throw new OperationFailedException("The provided activity offering is not related to 1 and only 1 course offering.");
             }
-            courseOfferingId = relatedLuis.get(0);
+            courseOfferingId = relatedLuis.get(firstId);
         }
 
         GradeRosterInfo gradeRosterInfo = gradeRosterAssembler.assemble(lprRosterInfo, lprRosterEntryIds, graderIds, courseOfferingId, activityOfferingIds, context);
@@ -803,9 +805,10 @@ public class GradingServiceImpl implements GradingService {
                 entryAttributes.put(entryAttributesKey, resultValue.getKey());
             }
         }
-
-        for (LprRosterEntryInfo lprRosterEntry : entryKeysMap.keySet()) {
-            Map<String, String> entryAttributes = entryKeysMap.get(lprRosterEntry);
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<LprRosterEntryInfo, Map<String, String>> entry: entryKeysMap.entrySet()){
+            LprRosterEntryInfo lprRosterEntry = entry.getKey();
+            Map<String, String> entryAttributes = entry.getValue();
             String studentId = entryAttributes.get(STUDENT_ID);
             String activityOfferingId = entryAttributes.get(ACTIVITY_OFFERING_ID);
             String assignedGradeKey = entryAttributes.get(ASSIGNED_GRADE);

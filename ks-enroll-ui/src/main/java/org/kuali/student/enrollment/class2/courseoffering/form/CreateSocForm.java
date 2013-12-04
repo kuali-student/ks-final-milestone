@@ -24,7 +24,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a form for the Create Soc ui
  *
  * @author Kuali Student Team
  */

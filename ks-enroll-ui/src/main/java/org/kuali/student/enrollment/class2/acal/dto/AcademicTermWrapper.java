@@ -53,12 +53,15 @@ public class AcademicTermWrapper {
 
     private List<KeyDatesGroupWrapper> keyDatesGroupWrappers;
     private List<KeyDateWrapper> keyDatesToDeleteOnSave;
+    private List<ExamPeriodWrapper> examdates;
+    private List<ExamPeriodWrapper> examPeriodsToDeleteOnSave;
 
     private String instructionalDayConfig = "cars";
 
     private boolean makeOfficial;
 
     private String parentTerm;
+    private String parentTermName;
     private TermInfo parentTermInfo;
     private boolean subTerm = false;
 
@@ -71,6 +74,8 @@ public class AcademicTermWrapper {
     public AcademicTermWrapper(){
         keyDatesGroupWrappers = new ArrayList();
         keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
+        examdates = new ArrayList<ExamPeriodWrapper>();
+        examPeriodsToDeleteOnSave = new ArrayList<ExamPeriodWrapper>();
         termInfo = new TermInfo();
         termInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         RichTextInfo desc = new RichTextInfo();
@@ -93,6 +98,8 @@ public class AcademicTermWrapper {
         this.keyDatesGroupWrappers = new ArrayList();
         this.keyDatesToDeleteOnSave = new ArrayList<KeyDateWrapper>();
         this.subterms = new ArrayList<AcademicTermWrapper>();
+        this.examdates = new ArrayList<ExamPeriodWrapper>();
+        this.examPeriodsToDeleteOnSave = new ArrayList<ExamPeriodWrapper>();
 
         if (isCopy){
             setTermInfo(new TermInfo());
@@ -101,8 +108,8 @@ public class AcademicTermWrapper {
             getTermInfo().setDescr(desc);
             getTermInfo().setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         } else{
-           setTermInfo(termInfo);
-           this.name = termInfo.getName();
+            setTermInfo(termInfo);
+            this.name = termInfo.getName();
         }
 
     }
@@ -161,6 +168,14 @@ public class AcademicTermWrapper {
      */
     public void setParentTerm(String parentTerm) {
         this.parentTerm = parentTerm;
+    }
+
+    public String getParentTermName() {
+        return parentTermName;
+    }
+
+    public void setParentTermName(String parentTermName) {
+        this.parentTermName = parentTermName;
     }
 
     /**
@@ -491,5 +506,21 @@ public class AcademicTermWrapper {
 
     public void setSubterms(List<AcademicTermWrapper> subterms) {
         this.subterms = subterms;
+    }
+
+    public List<ExamPeriodWrapper> getExamdates() {
+        return examdates;
+    }
+
+    public void setExamdates(List<ExamPeriodWrapper> examdates) {
+        this.examdates = examdates;
+    }
+
+    public List<ExamPeriodWrapper> getExamPeriodsToDeleteOnSave() {
+        return examPeriodsToDeleteOnSave;
+    }
+
+    public void setExamPeriodsToDeleteOnSave(List<ExamPeriodWrapper> examPeriodsToDeleteOnSave) {
+        this.examPeriodsToDeleteOnSave = examPeriodsToDeleteOnSave;
     }
 }

@@ -1,8 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
-import org.apache.cxf.common.util.StringUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
-import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;

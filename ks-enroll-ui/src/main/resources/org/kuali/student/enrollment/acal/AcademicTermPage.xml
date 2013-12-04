@@ -45,7 +45,7 @@
         <property name="propertyName" value="termWrapperList" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
         <property name="style" value="min-width:70em;"/>
-        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');" />
+        <property name="onDocumentReadyScript" value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}');" />
         <!--<property name="header.render" value="false" />-->
         <property name="headerText" value="Terms"/>
         <property name="validationMessages.displayMessages" value="false"/>
@@ -71,7 +71,6 @@
                                             <property name="render" value="@{#line.termInfo != null and #line.termInfo.id != null }"/>
                                             <property name="items">
                                                 <list>
-
                                                     <bean id="term_official" parent="Uif-ActionLink" p:methodToCall="makeTermOfficial" p:actionLabel="Make Official"
                                                           p:render="@{!#line.official and !#view.readOnly}"
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
@@ -80,8 +79,21 @@
                                                           p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);
                                                            findDirtyFields('AcalEdit-DirtyFields');"
                                                           p:render="@{!#line.official and !#view.readOnly}"/>
-                                                    <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}"/>
-                                                    <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!#line.official}"/>
+                                                    <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{#line.official}">
+                                                        <property name="dataAttributes">
+                                                            <map key-type="java.lang.String" merge="true">
+                                                                <entry key="aft-id" value="@{#line.termInfo.code}-Official-Lozenge"/>
+                                                            </map>
+                                                        </property>
+                                                    </bean>
+
+                                                    <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!#line.official}">
+                                                        <property name="dataAttributes">
+                                                            <map key-type="java.lang.String" merge="true">
+                                                                <entry key="aft-id" value="@{#line.termInfo.code}-Draft-Lozenge"/>
+                                                            </map>
+                                                        </property>
+                                                    </bean>
                                                 </list>
                                             </property>
                                         </bean>
@@ -110,8 +122,7 @@
                 <!-- Empty to override defaults-->
             </list>
         </property>
-        <property name="addLineLabel.labelText" value="Add Terms"/>
-
+        <property name="addLineLabel.messageText" value="Add Terms"/>
         <property name="addLineItems">
             <list>
                 <bean id="term_type_add" parent="Uif-InputField-LabelTop" p:propertyName="termType" p:render="@{#isAddLine}"
@@ -153,14 +164,14 @@
                         <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:label="Parent Term" p:render="@{#isAddLine}" p:refreshWhenChangedPropertyNames="#lp.termType">
+                <!-- bean id="parent_term_type" parent="Uif-InputField-LabelTop" p:propertyName="parentTerm" p:label="Parent Term" p:render="@{#isAddLine}" p:refreshWhenChangedPropertyNames="#lp.termType">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermParentTypeKeyValues" p:addBlankOption="false"/>
                     </property>
-                </bean>
+                </bean -->
             </list>
         </property>
         <property name="items">
@@ -202,6 +213,17 @@
                                         <bean id="term_code" parent="Uif-InputField-LabelTop" p:propertyName="termCode" p:label="Term Code" p:render="@{#line.termCode != T(org.kuali.student.enrollment.class2.acal.util.CalendarConstants).EMPTY_TERM_CODE}">
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:disabled="true" p:size="9">
+                                                    <property name="cssClasses">
+                                                        <list>
+                                                            <value>acal_term_code</value>
+                                                        </list>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean id="parent_term_name" parent="Uif-InputField-LabelTop" p:propertyName="parentTermName" p:label="Parent Term" p:render="@{#line.parentTerm != null and #line.parentTerm != ''}">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:disabled="true" p:size="20">
                                                     <property name="cssClasses">
                                                         <list>
                                                             <value>acal_term_code</value>
@@ -267,12 +289,14 @@
         <property name="subCollections">
             <list>
                 <ref bean="KS-KeyDatesGroup-EditSubSection" />
+                <ref bean="KS-ExamDates-EditSubSection" />
             </list>
         </property>
     </bean>
 
     <bean id="KS-KeyDatesGroup-EditSubSection" parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
-          p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
+          p:additionalCssClasses="acal_keydate_group">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="disclosure.render" value="false"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
@@ -280,11 +304,6 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
         <property name="headerText" value="Key Dates" />
         <property name="header.render" value="@{!#view.readOnly}"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>acal_keydate_group</value>
-            </list>
-        </property>
 
         <!-- Move the add button to the right of the fields -->
         <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
@@ -330,7 +349,7 @@
     </bean>
 
     <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
-          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}" p:onDocumentReadyScript="highlightElements(@{validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
+          p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}" p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
         <property name="propertyName" value="keydates" />                <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
         <property name="header.render" value="false"/>
         <!--<property name="layoutManager.numberOfColumns" value="@{#view.readOnly ? 3 : 9}"/>-->
@@ -389,12 +408,8 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>acal_keydate_radiobutton</value>
-                        </list>
-                    </property>
+                <bean id="key_date_start_time_ampm" parent="Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM"
+                      p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.startTime" p:evaluateDisabledOnKeyUp="true">
@@ -419,12 +434,8 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>acal_keydate_radiobutton</value>
-                        </list>
-                    </property>
+                <bean id="key_date_end_time_ampm" parent="Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}" p:defaultValue="AM"
+                      p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
                               p:refreshWhenChangedPropertyNames="#lp.endTime" p:evaluateDisabledOnKeyUp="true">
@@ -440,5 +451,67 @@
             </list>
         </property>
     </bean>
-    <bean id="textAligns" class="org.kuali.rice.krad.uif.CssConstants.TextAligns"/>
+
+    <!--Final Exam Period section-->
+    <bean id="KS-ExamDates-EditSubSection" parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod"
+          p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}" >
+        <property name="propertyName" value="examdates" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper" />
+        <property name="headerText" value="Final Exam Period" />
+        <property name="disclosure.render" value="false"/>
+        <property name="style" value="margin-left:10px;"/>
+        <property name="layoutManager.style" value="width:60%;"/>
+        <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="addBlankLineAction.actionLabel" value="Add Final Exam Period"/>
+        <property name="addBlankLineAction.onDocumentReadyScript" value="hideAddExamPeriodButton('@{#collectionGroup.id}', 'exam_date_type', 'acal-term-examdates-add');"/>
+        <property name="addBlankLineAction.id" value="acal-term-examdates-add"/>
+
+        <property name="layoutManager.cssClasses">
+            <list merge="true">
+                <value>ks-tablecollection-table</value>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean id="exam_date_type" parent="Uif-InputField" p:propertyName="examPeriodType" p:readOnly="true" p:readOnlyDisplayReplacementPropertyName="examPeriodNameUI" p:style="font-weight:bold;"/>
+                <bean id="exam_date_start_date" parent="Uif-InputField" p:propertyName="startDate" p:render="@{!#view.readOnly}" p:label="Start Date" >
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="startDateUI" p:render="@{#view.readOnly}" p:label="Start Date"/>
+
+                <bean id="exam_date_end_date" parent="Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}" p:label="End Date">
+                    <property name="control">
+                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}" p:label="End Date"/>
+
+                <bean parent="Uif-InputField" p:id="exclude_Saturday" p:label="Exclude Saturday" p:propertyName="excludeSaturday" p:labelPlacement="RIGHT">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" />
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:id="exclude_Sunday" p:label="Exclude Sunday" p:propertyName="excludeSunday" p:labelPlacement="RIGHT">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean id="exam_period_delete_link" parent="Uif-ActionLink"  p:methodToCall="markExamPeriodtoDelete" p:actionLabel="Delete" p:render="@{!#view.readOnly}"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>

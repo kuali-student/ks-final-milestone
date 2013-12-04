@@ -37,12 +37,13 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides logic for saving a Course Offering maintenance document in the Edit ui
  *
  * @author Kuali Student Team
  */
@@ -70,12 +71,11 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
             } else { // for Edit CO page
                 String newSuffix = newCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
                 String oldSuffix = oldCOWrapper.getCourseOfferingInfo().getCourseNumberSuffix();
-                if ((oldSuffix == null || oldSuffix.isEmpty()) &&
-                    (newSuffix == null || newSuffix.isEmpty())) {
-                    // no change to valid
-                }
-                else if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
-                    valid &= validateDuplicateSuffix(newCOWrapper);
+                if (!((oldSuffix == null || oldSuffix.isEmpty()) &&
+                    (newSuffix == null || newSuffix.isEmpty()))) {
+                   if ((newSuffix != null) && !newSuffix.equals(oldSuffix) ) {
+                        valid &= validateDuplicateSuffix(newCOWrapper);
+                   }
                 }
 
                 // if no duplicate suffix then we validate the personnel ID
@@ -83,12 +83,28 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
                     valid = validatePersonnel(newCOWrapper);
                 }
             }
+
+            // valid the final exam driver: if final exam type is STANDARD, a final exam driver should be selected
+            if (valid) {
+                valid = validFinalExamDriver(newCOWrapper);
+            }
         }
 
         return valid;
     }
 
+    protected boolean validFinalExamDriver (CourseOfferingEditWrapper coWrapper) {
+        if (StringUtils.equals(coWrapper.getCourseOfferingInfo().getFinalExamType(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD)
+                && (!StringUtils.equals(coWrapper.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY) && !StringUtils.equals(coWrapper.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_CO_KEY))) {
+            GlobalVariables.getMessageMap().putErrorForSectionId(
+                    "delivery_and_assessment",
+                    CourseOfferingConstants.COURSEOFFERING_CREATE_ERROR_PARAMETER_IS_REQUIRED, "Final Exam Driver");
+            return false;
+        }
 
+        return true;
+
+    }
     protected boolean validateDuplicateSuffix(CourseOfferingEditWrapper coWrapper){
         // Catalog course code is case INSENSITIVE, but the suffix is case SENSITIVE
         String courseCode = coWrapper.getCourse().getCode().toUpperCase();
@@ -129,7 +145,8 @@ public class CourseOfferingEditRule extends KsMaintenanceDocumentRuleBase {
                                     CourseOfferingConstants.COURSEOFFERING_ERROR_INVALID_PERSONNEL_ID, info.getPersonId());
                             noError &= false;
                         } else {
-                            String instructorName = personList.get(0).getName().trim();
+                            int firstPerson = 0;
+                            String instructorName = personList.get(firstPerson).getName().trim();
                             if(instructorName != null && !instructorName.isEmpty()) {
                                 if(!instructorName.equals(info.getPersonName())) {
                                     GlobalVariables.getMessageMap().putErrorForSectionId(

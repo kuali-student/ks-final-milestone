@@ -34,12 +34,21 @@
    <bean id="dataDictionaryServiceForLui" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="lui" />
         <property name="dictionaryLocations" ref="luiServiceDictionaryLocations" />
-   </bean> 
+   </bean>
 
     <!-- Course Offering Service -->
     <bean id="dataDictionaryServiceForCourseOffering" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="courseOffering" />
-        <property name="dictionaryLocations" ref="courseOfferingInfoDictionaryLocation" />
+        <property name="dictionaryLocations">
+            <bean class="java.util.ArrayList">
+                <constructor-arg>
+                    <list>
+                        <bean parent="ksBaseDictionaryLocation" />
+                        <bean parent="courseOfferingInfoDictionaryLocation" />
+                    </list>
+                </constructor-arg>
+            </bean>
+        </property>
     </bean>
 
     <!--Soc Service -->
@@ -51,7 +60,16 @@
     <!--Soc Rollover Service -->
     <bean id="dataDictionaryServiceForSocRolloverResult" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
         <property name="serviceNamespaceSuffix" value="socRolloverResult" />
-        <property name="dictionaryLocations" ref="socRolloverResultInfoDictionaryLocation" />
+        <property name="dictionaryLocations">
+            <bean class="java.util.ArrayList">
+                <constructor-arg>
+                    <list>
+                        <bean parent="ksBaseDictionaryLocation" />
+                        <bean parent="socRolloverResultInfoDictionaryLocation" />
+                    </list>
+                </constructor-arg>
+            </bean>
+        </property>
     </bean>
 
     <!--All Objects Data Dictionary Service used by Rice-->

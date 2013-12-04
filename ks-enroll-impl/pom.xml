@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.enroll</groupId>
         <artifactId>ks-enroll</artifactId>
-        <version>1.0.0-M7-KSAP-SNAPSHOT</version>
+        <version>1.0.0-M8-KSAP-SNAPSHOT</version>
     </parent>
     <artifactId>ks-enroll-impl</artifactId>
     <name>KS Enroll Impl</name>
@@ -98,7 +98,6 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-impl</artifactId>
             <version>${ks.core.version}</version>
-            <!--            <scope>provided</scope>-->
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
@@ -118,14 +117,6 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-krms</artifactId>
             <version>${ks.core.version}</version>
-            <classifier>tests</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-krms</artifactId>
-            <version>${ks.core.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
@@ -147,6 +138,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-it-internal-tools</artifactId>
+        </dependency>
+        <dependency>
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
             <scope>test</scope>
@@ -160,7 +155,6 @@
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>${oracle.artifactId}</artifactId>
-            <version>${oracle.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- TODO: remove this, only used to override rice groovy files for now -->

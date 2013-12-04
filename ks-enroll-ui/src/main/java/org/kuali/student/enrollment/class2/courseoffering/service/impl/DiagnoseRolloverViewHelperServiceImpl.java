@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides helper logic for the Diagnose Rollover ui
  *
  * @author Kuali Student Team
  */
@@ -72,10 +72,11 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
 
         // Do search.  In ideal case, terms returns one element, which is the desired term.
         List<TermInfo> terms = acalService.searchForTerms(criteria, new ContextInfo());
+        int firstTerm = 0;
         if (terms == null || terms.isEmpty()) {
             return null;
         } else {
-            return terms.get(0);
+            return terms.get(firstTerm);
         }
     }
 
@@ -103,10 +104,11 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
     @Override
     public CourseOfferingInfo getCourseOfferingInfo(String termId, String courseOfferingCode) throws Exception {
         List<CourseOfferingInfo> coList = _searchCourseOfferingByCOCodeAndTerm(courseOfferingCode, termId);
+        int firstCOInfo = 0 ;
         if (coList == null ||  coList.isEmpty()) {
             return null;
         } else {
-            CourseOfferingInfo courseOfferingInfo = coList.get(0);
+            CourseOfferingInfo courseOfferingInfo = coList.get(firstCOInfo);
             return courseOfferingInfo; // Pick first one
         }
     }
@@ -125,7 +127,8 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
         if (coList == null || coList.isEmpty()) {
             return false;
         }
-        CourseOfferingInfo coInfo = coList.get(0);
+        int firstCOInfo = 0;
+        CourseOfferingInfo coInfo = coList.get(firstCOInfo);
         StatusInfo statusInfo;
         try {
             statusInfo = coService.deleteCourseOfferingCascaded(coInfo.getId(), new ContextInfo());
@@ -158,7 +161,8 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
             return null;
         }
         ContextInfo contextInfo = new ContextInfo();
-        CourseOfferingInfo coInfo = coInfos.get(0); // Just get the first one
+        int firstCOInfo = 0;
+        CourseOfferingInfo coInfo = coInfos.get(firstCOInfo); // Just get the first one
         Date start = new Date();
         List<String> optionKeys = this.getDefaultOptionKeysService().getDefaultOptionKeysForCopySingleCourseOffering();
         SocRolloverResultItemInfo rolloverResultInfo =

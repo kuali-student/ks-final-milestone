@@ -52,29 +52,22 @@
                             </bean>
                             <bean parent="Uif-Message" p:messageText="&lt;b&gt;@{rolloverTargetTermDesc!=''?rolloverTargetTermDesc: 'Enter valid Term'} Rollover&lt;/b&gt;" p:style="font-size:125%; padding-top:35px"
                                   p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}"/>
-                            <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="background-color:#dadada;">
+                            <bean id="KS-RolloverResultsInfoSection" parent="Uif-GridSection" p:render="@{rolloverTargetTermCode!='' and rolloverSourceTermDesc!=''}" p:style="background-color:#dadada;"
+                                  p:additionalCssClasses="ks-rolloverResultsInfoSection-gridSection">
                                 <property name="items">
                                     <list>
                                         <!-- Roll over details display -->
-                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:render="@{!socReleasedToDepts and statusField!='Finished'}" p:width="200px">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
-                                                </list>
-                                            </property>
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:render="@{!socReleasedToDepts and statusField!='Finished'}" p:width="200px"
+                                              p:additionalCssClasses="ks-rolloverResultsInfoSection-gridSubsection">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="KS-Lozenge-Grey-Uif-DataField" p:id="rollover-status" p:label="Status" p:fieldLabel.renderColon="false" p:propertyName="statusField" />
-                                                    <bean parent="Uif-ActionLink" p:performClientSideValidation="true" p:actionLabel="Refresh" p:methodToCall="showRolloverResults" p:valign="bottom" p:onClickScript="writeHiddenToForm(&quot;rolloverTargetTermCode&quot;, &quot;@{rolloverTargetTermCode}&quot;);"/>
+                                                    <bean parent="Uif-ActionLink" p:performClientSideValidation="true" p:actionLabel="Refresh" p:methodToCall="showRolloverResults" p:valign="middle" p:align="left" p:onClickScript="writeHiddenToForm(&quot;rolloverTargetTermCode&quot;, &quot;@{rolloverTargetTermCode}&quot;);"/>
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:style="padding-right:97px;" p:render="@{!socReleasedToDepts and statusField=='Finished'}" p:width="200px">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
-                                                </list>
-                                            </property>
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3" p:style="padding-right:106px;" p:render="@{!socReleasedToDepts and statusField=='Finished'}" p:width="200px"
+                                              p:additionalCssClasses="ks-rolloverResultsInfoSection-gridSubsection">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt;" p:style="font-size:109%;"/>
@@ -82,12 +75,8 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3"  p:style="padding-right:40px;" p:render="@{socReleasedToDepts and statusField=='Finished'}" p:width="200px">
-                                            <property name="cssClasses">
-                                                <list merge="true">
-                                                    <value>ks-rolloverResultsInfoSection-gridSubsection</value>
-                                                </list>
-                                            </property>
+                                        <bean parent="Uif-GridSubSection" p:colSpan="2" p:layoutManager.numberOfColumns="3"  p:style="padding-right:11px;" p:render="@{socReleasedToDepts and statusField=='Finished'}" p:width="200px"
+                                              p:additionalCssClasses="ks-rolloverResultsInfoSection-gridSubsection">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-Message" p:messageText="&lt;b&gt;Status&lt;/b&gt;"   p:style="font-size:109%;"/>
@@ -139,21 +128,27 @@
                             </bean>
 
                             <bean parent="Uif-TableCollectionSection" p:headerText="Exceptions" p:style="padding-top:30px"
-                                  p:layoutManager.numberOfColumns="3" p:renderAddLine="false"
+                                  p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:id="rollover_exceptions_section"
                                   p:renderLineActions="false" p:render="@{socRolloverResultItems.size() ge 1}">
-                                <property name="header.headerTagStyle" value="font-family:Arial;font-size:15px;font-weight:bold;font-style:normal;text-decoration:none;color:#000000;background-image:url('../ks-enroll/images/exclamation_diamond_frame.png');background-repeat: no-repeat;background-position: left;padding-left:20px;"/>
+                                <property name="header.headerTagStyle" value="font-family:Arial;font-size:15px;font-weight:bold;font-style:normal;text-decoration:none;color:#000000;background-image:url('../themes/ksboot/images/exclamation_diamond_frame.png');background-repeat: no-repeat;background-position: left;padding-left:20px;"/>
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper"/>
                                 <property name="propertyName" value="socRolloverResultItems"/>
-                                <property name="collectionLookup.quickfinderAction.render" value="false" />
+                                <property name="collectionLookup">
+                                    <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                                </property>
                                 <property name="layoutManager.renderSequenceField" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="true" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-                                <property name="layoutManager.richTable.templateOptions">
-                                    <map merge="true">
-                                        <entry key="iDisplayLength" value="20"/>
-                                        <entry key="bAutoWidth" value="false"/>
-                                        <entry key="sPaginationType" value="full_numbers" />
-                                    </map>
+                                <property name="layoutManager.richTable">
+                                    <!-- see http://datatables.net/ref for all options -->
+                                    <bean parent="KS-Uif-PagedRichTable">
+                                        <property name="templateOptions">
+                                            <map merge="true">
+                                                <entry key="iDisplayLength" value="20"/>
+                                                <entry key="bAutoWidth" value="false"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </property>
                                 <property name="items">
                                     <list>

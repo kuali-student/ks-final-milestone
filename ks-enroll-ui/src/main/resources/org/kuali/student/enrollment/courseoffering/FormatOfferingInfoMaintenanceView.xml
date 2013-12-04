@@ -31,12 +31,15 @@
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="id" p:readOnly="true"/>
                             <bean parent="Uif-InputField" p:propertyName="courseOfferingId">
-                                <!--<property name="quickfinder.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>-->
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="id" value="courseOfferingId"/>
-                                    </map>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName" value="org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="id" value="courseOfferingId"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="formatId"

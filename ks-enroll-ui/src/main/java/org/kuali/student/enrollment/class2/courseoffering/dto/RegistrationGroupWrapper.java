@@ -17,19 +17,22 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a wrapper for Registration Group data
  *
  * @author Kuali Student Team
  */
-public class RegistrationGroupWrapper implements Serializable {
+public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     //added for ARG
     private ActivityOfferingClusterInfo aoCluster;
     private FormatOfferingInfo formatOfferingInfo;
@@ -48,7 +51,17 @@ public class RegistrationGroupWrapper implements Serializable {
     private String endTimeDisplay = "";
     private String daysDisplayName = "";
     private String buildingName = "";
+    private String buildingCode = "";
     private String roomName = "";
+    private String requisite;
+    private String commonRequisite;
+
+    private List<String> startTime = new ArrayList<String>();
+    private List<String> endTime = new ArrayList<String>();
+    private List<String> weekDays = new ArrayList<String>();
+
+    private List<String> bldgNameList = new ArrayList<String>();
+    private List<String> bldgCodeList = new ArrayList<String>();
 
     public RegistrationGroupWrapper() {
         rgInfo = new RegistrationGroupInfo();
@@ -216,6 +229,30 @@ public class RegistrationGroupWrapper implements Serializable {
         }
     }
 
+    public List<String> getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(List<String> startTime) {
+        this.startTime = startTime;
+    }
+
+    public List<String> getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(List<String> endTime) {
+        this.endTime = endTime;
+    }
+
+    public List<String> getWeekDays() {
+        return weekDays;
+    }
+
+    public void setWeekDays(List<String> weekDays) {
+        this.weekDays = weekDays;
+    }
+
     public String getBuildingName() {
         return buildingName;
     }
@@ -233,7 +270,7 @@ public class RegistrationGroupWrapper implements Serializable {
         if(!StringUtils.isEmpty(dlTypeClass)){
             cssClass = "class=\"" + dlTypeClass + "\"";
         }
-        if(StringUtils.isEmpty(this.roomName)){
+        if(StringUtils.isEmpty(this.buildingName)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
@@ -241,6 +278,86 @@ public class RegistrationGroupWrapper implements Serializable {
         }else{
             this.buildingName = "<span " + cssClass + " >" + buildingName + "</span>";
         }
+    }
+
+    public String getBuildingCode() {
+        return buildingCode;
+    }
+
+    public void setBuildingCode(String buildingCode) {
+        setBuildingCode(buildingCode, false);
+    }
+
+    public void setBuildingCode(String buildingCode,boolean appendForDisplay) {
+        setBuildingCode(buildingCode, false, null);
+    }
+
+    public void setBuildingCode(String buildingCode,boolean appendForDisplay, String dlTypeClass) {
+        String cssClass = "";
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.buildingCode)){
+            appendForDisplay = false;
+        }
+        if (appendForDisplay){
+            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + buildingCode + "</span>";
+        }else{
+            this.buildingCode = buildingCode;
+        }
+    }
+
+    public void setBuildingCodeWithTooltip(String buildingCode, String buildingName, String dlTypeClass) {
+        String cssClass = "";
+        boolean  appendForDisplay = true;
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.buildingCode)){
+            appendForDisplay = false;
+        } else {
+            appendForDisplay = true;
+        }
+        String underlineCssClass = "<span style=\"border-bottom: 1px dotted;\">";
+
+/*
+        if (appendForDisplay){
+            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText='" + buildingCode + "'" + " toolTip.tooltipContent="+ "'" + buildingName +"']" + "</span>";
+        }else{
+            this.buildingCode = "<span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText=" + "'" + buildingCode + "'" + " toolTip.tooltipContent=" + "'" + buildingName + "']" + "</span>";
+        }
+*/
+        String BldgCodeMark = "<span " + cssClass + "title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span> </span>";
+        if (appendForDisplay){
+            this.buildingCode = this.buildingCode + "<br>" + BldgCodeMark;
+        }else{
+            this.buildingCode = BldgCodeMark;
+        }
+
+    }
+
+    public void setBuildingCodeWithTooltip(String buildingCode, String buildingName) {
+        String underlineCssClass = "<span style=\"border-bottom: 1px dotted;\">";
+
+        String BldgCodeMark = "<span title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span> </span>";
+
+        this.buildingCode = BldgCodeMark;
+    }
+
+    public List<String> getBldgNameList() {
+        return bldgNameList;
+    }
+
+    public void setBldgNameList(List<String> bldgNameList) {
+        this.bldgNameList = bldgNameList;
+    }
+
+    public List<String> getBldgCodeList() {
+        return bldgCodeList;
+    }
+
+    public void setBldgCodeList(List<String> bldgCodeList) {
+        this.bldgCodeList = bldgCodeList;
     }
 
     public String getRoomName() {
@@ -292,5 +409,21 @@ public class RegistrationGroupWrapper implements Serializable {
 
     public void setAoEditLink(String aoEditLink) {
         this.aoEditLink = aoEditLink;
+    }
+
+    public String getRequisite() {
+        return requisite;
+    }
+
+    public void setRequisite(String requisite) {
+        this.requisite = requisite;
+    }
+
+    public String getCommonRequisite() {
+        return commonRequisite;
+    }
+
+    public void setCommonRequisite(String commonRequisite) {
+        this.commonRequisite = commonRequisite;
     }
 }

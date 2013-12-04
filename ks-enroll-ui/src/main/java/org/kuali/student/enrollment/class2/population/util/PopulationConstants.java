@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.population.util;
 
 
 public class PopulationConstants {
+
     //Attributes defined in PopulationWrapper
     public static final class PopulationWrapper {
         public static final String POPULATION_NAME = "dataObject.populationInfo.name";
@@ -12,5 +13,8 @@ public class PopulationConstants {
     public static final String POPULATION_MSG_ERROR_NEED_ONE_POPULATIONS = "error.enroll.population.needAtLeastOnePopulations";
     public static final String POPULATION_MSG_ERROR_REF_NOT_ALLOWED_IN_SOURCE_POPULATIONS = "error.enroll.population.refNotAllowedInSourcePopulations";
     public static final String POPULATION_MSG_ERROR_POPULATION_NOT_FOUND = "error.enroll.population.PopulationNotFound";
+
+    public static final String POPULATION_LOOKUP_VIEW_ID = "KS-Population-LookupView";
+    public static final String POPULATION_LOOKUP_VIEW_NAME = "Manage Populations";
 
 }

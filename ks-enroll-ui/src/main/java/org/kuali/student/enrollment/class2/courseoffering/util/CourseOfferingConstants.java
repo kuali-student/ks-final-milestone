@@ -10,8 +10,10 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
 public class CourseOfferingConstants {
 
     //  Keys for features which are institutionally configurable via config file params
-    public final static String CONFIG_PARAM_KEY_SELECTIVE_CROSSLISTING = "kuali.ks.enrollment.options.selective-crosslisting-allowed";
-    public final static String CONFIG_PARAM_KEY_EDIT_ACTIVITY_CODE = "kuali.ks.enrollment.options.edit-activity-offering-code-allowed";
+    public final static String CONFIG_PARAM_KEY_SELECTIVE_CROSSLISTING = "kuali.ks.enrollment.edit_co.options.selective_crosslisting_allowed";
+    public final static String CONFIG_PARAM_KEY_EDIT_ACTIVITY_CODE = "kuali.ks.enrollment.edit_ao.options.edit_activity_offering_code_allowed";
+    public final static String CONFIG_PARAM_KEY_SCHOC_AO_STATES = "kuali.ks.enrollment.schoc.options.ao_state_keys";
+    public final static String CONFIG_PARAM_KEY_SCHOC_REG_GROUP_STATES = "kuali.ks.enrollment.schoc.options.reggroup_state_keys";
 
     //Attributes defined in CourseOfferingInfo
     public final static String COURSEOFFERING_ID = "id";
@@ -49,7 +51,13 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_MSG_ERROR_FOUND_NO_DRAFT_AO_SELECTED = "error.courseoffering.no.selected.AO";
     public static final String AO_NOT_DRAFT_FOR_DELETION_ERROR = "error.courseoffering.selected.aos.notdraft";
     public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_DELETE = "error.courseoffering.selected.AO.delete.confirmation";
+    public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_CANCEL = "error.courseoffering.selected.AO.cancel.confirmation";
+    public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_SUSPEND = "error.courseoffering.selected.AO.suspend.confirmation";
+    public static final String COURSEOFFERING_MSG_ERROR_SELECTED_AO_TO_REINSTATE = "error.courseoffering.selected.AO.reinstate.confirmation";
+    public static final String COURSEOFFERING_MSG_WARNING_FINALEXAMTYPE_DIFF_CM = "error.courseoffering.finalexam.type.warning";
+
     public static final String COURSEOFFERING_INVALID_STATE_FOR_DELETE = "error.enroll.courseoffering.delete.invalid.state";
+    public static final String COURSEOFFERING_INVALID_STATE_FOR_CANCEL = "error.enroll.courseoffering.cancel.invalid.state";
     public static final String COURSEOFFERING_INVALID_AO_STATE_FOR_DELETE = "error.enroll.courseoffering.delete.invalid.ao.state";
     public static final String COURSEOFFERING_WITH_AO_DRAFT_APPROVED_ONLY = "error.courseoffering.aodraftonlyapproved";
     public static final String COURSEOFFERING_WITH_AO_ORG_APPROVED_ONLY = "error.courseoffering.aoorgonlyapproved";
@@ -78,7 +86,9 @@ public class CourseOfferingConstants {
     public static final String MANAGE_CO_PAGE = "manageCourseOfferingsPage";
     public static final String MANAGE_CO_LIST_SECTION = "KS-CourseOfferingManagement-CourseOfferingResultSection";
     public static final String CO_DELETE_CONFIRM_PAGE = "coDeleteConfirmationPage";
+    public static final String CO_CANCEL_CONFIRM_PAGE = "coCancelConfirmationPage";
     public static final String AO_DELETE_CONFIRM_PAGE = "selectedAoDeleteConfirmationPage";
+    public static final String AO_CSR_CONFIRM_PAGE = "selectedAOCSRConfirmationPage";
     public static final String REG_GROUP_PAGE = "manageRegistrationGroupsPage";
     public static final String COPY_CO_PAGE = "copyCourseOfferingPage";
     public static final String SEARCH_PAGE = "searchInputPage";
@@ -96,10 +106,13 @@ public class CourseOfferingConstants {
     public static final String COURSEOFFERING_CREATE_ERROR_TERM_RESTRICTED = "error.courseOffering.create.term.restricted";
     public static final String COURSEOFFERING_CREATE_ERROR_COURSE_RESTRICTED = "error.courseOffering.create.course.restricted";
     public static final String COURSEOFFERING_FORMAT_REQUIRED = "error.enroll.courseoffering.formatId.required";
+    public static final String COURSEOFFERING_EXAMPERIOD_MISSING = "error.enroll.courseoffering.examperiod.missing";
 
 
     // Display text
     public static final String COURSEOFFERING_TEXT_STD_REG_OPTS_EMPTY = "None available";
+    public static final String COURSEOFFERING_TEXT_USE_FINAL_EXAM_MATRIX = "Yes";
+    public static final String COURSEOFFERING_TEXT_NOT_USE_FINAL_EXAM_MATRIX = "No";
 
     /**
      * Course Offering create constants
@@ -130,41 +143,66 @@ public class CourseOfferingConstants {
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE="info.enroll.activityoffering.toolbar.delete";
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT="info.enroll.activityoffering.toolbar.draft" ;
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED="info.enroll.activityoffering.toolbar.approved" ;
+    public static final String ACTIVITYOFFERING_TOOLBAR_CANCEL="info.enroll.activityoffering.toolbar.cancel";
+    public static final String ACTIVITYOFFERING_TOOLBAR_SUSPEND="info.enroll.activityoffering.toolbar.suspend";
+    public static final String ACTIVITYOFFERING_TOOLBAR_REINSTATE="info.enroll.activityoffering.toolbar.reinstate";
     public static final String COURSEOFFERING_TOOLBAR_DELETE="info.enroll.courseoffering.toolbar.delete" ;
     public static final String COURSEOFFERING_TOOLBAR_APPROVED="info.enroll.courseoffering.toolbar.approved" ;
     public static final String COURSEOFFERING_TOOLBAR_ADD="info.enroll.courseoffering.toolbar.add.success";
 
     public static final String ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS="info.enroll.activityoffering.toolbar.add.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_EXAMOFFERING_GENERATED="info.enroll.activityoffering.toolbar.add.success.with.examoffering.generated";
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_N_SUCCESS_WITH_MISSING_EXAMPERIOD="info.enroll.activityoffering.toolbar.add.success.with.missing.examperiod";
+
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE_N_SUCCESS="info.enroll.activityoffering.toolbar.delete.n.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT_N_SUCCESS="info.enroll.activityoffering.toolbar.draft.n.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED_N_SUCCESS="info.enroll.activityoffering.toolbar.approved.n.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_CANCEL_N_SUCCESS="info.enroll.activityoffering.toolbar.cancel.n.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_SUSPEND_N_SUCCESS="info.enroll.activityoffering.toolbar.suspend.n.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_REINSTATE_N_SUCCESS="info.enroll.activityoffering.toolbar.reinstate.n.success";
     public static final String COURSEOFFERING_TOOLBAR_DELETE_N_SUCCESS="info.enroll.courseoffering.toolbar.delete.n.success";
     public static final String COURSEOFFERING_TOOLBAR_APPROVED_N_SUCCESS="info.enroll.courseoffering.toolbar.approved.n.success";
+    public static final String ACTIVITYOFFERING_CREATE_WITH_MISSING_EXAMPERIOD="info.enroll.activityoffering.create.with.missing.examperiod";
 
     public static final String ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS="info.enroll.activityoffering.toolbar.add.1.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_EXAMOFFERING_GENERATED="info.enroll.activityoffering.toolbar.add.1.success.with.examoffering.generated";
+    public static final String ACTIVITYOFFERING_TOOLBAR_ADD_1_SUCCESS_WITH_MISSING_EXAMPERIOD="info.enroll.activityoffering.toolbar.add.1.success.with.missing.examperiod";
+
     public static final String ACTIVITYOFFERING_TOOLBAR_DELETE_1_SUCCESS="info.enroll.activityoffering.toolbar.delete.1.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_DRAFT_1_SUCCESS="info.enroll.activityoffering.toolbar.draft.1.success";
     public static final String ACTIVITYOFFERING_TOOLBAR_APPROVED_1_SUCCESS="info.enroll.activityoffering.toolbar.approved.1.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_CANCEL_1_SUCCESS="info.enroll.activityoffering.toolbar.cancel.1.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_SUSPEND_1_SUCCESS="info.enroll.activityoffering.toolbar.suspend.1.success";
+    public static final String ACTIVITYOFFERING_TOOLBAR_REINSTATE_1_SUCCESS="info.enroll.activityoffering.toolbar.reinstate.1.success";
     public static final String COURSEOFFERING_TOOLBAR_DELETE_1_SUCCESS="info.enroll.courseoffering.toolbar.delete.1.success";
     public static final String COURSEOFFERING_TOOLBAR_APPROVED_1_SUCCESS="info.enroll.courseoffering.toolbar.approved.1.success";
 
     public static final String ACTIVITYOFFERING_TOOLBAR_ADD_INVALID_ERROR="error.enroll.activityoffering.toolbar.add.invalid";
     
     //controller path
-    public static final String CONTROLLER_PATH_COURSEOFFERING_BASE_MAINTENANCE = "courseOffering";
+    public static final String CONTROLLER_PATH_COURSEOFFERING_EDIT_MAINTENANCE = "courseOfferingEdit";
     public static final String CONTROLLER_PATH_COURSEOFFERING_CREATE_MAINTENANCE = "courseOfferingCreate";
 
     // Final Exam Types
+    public final static String COURSEOFFERING_FINAL_EXAM_TYPE_KEY = "finalExamStatus";
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_STANDARD = "STANDARD";
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_ALTERNATE = "ALTERNATE";
     public final static String COURSEOFFERING_FINAL_EXAM_TYPE_NONE = "NONE";
+
+    // Final Exam Driver UI
+    public final static String COURSEOFFERING_FINAL_EXAM_DRIVER_CO_UI = "Course Offering";
+    public final static String COURSEOFFERING_FINAL_EXAM_DRIVER_AO_UI = "Activity Offering";
 
     //colocation
     public static final String COLOCATION_MAX_ENR_SHARED="info.enroll.courseoffering.colocation.enr.shared";
     public static final String COLOCATION_MAX_ENR_SEPARATED="info.enroll.courseoffering.colocation.enr.separated";
 
     public static final String COURSE_OFFERING_EDIT_SUCCESS = "info.enroll.courseoffering.edit.success";
+    public static final String COURSE_OFFERING_EDIT_SUCCESS_WITH_EXAMOFFERING_GENERATED = "info.enroll.courseoffering.edit.success.with.examoffering.generated";
+    public static final String COURSE_OFFERING_EDIT_SUCCESS_WITH_MISSING_EXAMPERIOD = "info.enroll.courseoffering.edit.success.with.missing.examperiod";
     public static final String COURSE_OFFERING_CREATE_SUCCESS = "info.enroll.courseoffering.create.success";
+    public static final String COURSE_OFFERING_CREATE_SUCCESS_WITH_EXAMOFFERING_GENERATED = "info.enroll.courseoffering.create.success.with.examoffering.generated";
+    public static final String COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD = "info.enroll.courseoffering.create.success.with.missing.examperiod";
 
     /**
          * These are the confirm dialog bean ids used in Manage CO/AO view.

@@ -59,7 +59,7 @@ public class AppliedHoldEntity
     @Column(name = "EFF_DT")
     private Date effectiveDate;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "RELEASED_DT")
+    @Column(name = "EXPIR_DT")
     private Date releasedDate;
     @ManyToOne(optional = false)
     @JoinColumn(name = "ISSUE_ID")

@@ -33,7 +33,7 @@
 
     <bean id="KS-CalendarSearch-View" parent="KS-Uif-FormView">
         <property name="id" value="calendarSearchView"/>
-        <property name="headerText" value="Calendars"/>
+        <property name="headerText" value="Calendar Search"/>
         <property name="singlePageView" value="true"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.acal.service.impl.CalendarSearchViewHelperServiceImpl"/>
         <property name="viewSourceFile" value="CalendarSearchView.xml" /> <!-- Shows up in HTML so devs can find the code -->
@@ -83,12 +83,7 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/calendar.css</value>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
+                <value>themes/ksboot/stylesheets/calendar.css</value>
             </list>
         </property>
 
@@ -146,13 +141,7 @@
                                         <bean parent="Uif-HorizontalBoxGroup" >
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-PrimaryActionButton"
-                                                          p:actionLabel="Search"
-                                                          p:methodToCall="search"/>
-
-                                                    <bean parent="Uif-ActionLink" p:style="margin-top: 5px"
-                                                          p:actionLabel="Cancel"
-                                                          p:methodToCall="close" />
+                                                    <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
                                                 </list>
                                             </property>
                                         </bean>
@@ -194,15 +183,22 @@
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'HolidayCalendar'" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
-            </map>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="rtip"/>
+                        <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                    </map>
+                </property>
+            </bean>
         </property>
 		<property name="items">
 			<list>
@@ -237,17 +233,24 @@
 		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicCalendar'" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
-            </map>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="rtip"/>
+                        <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
+                    </map>
+                </property>
+            </bean>
         </property>
-		<property name="items">
+        <property name="items">
 			<list>
                 <bean parent="Uif-DataField"
                   p:label="Name"
@@ -280,7 +283,9 @@
 		p:layoutManager.numberOfColumns="1" p:progressiveRender="@{(calendarType eq 'AcademicTerm') or (calendarType eq 'SubTerm')}" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />

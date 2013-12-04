@@ -41,7 +41,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a Lookupable implementation for Activity Offering Wrappers
  *
  * @author Kuali Student Team
  */

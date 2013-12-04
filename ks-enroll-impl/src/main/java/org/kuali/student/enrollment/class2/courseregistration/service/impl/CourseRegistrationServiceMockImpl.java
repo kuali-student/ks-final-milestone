@@ -29,14 +29,11 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
-import org.kuali.student.r2.core.class1.atp.service.impl.DateUtil;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.util.*;
 
 public class CourseRegistrationServiceMockImpl
@@ -51,11 +48,11 @@ public class CourseRegistrationServiceMockImpl
     private final Map<String, List<ActivityRegistrationInfo>> regMap        = new LinkedHashMap<String, List<ActivityRegistrationInfo>>(); /* cr, ar */
     private final Map<String, List<RegistrationRequestItemInfo>> xactionMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* cr, ritem */
     private final Map<String, List<RegistrationRequestItemInfo>> studentMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* stu, ritem */
-
+    
     //List of fake student course registrations to facilitate spring loading
     private List<String[]> fakeRegistrations = new ArrayList<String[]>();
-    
-    private final static String CREDIT_LIMIT = "15"; 
+
+    private final static String CREDIT_LIMIT = "15";
     private static long id = 0;
 
     private CourseOfferingService coService;
@@ -200,7 +197,7 @@ public class CourseRegistrationServiceMockImpl
     @Override
     public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(String studentId, ContextInfo contextInfo) 
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-
+        
         if (!this.crInitialized)     {
             this.initializeCourseRegistrationMap(contextInfo);
             this.crInitialized=true;
@@ -875,6 +872,16 @@ public class CourseRegistrationServiceMockImpl
         return load;
     }
 
+    @Override
+	public StatusInfo changeRegistrationRequestState(
+			String registrationRequestId, String nextStateKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO KSENROLL-8712
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
 
     private static String newId() {
         return Long.toString(++id);

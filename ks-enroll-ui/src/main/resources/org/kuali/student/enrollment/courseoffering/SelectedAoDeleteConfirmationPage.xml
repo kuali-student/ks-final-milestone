@@ -24,11 +24,12 @@
     <bean id="KS-CourseOfferingManagement-SelectedAoDeleteConfirmationPage" parent="KS-Uif-Page"
           p:id="selectedAoDeleteConfirmationPage">
 
-        <!-- Dynamically replace by page-title from parent using JS-onDocumentReadyScript to reflect title of the page.
-             ie: from "Course Offerings" to "Delete Activity Offerings"
-             This is a work-around, at least until KRAD 2.3-m3 -->
-        <property name="onDocumentReadyScript" value="updateViewHeaderText( 'Delete Activity Offerings' );" />
-        <property name="headerText" value="@{currentCourseOfferingWrapper.courseOfferingCode}" />
+        <!-- This was originally put in as a work-around for a KRAD unified header bug where view headers weren't being updated
+             when pages where refreshed. I investigated and partially implemented handing view title text overrides in the controller
+             code, but concluded that this is a much cleaner solution. -->
+        <property name="onDocumentReadyScript" value="updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}');" />
+        <property name="headerText" value="Delete Activity Offerings" />
+
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
@@ -50,7 +51,7 @@
 
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingManagement-ConfirmationResultSection"/>
+                <ref bean="KS-CourseOfferingManagement-DeleteConfirmationResultSection"/>
             </list>
         </property>
 
@@ -72,12 +73,12 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ConfirmationResultSection" parent="Uif-VerticalBoxSection"
+    <bean id="KS-CourseOfferingManagement-DeleteConfirmationResultSection" parent="Uif-VerticalBoxSection"
           p:disclosure.render="false"
           p:id="confirmationResultSection"
           p:colSpan="3"
           p:style="underline">
-       <property name="items">
+        <property name="items">
             <list>
                 <bean id="KS-SelectedAoDeleteConfirmation-Message" parent="Uif-VerticalBoxSection">
                     <property name="disclosure.render" value="false"/>
@@ -145,16 +146,19 @@
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="propertyName" value="selectedToDeleteList"/>
-                    <property name="collectionLookup.quickfinderAction.render" value="false"/>
+                    <property name="collectionLookup">
+                        <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+                    </property>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.applyDefaultCellWidths" value="false"/>
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="layoutManager.actionFieldPrototype.render" value="false"/>
+                    <property name="layoutManager.richTable">
+                        <bean parent="KS-Uif-RichTable"/>
+                    </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField"
-                                  p:label="STATUS"
-                                  p:propertyName="stateName"/>
+                            <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName"/>
                              <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
                                  <property name="items">
                                     <list>
@@ -169,18 +173,12 @@
                                     </list>
                                 </property>
                             </bean>
-
-                            <bean parent="Uif-DataField"
-                                  p:label="TYPE"
-                                  p:propertyName="typeName"/>
-                            <bean parent="Uif-DataField"
-                                  p:label="FORMAT"
-                                  p:propertyName="aoInfo.formatOfferingName"/>
+                            <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
+                            <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
                         </list>
                     </property>
                 </bean>
             </list>
         </property>
     </bean>
-
 </beans>

@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a key value finder for the type of search in the Schedule of Classes ui
  *
  * @author Kuali Student Team
  */
@@ -37,10 +37,10 @@ public class TypeOfSearchKeyValues extends KeyValuesBase implements Serializable
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
-        keyValues.add(new ConcreteKeyValue("course", "Course" ));
+        keyValues.add(new ConcreteKeyValue("course", "Course Code" ));
         keyValues.add(new ConcreteKeyValue("department", "Department"));
         keyValues.add(new ConcreteKeyValue("instructor", "Instructor"));
-        keyValues.add(new ConcreteKeyValue("titleDesc", "Title & Description"));
+        keyValues.add(new ConcreteKeyValue("titleDesc", "Title or Description"));
 
         return keyValues;
     }

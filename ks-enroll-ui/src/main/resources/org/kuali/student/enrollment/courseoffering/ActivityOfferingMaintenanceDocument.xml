@@ -50,21 +50,17 @@
     </bean>
 
     <bean id="ActivityOffering-MaintenanceView" parent="KS-CourseOffering-MaintenanceViewWithTermContextBarPlaceholder"
-          p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
+          p:readOnly="@{document.newMaintainableObject.dataObject.readOnlyView or !#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+          p:additionalCssClasses="aoc_page">
+         <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+        <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );"/>
 
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsMaintenanceViewAuthorizerBase"/>
         </property>
 
-        <!-- Statically set the title and then dynamically replace the View-title using JS-onDocumentReadyScript so the browser's title remains unchanged.
-             ie: from "Edit Activity Offering" to "ENGL250 - Lecture A"
-             The reason for this is that the specs state the view-title should reflect the CO and AO codes but the AFT code for this is checking that the title displayed in the
-             browser's title-bar (or tab) says "Kuali :: Edit Activity Offering"... so here we set the View-title initially to 'Edit Activity Offering' (which as a side-effect
-             sets the browser's title-bar) and then dynamically update the View-title to reflect the CO/AO codes.
-             This is a work-around, maybe it will be fixed by KRAD 2.3-m3 -->
-        <property name="headerText" value="Edit Activity Offering" />
+        <property name="headerText" value="@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}" />
         <property name="page.headerText" value="Edit Activity Offering"/>
-        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.courseOfferingCode} - @{document.newMaintainableObject.dataObject.typeName} @{document.newMaintainableObject.dataObject.activityCode}' );" />
 
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ActivityOfferingMaintainableImpl" />
@@ -88,12 +84,13 @@
 
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/activityOffering.css</value>
+                <value>themes/ksboot/stylesheets/activityOffering.css</value>
             </list>
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>ks-enroll/scripts/activity-offering.js</value>
+                <value>themes/ksboot/scripts/timeentry.js</value>
+                <value>themes/ksboot/scripts/activity-offering.js</value>
             </list>
         </property>
         <property name="page.id" value="ActivityOfferingEditPage"/>
@@ -107,9 +104,13 @@
                         <bean parent="Uif-VerticalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}" p:label="Send revised delivery logistics to the scheduler for processing upon save." p:propertyName="sendRDLsToSchedulerAfterMSE">
+                                    <bean  id="send_RDLs_to_scheduler" parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}"
+                                          p:label="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Delivery logistics cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised delivery logistics to the scheduler for processing upon save.'}"
+                                          p:propertyName="sendRDLsToSchedulerAfterMSE">
                                         <property name="control">
-                                            <bean parent="Uif-CheckboxControl"/>
+                                            <bean parent="Uif-CheckboxControl" id="send_RDLs_to_scheduler_control">
+                                            <property name="render" value="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}"/>
+                                            </bean>
                                         </property>
                                     </bean>
                                     <ref bean="ActivityOfferingEdit_SubmitCancel"/>
@@ -125,15 +126,10 @@
             <list />
         </property>
 
-        <property name="cssClasses">
-            <list merge="true">
-                <value>aoc_page</value>
-            </list>
-        </property>
         <property name="page.items">
             <list>
-                <ref bean="KS-CourseOffering-ContextBar" />
-
+                 <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+                <ref bean="KS-CourseOffering-ContextBar"/>
                 <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-bottom:8px;"/>
 
                 <ref bean="ActivityOfferingEdit-section1"/>
@@ -145,6 +141,10 @@
                 <ref bean="ActivityOffering-DeliveryLogistic-Requested"/>
 
                 <ref bean="ActivityOfferingEdit-PersonnelSection"/>
+                <ref bean="ActivityOfferingEdit-NoWaitlist"/>
+                <ref bean="ActivityOfferingEdit-NoWaitlistColo"/>
+                <ref bean="ActivityOfferingEdit-Waitlist"/>
+                <ref bean="ActivityOfferingView-Waitlist"/>
                 <ref bean="ActivityOfferingEdit-SeatPool"/>
                 <ref bean="ActivityOfferingEdit-Miscellaneous"/>
 
@@ -152,6 +152,7 @@
                 <bean parent="Uif-InputField" p:propertyName="termId" p:hidden="true"/>
                 <ref bean="ActivityOfferingEdit-NavigationConfirmation"/>
                 <ref bean="ActivityOfferingEdit-BreakColocateConfirmation"/>
+                <ref bean="ActivityOfferingEdit-CoLocatedAddLineDialog"/>
             </list>
         </property>
         <property name="dialogs">
@@ -168,7 +169,7 @@
         <property name="viewHelperService.helperClasses">
               <map>
                 <entry key="scheduleHelper">
-                  <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelperImpl</value>
+                  <value  type="java.lang.Class">org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl</value>
                   </entry>
             </map>
         </property>
@@ -186,10 +187,13 @@
         </property>
     </bean>
 
+    <!-- This is the carousel widget -->
     <bean id="ActivityOfferingEdit-Header-Right-SubGroup" parent="KS-Unified-Header-Action-Group" p:render="@{#dp.editRenderHelper.aoCodes.size() > 1}">
         <property name="items">
             <list>
-                <bean id="edit_ao_prev" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.prevAO.id != null}" p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.prevAO.id}&quot;);" p:actionImagePlacement="LEFT" p:actionLabel="@{#dp.editRenderHelper.prevAOTypeName} @{#dp.editRenderHelper.prevAO.activityCode}" p:methodToCall="route">
+                <bean id="edit_ao_prev" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.prevAO.id != null}"
+                      p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.prevAO.id}&quot;);" p:actionImagePlacement="LEFT"
+                      p:actionLabel="@{#dp.editRenderHelper.prevAOTypeName} @{#dp.editRenderHelper.prevAO.activityCode}" p:methodToCall="route">
                     <property name="actionParameters">
                       <map>
                         <entry key="aoId" value="@{#dp.editRenderHelper.prevAO.id}"/>
@@ -208,7 +212,9 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ActivityOfferingCodesKeyValues" p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean id="edit_ao_next" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.nextAO.id != null}" p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.nextAO.id}&quot;);" p:actionImagePlacement="RIGHT" p:actionLabel="@{#dp.editRenderHelper.nextAOTypeName} @{#dp.editRenderHelper.nextAO.activityCode}" p:methodToCall="route">
+                <bean id="edit_ao_next" parent="Uif-ActionLink" p:render="@{#dp.editRenderHelper.nextAO.id != null}"
+                      p:actionScript="handleAONavigation(this,&quot;@{#dp.editRenderHelper.nextAO.id}&quot;);" p:actionImagePlacement="RIGHT"
+                      p:actionLabel="@{#dp.editRenderHelper.nextAOTypeName} @{#dp.editRenderHelper.nextAO.activityCode}" p:methodToCall="route">
                     <property name="actionParameters">
                       <map>
                         <entry key="aoId" value="@{#dp.editRenderHelper.nextAO.id}"/>

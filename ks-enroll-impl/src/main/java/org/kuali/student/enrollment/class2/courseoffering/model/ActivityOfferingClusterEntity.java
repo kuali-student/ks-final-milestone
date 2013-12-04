@@ -43,7 +43,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class defines the entity for ActivityOfferingClusters
  *
  * @author Kuali Student Team
  */
@@ -53,7 +53,8 @@ import java.util.Set;
 @NamedQueries({
     @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.id in (:aocIds)"),
     @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByFormatOfferingIds", query="Select aoc from ActivityOfferingClusterEntity aoc where aoc.formatOfferingId in (:foIds)"),
-    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByCourseOfferingId", query="Select aoc from ActivityOfferingClusterEntity aoc, LuiLuiRelationEntity rel where rel.lui.id = :coId and rel.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' and aoc.formatOfferingId = rel.relatedLui.id ")
+    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByCourseOfferingId", query="Select aoc from ActivityOfferingClusterEntity aoc, LuiLuiRelationEntity rel where rel.lui.id = :coId and rel.luiLuiRelationType = 'kuali.lui.lui.relation.type.deliveredvia.co2fo' and aoc.formatOfferingId = rel.relatedLui.id "),
+    @NamedQuery(name="ActivityOfferingClusterENR.getAOCsByActivityOfferingId", query="Select aoc from ActivityOfferingClusterEntity aoc, IN (aoc.aoSets) aocJoinSets,IN (aocJoinSets.aoIds) aoJoinIds where aoJoinIds in (:aoId)")
 })
 public class ActivityOfferingClusterEntity extends MetaEntity implements AttributeOwner<ActivityOfferingClusterAttributeEntity> {
 

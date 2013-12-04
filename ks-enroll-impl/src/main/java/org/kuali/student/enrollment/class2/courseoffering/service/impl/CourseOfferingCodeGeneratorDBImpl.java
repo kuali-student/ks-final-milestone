@@ -20,13 +20,13 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dao.CodeGeneratorLocksDaoApi;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class Generates Coures Offering codes (CO,AO), but is backed by a DB to be thread safe.
@@ -37,20 +37,23 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
 
     private CodeGeneratorLocksDaoApi codeGeneratorLocksDao;
 
+    /**
+     * In this implementation we're going to pass in a list of existing aoCodes into the map
+     *
+     * @param generatorPropertiesMap A map containing the properties needed to generate the codes
+     * @return The next available activity offering code
+     */
     @Override
-    public String generateActivityOfferingCode(String uniqueCourseCode, List<ActivityOfferingInfo> existingActivityOfferings) {
+    public String generateActivityOfferingCode(Map<String, Object> generatorPropertiesMap) {
 
-        String nextCode = "";
-        List<String> aoCodes = new ArrayList<String>();
+        String nextCode;
+        String uniqueCourseCode = (String)generatorPropertiesMap.get(CourseOfferingCodeGenerator.COURSE_OFFERING_CODE_KEY);
+        List<String> aoCodes = (List<String>)generatorPropertiesMap.get(CourseOfferingCodeGenerator.ACTIVITY_OFFERING_CODE_LIST_KEY);
 
         // If this is the first code, send back "A"
-        if (existingActivityOfferings == null || existingActivityOfferings.isEmpty()) {
+        if (aoCodes == null || aoCodes.isEmpty()) {
             nextCode = "A";
         }  else{
-
-            for (ActivityOfferingInfo aoInfo : existingActivityOfferings) {
-                aoCodes.add(aoInfo.getActivityCode());
-            }
             nextCode = calculateNextCode(aoCodes);
         }
 
@@ -61,7 +64,7 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
         //System.out.println("Create Pending: " + namespace + " " + pendingKey + " " + uuid);
         getCodeGeneratorLocksDao().createLock(uuid, pendingKey, namespace);
         while(!isCodeValid(nextCode, uniqueCourseCode, namespace)){
-            aoCodes.add(new String(nextCode));
+            aoCodes.add(nextCode);
             nextCode = calculateNextCode(aoCodes);
         }
 
@@ -76,7 +79,7 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
     public String generateCourseOfferingInternalCode(List<CourseOfferingInfo> existingCourseOfferings) {
 
         String courseOfferingCode = "";
-        String nextCode = "";
+        String nextCode;
         List<String> coCodes = new ArrayList<String>();
 
         //If this is the first code, send back "A"
@@ -101,7 +104,7 @@ public class CourseOfferingCodeGeneratorDBImpl implements CourseOfferingCodeGene
         nextCode = calculateNextCode(internalCodes);
 
         if ( courseOfferingCode != null && !courseOfferingCode.equals("") &&
-                nextCode != null && !nextCode.equals("") && namespace != null && !namespace.equals("") ) {
+                nextCode != null && !nextCode.equals("") ) {
             while(!isCodeValid(nextCode, courseOfferingCode, namespace)){
                 coCodes.add(new String(nextCode));
                 nextCode = calculateNextCode(coCodes);

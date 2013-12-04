@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides conversion methods for OfferingInstructors and LprInfos
  *
  * @author Kuali Student Team
  */
@@ -89,7 +89,8 @@ public class OfferingInstructorTransformer {
             // Should be only one person found by person id
             List<Person> personList = getInstructorByPersonId(instructor.getPersonId());
             if(personList != null && !personList.isEmpty()){
-                instructor.setPersonName(personList.get(0).getName());
+                int firstPerson = 0;
+                instructor.setPersonName(personList.get(firstPerson).getName());
             }
 
             results.add(instructor);
@@ -155,6 +156,7 @@ public class OfferingInstructorTransformer {
 
         //iterate the lpr list and transform them one by one into OfferingInstructorInfo
         //no service calls are made inside this loop
+        int firstLprInfo = 0;
         for(LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
@@ -166,7 +168,7 @@ public class OfferingInstructorTransformer {
             instructor.setStateKey(lpr.getStateKey());
 
             //retrieve the person name from lpr2PersonMap
-            instructor.setPersonName(lpr2PersonMap.get(lpr.getPersonId()).get(0).getName());
+            instructor.setPersonName(lpr2PersonMap.get(lpr.getPersonId()).get(firstLprInfo).getName());
 
             results.add(instructor);
         }

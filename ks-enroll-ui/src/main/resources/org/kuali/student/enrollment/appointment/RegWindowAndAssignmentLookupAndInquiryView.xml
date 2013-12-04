@@ -19,7 +19,6 @@
      limitations under the License.
     -->
     <import resource="classpath:ks-AppointmentWindowInfo-dictionary.xml"/>
-    <import resource="classpath:UifKSDefinitions.xml"/>
 
     <bean id="AppointmentWindowWrapper" parent="AppointmentWindowWrapper-parentBean"/>
     <bean id="AppointmentWindowWrapper-parentBean" abstract="true" parent="DataObjectEntry" 

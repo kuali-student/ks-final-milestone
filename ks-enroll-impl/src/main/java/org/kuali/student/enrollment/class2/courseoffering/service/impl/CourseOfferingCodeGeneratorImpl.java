@@ -18,16 +18,16 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingCodeGenerator;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a default implementation of CourseOfferingCodeGenerator
  *
  * @author Kuali Student Team
  */
@@ -35,7 +35,9 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
 
 
     @Override
-    public String generateActivityOfferingCode(String courseOfferingCode, List<ActivityOfferingInfo> existingActivityOfferings) {
+    public String generateActivityOfferingCode(Map<String, Object> generationProperties) {
+
+        List<String> existingActivityOfferings = (List<String>)generationProperties.get(CourseOfferingCodeGenerator.ACTIVITY_OFFERING_CODE_LIST_KEY);
 
         // If this is the first code, send back "A"
         if (existingActivityOfferings == null || existingActivityOfferings.isEmpty()) {
@@ -43,8 +45,8 @@ public class CourseOfferingCodeGeneratorImpl implements CourseOfferingCodeGenera
         }
 
         List<String> aoCodes = new ArrayList<String>();
-        for (ActivityOfferingInfo aoInfo : existingActivityOfferings) {
-            aoCodes.add(aoInfo.getActivityCode());
+        for (String aoCode : existingActivityOfferings) {
+            aoCodes.add(aoCode);
         }
 
         return calculateNextCode(aoCodes);

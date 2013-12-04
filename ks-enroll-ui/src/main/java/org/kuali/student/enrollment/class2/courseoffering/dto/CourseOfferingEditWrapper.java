@@ -30,11 +30,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/* TODO : see https://jira.kuali.org/browse/KSENROLL-5931
- */
-
 /**
- * This class //TODO ...
+ * This class provides a wrapper for CourseOffering data for the Course Offering Edit ui
  *
  * @author Kuali Student Team
  */
@@ -71,6 +68,8 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     private boolean createCO;
 
     private RenderHelper renderHelper;
+
+    protected String viewId;
 
     //this field is used for CO inquiry page to display all associated AOs
     private List<ActivityOfferingWrapper> aoWrapperList;
@@ -278,9 +277,9 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     public Map<String,String> getAdminOrg(){
         Map<String,String> adminOrgMap = new HashMap<String,String>();
         if (organizationNames != null && !organizationNames.isEmpty()){
-            String orgIDs = "";
+            StringBuilder orgIDs = new StringBuilder("");
             for (OrganizationInfoWrapper organizationName : organizationNames) {
-                orgIDs = orgIDs + organizationName.getId() + ",";
+                orgIDs.append(organizationName.getId()).append(",");
             }
             if (orgIDs.length() > 0) {
                 adminOrgMap.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length()-1));
@@ -308,7 +307,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     public void setCreateCO(boolean createCO) {
         this.createCO = createCO;
     }
-
     /**
      * This is a suffix stripped out version of the Cross List codes from Course Offering DTO. This is needed to display
      * the cross list codes at edit co screen so that users can check/uncheck the cross lists
@@ -341,12 +339,13 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
      */
     @SuppressWarnings("unused")
     public String getAlternateCOCodesUIList(){
-        StringBuffer buffer = new StringBuffer();
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
         for (String crosslistingCode : alternateCourseCodesSuffixStripped){
-            buffer.append(crosslistingCode + ", ");
+            sb.append(crosslistingCode + ", ");
         }
 
-        return StringUtils.removeEnd(buffer.toString(), ", ");
+        return StringUtils.removeEnd(sb.toString(), ", ");
     }
 
     public RenderHelper getRenderHelper() {
@@ -413,6 +412,14 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
 
     public void setAoWrapperList(List<ActivityOfferingWrapper> aoWrapperList) {
         this.aoWrapperList = aoWrapperList;
+    }
+
+    public String getViewId() {
+        return viewId;
+    }
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
     }
 }
 

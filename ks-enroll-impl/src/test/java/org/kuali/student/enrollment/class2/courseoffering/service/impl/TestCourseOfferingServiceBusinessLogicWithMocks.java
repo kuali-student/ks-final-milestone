@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -154,6 +155,7 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
                                                   sourceCo.getTypeKey(), sourceCo,
                                                   new ArrayList<String>(),  // the "option-keys"
                                                   callContext);
+        sourceCo.setHasWaitlist(true);
 
         return sourceCo;
     }
@@ -204,21 +206,17 @@ public class TestCourseOfferingServiceBusinessLogicWithMocks {
 
     private String performRollover_withADLs( CourseOfferingInfo sourceCo, TermInfo targetTerm ) throws Exception {
 
-
-        SocRolloverResultItemInfo item = coService.rolloverCourseOffering( sourceCo.getId(),
-                                                                           targetTerm.getId(),
-                                                                           new ArrayList<String>(),     // "option-keys"
-                                                                           callContext);
+        List<String> optionKeys = new ArrayList<String>();
+        optionKeys.add(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY);
+        SocRolloverResultItemInfo item = coService.rolloverCourseOffering(sourceCo.getId(), targetTerm.getId(), optionKeys, callContext);
 
         return item.getTargetCourseOfferingId();
     }
 
     private String performRollover_withoutADLs( CourseOfferingInfo sourceCo, TermInfo targetTerm ) throws Exception {
-
-        SocRolloverResultItemInfo item = coService.rolloverCourseOffering( sourceCo.getId(),
-                                                                           targetTerm.getId(),
-                                                                           new ArrayList<String>(),     // the "option-keys"
-                                                                           callContext );
+        List<String> optionKeys = new ArrayList<String>();
+        optionKeys.add(CourseOfferingSetServiceConstants.CONTINUE_WITHOUT_EXAM_OFFERINGS_OPTION_KEY);
+        SocRolloverResultItemInfo item = coService.rolloverCourseOffering( sourceCo.getId(),targetTerm.getId(),optionKeys,callContext );
 
         return item.getTargetCourseOfferingId();
     }

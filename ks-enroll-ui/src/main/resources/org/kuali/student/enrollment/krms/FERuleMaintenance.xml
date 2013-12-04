@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="FERuleWrapperMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+        <property name="maintainableClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleEditorMaintainableImpl"/>
+        <property name="documentTypeName" value="FERuleMaintenanceDocument"/>
+        <property name="businessRulesClass" value="org.kuali.rice.krms.util.RuleEditorBusRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>refObjectId</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="FERuleManagementWrapper" parent="EnrolRuleManagementWrapper">
+        <property name="dataObjectClass" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+    </bean>
+
+    <bean id="KSFE-AgendaManagement-View" parent="KS-Uif-MaintenanceView">
+        <property name="viewName" value="FEAgendaManagementView"/>
+        <property name="dataObjectClassName"
+                  value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl"/>
+        <property name="headerText" value="Final Exam Matrix"/>
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="KSFE-AgendaMaintenance-Page" parent="KSFE-AgendaMaintenance-Page-parent"/>
+                <bean id="KSFE-RuleMaintenance-Page" parent="KSFE-RuleMaintenance-Page-Parent"/>
+            </list>
+        </property>
+        <property name="dialogs">
+            <list>
+                <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Final Exam Matrix"/>
+                    <property name="url.viewId" value="finalExamMatrixManagementView"/>
+                    <property name="url.controllerMapping" value="finalExamMatrixManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="start"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="pageId" value="finalExamSearchInputPage"/>
+                            <entry key="viewName" value="Manage Final Exam Matrix"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="formKey" value="@{returnFormKey}"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{#dp.type.name}"/>
+                </bean>
+            </list>
+        </property>
+
+        <property name="singlePageView" value="false"/>
+        <property name="entryPageId" value="KSFE-AgendaMaintenance-Page"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>themes/ksboot/scripts/ruleMaintenance.js</value>
+                <value>krms/scripts/requiredAlerts.js</value>
+                <value>krms/scripts/countdownInputs.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>themes/ksboot/stylesheets/krms.css</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KSFE-AgendaMaintenance-Page-parent" parent="KRMS-AgendaMaintenance-Page-Parent">
+        <property name="headerText" value="Term Type: @{#dp.type.name}"/>
+        <property name="items">
+            <list>
+                <bean name="KSFE-FinalExamMatrix-SameAsTermType" parent="Uif-VerticalBoxSection" p:render="@{#dp.matrixEmpty or #dp.termToUse ne 'na'}">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="Use the same Matrix as:"/>
+                            <bean parent="Uif-HorizontalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="termToUse" p:label="Term Type" p:labelPlacement="LEFT" p:readOnly="false"
+                                              p:onChangeScript="retrieveComponent('KSFE-AgendaManage-Section', 'loadTermType');">
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class1.krms.keyvalue.ExistingMatrixKeyValueFinder" p:addBlankOption="false"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="KSFE-AgendaManage-Section" parent="KRMS-AgendaManage-Section" class="org.kuali.student.enrollment.class1.krms.util.FinalExamAgendaSection"
+                      p:style="margin-top:-25px" p:forceSessionPersistence="true">
+                    <property name="agendaPrototypeMap">
+                        <map>
+                            <entry key="kuali.krms.agenda.type.final.exam.standard" value-ref="KSFE-RuleTable-Standard" />
+                            <entry key="kuali.krms.agenda.type.final.exam.common" value-ref="KSFE-RuleTable-Common" />
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <ref bean="KSFE-DocumentPageFooter-SubmitCancel"/>
+        </property>
+    </bean>
+
+    <bean id="KSFE-DocumentPageFooter-SubmitCancel" parent="KSFE-DocumentPageFooter-SubmitCancel-parent"/>
+    <bean id="KSFE-DocumentPageFooter-SubmitCancel-parent" parent="Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
+                      p:actionLabel="Submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+                      p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-RuleTable-Parent" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="true"
+          p:readOnly="@{#dp.termToUse ne 'na'}" p:width="75%" p:style="padding-top:25px" >
+        <property name="id" value="ruledefinitions"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.rice.krms.dto.RuleEditor"/>
+        <property name="propertyName" value="rules"/>
+        <property name="headerText" value=""/>
+        <property name="header">
+            <bean parent="Uif-SectionHeader">
+                <property name="rightGroup">
+                    <bean parent="Uif-ActionsGroup" p:render="@{#dp.termToUse eq 'na'}">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'69%'},
+                                {'bSortable':false, 'sWidth':'9%'},
+                                {'bSortable':false, 'sType':'time-sort', 'sWidth':'12%'}
+                            ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="If course meets:" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
+                <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                <bean parent="Uif-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KSFE-RuleTable" parent="KSFE-RuleTable-Parent"/>
+
+    <bean id="KSFE-RuleTable-Standard" parent="KSFE-RuleTable-Parent">
+        <property name="header">
+            <bean parent="Uif-SectionHeader">
+                <property name="rightGroup">
+                    <bean parent="Uif-ActionsGroup" p:render="@{#dp.termToUse eq 'na'}">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-NavigationActionLink" p:methodToCall="addRule" p:actionLabel="Add" p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+                <property name="lowerGroup">
+                    <bean parent="Uif-HorizontalBoxGroup" >
+                        <property name="items">
+                            <list>
+                                <ref bean="KSFE_location"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="If course meets:" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
+                <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-RuleTable-Common" parent="KSFE-RuleTable-Parent">
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'49%'},
+                                {'bSortable':false, 'sWidth':'9%'},
+                                {'bSortable':false, 'sType':'time-sort', 'sWidth':'12%'},
+                                {'bSortable':false, 'sWidth':'15%'},
+                                {'bSortable':false, 'sWidth':'5%'}
+                            ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="If course is:" p:propertyName="description"/>
+                <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
+                <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
+                <bean parent="Uif-DataField" p:label="Facility:" p:propertyName="building.name"/>
+                <bean parent="Uif-DataField" p:label="Room:" p:propertyName="room.roomCode"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KSFE-RuleMaintenance-Page-Parent" parent="KRMS-RuleMaintenance-Page-Parent">
+        <property name="headerText"
+                  value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.type.name} Matrix Rule"/>
+        <property name="items">
+            <list>
+                <ref bean="KSFE-Rules-ManageSection"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean id="KSFE-UpdateRule-Button" parent="KS-Uif-PrimaryActionButton"
+                              p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Update Rule"/>
+                            <property name="methodToCall" value="updateRule"/>
+                        </bean>
+                        <bean id="KSFE-CancelRule-Button" parent="KS-Uif-ActionLink"
+                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="methodToCall" value="cancelEditRule"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KSFE-Rules-ManageSection" parent="KRMS-Rules-ManageSection">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-EditWithObject-EditSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KSFE-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent">
+        <property name="items">
+            <list>
+                <bean parent="KSFE-EditWithObject-EditGroup"/>
+                <bean parent="KSFE-FinalExam-DeliveryLogistic-New-Group"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithObject-EditGroup" parent="KRMS-EditWithObject-EditGroup">
+        <property name="headerText" value="Proposition Tree"/>
+        <property name="items">
+            <list>
+                <ref bean="KSFE-EditRule-ToolbarSection"/>
+                <ref bean="KRMS-RuleEditor-TreeExpandCollapse"/>
+                <ref bean="KRMS-RuleEditor-TreeGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditRule-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+        <property name="items">
+            <list>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-RuleEditorView-AddButton"/>
+                            <bean parent="KRMS-RuleEditorView-EditButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-RuleEditorView-UpButton"/>
+                            <bean parent="KRMS-RuleEditorView-DownButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+                <bean parent="KS-HorizontalBoxGroup-WithRPadding">
+                    <property name="items">
+                        <list>
+                            <bean parent="KRMS-RuleEditorView-CopyButton" p:hidden="true"/>
+                            <bean parent="KRMS-RuleEditorView-CutButton" p:hidden="true"/>
+                            <bean parent="KRMS-RuleEditorView-PasteButton" p:hidden="true"/>
+                            <bean parent="KRMS-RuleEditorView-DeleteButton"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-EditWithLogic-EditGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithLogic-EditGroup" parent="KRMS-EditWithLogic-EditGroup">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-EditWithLogic-TreeGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-EditWithLogic-TreeGroup" parent="KRMS-EditWithLogic-TreeGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-LogicArea-InputField"/>
+                <ref bean="KRMS-LogicPreview-Button"/>
+                <ref bean="KSFE-LogicPreview-Tree"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-LogicPreview-Tree" parent="KRMS-LogicPreview-Tree">
+        <property name="items">
+            <list>
+                <ref bean="KSFE-PreviewTree-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-PreviewTree-Section" parent="KRMS-PreviewTree-Section">
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <ref bean="KSFE-PreviewPrototype-BoxGroup"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KSFE-PreviewPrototype-BoxGroup" parent="KRMS-PreviewPrototype-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-PrototypeHeader-BoxGroup"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="FinalExam-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="padding-top:4px; padding-left:4px; padding-bottom:4px; border: 1px solid black;">
+        <property name="items">
+            <list>
+                <ref bean="FinalExam-DeliveryLogistic-New-Section"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-FinalExam-ExamDaysDropdown" parent="Uif-DropdownControl" p:cssClasses="new_rdl_components" >
+        <property name="options">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="1" p:value="Day 1" />
+                <bean parent="Uif-KeyLabelPair" p:key="2" p:value="Day 2" />
+                <bean parent="Uif-KeyLabelPair" p:key="3" p:value="Day 3" />
+                <bean parent="Uif-KeyLabelPair" p:key="4" p:value="Day 4" />
+                <bean parent="Uif-KeyLabelPair" p:key="5" p:value="Day 5" />
+                <bean parent="Uif-KeyLabelPair" p:key="6" p:value="Day 6" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="FinalExam-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="FinalExam_tba" parent="Uif-InputField-LabelRight" p:propertyName="ruleEditor.tba" p:label="TBA" p:style="margin-top:15px">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+                <bean id="FinalExam_days" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="ruleEditor.day">
+                    <property name="control">
+                        <ref bean="KSFE-FinalExam-ExamDaysDropdown"/>
+                    </property>
+                </bean>
+                <bean id="FinalExam-DeliveryLogistic-Time-Section-place-holder"
+                      parent="Uif-Disclosure-HorizontalBoxSubSection"
+                      p:header.render="false" p:style="margin-top:0px">
+                    <property name="items">
+                        <list>
+                            <bean id="FinalExam-DeliveryLogistic-Time-Section"
+                                  parent="Uif-Disclosure-HorizontalBoxSubSection" p:header.render="false"
+                                  p:progressiveRender="@{#dp.ruleEditor.tba eq false}">
+                                <property name="items">
+                                    <list>
+                                        <bean id="FinalExam_starttime" parent="Uif-InputField-LabelTop"
+                                              p:label="Start Time" p:propertyName="ruleEditor.startTime">
+                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <property name="constraintText" value="HH:MM"/>
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="5"
+                                                      p:cssClasses="new_rdl_components"/>
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="TimePatternConstraint"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="FinalExam_starttime_ampm" parent="Uif-InputField-LabelTop"
+                                              p:label="&lt;br&gt;" p:propertyName="ruleEditor.startTimeAMPM">
+                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"
+                                                      p:cssClasses="new_rdl_components"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="FinalExam_endtime" parent="Uif-InputField-LabelTop" p:label="End Time"
+                                              p:propertyName="ruleEditor.endTime">
+                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <property name="constraintText" value="HH:MM"/>
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="5"
+                                                      p:cssClasses="new_rdl_components"/>
+                                            </property>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="TimePatternConstraint"/>
+                                            </property>
+                                        </bean>
+                                        <bean id="FinalExam_endtime_ampm" parent="Uif-InputField-LabelTop"
+                                              p:label="&lt;br&gt;" p:propertyName="ruleEditor.endTimeAMPM">
+                                            <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                            <property name="control">
+                                                <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options"
+                                                      p:cssClasses="new_rdl_components"/>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean id="FinalExam_building" parent="Uif-InputField-LabelTop" p:label="Facility"
+                      p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
+                      p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
+                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="id" value="ruleEditor.building.id"/>
+                                    <entry key="buildingCode" value="ruleEditor.building.buildingCode"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="FinalExam_room" parent="Uif-InputField-LabelTop" p:label="Room"
+                      p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
+                      p:propertyName="ruleEditor.room.roomCode">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
+                    </property>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.RoomInfo"/>
+                            <property name="autoSearch" value="true"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="id" value="ruleEditor.room.id"/>
+                                    <entry key="roomCode" value="ruleEditor.room.roomCode"/>
+                                </map>
+                            </property>
+                            <property name="lookupParameters">
+                                <map>
+                                    <entry key="ruleEditor.building.buildingCode" value="buildingCode"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="dependencyConstraints">
+                        <list>
+                            <bean parent="PrerequisiteConstraint" p:propertyName="ruleEditor.building.buildingCode"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KSFE-FinalExam-DeliveryLogistic-New-Group" parent="Uif-VerticalBoxSection" p:header.render="true">
+        <property name="headerText" value="Requested Exam Offering Delivery Logistic to be Created"/>
+        <property name="header">
+            <bean parent="Uif-HeaderFour"/>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="FinalExam-DeliveryLogistic-New"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE-FinalExam-DeliveryLogistic-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KSFE_days"/>
+                            <ref bean="KSFE_starttime"/>
+                            <ref bean="KSFE_starttime_ampm"/>
+                            <ref bean="KSFE_endtime"/>
+                            <ref bean="KSFE_endtime_ampm"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSFE_days-Parent" parent="Uif-InputField-LabelTop" p:label="Days" p:propertyName="proposition.weekdays"
+          p:uppercaseValue="true">
+        <property name="constraintText" value="MTWHFSU"/>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu"
+                  p:messageKey="validation.enroll.ao.scheduleValidChars"/>
+        </property>
+    </bean>
+    <bean id="KSFE_days" parent="KSFE_days-Parent"/>
+
+    <bean id="KSFE_starttime-Parent" parent="Uif-InputField-LabelTop" p:label="Start Time"
+          p:propertyName="proposition.startTime">
+        <property name="constraintText" value="HH:MM"/>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="TimePatternConstraint"/>
+        </property>
+    </bean>
+    <bean id="KSFE_starttime" parent="KSFE_starttime-Parent"/>
+
+    <bean id="KSFE_starttime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
+          p:propertyName="proposition.startTimeAMPM">
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
+        </property>
+    </bean>
+    <bean id="KSFE_starttime_ampm" parent="KSFE_starttime_ampm-Parent"/>
+
+    <bean id="KSFE_endtime-Parent" parent="Uif-InputField-LabelTop" p:label="End Time"
+          p:propertyName="proposition.endTime">
+        <property name="constraintText" value="HH:MM"/>
+        <property name="control">
+            <bean parent="Uif-TextControl" p:size="5" p:cssClasses="new_rdl_components"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="TimePatternConstraint"/>
+        </property>
+    </bean>
+    <bean id="KSFE_endtime" parent="KSFE_endtime-Parent"/>
+
+    <bean id="KSFE_endtime_ampm-Parent" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;"
+          p:propertyName="proposition.endTimeAMPM">
+        <property name="control">
+            <bean parent="Uif-DropdownControl" p:options-ref="AmPm-Options" p:cssClasses="new_rdl_components"/>
+        </property>
+    </bean>
+    <bean id="KSFE_endtime_ampm" parent="KSFE_endtime_ampm-Parent"/>
+
+
+    <bean id="KSFE-starttime_ampm-Section-Parent" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KSFE_starttime"/>
+                <ref bean="KSFE_starttime_ampm"/>
+
+            </list>
+        </property>
+    </bean>
+    <bean id="KSFE-starttime_ampm-Section" parent="KSFE-starttime_ampm-Section-Parent"/>
+
+    <bean id="KSFE-endtime_ampm-Section-Parent" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KSFE_endtime"/>
+                <ref bean="KSFE_endtime_ampm"/>
+
+            </list>
+        </property>
+    </bean>
+    <bean id="KSFE-endtime_ampm-Section" parent="KSFE-endtime_ampm-Section-Parent"/>
+
+    <bean id="KSFE_location-Parent" parent="Uif-InputField" p:label="Standard Final Exam location determined by Activity Offering location" p:propertyName="location" p:labelPlacement="LEFT"
+          p:uppercaseValue="false">
+            <property name="control">
+                <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+            </property>
+    </bean>
+    <bean id="KSFE_location" parent="KSFE_location-Parent"/>
+</beans>

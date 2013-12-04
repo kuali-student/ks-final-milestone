@@ -14,7 +14,6 @@ import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.statement.service.StatementService;
 import org.kuali.student.r2.core.statement.util.PropositionBuilder;
 import org.kuali.student.r2.core.statement.util.RulesEvaluationUtil;
-
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
@@ -52,7 +51,6 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
@@ -92,6 +90,18 @@ public class CourseRegistrationServiceImpl
     public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
         this.courseOfferingService = courseOfferingService;
     }
+
+	@Override
+	public StatusInfo changeRegistrationRequestState(
+			String registrationRequestId, String nextStateKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO KSENROLL-8712
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
+    
 //
 //    
 //    public StatementService getStatementService() {

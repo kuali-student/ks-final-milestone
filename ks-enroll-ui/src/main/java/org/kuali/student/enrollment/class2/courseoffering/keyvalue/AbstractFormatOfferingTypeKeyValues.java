@@ -56,8 +56,9 @@ public abstract class AbstractFormatOfferingTypeKeyValues extends UifKeyValuesFi
 
                         //Bonnie: this is only a temporary walk-around solution.
                         //Still need to address the issue that FormatInfo does not include name and short name
+                        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
                         List<ActivityInfo> activityInfos = format.getActivities();
-                        StringBuffer st = new StringBuffer();
+                        StringBuilder st = new StringBuilder();
                         for (ActivityInfo activityInfo : activityInfos) {
                             TypeInfo activityType = getTypeService().getType(activityInfo.getTypeKey(), contextInfo);
                             st.append(activityType.getName()+"/");

@@ -62,7 +62,8 @@ public class AORuleViewCoCluTreeBuilder extends KSRuleCompareTreeBuilder {
         }
 
         Node<CompareTreeNode, String> newNode = new Node<CompareTreeNode, String>();
-        CompareTreeNode tNode = new CompareTreeNode(this.getDescription(firstElement), this.getDescription(secondElement), null, null, null);
+        CompareTreeNode tNode = new CompareTreeNode(this.getNodeWidth(currentNode), this.getDescription(firstElement),
+                this.getDescription(secondElement), null, null, null);
         tNode.setFirstElementItems(this.getListItems(firstElement));
         tNode.setSecondElementItems(this.getListItems(secondElement));
         newNode.setNodeType(KRMSConstants.NODE_TYPE_SUBRULEELEMENT);
@@ -76,7 +77,7 @@ public class AORuleViewCoCluTreeBuilder extends KSRuleCompareTreeBuilder {
     @Override
     protected void addOperatorTreeNode(Node<CompareTreeNode, String> newNode, String firstElement, String secondElement) {
         Node<CompareTreeNode, String> opNode = new Node<CompareTreeNode, String>();
-        opNode.setData(new CompareTreeNode(firstElement, secondElement, null, null, null));
+        opNode.setData(new CompareTreeNode(this.getNodeWidth(newNode), firstElement, secondElement, null, null, null));
         newNode.getChildren().add(opNode);
     }
 

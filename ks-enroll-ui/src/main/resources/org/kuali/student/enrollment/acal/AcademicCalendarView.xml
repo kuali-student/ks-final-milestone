@@ -62,13 +62,7 @@ limitations under the License.
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/calendar.css</value>
-                <value>ks-enroll/css/acal.css</value>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
+                <value>themes/ksboot/stylesheets/calendar.css</value>
             </list>
         </property>
 
@@ -106,8 +100,8 @@ limitations under the License.
                             <bean parent="Uif-VerticalBoxGroup">
                                 <property name="items">
                                     <list>
-                                        <bean parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
-                                        <bean parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
+                                        <bean id="ACAL-Official-Lozenge" parent="KS-Lozenge-Green-Uif-Message" p:messageText="Official" p:render="@{officialUI}"/>
+                                        <bean id="ACAL-Draft-Lozenge" parent="KS-Lozenge-Grey-Uif-Message" p:messageText="Draft" p:render="@{!officialUI}"/>
                                     </list>
                                 </property>
                             </bean>

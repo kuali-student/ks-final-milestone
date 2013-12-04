@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+        The Manage Time Slot FormView.
+    -->
+    <bean id="TimeSlot-View" parent="KS-Uif-FormView"
+        p:id="timeSlotView"
+        p:entryPageId="timeSlotPage"
+        p:applyDirtyCheck="false"
+        p:viewHelperServiceClass="org.kuali.student.enrollment.class1.timeslot.service.impl.TimeSlotViewHelperServiceImpl"
+        p:formClass="org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm" >
+
+        <property name="headerText" value="Time Slots" />
+        <property name="header.cssClasses">
+          <list merge="true">
+              <value>uif-viewHeader</value>
+          </list>
+        </property>
+
+        <!-- Shows up in HTML so devs can find the code -->
+        <property name="viewSourceFile" value="TimeSlotView.xml" />
+
+        <property name="authorizer">
+          <bean class="org.kuali.rice.krad.uif.view.ViewAuthorizerBase"/>
+        </property>
+
+        <property name="footer">
+          <bean parent="Uif-FooterBase"/>
+        </property>
+
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>themes/ksboot/scripts/toolbar.js</value>
+                <value>themes/ksboot/scripts/timeslot.js</value>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="TimeSlot-Page" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TimeSlot-Page" parent="KS-Uif-Page" p:disclosure.render="false" p:id="timeSlotPage">
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="TimeSlotTypeSelect-Section" />
+                            <ref bean="TimeSlotToolBar-Section" />
+                            <ref bean="TimeSlotSearchResults-Section"  />
+                            <ref bean="KS-TimeSlot-AddTimeSlotPopupForm"/>
+                            <ref bean="KS-TimeSlot-EditTimeSlotPopupForm"/>
+                            <ref bean="deleteTimeSlotsConfirmationDialog-lightbox"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TimeSlotTypeSelect-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <!-- The multi-select for time slot types -->
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="timeSlotTypeSelection" parent="Uif-InputField" p:propertyName="termTypeSelections"  p:width="auto"
+                                  p:label="Select Term Type(s) To Edit" p:labelPlacement="TOP">
+                                <property name="control">
+                                    <bean parent="Uif-MultiSelectControl" p:size="3" p:style="width:17em;"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.TimeSlotTypeOptionsFinder" p:addBlankOption="false"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-Message" p:messageText="Use 'ctrl' or 'shift' to select multiple" />
+                        </list>
+                    </property>
+                </bean>
+                <!--The submit button -->
+                <bean parent="Uif-PrimaryActionButton"
+                    p:performClientSideValidation="false" p:actionLabel="Show Time Slots" p:methodToCall="show" p:style="margin-top:20px;" p:successCallback="setupTimeSlotTypeDropdown();"/>
+
+                <!-- REMOVE ME: This is for a PoC for "intelligent" time entry
+                <bean id="daysPatternTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Days" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="edit_ts_control">
+                            <property name="onKeyPressScript">
+                                <value>jQuery("#startTimeTextField_control").val(""); jQuery("#endTimeTextField_control").val("");</value>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="uppercaseValue" value="true"/>
+                    <property name="constraintText" value="MTWHFSU"/>
+                    <property name="validCharactersConstraint">
+                        <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
+                    </property>
+                </bean>
+                <bean id="startTimeTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Start Time" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="8"  p:maxLength="8" p:cssClasses="validTimeAMPMPattern">
+                           <property name="onBlurScript">
+                               <value>parseAndReplaceTimeClause(jQuery(this), jQuery("#endTimeTextField_control"), jQuery("#daysPatternTextField_control"), "tsType");</value>
+                           </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="endTimeTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC End Time" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="8"  p:maxLength="8" p:cssClasses="validTimeAMPMPattern"/>
+                    </property>
+                </bean>
+                 -->
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TimeSlotToolBar-Section" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
+                    <property name="items">
+                        <list>
+                            <bean id="TimeSlot-ToolBar-Add-TimeSlot" parent="TimeSlot-ToolBar-Add-Button-parent" p:disabled="@{!enableAddButton}" />
+                            <bean id="TimeSlot-ToolBar-Delete-TimeSlot" parent="TimeSlot-ToolBar-Delete-Button-parent" p:methodToCall="deleteTimeSlots"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TimeSlotSearchResults-Section" parent="Uif-VerticalBoxSection" >
+        <property name="items">
+            <list>
+               <bean parent="Uif-Message" p:messageText="Time Slots For: @{typeNamesUI}" p:style="font-weight:bold;" p:render="@{timeSlotsLoaded == true}"/>
+               <ref bean="TimeSlotSearchResults-TableCollectionSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
+        p:onDocumentReadyScript="removeCheckboxColumns(1, 'TimeSlotSearchResultsDisplayTable',&quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');"
+            p:style="width:800px;">
+
+        <property name="id" value="TimeSlotSearchResultsDisplayTable" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper" />
+        <property name="propertyName" value="timeSlotResults" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+        <property name="layoutManager.richTable.emptyTableMessage" value="[No Term Types Have Been Selected]"/>
+        <property name="layoutManager.richTable.render" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="is_checked" parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:hidden="@{!#line.isEnableDeleteButton()}"
+                      p:onChangeScript="handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot']);"
+                      p:cssClasses="fixedCol_1">
+
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl" p:disabled="false"/>
+                    </property>
+                </bean>
+
+                <bean id="timeSlotCode" parent="KS-Uif-DataField-Simple"
+                      p:label="Code"
+                      p:propertyName="timeSlotInfo.name"
+                      p:cssClasses="fixedCol_5"/>
+
+                <bean id="termType" parent="KS-Uif-DataField-Simple"
+                      p:label="Term Type"
+                      p:propertyName="typeName" p:additionalHiddenPropertyNames="typeKey"
+                      p:cssClasses="fixedCol_11"/>
+
+                <bean id="days" parent="KS-Uif-DataField-Simple"
+                      p:label="Days"
+                      p:propertyName="daysDisplayName"
+                      p:cssClasses="fixedCol_8"/>
+
+                <bean id="startTime" parent="KS-Uif-DataField-Simple"
+                      p:label="Start Time"
+                      p:propertyName="startTimeDisplay"
+                      p:cssClasses="fixedCol_7"/>
+
+                <bean id="endTime" parent="KS-Uif-DataField-Simple"
+                      p:label="End Time"
+                      p:propertyName="endTimeDisplay"
+                      p:cssClasses="fixedCol_6"/>
+
+                <bean name="enableDeleteButton" parent="KS-Uif-DataField-Simple"
+                      p:label="enableDeleteButton"
+                      p:propertyName="enableDeleteButton"/>
+            </list>
+        </property>
+        <property name="layoutManager.richTable.hiddenColumns">
+            <set>
+                <value>enableDeleteButton</value>
+            </set>
+        </property>
+
+        <property name="layoutManager.actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup"
+                  p:align="left"
+                  p:required="false"
+                  p:label="Actions"
+                  p:cssClasses="fixedCol_3"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-NavigationActionLink"
+                    p:methodToCall="edit"
+                    p:actionLabel="Edit"
+                    p:actionEvent="editCOonManageCOsPage">
+                    <property name="actionScript" value="showTimeSlotLightBox(e,'EDIT',@{#index});"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--
+        Toolbar buttons
+    -->
+    <bean id="TimeSlot-ToolBar-Add-Button-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="actionLabel" value="Add Time Slot"/>
+        <property name="actionScript" value="showTimeSlotLightBox(e,'ADD');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/add_enabled.png'}"/>
+        </property>
+    </bean>
+
+    <bean id="TimeSlot-ToolBar-Delete-Button-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="actionScript" value="showTimeSlotDeleteConfirmation();"/>
+        <property name="actionLabel" value="Delete"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#parent.disabled ? #ConfigProperties['ks.externalizable.images.url']+'/toolbar/delete_disabled.png' : #ConfigProperties['ks.externalizable.images.url']+'/toolbar/delete_enabled.png'}"/>
+        </property>
+    </bean>
+
+    <bean id="KS-TimeSlot-EditTimeSlotPopupForm" parent="Uif-VerticalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="header.id" value="timeSlotLightBoxHeader"/>
+        <property name="headerText" value="Add Timeslot"/>
+        <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="addOrEditTermKey" parent="Uif-InputField-LabelTop" p:propertyName="editTermKey" p:cssClasses="edit_ts" p:label="Term Type" >
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:cssClasses="edit_ts_control"/>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.SelectedTimeSlotTypesOptionsFinder" p:addBlankOption="false" />
+                                </property>
+                            </bean>
+                            <bean id="addOrEditDays" parent="Uif-InputField-LabelTop"  p:propertyName="editDays" p:cssClasses="edit_ts" p:label="Days" >
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="edit_ts_control"/>
+                                </property>
+                                <property name="uppercaseValue" value="true"/>
+                                <property name="constraintText" value="MTWHFSU"/>
+                                <!--<property name="validCharactersConstraint">
+                                    <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
+                                </property>-->
+                            </bean>
+                            <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="editStartTime" p:cssClasses="edit_ts" p:label="Start Time" >
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="edit_ts_control"/>
+                                </property>
+                                <property name="constraintText" value="HH:MM"/>
+                                <!--<property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>-->
+                            </bean>
+                            <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editStartTimeAmPm" p:cssClasses="edit_ts" >
+                                <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="edit_ts_control"/>
+                                </property>
+                            </bean>
+                            <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="editEndTime" p:label="End Time" p:cssClasses="edit_ts"  >
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="edit_ts_control"/>
+                                </property>
+                                <property name="constraintText" value="HH:MM"/>
+                                <!--<property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>-->
+                            </bean>
+                            <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="editEndTimeAmPm" p:cssClasses="edit_ts" >
+                                <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                                <property name="control">
+                                    <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="edit_ts_control"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="addOrEdit_action" parent="KS-Uif-PrimaryActionButton" p:successCallback="setupTimeSlotTypeDropdown();">
+                                <property name="actionLabel" value="Save"/>
+                                <property name="preSubmitCall" value="resetTSValidSelection(); return validateTimeSlot('edit_ts_control');"/>
+                                <!--<property name="successCallback" value="jQuery('div[id=KS-TimeSlot-EditTimeSlotPopupForm]:gt(0)').detach();"/>
+                                <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-EditTimeSlotPopupForm]:gt(0)').detach();"/>-->
+                                <property name="methodToCall" value="editTimeSlot"/>
+                            </bean>
+                            <bean id="addOrEdit_cancel" parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-TimeSlot-AddTimeSlotPopupForm" parent="Uif-HorizontalBoxSection">
+        <property name="hidden" value="true"/>
+        <property name="style" value="margin-bottom:0;padding-left:10px;padding-right:10px;"/>
+        <property name="items">
+            <list>
+                <bean id="addOrEditTermKey" parent="Uif-InputField-LabelTop" p:propertyName="addTermKey" p:cssClasses="new_ts" p:label="Term Type" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="new_ts_control"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.SelectedTimeSlotTypesOptionsFinder" p:addBlankOption="false" />
+                    </property>
+                </bean>
+                <bean id="addOrEditDays" parent="Uif-InputField-LabelTop"  p:propertyName="addDays" p:cssClasses="new_ts" p:label="Days" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="10"  p:maxLength="7" p:cssClasses="new_ts_control"/>
+                    </property>
+                    <property name="uppercaseValue" value="true"/>
+                    <property name="constraintText" value="MTWHFSU"/>
+                    <!--<property name="validCharactersConstraint">
+                        <bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" />
+                    </property>-->
+                </bean>
+                <bean id="addOrEditStartTime" parent="Uif-InputField-LabelTop"  p:propertyName="addStartTime" p:cssClasses="new_ts" p:label="Start Time" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts_control"/>
+                    </property>
+                    <property name="constraintText" value="HH:MM"/>
+                    <!--<property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>-->
+                </bean>
+                <bean id="addOrEditStartTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addStartTimeAmPm" p:cssClasses="new_ts" >
+                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>
+                    </property>
+                </bean>
+                <bean id="addOrEditEndTime" parent="Uif-InputField-LabelTop"  p:propertyName="addEndTime" p:label="End Time" p:cssClasses="new_ts" >
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_ts_control"/>
+                    </property>
+                    <property name="constraintText" value="HH:MM"/>
+                    <!--<property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>-->
+                </bean>
+                <bean id="addOrEditEndTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="addEndTimeAmPm" p:cssClasses="new_ts" >
+                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>
+                    </property>
+                </bean>
+                <bean id="addOrEdit_action" parent="KS-Uif-PrimaryActionButton" >
+                    <property name="style" value="margin-top:20px;"/>
+                    <property name="actionLabel" value="Add Slot"/>
+                    <property name="preSubmitCall" value="resetTSValidSelection(); return validateTimeSlot('new_ts_control');"/>
+                    <property name="successCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();setupTimeSlotTypeDropdown();"/>
+                    <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-AddTimeSlotPopupForm]:gt(0)').detach();"/>
+                    <property name="methodToCall" value="createTimeSlot"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="deleteTimeSlotsConfirmationDialog-lightbox" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Confirm Delete"/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Selected time slot(s) that have not been used for scheduling will be deleted
+                                                          and no longer available for future scheduling.[br]
+                                                          " p:style="margin-top:10px;margin-bottom-10px;"/>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="timeslot_delete_confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="resetTSValidSelection(); closeLightbox(); return true;"
+                                  p:methodToCall="deleteTimeSlots" p:actionLabel="Delete Time Slots" p:successCallback="setupTimeSlotTypeDropdown();"/>
+                            <bean id="button_close" parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                  p:actionScript="closeLightbox();"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+</beans>

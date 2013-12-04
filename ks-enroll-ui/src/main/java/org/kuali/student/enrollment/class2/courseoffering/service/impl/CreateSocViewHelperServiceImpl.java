@@ -42,7 +42,7 @@ import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides helper logic for the Create Soc ui
  *
  * @author Kuali Student Team
  */
@@ -100,10 +100,11 @@ public class CreateSocViewHelperServiceImpl extends ViewHelperServiceImpl implem
         List<TermInfo> terms = null;
         terms = acalService.searchForTerms(criteria, new ContextInfo());
         TermInfo mainTerm = null;
+        int firstTerm = 0;
         if (terms == null || terms.isEmpty()) {
             throw new InvalidParameterException("Unable to find term for: " + termCode);
         } else {
-            mainTerm = terms.get(0);
+            mainTerm = terms.get(firstTerm);
         }
         return mainTerm;
     }

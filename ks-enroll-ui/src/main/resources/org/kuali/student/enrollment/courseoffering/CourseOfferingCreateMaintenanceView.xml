@@ -53,7 +53,7 @@
         <property name="singlePageView" value="false"/>
         <property name="entryPageId" value="courseOfferingCreatePage"/>
 
-        <property name="headerText" value="Create Course Offering"/>   <!-- This gets updated dynamically by JS via 'viewHeaderUpdater'-div -->
+        <property name="headerText" value="@{document.newMaintainableObject.dataObject.catalogCourseCode ne null ? document.newMaintainableObject.dataObject.catalogCourseCode : 'Create Course Offering'}"/>   <!-- This gets updated dynamically by JS via 'viewHeaderUpdater'-div -->
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -75,7 +75,6 @@
                             <entry key="methodToCall" value="start"/>
                             <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
                             <entry key="hideReturnLink" value="true"/>
-                            <entry key="showMaintenanceLinks" value="true"/>
                             <entry key="viewName" value="Create Course Offering"/>
                         </map>
                     </property>
@@ -91,13 +90,13 @@
         </property>
 
         <property name="header.cssClasses">
-          <list >
-            <value>ks-unified-header</value>
+          <list merge="true">
+            <value>uif-viewHeader</value>
           </list>
         </property>
         <property name="additionalCssFiles">
             <list merge="true">
-                <value>ks-enroll/css/acal.css</value>
+                <value>themes/ksboot/stylesheets/calendar.css</value>
             </list>
         </property>
         <property name="expressionVariables">
@@ -148,7 +147,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true" p:layoutManager.renderSequenceField="false">
+                <bean parent="Uif-TableCollectionSubSection" p:readOnly="true" p:layoutManager.renderSequenceField="false">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
                     <property name="propertyName" value="dialogFormatOfferingWrapperList" />
                     <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -199,7 +198,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Catalog-JointCourse-Section" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" 
+    <bean id="KS-Catalog-JointCourse-Section" parent="Uif-TableCollectionSubSection"
           p:render="@{#dp.showJointOption}" p:renderAddLine="false" p:layoutManager.renderSequenceField="false">
         <property name="headerText" value="Jointly Defined Courses"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper" />
@@ -253,7 +252,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Catalog-ExistingFormatOfferings" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
+    <bean id="KS-Catalog-ExistingFormatOfferings" parent="Uif-TableCollectionSubSection" p:renderAddLine="false"
           p:layoutManager.renderSequenceField="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
         <property name="propertyName" value="formatOfferingWrappers" />
@@ -280,7 +279,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Catalog-CopyFormatOffering" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:renderAddLine="false"
+    <bean id="KS-Catalog-CopyFormatOffering" parent="Uif-TableCollectionSubSection" p:renderAddLine="false"
               p:layoutManager.renderSequenceField="false" p:renderLineActions="false" p:render="@{#dp.showCopyFormatSection}">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper" />
         <property name="propertyName" value="copyFromFormats" />
@@ -309,12 +308,7 @@
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="FORMAT" p:forceSessionPersistence="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
+                        <bean parent="Uif-DropdownControl"  p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                     <property name="optionsFinder">
@@ -325,24 +319,14 @@
                  <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
+                        <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.gradeRosterLevelTypeKey,#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
                       p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
-                            <property name="cssClasses">
-                              <list merge="true">
-                                <value>ignoreValid</value>
-                              </list>
-                            </property>
+                        <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                 </bean>
@@ -352,7 +336,7 @@
     </bean>
 
     <!-- This is used to display a list of existing offerings in the current section. This will be displayed for Copy from Catalog action-->
-    <bean id="KS-Catalog-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:collectionLookup.render="false" p:readOnly="true">
+    <bean id="KS-Catalog-ExistingOfferingsSubSection" parent="Uif-TableCollectionSubSection" p:readOnly="true">
 		<property name="headerText" value="Existing Offerings for @{document.newMaintainableObject.dataObject.term?.name}" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
 		<property name="propertyName" value="existingOfferingsInCurrentTerm" />
@@ -391,7 +375,6 @@
         <property name="id" value="courseOfferingCreatePage"/>
         <property name="headerText" value=""/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
-        <property name="onDocumentReadyScript" value="removeEmptyContextBar('KS-CourseOffering-View-ContextBar-PlaceHolder');"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
@@ -402,12 +385,6 @@
         </property>
         <property name="items">
             <list>
-                <!-- This dynamically updates the view-header -->
-                <bean id="viewHeaderUpdater" parent="Uif-HorizontalBoxSection">
-                    <property name="render" value="@{#showAllSections}" />
-                    <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
-                </bean>
-
                 <ref bean="KS-CourseOffering-CodeTargetSection"/>
                 <ref bean="KS-CourseOffering-CreateChoiceSection"/>
             </list>
@@ -419,7 +396,7 @@
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="continueFromCreate_btn" p:methodToCall="continueFromCreate" p:actionLabel="Continue" p:render="@{!#view.readOnly}"
                                           p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
                                     <bean parent="KS-Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"/>
                                 </list>
@@ -452,19 +429,30 @@
                             <property name="evaluateDisabledOnKeyUp" value="true"/>
                         </bean>
                     </property>
-                    <!-- KSENROLL-8303 took this out until it is working better (Add back in for KSENROLL-8289)-->
-                    <!--<property name="quickfinder.fieldConversions">-->
-                        <!--<map>-->
-                            <!--<entry key="code" value="catalogCourseCode"/>-->
-                        <!--</map>-->
-                    <!--</property>-->
-                    <!--<property name="quickfinder.quickfinderAction">-->
-                        <!--<bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup" p:disabled="@{#dp.targetTermCode eq null}"-->
-                              <!--p:evaluateDisabledOnKeyUp="true" />-->
-                    <!--</property>-->
-                    <!--<property name="quickfinder.lightBoxLookup">-->
-                        <!--<bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>-->
-                    <!--</property>-->
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                            <property name="viewName" value="CourseInfoByTermLookupView"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="code" value="catalogCourseCode"/>
+                                </map>
+                            </property>
+                            <property name="lookupParameters">
+                                <map>
+                                    <entry key="targetTermCode" value="termId"/>
+                                    <entry key="catalogCourseCode" value="code"/>
+                                </map>
+                            </property>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Find a Course" p:style="display:block" p:methodToCall="performLookup" p:disabled="@{#dp.targetTermCode eq null}"
+                                      p:evaluateDisabledOnKeyUp="true" />
+                            </property>
+                            <property name="lightBoxLookup">
+                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            </property>
+                        </bean>
+                    </property>
                     <property name="suggest">
                         <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="catalogCourseCode">
                             <property name="returnFullQueryObject" value="true"/>
@@ -508,57 +496,29 @@
 
     <bean id="KS-CourseOffering-CopyPage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}">
         <property name="id" value="courseOfferingCopyPage"/>
+         <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+        <property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" />
         <property name="headerText" value="Copy Course Offering"/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
-        <property name="onDocumentReadyScript" value="resetHeaderPosition('KS-CourseOffering-View-ContextBar-PlaceHolder');"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
-        </property>
-        <property name="breadcrumbOptions.breadcrumbOverrides">
-            <list>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Create Course Offering"/>
-                    <property name="url.viewId" value="createCourseOfferingPage"/>
-                    <property name="url.controllerMapping" value="courseOfferingCreate"/>
-                    <property name="url.requestParameters">
-                        <map key-type="java.lang.String" merge="true">
-                            <entry key="methodToCall" value="start"/>
-                            <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper"/>
-                            <entry key="hideReturnLink" value="true"/>
-                            <entry key="showMaintenanceLinks" value="true"/>
-                            <entry key="viewName" value="Create Course Offering"/>
-                        </map>
-                    </property>
-                </bean>
-                <bean parent="Uif-BreadcrumbItem">
-                    <property name="label" value="Create @{document.newMaintainableObject.dataObject.catalogCourseCode}"/>
-                </bean>
-            </list>
         </property>
 
         <property name="items">
             <list>
+                 <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
                 <ref bean="KS-CourseOffering-ContextBar"/>
                 <ref bean="KS-CreateFromExistingOffering"/>
-                <bean parent="Uif-HorizontalBoxSection">
-                    <property name="render" value="true" />
-                    <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{document.newMaintainableObject.dataObject.catalogCourseCode}' );" />
-                </bean>
             </list>
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-HorizontalBoxGroup">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ac_stickyfooter</value>
-                                </list>
-                            </property>
+                        <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ac_stickyfooter">
                             <property name="items">
                                 <list>
-                                    <bean parent="KS-Uif-PrimaryActionButton" p:methodToCall="createFromCopy" p:actionLabel="Create" p:render="@{!#view.readOnly}"
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:id="createFromCopy_btn" p:methodToCall="createFromCopy" p:actionLabel="Create" p:render="@{!#view.readOnly}"
                                             p:onClickScript="jQuery('#validateDirty')[0].value=false;"/>
                                     <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
                                           p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
@@ -582,21 +542,10 @@
         </property>
     </bean>
 
-    <bean id="KS-ExistingOffering-ConfigureCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:disclosure.defaultOpen="false" p:headerText="Options">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>co_copy_tables</value>
-            </list>
-        </property>
+    <bean id="KS-ExistingOffering-ConfigureCopySubSection" parent="Uif-VerticalBoxSection" p:disclosure.render="false" p:disclosure.defaultOpen="false" p:headerText="Options"
+          p:additionalCssClasses="co_copy_tables">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="excludeCancelledActivityOfferings" p:fieldLabel.renderColon="false">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl">
-                            <property name="checkboxLabel" value="Exclude cancelled Activity Offerings"/>
-                        </bean>
-                    </property>
-                </bean>
                 <bean parent="Uif-InputField" p:propertyName="excludeSchedulingInformation" p:fieldLabel.renderColon="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
@@ -616,25 +565,24 @@
     </bean>
 
     <!-- Displays a list of COs from current and previous terms-->
-    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:collectionLookup.render="false" p:renderAddLine="false">
-		<property name="cssClasses">
-            <list merge="true">
-                <value>co_copy_tables</value>
-            </list>
-		</property>
+    <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:additionalCssClasses="co_copy_tables">
         <property name="headerText" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1 ? 'Course Offerings Available for Copying' : 'Course Offering Available for Copying' }" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
 		<property name="propertyName" value="existingTermOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="sDom" value="rtip"/>
-                <entry key="bPaginate" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}"/>
-                <entry key="aoColumns" value="oTable.fnSetColumnVis( 0, false );"/>
-            </map>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="rtip"/>
+                        <entry key="bPaginate" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}"/>
+                    </map>
+                </property>
+            </bean>
         </property>
-		<property name="items">
+        <property name="items">
            <list>
                <bean parent="Uif-InputField" p:propertyName="isChecked" p:label="" p:onDocumentReadyScript="replaceCheckBoxWithRadio('KS-ExistingOffering-ListCOs');"
                      p:render="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1}">

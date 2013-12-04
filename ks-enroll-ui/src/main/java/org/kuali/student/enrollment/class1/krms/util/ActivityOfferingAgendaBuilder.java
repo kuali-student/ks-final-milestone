@@ -21,6 +21,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.util.AgendaBuilder;
 import org.kuali.rice.krms.util.AgendaSection;
+import org.kuali.student.enrollment.class1.krms.dto.AORuleEditor;
 
 /**
  * @author Kuali Student Team
@@ -36,21 +37,35 @@ public class ActivityOfferingAgendaBuilder extends AgendaBuilder {
     protected Component buildRule(RuleEditor rule, String bindingPrefix, AgendaSection agendaSection) {
         Component group = super.buildRule(rule, bindingPrefix, agendaSection);
 
-        //Open disclosure if rule has statements
-        if(!rule.isDummy()) {
-            ((Group) group).getDisclosure().setDefaultOpen(true);
-        }
-
         //Add warning messages for empty or deleted rules.
+        boolean hasMessage = false;
         if (rule.isDummy() && rule.getParent() != null)  {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_HASPARENT);
+            hasMessage = true;
         } else if ((rule.getProposition()==null) && (rule.getParent()!=null) && (rule.getParent().getProposition()!=null)) {
             GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_EMPTY);
+            hasMessage = true;
         }
 
-        //Add Info message if co rule differs from clu rule.
-        if (!this.getViewHelperService().compareRules(rule)) {
-            GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
+        AORuleEditor aoRuleEditor = (AORuleEditor) rule;
+        if((aoRuleEditor.getCluEditor()!=null)&&(aoRuleEditor.getParent()==null)){
+            GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_CO_RULE_REMOVED);
+            hasMessage = true;
+        }
+
+        //Only do this if the rule does exist.
+        if(!rule.isDummy()){
+            //Add Info message if co rule differs from clu rule.
+            if (!this.getViewHelperService().compareRules(rule)) {
+                GlobalVariables.getMessageMap().putInfoForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_INFO_AO_RULE_CHANGED);
+            } else {
+                GlobalVariables.getMessageMap().putWarningForSectionId(group.getId(), EnrolKRMSConstants.KSKRMS_MSG_WARNING_AO_RULE_NOT_CHANGED);
+            }
+        }
+
+        //Open disclosure if rule has statements
+        if(hasMessage || !rule.isDummy()){
+            ((Group) group).getDisclosure().setDefaultOpen(true);
         }
 
         return group;

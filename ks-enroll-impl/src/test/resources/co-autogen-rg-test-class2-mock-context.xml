@@ -13,6 +13,7 @@
 
   <!-- This overrides the parent context where CourseOfferingService points to the validation decorator -->
   <alias name="coServiceImpl" alias="CourseOfferingService"/>
+    <alias name="coServiceImpl" alias="coService"/>
   
    <bean id="SearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
         <property name="searchServices">
@@ -21,10 +22,22 @@
             </list>
         </property>                
     </bean>
-  
-    <bean id="autogenRegistrationGroupAppLayer" class=" org.kuali.student.enrollment.class2.courseoffering.service.adapter.AutogenRegGroupServiceAdapterImpl" autowire="byName" />
-    
-    
+
+
+    <bean id="waitListServiceFacade" class="org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeImpl" autowire="byName"/>
+
+    <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl">
+        <property name="examService" ref="examMockService"/>
+        <property name="courseOfferingService" ref="coServiceImpl"/>
+        <property name="examOfferingService" ref="examOfferingMockService"/>
+        <property name="atpService" ref="atpService"/>
+    </bean>
+
+    <bean id="examOfferingMockService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceMapImpl" />
+
+    <bean id="examMockService" class="org.kuali.student.enrollment.class2.exam.service.impl.ExamServiceMapImpl" />
+
+    <bean id="courseOfferingServiceFacade" class=" org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacadeImpl" autowire="byName" />
 
 </beans>
 

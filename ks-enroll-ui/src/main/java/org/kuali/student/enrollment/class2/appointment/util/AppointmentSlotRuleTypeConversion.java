@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class defines logic for the conversion of slot rule type codes to AppointmetnSlotRuleInfos
  *
  * @author Kuali Student Team
  */

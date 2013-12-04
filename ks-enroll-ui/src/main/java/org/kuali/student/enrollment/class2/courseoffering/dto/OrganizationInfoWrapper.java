@@ -21,7 +21,7 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import java.io.Serializable;
 
 /**
- * This class //TODO ...
+ * This class provides a wrapper for Organization data
  *
  * @author Kuali Student Team
  */

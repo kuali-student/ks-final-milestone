@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides controller methods for testing service calls through the ui
  *
  * @author Kuali Student Team
  */

@@ -54,4 +54,18 @@ public class LuiLuiRelationDao extends GenericEntityDao<LuiLuiRelationEntity> {
                 .getResultList();
 
     }
+
+    @SuppressWarnings({"unchecked"})
+	public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey){
+		return (List<String>) em.createNamedQuery("LuiLuiRelationENR.getLuiLuiRelationIdsByType")
+		.setParameter("luiLuiRelationTypeKey", luiLuiRelationTypeKey)
+		.getResultList();
+	}
+
+    @SuppressWarnings({"unchecked"})
+    public List<LuiLuiRelationEntity> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds) {
+        return (List<LuiLuiRelationEntity>) em.createNamedQuery("LuiLuiRelationENR.getLuiLuiRelationsByIds")
+                .setParameter("ids", luiLuiRelationIds)
+                .getResultList();
+    }
 }

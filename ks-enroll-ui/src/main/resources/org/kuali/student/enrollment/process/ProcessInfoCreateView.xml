@@ -19,7 +19,7 @@
      limitations under the License.
     -->
 
-    <bean id="ProcessInfo-CreateView" parent="KS-Uif-FormView">
+    <bean id="ProcessInfo-CreateView" parent="KS-Uif-FormView" p:additionalCssClasses="ks-enrollment-home">
         <property name="id" value="processCreateView"/>
         <property name="headerText" value="Create Process"/>
         <property name="formClass"
@@ -36,11 +36,6 @@
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home</value>
-            </list>
         </property>
         <property name="items">
             <list>
@@ -71,12 +66,16 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="id" value="ownerOrgId"/>
-                            <entry key="shortName" value="orgName"/>
-                        </map>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.r2.core.organization.dto.OrgInfo"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="id" value="ownerOrgId"/>
+                                    <entry key="shortName" value="orgName"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-HorizontalFieldGroup">
@@ -89,11 +88,5 @@
                 </bean>
             </list>
         </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
-            </list>
-        </property>
-
     </bean>
 </beans>

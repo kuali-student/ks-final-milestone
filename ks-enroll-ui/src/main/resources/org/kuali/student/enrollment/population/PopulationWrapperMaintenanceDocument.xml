@@ -27,28 +27,14 @@
         <property name="singlePageView" value="true"/>
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
-            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-ManagePopulation"/>
+            </list>
         </property>
-        <property name="parentLocation">
-            <bean parent="Uif-ParentLocation">
-                <property name="parentViewLabel" value="Manage Populations"/>
-                <!--
-                <property name="parentViewUrl.href" value="@{#ConfigProperties['krad.url']}/lookup?viewId=KS-Population-LookupView&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&amp;returnLocation=http://localhost:8081/ks-with-rice-bundled-dev/portal.do&amp;hideReturnLink=true&amp;showMaintenanceLinks=true&amp;viewName=Manage%20Populations"/>
-                -->
-                <property name="parentViewUrl.viewId" value="KS-Population-LookupView"/>
-                <property name="parentViewUrl.controllerMapping" value="/lookup"/>
-                <property name="parentViewUrl.requestParameters">
-                    <map key-type="java.lang.String" merge="true">
-                        <entry key="methodToCall" value="start"/>
-                        <entry key="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-                        <entry key="hideReturnLink" value="true"/>
-                        <entry key="showMaintenanceLinks" value="true"/>
-                        <entry key="viewName" value="Manage Populations"/>
-                    </map>
-                </property>
 
-            </bean>
-        </property>
+        <property name="breadcrumbs.usePathBasedBreadcrumbs" value="true"/>
 
         <property name="page.items">
             <list>
@@ -57,30 +43,37 @@
                 <ref bean="KS-PopulationWrapper-CreateByCombiningPopulations"/>
             </list>
         </property>
+
         <property name="page.footer.items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Create Population" p:performClientSideValidation="true"
                       p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_createPopulation"/>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="route" p:actionLabel="Update" p:performClientSideValidation="true"
                       p:render="@{(maintenanceAction eq 'Edit') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:id="button_updatePopulation"/>
-                <bean parent="Uif-ActionLink" p:actionScript="stepBrowserBack()" p:actionLabel="Cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}" p:id="link_cancelPopulation"/>
-            </list>
-        </property>
-        <property name="additionalScriptFiles">
-            <list merge="true">
-                <value>ks-enroll/scripts/common.js</value>
+                <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel"
+                      p:id="link_cancelPopulation"
+                      p:ajaxSubmit="false" p:methodToCall="cancel" />
             </list>
         </property>
     </bean>
 
-    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}">
-        <property name="disclosure.render" value="false"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-borderBottom</value>
-            </list>
+    <bean id="KS-HomewardPathBreadcrumbs-ManagePopulation" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Manage Populations"/>
+        <property name="url.baseUrl" value="lookup"/>
+        <property name="url.viewId" value="KS-Population-LookupView"/>
+        <property name="url.methodToCall" value="start"/>
+        <property name="url.requestParameters">
+            <map merge="true">
+                <entry key="viewName" value="Manage Populations"/>
+                <entry key="hideReturnLink" value="true"/>
+                <entry key="showMaintenanceLinks" value="true"/>
+            </map>
         </property>
+    </bean>
+
+    <bean id="KS-PopulationWrapper-LinkSection" parent="Uif-HorizontalBoxSection" p:render="@{(maintenanceAction eq 'New') and #actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"
+          p:additionalCssClasses="ks-borderBottom">
+        <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="createByRule" p:style="font-weight:bold;" p:actionLabel="By Rule" p:render="@{!#dp.createByRule}" p:id="link_byRule"/>
@@ -159,9 +152,9 @@
                 <bean parent="Uif-HorizontalBoxSection" >
                     <property name="items">
                         <list>
-                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Union.PNG" p:style="margin-left: 1em;"/>
-                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Intersection.PNG" p:style="margin-left: 1em;"/>
-                            <bean parent="Uif-ImageField" p:source="../ks-enroll/images/Exclusion.PNG" p:style="margin-left: 3em;"/>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Union.PNG" p:style="margin-left: 1em;"/>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Intersection.PNG" p:style="margin-left: 1em;"/>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/Exclusion.PNG" p:style="margin-left: 3em;"/>
                         </list>
                     </property>
                 </bean>
@@ -173,19 +166,23 @@
                         <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="true" />
                     </property>
 
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="populationInfo.id" value="referencePopulation.id"/>
-                            <entry key="populationInfo.name" value="referencePopulation.name"/>
-                        </map>
-                    </property>
-                    <!-- Hide the state option, and default it to Active -->
-                    <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
-                    <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchRefPopulation">
-                            <property name="actionImage">
-                                <bean parent="Uif-QuickLookupImage"/>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder">
+                            <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="populationInfo.id" value="referencePopulation.id"/>
+                                    <entry key="populationInfo.name" value="referencePopulation.name"/>
+                                </map>
+                            </property>
+                            <!-- Hide the state option, and default it to Active -->
+                            <property name="readOnlySearchFields" value="populationInfo.stateKey" />
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchRefPopulation">
+                                    <property name="actionImage">
+                                        <bean parent="Uif-QuickLookupImage"/>
+                                    </property>
+                                </bean>
                             </property>
                         </bean>
                     </property>
@@ -201,7 +198,7 @@
         <property name="items">
             <list>
                 <bean id="KS-PopulationWrapper-AddPopulationsSubSection" parent="Uif-TableCollectionSubSection"
-                      p:collectionLookup.render="false" p:width="27%" p:id="populations_table">
+                      p:width="27%" p:id="populations_table">
                     <property name="headerText" value="Population(s)" />
                     <property name="collectionObjectClass" value="org.kuali.student.r2.core.population.dto.PopulationInfo" />
                     <property name="propertyName" value="childPopulations" />
@@ -229,19 +226,23 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:ReadOnly="false" />
                                 </property>
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="populationInfo.id" value="id"/>
-                                        <entry key="populationInfo.name" value="name"/>
-                                    </map>
-                                </property>
-                                <!-- Hide the state option, and default it to Active -->
-                                <property name="quickfinder.readOnlySearchFields" value="populationInfo.stateKey" />
-                                <property name="quickfinder.quickfinderAction">
-                                    <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
-                                        <property name="actionImage">
-                                            <bean parent="Uif-QuickLookupImage"/>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="populationInfo.id" value="id"/>
+                                                <entry key="populationInfo.name" value="name"/>
+                                            </map>
+                                        </property>
+                                        <!-- Hide the state option, and default it to Active -->
+                                        <property name="readOnlySearchFields" value="populationInfo.stateKey" />
+                                        <property name="quickfinderAction">
+                                            <bean parent="Uif-ActionLink" p:methodToCall="performLookup" p:id="lookup_searchPopulation">
+                                                <property name="actionImage">
+                                                    <bean parent="Uif-QuickLookupImage"/>
+                                                </property>
+                                            </bean>
                                         </property>
                                     </bean>
                                 </property>

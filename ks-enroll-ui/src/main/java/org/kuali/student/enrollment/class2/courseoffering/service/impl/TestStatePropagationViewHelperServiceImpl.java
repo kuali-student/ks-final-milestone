@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -44,6 +45,9 @@ import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemI
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
+import org.kuali.student.poc.eventproc.event.KSEvent;
+import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -95,11 +99,14 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private LuiService luiService = null;
     private SchedulingService schedulingService = null;
 
+    private static Logger LOGGER = Logger.getLogger(TestStatePropagationViewHelperServiceImpl.class);
+
     // List of objects used in test
     private SocInfo socInfo;
     private CourseOfferingInfo courseOfferingInfo;
     private List<FormatOfferingInfo> foInfos;
     private RegistrationGroupInfo rgInfo;
+    private List<RegistrationGroupInfo> rgInfos;
     private List<ActivityOfferingInfo> aoInfos; // Only for a single RG in first FO
     private String primaryAoId;
     private String secondaryAoId;
@@ -295,8 +302,8 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             courseOfferingInfo = (CourseOfferingInfo) keyToValues.get(COURSE_OFFERING_KEY);
             // Get FOs (should only be 1)
             foInfos = coService.getFormatOfferingsByCourseOffering(courseOfferingInfo.getId(), CONTEXT);
-            // Use first FO to get RGs
-            List<RegistrationGroupInfo> rgInfos = coService.getRegistrationGroupsByFormatOffering(foInfos.get(0).getId(), CONTEXT);
+            // Save all RGs
+            rgInfos = coService.getRegistrationGroupsByFormatOffering(foInfos.get(0).getId(), CONTEXT);
             // Pick first RG
             rgInfo = rgInfos.get(0);
             // Get list of AOs but only for this RG
@@ -437,17 +444,69 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
             throw new OperationFailedException(e.getMessage());
         }
         try {
-            rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", SAMPLE_TERM, SAMPLE_ROLLOVER_TERM);
+            rolloverCourseOfferingFromSourceTermToTargetTerm("CHEM237", SAMPLE_TERM, SAMPLE_TERM);
         } catch (Exception e) {
             System.out.println("Woops");
         }
         System.out.println("Hi");
     }
 
+    private void _testEventProcessor() throws Exception {
+        _reset(true);
+        KSEventProcessorImpl ksEventProcessor
+                = (KSEventProcessorImpl) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/ksEventProcessor", "KSEventProcessor"));
+        // Get all the AOs for the initial RG
+        List<ActivityOfferingInfo> rgAos =
+                coService.getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
+        ActivityOfferingInfo sampleAO = null;
+        for (ActivityOfferingInfo ao: rgAos) {
+            // Find the one that's a lecture
+            if (ao.getTypeKey().equals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY)) {
+                sampleAO = ao;
+                break;
+            }
+        }
+        // Find another RG that has the same AO as sampleAO and store it in secondRG
+        RegistrationGroupInfo secondRG = null;
+        for (int i = 1; i < rgInfos.size(); i++) {
+            // Skip the zeroth one
+            RegistrationGroupInfo rg = rgInfos.get(i);
+            rgAos = coService.getActivityOfferingsByIds(rgInfo.getActivityOfferingIds(), CONTEXT);
+            for (ActivityOfferingInfo ao: rgAos) {
+                // Find the one that's a lecture
+                if (ao.getId().equals(sampleAO.getId())) {
+                    secondRG = rg;
+                    break;
+                }
+            }
+            if (secondRG != null) {
+                break;
+            }
+        }
+        ksEventProcessor.getCoService().scheduleActivityOffering(sampleAO.getId(), CONTEXT);
+        sampleAO = ksEventProcessor.getCoService().getActivityOffering(sampleAO.getId(), CONTEXT);
+//        // Invalidate an RG
+//        KSEvent invalidateRGState =
+//                KSEventFactory.createInvalidateRegGroupStateEvent(rgInfos.get(2).getId());
+//        ksEventProcessor.fireEvent(invalidateRGState, CONTEXT);
+//        // Validate it
+//        KSEvent validateRGState =
+//                KSEventFactory.createValidateRegGroupStateEvent(rgInfos.get(2).getId());
+//        ksEventProcessor.fireEvent(validateRGState, CONTEXT);
+        KSEvent changeAOState =
+                KSEventFactory.createChangeActivityOfferingStateEvent(sampleAO.getId(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY);
+        ksEventProcessor.fireEvent(changeAOState, CONTEXT);
+        LOGGER.info("Hi");
+    }
+
     @Override
     public void runTests(TestStatePropagationForm form) throws Exception {
         _initServices();
-
+//        _testEventProcessor();
+//
+//        if (1 + 1 == 2) {
+//            return;
+//        }
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);
@@ -702,19 +761,21 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     }
 
     private String _computeDisplayString(String aoFromState, String aoToState, int size) {
-        String transition = "[AO " + aoFromState + " => AO " + aoToState + "]";
+        StringBuilder transition = new StringBuilder("[AO ");
+        transition.append(aoFromState).append(" => AO ").append(aoToState).append("]");
         while (transition.length() < size) {
-            transition = transition + " ";
+            transition.append(" ");
         }
-        return transition;
+        return transition.toString();
     }
 
     private String _computeExpectedActual(String expected, String actual, int size) {
-        String result = expected + "/" + actual;
+        StringBuilder result = new StringBuilder(expected);
+        result.append("/").append(actual);
         while (result.length() < size) {
-            result = result + " ";
+            result.append(" ");
         }
-        return result;
+        return result.toString();
     }
 
     private void _compareGrids(Map<String, PseudoUnitTestStateTransitionGrid> gridTypeToGrid,

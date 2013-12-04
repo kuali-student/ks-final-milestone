@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import net.sf.ehcache.CacheManager;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -25,28 +24,22 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
-import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
-import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceAftDecorator;
-import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceDecorator;
-import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceValidationDecorator;
-import org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetServiceImpl;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
-import org.springframework.aop.framework.Advised;
-import org.springframework.aop.support.AopUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -55,19 +48,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.annotation.Resource;
 import javax.naming.OperationNotSupportedException;
-import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides controller methods to test state propagation through the ui
  *
  * @author Kuali Student Team
  */
@@ -141,7 +131,7 @@ public class TestStatePropagationController extends UifControllerBase {
 
     @Transactional
     @RequestMapping(params = "methodToCall=changeSocState")
-    public ModelAndView changeSocState( @ModelAttribute("KualiForm") TestStatePropagationForm form ) throws Exception, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public ModelAndView changeSocState( @ModelAttribute("KualiForm") TestStatePropagationForm form ) throws PermissionDeniedException, OperationFailedException, OperationNotSupportedException, InvalidParameterException, MissingParameterException, DoesNotExistException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
 
         String environment = StringUtils.defaultIfBlank( ConfigContext.getCurrentContextConfig().getProperty( "environment" ), StringUtils.EMPTY );
         if( !"DEV".equalsIgnoreCase( environment ) ) {
@@ -174,7 +164,7 @@ public class TestStatePropagationController extends UifControllerBase {
         }
     }
 
-    private SocInfo getTargetSocInfoForTerm( String targetTermCode, ContextInfo contextInfo ) throws Exception, MissingParameterException, PermissionDeniedException, OperationFailedException {
+    private SocInfo getTargetSocInfoForTerm( String targetTermCode, ContextInfo contextInfo ) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException, DoesNotExistException {
         String targetTermId = this.getAcalService().getTermsByCode( targetTermCode, contextInfo ).get(0).getId();
         String targetSocId = this.getSocService().getSocIdsByTerm( targetTermId, contextInfo ).get(0);
 
@@ -187,7 +177,7 @@ public class TestStatePropagationController extends UifControllerBase {
         contextInfo.setAttributes(attrs);
     }
 
-    private CourseOfferingSetServiceAftDecorator getSocService() throws Exception {
+    private CourseOfferingSetServiceAftDecorator getSocService() {
         if( socService == null ) {
             socService = (CourseOfferingSetServiceAftDecorator) GlobalResourceLoader.getService( new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART ) );
         }

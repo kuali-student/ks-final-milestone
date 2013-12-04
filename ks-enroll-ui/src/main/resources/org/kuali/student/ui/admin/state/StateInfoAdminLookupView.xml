@@ -20,7 +20,6 @@
     -->
 
 	<import resource="classpath:ks-StateInfo-dictionary.xml"/>
-	<import resource="classpath:UifKSDefinitions.xml"/>
 	<!-- **********************************************
 	Paste this link below into WEB-INF ksAdminLinks.tag
 	<li><portal:portalLink displayTitle="true" title="StateInfo Lookup"url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.class1.state.dto.StateInfo&viewId=StateInfoAdminLookupView.xml&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
@@ -43,10 +42,12 @@
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="key" />
 				<!-- skip name because keyword searching should cover it -->
 				<!-- skip description because keyword searching should cover it -->
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="lifecycleKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.LifecycleInfo"
-					p:quickfinder.fieldConversions="key:lifecycleKey"
-					/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="lifecycleKey">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.LifecycleInfo"
+                            p:fieldConversions="key:lifecycleKey" />
+                    </property>
+                </bean>
 				<!-- TODO: deal with  effectiveDate which is a Date -->
 				<!-- TODO: deal with  expirationDate which is a Date -->
 				<!-- TODO: deal with seaching on the version indicator which is a string in the contract but a number in the database -->

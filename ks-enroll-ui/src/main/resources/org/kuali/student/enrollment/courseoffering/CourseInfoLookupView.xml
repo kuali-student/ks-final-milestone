@@ -99,10 +99,48 @@
                 <bean parent="CourseLookupField" p:propertyName="descr.formatted" p:fieldLabel.labelText="Description"/>
             </list>
         </property>
-        <property name="resultsGroup.layoutManager.richTable.templateOptions">
-            <map merge="true">
-                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
-            </map>
+        <property name="resultsGroup.layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- the following view is used when called from create CO "find a course" link
+         and includes an additional Target Term search criteria (& different LookupableImpl !) -->
+    <bean id="CourseInfoByTerm-LookupView" parent="KS-Uif-LookupView" >
+        <property name="viewName" value="CourseInfoByTermLookupView"/>
+        <property name="headerText" value="Course Lookup" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl"/>
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termId" p:uppercaseValue="true"  p:label="Target Term" p:required="true"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:uppercaseValue="true" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="courseTitle"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="CourseLookupField" p:propertyName="code" />
+                <bean parent="CourseLookupField" p:propertyName="courseTitle"/>
+                <bean parent="CourseLookupField" p:propertyName="descr.formatted" p:fieldLabel.labelText="Description"/>
+            </list>
+        </property>
+        <property name="resultsGroup.layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                    </map>
+                </property>
+            </bean>
         </property>
     </bean>
 </beans>

@@ -19,9 +19,13 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.control.SelectControl;
+import org.kuali.rice.krad.uif.util.ComponentFactory;
+import org.kuali.rice.krad.uif.util.UifKeyValue;
 import org.kuali.rice.krad.uif.view.DialogManager;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -30,19 +34,25 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
+import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -319,7 +329,10 @@ public class AcademicCalendarController extends UifControllerBase {
         Properties urlParameters = new Properties();
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.START_METHOD);
         urlParameters.put(UifParameters.VIEW_ID, CalendarConstants.CALENDAR_SEARCH_VIEW);
-        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         return super.performRedirect(acalForm,controllerPath, urlParameters);
     }
 
@@ -528,7 +541,7 @@ public class AcademicCalendarController extends UifControllerBase {
         if(acalOfficial){
             makeTermOfficial(termWrapper,academicCalendarForm);
         }
-
+        getAcalViewHelperService(academicCalendarForm).populateAcademicCalendar(academicCalendarForm.getAcademicCalendarInfo().getId(), academicCalendarForm);
         academicCalendarForm.setDefaultTabToShow(CalendarConstants.ACAL_TERM_TAB);
         return getUIFModelAndView(academicCalendarForm);
     }
@@ -665,6 +678,39 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         keydateGroup.getKeydates().remove(selectedLineIndex);
+
+        return getUIFModelAndView(academicCalendarForm);
+
+    }
+
+    /**
+     * Like term, this would mark an exam period for deletion.
+     *
+     * @param academicCalendarForm
+     * @param result
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=markExamPeriodtoDelete")
+    public ModelAndView markExamPeriodtoDelete(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                      HttpServletRequest request, HttpServletResponse response) {
+        academicCalendarForm.setFieldsToSave(processDirtyFields(academicCalendarForm));
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = KSControllerHelper.getSelectedCollectionLineIndex(academicCalendarForm);
+
+        String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
+        AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
+        ExamPeriodWrapper examPeriodWrapper = termWrapper.getExamdates().get(selectedLineIndex);
+
+        if (StringUtils.isNotBlank(examPeriodWrapper.getExamPeriodInfo().getId())){
+            termWrapper.getExamPeriodsToDeleteOnSave().add(examPeriodWrapper);
+        }
+        termWrapper.getExamdates().remove(selectedLineIndex);
 
         return getUIFModelAndView(academicCalendarForm);
 
@@ -817,7 +863,10 @@ public class AcademicCalendarController extends UifControllerBase {
     private ModelAndView redirectToSearch(AcademicCalendarForm academicCalendarForm,HttpServletRequest request, Properties urlParameters){
         urlParameters.put("viewId", CalendarConstants.CALENDAR_SEARCH_VIEW);
         urlParameters.put("methodToCall", KRADConstants.START_METHOD);
-        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String uri = request.getRequestURL().toString().replace("academicCalendar","calendarSearch");
         return performRedirect(academicCalendarForm, uri, urlParameters);
     }
@@ -833,11 +882,9 @@ public class AcademicCalendarController extends UifControllerBase {
         AcademicCalendarViewHelperService viewHelperService = getAcalViewHelperService(acalForm);
         StatusInfo statusInfo;
         try {
-            if (term.isSubTerm()) {
-                statusInfo = getAcademicCalendarServiceFacade().makeTermOfficialCascaded(term.getTermInfo().getId(), viewHelperService.createContextInfo());
-            } else {
-                statusInfo = getAcalService().changeTermState(term.getTermInfo().getId(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, viewHelperService.createContextInfo());
-            }
+            // no need to check if the term is a sub term.  makeTermOfficialCascaded method works for both sub term and non-sub term
+            statusInfo = getAcademicCalendarServiceFacade().makeTermOfficialCascaded(term.getTermInfo().getId(), viewHelperService.createContextInfo());
+
             if (!statusInfo.getIsSuccess()) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, RiceKeyConstants.ERROR_CUSTOM, statusInfo.getMessage());
                 return false;
@@ -855,12 +902,16 @@ public class AcademicCalendarController extends UifControllerBase {
             }
             for (KeyDatesGroupWrapper groupWrapper : term.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
-                    keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),viewHelperService.createContextInfo()));
+                    //...skip [unsaved] KeyDates that have null Id ...to avoid exception
+                    //note: the UI policy for this page: user must select 'Save' to save changes as make official does not save anything)
+                    if (keyDateWrapper.getKeyDateInfo() != null && keyDateWrapper.getKeyDateInfo().getId()!=null) {
+                        keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(keyDateWrapper.getKeyDateInfo().getId(),viewHelperService.createContextInfo()));
+                    }
                 }
             }
         } catch (Exception e) {
             LOG.error("Make Official Failed for Term",e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED + " - " + e.getMessage());
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES,CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_OFFICIAL_FAILED,e.getMessage());
             return false;
         }
         return true;
@@ -890,7 +941,7 @@ public class AcademicCalendarController extends UifControllerBase {
             }
         } catch (Exception e) {
             LOG.error("Make Official Failed for Acal",e);
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_OFFICIAL_FAILED + " - " + e.getMessage());
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_OFFICIAL_FAILED ,e.getMessage());
             return false;
         }
         return true;
@@ -954,6 +1005,9 @@ public class AcademicCalendarController extends UifControllerBase {
                 LOG.error("Unable to load instructional days",ex);
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_CALCULATING_INSTRUCTIONAL_DAYS, term.getStartDate().toString(), term.getEndDate().toString());
             }
+
+            //process exam periods
+            academicCalendarForm = processExamPeriods(academicCalendarForm,i,viewHelperService);
         }
 
         // Reset values
@@ -1036,6 +1090,9 @@ public class AcademicCalendarController extends UifControllerBase {
                 KeyDateWrapper newKeyDateWrapper = saveKeyDate(keyDateWrapper, form.getTermWrapperList().get(termIndex), helperService);
                 form.getTermWrapperList().get(termIndex).getKeyDatesGroupWrappers().get(keyDateGroupIndex).getKeydates().set(keyDateIndex,newKeyDateWrapper);
 
+            } else if (field.contains("examdates")) {
+                //exempt exam period from dirty field update for now
+                continue;
             } else if(field.contains("termWrapperList")){
 
                 // Save and individual even and refresh it in the form
@@ -1286,6 +1343,91 @@ public class AcademicCalendarController extends UifControllerBase {
     }
 
     /**
+     * Cycles through the exam periods and process each of them
+     *
+     * @param form - View form containing the Calendar information
+     * @param termIndex - The index of the term.
+     * @param helperService - View Helper service
+     * @return The updated form.
+     */
+    private AcademicCalendarForm processExamPeriods(AcademicCalendarForm form, int termIndex, AcademicCalendarViewHelperService helperService){
+        //process add/update of exam period
+        AcademicTermWrapper term = form.getTermWrapperList().get(termIndex);
+        for(int i=0; i<term.getExamdates().size(); i++ ) {
+            ExamPeriodWrapper examPeriodWrapper = term.getExamdates().get(i);
+
+            ExamPeriodWrapper newExamPeriodWrapper = saveExamPeriod(form, examPeriodWrapper, term, termIndex, helperService);
+            form.getTermWrapperList().get(termIndex).getExamdates().set(i,newExamPeriodWrapper);
+        }
+
+        //process the deletion of exam period
+        for (ExamPeriodWrapper examPeriodToDelete : term.getExamPeriodsToDeleteOnSave()) {
+            try {
+                getAcalService().deleteExamPeriod(examPeriodToDelete.getExamPeriodInfo().getId(), helperService.createContextInfo());
+            } catch (Exception e) {
+                LOG.error("Delete exam period has failed",e);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_DELETING,term.getName(),examPeriodToDelete.getExamPeriodNameUI());
+            }
+        }
+        term.getExamPeriodsToDeleteOnSave().clear();
+
+        return form;
+    }
+
+    /**
+     * Save changes to a exam period or create it if it has not already been saved
+     *
+     * @param examPeriodWrapper - ExamPeriod to be saved
+     * @param term - Term containing the key date
+     * @param helperService - View helper service
+     * @return The updated keydate with information filled in from the save/create
+     */
+    private ExamPeriodWrapper saveExamPeriod(AcademicCalendarForm form, ExamPeriodWrapper examPeriodWrapper, AcademicTermWrapper term, int termIndex, AcademicCalendarViewHelperService helperService){
+        // Create exam period info base
+        ExamPeriodInfo examPeriodInfo = examPeriodWrapper.getExamPeriodInfo();
+        String examPeriodName = examPeriodWrapper.getExamPeriodNameUI() + " " + term.getName();
+        // Fill in key date info from the wrapper
+        examPeriodInfo.setTypeKey(examPeriodWrapper.getExamPeriodType());
+        examPeriodInfo.setName(examPeriodName);
+        examPeriodInfo.setEndDate(examPeriodWrapper.getEndDate());
+        examPeriodInfo.setStartDate(examPeriodWrapper.getStartDate());
+        examPeriodInfo.setStateKey(term.getTermInfo().getStateKey()); //the state of the exam period is the same as the term state
+        setExamPeriodAttr(examPeriodInfo, AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR, String.valueOf(examPeriodWrapper.isExcludeSaturday()));
+        setExamPeriodAttr(examPeriodInfo, AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR, String.valueOf(examPeriodWrapper.isExcludeSunday()));
+
+        RichTextInfo rti = new RichTextInfo();
+        rti.setPlain(examPeriodName);
+        rti.setFormatted(examPeriodName);
+        examPeriodInfo.setDescr(rti);
+
+        // Save Exam Period to database
+        try{
+            if (examPeriodWrapper.isNew()){
+                // Save the exam period to the database and update wrapper information.
+                List<String> termTypeKeyList = new ArrayList<String>();
+                termTypeKeyList.add(term.getTermType());
+                ExamPeriodInfo createdExamPeriodInfo = getAcademicCalendarServiceFacade().addExamPeriod(examPeriodInfo.getTypeKey(), termTypeKeyList, examPeriodInfo, helperService.createContextInfo());
+                getAcalService().addExamPeriodToTerm(term.getTermInfo().getId(), createdExamPeriodInfo.getId(), helperService.createContextInfo());
+                examPeriodWrapper.setExamPeriodInfo(createdExamPeriodInfo);
+            } else {
+                // Update the exam period in the datebase and update wrapper information.
+                ExamPeriodInfo updatedExamPeriodInfo = getAcalService().updateExamPeriod(examPeriodInfo.getId(), examPeriodInfo, helperService.createContextInfo());
+                examPeriodWrapper.setExamPeriodInfo(updatedExamPeriodInfo);
+            }
+        } catch (OperationFailedException oe){
+            LOG.error("Save exam period has failed",oe);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_EXAMPERIOD_FAILED,examPeriodWrapper.getExamPeriodNameUI(),term.getName() +". FEP is not allowed for the selected term.");
+        }
+        catch(Exception e){
+            LOG.error("Save exam period has failed",e);
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_MESSAGES, CalendarConstants.MessageKeys.ERROR_ACAL_SAVE_TERM_EXAMPERIOD_FAILED,examPeriodWrapper.getExamPeriodNameUI(),term.getName());
+        }
+
+        return examPeriodWrapper;
+    }
+
+
+    /**
      * Determines kay dates that have been deleted in the UI and deletes them from the database
      *
      * @param term - term wrapper from form
@@ -1432,7 +1574,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     private Date getDateInfoForKeyDate(boolean isAllDay, Date date, String time, String ampm){
         if(!isAllDay){
-            return CommonUtils.getDateWithTime(date, time, ampm);
+            return AcalCommonUtils.getDateWithTime(date, time, ampm);
         }
         return date;
     }
@@ -1565,5 +1707,26 @@ public class AcademicCalendarController extends UifControllerBase {
         ((AcademicCalendarForm)uifForm).setFieldsToSave(processDirtyFields((AcademicCalendarForm)uifForm));
         return super.addLine(uifForm,result,request,response);
     }
+
+    private void setExamPeriodAttr(ExamPeriodInfo examPeriodInfo, String attrKey, String attrValue) {
+        AttributeInfo attributeInfo = getExamPeriodAttrForKey(examPeriodInfo, attrKey);
+        if (attributeInfo != null) {
+            attributeInfo.setValue(attrValue);
+        } else {
+            attributeInfo = AcalCommonUtils.createAttribute(attrKey, attrValue);
+            examPeriodInfo.getAttributes().add(attributeInfo);
+        }
+    }
+
+    private AttributeInfo getExamPeriodAttrForKey(ExamPeriodInfo examPeriodInfo, String key) {
+        for (AttributeInfo info : examPeriodInfo.getAttributes()) {
+            if (info.getKey().equals(key)) {
+                return info;
+            }
+        }
+        return null;
+    }
+
+
 
 }

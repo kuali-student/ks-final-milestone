@@ -19,7 +19,7 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**
- * This class //TODO ...
+ * This class provides a form for the Delete Target Term ui
  *
  * @author Kuali Student Team
  */

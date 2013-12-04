@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides controller methods for Delete Target Term ui
  *
  * @author Kuali Student Team
  */
@@ -77,7 +77,6 @@ public class DeleteTargetTermController extends UifControllerBase {
         LOGGER.error(date.toString() + " ");
         LOGGER.error(theForm);
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     @RequestMapping(params = "methodToCall=goTargetTerm")
@@ -92,8 +91,8 @@ public class DeleteTargetTermController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError("targetTermCode", "error.submit.sourceTerm"); // TODO: Change error
             return getUIFModelAndView(form);
         }
-
-        TermInfo termInfo = termInfos.get(0);
+        int firstTerm = 0;
+        TermInfo termInfo = termInfos.get(firstTerm);
         // Fill in form data for target term
         form.setDisplayedTargetTermId(termInfo.getId());
         String startDateStr = helperService.formatDate(termInfo.getStartDate());

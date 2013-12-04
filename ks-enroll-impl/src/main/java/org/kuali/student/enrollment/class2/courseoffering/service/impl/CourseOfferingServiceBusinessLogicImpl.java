@@ -7,26 +7,55 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGroupCodeGenerator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
+import org.kuali.student.enrollment.class2.courseoffering.service.helper.CopyActivityOfferingCommon;
+import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceRolloverHelper;
+import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.CourseOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
-import org.kuali.student.enrollment.courseoffering.dto.*;
+import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
+import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingSetInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceBusinessLogic;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.permutation.PermutationCounter;
-import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
-import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.RoomServiceConstants;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -42,7 +71,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author nwright
@@ -51,56 +88,21 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
 
+    public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
+    // ----------------------------------------------------------------
     @Resource
     private CourseService courseService;
 
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public CourseService getCourseService() {
+        return courseService;
+    }
+    // ----------------------------------------------------------------
     @Resource
     private AcademicCalendarService acalService;
-
-    @Resource
-    private CourseOfferingService coService;
-
-    @Resource
-    private RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory;
-
-    @Resource
-    private SchedulingService schedulingService;
-
-    @Resource
-    private RoomService roomService;
-
-    @Resource
-    private CourseOfferingTransformer courseOfferingTransformer;
-
-    @Resource
-    private AcademicCalendarServiceFacade acalServiceFacade;
-
-    @Resource
-    private RolloverAssist rolloverAssist;
-
-    public RolloverAssist getRolloverAssist() {
-        return rolloverAssist;
-    }
-
-    public void setRolloverAssist(RolloverAssist rolloverAssist) {
-        this.rolloverAssist = rolloverAssist;
-    }
-
-    public CourseOfferingService getCoService() {
-        return coService;
-    }
-
-    public void setCoService(CourseOfferingService coService) {
-        this.coService = coService;
-    }
-
-    public void setAcalServiceFacade(AcademicCalendarServiceFacade acalServiceFacade) {
-        this.acalServiceFacade = acalServiceFacade;
-    }
-
-    public AcademicCalendarServiceFacade getAcalServiceFacade() {
-        return acalServiceFacade;
-    }
 
     public AcademicCalendarService getAcalService() {
         return acalService;
@@ -109,37 +111,102 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     public void setAcalService(AcademicCalendarService acalService) {
         this.acalService = acalService;
     }
+    // ----------------------------------------------------------------
+    @Resource
+    private CourseOfferingService coService;
 
-    public CourseService getCourseService() {
-        return courseService;
+    public void setCoService(CourseOfferingService coService) {
+        this.coService = coService;
     }
 
-    public RegistrationGroupCodeGeneratorFactory getRegistrationCodeGeneratorFactory() {
-        return registrationCodeGeneratorFactory;
+    public CourseOfferingService getCoService() {
+        return coService;
     }
+    // ----------------------------------------------------------------
+    @Resource
+    private RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory;
 
     public void setRegistrationCodeGeneratorFactory(RegistrationGroupCodeGeneratorFactory registrationCodeGeneratorFactory) {
         this.registrationCodeGeneratorFactory = registrationCodeGeneratorFactory;
     }
+    // ----------------------------------------------------------------
+    @Resource
+    private SchedulingService schedulingService;
 
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
+    public void setSchedulingService(SchedulingService schedulingService) {
+        this.schedulingService = schedulingService;
     }
+    // ----------------------------------------------------------------
+    @Resource
+    private RoomService roomService;
 
     public void setRoomService(RoomService roomService) {
         this.roomService = roomService;
     }
-
-    public CourseOfferingTransformer getCourseOfferingTransformer() {
-        return courseOfferingTransformer;
-    }
+    // ----------------------------------------------------------------
+    @Resource
+    private CourseOfferingTransformer courseOfferingTransformer;
 
     public void setCourseOfferingTransformer(CourseOfferingTransformer courseOfferingTransformer) {
         this.courseOfferingTransformer = courseOfferingTransformer;
     }
+    // ----------------------------------------------------------------
+    @Resource
+    private ActivityOfferingTransformer activityOfferingTransformer;
 
-    
-    
+
+    public ActivityOfferingTransformer getActivityOfferingTransformer() {
+        return activityOfferingTransformer;
+    }
+
+    public void setActivityOfferingTransformer(ActivityOfferingTransformer activityOfferingTransformer) {
+        this.activityOfferingTransformer = activityOfferingTransformer;
+    }
+    // ----------------------------------------------------------------
+    @Resource
+    private AcademicCalendarServiceFacade acalServiceFacade;
+
+    public void setAcalServiceFacade(AcademicCalendarServiceFacade acalServiceFacade) {
+        this.acalServiceFacade = acalServiceFacade;
+    }
+    // ----------------------------------------------------------------
+    @Resource
+    private RolloverAssist rolloverAssist;
+
+    public void setRolloverAssist(RolloverAssist rolloverAssist) {
+        this.rolloverAssist = rolloverAssist;
+    }
+    // ----------------------------------------------------------------
+    @Resource
+    private CourseWaitListService courseWaitListService;
+
+    public void setCourseWaitListService(CourseWaitListService courseWaitListService) {
+        this.courseWaitListService = courseWaitListService;
+    }
+    // ----------------------------------------------------------------
+    @Resource
+    private ExamOfferingServiceFacade examOfferingServiceFacade;
+
+    public ExamOfferingServiceFacade getExamOfferingServiceFacade() {
+        return examOfferingServiceFacade;
+    }
+
+    public void setExamOfferingServiceFacade(ExamOfferingServiceFacade examOfferingServiceFacade) {
+        this.examOfferingServiceFacade = examOfferingServiceFacade;
+    }
+    // ----------------------------------------------------------------
+    @Resource
+    private CourseWaitListServiceFacade courseWaitListServiceFacade;
+
+    public CourseWaitListServiceFacade getCourseWaitListServiceFacade() {
+        return courseWaitListServiceFacade;
+    }
+
+    public void setCourseWaitListServiceFacade(CourseWaitListServiceFacade courseWaitListServiceFacade) {
+        this.courseWaitListServiceFacade = courseWaitListServiceFacade;
+    }
+    // ----------------------------------------------------------------
+
     /**
      * Initializes services, if needed
      */
@@ -172,6 +239,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             // KSENROLL-8062 Rollover with colocation
             rolloverAssist = (RolloverAssist) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/rolloverAssist", "RolloverAssist"));
         }
+
+        if (examOfferingServiceFacade == null){
+            examOfferingServiceFacade = (ExamOfferingServiceFacade) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/examOfferingServiceFacade","examOfferingServiceFacade"));
+        }
+
+        if (courseWaitListServiceFacade == null){
+            courseWaitListServiceFacade = (CourseWaitListServiceFacade) GlobalResourceLoader.getService(CourseWaitListServiceFacadeConstants.getQName());
+        }
     }
 
     private ActivityOfferingInfo _RCO_createTargetActivityOffering(ActivityOfferingInfo sourceAo, FormatOfferingInfo targetFo,
@@ -195,7 +270,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         targetAo.setTermCode(termInfo.getCode());
         targetAo.setMeta(null);
         targetAo.setActivityCode(sourceAo.getActivityCode());
-        targetAo.setScheduleIds( Collections.EMPTY_LIST );  // target should have no ADLs
+        targetAo.setScheduleIds( Collections.<String>emptyList() );  // target should have no ADLs
 
         if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
             targetAo.getInstructors().clear();
@@ -211,21 +286,29 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         tempContext.setAttributes(attrs);
         targetAo = coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(),
                 targetAo.getTypeKey(), targetAo, tempContext);
+
+        // have to copy rules AFTER AO is created because the link is by the AO id
+        getActivityOfferingTransformer().copyRulesFromExistingActivityOffering(sourceAo, targetAo, optionKeys);
+
         return targetAo;
     }
 
-    private ScheduleRequestSetInfo _RCO_createScheduleRequestSet(String targetAoId, ContextInfo context)
+    private ScheduleRequestSetInfo _RCO_createScheduleRequestSet(String targetAoId, ScheduleRequestSetInfo sourceSRSet, ContextInfo context)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
-        ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo();
-        requestSetToSchedule.setTypeKey( SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET );
+        ScheduleRequestSetInfo requestSetToSchedule = new ScheduleRequestSetInfo(sourceSRSet); // copy all fields
+        // Adjust the ID, state, and ref object IDs
+        requestSetToSchedule.setId(null); // Null out IDs
         requestSetToSchedule.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        requestSetToSchedule.setRefObjectTypeKey(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING);
+        // Shouldn't have to set type, but ref data currently has wrong type
+        requestSetToSchedule.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+        if (requestSetToSchedule.getIsMaxEnrollmentShared() == null) {
+            requestSetToSchedule.setMaxEnrollmentShared(false); // set this value, if null, to false
+        }
         // Create a list containing one AO ID
-        List<String> targetAoIds = new ArrayList<String>();
-        targetAoIds.add(targetAoId);
-        // Then add it to the SRS
-        requestSetToSchedule.setRefObjectIds(targetAoIds);
+        requestSetToSchedule.setRefObjectIds(new ArrayList<String>()); // Set to empty
+        requestSetToSchedule.getRefObjectIds().add(targetAoId); // Add target
+
         requestSetToSchedule =
                 schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
                         CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
@@ -267,8 +350,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             DataValidationErrorException {
 
         for (ScheduleRequestInfo sourceSchedRequest : sourceSchedRequests) {
-            // copy source SRCs to target
-            ScheduleRequestInfo targetSchedRequest = SchedulingServiceUtil.scheduleRequestToScheduleRequest( sourceSchedRequest, context );
+            // copy source SRCs to target and set target SRS id
+            ScheduleRequestInfo targetSchedRequest
+                    = SchedulingServiceUtil.copyScheduleRequest(sourceSchedRequest, targetScheduleRequestSetId);
 
             // set name & descr on target
             StringBuilder nameBuilder = new StringBuilder("Schedule request for ");
@@ -277,7 +361,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             targetSchedRequest.setDescr(sourceSchedRequest.getDescr());
 
             // create the target SR
-            targetSchedRequest.setScheduleRequestSetId(targetScheduleRequestSetId);
             schedulingService.createScheduleRequest(targetSchedRequest.getTypeKey(), targetSchedRequest, context);
         }
     }
@@ -320,14 +403,30 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 // A target schedule request set already exists.  Just add the AO id to the co-located
                 // and update
                 _RCO_addAoIdToTargetSRSAndUpdate(targetSetId, targetAo, context);
+                // If same source/target term (i.e. copyCO), then attempt to reschedule (KSENROLL-8064)
+                if (sourceTermSameAsTarget && doColocate) {
+                    // Note that this could potentially reschedule multiple times --cclin
+                    coService.scheduleActivityOffering(targetAo.getId(), context);
+                }
             } else {
                 ScheduleRequestSetInfo targetScheduleRequestSet =
-                        _RCO_createScheduleRequestSet(targetAo.getId(), context);
+                        _RCO_createScheduleRequestSet(targetAo.getId(), sourceSRSet, context);
                 // Use rollover assist to set the mapping between the source
                 if (doColocate) {
                     rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRSet.getId(), targetScheduleRequestSet.getId());
                 }
-                _RCO_createTargetScheduleRequestsFromScheduleIds(sourceAo.getScheduleIds(), targetAo,
+                // Use SRS to get Schedule Ids (note: getScheduleIds() from AO may produce a superset of IDs
+                // compared to fetching it this way) --cclin
+                List<String> scheduleIds = new ArrayList<String>();
+                List<ScheduleRequestInfo> requests =
+                        schedulingService.getScheduleRequestsByScheduleRequestSet(sourceSRSet.getId(), context);
+                for (ScheduleRequestInfo request: requests) {
+                    if (request.getScheduleId() == null) {
+                        throw new OperationFailedException("_RCO_rolloverSrcSchedsToTargetSchedReqs: should have non null schedules");
+                    }
+                    scheduleIds.add(request.getScheduleId());
+                }
+                _RCO_createTargetScheduleRequestsFromScheduleIds(scheduleIds, targetAo,
                         targetScheduleRequestSet.getId(), context);
             }
         }
@@ -342,8 +441,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             aoIds.add(targetAo.getId());
             // Save co-located info
             try {
-                ScheduleRequestSetInfo result =
-                    schedulingService.updateScheduleRequestSet(targetSet.getId(), targetSet, context);
+                schedulingService.updateScheduleRequestSet(targetSet.getId(), targetSet, context);
             } catch (VersionMismatchException e) {
                 // Re-wrap exception
                 throw new OperationFailedException(e.getMessage());
@@ -384,7 +482,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                         schedulingService.getScheduleRequestsByScheduleRequestSet(sourceSRSet.getId(), context);
 
                 ScheduleRequestSetInfo targetScheduleRequestSet =
-                        _RCO_createScheduleRequestSet(targetAo.getId(), context);
+                        _RCO_createScheduleRequestSet(targetAo.getId(), sourceSRSet, context);
                 // Use rollover assist to set the mapping between the source
                 if (doColocate) {
                     rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRSet.getId(), targetScheduleRequestSet.getId());
@@ -432,28 +530,14 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return targetFo;
     }
 
-    private Map<String, List<ActivityOfferingInfo>> _prefetchAOs(List<FormatOfferingInfo> fos, CourseOfferingInfo sourceCo,
+    private Map<String, List<ActivityOfferingInfo>> _prefetchAOs(List<FormatOfferingInfo> fos,
                                                                  ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
                    OperationFailedException, DoesNotExistException {
         Map<String, List<ActivityOfferingInfo>> foIdsToAOList = new HashMap<String, List<ActivityOfferingInfo>>();
         for (FormatOfferingInfo sourceFo: fos) {
-            // Pass in some context attributes so these values don't need to be looked up again
-            List<AttributeInfo> originalContextAttributes = context.getAttributes();
-            List<AttributeInfo> newContextAttributes = new ArrayList<AttributeInfo>(originalContextAttributes);
-            newContextAttributes.add(new AttributeInfo("FOId", sourceFo.getId()));
-            newContextAttributes.add(new AttributeInfo("FOShortName", sourceFo.getShortName()));
-            newContextAttributes.add(new AttributeInfo("COId", sourceCo.getId()));
-            newContextAttributes.add(new AttributeInfo("COCode", sourceCo.getCourseCode()));
-            newContextAttributes.add(new AttributeInfo("COLongName", sourceCo.getCourseOfferingTitle()));
-            context.setAttributes(newContextAttributes);
-
             // Make the call with the additional contextAttributes
             List<ActivityOfferingInfo> aos = this.getCoService().getActivityOfferingsByFormatOffering(sourceFo.getId(), context);
-
-            // Reset the attributes to avoid side affects
-            context.setAttributes(originalContextAttributes);
-
             foIdsToAOList.put(sourceFo.getId(), aos);
         }
         return foIdsToAOList;
@@ -466,7 +550,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
      * @param targetTermId The target tern ID of the rollover
      * @param sourceTermIdToTargetTermId Assumes an empty Map<String, String> object.  Filled in as part of
      *               the method from sourceTerm ID to targetTerm Id.
-     * @param contextInfo
+     * @param contextInfo context of call
      * @return true, if the target term has the required subterms
      */
     private boolean
@@ -483,8 +567,9 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         TermInfo sourceTerm = acalService.getTerm(sourceTermId, contextInfo);
         sourceTermTypeToTermId.put(sourceTerm.getTypeKey(), sourceTermId);
         // Scan through AOs for subterm IDs
-        for (String foId: foIdsToAoList.keySet()) {
-            List<ActivityOfferingInfo> aos = foIdsToAoList.get(foId);
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+       for(Map.Entry<String, List<ActivityOfferingInfo>> entry: foIdsToAoList.entrySet()) {
+            List<ActivityOfferingInfo> aos = entry.getValue();
             for (ActivityOfferingInfo ao: aos) {
                 String termId = ao.getTermId();
                 if (sourceTermTypeToTermId.containsValue(termId) || termId.equals(sourceTermId)) {
@@ -536,17 +621,22 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         _initServices();
-        // Need to detect
+        // Alas, rollover and copy CO use this code, and they behave differently
         TermInfo targetTerm = acalService.getTerm(targetTermId, context);
-        boolean sourceTermSameAsTarget, isPartOfRolloverSoc = false;
+        boolean sourceTermSameAsTarget;
+        boolean isTrueRollover = false; // true, if this is really part of rollover
+        boolean isCopyCourseOffering = false; //  true, if used in copy CO (negation of isTrueRollover)
 
         String rolloverId = context.getAttributeValue(CourseOfferingSetServiceConstants.ROLLOVER_ASSIST_ID_DYNATTR_KEY);
         if (rolloverId == null) {
             // Happens if we aren't doing a rolloverSoc
             rolloverId = rolloverAssist.getRolloverId(); // Create one just for this CO rollover
+            isCopyCourseOffering = true;
+            isTrueRollover = false;
         } else {
             // Assume we are doing rollover if this ID is being passed.
-            isPartOfRolloverSoc = true;
+            isTrueRollover = true;
+            isCopyCourseOffering = false;
         }
         CourseOfferingInfo sourceCo = coService.getCourseOffering(sourceCoId, context);
         // Determine if source/target term is same
@@ -566,7 +656,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             throw new InvalidParameterException(
                     "Skipped because there are more than one valid versions of the course in the target term");
         }
-        CourseInfo targetCourse = targetCourses.get(0);
+        int firstCourseInfo = 0;
+        CourseInfo targetCourse = targetCourses.get(firstCourseInfo);
         if (optionKeys.contains(CourseOfferingSetServiceConstants.SKIP_IF_ALREADY_EXISTS_OPTION_KEY)) {
             String existingCoId = this._findFirstExistingCourseOfferingIdInTargetTerm(targetCourse.getId(), targetTermId, context);
             if (existingCoId != null) {
@@ -593,7 +684,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         // KSENROLL-7795: Prefetch AOs.  Needs to do this because we have to check AO term IDs to find
         // its term type and see if there is a corresponding subterm of the same type in the target term.
         // If not, then, no CO/FO/AO, etc. are rolled over.
-        Map<String, List<ActivityOfferingInfo>> foIdsToAOList = _prefetchAOs(foInfos, sourceCo, context);
+        Map<String, List<ActivityOfferingInfo>> foIdsToAOList = _prefetchAOs(foInfos, context);
         // KSENROLL-7795 Verify whether target terms have correct subterms
         Map<String, String> sourceTermIdToTargetTermId = new HashMap<String, String>();
         if (!_createSourceTermIdToTargetTermIdMapping(foIdsToAOList, sourceCo.getTermId(), targetTermId, sourceTermIdToTargetTermId, context)) {
@@ -618,14 +709,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             FormatOfferingInfo targetFo = _RCO_createTargetFormatOffering(sourceFo, targetCo, targetTermId, context);
 
             Map<String, String> sourceAoIdToTargetAoId = new HashMap<String, String>();
-            List<ActivityOfferingInfo> aoList = foIdsToAOList.get(sourceFo.getId());
-            for (ActivityOfferingInfo sourceAo : aoList) {
+            List<ActivityOfferingInfo> sourceAoList = foIdsToAOList.get(sourceFo.getId());
+            Map<String, ActivityOfferingInfo> targetAoId2Ao = new HashMap<String, ActivityOfferingInfo>();
+            for (ActivityOfferingInfo sourceAo : sourceAoList) {
                 if (optionKeys.contains(CourseOfferingSetServiceConstants.IGNORE_CANCELLED_AO_OPTION_KEY) &&
                         StringUtils.equals(sourceAo.getTypeKey(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY)) {
                     continue;
                 }
-
-                sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
 
                 // Find appropriate target term ID
                 String targetTermIdCustom = targetTermId;
@@ -636,29 +726,69 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     // Handle subterm case
                     targetTermIdCustom = sourceTermIdToTargetTermId.get(sourceAo.getTermId());
                 }
-                ActivityOfferingInfo targetAo =
-                        _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
-                sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
 
-                if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
-                    boolean doColocate = sourceTermSameAsTarget || isPartOfRolloverSoc;
-                    if (_hasAtLeastOneValidScheduleId(sourceAo)) {
-                        _RCO_rolloverSrcSchedsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
-                    } else {
-                        // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
-                        _RCO_rolloverSrcSchedReqsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
+                ActivityOfferingInfo targetAo;
+                if (sourceTermSameAsTarget) {
+                    // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
+                    // keys in the if statement above
+                    targetAo = CopyActivityOfferingCommon.copy(sourceAo.getId(), coService, schedulingService,
+                            roomService, activityOfferingTransformer,
+                            targetFo, targetTermIdCustom,
+                            context, optionKeys);
+                    // Need to do this, otherwise mapping of source/target AO clusters fails
+                    sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
+                } else {
+                    // Different term, so either rollover or copy CO from different term
+                    boolean doColocate = isTrueRollover; // Try to colocate, if possible (if false, break colocation)
+                    sourceAo.setCourseOfferingCode(sourceCo.getCourseOfferingCode());        // courseOfferingCOde is required, but it doesn't seem to get populated by the service call above.
+
+                    targetAo = _RCO_createTargetActivityOffering(sourceAo, targetFo, targetTermIdCustom, optionKeys, context);
+                    sourceAoIdToTargetAoId.put(sourceAo.getId(), targetAo.getId());
+
+                    if (!optionKeys.contains(CourseOfferingSetServiceConstants.NO_SCHEDULE_OPTION_KEY)) {
+
+                        if (_hasADLs(sourceAo)) {
+                            _RCO_rolloverSrcSchedsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
+                        } else {
+                            // KSNEROLL-6475 Copy RDLs if there are no ADLs from source to target term
+                            _RCO_rolloverSrcSchedReqsToTargetSchedReqs(sourceAo, targetAo, rolloverId, doColocate, sourceTermSameAsTarget, context);
+                        }
                     }
+                    _RCO_rolloverSeatpools(sourceAo, targetAo, context);
                 }
-                _RCO_rolloverSeatpools(sourceAo, targetAo, context);
+                targetAoId2Ao.put(targetAo.getId(), targetAo);
 
+                // Waitlist copy/rollover
+                List<CourseWaitListInfo> waitListInfos = courseWaitListService.getCourseWaitListsByActivityOffering(sourceAo.getId(), context);
+                if (isCopyCourseOffering) {
+                    _RCO_copyWaitlistForTargetAO_CopyCO(sourceTermSameAsTarget, rolloverId, waitListInfos, targetAo, targetFo, targetCo, context);
+                } else {
+                    _RCO_rolloverWaitlistForTargetAo(waitListInfos, rolloverId, targetAo, targetFo, targetCo, context);
+                }
                 aoCount++;
             }
             List<ActivityOfferingClusterInfo> targetClusters =
                     _RCO_rolloverActivityOfferingClusters(sourceFo, targetFo, context, sourceAoIdToTargetAoId);
             for (ActivityOfferingClusterInfo cluster: targetClusters) {
-                List<BulkStatusInfo> changes = generateRegistrationGroupsForCluster(cluster.getId(), context);
+                List<ActivityOfferingInfo> aosInCluster = _getAosInCluster(cluster, targetAoId2Ao);
+                CourseOfferingServiceRolloverHelper.generateRegGroupsForClusterHelper(cluster.getId(), context,
+                        coService, registrationCodeGeneratorFactory,
+                        true, new ArrayList<RegistrationGroupInfo>(),
+                        cluster, targetFo, aosInCluster);
             }
         }
+        //process final exam offerings for target course offering
+        String examPeriodID = null;
+
+        try{
+            examPeriodID = getExamOfferingServiceFacade().getExamPeriodId(targetCo.getTermId(), context);
+        } catch (DoesNotExistException e) {
+
+        }
+        if (examPeriodID != null) {
+            getExamOfferingServiceFacade().generateFinalExamOffering(targetCo, targetCo.getTermId(), examPeriodID, optionKeys, context);
+        }
+
         SocRolloverResultItemInfo item = new SocRolloverResultItemInfo();
         item.setSourceCourseOfferingId(sourceCoId);
         item.setTypeKey(CourseOfferingSetServiceConstants.CREATE_RESULT_ITEM_TYPE_KEY);
@@ -671,18 +801,187 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         return item;
     }
 
-    private boolean _hasAtLeastOneValidScheduleId( ActivityOfferingInfo ao ) {
+    private List<ActivityOfferingInfo> _getAosInCluster(ActivityOfferingClusterInfo cluster,
+                                                        Map<String, ActivityOfferingInfo> targetAoId2Ao)
+            throws OperationFailedException {
+        List<ActivityOfferingInfo> aosInCluster = new ArrayList<ActivityOfferingInfo>();
+        Set<String> aoIdsSeen = new HashSet<String>(); // Error checking for duplicate AO ids
+        for (ActivityOfferingSetInfo set: cluster.getActivityOfferingSets()) {
+            for (String aoId: set.getActivityOfferingIds()) {
+                if (!aoIdsSeen.contains(aoId)) {
+                    ActivityOfferingInfo targetAo = targetAoId2Ao.get(aoId);
+                    if (targetAo == null) {
+                        throw new OperationFailedException("Unable to locate target AO");
+                    }
+                    aosInCluster.add(targetAoId2Ao.get(aoId));
+                    aoIdsSeen.add(aoId); // Add to list of "seen" ao ids
+                }
+            }
+        }
+        return aosInCluster;
+    }
+
+
+    private void _RCO_createDefaultWaitlistForTargetAo(ActivityOfferingInfo targetAo,
+                                                       FormatOfferingInfo targetFo,
+                                                       CourseOfferingInfo targetCo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // This is an exceptional case where the source AO lacks a waitlist.  All AOs should have waitlists in
+        // the ref data
+        CourseWaitListInfo theWaitListInfo =
+                getCourseWaitListServiceFacade().createDefaultCourseWaitlist(targetFo.getId(),
+                        targetAo.getId(), targetCo.getHasWaitlist(), context);
+
+        courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, theWaitListInfo, context);
+    }
+
+    private void _RCO_copyWaitlistForTargetAO_CopyCO(boolean sourceTermSameAsTarget,
+                                                     String rolloverId,
+                                                     List<CourseWaitListInfo> waitListInfos,
+                                                     ActivityOfferingInfo targetAo,
+                                                     FormatOfferingInfo targetFo,
+                                                     CourseOfferingInfo targetCo,
+                                                     ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (waitListInfos.isEmpty()) {
+            _RCO_createDefaultWaitlistForTargetAo(targetAo, targetFo, targetCo, context);
+        } else {
+            if (waitListInfos.size() > 1) {
+                LOGGER.warn("Not expecting multiple waitlists attached to the AO");
+                throw new OperationFailedException("Not expecting multiple waitlists attached to the AO");
+            }
+            // Should only be one waitlist
+            if (sourceTermSameAsTarget) {
+                // Same term, so attempt to share waitlists
+                for (CourseWaitListInfo waitListInfo : waitListInfos){
+                    _RCO_copyWaitlistPossiblySharedForTargetAO(waitListInfo, rolloverId, targetAo, targetFo, context);
+                }
+            } else {
+                // different term so just create one waitlist per AO (splitting shared waitlists)
+                for (CourseWaitListInfo waitListInfo : waitListInfos){
+                    _RCO_copyNonsharedWaitlist(waitListInfo, targetAo, targetFo, context);
+                }
+            }
+        }
+    }
+
+    private void _RCO_copySharedWaitlist(CourseWaitListInfo waitListInfo,
+                                         String rolloverId,
+                                         ActivityOfferingInfo targetAo,
+                                         FormatOfferingInfo targetFo,
+                                         ContextInfo context)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        String waitlistId = waitListInfo.getId();
+        String targetWaitlistId = rolloverAssist.getTargetSharedWaitlistId(rolloverId, waitlistId);
+        if (targetWaitlistId == null) {
+            CourseWaitListInfo createdTargetWaitlist = _RCO_copyNonsharedWaitlist(waitListInfo, targetAo, targetFo, context);
+            // Store information that the waitlist is shared
+            rolloverAssist.mapSourceSharedWaitlistIdToTargetSharedWaitlistId(rolloverId, waitlistId, createdTargetWaitlist.getId());
+        } else {
+            // Have already created a target waitlist corresponding to the source, so reused and update
+            CourseWaitListInfo targetWaitlist = courseWaitListService.getCourseWaitList(targetWaitlistId, context);
+            if (targetWaitlist.getActivityOfferingIds().contains(targetAo.getId())) {
+                // Really shouldn't happen
+                throw new OperationFailedException("Target waitlist already contains targetAO: " + targetAo.getId());
+            } else {
+                targetWaitlist.getActivityOfferingIds().add(targetAo.getId());
+                if (!targetWaitlist.getFormatOfferingIds().contains(targetFo.getId())) {
+                    // Co-location may occur with two AOs belonging to two different COs, thus having
+                    // two different FOs
+                    targetWaitlist.getFormatOfferingIds().add(targetFo.getId());
+                }
+                // Update to the database
+                try {
+                    courseWaitListService.updateCourseWaitList(targetWaitlist.getId(), targetWaitlist, context);
+                } catch (VersionMismatchException e) {
+                    throw new OperationFailedException("Version mismatch" + e.getMessage(), e);
+                }
+            }
+        }
+    }
+
+    private CourseWaitListInfo _RCO_copyNonsharedWaitlist(CourseWaitListInfo waitListInfo,
+                                            ActivityOfferingInfo targetAo,
+                                            FormatOfferingInfo targetFo,
+                                            ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
+        waitListInfo.setId(null);
+        waitListInfo.setActivityOfferingIds(new ArrayList<String>());
+        waitListInfo.setFormatOfferingIds(new ArrayList<String>());
+        waitListInfo.getActivityOfferingIds().add(targetAo.getId());
+        waitListInfo.getFormatOfferingIds().add(targetFo.getId());
+        CourseWaitListInfo waitlist = courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, waitListInfo, context);
+        return waitlist;
+    }
+
+
+    private void _RCO_rolloverWaitlistForTargetAo(List<CourseWaitListInfo> waitListInfos,
+                                                  String rolloverId,
+                                                  ActivityOfferingInfo targetAo,
+                                                  FormatOfferingInfo targetFo,
+                                                  CourseOfferingInfo targetCo,
+                                                  ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (waitListInfos.isEmpty()) {
+            _RCO_createDefaultWaitlistForTargetAo(targetAo, targetFo, targetCo, context);
+        } else {
+            if (waitListInfos.size() > 1) {
+                LOGGER.warn("Not expecting multiple waitlists attached to the AO");
+                throw new OperationFailedException("Not expecting multiple waitlists attached to the AO");
+            }
+            // different term so just copy the waitlist across
+            for (CourseWaitListInfo waitListInfo : waitListInfos){
+                _RCO_copyWaitlistPossiblySharedForTargetAO(waitListInfo, rolloverId, targetAo, targetFo, context);
+            }
+        }
+    }
+
+    /**
+     * Copy a waitlist which may or may not be shared for a target AO (can be from rollover or from Copy CO
+     * in the same term as the CO).
+     */
+    private void _RCO_copyWaitlistPossiblySharedForTargetAO(CourseWaitListInfo waitListInfo,
+                                                            String rolloverId,
+                                                            ActivityOfferingInfo targetAo,
+                                                            FormatOfferingInfo targetFo,
+                                                            ContextInfo context)
+            throws OperationFailedException, DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, PermissionDeniedException, ReadOnlyException {
+
+        if (waitListInfo.getActivityOfferingIds() == null || waitListInfo.getActivityOfferingIds().isEmpty()) {
+            throw new OperationFailedException("No AO ids in this waitlist");
+        }
+        // Must be at least one AO ID
+        if (waitListInfo.getActivityOfferingIds().size() == 1) {
+            // Non-shared case
+            _RCO_copyNonsharedWaitlist(waitListInfo, targetAo, targetFo, context);
+        } else {
+            _RCO_copySharedWaitlist(waitListInfo, rolloverId, targetAo, targetFo, context);
+        }
+    }
+
+    private boolean _hasADLs(ActivityOfferingInfo ao) {
         if (ao.getScheduleIds() == null || ao.getScheduleIds().isEmpty()) {
             return false;
         }
         String firstId = ao.getScheduleIds().get(0);
-        if(StringUtils.isBlank( firstId )) {
-            return false;
-        }
-        return true;
+        boolean result = !StringUtils.isBlank(firstId);
+        return result;
     }
 
-    private CourseOfferingInfo _RCO_createTargetCourseOffering(CourseOfferingInfo sourceCo, String targetTermId, CourseInfo targetCourse, List<String> optionKeys, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
+    private CourseOfferingInfo _RCO_createTargetCourseOffering(CourseOfferingInfo sourceCo,
+                                                               String targetTermId,
+                                                               CourseInfo targetCourse,
+                                                               List<String> optionKeys,
+                                                               ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, PermissionDeniedException,
+            OperationFailedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         CourseOfferingInfo targetCo = new CourseOfferingInfo(sourceCo);
         targetCo.setId(null);
         // clear out the ids on the internal sub-objects too
@@ -725,6 +1024,13 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         } else {
             courseOfferingTransformer.copyRulesFromExistingCourseOffering(sourceCo, targetCo, optionKeys, context);
         }
+
+        // waitlist
+        targetCo.setHasWaitlist(sourceCo.getHasWaitlist());
+        targetCo.setWaitlistLevelTypeKey(sourceCo.getWaitlistLevelTypeKey());
+        targetCo.setWaitlistMaximum(sourceCo.getWaitlistMaximum());
+        targetCo.setWaitlistTypeKey(sourceCo.getWaitlistTypeKey());
+
         return targetCo;
     }
 
@@ -849,6 +1155,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     private String _findFirstExistingCourseOfferingIdInTargetTerm(String targetCourseId, String targetTermId, ContextInfo context)
             throws DoesNotExistException, OperationFailedException {
         List<CourseOfferingInfo> list;
+        int firstCourseOfferingInfo = 0;
         try {
             list = coService.getCourseOfferingsByCourseAndTerm(targetCourseId, targetTermId, context);
         } catch (InvalidParameterException ex) {
@@ -861,7 +1168,7 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         if (list.isEmpty()) {
             return null;
         }
-        return list.get(0).getId();
+        return list.get(firstCourseOfferingInfo).getId();
     }
 
     /*
@@ -879,7 +1186,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
         _initServices();
 
         // verify we are allowed to do this.
-        boolean generated = false;
         List<String> aocIdList = coService.getActivityOfferingClustersIdsByFormatOffering(formatOfferingId, contextInfo);
 
         if (aocIdList.isEmpty()) {
@@ -899,21 +1205,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
        
         return rgChanges;
     }
-
-    private void _gRGFC_basicValidate(String activityOfferingClusterId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-                   PermissionDeniedException, DataValidationErrorException {
-
-        AOClusterVerifyResultsInfo result =
-                coService.verifyActivityOfferingClusterForGeneration(activityOfferingClusterId, contextInfo);
-        List<ValidationResultInfo> resultInfos = result.getValidationResults();
-        for (ValidationResultInfo vri: resultInfos) {
-            if (vri.isWarn()) {
-                throw new DataValidationErrorException("One or more AOsets in the cluster is empty--can't generate reg groups");
-            }
-        }
-    }
-
 
     /**
      * Note: The Registration Group Code is what the administrators want to see the reg groups on a per course offering basis.
@@ -959,178 +1250,21 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
     }
 
 
-    private boolean _isValidActivityOfferingPermutation(List<String> activityOfferingPermutation) {
+    protected boolean _isValidActivityOfferingPermutation(List<String> activityOfferingPermutation) {
         // TODO: In M6 determine if we always make an RG or not, in particular, for AOs that are
         // in the suspended or canceled state.
         return true;
     }
 
-    public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<BulkStatusInfo> generateRegistrationGroupsForCluster(String activityOfferingClusterId, ContextInfo contextInfo)
             throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
                    MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<BulkStatusInfo> rgChanges = new ArrayList<BulkStatusInfo>();
         // Initializes coService
         _initServices();
-        ActivityOfferingClusterInfo cluster = coService.getActivityOfferingCluster(activityOfferingClusterId, contextInfo);
-
-        // If any of the AO sets is empty, we'll bail out and not generate.  This is more the expected behavior.
-        if (_hasEmptyAoSets(cluster)) {
-            return new ArrayList<BulkStatusInfo>(); // KSENROLL-6193, KSENROLL-6181
-        }
-
-        List<RegistrationGroupInfo> existingRegistrationGroups =
-                coService.getRegistrationGroupsByFormatOffering(cluster.getFormatOfferingId(), contextInfo);
-        int prefix = 1;
-        if (existingRegistrationGroups.isEmpty()) {
-            // A bit tedious to fetch all the FOs
-            String foId = cluster.getFormatOfferingId();
-            FormatOfferingInfo clusterFo = getCoService().getFormatOffering(foId, contextInfo);
-            CourseOfferingInfo co = getCoService().getCourseOffering(clusterFo.getCourseOfferingId(), contextInfo);
-            List<FormatOfferingInfo> foInfos = getCoService().getFormatOfferingsByCourseOffering(co.getId(), contextInfo);
-
-            try {
-                RegistrationGroupCodeUtil.computeRegCodePrefixForFo(foInfos, getCoService(), contextInfo);
-                // Refetch the FO
-                FormatOfferingInfo fetched = getCoService().getFormatOffering(foId, contextInfo);
-                prefix = RegistrationGroupCodeUtil.getRegCodePrefixFromFo(fetched);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("ERROR in generating reg groups (ReadOnlyException) " + e.getMessage());
-            } catch (VersionMismatchException e) {
-                throw new OperationFailedException("ERROR in generating reg groups (VersionMismatchException) " + e.getMessage());
-            }
-        }
-        Integer firstRegGroupCode = _gRGFC_computeFirstRegGroupCode(existingRegistrationGroups, prefix);
-
-        // Calculate the set of "set of AO IDs" from which to generate reg groups.
-
-        Set<List<String>> regGroupAoIds =
-                PermutationCounter.computeMissingRegGroupAoIdsInCluster(cluster, existingRegistrationGroups);
-
-        FormatOfferingInfo fo = coService.getFormatOffering(cluster.getFormatOfferingId(), contextInfo);
-        List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByCluster(activityOfferingClusterId, contextInfo);
-
-        // New instance created each time if desired
-        RegistrationGroupCodeGenerator generator =
-                registrationCodeGeneratorFactory.makeCodeGenerator();
-        Map<String, Object> keyValues = null;
-        if (firstRegGroupCode != null) {
-            keyValues = new HashMap<String, Object>();
-            keyValues.put(FIRST_REG_GROUP_CODE, firstRegGroupCode);
-        }
-        generator.initializeGenerator(coService, fo, contextInfo, keyValues);
-
-        //Sort the lists in order to be in sequence with RGIDs when generating
-        //Sort aoList
-        if(aoList.size()>1){
-            Collections.sort(aoList, new Comparator<ActivityOfferingInfo>() {
-                @Override
-                public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
-                    if (o1.getActivityCode() != null && o2.getActivityCode() != null
-                            && !o1.getActivityCode().equals("") && !o2.getActivityCode().equals("")){
-                        return o1.getActivityCode().compareTo(o2.getActivityCode());
-                    } else {
-                        return -1;
-                    }
-                }
-            });
-        }
-        //Sort AO IDs within the regGroupAoIds list's arrays
-        ArrayList<List<ActivityOfferingInfo>> regGroupAoInfosSorted = new ArrayList<List<ActivityOfferingInfo>>();
-        for (List<String> aoIDs : regGroupAoIds) {
-            List<ActivityOfferingInfo> aoListSorted = new ArrayList<ActivityOfferingInfo>();
-            //loop aoIDs and find the related AO that will store the activityCode to be sorted on
-            for (String aoIDinaoIDs: aoIDs){
-                //find the matching ID and associate it to the AOInfo
-                for (ActivityOfferingInfo aoInfo :  aoList) {
-                    if (aoInfo.getId().equals(aoIDinaoIDs)) {
-                        aoListSorted.add(aoInfo); //create a list of AOInfos to be sorted
-                        break;
-                    }
-                }
-            }
-            if (aoListSorted.size() > 1) {  //sort if more than 1 AO in the set
-                //Sort aoListSorted based on activityCode
-                Collections.sort(aoListSorted, new Comparator<ActivityOfferingInfo>() {
-                    @Override
-                    public int compare(ActivityOfferingInfo o1, ActivityOfferingInfo o2) {
-                        if (o1.getActivityCode() != null && o2.getActivityCode() != null
-                                && !o1.getActivityCode().equals("") && !o2.getActivityCode().equals("")){
-                            return o1.getActivityCode().compareTo(o2.getActivityCode());
-                        } else {
-                            return -1;
-                        }
-                    }
-                });
-            }
-            regGroupAoInfosSorted.add(aoListSorted);
-        }
-        //Sort regGroupAoInfosSorted
-        Collections.sort(regGroupAoInfosSorted, new Comparator <List<ActivityOfferingInfo>>() {
-            @Override
-            public int compare(List<ActivityOfferingInfo> o1, List<ActivityOfferingInfo> o2) {
-                String o1Code = "";
-                String o2Code = "";
-                for (ActivityOfferingInfo aoInfo : o1) { //build o1 code
-                    o1Code = o1Code + aoInfo.getActivityCode();
-                }
-                for (ActivityOfferingInfo aoInfo : o2) { //build o2 code
-                    o2Code = o2Code + aoInfo.getActivityCode();
-                }
-                if (o1Code != null && o2Code != null
-                        && !o1Code.equals("") && !o2Code.equals("")){
-                    return o1Code.compareTo(o2Code);
-                } else {
-                    return -1;
-                }
-            }
-        });
-
-        // Loop through each set of AO Ids and create a reg group.
-        for (List<ActivityOfferingInfo> aoInfoList : regGroupAoInfosSorted) {
-            List<String> activityOfferingPermutation = new ArrayList<String>();
-            for (ActivityOfferingInfo aoInfo : aoInfoList){
-                activityOfferingPermutation.add(aoInfo.getId());
-            }
-
-            if (!_isValidActivityOfferingPermutation(activityOfferingPermutation)) {
-                continue;
-            }
-            String regGroupCode = generator.generateRegistrationGroupCode(fo, aoList, null);
-            RegistrationGroupInfo rg = _gRGFC_makeRegGroup(regGroupCode, activityOfferingPermutation, fo, cluster.getId());
-
-            try {
-                RegistrationGroupInfo rgInfo = coService.createRegistrationGroup(cluster.getFormatOfferingId(), cluster.getId(), LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY, rg, contextInfo);
-                BulkStatusInfo status  = new BulkStatusInfo();
-                status.setId(rgInfo.getId());
-                status.setSuccess(Boolean.TRUE);
-                status.setMessage("Created Registration Group");
-                rgChanges.add(status);
-
-                // Now determine if this registration group is in a valid state
-                List<ValidationResultInfo> validations =
-                        coService.verifyRegistrationGroup(rgInfo.getId(), contextInfo);
-
-                for (ValidationResultInfo validation: validations) {
-                    if (validation.isWarn()) {
-                        // If any validation is an error, then make this invalid
-                        coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, contextInfo);
-                        break;
-                    }
-                }
-
-                _gRGFC_changeClusterRegistrationGroupState(rgInfo, contextInfo);
-
-            } catch (DataValidationErrorException e) {
-                throw new OperationFailedException("Failed to validate registration group", e);
-            } catch (ReadOnlyException e) {
-                throw new OperationFailedException("Failed to write registration group", e);
-            }
-        }
-
-        return rgChanges;
+        return CourseOfferingServiceRolloverHelper.generateRegGroupsForClusterHelper(activityOfferingClusterId,
+                contextInfo, coService, registrationCodeGeneratorFactory);
     }
 
     // Returns true if a cluster has one (or more) AO sets that is empty.
@@ -1141,34 +1275,6 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             }
         }
         return false;
-    }
-
-    private Map<String, List<String>> _extractActivityOfferingMap(List<ActivityOfferingSetInfo> activityOfferingSets) {
-        Map<String, List<String>> aoTypeToListMap = new LinkedHashMap<String, List<String>>();
-
-        for (ActivityOfferingSetInfo aoSet : activityOfferingSets) {
-            for (String aoId : aoSet.getActivityOfferingIds()) {
-                List<String> aoIdList = aoTypeToListMap.get(aoSet.getActivityOfferingType());
-
-                if (aoIdList == null) {
-                    aoIdList = new ArrayList<String>();
-                    aoTypeToListMap.put(aoSet.getActivityOfferingType(), aoIdList);
-                }
-
-                aoIdList.add(aoId);
-            }
-        }
-        return aoTypeToListMap;
-    }
-
-    private List<String> extractTypes(List<ActivityOfferingSetInfo> activityOfferingSets) {
-        List<String> typeList = new ArrayList<String>();
-
-        for (ActivityOfferingSetInfo activityOfferingSetInfo : activityOfferingSets) {
-
-            typeList.add(activityOfferingSetInfo.getActivityOfferingType());
-        }
-        return typeList;
     }
 
     private void _gRGFC_changeClusterRegistrationGroupState(RegistrationGroupInfo regGroupInfo, ContextInfo context) {
@@ -1190,13 +1296,11 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                     }
                 }
                 if(!regGroupInfo.getStateKey().equals(regGroupStateKey)) {
-                    StatusInfo statusInfo = coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, context);
+                    coService.changeRegistrationGroupState(regGroupInfo.getId(), regGroupStateKey, context);
                 }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
-
 }

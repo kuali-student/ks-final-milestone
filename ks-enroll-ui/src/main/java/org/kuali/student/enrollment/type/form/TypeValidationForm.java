@@ -20,7 +20,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.type.dto.TypeVerificationInfo;
 
 /**
- * This class //TODO ...
+ * This class defines the base form for the Type Verification ui
  *
  * @author Kuali Student Team
  */

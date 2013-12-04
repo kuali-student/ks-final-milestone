@@ -205,13 +205,14 @@ public class CourseOfferingRolloverRunner implements Runnable {
         int errors = 0;
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
         int count = 1;
-        Date start = new Date();
+        Date origStart = new Date();
         //
         String rolloverAssistId = rolloverAssist.getRolloverId();
         AttributeInfo attr = new AttributeInfo();
         attr.setKey(CourseOfferingSetServiceConstants.ROLLOVER_ASSIST_ID_DYNATTR_KEY);
         attr.setValue(rolloverAssistId);
         context.getAttributes().add(attr);
+        Date start = origStart;
         for (String sourceCoId : sourceCoIds) {
             // System.out.println("processing: " + sourceCoId);
             try {
@@ -245,7 +246,11 @@ public class CourseOfferingRolloverRunner implements Runnable {
             sourceCoIdsHandled++;
             count++;
         }
-        logger.info("======= Finished processing rollover =======");
+        Date end = new Date();
+        // Compute total rollover time in hours, minutes, and seconds
+        String totalTime = _computeTotalTimeString(origStart, end);
+
+        logger.info("======= Finished processing rollover ======= (" + totalTime + ")");
         _removeRolloverAssistIdFromContext(context); // KSENROLL-8062
         reportProgress(items, sourceCoIdsHandled - errors);      // Items Processed = Items - Errors
         // mark finished
@@ -257,6 +262,35 @@ public class CourseOfferingRolloverRunner implements Runnable {
         result.setActivityOfferingsSkipped(0); // For now, we have no "failed" AOs that didn't rollover.
         result.setStateKey(CourseOfferingSetServiceConstants.FINISHED_RESULT_STATE_KEY);
         this.socService.updateSocRolloverResult(result.getId(), result, context);
+    }
+
+    private String _computeTotalTimeString(Date start, Date end) {
+        long diffInMillis = end.getTime() - start.getTime();
+        int seconds = (int)(diffInMillis / 1000);  // Convert to seconds
+        int fraction = (int)(diffInMillis % 1000);
+        String fractionStr = "" + fraction;
+        while (fractionStr.length() < 3) {
+            fractionStr = "0" + fractionStr;
+        }
+        int minutes = seconds / 60;
+        seconds = seconds % 60;
+        int hours = minutes / 60;
+        minutes = hours % 60;
+        StringBuilder result = new StringBuilder();
+        if (hours > 0) {
+            result.append(hours);
+            result.append("h, ");
+        }
+        if (hours > 0 || minutes > 0) {
+            result.append(minutes);
+            result.append("m, ");
+        }
+        result.append(seconds);
+        result.append(".");
+        result.append(fractionStr);
+        result.append("s");
+        String str = result.toString();
+        return str;
     }
 
     private void reportProgressIfModulo(List<SocRolloverResultItemInfo> items, int i) throws Exception {
@@ -309,7 +343,8 @@ public class CourseOfferingRolloverRunner implements Runnable {
             boolean firstTime = true;
 
             // This provides a better error message for display in rollover results page= (KSENROLL-4582)
-            StringBuffer errorBuffer = new StringBuffer("Validation error(s): ");
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder errorBuffer = new StringBuilder("Validation error(s): ");
             if (!StringUtils.isBlank(ex.getMessage())){
                 errorBuffer.append(ex.getMessage());
                 firstTime = false;

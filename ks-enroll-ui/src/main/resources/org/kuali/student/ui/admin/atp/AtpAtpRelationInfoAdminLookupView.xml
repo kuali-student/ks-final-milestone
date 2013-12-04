@@ -20,7 +20,6 @@
     -->
 
 	<import resource="classpath:ks-AtpAtpRelationInfo-dictionary.xml"/>
-	<import resource="classpath:UifKSDefinitions.xml"/>
 	<!-- **********************************************
 	Paste this link below into WEB-INF ksAdminLinks.tag
 	<li><portal:portalLink displayTitle="true" title="AtpAtpRelationInfo Lookup"url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo&viewId=AtpAtpRelationInfoAdminLookupView.xml&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
@@ -41,22 +40,30 @@
 				      p:label="Keyword(s)"
 				      p:helpSummary="Searches fields like name and description to see if they contain the keyword" />
 				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
-					p:quickfinder.fieldConversions="key:typeKey"
-					/>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo"
-					p:quickfinder.fieldConversions="key:stateKey"
-					/>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="atpId"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpInfo"
-					p:quickfinder.fieldConversions="id:atpId"
-					/>
-				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="relatedAtpId"
-					p:quickfinder.dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpInfo"
-					p:quickfinder.fieldConversions="id:relatedAtpId"
-					/>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey">
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.class1.type.dto.TypeInfo"
+                          p:fieldConversions="key:typeKey" />
+                    </property>
+                </bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.class1.state.dto.StateInfo"
+                            p:fieldConversions="key:stateKey" />
+                    </property>
+                </bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="atpId" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpInfo"
+                            p:fieldConversions="id:atpId" />
+                    </property>
+                </bean>
+				<bean parent="Uif-LookupCriteriaInputField" p:propertyName="relatedAtpId" >
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder" p:dataObjectClassName="org.kuali.student.r2.core.atp.dto.AtpInfo"
+                            p:fieldConversions="id:relatedAtpId" />
+                    </property>
+                </bean>
 				<!-- TODO: deal with  effectiveDate which is a Date -->
 				<!-- TODO: deal with  expirationDate which is a Date -->
 				<!-- TODO: deal with seaching on the version indicator which is a string in the contract but a number in the database -->

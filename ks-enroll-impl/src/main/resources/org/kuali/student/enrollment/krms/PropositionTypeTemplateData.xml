@@ -179,13 +179,14 @@ limitations under the License.
                           p:termSpecName="GradeTypeForCourses"
                           p:operator="&gt;=" p:value="n">
                         <property name="componentId" value="KRMS-MultiCourseWithGradeNof-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.credits.earned.min">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="NumberOfCredits"
+                          p:termSpecName="NumberOfCreditsEarned"
                           p:operator="&gt;=" p:value="n">
                         <property name="componentId" value="KRMS-Credits-ConstantValue"/>
                     </bean>
@@ -193,7 +194,7 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.course.credits.repeat.max">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="NumberOfCredits"
+                          p:termSpecName="NumberOfCreditsEarned"
                           p:operator="&lt;=" p:value="n">
                         <property name="componentId" value="KRMS-Credits-ConstantValue"/>
                     </bean>
@@ -204,7 +205,8 @@ limitations under the License.
                           p:termSpecName="FreeFormText"
                           p:value="true">
                         <property name="componentId" value="KRMS-FreeForm-InputField"/>
-                        <property name="componentBuilderClass" value="org.kuali.rice.krms.builder.SimpleTextComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.rice.krms.builder.SimpleTextComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -212,29 +214,31 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="NumberOfCreditsFromOrganization" p:operator="&gt;=" p:value="n">
                         <property name="componentId" value="KRMS-CreditAndDepartment-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.core.krms.builder.OrganizationComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.core.krms.builder.OrganizationComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program.campus">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="HasProgramCourseCampus"
+                          p:termSpecName="AdmittedToProgramAtCourseCampus"
                           p:value="true"/>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.permission.instructor.required">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="InstructorPermissionRequired"
+                          p:termSpecName="InstructorPermission"
                           p:value="true">
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdmittedToProgram"
+                          p:termSpecName="AdmittedProgram"
                           p:value="true">
                         <property name="componentId" value="KRMS-Program-Section"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -243,16 +247,18 @@ limitations under the License.
                           p:termSpecName="AdmittedToProgramLimitCoursesInOrgForDuration"
                           p:operator="&lt;=" p:value="n">
                         <property name="componentId" value="KRMS-ProgramWithNofAndOrg-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramWithOrgDurationComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramWithOrgDurationComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.notadmitted.to.program">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdmittedToProgram"
+                          p:termSpecName="AdmittedProgram"
                           p:value="false">
                         <property name="componentId" value="KRMS-Program-Section"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -261,7 +267,8 @@ limitations under the License.
                           p:termSpecName="AdmittedToProgramLimitCoursesInOrgForDuration" p:operator="&lt;="
                           p:value="n">
                         <property name="componentId" value="KRMS-ProgramWithDurAndOrg-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramWithOrgDurationComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramWithOrgDurationComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -276,7 +283,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -284,7 +292,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourses" p:value="true">
                         <property name="componentId" value="KRMS-MultiCourse-Section"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -355,7 +364,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -363,7 +373,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-CourseAndTerm-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -371,7 +382,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="CompletedCourse" p:value="true">
                         <property name="componentId" value="KRMS-CourseAndTerms-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -402,15 +414,17 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="ClassStanding" p:value="true">
                         <property name="componentId" value="KRMS-ProgramAndClassStanding-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.admitted.to.program.org">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdminOrganizationPermissionRequired" p:value="true">
+                          p:termSpecName="AdminOrgPermission" p:value="true">
                         <property name="componentId" value="KRMS-Department-Field"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.core.krms.builder.OrganizationComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.core.krms.builder.OrganizationComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -418,7 +432,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="ClassStanding" p:value="true">
                         <property name="componentId" value="KRMS-ClassStanding-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -426,7 +441,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="ClassStanding" p:value="true">
                         <property name="componentId" value="KRMS-ClassStanding-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -434,7 +450,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="ClassStanding" p:value="true">
                         <property name="componentId" value="KRMS-ClassStanding-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -442,7 +459,8 @@ limitations under the License.
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="ClassStanding" p:value="false">
                         <property name="componentId" value="KRMS-ClassStanding-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.ProgramComponentBuilder"/>
                     </bean>
                 </entry>
 
@@ -462,27 +480,53 @@ limitations under the License.
 
                 <entry key="kuali.krms.proposition.type.no.repeat.course.nof">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="NumberOfEnrollmentsForCourse" p:value="n">
+                          p:termSpecName="NumberOfEnrollments" p:value="n">
                         <property name="componentId" value="KRMS-CourseAndRepeat-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
                     </bean>
                 </entry>
 
                 <entry key="kuali.krms.proposition.type.permission.admin.org">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="AdminOrganizationPermissionRequired" p:value="true">
+                          p:termSpecName="AdminOrgPermission" p:value="true">
                         <property name="componentId" value="KRMS-Administering-Org-Field"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.core.krms.builder.AdministeringOrgComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.core.krms.builder.AdministeringOrgComponentBuilder"/>
                     </bean>
                 </entry>
                 <entry key="kuali.krms.proposition.type.memberof.population">
                     <bean parent="TemplateInfo-parent"
                           p:termSpecName="Population" p:value="true">
                         <property name="componentId" value="KRMS-Population-Group"/>
-                        <property name="componentBuilderClass" value="org.kuali.student.core.krms.builder.PopulationComponentBuilder"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.core.krms.builder.PopulationComponentBuilder"/>
                     </bean>
                 </entry>
-
+                <entry key="kuali.krms.proposition.type.final.exam.timeslot">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="MatchingTimeSlot" p:value="true">
+                        <property name="componentId" value="KSFE-FinalExam-DeliveryLogistic-Group"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.enrollment.class1.krms.builder.TimeSlotsComponentBuilder"/>
+                    </bean>
+                </entry>
+                <entry key="kuali.krms.proposition.type.final.exam.course">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="EnrolledCourses" p:value="true">
+                        <property name="componentId" value="KRMS-SingleCourse-SuggestField"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.enrollment.class1.krms.builder.EnrolCourseComponentBuilder"/>
+                    </bean>
+                </entry>
+                <entry key="kuali.krms.proposition.type.final.exam.courseset">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="EnrolledCourses" p:value="true">
+                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
+                    </bean>
+                </entry>
             </map>
         </property>
     </bean>

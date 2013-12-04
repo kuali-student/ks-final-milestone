@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeComparator;
@@ -15,13 +14,14 @@ import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
+import org.kuali.student.common.uif.util.KSControllerHelper;
+import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.service.ActivityOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
-import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
-import org.kuali.student.common.uif.util.KSControllerHelper;
-import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
@@ -73,6 +73,41 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=loadTSEndTimes")
+    public ModelAndView loadTSEndTimes(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
+        String startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime();
+        String days = activityOfferingWrapper.getNewScheduleRequest().getDays();
+
+        if (!StringUtils.isBlank(startTime) && !StringUtils.isBlank(days)){
+            ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+
+            List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTimeSlotType());
+            if (endTimes.size() == 1){
+                activityOfferingWrapper.getNewScheduleRequest().setEndTime(KSCollectionUtils.getRequiredZeroElement(endTimes));
+            } else {
+                activityOfferingWrapper.getNewScheduleRequest().setEndTime("");
+            }
+            activityOfferingWrapper.getNewScheduleRequest().setEndTimes(endTimes);
+        }
+
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=resetNewRDLTime")
+    public ModelAndView resetNewRDLTime(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+
+        activityOfferingWrapper.getNewScheduleRequest().setStartTime("");
+        activityOfferingWrapper.getNewScheduleRequest().setEndTime("");
+        activityOfferingWrapper.getNewScheduleRequest().getEndTimes().clear();
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
     public ModelAndView editScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
@@ -83,6 +118,13 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
         activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(true);
 
+        String startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime();
+        String days = activityOfferingWrapper.getNewScheduleRequest().getDays();
+
+        ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
+        List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTimeSlotType());
+        activityOfferingWrapper.getNewScheduleRequest().setEndTimes(endTimes);
+
         return getUIFModelAndView(form);
     }
 
@@ -92,9 +134,26 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
-        if (!scheduleWrapper.isTba() && validateTime(scheduleWrapper.getStartTime(), scheduleWrapper.getStartTimeAMPM(), scheduleWrapper.getEndTime(), scheduleWrapper.getEndTimeAMPM())) {
+        String startTime = StringUtils.substringBefore(scheduleWrapper.getStartTime()," ");
+        String startTimeAmPm = StringUtils.substringAfter(scheduleWrapper.getStartTime()," ");
+        String endTime = "";
+        String endTimeAmPm = "";
+
+        if (StringUtils.isNotBlank(scheduleWrapper.getEndTime())){
+            endTime = StringUtils.substringBefore(scheduleWrapper.getEndTime()," ");
+            endTimeAmPm = StringUtils.substringAfter(scheduleWrapper.getEndTime()," ");
+        }
+
+        if (!scheduleWrapper.isTba() && validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
             GlobalVariables.getMessageMap().putError("requestedDeliveryLogistic", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
             return getUIFModelAndView(form);
+        } else if (scheduleWrapper.isTba()){
+            if (StringUtils.isNotBlank(scheduleWrapper.getDays()) &&
+                StringUtils.isNotBlank(scheduleWrapper.getStartTime()) &&
+                StringUtils.isNotBlank(scheduleWrapper.getEndTime())){
+                GlobalVariables.getMessageMap().putError("requestedDeliveryLogistic", ActivityOfferingConstants.MSG_ERROR_TBA_VALIDATION_ERROR);
+                return getUIFModelAndView(form);
+            }
         }
 
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
@@ -116,10 +175,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
      * This method is called by a helper service to perform the super.route method. It's indirect, but we need a new
      * transaction boundary around this call to support handling errors without causing a rollback exception in the UI
      *
-     * @param form
-     * @param result
-     * @param request
-     * @param response
      * @return model and view
      */
     public ModelAndView routeSuper(DocumentFormBase form, BindingResult result,
@@ -144,7 +199,9 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             //Call the transaction helper to eventually call super.route, but with a new transaction
             //This way if the super.route transaction fails, the current transaction will still succeed and errors can
             //be displayed in the UI
-            getActivityOfferingControllerTransactionHelper().routeSuper(form, result, request, response, this);
+        	
+        	ActivityOfferingControllerTransactionHelper helper = getActivityOfferingControllerTransactionHelper();
+            helper.routeSuper(form, result, request, response, this);
         } catch (Exception e) {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, unwrapException(e).getMessage());
         }
@@ -175,7 +232,10 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, loadNewAO);
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, activityOfferingWrapper.getAoInfo().getCourseOfferingId());
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
-            urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+            // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+            // https://fisheye.kuali.org/changelog/rice?cs=39034
+            // TODO KSENROLL-8469
+            //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
             urlParameters.put(EnrollConstants.GROWL_MESSAGE, ActivityOfferingConstants.MSG_INFO_AO_MODIFIED);
             urlParameters.put("returnLocation", url);
 
@@ -196,8 +256,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
     /**
      * Fish out the original cause.
-     * @param e
-     * @return
      */
     private Throwable unwrapException(Throwable e) {
         if (e.getCause() != null) {
@@ -235,7 +293,10 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             urlParameters.put(ActivityOfferingConstants.ACTIVITY_OFFERING_WRAPPER_ID, loadNewAO);
             urlParameters.put(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID, activityOfferingWrapper.getAoInfo().getCourseOfferingId());
             urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, ActivityOfferingWrapper.class.getName());
-            urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
+            // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+            // https://fisheye.kuali.org/changelog/rice?cs=39034
+            // TODO KSENROLL-8469
+            //urlParameters.put(UifConstants.UrlParams.SHOW_HOME, BooleanUtils.toStringTrueFalse(false));
             urlParameters.put("returnLocation", url);
 
             GlobalVariables.getUifFormManager().removeSessionForm(form);
@@ -247,8 +308,8 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
 
     @RequestMapping(params = "methodToCall=breakColo")
-    public ModelAndView breakColo(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
-                HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView breakColo(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
+                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 

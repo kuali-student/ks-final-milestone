@@ -109,7 +109,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
         new AttributeTester().add2ForCreate(expected.getAttributes());
 
         // code to create actual
-        ExamOfferingInfo actual = testService.createExamOffering ( expected.getId(), expected.getId(), expected.getTypeKey(), expected, contextInfo);
+        ExamOfferingInfo actual = testService.createExamOffering ( expected.getExamPeriodId(), expected.getExamId(), expected.getTypeKey(), expected, contextInfo);
 
         assertNotNull(actual.getId());
         new IdEntityTester().check(expected, actual);
@@ -172,7 +172,6 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
         testCrudExamOffering_testDTOFieldsForTestReadAfterUpdate (expected, actual);
 
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
-        new MetaTester().checkAfterGet(expected.getMeta(), actual.getMeta());
 
         ExamOfferingInfo alphaDTO = actual;
 
@@ -184,7 +183,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
 
         betaDTO.setTypeKey("typeKeyBeta");
         betaDTO.setStateKey("stateKeyBeta");
-        betaDTO = testService.createExamOffering ( betaDTO.getId(), betaDTO.getId(), betaDTO.getTypeKey(), betaDTO, contextInfo);
+        betaDTO = testService.createExamOffering ( betaDTO.getExamPeriodId(), betaDTO.getExamId(), betaDTO.getTypeKey(), betaDTO, contextInfo);
 
         // -------------------------------------
         // test bulk get with no ids supplied
@@ -309,7 +308,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
         new AttributeTester().add2ForCreate(expected.getAttributes());
 
         // code to create actual
-        ExamOfferingRelationInfo actual = testService.createExamOfferingRelation ( expected.getId(), expected.getId(), expected.getTypeKey(), expected, contextInfo);
+        ExamOfferingRelationInfo actual = testService.createExamOfferingRelation ( expected.getFormatOfferingId(), expected.getExamOfferingId(), expected.getTypeKey(), expected, contextInfo);
 
         assertNotNull(actual.getId());
         new RelationshipTester().check(expected, actual);
@@ -384,7 +383,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
 
         betaDTO.setTypeKey("typeKeyBeta");
         betaDTO.setStateKey("stateKeyBeta");
-        betaDTO = testService.createExamOfferingRelation ( betaDTO.getId(), betaDTO.getId(), betaDTO.getTypeKey(), betaDTO, contextInfo);
+        betaDTO = testService.createExamOfferingRelation ( betaDTO.getFormatOfferingId(), betaDTO.getExamOfferingId(), betaDTO.getTypeKey(), betaDTO, contextInfo);
 
         // -------------------------------------
         // test bulk get with no ids supplied
@@ -546,9 +545,9 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
     public abstract void test_getExamOfferingRelationsByExamOffering()
             throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 
-    /* Method Name: getExamOfferingRelationIdsByActivityOfferingId */
+    /* Method Name: getExamOfferingRelationIdsByActivityOffering */
     @Test
-    public abstract void test_getExamOfferingRelationIdsByActivityOfferingId()
+    public abstract void test_getExamOfferingRelationIdsByActivityOffering()
             throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
 
     /* Method Name: searchForExamOfferingRelationIds */

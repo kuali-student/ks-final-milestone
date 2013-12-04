@@ -35,6 +35,7 @@ import org.kuali.student.r2.core.appointment.service.AppointmentService;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -182,7 +183,10 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put("periodId", uifForm.getPeriodId());
         urlParameters.put("termType", uifForm.getTermType());
         urlParameters.put("termYear", uifForm.getTermYear());
-        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
         try {
@@ -235,30 +239,18 @@ public class RegistrationWindowsController extends UifControllerBase {
         urlParameters.put("periodId", uifForm.getPeriodId());
         urlParameters.put("termType", uifForm.getTermType());
         urlParameters.put("termYear", uifForm.getTermYear());
-        urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
+        // UrlParams.SHOW_HISTORY and SHOW_HOME no longer exist
+        // https://fisheye.kuali.org/changelog/rice?cs=39034
+        // TODO KSENROLL-8469
+        //urlParameters.put(UifConstants.UrlParams.SHOW_HISTORY, BooleanUtils.toStringTrueFalse(false));
         String controllerPath = AppointmentConstants.REGISTRATION_WINDOWS_CONTROLLER_PATH;
 
+//        TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip
+//        removed the code that causes the light box to show and also stoped the code from redirecting
         try {
-            String dialog = AppointmentConstants.Registration_Windows_ConfirmDelete_Dialog;
-            if (!hasDialogBeenDisplayed(dialog, uifForm)) {
-                AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Delete a Window");
-                uifForm.setSelectedAppointmentWindow(window);
-
-                //redirect back to client to display lightbox
-                return showDialog(dialog, uifForm, request, response);
-            }
-
-            boolean confirmDelete = getBooleanDialogResponse(dialog, uifForm, request, response);
-            uifForm.getDialogManager().resetDialogStatus(dialog);
-            if (!confirmDelete) {
-                return super.performRedirect(uifForm, controllerPath, urlParameters);
-            }
-        } catch (Exception e) {
-            //TODO: log exception
-            return getUIFModelAndView(uifForm);
-        }
-        try {
-            AppointmentWindowWrapper window = uifForm.getSelectedAppointmentWindow();
+//            AppointmentWindowWrapper window = uifForm.getSelectedAppointmentWindow();
+            AppointmentWindowWrapper window = _getSelectedWindow(uifForm, "Delete a Window");
+            uifForm.setSelectedAppointmentWindow(window);
             if (window != null) {
 
                 if (AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_ASSIGNED_KEY.equals(window.getAppointmentWindowInfo().getStateKey())) {
@@ -271,13 +263,13 @@ public class RegistrationWindowsController extends UifControllerBase {
                         urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED);
                         urlParameters.put("windowName", window.getWindowName());
 
-                        return super.performRedirect(uifForm, controllerPath, urlParameters);
+                        return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
                     } else {
                         //There was an error
                         urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_ERROR_BREAK_APPOINTMENTS_FAILURE);
                         urlParameters.put("windowName", status.getMessage());
 
-                        return super.performRedirect(uifForm, controllerPath, urlParameters);
+                        return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
                     }
                 } else {
                     getAppointmentService().deleteAppointmentWindowCascading(window.getId(), new ContextInfo());
@@ -285,15 +277,15 @@ public class RegistrationWindowsController extends UifControllerBase {
                     urlParameters.put("growlMessage", AppointmentConstants.APPOINTMENT_MSG_INFO_DELETED);
                     urlParameters.put("windowName", window.getWindowName());
 
-                    return super.performRedirect(uifForm, controllerPath, urlParameters);
+                    return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
                 }
             } else {
                 //TODO: log window == null message
-                return super.performRedirect(uifForm, controllerPath, urlParameters);
+                return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
             }
         } catch (Exception e) {
             //TODO: log exception
-            return super.performRedirect(uifForm, controllerPath, urlParameters);
+            return getUIFModelAndView(uifForm, AppointmentConstants.REGISTRATION_WINDOWS_EDIT_PAGE);
         }
     }
 

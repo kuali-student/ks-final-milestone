@@ -39,7 +39,7 @@ import java.util.Date;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides controller methods for Diagnose Rollover ui
  *
  * @author Kuali Student Team
  */
@@ -71,7 +71,6 @@ public class DiagnoseRolloverController extends UifControllerBase {
             }
         }
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     private ModelAndView _startSelectTermForDiagnoseRollover(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,

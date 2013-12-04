@@ -39,6 +39,7 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private String courseOfferingId;
     private String courseOfferingCode;
     private String courseOfferingDesc;
+    private String courseOfferingFormatedDesc;
     private String courseOfferingStateKey;
     private String courseOfferingStateDisplay;
     private String courseOfferingCreditOptionKey;
@@ -47,6 +48,10 @@ public class CourseOfferingListSectionWrapper implements Serializable{
     private String courseOfferingGradingOptionDisplay;
     private String subjectArea;
     private String adminOrg;
+
+    private boolean studentSelectablePassFail;
+    private boolean auditCourse;
+    private boolean honorsCourse;
 
     private List<String> alternateCOCodes;
     private String ownerCode;
@@ -367,13 +372,15 @@ public class CourseOfferingListSectionWrapper implements Serializable{
      */
     @SuppressWarnings("unused")
     public String getCrossListedCodesUI(){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("This course is crosslisted with:<br>");
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append("This course is crosslisted with:<br>");
         for (String code : alternateCOCodes){
-            buffer.append(code + "<br>");
+            sb.append(code + "<br>");
         }
 
-        return StringUtils.removeEnd(buffer.toString(),"<br>");
+        return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 
     /**
@@ -384,11 +391,13 @@ public class CourseOfferingListSectionWrapper implements Serializable{
      */
     @SuppressWarnings("unused")
     public String getJointDefinedCodesUI(){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("This course is joint defined with:<br>");
-        buffer.append(jointDefinedCoCode + "<br>");
 
-        return StringUtils.removeEnd(buffer.toString(),"<br>");
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append("This course is joint defined with:<br>");
+        sb.append(jointDefinedCoCode + "<br>");
+
+        return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 
     /**
@@ -399,11 +408,12 @@ public class CourseOfferingListSectionWrapper implements Serializable{
      */
     @SuppressWarnings("unused")
     public String getColocatedInfoUI(){
-        StringBuffer buffer = new StringBuffer();
-        buffer.append("One or more activities in this course is colocated with activities in:<br>");
-        buffer.append(colocatedCoCode + "<br>");
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder();
+        sb.append("One or more activities in this course is colocated with activities in:<br>");
+        sb.append(colocatedCoCode + "<br>");
 
-        return StringUtils.removeEnd(buffer.toString(),"<br>");
+        return StringUtils.removeEnd(sb.toString(),"<br>");
     }
 
     public String getAdminOrg(){
@@ -412,6 +422,38 @@ public class CourseOfferingListSectionWrapper implements Serializable{
 
     public void setAdminOrg(String adminOrg){
         this.adminOrg=adminOrg;
+    }
+
+    public String getCourseOfferingFormatedDesc() {
+        return courseOfferingFormatedDesc;
+    }
+
+    public void setCourseOfferingFormatedDesc(String courseOfferingFormatedDesc) {
+        this.courseOfferingFormatedDesc = courseOfferingFormatedDesc;
+    }
+
+    public boolean isStudentSelectablePassFail() {
+        return studentSelectablePassFail;
+    }
+
+    public void setStudentSelectablePassFail(boolean studentSelectablePassFail) {
+        this.studentSelectablePassFail = studentSelectablePassFail;
+    }
+
+    public boolean isAuditCourse() {
+        return auditCourse;
+    }
+
+    public void setAuditCourse(boolean auditCourse) {
+        this.auditCourse = auditCourse;
+    }
+
+    public boolean isHonorsCourse() {
+        return honorsCourse;
+    }
+
+    public void setHonorsCourse(boolean honorsCourse) {
+        this.honorsCourse = honorsCourse;
     }
 
 }

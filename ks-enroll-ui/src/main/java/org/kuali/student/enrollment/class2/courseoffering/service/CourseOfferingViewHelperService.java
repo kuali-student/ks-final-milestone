@@ -45,6 +45,8 @@ public interface CourseOfferingViewHelperService extends ViewHelperService {
     public List<SocRolloverResultInfo> findRolloverByTerm(String termId) throws Exception;
     
     public boolean termHasSoc(String termId, CourseOfferingRolloverManagementForm form);
+
+    public boolean termHasExamPeriod(String termId);
     
     public String formatDate(Date date);
 

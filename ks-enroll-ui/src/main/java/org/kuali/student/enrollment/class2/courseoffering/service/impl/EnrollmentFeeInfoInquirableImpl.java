@@ -28,7 +28,7 @@ import javax.xml.namespace.QName;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a Inquirable implementation for Enrollment Fees
  *
  * @author Kuali Student Team
  */
@@ -60,10 +60,6 @@ public class EnrollmentFeeInfoInquirableImpl extends InquirableImpl {
             this.feeService = (FeeService) GlobalResourceLoader.getService(new QName(FeeServiceConstants.NAMESPACE, FeeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.feeService;
-    }
-
-    public void setFeeService(FeeService feeService) {
-        this.feeService = feeService;
     }
 
     public CourseOfferingService getCourseOfferingService() {

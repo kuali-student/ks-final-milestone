@@ -16,11 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.util;
 
-/**
- * This class //TODO ...
- *
- * @author Kuali Student Team
- */
 public enum AFUTTypeEnum {
     ACTUAL, EXPECTED
 }

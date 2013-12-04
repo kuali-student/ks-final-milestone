@@ -5,12 +5,9 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
-import org.kuali.student.enrollment.class2.courseoffering.form.RegistrationGroupManagementForm;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -21,25 +18,21 @@ import java.util.List;
 public class FormatsForCreateRGKeyValues extends UifKeyValuesFinderBase implements Serializable {
     private transient CourseOfferingService courseOfferingService;
     private static final long serialVersionUID = 1L;
+
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
-        RegistrationGroupManagementForm rgForm = (RegistrationGroupManagementForm) model;
+
+        CourseOfferingManagementForm rgForm = (CourseOfferingManagementForm) model;
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-        CourseOfferingInfo selectedCourseOffering = rgForm.getTheCourseOffering();
 
-        try {
-            String courseOfferingId = selectedCourseOffering.getId();
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-            List<FormatOfferingInfo> formatOfferingInfos =
-                    getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
-            for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
+        if (rgForm.getFoId2aoTypeMap() != null) {
+            for (FormatOfferingInfo formatOfferingInfo : rgForm.getFoId2aoTypeMap().values()) {
                 //In keyValues, key is the FormatOfferingInfo.id and value is the FormatOfferingInfo.name
                 keyValues.add(new ConcreteKeyValue(formatOfferingInfo.getId(), formatOfferingInfo.getName()));
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Error getting Formats for course offering", e);
         }
+
         return keyValues;
     }
 

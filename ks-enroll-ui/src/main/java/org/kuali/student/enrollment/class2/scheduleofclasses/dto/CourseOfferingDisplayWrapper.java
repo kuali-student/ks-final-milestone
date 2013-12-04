@@ -17,7 +17,9 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.dto;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingDisplayInfo;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,26 +28,20 @@ import java.util.List;
  */
 
 /**
- * This class //TODO ...
+ * This class defines a wrapper for Course Offering Display data
  *
  * @author Kuali Student Team
  */
-public class CourseOfferingDisplayWrapper {
+public class CourseOfferingDisplayWrapper extends CourseOfferingListSectionWrapper {
 
-    private CourseOfferingDisplayInfo coDisplayInfo;
     private String information;
     private String requisites;
+    private List<ActivityOfferingClusterWrapper> aoClusterWrapperList;
+    private List<ActivityOfferingWrapper> activityWrapperList;
 
     public CourseOfferingDisplayWrapper(){
-        coDisplayInfo = new CourseOfferingDisplayInfo();
-    }
-
-    public CourseOfferingDisplayInfo getCoDisplayInfo() {
-        return coDisplayInfo;
-    }
-
-    public void setCoDisplayInfo(CourseOfferingDisplayInfo coDisplayInfo) {
-        this.coDisplayInfo = coDisplayInfo;
+        aoClusterWrapperList = new ArrayList<ActivityOfferingClusterWrapper>();
+        activityWrapperList = new ArrayList<ActivityOfferingWrapper>();
     }
 
     public String getInformation() {
@@ -64,15 +60,20 @@ public class CourseOfferingDisplayWrapper {
         this.requisites = requisites;
     }
 
-    public String getXmlEscapedFormatted() {
-        String formatted = null;
-        if(coDisplayInfo != null && coDisplayInfo.getDescr() != null){
-            formatted = coDisplayInfo.getDescr().getFormatted();
-        }
-        if(formatted != null){
-            return StringEscapeUtils.escapeXml(formatted);
-        }
-        return formatted;
+    public List<ActivityOfferingWrapper> getActivityWrapperList() {
+        return activityWrapperList;
+    }
+
+    public void setActivityWrapperList(List<ActivityOfferingWrapper> activityWrapperList) {
+        this.activityWrapperList = activityWrapperList;
+    }
+
+    public List<ActivityOfferingClusterWrapper> getClusterResultList() {
+        return aoClusterWrapperList;
+    }
+
+    public void setClusterResultList(List<ActivityOfferingClusterWrapper> clusterResultList) {
+        this.aoClusterWrapperList = clusterResultList;
     }
 
 }

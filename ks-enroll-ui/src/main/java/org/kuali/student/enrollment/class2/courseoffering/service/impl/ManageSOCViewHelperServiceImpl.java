@@ -73,6 +73,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
             AcademicCalendarService acalService = getAcalService();
             List<TermInfo> terms = acalService.searchForTerms(criteria, createContextInfo());
+            int firstTerm = 0;
             if (terms.size() > 1) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_MULTIPLE_TERMS);
                 return null;
@@ -81,7 +82,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_INVALID_TERM);
                 return null;
             }
-            return terms.get(0);
+            return terms.get(firstTerm);
         }catch (Exception e){
             if (LOG.isDebugEnabled()){
                 LOG.debug("Error getting term for the code - " + termCode);
@@ -131,11 +132,12 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
         }
 
         SocInfo socInfo;
+        int firstId = 0;
         try {
-            socInfo = getCourseOfferingSetService().getSoc(socIds.get(0), createContextInfo());
+            socInfo = getCourseOfferingSetService().getSoc(socIds.get(firstId), createContextInfo());
         } catch (Exception e){
             if (LOG.isDebugEnabled()){
-                LOG.debug("Error getting the soc [id=" + socIds.get(0) + "]");
+                LOG.debug("Error getting the soc [id=" + socIds.get(firstId) + "]");
             }
             throw convertServiceExceptionsToUI(e);
         }

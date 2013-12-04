@@ -27,7 +27,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class extends the rice default implementation of the ViewPermissionTypeService and overrides
+ * the performPermissionMatches method
  *
  * @author Kuali Student Team
  */

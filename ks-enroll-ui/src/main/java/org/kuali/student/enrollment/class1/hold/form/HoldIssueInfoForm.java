@@ -21,7 +21,7 @@ import org.kuali.student.r2.core.hold.dto.HoldIssueInfo;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a form for HoldIssue objects
  *
  * @author Kuali Student Team
  */

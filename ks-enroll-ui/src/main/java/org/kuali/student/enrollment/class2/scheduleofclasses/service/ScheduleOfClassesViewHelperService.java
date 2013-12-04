@@ -1,8 +1,17 @@
 package org.kuali.student.enrollment.class2.scheduleofclasses.service;
 
 
+import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
+import org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteHelper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.util.SOCRequisiteWrapper;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
 
+import java.util.List;
 
 
 /**
@@ -12,13 +21,11 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClas
  * Time: 2:24 PM
  * To change this template use File | Settings | File Templates.
  */
-public interface ScheduleOfClassesViewHelperService {
+public interface ScheduleOfClassesViewHelperService extends CourseOfferingManagementViewHelperService {
 
     public void loadCourseOfferingsByTermAndCourseCode (String termId, String courseCode, ScheduleOfClassesSearchForm form) throws Exception;
 
     public void loadCourseOfferingsByTermAndInstructor(String termId, String instructorId, String instructorName, ScheduleOfClassesSearchForm form) throws Exception;
-
-    public void loadActivityOfferingsByCourseOfferingId(String courseOfferingId, ScheduleOfClassesSearchForm form) throws Exception;
 
     public void loadCourseOfferingsByTermAndDepartment(String termId, String organizationId, String organizationName, ScheduleOfClassesSearchForm form) throws Exception;
 
@@ -35,5 +42,19 @@ public interface ScheduleOfClassesViewHelperService {
      * @throws Exception
      */
     public void loadCourseOfferingsByTitleAndDescription(String termId, String titleOrDescription, ScheduleOfClassesSearchForm form) throws Exception;
+
+    public SOCRequisiteHelper retrieveRequisites(String coId, List<ActivityOfferingWrapper> activityOfferingWrapperList);
+
+    public String getTermStartEndDate(TermInfo term);
+
+    public void sortActivityOfferings(ScheduleOfClassesSearchForm form,CourseOfferingDisplayWrapper coWrapper);
+
+    public void sortRegGroups(List<RegistrationGroupWrapper> regGroupWrappers);
+
+    public KSComparatorChain getActivityComparatorChain();
+
+    public List<String> getAOStateFilter();
+
+    public List<String> getRegGroupStateFilter();
 
 }

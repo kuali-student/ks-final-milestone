@@ -233,7 +233,7 @@ public final class CourseOfferingServiceTestDataUtils {
         orig.setDescr(new RichTextInfo(formatName, "<b>" + formatName + "</b>"));
 
         orig.setGradeRosterLevelTypeKey(CourseOfferingServiceConstants.GRADE_ROSTER_LEVEL_TYPE_KEY_ATTR);
-        orig.setFinalExamLevelTypeKey(CourseOfferingServiceConstants.FINAL_EXAM_LEVEL_TYPE_KEY_ATTR);
+        orig.setFinalExamLevelTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
 
         orig.setActivityOfferingTypeKeys(Arrays
                 .asList(activityOfferingTypeKeys));

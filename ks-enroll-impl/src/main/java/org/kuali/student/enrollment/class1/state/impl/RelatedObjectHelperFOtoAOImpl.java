@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class implements RelatedObjectHelper to provide relation logic for Format Offerings and Activity Offerings
  *
  * @author Kuali Student Team
  */

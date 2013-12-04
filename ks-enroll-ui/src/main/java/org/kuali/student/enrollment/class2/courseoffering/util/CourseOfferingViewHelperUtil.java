@@ -21,6 +21,7 @@ import org.kuali.rice.kim.api.identity.PersonService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kim.impl.KIMPropertyConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
+import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -38,14 +39,13 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
@@ -60,7 +60,6 @@ import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -73,7 +72,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ... This calss is specific to CourseOffering and should be renamed appropriately
+ * This class provides utility methods for Course Offering related ui
  *
  * @author Kuali Student Team
  */
@@ -98,10 +97,6 @@ public class CourseOfferingViewHelperUtil {
         } else {
             return creditValue;
         }
-    }
-
-    public static LRCService getLrcService() {
-        return CourseOfferingResourceLoader.loadLrcService();
     }
 
     public static CourseService getCourseService() {
@@ -146,8 +141,8 @@ public class CourseOfferingViewHelperUtil {
                 }
 
                 Collections.sort(names);
-
-                result = nameMap.get(names.get(0));
+                int firstName = 0;
+                result = nameMap.get(names.get(firstName));
             }
         }
 
@@ -215,6 +210,7 @@ public class CourseOfferingViewHelperUtil {
         boolean plannedState= false;
         boolean offeredState= false;
         boolean cancelledState= false;
+        boolean suspendedState= false;
 
         if(activityOfferings == null || activityOfferings.size() == 0) {
             return LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
@@ -230,68 +226,35 @@ public class CourseOfferingViewHelperUtil {
                 cancelledState = true;
             }  else if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, ao.getStateKey())) {
                 draftState = true;
+            }  else if (StringUtils.equals(LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY, ao.getStateKey())) {
+                suspendedState = true;
             }
         }
 
         // if ALL the AOs within this FO are in a draft state (or if there are no AOs), and the current state of the FO is Planned, update the FO state to Draft
         if (offeredState) {
             return LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY;
-        }  else if(plannedState) {
+        }  else if (plannedState) {
             return LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY;
         }  else if (draftState) {
             return LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY;
+        }   else if (suspendedState) {
+            return LuiServiceConstants.LUI_FO_STATE_SUSPENDED_KEY;
         }
 
         // no offered, planned, and draft state
-        if(cancelledState)  {
+        if (cancelledState)  {
             return LuiServiceConstants.LUI_FO_STATE_CANCELED_KEY;
         }
         // If all AOs are suspended
         return null;
     }
 
-    public static String getNewCoState(List<FormatOfferingInfo>  formatOfferings) {
-        boolean draftState= false;
-        boolean plannedState= false;
-        boolean offeredState= false;
-        boolean cancelledState= false;
-
-        if(formatOfferings == null || formatOfferings.size() == 0) {
-            return LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
-        }
-
-        for (FormatOfferingInfo fo : formatOfferings) {
-             if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY, fo.getStateKey())) {
-                 draftState = true;
-             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, fo.getStateKey())) {
-                 plannedState = true;
-             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_OFFERED_KEY, fo.getStateKey())) {
-                 offeredState = true;
-             } else if(StringUtils.equals(LuiServiceConstants.LUI_FO_STATE_CANCELED_KEY, fo.getStateKey())) {
-                 cancelledState = true;
-             }
-        }
-
-        if (offeredState) {
-            return LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY;
-        }  else if(plannedState) {
-            return LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY;
-        }  else if (draftState) {
-            return LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY;
-        }
-
-        // no offered, planned, and draft state
-        if(cancelledState)  {
-            return LuiServiceConstants.LUI_CO_STATE_CANCELED_KEY;
-        }
-        // Something wrong return null
-        return null;
-    }
-
     public static String createTheCrossListedCos(CourseOfferingInfo coToShow){
         if (coToShow != null && coToShow.getCrossListings() != null && coToShow.getCrossListings().size() > 0) {
             // Always include an option for Course
-            StringBuffer crossListedCodes = new StringBuffer();
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder crossListedCodes = new StringBuilder();
 
             for (CourseOfferingCrossListingInfo courseInfo : coToShow.getCrossListings()) {
                 crossListedCodes.append(courseInfo.getCode());
@@ -309,18 +272,20 @@ public class CourseOfferingViewHelperUtil {
      */
     public static String createColocatedDisplayData(ActivityOfferingInfo ao, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException,
             OperationFailedException, DoesNotExistException {
-        StringBuffer buffer = new StringBuffer();
-        buffer.append(" ");
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sb = new StringBuilder(" ");
         CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
         SchedulingService schedulingService = CourseOfferingResourceLoader.loadSchedulingService();
-        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService.getScheduleRequestSetsByRefObject(ao.getTypeKey(), ao.getId(), context);
+        List<ScheduleRequestSetInfo> scheduleRequestSets = schedulingService
+                .getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, ao.getId(), context);
         for(ScheduleRequestSetInfo srs : scheduleRequestSets) {
             List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(srs.getRefObjectIds(), context);
             for(ActivityOfferingInfo aoInfo : aoList) {
-                buffer.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + " ");
+                sb.append(aoInfo.getCourseOfferingCode() + " " + aoInfo.getActivityCode() + ActivityOfferingDisplayWrapper.BR);
             }
         }
-        return buffer.toString();
+        return sb.toString();
     }
 
     /**
@@ -432,7 +397,7 @@ public class CourseOfferingViewHelperUtil {
     /**
      * Returns the day-of-the-year represented by the supplied term.
      *
-     * @param termInfo
+     * @param termInfo  we will pull the term start and end dates from this. Both are required.
      * @param academicCalendarService
      * @param contextInfo
      * @return int of the day-of-the-year that represents the term
@@ -447,20 +412,16 @@ public class CourseOfferingViewHelperUtil {
 
         int termDayOfYear = 0; // default to 1st day of the year
 
-        List<KeyDateInfo> keyDateInfoList = academicCalendarService.getKeyDatesForTerm( termInfo.getId(), contextInfo );
-        for(KeyDateInfo keyDateInfo : keyDateInfoList ) {
-            if( keyDateInfo.getTypeKey().equalsIgnoreCase(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)
-                    && keyDateInfo.getStartDate() != null
-                    && keyDateInfo.getEndDate() != null )
-            {
-                Date termClassStartDate = keyDateInfo.getStartDate();
-                Date termClassEndDate = keyDateInfo.getEndDate();
-                Date avgDate = new Date( termClassStartDate.getTime() + ( (termClassEndDate.getTime() - termClassStartDate.getTime()) /2 ) );
-                Calendar cal = Calendar.getInstance();
-                cal.setTime( avgDate) ;
-                termDayOfYear = cal.get( Calendar.DAY_OF_YEAR );
-                break;
-            }
+        // Use the term start and end dates since they are required.
+        if(termInfo.getStartDate() != null
+           && termInfo.getEndDate() != null )
+        {
+            Date termClassStartDate = termInfo.getStartDate();
+            Date termClassEndDate = termInfo.getEndDate();
+            Date avgDate = new Date( termClassStartDate.getTime() + ( (termClassEndDate.getTime() - termClassStartDate.getTime()) /2 ) );
+            Calendar cal = Calendar.getInstance();
+            cal.setTime( avgDate) ;
+            termDayOfYear = cal.get( Calendar.DAY_OF_YEAR );
         }
 
         return termDayOfYear;

@@ -1,0 +1,228 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+     Copyright 2007-2012 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <bean id="KS-CourseOfferingManagement-ExamOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
+          p:id="viewExamOfferingsPage">
+
+        <property name="pageSourceFile" value="CourseOfferingManagement-ManageCourseOfferingsPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
+
+        <property name="headerText" value="Exam Offerings"/>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-Enrollment"/>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Course Offerings"/>
+                    <property name="url.viewId" value="courseOfferingManagementView"/>
+                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{#dp.subjectCode}"/>
+                    <property name="url.viewId" value="courseOfferingManagementView"/>
+                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="show"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="inputCode" value="@{#dp.subjectCode}"/>
+                            <entry key="formKey" value="@{returnFormKey}"/>
+                            <entry key="pageId" value="manageCourseOfferingsPage"/>
+                            <entry key="viewName" value="@{#dp.subjectCode}"/>
+                        </map>
+                    </property>
+                </bean>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="@{#dp.inputCode}"/>
+                    <property name="url.viewId" value="courseOfferingManagementView"/>
+                    <property name="url.controllerMapping" value="courseOfferingManagement"/>
+                    <property name="url.requestParameters">
+                        <map key-type="java.lang.String" merge="true">
+                            <entry key="methodToCall" value="show"/>
+                            <entry key="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+                            <entry key="hideReturnLink" value="true"/>
+                            <entry key="inputCode" value="@{#dp.inputCode}"/>
+                            <entry key="termCode" value="@{#dp.termCode}"/>
+                            <entry key="pageId" value="manageTheCourseOfferingPage"/>
+                        </map>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <bean parent="Uif-BreadcrumbItem">
+                    <property name="label" value="Exam Offerings"/>
+                </bean>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-CourseOffering-ContextBar"/>
+                            <ref bean="KS-CourseOfferingManagement-ExamOfferingByCOTableSection"/>
+                            <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" />
+                            <bean parent="KS-CourseOfferingManagement-ExamOfferingTableSection" p:render="@{!#dp.examOfferingCancelledList.isEmpty()}">
+                                <property name="propertyName" value="examOfferingCancelledList"/>
+                                <property name="headerText" value="Cancelled Exam Offering for Course Offering"/>
+                            </bean>
+                            <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection"
+                                        p:render="@{!#dp.eoCancelClusterList.isEmpty()}" >
+                                <property name="headerText" value="Cancelled Exam Offerings for Activity Offerings"/>
+                                <property name="propertyName" value="eoCancelClusterList" />
+                                <property name="subCollections">
+                                    <list>
+                                        <bean parent="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" p:render="true"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ExamOfferingTableSection" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false"
+          p:readOnly="true" p:width="75%" abstract="true">
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
+        </property>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="layoutManager.richTable">
+            <bean parent="KS-Uif-RichTable"/>
+        </property>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
+                <entry key="bAutoWidth" value="false"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
+                <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysDisplayName"/>
+                <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTimeDisplay"/>
+                <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeDisplay"/>
+                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ExamOfferingByCOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection"
+          p:render="@{!#dp.examOfferingWrapperList.isEmpty()}">
+        <property name="headerText" value="Exam Offering for Course Offering"/>
+        <property name="propertyName" value="examOfferingWrapperList"/>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" parent="KS-CourseOfferingManagement-ExamOfferingTableSection">
+        <property name="propertyName" value="eoWrapperList"/>
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
+        <property name="layoutManager.applyAlternatingRowStyles" value="true" />
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="rtip"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':true, 'sWidth':'10%'},
+                                {'bSortable':true, 'sWidth':'15%'},
+                                {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'10%'},
+                                {'bSortable':false, 'sWidth':'25%'},
+                                {'bSortable':false, 'sWidth':'10%'}
+                           ]"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName"/>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Activity Code" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false">
+                                <property name="inquiry">
+                                    <bean parent="KS-Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Final Exam Driver Activity" p:propertyName="typeName"/>
+                <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysDisplayName"/>
+                <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTimeDisplay"/>
+                <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeDisplay"/>
+                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-ExamOfferingByAOClustersSection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" p:renderAddLine="false"  p:renderLineActions="false"
+          p:render="@{!#dp.eoClusterResultList.isEmpty()}"  p:width="100%">
+        <property name="disclosure.render" value="false" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper" />
+        <property name="propertyName" value="eoClusterResultList" />
+        <property name="cssClasses" value="aoc_disclosure"/>
+        <property name="headerText" value="Exam Offerings for Activity Offerings"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
+        <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+        <property name="layoutManager.addLineGroup.header.render" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-EOClusterHeaderText" />
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <ref bean="KS-CourseOfferingManagement-ExamOfferingByAOTableSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseOfferingManagement-EOClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" />
+                <bean parent="Uif-Label" p:labelText="@{#line.formatNameForDisplay}"  p:renderColon="false" />
+            </list>
+        </property>
+
+    </bean>
+</beans>

@@ -51,10 +51,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private List<CourseOfferingEditWrapper> existingOfferingsInCurrentTerm;
     private List<CourseOfferingEditWrapper> existingTermOfferings;
 
-    //    private List<String> coListedCOs;
     private boolean crossListedCo;
-//    private String displayStringCoListedCOs;
-
 
     private boolean excludeCancelledActivityOfferings;
     private boolean excludeSchedulingInformation;
@@ -73,6 +70,8 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     private SocInfo socInfo;
 
+    protected String viewId;
+
     private int selectedJointCourseIndex;
     private String selectedJointCourseCode;
     private List<FormatOfferingWrapper> dialogFormatOfferingWrapperList;
@@ -82,7 +81,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         formatOfferingWrappers = new ArrayList<FormatOfferingWrapper>();
         existingOfferingsInCurrentTerm = new ArrayList<CourseOfferingEditWrapper>();
         existingTermOfferings = new ArrayList<CourseOfferingEditWrapper>();
-//        coListedCOs = new ArrayList<String>();
         jointCourses = new ArrayList<JointCourseWrapper>();
         showJointOption = false;
         crossListedCo = false;
@@ -90,6 +88,7 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         copyFromFormats = new ArrayList<FormatOfferingWrapper>();
         showCreateFormatSection = true;
         dialogFormatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
+        createFromCatalog = true;
     }
 
     public String getTargetTermCode() {
@@ -223,14 +222,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         this.excludeInstructorInformation = excludeInstructorInformation;
     }
 
-    /*public List<String> getCoListedCOs() {
-        return coListedCOs;
-    }
-
-    public void setCoListedCOs(List<String> coListedCOs) {
-        this.coListedCOs = coListedCOs;
-    }*/
-
     public boolean isCrossListedCo() {
         return crossListedCo;
     }
@@ -238,15 +229,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     public void setCrossListedCo(boolean crossListedCo) {
         this.crossListedCo = crossListedCo;
     }
-
-    /*public String getDisplayStringCoListedCOs() {
-        return displayStringCoListedCOs;
-    }
-
-    public void setDisplayStringCoListedCOs(String displayStringCoListedCOs) {
-        this.displayStringCoListedCOs = displayStringCoListedCOs;
-    }*/
-
 
     public List<JointCourseWrapper> getJointCourses() {
         return jointCourses;
@@ -481,6 +463,14 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
      */
     public void setDialogFormatOfferingWrapperList(List<FormatOfferingWrapper> dialogFormatOfferingWrapperList) {
         this.dialogFormatOfferingWrapperList = dialogFormatOfferingWrapperList;
+    }
+
+    public String getViewId() {
+        return viewId;
+    }
+
+    public void setViewId(String viewId) {
+        this.viewId = viewId;
     }
 
     /**

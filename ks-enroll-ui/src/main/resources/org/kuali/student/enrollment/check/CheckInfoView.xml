@@ -20,7 +20,7 @@
     -->
 
     <bean id="KS-ProcessInfo-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
-          p:id="checkInfoView" p:headerText="Edit Checks">
+          p:id="checkInfoView" p:headerText="Edit Checks" p:additionalCssClasses="ks-enrollment-home">
         <property name="singlePageView" value="true"/>
         <property name="viewSourceFile" value="CheckInfoView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="page">
@@ -31,11 +31,6 @@
         </property>
         <property name="footer">
             <bean parent="Uif-FooterBase"/>
-        </property>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home</value>
-            </list>
         </property>
         <property name="items">
             <list>
@@ -50,15 +45,22 @@
           p:layoutManager.numberOfColumns="3" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class1.check.form.CheckInfoForm" />
         <property name="propertyName" value="checkInfoList" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map>
-                <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
-            </map>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="rtip"/>
+                        <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
+                    </map>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>

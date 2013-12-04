@@ -213,7 +213,12 @@ public class ExamOfferingServiceMapImpl implements MockService, ExamOfferingServ
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("changeExamOfferingState has not been implemented");
+        ExamOfferingInfo eo = this.examOfferingMap.get(examOfferingId);
+        if (eo==null){
+            throw new DoesNotExistException(examOfferingId);
+        }
+        eo.setStateKey(stateKey);
+        return newStatus();
     }
 
     @Override
@@ -380,7 +385,7 @@ public class ExamOfferingServiceMapImpl implements MockService, ExamOfferingServ
     }
 
     @Override
-    public List<String> getExamOfferingRelationIdsByActivityOfferingId(String activityOfferingId, ContextInfo contextInfo)
+    public List<String> getExamOfferingRelationIdsByActivityOffering(String activityOfferingId, ContextInfo contextInfo)
             throws InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException

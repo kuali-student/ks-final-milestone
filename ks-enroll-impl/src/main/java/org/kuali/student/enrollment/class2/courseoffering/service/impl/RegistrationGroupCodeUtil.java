@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class provides utility methods for generating registration group codes
  *
  * @author Kuali Student Team
  */
@@ -64,8 +64,9 @@ public class RegistrationGroupCodeUtil {
             if (!found) {
                 // Try to find reg groups already generated
                 List<RegistrationGroupInfo> rgInfos = coService.getRegistrationGroupsByFormatOffering(existingFo.getId(), context);
+                int firstRegistrationGroupInfo = 0;
                 if (rgInfos != null && !rgInfos.isEmpty()) {
-                    RegistrationGroupInfo sample = rgInfos.get(0);
+                    RegistrationGroupInfo sample = rgInfos.get(firstRegistrationGroupInfo);
                     String rgCodePrefixStr = sample.getName().substring(0, 1);
                     int rgCodePrefix = Integer.parseInt(rgCodePrefixStr);
                     usedPrefixes.add(rgCodePrefix);

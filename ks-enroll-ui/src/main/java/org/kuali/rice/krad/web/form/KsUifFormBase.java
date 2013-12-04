@@ -23,7 +23,7 @@ import org.kuali.student.common.uif.util.KSUifUtils;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class //TODO ...
+ * This class provides a base form class for KS KRAD forms
  *
  * @author Kuali Student Team
  */

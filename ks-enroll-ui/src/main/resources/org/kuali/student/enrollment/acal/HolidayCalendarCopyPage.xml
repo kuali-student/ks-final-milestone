@@ -35,12 +35,7 @@
         <property name="pageSourceFile" value="HolidayCalendarCopyPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
         <property name="header">
-            <bean parent="Uif-HeaderTwo">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-header</value>
-                    </list>
-                </property>
+            <bean parent="Uif-HeaderTwo" p:additionalCssClasses="ks-header">
             </bean>
         </property>
         <property name="header.lowerGroup">
@@ -101,7 +96,7 @@
                               p:actionLabel="Copy Holiday Calendar"
                               p:render="@{holidayCalendarInfo != null}"
                               p:performClientSideValidation="true" />
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()"/>
                     </list>
                 </property>
             </bean>
@@ -116,46 +111,64 @@
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
-                      p:render="@{holidayCalendarInfo != null}">
-                    <property name="align" value="CENTER"/>
+                      p:render="@{holidayCalendarInfo != null}" p:additionalCssClasses="ks-calendar-copy-from">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-SpaceField"/>
                             <bean parent="Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:showLabel="false"
-                                  p:style="font-size:125%;"/>
-                            <bean parent="Uif-GridGroup"
-                                  p:layoutManager.numberOfColumns="2"
-                                  p:layoutManager.applyDefaultCellWidths="false">
+                                  p:additionalCssClasses="ks-calendar-copy-from-heading"/>
+                            <bean parent="Uif-HorizontalFieldGroup" p:showLabel="false" />
+
+                            <bean parent="Uif-HorizontalFieldGroup" p:additionalCssClasses="ks-calendar-copy-content">
+
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-DataField"
-                                              p:propertyName="holidayCalendarInfo.startDate"
-                                              p:label="Start Date"
-                                              p:required="false"
-                                              p:fieldLabel.renderColon="false"/>
-                                        <bean parent="Uif-DataField"
-                                              p:propertyName="holidayCalendarInfo.endDate"
-                                              p:label="End Date"
-                                              p:required="false"
-                                              p:fieldLabel.renderColon="false"/>
+                                        <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-calendar-copy-from-date-labels">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-Message">
+                                                        <property name="messageText" value='Start Date'/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                    <bean parent="Uif-Message">
+                                                        <property name="messageText" value='End Date'/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+
+                                        </bean>
+                                        <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-calendar-copy-from-date-values">
+                                            <property name="align" value="CENTER"/>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="holidayCalendarInfo.startDate">
+                                                        <property name="labelRendered" value="true"/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                    <bean parent="Uif-DataField"
+                                                          p:propertyName="holidayCalendarInfo.endDate">
+                                                        <property name="labelRendered" value="true"/>
+                                                        <property name="align" value="right"/>
+                                                        <property name="valign" value="bottom"/>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
-                                <property name="align"  value="CENTER"/>
                             </bean>
                             <bean parent="Uif-Message"
                                   p:messageText="A recent holiday calendar could not be found."
-                                  p:render="@{holidayCalendarInfo == null}"
-                                  p:style="font-size:125%;"/>
+                                  p:render="@{holidayCalendarInfo == null}" />
                             <bean parent="KS-Uif-ActionLink"
                                   p:actionLabel="@{holidayCalendarInfo != null ? 'Find a different calendar to copy' : 'Choose a Calendar'}"
                                   p:methodToCall="search"/>
-                        </list>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-holiday-calendar-copy-from</value>
                         </list>
                     </property>
                 </bean>
@@ -172,7 +185,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxSubSection">
+                <bean parent="Uif-VerticalBoxSubSection" p:additionalCssClasses="ks-calendar-copy-to">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField"
@@ -192,7 +205,7 @@
                                     <bean parent="Uif-TextControl"
                                           p:size="40"
                                           p:watermarkText="New calendar name"
-                                          />
+                                            />
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField"
@@ -225,11 +238,6 @@
                                           p:watermarkText="mm/dd/yyyy"/>
                                 </property>
                             </bean>
-                        </list>
-                    </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-calendar-copy-to</value>
                         </list>
                     </property>
                 </bean>

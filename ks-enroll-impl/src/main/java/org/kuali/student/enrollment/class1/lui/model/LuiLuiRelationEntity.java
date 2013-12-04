@@ -11,6 +11,7 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -35,7 +36,9 @@ import java.util.Set;
     @NamedQuery(name="LuiLuiRelationENR.getRelatedLuisByLuiId", query="select rel.relatedLui.id from LuiLuiRelationEntity rel where rel.lui.id=:luiId and rel.luiLuiRelationType=:luLuRelationTypeKey"),
     @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByRelatedLuiAndLuiId", query="Select rel from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.relatedLui.id=:relatedLuiId"),
     @NamedQuery(name="LuiLuiRelationENR.getRelatedLuisByLuiIdAndRelationType", query="Select rel.relatedLui from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey"),
-    @NamedQuery(name="LuiLuiRelationENR.getRelatedLuiIdsByLuiIdAndRelationType", query="Select rel.relatedLui.id from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey")
+    @NamedQuery(name="LuiLuiRelationENR.getRelatedLuiIdsByLuiIdAndRelationType", query="Select rel.relatedLui.id from LuiLuiRelationEntity rel where rel.lui.id=:luiId AND rel.luiLuiRelationType=:luiLuiRelationTypeKey"),
+    @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationIdsByType", query="select rel.id from LuiLuiRelationEntity rel where rel.luiLuiRelationType=:luiLuiRelationTypeKey"),
+    @NamedQuery(name="LuiLuiRelationENR.getLuiLuiRelationsByIds", query="Select rel from LuiLuiRelationEntity rel where rel.id in (:ids)")
 })
 public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity> {
 
@@ -61,7 +64,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private Set<LuiLuiRelationAttributeEntity> attributes = new HashSet<LuiLuiRelationAttributeEntity>();
 
     public LuiLuiRelationEntity() {

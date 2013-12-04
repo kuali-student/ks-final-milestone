@@ -50,7 +50,7 @@ import java.lang.reflect.Field;
 import java.util.*;
 
 /**
- * This class //TODO ...
+ * This class provides controller logic for the Type Verification report ui
  *
  * @author Kuali Student Team
  */

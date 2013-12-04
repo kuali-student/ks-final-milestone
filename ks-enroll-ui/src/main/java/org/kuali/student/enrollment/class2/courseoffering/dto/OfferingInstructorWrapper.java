@@ -20,7 +20,7 @@ import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import java.io.Serializable;
 
 /**
- * This class //TODO ...
+ * This class provides a wrapper for Offering Instructor data
  *
  * @author Kuali Student Team
  */

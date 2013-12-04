@@ -395,6 +395,93 @@ public class TestSchedulingServiceMockImpl {
         }
     }
 
+    @Test
+    public void testCanUpdateTimeSlotRDL() throws Exception {
+
+        List<String> buildingIds1 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> campusIds1 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> orgIds1 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> resourceTypeKeys1 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> roomIds1 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> timeSlotIds1 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+
+        List<String> buildingIds2 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> campusIds2 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> orgIds2 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> resourceTypeKeys2 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> roomIds2 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+        List<String> timeSlotIds2 = ListOfStringTester.generateRandomListOfStringIds(2, 1000);
+
+        List<ScheduleRequestComponentInfo> scheduleRequestComponentInfos = new ArrayList<ScheduleRequestComponentInfo>();
+        ScheduleRequestComponentInfo scheduleRequestComponentInfo1 = new ScheduleRequestComponentInfo();
+        scheduleRequestComponentInfo1.setId("11");
+        scheduleRequestComponentInfo1.setIsTBA(false);
+        scheduleRequestComponentInfo1.setBuildingIds(buildingIds1);
+        scheduleRequestComponentInfo1.setCampusIds(campusIds1);
+        scheduleRequestComponentInfo1.setOrgIds(orgIds1);
+        scheduleRequestComponentInfo1.setResourceTypeKeys(resourceTypeKeys1);
+        scheduleRequestComponentInfo1.setRoomIds(roomIds1);
+        scheduleRequestComponentInfo1.setTimeSlotIds(timeSlotIds1);
+        scheduleRequestComponentInfos.add(scheduleRequestComponentInfo1);
+        ScheduleRequestComponentInfo scheduleRequestComponentInfo2 = new ScheduleRequestComponentInfo();
+        scheduleRequestComponentInfo2.setId("12");
+        scheduleRequestComponentInfo2.setIsTBA(false);
+        scheduleRequestComponentInfo2.setBuildingIds(buildingIds2);
+        scheduleRequestComponentInfo2.setCampusIds(campusIds2);
+        scheduleRequestComponentInfo2.setOrgIds(orgIds2);
+        scheduleRequestComponentInfo2.setResourceTypeKeys(resourceTypeKeys2);
+        scheduleRequestComponentInfo2.setRoomIds(roomIds2);
+        scheduleRequestComponentInfo2.setTimeSlotIds(timeSlotIds2);
+        scheduleRequestComponentInfos.add(scheduleRequestComponentInfo2);
+
+
+        ScheduleRequestSetInfo srsInfo  = new ScheduleRequestSetInfo();
+        crudInfoTester.initializeInfoForTestCreate(srsInfo,SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET, SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+        srsInfo.setRefObjectTypeKey("ao_type");
+        srsInfo.setRefObjectIds(Arrays.asList("ao1"));
+        ScheduleRequestSetInfo srs = schedulingService.createScheduleRequestSet(srsInfo.getTypeKey(), "ao_type", srsInfo, callContext);
+        ScheduleRequestInfo expected = new ScheduleRequestInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+        expected.setScheduleRequestComponents(scheduleRequestComponentInfos);
+        expected.setScheduleRequestSetId(srs.getId());
+        ScheduleRequestInfo actual = schedulingService.createScheduleRequest(expected.getTypeKey(), expected, callContext);
+        crudInfoTester.testCreate(expected, actual);
+
+        assertFalse(schedulingService.canUpdateTimeSlot(expected.getScheduleRequestComponents().get(1).getTimeSlotIds().get(1), callContext));
+        assertTrue(schedulingService.canUpdateTimeSlot("test-for-nonexistent-timeslot-rdl", callContext));
+    }
+
+    @Test
+    public void testCanUpdateTimeSlotADL() throws Exception {
+
+        List<String> timeSlotIds1 = ListOfStringTester.generateRandomListOfStringIds(4, 100);
+        List<String> timeSlotIds2 = ListOfStringTester.generateRandomListOfStringIds(2, 100);
+        ScheduleComponentInfo scheduleComponentInfo1 = new ScheduleComponentInfo();
+        scheduleComponentInfo1.setId("1");
+        scheduleComponentInfo1.setRoomId("r1");
+        scheduleComponentInfo1.setTimeSlotIds(timeSlotIds1);
+        ScheduleComponentInfo scheduleComponentInfo2 = new ScheduleComponentInfo();
+        scheduleComponentInfo2.setId("2");
+        scheduleComponentInfo2.setRoomId("r2");
+        scheduleComponentInfo2.setTimeSlotIds(timeSlotIds2);
+        List<ScheduleComponentInfo> scheduleComponentInfos = new ArrayList<ScheduleComponentInfo>();
+        scheduleComponentInfos.add(scheduleComponentInfo1);
+        scheduleComponentInfos.add(scheduleComponentInfo2);
+
+        // test create
+        // ----------------
+        ScheduleInfo expected_scheduleInfo = new ScheduleInfo() ;
+        crudInfoTester.initializeInfoForTestCreate(expected_scheduleInfo, SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
+        expected_scheduleInfo.setAtpId("124");
+        expected_scheduleInfo.setScheduleComponents(scheduleComponentInfos);
+        ScheduleInfo actual_scheduleInfo1 = schedulingService.createSchedule(expected_scheduleInfo.getTypeKey(), expected_scheduleInfo, callContext);
+        crudInfoTester.testCreate(expected_scheduleInfo, actual_scheduleInfo1);
+
+        assertFalse(schedulingService.canUpdateTimeSlot(expected_scheduleInfo.getScheduleComponents().get(1).getTimeSlotIds().get(1), callContext));
+        assertTrue(schedulingService.canUpdateTimeSlot("test-for-nonexistent-timeslot-adl", callContext));
+
+    }
+
     // test crud ScheduleRequest
     @Test
     public void testCrudScheduleRequest () throws DataValidationErrorException
@@ -849,6 +936,7 @@ public class TestSchedulingServiceMockImpl {
         // ----------------
         TimeSlotInfo expected = new TimeSlotInfo() ;
         crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
+        expected.setName("1"); //Timeslot Code.
         expected.setWeekdays(DOW_M_W_F);
         TimeOfDayInfo startTime = new TimeOfDayInfo();
         startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);

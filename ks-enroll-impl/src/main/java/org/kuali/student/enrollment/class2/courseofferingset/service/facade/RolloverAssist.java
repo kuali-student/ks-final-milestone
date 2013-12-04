@@ -31,4 +31,24 @@ public interface RolloverAssist {
     public boolean mapSourceSRSIdToTargetSRSId(String rolloverId, String sourceSRSId, String targetSRSId)
             throws OperationFailedException;
     public String getTargetSRSId(String rolloverId, String sourceSRSId) throws DoesNotExistException;
+
+    /**
+     * Maps shared waitlists from source term to target term.  If they aren't shared, this isn't used.
+     * @param rolloverId A time stamp used to identify this particular rollover
+     * @param sourceWaitlistId A waitlist ID in the source term for CourseWaitListInfo
+     * @param targetWaitlistId A waitlist ID in the target term for CourseWaitListInfo
+     * @return true if if there is a rolloverId in the hashmap
+     */
+    public boolean mapSourceSharedWaitlistIdToTargetSharedWaitlistId(String rolloverId,
+                                                                     String sourceWaitlistId,
+                                                                     String targetWaitlistId) throws OperationFailedException;
+
+    /**
+     * Returns a target waitlist ID assuming rollover ID and sourceWaitlistId exists
+     * @param rolloverId Rollover ID
+     * @param sourceWaitlistId ID for shared source waitlist
+     * @return target waitlist ID
+     * @throws DoesNotExistException
+     */
+    public String getTargetSharedWaitlistId(String rolloverId, String sourceWaitlistId) throws DoesNotExistException;
 }

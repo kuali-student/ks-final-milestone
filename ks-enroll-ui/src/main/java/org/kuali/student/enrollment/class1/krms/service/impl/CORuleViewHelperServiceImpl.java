@@ -62,7 +62,7 @@ public class CORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) {
 
         //Set the original nl if not already exists.
         checkNaturalLanguageForTree(original);

@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class provides a Lookupable implementation for Enrollment Fees
  *
  * @author Kuali Student Team
  */
@@ -70,25 +70,6 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
                }
             }
 
-
-              /*
-            EnrollmentFeeInfo tempObj = new EnrollmentFeeInfo();
-
-            EnrollmentFeeAmountInfo efa = new EnrollmentFeeAmountInfo();
-            efa.setCurrencyQuantity(5);
-            efa.setCurrencyTypeKey("some.type.key.for.currency");
-
-            tempObj.setAmount(efa);
-            tempObj.setDescr(new RichTextInfo("This is a test description of the EnrollmentFeeInfo", "Just a stub"));
-            tempObj.setOrgId("123 Org");
-            tempObj.setRefObjectId("42");
-            tempObj.setId("112211");
-            tempObj.setStateKey("active");
-            tempObj.setTypeKey("some.type.key");
-
-
-            enrollmentFeeInfos.add(tempObj);
-            */
         } catch (Exception e) {
            LOG.error("Error looking up fees", e);
         }
@@ -101,10 +82,6 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
             this.feeService = (FeeService) GlobalResourceLoader.getService(new QName(FeeServiceConstants.NAMESPACE, FeeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.feeService;
-    }
-
-    public void setFeeService(FeeService feeService) {
-        this.feeService = feeService;
     }
 
     public CourseOfferingService getCourseOfferingService() {

@@ -25,12 +25,14 @@ import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiSetInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -108,6 +110,22 @@ public class LuiServiceMockImpl
     }
 
     @Override
+    public List<LuiInfo> getLuisByAtpAndType(String atpId, String typeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<LuiInfo> list = new ArrayList<LuiInfo>();
+        for (LuiInfo info : this.luis.values()) {
+            if (info.getAtpId().equals(atpId)) {
+                if (info.getTypeKey().equals(typeKey)) {
+                    try { list.add(getLui(info.getId(), contextInfo)); }
+                    catch (DoesNotExistException e) {
+                        /* do nothing */
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    @Override
     public List<String> getLuiIdsByAtpAndClu(String cluId, String atpId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> list = new ArrayList<String>();
         for (LuiInfo info : this.luis.values()) {
@@ -150,6 +168,7 @@ public class LuiServiceMockImpl
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
         }
+        copy.setMeta(newMeta(contextInfo));
         luis.put(copy.getId(), copy);
         return new LuiInfo(copy);
     }
@@ -160,6 +179,7 @@ public class LuiServiceMockImpl
             throw new DoesNotExistException(luiId);
         }
         LuiInfo copy = new LuiInfo(luiInfo);
+        copy.setMeta(updateMeta(copy.getMeta(),contextInfo));
         luis.put(luiId, copy);
         return new LuiInfo(copy);
     }
@@ -282,7 +302,7 @@ public class LuiServiceMockImpl
 
     @Override
     public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new ArrayList<String>();
     }
 
     @Override
@@ -529,6 +549,24 @@ public class LuiServiceMockImpl
         }
 
         return result;
+    }
+
+    private MetaInfo newMeta(ContextInfo context) {
+        MetaInfo meta = new MetaInfo();
+        meta.setCreateId(context.getPrincipalId());
+        meta.setCreateTime(new Date());
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(meta.getCreateTime());
+        meta.setVersionInd("0");
+        return meta;
+    }
+
+    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
+        MetaInfo meta = new MetaInfo(old);
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(new Date());
+        meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
+        return meta;
     }
 
 }

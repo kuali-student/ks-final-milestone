@@ -22,11 +22,15 @@
     <bean id="KS-ScheduleOfClassesSearch-View" parent="KS-Uif-FormView" p:applyDirtyCheck="true"
           p:id="scheduleOfClassesSearchView"
           p:entryPageId="searchInputPage"
-          p:viewHelperServiceClass="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl"
-          p:formClass="org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm">
+          p:viewHelperServiceClass=""
+          p:formClass="org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm"
+          p:onDocumentReadyScript="performFocus('course_search_text_control');">
         <!-- property name="header">
             <bean parent="Uif-HeaderThree" p:headerText="Schedule of Classes" p:render="false"/>
         </property-->
+        <property name="viewHelperService">
+            <ref bean="scheduleOfClassesViewHelperService"/>
+        </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
@@ -35,14 +39,9 @@
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>ks-enroll/scripts/scheduleOfClasses.js</value>
+                <value>themes/ksboot/scripts/scheduleOfClasses.js</value>
             </list>
         </property>
-        <!-- property name="additionalCssFiles">
-            <list merge="true">
-                <value>ks-enroll/css/acal.css</value>
-            </list>
-        </property -->
         <property name="items">
             <list>
                 <ref bean="KS-ScheduleOfClasses-SearchInputPage"/>
@@ -50,5 +49,50 @@
             </list>
         </property>
     </bean>
+
+    <bean id="scheduleOfClassesViewHelperService" parent="scheduleOfClassesViewHelperService-parent"/>
+
+    <bean id="scheduleOfClassesViewHelperService-parent" class="org.kuali.student.enrollment.class2.scheduleofclasses.service.impl.ScheduleOfClassesViewHelperServiceImpl">
+        <property name="activityComparatorChain">
+            <ref bean="scheduleOfClassesAOSorting"/>
+        </property>
+        <property name="regGroupComparatorChain">
+            <ref bean="scheduleOfClassesRegGroupSorting"/>
+        </property>
+
+    </bean>
+
+    <bean id="scheduleOfClassesAOSorting" parent="scheduleOfClassesAOSorting-parent"/>
+
+    <!--
+    Here goes a list of comparators which needs to run on the AOs for each AO cluster. This is intended to be institutionally configurable sothat
+    institutions can inject or change order of the comparators list.
+    -->
+    <bean id="scheduleOfClassesAOSorting-parent" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain">
+        <property name="comparators">
+            <list>
+                <bean class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.ActivityOfferingCodeComparator"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="scheduleOfClassesRegGroupSorting" parent="scheduleOfClassesRegGroupSorting-parent"/>
+
+    <!--
+    Here goes a list of comparators which needs to run on the AOs for each AO cluster. This is intended to be institutionally configurable sothat
+    institutions can inject or change order of the comparators list.
+    -->
+    <bean id="scheduleOfClassesRegGroupSorting-parent"
+          class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.KSComparatorChain">
+        <property name="comparators">
+            <list>
+                <bean id="RegGroupNameComparator" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupNameComparator"/>
+                <bean id="RegGroupBeginTimeComparator" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupBeginTimeComparator"/>
+                <bean id="RegGroupEndTimeComparator"   class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupEndTimeComparator"/>
+                <bean id="RegGroupDaysOfWeekComparator" class="org.kuali.student.enrollment.class2.scheduleofclasses.sort.impl.RegGroupDaysOfWeekComparator"/>
+             </list>
+        </property>
+    </bean>
+
 
 </beans>

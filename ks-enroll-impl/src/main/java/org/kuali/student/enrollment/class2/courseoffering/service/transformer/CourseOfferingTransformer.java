@@ -37,6 +37,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -599,7 +600,16 @@ public class CourseOfferingTransformer {
                     } else {
                         resultValueInfos = getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
                     }
-                    creditCount = trimTrailing0(resultValueInfos.get(0).getValue());
+
+                    //Code Modified for JIRA 8727 fixing SONAR issue
+                    int firstResultValueInfo = 0;
+                    if(!resultValueInfos.isEmpty()){
+                        creditCount = trimTrailing0(resultValueInfos.get(firstResultValueInfo).getValue());
+                    } else{
+                        LOG.info("Credit is missing for this course offering");
+                        return creditCount = "N/A";
+                    }
+
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {                          //range
                     //Use the min/max values from the RVG
                     creditCount = trimTrailing0(resultValuesGroupInfo.getResultValueRange().getMinValue()) + " - " +
@@ -619,12 +629,13 @@ public class CourseOfferingTransformer {
                         }
                         Collections.sort(creditValuesF); //Do the sort
 
+                        StringBuilder creditCounts = new StringBuilder();
                         //Convert back to strings and concatenate to one field
                         for (Float creditF : creditValuesF ){
-                            creditCount = creditCount + ", " + trimTrailing0(String.valueOf(creditF));
+                            creditCounts.append(", ").append(trimTrailing0(String.valueOf(creditF)));
                         }
-                        if(creditCount.length() >=  2)  {
-                            creditCount =  creditCount.substring(2);  //trim leading ", "
+                        if(creditCounts.length() >=  2)  {
+                            creditCount =  creditCounts.substring(2);  //trim leading ", "
                         }
                     }
                 } else {
@@ -753,12 +764,9 @@ public class CourseOfferingTransformer {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
         krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
-                // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-                "kuali.lu.type.CreditCourse",
-//                CourseServiceConstants.REF_OBJECT_URI_COURSE,
+                CourseServiceConstants.REF_OBJECT_URI_COURSE,
                 courseInfo.getId(),
-                "kuali.lui.type.course.offering",
-//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 courseOfferingInfo.getId(),
                 optionKeys);
     }
@@ -775,12 +783,9 @@ public class CourseOfferingTransformer {
             throw new InvalidParameterException("Target CourseOffering should already have it's id assigned");
         }
         krmsRuleManagementCopyMethods.deepCopyReferenceObjectBindingsFromTo(
-                // TODO: KSENROLL-7291 convert the discriminator type to use the ref object uri instead of the lu type type
-                "kuali.lui.type.course.offering",
-//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 sourceCo.getId(),
-                "kuali.lui.type.course.offering",
-//                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
+                CourseOfferingServiceConstants.REF_OBJECT_URI_COURSE_OFFERING,
                 targetCo.getId(),
                 optionKeys);
     }
@@ -883,7 +888,8 @@ public class CourseOfferingTransformer {
                     // Should be only one person found by person id
                     List<Person> personList = OfferingInstructorTransformer.getInstructorByPersonId(instructor.getPersonId());
                     if (personList != null && !personList.isEmpty()) {
-                        instructor.setPersonName(personList.get(0).getName());
+                        int firstPerson = 0;
+                        instructor.setPersonName(personList.get(firstPerson).getName());
                     }
                     co.getInstructors().add(instructor);
                 }

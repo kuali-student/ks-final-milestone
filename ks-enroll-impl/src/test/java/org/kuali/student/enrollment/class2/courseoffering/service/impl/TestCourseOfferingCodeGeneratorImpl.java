@@ -28,7 +28,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -39,7 +41,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * This class //TODO ...
+ * This class provides unit tests for CourseOfferingCodeGeneratorImpl
  *
  * @author Kuali Student Team
  */
@@ -50,27 +52,36 @@ public class TestCourseOfferingCodeGeneratorImpl {
     @Resource
     CourseOfferingCodeGenerator offeringCodeGenerator;
 
+
+    private Map<String, Object> _makeDefaultMap(String coCode, List<String> aoCodes){
+        Map<String, Object> mRet = new HashMap<String,Object>();
+
+        mRet.put(CourseOfferingCodeGenerator.COURSE_OFFERING_CODE_KEY, coCode);
+        mRet.put(CourseOfferingCodeGenerator.ACTIVITY_OFFERING_CODE_LIST_KEY, aoCodes);
+        return mRet;
+    }
+
     @Test
     public void testGenerator(){
 
         String code;
         String courseOfferingCode = "ENGL101";
-        code = offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,new ArrayList<ActivityOfferingInfo>());
+        code = offeringCodeGenerator.generateActivityOfferingCode(_makeDefaultMap(courseOfferingCode, new ArrayList<String>()));
         assertEquals("A",code);
 
-        List<ActivityOfferingInfo> aos = new ArrayList<ActivityOfferingInfo>();
+        List<String> aos = new ArrayList<String>();
         for(char c='A';c<='Z';c++){
-            ActivityOfferingInfo a = new ActivityOfferingInfo();
-            a.setActivityCode(String.valueOf(c));
 
-            aos.add(a);
+            aos.add(String.valueOf(c));
         }
-        code = offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,aos);
+
+        Map<String, Object> propMap = _makeDefaultMap(courseOfferingCode, aos);
+        code = offeringCodeGenerator.generateActivityOfferingCode(propMap);
         assertEquals("AA",code);
 
         aos.remove(3);
 
-        code = offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode, aos);
+        code = offeringCodeGenerator.generateActivityOfferingCode(propMap);
         assertEquals("D",code);
 
     }
@@ -87,7 +98,7 @@ public class TestCourseOfferingCodeGeneratorImpl {
         assertEquals("BA",dbImpl.getNextCode("AZ"));
         assertEquals("BF",dbImpl.getNextCode("BE"));
         assertEquals("ZB",dbImpl.getNextCode("ZA"));
-        assertEquals("AAA",dbImpl.getNextCode("ZZ"));
+        assertEquals("AAA", dbImpl.getNextCode("ZZ"));
         assertEquals("AAF",dbImpl.getNextCode("AAE"));
         assertEquals("ABA",dbImpl.getNextCode("AAZ"));
         assertEquals("ABG",dbImpl.getNextCode("ABF"));
@@ -123,6 +134,14 @@ public class TestCourseOfferingCodeGeneratorImpl {
         assertEquals("D",code);
     }
 
+    protected List<String> _getBaseAOListNew(){
+           List<String> l = new ArrayList<String>();
+        l.add("A");
+        l.add("B");
+        l.add("C");
+        return l;
+    }
+
     protected List<ActivityOfferingInfo> _getBaseAOList(){
         List<ActivityOfferingInfo> aoList = new ArrayList<ActivityOfferingInfo>();
 
@@ -152,20 +171,20 @@ public class TestCourseOfferingCodeGeneratorImpl {
     public void testGenerateActivityOfferingCode(){
 
         String courseOfferingCode = "ENGL103";
-        List<ActivityOfferingInfo> aoList = _getBaseAOList();
 
-        String nextCode = offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,aoList);
+        List<String> aoList = _getBaseAOListNew();
+        Map<String, Object> propMap = _makeDefaultMap(courseOfferingCode, aoList);
+
+        String nextCode = offeringCodeGenerator.generateActivityOfferingCode(propMap);
 
         // the list passed in above is A,B,C so the next should be D
         assertTrue("D".equals(nextCode));
 
         // Lets add a gap
-        ActivityOfferingInfo ao1 = new ActivityOfferingInfo();
-        ao1.setActivityCode("E");
-        ao1.setCourseOfferingCode("ENGL101");
-        aoList.add(ao1);
 
-        nextCode = offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,aoList);
+        aoList.add("E");
+
+        nextCode = offeringCodeGenerator.generateActivityOfferingCode(propMap);
 
         // the list passed in above is A,B,C,D,F so we should fill in the gap with E
         assertTrue ("D".equals(nextCode));
@@ -195,7 +214,7 @@ public class TestCourseOfferingCodeGeneratorImpl {
 
             public String call() {
 
-                return offeringCodeGenerator.generateActivityOfferingCode(courseOfferingCode,new ArrayList<ActivityOfferingInfo>());
+                return offeringCodeGenerator.generateActivityOfferingCode(_makeDefaultMap(courseOfferingCode, new ArrayList <String>()));
 
             }
 

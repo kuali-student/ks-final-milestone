@@ -30,6 +30,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.Query;
+
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -504,6 +507,18 @@ public class TestLuiServiceImpl {
     }
 
     @Test
+    public void testGetLuiLuiRelationsByIds() throws Exception {
+        List<String> luiLuiRelationIds = new ArrayList<String>();
+        luiLuiRelationIds.add("LUILUIREL-1");
+        luiLuiRelationIds.add("LUILUIREL-2");
+        luiLuiRelationIds.add("LUILUIREL-3");
+
+        List<LuiLuiRelationInfo> objs = luiService.getLuiLuiRelationsByIds(luiLuiRelationIds, callContext);
+        assertNotNull(objs);
+        assertEquals(3, objs.size());
+    }
+
+    @Test
     public void testCreateLuiLuiRelation() throws Exception{
         LuiInfo info = new LuiInfo();
         info.setCluId("testCluId");
@@ -622,6 +637,20 @@ public class TestLuiServiceImpl {
         assertEquals(luiIdsNonExistent.size(),0);
 
     }
+
+    @Test
+    public void testGetLuisByAtpAndType() throws Exception{
+        List<LuiInfo> luis = luiService.getLuisByAtpAndType("atpId1", "kuali.lui.type.course.offering", callContext);
+        assertNotNull(luis);
+        assertEquals(luis.size(), 1);
+        assertEquals(luis.get(0).getId(), "Lui-1");
+
+        List<LuiInfo> luisNonExistent =  luiService.getLuisByAtpAndType( "atpId21", "kuali.lui.type.course.offering", callContext);
+        assertNotNull(luisNonExistent);
+        assertEquals(luisNonExistent.size(),0);
+
+    }
+
     @Test
     public void testGetRelatedLuiIdsByLui() throws Exception{
         List<String> luiRelationIds =  luiService.getLuiIdsByLuiAndRelationType("Lui-1", "kuali.lui.lui.relation.associated", callContext);
@@ -778,4 +807,15 @@ public class TestLuiServiceImpl {
         assertEquals(2,luiSetInfos.size());
     }
 
+    @Test
+    public void testAttributeQuery() {
+    	/*
+    	 * Used to test the JPA join syntax.
+    	 */
+    	Query q = luiDao.getEm().createQuery("select lui.id from LuiEntity lui inner join lui.attributes a where a.key=:key").setParameter("key", "attr1");
+    	
+    	List<?> results = q.getResultList();
+
+    	assertEquals(1, results.size());
+    }
 }

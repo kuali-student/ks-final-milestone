@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * This class //TODO ...
+ * This class converts dynamic attributes from SocRolloverResults
  *
  * @author Kuali Student Team
  */
@@ -242,9 +242,11 @@ public class SocRolloverResultDynAttrConverter {
     public static void copyDtoDynAttrsToEntity(SocRolloverResult result, SocRolloverResultEntity entity) {
         Map<String, DynamicAttrReadOnlyWrapper<SocRolloverResult>> dynAttrMap = _createDynAttrReadOnlyMap(result);
         Map<String, SocRolloverResultAttributeEntity> entityAttrMap = _createEntityAttrMap(entity);
-        for (String attrName: dynAttrMap.keySet()) {
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<String, DynamicAttrReadOnlyWrapper<SocRolloverResult>> entry: dynAttrMap.entrySet()){
+            String attrName =  entry.getKey();
             SocRolloverResultAttributeEntity attrEntity = entityAttrMap.get(attrName);
-            DynamicAttrReadOnlyWrapper<SocRolloverResult> wrapper = dynAttrMap.get(attrName);
+            DynamicAttrReadOnlyWrapper<SocRolloverResult> wrapper = entry.getValue();
             if (attrEntity == null) {
                 // Can't find this in the list of attributes, so create a new one
                 AttributeInfo attr = new AttributeInfo(attrName, wrapper.writeOutStringValue());
@@ -260,9 +262,11 @@ public class SocRolloverResultDynAttrConverter {
     public static void copyEntityAttrsToDtoDynAttrs(SocRolloverResultEntity entity, SocRolloverResultInfo info) {
         Map<String, DynamicAttrWrapper<SocRolloverResultInfo>> dynAttrMap = _createDynAttrMap(info);
         Map<String, SocRolloverResultAttributeEntity> entityAttrMap = _createEntityAttrMap(entity);
-        for (String attrName: dynAttrMap.keySet()) {
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+        for(Map.Entry<String, DynamicAttrWrapper<SocRolloverResultInfo>> entry: dynAttrMap.entrySet()){
+            String attrName = entry.getKey();
             SocRolloverResultAttributeEntity attrEntity = entityAttrMap.get(attrName);
-            DynamicAttrWrapper<SocRolloverResultInfo> wrapper = dynAttrMap.get(attrName);
+            DynamicAttrWrapper<SocRolloverResultInfo> wrapper = entry.getValue();
             if (attrEntity != null) {
                 // Reuse the attribute
                 wrapper.readInStringValue(attrEntity.getValue());

@@ -22,7 +22,7 @@
 	<param name="jpa.vendor">hibernate</param>
 
     <!-- override Rice's common-config-defaults.xml property: -->
-    <param name="portal.css.files" override="true">${portal.css.files},ks-enroll/css/ks-jquery.css</param>
+    <param name="portal.css.files" override="true">${portal.css.files}</param>
 
     <param name="ks.enroll.datasource.driver.name.oracle">oracle.jdbc.OracleDriver</param>
 	<param name="ks.enroll.datasource.driver.name.derby">org.apache.derby.jdbc.ClientDriver</param>
@@ -65,13 +65,7 @@
     <param name="ks.enroll.bus.security">false</param>
     
     <param name="ks.enroll.doDataLoad">false</param>
-<!--     
-    <param name="ks.enroll.dictionary.old.serviceContextLocations">classpath:lu-dictionary-config.xml,classpath:lo-dictionary-config.xml</param>
-    <param name="ks.enroll.dictionary.serviceContextLocations">classpath:ks-courseInfo-dictionary-context.xml, classpath:ks-programInfo-dictionary-context.xml, classpath:ks-statement-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml</param>
-    <param name="ks.enroll.orchestration.dictionaryContextLocations">classpath:lum-orchestration-dictionary.xml</param>
-    <param name="ks.enroll.ui.lookupContextLocations">classpath:lum-ui-lookup-context.xml</param>
--->    
-    
+
         <!-- Rice URLS -->
     <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kr/lookup.do</param>
 	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-with-rice-bundled-dev/kew/ActionList.do</param>
@@ -81,10 +75,21 @@
     <param name="resourceBundleNames" override="true">${resourceBundleNames},org.kuali.student.enrollment.KSEnroll-ApplicationResources,org.kuali.rice.krms.KRMS-ApplicationResources</param>
 
     <!-- These needs to be refactored. ks.externalizable.images.url should specificall say ENR in its name and have to remove 'common' from ks.common.externalizable.images.url-->
-    <param name="ks.externalizable.images.url">../ks-enroll/images</param>
+    <param name="ks.externalizable.images.url">../themes/ksboot/images</param>
     <param name="ks.common.externalizable.images.url">../ks-common-ksink/images</param>
 
     <!-- default automatic user for /kitchensink urls -->
     <param name="kitchensink.login.autouser">admin</param>
+
+    <!-- default values for CourseWaitList -->
+    <param name="ks.enroll.coursewaitlist.automaticallyProcessed.defaultvalue">true</param>
+    <param name="ks.enroll.coursewaitlist.confirmationRequired.defaultvalue">true</param>
+    <param name="ks.enroll.coursewaitlist.allowHoldUntilEntries.defaultvalue">false</param>
+    <param name="ks.enroll.coursewaitlist.checkInRequired.defaultvalue">false</param>
+    <!--Default value for COInfo.hasWaitlist -->
+    <param name="ks.enroll.coursewaitlist.forCourseOffering.hasWaitlist.defaultvalue">true</param>
+
+    <param name="ks.enroll.dao.enableMaxIdFetch.defaultvalue">true</param>
+    <param name="ks.enroll.dao.maxInClauseElements.defaultvalue">1000</param>
 
 </config>

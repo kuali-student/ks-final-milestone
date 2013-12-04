@@ -67,7 +67,6 @@ public class CreateSocController extends UifControllerBase {
             }
         }
         return getUIFModelAndView(theForm);
-        // return super.start(theForm, result, request, response);
     }
 
     private ModelAndView _startSelectTermForSocCreation(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
@@ -96,7 +95,7 @@ public class CreateSocController extends UifControllerBase {
 
         if (socInfo == null) {
             form.setTermAlreadyHasSoc(true);
-            form.setSocInfo(socInfo);
+            form.setSocInfo(null);
             socInfo = helper.getMainSocForTerm(form.getSocTermCode());
             form.setSocMessage("Term " + form.getSocTermCode() + " already has SOC with state: " + socInfo.getStateKey());
         } else {

@@ -22,12 +22,18 @@
 
     <bean id="KS-HomewardPathBreadcrumbs-Home" parent="Uif-BreadcrumbItem">
         <property name="label" value="Home"/>
-        <property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>
+        <!--<property name="url.href" value="@{#ConfigProperties['application.url']}/portal.do"/>-->
+        <property name="url.baseUrl" value="launch"/>
+        <property name="url.viewId" value="ksFunctionalHomeView"/>
     </bean>
     <bean id="KS-HomewardPathBreadcrumbs-Enrollment" parent="Uif-BreadcrumbItem">
         <property name="label" value="Enrollment"/>
         <property name="url.baseUrl" value="launch"/>
         <property name="url.viewId" value="enrollmentHomeView"/>
+        <!--<property name="renderAsLink" value="true" />-->
+        <property name="siblingBreadcrumbComponent">
+            <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
+        </property>
     </bean>
 
     <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
@@ -58,33 +64,18 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOffering-View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup" />
+    <bean id="KS-CourseOffering-View-ContextBar-PlaceHolder" parent="KS-Uif-HorizontalBoxGroup-TopGroup"  p:onDocumentReadyScript="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );"/>
 
     <!-- Note: due to the way breadcrumbs are implemented, EC found that we need to initially set the CSS display to none -->
     <!-- Also note: Uif-HorizontalBoxGroup is inheriting from KRAD a margin-bottom:10px which on CreateCO and ManageSoc views is causing
                     the breadcrumb-bar to be pushed down and look horrible (the bar remains where it is but the text gets pushed down) -->
-    <bean id="KS-CourseOffering-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display: none;"
-          p:onDocumentReadyScript="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder' ); setSeasonalColor( 'KS-CourseOffering-ContextBar', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" >
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-topGroup</value>
-            </list>
-        </property>
+     <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+    <bean id="KS-CourseOffering-ContextBar" parent="Uif-HorizontalBoxGroup" p:style="display:none" p:additionalCssClasses="ks-topGroup">
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:propertyName="contextBar.termName">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-topGroup-courseOffering-termName</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-DataField" p:propertyName="contextBar.termName" p:additionalCssClasses="ks-topGroup-courseOffering-termName">
                 </bean>
-                <bean parent="KS-Lozenge-Grey-Uif-DataField" p:propertyName="contextBar.termSocState">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-topGroup-courseOffering-socState</value>
-                        </list>
-                    </property>
+                <bean parent="KS-Lozenge-Grey-Uif-DataField" p:propertyName="contextBar.termSocState" p:additionalCssClasses="ks-topGroup-courseOffering-socState">
                 </bean>
             </list>
         </property>

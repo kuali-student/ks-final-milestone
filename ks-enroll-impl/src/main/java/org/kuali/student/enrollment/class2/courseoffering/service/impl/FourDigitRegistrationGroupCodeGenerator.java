@@ -87,7 +87,8 @@ public class FourDigitRegistrationGroupCodeGenerator implements RegistrationGrou
         for (FormatOfferingInfo info: foInfos) {
             List<RegistrationGroupInfo> rgInfos = coService.getRegistrationGroupsByFormatOffering(info.getId(), context);
             if (rgInfos != null && !rgInfos.isEmpty()) {
-                RegistrationGroupInfo rgInfo = rgInfos.get(0);
+                int firstRegistrationGroupInfo = 0;
+                RegistrationGroupInfo rgInfo = rgInfos.get(firstRegistrationGroupInfo);
                 // Assume 4 digit string
                 String regGroupCode = rgInfo.getName();  // Name field stores reg group code
                 if (!_isValidRegGroupCode(regGroupCode)) {

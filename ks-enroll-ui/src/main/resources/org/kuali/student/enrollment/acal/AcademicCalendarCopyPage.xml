@@ -31,12 +31,7 @@ limitations under the License.
         <property name="pageSourceFile" value="AcademicCalendarCopyPage.xml" />
 
         <property name="header">
-            <bean parent="Uif-HeaderTwo">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-header</value>
-                    </list>
-                </property>
+            <bean parent="Uif-HeaderTwo" p:additionalCssClasses="ks-header">
             </bean>
         </property>
         <property name="header.lowerGroup">
@@ -89,7 +84,7 @@ limitations under the License.
                               p:methodToCall="copy"
                               p:actionLabel="Copy Academic Calendar"
                               p:render="@{academicCalendarInfo != null}"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBack()"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="stepBrowserBackTwoPages()"/>
                     </list>
                 </property>
             </bean>
@@ -104,35 +99,27 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
-                      p:render="@{copyFromAcal != null}">
+                      p:render="@{copyFromAcal != null}" p:additionalCssClasses="ks-calendar-copy-from">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"
                                   p:propertyName="copyFromAcal.name"
                                   p:id="copyFromAcalName"
-                                  p:style="font-size:125%;"
-                                  p:showLabel="false">
-                                <property name="align" value="center;"/>
-                                  </bean>
-                            <bean parent="Uif-HorizontalFieldGroup">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ks-calendar-copy-content</value>
-                                    </list>
-                                </property>
+                                  p:showLabel="false"
+                                  p:additionalCssClasses="ks-calendar-copy-from-heading" />
+                            <bean parent="Uif-HorizontalFieldGroup" p:additionalCssClasses="ks-calendar-copy-content">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-VerticalBoxGroup">
+                                        <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-calendar-copy-from-date-labels">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-Message">
-                                                        <property name="style" value="font-weight: bold;"/>
+
                                                         <property name="messageText" value='Start Date'/>
                                                         <property name="align" value="right"/>
                                                         <property name="valign" value="bottom"/>
                                                     </bean>
                                                     <bean parent="Uif-Message">
-                                                        <property name="style" value="font-weight: bold;"/>
                                                         <property name="messageText" value='End Date'/>
                                                         <property name="align" value="right"/>
                                                         <property name="valign" value="bottom"/>
@@ -140,7 +127,7 @@ limitations under the License.
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-VerticalBoxGroup">
+                                        <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-calendar-copy-from-date-values">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-DataField"
@@ -161,21 +148,15 @@ limitations under the License.
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-Message" p:align="center"
+                            <bean parent="Uif-Message"
                                   p:messageText="A recent academic calendar could not be found."
-                                  p:render="@{copyFromAcal == null}"
-                                  p:style="font-size:125%;"/>
-                            <bean parent="Uif-ActionLink" p:methodToCall="search" p:align="center"
+                                  p:render="@{copyFromAcal == null}" />
+                            <bean parent="KS-Uif-ActionLink"
+                                  p:methodToCall="search"
                                   p:actionLabel="@{copyFromAcal != null ? 'Find a different calendar to copy' : 'Choose a Calendar'}"/>
                         </list>
                     </property>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-calendar-copy-from</value>
-                        </list>
-                    </property>
                 </bean>
-
             </list>
         </property>
     </bean>

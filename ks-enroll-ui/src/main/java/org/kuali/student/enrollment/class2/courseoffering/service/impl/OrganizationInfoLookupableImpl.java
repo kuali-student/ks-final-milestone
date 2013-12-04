@@ -34,7 +34,7 @@ import java.util.Map;
 
 
 /**
- * This class //TODO ...
+ * This class provides a Lookupable implementation for Organizations
  *
  * @author Kuali Student Team
  */

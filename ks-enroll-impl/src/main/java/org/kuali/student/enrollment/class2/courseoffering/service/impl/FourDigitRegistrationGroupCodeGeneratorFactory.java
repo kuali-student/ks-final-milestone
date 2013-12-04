@@ -20,7 +20,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.RegistrationGr
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupCodeGeneratorFactory;
 
 /**
- * This class //TODO ...
+ * This class provides a factory for FourDigitRegistrationGroupCodeGenerators
  *
  * @author Kuali Student Team
  */

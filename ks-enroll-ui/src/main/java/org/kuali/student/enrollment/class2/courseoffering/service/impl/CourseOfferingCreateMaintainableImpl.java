@@ -24,23 +24,27 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.JointCourseWrapper;
-import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingMaintainable;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -65,23 +69,26 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * View helper service to deal with all the create course offering presentation.
  *
  * @see org.kuali.student.enrollment.class2.courseoffering.controller.CourseOfferingCreateController
  */
-public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintainableImpl implements CourseOfferingMaintainable {
+public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintainableImpl implements Maintainable {
 
     private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
     private static PermissionService permissionService = getPermissionService();
     private CluService cluService;
     private AtpService atpService;
-    private static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
+    private final static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
     private CacheManager cacheManager;
 
 
@@ -89,8 +96,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * Sets a default maintenace document description and if term code exists in the request parameter, set it to the wrapper.
      * When 'Create CO' is called from manage co screen, we pass in the term code.
      *
-     * @param document
-     * @param requestParameters
      */
     @Override
     public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
@@ -146,7 +151,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * @param termId courseing offering created for this term
      * @param courseInfo this is the course info for which this mehtod is going to create course offering
      * @param courseOfferingSuffix the suffix entered by the user
-     * @return
+     * @return created course offering
      * @throws Exception throws any of the services exception from the service call
      */
     protected CourseOfferingInfo createCourseOfferingInfo(String termId, CourseInfo courseInfo, String courseOfferingSuffix,CourseOfferingInfo courseOffering) throws Exception {
@@ -182,7 +187,8 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         }
         //set the first remaining grading option on the CO
         if(!courseGradingOptions.isEmpty()){
-            courseOffering.setGradingOptionId(courseGradingOptions.get(0));
+            int firstGradingOption = 0;
+            courseOffering.setGradingOptionId(courseGradingOptions.get(firstGradingOption));
         }
 
         // make sure we set attribute information from the course
@@ -196,13 +202,21 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         }
 
         CourseOfferingInfo info = getCourseOfferingService().createCourseOffering(courseInfo.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, ContextUtils.createDefaultContextInfo());
+
+        try {
+            String examPeriodID = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(info.getTermId(), ContextUtils.createDefaultContextInfo());
+            CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, info.getTermId(), examPeriodID, new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
+        }  catch (Exception e){
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
+        }
+
         return info;
     }
 
     /**
      * Services needs to come up with a standard way to represent final exams.
-     * @param courseFinalExamType
-     * @return
+     * @param courseFinalExamType course final exam type
+     * @return CO final exam type
      */
     protected static String convertCourseFinalExamTypeToCourseOfferingFinalExamType(String courseFinalExamType){
         String sRet = null;
@@ -246,7 +260,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * This method creates all the Course Offerings for joint courses.
      *
      * @param wrapper CourseOfferingCreateWrapper
-     * @throws
+     * @throws Exception
      */
     protected void createJointCOs(CourseOfferingCreateWrapper wrapper) throws Exception {
         LOG.debug("Creating Offerings for the joint courses.");
@@ -347,8 +361,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
     /**
      * Adds a format offering. This handles creating format offerings for all the selected joint courses as well.
-     *
-     * @param wrapper
      */
     public void addFormatOffering(CourseOfferingCreateWrapper wrapper){
 
@@ -461,13 +473,15 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     /**
      * Helper method to display a list of Activity type names at the UI
      *
-     * @param formatInfo
-     * @return
+     * @param formatInfo format
+     * @return activity type names
      */
     private String getActivityTypeNames(FormatInfo formatInfo){
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        StringBuffer activities = new StringBuffer();
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder activities = new StringBuilder();
 
         try {
             List<ActivityInfo> activityInfos = formatInfo.getActivities();
@@ -501,11 +515,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     /**
      * This is overridden from KRAD to implement deleting the format from the joint courses. It should not be a problem
      * overriding this method completely as we dont need any validation or pre/post event for this action
-     *
-     * @param view
-     * @param model
-     * @param collectionPath
-     * @param lineIndex
      */
     @Override
     public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex){
@@ -554,9 +563,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * This method checks whether any one of the activities in a format matches with the passed in
      * activity by comparing its type.
      *
-     * @param jointCourseFormat
-     * @param activityInfo
-     * @return
      */
     private boolean isMatchingJointActivityFound(FormatInfo jointCourseFormat, ActivityInfo activityInfo){
         for (ActivityInfo activityFromJointCourse : jointCourseFormat.getActivities()){
@@ -583,7 +589,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * you have already called a search for E. So this uses recursion to build the searches. So, in the average case
      * you will only have to call a db search Once for Every first letter of the course codes.
      *
-     * @param catalogCourseCode
      * @return List of distinct course codes or an empty list
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -643,6 +648,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
     private List<String> _retrieveCourseCodes(String targetTermCode, String catalogCourseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
         List<String> rList = new ArrayList<String>();
+        Set<String> rSet = new LinkedHashSet<String>(rList);
         ContextInfo context = ContextUtils.createDefaultContextInfo();
 
         //First get ATP information
@@ -653,21 +659,23 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
 
         //Then do the search
         SearchRequestInfo request = new SearchRequestInfo("lu.search.courseCodes");
-        request.addParam("lu.queryParam.startsWith.cluCode", catalogCourseCode);
+        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.CODE.getQueryKey(), catalogCourseCode);
         request.addParam("lu.queryParam.luOptionalType", CluServiceConstants.CREDIT_COURSE_LU_TYPE_KEY);
-        request.addParam("lu.queryParam.luOptionalGreaterThanEqualExpirDate", DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
-        request.addParam("lu.queryParam.luOptionalLessThanEqualEffectDate", DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
+        request.addParam("lu.queryParam.luOptionalState", Arrays.asList(new String[]{
+                DtoConstants.STATE_ACTIVE, DtoConstants.STATE_RETIRED, DtoConstants.STATE_SUPERSEDED}));
+        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_START.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getStartDate()));
+        request.addParam(CourseInfoByTermLookupableImpl.QueryParamEnum.TERM_END.getQueryKey(), DateFormatters.QUERY_SERVICE_TIMESTAMP_FORMATTER.format(atps.get(0).getEndDate()));
         request.setSortColumn("lu.resultColumn.cluOfficialIdentifier.cluCode");
-        
+
         SearchResultInfo results = getCluService().search(request, context);
         for(SearchResultRow row:results.getRows()){
             for(SearchResultCell cell:row.getCells()){
                 if("lu.resultColumn.cluOfficialIdentifier.cluCode".equals(cell.getKey())){
-                    rList.add(cell.getValue());
+                    rSet.add(cell.getValue());
                 }
             }
         }
-        return rList;
+        return new ArrayList<String>(rSet);
     }
 
     private CluService getCluService() {
@@ -682,28 +690,6 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             atpService = CourseOfferingResourceLoader.loadAtpService();
         }
         return atpService;
-    }
-
-    public class CourseCodeSuggestResults{
-
-        private String catalogCourseCode;
-
-        public CourseCodeSuggestResults() {
-            super();
-        }
-
-        public CourseCodeSuggestResults(String catalogCourseCode) {
-            this();
-            this.catalogCourseCode = catalogCourseCode;
-        }
-
-        public String getCatalogCourseCode() {
-            return catalogCourseCode;
-        }
-
-        public void setCatalogCourseCode(String catalogCourseCode) {
-            this.catalogCourseCode = catalogCourseCode;
-        }
     }
 
     private static PermissionService getPermissionService() {
@@ -721,7 +707,4 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         return cacheManager;
     }
 
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
 }

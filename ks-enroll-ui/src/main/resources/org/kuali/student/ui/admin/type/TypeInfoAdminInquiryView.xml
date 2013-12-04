@@ -20,7 +20,6 @@
     -->
 
 	<import resource="classpath:ks-TypeInfo-dictionary.xml"/>
-	<import resource="classpath:UifKSDefinitions.xml"/>
 	<!-- **********************************************
 	Paste bean definition below into the list of dataDictionaryPackages of org.kuali.rice.krad.bo.ModuleConfiguration 
 	<value>classpath:org/kuali/student/ui/admin/type/TypeInfoAdminInquiryView.xml</value>

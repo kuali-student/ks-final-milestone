@@ -49,9 +49,7 @@ public class ScheduleWrapper implements Serializable{
     //Properties
     private String days;
     private String startTime;
-    private String startTimeAMPM;
     private String endTime;
-    private String endTimeAMPM;
 
     private boolean tba;
 
@@ -64,18 +62,18 @@ public class ScheduleWrapper implements Serializable{
 
     //For informational display only
     private String daysUI;
-    private String startTimeUI;
-    private String endTimeUI;
 
     private List<String> colocatedAOs;
 
     private EditRenderHelper editRenderHelper;
     private boolean modified;
+    private List<String> endTimes;
 
     public ScheduleWrapper(){
         features = new ArrayList<String>();
         this.colocatedAOs = new ArrayList<String>();
         this.editRenderHelper = new EditRenderHelper();
+        endTimes = new ArrayList<String>();
     }
 
     public ScheduleWrapper(ScheduleWrapper wrapper){
@@ -83,9 +81,7 @@ public class ScheduleWrapper implements Serializable{
         this.scheduleRequestComponentInfo = wrapper.getScheduleRequestComponentInfo();
         this.days = wrapper.getDays();
         this.startTime = wrapper.getStartTime();
-        this.startTimeAMPM = wrapper.getStartTimeAMPM();
         this.endTime = wrapper.getEndTime();
-        this.endTimeAMPM = wrapper.getEndTimeAMPM();
         this.tba = wrapper.isTba();
         this.buildingCode = wrapper.getBuildingCode();
         this.buildingId = wrapper.getBuildingId();
@@ -93,8 +89,6 @@ public class ScheduleWrapper implements Serializable{
         this.roomCapacity = wrapper.getRoomCapacity();
         this.features = wrapper.getFeatures();
         this.daysUI = wrapper.getDaysUI();
-        this.startTimeUI = wrapper.getStartTimeUI();
-        this.endTimeUI = wrapper.getEndTimeUI();
         this.room = wrapper.getRoom();
         this.building = wrapper.getBuilding();
         this.colocatedAOs = new ArrayList<String>();
@@ -107,9 +101,7 @@ public class ScheduleWrapper implements Serializable{
         this.days = wrapper.getDays();
         this.tba = wrapper.isTba();
         this.startTime = wrapper.getStartTime();
-        this.startTimeAMPM = wrapper.getStartTimeAMPM();
         this.endTime = wrapper.getEndTime();
-        this.endTimeAMPM = wrapper.getEndTimeAMPM();
         this.buildingId = wrapper.getBuildingId();
         this.buildingCode = wrapper.getBuildingCode();
         this.roomCode = wrapper.getRoomCode();
@@ -185,28 +177,12 @@ public class ScheduleWrapper implements Serializable{
         this.startTime = startTime;
     }
 
-    public String getStartTimeAMPM() {
-        return startTimeAMPM;
-    }
-
-    public void setStartTimeAMPM(String startTimeAMPM) {
-        this.startTimeAMPM = startTimeAMPM;
-    }
-
     public String getEndTime() {
         return endTime;
     }
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
-    }
-
-    public String getEndTimeAMPM() {
-        return endTimeAMPM;
-    }
-
-    public void setEndTimeAMPM(String endTimeAMPM) {
-        this.endTimeAMPM = endTimeAMPM;
     }
 
     public String getBuildingName() {
@@ -244,24 +220,8 @@ public class ScheduleWrapper implements Serializable{
         return daysUI;
     }
 
-    public String getStartTimeUI() {
-        return startTimeUI;
-    }
-
-    public String getEndTimeUI() {
-        return endTimeUI;
-    }
-
     public void setDaysUI(String daysUI) {
         this.daysUI = daysUI;
-    }
-
-    public void setStartTimeUI(String startTimeUI) {
-        this.startTimeUI = startTimeUI;
-    }
-
-    public void setEndTimeUI(String endTimeUI) {
-        this.endTimeUI = endTimeUI;
     }
 
     public boolean isRequestAlreadySaved() {
@@ -400,14 +360,32 @@ public class ScheduleWrapper implements Serializable{
             if (colocatedAOs == null){
                 return StringUtils.EMPTY;
             }
-            StringBuffer buffer = new StringBuffer();
-            buffer.append("This activity is colocated with:<br>");
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+            StringBuilder sb = new StringBuilder();
+            sb.append("This activity is colocated with:<br>");
             for (String code : colocatedAOs){
-                buffer.append(code + "<br>");
+                sb.append(code + "<br>");
             }
 
-            return StringUtils.removeEnd(buffer.toString(),"<br>");
+            return StringUtils.removeEnd(sb.toString(),"<br>");
         }
 
+    }
+
+    public List<String> getEndTimes() {
+        return endTimes;
+    }
+
+    public void setEndTimes(List<String> endTimes) {
+        this.endTimes = endTimes;
+    }
+
+    public String[] getEndTimesArray(){
+        if (!endTimes.isEmpty()){
+            String[] array = endTimes.toArray(new String[endTimes.size()]);
+            return array;
+        } else{
+            return new String[0];
+        }
     }
 }

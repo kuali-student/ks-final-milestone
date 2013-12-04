@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class defines a Registration Group state result
  *
  * @author Kuali Student Team
  */
@@ -61,10 +61,6 @@ public class RegGroupStateResult {
             throw new PseudoUnitTestException("Invalid rgState: " + rgState);
         }
         actual.set(index, rgState);
-    }
-
-    public boolean isSame(int index) {
-        return expected.get(index).equals(actual.get(index));
     }
 
     public int size() {

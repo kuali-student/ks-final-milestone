@@ -51,9 +51,25 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperLookupableImpl" />
         <property name="maintenanceUrlMapping" value="population"/>
 
+        <property name="stickyTopGroup" value="false"/>
+        <property name="stickyBreadcrumbs" value="false"/>
+        <property name="stickyApplicationHeader" value="false"/>
+        <property name="stickyHeader" value="true"/>
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
+
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
         </property>
+
         <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:label="Keyword" p:propertyName="keyword" p:fieldLabel.style="width:20%;" p:style="width:auto;"/>
@@ -127,7 +143,12 @@
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.agendaIds[0]" p:label="Rule" p:inquiry.render="false" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" >
+                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.agendaIds[0]" p:label="Rule" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" >
+                                <property name="inquiry">
+                                    <bean parent="Uif-Inquiry">
+                                        <property name="render" value="false" />
+                                    </bean>
+                                </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleAgendaKeyValues"/>
                                 </property>
@@ -160,12 +181,7 @@
     </bean>
 
     <!-- Re-defining css for "Create New" link for lookup screen -->
-    <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>uif-leftAligned-headerFieldGroup</value>
-            </list>
-        </property>
+    <bean id="Uif-LookupPageHeaderGroup" parent="Uif-ActionsGroup" p:additionalCssClasses="uif-leftAligned-headerFieldGroup">
         <property name="items">
             <list>
                 <bean parent="Uif-CreateNewLink"/>

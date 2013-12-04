@@ -19,9 +19,10 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
-import org.kuali.student.enrollment.class2.autogen.controller.ARGUtil;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -67,7 +68,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class //TODO ...
+ * This class provides a Inquirable implementation for Course Offerings in the Course Offering Edit ui
  *
  * @author Kuali Student Team
  */
@@ -112,29 +113,20 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             for (FormatOfferingInfo fo : formatOfferingInfos){
                 FormatOfferingWrapper wrapper = new FormatOfferingWrapper();
                 wrapper.setFormatOfferingInfo(fo);
+                wrapper.setCourseOfferingWrapper(formObject);
+
+                //set the reader friendly Final Exam Driver Activity
+                if (!StringUtils.isEmpty(fo.getFinalExamLevelTypeKey()) && StringUtils.equals(formObject.getFinalExamDriver(), LuServiceConstants.LU_EXAM_DRIVER_AO_KEY)) {
+                    wrapper.setFinalExamUI(getTypeService().getType(fo.getFinalExamLevelTypeKey(), contextInfo).getName());
+                } else {
+                    wrapper.setFinalExamUI(" ");
+                }
+
                 foList.add(wrapper);
             }
             formObject.setFormatOfferingList(foList);
             TermInfo term = getAcalService().getTerm(coInfo.getTermId(), contextInfo);
             formObject.setTermName(term.getName());
-            /*
-            for (FormatOfferingInfo formatOfferingInfo : formatOfferingInfos) {
-                FormatOfferingInfoWrapper foWrapper = new FormatOfferingInfoWrapper();
-                foWrapper.setFormatOfferingInfo(formatOfferingInfo);
-
-                TypeInfo type = getTypeService().getType(formatOfferingInfo.getGradeRosterLevelTypeKey(), getContextInfo());
-                //formatOfferingInfo.setGradeRosterLevelTypeKey(type.getName());
-                foWrapper.setGradeRosterLevel(type.getName());
-
-                type = getTypeService().getType(formatOfferingInfo.getFinalExamLevelTypeKey(), getContextInfo());
-                foWrapper.setFinalExamLevel(type.getName());
-                //formatOfferingInfo.setFinalExamLevelTypeKey(type.getName());
-
-                //foWrapper.setName(formatOfferingInfo.getName());
-                foList.add(foWrapper);
-            }
-            formObject.setFormatOfferings(foList);
-            */
 
             //Display instructors
             List<OfferingInstructorInfo> offeringInstructorInfos = coInfo.getInstructors();
@@ -165,29 +157,6 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
                 }
             }
             formObject.setOrganizationNames(orgList);
-
-            //formObject.setCoInfo(coInfo);
-
-            //Display grading options
-            /*
-            String gradingOptId = coInfo.getGradingOptionId();
-            if (gradingOptId != null && !gradingOptId.isEmpty()) {
-                rvGroup = getLRCService().getResultValuesGroup(coInfo.getGradingOptionId(), getContextInfo());
-                formObject.setSelectedGradingOptionName(rvGroup.getName());
-            }*/
-
-            //Display student registration options
-            /*List<String> studentRegOptIds = coInfo.getStudentRegistrationOptionIds();
-            String selectedStudentRegOpts = new String();
-            ResultValuesGroup rvGroup = null;
-            if (studentRegOptIds != null && !studentRegOptIds.isEmpty()) {
-                for (String studentRegOptId: coInfo.getStudentRegistrationOptionIds()) {
-                    rvGroup = getLRCService().getResultValuesGroup(studentRegOptId, getContextInfo());
-                    selectedStudentRegOpts = selectedStudentRegOpts + rvGroup.getName() + "; ";
-                }
-                selectedStudentRegOpts = selectedStudentRegOpts.substring(0, selectedStudentRegOpts.length() - 2);
-                formObject.setSelectedStudentRegOpts(selectedStudentRegOpts);
-            } */
 
             List<String> studentRegOptions = new ArrayList<String>();
             List<String> crsGradingOptions = new ArrayList<String>();
@@ -236,30 +205,18 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             }
             formObject.setSelectedStudentRegOpts(selectedStudentRegOpts);
 
-            //Display the long version final exam type, comment out for now because we will use the short version for the performance concern
-            /*
-            List<EnumeratedValueInfo> enumerationInfos = (List<EnumeratedValueInfo> ) getEnumerationManagementService().getEnumeratedValues("kuali.lu.finalExam.status", null, null, null);
-            String tempFinalExamType = null;
-            if (coInfo.getFinalExamType().equals("STANDARD")) {
-                tempFinalExamType = "STD";
-            } else if (coInfo.getFinalExamType().equals("ALTERNATE")) {
-                tempFinalExamType = "ALT";
-            } else if (coInfo.getFinalExamType().equals("NONE")) {
-                tempFinalExamType = "None";
-            }
-            for(EnumeratedValueInfo enumerationInfo : enumerationInfos) {
-                if (tempFinalExamType.equals(enumerationInfo.getCode())) {
-                    formObject.setFinalExam(enumerationInfo.getValue());
-                    break;
-                }
-            }
-            */
-
             /**
              * Sets the cross listed infos
              */
             for (CourseOfferingCrossListingInfo crossListingInfo : coInfo.getCrossListings()){
                 formObject.getAlternateCOCodes().add(crossListingInfo.getCode());
+            }
+
+            // set use final exam matrix toggle UI
+            if (formObject.isUseFinalExamMatrix()) {
+                formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_USE_FINAL_EXAM_MATRIX);
+            } else {
+                formObject.setUseFinalExamMatrixUI(CourseOfferingConstants.COURSEOFFERING_TEXT_NOT_USE_FINAL_EXAM_MATRIX);
             }
 
             //load related AOs
@@ -301,28 +258,6 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
         TypeInfo typeInfo = getTypeService().getType(aoInfo.getTypeKey(), contextInfo);
         aoWrapper.setTypeName(typeInfo.getName());
 
-//        List<ScheduleRequestSetInfo>  scheduleRequestSetInfoList = getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
-//                aoInfo.getId(), contextInfo);
-//
-//        if(scheduleRequestSetInfoList != null && scheduleRequestSetInfoList.size() > 0) {
-//
-//            StringBuffer buffer = new StringBuffer();
-//            buffer.append(" ");
-//            CourseOfferingService coService = CourseOfferingResourceLoader.loadCourseOfferingService();
-//
-//            if (!scheduleRequestSetInfoList.isEmpty()){
-//                for(ScheduleRequestSetInfo coloSet : scheduleRequestSetInfoList) {
-//                    List<ActivityOfferingInfo> aoList = coService.getActivityOfferingsByIds(coloSet.getRefObjectIds(), createContextInfo());
-//                    for(ActivityOfferingInfo coloActivity : aoList) {
-//                        if (!StringUtils.equals(coloActivity.getId(), aoInfo.getId())){
-//                            buffer.append(coloActivity.getCourseOfferingCode() + " " + coloActivity.getActivityCode() + "<br>");
-//                        }
-//                    }
-//                }
-//                aoWrapper.setColocatedAoInfo(buffer.toString());
-//            }
-//        }
-
         FormatOfferingInfo fo = getCourseOfferingService().getFormatOffering(aoInfo.getFormatOfferingId(), contextInfo);
         aoWrapper.setFormatOffering(fo);
 
@@ -363,13 +298,13 @@ public class CourseOfferingEditInquirableImpl extends InquirableImpl {
             aoWrapper.setSubTermId(subTerm.getId());
             TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
             aoWrapper.setSubTermName(subTermType.getName());
-            aoWrapper.setTermStartEndDate(ARGUtil.getTermStartEndDate(subTerm.getId(), subTerm));
+            aoWrapper.setTermStartEndDate(CourseOfferingManagementUtil.getTermStartEndDate(subTerm.getId(), subTerm));
         }
         aoWrapper.setTerm(term);
         if (term != null) {
             aoWrapper.setTermName(term.getName());
         }
-        aoWrapper.setTermDisplayString(ARGUtil.getTermDisplayString(aoInfo.getTermId(), term));
+        aoWrapper.setTermDisplayString(CourseOfferingManagementUtil.getTermDisplayString(aoInfo.getTermId(), term));
         return aoWrapper;
     }
 

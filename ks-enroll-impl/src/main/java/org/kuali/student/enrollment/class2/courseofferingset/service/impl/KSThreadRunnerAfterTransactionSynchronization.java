@@ -25,7 +25,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class implements spring's TransactionSynchronization interface to provide a framework for running threads
+ * after a transaction
  *
  * @author Kuali Student Team
  */

@@ -49,17 +49,19 @@
     <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-                <bean  parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-gray-background,ks-no-margins">
+                <bean parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-gray-background,ks-no-margins">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
                             <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName" p:readOnly="true"/>
                             <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName"  p:readOnly="true"/>
                             <bean parent="Uif-HorizontalBoxSection" p:colSpan="2">
+                                <property name="header.render" value="false"/>
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
-                                              p:performDirtyValidation="false" p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');" p:componentSecurity.performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
+                                              p:performDirtyValidation="false" p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"
+                                              p:componentSecurity.performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
                                     </list>
                                 </property>
                             </bean>
@@ -119,7 +121,7 @@
                       p:id="is_co_located" p:componentSecurity.viewAuthz="true">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
-                            <!--<property name="onChangeScript" value="setupColoCheckBoxChange(this,true)"/>-->
+                            <property name="disabled" value="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled'}"/>
                             <property name="onChangeScript" value="handleColocation();"/>
                         </bean>
                     </property>
@@ -135,7 +137,7 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:componentSecurity.viewAuthz="true"
-          p:style="width:600px;border: 1px solid black;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
+          p:style="width:600px;border: 1px solid black; margin-bottom: 20px; padding-bottom: 5px;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Select Activities for Colocation" p:style="font-size:15px;"/>
@@ -160,20 +162,21 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-CoLocatedActivities" parent="Uif-TableCollectionSection" p:layoutManager.style="width:150px;">
-        <property name="header.render" value="false"/>
+        <property name="headerText" value=" "/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
         <property name="propertyName" value="colocatedActivities"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="addLineActions">
             <list>
-                <!--<bean parent="Uif-AddLineAction" p:successCallback="addColocatedAOSuccessCallBack();" p:actionScript="addColocatedAO(this);"/>-->
-                <bean parent="Uif-AddLineAction" p:successCallback="addColocatedAOSuccessCallBack();"/>
+                <bean parent="Uif-AddLineAction" p:actionScript="showLightboxComponent('ActivityOfferingEdit-CoLocatedAddLineDialog');jQuery('#dirtyForm').val(true);"
+                        p:dirtyOnAction="true"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction" p:successCallback="addColocatedAOSuccessCallBack();" p:render="@{#dp.requestedScheduleComponents.isEmpty()}"/>
+                <bean parent="Uif-DeleteLineAction" p:successCallback="addColocatedAOSuccessCallBack();"
+                      p:render="@{#dp.requestedScheduleComponents.isEmpty()}" p:dirtyOnAction="true"/>
             </list>
         </property>
         <property name="items">
@@ -217,22 +220,26 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
                     </property>
-                    <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
-                    <property name="quickfinder.quickfinderAction">
-                        <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
-                    </property>
-                    <property name="quickfinder.autoSearch" value="true"/>
-                    <property name="quickfinder.fieldConversions">
-                        <map>
-                            <entry key="aoInfo.activityCode" value="activityOfferingCode"/>
-                            <entry key="aoInfo.id" value="aoId"/>
-                        </map>
-                    </property>
-                    <property name="quickfinder.lookupParameters">
-                        <map>
-                            <entry key="courseOfferingCode" value="courseOfferingCode"/>
-                            <entry key="editRenderHelper.termId" value="termId"/>
-                        </map>
+                    <property name="quickfinder">
+                        <bean parent="Uif-QuickFinder"  p:lightBoxLookup.lookupReturnByScript="true">
+                            <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
+                            </property>
+                            <property name="autoSearch" value="true"/>
+                            <property name="fieldConversions">
+                                <map>
+                                    <entry key="aoInfo.activityCode" value="activityOfferingCode"/>
+                                    <entry key="aoInfo.id" value="aoId"/>
+                                </map>
+                            </property>
+                            <property name="lookupParameters">
+                                <map>
+                                    <entry key="courseOfferingCode" value="courseOfferingCode"/>
+                                    <entry key="editRenderHelper.termId" value="termId"/>
+                                </map>
+                            </property>
+                        </bean>
                     </property>
                 </bean>
 
@@ -297,20 +304,19 @@
         <property name="items">
             <list>
                 <bean id="ActivityOffering-PersonnelSection" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:id="ao-personnelgroup">
+                      p:id="ao-personnelgroup" p:layoutManager.style="width: 100%;">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
                     <property name="addBlankLineAction.id" value="ao-personnelgroup-addline"/>
                     <property name="addBlankLineAction.style" value="margin-top:30px; display:block;"/>
+                    <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayPersonnelSection();"/>
                     <property name="layoutManager.richTable">
                         <!-- see http://datatables.net/ref for all options -->
-                        <bean parent="Uif-PagedRichTable">
-                            <property name="render" value="true"/>
+                        <bean parent="KS-Uif-RichTable">
                             <property name="templateOptions">
                                 <map merge="true">
                                     <entry key="aaSorting" value="[[1,'desc']]"/>
-                                    <entry key="bPaginate" value="false"/>
                                 </map>
                             </property>
                         </bean>
@@ -320,16 +326,20 @@
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
                                    p:label="ID" p:required="false" p:cssClasses="col_5">
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="name" value="offeringInstructorInfo.personName"/>
-                                        <entry key="principalId" value="offeringInstructorInfo.personId"/>
-                                    </map>
-                                </property>
-                                <property name="quickfinder.viewName" value="ks_simplePersonLookup" />
-                                <property name="quickfinder.lightBoxLookup">
-                                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="name" value="offeringInstructorInfo.personName"/>
+                                                <entry key="principalId" value="offeringInstructorInfo.personId"/>
+                                            </map>
+                                        </property>
+                                        <property name="viewName" value="ks_simplePersonLookup" />
+                                        <property name="lightBoxLookup">
+                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
@@ -350,23 +360,134 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Seat Pools"/>
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-seatpools</value>
+    <bean id="ActivityOfferingEdit-NoWaitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO and !#dp.colocatedAO}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Waitlists are deactivated for the Course Offering"/>
             </list>
         </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-NoWaitlistColo" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO and #dp.colocatedAO}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Waitlists are deactivated for at least one Course Offering associated with this co-located activity"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
+        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="ActivityOfferingEdit-HasWaitlist" parent="Uif-InputField-LabelRight" p:propertyName="hasWaitlist" p:label="Waitlist Active">
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl" />
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="ActivityOfferingEdit-WailtList-Info-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-WailtList-Info-Section" parent="Uif-VerticalBoxSection"
+          p:progressiveRender="@{#dp.hasWaitlist}" p:refreshWhenChangedPropertyNames="@{#dp.hasWaitlist}">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField" p:propertyName="waitListType" p:label="Waitlist Type"
+                                              p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                                            <property name="control">
+                                                <bean parent="Uif-VerticalRadioControl"/>
+                                            </property>
+                                            <property name="optionsFinder">
+                                                <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.WaitlistTypeOptionsKeyValues" p:addBlankOption="false" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean  parent="Uif-MessageField"  p:label="Waitlist Options" p:fieldLabel.renderColon="false"/>
+                                        <bean parent="Uif-HorizontalBoxSection">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-InputField-LabelRight" p:propertyName="limitWaitlistSize" p:label="Limit Waitlist Size">
+                                                        <property name="control">
+                                                            <bean parent="Uif-CheckboxControl" />
+                                                        </property>
+                                                    </bean>
+                                                    <bean  id="limit_waitlist_size_text" parent="Uif-InputField" p:required="true" p:inclusiveMax="999" p:exclusiveMin="0" p:dataType="INTEGER" p:propertyName="courseWaitListInfo.maxSize" p:refreshWhenChangedPropertyNames="@{#dp.limitWaitlistSize}">
+                                                        <property name="control">
+                                                            <bean parent="Uif-TextControl" p:disabled="@{!#dp.limitWaitlistSize}" />
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-InputField-LabelRight" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
+                                            <property name="control">
+                                                <bean parent="Uif-CheckboxControl" />
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingView-Waitlist" parent="Uif-VerticalBoxSection" p:render="@{#dp.hasWaitlistCO}">
+        <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="headerText" value="Waitlist" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxSubSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(!#dp.hasWaitlist) ? 'No' : 'Yes'}" p:fieldLabel.renderColon="true"/>
+                            <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{(#dp.waitListType eq null) ? '' : (#dp.waitListTypeUI)}"
+                                  p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
+                            <bean parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(#dp.courseWaitListInfo.maxSize eq null) ? 'Unlimited':'Limit to '} @{(#dp.courseWaitListInfo.maxSize eq null) ? '': (#dp.courseWaitListInfo.maxSize)}"
+                                  p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
+                            <bean parent="Uif-MessageField" p:label="Allow Holds in Waitlist" p:messageText="@{(#dp.courseWaitListInfo.allowHoldUntilEntries eq null or !#dp.courseWaitListInfo.allowHoldUntilEntries) ? 'No' : 'Yes'}"
+                                  p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools">
+        <property name="headerText" value="Seat Pools"/>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="ao-seatpoolgroupZ"
-                      p:layoutManager.id="ao-seatpoolgroup-table" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
+                      p:layoutManager.id="ao-seatpoolgroup-table" p:layoutManager.style="width: 100%;" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                     <property name="propertyName" value="seatpools" />
                     <property name="addBlankLineAction.actionLabel" value="Add Seat Pool"/>
-                    <property name="addBlankLineAction.onDocumentReadyScript" value="showSPAddlinePriority();"/>
+                    <property name="addBlankLineAction.onDocumentReadyScript" value="showSPAddlinePriority(); reDisplaySeatPoolSection();"/>
+                    <property name="addBlankLineAction.id" value="ao-seatpoolgroupZ_add"/>
 
                     <property name="items">
                         <list>
@@ -394,12 +515,16 @@
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"/>
                                 </property>
-                                <property name="quickfinder.dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
-                                <property name="quickfinder.fieldConversions">
-                                    <map>
-                                        <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
-                                        <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
-                                    </map>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
+                                        <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="populationInfo.id" value="seatPoolPopulation.id"/>
+                                                <entry key="populationInfo.name" value="seatPoolPopulation.name"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </property>
                                 <property name="dependencyConstraints">
                                     <list>
@@ -510,6 +635,35 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="ActivityOfferingEdit-CoLocatedAddLineDialog" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+        <property name="headerText" value="Colocation Warning"/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message"
+                      p:messageText="Colocating this activity offering will delete all of its requested and actual delivery logistics. Would you like to proceed?"/>
+
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="edit_ao_add_colocate_line" parent="Uif-PrimaryActionButton"  p:ajaxSubmit="false" p:methodToCall="addLine" p:actionLabel="Proceed">
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="actionType" value="addLine"/>
+                                        <entry key="selectedCollectionPath" value="document.newMaintainableObject.dataObject.colocatedActivities"/>
+                                        <entry key="actionEvent" value="addLine"/>
+                                    </map>
+                                </property>
+                            </bean>
+                             <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel"/>
                         </list>
                     </property>
                 </bean>

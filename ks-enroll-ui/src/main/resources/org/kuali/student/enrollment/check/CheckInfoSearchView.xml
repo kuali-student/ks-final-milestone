@@ -20,15 +20,11 @@
     -->
 
     <bean id="KS-CheckInfo-Search" parent="KS-Uif-FormView"
-          p:id="checkInfoSearchView" p:headerText="Manage Checks" p:renderHeader="false">
+          p:id="checkInfoSearchView" p:headerText="Manage Checks" p:renderHeader="false"
+          p:additionalCssClasses="ks-enrollment-home">
         <property name="entryPageId" value="checkInfoSearch-SearchPage" />
         <property name="formClass" value="org.kuali.student.enrollment.class1.check.form.CheckInfoForm" />
         <property name="viewSourceFile" value="CheckInfoSearchView.xml" /> <!-- Shows up in HTML so devs can find the code -->
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-enrollment-home</value>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CheckInfoSearch-SearchPage" />
@@ -112,15 +108,22 @@
           p:layoutManager.numberOfColumns="6" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.r2.core.process.dto.CheckInfo" />
         <property name="propertyName" value="checkInfoList" />
-        <property name="collectionLookup.quickfinderAction.render" value="false" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="layoutManager.richTable.templateOptions">
-            <map>
-                <entry key="sDom" value="rtip"/>
-                <entry key="aaSorting" value="[[ 4, 'asc' ]]"/>
-            </map>
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="templateOptions">
+                    <map merge="true">
+                        <entry key="sDom" value="rtip"/>
+                        <entry key="aaSorting" value="[[ 4, 'asc' ]]"/>
+                    </map>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>

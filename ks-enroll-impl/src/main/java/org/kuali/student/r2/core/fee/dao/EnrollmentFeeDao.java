@@ -22,7 +22,7 @@ import org.kuali.student.r2.core.fee.model.EnrollmentFeeEntity;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides data accessor methods for EnrollmentFee entities
  *
  * @author Kuali Student Team
  */

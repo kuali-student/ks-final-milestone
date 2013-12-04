@@ -16,6 +16,8 @@
 package org.kuali.student.enrollment.class1.krms.service.impl;
 
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.util.ObjectUtils;
+import org.kuali.rice.krms.api.repository.proposition.PropositionParameterType;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
@@ -62,7 +64,7 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor) throws Exception {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor) {
 
         //Set the original nl if not already exists.
         checkNaturalLanguageForTree(aoRuleEditor);
@@ -83,7 +85,7 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) throws Exception {
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) {
 
         //Set the original nl if not already exists.
         checkNaturalLanguageForTree(coRuleEditor);
@@ -148,6 +150,44 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
         }
 
         return termParameters;
+    }
+
+    /**
+     * Copy proposition from parent CO and nullify proposition parameters.
+     *
+     * @param coProposition
+     * @return
+     */
+    public PropositionEditor copyCOProposition(PropositionEditor coProposition) {
+        LUPropositionEditor propositionEditor = (LUPropositionEditor) super.copyProposition(coProposition);
+
+        nullifyPropositionParameters(propositionEditor);
+
+        return propositionEditor;
+    }
+
+    /**
+     * Method to recursively set proposition's parameters propId to null to force rebuild.
+     * If the proposition parameter is of type Term, null the term id out as well(value field)
+     *
+     * @param propositionEditor
+     */
+    protected void nullifyPropositionParameters(LUPropositionEditor propositionEditor) {
+        //If the proposition has parameters its a simple proposition
+        if(propositionEditor.getParameters()!=null){
+            for(PropositionParameterEditor param : propositionEditor.getParameters()) {
+                param.setPropId(null);
+                if(param.getParameterType().equals(PropositionParameterType.TERM.getCode())){
+                    param.setTermValue(null);
+                    param.setValue(null);
+                }
+            }
+        } else if(propositionEditor.getPropositionTypeCode().equals(PropositionType.COMPOUND.getCode())) {
+            //The proposition is a compound so do a recursive call on each of its child propositions
+            for(int i = 0; i < propositionEditor.getCompoundEditors().size(); i++) {
+                nullifyPropositionParameters((LUPropositionEditor) propositionEditor.getCompoundEditors().get(i));
+            }
+        }
     }
 
     @Override

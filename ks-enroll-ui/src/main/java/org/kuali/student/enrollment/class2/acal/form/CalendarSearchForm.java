@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides a form for CalendarSearch objects
  *
  * @author Kuali Student Team
  */
