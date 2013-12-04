@@ -202,10 +202,10 @@
                       p:label="DAYS"
                       p:messageText="@{#line.daysDisplayName}" />
                 <bean parent="Uif-MessageField"
-                      p:label="START TIME"
+                      p:label="START TIME" p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.startTimeDisplay}" />
                 <bean parent="Uif-MessageField"
-                      p:label="END TIME"
+                      p:label="END TIME" p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.endTimeDisplay}" />
                 <bean parent="Uif-MessageField">
                     <property name="label" value="BUILDING"/>
@@ -219,7 +219,7 @@
                       p:messageText="@{#line.roomName}" />
 
                 <bean parent="Uif-MessageField"
-                      p:label="INSTRUCTOR"
+                      p:label="INSTRUCTOR" p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.instructorDisplayNames}" />
                 <bean name="enableApproveButton" parent="KS-Uif-DataField-Simple" p:label="enableApproveButton" p:propertyName="enableApproveButton"/>
                 <bean name="enableDraftButton" parent="KS-Uif-DataField-Simple" p:label="enableDraftButton"  p:propertyName="enableDraftButton"/>
@@ -322,11 +322,11 @@
                       p:messageText="@{#line.daysDisplayName}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="START TIME"
+                      p:label="START TIME"  p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.startTimeDisplay}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="END TIME"
+                      p:label="END TIME"  p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.endTimeDisplay}">
                 </bean>
                 <bean parent="Uif-MessageField"
@@ -338,7 +338,7 @@
                       p:messageText="@{#line.roomName}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="INSTRUCTOR"
+                      p:label="INSTRUCTOR" p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.aoInstructorText}">
                 </bean>
             </list>
