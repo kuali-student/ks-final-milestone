@@ -934,8 +934,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     rgWrapper.setRgMaxEnrText(rgSeats);
                 }
                 rgWrapper.setAoStateNameText(rgWrapper.getAoStateNameText() + (newLine ? "<br/>" : "") + aoWrapper.getStateName() + lineBreaks);
-                rgWrapper.setAoActivityCodeText(getAoActivityCodeText(rgWrapper, aoWrapper, lineBreaks));
 
+                String aoCode = getAoActivityCodeText(rgWrapper, aoWrapper, lineBreaks);
+                rgWrapper.setAoActivityCodeText(rgWrapper.getAoActivityCodeText() + (newLine ? "<br/>" : "") + aoCode);
                 rgWrapper.setAoTypeNameText(rgWrapper.getAoTypeNameText() + (newLine ? "<br/>" : "") + aoWrapper.getTypeName() + lineBreaks);
                 rgWrapper.setStartTimeDisplay(rgWrapper.getStartTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getStartTimeDisplay() + lineBreaksInstructors);
                 rgWrapper.setEndTimeDisplay(rgWrapper.getEndTimeDisplay() + (newLine ? "<br/>" : "") + aoWrapper.getEndTimeDisplay() + lineBreaksInstructors);
