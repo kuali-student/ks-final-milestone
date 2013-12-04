@@ -97,42 +97,7 @@
 	<bean id="course_search_criteria_input-parent" parent="Uif-TextControl"
 		p:watermarkText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('SEARCH_SEARCHTERMS_PLACEHOLDER_TEXT')}">
 		<property name="onDocumentReadyScript"
-			value="
-        	if (jQuery('#text_searchQuery_control').val() != '') {
-          var sb = jQuery('button.course-search-submit');
-                sb.attr('disabled', false);
-                sb.removeClass('disabled');
-        		sb.click();
-        	}" />
-		<property name="onChangeScript"
-			value="
-         var sb = jQuery('button.course-search-submit');
-            if (jQuery(this).val().length > 0) {
-                sb.attr('disabled', false);
-                sb.removeClass('disabled');
-            } else {
-                sb.attr('disabled', true);
-                sb.addClass('disabled');
-            }" />
-		<property name="onLoadScript" value="jQuery(this).blur();" />
-		<property name="onKeyUpScript"
-			value="
-         var sb = jQuery('button.course-search-submit');
-            if (jQuery(this).val().length > 0) {
-                sb.attr('disabled', false);
-                sb.removeClass('disabled');
-            } else {
-                sb.attr('disabled', true);
-                sb.addClass('disabled');
-            }" />
-		<property name="onKeyPressScript"
-			value="
-            var code = (e.keyCode ? e.keyCode : e.which);
-            if (code == 13) {
-                e.preventDefault ? e.preventDefault() : e.returnValue = false;
-                jQuery('button.course-search-submit').click();
-            }
-        " />
+                  value="setupCourseSearchCriteriaActions(jQuery('#text_searchQuery_control'), jQuery('#searchForCourses'))"/>
 	</bean>
 
 	<bean id="text_searchQuery" parent="Uif-InputField"

@@ -144,8 +144,7 @@ function searchForCourses(id, parentId) {
 						iDisplayLength : 20,
 						fnDrawCallback : function() {
 							if (Math
-									.ceil((this.fnSettings().fnRecordsDisplay())
-											/ this.fnSettings()._iDisplayLength) > 1) {
+									.ceil((this.fnSettings().fnRecordsDisplay())/ this.fnSettings()._iDisplayLength) > 1) {
 								jQuery(".dataTables_paginate .ui-button").not(
 										".first, .last").show();
 							} else {
@@ -383,4 +382,35 @@ function fnUpdateFacetList(obj) {
 		} else
 			jQuery(this).find("span").text("(0)");
 	});
+}
+
+//Handle search criteria input and button actions
+//Refactored from KSAP-254 - Remove JS from Bean xml files
+function setupCourseSearchCriteriaActions(jqInputObject, jqSubmitButtonObject) {
+    var sb = jqSubmitButtonObject;
+    var ip = jqInputObject;
+
+    //immediate actions and tests
+    ip.focus();
+
+    if (ip.val() != '') {
+        sb.attr('disabled', false).removeClass('disabled').click();
+    }
+
+    //Register some events
+    jQuery(ip).on("change blur keyup", function(e){
+        if (jQuery(this).val().length > 0) {
+            sb.attr('disabled', false).removeClass('disabled');
+        } else {
+            sb.attr('disabled', true).addClass('disabled');
+        }
+    });
+
+    jQuery(ip).on("keypress", function(e){
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            jQuery(sb).click();
+        }
+    });
 }
