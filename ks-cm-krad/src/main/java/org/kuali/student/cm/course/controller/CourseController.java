@@ -388,17 +388,14 @@ public class CourseController extends CourseRuleEditorController {
 
         try {
             save(form, result, request, response);
-
-            final CourseInfo course = maintainable.getCourse();
-            maintainable.setCourse(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
+            if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
+                handleFirstTimeSave(form);
+            }
         }
         catch (Exception e) {
             error("Unable to save document: %s", e.getMessage());
         }
 
-        if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
-            handleFirstTimeSave(form);
-        }
         
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl());
         
@@ -410,8 +407,12 @@ public class CourseController extends CourseRuleEditorController {
      *
      * @param form {@link MaintenanceDocumentForm} instance
      */
-    protected void handleFirstTimeSave(final MaintenanceDocumentForm form) {
+    protected void handleFirstTimeSave(final MaintenanceDocumentForm form) throws Exception {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+
+        final CourseInfo course = maintainable.getCourse();
+        maintainable.setCourse(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
+        
         info("Saving Proposal for course %s", maintainable.getCourse().getId());
 
         ProposalInfo proposal = maintainable.getProposal();
