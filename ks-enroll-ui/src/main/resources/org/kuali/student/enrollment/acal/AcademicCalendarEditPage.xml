@@ -191,7 +191,6 @@ limitations under the License.
         <property name="propertyName" value="termWrapperList"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper"/>
-        <property name="headerText" value="Terms"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
@@ -253,7 +252,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-MetaSubSection" parent="Uif-VerticalBoxSubSection">
+    <bean id="KS-AcademicCalendar-MetaSubSection" parent="Uif-VerticalBoxSubSection" p:render="@{!#view.readOnly}">
         <property name="id" value="KS-AcademicCalendar-MetaSubSection"/>
         <property name="headerText" value="Calendar Information"/>
         <property name="disclosure.render" value="false"/>
