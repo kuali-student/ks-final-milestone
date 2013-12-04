@@ -25,6 +25,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
@@ -466,5 +467,17 @@ public class CourseOfferingWrapper implements Serializable{
 
     public void setExamPeriodId(String examPeriodId) {
         this.examPeriodId = examPeriodId;
+    }
+
+    public static boolean isDeleteCoValid(String stateKey) {
+        boolean isValid = false;
+        if(stateKey != null)  {
+            if(   StringUtils.equals(stateKey, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY)   ||
+                  StringUtils.equals(stateKey, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY) ||
+                  StringUtils.equals(stateKey, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY) )   {
+                isValid = true;
+            }
+        }
+        return isValid;
     }
 }
