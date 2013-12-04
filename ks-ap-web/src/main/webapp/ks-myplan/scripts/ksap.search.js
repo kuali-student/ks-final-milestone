@@ -414,3 +414,30 @@ function setupCourseSearchCriteriaActions(jqInputObject, jqSubmitButtonObject) {
         }
     });
 }
+
+// Registering Course Search Results events
+//Refactored from KSAP-254 - Remove JS from Bean xml files
+function registerCourseSearchResultsEvents(jqObject) {
+    console.log(jqObject);
+    jQuery(jqObject)
+        .on('PLAN_ITEM_DELETED', function(event, data){
+            if (data.planItemType === 'wishlist') {
+                fnRestoreSearchAddButton(data.courseDetails.courseId);
+            }
+        })
+        .on('PLAN_ITEM_ADDED', function(event, data){
+            if (data.planItemType === 'wishlist') {
+                fnDisplayMessage('Bookmarked', 'bookmarked', data.courseDetails.courseId+'_status', false);
+            }
+        })
+        .on('PLAN_ITEM_ADDED', function(event, data){
+            if (data.planItemType === 'planned') {
+                fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
+            }
+        })
+        .on('PLAN_ITEM_ADDED', function(event, data){
+            if (data.planItemType === 'backup') {
+                fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
+            }
+        });
+}

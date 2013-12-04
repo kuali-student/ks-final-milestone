@@ -118,8 +118,7 @@
 	<bean id="select_searchTerm" parent="Uif-InputField"
 		p:propertyName="searchTerm" p:label="in" p:fieldLabel.renderColon="false"
 		p:validationMessages.render="false">
-		<!--<property name="fieldLabel.cssClasses"> <list merge="true"> <value>myplan-text-normal</value> 
-			</list> </property> -->
+
 		<property name="control">
 			<bean parent="Uif-DropdownControl" />
 		</property>
@@ -200,37 +199,13 @@
 
 	<bean id="course_search_results" parent="course_search_results-parent" />
 	<bean id="course_search_results-parent" parent="Uif-DataTable">
-		<!-- p:ajaxSource="@{#ConfigProperties['courseSearchBaseUrl']}/search/course/@{searchQuery}/@{searchTerm}/@{campusSelect}"> -->
 		<property name="cssClasses">
 			<list merge="true">
 				<value>ksap-course-search-results-datatable</value>
 			</list>
 		</property>
-		<property name="onDocumentReadyScript"
-			value="
-            jQuery('#course_search_results')
-                .on('PLAN_ITEM_DELETED', function(event, data){
-                    if (data.planItemType === 'wishlist') {
-                        fnRestoreSearchAddButton(data.courseDetails.courseId);
-                    }
-                })
-                .on('PLAN_ITEM_ADDED', function(event, data){
-                    if (data.planItemType === 'wishlist') {
-                        fnDisplayMessage('Bookmarked', 'bookmarked', data.courseDetails.courseId+'_status', false);
-                    }
-                })
-                .on('PLAN_ITEM_ADDED', function(event, data){
-                    if (data.planItemType === 'planned') {
-                        fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
-                    }
-                })
-                .on('PLAN_ITEM_ADDED', function(event, data){
-                    if (data.planItemType === 'backup') {
-                        fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
-                    }
-                });
-        " />
-		<property name="richTable.templateOptions">
+        <property name="onDocumentReadyScript" value="registerCourseSearchResultsEvents(jQuery('#course_search_results'))" />
+        <property name="richTable.templateOptions">
 			<map merge="true">
 				<entry key="oLanguage"
 					value="{
