@@ -342,7 +342,7 @@ limitations under the License.
                 <bean parent="Uif-DataField" p:label="If course is:" p:propertyName="description"/>
                 <bean parent="Uif-DataField" p:label="Exam will be on:" p:propertyName="dayToDisplay"/>
                 <bean parent="Uif-DataField" p:label="Time:" p:propertyName="timePeriodToDisplay"/>
-                <bean parent="Uif-DataField" p:label="Building:" p:propertyName="building.name"/>
+                <bean parent="Uif-DataField" p:label="Facility:" p:propertyName="building.name"/>
                 <bean parent="Uif-DataField" p:label="Room:" p:propertyName="room.roomCode"/>
             </list>
         </property>
@@ -585,7 +585,7 @@ limitations under the License.
                         </list>
                     </property>
                 </bean>
-                <bean id="FinalExam_building" parent="Uif-InputField-LabelTop" p:label="Building"
+                <bean id="FinalExam_building" parent="Uif-InputField-LabelTop" p:label="Facility"
                       p:render="@{#dp.ruleEditor.ruleTypeInfo.type ne 'kuali.krms.rule.type.final.exam.standard'}"
                       p:propertyName="ruleEditor.building.buildingCode" p:uppercaseValue="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>

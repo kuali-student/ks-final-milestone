@@ -17,7 +17,7 @@
 
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:label="Building Name"  p:propertyName="name" />
+                <bean parent="Uif-LookupCriteriaInputField" p:label="Facility Name"  p:propertyName="name" />
             </list>
         </property>
         <property name="resultFields">
