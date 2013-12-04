@@ -27,8 +27,8 @@
         <!-- This was originally put in as a work-around for a KRAD unified header bug where view headers weren't being updated
              when pages where refreshed. I investigated and partially implemented handing view title text overrides in the controller
              code, but concluded that this is a much cleaner solution. -->
-        <property name="onDocumentReadyScript" value="updateViewHeaderText( 'Delete Course Offerings' );" />
-        <property name="headerText" value="@{subjectCode}" />
+        <property name="onDocumentReadyScript" value="updateViewHeaderText( '@{subjectCode}' );" />
+        <property name="headerText" value="Delete Course Offerings" />
 
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <util:list id="KS-Enrollment-HomewardPathBreadcrumbs">
