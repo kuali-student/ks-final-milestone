@@ -396,7 +396,24 @@ public class CourseController extends CourseRuleEditorController {
             error("Unable to save document: %s", e.getMessage());
         }
 
+        if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
+            handleFirstTimeSave(form);
+        }
+        
+        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl());
+        
+        return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+    }
+
+    /**
+     * Handles functionality that should only happen when the document is first saved.
+     *
+     * @param form {@link MaintenanceDocumentForm} instance
+     */
+    protected void handleFirstTimeSave(final MaintenanceDocumentForm form) {
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         info("Saving Proposal for course %s", maintainable.getCourse().getId());
+
         ProposalInfo proposal = maintainable.getProposal();
         proposal.setWorkflowId(form.getDocument().getDocumentHeader().getDocumentNumber());
         proposal.setState(DtoConstants.STATE_DRAFT);
@@ -413,15 +430,13 @@ public class CourseController extends CourseRuleEditorController {
         catch (Exception e) {
             warn("Unable to create a proposal: %s", e.getMessage());
             /*
-            if (logger().isDebugEnabled()) {
-                e.printStackTrace();
-                }*/
+              if (logger().isDebugEnabled()) {
+              e.printStackTrace();
+              }*/
         }
-        
-        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl());
-        
-        return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
     }
+
+        
     
     /**
      * Copied this method from CourseDataService.
