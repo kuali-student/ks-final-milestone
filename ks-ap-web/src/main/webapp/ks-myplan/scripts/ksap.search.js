@@ -418,7 +418,6 @@ function setupCourseSearchCriteriaActions(jqInputObject, jqSubmitButtonObject) {
 // Registering Course Search Results events
 //Refactored from KSAP-254 - Remove JS from Bean xml files
 function registerCourseSearchResultsEvents(jqObject) {
-    console.log(jqObject);
     jQuery(jqObject)
         .on('PLAN_ITEM_DELETED', function(event, data){
             if (data.planItemType === 'wishlist') {
