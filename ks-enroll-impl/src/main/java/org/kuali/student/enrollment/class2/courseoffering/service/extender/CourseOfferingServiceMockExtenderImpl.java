@@ -69,7 +69,7 @@ public class CourseOfferingServiceMockExtenderImpl implements CourseOfferingServ
                                                      ActivityOfferingInfo sourceAo,
                                                      CourseOfferingService coService,
                                                      FormatOfferingInfo targetFo,
-                                                     String targetTermId,
+                                                     String targetTermIdCustom,
                                                      ContextInfo context,
                                                      List<String> optionKeys) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
@@ -77,8 +77,8 @@ public class CourseOfferingServiceMockExtenderImpl implements CourseOfferingServ
         if (targetFo != null) {
             targetAo.setFormatOfferingId(targetFo.getId());
         }
-        if (targetTermId != null) {
-            targetAo.setTermId(targetTermId);
+        if (targetTermIdCustom != null) {
+            targetAo.setTermId(targetTermIdCustom);
         }
         targetAo.getScheduleIds().clear();
         ActivityOfferingInfo resultAo = coService.createActivityOffering(targetAo.getFormatOfferingId(), targetAo.getActivityId(), targetAo.getTypeKey(), targetAo, context);
@@ -91,7 +91,7 @@ public class CourseOfferingServiceMockExtenderImpl implements CourseOfferingServ
     }
 
     @Override
-    public ActivityOfferingInfo createTargetActivityOfferingForRollover(ActivityOfferingInfo sourceAo, FormatOfferingInfo targetFo, String targetTermId, RolloverAssist rolloverAssist, String rolloverId, List<String> optionKeys, CourseOfferingService coService, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+    public ActivityOfferingInfo createTargetActivityOfferingForRollover(ActivityOfferingInfo sourceAo, FormatOfferingInfo targetFo, String targetTermIdCustom, RolloverAssist rolloverAssist, String rolloverId, List<String> optionKeys, CourseOfferingService coService, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         throw new UnsupportedOperationException("createTargetActivityOfferingForRollover");
     }
 }

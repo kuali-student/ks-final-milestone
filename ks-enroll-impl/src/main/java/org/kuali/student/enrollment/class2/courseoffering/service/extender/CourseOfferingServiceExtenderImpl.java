@@ -348,14 +348,14 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
                                                      ActivityOfferingInfo sourceAo,
                                                      CourseOfferingService coService,
                                                      FormatOfferingInfo targetFo,
-                                                     String targetTermId,
+                                                     String targetTermIdCustom,
                                                      ContextInfo context,
                                                      List<String> optionKeys)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
         ActivityOfferingInfo ao =
             createTargetActivityOfferingCommon(operation, null, null, sourceAo, targetFo,
-                    targetTermId, optionKeys, coService, context);
+                    targetTermIdCustom, optionKeys, coService, context);
         return ao;
     }
 
@@ -625,7 +625,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
     @Override
     public ActivityOfferingInfo createTargetActivityOfferingForRollover(ActivityOfferingInfo sourceAo,
                                                                         FormatOfferingInfo targetFo,
-                                                                        String targetTermId,
+                                                                        String targetTermIdCustom,
                                                                         RolloverAssist rolloverAssist,
                                                                         String rolloverId,
                                                                         List<String> optionKeys,
@@ -635,7 +635,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         ActivityOfferingInfo targetAo =
                 createTargetActivityOfferingCommon(COPY_OPERATION_ROLLOVER, rolloverAssist, rolloverId, sourceAo, targetFo,
-                        targetTermId, optionKeys, coService, context);
+                        targetTermIdCustom, optionKeys, coService, context);
         return targetAo;
     }
 

@@ -73,7 +73,7 @@ public interface CourseOfferingServiceExtender {
      * @param sourceAo The AO to copy from
      * @param coService Handle to course offering service (awkward, but avoids circular references)
      * @param targetFo The target format offering.  If null, use the FO id from source AO
-     * @param targetTermId The target term ID.  This is passed in separately because the AO might be in
+     * @param targetTermIdCustom The target term ID.  This is passed in separately because the AO might be in
      *                     a subterm while the targetFo is always set to a parent term.  If null, use the
      *                     term ID from the source AO.
      * @param context Context
@@ -84,7 +84,7 @@ public interface CourseOfferingServiceExtender {
                                               ActivityOfferingInfo sourceAo,
                                               CourseOfferingService coService,
                                               FormatOfferingInfo targetFo,
-                                              String targetTermId,
+                                              String targetTermIdCustom,
                                               ContextInfo context,
                                               List<String> optionKeys)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
@@ -108,7 +108,7 @@ public interface CourseOfferingServiceExtender {
      * Similar to copyActivityOffering but used for rollover
      * @param sourceAo The source AO
      * @param targetFo The target FO used to link the target AO.  If null, just uses the sourceAo's FO
-     * @param targetTermId A target term ID (passed in separately from targetFo since it could be a subterm).
+     * @param targetTermIdCustom A target term ID (passed in separately from targetFo since it could be a subterm).
      * @param optionKeys Option keys used in rollover
      * @param coService Course Offering Service passed in to avoid circular dependence between CourseOfferingService
      *                  and CourseOfferingServiceExtender
@@ -117,7 +117,7 @@ public interface CourseOfferingServiceExtender {
      */
     public ActivityOfferingInfo createTargetActivityOfferingForRollover(ActivityOfferingInfo sourceAo,
                                                                         FormatOfferingInfo targetFo,
-                                                                        String targetTermId,
+                                                                        String targetTermIdCustom,
                                                                         RolloverAssist rolloverAssist,
                                                                         String rolloverId,
                                                                         List<String> optionKeys,
