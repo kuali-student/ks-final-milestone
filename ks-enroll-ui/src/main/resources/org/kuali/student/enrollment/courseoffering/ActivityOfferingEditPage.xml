@@ -28,9 +28,11 @@
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Update"
-                                                                        p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();"/>
+                                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();"
+                                p:jumpToIdAfterSubmit="TOP"/>
                             <bean parent="KS-Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="route" p:actionLabel="Save Progress"
-                                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();">
+                                p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}" p:preSubmitCall="return preSubmitCheck();"
+                                p:jumpToIdAfterSubmit="TOP">
                                 <property name="actionParameters">
                                     <map>
                                         <entry key="aoId" value="@{#dp.aoInfo.id}"/>
