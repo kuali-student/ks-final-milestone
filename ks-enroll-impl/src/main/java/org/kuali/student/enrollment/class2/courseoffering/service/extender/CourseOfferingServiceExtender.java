@@ -41,7 +41,13 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public interface CourseOfferingServiceExtender {
-    public List<String> getActivityTypesForFormatId(String id, ContextInfo context)
+    /**
+     * Fetches a list of activity types (CLU types) for format id (format is also CLU)
+     * @param formatId The id for a format (CLU)
+     * @param context The context
+     * @return A list of strings representing the activity types associated with the format id
+     */
+    public List<String> getActivityTypesForFormatId(String formatId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
 
     public List<ValidationResultInfo> verifyRegistrationGroup(String registrationGroupId, ContextInfo contextInfo)

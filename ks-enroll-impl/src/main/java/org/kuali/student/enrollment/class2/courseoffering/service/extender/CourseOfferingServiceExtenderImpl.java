@@ -102,18 +102,18 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
     private CourseOfferingSetService socService;
 
     @Override
-    public List<String> getActivityTypesForFormatId(String id, ContextInfo context)
+    public List<String> getActivityTypesForFormatId(String formatId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         List<String> activityTypes = new ArrayList<String>();
-        //Create the search request
+        // Create the search request
         SearchRequestInfo request = new SearchRequestInfo("lu.search.relatedTypes");
-        request.addParam("lu.queryParam.cluId", id);
+        request.addParam("lu.queryParam.cluId", formatId);
         request.addParam("lu.queryParam.luOptionalRelationType", CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
-        //Execute the search and parse params
+        // Execute the search and parse params
         SearchResultInfo result = searchService.search(request, context);
-        for(SearchResultRowInfo row : result.getRows()){
-            for(SearchResultCellInfo cell: row.getCells()){
-                if("lu.resultColumn.cluType".equals(cell.getKey())){
+        for (SearchResultRowInfo row : result.getRows()) {
+            for (SearchResultCellInfo cell: row.getCells()) {
+                if ("lu.resultColumn.cluType".equals(cell.getKey())) {
                     activityTypes.add(cell.getValue());
                     break;
                 }

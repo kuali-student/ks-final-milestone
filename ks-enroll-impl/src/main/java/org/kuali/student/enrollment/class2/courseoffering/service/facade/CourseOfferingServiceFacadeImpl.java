@@ -319,7 +319,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         }
 
         // Get the activity types
-        List<String> activityTypes = getActivityTypesForFormatId(fo.getId(), context);
+        List<String> activityTypes = courseOfferingServiceExtender.getActivityTypesForFormatId(fo.getFormatId(), context);
         if (activityTypes.isEmpty()) {
             throw new OperationFailedException("No format could be found to match id: " + fo.getFormatId() + " or Formats contains no activities.  Error!");
         }
@@ -346,36 +346,6 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         fo.setActivityOfferingTypeKeys(aoTypeKeys);
 
         getCoService().updateFormatOffering(fo.getId(), fo, context);
-    }
-
-    /**
-     * Searches for actifity types for a given FO id.
-     * @param id FO id
-     * @param context call context
-     * @return list of activity types for given FO ID
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws PermissionDeniedException
-     * @throws OperationFailedException
-     */
-    protected List<String> getActivityTypesForFormatId(String id, ContextInfo context) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        List<String> activityTypes = new ArrayList<String>();
-        //Create the search request
-        SearchRequestInfo request = new SearchRequestInfo("lu.search.relatedTypes");
-        request.addParam("lu.queryParam.cluId", id);
-        request.addParam("lu.queryParam.luOptionalRelationType", CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
-        //Execute the search and parse params
-        SearchResultInfo result = searchService.search(request, context);
-        for(SearchResultRowInfo row : result.getRows()){
-            for(SearchResultCellInfo cell: row.getCells()){
-                if("lu.resultColumn.cluType".equals(cell.getKey())){
-                    activityTypes.add(cell.getValue());
-                    break;
-                }
-            }
-        }
-
-        return activityTypes;
     }
 
     /**
