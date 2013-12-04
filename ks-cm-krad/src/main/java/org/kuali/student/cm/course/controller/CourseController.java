@@ -188,7 +188,7 @@ public class CourseController extends CourseRuleEditorController {
         if (maintainable.getCourse().getUnitsContentOwner() == null) {
             maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
         }
-
+        
         // Initialize Course Requisites
         final CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
         ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
@@ -196,7 +196,7 @@ public class CourseController extends CourseRuleEditorController {
         ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
         ruleWrapper.setRefObjectId(maintainable.getCourse().getId());
 
-        ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
+        // ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
                 
         return retval;
     }
@@ -388,23 +388,27 @@ public class CourseController extends CourseRuleEditorController {
 
         try {
             save(form, result, request, response);
+
+            final CourseInfo course = maintainable.getCourse();
+            maintainable.setCourse(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
         }
         catch (Exception e) {
             error("Unable to save document: %s", e.getMessage());
         }
 
-        ProposalInfo proposal = new ProposalInfo();
+        info("Saving Proposal for course %s", maintainable.getCourse().getId());
+        ProposalInfo proposal = maintainable.getProposal();
         proposal.setWorkflowId(form.getDocument().getDocumentHeader().getDocumentNumber());
         proposal.setState(DtoConstants.STATE_DRAFT);
         proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
+        proposal.setProposalReferenceType("kuali.proposal.referenceType.clu");
         proposal.getProposalReference().add(maintainable.getCourse().getId());
         proposal.getProposerOrg().clear();
         proposal.getProposerPerson().clear();
-        proposal.setName(null);
-        proposal.setId(null);
                         
-        try {
+        try {            
             proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
+            maintainable.setProposal(proposal);
         }
         catch (Exception e) {
             warn("Unable to create a proposal: %s", e.getMessage());
@@ -413,7 +417,6 @@ public class CourseController extends CourseRuleEditorController {
                 e.printStackTrace();
                 }*/
         }
-        maintainable.setProposal(proposal);
         
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl());
         
@@ -458,7 +461,7 @@ public class CourseController extends CourseRuleEditorController {
      * @param displayName The display name of the instructor.
      * @return The user name of the instructor.
      */
-    private String getInstructorSearchString(String displayName) {
+    protected String getInstructorSearchString(String displayName) {
         String searchString = null;
         if (displayName.contains("(") && displayName.contains(")")) {
             searchString = displayName.substring(displayName.lastIndexOf("(") + 1, displayName.lastIndexOf(")"));
