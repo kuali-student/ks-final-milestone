@@ -123,7 +123,7 @@
 
     <bean id="orgSearchManager"
           class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:organization-search-config.xml" />
+        <constructor-arg index="0" value="classpath:myplan-orgsearch-config.xml" />
         <property name="dao" ref="orgSearchableDao"/>
     </bean>
 
@@ -160,6 +160,7 @@
                                     <value>code</value>
                                     <value>typeKey</value>
                                     <value>stateKey</value>
+
                                 </list>
                             </property>
                         </bean>
@@ -171,6 +172,7 @@
                                     <entry key="code" value="atpCode"/>
                                     <entry key="typeKey" value="atpType"/>
                                     <entry key="stateKey" value="atpState"/>
+                                    <entry key="atpStatus" value="atpState"/>
                                 </map>
                             </property>
                         </bean>
