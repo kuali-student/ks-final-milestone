@@ -121,11 +121,9 @@
                             <groupId>org.kuali.student.core</groupId>
                             <artifactId>ks-common-web</artifactId>
                         </overlay>
-
                         <overlay>
                             <!-- empty groupId/artifactId represents the current build -->
                         </overlay>
-
                         <!-- any other remaining overlays will be applied last -->
                     </overlays>
                 </configuration>
