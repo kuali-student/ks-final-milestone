@@ -297,7 +297,7 @@
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="STATE"
-                      p:messageText="@{#line.stateKey}">
+                      p:messageText="@{#line.stateKey}" p:valign="middle">
                 </bean>
                 <bean parent="Uif-MessageField"
                       p:label="CODE"

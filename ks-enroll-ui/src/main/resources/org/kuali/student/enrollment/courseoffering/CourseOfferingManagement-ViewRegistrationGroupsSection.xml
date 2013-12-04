@@ -42,8 +42,8 @@
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
                 <bean parent="Uif-DataField"
-                      p:label="STATE" p:escapeHtmlInPropertyValue="false"
-                      p:propertyName="stateKey">
+                      p:label="STATEs" p:escapeHtmlInPropertyValue="false"
+                      p:propertyName="stateKey" p:valign="middle">
                 </bean>
 
                 <!-- ARG Notes By Bonnie -->
