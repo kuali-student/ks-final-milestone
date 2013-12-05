@@ -154,7 +154,8 @@ public class CourseOfferingContextBar implements Serializable {
 
         // Determine the UI style (Lozenge) for the soc state
         if(!StringUtils.isEmpty(termSocState)){
-            instance.setTermSocStateUIStyle("state-" + termSocState.toLowerCase());
+            String termSocStateUIStyle = termSocState.replace( " " , "");
+            instance.setTermSocStateUIStyle("state-" + termSocStateUIStyle.toLowerCase());
         }
 
         return instance;
