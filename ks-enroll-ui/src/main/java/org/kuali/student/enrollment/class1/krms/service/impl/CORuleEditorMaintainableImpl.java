@@ -103,7 +103,7 @@ public class CORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 courseOffering = this.getCourseOfferingService().getCourseOffering(coId, ContextUtils.createDefaultContextInfo());
                 dataObject.setAgendas(this.getAgendasForRef(dataObject.getRefDiscriminatorType(), coId, courseOffering.getCourseId()));
             } catch (Exception e) {
-                throw new RuntimeException("Could not retrieve course offering for " + coId);
+                throw new RuntimeException("Could not retrieve course offering for " + coId, e);
             }
         }
 
