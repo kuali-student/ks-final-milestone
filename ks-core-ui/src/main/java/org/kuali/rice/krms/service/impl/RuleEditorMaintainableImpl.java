@@ -279,7 +279,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         KrmsTypeDefinition requisitesType = this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, this.getViewTypeName());
 
         // Get all agenda types linked to super type.
-        List<TypeTypeRelation> agendaRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(requisitesType.getId());
+        List<TypeTypeRelation> agendaRelationships = this.getSortedTypeRelationshipsForTypeId(requisitesType.getId());
         for (TypeTypeRelation agendaRelationship : agendaRelationships) {
             AgendaTypeInfo agendaTypeInfo = new AgendaTypeInfo();
             agendaTypeInfo.setId(agendaRelationship.getToTypeId());
@@ -287,19 +287,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             agendaTypeInfo.setType(agendaType.getName());
             agendaTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(agendaRelationship.getToTypeId(), descriptionUsageId));
 
-            // Get all rule types for each agenda type
-            List<TypeTypeRelation> ruleRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaRelationship.getToTypeId());
-            // order rules
-            List<TypeTypeRelation> sortedRuleRelationships = new ArrayList<TypeTypeRelation>();
-            sortedRuleRelationships.addAll(ruleRelationships);
-            Collections.sort(sortedRuleRelationships, new Comparator<TypeTypeRelation>() {
-                @Override
-                public int compare(TypeTypeRelation typeTypeRelation1, TypeTypeRelation typeTypeRelation2) {
-                    return typeTypeRelation1.getSequenceNumber().compareTo(typeTypeRelation2.getSequenceNumber());
-                }
-            });
-
             List<RuleTypeInfo> ruleTypes = new ArrayList<RuleTypeInfo>();
+            List<TypeTypeRelation> sortedRuleRelationships = this.getSortedTypeRelationshipsForTypeId(agendaRelationship.getToTypeId());
             for (TypeTypeRelation ruleRelationship : sortedRuleRelationships) {
                 RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
                 ruleTypeInfo.setId(ruleRelationship.getToTypeId());
@@ -321,6 +310,21 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
 
         return agendaTypeInfos;
+    }
+
+    private List<TypeTypeRelation> getSortedTypeRelationshipsForTypeId(String typeId){
+        // Get all rule types for each agenda type
+        List<TypeTypeRelation> relationships = new ArrayList<TypeTypeRelation>();
+        relationships.addAll(this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(typeId));
+
+        // order rules
+        Collections.sort(relationships, new Comparator<TypeTypeRelation>() {
+            @Override
+            public int compare(TypeTypeRelation typeTypeRelation1, TypeTypeRelation typeTypeRelation2) {
+                return typeTypeRelation1.getSequenceNumber().compareTo(typeTypeRelation2.getSequenceNumber());
+            }
+        });
+        return relationships;
     }
 
     private String getDescriptionForTypeAndUsage(String typeId, String usageId) {
