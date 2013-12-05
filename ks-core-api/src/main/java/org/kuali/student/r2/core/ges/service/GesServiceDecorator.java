@@ -86,8 +86,8 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public ParameterInfo createParameter(String valueTypeKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createParameter(valueTypeKey,parameterTypeKey,parameterInfo,contextInfo);
+    public ParameterInfo createParameter(String valueTypeKey, String parameterTypeKey, String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createParameter(valueTypeKey,parameterTypeKey,parameterKey,parameterInfo,contextInfo);
     }
 
     @Override
@@ -131,8 +131,8 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public ValueInfo createValue(String valueTypeKey, ValueInfo valueInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createValue(valueTypeKey,valueInfo,contextInfo);
+    public ValueInfo createValue(String valueTypeKey, String parameterId, ValueInfo valueInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createValue(valueTypeKey,parameterId,valueInfo,contextInfo);
     }
 
     @Override

@@ -14,6 +14,7 @@
  */
 package org.kuali.student.r2.core.ges.dto;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.infc.Amount;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
@@ -27,7 +28,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value {
     @XmlElement
     private Long numericValue;
     @XmlElement
-    private BigDecimal decimalValue;
+    private KualiDecimal decimalValue;
     @XmlElement
     private String stringValue;
     @XmlElement
@@ -168,11 +168,11 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value {
     }
 
     @Override
-    public BigDecimal getDecimalValue() {
+    public KualiDecimal getDecimalValue() {
         return decimalValue;
     }
 
-    public void setDecimalValue(BigDecimal decimalValue) {
+    public void setDecimalValue(KualiDecimal decimalValue) {
         this.decimalValue = decimalValue;
     }
 

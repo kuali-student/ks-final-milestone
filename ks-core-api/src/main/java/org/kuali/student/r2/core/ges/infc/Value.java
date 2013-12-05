@@ -14,13 +14,13 @@
  */
 package org.kuali.student.r2.core.ges.infc;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.r2.common.infc.Amount;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -37,19 +37,19 @@ public interface Value extends IdNamelessEntity {
      * @readOnly
      * @required
      */
-     String getParameterId();
+    String getParameterId();
 
     /**
      *  An optional ATP type key that restricts the applicability of this value.
      * @name ATP Type Key
      */
-     String getAtpTypeKey();
+    String getAtpTypeKey();
 
     /**
      *  An optional Population Id that restricts the applicability of this value.
      * @name Population Id
      */
-     String getPopulationId();
+    String getPopulationId();
 
     /**
      * An optional Rule Id that restricts the applicability of this value.
@@ -61,59 +61,59 @@ public interface Value extends IdNamelessEntity {
      *  An optional Date that indicates the point in time in which this value becomes active.
      * @name On Date
      */
-     Date getOnDate();
+    Date getOnDate();
 
     /**
      * The Boolean value contained within this entity
      * @name Boolean Value
      */
-     Boolean getBooleanValue();
+    Boolean getBooleanValue();
 
     /**
      * The Date value contained within this entity
      * @name Date Value
      */
-     Date getDateValue();
+    Date getDateValue();
 
     /**
      * The Numeric value contained within this entity.
      * @name Numeric Value
      */
-     Long getNumericValue();
+    Long getNumericValue();
 
     /**
-     * The BigDecimal value contained within this entity
+     * The KualiDecimal value contained within this entity
      * @name Decimal Value
      */
-     BigDecimal getDecimalValue();
+    KualiDecimal getDecimalValue();
 
     /**
      * The String value contained within this entity
      * @name String Value
      */
-     String getStringValue();
+    String getStringValue();
 
     /**
      * The Amount value contained within this entity
      * @name Amount Value
      */
-     Amount getAmountValue();
+    Amount getAmountValue();
 
     /**
      * The CurrencyAmount value contained within this entity
      * @name Currency Amount Value
      */
-     CurrencyAmount getCurrencyAmountValue();
+    CurrencyAmount getCurrencyAmountValue();
 
     /**
      * The TimeAmount value contained within this entity
      * @name Time Amount Value
      */
-     TimeAmount getTimeAmountValue();
+    TimeAmount getTimeAmountValue();
 
     /**
      * The TimeOfDay value contained within this entity
      * @name Time of Day Value
      */
-     TimeOfDay getTimeOfDayValue();
+    TimeOfDay getTimeOfDayValue();
 }

@@ -211,6 +211,7 @@ public interface GesService {
      *                         the new Parameter
      * @param parameterInfo    the data with which to create the
      *                         Parameter
+     * @param parameterKey     the key of the parameter - for example, 'max-credits'
      * @param contextInfo      information containing the principalId and
      *                         locale information about the caller of service operation
      * @return the new Parameter
@@ -229,6 +230,7 @@ public interface GesService {
      */
     public ParameterInfo createParameter(@WebParam(name = "valueTypeKey") String valueTypeKey,
                                          @WebParam(name = "parameterTypeKey") String parameterTypeKey,
+                                         @WebParam(name = "parameterKey") String parameterKey,
                                          @WebParam(name = "parameterInfo") ParameterInfo parameterInfo,
                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -458,6 +460,7 @@ public interface GesService {
      *
      * @param valueTypeKey the identifier for the Type of
      *                     the new Value
+     * @param parameterId  the id of the parameter that this value is attached to.
      * @param valueInfo    the data with which to create the
      *                     Value
      * @param contextInfo  information containing the principalId and
@@ -476,6 +479,7 @@ public interface GesService {
      * @throws DataValidationErrorException supplied data is invalid
      */
     public ValueInfo createValue(@WebParam(name = "valueTypeKey") String valueTypeKey,
+                                 @WebParam(name = "parameterId") String parameterId,
                                  @WebParam(name = "valueInfo") ValueInfo valueInfo,
                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
