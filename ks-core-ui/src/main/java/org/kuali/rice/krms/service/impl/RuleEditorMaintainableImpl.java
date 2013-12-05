@@ -482,6 +482,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     }
 
     public RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
+        // handle saving new parameterized terms
+        if (rule.getPropositionEditor() != null) {
+            this.onSubmit(rule.getPropositionEditor());
+        }
+
         if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
         }
@@ -490,6 +495,24 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         return RuleDefinition.Builder.create(rule);
     }
 
+    public void onSubmit(PropositionEditor propositionEditor) {
+        if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
+
+            //Call onsubmit on the associated builder.
+            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
+            if (builder != null) {
+                builder.onSubmit(propositionEditor);
+            }
+
+        } else {
+
+            //If not a simple node, recursively finalize the child proposition editors.
+            for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
+                onSubmit(child);
+            }
+
+        }
+    }
 
     public void initPropositionEditor(PropositionEditor propositionEditor) {
         if (propositionEditor == null) {

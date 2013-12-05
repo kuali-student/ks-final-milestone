@@ -237,12 +237,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     public void finPropositionEditor(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
-            //Call onsubmit on the associated builder.
-            ComponentBuilder builder = this.getTemplateRegistry().getComponentBuilderForType(propositionEditor.getType());
-            if (builder != null) {
-                builder.onSubmit(propositionEditor);
-            }
-
             //Set the default operation and value
             TemplateInfo template = this.getTemplateRegistry().getTemplateForType(propositionEditor.getType());
             PropositionTreeUtil.getOperatorParameter(propositionEditor.getParameters()).setValue(template.getOperator());
