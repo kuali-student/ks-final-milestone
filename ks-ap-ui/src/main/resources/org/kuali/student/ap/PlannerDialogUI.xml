@@ -441,6 +441,7 @@
 		<property name="label" value="Enter subject and catalog number" />
 		<property name="control">
 			<bean parent="Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
+                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript" value="jQuery('#courseCode_control').focus();" />
 				<property name="watermarkText" value="e.g. BL MATH-M 119" />
 				<property name="maxLength" value="50" />
@@ -477,6 +478,7 @@
 		</property>
 		<property name="constraintMessage">
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
+                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript"
 					value="jQuery('.ksap-characterCount').characterCount({maxLength:500});" />
 				<property name="cssClasses">
@@ -506,6 +508,7 @@
 		</property>
 		<property name="constraintMessage">
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
+                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript"
 					value="jQuery('.ksap-characterCount').characterCount({maxLength:500});" />
 				<property name="cssClasses">

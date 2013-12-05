@@ -337,6 +337,7 @@
 			<list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Add to Plan"
                       p:title="Add to Plan">
+                    <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
                     <property name="actionScript" value="
                         var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddDialog', courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page'};
                         var popupStyle = {width:'300px', height:'16px'};
@@ -349,6 +350,7 @@
 				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
                       p:title="Bookmark"
                       p:style="margin:0;">
+                    <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
                     <property name="onClickScript" value="
                         var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addSavedCourse', courseId:jQuery(this).data('courseid')};
                         submitHiddenForm('plan', additionalFormData, e);

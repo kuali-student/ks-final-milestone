@@ -30,6 +30,7 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
@@ -59,6 +60,7 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
@@ -88,6 +90,7 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
@@ -116,6 +119,7 @@
         </property>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
+        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
@@ -148,6 +152,7 @@
             </list>
         </property>
         <property name="scriptFiles">
+            <!--@TODO: KSAP-254: Create ksap.js and include here-->
             <list merge="true">
                 <value>ks-ap/scripts/KradOverrides.js</value>
                 <value>ks-myplan/scripts/ksap.widgets.js?@{#ConfigProperties['myplan.version']}</value>
@@ -438,6 +443,7 @@
                 </property>
             </bean>
         </property>
+        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onDocumentReadyScript" value="
             ksapRetrieveComponent('messages_widget','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
             jQuery('#messages_widget')
@@ -461,6 +467,7 @@
         <property name="header">
             <bean parent="Uif-HeaderSix"/>
         </property>
+        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onDocumentReadyScript" value="
             ksapRetrieveComponent('watch_list','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
             var obj = jQuery('div.myplan-saved-courses-summary.myplan-stacked-list',jQuery('body').html());
@@ -490,6 +497,7 @@
         <property name="header">
             <bean parent="Uif-HeaderSix"/>
         </property>
+        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onDocumentReadyScript" value="
             ksapRetrieveComponent('degree_audits_list','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
             jQuery('#degree_audits_summary').on('REFRESH_AUDITS', function(data){
@@ -830,6 +838,7 @@
 	        	<value>ks-Popover-footer</value>
         	</list>
         </property>
+        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onDocumentReadyScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
