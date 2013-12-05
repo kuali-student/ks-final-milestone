@@ -304,13 +304,6 @@ function updateContextBar(contextBarId) {
                     vh.offset({top: vhOffset});
                     vh.data("offset", vh.offset());
                 }
-
-                var cw = jQuery("#Uif-ViewContentWrapper");
-                if (jQuery(cw).length) {
-                    var cwOffset = vhOffset + contextBarHeight;
-                    cw.offset({top: cwOffset});
-                    cw.data("offset", cw.offset());
-                }
             }
         }
     }
