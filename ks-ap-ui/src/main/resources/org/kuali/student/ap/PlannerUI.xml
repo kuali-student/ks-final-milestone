@@ -804,9 +804,6 @@
                 <ref bean="planner_menu_course_summary" />
                 <!--  <ref bean="planner_menu_copy_plan_item" /> -->
                 <ref bean="planner_menu_remove_from_cart" />
-                <bean parent="Uif-Message"
-                      p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
             </list>
         </property>
     </bean>
@@ -827,8 +824,6 @@
                 <ref bean="planner_menu_move_plan_item" />
                 <ref bean="planner_menu_copy_plan_item" />
                 <ref bean="planner_menu_delete_plan_item" />
-                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note" />
             </list>
         </property>
     </bean>
@@ -850,8 +845,6 @@
                 <ref bean="planner_menu_move_plan_item" />
                 <ref bean="planner_menu_copy_plan_item" />
                 <ref bean="planner_menu_delete_plan_item" />
-                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note" />
             </list>
         </property>
     </bean>
@@ -873,8 +866,6 @@
                 <ref bean="planner_menu_move_plan_item" />
                 <ref bean="planner_menu_copy_plan_item" />
                 <ref bean="planner_menu_delete_plan_item" />
-                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note" />
             </list>
         </property>
     </bean>
@@ -977,8 +968,6 @@
 				<ref bean="planner_menu_course_summary" />
 				<ref bean="planner_menu_copy_plan_item" />
 				<ref bean="planner_menu_delete_plan_item" />
-				<bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-					p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note" />
 			</list>
 		</property>
 	</bean>
