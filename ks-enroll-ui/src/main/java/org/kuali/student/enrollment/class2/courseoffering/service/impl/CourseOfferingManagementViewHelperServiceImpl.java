@@ -461,21 +461,19 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     private void _validateMulitpleTermsPerCluster(List<String> aoTypeKeys, ActivityOfferingClusterWrapper cluster, int clusterIndex) {
         // Test the Cluster for Multiple AO types and Term types
         if (aoTypeKeys.size() > 1) {
-            Map<String, String> termMap = new HashMap<String, String>();
+            Set<String> termNameSet = new HashSet<String>();
 
             // Tests for multiple subTerms
             for (ActivityOfferingWrapper aoWrapper : cluster.getAoWrapperList()) {
                 String termName = StringUtils.isEmpty(aoWrapper.getSubTermId()) ? aoWrapper.getTermName() : aoWrapper.getSubTermName();
-                if (!termMap.containsKey(termName)) {
-                    termMap.put(termName, termName);
+                if (!termNameSet.contains(termName)) {
+                    termNameSet.add(termName);
                 }
             }
-            if (termMap.size() > 1) {
+            if (termNameSet.size() > 1) {
                 StringBuilder termNameStr = new StringBuilder();
-                Collection<String> termList = new ArrayList<String>();
-                termList = termMap.values();
-                for (String term : termList) {
-                    termNameStr.append(term).append(", ");
+                for (String termName : termNameSet) {
+                    termNameStr.append(termName).append(", ");
                 }
                 termNameStr.delete(termNameStr.length() - 2, termNameStr.length());
                 GlobalVariables.getMessageMap().putWarningForSectionId("activityOfferingsPerCluster_line" + clusterIndex, RegistrationGroupConstants.MSG_ERROR_CLUSTER_MULTIPLE_TERMS, cluster.getAoCluster().getPrivateName(), termNameStr.toString());
