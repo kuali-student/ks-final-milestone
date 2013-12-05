@@ -148,6 +148,20 @@ public class LuiServiceCacheDecorator extends LuiServiceDecorator {
     }
 
     @Override
+    public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
+        LuiLuiRelationInfo relationInfo = getLuiLuiRelation(luiLuiRelationId, contextInfo);
+        MultiKey cacheKey = new MultiKey(LUILUI_RELTN_KEY, relationInfo.getLuiId());
+
+        StatusInfo result = getNextDecorator().deleteLuiLuiRelation(luiLuiRelationId, contextInfo);
+        getCacheManager().getCache(cacheName).remove(cacheKey);
+
+        return result;
+    }
+
+    @Override
     public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luiLuiRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
