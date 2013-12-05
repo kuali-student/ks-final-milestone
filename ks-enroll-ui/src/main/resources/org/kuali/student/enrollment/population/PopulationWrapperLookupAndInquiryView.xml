@@ -131,6 +131,22 @@
         <property name="headerText" value="View Population"/>
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.population.service.impl.PopulationWrapperInquirableImpl"/>
+        <property name="page.header.lowerGroup.items">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionScript="expandDisclosures();"
+                      p:actionLabel="[+] expand all">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionScript="collapseDisclosures();"
+                      p:actionLabel="[-] collapse all" p:style="margin-left:1em">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+            </list>
+        </property>
         <property name="Items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
