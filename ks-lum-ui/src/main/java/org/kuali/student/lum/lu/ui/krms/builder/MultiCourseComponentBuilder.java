@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.krms.builder;
 
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.util.KRMSConstants;
@@ -92,7 +93,10 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
             CluSetInfo cluSetInfo = propositionEditor.getCluSet().getCluSetInfo();
             if (cluSetInfo.getId() == null) {
                 cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
+
                 ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, cluSetInfo.getId());
+                TermDefinition.Builder termBuilder = TermDefinition.Builder.create(propositionEditor.getTerm());
+                PropositionTreeUtil.getTermParameter(propositionEditor.getParameters()).setTermValue(termBuilder.build());
 
             } else {
                 this.getCluService().updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
@@ -103,6 +107,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
             }else{
                 throw new IllegalArgumentException(ex);
             }
+
         }
     }
 

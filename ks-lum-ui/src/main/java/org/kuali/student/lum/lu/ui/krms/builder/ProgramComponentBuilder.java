@@ -15,36 +15,20 @@
  */
 package org.kuali.student.lum.lu.ui.krms.builder;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
+import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.constants.PopulationServiceConstants;
-import org.kuali.student.r2.core.population.service.PopulationService;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import javax.xml.namespace.QName;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,16 +80,23 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
                 CluSetInfo cluSetInfo = propositionEditor.getProgCluSet().getCluSetInfo();
                 if (cluSetInfo.getId() == null) {
                     cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
+
                     ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), KSKRMSServiceConstants.TERM_PARAMETER_TYPE_PROGRAM_CLUSET_KEY, cluSetInfo.getId());
+                    TermDefinition.Builder termBuilder = TermDefinition.Builder.create(propositionEditor.getTerm());
+                    PropositionTreeUtil.getTermParameter(propositionEditor.getParameters()).setTermValue(termBuilder.build());
 
                 } else {
                     this.getCluService().updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
                 }
             }
         } catch (Exception ex) {
-            throw new IllegalArgumentException(ex);
-        }
+            if(ex instanceof VersionMismatchException){
+                throw new KRMSOptimisticLockingException();
+            }else{
+                throw new IllegalArgumentException(ex);
+            }
 
+        }
     }
 
     @Override
@@ -119,6 +110,15 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
         }
     }
 
+    /**
+     * This method build the CluSetInfo object based on the CluSetInformation wrapper object.
+     *
+     * Calculates if we require a wrapper cluset or not and the create sub clusets for the different types
+     * of clusets required to save the individual courses of membershipqueries.
+     *
+     * @param programCluSetInformation
+     * @return
+     */
     @Override
     public CluSetInfo buildCourseSet(CluSetInformation programCluSetInformation) {
 
@@ -149,6 +149,14 @@ public class ProgramComponentBuilder extends CluComponentBuilder {
         return cluSetInfo;
     }
 
+    /**
+     * This method saves the inner cluset to the database and returns the id to add to the list
+     * of clusets for the wrapper cluset.
+     *
+     * @param wrapperCluSet
+     * @param cluSetInfo
+     * @return
+     */
     private String saveWrapperCluSet(CluSetInfo wrapperCluSet, CluSetInfo cluSetInfo) {
 
         //Set the properties to match parent cluset.
