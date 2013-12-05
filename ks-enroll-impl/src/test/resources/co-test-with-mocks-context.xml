@@ -61,7 +61,7 @@
         <property name="courseWaitListDao" ref="courseWaitListDao" />
     </bean>
 
-    <bean id="courseWaitListDao" class=" org.kuali.student.enrollment.class2.courseoffering.service.impl.MockCourseWaitLsitDao"/>
+    <bean id="courseWaitListDao" class=" org.kuali.student.enrollment.class2.courseoffering.service.impl.MockCourseWaitListDao"/>
 
     <bean id="examOfferingService" class="org.kuali.student.enrollment.class2.examoffering.service.impl.ExamOfferingServiceImpl">
         <property name="luiService" ref="luiService"/>

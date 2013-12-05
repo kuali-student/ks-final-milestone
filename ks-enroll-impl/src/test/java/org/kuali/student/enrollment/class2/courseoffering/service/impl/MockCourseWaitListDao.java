@@ -10,7 +10,7 @@ import java.util.ArrayList;
 /**
  * This class provides a mock implementation of CourseWaitListDao
  */
-public class MockCourseWaitLsitDao implements CourseWaitListDaoApi {
+public class MockCourseWaitListDao implements CourseWaitListDaoApi {
 
     public List<CourseWaitListEntity> getCourseWaitListsByActivityOfferingIds(List<String> activityOfferingIds) {
         return new ArrayList<CourseWaitListEntity>();

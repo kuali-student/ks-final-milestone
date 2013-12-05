@@ -90,8 +90,11 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
         }
         List<CourseWaitListInfo> courseWaitListInfos = getWaitListsByFOIds(foIDs, context);
 
+        // Loop over returned WLs. Check if every AOs has non-empty WL assigned to it,
+        // if not - it'll be part of aoIDsLeft and we need to create new WLs for those leftovers
         ArrayList<String> aoIDsLeft = new ArrayList<String>(aoIDs);
         for (CourseWaitListInfo courseWaitListInfo : courseWaitListInfos) {
+            // If WL has just one AO associated with it we just update it with new values, if more than one - have to check WL status for other COs
             if (!courseWaitListInfo.getActivityOfferingIds().isEmpty() && courseWaitListInfo.getActivityOfferingIds().size() == 1 &&
                     aoIDs.contains(courseWaitListInfo.getActivityOfferingIds().get(ind))) {
                 aoIDsLeft.remove(courseWaitListInfo.getActivityOfferingIds().get(ind));
@@ -120,6 +123,7 @@ public class CourseWaitListServiceFacadeImpl implements CourseWaitListServiceFac
             }
         }
 
+        // Now if there are AOs there that don't have WLs -> creating new default WL per AO
         if (!aoIDsLeft.isEmpty()) {
             for (String aoID : aoIDsLeft) {
                 CourseWaitListInfo theWaitListInfo = createNewWaitList(aoInfoHM.get(aoID), null);
