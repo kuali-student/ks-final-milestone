@@ -262,9 +262,6 @@ function ksapPlannerAddPlanItem (data) {
     	        var unitcell = bucket.find(".ksap-carousel-term-total");
     	    	unitcell.addClass("ks-plan-Bucket-footer-show");
     	    	unitcell.removeClass("ks-plan-Bucket-footer-hide");
-    	    	var nocourses = bucket.find(".no-courses-cell");
-    	    	nocourses.addClass("ks-plan-Bucket-footer-hide");
-    	    	nocourses.removeClass("ks-plan-Bucket-footer-show");
     		})
     		.animate({backgroundColor:"#ffffff"}, 1500, function() {
     			runHiddenScripts(data.uid);
@@ -301,9 +298,6 @@ function ksapPlannerRemovePlanItem (data) {
         if (bucket.find(".ks-plan-Bucket-item").length == 0) {
         	unitcell.removeClass("ks-plan-Bucket-footer-show");
         	unitcell.addClass("ks-plan-Bucket-footer-hide");
-        	var nocourses = bucket.find(".no-courses-cell");
-        	nocourses.removeClass("ks-plan-Bucket-footer-hide");
-        	nocourses.addClass("ks-plan-Bucket-footer-show");
         }
     });
 }

@@ -635,13 +635,6 @@
                 <property name="validationMessages.render" value="false" />
                 <property name="items">
                     <list>
-                        <bean p:id="@{#line.uniqueId}_cart_no_courses" parent="planner_term_no_courses">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-plan-Bucket-footer-@{#line.cartList.size() eq 0 ? 'show' : 'hide'}"</value>
-                                </list>
-                            </property>
-                        </bean>
                         <bean p:id="@{#line.uniqueId}_cart_credits" parent="planner_credits_footer">
                             <property name="cssClasses">
                                 <list merge="true">
@@ -690,13 +683,6 @@
                                 <map merge="true">
                                     <entry key="backup" value="false" />
                                 </map>
-                            </property>
-                        </bean>
-                        <bean p:id="@{#line.uniqueId}_planned_no_courses" parent="planner_term_no_courses">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-plan-Bucket-footer-@{#line.plannedList.size() eq 0 ? 'show' : 'hide'}"</value>
-                                </list>
                             </property>
                         </bean>
                         <bean p:id="@{#line.uniqueId}_planned_credits" parent="planner_credits_footer">
@@ -748,38 +734,9 @@
                                 </map>
                             </property>
                         </bean>
-                        <bean p:id="@{#line.uniqueId}_backup_no_courses" parent="planner_term_no_courses">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-plan-Bucket-footer-@{#line.backupList.size() eq 0 ? 'show' : 'hide'}"</value>
-                                </list>
-                            </property>
-                        </bean>
                     </list>
                 </property>
             </bean>
-        </property>
-    </bean>
-
-    <bean abstract="true" id="planner_term_no_courses" parent="Uif-VerticalBoxGroup">
-        <property name="validationMessages.render" value="false" />
-        <property name="cssClasses">
-            <list merge="true">
-                <value>no-courses-cell</value>
-                <value>ks-plan-Bucket-emptyLabel</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="No courses planned">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-text-gray</value>
-                            <value>myplan-text-italic</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
         </property>
     </bean>
 
