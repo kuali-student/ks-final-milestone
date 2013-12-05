@@ -31,7 +31,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
@@ -587,8 +586,10 @@ public class AcademicPlanServiceImplTest {
 					.get(0);
 			assertEquals("learningPlanId", resultInfo.getElement());
 			assertEquals("error.required", resultInfo.getMessage());
-		}
-	}
+		} catch (InvalidParameterException ipe) {
+            assertEquals("Learning plan id was null.", ipe.getMessage());
+        }
+    }
 
 	@Test
 	public void addPlanItemNullCourseId() {
@@ -742,20 +743,10 @@ public class AcademicPlanServiceImplTest {
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
-		assertEquals("error.required", validationResultInfos.get(0)
-				.getMessage());
-		assertEquals("refObjectType", validationResultInfos.get(0).getElement());
-		assertEquals("error.required", validationResultInfos.get(1)
-				.getMessage());
-		assertEquals("learningPlanId", validationResultInfos.get(1)
-				.getElement());
-		assertEquals("error.required", validationResultInfos.get(2)
-				.getMessage());
-		assertEquals("stateKey", validationResultInfos.get(2).getElement());
 
 		assertEquals("Could not find course with ID [XX].",
-				validationResultInfos.get(3).getMessage());
-		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
+				validationResultInfos.get(0).getMessage());
+		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
 	}
 
 	@Test
@@ -767,23 +758,13 @@ public class AcademicPlanServiceImplTest {
 				.validatePlanItem("FULL_VALIDATION", planItemInfo,
 						KsapFrameworkServiceLocator.getContext()
 								.getContextInfo());
-		assertEquals("error.required", validationResultInfos.get(0)
-				.getMessage());
-		assertEquals("refObjectType", validationResultInfos.get(0).getElement());
-		assertEquals("error.required", validationResultInfos.get(1)
-				.getMessage());
-		assertEquals("learningPlanId", validationResultInfos.get(1)
-				.getElement());
-		assertEquals("error.required", validationResultInfos.get(2)
-				.getMessage());
-		assertEquals("stateKey", validationResultInfos.get(2).getElement());
 		assertEquals("Could not find course with ID [XX].",
-				validationResultInfos.get(3).getMessage());
-		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
+				validationResultInfos.get(0).getMessage());
+		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
 		assertEquals(
 				"Plan Item Type was ["+AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED+"], but no plan periods were defined.",
-				validationResultInfos.get(4).getMessage());
-		assertEquals("typeKey", validationResultInfos.get(4).getElement());
+				validationResultInfos.get(1).getMessage());
+		assertEquals("typeKey", validationResultInfos.get(1).getElement());
 	}
 
 	@Test
@@ -799,23 +780,13 @@ public class AcademicPlanServiceImplTest {
 				.validatePlanItem("FULL_VALIDATION", planItemInfo,
 						KsapFrameworkServiceLocator.getContext()
 								.getContextInfo());
-		assertEquals("error.required", validationResultInfos.get(0)
-				.getMessage());
-		assertEquals("refObjectType", validationResultInfos.get(0).getElement());
-		assertEquals("error.required", validationResultInfos.get(1)
-				.getMessage());
-		assertEquals("learningPlanId", validationResultInfos.get(1)
-				.getElement());
-		assertEquals("error.required", validationResultInfos.get(2)
-				.getMessage());
-		assertEquals("stateKey", validationResultInfos.get(2).getElement());
 		assertEquals("Could not find course with ID [XX].",
-				validationResultInfos.get(3).getMessage());
-		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
+				validationResultInfos.get(0).getMessage());
+		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
 		assertEquals(
 				"Plan Item Type was ["+AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP+"], but no plan periods were defined.",
-				validationResultInfos.get(4).getMessage());
-		assertEquals("typeKey", validationResultInfos.get(4).getElement());
+				validationResultInfos.get(1).getMessage());
+		assertEquals("typeKey", validationResultInfos.get(1).getElement());
 	}
 
     private void createType(String typeKey, String typeName, String typeDescription, String refObjectUri) {
