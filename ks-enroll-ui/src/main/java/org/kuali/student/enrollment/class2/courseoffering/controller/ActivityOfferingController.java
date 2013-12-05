@@ -142,6 +142,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         if (!scheduleWrapper.isTba() && validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.endTime", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
+            form.setJumpToId("TOP");
             return getUIFModelAndView(form);
         }
 
@@ -156,7 +157,13 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
                 GlobalVariables.getMessageMap().putWarning("ActivityOffering-DeliveryLogistic-Requested", RiceKeyConstants.ERROR_CUSTOM,activityOfferingWrapper.getEditRenderHelper().getColocatedActivitiesAsString());
             }
         }
-        
+
+        if (GlobalVariables.getMessageMap().getErrorCount() == 0){
+            form.setJumpToId("ActivityOffering-DeliveryLogistic-Actuals");
+        } else {
+            form.setJumpToId("TOP");
+        }
+
         return getUIFModelAndView(form);
     }
 
