@@ -55,8 +55,8 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName" p:readOnly="true"/>
-                            <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName"  p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName"/>
+                            <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName"/>
                             <bean parent="Uif-HorizontalBoxSection" p:colSpan="2">
                                 <property name="header.render" value="false"/>
                                 <property name="items">
@@ -67,11 +67,9 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End"  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate" />
-
-                            <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" p:readOnly="true"/>
-                            <bean parent="Uif-DataField"  id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="start_end_date" p:label="Start/End" p:fieldLabel.renderColon="false" p:propertyName="termStartEndDate" />
+                            <bean parent="Uif-DataField" id="type_name" p:label="Activity Type" p:fieldLabel.renderColon="false" p:propertyName="typeName" />
+                            <bean parent="Uif-DataField"  id="format_offering_name" p:label="Format" p:fieldLabel.renderColon="false" p:propertyName="aoInfo.formatOfferingName" />
                         </list>
                     </property>
                 </bean>
@@ -535,7 +533,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
+                            <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:id="seatLimitPercent" />
                             <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);" p:cssClasses="col_6">
                                 <property name="control">

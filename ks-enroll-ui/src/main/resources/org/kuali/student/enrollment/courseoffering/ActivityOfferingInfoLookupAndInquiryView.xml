@@ -127,11 +127,7 @@
                                         <list>
                                             <bean parent="Uif-InputField" p:propertyName="personId" p:label="ID" />
                                             <bean parent="Uif-InputField" p:propertyName="personName" p:label="Name" />
-                                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION" p:readOnly="true">
-                                                <property name="control">
-                                                    <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
-                                                </property>
-                                            </bean>
+                                            <bean parent="Uif-InputField" p:propertyName="typeKey" p:label="AFFILIATION" />
                                             <bean parent="Uif-InputField" p:propertyName="percentageEffort" p:label="INST.EFFORT" />
                                         </list>
                                     </property>

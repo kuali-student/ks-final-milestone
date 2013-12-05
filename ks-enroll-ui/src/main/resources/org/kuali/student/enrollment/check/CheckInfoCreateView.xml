@@ -131,9 +131,9 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="holdIssueId" p:label="" p:readOnly="true" p:hidden="true" />
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="milestoneTypeKey" p:label="" p:readOnly="true" p:hidden="true" />
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="childProcessKey" p:label="" p:readOnly="true" p:hidden="true" />
+                <bean parent="Uif-InputField" p:propertyName="holdIssueId" p:hidden="true" />
+                <bean parent="Uif-InputField" p:propertyName="milestoneTypeKey" p:hidden="true" />
+                <bean parent="Uif-InputField" p:propertyName="childProcessKey" p:hidden="true" />
 
                 <bean parent="Uif-InputField-LabelTop" p:label="Process State" p:propertyName="stateKey"
                       p:required="true" p:progressiveRender="typeKey != ''">

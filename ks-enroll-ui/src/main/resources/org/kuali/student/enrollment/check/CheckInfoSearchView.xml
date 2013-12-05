@@ -130,7 +130,7 @@
                 <bean parent="Uif-DataField"
                       p:label="CHECK NAME"
                       p:propertyName="name" />
-                <bean parent="Uif-InputField" p:label="CHECK TYPE" p:propertyName="typeKey"  p:readOnly="true">
+                <bean parent="Uif-InputField" p:label="CHECK TYPE" p:propertyName="typeKey" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -141,7 +141,7 @@
                 <bean parent="Uif-DataField"
                       p:label="CHECK DESCRIPTION"
                       p:propertyName="descr.plain"/>
-                <bean parent="Uif-InputField" p:label="STATE" p:propertyName="stateKey"  p:readOnly="true">
+                <bean parent="Uif-InputField" p:label="STATE" p:propertyName="stateKey" p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>

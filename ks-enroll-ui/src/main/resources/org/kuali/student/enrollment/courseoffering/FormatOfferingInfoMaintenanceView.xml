@@ -29,7 +29,7 @@
                     <property name="headerText" value="Create a New Format Offering"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="id" p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:propertyName="id"/>
                             <bean parent="Uif-InputField" p:propertyName="courseOfferingId">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">

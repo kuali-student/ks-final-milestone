@@ -27,22 +27,22 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Process Name" p:propertyName="name">
+                            <bean parent="Uif-InputField" p:labelPlacement="TOP" p:label="Process Name" p:propertyName="name">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Process Category" p:propertyName="typeKey" >
+                            <bean parent="Uif-InputField" p:labelPlacement="TOP" p:label="Process Category" p:propertyName="typeKey" >
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="20" p:disabled="true"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Process Description" p:propertyName="descr" >
+                            <bean parent="Uif-InputField" p:labelPlacement="TOP" p:label="Process Description" p:propertyName="descr" >
                                 <property name="control">
                                     <bean parent="Uif-SmallTextAreaControl"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop"  p:label="Owning Organization"  p:propertyName="orgName" p:style="font-weight:bold;white-space:nowrap;" >
+                            <bean parent="Uif-InputField" p:labelPlacement="TOP" p:label="Owning Organization"  p:propertyName="orgName" p:style="font-weight:bold;white-space:nowrap;" >
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="16" p:disabled="true"/>
                                 </property>
@@ -58,9 +58,8 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="ownerOrgId" p:label="" p:readOnly="true" p:hidden="true" />
-
-                            <bean parent="Uif-InputField-LabelTop" p:label="State" p:propertyName="stateKey">
+                            <bean parent="Uif-DataField" p:propertyName="ownerOrgId" p:hidden="true" />
+                            <bean parent="Uif-InputField" p:labelPlacement="TOP" p:label="State" p:propertyName="stateKey">
                                 <property name="control">
                                     <bean parent="Uif-HorizontalRadioControl">
                                         <property name="options">

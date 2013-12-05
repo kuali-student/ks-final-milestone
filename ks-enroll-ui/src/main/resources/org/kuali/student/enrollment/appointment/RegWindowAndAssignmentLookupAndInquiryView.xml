@@ -155,54 +155,29 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField"
+                            <bean parent="Uif-DataField"
                                   p:propertyName="numberOfStudents"
                                   p:label="# of Students"
                                   p:fieldLabel.width="40%"
                                   p:width="60%"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="numberOfSlots"
                                   p:label="# Of Slots"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="meanStudentsPerSlot"
                                   p:label="Students Per Slot"
                                   p:instructionalText="This displays the most common allotment size (mode), not the average."
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="firstSlotPopulated"
                                   p:label="First Slot Populated "
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="lastSlotPopulated"
                                   p:label="Last Slot Populated "
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                                  p:fieldLabel.renderColon="false"/>
                         </list>
                     </property>
                 </bean>
@@ -222,80 +197,40 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField"
+                            <bean parent="Uif-DataField"
                                   p:propertyName="periodName"
                                   p:label="Period"
                                   p:fieldLabel.width="40%"
                                   p:width="60%"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.name"
                                   p:label="Window"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="assignedPopulationName"
                                   p:label="Student Group"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.startDate"
                                   p:label="Start Date"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.endDate"
                                   p:label="Last Date"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="windowTypeName"
                                   p:label="Slot Allocation Method"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="appointmentWindowInfo.maxAppointmentsPerSlot"
                                   p:label="Max Number"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="assignmentsCreated"
                                   p:label="Assignments Created"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                                  p:fieldLabel.renderColon="false"/>
                         </list>
                     </property>
                 </bean>

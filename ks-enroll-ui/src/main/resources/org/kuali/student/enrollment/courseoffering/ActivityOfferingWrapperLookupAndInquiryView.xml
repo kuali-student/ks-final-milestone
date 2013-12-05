@@ -90,41 +90,12 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="TBA" p:propertyName="tbaUI" p:readOnly="true" p:control.size="5">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean id="adlDays" parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true" >
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"/>
-                    </property>
-                </bean>
-                <bean id="adlStartTime" parent="Uif-InputField" p:label="Start Time" p:propertyName="startTime" p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="8"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="End Time" p:propertyName="endTime" p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="8"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="Facility" p:propertyName="buildingName" p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="20"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="Room" p:propertyName="roomCode" p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"/>
-                    </property>
-                </bean>
-                <!--<bean parent="Uif-InputField" p:label="Capacity" p:propertyName="roomCapacity" p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"/>
-                    </property>
-                </bean>-->
+                <bean parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
+                <bean id="adlDays" parent="Uif-DataField" p:label="Days" p:propertyName="daysUI"/>
+                <bean id="adlStartTime" parent="Uif-DataField" p:label="Start Time" p:propertyName="startTime"/>
+                <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTime"/>
+                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomCode"/>
                 <bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
                     <property name="toolTip">
                         <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
@@ -143,41 +114,12 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:label="TBA" p:propertyName="tbaUI" p:readOnly="true" p:control.size="5">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean id="rdlDays" parent="Uif-InputField" p:label="Days" p:propertyName="daysUI" p:readOnly="true" p:control.size="5">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean id="rdlStartTime" parent="Uif-InputField" p:label="Start Time" p:propertyName="startTime" p:readOnly="true" p:control.size="8">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="End Time" p:propertyName="endTime" p:readOnly="true" p:control.size="8">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="Facility" p:propertyName="buildingName" p:readOnly="true" p:control.size="20">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField" p:label="Room" p:propertyName="roomName" p:readOnly="true" p:control.size="5">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <!--<bean parent="Uif-InputField" p:label="Capacity" p:propertyName="roomCapacity" p:readOnly="true" p:control.size="5">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>-->
+                <bean parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
+                <bean id="rdlDays" parent="Uif-DataField" p:label="Days" p:propertyName="daysUI"/>
+                <bean id="rdlStartTime" parent="Uif-DataField" p:label="Start Time" p:propertyName="startTime"/>
+                <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTime"/>
+                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
                 <bean parent="Uif-MessageField" p:messageText="F" p:label="Features">
                     <property name="toolTip">
                         <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="N/A"/>
@@ -306,8 +248,7 @@
                                     <bean parent="Uif-TextControl" p:size="3" p:onBlurScript="validateSeatsForSP(jQuery(this))" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:readOnly="true" p:id="seatLimitPercent" />
-                            <!-- validatePopulationForSP('@{document.newMaintainableObject.dataObject.populationsJSONString}') -->
+                            <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:id="seatLimitPercent" />
                             <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"  p:required="true" p:cssClasses="col_6">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40"/>

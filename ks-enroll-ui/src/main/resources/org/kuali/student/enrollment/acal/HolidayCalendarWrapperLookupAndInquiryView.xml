@@ -210,53 +210,24 @@
                       p:layoutManager.applyDefaultCellWidths="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField"
+                            <bean parent="Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.name"
                                   p:label="Holiday Calendar Name"
                                   p:fieldLabel.width="40%"
                                   p:width="60%"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <!--<bean parent="Uif-InputField"-->
-                                  <!--p:propertyName="adminOrgName"-->
-                                  <!--p:label="Organization"-->
-                                  <!--p:readOnly="true"-->
-                                  <!--p:fieldLabel.renderColon="false">-->
-                                <!--<property name="control">-->
-                                    <!--<bean parent="Uif-TextControl"/>-->
-                                <!--</property>-->
-                            <!--</bean>-->
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.startDate"
                                   p:label="Start Date"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="holidayCalendarInfo.endDate"
                                   p:label="End Date"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-InputField"
+                                  p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField"
                                   p:propertyName="stateName"
                                   p:label="State"
-                                  p:readOnly="true"
-                                  p:fieldLabel.renderColon="false">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl"/>
-                                </property>
-                            </bean>
+                                  p:fieldLabel.renderColon="false"/>
                         </list>
                     </property>
                 </bean>
@@ -279,39 +250,17 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"
+                <bean parent="Uif-DataField"
                       p:propertyName="typeName"
-                      p:readOnly="true"
-                      p:style="font-weight:bold;">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField"
+                      p:style="font-weight:bold;"/>
+                <bean parent="Uif-DataField"
                       p:label="Start Date"
-                      p:propertyName="startDateUI"
-                      p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField"
+                      p:propertyName="startDateUI"/>
+                <bean parent="Uif-DataField"
                       p:label="End Date"
-                      p:propertyName="endDateUI"
-                      p:readOnly="true">
-                    <property name="control">
-                        <bean parent="Uif-TextControl"/>
-                    </property>
-                </bean>
-                <bean parent="Uif-InputField"
-                      p:label="Instructional"
-                      p:propertyName="holidayInfo.isInstructionalDay"
-                      p:readOnlyDisplayReplacement="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"
-                      p:align="center">
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:disabled="true"/>
-                    </property>
-                </bean>
+                      p:propertyName="endDateUI"/>
+                <bean parent="Uif-MessageField" p:label="Instructional" p:align="center"
+                      p:messageText="@{#line.holidayInfo.isInstructionalDay ? 'Yes' : ' '}"/>
             </list>
         </property>
         <property name="layoutManager.richTable.templateOptions">

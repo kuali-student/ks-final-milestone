@@ -68,10 +68,8 @@
                     <property name="disclosure.render" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="termInfo.name"
-                                  p:fieldLabel.renderColon="false"  p:readOnly="true"/>
-                            <bean parent="Uif-DataField" p:propertyName="selectedCluster.clusterNameForDisplay"
-                                  p:fieldLabel.renderColon="false"  p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:label="Term:" p:propertyName="termInfo.name" p:fieldLabel.renderColon="false"/>
+                            <bean parent="Uif-DataField" p:propertyName="selectedCluster.clusterNameForDisplay" p:fieldLabel.renderColon="false"/>
                         </list>
                     </property>
                 </bean>
@@ -116,21 +114,15 @@
             <list>
                 <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
                             <bean parent="Uif-DataField"  p:label="CODE" p:propertyName="aoInfo.activityCode"/>
-                            <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"  p:readOnly="true"/>
+                            <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
                             <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
-
-                            <!--<bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
-                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
-                                <property name="toolTip">
-                                    <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
-                                </property>
-                            </bean>-->
-
-
-                <!--                <bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />
-                -->
-
-
+                <!--<bean parent="Uif-ImageField" p:hidden="@{#lp.colocatedAoInfo.isEmpty()}" p:image.altText="@{#lp.colocatedAoInfoUI}"
+                            p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
+                    <property name="toolTip">
+                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.colocatedAoInfoUI}"/>
+                    </property>
+                </bean>-->
+                <!--<bean parent="Uif-DataField" p:label="TBA"  p:propertyName="tbaDisplayName" p:render="false" />-->
                 <!--<bean parent="Uif-MessageField" p:label="" p:messageText="@{#line.information}"/>-->
             </list>
         </property>
