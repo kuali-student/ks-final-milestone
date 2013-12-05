@@ -440,3 +440,17 @@ function registerCourseSearchResultsEvents(jqObject) {
             }
         });
 }
+
+// Registering Course Search Results Facets events
+//Refactored from KSAP-254 - Remove JS from Bean xml files
+function registerCourseSearchResultsFacetsEvents(jqObjects){
+    jQuery(jqObjects).each(function() {
+        jQuery(this)
+            .subscribe('GENERATE_FACETS', function() {
+                fnGenerateFacetGroup(this);
+            })
+            .subscribe('UPDATE_FACETS', function() {
+                fnUpdateFacetList(this);
+            });
+    });
+}

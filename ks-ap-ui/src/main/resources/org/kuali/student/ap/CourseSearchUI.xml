@@ -297,16 +297,7 @@
 				<ref bean="course_quick_detail" />
 			</list>
 		</property>
-		<property name="onDocumentReadyScript"
-			value="jQuery('.ksap-facets-group').each(function() {
-	                jQuery(this)
-	                .subscribe('GENERATE_FACETS', function() {
-	                    fnGenerateFacetGroup(this);
-					})
-					.subscribe('UPDATE_FACETS', function() {
-	                    fnUpdateFacetList(this);
-	                });
-                });" />
+        <property name="onDocumentReadyScript" value="registerCourseSearchResultsFacetsEvents(jQuery('.ksap-facets-group'))"/>
 	</bean>
 
 	<bean id="facet-parent" abstract="true"
