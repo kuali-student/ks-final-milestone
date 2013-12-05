@@ -464,7 +464,7 @@
 	<bean id="planner_course_note_input" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />
 		<property name="propertyName" value="courseNote" />
-		<property name="label" value="Note for course" />
+		<property name="label" value="Notes" />
 		<property name="control">
 			<bean parent="Uif-TextAreaControl" p:watermarkText="Enter a short note (500 characters max)"
 				p:maxLength="500">
