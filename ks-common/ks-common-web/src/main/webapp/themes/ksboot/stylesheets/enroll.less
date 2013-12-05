@@ -705,6 +705,9 @@ cursor:auto;
 .state-published    { .state-lozenge-completed(); }
 .state-canceled     { .state-lozenge-canceled(); }
 .state-suspended    { .state-lozenge-suspended(); }
+.state-finaledits   { .state-lozenge-ready(); }
+.state-locked       { .state-lozenge-suspended(); }
+.state-open         { .state-lozenge-ready(); }
 /************************************** END LOZENGES **********************/
 
 
