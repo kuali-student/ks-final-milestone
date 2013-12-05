@@ -25,7 +25,7 @@ limitations under the License.
     -->
     <bean id="KS-AcademicCalendar-CopyPage" parent="KS-Uif-Page"
           p:id="academicCalendarCopyPage"
-          p:headerText=""
+          p:headerText="Academic Calendar"
           p:disclosure.render="false">
 
         <property name="pageSourceFile" value="AcademicCalendarCopyPage.xml" />

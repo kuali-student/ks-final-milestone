@@ -30,7 +30,7 @@
 
     <bean id="KS-HolidayCalendar-CopyPage" parent="KS-Uif-Page"
           p:id="holidayCalendarCopyPage"
-          p:headerText=""
+          p:headerText="Holiday Calendar"
           p:disclosure.render="false">
         <property name="pageSourceFile" value="HolidayCalendarCopyPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
