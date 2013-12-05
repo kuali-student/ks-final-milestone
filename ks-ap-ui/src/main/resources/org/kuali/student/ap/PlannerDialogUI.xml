@@ -159,6 +159,8 @@
 				<bean parent="planner_course_note_input">
 					<property name="control.disabled" value="true" />
 					<property name="control.watermarkText" value="" />
+                    <property name="constraintMessage.onDocumentReadyScript" value=""/>
+                    <property name="constraintMessage.messageText" value=""/>
 				</bean>
 			</list>
 		</property>
