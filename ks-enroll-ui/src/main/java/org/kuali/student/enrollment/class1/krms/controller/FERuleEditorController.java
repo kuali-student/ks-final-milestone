@@ -269,6 +269,11 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             this.getViewHelper(form).buildActions(ruleEditor);
         }
 
+        if(ruleEditor.getPropositionEditor()!=null){
+            // handle saving new parameterized terms
+            this.getViewHelper(form).finPropositionEditor(ruleEditor.getPropositionEditor());
+        }
+
         FEAgendaEditor agenda = (FEAgendaEditor) ruleWrapper.getAgendaEditor();
         if (ruleEditor.isDummy()) {
             ruleEditor.setDummy(Boolean.FALSE);

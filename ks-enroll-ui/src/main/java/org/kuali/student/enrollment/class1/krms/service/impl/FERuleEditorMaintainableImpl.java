@@ -429,6 +429,10 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
 
     @Override
     public RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
+        // handle saving new parameterized terms
+        if (rule.getPropositionEditor() != null) {
+            this.onSubmit(rule.getPropositionEditor());
+        }
 
         if (rule.getNamespace() == null) {
             rule.setNamespace(namespace);
