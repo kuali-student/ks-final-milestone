@@ -43,8 +43,6 @@ import java.util.List;
  */
 public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
-    private transient CourseOfferingSetService courseOfferingSetService;
-    private transient AtpService atpService;
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
@@ -55,7 +53,7 @@ public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase imple
         ContextInfo context = TestHelper.getContext1();
         try {
             //  Get published terms
-            atps = ScheduleOfClassesUtil.getValidSocTerms(getCourseOfferingSetService(),getAtpService(),context);
+            atps = ScheduleOfClassesUtil.getValidSocTerms(ScheduleOfClassesUtil.getCourseOfferingSetService(), ScheduleOfClassesUtil.getAtpService(), context);
             for(AtpInfo atp: atps){
                  keyValues.add(new ConcreteKeyValue(atp.getId(), atp.getName()));
             }
@@ -65,21 +63,5 @@ public class ScheduleOfClassesTermKeyValues extends UifKeyValuesFinderBase imple
 
         //Return published term names
         return keyValues;
-    }
-
-    //Methods to get necessary services
-    protected CourseOfferingSetService getCourseOfferingSetService() {
-        if(courseOfferingSetService == null) {
-            courseOfferingSetService = (CourseOfferingSetService)
-                    GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.courseOfferingSetService;
-    }
-
-    protected AtpService getAtpService() {
-        if(atpService == null) {
-            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return this.atpService;
     }
 }

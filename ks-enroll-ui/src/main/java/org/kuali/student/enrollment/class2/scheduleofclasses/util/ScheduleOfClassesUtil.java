@@ -2,14 +2,25 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.PersonService;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.scheduleofclasses.form.ScheduleOfClassesSearchForm;
+import org.kuali.student.enrollment.class2.scheduleofclasses.service.ScheduleOfClassesViewHelperService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
@@ -20,6 +31,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
+
+import javax.xml.namespace.QName;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -33,6 +50,84 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 public class ScheduleOfClassesUtil {
 
     private static final Logger LOG = Logger.getLogger(ScheduleOfClassesUtil.class);
+
+    private static ScheduleOfClassesViewHelperService viewHelperService;
+    private static AcademicCalendarService acalService;
+    private static CourseOfferingSetService courseOfferingSetService;
+    private static AtpService atpService;
+    private static TypeService typeService;
+    private static PersonService personService;
+    private static OrganizationService organizationService;
+    private static RuleManagementService ruleManagementService;
+    private static KrmsTypeRepositoryService krmsTypeRepositoryService;
+
+    public static ScheduleOfClassesViewHelperService getViewHelperService(ScheduleOfClassesSearchForm theForm) {
+        if (viewHelperService == null) {
+            if (theForm.getView().getViewHelperService() != null) {
+                viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getView().getViewHelperService();
+            } else {
+                viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getPostedView().getViewHelperService();
+            }
+        }
+        return viewHelperService;
+    }
+
+    public static AcademicCalendarService getAcademicCalendarService() {
+        if (acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return acalService;
+    }
+
+    public static CourseOfferingSetService getCourseOfferingSetService() {
+        if (courseOfferingSetService == null) {
+
+            courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingSetService;
+    }
+
+    public static AtpService getAtpService() {
+        if (atpService == null) {
+            atpService = (AtpService) GlobalResourceLoader.getService(new QName(AtpServiceConstants.NAMESPACE, AtpServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return atpService;
+    }
+
+    public static TypeService getTypeService() {
+        if (typeService == null) {
+            typeService = CourseOfferingResourceLoader.loadTypeService();
+        }
+        return typeService;
+    }
+
+    public static OrganizationService getOrganizationService() {
+        if (organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "organization", "OrganizationService"));
+        }
+        return organizationService;
+    }
+
+    public static PersonService getPersonService() {
+        if (personService == null) {
+            personService = KimApiServiceLocator.getPersonService();
+        }
+        return personService;
+    }
+
+    public static RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
+    }
+
+    public static KrmsTypeRepositoryService getKrmsTypeRepositoryService() {
+        if (krmsTypeRepositoryService == null) {
+            krmsTypeRepositoryService = (KrmsTypeRepositoryService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "krmsTypeRepositoryService"));
+        }
+        return krmsTypeRepositoryService;
+    }
 
     /**
      * Hiding the constructor this this is a utility class (all static methods).
