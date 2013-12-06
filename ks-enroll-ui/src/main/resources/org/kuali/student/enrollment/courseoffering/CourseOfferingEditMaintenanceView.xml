@@ -579,7 +579,7 @@
             <list>
                 <bean parent="Uif-Message"
                         p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;] Deleting a delivery format will delete all of its activities and registration groups from the system."
-                        p:additionalCssClasses=".uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages-warning">
+                        p:additionalCssClasses="uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages-warning">
                     <property name="style" value="display: inline-block;" />
                 </bean>
             </list>
