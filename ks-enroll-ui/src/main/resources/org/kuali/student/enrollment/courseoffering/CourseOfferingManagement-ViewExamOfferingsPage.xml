@@ -22,7 +22,7 @@
     <bean id="KS-CourseOfferingManagement-ExamOfferingPage" parent="KS-Uif-Page" p:disclosure.render="false"
           p:id="viewExamOfferingsPage">
         <!-- <property name="onDocumentReadyScript" value="updateContextBar( 'ManageCourseOfferingManagement-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" /> -->
-		<property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');" />
+		<property name="onDocumentReadyScript" value="setSeasonalColor('ManageCourseOfferingManagement-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}'); updateViewHeaderText('@{currentCourseOfferingWrapper.courseOfferingCode}');" />
         <property name="pageSourceFile" value="CourseOfferingManagement-ManageCourseOfferingsPage.xml" /> <!-- Shows up in HTML so devs can find the code -->
 
         <property name="headerText" value="Exam Offerings"/>
