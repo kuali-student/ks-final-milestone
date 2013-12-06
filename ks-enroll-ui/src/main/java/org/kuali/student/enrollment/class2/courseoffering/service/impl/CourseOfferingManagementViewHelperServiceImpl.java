@@ -462,6 +462,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         // Test the Cluster for Multiple AO types and Term types
         if (aoTypeKeys.size() > 1) {
             Set<String> termNameSet = new HashSet<String>();
+            Set<String> termNames = new HashSet<String>();
 
             // Tests for multiple subTerms
             for (ActivityOfferingWrapper aoWrapper : cluster.getAoWrapperList()) {
@@ -1034,7 +1035,6 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         //sub-term icon and tooltip setup
         if (!aoWrapper.getSubTermName().equals("None")) {  //sub-term? > icon + name and dates
             StringBuilder sb = new StringBuilder();
-            sb.append(rgWrapper.getAoActivityCodeText() + "");
             sb.append(aoWrapper.getAoInfo().getActivityCode());
             sb.append("&nbsp;&nbsp;&nbsp;<img src=\"../themes/ksboot/images/subterm_icon.png\" title=\"This activity is in ");
             sb.append(aoWrapper.getSubTermName());
