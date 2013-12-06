@@ -28,6 +28,7 @@ public class SearchServiceDataLoader extends SearchServiceMockImplAbstractDataLo
 
         Map<String,String> row1 = new HashMap<String, String>();
         Map<String,String> row2 = new HashMap<String, String>();
+        Map<String,String> row3 = new HashMap<String, String>();
 
         params.put( "subject", new String[]{"PHIL"} );
         row1.put("lu.resultColumn.cluId", "asdf");
@@ -54,6 +55,15 @@ public class SearchServiceDataLoader extends SearchServiceMockImplAbstractDataLo
         row2.put("lu.resultColumn.cluId", "qwerty");
         row2.put("lu.resultColumn.luOptionalCode", "777");
         this.searchServiceMock.addSearchResult(makeSearchRequestInfo("ksap.course.prereqsearch.exclusions", params), makeSearchResultInfo(Arrays.asList(row1, row2)));
+
+        params = new HashMap<String, String[]>();
+        row1 = new HashMap<String, String>();
+        row2 = new HashMap<String, String>();
+        row3 = new HashMap<String, String>();
+        row1.put("lu.resultColumn.division", "CHEM");
+        row2.put("lu.resultColumn.division", "ENGL");
+        row3.put("lu.resultColumn.division", "PHYS");
+        this.searchServiceMock.addSearchResult(makeSearchRequestInfo("ksap.distinct.clu.divisions", params), makeSearchResultInfo(Arrays.asList(row1, row2, row3)));
 
 
     }
