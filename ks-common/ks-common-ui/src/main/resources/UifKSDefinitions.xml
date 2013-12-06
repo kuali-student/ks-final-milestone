@@ -750,13 +750,6 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-KS-Default-DateControl" parent="KS-Uif-KS-Default-DateControl-parent"/>
-    <bean id="KS-Uif-KS-Default-DateControl-parent" parent="Uif-KS-Default-DateControl">
-        <property name="toolTip">
-            <null/>
-        </property>
-    </bean>
-
     <bean id="KS-Uif-DropdownControl" parent="KS-Uif-DropdownControl-parent"/>
     <bean id="KS-Uif-DropdownControl-parent" parent="Uif-DropdownControl">
         <property name="toolTip">
