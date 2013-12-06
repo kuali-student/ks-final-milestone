@@ -130,9 +130,9 @@
                                         <!--<bean parent="Uif-DataField" p:label="Affiliated Personnel Name" p:propertyName="offeringInstructorInfo.personName" />-->
                                         <!--<bean parent="Uif-DataField" p:label="Affiliated Personnel Affiliation" p:propertyName="typeName" />-->
                                         <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId"
-                                              p:label="ID" p:required="false" p:cssClasses="col_5"/>
+                                              p:label="Id" p:required="false" p:cssClasses="col_5"/>
                                         <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
-                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:required="false">
+                                        <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation" p:required="false">
                                             <!--<property name="control">-->
                                                 <!--<bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />-->
                                             <!--</property>-->
@@ -178,7 +178,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                                        <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Code">
                                             <property name="items">
                                                 <list>
                                                     <bean parent="Uif-DataField" p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false" />
@@ -197,11 +197,11 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
-                                        <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
-                                        <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
-                                        <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
-                                        <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
+                                        <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName" />
+                                        <bean parent="Uif-DataField" p:label="Type" p:propertyName="typeName"/>
+                                        <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName"/>
+                                        <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="firstInstructorDisplayName"/>
+                                        <bean parent="Uif-DataField" p:label="Max ENR" p:propertyName="aoInfo.maximumEnrollment"/>
                                     </list>
                                 </property>
                             </bean>

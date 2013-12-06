@@ -268,15 +268,15 @@
         <property name="items">
             <list>
                  <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
-                 <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="FORMAT"/>
+                 <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="Format"/>
                  <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                      p:label="Grade Roster Level" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
-                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                      p:label="Final Exam Driver Activity" p:required="true" p:labelPlacement="TOP" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -301,9 +301,9 @@
                     </property>
                  </bean>
                  <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
-                 <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="FORMAT"/>
-                 <bean parent="Uif-DataField" p:propertyName="gradeRosterUI" p:label="GRADE ROSTER LEVEL"/>
-                 <bean parent="Uif-DataField" p:propertyName="finalExamUI" p:label="FINAL EXAM DRIVER ACTIVITY"/>
+                 <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="Format"/>
+                 <bean parent="Uif-DataField" p:propertyName="gradeRosterUI" p:label="Grade Roster Level"/>
+                 <bean parent="Uif-DataField" p:propertyName="finalExamUI" p:label="Final Exam Driver Activity"/>
             </list>
         </property>
     </bean>
@@ -312,7 +312,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="FORMAT" p:forceSessionPersistence="true">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.formatId"  p:required="true" p:label="Format" p:forceSessionPersistence="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"  p:additionalCssClasses="ignoreValid">
                         </bean>
@@ -323,14 +323,14 @@
                 </bean>
 
                  <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.gradeRosterLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
+                      p:label="Grade Roster Level" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
                         </bean>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="addLineFormatWrapper.finalExamLevelTypeKey" p:refreshWhenChangedPropertyNames="#dp.addLineFormatWrapper.gradeRosterLevelTypeKey,#dp.addLineFormatWrapper.formatId" p:forceSessionPersistence="true"
-                      p:label="FINAL EXAM DRIVER ACTIVITY" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
+                      p:label="Final Exam Driver Activity" p:required="true" p:finalizeMethodToCall="populateFinalExamDriverTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:additionalCssClasses="ignoreValid">
                         </bean>
@@ -350,10 +350,10 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
 		<property name="items">
            <list>
-               <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="COURSE OFFERING CODE"/>
-               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:label="COURSE TITLE"/>
-               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.creditCnt" p:label="CREDITS"/>
-               <bean parent="Uif-DataField" p:propertyName="gradingOption" p:label="GRADING"/>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="Course Offering Code"/>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:label="Course Title"/>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.creditCnt" p:label="Credits"/>
+               <bean parent="Uif-DataField" p:propertyName="gradingOption" p:label="Grading"/>
            </list>
          </property>
     </bean>
