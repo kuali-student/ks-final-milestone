@@ -532,6 +532,9 @@
                                         <bean parent="PrerequisiteConstraint" p:propertyName="seatPoolPopulation.name"/>
                                     </list>
                                 </property>
+                                <property name="validCharactersConstraint">
+                                    <bean parent="IntegerPatternConstraint" />
+                                </property>
                             </bean>
                             <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:id="seatLimitPercent" />
                             <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
