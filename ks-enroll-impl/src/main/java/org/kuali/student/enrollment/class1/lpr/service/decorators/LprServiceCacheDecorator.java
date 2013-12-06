@@ -359,20 +359,16 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
 
             for(MultiKey cacheKey: lstMultiKeys) {
 
-                Element cachedResult = cache.get(cacheKey);
-                if(cachedResult!=null) {
-
-                    List<String> lprIds = (List<String>)cachedResult.getValue();
-                    lprIds.remove(lprInfo.getId());
+                if(cache.isKeyInCache(cacheKey)) {
                     cache.remove(cacheKey);
-                    cache.put(new Element(cacheKey,lprIds));
-
                 }
+
             }
 
             cache.remove(lprIdCacheKey);
 
         }
+
     }
 
     @Override
