@@ -1531,7 +1531,7 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
 }
 
 //Override button to look like KS button
-.uif-dialogGroup input[value=Y] + label {
+.uif-dialogGroup input[value^=y] + label, .uif-dialogGroup input[value^=Y] + label {
   margin-right: -20px;
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -1550,7 +1550,7 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
 
 
 //Override button to look like KS link
-.uif-dialogGroup input[value=N] + label {
+.uif-dialogGroup input[value^=n] + label, .uif-dialogGroup input[value^=N] + label {
   border-color: transparent;
   cursor: pointer;
   color: #0088cc;
