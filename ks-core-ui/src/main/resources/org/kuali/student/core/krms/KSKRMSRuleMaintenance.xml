@@ -118,6 +118,24 @@ limitations under the License.
         </property>
     </bean>
 
+    <bean id="KS-SimpleTableCollectionLayout" parent="Uif-TableCollectionLayout"
+          class="org.kuali.student.core.krms.SimpleTableLayoutManager" p:style="margin: 0px;">
+        <property name="cssClasses">
+            <list>
+                <value>uif-simpleTableCollectionLayout</value>
+            </list>
+        </property>
+        <property name="applyAlternatingRowStyles" value="false"/>
+        <property name="renderAlternatingHeaderColumns" value="false"/>
+        <property name="generateAutoSequence" value="true"/>
+        <property name="richTable">
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
+        <property name="renderSequenceField" value="false"/>
+    </bean>
+
 </beans>
 
 

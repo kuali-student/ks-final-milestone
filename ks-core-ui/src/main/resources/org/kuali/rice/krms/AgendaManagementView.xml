@@ -146,7 +146,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleSection-BoxSection" parent="Uif-VerticalBoxSection" p:additionalCssClasses="krms-ruleViewSection">
+    <bean id="KRMS-RuleSection-BoxGroup" parent="Uif-VerticalBoxGroup" p:additionalCssClasses="krms-ruleViewSection">
     </bean>
 
     <bean id="KRMS-AgendaManage-RulePrototype" parent="Uif-Disclosure-VerticalBoxSubSection">
@@ -159,7 +159,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-AgendaManage-EditRule" parent="KRMS-RuleSection-BoxSection" p:render="@{!#line.dummy}">
+    <bean id="KRMS-AgendaManage-EditRule" parent="KRMS-RuleSection-BoxGroup" p:render="@{!#line.dummy}">
         <property name="items">
             <list>
                 <bean id="KRSM-RuleEdit-ActionLinks" parent="KRMS-RuleEdit-Links" p:align="right"/>
@@ -178,7 +178,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-AgendaManage-AddRule" parent="KRMS-RuleSection-BoxSection" p:render="@{#line.dummy}">
+    <bean id="KRMS-AgendaManage-AddRule" parent="KRMS-RuleSection-BoxGroup" p:render="@{#line.dummy}">
         <property name="items">
             <list>
                 <bean parent="KRMS-RuleAdd-Links" p:id="KRMS-RuleAdd-ActionLink" p:align="right"/>
