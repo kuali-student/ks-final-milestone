@@ -361,7 +361,7 @@ limitations under the License.
                                                         "/>
                                             <property name="onDocumentReadyScript" value="
                                                             jQuery('#movePlannedCourse').on('PLAN_ITEM_ADDED', function(event, data){
-                                                                if (data.planItemType === 'planned' || data.planItemType === 'backup') {
+                                                                if (data.category === 'planned' || data.category === 'backup') {
                                                                     fnDisplayMessage(data.message, data.cssClass, 'actionButtonsGroup', true, false);
                                                                 }
                                                             }).on('ERROR', function(event, data){
@@ -471,7 +471,7 @@ limitations under the License.
                                                         "/>
                                             <property name="onDocumentReadyScript" value="
                                                             jQuery('#copyPlannedCourse').on('PLAN_ITEM_ADDED', function(event, data){
-                                                                if (data.planItemType === 'planned' || data.planItemType === 'backup') {
+                                                                if (data.category === 'planned' || data.category === 'backup') {
                                                                     fnDisplayMessage(data.message, data.cssClass, 'actionButtonsGroup', true, false);
                                                                 }
                                                             }).on('ERROR', function(event, data){
@@ -490,7 +490,7 @@ limitations under the License.
                                                         "/>
                                             <property name="onDocumentReadyScript" value="
                                                             jQuery('#copyPastPlannedCourse').on('PLAN_ITEM_ADDED', function(event, data){
-                                                                if (data.planItemType === 'planned' || data.planItemType === 'backup') {
+                                                                if (data.category === 'planned' || data.category === 'backup') {
                                                                     fnDisplayMessage(data.message, data.cssClass, 'actionButtonsGroup', true, false);
                                                                 }
                                                             }).on('ERROR', function(event, data){
@@ -508,7 +508,7 @@ limitations under the License.
                                                         "/>
                                             <property name="onDocumentReadyScript" value="
                                                             jQuery('#copyAcademicCourse').on('PLAN_ITEM_ADDED', function(event, data){
-                                                                if (data.planItemType === 'planned' || data.planItemType === 'backup') {
+                                                                if (data.category === 'planned' || data.category === 'backup') {
                                                                     fnDisplayMessage(data.message, data.cssClass, 'actionButtonsGroup', true, false);
                                                                 }
                                                             }).on('ERROR', function(event, data){
@@ -1374,7 +1374,7 @@ limitations under the License.
           p:actionLabel="Bookmark Course">
         <property name="onDocumentReadyScript"
                   value="jQuery('#addSavedCourseButton').on('PLAN_ITEM_ADDED', function(data){
-                      if (data.planItemType === 'wishlist') {
+                      if (data.category === 'wishlist') {
                           fnDisplayMessage(data.message, data.cssClass, 'addSavedCourseButton', true);
                       }
                   });"/>

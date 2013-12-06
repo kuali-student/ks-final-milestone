@@ -294,7 +294,7 @@
         <!-- <property name="layoutManager.summaryFields" value="backup" />  -->
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="propertyName" value="courses"/>
-        <property name="headerText" value="@{#line.type eq 'kuali.ap.plan.course.type.planned' ? 'Planned' : 'Backup'}"/>
+        <property name="headerText" value="@{#line.category eq 'PLANNED' ? 'Planned' : 'Backup'}"/>
         <property name="header.headerLevel" value="h4" />
         <property name="cssClasses">
 			<list merge="true">

@@ -1,5 +1,6 @@
 package org.kuali.student.ap.planner.util;
 
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -51,7 +52,7 @@ public class PlanEventUtils {
 
 	private static final EventsKey EVENTS_KEY = new EventsKey();
 
-	private static String getTotalCredits(String termId, String itemType) {
+	private static String getTotalCredits(String termId, AcademicPlanServiceConstants.ItemCategory  category) {
 		BigDecimal plannedTotalMin = BigDecimal.ZERO;
 		BigDecimal plannedTotalMax = BigDecimal.ZERO;
 
@@ -64,7 +65,7 @@ public class PlanEventUtils {
 					.getPlanItemsInPlanByAtp(
 							plan.getId(),
 							termId,
-							itemType,
+                            category,
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo());
 		} catch (DoesNotExistException e) {
@@ -96,17 +97,6 @@ public class PlanEventUtils {
 
 		return CreditsFormatter.formatCredits(new Range(plannedTotalMin,
 				plannedTotalMax));
-	}
-
-	/**
-	 * Remove context from a type key.
-	 *
-	 * @param typeKey
-	 *            A KS type key.
-	 * @return The last contextual element in the type key.
-	 */
-	public static String formatTypeKey(String typeKey) {
-		return typeKey.substring(typeKey.lastIndexOf(".") + 1);
 	}
 
 	/**
@@ -191,7 +181,7 @@ public class PlanEventUtils {
             code.append(" ").append(activityCode);
         addEvent.add("code", code.toString());
 
-        String type = formatTypeKey(planItem.getTypeKey());
+        String category = planItem.getCategory().toString().toLowerCase();
         String menusuffix = "";
 
         List<String> planPeriods = planItem.getPlanPeriods();
@@ -207,14 +197,14 @@ public class PlanEventUtils {
             // by '-' The replacement is not desired here.
             addEvent.add("termId", termId);
 
-            if ("planned".equals(type)
+            if ("planned".equals(category)
                     && campusCode != null
                     && KsapFrameworkServiceLocator.getShoppingCartStrategy()
                     .isCartAvailable(termId, campusCode))
                 menusuffix = "_cartavailable";
         }
 
-        addEvent.add("type", type);
+        addEvent.add("category", category);
         addEvent.add("menusuffix", menusuffix);
 
         JsonObjectBuilder events = getEventsBuilder();
@@ -227,15 +217,15 @@ public class PlanEventUtils {
         JsonObjectBuilder removeEvent = Json.createObjectBuilder();
         removeEvent.add("uid", uniqueId);
         removeEvent.add("planItemId", planItem.getId());
-        removeEvent.add("type", formatTypeKey(planItem.getTypeKey()));
+        removeEvent.add("category", planItem.getCategory().toString().toLowerCase());
 
         // Only planned or backup items get an atpId attribute.
-        if (planItem.getTypeKey().equals(
-                PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
-                || planItem.getTypeKey().equals(
-                PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
-                || planItem.getTypeKey().equals(
-                PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+        if (planItem.getCategory().equals(
+                AcademicPlanServiceConstants.ItemCategory.PLANNED)
+                || planItem.getCategory().equals(
+                AcademicPlanServiceConstants.ItemCategory.BACKUP)
+                || planItem.getCategory().equals(
+                AcademicPlanServiceConstants.ItemCategory.CART)) {
             removeEvent.add("termId",
                     planItem.getPlanPeriods().get(0).replace('.', '-'));
         }
@@ -273,11 +263,11 @@ public class PlanEventUtils {
         updateTotalCreditsEvent.add(
                 "totalCredits",
                 getTotalCredits(termId,
-                        PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED));
+                        AcademicPlanServiceConstants.ItemCategory.PLANNED));
         updateTotalCreditsEvent.add(
                 "cartCredits",
                 getTotalCredits(termId,
-                        PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART));
+                        AcademicPlanServiceConstants.ItemCategory.CART));
 
         JsonObjectBuilder events = getEventsBuilder();
         events.add(
@@ -376,7 +366,7 @@ public class PlanEventUtils {
 			code.append(" ").append(activityCode);
 		addEvent.add("code", code.toString());
 
-		String type = formatTypeKey(planItem.getTypeKey());
+		String category = planItem.getCategory().toString().toLowerCase();
 		String menusuffix = "";
 
 		List<String> planPeriods = planItem.getPlanPeriods();
@@ -392,14 +382,14 @@ public class PlanEventUtils {
 			// by '-' The replacement is not desired here.
 			addEvent.add("termId", termId);
 
-			if ("planned".equals(type)
+			if ("planned".equals(category)
 					&& campusCode != null
 					&& KsapFrameworkServiceLocator.getShoppingCartStrategy()
 							.isCartAvailable(termId, campusCode))
 				menusuffix = "_cartavailable";
 		}
 
-		addEvent.add("type", type);
+		addEvent.add("category", category);
 		addEvent.add("menusuffix", menusuffix);
 
         eventList.add(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_ADDED.name(), addEvent);
@@ -411,15 +401,15 @@ public class PlanEventUtils {
 		JsonObjectBuilder removeEvent = Json.createObjectBuilder();
 		removeEvent.add("uid", uniqueId);
 		removeEvent.add("planItemId", planItem.getId());
-		removeEvent.add("type", formatTypeKey(planItem.getTypeKey()));
+		removeEvent.add("category", planItem.getCategory().toString().toLowerCase());
 
 		// Only planned or backup items get an atpId attribute.
-		if (planItem.getTypeKey().equals(
-				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
-				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
-				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+		if (planItem.getCategory().equals(
+				AcademicPlanServiceConstants.ItemCategory.PLANNED)
+				|| planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.BACKUP)
+				|| planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.CART)) {
 			removeEvent.add("termId",
 					planItem.getPlanPeriods().get(0).replace('.', '-'));
 		}
@@ -462,11 +452,11 @@ public class PlanEventUtils {
 		updateTotalCreditsEvent.add(
 				"totalCredits",
 				getTotalCredits(termId,
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED));
+						AcademicPlanServiceConstants.ItemCategory.PLANNED));
 		updateTotalCreditsEvent.add(
 				"cartCredits",
 				getTotalCredits(termId,
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART));
+						AcademicPlanServiceConstants.ItemCategory.CART));
 
         eventList.add(
 				newTerm ? PlanConstants.JS_EVENT_NAME.UPDATE_NEW_TERM_TOTAL_CREDITS

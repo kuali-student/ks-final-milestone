@@ -842,15 +842,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			for (PlanItem planItem : planItemList) {
 				String courseID = planItem.getRefObjectId();
 				CourseSearchItem.PlanState state;
-				if (planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)) {
+				if (planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.WISHLIST)) {
 					state = CourseSearchItem.PlanState.SAVED;
-				} else if (planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
-						|| planItem.getTypeKey().equals(
-								PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
-                        || planItem.getTypeKey().equals(
-                                PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+				} else if (planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.PLANNED)
+						|| planItem.getCategory().equals(
+								AcademicPlanServiceConstants.ItemCategory.BACKUP)
+                        || planItem.getCategory().equals(
+                                AcademicPlanServiceConstants.ItemCategory.CART)) {
 					state = CourseSearchItem.PlanState.IN_PLAN;
 				} else {
 					throw new RuntimeException("Unknown plan item type.");

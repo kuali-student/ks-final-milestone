@@ -38,8 +38,14 @@ import java.util.Set;
                     "pi.learningPlan = p " +
                     "and p.id =:learningPlanId " +
                     "and pi.refObjectTypeKey = :refObjectTypeKey " +
-                    "and pi.refObjectId = :refObjectId")
-})
+                    "and pi.refObjectId = :refObjectId"),
+
+    @NamedQuery(name = "LearningPlanItem.getPlanItemsByCategory",
+            query = "SELECT pi FROM PlanItemEntity pi, LearningPlanEntity p WHERE " +
+                    "pi.learningPlan = p " +
+                    "and p.id =:learningPlanId " +
+                    "and pi.category =:category"),
+        })
 public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanItemAttributeEntity> {
 
     @NotNull
@@ -73,11 +79,15 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
     @Column(name = "CREDIT")
     private BigDecimal credit;
 
+    @Column(name = "CATEGORY")
+    private String category;
+
     public PlanItemEntity() {
         super();
     }
 
-	@Override
+    @Override
+
 	public Set<PlanItemAttributeEntity> getAttributes() {
 		return this.attributes;
 	}
@@ -143,6 +153,14 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         this.credit = credit;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
     /**
      * Add an ATP id to the set. No nulls or empty strings.
      *
@@ -179,6 +197,7 @@ public class PlanItemEntity extends MetaEntity implements AttributeOwner<PlanIte
         dto.setTypeKey(this.getTypeId());
         dto.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
         dto.setCredit(this.getCredit());
+        dto.setCategory(AcademicPlanServiceConstants.ItemCategory.fromString(this.getCategory()));
 
         if (this.getDescr() != null) {
             dto.setDescr(this.getDescr().toDto());

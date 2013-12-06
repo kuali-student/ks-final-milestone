@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -502,8 +503,8 @@ public class ConversationCreateController extends ConversationControllerBase {
 					.getCourseDescription());
 			boolean backup = false;
 
-			if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST.equals(planItem
-					.getTypeKey())) {
+			if (AcademicPlanServiceConstants.ItemCategory.WISHLIST.equals(planItem
+					.getCategory())) {
 				// Bookmarks don't have a term
 				bookmarks.put(course.getCourseId(), course);
 			} else {
@@ -523,12 +524,12 @@ public class ConversationCreateController extends ConversationControllerBase {
 				CourseInfo courseInfo = new CourseInfo(course.getCourseId(),
 						course.getCourseCode(), course.getCourseName(),
 						course.getCourseDescription(), backup);
-				if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED
-						.equals(planItem.getTypeKey())) {
+				if (AcademicPlanServiceConstants.ItemCategory.PLANNED
+						.equals(planItem.getCategory())) {
 					// addCourseToMap(plannedCourses, course, atp);
 					pTerm.addPlannedCourse(courseInfo);
-				} else if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
-						.equals(planItem.getTypeKey())) {
+				} else if (AcademicPlanServiceConstants.ItemCategory.BACKUP
+						.equals(planItem.getCategory())) {
 					// addCourseToMap(backupCourses, course, atp);
 					backup = true;
 					courseInfo.setBackup(backup);

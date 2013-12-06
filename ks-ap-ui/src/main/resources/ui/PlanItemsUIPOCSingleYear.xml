@@ -341,12 +341,12 @@
         <property name="onDocumentReadyScript" value="
             truncateField('planned_courses_detail_list-POC-Single-Year', true);
             jQuery('#planned_courses_detail_list-POC-Single-Year').on('PLAN_ITEM_ADDED', function(event, data) {
-                if(data.planItemType === 'wishlist'){
+                if(data.category === 'wishlist'){
                 }else{
-                    fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+                    fnAddPlanItem(data.atpId, data.category, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
                 }
             }).on('PLAN_ITEM_DELETED', function(event, data) {
-                fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
+                fnRemovePlanItem(data.atpId, data.category, data.planItemId);
             }).on('PLAN_ITEM_UPDATED', function(event, data) {
                 fnUpdatePlanItem(data);
             }).on('TERM_NOTE_UPDATED', function(event, data) {

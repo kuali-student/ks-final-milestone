@@ -354,7 +354,7 @@
             <list>
                 <bean p:id="__KSAP__UID__" parent="Uif-HorizontalFieldGroup" p:title="__KSAP__COURSETITLE__">
                     <property name="onClickScript"
-                              value="openMenu('__KSAP__UID__', 'planner_menu___KSAP__TYPE____KSAP__MENUSUFFIX__', null, e,
+                              value="openMenu('__KSAP__UID__', 'planner_menu___KSAP__CATEGORY____KSAP__MENUSUFFIX__', null, e,
 								'.uif-collectionItem', 'fl-container-150 uif-boxLayoutHorizontalItem',
 								{tail: {align:'top'}, align:'top', position:'right'}, false);" />
                     <property name="cssClasses">
@@ -453,8 +453,8 @@
                       p:title="@{#line.courseTitle}">
                     <property name="group.validationMessages.render" value="false" />
                     <property name="onClickScript"
-                              value="openMenu('@{#line.uniqueId}', 'planner_menu_@{#line.type}@{#line.menuSuffix}', null, e,
-									'.uif-collectionItem', 'fl-container-150 uif-boxLayoutHorizontalItem', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
+                              value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
+									'.uif-collectionItem', 'fl-container-150 uif-boxLayoutHorizontalItem test4', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
@@ -930,7 +930,7 @@
 
 	<bean id="planner_menu_mark_as_backup" parent="Uif-ActionLink"
 		p:actionLabel="Mark as backup course" p:title="Mark as backup course">
-		<property name="actionScript" value="ksapPlannerUpdateType(true, this, e);" />
+		<property name="actionScript" value="ksapPlannerUpdateCategory(true, this, e);" />
 	</bean>
 
 	<bean id="planner_menu_move_plan_item" parent="Uif-ActionLink"
@@ -952,7 +952,7 @@
 
 	<bean id="planner_menu_mark_as_planned" parent="Uif-ActionLink"
 		p:actionLabel="Mark as planned course" p:title="Mark as planned course">
-		<property name="actionScript" value="ksapPlannerUpdateType(false, this, e);" />
+		<property name="actionScript" value="ksapPlannerUpdateCategory(false, this, e);" />
 	</bean>
 
 	<bean id="planner_menu_completed_backup" parent="Uif-VerticalBoxSubSection"

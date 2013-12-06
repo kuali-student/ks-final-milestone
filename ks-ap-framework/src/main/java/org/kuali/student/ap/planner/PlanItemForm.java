@@ -1,5 +1,6 @@
 package org.kuali.student.ap.planner;
 
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.common.infc.HasUniqueId;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
@@ -38,19 +39,19 @@ public interface PlanItemForm extends HasUniqueId {
 	String getPlanItemId();
 
 	/**
-	 * Get the expected plan item type.
+	 * Get the expected plan item category.
 	 * 
-	 * @return The expected plan item type.
+	 * @return The expected plan item category.
 	 */
-	String getExpectedPlanItemType();
+    AcademicPlanServiceConstants.ItemCategory getExpectedPlanItemCategory();
 
 	/**
-	 * Set the expected plan item type.
-	 * 
-	 * @param expectedPlanItemType
-	 *            The expected plan item type.
-	 */
-	void setExpectedPlanItemType(String expectedPlanItemType);
+	 * Set the expected plan item category.
+	 *
+     * @param category
+     *            The expected plan item category.
+     */
+	void setExpectedPlanItemCategory(AcademicPlanServiceConstants.ItemCategory category);
 
 	/**
 	 * Get the plan item.

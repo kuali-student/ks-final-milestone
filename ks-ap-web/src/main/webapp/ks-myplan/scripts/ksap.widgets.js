@@ -407,8 +407,8 @@ function openDialog(sText, e, close) {
 function editNote(obj, e) {
     var planItemId = obj.data("planitemid");
     var atpId = obj.data("atpid");
-    var planItemType = obj.data("planitemtype");
-    jQuery("#" + planItemType + "_" + atpId.replace(/\./g, "-") + "_" + planItemId + "_note").HideBubblePopup();
+    var category = obj.data("category");
+    jQuery("#" + category + "_" + atpId.replace(/\./g, "-") + "_" + planItemId + "_note").HideBubblePopup();
     var retrieveData = {
         action: 'plan',
         viewId: 'PlannedCourse-FormView',
@@ -832,25 +832,25 @@ function truncateField(id, floated) {
     });
 }
 
-function indicateViewingAudit(id, type) {
+function indicateViewingAudit(id, category) {
     var open = false;
-    var currentAudit = jQuery("." + type + ".auditHtml .ksap-audit-report");
+    var currentAudit = jQuery("." + category + ".auditHtml .ksap-audit-report");
     var currentAuditId = currentAudit.attr("auditid");
 
     jQuery("#" + id + " .uif-collectionItem").not(".pending").each(function (index) {
         if (jQuery(this).attr("id").replace("link_", "") == currentAuditId && currentAudit.is(":visible")) {
-            if (type == 'degreeAudit') {
+            if (category == 'degreeAudit') {
                 jQuery(this).find(".uif-label label").html("Viewing");
             }
-            if (type == 'planAudit') {
+            if (category == 'planAudit') {
                 if (index > 1) open = true;
                 jQuery(this).addClass("viewing");
             }
         } else {
-            if (type == 'degreeAudit') {
+            if (category == 'degreeAudit') {
                 jQuery(this).find(".uif-label label").html("View");
             }
-            if (type == 'planAudit') {
+            if (category == 'planAudit') {
                 jQuery(this).removeClass("viewing");
             }
         }
@@ -1702,10 +1702,10 @@ function ksapInitializePlanItems(pageSize) {
                 code = courseCode;
             if (activityCode != null)
                 code += " " + activityCode;
-            fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+            fnAddPlanItem(data.atpId, data.category, data.planItemId, code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
         })
         .subscribe('PLAN_ITEM_DELETED', function(data){
-            fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
+            fnRemovePlanItem(data.atpId, data.category, data.planItemId);
         })
         .subscribe('UPDATE_NEW_TERM_TOTAL_CREDITS', function(data){
             fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
@@ -1714,9 +1714,9 @@ function ksapInitializePlanItems(pageSize) {
             fnUpdateCredits(data.atpId, data.totalCredits, data.cartCredits);
         });
     jQuery('#planned_courses_detail_list').on('PLAN_ITEM_ADDED', function(event, data) {
-        fnAddPlanItem(data.atpId, data.planItemType, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
+        fnAddPlanItem(data.atpId, data.category, data.planItemId, data.courseDetails.code, data.courseDetails.courseTitle, data.courseDetails.credit, data.showAlert, data.termName, data.timeScheduleOpen);
     }).on('PLAN_ITEM_DELETED', function(event, data) {
-            fnRemovePlanItem(data.atpId, data.planItemType, data.planItemId);
+            fnRemovePlanItem(data.atpId, data.category, data.planItemId);
         }).on('PLAN_ITEM_UPDATED', function(event, data) {
             fnUpdatePlanItem(data); // TODO: REMOVE
         }).on('TERM_NOTE_UPDATED', function(event, data) {

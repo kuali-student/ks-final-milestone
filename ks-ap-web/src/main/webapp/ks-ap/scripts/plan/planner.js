@@ -151,10 +151,10 @@ function ksapPlannerSubmitDialog(e) {
  * @param target - The html object its being called on
  * @param e - Current event going on
  */
-function ksapPlannerUpdateType(backup, target, e) {
+function ksapPlannerUpdateCategory(backup, target, e) {
 	var t = jQuery(target);
 	var retrieveData = ksapAdditionalFormData({
-			methodToCall : "updatePlanItemType",
+			methodToCall : "updatePlanItemCategory",
 			learningPlanId : t.data('learningplanid'),
 			termId : t.data('termid'),
 			planItemId : t.data('planitemid'),
@@ -254,11 +254,11 @@ function ksapPlannerAddPlanItem (data) {
     itemElement
     		.attr("id", data.uid+"_wrap")
     		.attr("class", "uif-group uif-boxGroup uif-verticalBoxGroup ks-plan-Bucket-collection uif-collectionItem uif-boxCollectionItem uif-boxLayoutHorizontalItem")
-    		.prependTo("." + termUid + ".ksap-term-" + data.type + " .uif-stackedCollectionLayout")
+    		.prependTo("." + termUid + ".ksap-term-" + data.category + " .uif-stackedCollectionLayout")
     		.css({backgroundColor:"#ffffcc"})
     		.hide()
     		.fadeIn(250, function() {
-    	        var bucket = jQuery(".ksap-term-" + data.type + "." + termUid);
+    	        var bucket = jQuery(".ksap-term-" + data.category + "." + termUid);
     	        var unitcell = bucket.find(".ksap-carousel-term-total");
     	    	unitcell.addClass("ks-plan-Bucket-footer-show");
     	    	unitcell.removeClass("ks-plan-Bucket-footer-hide");
@@ -293,7 +293,7 @@ function ksapPlannerUpdatePlanItem (data) {
 function ksapPlannerRemovePlanItem (data) {
     jQuery("#" + data.uid).fadeOut(250, function(){
         jQuery(this).remove();
-        var bucket = jQuery(".ksap-term-" + data.type + "." + data.termId);
+        var bucket = jQuery(".ksap-term-" + data.category + "." + data.termId);
         var unitcell = bucket.find(".ksap-carousel-term-total");
         if (bucket.find(".ks-plan-Bucket-item").length == 0) {
         	unitcell.removeClass("ks-plan-Bucket-footer-show");

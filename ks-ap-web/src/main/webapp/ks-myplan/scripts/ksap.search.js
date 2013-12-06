@@ -420,22 +420,22 @@ function setupCourseSearchCriteriaActions(jqInputObject, jqSubmitButtonObject) {
 function registerCourseSearchResultsEvents(jqObject) {
     jQuery(jqObject)
         .on('PLAN_ITEM_DELETED', function(event, data){
-            if (data.planItemType === 'wishlist') {
+            if (data.category === 'wishlist') {
                 fnRestoreSearchAddButton(data.courseDetails.courseId);
             }
         })
         .on('PLAN_ITEM_ADDED', function(event, data){
-            if (data.planItemType === 'wishlist') {
+            if (data.category === 'wishlist') {
                 fnDisplayMessage('Bookmarked', 'bookmarked', data.courseDetails.courseId+'_status', false);
             }
         })
         .on('PLAN_ITEM_ADDED', function(event, data){
-            if (data.planItemType === 'planned') {
+            if (data.category === 'planned') {
                 fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
             }
         })
         .on('PLAN_ITEM_ADDED', function(event, data){
-            if (data.planItemType === 'backup') {
+            if (data.category === 'backup') {
                 fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
             }
         });

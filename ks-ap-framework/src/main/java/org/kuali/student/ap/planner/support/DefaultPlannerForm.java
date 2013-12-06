@@ -1,5 +1,6 @@
 package org.kuali.student.ap.planner.support;
 
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -67,8 +68,8 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 	private String termNote;
 	private boolean backup;
 
-	private String expectedPlanItemType;
-	private String targetPlanItemType;
+	private AcademicPlanServiceConstants.ItemCategory expectedPlanItemCategory;
+	private AcademicPlanServiceConstants.ItemCategory targetPlanItemCategory;
 
 	private String targetTermId;
 
@@ -247,20 +248,20 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 		termNoteInitialized = true;
 	}
 
-	public String getExpectedPlanItemType() {
-		return expectedPlanItemType;
+	public AcademicPlanServiceConstants.ItemCategory getExpectedPlanItemCategory() {
+		return expectedPlanItemCategory;
 	}
 
-	public void setExpectedPlanItemType(String expectedPlanItemType) {
-		this.expectedPlanItemType = expectedPlanItemType;
+	public void setExpectedPlanItemCategory(AcademicPlanServiceConstants.ItemCategory category) {
+		this.expectedPlanItemCategory = category;
 	}
 
-	public String getTargetPlanItemType() {
-		return targetPlanItemType;
+	public AcademicPlanServiceConstants.ItemCategory getTargetPlanItemCategory() {
+		return targetPlanItemCategory;
 	}
 
-	public void setTargetPlanItemType(String targetPlanItemType) {
-		this.targetPlanItemType = targetPlanItemType;
+	public void setTargetPlanItemCategory(AcademicPlanServiceConstants.ItemCategory targetPlanItemCategory) {
+		this.targetPlanItemCategory = targetPlanItemCategory;
 	}
 
 	public String getTargetTermId() {
@@ -288,8 +289,8 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 		assert course != null;
 
 		setCourseCd(course.getCode());
-		setBackup(planItem.getTypeKey().equalsIgnoreCase(
-				PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP));
+		setBackup(planItem.getCategory().equals(
+                AcademicPlanServiceConstants.ItemCategory.BACKUP));
 
 		RichText descr = planItem.getDescr();
 		setCourseNote(descr != null && StringUtils.hasText(descr.getPlain()) ? descr
@@ -353,15 +354,15 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 			while (planItemIterator.hasNext()) {
 				PlanItem planItem = planItemIterator.next();
 
-				String typeKey = planItem.getTypeKey();
+				AcademicPlanServiceConstants.ItemCategory category = planItem.getCategory();
 				String refTypeKey = planItem.getRefObjectType();
 				List<String> planPeriods = planItem.getPlanPeriods();
 				if (!PlanConstants.COURSE_TYPE.equals(refTypeKey)
-						|| (!PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART
-								.equals(typeKey)
-								&& !PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED
-										.equals(typeKey) && !PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
-									.equals(typeKey)) || planPeriods == null
+						|| (!AcademicPlanServiceConstants.ItemCategory.CART
+								.equals(category)
+								&& !AcademicPlanServiceConstants.ItemCategory.PLANNED
+										.equals(category) && !AcademicPlanServiceConstants.ItemCategory.BACKUP
+									.equals(category)) || planPeriods == null
 						|| planPeriods.isEmpty()) {
 					planItemIterator.remove();
 					continue;
@@ -387,24 +388,24 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 			courseHelper.frontLoad(courseIds);
 
 			for (PlanItem planItem : planItems) {
-				String typeKey = planItem.getTypeKey();
+				AcademicPlanServiceConstants.ItemCategory category = planItem.getCategory();
 				Course course = courseHelper.getCourseInfo(planItem
 						.getRefObjectId());
 
 				for (String termId : planItem.getPlanPeriods()) {
 					Map<String, List<PlannerItem>> itemMap;
-					if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART
-							.equals(typeKey))
+					if (AcademicPlanServiceConstants.ItemCategory.CART
+							.equals(category))
 						itemMap = cart;
-					else if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED
-							.equals(typeKey))
+					else if (AcademicPlanServiceConstants.ItemCategory.PLANNED
+							.equals(category))
 						itemMap = planned;
-					else if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
-							.equals(typeKey))
+					else if (AcademicPlanServiceConstants.ItemCategory.BACKUP
+							.equals(category))
 						itemMap = backup;
 					else
 						throw new UnsupportedOperationException(
-								"Plan item type " + typeKey);
+								"Plan item category " + category);
 
 					List<PlannerItem> itemList = itemMap.get(termId);
 					if (itemList == null)

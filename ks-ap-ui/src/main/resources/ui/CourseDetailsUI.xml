@@ -164,12 +164,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			value="
                 jQuery('#@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse')
                     .on('PLAN_ITEM_ADDED', function(event, data){
-                        if (data.planItemType === 'wishlist') {
+                        if (data.category === 'wishlist') {
                             fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
                         }
                     })
                     .on('PLAN_ITEM_DELETED', function(event, data){
-                        if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseSummaryDetails.courseId}') {
+                        if (data.category === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseSummaryDetails.courseId}') {
                             fnRestoreDetailsAddButton(data.courseDetails.courseId);
                         }
                     });" />
@@ -211,12 +211,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                   value="
                       jQuery('#course_details_actions')
                           .on('PLAN_ITEM_ADDED', function(event, data){
-                              if (data.planItemType === 'wishlist') {
+                              if (data.category === 'wishlist') {
                                   fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseIdXmlSafe+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
                               }
                           })
                           .on('PLAN_ITEM_DELETED', function(event, data){
-                              if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseIdXmlSafe === '@{dataObject.courseSummaryDetails.courseId}') {
+                              if (data.category === 'wishlist' &amp;&amp; data.courseDetails.courseIdXmlSafe === '@{dataObject.courseSummaryDetails.courseId}') {
                                   fnRestoreDetailsAddButton(data.courseDetails.courseId);
                               }
                           });"/>

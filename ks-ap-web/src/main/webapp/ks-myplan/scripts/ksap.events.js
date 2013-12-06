@@ -3,10 +3,10 @@
     Function: add course to quarter plan view
 #################################################################
  */
-function fnAddPlanItem (atpId, type, planItemId, courseCode, courseTitle, courseCredits) {
+function fnAddPlanItem (atpId, category, planItemId, courseCode, courseTitle, courseCredits) {
     var item = '<div id="' + planItemId + '_div" class="uif-group uif-boxGroup uif-verticalBoxGroup uif-collectionItem uif-boxCollectionItem">' +
         '<div class="uif-boxLayout uif-verticalBoxLayout clearfix">' +
-            '<div id="' + planItemId + '_' + type + '" class="uif-field uif-fieldGroup uif-horizontalFieldGroup ksap-course-valid ks-plan-Bucket-item ks-plan-Bucket-item--valid" title="' + courseTitle + '" data-planitemid="' + planItemId + '" data-atpid="' + atpId.replace(/-/g,".") + '">' +
+            '<div id="' + planItemId + '_' + category + '" class="uif-field uif-fieldGroup uif-horizontalFieldGroup ksap-course-valid ks-plan-Bucket-item ks-plan-Bucket-item--valid" title="' + courseTitle + '" data-planitemid="' + planItemId + '" data-atpid="' + atpId.replace(/-/g,".") + '">' +
                 '<fieldset>' +
                     '<div class="uif-group uif-boxGroup uif-horizontalBoxGroup">' +
                         '<div class="uif-boxLayout uif-horizontalBoxLayout clearfix">' +
@@ -20,14 +20,14 @@ function fnAddPlanItem (atpId, type, planItemId, courseCode, courseTitle, course
                     '</div>' +
                 '</fieldset>' +
             '</div>' +
-            '<input name="script" type="hidden" value="jQuery(\'#\' + \'' + planItemId + '_' + type + '\').click(function(e) { openMenu(\'' + planItemId + '\', \'' + type + '_menu_items\',null,e,\'.uif-collectionItem\',\'fl-container-150 uif-boxLayoutHorizontalItem\',{tail:{align:\'top\'},align:\'top\',position:\'right\'},false); });">' +
+            '<input name="script" type="hidden" value="jQuery(\'#\' + \'' + planItemId + '_' + category + '\').click(function(e) { openMenu(\'' + planItemId + '\', \'' + category + '_menu_items\',null,e,\'.uif-collectionItem\',\'fl-container-150 uif-boxLayoutHorizontalItem\',{tail:{align:\'top\'},align:\'top\',position:\'right\'},false); });">' +
         '</div>' +
     '</div>';
-    var size = parseFloat(jQuery("." + atpId + ".ksap-term-" + type).data("size")) + 1;
-    jQuery("." + atpId + ".ksap-term-" + type).attr("data-size", size);
-    fnShowHideQuickAddLink(atpId, type, size);
+    var size = parseFloat(jQuery("." + atpId + ".ksap-term-" + category).data("size")) + 1;
+    jQuery("." + atpId + ".ksap-term-" + category).attr("data-size", size);
+    fnShowHideQuickAddLink(atpId, category, size);
 
-    jQuery(item).prependTo("." + atpId + ".ksap-term-" + type + " .uif-stackedCollectionLayout").css({backgroundColor:"#ffffcc"}).hide().fadeIn(250).animate({backgroundColor:"#ffffff"}, 1500, function() {
+    jQuery(item).prependTo("." + atpId + ".ksap-term-" + category + " .uif-stackedCollectionLayout").css({backgroundColor:"#ffffcc"}).hide().fadeIn(250).animate({backgroundColor:"#ffffff"}, 1500, function() {
         runHiddenScripts(planItemId + "_div");
     });
 }
@@ -36,13 +36,13 @@ function fnAddPlanItem (atpId, type, planItemId, courseCode, courseTitle, course
     Function: remove course from quarter plan view
 #################################################################
  */
-function fnRemovePlanItem (atpId, type, planItemId) {
+function fnRemovePlanItem (atpId, category, planItemId) {
     jQuery("#" + planItemId).unbind('click');
-    var size = parseFloat(jQuery("." + atpId + ".ksap-term-" + type).data("size")) - 1;
-    jQuery("." + atpId + ".ksap-term-" + type).attr("data-size", size);
-    fnShowHideQuickAddLink(atpId, type, size);
+    var size = parseFloat(jQuery("." + atpId + ".ksap-term-" + category).data("size")) - 1;
+    jQuery("." + atpId + ".ksap-term-" + category).attr("data-size", size);
+    fnShowHideQuickAddLink(atpId, category, size);
 
-    jQuery("." + atpId + ".ksap-term-" + type + " .uif-stackedCollectionLayout .uif-collectionItem #" + planItemId + "_" + type).parents(".uif-collectionItem").fadeOut(250, function(){
+    jQuery("." + atpId + ".ksap-term-" + category + " .uif-stackedCollectionLayout .uif-collectionItem #" + planItemId + "_" + category).parents(".uif-collectionItem").fadeOut(250, function(){
         jQuery(this).remove();
     });
 }
@@ -91,11 +91,11 @@ function fnUpdateTermNote (atpId, newNote) {
         jQuery(this).html(newNote).fadeIn(250);
     });
 }
-function fnUpdateSearchList(courseId, type){
+function fnUpdateSearchList(courseId, category){
     jQuery("#"+courseId+"_status").fadeOut(250, function() {
-        if(type=="planned"){
+        if(category=="planned"){
             jQuery(this).html("Planned").addClass("planned").fadeIn(250);
-        }else if(type=="bookmark"){
+        }else if(category=="bookmark"){
             jQuery(this).html("Bookmarked").addClass("bookmarked").fadeIn(250);
         }
     });
@@ -145,7 +145,7 @@ function fnRestoreDetailsAddButton (courseId) {
     jQuery("#" + courseId + "_bookmarked").wrap("<div></div>");
     jQuery("#" + courseId + "_bookmarked").parent("div").fadeOut(250, function() {
         jQuery(this).html('<button id="'+ courseId +'_addSavedCourse" class="uif-action uif-secondaryActionButton uif-boxLayoutHorizontalItem"  onclick="var additionalFormData = {viewId:\'PlannedCourse-FormView\', methodToCall:\'addSavedCourse\', courseId:\'' + courseId + '\'}; submitHiddenForm(\'plan\', additionalFormData, event);">Bookmark Course</button>');
-        jQuery(this).siblings("input[data-role='script']").removeAttr("script").attr("name", "script").val("jQuery(document).ready(function () {jQuery('#"+ courseId +"_addSavedCourse').subscribe('PLAN_ITEM_ADDED', function (data) {if (data.planItemType === 'wishlist') {fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId + '_addSavedCourse', true, false,false);}});});");
+        jQuery(this).siblings("input[data-role='script']").removeAttr("script").attr("name", "script").val("jQuery(document).ready(function () {jQuery('#"+ courseId +"_addSavedCourse').subscribe('PLAN_ITEM_ADDED', function (data) {if (data.category === 'wishlist') {fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId + '_addSavedCourse', true, false,false);}});});");
         runHiddenScripts();
         jQuery(this).fadeIn(250);
     });
@@ -156,11 +156,11 @@ function fnRestoreDetailsAddButton (courseId) {
  Function: show or hide the quick add link
  #################################################################
  */
-function fnShowHideQuickAddLink(atpId, type, size){
+function fnShowHideQuickAddLink(atpId, category, size){
     if (size < 8) {
-        jQuery("." + atpId + ".ksap-term-" + type + " .uif-stackedCollectionLayout .quick-add-cell").fadeIn(250);
+        jQuery("." + atpId + ".ksap-term-" + category + " .uif-stackedCollectionLayout .quick-add-cell").fadeIn(250);
     } else {
-        jQuery("." + atpId + ".ksap-term-" + type + " .uif-stackedCollectionLayout .quick-add-cell").fadeOut(250);
+        jQuery("." + atpId + ".ksap-term-" + category + " .uif-stackedCollectionLayout .quick-add-cell").fadeOut(250);
     }
 
 }

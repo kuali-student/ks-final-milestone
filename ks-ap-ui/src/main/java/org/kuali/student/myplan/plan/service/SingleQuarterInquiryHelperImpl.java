@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -107,7 +108,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
 			plannedCoursesList = getPlanItemListByTermId(
-					PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId,
+					AcademicPlanServiceConstants.ItemCategory.PLANNED, studentId,
 					termAtpId);
 		} catch (Exception e) {
 			logger.error("Could not load plannedCourseslist", e);
@@ -159,7 +160,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 		List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
 			backupCoursesList = getPlanItemListByTermId(
-					PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId,
+					AcademicPlanServiceConstants.ItemCategory.BACKUP, studentId,
 					termAtpId);
 		} catch (Exception e) {
 			logger.error("Could not load backupCourseList", e);
@@ -198,7 +199,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 	}
 
 	protected List<PlannedCourseDataObject> getPlanItemListByTermId(
-			String planItemType, String studentId, String termId)
+			AcademicPlanServiceConstants.ItemCategory planItemCategory, String studentId, String termId)
 			throws InvalidParameterException, MissingParameterException,
 			DoesNotExistException, OperationFailedException {
 
@@ -229,7 +230,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 					PlannedCourseDataObject plannedCourseDO = new PlannedCourseDataObject();
 					String courseID = planItem.getRefObjectId();
 					// Only create a data object for the specified type.
-					if (planItem.getTypeKey().equals(planItemType)) {
+					if (planItem.getCategory().equals(planItemCategory)) {
 
 						plannedCourseDO
 								.setPlanItemDataObject(PlanItemDataObject

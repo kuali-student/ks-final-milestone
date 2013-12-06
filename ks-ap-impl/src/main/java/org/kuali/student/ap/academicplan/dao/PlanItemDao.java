@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 import org.kuali.student.ap.academicplan.model.PlanItemEntity;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 /**
@@ -43,4 +44,17 @@ public class PlanItemDao extends GenericEntityDao<PlanItemEntity> {
         query.setParameter("refObjectTypeKey", refObjectTypeKey);
 		return query.getResultList();
     }
+
+    /**
+     * Get all plan items for a particular learning plan by category.
+     */
+    @SuppressWarnings("unchecked")
+    public List<PlanItemEntity> getLearningPlanItems(String learningPlanId, AcademicPlanServiceConstants.ItemCategory category) {
+        Query query = em.createNamedQuery("LearningPlanItem.getPlanItemsByCategory");
+        query.setParameter("learningPlanId", learningPlanId);
+        query.setParameter("category", category.toString());
+        return query.getResultList();
+    }
+
+
 }

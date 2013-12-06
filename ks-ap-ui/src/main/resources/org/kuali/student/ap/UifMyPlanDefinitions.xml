@@ -472,7 +472,7 @@
             ksapRetrieveComponent('watch_list','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
             var obj = jQuery('div.myplan-saved-courses-summary.myplan-stacked-list',jQuery('body').html());
             obj.on('PLAN_ITEM_DELETED', function(event, data){
-                if (data.planItemType === 'wishlist') {
+                if (data.category === 'wishlist') {
                     ksapRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
                     jQuery('div.jquerybubblepopup.jquerybubblepopup-ksap .jquerybubblepopup-tail').fadeOut(250, function() {
                         jQuery(this).remove();
@@ -480,7 +480,7 @@
                     });
                 }
             }).on('PLAN_ITEM_ADDED', function(event, data){
-                if (data.planItemType === 'wishlist') {
+                if (data.category === 'wishlist') {
                     ksapRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'},data.planItemId);
                 }
             });

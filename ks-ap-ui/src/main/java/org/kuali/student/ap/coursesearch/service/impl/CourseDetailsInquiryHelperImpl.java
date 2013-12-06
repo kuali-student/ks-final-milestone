@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -300,8 +301,8 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				for (PlanItem planItemInPlanTemp : planItemsInPlan) {
 					if (planItemInPlanTemp.getRefObjectId().equals(course.getId())) {
 						// Assuming type is planned or backup if not wishlist.
-						String typeKey = planItemInPlanTemp.getTypeKey();
-						if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)) {
+						AcademicPlanServiceConstants.ItemCategory category = planItemInPlanTemp.getCategory();
+						if (category.equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)) {
 							plannedCourseSummary.setSavedItemId(planItemInPlanTemp.getId());
 							String dateStr = planItemInPlanTemp.getMeta().getCreateTime().toString();
 							dateStr = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER
@@ -309,9 +310,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 							plannedCourseSummary.setSavedItemDateCreated(dateStr);
 						} else {
 							PlanItemDataObject planItem = PlanItemDataObject.build(planItemInPlanTemp);
-							if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
+							if (category.equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)) {
 								plannedCourseSummary.getPlannedList().add(planItem);
-							} else if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+							} else if (category.equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)) {
 								plannedCourseSummary.getBackupList().add(planItem);
 							}
 						}

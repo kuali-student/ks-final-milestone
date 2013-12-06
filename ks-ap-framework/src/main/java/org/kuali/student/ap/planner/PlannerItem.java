@@ -1,8 +1,8 @@
 package org.kuali.student.ap.planner;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.course.CreditsFormatter;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
@@ -39,6 +39,8 @@ public class PlannerItem implements
 	private BigDecimal minCredits;
 	private BigDecimal maxCredits;
 	private String grade;
+    private AcademicPlanServiceConstants.ItemCategory category;
+    private String categoryString;
 
 	private transient String creditString;
 
@@ -74,7 +76,6 @@ public class PlannerItem implements
 			setGrade(grade);
 		}
 
-		type = "completed";
 	}
 
 	public PlannerItem(PlanItem planItem, Course course) {
@@ -83,6 +84,8 @@ public class PlannerItem implements
 		learningPlanId = planItem.getLearningPlanId();
 		planItemId = planItem.getId();
 		courseId = planItem.getRefObjectId();
+        setCategory(planItem.getCategory());
+        type = planItem.getTypeKey();
 
 		for (Attribute attr : planItem.getAttributes()) {
 			String key = attr.getKey();
@@ -116,25 +119,13 @@ public class PlannerItem implements
 		if (descr != null)
 			courseNote = descr.getPlain();
 
-		String typeKey = planItem.getTypeKey();
-		if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART.equals(typeKey)) {
-			type = "cart";
-			menuSuffix = "";
-		} else if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED
-				.equals(typeKey)) {
-			type = "planned";
-			if (campusCode != null
+        menuSuffix = "";
+		if (AcademicPlanServiceConstants.ItemCategory.PLANNED
+				.equals(planItem.getCategory()) && campusCode != null
 					&& KsapFrameworkServiceLocator.getShoppingCartStrategy()
-							.isCartAvailable(termId, campusCode))
+							.isCartAvailable(termId, campusCode)) {
 				menuSuffix = "_cartavailable";
-			else
-				menuSuffix = "";
-		} else if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP.equals(typeKey)) {
-			type = "backup";
-			menuSuffix = "";
-		} else
-			throw new UnsupportedOperationException("Plan item type " + typeKey);
-
+        }
 	}
 
 	public String getParentUniqueId() {
@@ -282,4 +273,19 @@ public class PlannerItem implements
 		this.menuSuffix = menuSuffix;
 	}
 
+    public AcademicPlanServiceConstants.ItemCategory getCategory() {
+        return category;
+    }
+
+    public void setCategory(AcademicPlanServiceConstants.ItemCategory category) {
+        this.category = category;
+        setCategoryString(category.toString().toLowerCase());
+    }
+
+    public String getCategoryString() {
+        return categoryString;
+    }
+    public void setCategoryString(String categoryString) {
+        this.categoryString=categoryString;
+    }
 }
