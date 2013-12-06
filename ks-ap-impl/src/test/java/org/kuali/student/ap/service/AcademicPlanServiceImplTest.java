@@ -52,11 +52,8 @@ public class AcademicPlanServiceImplTest {
         createType("kuali.academicplan.type.plan", "Learning Plan", "Student learning plan type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
         createType("kuali.academicplan.type.plan.template", "Learning Plan Template", "Student learning plan template type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
         createType("kuali.academicplan.type.plan.review", "Learning Plan Review", "Student learning plan review type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
-        createType("kuali.academicplan.item.type.backup", "Backup Item", "Student learning plan backup item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
-        createType("kuali.academicplan.item.type.planned", "Planned Item", "Student learning plan planned item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
-        createType("kuali.academicplan.item.type.whatif", "What-if Item", "Student learning plan what-if item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
-        createType("kuali.academicplan.item.type.wishlist", "WishList Item", "Student learning plan wishlist item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
-        createType("kuali.academicplan.item.type.cart", "Shopping Cart Item", "Student learning plan shopping cart item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
+
+        createType("kuali.academicplan.type.item.course", "Course Item", "Student learning plan course item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
     }
 
 	@After
@@ -777,10 +774,9 @@ public class AcademicPlanServiceImplTest {
 				validationResultInfos.get(0).getMessage());
 		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
 		assertEquals(
-				"Plan Item Type was ["+AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE+"], but no plan periods were defined.",
+				"Plan Item category was ["+AcademicPlanServiceConstants.ItemCategory.PLANNED+"], but no plan periods were defined.",
 				validationResultInfos.get(1).getMessage());
-		assertEquals("typeKey", validationResultInfos.get(1).getElement());
-        assertEquals("category", validationResultInfos.get(1).getElement());
+		assertEquals("category", validationResultInfos.get(1).getElement());
 	}
 
 	@Test
@@ -801,7 +797,7 @@ public class AcademicPlanServiceImplTest {
 				validationResultInfos.get(0).getMessage());
 		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
 		assertEquals(
-				"Plan Item Type was ["+ AcademicPlanServiceConstants.ItemCategory.BACKUP +"], but no plan periods were defined.",
+				"Plan Item category was ["+ AcademicPlanServiceConstants.ItemCategory.BACKUP +"], but no plan periods were defined.",
 				validationResultInfos.get(1).getMessage());
 		assertEquals("category", validationResultInfos.get(1).getElement());
 	}

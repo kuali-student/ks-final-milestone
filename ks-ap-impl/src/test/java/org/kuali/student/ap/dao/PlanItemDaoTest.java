@@ -40,20 +40,20 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         List<PlanItemEntity> planItems = planItemDao.getLearningPlanItems(planId, AcademicPlanServiceConstants.ItemCategory.WISHLIST);
         assertEquals(4, planItems.size());
         for (PlanItemEntity pie : planItems) {
-            assertEquals(AcademicPlanServiceConstants.ItemCategory.WISHLIST, pie.getCategory());
+            assertEquals(AcademicPlanServiceConstants.ItemCategory.WISHLIST.toString(), pie.getCategory());
             assertEquals("student1", pie.getLearningPlan().getStudentId());
         }
 
         planItems = planItemDao.getLearningPlanItems(planId, AcademicPlanServiceConstants.ItemCategory.PLANNED);
         assertEquals(3, planItems.size());
         for (PlanItemEntity pie : planItems) {
-            assertEquals(AcademicPlanServiceConstants.ItemCategory.PLANNED, pie.getCategory());
+            assertEquals(AcademicPlanServiceConstants.ItemCategory.PLANNED.toString(), pie.getCategory());
             assertEquals("student1", pie.getLearningPlan().getStudentId());
         }
         planItems = planItemDao.getLearningPlanItems(planId, AcademicPlanServiceConstants.ItemCategory.BACKUP);
         assertEquals(1, planItems.size());
         for (PlanItemEntity pie : planItems) {
-            assertEquals(AcademicPlanServiceConstants.ItemCategory.BACKUP, pie.getCategory());
+            assertEquals(AcademicPlanServiceConstants.ItemCategory.BACKUP.toString(), pie.getCategory());
             assertEquals("student1", pie.getLearningPlan().getStudentId());
         }
     }
@@ -82,7 +82,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         PlanItemEntity pie = planItemDao.find(id);
         assertNotNull(pie);
         assertEquals(id, pie.getId());
-        assertEquals(AcademicPlanServiceConstants.ItemCategory.WISHLIST, pie.getCategory());
+        assertEquals(AcademicPlanServiceConstants.ItemCategory.WISHLIST.toString(), pie.getCategory());
         assertEquals("lp1", pie.getLearningPlan().getId());
     }
 
