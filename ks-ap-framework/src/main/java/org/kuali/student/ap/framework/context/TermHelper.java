@@ -191,4 +191,12 @@ public interface TermHelper {
     public String findTermIdByNameAndContainingDates
             (Date termBeginDate, Date termEndDate, String termName);
 
+    /**
+     * Gets the list of Terms to use in the Planner Calendar using a Start Term.
+     *
+     * @param startTerm - Term that the calendar starts around
+     * @return A full List of terms to display in the calendar.
+     */
+    public List<Term> getCalendarTerms(Term startTerm);
+
 }

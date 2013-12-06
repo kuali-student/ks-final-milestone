@@ -416,19 +416,29 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 				}
 			}
 
-			String firstTermId = termIds.first();
-
 			TermHelper termHelper = KsapFrameworkServiceLocator.getTermHelper();
+            List<Term> tempTerms = new ArrayList<Term>();
+            for(String tempId : termIds){
+                tempTerms.add(termHelper.getTerm(tempId));
+            }
+            String firstTermId = termIds.first();
+            Term firstTerm;
+            if(tempTerms.size()>0){
+                Collections.sort(tempTerms, new Comparator<Term>() {
+                    @Override
+                    public int compare(Term o1, Term o2) {
+                        return o1.getStartDate().compareTo(o2.getStartDate());
+                    }
+                });
+                firstTerm = tempTerms.get(0);
+                firstTermId = tempTerms.get(0).getId();
+            }else{
+                firstTerm = termHelper.getTerm(firstTermId);
+            }
 			termHelper.frontLoadForPlanner(firstTermId);
 
-			Term firstTerm = termHelper.getTerm(firstTermId);
-
-			List<Term> planningTerms = termHelper.getPlanningTerms();
-			String focusTermId = planningTerms.get(0).getId();
-
-			for (Term term : planningTerms) {
-				termIds.add(term.getId());
-			}
+			List<Term> calendarTerms = termHelper.getCalendarTerms(firstTerm);
+			String focusTermId = termHelper.getPlanningTerms().get(0).getId();
 
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(firstTerm.getStartDate());
@@ -439,7 +449,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 			}
 
 			for (Term term : termHelper.getTermsByDateRange(cal.getTime(),
-					planningTerms.get(0).getEndDate())) {
+					calendarTerms.get(0).getEndDate())) {
 				termIds.add(term.getId());
 			}
 
@@ -484,7 +494,8 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 
 			List<PlannerTerm> pterms = new ArrayList<PlannerTerm>(
 					termIds.size());
-			for (String termId : termIds) {
+            for(Term t : calendarTerms){
+			    String termId = t.getId();
 				PlannerTerm pterm = new PlannerTerm(termId);
 				pterm.setUniqueId(UUID.randomUUID().toString());
 

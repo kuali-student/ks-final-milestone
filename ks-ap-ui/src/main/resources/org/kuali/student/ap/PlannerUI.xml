@@ -230,6 +230,11 @@
                 <value>@{#line.planning ? 'ks-plan-TermsList-item--open' : 'ks-plan-TermsList-item--closed'}</value>
             </list>
         </property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="focustermindex" value="@{focusTermIndex}" />
+            </map>
+        </property>
         <property name="layoutManager.lineGroupPrototype.style"
                   value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
                   margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;" />

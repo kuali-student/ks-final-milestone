@@ -28,7 +28,7 @@ function ksapInitializePlannerItems(pageSize) {
 		if (readUrlHash('planView')) {
 			iStart = parseFloat(readUrlHash('planView'));
 		} else if (detailList.length > 0) {
-			iStart = jQuery("#planner_courses_detail_page").data("focustermindex");
+			iStart = jQuery("#planner_courses_detail_list").data("focustermindex");
 		}
 
 		detailList.jCarouselLite({
