@@ -75,6 +75,11 @@
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
+    <bean id="PlanItemInfo.category" parent="PlanItemInfo.category-parent"/>
+    <bean id="PlanItemInfo.category-parent" abstract="true" parent="PlanItemInfo.category-generated">
+        <!-- Overrides here -->
+    </bean>
+
 	<bean id="PlanItemInfo.typeKey" parent="PlanItemInfo.typeKey-parent"/>
 	<bean id="PlanItemInfo.typeKey-parent" abstract="true" parent="PlanItemInfo.typeKey-generated">
     <!-- Overrides here -->

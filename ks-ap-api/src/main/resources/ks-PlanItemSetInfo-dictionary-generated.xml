@@ -134,7 +134,7 @@ True if student is interested in all of the items in the set
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="PlanItemSetInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+    <bean id="PlanItemSetInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 

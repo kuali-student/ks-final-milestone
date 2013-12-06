@@ -3,6 +3,7 @@ package org.kuali.student.ap.academicplan.infc;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
@@ -49,5 +50,11 @@ public interface PlanItem extends HasId, TypeStateEntity {
     * @name The number of credits
     */
     public BigDecimal getCredit();
+
+    /**
+     * Category of item:  BOOKMARKED, BACKUP, PLANNED, CART,...
+     * @return
+     */
+    public AcademicPlanServiceConstants.ItemCategory getCategory();
 
 }
