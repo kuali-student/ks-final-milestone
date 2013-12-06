@@ -13,7 +13,6 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.poc.rules.credit.limit.CourseRegistrationTransaction.Action;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -54,13 +53,13 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
         for (RegistrationRequestItemInfo item : request.getRegistrationRequestItems()) {
             // TODO: change these if statemens to a SWITCH statement once we move to java 7
             // Adds
-            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
+            if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_ADD_TYPE_KEY)) {
                 CourseRegistrationTransaction rt = this.createNewCourseRegistrationTransaction(item, skipActivities, contextInfo);
                 list.add(rt);
                 continue;
             }
             // drops
-            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
+            if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_DROP_TYPE_KEY)) {
                 CourseRegistrationTransaction rt = this.findMatchingActiveCourseRegistration(item, contextInfo, list);
                 if (rt == null) {
                     throw new OperationFailedException("Cannot drop non-existent or non-active course registration");
@@ -69,7 +68,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                 continue;
             }
             // just updating data bits 
-            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
+            if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_UPDATE_TYPE_KEY)) {
                 CourseRegistrationTransaction rt = this.findMatchingActiveCourseRegistration(item, contextInfo, list);
                 if (rt == null) {
                     throw new OperationFailedException("Cannot update a non-existent or non-active course registration");
@@ -78,7 +77,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                 continue;
             }
             // swap
-            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
+            if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_SWAP_TYPE_KEY)) {
                 CourseRegistrationTransaction rt1 = this.findMatchingActiveCourseRegistration(item, contextInfo, list);
                 if (rt1 == null) {
                     throw new OperationFailedException("Cannot swap non-existent or non-active course registration");
@@ -103,7 +102,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
     private boolean isJustSwappingSections(CourseRegistrationTransaction rt, RegistrationRequestItemInfo item,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        RegistrationGroupInfo rg = this.getRegGroup(item.getNewRegistrationGroupId(), contextInfo);
+        RegistrationGroupInfo rg = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
         // TODO: decide if this should be comparing format offering ids instead of CO ids?  What if you are just swapping formats?
         if (rg.getCourseOfferingId().equals(rt.getRegistration().getCourseOfferingId())) {
             return true;
@@ -114,10 +113,9 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
     private CourseRegistrationTransaction findMatchingActiveCourseRegistration(RegistrationRequestItemInfo item,
             ContextInfo contextInfo, List<CourseRegistrationTransaction> rts)
             throws OperationFailedException {
-        RegistrationGroupInfo regGroup = this.getRegGroup(item.getNewRegistrationGroupId(), contextInfo);
         for (CourseRegistrationTransaction rt : rts) {
             CourseRegistrationInfo reg = rt.getRegistration();
-            if (!reg.getRegistrationGroupId().equals(regGroup.getId())) {
+            if (!reg.getId().equals(item.getExistingCourseRegistrationId())) {
                 continue;
             }
             if (!isActive(reg)) {
@@ -181,7 +179,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
         } else {
             activityTrans = this.createNewActivityTransactions(item, contextInfo);
         }
-        CourseRegistrationTransaction rt = new CourseRegistrationTransaction(Action.CREATE, reg, activityTrans);
+        CourseRegistrationTransaction rt = new CourseRegistrationTransaction(ActionEnum.CREATE, reg, activityTrans);
         return rt;
     }
 
@@ -189,7 +187,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             ContextInfo contextInfo)
             throws OperationFailedException {
         List<ActivityRegistrationTransaction> list = new ArrayList<ActivityRegistrationTransaction>();
-        RegistrationGroupInfo regGroup = this.getRegGroup(item.getNewRegistrationGroupId(), contextInfo);
+        RegistrationGroupInfo regGroup = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
         for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
             ActivityRegistrationTransaction trans = this.createNewActivityTransaction(item, contextInfo, activityOfferingId);
             list.add(trans);
@@ -202,15 +200,14 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             String activityOfferingId)
             throws OperationFailedException {
         ActivityRegistrationInfo reg = this.createNewActivityRegistration(item, contextInfo, activityOfferingId);
-        ActivityRegistrationTransaction trans = new ActivityRegistrationTransaction(ActivityRegistrationTransaction.Action.CREATE,
-                reg);
+        ActivityRegistrationTransaction trans = new ActivityRegistrationTransaction(ActionEnum.CREATE, reg);
         return trans;
     }
 
     private CourseRegistrationInfo createNewCourseRegistration(RegistrationRequestItemInfo item, ContextInfo contextInfo)
             throws OperationFailedException {
         CourseRegistrationInfo reg = new CourseRegistrationInfo();
-        RegistrationGroupInfo regGroup = this.getRegGroup(item.getNewRegistrationGroupId(), contextInfo);
+        RegistrationGroupInfo regGroup = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
         reg.setStudentId(item.getStudentId());
         reg.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
         reg.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
@@ -247,7 +244,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             ContextInfo contextInfo)
             throws OperationFailedException {
         List<ActivityRegistrationTransaction> activityTrans = this.createExistingActivityTransactions(reg, contextInfo);
-        CourseRegistrationTransaction rt = new CourseRegistrationTransaction(Action.NO_CHANGE, reg, activityTrans);
+        CourseRegistrationTransaction rt = new CourseRegistrationTransaction(ActionEnum.NO_CHANGE, reg, activityTrans);
         return rt;
     }
 
@@ -267,9 +264,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
     private ActivityRegistrationTransaction createExistingActivityTransaction(ActivityRegistrationInfo reg,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        ActivityRegistrationTransaction trans = new ActivityRegistrationTransaction(
-                ActivityRegistrationTransaction.Action.NO_CHANGE,
-                reg);
+        ActivityRegistrationTransaction trans = new ActivityRegistrationTransaction(ActionEnum.NO_CHANGE, reg);
         return trans;
     }
 
@@ -281,7 +276,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             ContextInfo contextInfo)
             throws OperationFailedException {
         this.markCourseRegistrationInfoAsDropped(rt.getRegistration(), item, contextInfo);
-        rt.setAction(Action.UPDATE);
+        rt.setAction(ActionEnum.UPDATE);
         for (ActivityRegistrationTransaction art : rt.getActivityRegistrationTransactions()) {
             this.markActivityRegistrationTransactionAsDropped(art, item, contextInfo);
         }
@@ -310,7 +305,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             RegistrationRequestItemInfo item, ContextInfo contextInfo)
             throws OperationFailedException {
         this.markActivityRegistrationInfoAsDropped(art.getRegistration(), item, contextInfo);
-        art.setAction(ActivityRegistrationTransaction.Action.UPDATE);
+        art.setAction(ActionEnum.UPDATE);
         return;
     }
 
@@ -346,7 +341,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             throws OperationFailedException {
         boolean updated = this.updateRegistrationInfo(rt.getRegistration(), item, contextInfo);
         if (updated) {
-            rt.setAction(Action.UPDATE);
+            rt.setAction(ActionEnum.UPDATE);
         }
         return updated;
     }

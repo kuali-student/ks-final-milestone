@@ -10,26 +10,22 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
  */
 public class ActivityRegistrationTransaction {
 
-    public enum Action {
-
-        NO_CHANGE, CREATE, UPDATE, DELETE
-    };
-    private Action action;
+    private ActionEnum action;
     private ActivityRegistrationInfo registration;
 
     public ActivityRegistrationTransaction() {
     }
 
-    public ActivityRegistrationTransaction(Action action, ActivityRegistrationInfo registration) {
+    public ActivityRegistrationTransaction(ActionEnum action, ActivityRegistrationInfo registration) {
         this.action = action;
         this.registration = registration;
     }
 
-    public Action getAction() {
+    public ActionEnum getAction() {
         return action;
     }
 
-    public void setAction(Action action) {
+    public void setAction(ActionEnum action) {
         this.action = action;
     }
 

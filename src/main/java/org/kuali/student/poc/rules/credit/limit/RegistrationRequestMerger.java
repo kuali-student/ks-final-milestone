@@ -7,9 +7,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 /**
- * This code merges a registration request with a student's already persisted data to create a composite so we can apply rules
- * against it such as credit limit checks and time conflict checks and co-requisite checks.
- *
+ * This defines the methods that need to be implemented to merge a reg request with existing registrations *
  */
 public interface RegistrationRequestMerger {
 

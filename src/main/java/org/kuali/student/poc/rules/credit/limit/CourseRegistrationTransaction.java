@@ -6,35 +6,33 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 
 /**
  * This represents a transaction that needs to be applied to a course registration and it's associated activity registrations.
- * 
+ *
  * This represents the class II view of what happens when you merge a reg request with existing course registrations.
- * 
+ *
  * Later these need to be de-blocked into their associated LPRs.
  */
 public class CourseRegistrationTransaction {
 
-    public enum Action {
-
-        NO_CHANGE, CREATE, UPDATE, DELETE
-    };
-    private Action action;
+    private ActionEnum action;
     private CourseRegistrationInfo registration;
     private List<ActivityRegistrationTransaction> activityRegistrationTransactions;
 
     public CourseRegistrationTransaction() {
     }
 
-    public CourseRegistrationTransaction(Action action, CourseRegistrationInfo registration, List<ActivityRegistrationTransaction> activityTrans) {
+    public CourseRegistrationTransaction(ActionEnum action, 
+            CourseRegistrationInfo registration,
+            List<ActivityRegistrationTransaction> activityTrans) {
         this.action = action;
         this.registration = registration;
         this.activityRegistrationTransactions = activityTrans;
     }
 
-    public Action getAction() {
+    public ActionEnum getAction() {
         return action;
     }
 
-    public void setAction(Action action) {
+    public void setAction(ActionEnum action) {
         this.action = action;
     }
 
@@ -61,5 +59,4 @@ public class CourseRegistrationTransaction {
     public String toString() {
         return "CourseRegistrationTransaction{" + "action=" + action + ", registration=" + registration + ", activityRegistrationTransactions=" + activityRegistrationTransactions + '}';
     }
-
 }
