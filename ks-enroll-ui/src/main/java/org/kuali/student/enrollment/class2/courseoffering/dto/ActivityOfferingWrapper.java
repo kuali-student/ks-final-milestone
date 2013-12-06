@@ -1481,21 +1481,12 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
             } else if (getNonStandardTimeslotCreationMode() == ActivityOfferingWrapper.NonStandardTimeslotCreationMode.NOT_ALLOWED){
                 return false;
             } else if (getNonStandardTimeslotCreationMode() == ActivityOfferingWrapper.NonStandardTimeslotCreationMode.NEEDS_APPROVAL){
-                return isAdHocFlagSet();
+                return aoInfo.getIsApprovedForNonStandardTimeSlots();
             }
         }
 
         return false;
 
-    }
-
-    private boolean isAdHocFlagSet(){
-       for (AttributeInfo attr : aoInfo.getAttributes()){
-           if (StringUtils.equals(attr.getKey(),"kuali.attribute.nonstd.ts.indicator")){
-               return BooleanUtils.toBoolean(attr.getValue());
-           }
-       }
-       return false;
     }
 
     public String getTimeSlotType() {
