@@ -1200,11 +1200,17 @@ div.jGrowl div.WARNING div.jGrowl-message {
   min-width: 50px;
 }
 
+/* Informational message panel */
 .ks-informational-message-for-field {
+  padding: 8px 80px 8px 14px;
+  margin-bottom: 18px;
   display: inline-block;
-  background-color:#C8E4F7;
-  padding:4px;
-  border: 1px solid rgb(9, 172, 248);
+  background-color:@infoBackground;
+  border: 1px solid @infoBorder;
+  color: @infoText;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
 /************************************** END Growl message customization ******************/
 
@@ -1496,6 +1502,13 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
 */
 .ui-autocomplete-input {
   background: transparent;
+}
+
+/* Override the warning message panel */
+.uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning {
+  background-color: @warningBackground;
+  border: 1px solid @warningBorder;
+  color: @warningText;
 }
 
 /*
