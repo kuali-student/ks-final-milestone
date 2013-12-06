@@ -571,6 +571,8 @@ public class CourseOfferingManagementUtil {
 
         getViewHelperService(theForm).loadPreviousAndNextCourseOffering(theForm);
 
+        getViewHelperService(theForm).loadExamOfferingRelations(theForm);
+
         CourseOfferingManagementToolbarUtil.processAoToolbarForUser(theForm.getActivityWrapperList(), theForm);
     }
 
