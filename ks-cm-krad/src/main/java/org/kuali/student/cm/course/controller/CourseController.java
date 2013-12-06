@@ -387,10 +387,10 @@ public class CourseController extends CourseRuleEditorController {
         form.getDocument().getDocumentHeader().setDocumentDescription(maintainable.getProposal().getName());
 
         try {
-            save(form, result, request, response);
             if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
                 handleFirstTimeSave(form);
             }
+            save(form, result, request, response);
         }
         catch (Exception e) {
             error("Unable to save document: %s", e.getMessage());
