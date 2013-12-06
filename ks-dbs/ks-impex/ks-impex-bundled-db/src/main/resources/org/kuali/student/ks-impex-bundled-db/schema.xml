@@ -18216,6 +18216,9 @@
         </index>
     </table>
     <table name="KSPL_LRNG_PLAN_ITEM">
+        <column name="CATEGORY" nullable="false" type="STRING">
+            <size value="15"/>
+        </column>
         <column name="CREATEID" type="STRING">
             <size value="255"/>
         </column>
