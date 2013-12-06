@@ -497,6 +497,30 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
     }
 
     /**
+     * Adds a list of AO ids to the SRS's refObjectIds, but without duplication
+     * @param srs A schedule request set
+     * @param aoIds The ao IDs to add
+     */
+    private void common_safelyAddAoIdsToSRS(ScheduleRequestSetInfo srs, List<String> aoIds) {
+        Set<String> aoIdSet = new HashSet<String>();
+        aoIdSet.addAll(srs.getRefObjectIds()); // Add original IDs from srs
+        aoIdSet.addAll(aoIds); // Then, add additional aoIds, but don't duplicate ids
+        srs.getRefObjectIds().clear();
+        srs.getRefObjectIds().addAll(aoIdSet);
+    }
+
+    /**
+     * Adds a single AO id to the SRS's refObjectIds, but without duplication
+     * @param srs A schedule request set
+     * @param aoId The ao ID to add
+     */
+    private void common_safelyAddOneAoIdToSRS(ScheduleRequestSetInfo srs, String aoId) {
+        List<String> aoIds = new ArrayList<String>();
+        aoIds.add(aoId);
+        common_safelyAddAoIdsToSRS(srs, aoIds);
+    }
+
+    /**
      * The logic for this is somewhat complex.  In rollover, it's possible for a targetSRS to exist (e.g., AO1
      * and AO2 are co-located in source term, and AO1 has been rolled over, but AO2 has not) and the ADLs merely
      * convert to RDLs.  For copy CO with different source/target terms, targetSRS should be null since colocation
@@ -525,7 +549,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         // Schedules are converted to requests
         if (operation.equals(COPY_OPERATION_ROLLOVER) && targetSRS != null) {
             // If it exists, then add the target AO to the list (thus, must be co-located)
-            targetSRS.getRefObjectIds().add(targetAo.getId());
+            common_safelyAddOneAoIdToSRS(targetSRS, targetAo.getId());
             resultTargetSRS = schedulingService.updateScheduleRequestSet(targetSRS.getId(), targetSRS, context);
             return resultTargetSRS; // Exit if it's rollover so we don't bother with rest of code
         } else if (targetSRS == null || sourceAndTargetHaveSameTerm || operation.equals(COPY_OPERATION_COPY_AO)) {
@@ -534,11 +558,13 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         } else {
             resultTargetSRS = targetSRS;
         }
+        // WARN! -----------------------------------------------------------
+        // WARN! .....At this point, use resultTargetSRS, and not targetSRS (which is out-of-date)
         if (isColocated && sourceAndTargetHaveSameTerm) {
             // This is the co-located, copy CO or copy AO with ADL case
             // Add the AOs from the sourceSRS to target SRS
-            targetSRS.getRefObjectIds().addAll(sourceSRS.getRefObjectIds());
-            resultTargetSRS = schedulingService.updateScheduleRequestSet(targetSRS.getId(), targetSRS, context);
+            common_safelyAddAoIdsToSRS(resultTargetSRS, sourceSRS.getRefObjectIds());
+            resultTargetSRS = schedulingService.updateScheduleRequestSet(resultTargetSRS.getId(), resultTargetSRS, context);
             // Delete the source SRS (this cascades the deletes)
             schedulingService.deleteScheduleRequestSet(sourceSRS.getId(), context);
             // Re-schedule for every AO in the colo (this might happen repeatedly, so it could be inefficient)
@@ -584,7 +610,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         //       duplicates schedule IDs --cclin
         for (ScheduleRequestInfo request: sourceRequests) {
             if (request.getScheduleId() == null) {
-                throw new OperationFailedException("_RCO_rolloverSrcSchedsToTargetSchedReqs: should have non null schedules");
+                throw new OperationFailedException("common_createTargetSRSFromADLs: should have non null schedules");
             }
             scheduleIds.add(request.getScheduleId());
         }
@@ -675,6 +701,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             // decide on the AO code
             targetAo.setActivityCode(null);
         }
+
         // Customize other aspects such overriding FO id and terms
         if (targetFo != null) {
             targetAo.setFormatOfferingId(targetFo.getId());
@@ -686,7 +713,6 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         // No need to set term code as createActivityOffering already does that
         // target should have no ADLs
         targetAo.setScheduleIds(Collections.<String>emptyList());
-
         if (optionKeys.contains(CourseOfferingSetServiceConstants.NO_INSTRUCTORS_OPTION_KEY)) {
             targetAo.getInstructors().clear();
         }
