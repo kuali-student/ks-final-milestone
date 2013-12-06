@@ -136,8 +136,6 @@
 
         <property name="page.items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="Crosslisted as: @{#dp.crossListedCourseCodes}" p:render="@{#dp.crossListedCourseCodes != null and #dp.crossListedCourseCodes != ''}" p:style="font-weight:bold; margin-bottom:8px;"/>
-
                 <ref bean="ActivityOfferingEdit-section1"/>
                 <ref bean="ActivityOfferingEdit-section2"/>
                 <ref bean="ActivityOfferingEdit-CoLocation"/>
