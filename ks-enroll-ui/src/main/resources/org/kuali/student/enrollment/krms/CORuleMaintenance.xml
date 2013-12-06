@@ -282,7 +282,7 @@ limitations under the License.
                 </property>
                 <property name="subCollectionFieldGroupPrototype">
                     <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
-                          p:cssClasses="uif-subCollection"/>
+                          p:cssClasses="uif-subCollection" p:style="margin-bottom: 0px;"/>
                 </property>
             </bean>
         </property>
@@ -319,29 +319,11 @@ limitations under the License.
     <bean id="KSCO-ListItems-DataGroup" parent="KSCO-ListItems-DataGroup-parent">
         <property name="subCollections">
             <list merge="true">
-                <bean parent="KSCO-ListItems-DataGroup-parent">
+                <bean parent="KSCO-ListItems-DataGroup-parent" p:render="@{#line.cluGroups ne null}">
                     <property name="propertyName" value="cluGroups"/>
                 </bean>
             </list>
         </property>
-    </bean>
-
-    <bean id="KS-SimpleTableCollectionLayout" parent="Uif-TableCollectionLayout"
-          class="org.kuali.student.core.krms.SimpleTableLayoutManager">
-        <property name="cssClasses">
-            <list>
-                <value>uif-simpleTableCollectionLayout</value>
-            </list>
-        </property>
-        <property name="applyAlternatingRowStyles" value="false"/>
-        <property name="renderAlternatingHeaderColumns" value="false"/>
-        <property name="generateAutoSequence" value="true"/>
-        <property name="richTable">
-            <bean parent="KS-Uif-PagedRichTable">
-                <property name="render" value="false"/>
-            </bean>
-        </property>
-        <property name="renderSequenceField" value="false"/>
     </bean>
 
     <bean id="KSCO-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;"
