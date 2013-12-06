@@ -374,6 +374,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
             //Create or update the agenda.
             if (agenda.getId() == null) {
+
+                //Check if someone else has not created an agenda while this one was created.
+                if(this.getRuleManagementService().getAgendaByNameAndContextId(agenda.getName(), agenda.getContextId())!=null){
+                    throw new KRMSOptimisticLockingException();
+                }
+
                 AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
                 AgendaDefinition agendaDfn = this.getRuleManagementService().createAgenda(agendaBldr.build());
 
@@ -495,6 +501,13 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             rule.setNamespace(namespace);
         }
         rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":1");
+
+        //Check if someone else has not created a rule while this one was created.
+        if(rule.getId()==null){
+            if(this.getRuleManagementService().getRuleByNameAndNamespace(rule.getName(), rule.getNamespace())!=null){
+                throw new KRMSOptimisticLockingException();
+            }
+        }
 
         return RuleDefinition.Builder.create(rule);
     }
