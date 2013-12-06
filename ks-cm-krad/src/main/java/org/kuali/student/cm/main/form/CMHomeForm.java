@@ -28,11 +28,8 @@ import org.kuali.student.lum.common.client.helpers.RecentDocInfo;
  */
 public class CMHomeForm extends UifFormBase {
     
-    private List<RecentDocInfo> recentlyViewedDocs;
-    
     public List<RecentDocInfo> getRecentlyViewedDocs() {
-        recentlyViewedDocs = RecentlyViewedDocsUtil.getRecentDocs();
-        return recentlyViewedDocs;
+        return RecentlyViewedDocsUtil.getRecentDocs();
     }
 
 }

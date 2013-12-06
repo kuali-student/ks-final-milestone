@@ -162,7 +162,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message">
+                <bean parent="Uif-Message" p:render="@{#emptyList(recentlyViewedDocs)}">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>cm-home-view-instruction</value>
@@ -171,27 +171,16 @@
                     <property name="messageText"
                               value="You have no recently viewed items."  />
                 </bean>
-            </list>
-        </property>
-        <property name="propertyReplacers">
-            <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items" p:condition="@{!#empty(recentlyViewedDocs)}">
-                    <property name="replacement">
+                <bean parent="Uif-ListCollectionSection">
+                    <property name="collectionObjectClass"
+                      value="org.kuali.student.lum.common.client.helpers.RecentDocInfo" />
+                    <property name="propertyName" value="recentlyViewedDocs" />
+                    <property name="items">
                         <list>
-                            <bean parent="Uif-ListCollectionSection">
-                                <property name="collectionObjectClass"
-                                  value="org.kuali.student.lum.common.client.helpers.RecentDocInfo" />
-                                <property name="propertyName" value="recentlyViewedDocs" />
-                                <property name="items">
-                                    <list>
-                                        <bean parent="Uif-LinkField" p:linkText="@{#lp.name}" p:href="@{#lp.location}" />
-                                    </list>
-                                </property>
-                            </bean>
-    
+                            <bean parent="Uif-LinkField" p:linkText="@{#lp.name}" p:href="@{#lp.location}" />
                         </list>
                     </property>
-                </bean>    
+                </bean>
             </list>
         </property>
     </bean>

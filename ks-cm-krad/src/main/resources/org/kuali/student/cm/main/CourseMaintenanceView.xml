@@ -25,7 +25,7 @@
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + '(Proposal)': 'New Course (Proposal)'}" />
+        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
@@ -113,7 +113,7 @@
         <property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
-        <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
+        <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
         <property name="lockingKeys">
             <list>
                 <value>id</value>
@@ -160,7 +160,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-HeaderTwo">
-                                        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + '(Proposal)': 'New Course (Proposal)'}" />
+                                        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>ks-header</value>

@@ -15,7 +15,10 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import static org.kuali.student.logging.FormattedLogger.*;
+import static org.kuali.student.logging.FormattedLogger.debug;
+import static org.kuali.student.logging.FormattedLogger.error;
+import static org.kuali.student.logging.FormattedLogger.info;
+import static org.kuali.student.logging.FormattedLogger.warn;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,9 +30,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.codec.binary.Base64;
-
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -37,6 +40,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
@@ -44,7 +48,6 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -58,11 +61,8 @@ import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
-import org.kuali.student.cm.main.form.CMHomeForm;
-import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
-import org.kuali.student.lum.common.client.helpers.RecentDocInfo;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
@@ -79,13 +79,13 @@ import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.document.service.DocumentService;
-import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
-import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
@@ -170,24 +170,11 @@ public class CourseController extends CourseRuleEditorController {
 
         // Create the document in the super method
         final ModelAndView retval = super.docHandler(maintenanceDocForm, result, request, response);
-        maintenanceDocForm.getDocument().getDocumentHeader().setDocumentDescription("New Course Proposal");
-        
+                
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
         
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
         maintainable.setUserId(ContextUtils.getContextInfo().getPrincipalId());
-
-        // After creating the document, modify the state
-        maintainable.getCourse().setStateKey(DtoConstants.STATE_DRAFT);
-        maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
-        maintainable.getCourse().setEffectiveDate(new java.util.Date());
-
-        maintainable.getCourse().setTypeKey("kuali.lu.typeKey.CreditCourse");
-
-        // Initialize Curriculum Oversight if it hasn't already been.
-        if (maintainable.getCourse().getUnitsContentOwner() == null) {
-            maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
-        }
         
         // Initialize Course Requisites
         final CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
@@ -197,7 +184,32 @@ public class CourseController extends CourseRuleEditorController {
         ruleWrapper.setRefObjectId(maintainable.getCourse().getId());
 
         ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
-                
+        
+        if (KewApiConstants.INITIATE_COMMAND.equals(maintenanceDocForm.getCommand())) {
+            
+            // After creating the document, modify the state
+            maintainable.getCourse().setStateKey(DtoConstants.STATE_DRAFT);
+            maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+            maintainable.getCourse().setEffectiveDate(new java.util.Date());
+
+            maintainable.getCourse().setTypeKey("kuali.lu.typeKey.CreditCourse");
+
+            // Initialize Curriculum Oversight if it hasn't already been.
+            if (maintainable.getCourse().getUnitsContentOwner() == null) {
+                maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
+            }
+            
+        } else if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, maintenanceDocForm.getCommand()) && maintenanceDocForm.getDocId() != null) {
+            ProposalInfo proposal = null;
+            try {            
+                proposal = getProposalService().getProposalByWorkflowId(maintenanceDocForm.getDocument().getDocumentHeader().getDocumentNumber(), ContextUtils.getContextInfo());
+                maintainable.setProposal(proposal);
+            }
+            catch (Exception e) {
+                warn("Unable to retrieve the proposal: %s", e.getMessage());
+            }
+        }
+        
         return retval;
     }
         
@@ -384,7 +396,7 @@ public class CourseController extends CourseRuleEditorController {
             maintainable.getCourse().getUnitsContentOwner().add(wrapper.getValue());
         }
 
-        form.getDocument().getDocumentHeader().setDocumentDescription(maintainable.getProposal().getName());
+        form.getDocument().getDocumentHeader().setDocumentDescription(maintainable.getProposal().getName() + " (Proposal)");
 
         try {
             if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
@@ -397,7 +409,7 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         
-        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl());
+        RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId=" + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
         
         return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
     }
@@ -430,10 +442,6 @@ public class CourseController extends CourseRuleEditorController {
         }
         catch (Exception e) {
             warn("Unable to create a proposal: %s", e.getMessage());
-            /*
-              if (logger().isDebugEnabled()) {
-              e.printStackTrace();
-              }*/
         }
     }
 
