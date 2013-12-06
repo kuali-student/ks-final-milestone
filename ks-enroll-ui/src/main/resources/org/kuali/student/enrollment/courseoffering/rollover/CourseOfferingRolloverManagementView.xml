@@ -59,7 +59,7 @@
                                   p:style="padding-bottom:25px; font-size:125%"/>
                             <bean parent="Uif-Message" p:messageText="Releasing this is a permanent action and term will:&lt;br&gt;-  Set this term's Set of Courses (SOC) to Open&lt;br&gt;-  Grant departmental administrators access to edit the Set of Courses"/>
                             <bean parent="Uif-Message" p:messageText="Already released to departments" p:style="font-style:italic" p:render="@{socReleasedToDepts}"/>
-                            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-top:25px;">
+                            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-top:25px; float:right;">
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Confirm Release Courses" p:id="releaseToDeptsButton"
