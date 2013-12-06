@@ -55,10 +55,8 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
         <!-- Move the add button to the right of the fields -->
-        <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
+        <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left; margin-bottom:30px;"/>
         <property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:2em;"/>
-        <property name="layoutManager.addLineGroup.id" value="term_section"/>
-
         <property name="layoutManager.lineGroupPrototype">
             <bean id="term_section" parent="Uif-CollectionVerticalBoxItem">
 
