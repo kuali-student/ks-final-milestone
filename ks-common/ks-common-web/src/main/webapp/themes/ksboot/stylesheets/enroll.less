@@ -71,6 +71,10 @@ li.uif-errorMessageItem:before
     padding-right: 2px;
 }
 
+/*
+.uif-validationImage {
+    vertical-align: top;
+}
 /* Attributes of the Title */
 .uif-pageValidationHeader {
     font-size: 1.1em;
@@ -1385,10 +1389,19 @@ input[type="color"],
   font-size: 1em;
 }
 
-/* override the tooltip content text size for all-black theme to base font size */
+/*
+  override the tooltip content text size for all-black theme to base font size
+*/
 .jquerybubblepopup-all-black  .jquerybubblepopup-innerHtml {
     font-size: 0.9em;
     font-family: @baseFontFamily;
+}
+
+/*
+  override the background color of KRAD error tooltip
+*/
+.uif-clientErrorDiv {
+  background-color: #F2DEDE;
 }
 
 /*
