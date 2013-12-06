@@ -337,7 +337,6 @@
     <!-- Opens an inquiry lightbox with a "Loading ..." pacifier message -->
     <bean id="KS-Uif-InquiryLink" parent="KS-Uif-InquiryLink-parentBean"/>
     <bean id="KS-Uif-InquiryLink-parentBean" abstract="true" parent="KS-Uif-DataField-Simple" scope="prototype">
-        <property name="onClickScript" value="showLoading();"/>
         <property name="inquiry">
             <!-- Children need to provide dataObjectClassName and inquiryParameters values -->
             <bean parent="KS-Uif-Inquiry"/>
