@@ -17,6 +17,28 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public class OrgHelperMockTest implements OrgHelper {
+
+    private Map<String,String> mockSubjectAreaMap;
+    private Map<String,String> mockTrimSubjectAreaMap;
+
+
+    private Map<String,String> getSubjectAreaMap(){
+        if(mockSubjectAreaMap==null){
+            mockSubjectAreaMap = new HashMap<String,String>();
+            mockSubjectAreaMap.put("LATN","Latin");
+            mockSubjectAreaMap.put("MATH","Mathematics");
+        }
+        return mockSubjectAreaMap;
+    }
+    private Map<String,String> getTrimSubjectAreaMap(){
+        if(mockTrimSubjectAreaMap==null){
+            mockTrimSubjectAreaMap = new HashMap<String,String>();
+            mockTrimSubjectAreaMap.put("LATN","Latin");
+            mockTrimSubjectAreaMap.put("MATH","Mathematics");
+        }
+        return mockTrimSubjectAreaMap;
+    }
+
     @Override
     public HashMap<String, List<OrgInfo>> getOrgTypeCache() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
@@ -47,12 +69,12 @@ public class OrgHelperMockTest implements OrgHelper {
      */
     @Override
     public Map<String, String> getSubjectAreas() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return getSubjectAreaMap();
     }
 
     @Override
     public Map<String, String> getTrimmedSubjectAreas() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return getTrimSubjectAreaMap();  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     /**
