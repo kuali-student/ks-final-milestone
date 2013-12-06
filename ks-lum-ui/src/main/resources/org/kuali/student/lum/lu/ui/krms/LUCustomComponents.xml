@@ -357,13 +357,13 @@ limitations under the License.
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveFrom" p:label="Effective From">
                     <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl" />
+                        <bean parent="KS-Uif-Default-DateControl" />
                     </property>
                 </bean>
 
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveTo" p:label="Effective To">
                     <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl" />
+                        <bean parent="KS-Uif-Default-DateControl" />
                     </property>
                 </bean>
 
