@@ -407,21 +407,12 @@ function clearFeaturesSelected(){
 }
 
 function validateSeatsForSP(jqObject) {
-    var currentId = jqObject.attr('id');
-        if (currentId.indexOf("_control") == -1) {
-            currentId = currentId + "_control";
-        }
-        var element = jQuery('#' + currentId);
-        var numValue = element.val();
-        var numericExpression = /^[0-9]+$/;
-        if(!numValue.match(numericExpression) && numValue != '') {
-            if (currentId == 'maximumEnrollment') {
-                alert("Maximum enrollment must be a number!");
-            } else {
-                alert("Number of seats must be a number!");
-            }
-            element.val('');
-        }
+
+    var valid = validateFieldValue(jqObject);
+
+    if (!valid){
+        return;
+    }
 
     var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0);
     var ul = jQuery('#seatpool_validation_errorMessageUl');
