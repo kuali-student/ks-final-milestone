@@ -225,8 +225,7 @@
                                     <bean parent="KS-BasicDatePatternConstraint" />
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-KS-Default-DateControl"
-                                          p:watermarkText="mm/dd/yyyy"/>
+                                    <bean parent="KS-Uif-Default-DateControl"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField"
@@ -240,8 +239,7 @@
                                     <bean parent="KS-BasicDatePatternConstraint" />
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-KS-Default-DateControl"
-                                          p:watermarkText="mm/dd/yyyy"/>
+                                    <bean parent="KS-Uif-Default-DateControl"/>
                                 </property>
                             </bean>
                         </list>

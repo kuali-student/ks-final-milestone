@@ -283,7 +283,7 @@ limitations under the License.
                                   p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarStartDate')">
                                 <property name="control">
-                                    <bean parent="KS-Uif-KS-Default-DateControl"/>
+                                    <bean parent="KS-Uif-Default-DateControl"/>
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="KS-BasicDatePatternConstraint"/>
@@ -294,11 +294,7 @@ limitations under the License.
                                   p:required="true"
                                   p:onChangeScript="displayCalendarInformation(jQuery(this),'academicCalendarEndDate')">
                                 <property name="control">
-                                    <bean parent="Uif-KS-Default-DateControl">
-                                        <property name="toolTip">
-                                            <null/>
-                                        </property>
-                                    </bean>
+                                    <bean parent="KS-Uif-Default-DateControl"/>
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="KS-BasicDatePatternConstraint"/>
@@ -369,7 +365,7 @@ limitations under the License.
                 <bean parent="KS-Uif-InputField" p:propertyName="startDate" p:label="Start Date"
                       p:style="font-weight:normal;" p:readOnlyDisplayReplacementPropertyName="startDateUI">
                     <property name="control">
-                        <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                        <bean parent="KS-Uif-Default-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>
@@ -397,7 +393,7 @@ limitations under the License.
                 <bean parent="KS-Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
                       p:label="End Date">
                     <property name="control">
-                        <bean parent="KS-Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                        <bean parent="KS-Uif-Default-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint"/>

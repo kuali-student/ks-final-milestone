@@ -125,7 +125,7 @@
 						<bean parent="KS-BasicDatePatternConstraint" />
 					</property>
 					<property name="control">
-						<bean parent="Uif-KS-Default-DateControl" />
+						<bean parent="KS-Uif-Default-DateControl" />
 					</property>
 				</bean>
                 <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:required="true"
@@ -135,7 +135,7 @@
 						<bean parent="KS-BasicDatePatternConstraint" />
 					</property>
 					<property name="control">
-						<bean parent="Uif-KS-Default-DateControl" />
+						<bean parent="KS-Uif-Default-DateControl" />
 					</property>
 				</bean>
                 <!-- NOTE:
@@ -182,7 +182,7 @@
                 <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start"
                       p:readOnlyDisplayReplacementPropertyName="startDateUI" p:id="startDate">
                     <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy" />
+                        <bean parent="KS-Uif-Default-DateControl" />
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint" />
@@ -210,7 +210,7 @@
                 <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End"
                       p:readOnlyDisplayReplacementPropertyName="endDateUI" p:id="endDate">
                     <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl" p:size="9" p:watermarkText="mm/dd/yyyy"/>
+                        <bean parent="KS-Uif-Default-DateControl"/>
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="KS-BasicDatePatternConstraint" />
