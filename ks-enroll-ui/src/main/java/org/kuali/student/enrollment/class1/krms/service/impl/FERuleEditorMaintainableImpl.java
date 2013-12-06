@@ -438,6 +438,13 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
             rule.setNamespace(namespace);
         }
 
+        //Check if someone else has not created a rule while this one was created.
+        if(rule.getId()==null){
+            if(this.getRuleManagementService().getRuleByNameAndNamespace(rule.getName(), rule.getNamespace())!=null){
+                throw new KRMSOptimisticLockingException();
+            }
+        }
+
         //Setup the actions
         finActions(rule);
 
