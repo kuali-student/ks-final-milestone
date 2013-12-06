@@ -517,7 +517,7 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper"/>
         <property name="headerText" value="Final Exam Period"/>
         <property name="disclosure.render" value="false"/>
-        <property name="style" value="margin-left:10px;"/>
+        <property name="style" value="margin-left:10px; margin-bottom:40px;"/>
         <property name="layoutManager.style" value="width:60%;"/>
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="addBlankLineAction.actionLabel" value="Add Final Exam Period"/>
