@@ -28,6 +28,10 @@ import java.util.Date;
  *
  * The applicability of this value is restricted by specifying an ATP type key, Population Id, Rule Id, and onDate
  * This allows multiple values to be tied to a single parameter and a subset of these values to be tied to a combination of the limiting criteria given above.
+ *
+ * A value may store a single type of value that is determined using the values typeKey.  Following from this, for example,
+ * it is not valid to attempt to set a boolean and date on a single value.
+ *
  */
 public interface Value extends IdNamelessEntity {
 
