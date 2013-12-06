@@ -280,7 +280,7 @@ limitations under the License.
         </property-->
     </bean>
 
-    <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection"
+    <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection" p:style="background-color: transparent"
           p:progressiveRender="#np.proposition.multipleCourseType eq '3'">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
@@ -313,7 +313,7 @@ limitations under the License.
     </bean>
     <bean id="KS-CourseRange-TypeField" parent="KS-CourseRange-TypeField-parent"/>
 
-    <bean id="KS-CourseNumber-RangeSection" parent="Uif-HorizontalBoxSection"
+    <bean id="KS-CourseNumber-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '1'">
         <property name="items">
             <list>
@@ -334,7 +334,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-LearningObjective-RangeSection" parent="Uif-HorizontalBoxSection"
+    <bean id="KS-LearningObjective-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '2'">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
@@ -351,7 +351,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-EffectiveDate-RangeSection" parent="Uif-HorizontalBoxSection"
+    <bean id="KS-EffectiveDate-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '3'">
         <property name="items">
             <list>
