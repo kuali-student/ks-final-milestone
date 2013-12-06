@@ -48,12 +48,14 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_HOLD_UNTIL_LIST_OPTION_KEY = "kuali.lpr.option.hold.until.list";
 
     // lpr transaction item types (operations)
-    public static final String LPRTRANS_ITEM_ADD_TYPE_KEY = "kuali.lpr.trans.item.type.add";
-    public static final String LPRTRANS_ITEM_DROP_TYPE_KEY = "kuali.lpr.trans.item.type.drop";
-    public static final String LPRTRANS_ITEM_SWAP_TYPE_KEY = "kuali.lpr.trans.item.type.swap";
+    public static final String LPRTRANS_ITEM_CREATE_TYPE_KEY = "kuali.lpr.trans.item.type.create";
     public static final String LPRTRANS_ITEM_UPDATE_TYPE_KEY = "kuali.lpr.trans.item.type.update";
-    public static final String LPRTRANS_ITEM_ADD_TO_WAITLIST_TYPE_KEY = "kuali.lpr.trans.item.type.add.to.waitlist";
-    public static final String LPRTRANS_ITEM_ADD_TO_HOLD_UNTIL_LIST_TYPE_KEY = "kuali.lpr.trans.item.type.add.to.hold.until.list";
+    public static final String LPRTRANS_ITEM_DELETE_TYPE_KEY = "kuali.lpr.trans.item.type.delete";
+    public static final String LPRTRANS_ITEM_NO_CHANGE_TYPE_KEY = "kuali.lpr.trans.item.type.no.change";
+    public static final String[] LPRTRANS_ITEM_TYPE_KEYS = {LPRTRANS_ITEM_CREATE_TYPE_KEY, 
+        LPRTRANS_ITEM_UPDATE_TYPE_KEY, 
+        LPRTRANS_ITEM_DELETE_TYPE_KEY,
+        LPRTRANS_ITEM_NO_CHANGE_TYPE_KEY};
 
     // transaction states
     public static final String LPRTRANS_NEW_STATE_KEY = "kuali.lpr.trans.item.state.new";
@@ -65,8 +67,6 @@ public class LprServiceConstants {
     public static final String LPRTRANS_ITEM_NEW_STATE_KEY = "kuali.lpr.trans.item.state.new";
     public static final String LPRTRANS_ITEM_SUCCEEDED_STATE_KEY = "kuali.lpr.trans.item.state.succeeded";
     public static final String LPRTRANS_ITEM_FAILED_STATE_KEY = "kuali.lpr.trans.item.state.failed";
-    public static final String[] LPRTRANS_ITEM_TYPE_KEYS = {LPRTRANS_ITEM_UPDATE_TYPE_KEY, LPRTRANS_ITEM_ADD_TYPE_KEY,
-        LPRTRANS_ITEM_DROP_TYPE_KEY};
     public static final String[] COURSE_INSTRUCTOR_TYPE_KEYS = {INSTRUCTOR_MAIN_TYPE_KEY,
         INSTRUCTOR_ASSISTANT_TYPE_KEY, INSTRUCTOR_SUPPORT_TYPE_KEY};
     public static final String[] COURSE_STUDENT_TYPE_KEYS = {REGISTRANT_TYPE_KEY};

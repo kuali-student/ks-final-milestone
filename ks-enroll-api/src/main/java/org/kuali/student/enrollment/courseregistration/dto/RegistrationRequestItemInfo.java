@@ -32,9 +32,14 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationRequestItemInfo", propOrder = {
                 "id", "name", "descr", "typeKey", "stateKey",
-                "registrationRequestId", "studentId", 
-                "newRegistrationGroupId", "existingRegistrationGroupId", 
-                "credits", "gradingOptionId", "okToWaitlist", "okToHoldUntilList", 
+                "registrationRequestId", 
+                "studentId", 
+                "registrationGroupId",
+                "existingCourseRegistrationId", 
+                "credits", 
+                "gradingOptionId", 
+                "okToWaitlist", 
+                "okToHoldUntilList", 
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestItemInfo 
@@ -50,10 +55,10 @@ public class RegistrationRequestItemInfo
     private String studentId;
 
     @XmlElement
-    private String newRegistrationGroupId;
+    private String registrationGroupId;
 
     @XmlElement
-    private String existingRegistrationGroupId;
+    private String existingCourseRegistrationId;
 
     @XmlElement
     private String credits;
@@ -89,8 +94,8 @@ public class RegistrationRequestItemInfo
         if (registrationRequestItem != null) {
             this.registrationRequestId = registrationRequestItem.getRegistrationRequestId();
             this.studentId = registrationRequestItem.getStudentId();
-            this.newRegistrationGroupId = registrationRequestItem.getNewRegistrationGroupId();
-            this.existingRegistrationGroupId = registrationRequestItem.getExistingRegistrationGroupId();
+            this.registrationGroupId = registrationRequestItem.getRegistrationGroupId();
+            this.existingCourseRegistrationId = registrationRequestItem.getExistingCourseRegistrationId();
             this.credits = registrationRequestItem.getCredits();
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
@@ -117,21 +122,21 @@ public class RegistrationRequestItemInfo
     }
 
     @Override
-    public String getNewRegistrationGroupId() {
-        return newRegistrationGroupId;
+    public String getRegistrationGroupId() {
+        return registrationGroupId;
     }
 
-    public void setNewRegistrationGroupId(String newRegistrationGroupId) {
-        this.newRegistrationGroupId = newRegistrationGroupId;
+    public void setRegistrationGroupId(String registrationGroupId) {
+        this.registrationGroupId = registrationGroupId;
     }
 
     @Override
-    public String getExistingRegistrationGroupId() {
-        return existingRegistrationGroupId;
+    public String getExistingCourseRegistrationId() {
+        return existingCourseRegistrationId;
     }
 
-    public void setExistingRegistrationGroupId(String existingRegistrationGroupId) {
-        this.existingRegistrationGroupId = existingRegistrationGroupId;
+    public void setExistingCourseRegistrationId(String existingCourseRegistrationId) {
+        this.existingCourseRegistrationId = existingCourseRegistrationId;
     }
 
     @Override

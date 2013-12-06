@@ -20,8 +20,8 @@ import org.w3c.dom.Element;
 @XmlType(name = "LprTransactionItemInfo", propOrder = {"id",
     "personId",
     "transactionId",
-    "newLuiId",
-    "existingLuiId",
+    "luiId",
+    "existingLprId",
     "resultValuesGroupKeys",
     "requestOptions",
     "lprTransactionItemResult",
@@ -40,9 +40,9 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
     @XmlElement
     private String transactionId;
     @XmlElement
-    private String newLuiId;
+    private String luiId;
     @XmlElement
-    private String existingLuiId;
+    private String existingLprId;
     @XmlElement
     private List<String> resultValuesGroupKeys;
     @XmlElement
@@ -62,8 +62,8 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
         if (null != lprTransactionItem) {
             this.personId = lprTransactionItem.getPersonId();
             this.transactionId = lprTransactionItem.getTransactionId();
-            this.newLuiId = lprTransactionItem.getNewLuiId();
-            this.existingLuiId = lprTransactionItem.getExistingLuiId();
+            this.luiId = lprTransactionItem.getLuiId();
+            this.existingLprId = lprTransactionItem.getExistingLprId();
             
             this.requestOptions = new ArrayList<LprTransactionItemRequestOptionInfo>();
             if (null != lprTransactionItem.getRequestOptions()) {
@@ -107,22 +107,22 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
         this.requestOptions = requestOptions;
     }
 
-    public void setNewLuiId(String newLuiId) {
-        this.newLuiId = newLuiId;
+    public void setLuiId(String luiId) {
+        this.luiId = luiId;
     }
 
-    public void setExistingLuiId(String existingLuiId) {
-        this.existingLuiId = existingLuiId;
-    }
-
-    @Override
-    public String getNewLuiId() {
-        return newLuiId;
+    public void setExistingLprId(String existingLprId) {
+        this.existingLprId = existingLprId;
     }
 
     @Override
-    public String getExistingLuiId() {
-        return existingLuiId;
+    public String getLuiId() {
+        return luiId;
+    }
+
+    @Override
+    public String getExistingLprId() {
+        return existingLprId;
     }
 
     @Override
@@ -172,10 +172,10 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
 		builder.append(personId);
 		builder.append(", transactionId=");
 		builder.append(transactionId);
-		builder.append(", newLuiId=");
-		builder.append(newLuiId);
-		builder.append(", existingLuiId=");
-		builder.append(existingLuiId);
+		builder.append(", luiId=");
+		builder.append(luiId);
+		builder.append(", existingLprId=");
+		builder.append(existingLprId);
 		builder.append("]");
 		return builder.toString();
 	}

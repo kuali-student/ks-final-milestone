@@ -61,14 +61,14 @@ public interface LprTransactionItem extends IdEntity {
      * 
      * @name New LUI Id
      */
-    public String getNewLuiId();
+    public String getLuiId();
 
     /**
-     * The existing LUI id for an existing relation remove or change requests.
+     * The existing Lpr id for an existing relation for delete or updaterequests.
      * 
-     * @Existing LUI Id
+     * @Existing LPR Id
      */
-    public String getExistingLuiId();
+    public String getExistingLprId();
 
     /**
      * Specify the various request (or registration ) options for creating this

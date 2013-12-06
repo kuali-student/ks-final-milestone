@@ -66,25 +66,27 @@ public interface RegistrationRequestItem
 
     /**
      * The RegistrationGroup to which the student will be registered
-     * upon a successful submission of this item. This is populated
-     * for ADD, DROP, UPDATE and SWAP types of
+     * upon a successful submission of this item. 
+     * 
+     * This is populated for ADD, DROP, UPDATE and SWAP types of
      * RegistrationRequestItems.
      * 
      * @name Registration Group Id
      * @impl LprTransactionItem.newLuiId
+     * @required
      */
-    public String getNewRegistrationGroupId();
+    public String getRegistrationGroupId();
 
     /**
-     * In the case of a DROP or SWAP, the "existing" registration
-     * group Id indicates the current RegistrationGroup to which the
-     * student is currently registered. For an ADD, this field should
-     * be null.
+     * In the case of a DROP or SWAP or UPDATE, the "existing" course registration
+     * Id in which the student is currently registered. 
      * 
-     * @name Existing Registration Group Id
+     * For an ADD, this field should be null.
+     * 
+     * @name Existing Course Registration Id
      * @impl LprTransactionItem.existingLuiId
      */
-    public String getExistingRegistrationGroupId();
+    public String getExistingCourseRegistrationId();
 
     /**
      * The desired number of credits.  This value is a number
