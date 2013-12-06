@@ -2,6 +2,7 @@ package org.kuali.student.ap.test.mock;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -22,9 +23,13 @@ import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
@@ -40,6 +45,15 @@ import java.util.List;
  */
 public class AcademicCalendarServiceMockTest implements AcademicCalendarService{
     private ArrayList<AcademicCalendarInfo> academicCalendars;
+    private TermAssembler termAssembler;
+
+    public TermAssembler getTermAssembler() {
+        return termAssembler;
+    }
+
+    public void setTermAssembler(TermAssembler termAssembler) {
+        this.termAssembler = termAssembler;
+    }
 
     private ArrayList<AcademicCalendarInfo> getAcademicCalendars(){
         if(academicCalendars==null){
@@ -246,7 +260,7 @@ public class AcademicCalendarServiceMockTest implements AcademicCalendarService{
 
     @Override
     public List<TypeInfo> getTermTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return getTypesForGroupType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, contextInfo);
     }
 
     @Override
@@ -311,7 +325,18 @@ public class AcademicCalendarServiceMockTest implements AcademicCalendarService{
 
     @Override
     public List<TermInfo> searchForTerms(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<AtpInfo> results = KsapFrameworkServiceLocator.getAtpService().searchForAtps(criteria, contextInfo);
+        List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
+
+        for (AtpInfo atp : results) {
+            try {
+                terms.add(termAssembler.assemble(atp, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+
+        return terms;
     }
 
     @Override
@@ -766,5 +791,36 @@ public class AcademicCalendarServiceMockTest implements AcademicCalendarService{
     @Override
     public List<TermInfo> getTermsForExamPeriod(@WebParam(name = "examPeriodId") String examPeriodId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        List<TypeTypeRelationInfo> relations = null;
+
+        try {
+            relations = KsapFrameworkServiceLocator.getTypeService().getTypeTypeRelationsByOwnerAndType(groupTypeKey,
+                    TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        } catch (PermissionDeniedException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+
+        if (relations != null) {
+            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
+            for (TypeTypeRelationInfo rel : relations) {
+                try {
+                    results.add(KsapFrameworkServiceLocator.getTypeService().getType(rel.getRelatedTypeKey(), contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                } catch (PermissionDeniedException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                }
+            }
+
+            return results;
+        }
+
+        return null;
     }
 }

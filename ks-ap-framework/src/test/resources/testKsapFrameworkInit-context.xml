@@ -38,7 +38,7 @@
     <bean id="ksapTextHelper" class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
         <property name="messageGroup" value="myplan" />
     </bean>
-    <bean id="ksapTermHelper" class="org.kuali.student.ap.test.mock.TermHelperMockTest" />
+    <bean id="ksapTermHelper" class="org.kuali.student.ap.framework.context.support.DefaultTermHelper" />
     <bean id="ksapUserSessionHelper" class="org.kuali.student.ap.test.mock.UserSessionHelperMockTest" />
     <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.test.mock.EnumerationHelperMockTest" />
     <bean id="ksapOrgHelper" class="org.kuali.student.ap.test.mock.OrgHelperMockTest" />
@@ -46,7 +46,9 @@
     <bean id="shoppingCartHelper" class="org.kuali.student.ap.test.mock.ShoppingCartHelperMockTest" />
     <bean id="planHelper" class="org.kuali.student.ap.test.mock.PlanHelperMockTest" />
     <bean id="courseSearchStrategy" class="org.kuali.student.ap.test.mock.CourseSearchStrategyMockTest"/>
-    <bean id="ksEnrollAcalService" class="org.kuali.student.ap.test.mock.AcademicCalendarServiceMockTest"/>
+    <bean id="ksEnrollAcalService" class="org.kuali.student.ap.test.mock.AcademicCalendarServiceMockTest">
+        <property name="termAssembler" ref="termAssembler"/>
+    </bean>
     <bean id="ksEnrollAcademicRecordService" class="org.kuali.student.ap.test.mock.AcademicRecordServiceMockTest"/>
     <bean id="ksEnrollCourseOfferingService" class="org.kuali.student.ap.test.mock.CourseOfferingServiceMockTest"/>
     <bean id="ksEnrollLuiService" class="org.kuali.student.ap.test.mock.LuiServiceMockTest"/>
@@ -65,6 +67,14 @@
     <bean id="learningPlanReviewStrategy" class="org.kuali.student.ap.test.mock.LearningPlanReviewStrategyMockTest" />
     <bean id="scheduleBuildStrategy" class="org.kuali.student.ap.test.mock.ScheduleBuildStrategyMockTest" />
     <bean id="shoppingCartStrategy" class="org.kuali.student.ap.test.mock.ShoppingCartStrategyMockTest" />
+
+    <bean id="termAssembler"
+          class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler">
+        <property name="termCodeGenerator" ref="termCodeGenerator" />
+    </bean>
+
+    <bean id="termCodeGenerator"
+          class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl" />
 
     <!--<import resource="enumService-test-context.xml"/>-->
     <import resource="cluService-test-context.xml"/>
