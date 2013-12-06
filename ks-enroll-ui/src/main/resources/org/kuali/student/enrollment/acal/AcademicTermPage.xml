@@ -21,7 +21,6 @@
 
     <bean id="KS-AcademicCalendar-Overview-WithoutTerms" parent="Uif-VerticalBoxSubSection"
           p:additionalCssClasses="ks-no-margins">
-        <property name="headerText" value="Overview"/>
         <property name="disclosure.render" value="false"/>
         <!--<property name="hidden" value="@{#view.readOnly}"/>-->
         <property name="header">
