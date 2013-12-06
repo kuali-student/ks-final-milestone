@@ -272,8 +272,9 @@
     <bean id="SchOfClasses-aoFlatDisplay" parent="SchOfClasses-aoSearchResults" p:render="@{aoDisplayFormat == AoDisplayFormat.FLAT}">
         <property name="headerText" value="Activities" />
         <property name="propertyName" value="activityWrapperList" />
+        <property name="align" value="left" />
         <property name="header.upperGroup">
-          <bean parent="Uif-VerticalBoxGroup">
+          <bean parent="Uif-VerticalBoxGroup"  p:align="left">
             <property name="items">
               <list>
                   <bean parent="Uif-MessageField" p:label="[b]Course Description[/b]" p:messageText="@{#line.courseOfferingFormatedDesc}"/>
