@@ -87,9 +87,18 @@ li.uif-errorMessageItem:before
     padding: 0px 0px 2px 0px;
 }
 
-/* Attributes of Bulleted Items */
-.uif-validationMessages ul {
-    margin-left: 19px;
+/* single validation error message */
+.uif-validationMessages ul.uif-pageValidationMessage-single,  .uif-validationMessages ul.uif-pageValidationMessage-single > div > ul {
+    margin-left: 0em;
+}
+
+/* indentation for error message panel with title */
+h3 + #pageValidationList.uif-validationMessagesList > div > ul > li {
+    margin-left: 11px;
+}
+
+h3 + #pageValidationList.uif-validationMessagesList > li {
+    margin-left: 24px;
 }
 
 /* Attributes of the Bullet */
@@ -97,6 +106,18 @@ li.uif-errorMessageItem:before
     margin-bottom: 0px;
 }
 
+/* Informational message panel */
+.ks-informational-message-for-field {
+  padding: 8px 35px 8px 14px;
+  margin-bottom: 18px;
+  display: inline-block;
+  background-color:@infoBackground;
+  border: 1px solid @infoBorder;
+  color: @infoText;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+}
 /************************************** END VALIDATION MESSAGES **************************************/
 
 /************************************** CSS COLUMN GRID **************************************/
@@ -1200,18 +1221,6 @@ div.jGrowl div.WARNING div.jGrowl-message {
   min-width: 50px;
 }
 
-/* Informational message panel */
-.ks-informational-message-for-field {
-  padding: 8px 80px 8px 14px;
-  margin-bottom: 18px;
-  display: inline-block;
-  background-color:@infoBackground;
-  border: 1px solid @infoBorder;
-  color: @infoText;
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
 /************************************** END Growl message customization ******************/
 
 /**************************************Loading Icon/Message ******************/
