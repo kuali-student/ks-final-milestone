@@ -327,13 +327,19 @@ public class ActivityOfferingTransformer {
         lui.setReferenceURL(ao.getActivityOfferingURL());
 
         //Lui Official Identifier
-        LuiIdentifierInfo officialIdentifier = new LuiIdentifierInfo();
-        officialIdentifier.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
-        officialIdentifier.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        LuiIdentifierInfo officialIdentifier;
+        if(lui.getOfficialIdentifier() != null){
+            officialIdentifier = lui.getOfficialIdentifier();
+        } else {
+            officialIdentifier = new LuiIdentifierInfo();
+            officialIdentifier.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+            officialIdentifier.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+            lui.setOfficialIdentifier(officialIdentifier);
+        }
         officialIdentifier.setCode(ao.getActivityCode());
-        lui.setOfficialIdentifier(officialIdentifier);
 
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
+        //TODO merge in attributes, not keep growing?
         List<AttributeInfo> attributes = lui.getAttributes();
         for (Attribute attr : ao.getAttributes()) {
             attributes.add(new AttributeInfo(attr));

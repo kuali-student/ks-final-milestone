@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
@@ -129,7 +130,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.setLuiState(lui.getStateKey());
         this.setEffectiveDate(lui.getEffectiveDate());
         this.setExpirationDate(lui.getExpirationDate());
-        this.scheduleIds = new ArrayList<String>(lui.getScheduleIds());
+        if(scheduleIds == null || !CollectionUtils.isEqualCollection(scheduleIds, lui.getScheduleIds())){
+            this.scheduleIds = new ArrayList<String>(lui.getScheduleIds());
+        }
         this.setAtpId(lui.getAtpId());
 
         if (lui.getDescr() == null) {

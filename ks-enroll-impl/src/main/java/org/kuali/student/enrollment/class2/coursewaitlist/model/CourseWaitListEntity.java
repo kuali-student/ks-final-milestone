@@ -14,6 +14,7 @@
  */
 package org.kuali.student.enrollment.class2.coursewaitlist.model;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.enrollment.coursewaitlist.infc.CourseWaitList;
 
@@ -232,13 +233,17 @@ public class CourseWaitListEntity extends MetaEntity implements AttributeOwner<C
         }
 
         if (courseWaitList.getActivityOfferingIds() != null) {
-            activityOfferingIds = new ArrayList<String>(courseWaitList.getActivityOfferingIds());
+            if(activityOfferingIds == null || !CollectionUtils.isEqualCollection(activityOfferingIds, courseWaitList.getActivityOfferingIds())){
+                activityOfferingIds = new ArrayList<String>(courseWaitList.getActivityOfferingIds());
+            }
         } else {
             activityOfferingIds = null;
         }
 
         if (courseWaitList.getFormatOfferingIds() != null) {
-            formatOfferingIds = new ArrayList<String>(courseWaitList.getFormatOfferingIds());
+            if(formatOfferingIds == null || !CollectionUtils.isEqualCollection(formatOfferingIds, courseWaitList.getFormatOfferingIds())){
+                formatOfferingIds = new ArrayList<String>(courseWaitList.getFormatOfferingIds());
+            }
         } else {
             formatOfferingIds = null;
         }
