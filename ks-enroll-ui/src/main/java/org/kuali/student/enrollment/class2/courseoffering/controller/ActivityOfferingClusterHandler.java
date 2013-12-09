@@ -385,6 +385,7 @@ public class ActivityOfferingClusterHandler {
                     emptyCluster.getTypeKey(), emptyCluster, context);
 
 
+            theForm.setClusterIdForAOMove(emptyCluster.getId());
 
             List<ActivityOfferingClusterWrapper> aoClusterWrapperList = theForm.getClusterResultList();
             ActivityOfferingClusterWrapper aoClusterWrapper = new ActivityOfferingClusterWrapper();
@@ -463,7 +464,7 @@ public class ActivityOfferingClusterHandler {
                         return theForm;
                     }
 
-                    aocId = theForm.getClusterResultList().get(theForm.getClusterResultList().size() - 1).getActivityOfferingClusterId();
+                    aocId = theForm.getClusterIdForAOMove();
 
                 }
                 CourseOfferingManagementUtil.getCourseOfferingServiceFacade().moveActivityOffering(aoWrapper.getAoInfo().getId(), aoWrapper.getAoClusterID(), aocId, context);
