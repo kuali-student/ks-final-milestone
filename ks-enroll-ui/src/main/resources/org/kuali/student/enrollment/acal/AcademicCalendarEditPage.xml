@@ -442,14 +442,17 @@ limitations under the License.
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false"/>
         </property>
         <property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>
-
+        <property name="lineActions">
+            <list>
+                <!-- Empty to override defaults-->
+            </list>
+        </property>
         <property name="addLineLabel.messageText" value=""/>
         <property name="layoutManager.lineGroupPrototype.header.cssClasses">
             <list merge="true">
                 <value>ks-borderBottom2</value>
             </list>
         </property>
-
         <property name="layoutManager.addLineGroup.header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
