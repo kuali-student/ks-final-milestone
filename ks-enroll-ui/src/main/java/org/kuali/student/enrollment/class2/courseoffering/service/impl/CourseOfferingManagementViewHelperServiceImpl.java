@@ -2043,6 +2043,22 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     for (ActivityOfferingDisplayInfo aoDisplayInfo : aoDisplayInfoList) {
                         ActivityOfferingDisplayWrapper aoDisplayWrapper = new ActivityOfferingDisplayWrapper();
                         aoDisplayWrapper.setAoDisplayInfo(aoDisplayInfo);
+
+
+                        // term stuff
+                        List<TermInfo> terms = CourseOfferingManagementUtil.getAcademicCalendarService().getContainingTerms( aoDisplayInfo.getTermId(), contextInfo );
+                        if( terms == null || terms.isEmpty() ) {    // has no sub-terms
+                            aoDisplayWrapper.setSubTermName( "None" );
+                            aoDisplayWrapper.setTermStartEndDate( "" );
+                        }
+                        else {      // has sub-terms
+                            TermInfo subTerm = CourseOfferingManagementUtil.getAcademicCalendarService().getTerm( aoDisplayInfo.getTermId(), contextInfo );
+                            TypeInfo subTermType = getTypeService().getType(subTerm.getTypeKey(), contextInfo);
+                            aoDisplayWrapper.setSubTermName( subTermType.getName() );
+                            aoDisplayWrapper.setTermStartEndDate( CourseOfferingManagementUtil.getTermStartEndDate( subTerm.getId(), subTerm ) );
+                        }
+
+
                         // Adding Information (icons)
                         String information = "";
                         if (aoDisplayInfo.getIsHonorsOffering() != null && aoDisplayInfo.getIsHonorsOffering()) {

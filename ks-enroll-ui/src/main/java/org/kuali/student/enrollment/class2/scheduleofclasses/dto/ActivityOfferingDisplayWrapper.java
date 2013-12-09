@@ -36,6 +36,8 @@ public class ActivityOfferingDisplayWrapper {
     private String tbaDisplayName;
     private String instructorDisplayNames;
     private String colocatedAoInfo = "";
+    private String subTermName;
+    private String termStartEndDate;
 
     public static final String BR = "<br/>";
 
@@ -201,4 +203,21 @@ public class ActivityOfferingDisplayWrapper {
     public String getColocatedAoInfoUI() {
         return StringUtils.removeEnd("This activity is colocated with:" + BR + colocatedAoInfo, BR);
     }
+
+    public String getSubTermName() {
+        return subTermName;
+    }
+
+    public void setSubTermName(String subTermName) {
+        this.subTermName = subTermName;
+    }
+
+    public String getTermStartEndDate() {
+        return termStartEndDate;
+    }
+
+    public void setTermStartEndDate(String termStartEndDate) {
+        this.termStartEndDate = termStartEndDate;
+    }
+
 }
