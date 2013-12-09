@@ -2691,3 +2691,30 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     width: 300px;
     min-height: 0px;
 }
+
+/* Note the following section is copied over from enroll.css, used to display logged in user name in KSAP */
+/* -- Need to remove them after merge back to trunk */
+/* Alignment of the Right Content Area  */
+.header-right-group{
+    float: right;
+}
+
+.ks-header-list {
+    list-style: none;
+    float: right;
+}
+
+.navbar .nav > li > a {
+    padding: 10px 7px 10px;
+}
+
+.ks-header-list li{
+    float: left;
+    padding-top: 5px;
+}
+
+.ks-header-list li a:hover i {
+    opacity: 1;
+}
+
+/* end */

@@ -10,6 +10,7 @@ import javax.xml.namespace.QName;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -41,7 +42,7 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 	private transient AcademicPlanService academicPlanService;
     private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
 
-	protected List<PlannedCourseDataObject> getPlanItems(String planItemType, String studentId)
+	protected List<PlannedCourseDataObject> getPlanItems(AcademicPlanServiceConstants.ItemCategory planItemCategory, String studentId)
 			throws InvalidParameterException, MissingParameterException, DoesNotExistException,
 			OperationFailedException {
 
@@ -72,7 +73,7 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 				PlannedCourseDataObject plannedCourseDO = new PlannedCourseDataObject();
 				String courseID = planItem.getRefObjectId();
 				// Only create a data object for the specified type.
-				if (planItem.getTypeKey().equals(planItemType)) {
+				if (planItem.getCategory().equals(planItemCategory)) {
 
 					plannedCourseDO.setPlanItemDataObject(PlanItemDataObject.build(planItem));
 

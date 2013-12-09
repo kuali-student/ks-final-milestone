@@ -250,4 +250,9 @@ public class TermHelperMockTest implements TermHelper {
     public String findTermIdByNameAndContainingDates(Date termBeginDate, Date termEndDate, String termName) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public List<Term> getCalendarTerms(Term startTerm) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

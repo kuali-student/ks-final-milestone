@@ -235,6 +235,11 @@
                 <value>@{#line.planning ? 'ks-plan-TermsList-item--open' : 'ks-plan-TermsList-item--closed'}</value>
             </list>
         </property>
+        <property name="dataAttributes">
+            <map>
+                <entry key="focustermindex" value="@{focusTermIndex}" />
+            </map>
+        </property>
         <property name="layoutManager.lineGroupPrototype.style"
                   value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
                   margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;" />
@@ -359,7 +364,7 @@
             <list>
                 <bean p:id="__KSAP__UID__" parent="Uif-HorizontalFieldGroup" p:title="__KSAP__COURSETITLE__">
                     <property name="onClickScript"
-                              value="openMenu('__KSAP__UID__', 'planner_menu___KSAP__TYPE____KSAP__MENUSUFFIX__', null, e,
+                              value="openMenu('__KSAP__UID__', 'planner_menu___KSAP__CATEGORY____KSAP__MENUSUFFIX__', null, e,
 								'.uif-collectionItem', 'fl-container-150 uif-boxLayoutHorizontalItem',
 								{tail: {align:'top'}, align:'top', position:'right'}, false);" />
                     <property name="cssClasses">
@@ -463,8 +468,8 @@
                       p:title="@{#line.courseTitle}">
                     <property name="group.validationMessages.render" value="false" />
                     <property name="onClickScript"
-                              value="openMenu('@{#line.uniqueId}', 'planner_menu_@{#line.type}@{#line.menuSuffix}', null, e,
-									'.uif-collectionItem', 'fl-container-150 uif-boxLayoutHorizontalItem', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
+                              value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
+									'.uif-collectionItem', 'fl-container-150 uif-boxLayoutHorizontalItem test4', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
@@ -645,13 +650,6 @@
                 <property name="validationMessages.render" value="false" />
                 <property name="items">
                     <list>
-                        <bean p:id="@{#line.uniqueId}_cart_no_courses" parent="planner_term_no_courses">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-plan-Bucket-footer-@{#line.cartList.size() eq 0 ? 'show' : 'hide'}"</value>
-                                </list>
-                            </property>
-                        </bean>
                         <bean p:id="@{#line.uniqueId}_cart_credits" parent="planner_credits_footer">
                             <property name="cssClasses">
                                 <list merge="true">
@@ -700,13 +698,6 @@
                                 <map merge="true">
                                     <entry key="backup" value="false" />
                                 </map>
-                            </property>
-                        </bean>
-                        <bean p:id="@{#line.uniqueId}_planned_no_courses" parent="planner_term_no_courses">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-plan-Bucket-footer-@{#line.plannedList.size() eq 0 ? 'show' : 'hide'}"</value>
-                                </list>
                             </property>
                         </bean>
                         <bean p:id="@{#line.uniqueId}_planned_credits" parent="planner_credits_footer">
@@ -758,38 +749,9 @@
                                 </map>
                             </property>
                         </bean>
-                        <bean p:id="@{#line.uniqueId}_backup_no_courses" parent="planner_term_no_courses">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-plan-Bucket-footer-@{#line.backupList.size() eq 0 ? 'show' : 'hide'}"</value>
-                                </list>
-                            </property>
-                        </bean>
                     </list>
                 </property>
             </bean>
-        </property>
-    </bean>
-
-    <bean abstract="true" id="planner_term_no_courses" parent="Uif-VerticalBoxGroup">
-        <property name="validationMessages.render" value="false" />
-        <property name="cssClasses">
-            <list merge="true">
-                <value>no-courses-cell</value>
-                <value>ks-plan-Bucket-emptyLabel</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-Message" p:messageText="No courses planned">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-text-gray</value>
-                            <value>myplan-text-italic</value>
-                        </list>
-                    </property>
-                </bean>
-            </list>
         </property>
     </bean>
 
@@ -857,9 +819,6 @@
                 <ref bean="planner_menu_course_summary" />
                 <!--  <ref bean="planner_menu_copy_plan_item" /> -->
                 <ref bean="planner_menu_remove_from_cart" />
-                <bean parent="Uif-Message"
-                      p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
             </list>
         </property>
     </bean>
@@ -880,8 +839,6 @@
                 <ref bean="planner_menu_move_plan_item" />
                 <ref bean="planner_menu_copy_plan_item" />
                 <ref bean="planner_menu_delete_plan_item" />
-                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note" />
             </list>
         </property>
     </bean>
@@ -903,8 +860,6 @@
                 <ref bean="planner_menu_move_plan_item" />
                 <ref bean="planner_menu_copy_plan_item" />
                 <ref bean="planner_menu_delete_plan_item" />
-                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note" />
             </list>
         </property>
     </bean>
@@ -926,8 +881,6 @@
                 <ref bean="planner_menu_move_plan_item" />
                 <ref bean="planner_menu_copy_plan_item" />
                 <ref bean="planner_menu_delete_plan_item" />
-                <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note" />
             </list>
         </property>
     </bean>
@@ -992,7 +945,7 @@
 
 	<bean id="planner_menu_mark_as_backup" parent="Uif-ActionLink"
 		p:actionLabel="Mark as backup course" p:title="Mark as backup course">
-		<property name="actionScript" value="ksapPlannerUpdateType(true, this, e);" />
+		<property name="actionScript" value="ksapPlannerUpdateCategory(true, this, e);" />
 	</bean>
 
 	<bean id="planner_menu_move_plan_item" parent="Uif-ActionLink"
@@ -1014,7 +967,7 @@
 
 	<bean id="planner_menu_mark_as_planned" parent="Uif-ActionLink"
 		p:actionLabel="Mark as planned course" p:title="Mark as planned course">
-		<property name="actionScript" value="ksapPlannerUpdateType(false, this, e);" />
+		<property name="actionScript" value="ksapPlannerUpdateCategory(false, this, e);" />
 	</bean>
 
 	<bean id="planner_menu_completed_backup" parent="Uif-VerticalBoxSubSection"
@@ -1030,8 +983,6 @@
 				<ref bean="planner_menu_course_summary" />
 				<ref bean="planner_menu_copy_plan_item" />
 				<ref bean="planner_menu_delete_plan_item" />
-				<bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-					p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note" />
 			</list>
 		</property>
 	</bean>
@@ -1054,4 +1005,3 @@
         <property name="title" value=""/>
     </bean>
 </beans>
-

@@ -2,6 +2,7 @@ package org.kuali.student.ap.planner.support;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.PlanItemForm;
@@ -30,7 +31,7 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 	private String termId;
 	private String planItemId;
 	private String courseId;
-	private String expectedPlanItemType;
+	private AcademicPlanServiceConstants.ItemCategory expectedPlanItemCategory;
 
 	private transient LearningPlan learningPlan;
 	private transient Term term;
@@ -194,13 +195,13 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 	}
 
 	@Override
-	public String getExpectedPlanItemType() {
-		return expectedPlanItemType;
+	public AcademicPlanServiceConstants.ItemCategory getExpectedPlanItemCategory() {
+		return expectedPlanItemCategory;
 	}
 
 	@Override
-	public void setExpectedPlanItemType(String expectedPlanItemType) {
-		this.expectedPlanItemType = expectedPlanItemType;
+	public void setExpectedPlanItemCategory(AcademicPlanServiceConstants.ItemCategory category) {
+		this.expectedPlanItemCategory = category;
 	}
 
 }

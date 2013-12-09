@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
@@ -96,7 +96,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 		/************* PlannedCourseList **************/
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
-			plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
+			plannedCoursesList = getPlanItems(AcademicPlanServiceConstants.ItemCategory.PLANNED, studentId);
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("LP lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -110,7 +110,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 		/************* BackupCourseList **************/
 		List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
-			backupCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
+			backupCoursesList = getPlanItems(AcademicPlanServiceConstants.ItemCategory.BACKUP, studentId);
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("LP lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -124,7 +124,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 		/************* Cart List **************/
 		List<PlannedCourseDataObject> cartCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
-			cartCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART, studentId);
+			cartCoursesList = getPlanItems(AcademicPlanServiceConstants.ItemCategory.CART, studentId);
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("LP lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -178,7 +178,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         /************* PlannedCourseList **************/
         List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
         try {
-            plannedCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
+            plannedCoursesList = getPlanItems(AcademicPlanServiceConstants.ItemCategory.PLANNED, studentId);
         } catch (DoesNotExistException e) {
             throw new IllegalArgumentException("LP lookup failure", e);
         } catch (InvalidParameterException e) {
@@ -192,7 +192,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         /************* BackupCourseList **************/
         List<PlannedCourseDataObject> backupCoursesList = new ArrayList<PlannedCourseDataObject>();
         try {
-            backupCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP, studentId);
+            backupCoursesList = getPlanItems(AcademicPlanServiceConstants.ItemCategory.BACKUP, studentId);
         } catch (DoesNotExistException e) {
             throw new IllegalArgumentException("LP lookup failure", e);
         } catch (InvalidParameterException e) {
@@ -206,7 +206,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         /************* Cart List **************/
         List<PlannedCourseDataObject> cartCoursesList = new ArrayList<PlannedCourseDataObject>();
         try {
-            cartCoursesList = getPlanItems(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART, studentId);
+            cartCoursesList = getPlanItems(AcademicPlanServiceConstants.ItemCategory.CART, studentId);
         } catch (DoesNotExistException e) {
             throw new IllegalArgumentException("LP lookup failure", e);
         } catch (InvalidParameterException e) {

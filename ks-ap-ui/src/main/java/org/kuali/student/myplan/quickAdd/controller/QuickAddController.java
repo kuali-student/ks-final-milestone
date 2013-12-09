@@ -29,10 +29,10 @@ import org.kuali.rice.krad.datadictionary.exception.DuplicateEntryException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
-import org.kuali.student.ap.framework.context.support.DefaultTermHelper;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -260,12 +260,12 @@ public class QuickAddController extends UifControllerBase {
 					PlanConstants.ERROR_KEY_OPERATION_FAILED, null,
 					new String[] {});
 		}
-		String newType = PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED;
+        AcademicPlanServiceConstants.ItemCategory category = AcademicPlanServiceConstants.ItemCategory.PLANNED;
 		if (form.getPlanType().equalsIgnoreCase("backup")) {
-			newType = PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP;
+			category = AcademicPlanServiceConstants.ItemCategory.BACKUP;
 		}
 		if (form.getPlanType().equalsIgnoreCase("cart")) {
-			newType = PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART;
+			category = AcademicPlanServiceConstants.ItemCategory.CART;
 		}
 
 		// This list can only contain one item, otherwise the backend validation
@@ -349,7 +349,7 @@ public class QuickAddController extends UifControllerBase {
 		// Plan Size exceeded.
 		boolean hasCapacity = false;
 		try {
-			hasCapacity = isAtpHasCapacity(plan, newAtpIds.get(0), newType);
+			hasCapacity = isAtpHasCapacity(plan, newAtpIds.get(0), category);
 		} catch (RuntimeException e) {
 			return doOperationFailedError(form,
 					"Could not validate capacity for new plan item.",
@@ -358,7 +358,7 @@ public class QuickAddController extends UifControllerBase {
 		}
 
 		if (!hasCapacity) {
-			return doPlanCapacityExceededError(form, newType);
+			return doPlanCapacityExceededError(form, category);
 		}
 
 		// Validate: Adding to historical term.
@@ -376,7 +376,7 @@ public class QuickAddController extends UifControllerBase {
 		// wishlist item.
 		if (planItem == null) {
 			try {
-				planItem = addPlanItem(plan, courseId, newAtpIds, newType);
+				planItem = addPlanItem(plan, courseId, newAtpIds, category);
 			} catch (DuplicateEntryException e) {
 				return doDuplicatePlanItem(form, newAtpIds.get(0),
 						courseDetails);
@@ -387,13 +387,14 @@ public class QuickAddController extends UifControllerBase {
 			}
 		} else {
 			// Check for duplicates since addPlanItem isn't being called.
-			if (isDuplicate(plan, newAtpIds.get(0), courseId, newType)) {
+			if (isDuplicate(plan, newAtpIds.get(0), courseId, category)) {
 				return doDuplicatePlanItem(form, newAtpIds.get(0),
 						courseDetails);
 			}
 			// Create wishlist events before updating the plan item.
 			wishlistEvents = makeRemoveEvent(planItem, courseDetails);
-			planItem.setTypeKey(newType);
+			planItem.setCategory(category);
+            planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
 			planItem.setPlanPeriods(newAtpIds);
 
 			try {
@@ -453,16 +454,16 @@ public class QuickAddController extends UifControllerBase {
 		Map<String, String> params = new HashMap<String, String>();
 
 		// Only planned or backup items get an atpId attribute.
-		if (planItem.getTypeKey().equals(
-				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
-				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
-				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+		if (planItem.getCategory().equals(
+				AcademicPlanServiceConstants.ItemCategory.PLANNED)
+				|| planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.BACKUP)
+				|| planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.CART)) {
 			params.put("atpId",
 					formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
 		}
-		params.put("planItemType", formatTypeKey(planItem.getTypeKey()));
+		params.put("category", planItem.getCategory().toString().toLowerCase());
 		params.put("planItemId", planItem.getId());
 		// Create Javascript events.
 		String courseDetailsAsJson;
@@ -508,8 +509,8 @@ public class QuickAddController extends UifControllerBase {
 		PlanItemInfo planItem = null;
 
 		try {
-			planItem = getPlanItemByAtpAndType(learningPlan.getId(), courseId,
-					atpId, PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+			planItem = getPlanItemByAtpAndCategory(learningPlan.getId(), courseId,
+                    atpId, AcademicPlanServiceConstants.ItemCategory.PLANNED);
 		} catch (Exception e) {
 			LOG.error("Could not retrieve plan items.", e);
 			throw new RuntimeException("Could not retrieve plan items.", e);
@@ -517,9 +518,9 @@ public class QuickAddController extends UifControllerBase {
 
 		if (planItem == null) {
 			try {
-				planItem = getPlanItemByAtpAndType(learningPlan.getId(),
+				planItem = getPlanItemByAtpAndCategory(learningPlan.getId(),
 						courseId, atpId,
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
+                        AcademicPlanServiceConstants.ItemCategory.BACKUP);
 			} catch (Exception e) {
 				LOG.error("Could not retrieve plan items.", e);
 				throw new RuntimeException("Could not retrieve plan items.", e);
@@ -528,9 +529,9 @@ public class QuickAddController extends UifControllerBase {
 
 		if (planItem == null) {
 			try {
-				planItem = getPlanItemByAtpAndType(learningPlan.getId(),
+				planItem = getPlanItemByAtpAndCategory(learningPlan.getId(),
 						courseId, atpId,
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+                        AcademicPlanServiceConstants.ItemCategory.CART);
 			} catch (Exception e) {
 				LOG.error("Could not retrieve plan items.", e);
 				throw new RuntimeException("Could not retrieve plan items.", e);
@@ -545,20 +546,21 @@ public class QuickAddController extends UifControllerBase {
 	/**
 	 * Gets a plan item of a particular type for a particular ATP.
 	 * 
+	 *
 	 * @param planId
 	 *            The id of the learning plan
 	 * @param courseId
 	 *            The id of the course
 	 * @param atpId
 	 *            The ATP id
-	 * @param planItemType
+     * @param planItemCategory
 	 *            The plan item type key.
 	 * @return A "planned" or "backup" plan item. Or 'null' if none exists.
 	 * @throws RuntimeException
 	 *             on errors.
 	 */
-	private PlanItemInfo getPlanItemByAtpAndType(String planId,
-			String courseId, String atpId, String planItemType) {
+	private PlanItemInfo getPlanItemByAtpAndCategory(String planId,
+                                                     String courseId, String atpId, AcademicPlanServiceConstants.ItemCategory planItemCategory) {
 		if (org.apache.commons.lang.StringUtils.isEmpty(planId)) {
 			throw new RuntimeException("Plan Id was empty.");
 		}
@@ -579,7 +581,7 @@ public class QuickAddController extends UifControllerBase {
 					.getPlanItemsInPlanByAtp(
 							planId,
 							atpId,
-							planItemType,
+                            planItemCategory,
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo());
 		} catch (Exception e) {
@@ -588,7 +590,7 @@ public class QuickAddController extends UifControllerBase {
 
 		for (PlanItemInfo p : planItems) {
 			if (p.getRefObjectId().equals(courseId)
-					&& p.getTypeKey().equals(planItemType)) {
+					&& p.getCategory().equals(planItemCategory)) {
 				item = p;
 				break;
 			}
@@ -605,17 +607,17 @@ public class QuickAddController extends UifControllerBase {
 	 * @param plan
 	 * @param atpId
 	 * @param courseId
-	 * @param planItemType
+	 * @param category
 	 * @return
 	 */
 	private boolean isDuplicate(LearningPlan plan, String atpId,
-			String courseId, String planItemType) {
+			String courseId, AcademicPlanServiceConstants.ItemCategory category) {
 		/*
 		 * Make sure no dups exist. The rules are different for wishlist vs
 		 * planned or backup courses.
 		 */
 		boolean isDuplicate = false;
-		if (planItemType.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST)) {
+		if (category.equals(AcademicPlanServiceConstants.ItemCategory.WISHLIST)) {
 			if (getWishlistPlanItem(courseId) != null) {
 				isDuplicate = true;
 			}
@@ -636,7 +638,7 @@ public class QuickAddController extends UifControllerBase {
 	 *            The id of the course.
 	 * @param termIds
 	 *            A list of ATP/term ids if the plan item is a planned course.
-	 * @param planItemType
+	 * @param category
 	 *            Saved couse or planned course.
 	 * @return The newly created plan item or the existing plan item where a
 	 *         plan item already exists for the given course.
@@ -644,7 +646,7 @@ public class QuickAddController extends UifControllerBase {
 	 *             on errors.
 	 */
 	protected PlanItemInfo addPlanItem(LearningPlan plan, String courseId,
-			List<String> termIds, String planItemType)
+			List<String> termIds, AcademicPlanServiceConstants.ItemCategory category)
 			throws DuplicateEntryException {
 
 		if (org.apache.commons.lang.StringUtils.isEmpty(courseId)) {
@@ -655,7 +657,8 @@ public class QuickAddController extends UifControllerBase {
 
 		PlanItemInfo pii = new PlanItemInfo();
 		pii.setLearningPlanId(plan.getId());
-		pii.setTypeKey(planItemType);
+		pii.setCategory(category);
+        pii.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
 		pii.setRefObjectType(PlanConstants.COURSE_TYPE);
 		pii.setRefObjectId(courseId);
 
@@ -673,7 +676,7 @@ public class QuickAddController extends UifControllerBase {
 		}
 
 		// Don't allow duplicates.
-		if (isDuplicate(plan, atpId, courseId, planItemType)) {
+		if (isDuplicate(plan, atpId, courseId, category)) {
 			throw new DuplicateEntryException("Duplicate plan item exists.");
 		}
 
@@ -730,9 +733,9 @@ public class QuickAddController extends UifControllerBase {
 				String learningPlanID = learningPlan.getId();
 
 				planItemList = KsapFrameworkServiceLocator
-						.getAcademicPlanService().getPlanItemsInPlanByType(
+						.getAcademicPlanService().getPlanItemsInPlanByCategory(
 								learningPlanID,
-								PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED,
+                                AcademicPlanServiceConstants.ItemCategory.PLANNED,
 								KsapFrameworkServiceLocator.getContext()
 										.getContextInfo());
 
@@ -869,9 +872,9 @@ public class QuickAddController extends UifControllerBase {
 				String learningPlanID = learningPlan.getId();
 
 				planItemList = getAcademicPlanService()
-						.getPlanItemsInPlanByType(
+						.getPlanItemsInPlanByCategory(
 								learningPlanID,
-								PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART,
+                                AcademicPlanServiceConstants.ItemCategory.CART,
 								KsapFrameworkServiceLocator.getContext()
 										.getContextInfo());
 
@@ -995,14 +998,14 @@ public class QuickAddController extends UifControllerBase {
 		Map<PlanConstants.JS_EVENT_NAME, Map<String, String>> events = new LinkedHashMap<PlanConstants.JS_EVENT_NAME, Map<String, String>>();
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("planItemId", planItem.getId());
-		params.put("planItemType", formatTypeKey(planItem.getTypeKey()));
+		params.put("category", planItem.getCategory().toString().toLowerCase());
 		// Only planned or backup items get an atpId attribute.
-		if (planItem.getTypeKey().equals(
-				PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)
-				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)
-				|| planItem.getTypeKey().equals(
-						PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+		if (planItem.getCategory().equals(
+				AcademicPlanServiceConstants.ItemCategory.PLANNED)
+				|| planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.BACKUP)
+				|| planItem.getCategory().equals(
+						AcademicPlanServiceConstants.ItemCategory.CART)) {
 			params.put("atpId",
 					formatAtpIdForUI(planItem.getPlanPeriods().get(0)));
 			// event for aler Icon
@@ -1080,9 +1083,9 @@ public class QuickAddController extends UifControllerBase {
 
 		try {
 			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-					.getPlanItemsInPlanByType(
+					.getPlanItemsInPlanByCategory(
 							learningPlan.getId(),
-							PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST,
+                            AcademicPlanServiceConstants.ItemCategory.WISHLIST,
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo());
 		} catch (Exception e) {
@@ -1104,15 +1107,16 @@ public class QuickAddController extends UifControllerBase {
 	 * Determines if a plan has capacity in within a particular ATP for adding a
 	 * new plan item of a specific type.
 	 * 
+	 *
 	 * @param plan
 	 * @param atpId
-	 * @param typeKey
+     * @param category
 	 * @return True if the item can be added or false if not.
 	 * @throws RuntimeException
 	 *             if things go wrong.
 	 */
 	private boolean isAtpHasCapacity(LearningPlan plan, String atpId,
-			String typeKey) {
+			AcademicPlanServiceConstants.ItemCategory category) {
 		if (plan == null) {
 			throw new RuntimeException("Plan was NULL.");
 		}
@@ -1124,9 +1128,9 @@ public class QuickAddController extends UifControllerBase {
 		List<PlanItemInfo> planItems = null;
 		try {
 			planItems = KsapFrameworkServiceLocator.getAcademicPlanService()
-					.getPlanItemsInPlanByType(
+					.getPlanItemsInPlanByCategory(
 							plan.getId(),
-							typeKey,
+                            category,
 							KsapFrameworkServiceLocator.getContext()
 									.getContextInfo());
 		} catch (Exception e) {
@@ -1144,20 +1148,20 @@ public class QuickAddController extends UifControllerBase {
 			}
 		}
 
-		if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+		if (category.equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)) {
 			return (counter >= PlanConstants.BACKUP_PLAN_ITEM_CAPACITY) ? false
 					: true;
-		} else if (typeKey
-				.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED)) {
+		} else if (category
+				.equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)) {
 			return (counter >= PlanConstants.PLANNED_PLAN_ITEM_CAPACITY) ? false
 					: true;
-		} else if (typeKey.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+		} else if (category.equals(AcademicPlanServiceConstants.ItemCategory.CART)) {
 			return (counter >= PlanConstants.CART_PLAN_ITEM_CAPACITY) ? false
 					: true;
 		}
 
 		throw new RuntimeException(String.format(
-				"Unknown plan item type [%s].", typeKey));
+				"Unknown plan item category [%s].", category));
 	}
 
 	/**
@@ -1215,12 +1219,12 @@ public class QuickAddController extends UifControllerBase {
 	 * @return
 	 */
 	private ModelAndView doPlanCapacityExceededError(QuickAddForm form,
-			String type) {
+			AcademicPlanServiceConstants.ItemCategory category) {
 		String errorId = PlanConstants.ERROR_KEY_PLANNED_ITEM_CAPACITY_EXCEEDED;
-		if (type.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP)) {
+		if (category.equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)) {
 			errorId = PlanConstants.ERROR_KEY_BACKUP_ITEM_CAPACITY_EXCEEDED;
 		}
-		if (type.equals(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+		if (category.equals(AcademicPlanServiceConstants.ItemCategory.CART)) {
 			errorId = PlanConstants.ERROR_KEY_CART_ITEM_CAPACITY_EXCEEDED;
 		}
 		return doErrorPage(form, errorId, new String[0]);

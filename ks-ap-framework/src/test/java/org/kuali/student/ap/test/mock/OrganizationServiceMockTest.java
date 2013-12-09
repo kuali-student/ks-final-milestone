@@ -34,11 +34,13 @@ import java.util.List;
 public class OrganizationServiceMockTest implements OrganizationService {
     private ArrayList<OrgInfo> mockOrgs;
     private ArrayList<OrgCodeInfo> mockOrgCodes;
+    private ArrayList<OrgOrgRelationInfo> mockOrgOrgRelations;
 
     private ArrayList<OrgInfo> getOrgs(){
         if(mockOrgs == null){
             mockOrgs = new ArrayList<OrgInfo>();
-            mockOrgs.add(createOrgInfo("1780579604","Applied Math","CMNS-Applied Mathematics","","CMNS-Applied Mathematics","Applied Math", DateFormatters.DEFAULT_DATE_FORMATTER.parse("2012-10-24"),null));
+            mockOrgs.add(createOrgInfo("ORGID-MATH","MATH","Mathematics","","Mathematics","Mathematics", DateFormatters.DEFAULT_DATE_FORMATTER.parse("1989-12-31"),null));
+            mockOrgs.add(createOrgInfo("ORGID-LATN","LATN","Latin","","Latin","Latin", DateFormatters.DEFAULT_DATE_FORMATTER.parse("1989-12-31"),null));
         }
         return mockOrgs;
     }
@@ -50,6 +52,15 @@ public class OrganizationServiceMockTest implements OrganizationService {
         }
         return mockOrgCodes;
     }
+
+    private ArrayList<OrgOrgRelationInfo> getOrgOrgRelations(){
+        if(mockOrgOrgRelations==null){
+            mockOrgOrgRelations = new ArrayList<OrgOrgRelationInfo>();
+            mockOrgOrgRelations.add(createOrgOrgRelation("ORGORGID-MATH-4124609032","ORGID-MATH","4124609032","kuali.org.org.relation.type.subjectcode2org",null,DateFormatters.DEFAULT_DATE_FORMATTER.parse("1989-12-31"),null));
+        }
+        return  mockOrgOrgRelations;
+    }
+
 
     private OrgInfo createOrgInfo(String id, String shortName, String longName, String sortName, String longDescr, String shortDescr, Date effectiveDate, Date expirationDate){
         OrgInfo newOrg = new OrgInfo();
@@ -72,6 +83,17 @@ public class OrganizationServiceMockTest implements OrganizationService {
         RichTextInfo newDescr = new RichTextInfo(descr,descr);
         newOrgCode.setDescr(newDescr);
         return newOrgCode;
+    }
+    private OrgOrgRelationInfo createOrgOrgRelation(String id, String orgId, String relatedOrgId, String typeKey, String stateKey, Date effectiveDate, Date expirationDate){
+        OrgOrgRelationInfo newOrgOrgRelation = new OrgOrgRelationInfo();
+        newOrgOrgRelation.setId(id);
+        newOrgOrgRelation.setOrgId(orgId);
+        newOrgOrgRelation.setRelatedOrgId(relatedOrgId);
+        newOrgOrgRelation.setTypeKey(typeKey);
+        newOrgOrgRelation.setStateKey(stateKey);
+        newOrgOrgRelation.setEffectiveDate(effectiveDate);
+        newOrgOrgRelation.setExpirationDate(expirationDate);
+        return newOrgOrgRelation;
     }
 
     @Override

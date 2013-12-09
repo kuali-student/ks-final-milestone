@@ -19,6 +19,8 @@ public class DefaultUserSessionHelper implements UserSessionHelper {
 	private static final Logger logger = Logger
 			.getLogger(UserSessionHelper.class);
 
+    private static final String STUDENT_KEY = "STDNT";
+
 	@Override
 	public boolean isAdviser() {
 		return false;
@@ -181,12 +183,9 @@ public class DefaultUserSessionHelper implements UserSessionHelper {
 			logger.error("Could not load the Person Information", e);
 		}
 		if (person != null) {
-			if (person.getExternalIdentifiers().containsKey("systemKey")) {
-				isStudent = true;
+		    isStudent=person.hasAffiliationOfType(STUDENT_KEY);
 			}
-		}
-		//return isStudent;
-        return true;
+        return isStudent;
 	}
 
 }

@@ -3,6 +3,7 @@ package org.kuali.student.ap.schedulebuilder.controller;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
@@ -158,7 +159,7 @@ public class ShoppingCartController extends UifControllerBase {
 		// Add to the cart, we expect that item type is PLANNED
 		// This will set courseOption.selected, and subsequently
 		// shoppingCartRequest.addToCart, to true.
-		form.setExpectedPlanItemType(PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+		form.setExpectedPlanItemCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
 		return startPlannerDialog(form, result, request, response);
 	}
 
@@ -171,7 +172,7 @@ public class ShoppingCartController extends UifControllerBase {
 		// Remove from the cart, we expect that item type is CART
 		// This will set courseOption.selected, and subsequently
 		// shoppingCartRequest.addToCart, to false.
-		form.setExpectedPlanItemType(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+		form.setExpectedPlanItemCategory(AcademicPlanServiceConstants.ItemCategory.CART);
 		return startPlannerDialog(form, result, request, response);
 	}
 
@@ -243,7 +244,8 @@ public class ShoppingCartController extends UifControllerBase {
 				if (cartRequest.isAddToCart()) {
 					PlanItemInfo planItemInfo = new PlanItemInfo();
 					planItemInfo
-							.setTypeKey(PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART);
+							.setCategory(AcademicPlanServiceConstants.ItemCategory.CART);
+                    planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
 					planItemInfo
 							.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 					planItemInfo.setLearningPlanId(plan.getId());
@@ -330,8 +332,8 @@ public class ShoppingCartController extends UifControllerBase {
 										plan.getId(), course.getId(),
 										PlanConstants.COURSE_TYPE, context);
 						for (PlanItemInfo planItemInfo : planItemInfos) {
-							if (planItemInfo.getTypeKey().equals(
-									PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART)) {
+							if (planItemInfo.getCategory().equals(
+									AcademicPlanServiceConstants.ItemCategory.CART)) {
 								if (!planItemInfo.getPlanPeriods().contains(
 										cartRequest.getTerm().getId()))
 									continue;

@@ -1,5 +1,6 @@
 package org.kuali.student.ap.schedulebuilder.support;
 
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -89,11 +90,11 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 			// The selected flag on the course option dictates whether we are
 			// adding or removing from the shopping cart when passed to
 			// createRequests() --
-			// When item type is cart, the request will be to remove from the
+			// When item category is cart, the request will be to remove from the
 			// cart. For other items types, the request will be to add.
 			((CourseOptionInfo) courseOption).setSelected(!planItem
-					.getTypeKey().equals(
-							PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART));
+					.getCategory().equals(
+							AcademicPlanServiceConstants.ItemCategory.CART));
 		}
 		return courseOptions;
 	}
@@ -158,8 +159,8 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 				.getContextInfo();
 		List<PlanItemInfo> planItems;
 		try {
-			planItems = academicPlanService.getPlanItemsInPlanByType(
-					learningPlanId, PlanConstants.LEARNING_PLAN_ITEM_TYPE_CART,
+			planItems = academicPlanService.getPlanItemsInPlanByCategory(
+					learningPlanId, AcademicPlanServiceConstants.ItemCategory.CART,
 					context);
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("CO lookup failure", e);

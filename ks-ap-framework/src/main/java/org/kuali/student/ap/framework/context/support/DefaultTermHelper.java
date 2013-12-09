@@ -69,7 +69,10 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class DefaultTermHelper implements TermHelper {
 
 	private static final MarkerKey MARKER_KEY = new MarkerKey();
-    private ArrayList<String> termTypes;
+    private List<String> termTypes;
+    private String[] defaultTerms = {"kuali.atp.type.Fall","kuali.atp.type.Winter",
+            "kuali.atp.type.Spring","kuali.atp.type.Summer1"};
+    private static final int NUMBER_OF_FUTRUE_TERMS = 4;
 
     /**
      * Find TermId by termName and that contains the specified begin/end dates
@@ -149,15 +152,11 @@ public class DefaultTermHelper implements TermHelper {
 				List<AtpInfo> atps = atpService.getAtpsByDates(start, end, ctx);
 				List<String> termIds = new java.util.ArrayList<String>(atps.size());
 				List<String> acalIds = new java.util.ArrayList<String>(atps.size());
-				List<TypeInfo> termTypes = academicCalendarService.getTermTypes(ctx);
-				Set<String> termTypeKeys = new HashSet<String>();
-				for (TypeInfo termType : termTypes)
-					termTypeKeys.add(termType.getKey());
 				for (AtpInfo atp : atps) {
 					String atpType = atp.getTypeKey();
 					if (AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY.equals(atpType))
 						acalIds.add(atp.getId());
-					else if (termTypeKeys.contains(atpType))
+					else if (getTermTypes().contains(atpType))
 						termIds.add(atp.getId());
 				}
 				List<AcademicCalendarInfo> acals = academicCalendarService.getAcademicCalendarsByIds(acalIds, ctx);
@@ -323,16 +322,24 @@ public class DefaultTermHelper implements TermHelper {
 			if (rl == null || rl.isEmpty())
 				throw new IllegalStateException(
 						"AcademicCalendarService did not return any terms for academic calendar " + ac.getId());
-			for (Term at : rl)
+
+            List<String> termTypeKeys = getTermTypes();
+            List<Term> terms = new ArrayList<Term>();
+            for(Term term : rl)
+                if (termTypeKeys.contains(term.getTypeKey()))
+                    terms.add(term);
+
+			for (Term at : terms)
 				tm.acalMap.put(at.getId(), acl);
-			Collections.sort(rl, new Comparator<Term>() {
+			Collections.sort(terms, new Comparator<Term>() {
 				@Override
 				public int compare(Term term1, Term term2) {
 					return KsapFrameworkServiceLocator.getTermHelper().getYearTerm(term1)
 							.compareTo(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(term2));
 				}
 			});
-			return rl;
+
+			return terms;
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("Acal lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -498,6 +505,7 @@ public class DefaultTermHelper implements TermHelper {
 		c.setTime(term.getStartDate());
 		return new DefaultYearTerm(term.getId(), term.getTypeKey(), c.get(Calendar.YEAR));
 	}
+
     private Predicate[] getTermPredicates(){
         Predicate predicates[] = new Predicate[getTermTypes().size()];
         for(int i=0;i<getTermTypes().size();i++){
@@ -509,13 +517,51 @@ public class DefaultTermHelper implements TermHelper {
     private List<String> getTermTypes(){
         if(termTypes==null){
             termTypes = new ArrayList<String>();
-            termTypes.add("kuali.atp.type.Fall");
-            termTypes.add("kuali.atp.type.Spring");
-            termTypes.add("kuali.atp.type.Winter");
-            termTypes.add("kuali.atp.type.Summer1");
-            termTypes.add("kuali.atp.type.Summer2");
+            for(String term : defaultTerms){
+                termTypes.add(term);
+            }
         }
         return termTypes;
+    }
+
+    @Override
+    public List<Term> getCalendarTerms(Term startTerm){
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.YEAR, NUMBER_OF_FUTRUE_TERMS);
+        List<Term> calendarTerms = getTermsByDateRange(startTerm.getStartDate(),c.getTime());
+        Collections.sort(calendarTerms, new Comparator<Term>() {
+            @Override
+            public int compare(Term o1, Term o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
+        Term start = calendarTerms.get(0);
+        Term end = calendarTerms.get(calendarTerms.size()-1);
+        List<Term> startYear = getTermsInAcademicYear(new DefaultYearTerm(start.getId(),start.getTypeKey(),start.getStartDate().getYear()));
+        List<Term> endYear=getTermsInAcademicYear(new DefaultYearTerm(end.getId(),end.getTypeKey(),end.getStartDate().getYear()));
+        Collections.sort(startYear, new Comparator<Term>() {
+            @Override
+            public int compare(Term o1, Term o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
+        Collections.sort(endYear, new Comparator<Term>() {
+            @Override
+            public int compare(Term o1, Term o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
+        for(Term t : startYear){
+            if(t.getStartDate().compareTo(start.getStartDate())<0){
+                calendarTerms.add(0,t);
+            }
+        }
+        for(Term t : endYear){
+            if(t.getStartDate().compareTo(end.getStartDate())>0){
+                calendarTerms.add(t);
+            }
+        }
+        return calendarTerms;
     }
 
 

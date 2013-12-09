@@ -159,6 +159,8 @@
 				<bean parent="planner_course_note_input">
 					<property name="control.disabled" value="true" />
 					<property name="control.watermarkText" value="" />
+                    <property name="constraintMessage.onDocumentReadyScript" value=""/>
+                    <property name="constraintMessage.messageText" value=""/>
 				</bean>
 			</list>
 		</property>
@@ -441,6 +443,7 @@
 		<property name="label" value="Enter subject and catalog number" />
 		<property name="control">
 			<bean parent="Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
+                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript" value="jQuery('#courseCode_control').focus();" />
 				<property name="watermarkText" value="e.g. BL MATH-M 119" />
 				<property name="maxLength" value="50" />
@@ -463,7 +466,7 @@
 	<bean id="planner_course_note_input" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />
 		<property name="propertyName" value="courseNote" />
-		<property name="label" value="Note for course" />
+		<property name="label" value="Notes" />
 		<property name="control">
 			<bean parent="Uif-TextAreaControl" p:watermarkText="Enter a short note (500 characters max)"
 				p:maxLength="500">
@@ -477,6 +480,7 @@
 		</property>
 		<property name="constraintMessage">
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
+                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript"
 					value="jQuery('.ksap-characterCount').characterCount({maxLength:500});" />
 				<property name="cssClasses">
@@ -506,6 +510,7 @@
 		</property>
 		<property name="constraintMessage">
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
+                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript"
 					value="jQuery('.ksap-characterCount').characterCount({maxLength:500});" />
 				<property name="cssClasses">

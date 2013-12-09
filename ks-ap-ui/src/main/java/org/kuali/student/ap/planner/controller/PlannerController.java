@@ -4,6 +4,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.util.KsapStringUtil;
@@ -630,7 +631,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles changing a plan item's type.
      * Changes a plan item from its current type (planned, backup) to a new type (planned, backup)
      */
-	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=updatePlanItemType")
+	@RequestMapping(method = RequestMethod.POST, params = "methodToCall=updatePlanItemCategory")
 	public ModelAndView updatePlanItemType(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -641,9 +642,10 @@ public class PlannerController extends KsapControllerBase {
 
 		PlanItemInfo planItemInfo = new PlanItemInfo(planItem);
 
-        // Set the new type for the item
-		planItemInfo.setTypeKey(form.isBackup() ? PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
-				: PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+
+        // Set the new category for the item
+        planItemInfo.setCategory(form.isBackup() ? AcademicPlanServiceConstants.ItemCategory.BACKUP
+                : AcademicPlanServiceConstants.ItemCategory.PLANNED);
 
         // Update the plan item in the database.
 		try {
@@ -688,8 +690,8 @@ public class PlannerController extends KsapControllerBase {
      */
     private void finishAddCourse(LearningPlan plan, PlannerForm form, Course course, String termId,
                                  HttpServletResponse response) throws IOException, ServletException {
-        String newType = form.isBackup() ? PlanConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
-                : PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED;
+        AcademicPlanServiceConstants.ItemCategory category = form.isBackup() ? AcademicPlanServiceConstants.ItemCategory.BACKUP
+                : AcademicPlanServiceConstants.ItemCategory.PLANNED;
         Term term = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         PlanItem wishlistPlanItem = null;
@@ -699,7 +701,7 @@ public class PlannerController extends KsapControllerBase {
         if (existingPlanItems != null)
             for (PlanItem existingPlanItem : existingPlanItems) {
                 // If item has no term then record it
-                if (PlanConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST.equals(existingPlanItem.getTypeKey())) {
+                if (AcademicPlanServiceConstants.ItemCategory.WISHLIST.equals(existingPlanItem.getCategory())) {
                     wishlistPlanItem = existingPlanItem;
                     continue;
                 }
@@ -718,7 +720,8 @@ public class PlannerController extends KsapControllerBase {
         PlanItemInfo planItemInfo;
         if (create) {
             planItemInfo = new PlanItemInfo();
-            planItemInfo.setTypeKey(newType);
+            planItemInfo.setCategory(category);
+            planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
             planItemInfo.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
             planItemInfo.setLearningPlanId(plan.getId());
         } else {

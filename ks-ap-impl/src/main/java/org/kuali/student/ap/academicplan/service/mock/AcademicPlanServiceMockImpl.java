@@ -42,13 +42,19 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
         String atp = "19843";
         atpList.add( atp );
         plan.setPlanPeriods( atpList );
-        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+        plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
+        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
 
         return plan;
     }
 
     @Override
     public List<PlanItemInfo> getPlanItemsInPlanByType(@WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "planItemTypeKey") String planItemTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<PlanItemInfo> getPlanItemsInPlanByCategory(@WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "category") AcademicPlanServiceConstants.ItemCategory category, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -75,7 +81,8 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             List<String> atps = new ArrayList<String>();
             atps.add("19843");
             plan.setPlanPeriods( atps );
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+            plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
             plan.setMeta(meta);
 
             plan.setId( "1" );
@@ -96,7 +103,8 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             String atp = "19843";
             atpList.add( atp );
             plan.setPlanPeriods( atpList );
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+            plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
             plan.setMeta(meta);
 
             plan.setId( "2" );
@@ -116,7 +124,8 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             List<String> atps = new ArrayList<String>();
             atps.add("19843");
             plan.setPlanPeriods( atps );
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
+            plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
             plan.setMeta(meta);
 
             plan.setId( "1" );
@@ -136,7 +145,8 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             List<String> atps = new ArrayList<String>();
             atps.add("19843");
             plan.setPlanPeriods( atps );
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+            plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
             plan.setMeta(meta);
             plan.setId( "1" );
             list.add( plan );
@@ -156,7 +166,8 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             List<String> atps = new ArrayList<String>();
             atps.add("19843");
             plan.setPlanPeriods( atps );
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
+            plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
             plan.setMeta(meta);
 
             list.add( plan );
@@ -168,7 +179,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
     }
 
     @Override
-    public List<PlanItemInfo> getPlanItemsInPlanByAtp(@WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "planItemTypeKey") String planItemTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<PlanItemInfo> getPlanItemsInPlanByAtp(@WebParam(name = "learningPlanId") String learningPlanId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "category") AcademicPlanServiceConstants.ItemCategory category, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -220,7 +231,8 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
         List<String> atps = new ArrayList<String>();
         atps.add("19843");
         plan.setPlanPeriods( atps );
-        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+        plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
+        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
 
         plan.setId("1");
 

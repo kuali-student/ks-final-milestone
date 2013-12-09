@@ -384,3 +384,74 @@ function fnUpdateFacetList(obj) {
 			jQuery(this).find("span").text("(0)");
 	});
 }
+
+//Handle search criteria input and button actions
+//Refactored from KSAP-254 - Remove JS from Bean xml files
+function setupCourseSearchCriteriaActions(jqInputObject, jqSubmitButtonObject) {
+    var sb = jqSubmitButtonObject;
+    var ip = jqInputObject;
+
+    //immediate actions and tests
+    ip.focus();
+
+    if (ip.val() != '') {
+        sb.attr('disabled', false).removeClass('disabled').click();
+    }
+
+    //Register some events
+    jQuery(ip).on("change blur keyup", function(e){
+        if (jQuery(this).val().length > 0) {
+            sb.attr('disabled', false).removeClass('disabled');
+        } else {
+            sb.attr('disabled', true).addClass('disabled');
+        }
+    });
+
+    jQuery(ip).on("keypress", function(e){
+        var code = (e.keyCode ? e.keyCode : e.which);
+        if (code == 13) {
+            e.preventDefault();
+            jQuery(sb).click();
+        }
+    });
+}
+
+// Registering Course Search Results events
+//Refactored from KSAP-254 - Remove JS from Bean xml files
+function registerCourseSearchResultsEvents(jqObject) {
+    jQuery(jqObject)
+        .on('PLAN_ITEM_DELETED', function(event, data){
+            if (data.category === 'wishlist') {
+                fnRestoreSearchAddButton(data.courseDetails.courseId);
+            }
+        })
+        .on('PLAN_ITEM_ADDED', function(event, data){
+            if (data.category === 'wishlist') {
+                fnDisplayMessage('Bookmarked', 'bookmarked', data.courseDetails.courseId+'_status', false);
+            }
+        })
+        .on('PLAN_ITEM_ADDED', function(event, data){
+            if (data.category === 'planned') {
+                fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
+            }
+        })
+        .on('PLAN_ITEM_ADDED', function(event, data){
+            if (data.category === 'backup') {
+                fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
+            }
+        });
+}
+
+// Registering Course Search Results Facets events
+//Refactored from KSAP-254 - Remove JS from Bean xml files
+function registerCourseSearchResultsFacetsEvents(jqObjects){
+    jQuery(jqObjects).each(function() {
+        jQuery(this)
+            .subscribe('GENERATE_FACETS', function() {
+                fnGenerateFacetGroup(this);
+            })
+            .subscribe('UPDATE_FACETS', function() {
+                fnUpdateFacetList(this);
+            });
+	});
+}

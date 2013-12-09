@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-public class PlannerTerm implements HasUniqueId, Serializable {
+public class PlannerTerm implements HasUniqueId, Serializable, Comparable<PlannerTerm> {
 
 	private static final long serialVersionUID = 5885238483581189013L;
 
@@ -311,4 +311,10 @@ public class PlannerTerm implements HasUniqueId, Serializable {
 		return plannedCreditString;
 	}
 
+    @Override
+    public int compareTo(PlannerTerm o) {
+        Term t1 = KsapFrameworkServiceLocator.getTermHelper().getTerm(this.termId);
+        Term t2 = KsapFrameworkServiceLocator.getTermHelper().getTerm(o.termId);
+        return t1.getStartDate().compareTo(t2.getStartDate());
+    }
 }

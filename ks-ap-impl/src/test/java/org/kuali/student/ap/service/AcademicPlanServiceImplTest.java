@@ -31,7 +31,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
@@ -53,11 +52,8 @@ public class AcademicPlanServiceImplTest {
         createType("kuali.academicplan.type.plan", "Learning Plan", "Student learning plan type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
         createType("kuali.academicplan.type.plan.template", "Learning Plan Template", "Student learning plan template type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
         createType("kuali.academicplan.type.plan.review", "Learning Plan Review", "Student learning plan review type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
-        createType("kuali.academicplan.item.type.backup", "Backup Item", "Student learning plan backup item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
-        createType("kuali.academicplan.item.type.planned", "Planned Item", "Student learning plan planned item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
-        createType("kuali.academicplan.item.type.whatif", "What-if Item", "Student learning plan what-if item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
-        createType("kuali.academicplan.item.type.wishlist", "WishList Item", "Student learning plan wishlist item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
-        createType("kuali.academicplan.item.type.cart", "Shopping Cart Item", "Student learning plan shopping cart item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
+
+        createType("kuali.academicplan.type.item.course", "Course Item", "Student learning plan course item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
     }
 
 	@After
@@ -259,7 +255,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setDescr(desc);
 
 		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
+		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
 		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
@@ -310,7 +307,9 @@ public class AcademicPlanServiceImplTest {
 		planItem.setDescr(desc);
 
 		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        AcademicPlanServiceConstants.ItemCategory category = AcademicPlanServiceConstants.ItemCategory.PLANNED;
+        planItem.setCategory(category);
 
 		// Set some ATP info since this is a planned course.
 		List<String> planPeriods = new ArrayList<String>();
@@ -336,6 +335,7 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(planDesc, newPlanItem.getDescr().getPlain());
 		assertEquals(courseId, newPlanItem.getRefObjectId());
 		assertEquals(courseType, newPlanItem.getRefObjectType());
+        assertEquals(category  , newPlanItem.getCategory());
 
 		assertEquals(2, newPlanItem.getPlanPeriods().size());
 
@@ -351,6 +351,7 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(planDesc, fetchedPlanItem.getDescr().getPlain());
 		assertEquals(courseId, fetchedPlanItem.getRefObjectId());
 		assertEquals(courseType, fetchedPlanItem.getRefObjectType());
+        assertEquals(category  , fetchedPlanItem.getCategory());
 
 		assertEquals(2, fetchedPlanItem.getPlanPeriods().size());
 	}
@@ -385,8 +386,9 @@ public class AcademicPlanServiceImplTest {
 		planItemInfo.setRefObjectId(courseId);
 		planItemInfo.setRefObjectType(courseType);
 
-		planItemInfo
-				.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+        planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        AcademicPlanServiceConstants.ItemCategory category = AcademicPlanServiceConstants.ItemCategory.PLANNED;
+        planItemInfo.setCategory(category);
 		planItemInfo
 				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
 
@@ -406,6 +408,7 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(planId, fetchedPlanItem.getLearningPlanId());
 		assertEquals(courseId, fetchedPlanItem.getRefObjectId());
 		assertEquals(courseType, fetchedPlanItem.getRefObjectType());
+        assertEquals(planItemInfo.getCategory(), fetchedPlanItem.getCategory());
 		assertEquals(planItemInfo.getTypeKey(), fetchedPlanItem.getTypeKey());
 		assertEquals(planItemInfo.getStateKey(), fetchedPlanItem.getStateKey());
 		assertEquals(2, fetchedPlanItem.getPlanPeriods().size());
@@ -430,93 +433,11 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(planDesc, updatedPlanItem.getDescr().getPlain());
 		assertEquals(courseId, updatedPlanItem.getRefObjectId());
 		assertEquals(courseType, updatedPlanItem.getRefObjectType());
+        assertEquals(category, updatedPlanItem.getCategory());
 		assertEquals(1, updatedPlanItem.getPlanPeriods().size());
 		assertTrue(updatedPlanItem.getPlanPeriods().contains("20114"));
 		assertFalse(originalUpdateDate.equals(updatedPlanItem.getMeta()
 				.getUpdateTime()));
-	}
-
-	@Test(expected = AlreadyExistsException.class)
-	public void addPlannedCourseViolateUnqiueContraint()
-			throws InvalidParameterException, DataValidationErrorException,
-			MissingParameterException, AlreadyExistsException,
-			PermissionDeniedException, OperationFailedException {
-		String planId = "lp1";
-
-		// Create a new plan item.
-		PlanItemInfo planItem = new PlanItemInfo();
-
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Comment</span>";
-		String planDesc = "My Comment";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		planItem.setDescr(desc);
-
-		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
-
-		// Set some ATP info since this is a planned course.
-		List<String> planPeriods = new ArrayList<String>();
-		planPeriods.add("20111");
-		planPeriods.add("20114");
-		planItem.setPlanPeriods(planPeriods);
-
-		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
-		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
-
-		planItem.setRefObjectId(courseId);
-		planItem.setRefObjectType(courseType);
-
-		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-
-		KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
-				KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-		// Now violate the plan, type, course id uniqiue constraint by re-adding
-		// the course.
-		KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
-				KsapFrameworkServiceLocator.getContext().getContextInfo());
-	}
-
-	@Test
-	public void addPlannedCourseWithoutPlanPeriod() throws Throwable {
-
-		String planId = "lp1";
-
-		// Create a new plan item.
-		PlanItemInfo planItemInfo = new PlanItemInfo();
-
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Comment</span>";
-		String planDesc = "My Comment";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		planItemInfo.setDescr(desc);
-
-		planItemInfo.setLearningPlanId(planId);
-
-		// Don't set any plan periods. This should cause a validation error.
-
-		String courseId = "02711400-c66d-4ecb-aca5-565118f167cf";
-		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
-
-		planItemInfo.setRefObjectId(courseId);
-		planItemInfo.setRefObjectType(courseType);
-
-		planItemInfo
-				.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
-		planItemInfo
-				.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-
-		// Create the plan item
-		try {
-			KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItemInfo,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-			fail("A validation exception should have been thrown.");
-		} catch (DataValidationErrorException e) {
-			// OK
-		}
 	}
 
 	@Test
@@ -533,7 +454,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setDescr(desc);
 
 		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
+        planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
 		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = null;
 
@@ -568,7 +490,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setDescr(desc);
 
 		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
+        planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
 
 		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
@@ -587,6 +510,8 @@ public class AcademicPlanServiceImplTest {
 					.get(0);
 			assertEquals("learningPlanId", resultInfo.getElement());
 			assertEquals("error.required", resultInfo.getMessage());
+		} catch (InvalidParameterException ipe) {
+            assertEquals("Learning plan id was null.", ipe.getMessage());
 		}
 	}
 
@@ -604,7 +529,8 @@ public class AcademicPlanServiceImplTest {
 		planItem.setDescr(desc);
 
 		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
+        planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+		planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
 		String courseId = null;
 		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
 
@@ -624,65 +550,6 @@ public class AcademicPlanServiceImplTest {
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
-	}
-
-	@Test
-	public void addPlanItemToSavedCoursesListWithDuplicateCourseId()
-			throws Throwable {
-		String planId = "lp1";
-
-		// Create a new plan item.
-		PlanItemInfo planItem = new PlanItemInfo();
-
-		RichTextInfo desc = new RichTextInfo();
-		String formattedDesc = "<span>My Comment</span>";
-		String planDesc = "My Comment";
-		desc.setFormatted(formattedDesc);
-		desc.setPlain(planDesc);
-		planItem.setDescr(desc);
-
-		planItem.setLearningPlanId(planId);
-		planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_WISHLIST);
-		String courseId = "c796aecc-7234-4482-993c-bf00b8088e84";
-		String courseType = CLUConstants.CLU_TYPE_CREDIT_COURSE;
-
-		planItem.setRefObjectId(courseId);
-		planItem.setRefObjectType(courseType);
-
-		planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
-
-		KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
-				KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-		// Make sure the item was saved.
-		List<PlanItemInfo> savedCourses = KsapFrameworkServiceLocator.getAcademicPlanService()
-				.getPlanItemsInPlan(planId, KsapFrameworkServiceLocator
-						.getContext().getContextInfo());
-		boolean exists = false;
-		for (PlanItemInfo pii : savedCourses) {
-			if (pii.getRefObjectId().equals(courseId)) {
-				exists = true;
-				break;
-			}
-		}
-
-		if (!exists) {
-			fail("Unable to retrieve plan item.");
-		}
-
-		try {
-			// Make sure the id of the plan item isn't a factor.
-			planItem.setId(null);
-			KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(planItem,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (AlreadyExistsException e) {
-			return;
-		} catch (Exception e) {
-			// Do nothing.
-			System.err.println();
-		}
-
-		fail("Was able to add a duplicate course id to saved courses list.");
 	}
 
 	@Test
@@ -734,6 +601,7 @@ public class AcademicPlanServiceImplTest {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
 		planItemInfo.setTypeKey("YY");
+        planItemInfo.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
 		List<ValidationResultInfo> validationResultInfos = null;
 		try {
 			validationResultInfos = KsapFrameworkServiceLocator.getAcademicPlanService().validatePlanItem(
@@ -742,48 +610,29 @@ public class AcademicPlanServiceImplTest {
 		} catch (Exception e) {
 			fail(e.getLocalizedMessage());
 		}
-		assertEquals("error.required", validationResultInfos.get(0)
-				.getMessage());
-		assertEquals("refObjectType", validationResultInfos.get(0).getElement());
-		assertEquals("error.required", validationResultInfos.get(1)
-				.getMessage());
-		assertEquals("learningPlanId", validationResultInfos.get(1)
-				.getElement());
-		assertEquals("error.required", validationResultInfos.get(2)
-				.getMessage());
-		assertEquals("stateKey", validationResultInfos.get(2).getElement());
 
 		assertEquals("Could not find course with ID [XX].",
-				validationResultInfos.get(3).getMessage());
-		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
+				validationResultInfos.get(0).getMessage());
+		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
 	}
 
 	@Test
 	public void validatePlanItemForPlannedItem() throws Throwable {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
-		planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED);
+        planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        planItemInfo.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
 		List<ValidationResultInfo> validationResultInfos = KsapFrameworkServiceLocator.getAcademicPlanService()
 				.validatePlanItem("FULL_VALIDATION", planItemInfo,
 						KsapFrameworkServiceLocator.getContext()
 								.getContextInfo());
-		assertEquals("error.required", validationResultInfos.get(0)
-				.getMessage());
-		assertEquals("refObjectType", validationResultInfos.get(0).getElement());
-		assertEquals("error.required", validationResultInfos.get(1)
-				.getMessage());
-		assertEquals("learningPlanId", validationResultInfos.get(1)
-				.getElement());
-		assertEquals("error.required", validationResultInfos.get(2)
-				.getMessage());
-		assertEquals("stateKey", validationResultInfos.get(2).getElement());
 		assertEquals("Could not find course with ID [XX].",
-				validationResultInfos.get(3).getMessage());
-		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
+				validationResultInfos.get(0).getMessage());
+		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
 		assertEquals(
-				"Plan Item Type was ["+AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED+"], but no plan periods were defined.",
-				validationResultInfos.get(4).getMessage());
-		assertEquals("typeKey", validationResultInfos.get(4).getElement());
+				"Plan Item category was ["+AcademicPlanServiceConstants.ItemCategory.PLANNED+"], but no plan periods were defined.",
+				validationResultInfos.get(1).getMessage());
+		assertEquals("category", validationResultInfos.get(1).getElement());
 	}
 
 	@Test
@@ -793,29 +642,20 @@ public class AcademicPlanServiceImplTest {
 			OperationFailedException {
 		PlanItemInfo planItemInfo = new PlanItemInfo();
 		planItemInfo.setRefObjectId("XX");
-		planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP);
+        planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        planItemInfo.setCategory(AcademicPlanServiceConstants.ItemCategory.BACKUP);
 		List<ValidationResultInfo> validationResultInfos = KsapFrameworkServiceLocator
 				.getAcademicPlanService()
 				.validatePlanItem("FULL_VALIDATION", planItemInfo,
 						KsapFrameworkServiceLocator.getContext()
 								.getContextInfo());
-		assertEquals("error.required", validationResultInfos.get(0)
-				.getMessage());
-		assertEquals("refObjectType", validationResultInfos.get(0).getElement());
-		assertEquals("error.required", validationResultInfos.get(1)
-				.getMessage());
-		assertEquals("learningPlanId", validationResultInfos.get(1)
-				.getElement());
-		assertEquals("error.required", validationResultInfos.get(2)
-				.getMessage());
-		assertEquals("stateKey", validationResultInfos.get(2).getElement());
 		assertEquals("Could not find course with ID [XX].",
-				validationResultInfos.get(3).getMessage());
-		assertEquals("refObjectId", validationResultInfos.get(3).getElement());
+				validationResultInfos.get(0).getMessage());
+		assertEquals("refObjectId", validationResultInfos.get(0).getElement());
 		assertEquals(
-				"Plan Item Type was ["+AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP+"], but no plan periods were defined.",
-				validationResultInfos.get(4).getMessage());
-		assertEquals("typeKey", validationResultInfos.get(4).getElement());
+				"Plan Item category was ["+ AcademicPlanServiceConstants.ItemCategory.BACKUP +"], but no plan periods were defined.",
+				validationResultInfos.get(1).getMessage());
+		assertEquals("category", validationResultInfos.get(1).getElement());
 	}
 
     private void createType(String typeKey, String typeName, String typeDescription, String refObjectUri) {

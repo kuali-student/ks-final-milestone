@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.ibm.icu.util.Calendar;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.myplan.plan.dataobject.FullPlanItemsDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
@@ -45,7 +43,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();
 		try {
 			plannedCoursesList = getPlanItems(
-					PlanConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED, studentId);
+					AcademicPlanServiceConstants.ItemCategory.PLANNED, studentId);
 		} catch (Exception e) {
 			LOG.error("Could not load plannedCourseslist", e);
 

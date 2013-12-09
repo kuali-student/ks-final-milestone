@@ -97,42 +97,7 @@
 	<bean id="course_search_criteria_input-parent" parent="Uif-TextControl"
 		p:watermarkText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('SEARCH_SEARCHTERMS_PLACEHOLDER_TEXT')}">
 		<property name="onDocumentReadyScript"
-			value="
-        	if (jQuery('#text_searchQuery_control').val() != '') {
-          var sb = jQuery('button.course-search-submit');
-                sb.attr('disabled', false);
-                sb.removeClass('disabled');
-        		sb.click();
-        	}" />
-		<property name="onChangeScript"
-			value="
-         var sb = jQuery('button.course-search-submit');
-            if (jQuery(this).val().length > 0) {
-                sb.attr('disabled', false);
-                sb.removeClass('disabled');
-            } else {
-                sb.attr('disabled', true);
-                sb.addClass('disabled');
-            }" />
-		<property name="onLoadScript" value="jQuery(this).blur();" />
-		<property name="onKeyUpScript"
-			value="
-         var sb = jQuery('button.course-search-submit');
-            if (jQuery(this).val().length > 0) {
-                sb.attr('disabled', false);
-                sb.removeClass('disabled');
-            } else {
-                sb.attr('disabled', true);
-                sb.addClass('disabled');
-            }" />
-		<property name="onKeyPressScript"
-			value="
-            var code = (e.keyCode ? e.keyCode : e.which);
-            if (code == 13) {
-                e.preventDefault ? e.preventDefault() : e.returnValue = false;
-                jQuery('button.course-search-submit').click();
-            }
-        " />
+                  value="setupCourseSearchCriteriaActions(jQuery('#text_searchQuery_control'), jQuery('#searchForCourses'))"/>
 	</bean>
 
 	<bean id="text_searchQuery" parent="Uif-InputField"
@@ -153,8 +118,7 @@
 	<bean id="select_searchTerm" parent="Uif-InputField"
 		p:propertyName="searchTerm" p:label="in" p:fieldLabel.renderColon="false"
 		p:validationMessages.render="false">
-		<!--<property name="fieldLabel.cssClasses"> <list merge="true"> <value>myplan-text-normal</value> 
-			</list> </property> -->
+
 		<property name="control">
 			<bean parent="Uif-DropdownControl" />
 		</property>
@@ -235,36 +199,12 @@
 
 	<bean id="course_search_results" parent="course_search_results-parent" />
 	<bean id="course_search_results-parent" parent="Uif-DataTable">
-		<!-- p:ajaxSource="@{#ConfigProperties['courseSearchBaseUrl']}/search/course/@{searchQuery}/@{searchTerm}/@{campusSelect}"> -->
 		<property name="cssClasses">
 			<list merge="true">
 				<value>ksap-course-search-results-datatable</value>
 			</list>
 		</property>
-		<property name="onDocumentReadyScript"
-			value="
-            jQuery('#course_search_results')
-                .on('PLAN_ITEM_DELETED', function(event, data){
-                    if (data.planItemType === 'wishlist') {
-                        fnRestoreSearchAddButton(data.courseDetails.courseId);
-                    }
-                })
-                .on('PLAN_ITEM_ADDED', function(event, data){
-                    if (data.planItemType === 'wishlist') {
-                        fnDisplayMessage('Bookmarked', 'bookmarked', data.courseDetails.courseId+'_status', false);
-                    }
-                })
-                .on('PLAN_ITEM_ADDED', function(event, data){
-                    if (data.planItemType === 'planned') {
-                        fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
-                    }
-                })
-                .on('PLAN_ITEM_ADDED', function(event, data){
-                    if (data.planItemType === 'backup') {
-                        fnDisplayMessage('Planned', 'planned', data.courseDetails.courseId+'_status', false);
-                    }
-                });
-        " />
+        <property name="onDocumentReadyScript" value="registerCourseSearchResultsEvents(jQuery('#course_search_results'))" />
 		<property name="richTable.templateOptions">
 			<map merge="true">
 				<entry key="oLanguage"
@@ -357,16 +297,7 @@
 				<ref bean="course_quick_detail" />
 			</list>
 		</property>
-		<property name="onDocumentReadyScript"
-			value="jQuery('.ksap-facets-group').each(function() {
-	                jQuery(this)
-	                .subscribe('GENERATE_FACETS', function() {
-	                    fnGenerateFacetGroup(this);
-					})
-					.subscribe('UPDATE_FACETS', function() {
-	                    fnUpdateFacetList(this);
-	                });
-                });" />
+        <property name="onDocumentReadyScript" value="registerCourseSearchResultsFacetsEvents(jQuery('.ksap-facets-group'))"/>
 	</bean>
 
 	<bean id="facet-parent" abstract="true"
@@ -406,6 +337,7 @@
 			<list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Add to Plan"
                       p:title="Add to Plan">
+                    <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
                     <property name="actionScript" value="
                         var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddDialog', courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page'};
                         var popupStyle = {width:'300px', height:'16px'};
@@ -418,6 +350,7 @@
 				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
                       p:title="Bookmark"
                       p:style="margin:0;">
+                    <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
                     <property name="onClickScript" value="
                         var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addSavedCourse', courseId:jQuery(this).data('courseid')};
                         submitHiddenForm('plan', additionalFormData, e);

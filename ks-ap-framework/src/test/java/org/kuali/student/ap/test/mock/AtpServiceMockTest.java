@@ -1,5 +1,6 @@
 package org.kuali.student.ap.test.mock;
 
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -21,24 +22,49 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AtpServiceMockTest implements AtpService {
     private ArrayList<AtpInfo> mockAtps;
+    private Map<String, AtpInfo> searchableAtps;
+
+    private SearchService searchService;
+
+    public SearchService getSearchService() {
+        return searchService;
+    }
+
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
+    }
 
     private ArrayList<AtpInfo> getAtps(){
         if(mockAtps == null){
             mockAtps = new ArrayList<AtpInfo>();
-            mockAtps.add(createAtpInfo("76e1d98a-0f82-485b-academic-calendar",null,"2011-2012 Academic Calendar", DateFormatters.DEFAULT_DATE_FORMATTER.parse("2011-08-21"),DateFormatters.DEFAULT_DATE_FORMATTER.parse("2012-08-19"), null));
+            mockAtps.add(createAtpInfo("76e1d98a-0f82-485b-academic-calendar",null,"2011-2012 Academic Calendar", DateFormatters.DEFAULT_DATE_FORMATTER.parse("2011-08-21"),DateFormatters.DEFAULT_DATE_FORMATTER.parse("2012-08-19"), null, null));
         }
         return mockAtps;
     }
 
-    private AtpInfo createAtpInfo(String id, String code, String name, Date startDate, Date endDate, String adminOrgId){
+    private Map<String, AtpInfo> getSearchableAtps() {
+        if (searchableAtps == null) {
+            searchableAtps = new HashMap<String, AtpInfo>();
+            searchableAtps.put("and(\nequal(atpStatus, kuali.atp.state.Official), \nor(\nequal(typeKey, kuali.atp.type.Winter), \nequal(typeKey, kuali.atp.type.Fall), \nequal(typeKey, kuali.atp.type.Spring), \nequal(typeKey, kuali.atp.type.Summer1) \n) \n)",
+                    createAtpInfo("76e1d98a-0f82-485b-atp-1", null,"ATP 1", DateFormatters.DEFAULT_DATE_FORMATTER.parse("2011-01-01"),DateFormatters.DEFAULT_DATE_FORMATTER.parse("2011-03-31"), null, "kuali.atp.type.Winter"));
+
+
+        }
+        return searchableAtps;
+    }
+
+    private AtpInfo createAtpInfo(String id, String code, String name, Date startDate, Date endDate, String adminOrgId, String typeKey){
         AtpInfo newAtp = new AtpInfo();
         newAtp.setId(id);
         newAtp.setCode(code);
@@ -46,6 +72,7 @@ public class AtpServiceMockTest implements AtpService {
         newAtp.setStartDate(startDate);
         newAtp.setEndDate(endDate);
         newAtp.setAdminOrgId(adminOrgId);
+        newAtp.setTypeKey(typeKey);
 
         return newAtp;
     }
@@ -127,7 +154,12 @@ public class AtpServiceMockTest implements AtpService {
 
     @Override
     public List<AtpInfo> searchForAtps(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        List<AtpInfo> atps = new ArrayList<AtpInfo>();
+        for (Map.Entry<String, AtpInfo> entry : getSearchableAtps().entrySet()) {
+             if (entry.getKey().equals(criteria.getPredicate().toString()))
+                 atps.add(entry.getValue());
+        }
+        return atps;
     }
 
     @Override

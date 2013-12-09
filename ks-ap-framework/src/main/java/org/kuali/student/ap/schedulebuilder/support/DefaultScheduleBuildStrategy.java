@@ -798,17 +798,17 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 				acodes = Arrays.asList(acodeattr.split(","));
 			}
 
-			String type = planItem.getTypeKey();
-			if (AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_CART
-					.equals(type))
+			AcademicPlanServiceConstants.ItemCategory category = planItem.getCategory();
+			if (AcademicPlanServiceConstants.ItemCategory.CART
+					.equals(category))
 				cartCourseIdsAndActivityCodes.put(planItem.getRefObjectId(),
 						acodes);
-			else if (AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_PLANNED
-					.equals(type))
+			else if (AcademicPlanServiceConstants.ItemCategory.PLANNED
+					.equals(category))
 				plannedCourseIdsAndActivityCodes.put(planItem.getRefObjectId(),
 						acodes);
-			else if (AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_BACKUP
-					.equals(type))
+			else if (AcademicPlanServiceConstants.ItemCategory.BACKUP
+					.equals(category))
 				backupCourseIds.add(planItem.getRefObjectId());
 		}
 

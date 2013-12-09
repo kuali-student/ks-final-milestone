@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "KSPL_LRNG_PLAN")
-public class LearningPlanEntity extends MetaEntity implements Comparable<LearningPlanEntity> {
+public class LearningPlanEntity extends MetaEntity implements AttributeOwner<LearningPlanAttributeEntity>, Comparable<LearningPlanEntity> {
 
     @Column(name="STUDENT_ID")
 	private String studentId;

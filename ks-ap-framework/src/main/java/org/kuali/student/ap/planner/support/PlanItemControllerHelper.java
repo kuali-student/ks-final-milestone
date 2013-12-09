@@ -1,5 +1,6 @@
 package org.kuali.student.ap.planner.support;
 
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.PlanItemForm;
@@ -75,10 +76,10 @@ public final class PlanItemControllerHelper {
 			return null;
 		}
 
-		String expectedTypeKey = form.getExpectedPlanItemType();
-		if (expectedTypeKey != null && !planItem.getTypeKey().equals(expectedTypeKey)) {
+		AcademicPlanServiceConstants.ItemCategory expectedCategory = form.getExpectedPlanItemCategory();
+		if (expectedCategory != null && !planItem.getTypeKey().equals(expectedCategory)) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plan item " + planItemId + " not of expected type "
-					+ expectedTypeKey + ", found " + planItem.getTypeKey());
+					+ expectedCategory + ", found " + planItem.getTypeKey());
 			return null;
 		}
 
@@ -87,7 +88,7 @@ public final class PlanItemControllerHelper {
 			List<String> planPeriods = planItem.getPlanPeriods();
 			if (planPeriods == null || planPeriods.isEmpty() || !expectedTermId.equals(planPeriods.get(0))) {
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plan item " + planItemId
-						+ " not from expected term " + expectedTypeKey + ", found " + planItem.getTypeKey());
+						+ " not from expected term " + expectedCategory + ", found " + planItem.getTypeKey());
 				return null;
 			}
 		}
