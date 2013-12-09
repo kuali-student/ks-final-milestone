@@ -580,7 +580,7 @@
                 <bean parent="Uif-Message"
                         p:messageText="[image class=&quot;uif-validationImage&quot; src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;] Deleting a delivery format will delete all of its activities and registration groups from the system."
                         p:additionalCssClasses="uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages-warning">
-                    <property name="style" value="display: inline-block;" />
+                    <property name="style" value="width: 97%; display: inline-block;" />
                 </bean>
             </list>
         </property>
@@ -675,7 +675,9 @@
             <list>
                 <bean parent="Uif-Message"
                       p:messageText="[image class=&quot;uif-validationImage&quot; src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;] The waitlist settings can be managed on the individual Edit Activity Offering screens."
-                      p:additionalCssClasses="ks-informational-message-for-field"/>
+                      p:additionalCssClasses="ks-informational-message-for-field" >
+                    <property name="style" value="width: 97%;display: inline-block;" />
+                </bean>
             </list>
         </property>
     </bean>
