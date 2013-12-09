@@ -90,7 +90,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
 
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+        FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper) AgendaUtilities.getRuleWrapper(document);
         ruleWrapper.setAgendaEditor(this.getSelectedAgenda(document, "Edit"));
 
         //Set a copy on the wrapper so that we can allow the user to cancel his/her action.
@@ -109,6 +109,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
             FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
             rule.setKey(maintainable.getNextRuleKey());
+            ruleWrapper.setLocation(maintainable.getExamOfferingServiceFacade().isSetLocation());
         }
 
         this.getViewHelper(form).refreshInitTrees(ruleWrapper.getRuleEditor());
@@ -131,7 +132,11 @@ public class FERuleEditorController extends EnrolRuleEditorController {
                                    @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-
+        FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper)AgendaUtilities.getRuleWrapper(document);
+        if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
+            FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
+            ruleWrapper.setLocation(maintainable.getExamOfferingServiceFacade().isSetLocation());
+        }
         FEAgendaEditor agenda = this.getSelectedAgenda(document, "Delete");
         if (agenda != null) {
             RuleEditor ruleEditor = getSelectedRule(document, "Delete");
@@ -165,13 +170,16 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         form.getClientStateForSyncing().clear();
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
-        RuleManagementWrapper ruleWrapper = AgendaUtilities.getRuleWrapper(document);
+        FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper)AgendaUtilities.getRuleWrapper(document);
         RuleEditor ruleEditor = getSelectedRule(document, "Edit");
         if(!ruleEditor.isInitialized()){
             this.getViewHelper(form).initPropositionEditor(ruleEditor.getPropositionEditor());
             ruleEditor.setInitialized(true);
         }
-
+        if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
+            FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
+            ruleWrapper.setLocation(maintainable.getExamOfferingServiceFacade().isSetLocation());
+        }
         //Set a copy on the wrapper so that we can allow the user to cancel his/her action.
         ruleWrapper.setRuleEditor((RuleEditor) ObjectUtils.deepCopy(ruleEditor));
         ruleWrapper.setAgendaEditor(this.getSelectedAgenda(document, "Edit"));
