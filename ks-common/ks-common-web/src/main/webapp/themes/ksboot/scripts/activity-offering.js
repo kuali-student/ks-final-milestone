@@ -747,6 +747,7 @@ function rdlStartTimeOnBlur(){
     retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
         jQuery("#rdl_endtime").show();
         jQuery("#rdl_endtime_control").focus();
+        validateFieldValue(jQuery("#rdl_endtime_control"));
     });
 }
 
