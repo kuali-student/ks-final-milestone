@@ -207,10 +207,11 @@
                         <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur();"/>
                     </property>
                 </bean>
-                <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime"  p:disableNativeAutocomplete="true" p:required="@{!#dp.newScheduleRequest.tba}" p:forceSessionPersistence="true">
+                <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime"
+                                       p:disableNativeAutocomplete="true" p:forceSessionPersistence="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                      <property name="control">
-                         <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components"/>
+                         <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components, validStandardTimeSlot"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.TimeSlotEndTimeKeyValues" p:addBlankOption="false" />
