@@ -104,3 +104,8 @@ insert into KSEM_CTX_T (CREATEID, CREATETIME, ID, CTX_KEY, CTX_VAL) values ('SYS
 insert into KSEM_CTX_T (CREATEID, CREATETIME, ID, CTX_KEY, CTX_VAL) values ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, '4', 'kuali.state', 'default');
 insert into KSEM_CTX_T (CREATEID, CREATETIME, ID, CTX_KEY, CTX_VAL) values ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, '5', 'kuali.lu.fee.feeType', 'default');
 insert into KSEM_CTX_T (CREATEID, CREATETIME, ID, CTX_KEY, CTX_VAL) values ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, '6', 'kuali.lu.fee.rateType', 'default');
+
+insert into KSEM_ENUM_T (CREATEID, CREATETIME, ENUM_KEY, NAME, DESCR_PLAIN, ENUM_STATE, ENUM_TYPE) values ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.genedreq', 'Gen Ed Requirements', 'genedreq.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+
+insert into KSEM_ENUM_VAL_T (CREATEID, CREATETIME, ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, '66', 'ABC', 'ABC', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.genedreq', {ts '2011-04-07 00:00:00.0'}, '66', 'Test ABC');
+insert into KSEM_ENUM_VAL_T (CREATEID, CREATETIME, ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('SYSLOADER', {ts '2000-01-01 00:00:00.0'}, '67', 'XYZ', 'XYZ', {ts '2010-04-07 00:00:00.0'}, 'kuali.lu.genedreq', {ts '2011-04-07 00:00:00.0'}, '67', 'Test XYZ');
