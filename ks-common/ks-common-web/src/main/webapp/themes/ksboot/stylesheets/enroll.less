@@ -101,6 +101,16 @@ h3 + #pageValidationList.uif-validationMessagesList > li {
     margin-left: 24px;
 }
 
+/* error message margin in course prerequisite screen */
+div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem {
+    margin-left: 18px;
+}
+
+/* error message color in course prerequisite screen */
+div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem > a {
+    color: @errorText;
+}
+
 /* Attributes of the Bullet */
 .uif-validationMessages li {
     margin-bottom: 0px;
