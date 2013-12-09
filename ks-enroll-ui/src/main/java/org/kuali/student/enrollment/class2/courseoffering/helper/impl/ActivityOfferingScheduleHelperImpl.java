@@ -307,6 +307,29 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
     }
 
+    // A little hack-y, but looks like pretty much all the methods in this class --cclin
+    private ScheduleRequestSetInfo getScheduleRequestSetInfo(String id, ContextInfo context) {
+        try {
+            ScheduleRequestSetInfo srs = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSet(id, context);
+            return srs;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ScheduleRequestSetInfo getScheduleRequestSetInfoByRefObject(String aoId, ContextInfo context) {
+        try {
+            List<ScheduleRequestSetInfo> srses =
+                    CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
+                            aoId, context);
+            // Assume only zero or one SRS with this ao ID (should never be more than 1 until we support partial colo)
+            ScheduleRequestSetInfo srs = KSCollectionUtils.getOptionalZeroElement(srses);
+            return srs;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void savePreMSE(ActivityOfferingWrapper wrapper, ContextInfo contextInfo) {
 
         //  Handle deleted schedule requests.
@@ -353,6 +376,29 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     }
                 }
             } else if (wrapper.isColocatedAO()){
+                ScheduleRequestSetInfo origSRS = getScheduleRequestSetInfo(scheduleRequestSetInfo.getId(), contextInfo);
+                // KSENROLL-11145 (AFT CCO 2.13)
+                // Delete the old SRSes associated with ao IDs added to the colo set
+                if (scheduleRequestSetInfo.getRefObjectIds().containsAll(origSRS.getRefObjectIds()) &&
+                        scheduleRequestSetInfo.getRefObjectIds().size() > origSRS.getRefObjectIds().size()) {
+                    // Determine if new SRS added new AO ids (which means old ones need to be removed).  That is,
+                    // if x, y are added to an SRS containing z (thus, x, y, z are now in SRS with z), then the SRS
+                    // with x and with y should be deleted, otherwise there are two SRSes around.
+
+                    // Do the set difference between the current ref object IDS (e.g., x, y, z)
+                    // with the original (e.g., z) to get the AO ids whose original
+                    List<String> aoIdsUsedToRemoveSRS = new ArrayList<String>();
+                    aoIdsUsedToRemoveSRS.addAll(scheduleRequestSetInfo.getRefObjectIds());
+                    // Don't delete the original ones because they are what's being added to
+                    aoIdsUsedToRemoveSRS.removeAll(origSRS.getRefObjectIds());
+                    for (String aoIdIter: aoIdsUsedToRemoveSRS) {
+                        ScheduleRequestSetInfo srsToDelete = getScheduleRequestSetInfoByRefObject(aoIdIter, contextInfo);
+                        if (srsToDelete != null) {
+                            deleteScheduleRequestSetInfo(srsToDelete.getId(), contextInfo);
+                        }
+                    }
+                }
+                List<String> aoIdsForSRSDeletion = new ArrayList<String>(scheduleRequestSetInfo.getRefObjectIds());
                 //Just make sure the current ao is added to the sch set.
                 if (!scheduleRequestSetInfo.getRefObjectIds().contains(aoId)){
                     scheduleRequestSetInfo.getRefObjectIds().add(aoId);

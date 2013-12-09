@@ -470,7 +470,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
 
                 ActivityOfferingInfo targetAo;
                 CourseOfferingServiceExtender extender = getCourseOfferingServiceExtender();
-                if (sourceTermSameAsTarget || !isTrueRollover) {
+                if (!isTrueRollover) {
+                    // Handles the copy CO scenario
                     // KSENROLL-8064: Make behavior of copying an AO the same (other than the option
                     // keys in the if statement above
                     // Note: if source/target term are the same, this is not a true rollover, so it is copy CO
