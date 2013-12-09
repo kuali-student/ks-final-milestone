@@ -1,6 +1,8 @@
 package org.kuali.rice.krad.uif.container.extension;
 
 import org.kuali.rice.krad.uif.container.PageGroup;
+import org.kuali.rice.krad.uif.util.BreadcrumbItem;
+import org.kuali.rice.krad.uif.util.PageBreadcrumbOptions;
 
 /**
  * Fix under KSAP-265
@@ -34,5 +36,28 @@ public class KSAPPageGroup extends PageGroup {
     public void setInnerViewWrapperId(String innerViewWrapperId) {
         this.innerViewWrapperId = innerViewWrapperId;
     }
+
+    /**
+     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
+     */
+    @Override
+    protected <T> void copyProperties(T component) {
+        super.copyProperties(component);
+
+        KSAPPageGroup pageGroupCopy = (KSAPPageGroup) component;
+
+        pageGroupCopy.setAutoFocus(this.isAutoFocus());
+        pageGroupCopy.setStickyFooter(this.isStickyFooter());
+        pageGroupCopy.setInnerViewWrapperId(this.getInnerViewWrapperId());
+
+        if (this.getBreadcrumbOptions() != null) {
+            pageGroupCopy.setBreadcrumbOptions((PageBreadcrumbOptions) this.getBreadcrumbOptions().copy());
+        }
+
+        if (this.getBreadcrumbItem() != null) {
+            pageGroupCopy.setBreadcrumbItem((BreadcrumbItem) this.getBreadcrumbItem().copy());
+        }
+    }
+
 
 }
