@@ -121,6 +121,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
         public static final String TOTAL_MAX_SEATS = "totalMaxSeats";
         public static final String AO_CLUSTER_COUNT = "aoClusterCount";
         public static final String WL_IND = "wlInd";
+        public static final String AO_ISHONORS = "aoIsHonors";
     }
 
     static {
@@ -738,7 +739,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "    ao2sched.SCHED_ID    AS col_9_0_, " +
                 "    ao.MAX_SEATS         AS col_10_0_, " +
                 "    aoIdent.LUI_CD       AS col_11_0_, " +
-                "    ao.ATP_ID            AS col_12_0_ " +
+                "    ao.ATP_ID            AS col_12_0_," +
+                "    aoHonors.VALUE       AS col_13_0_ " +
                 "FROM " +
                 "    KSEN_LUILUI_RELTN co2fo " +
                 "LEFT OUTER JOIN " +
@@ -768,9 +770,13 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "LEFT OUTER JOIN" +
                 "   KSEN_LUI_SCHEDULE ao2sched " +
                 "ON " +
-
                 "   ao2sched.LUI_ID = ao.ID " +
                 "AND aoIdent.LUI_ID_TYPE='" + LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY + "' " +
+                "LEFT OUTER JOIN" +
+                "   KSEN_LUI_LU_CD aoHonors " +
+                "ON " +
+                "   aoHonors.LUI_ID = ao.ID " +
+                "AND aoHonors.LUI_LUCD_TYPE='" + LuiServiceConstants.HONORS_LU_CODE + "' " +
                 "WHERE " +
                 "    co2fo.LUI_ID= :coId " +
                 "AND co2fo.LUILUI_RELTN_TYPE='" + LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY + "'";
@@ -809,6 +815,7 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 i++; // increment from previous row
                 row.addCell(SearchResultColumns.AO_CODE, (String)resultRow[i++]);
                 row.addCell(SearchResultColumns.ATP_ID, resultRow[i]==null?null:resultRow[i].toString());
+                row.addCell(SearchResultColumns.AO_ISHONORS, (String)resultRow[++i]);
                 resultInfo.getRows().add(row);
                 aoMap.put(aoId, row);
             } else {

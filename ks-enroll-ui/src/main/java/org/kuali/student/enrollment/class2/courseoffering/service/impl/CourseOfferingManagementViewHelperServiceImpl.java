@@ -1032,20 +1032,25 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     private String getAoActivityCodeText(RegistrationGroupWrapper rgWrapper, ActivityOfferingWrapper aoWrapper, String lineBreaks) {
-        //sub-term icon and tooltip setup
+        StringBuilder sb = new StringBuilder();
+        sb.append(aoWrapper.getAoInfo().getActivityCode());
+
+        //sub-term and honors icon and tooltip setup
+        if (aoWrapper.getAoInfo().getIsHonorsOffering()) {
+            sb.append("&nbsp;&nbsp;&nbsp;<img src=\"../themes/ksboot/images/h.png\" title=\"Honors activity");
+            sb.append("\">");
+            sb.append(lineBreaks);
+        }
+
         if (!aoWrapper.getSubTermName().equals("None")) {  //sub-term? > icon + name and dates
-            StringBuilder sb = new StringBuilder();
-            sb.append(aoWrapper.getAoInfo().getActivityCode());
             sb.append("&nbsp;&nbsp;&nbsp;<img src=\"../themes/ksboot/images/subterm_icon.png\" title=\"This activity is in ");
             sb.append(aoWrapper.getSubTermName());
             sb.append(" -\n");
             sb.append(aoWrapper.getTermStartEndDate());
             sb.append("\">");
             sb.append(lineBreaks);
-            return sb.toString();
-        } else {
-            return aoWrapper.getAoInfo().getActivityCode();
         }
+        return sb.toString();
     }
 
     private String computeLineBreaks(String displayString) {
@@ -1227,6 +1232,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     aocPrivateName = cell.getValue();
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.ATP_ID.equals(cell.getKey())) {
                     aoWrapper.getAoInfo().setTermId(cell.getValue());
+                } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.AO_ISHONORS.equals(cell.getKey())) {
+                    aoWrapper.getAoInfo().setIsHonorsOffering(Boolean.valueOf(cell.getValue()));
                 }
             }
             aoWrapper.getAoInfo().setScheduleIds(scheduleIds);
