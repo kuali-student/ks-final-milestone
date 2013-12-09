@@ -162,7 +162,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
         RuleEditor cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
         //Build the compare rule tree
-        ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(aoRuleEditor, cluRuleEditor));
+        ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(cluRuleEditor, aoRuleEditor));
         ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
 
         // redirect back to client to display lightbox
@@ -198,7 +198,7 @@ public class AORuleEditorController extends EnrolRuleEditorController {
 
             RuleEditor cluRuleEditor = ((AORuleEditor) aoRuleEditor).getCluEditor();
             //Build the compare rule tree
-            ruleWrapper.setCompareTree(this.getViewHelper(form).buildMultiViewTree(aoRuleEditor.getParent(), cluRuleEditor));
+            ruleWrapper.setCompareTree(this.getViewHelper(form).buildMultiViewTree(cluRuleEditor, aoRuleEditor.getParent()));
             ruleWrapper.setCompareLightBoxHeader(aoRuleEditor.getRuleTypeInfo().getDescription());
         }
 

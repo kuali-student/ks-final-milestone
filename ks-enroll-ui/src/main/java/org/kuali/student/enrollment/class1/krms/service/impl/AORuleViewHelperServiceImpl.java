@@ -64,14 +64,14 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor aoRuleEditor, RuleEditor cluRuleEditor) {
+    public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor cluRuleEditor, RuleEditor aoRuleEditor) {
 
         //Set the original nl if not already exists.
         checkNaturalLanguageForTree(aoRuleEditor);
         checkNaturalLanguageForTree(aoRuleEditor.getParent());
         checkNaturalLanguageForTree(cluRuleEditor);
 
-        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(aoRuleEditor.getParent(), cluRuleEditor, aoRuleEditor);
+        Tree<CompareTreeNode, String> compareTree = this.getCompareTreeBuilder().buildTree(cluRuleEditor, aoRuleEditor.getParent(), aoRuleEditor);
 
         return compareTree;
     }
@@ -85,13 +85,13 @@ public class AORuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
      * @throws Exception
      */
     @Override
-    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor coRuleEditor, RuleEditor cluRuleEditor) {
+    public Tree<CompareTreeNode, String> buildMultiViewTree(RuleEditor cluRuleEditor, RuleEditor coRuleEditor) {
 
         //Set the original nl if not already exists.
         checkNaturalLanguageForTree(coRuleEditor);
         checkNaturalLanguageForTree(cluRuleEditor);
 
-        Tree<CompareTreeNode, String> compareTree = this.getViewCoCluTreeBuilder().buildTree(coRuleEditor, cluRuleEditor);
+        Tree<CompareTreeNode, String> compareTree = this.getViewCoCluTreeBuilder().buildTree(cluRuleEditor, coRuleEditor);
 
         return compareTree;
     }

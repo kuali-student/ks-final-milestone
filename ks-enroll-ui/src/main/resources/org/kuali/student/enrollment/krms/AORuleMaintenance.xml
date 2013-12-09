@@ -64,7 +64,7 @@ limitations under the License.
                     <property name="headerText" value="View Catalog and Course Offering Rules"/>
                 </bean>
                 <bean id="compareCluCoAndAoRuleLightBox" parent="KRMS-AoCompareRule">
-                    <property name="headerText" value="Compare Course Offering, Catalog and Activity Offering Rules"/>
+                    <property name="headerText" value="Compare Catalog, Course Offering and Activity Offering Rules"/>
                 </bean>
                 <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup"/>
                 <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"/>
