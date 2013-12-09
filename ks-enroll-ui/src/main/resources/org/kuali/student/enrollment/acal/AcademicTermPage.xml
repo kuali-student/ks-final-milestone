@@ -50,7 +50,6 @@
         <property name="onDocumentReadyScript"
                   value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}');"/>
         <!--<property name="header.render" value="false" />-->
-        <property name="headerText" value="Terms"/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
         <!-- Move the add button to the right of the fields -->
