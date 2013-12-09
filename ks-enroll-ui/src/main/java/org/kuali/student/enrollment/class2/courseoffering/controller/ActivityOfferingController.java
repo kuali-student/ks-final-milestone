@@ -158,11 +158,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             }
         }
 
-        if (GlobalVariables.getMessageMap().getErrorCount() == 0){
-            form.setJumpToId("ActivityOffering-DeliveryLogistic-Actuals");
-        } else {
-            form.setJumpToId("TOP");
-        }
+        form.setJumpToId("ActivityOffering-DeliveryLogistic-Actuals");
 
         return getUIFModelAndView(form);
     }
