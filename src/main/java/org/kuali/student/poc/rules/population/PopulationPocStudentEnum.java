@@ -8,7 +8,7 @@ package org.kuali.student.poc.rules.population;
  */
 public enum PopulationPocStudentEnum {
 
-    STUDENT1(2001, "888020001", "Biology", PopulationPocConstants.PROGRAM_BACHELOR_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "1", "0"),
+    STUDENT1(2001, "888020001", "Biology", PopulationPocConstants.PROGRAM_BACHELOR_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "freshman", "0"),
     STUDENT2(2002, "888020002", "Humanities", PopulationPocConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "3", "10"),
     STUDENT3(2003, "888020003", "Computer Science", PopulationPocConstants.PROGRAM_MASTER_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "2", "5");
 
@@ -41,6 +41,66 @@ public enum PopulationPocStudentEnum {
         this.programName = programName;
         this.programLevel = programLevel;
         this.yearOfStudy = yearOfStudy;
+        this.creditsCompleted = creditsCompleted;
+    }
+
+    //////////////////////////
+    // GETTERS AND SETTERS
+    //////////////////////////
+
+    public int getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(int personId) {
+        this.personId = personId;
+    }
+
+    public String getGovernmentIssuedIdentificationNumber() {
+        return governmentIssuedIdentificationNumber;
+    }
+
+    public void setGovernmentIssuedIdentificationNumber(String governmentIssuedIdentificationNumber) {
+        this.governmentIssuedIdentificationNumber = governmentIssuedIdentificationNumber;
+    }
+
+    public String getDept() {
+        return dept;
+    }
+
+    public void setDept(String dept) {
+        this.dept = dept;
+    }
+
+    public String getProgramName() {
+        return programName;
+    }
+
+    public void setProgramName(String programName) {
+        this.programName = programName;
+    }
+
+    public String getProgramLevel() {
+        return programLevel;
+    }
+
+    public void setProgramLevel(String programLevel) {
+        this.programLevel = programLevel;
+    }
+
+    public String getYearOfStudy() {
+        return yearOfStudy;
+    }
+
+    public void setYearOfStudy(String yearOfStudy) {
+        this.yearOfStudy = yearOfStudy;
+    }
+
+    public String getCreditsCompleted() {
+        return creditsCompleted;
+    }
+
+    public void setCreditsCompleted(String creditsCompleted) {
         this.creditsCompleted = creditsCompleted;
     }
 }

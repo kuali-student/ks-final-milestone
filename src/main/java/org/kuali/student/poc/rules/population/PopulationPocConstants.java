@@ -16,6 +16,9 @@
  */
 package org.kuali.student.poc.rules.population;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * This class holds some constants across the Population POC.
  *
@@ -32,5 +35,14 @@ public class PopulationPocConstants {
     public static final String PROGRAM_BACHELOR_OF_SCIENCE = "kuali.student.poc.rules.population.program.name.bsc";
     public static final String PROGRAM_BACHELOR_OF_ARTS = "kuali.student.poc.rules.population.program.name.ba";
     public static final String PROGRAM_MASTER_OF_SCIENCE = "kuali.student.poc.rules.population.program.name.msc";
+
+    public static final String MAX_CREDITS_IN_PROGRAM_UNIVERSITY_OF_TORONTO_UNDERGRADUATE = "20";
+    public static final String MAX_CREDITS_IN_PROGRAM_UNIVERSITY_OF_UTAH_UNDERGRADUATE = "122";
+    public static final String MAX_CREDITS_IN_PROGRAM_MIT_UNDERGRADUATE = "360";
+
+    public static final List<String> YEARS_OF_STUDY_LABELS_UNDERGRADUATE_USA = Arrays.asList("freshman", "sophomore", "junior", "senior");
+    public static final List<String> YEARS_OF_STUDY_LABELS_UNDERGRADUATE_CANADA = Arrays.asList("1", "2", "3", "4");
+    public static final List<String> YEARS_OF_STUDY_LABELS_GRADUATE_MASTERS = Arrays.asList("1", "2");
+    public static final List<String> YEARS_OF_STUDY_LABELS_GRADUATE_DOCTORS = Arrays.asList("1", "2", "3");
 
 }
