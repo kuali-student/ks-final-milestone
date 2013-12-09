@@ -1055,7 +1055,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 
 .ksap-status {
-    padding: 8px;
     border-radius: 3px;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
@@ -2718,3 +2717,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 }
 
 /* end */
+
+#course_details_section {
+    width: 73%;
+}
