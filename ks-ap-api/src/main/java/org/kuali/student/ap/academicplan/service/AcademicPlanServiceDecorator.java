@@ -50,6 +50,13 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     }
 
     @Override
+    public List<PlanItemInfo> getPlanItemsInPlanByCategory(@WebParam(name = "learningPlanId") String learningPlanId,
+                                                       @WebParam(name = "category") AcademicPlanServiceConstants.ItemCategory category,
+                                                       @WebParam(name = "context") ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getPlanItemsInPlanByCategory(learningPlanId, category, context);
+    }
+    @Override
     public List<PlanItemInfo> getPlanItemsInPlan(@WebParam(name = "learningPlanId") String learningPlanId,
                                              @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -59,10 +66,10 @@ public class AcademicPlanServiceDecorator implements AcademicPlanService {
     @Override
     public List<PlanItemInfo> getPlanItemsInPlanByAtp(@WebParam(name = "learningPlanId") String learningPlanId,
                                                   @WebParam(name = "atpKey") String atpKey,
-                                                  @WebParam(name = "planItemTypeKey") String planItemTypeKey,
+                                                  @WebParam(name = "category") AcademicPlanServiceConstants.ItemCategory category,
                                                   @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getPlanItemsInPlanByAtp(learningPlanId, atpKey, planItemTypeKey, context);
+        return getNextDecorator().getPlanItemsInPlanByAtp(learningPlanId, atpKey, category, context);
     }
 
     @Override

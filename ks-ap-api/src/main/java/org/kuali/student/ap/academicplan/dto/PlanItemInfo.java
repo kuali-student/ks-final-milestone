@@ -12,6 +12,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
@@ -25,7 +26,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PlanItemInfo", propOrder = {"refObjectId", "refObjectType", "learningPlanId", "planPeriods", "id",
-        "credit", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
+        "credit", "category", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
 public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
 
  	private static final long serialVersionUID = 7795677206429530520L;
@@ -50,6 +51,9 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
 
     @XmlElement
     private BigDecimal credit;
+
+    @XmlElement
+    private AcademicPlanServiceConstants.ItemCategory category;
 
     @SuppressWarnings("unused")
 	@XmlAnyElement
@@ -76,6 +80,7 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
             this.refObjectType = item.getRefObjectType();
             this.learningPlanId = item.getLearningPlanId();
 			this.credit = item.getCredit();
+            this.category = item.getCategory();
 
 			List<String> planPeriods = item.getPlanPeriods();
 			if (null != planPeriods) {
@@ -150,4 +155,13 @@ public class PlanItemInfo extends TypeStateEntityInfo implements PlanItem {
     public void setCredit(BigDecimal credit) {
          this.credit = credit;
     }
+
+    public AcademicPlanServiceConstants.ItemCategory getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(AcademicPlanServiceConstants.ItemCategory  category) {
+        this.category=category;
+    }
+
 }
