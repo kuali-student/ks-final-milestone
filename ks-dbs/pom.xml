@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.deployments</groupId>
         <artifactId>ks-deployments</artifactId>
-        <version>2.0.0-M7-KSAP-SNAPSHOT</version>
+        <version>2.0.0-M8-KSAP-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.db</groupId>
     <artifactId>ks-dbs</artifactId>
@@ -56,11 +56,6 @@
                             <groupId>org.kuali.student.enroll</groupId>
                             <artifactId>ks-enroll-sql</artifactId>
                             <version>${ks.enroll.version}</version>
-                        </dependency>
-                        <dependency>
-                            <groupId>org.kuali.student.ap</groupId>
-                            <artifactId>ks-ap-sql</artifactId>
-                            <version>${ks.ap.version}</version>
                         </dependency>
                         <dependency>
                             <groupId>org.kuali.common</groupId>

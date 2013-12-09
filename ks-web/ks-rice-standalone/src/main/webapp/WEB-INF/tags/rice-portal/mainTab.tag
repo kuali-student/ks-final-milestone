@@ -18,18 +18,14 @@
 
 <td class="content" valign="top">
 	<mainChannel:ksApplications/>
+    <mainChannel:coApplications/>
 </td>
 <td class="content" valign="top">
-    <mainChannel:wc1Applications/>
+    <mainChannel:ksMaintenance />
     <mainChannel:aftApplications />
-<%--Disabled enrollment links because that application has not yet been released--%>
-    <%--<mainChannel:coApplications/>--%>
-    <%--<mainChannel:ec1Applications/>--%>
-<%--Disabled old KS Maint Docs as they are currently not functioning after Rice upgrade and provide little functionality--%>
-    <%--<mainChannel:ksMaintenance />--%>
-
 </td>
 <td class="content" valign="top">
 	<mainChannel:workflow />
 	<mainChannel:notification />
+    <mainChannel:rules />
 </td>

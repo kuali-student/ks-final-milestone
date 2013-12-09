@@ -31,11 +31,16 @@
     <param name="config.location">classpath:ks-security-config.xml</param>
     <param name="appserver.url">http://localhost:8080</param>
     <param name="app.code">ks-rice-standalone</param>
+
+    <param name="krad.externalizable.images.url">${application.url}/themes/ksboot/images/</param>
+
+    <param name="app.context.name">ks-rice-standalone-${environment}</param>
     <param name="application.id">RICE</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>
     
-    <param name="lum.application.url" override="false">http://localhost:8081/ks-with-rice-embedded</param>
+    <param name="lum.application.url" override="false">http://localhost:8081/ks-with-rice-embedded-${environment}</param>
+    
     <!-- OrgUrls -->
     <param name="ks.org.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</param>
     
@@ -70,16 +75,6 @@
     <param name="datasource.username">KSRICE</param>
     <param name="datasource.password">KSRICE</param>
 
-	<!-- core datasource needed for admin screens -->
-	<param name="ks.core.datasource.driver.name">${datasource.driver.name}</param>
-	<param name="ks.core.datasource.pool.maxSize">${datasource.pool.maxSize}</param>
-	<param name="ks.core.datasource.pool.minSize">${datasource.pool.minSize}</param>
-	<param name="ks.core.datasource.pool.maxWait">${datasource.pool.maxWait}</param>
-	<param name="ks.core.datasource.pool.validationQuery">${datasource.pool.validationQuery}</param>
-	<param name="ks.core.datasource.url">${datasource.url}</param>
-	<param name="ks.core.datasource.username">KSAPP</param>
-	<param name="ks.core.datasource.password">KSAPP</param>
-
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
@@ -91,9 +86,8 @@
     <param name="filtermapping.login.1">/*</param>
 -->
     <!-- additional config files -->
-    <param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
     <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml,classpath:ks-rice-standalone-admin-context.xml</param>
+    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml</param>
     
     <!-- Bus security -->
     <param name="ks.core.bus.security">false</param>

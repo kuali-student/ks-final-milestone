@@ -647,7 +647,7 @@
     <sequence name="KREW_TYP_ATTR_S" startValue="10000"/>
     <sequence name="KREW_TYP_S" startValue="10000"/>
     <sequence name="KREW_USR_S" startValue="100000000000"/>
-    <sequence name="KRIM_ATTR_DATA_ID_S" startValue="10000"/>
+    <sequence name="KRIM_ATTR_DATA_ID_S" startValue="10007"/>
     <sequence name="KRIM_ATTR_DEFN_ID_S" startValue="10003"/>
     <sequence name="KRIM_DLGN_ID_S" startValue="10000"/>
     <sequence name="KRIM_DLGN_MBR_ID_S" startValue="10000"/>
@@ -666,13 +666,13 @@
     <sequence name="KRIM_GRP_ATTR_DATA_ID_S" startValue="10000"/>
     <sequence name="KRIM_GRP_ID_S" startValue="10000"/>
     <sequence name="KRIM_GRP_MBR_ID_S" startValue="10000"/>
-    <sequence name="KRIM_PERM_ID_S" startValue="10003"/>
+    <sequence name="KRIM_PERM_ID_S" startValue="10007"/>
     <sequence name="KRIM_PERM_RQRD_ATTR_ID_S" startValue="10000"/>
     <sequence name="KRIM_PERM_TMPL_ID_S" startValue="10002"/>
     <sequence name="KRIM_PRNCPL_ID_S" startValue="10000"/>
     <sequence name="KRIM_ROLE_ID_S" startValue="10003"/>
     <sequence name="KRIM_ROLE_MBR_ID_S" startValue="10003"/>
-    <sequence name="KRIM_ROLE_PERM_ID_S" startValue="10000"/>
+    <sequence name="KRIM_ROLE_PERM_ID_S" startValue="10006"/>
     <sequence name="KRIM_ROLE_RSP_ACTN_ID_S" startValue="10000"/>
     <sequence name="KRIM_ROLE_RSP_ID_S" startValue="10000"/>
     <sequence name="KRIM_RSP_ID_S" startValue="10000"/>
@@ -732,7 +732,7 @@
             <size value="100"/>
         </column>
         <column name="LOC" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
+            <size value="80"/>
         </column>
         <column name="MSG_DESC" type="STRING">
             <size value="255"/>
@@ -753,7 +753,7 @@
             <defaultValue>1 </defaultValue>
             <size value="8"/>
         </column>
-        <uniqueConstraint name="KRAD_MSG_TC2">
+        <uniqueConstraint name="KRAD_MSG_TC0">
             <column>OBJ_ID</column>
         </uniqueConstraint>
     </table>
@@ -1156,6 +1156,9 @@
         </column>
         <column name="DELIV_TYP" nullable="false" type="STRING">
             <size value="3"/>
+        </column>
+        <column name="DOC_TYP_NM" type="STRING">
+            <size value="64"/>
         </column>
         <column name="LOCKD_DTTM" type="TIMESTAMP">
             <size value="7"/>
@@ -6091,7 +6094,7 @@
             <size value="2"/>
         </column>
         <column name="POSTAL_CNTRY_NM" type="STRING">
-            <size value="40"/>
+            <size value="255"/>
         </column>
         <column name="PSTL_CNTRY_RSTRC_IND" nullable="false" type="STRING">
             <size value="1"/>
@@ -7473,6 +7476,7 @@
             <size value="40"/>
         </column>
         <column name="SESN_ID" nullable="false" type="STRING">
+            <defaultValue>'undefined' </defaultValue>
             <size value="40"/>
         </column>
         <column name="VER_NBR" nullable="false" type="FLOAT">

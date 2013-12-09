@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.kuali.student.web</groupId>
         <artifactId>ks-web</artifactId>
-        <version>2.0.0-M7-KSAP-SNAPSHOT</version>
+        <version>2.0.0-M8-KSAP-SNAPSHOT</version>
     </parent>
     <properties>
         <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -242,6 +242,11 @@
             <version>${ks.enroll.version}</version>
             <type>war</type>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-deployment-resources</artifactId>
+            <version>${ks.ap.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>

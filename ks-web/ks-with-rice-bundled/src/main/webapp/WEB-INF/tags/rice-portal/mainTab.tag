@@ -19,8 +19,6 @@
 <td class="content" valign="top">
 	<mainChannel:ksApplications/>
     <mainChannel:coApplications/>
-    <mainChannel:ec1Applications/>
-    <mainChannel:wc1Applications/>
 </td>
 <td class="content" valign="top">
     <mainChannel:ksMaintenance />
@@ -30,6 +28,4 @@
 	<mainChannel:workflow />
 	<mainChannel:notification />
     <mainChannel:rules />
-    <mainChannel:rulesSandbox />
-    <mainChannel:holds />
 </td>

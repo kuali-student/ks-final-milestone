@@ -30,19 +30,20 @@
   <import resource="krad-base-servlet.xml"/>
   <bean id="exceptionResolver" class="org.kuali.student.common.uif.controller.KsHandlerExceptionResolver"/>
 
-  <context:component-scan base-package="org.kuali.rice.krad" >
-     <context:exclude-filter type="assignable" expression="org.kuali.rice.krad.web.controller.LookupController"/>
+  <context:component-scan base-package="org.kuali.rice.krad">
+      <context:exclude-filter type="assignable" expression="org.kuali.rice.krad.web.controller.LookupController" />
   </context:component-scan>
 
   <!-- overwriting this section so that some controller methods are not transactional -->
   <aop:config>
      <aop:pointcut id="controllerTransaction"
-        expression="execution(* org.kuali.rice.krad.web.controller.UifControllerBase+.*(..)) and !execution(* org.kuali.student.enrollment.class2.acal.controller.AcademicCalendarController.save(..)) "/>
+            expression="execution(* org.kuali.rice.krad.web.controller.UifControllerBase+.*(..)) and !execution(* org.kuali.student.enrollment.class2.acal.controller.AcademicCalendarController.save(..)) and !execution(* org.kuali.student.enrollment.class2.acal.controller.CalendarSearchController.delete(..)) and !execution(* org.kuali.student.enrollment.class2.acal.controller.AcademicCalendarController.delete(..)) "/>
      <aop:advisor advice-ref="txAdvice" pointcut-ref="controllerTransaction"/>
   </aop:config>
 
   <context:component-scan base-package="org.kuali.rice.core.web.cache" />
   <context:component-scan base-package="org.kuali.student.enrollment" />
   <context:component-scan base-package="org.kuali.student.common.kitchensink" />
+  <context:component-scan base-package="org.kuali.student.common.uif" />
 
 </beans>

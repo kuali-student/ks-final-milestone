@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.kuali.student</groupId>
         <artifactId>student</artifactId>
-        <version>2.0.0-M7-KSAP-SNAPSHOT</version>
+        <version>2.0.0-M8-KSAP-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.deployments</groupId>
     <artifactId>ks-deployments</artifactId>
-    <version>2.0.0-M7-KSAP-SNAPSHOT</version>
+    <version>2.0.0-M8-KSAP-SNAPSHOT</version>
     <name>KS Deployments</name>
     <packaging>pom</packaging>
     <profiles>
@@ -40,6 +40,62 @@
             <id>web-only</id>
             <modules>
                 <module>ks-web</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests-api</id>
+            <activation>
+                <property>
+                    <name>skip.api.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+            <modules>
+                <module>ks-deployment-resources</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests-core</id>
+            <activation>
+                <property>
+                    <name>skip.core.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+            <modules>
+                <module>ks-deployment-resources</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests-lum</id>
+            <activation>
+                <property>
+                    <name>skip.lum.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+            <modules>
+                <module>ks-deployment-resources</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests-enroll</id>
+            <activation>
+                <property>
+                    <name>skip.enroll.tests</name>
+                </property>
+            </activation>
+            <properties>
+                <skipTests/>
+            </properties>
+            <modules>
+                <module>ks-deployment-resources</module>
             </modules>
         </profile>
     </profiles>

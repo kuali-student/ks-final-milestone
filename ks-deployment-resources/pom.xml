@@ -4,40 +4,19 @@
     <parent>
         <groupId>org.kuali.student.deployments</groupId>
         <artifactId>ks-deployments</artifactId>
-        <version>2.0.0-M7-KSAP-SNAPSHOT</version>
+        <version>2.0.0-M8-KSAP-SNAPSHOT</version>
     </parent>
     <artifactId>ks-deployment-resources</artifactId>
     <name>KS Deployment Resources</name>
     <description>Kuali Student Deployment Resources</description>
-    <properties>
-        <!-- 
-    TODO KS is on 3.1.0.RELEASE which blows up spring-maven-plugin
-    Need to sort out what's going on with that. 
-   -->
-        <spring.version>3.2.1.RELEASE</spring.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jdbc</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.common</groupId>

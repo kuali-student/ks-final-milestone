@@ -13,7 +13,7 @@
         <tr>
             <td></td>
             <td>
-                <a id='code_line${tData_index}' href='${url}/inquiry?courseOfferingId=${tData.courseOfferingId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&amp;renderedInLightBox=true&amp;showHome=false&amp;showHistory=false&amp;history=null'
+                <a id='code_line${tData_index}' href='${url}/inquiry?courseOfferingId=${tData.courseOfferingId}&amp;methodToCall=start&amp;dataObjectClassName=org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper&amp;renderedInLightBox=true&amp;history=null'
                    target='_self' class='uif-link' title='Course Offering =courseOfferingId'>${tData.courseOfferingCode}</a>
             </td>
             <td>

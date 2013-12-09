@@ -15,16 +15,13 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Kuali Student Applications" />
+<channel:portalChannelTop channelTitle="Kuali Student" />
 <div class="body">
   
   <ul class="chan">
-    <li><a href="${ConfigProperties.ks.home.MainEntryPoint}">Kuali Student Home</a></li>
+    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?methodToCall=start&viewId=ksFunctionalHomeView">Home</a></li>
     <li><a href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
-    <!--<li><a href="${ConfigProperties.ks.org.MainEntryPoint}">Organization Management</a></li>      -->
-  </ul>
-  <ul class="chan">
-    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment Home</a></li>
+    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment</a></li>
   </ul>
     <ul class="chan">
         <h3>KSAP Main</h3>
