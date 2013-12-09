@@ -588,7 +588,7 @@
 
     <bean id="KS-CourseOffering-FormatOfferingSubSection" parent="KS-CourseOffering-FormatOfferingSubSection-parent"/>
 
-    <bean id="KS-CourseOffering-FormatOfferingSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine" abstract="true">
+    <bean id="KS-CourseOffering-FormatOfferingSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine" abstract="true" >
         <property name="addBlankLineAction.actionLabel" value="Add Format"/>
         <property name="addBlankLineAction.render" value="@{#dp.renderHelper.showFormatAddButton}"/>
         <property name="addBlankLineAction.id" value="KS-CourseOffering-FormatOfferingSubSection_add"/>
@@ -601,15 +601,22 @@
                       p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
                       p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
                       p:onClickScript="writeCurrentPageToSession(this);"
-                      p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}">
+                      p:loadingMessageText="Deleting Line..."
+                      p:id="@{#collectionGroup.id}_del@{#lineSuffix}"
+                      p:additionalCssClasses="fixedCol_3">
                     <property name="render" value="@{#lp.formatOfferingInfo.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
                 </bean>
             </list>
         </property>
         <property name="items">
             <list>
-                <bean id="edit_co_format_id" parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#lp.renderHelper.newRow}"
-                      p:label="Format" p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name" p:required="true">
+                <bean id="edit_co_format_id" parent="Uif-InputField"
+                      p:propertyName="formatOfferingInfo.formatId"
+                      p:readOnly="@{!#lp.renderHelper.newRow}"
+                      p:label="Format"
+                      p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name"
+                      p:required="true"
+                      p:additionalCssClasses="fixedCol_12">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:onChangeScript="retrieveDeliveryFormatsComponent('edit_co_grade_roster_level_line@{#index}','edit_co_final_exam_type_line@{#index}', '@{#dp.courseOfferingInfo.finalExamType}');"/>
                     </property>
@@ -618,7 +625,12 @@
                     </property>
                 </bean>
                 <bean id="edit_co_grade_roster_level" parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="Grade Roster Level" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="gradeRosterUI">
+                      p:label="Grade Roster Level"
+                      p:required="true"
+                      p:finalizeMethodToCall="populateGradeRosterLevelTypes"
+                      p:forceSessionPersistence="true"
+                      p:readOnlyDisplayReplacementPropertyName="gradeRosterUI"
+                      p:additionalCssClasses="fixedCol_12">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -627,12 +639,29 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-DataField" p:id="final_exam_driver_ui" p:propertyName="courseOfferingWrapper.finalExamDriverUI" p:render="@{!#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}" p:label="Final Exam Driver"/>
-                <bean parent="Uif-MessageField" p:label="Final Exam Driver" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="@{#lp.courseOfferingWrapper.finalExamDriverUI}" p:render="@{#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}" />
+                <bean parent="Uif-DataField"
+                      p:id="final_exam_driver_ui"
+                      p:propertyName="courseOfferingWrapper.finalExamDriverUI"
+                      p:render="@{!#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}"
+                      p:label="Final Exam Driver"
+                      p:additionalCssClasses="fixedCol_12"/>
+                <bean parent="Uif-MessageField"
+                      p:label="Final Exam Driver"
+                      p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
+                      p:messageText="@{#lp.courseOfferingWrapper.finalExamDriverUI}"
+                      p:render="@{#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}"
+                      p:additionalCssClasses="fixedCol_12"/>
 
-                <bean id="edit_co_final_exam_type" parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="Final Exam Driver Activity"
-                      p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="finalExamUI"
-                      p:onDocumentReadyScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui', @{#parent.readOnly});">
+                <bean id="edit_co_final_exam_type" parent="Uif-InputField"
+                      p:propertyName="formatOfferingInfo.finalExamLevelTypeKey"
+                      p:label="Final Exam Driver Activity"
+                      p:labelPlacement="TOP"
+                      p:required="true"
+                      p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"
+                      p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true"
+                      p:readOnlyDisplayReplacementPropertyName="finalExamUI"
+                      p:onDocumentReadyScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui', @{#parent.readOnly});"
+                      p:additionalCssClasses="fixedCol_13">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -694,7 +723,7 @@
         <property name="onShowDialogScript" value="handleWaitListShowDialog(this);"/>
     </bean>
 
-    <bean id="KS-CourseOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection" >
         <property name="headerText" value="Personnel"/>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
@@ -702,7 +731,7 @@
                 <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.id="ao-personnelgroup-table"
-                      p:layoutManager.style="width: 100%;">
+                      p:layoutManager.style="width: 53em;">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
@@ -721,7 +750,7 @@
                     <property name="Items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
-                                  p:label="Id" p:required="false" p:additionalCssClasses="col_5">
+                                  p:label="Id" p:required="false" p:additionalCssClasses="fixedCol_14">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
@@ -750,7 +779,8 @@
                     <property name="lineActions">
                         <list>
                             <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
-                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                                  p:actionEvent="deleteLine" p:dirtyOnAction="true"
+                                  p:additionalCssClasses="fixedCol_3"  />
                         </list>
                     </property>
                 </bean>
@@ -772,7 +802,7 @@
 
 
     <bean id="KS-CourseOfferingEdit-OrganizationSection" parent="KS-TableCollectionSubSection-BottomAddLine"
-          p:layoutManager.style="width: 100%;"
+          p:layoutManager.style="width: 45em;"
           p:layoutManager.numberOfColumns="1"
           p:headerText="Administering Organizations"
           p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
@@ -788,7 +818,11 @@
         <property name="addBlankLineAction.dirtyOnAction" value="true" />
         <property name="items">
             <list>
-                <bean parent="Uif-InputField"  p:label="Organization Id" p:propertyName="id" p:style="font-weight:bold;white-space:nowrap;">
+                <bean parent="Uif-InputField"
+                      p:label="Organization Id"
+                      p:propertyName="id"
+                      p:style="font-weight:bold;white-space:nowrap;"
+                      p:additionalCssClasses="fixedCol_12">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="16" p:ReadOnly="true" />
                     </property>
@@ -805,13 +839,17 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="organizationName" p:label="Organization Name"/>
+                <bean parent="Uif-DataField"
+                      p:propertyName="organizationName"
+                      p:label="Organization Name"
+                      p:additionalCssClasses="fixedCol_17"/>
             </list>
         </property>
         <property name="lineActions">
             <list>
                 <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
-                      p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
+                      p:actionEvent="deleteLine" p:dirtyOnAction="true"
+                      p:additionalCssClasses="fixedCol_3"  />
             </list>
         </property>
     </bean>
