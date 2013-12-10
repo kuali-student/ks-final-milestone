@@ -225,6 +225,11 @@
         <property name="propertyName" value="lookupResults"/>
         <property name="renderAddLine" value="false"/>
         <property name="renderLineActions" value="false"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-QuickFinder">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithGridItems">
                 <property name="lineGroupPrototype">
@@ -320,8 +325,6 @@
                 <ref bean="plannedCourseDOCollection"/>
             </list>
         </property>
-        <property name="collectionLookup.render" value="false"/>
-        <property name="collectionLookup.quickfinderAction.render" value="false"/>
     </bean>
 
     <bean id="academicRecordDOCollection" parent="Uif-StackedCollectionGroup" p:headerText="Registered">
@@ -330,6 +333,11 @@
             <bean parent="Uif-HeaderFour"/>
         </property>
         <property name="header.render" value="@{#line.openForPlanning and #line.academicRecord.size() gt 0}"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-QuickFinder">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
                 <property name="lineGroupPrototype">
@@ -371,6 +379,11 @@
             <bean parent="Uif-HeaderFour"/>
         </property>
         <property name="header.render" value="@{#line.openForPlanning and #line.plannedList.size() gt 0}"/>
+        <property name="collectionLookup">
+            <bean parent="Uif-QuickFinder">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
                 <property name="lineGroupPrototype">
