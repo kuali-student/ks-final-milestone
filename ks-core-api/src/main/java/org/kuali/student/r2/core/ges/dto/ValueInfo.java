@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Amount;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -38,9 +39,13 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ValueInfo", propOrder = {"id", "typeKey", "stateKey",
-        "parameterId","atpTypeKey","populationId","ruleId", "onDate", "value", "meta", "attributes", "_futureElements" })
-public class ValueInfo extends IdNamelessEntityInfo implements Value {
+@XmlType(name = "ValueInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
+        "parameterId","atpTypeKey","populationId","ruleId", "value", "meta", "attributes", "_futureElements" })
+public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffectiveDates {
+    @XmlElement
+    private Date effectiveDate;
+    @XmlElement
+    private Date expirationDate;
     @XmlElement
     private String parameterId;
     @XmlElement
@@ -49,8 +54,6 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value {
     private String populationId;
     @XmlElement
     private String ruleId;
-    @XmlElement
-    private Date onDate;
     @XmlElement
     private String value;
     @XmlAnyElement
@@ -66,11 +69,28 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value {
             atpTypeKey = value.getAtpTypeKey();
             populationId = value.getPopulationId();
             ruleId = value.getRuleId();
-            if(value.getOnDate() != null) {
-                onDate = new Date(value.getOnDate().getTime());
-            }
+            effectiveDate = new Date(value.getEffectiveDate().getTime());
+            expirationDate = new Date(value.getExpirationDate().getTime());
             this.value = value.getStringValue();
         }
+    }
+
+    @Override
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    @Override
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     @Override
@@ -107,15 +127,6 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value {
 
     public void setRuleId(String ruleId) {
         this.ruleId = ruleId;
-    }
-
-    @Override
-    public Date getOnDate() {
-        return onDate;
-    }
-
-    public void setOnDate(Date onDate) {
-        this.onDate = onDate;
     }
 
     @Override

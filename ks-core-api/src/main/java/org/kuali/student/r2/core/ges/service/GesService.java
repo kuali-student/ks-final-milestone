@@ -610,8 +610,7 @@ public interface GesService {
      *
      * The relevant values must also have rules that are either null or evaluate to true.
      *
-     * The date parameter restricts the values returned to those with the smallest onDate field
-     * that is greater than or equal to the given date.
+     * The date parameter is used as the date for the evaluation.
      *
      * @param parameterId the identifier for the parameter associated with the values that will be returned.
      * @param personId the identifier for the person that will be used for the evaluation.

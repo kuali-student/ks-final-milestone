@@ -89,7 +89,7 @@ public class TestValueInfo {
         ValueInfo value = new ValueInfo();
         CurrencyAmountInfo info = new CurrencyAmountInfo();
         info.setCurrencyQuantity(42);
-        info.setCurrencyTypeKey("kuali.ourg.rupee");
+        info.setCurrencyTypeKey("kuali.org.rupee");
         value.setCurrencyAmountValue(info);
 
         assertEquals(info.getCurrencyQuantity(), value.getCurrencyAmountValue().getCurrencyQuantity());
@@ -97,7 +97,7 @@ public class TestValueInfo {
 
         info = new CurrencyAmountInfo();
         info.setCurrencyQuantity(0);
-        info.setCurrencyTypeKey("kuali.ourg.rupee");
+        info.setCurrencyTypeKey("kuali.org.rupee");
         value.setCurrencyAmountValue(info);
 
         assertEquals(info.getCurrencyQuantity(), value.getCurrencyAmountValue().getCurrencyQuantity());

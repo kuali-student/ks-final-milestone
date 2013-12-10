@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.ges.infc;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.r2.common.infc.Amount;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TimeOfDay;
@@ -33,7 +34,7 @@ import java.util.Date;
  * it is not valid to attempt to set a boolean and date on a single value.
  *
  */
-public interface Value extends IdNamelessEntity {
+public interface Value extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      * The parameter associated with this value.
@@ -61,11 +62,6 @@ public interface Value extends IdNamelessEntity {
      */
     String getRuleId();
 
-    /**
-     *  An optional Date that indicates the point in time in which this value becomes active.
-     * @name On Date
-     */
-    Date getOnDate();
 
     /**
      * The Boolean value contained within this entity
