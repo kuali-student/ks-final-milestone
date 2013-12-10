@@ -607,7 +607,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="addBlankLineAction">
             <bean parent="KS-BottomAddLine">
-                <property name="style" value="margin-top:20px;"/>
+                <!--<property name="style" value="margin-top:20px;"/>-->
             </bean>
         </property>
         <property name="lineActions">

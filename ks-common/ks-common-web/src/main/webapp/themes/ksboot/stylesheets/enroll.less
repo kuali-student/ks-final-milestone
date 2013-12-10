@@ -61,14 +61,14 @@ li.uif-errorMessageItem:before
 
 /* Padding in between the icon and left side of the panel */
 .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-error, .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning, .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-information {
-    padding: 8px 35px 8px 10px;
+  padding: 8px 35px 8px 10px;
 }
 
 /* Vertically Centering the Icon with the Title */
 .uif-pageValidationMessages .uif-validationImage {
-    vertical-align: middle;
-    margin-top: -3px;
-    padding-right: 2px;
+  vertical-align: middle;
+  margin-top: -3px;
+  padding-right: 2px;
 }
 
 /* Make the error icon on the top of tooltip */
@@ -77,14 +77,14 @@ li.uif-errorMessageItem:before
 }
 /* Attributes of the Title */
 .uif-pageValidationHeader {
-    font-size: 1.1em;
-    font-weight: bold;
+  font-size: 1.1em;
+  font-weight: bold;
 }
 
 /* Attributes of the Title */
 .uif-validationMessages > h3 {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    padding: 0px 0px 2px 0px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 0px 0px 2px 0px;
 }
 
 /* single validation error message */
@@ -113,7 +113,7 @@ div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem > a 
 
 /* Attributes of the Bullet */
 .uif-validationMessages li {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 /* Informational message panel */
@@ -439,10 +439,10 @@ fieldset .uif-actionLink,
 fieldset .uif-smallActionButton {
   display: inline-block;
   white-space: nowrap;
-  /* Floating the links causes wrapping if the window gets too small. */
+/* Floating the links causes wrapping if the window gets too small. */
   float: none;
-  /* This messes up the Action links on calendar search results action links because they don't have separators.
-   * margin: 0px; */
+/* This messes up the Action links on calendar search results action links because they don't have separators.
+ * margin: 0px; */
 }
 
 /** This class is assigned to the separators */
@@ -450,7 +450,7 @@ fieldset .uif-smallActionButton {
   cursor: default;
   text-decoration: none;
   white-space: nowrap;
-  /* Floating the separators causes wrapping if the window gets too small. */
+/* Floating the separators causes wrapping if the window gets too small. */
   float: none;
   display: inline-block;
   margin: 0px;
@@ -463,7 +463,7 @@ fieldset .uif-smallActionButton {
 .uif-horizontalFieldGroup[data-label="ACTIONS"],
 .uif-horizontalFieldGroup[data-label="Actions"] {
   white-space: nowrap !important;
-  /* This floats the outer div to the left */
+/* This floats the outer div to the left */
   float: left;
 }
 
@@ -633,25 +633,6 @@ cursor:auto;
 }
 
 /************************************** END WATERMARK **************************************/
-
-
-/*div.ks-line-action-seperator a:not(:last-child):after {*/
-/*display:inline-block;*/
-/*pointer-events: none;*/
-/*cursor: default;*/
-/*color:black;*/
-/*text-decoration: none;*/
-/*margin-left:.5em;*/
-/*margin-right:.5em;*/
-/*content:attr(data-actionseperator) " ";*/
-/*}*/
-
-.ks-seatpools :not(:last-child){
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-}
-
-
 
 
 /************************************** APPLICATION HEADER **************************************/
@@ -841,7 +822,7 @@ cursor:auto;
 
 /* Last Breadcrumb */
 .uif-breadcrumbs > li:last-child > span, .uif-breadcrumbs > li:last-child > a {
-    font-weight: normal;
+  font-weight: normal;
 }
 /************************************** END BREADCRUMBS **************************************/
 
@@ -891,7 +872,7 @@ cursor:auto;
 
 /* Setting the Action Link icons' opacity */
 .ks-unified-header-rightGroup-action a i {
-  //opacity: .5;
+//opacity: .5;
   padding-right: .3em;
 }
 
@@ -1041,10 +1022,6 @@ input[disabled].acal_term_code{
   margin-top: 27px;
 }
 
-div[class*="-labelTop"] ~ div:not([class*="-labelTop"]){
-  margin-top: 30px;
-}
-
 div#Uif-ApplicationHeader-Wrapper{
   z-index: 100;
 }
@@ -1100,13 +1077,13 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 #ks-uif-primaryActionButton.uif-boxLayoutHorizontalItem ~ .uif-boxLayoutHorizontalItem{
-  /*float: right  !important;*/
+/*float: right  !important;*/
   padding-top: 6px;
   padding-right: 6px;
 }
 
 #ks-uif-secondaryActionButton.uif-boxLayoutHorizontalItem ~ .uif-boxLayoutHorizontalItem{
-  /*float: right  !important;*/
+/*float: right  !important;*/
 }
 
 .ks-krad-tab-gridgroup-fix th,
@@ -1191,35 +1168,35 @@ div#Uif-ApplicationHeader-Wrapper{
 
 /************************************** Growl message customization ******************/
 div.jGrowl div.ERROR {
-	background-color: @errorBackground;
-    opacity: 1;
+  background-color: @errorBackground;
+  opacity: 1;
 }
 div.jGrowl div.ERROR div.jGrowl-close {
-    color: @errorText;
+  color: @errorText;
 }
 
 div.jGrowl div.INFORMATION {
-	background-color: @infoBackground;
-    opacity: 1;
+  background-color: @infoBackground;
+  opacity: 1;
 }
 div.jGrowl div.INFORMATION div.jGrowl-close {
-    color: @infoText;
+  color: @infoText;
 }
 
 div.jGrowl div.SUCCESS {
-	background-color: @successBackground;
-    opacity: 1;
+  background-color: @successBackground;
+  opacity: 1;
 }
 div.jGrowl div.SUCCESS div.jGrowl-close {
-    color: @successText;
+  color: @successText;
 }
 
 div.jGrowl div.WARNING {
-	background-color: @warningBackground;
-    opacity: 1;
+  background-color: @warningBackground;
+  opacity: 1;
 }
 div.jGrowl div.WARNING div.jGrowl-close {
-    color: @warningText;
+  color: @warningText;
 }
 
 div.jGrowl div.ERROR div.jGrowl-message {
@@ -1389,7 +1366,7 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   left:0;
 }
 button.halflings:before {
-  // top:-6px;
+// top:-6px;
 }
 .ui-datepicker-trigger.halflings {
   width:16px;
@@ -1438,8 +1415,8 @@ input[type="color"],
   override the tooltip content text size for all-black theme to base font size
 */
 .jquerybubblepopup-all-black  .jquerybubblepopup-innerHtml {
-    font-size: 0.9em;
-    font-family: @baseFontFamily;
+  font-size: 0.9em;
+  font-family: @baseFontFamily;
 }
 
 /*
@@ -1481,10 +1458,6 @@ h5, h6 {
 .ks-unified-header h1{
   padding: 0;
   margin: 0;
-}
-
-.uif-boxSubSection .uif-boxLayoutVerticalItem{
-  padding-bottom: 15px;
 }
 
 /*
@@ -1557,8 +1530,8 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
 
 //Move buttons to bottom right of dialog
 .uif-dialogGroup fieldset {
-    margin-top: 20px;
-    float: right;
+  margin-top: 20px;
+  float: right;
 }
 
 //Transition for hover and click on buttons
@@ -1620,3 +1593,42 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
             End
    ======================
 */
+
+/*
+  Identify sections and subsections so that the can be separated
+*/
+
+.ks-section{
+  margin-bottom: 20px;
+}
+
+.ks-subSection{
+  margin-bottom: 10px;
+}
+
+/*
+  This is the equivalent of the uif-inputField chained with uif-boxLayoutVerticalItem
+*/
+.ks-itemSection{
+  margin-bottom: 8px;
+}
+
+/*
+    styles for forms inside the sections such as inside disclosures
+*/
+.ks-form-panel {
+  padding: 17px 0 17px 17px;
+  border: 1px solid #AAAAAA;
+  display: inline-block;
+}
+
+.uif-disclosureContent{
+  margin-left: 18px;
+}
+
+/*
+  override unnecessary indentations caused by uif-diclosureContent
+*/
+.ks-uif-diclosureContent-noIndent .uif-disclosureContent {
+  margin-left: 0px;
+}
