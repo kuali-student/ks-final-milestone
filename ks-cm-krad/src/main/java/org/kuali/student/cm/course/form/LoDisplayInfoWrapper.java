@@ -10,9 +10,7 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
 
     private String code;
 
-    private String courseTitle;
-
-    private String programTitle;
+    private String title;
 
     private String typeName;
 
@@ -42,20 +40,12 @@ public class LoDisplayInfoWrapper extends LoDisplayInfo {
         this.code = code;
     }
 
-    public String getCourseTitle() {
-        return courseTitle;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCourseTitle(String courseTitle) {
-        this.courseTitle = courseTitle;
-    }
-
-    public String getProgramTitle() {
-        return programTitle;
-    }
-
-    public void setProgramTitle(String programTitle) {
-        this.programTitle = programTitle;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getTypeName() {

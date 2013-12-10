@@ -89,17 +89,15 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
         
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         SearchByKeys searchByKey = SearchByKeys.valueOf(searchCriteria.get(CourseServiceConstants.SEARCHBY_SEARCH));
-        String keywordInLO = searchCriteria.get("keywordInLO");
-        String loCategory = searchCriteria.get("loCategory");
+        String keywordInLO = searchCriteria.get("descr.plain") != null ? searchCriteria.get("descr.plain") : StringUtils.EMPTY;
+        String loCategory = searchCriteria.get("name");
         String orgName = searchCriteria.get("orgName");
         String orgType = searchCriteria.get("orgType");
         String code = searchCriteria.get("code");
         String title = searchCriteria.get("title");
                 
-        if (StringUtils.isNotBlank(keywordInLO)) {
-            SearchParamInfo keywordInLoParam = new SearchParamInfo(CourseServiceConstants.LO_DESC_PLAIN_PARAM, keywordInLO);
-            queryParamValueList.add(keywordInLoParam);
-        }
+        SearchParamInfo keywordInLoParam = new SearchParamInfo(CourseServiceConstants.LO_DESC_PLAIN_PARAM, keywordInLO);
+        queryParamValueList.add(keywordInLoParam);
         
         if (StringUtils.isNotBlank(loCategory)) {
             SearchParamInfo loCategoryParam = new SearchParamInfo(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM, loCategory);
@@ -186,19 +184,6 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
     
     public List<LoCategoryInfoWrapper> searchForLoCategories(String categoryName) {
         return LoCategorySearchUtil.searchForLoCategories(categoryName, getLearningObjectiveService());
-    }
-    
-    public void setCodeLabel(Field field, Object model) {
-        if (model != null && model instanceof LookupForm) {
-            LookupForm lookupForm = (LookupForm)model;
-            SearchByKeys searchByKey = SearchByKeys.valueOf(lookupForm.getLookupCriteria().get("searchBy"));
-            if (searchByKey == SearchByKeys.COURSE_ONLY) {
-                field.setLabel("Course Number");
-            } else if (searchByKey == SearchByKeys.PROGRAM_ONLY) {
-                field.setLabel("Program Code");
-            }
-        }
-        
     }
     
     protected LearningObjectiveService getLearningObjectiveService() {
