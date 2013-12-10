@@ -53,7 +53,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="border-bottom: 1px dotted;">
+    <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:additionalCssClasses="ks-dottedHeaderActions">
         <property name="items">
             <list>
                 <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false"
