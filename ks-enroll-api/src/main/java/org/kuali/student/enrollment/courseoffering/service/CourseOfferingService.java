@@ -800,6 +800,30 @@ public interface CourseOfferingService
     public FormatOfferingInfo getFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of FormatOfferings from a list of FormatOffering Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param formatOfferingIds     a list of formatOffering identifiers.
+     *
+     * @param contextInfo           information containing the principalId and
+     *                              locale information about the caller of
+     *                              service operation
+     * @return CourseOfferingInfo        a list of CourseOfferingInfo
+     * @throws DoesNotExistException     an formatOfferingId in the list was not found.
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException formatOfferingId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CourseOfferingInfo> getFormatOfferingsByIds(@WebParam(name = "formatOfferingIds") List<String> formatOfferingIds,@WebParam(name = "contextInfo")ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Gets a list of format offering by a course offering id they belong to.
      *
      * @param courseOfferingId Course offering identifier
@@ -2363,6 +2387,33 @@ public interface CourseOfferingService
      * @throws PermissionDeniedException authorization failure
      */
     public SeatPoolDefinitionInfo getSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of seatPoolDefinitions from a list of seatPoolDefinition Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     *
+     * @param seatPoolDefinitionIds a list of seatPoolDefinitions
+     *
+     * @param contextInfo           information containing the principalId and
+     *                              locale information about the caller of
+     *                              service operation
+     * @return a list of CourseOfferingInfo
+     * @throws DoesNotExistException     an seatPoolDefinitionId in the list was not found.
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException seatPoolDefinitions, an Id in the seatPoolDefinitions, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CourseOfferingInfo> getSeatPoolDefinitionsByIds(@WebParam(name = "seatPoolDefinitionIds") List<String> seatPoolDefinitionIds,@WebParam(name = "contextInfo")ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+
 
     /**
      * Retrieves a list of SeatPoolDefinitions records that belongs to an

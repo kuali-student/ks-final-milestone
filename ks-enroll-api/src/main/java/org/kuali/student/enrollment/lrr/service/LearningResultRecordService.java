@@ -66,7 +66,28 @@ public interface LearningResultRecordService {
 	 */
     public LearningResultRecordInfo getLearningResultRecord(@WebParam(name="learningResultRecordId")String learningResultRecordId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
+     * Retrieves a list of learningResultRecords from a list of learningResultRecord Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param learningResultRecordIds a list of learningResultRecordId identifiers.
+     * @param contextInfo information containing the principalId and locale information
+     *                    about the caller of the service operation.
+     * @return LearningResultRecordInfo  a list of learningResultRecords
+     * @throws DoesNotExistException     an learningResultRecordId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException learningResultRecordIds, an Id in the learningResultRecordIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LearningResultRecordInfo> getLearningResultRecordsByIds(@WebParam(name = "learningResultRecordIds") List<String> learningResultRecordIds,@WebParam(name = "contextInfo")ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
      * Retrieves a list of learning result records for a Lui Person Relation
      * @param lprId Lui person relation identifier
      * @param context Context information containing the principalId
@@ -123,7 +144,7 @@ public interface LearningResultRecordService {
      * @throws OperationFailedException unable to complete request
      */
     public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name="sourceIds")List<String> sourceIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
+
     
     /** 
      * Creates an learning result record.

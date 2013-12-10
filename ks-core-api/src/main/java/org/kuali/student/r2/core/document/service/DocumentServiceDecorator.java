@@ -42,6 +42,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
  */
 public class DocumentServiceDecorator implements DocumentService {
 
+
     private DocumentService nextDecorator;
 
     public DocumentService getNextDecorator() throws OperationFailedException {
@@ -103,6 +104,10 @@ public class DocumentServiceDecorator implements DocumentService {
     @Override
     public RefDocRelationInfo getRefDocRelation(String refDocRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator ().getRefDocRelation(refDocRelationId, contextInfo);
+    }
+    @Override
+    public List<RefDocRelationInfo> getRefDocRelationsByIds(List<String> refDocRelationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRefDocRelationsByIds(refDocRelationIds,contextInfo);
     }
 
     @Override

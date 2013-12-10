@@ -359,6 +359,29 @@ public interface DocumentService extends DictionaryService {
      */
     public RefDocRelationInfo getRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+    /**
+     * Retrieves a list of refDocRelations from a list of refDocRelation Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned
+     *
+     * @param refDocRelationIds a list of refDocRelation identifiers
+     * @param contextInfo Context information containing the principalId and locale
+     *                    information about the caller of service operation
+     * @return RefDocRelationInfo       a list of refDocRelations
+     * @throws DoesNotExistException an refDocRelationId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException refDocRelationIds, an Id in the refDocRelationIds,
+     *                                   or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<RefDocRelationInfo> getRefDocRelationsByIds(@WebParam(name = "refDocRelationIds") List<String> refDocRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
     /**
      * Retrieves information about reference document relationships
      * for a particular document
