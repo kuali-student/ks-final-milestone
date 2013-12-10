@@ -2720,3 +2720,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 #course_details_section {
     width: 73%;
 }
+
+.jquerypopover-innerHtml form {
+    margin: 0px;
+}
