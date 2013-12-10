@@ -58,6 +58,11 @@
                             <version>${ks.enroll.version}</version>
                         </dependency>
                         <dependency>
+                            <groupId>org.kuali.student.ap</groupId>
+                            <artifactId>ks-ap-sql</artifactId>
+                            <version>${ks.ap.version}</version>
+                        </dependency>
+                        <dependency>
                             <groupId>org.kuali.common</groupId>
                             <artifactId>kuali-deploy</artifactId>
                             <version>${kuali-deploy.version}</version>
