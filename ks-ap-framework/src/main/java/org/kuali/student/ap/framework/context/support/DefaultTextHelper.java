@@ -40,7 +40,7 @@ public class DefaultTextHelper implements TextHelper, Serializable {
 		LocaleInfo locale = ctx.getLocale();
 		try {
             MessageInfo message = msg.getMessage(locale,messageGroup,messageCode, ctx);
-            if(message==null) return "";
+            if(message==null) return "Could Not Load Message";
             return message.getValue();
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("MSG lookup failure", e);

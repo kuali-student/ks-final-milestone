@@ -69,7 +69,7 @@ public class DefaultKsapContext implements KsapContext {
 
 	public static void before(String principalId) {
 		assert TL_CTX.get() == null : TL_CTX.get();
-		ContextInfo ksctx = new ContextInfo();
+		ContextInfo ksctx = ContextUtils.createDefaultContextInfo();
 		ksctx.setAuthenticatedPrincipalId(principalId);
 		ksctx.setPrincipalId(principalId);
 		ksctx.setCurrentDate(new Date());
