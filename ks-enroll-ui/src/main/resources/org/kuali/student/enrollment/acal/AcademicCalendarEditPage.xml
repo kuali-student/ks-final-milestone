@@ -470,20 +470,23 @@ limitations under the License.
                 <property name="disclosure.render" value="true"/>
                 <property name="footer.render" value="@{#isAddLine}"/>
                 <property name="header">
-                    <bean parent="Uif-HeaderFour" p:cssClasses="acal-header">
+                    <bean parent="Uif-HeaderFour" p:additionalCssClasses="acal-header">
                         <property name="headerText" value="@{#line.holidayCalendarHeading}"/>
-                        <property name="lowerGroup">
-                            <bean parent="Uif-HorizontalBoxGroup">
+                        <property name="rightGroup">
+                            <bean parent="Uif-HorizontalBoxGroup" p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
                                 <property name="items">
                                     <list>
                                         <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
                                         <!--<bean parent="KS-SubmitActionLink" p:methodToCall="editHolidayCalendar" p:actionLabel="Edit" p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);" p:render="@{!#view.readOnly}"/>  -->
                                         <bean parent="Uif-ActionLink" p:id="deleteHolidayCalendarActionLink"
-                                              p:methodToCall="deleteHolidayCalendar" p:actionLabel="Delete"
-                                              p:ajaxSubmit="true"
+                                              p:methodToCall="deleteHolidayCalendar" p:ajaxSubmit="true" p:actionLabel="Delete"
                                               p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);findDirtyFields('AcalEdit-DirtyFields');"
                                               p:actionScript="actionInvokeHandler(this);"
-                                              p:render="@{!#view.readOnly}"/>
+                                              p:render="@{!#view.readOnly}">
+                                            <property name="actionImage">
+                                                <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
+                                            </property>
+                                        </bean>
                                     </list>
                                 </property>
                             </bean>
