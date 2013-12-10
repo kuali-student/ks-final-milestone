@@ -465,7 +465,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         AgendaItemDefinition firstItem;
         AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
         if (agenda.getFirstItemId() != null) {
+            //Retrieve the first item from the database.
             firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+            if(firstItem==null){
+                throw new KRMSOptimisticLockingException("Rule was deleted by another user.");
+            }
+
             firstItemBuilder.setVersionNumber(firstItem.getVersionNumber());
             this.getRuleManagementService().updateAgendaItem(firstItemBuilder.build());
 
