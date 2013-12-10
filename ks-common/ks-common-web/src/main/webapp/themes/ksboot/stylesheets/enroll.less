@@ -107,9 +107,13 @@ div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem {
     margin-left: 18px;
 }
 
+div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem > ul > li.uif-errorMessageItem {
+    margin-left: 0px;
+}
+
 /* error message color in course prerequisite screen */
-div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem > a {
-    color: @errorText;
+div.jstree-editrule ul.uif-validationMessagesList a {
+    color: #0088cc;
 }
 
 /* Attributes of the Bullet */
@@ -128,6 +132,8 @@ div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem > a 
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
+  width: 97%;
+
 }
 /************************************** END VALIDATION MESSAGES **************************************/
 
@@ -1522,6 +1528,7 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
   background-color: @warningBackground;
   border: 1px solid @warningBorder;
   color: @warningText;
+  width: 97%;
 }
 
 /*
