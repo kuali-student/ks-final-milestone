@@ -678,7 +678,7 @@ limitations under the License.
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="KSAP-HorizontalBoxGroup" p:id="courseOptions">
+                            <bean parent="KSAP-VerticalBoxGroup" p:id="courseOptions">
                                 <property name="items">
                                     <list>
 

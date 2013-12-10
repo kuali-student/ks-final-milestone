@@ -2686,11 +2686,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     margin: 0px;
 }
 
-#PlannerDialog-FormView {
-    width: 300px;
-    min-height: 0px;
-}
-
 /* Note the following section is copied over from enroll.css, used to display logged in user name in KSAP */
 /* -- Need to remove them after merge back to trunk */
 /* Alignment of the Right Content Area  */
@@ -2723,4 +2718,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 
 .jquerypopover-innerHtml form {
     margin: 0px;
+    width: 300px;
+    min-height: 0px;
 }
