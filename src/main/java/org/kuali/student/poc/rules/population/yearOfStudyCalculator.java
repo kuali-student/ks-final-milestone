@@ -1,5 +1,6 @@
 package org.kuali.student.poc.rules.population;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Date;
@@ -15,5 +16,5 @@ public interface yearOfStudyCalculator {
     /**
      * Gets the year of study of a student now.
      */
-    public String getYearOfStudy (PopulationPocStudentEnum populationPocStudentEnum) throws OperationFailedException;
+    public String getYearOfStudy (PopulationPocStudentEnum populationPocStudentEnum, ContextInfo contextInfo) throws OperationFailedException;
 }

@@ -16,6 +16,7 @@
  */
 package org.kuali.student.poc.rules.population;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Date;
@@ -28,7 +29,7 @@ import java.util.Date;
 public class yearOfStudyCalculatorFromEnumFieldImpl implements yearOfStudyCalculator {
 
     @Override
-    public String getYearOfStudy(PopulationPocStudentEnum populationPocStudentEnum) throws OperationFailedException {
+    public String getYearOfStudy(PopulationPocStudentEnum populationPocStudentEnum, ContextInfo contextInfo) throws OperationFailedException {
         return populationPocStudentEnum.getYearOfStudy();
     }
 }

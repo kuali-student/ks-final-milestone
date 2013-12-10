@@ -16,6 +16,7 @@
  */
 package org.kuali.student.poc.rules.population;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public class yearOfStudyCalculatorFromEnumCreditsImpl implements yearOfStudyCalc
     ///////////////////////////
 
     @Override
-    public String getYearOfStudy(PopulationPocStudentEnum populationPocStudentEnum) throws OperationFailedException {
+    public String getYearOfStudy(PopulationPocStudentEnum populationPocStudentEnum, ContextInfo contextInfo) throws OperationFailedException {
         Integer maximumCreditsNeeded_int = null;
         try {
             maximumCreditsNeeded_int = Integer.parseInt(maximumCreditsNeededToComplete);
