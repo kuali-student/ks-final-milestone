@@ -809,11 +809,6 @@
 
 
     <bean id="KS-CourseOfferingEdit-MiscSection" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous">
-        <property name="additionalCssClasses">
-            <list merge="true">
-                <value>ks-section</value>
-            </list>
-        </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
