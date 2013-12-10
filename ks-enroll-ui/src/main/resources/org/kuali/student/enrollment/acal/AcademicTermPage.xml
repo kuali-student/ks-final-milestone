@@ -19,8 +19,8 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-Overview-WithoutTerms" parent="Uif-VerticalBoxSubSection"
-          p:additionalCssClasses="ks-no-margins">
+    <bean id="KS-AcademicCalendar-Overview-WithoutTerms" parent="Uif-VerticalBoxSubSection">
+        <property name="headerText" value="Overview"/>
         <property name="disclosure.render" value="false"/>
         <!--<property name="hidden" value="@{#view.readOnly}"/>-->
         <property name="header">
@@ -28,7 +28,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-no-margins">
+                <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
                             <ref bean="KS-AcademicCalendar-AcalOverview"/>
@@ -225,13 +225,13 @@
                                                 </bean>
                                             </property>
                                         </bean>
-                                        <bean id="term_name" parent="KS-Uif-InputField-LabelTop" p:propertyName="name"
+                                        <bean id="term_name" parent="KS-Uif-InputField-LabelTop" p:propertyName="name" p:additionalCssClasses="ks-itemSection"
                                               p:render="@{!#isAddLine}" p:label="Term Name" p:required="true">
                                             <property name="control">
                                                 <bean parent="KS-Uif-TextControl" p:size="30"/>
                                             </property>
                                         </bean>
-                                        <bean id="term_code" parent="KS-Uif-InputField-LabelTop"
+                                        <bean id="term_code" parent="KS-Uif-InputField-LabelTop" p:additionalCssClasses="ks-itemSection"
                                               p:propertyName="termCode" p:label="Term Code"
                                               p:render="@{#line.termCode != T(org.kuali.student.enrollment.class2.acal.util.CalendarConstants).EMPTY_TERM_CODE}">
                                             <property name="control">
@@ -505,13 +505,12 @@
 
     <!--Final Exam Period section-->
     <bean id="KS-ExamDates-EditSubSection"
-          parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod"
+          parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod" p:additionalCssClasses="ks-subSection"
           p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}">
         <property name="propertyName" value="examdates"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper"/>
         <property name="headerText" value="Final Exam Period"/>
         <property name="disclosure.render" value="false"/>
-        <property name="style" value="margin-left:10px; margin-bottom:40px;"/>
         <property name="layoutManager.style" value="width:60%;"/>
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="addBlankLineAction.actionLabel" value="Add Final Exam Period"/>

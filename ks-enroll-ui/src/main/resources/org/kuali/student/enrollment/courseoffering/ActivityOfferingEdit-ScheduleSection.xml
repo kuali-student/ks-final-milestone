@@ -27,6 +27,11 @@
             p:readOnly="true"
             p:render="@{!#dp.actualScheduleComponents.isEmpty()}"
             p:layoutManager.renderSequenceField="false">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
@@ -53,6 +58,11 @@
         <property name="headerText" value="@{#dp.schedulingCompleted ? 'Manage Scheduling Requests' : 'Requested Scheduling Information'}"/>
         <property name="disclosure.render" value="@{#dp.schedulingCompleted and !#dp.requestedScheduleComponents.isEmpty()}"/>
         <property name="disclosure.defaultOpen" value="false"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <!--  TODO: KSENROLL-11002. If an action is in a CollectionGroup KRAD v2.3.2 overwrites Action#jumpToIdAfterSubmit
               with the id of the of the CollectionGroup which prevents the/this page from being scrolled/positioned correctly.
               fixActionLinkJumpToIds is a hack to "fix" the jumpToId. Once we get Rice v2.4-m3 or better it can go away and
@@ -111,11 +121,17 @@
     <!--
       The "form" for managing scheduling requests.
       -->
-    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:style="background-color:#f3f3f3; padding: 4px 0 4px 4px;border: 1px solid black;width:825px;"
+    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection"
           p:componentSecurity.viewAuthz="true">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-subSection</value>
+                <value>ks-form-panel</value>
+            </list>
+        </property>
         <property name="headerText" value="Add New Scheduling Information" />
         <property name="header">
-            <bean parent="Uif-HeaderFour" p:style="margin-top:20px;"/>
+            <bean parent="Uif-HeaderFour"/>
         </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">

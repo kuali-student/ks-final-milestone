@@ -51,7 +51,7 @@
     <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins">
+                <bean parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-section">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
@@ -100,6 +100,11 @@
     <bean id="ActivityOfferingEdit-section2" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="calculatePercent()">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Activity Offering Information"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" id="activity_code" p:label="Activity Code " p:fieldLabel.renderColon="false" p:propertyName="aoInfo.activityCode"
@@ -310,6 +315,11 @@
     <bean id="ActivityOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Personnel"/>
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean id="ActivityOffering-PersonnelSection" parent="KS-TableCollectionSubSection-BottomAddLine"
@@ -399,6 +409,11 @@
     <bean id="ActivityOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{#dp.hasWaitlistCO}">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="componentSecurity.viewAuthz" value="true"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
@@ -419,6 +434,11 @@
 
     <bean id="ActivityOfferingEdit-WailtList-Info-Section" parent="Uif-VerticalBoxSection"
           p:progressiveRender="@{#dp.hasWaitlist}" p:refreshWhenChangedPropertyNames="@{#dp.hasWaitlist}">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-form-panel</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
@@ -497,7 +517,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools">
+    <bean id="ActivityOfferingEdit-SeatPool" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-seatpools,ks-section">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Seat Pools"/>
         <property name="componentSecurity.editAuthz" value="true"/>
@@ -505,7 +525,7 @@
             <list>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="ao-seatpoolgroupZ"
-                      p:layoutManager.id="ao-seatpoolgroup-table" p:layoutManager.style="width: 100%;" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
+                      p:layoutManager.id="ao-seatpoolgroup-table" p:additionalCssClasses="ks-subSection" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper" />
                     <property name="propertyName" value="seatpools" />
                     <property name="addBlankLineAction.actionLabel" value="Add Seat Pool"/>
@@ -586,6 +606,11 @@
 
     <bean id="ActivityOfferingEdit-Miscellaneous" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous" p:id="aoInfo.Miscellaneous">
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean id="course_url" parent="Uif-InputField-LabelTop"
@@ -598,8 +623,7 @@
                 </bean>
                 <bean parent="Uif-VerticalFieldGroup"
                       p:label="Evaluation"
-                      p:fieldLabel.renderColon="false"
-                      p:style="margin-bottom:0">
+                      p:fieldLabel.renderColon="false">
                     <property name="items">
                         <list>
                             <bean id="is_evaluated"

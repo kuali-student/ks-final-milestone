@@ -20,7 +20,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-GridGroup"
-                                  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-details-panel,ks-no-margins">
+                                  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-krad-tab-gridgroup-fix,ks-details-panel,ks-section">
                                   <!--p:layoutManager.applyDefaultCellWidths="false">-->
                                 <property name="items">
                                     <list>
@@ -91,6 +91,11 @@
                                 <property name="layoutManager.richTable.render" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>ks-section</value>
+                                    </list>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-DataField" p:propertyName="formatOfferingInfo.name" p:label="Format Name" />
@@ -124,6 +129,11 @@
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
                                 <property name="renderAddBlankLineButton" value="false" />
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>ks-section</value>
+                                    </list>
+                                </property>
                                 <!--<property name="addLinePlacement" value="BOTTOM" />-->
                                 <property name="items">
                                     <list>
@@ -150,6 +160,11 @@
                                 <property name="layoutManager.richTable.render" value="false" />
                                 <property name="layoutManager.applyDefaultCellWidths" value="false" />
                                 <property name="layoutManager.applyAlternatingRowStyles" value="false" />
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>ks-section</value>
+                                    </list>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-DataField" p:propertyName="organizationName" p:label="Organization Name"/>
@@ -175,6 +190,11 @@
                                             </map>
                                         </property>
                                     </bean>
+                                </property>
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>ks-section</value>
+                                    </list>
                                 </property>
                                 <property name="items">
                                     <list>

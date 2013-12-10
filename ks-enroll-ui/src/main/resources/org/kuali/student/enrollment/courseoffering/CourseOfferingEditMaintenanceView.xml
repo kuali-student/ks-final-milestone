@@ -91,7 +91,7 @@
         <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingEditMaintainableImpl" />
         <property name="page.items">
             <list>
-                 <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+                <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
                 <!--<ref bean="KS-CourseOffering-ContextBar"/>-->
                 <ref bean="KS-CourseOffering-EditCo-Page-Header"/>
                 <ref bean="KS-EditCourseOffering-AliasMessageSection" />
@@ -290,6 +290,11 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-Term" parent="Uif-VerticalBoxSection">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Term" p:propertyName="termStartEnd"/>
@@ -301,10 +306,13 @@
         <property name="headerText" value="Course Offering Information"/>
         <property name="disclosure.render" value="false"/>
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
-
                 <bean parent="Uif-HorizontalBoxSubSection">
                     <property name="items">
                         <list>
@@ -371,7 +379,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true);" p:additionalCssClasses="co_radio" >
+                      p:onChangeScript="jQuery('#dirtyForm').val(true);" >
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl"/>
                     </property>
@@ -399,16 +407,16 @@
                 <!--</bean>-->
                 <bean parent="Uif-MessageField" p:label="Student Registration Options"
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
-                      p:render="true" p:additionalCssClasses="co_check"  />
+                      p:render="true"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
                 <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}" p:additionalCssClasses="co_check"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
                 <bean parent="Uif-CheckboxInputField" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}" p:additionalCssClasses="co_check"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
                 <!-- For read only view show as message fields -->
                 <bean parent="Uif-MessageField"
                       p:messageText="Pass/Fail" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.passFailStudentRegOpts}"/>
@@ -416,7 +424,7 @@
                       p:messageText="Audit" p:render="@{!#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.auditStudentRegOpts}"/>
                 <!-- No reg options were available -->
                 <bean parent="Uif-MessageField"
-                      p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}" p:additionalCssClasses="co_check"/>
+                      p:messageText="None available" p:render="@{#dp.studentRegOptions.empty}"/>
             </list>
         </property>
     </bean>
@@ -425,7 +433,7 @@
             <list>
                 <!-- Credit Option Type Selector -->
                 <bean parent="Uif-InputField" p:propertyName="creditOption.typeKey" p:label="Credit Type"
-                      p:onChangeScript="jQuery('#dirtyForm').val(true); " p:additionalCssClasses="co_radio">
+                      p:onChangeScript="jQuery('#dirtyForm').val(true); ">
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeSelector" />
                     <property name="control" >
                         <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
@@ -438,7 +446,7 @@
                 <bean parent="Uif-InputField" p:label="Credits" p:propertyName="creditOption.fixedCredit" p:fieldLabel.renderColon="false"
                       p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.fixed'}"
                       p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
-                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}" p:additionalCssClasses="co_check">
+                      p:inclusiveMax="@{document.oldMaintainableObject.dataObject.creditOption.courseMaxCredits}">
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeFixed" />
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
@@ -460,7 +468,7 @@
                     </property>
                 </bean>-->
                 <!-- Range -->
-                <bean parent="Uif-HorizontalBoxSection" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
+                <bean parent="Uif-HorizontalBoxSection" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.range'}">
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:label="Minimum Credits" p:exclusiveMin="@{document.oldMaintainableObject.dataObject.creditOption.courseMinCredits}-0.0001"
@@ -479,7 +487,7 @@
                     </property>
                 </bean>
                 <!-- Multiple -->
-                <bean parent="Uif-InputField" p:readOnlyDisplayReplacement="@{#dp.creditOptionCreditsUI}" p:propertyName="creditOption.credits" p:label="Credits" p:fieldLabel.renderColon="false" p:style="margin-left: 1em;" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.multiple'}">
+                <bean parent="Uif-InputField" p:readOnlyDisplayReplacement="@{#dp.creditOptionCreditsUI}" p:propertyName="creditOption.credits" p:label="Credits" p:fieldLabel.renderColon="false" p:progressiveRender="@{#dp.creditOption.typeKey eq 'kuali.result.values.group.type.multiple'}">
                     <property name="control">
                         <bean parent="Uif-HorizontalCheckboxesControl"/>
                     </property>
@@ -496,8 +504,6 @@
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
-
                 <bean parent="Uif-VerticalBoxSection">
                     <property name="items">
                         <list>
@@ -557,6 +563,11 @@
 
     <bean id="KS-CourseOfferingEdit-DeliveryFormats" parent="KS-CourseOffering-DeliveryFormats-parent"/>
     <bean id="KS-CourseOffering-DeliveryFormats-parent" parent="Uif-VerticalBoxSubSection" abstract="true">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>
 
         <property name="header.headerText" value="Delivery Formats"/>
@@ -579,7 +590,7 @@
             <list>
                 <bean parent="Uif-Message"
                         p:messageText="[image class=&quot;uif-validationImage&quot; src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;] Deleting a delivery format will delete all of its activities and registration groups from the system."
-                        p:additionalCssClasses="uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages-warning">
+                      p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
                     <property name="style" value="width: 97%; display: inline-block;" />
                 </bean>
             </list>
@@ -676,9 +687,13 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlists">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
@@ -725,10 +740,14 @@
 
     <bean id="KS-CourseOfferingEdit-PersonnelSection" parent="Uif-VerticalBoxSection" >
         <property name="headerText" value="Personnel"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.id="ao-personnelgroup-table"
                       p:layoutManager.style="width: 53em;">
@@ -789,11 +808,15 @@
     </bean>
 
 
-    <bean id="KS-CourseOfferingEdit-MiscSection" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;" p:headerText="Miscellaneous">
+    <bean id="KS-CourseOfferingEdit-MiscSection" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <ref bean="KS-CourseOfferingEdit-OrganizationSection"/>
                 <ref bean="KS-CourseOfferingEdit-HonorsOffering"/>
             </list>

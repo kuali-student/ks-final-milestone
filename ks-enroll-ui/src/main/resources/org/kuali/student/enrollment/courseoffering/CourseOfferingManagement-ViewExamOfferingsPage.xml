@@ -212,7 +212,7 @@
         <property name="disclosure.render" value="false" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper" />
         <property name="propertyName" value="eoClusterResultList" />
-        <property name="cssClasses" value="aoc_disclosure"/>
+        <property name="additionalCssClasses" value="aoc_disclosure,ks-uif-diclosureContent-noIndent"/>
         <property name="headerText" value="Exam Offerings for Activity Offerings"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
