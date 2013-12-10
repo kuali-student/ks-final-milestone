@@ -15,8 +15,6 @@
 
 package org.kuali.student.r2.common.infc;
 
-import java.util.Date;
-
 /**
  * Maintains just the time portion of a day
  * any fractional seconds are effectively truncated and
@@ -27,7 +25,7 @@ import java.util.Date;
  */
 public interface TimeOfDay {
     /**
-     * Hour of day offset from midnight
+     * Hour of day offset from midnight in military time (14 is 2pm)
      * @name Hour
      */
     public Integer getHour();
@@ -45,12 +43,21 @@ public interface TimeOfDay {
     public Integer getSecond();
 
     /**
-     *
-     * @param date a java.util.Date to which timeOfDay is added
-     * @param timeOfDay the TimeOfDay that is added to the date parameter
-     * @return a java.util.Date that is the sum of date and timeOfDay
+     * Tests if this TimeOfDay is after the specified TimeOfDay. The assumption is
+     * that timeOfDay.hour is military time (14 is 2pm)
+     * @param timeOfDay the specified TimeOfDay
+     * @return true if this TimeOfDay is after the specified TimeOfDay, false otherwise.
      */
-    public Date getDateWithTimeOfDay(Date date, TimeOfDay timeOfDay);
+    public boolean isAfter(TimeOfDay timeOfDay);
+
+    /**
+     *
+     * Tests if this TimeOfDay is before the specified TimeOfDay. The assumption is
+     * that timeOfDay.hour is military time (14 is 2pm)
+     * @param timeOfDay the specified TimeOfDay
+     * @return true if this TimeOfDay is before the specified TimeOfDay, false otherwise.
+     */
+    public boolean isBefore(TimeOfDay timeOfDay);
 
     /**
      * Offset from midnight in milliseconds, representing the time portion of a day

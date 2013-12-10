@@ -32,7 +32,7 @@ import org.kuali.student.r2.common.infc.TimeOfDay;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeOfDayInfo", propOrder = {"hour", "minute", "second", "_futureElements" })
-public class TimeOfDayInfo implements TimeOfDay, Serializable {
+public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializable {
 
     @XmlElement
     private Integer hour;
@@ -42,7 +42,7 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
     private Integer second;
 
     @XmlAnyElement
-    private List<Object> _futureElements;  
+    private List<Object> _futureElements;
 
     public TimeOfDayInfo() {
 
@@ -72,7 +72,7 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     /**
      *
-     * @return hour of the day
+     * @return hour of the day in military time (14 is 2pm)
      */
     @Override
     public Integer getHour() {
@@ -99,7 +99,7 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     /**
      *
-     * @param hour
+     * @param hour of the day in military time (14 is 2pm)
      */
     public void setHour(Integer hour) {
         this.hour = hour;
@@ -107,7 +107,7 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     /**
      *
-     * @param minute
+     * @param minute of the hour
      */
     public void setMinute(Integer minute) {
         this.minute = minute;
@@ -115,7 +115,7 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     /**
      *
-     * @param second
+     * @param second of the minute
      */
     public void setSecond(Integer second) {
         this.second = second;
@@ -123,12 +123,11 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     /**
      *
-     * @param date the Date to add the timeOfDay
-     * @param timeOfDay an offset from midnight to add to date
-     * @return the Date result of adding timeOfDay to date
+     * @param date a java.util.Date to which timeOfDay is added
+     * @param timeOfDay the TimeOfDay that is added to the date parameter
+     * @return a java.util.Date that is the sum of date and timeOfDay
      */
-    @Override
-    public Date getDateWithTimeOfDay(Date date, TimeOfDay timeOfDay) {
+    public static Date getDateWithTimeOfDay(Date date, TimeOfDay timeOfDay) {
         LocalDateTime localDateTime = new LocalDateTime(date);
         localDateTime = localDateTime.plusHours(timeOfDay.getHour());
         localDateTime = localDateTime.plusMinutes(timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute());
@@ -166,25 +165,25 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
     }
 
     /**
-     * Tests if this TimeOfDay is after the specified TimeOfDay.
-     * @param timeOfDay the specified TimeOfDay
+     * Tests if this TimeOfDay is after the specified TimeOfDay. The assumption is
+     * that timeOfDay.hour is military time (14 is 2pm)
+     * @param other the specified TimeOfDay
      * @return true if this TimeOfDay is after the specified TimeOfDay, false otherwise.
      */
-    public boolean isAfter(TimeOfDay timeOfDay) {
-        LocalTime otherTimeOfDay = new LocalTime(timeOfDay.getHour(), timeOfDay.getMinute(), timeOfDay.getSecond());
-        LocalTime thisTimeOfDay = new LocalTime(this.getHour(), this.getMinute(), this.getSecond());
-        return thisTimeOfDay.isAfter(otherTimeOfDay);
+    @Override
+    public boolean isAfter(TimeOfDay other) {
+        return compareTo(other) > 0;
     }
 
     /**
-     * Tests if this TimeOfDay is before the specified TimeOfDay.
-     * @param timeOfDay the specified TimeOfDay
+     * Tests if this TimeOfDay is before the specified TimeOfDay. The assumption is
+     * that timeOfDay.hour is military time (14 is 2pm)
+     * @param other the specified TimeOfDay
      * @return true if this TimeOfDay is before the specified TimeOfDay, false otherwise.
      */
-    public boolean isBefore(TimeOfDay timeOfDay) {
-        LocalTime otherTimeOfDay = new LocalTime(timeOfDay.getHour(), timeOfDay.getMinute(), timeOfDay.getSecond());
-        LocalTime thisTimeOfDay = new LocalTime(this.getHour(), this.getMinute(), this.getSecond());
-        return thisTimeOfDay.isBefore(otherTimeOfDay);
+    @Override
+    public boolean isBefore(TimeOfDay other) {
+        return compareTo(other) < 0;
     }
 
     /**
@@ -218,11 +217,37 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     @Override
     public String toString() {
-        StringBuilder timeOfDay = new StringBuilder("TimeOfDayInfo{");
-        timeOfDay.append(getHour());
-        timeOfDay.append(":").append((getMinute() != 0 ? getMinute() : "00"));
-        timeOfDay.append(":").append(getSecond());
-        timeOfDay.append("}");
-        return timeOfDay.toString();
+        return "TimeOfDayInfo{" + getHour()
+                + ":" + (getMinute() != 0 ? getMinute() : "00") + ":"
+                + (getSecond() != 0 ? getSecond() : "00") +"}";
+    }
+
+    /**
+     *
+     * @param other a TimeOfDay to check against
+     * @return negative if this is less, zero if equal, positive if greater
+     * @throws NullPointerException if the TimeOfDay is null
+     */
+    public int compareTo(TimeOfDay other) {
+        if(this.getHour() > other.getHour()) {
+            return 1;
+        }
+        if(this.getHour() < other.getHour()) {
+            return -1;
+        }
+        // this.hour and other.hour are equal so check the minutes
+        if(this.getMinute() > other.getMinute())
+            return 1;
+        // if this.minute is less than other.minute then we know it is less
+        if(this.getMinute() < other.getMinute())
+            return -1;
+        // this.minute and other.minute are equal so check the seconds
+        if(this.getSecond() > other.getSecond())
+            return 1;
+        // if this.second is less than other.second then we know it is less
+        if(this.getSecond() < other.getSecond())
+            return -1;
+
+        return 0;
     }
 }
