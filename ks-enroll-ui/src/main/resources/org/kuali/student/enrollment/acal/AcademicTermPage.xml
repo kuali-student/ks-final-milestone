@@ -53,8 +53,10 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
         <!-- Move the add button to the right of the fields -->
-        <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left; margin-bottom:30px;"/>
-        <property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:2em;"/>
+        <!--<property name="layoutManager.addLineGroup.layoutManager.style" value="float:left; margin-bottom:30px;"/>-->
+        <property name="layoutManager.addLineGroup.layoutManager.additionalCssClasses" value="ks-search-group-section"/>
+        <!--<property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:2em;"/>-->
+        <property name="layoutManager.addLineGroup.footer.additionalCssClasses" value="ks-search-group-footer"/>
         <property name="layoutManager.lineGroupPrototype">
             <bean id="term_section" parent="Uif-CollectionVerticalBoxItem">
 
@@ -122,7 +124,7 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                  since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
+                <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Add" p:focusOnIdAfterSubmit="SELF"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
@@ -331,7 +333,7 @@
     <bean id="KS-KeyDatesGroup-EditSubSection"
           parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
           p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
-          p:additionalCssClasses="acal_keydate_group">
+          p:additionalCssClasses="acal_keydate_group,ks-subSection">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="disclosure.render" value="false"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
