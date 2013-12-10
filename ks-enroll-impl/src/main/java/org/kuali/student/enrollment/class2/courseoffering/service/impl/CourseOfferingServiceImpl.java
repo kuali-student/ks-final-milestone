@@ -1268,7 +1268,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         try {
             searchResult = getSearchService().search(searchRequest, context);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new OperationFailedException ("search failed for courseOfferingId = " + courseOfferingId, e);
         }
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
