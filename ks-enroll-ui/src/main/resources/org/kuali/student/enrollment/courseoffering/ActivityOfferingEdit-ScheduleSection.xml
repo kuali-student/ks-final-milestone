@@ -227,7 +227,7 @@
                                        p:disableNativeAutocomplete="true" p:forceSessionPersistence="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                      <property name="control">
-                         <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components, validStandardTimeSlot"/>
+                         <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components, validDaysStartimeComboForStandardTimeSlot"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.TimeSlotEndTimeKeyValues" p:addBlankOption="false" />
