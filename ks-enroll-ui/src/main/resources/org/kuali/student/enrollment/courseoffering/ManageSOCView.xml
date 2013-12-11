@@ -242,7 +242,8 @@
 
     <bean id="ManageSOCView-SchedulingDetails-FinalEditButton" parent="Uif-PrimaryActionButton" p:methodToCall="allowFinalEdits" p:actionLabel="Allow Final Edits" p:render="@{showFinalEditButton}" p:disabled="@{!enableFinalEditButton}"/>
 
-    <bean id="ManageSOCView-SchedulingDetails-CloseButton" parent="Uif-PrimaryActionButton" p:methodToCall="closeSOC" p:actionLabel="Close Set" p:disabled="true" p:render="@{showCloseSetButton}"/>
+    <!-- not to render the close set button for now since the functionality is not in place yet -->
+    <bean id="ManageSOCView-SchedulingDetails-CloseButton" parent="Uif-PrimaryActionButton" p:methodToCall="closeSOC" p:actionLabel="Close Set" p:disabled="true" p:render="false"/>
 
     <bean id="ManageSOCView-SchedulingDetails-ManageCOButton" parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:5px;"
             p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
