@@ -20,7 +20,7 @@
     </bean>
 
     <bean id="KS-AcademicCalendar-Overview-WithoutTerms" parent="Uif-VerticalBoxSubSection">
-        <property name="headerText" value="Overview"/>
+        <property name="headerText" value=""/>
         <property name="disclosure.render" value="false"/>
         <!--<property name="hidden" value="@{#view.readOnly}"/>-->
         <property name="header">
@@ -51,6 +51,7 @@
                   value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}');"/>
         <!--<property name="header.render" value="false" />-->
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="headerText" value=""/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
         <!-- Move the add button to the right of the fields -->
         <!--<property name="layoutManager.addLineGroup.layoutManager.style" value="float:left; margin-bottom:30px;"/>-->
@@ -124,7 +125,7 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                  since the first field is a validated dropdown -->
-                <bean parent="KS-Uif-SecondaryActionButton" p:id="add_term" p:actionLabel="Add" p:focusOnIdAfterSubmit="SELF"
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
@@ -197,6 +198,11 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>ks-subSection</value>
+                                    </list>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <bean id="term_type_edit" parent="KS-Uif-InputField-LabelTop"
@@ -226,14 +232,14 @@
                                                     <property name="returnFieldMapping" value="termCode:termCode"/>
                                                 </bean>
                                             </property>
-                                        </bean>
-                                        <bean id="term_name" parent="KS-Uif-InputField-LabelTop" p:propertyName="name" p:additionalCssClasses="ks-itemSection"
+                                        </bean>                                  
+                                        <bean id="term_name" parent="KS-Uif-InputField-LabelTop" p:propertyName="name"
                                               p:render="@{!#isAddLine}" p:label="Term Name" p:required="true">
                                             <property name="control">
                                                 <bean parent="KS-Uif-TextControl" p:size="30"/>
                                             </property>
                                         </bean>
-                                        <bean id="term_code" parent="KS-Uif-InputField-LabelTop" p:additionalCssClasses="ks-itemSection"
+                                        <bean id="term_code" parent="KS-Uif-InputField-LabelTop"
                                               p:propertyName="termCode" p:label="Term Code"
                                               p:render="@{#line.termCode != T(org.kuali.student.enrollment.class2.acal.util.CalendarConstants).EMPTY_TERM_CODE}">
                                             <property name="control">
@@ -263,6 +269,11 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-HorizontalBoxGroup">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>ks-subSection</value>
+                                    </list>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <bean id="term_start_date" parent="KS-Uif-InputField" p:labelPlacement="TOP"
@@ -333,7 +344,7 @@
     <bean id="KS-KeyDatesGroup-EditSubSection"
           parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
           p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
-          p:additionalCssClasses="acal_keydate_group,ks-subSection">
+          p:additionalCssClasses="acal_keydate_group,ks-subSection,ks-subSection-marginTop">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="disclosure.render" value="false"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
