@@ -183,6 +183,11 @@ public class SchedulingServiceConstants {
     public static final String SCHEDULE_TRANSACTION_GROUP_STATE_ACTIVE = "kuali.scheduling.schedule.transaction.group.state.active";
     public static final String SCHEDULE_TRANSACTION_GROUP_STATE_INACTIVE = "kuali.scheduling.schedule.transaction.group.state.inactive";
 
+    // schedule request group states
+    public static final String SCHEDULE_REQUEST_GROUP_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.group.constraint.lifecycle";
+    public static final String SCHEDULE_REQUEST_GROUP_STATE_ACTIVE = "kuali.scheduling.schedule.request.group.constraint.state.active";
+    public static final String SCHEDULE_REQUEST_GROUP_STATE_INACTIVE = "kuali.scheduling.schedule.request.group.constraint.state.inactive";
+
     ////////////////////////////////////////
     // TYPES / STATES not yet approved
     // for M5,  but used in the code,
