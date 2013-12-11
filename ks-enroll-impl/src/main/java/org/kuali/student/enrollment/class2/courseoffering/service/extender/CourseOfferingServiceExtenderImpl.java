@@ -764,35 +764,37 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
                 schedulingService.getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,
                         sourceAo.getId(), context);
         ScheduleRequestSetInfo sourceSRS =
-                KSCollectionUtils.getRequiredZeroElement(sourceSRSes);
-        boolean isColocated = sourceSRS.getRefObjectIds().size() > 1;
-        // Find out if there is a targetSRS that can be used (either due to rollover that occurred with an AO
-        // that was part of a colo-set, or copy CO within term where source and target SRS are the same).
-        ScheduleRequestSetInfo coloTargetSRS = null;
-        boolean targetSRSMappingExists = false;
-        if (operation.equals(COPY_OPERATION_ROLLOVER) && isColocated) {
-            // Fetch target SRS if it is available
-            String targetSRSId = rolloverAssist.getTargetSRSId(rolloverId, sourceSRS.getId());
-            if (targetSRSId != null) {
-                // Found it, so fetch
-                coloTargetSRS = schedulingService.getScheduleRequestSet(targetSRSId, context);
-                targetSRSMappingExists = true;
+                KSCollectionUtils.getRequiredZeroElement(sourceSRSes, true, false);
+        if (sourceSRS != null) {
+            boolean isColocated = sourceSRS.getRefObjectIds().size() > 1;
+            // Find out if there is a targetSRS that can be used (either due to rollover that occurred with an AO
+            // that was part of a colo-set, or copy CO within term where source and target SRS are the same).
+            ScheduleRequestSetInfo coloTargetSRS = null;
+            boolean targetSRSMappingExists = false;
+            if (operation.equals(COPY_OPERATION_ROLLOVER) && isColocated) {
+                // Fetch target SRS if it is available
+                String targetSRSId = rolloverAssist.getTargetSRSId(rolloverId, sourceSRS.getId());
+                if (targetSRSId != null) {
+                    // Found it, so fetch
+                    coloTargetSRS = schedulingService.getScheduleRequestSet(targetSRSId, context);
+                    targetSRSMappingExists = true;
+                }
+            } else if (operation.equals(COPY_OPERATION_COPY_CO) && sourceAndTargetHaveSameTerm && isColocated) {
+                // Copy CO within same term where AO is co-located
+                coloTargetSRS = sourceSRS;
+            } else if (operation.equals(COPY_OPERATION_COPY_AO) && isColocated) {
+                // If copy AO and co-located, then target SRS is same as source SRS.
+                // Copy AO always has same source/target term, so no need to test that in the "if" condition
+                coloTargetSRS = sourceSRS;
             }
-        } else if (operation.equals(COPY_OPERATION_COPY_CO) && sourceAndTargetHaveSameTerm && isColocated) {
-            // Copy CO within same term where AO is co-located
-            coloTargetSRS = sourceSRS;
-        } else if (operation.equals(COPY_OPERATION_COPY_AO) && isColocated) {
-            // If copy AO and co-located, then target SRS is same as source SRS.
-            // Copy AO always has same source/target term, so no need to test that in the "if" condition
-            coloTargetSRS = sourceSRS;
-        }
-        // Main call to copy schedules
-        ScheduleRequestSetInfo resultTargetSRS =
-                common_copySchedulesHelper(operation, sourceSRS, coloTargetSRS, sourceAndTargetHaveSameTerm,
-                        sourceAo, targetAo, coService, context);
-        // Save the mapping to the target SRS
-        if (operation.equals(COPY_OPERATION_ROLLOVER)  && isColocated && !targetSRSMappingExists) {
-            rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRS.getId(), resultTargetSRS.getId());
+            // Main call to copy schedules
+            ScheduleRequestSetInfo resultTargetSRS =
+                    common_copySchedulesHelper(operation, sourceSRS, coloTargetSRS, sourceAndTargetHaveSameTerm,
+                            sourceAo, targetAo, coService, context);
+            // Save the mapping to the target SRS
+            if (operation.equals(COPY_OPERATION_ROLLOVER) && isColocated && !targetSRSMappingExists) {
+                rolloverAssist.mapSourceSRSIdToTargetSRSId(rolloverId, sourceSRS.getId(), resultTargetSRS.getId());
+            }
         }
     }
 
