@@ -45,13 +45,13 @@ public class AcalEventInfoLookupableImpl extends LookupableImpl {
     ContextInfo contextInfo = new ContextInfo();
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<AcalEventInfo> results = new ArrayList<AcalEventInfo>();
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         List<Predicate> pList = new ArrayList<Predicate>();
         Predicate p;
 
-        String name = fieldValues.get("name");
+        String name = searchCriteria.get("name");
 
         qBuilder.setPredicates();
         if (StringUtils.isNotBlank(name)){

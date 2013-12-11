@@ -41,12 +41,12 @@ public class AtpAtpRelationInfoAdminLookupableImpl extends LookupableImpl
 	private transient AtpService atpService;
     private static final long serialVersionUID = 1L;
 	@Override
-	public List<AtpAtpRelationInfo> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
+	public List<AtpAtpRelationInfo> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded)
 	{
 		QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
 		List<Predicate> pList = new ArrayList<Predicate>();
         //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
-		for(Map.Entry<String, String> entry: fieldValues.entrySet()) {
+		for(Map.Entry<String, String> entry: searchCriteria.entrySet()) {
             String fieldName = entry.getKey();
             String value = entry.getValue();
             if (value != null && !value.isEmpty())

@@ -59,11 +59,11 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
     }
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>();
 
-        String termId = fieldValues.get("termId");
-        String courseOfferingCode = fieldValues.get("courseOfferingCode");
+        String termId = searchCriteria.get("termId");
+        String courseOfferingCode = searchCriteria.get("courseOfferingCode");
 
         /**
          * Edit AO maintenace document uses this AO search to allow user to add colocated AOs.

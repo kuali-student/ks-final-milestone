@@ -20,9 +20,9 @@ public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookup
     private RoomService roomService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         try {
-            String buildingCode = fieldValues.get("buildingCode");
+            String buildingCode = searchCriteria.get("buildingCode");
             if (StringUtils.isNotBlank(buildingCode)){
                  return getRoomService().getBuildingsByBuildingCode(buildingCode, ContextBuilder.loadContextInfo());
             } else{

@@ -42,25 +42,25 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
     private OrganizationService organizationService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<OrgInfo> results = new ArrayList<OrgInfo>();
 
 
-        String shortName = fieldValues.get("shortName");
-        String longName = fieldValues.get("longName");
+        String shortName = searchCriteria.get("shortName");
+        String longName = searchCriteria.get("longName");
 
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         if (StringUtils.isNotBlank(longName) && !longName.isEmpty()) {
             if (StringUtils.isNotBlank(shortName) && !shortName.isEmpty()){
                 qBuilder.setPredicates(PredicateFactory.or(
-                        PredicateFactory.like("longName","*"+ fieldValues.get("longName")+ "*"),
-                        PredicateFactory.like("shortName","*" + fieldValues.get("shortName") + "*")));
+                        PredicateFactory.like("longName","*"+ searchCriteria.get("longName")+ "*"),
+                        PredicateFactory.like("shortName","*" + searchCriteria.get("shortName") + "*")));
             }
             else {
-                qBuilder.setPredicates(PredicateFactory.like("longName","*"+ fieldValues.get("longName")+ "*"));
+                qBuilder.setPredicates(PredicateFactory.like("longName","*"+ searchCriteria.get("longName")+ "*"));
             }
         }else if (StringUtils.isNotBlank(shortName) && !shortName.isEmpty()){
-            qBuilder.setPredicates(PredicateFactory.like("shortName","*" + fieldValues.get("shortName") + "*"));
+            qBuilder.setPredicates(PredicateFactory.like("shortName","*" + searchCriteria.get("shortName") + "*"));
         }
         try {
             QueryByCriteria query = qBuilder.build();

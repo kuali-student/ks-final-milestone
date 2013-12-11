@@ -45,7 +45,7 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
     private transient PopulationService populationService;
     private static final long serialVersionUID = 1L;
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<StudentGroupWrapper> results = new ArrayList<StudentGroupWrapper>();
         ContextInfo context = new ContextInfo();
 
@@ -54,7 +54,7 @@ public class StudentGroupWrapperLookupableImpl extends LookupableImpl {
         qBuilder.setPredicates();
         // create predicates for search parameters
         //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
-        for(Map.Entry<String,String> entry:fieldValues.entrySet()){
+        for(Map.Entry<String,String> entry:searchCriteria.entrySet()){
             Predicate words = like(entry.getKey(),entry.getValue());
             pList.add(words);
         }

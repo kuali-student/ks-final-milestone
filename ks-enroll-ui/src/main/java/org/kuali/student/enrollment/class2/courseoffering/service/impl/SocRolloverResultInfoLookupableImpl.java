@@ -18,10 +18,10 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
     private static final long serialVersionUID = 1L;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<SocRolloverResultInfo> socRolloverResultInfos ;
-        String sourceTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
-        String targetTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
+        String sourceTermId = searchCriteria.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
+        String targetTermId = searchCriteria.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
 
         //Build up a term search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();

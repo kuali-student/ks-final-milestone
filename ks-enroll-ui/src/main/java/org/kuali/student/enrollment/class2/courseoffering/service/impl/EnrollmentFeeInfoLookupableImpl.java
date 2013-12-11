@@ -44,13 +44,13 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
     private FeeService feeService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<EnrollmentFeeInfo> enrollmentFeeInfos = new ArrayList<EnrollmentFeeInfo>();
 
         try {
-            String id = fieldValues.get("id");
-            String refObjectURI = fieldValues.get("refObjectURI");
-            String refObjectId = fieldValues.get("refObjectId");
+            String id = searchCriteria.get("id");
+            String refObjectURI = searchCriteria.get("refObjectURI");
+            String refObjectId = searchCriteria.get("refObjectId");
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             // perform this search first so we don't have to search through the list for duplicates later
             if(refObjectId != null && !"".equals(refObjectId) && refObjectURI != null && !"".equals(refObjectURI) ){

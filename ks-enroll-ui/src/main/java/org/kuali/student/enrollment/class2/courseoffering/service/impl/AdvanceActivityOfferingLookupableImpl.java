@@ -28,13 +28,13 @@ public class AdvanceActivityOfferingLookupableImpl extends LookupableImpl {
     private static final Logger LOG = Logger.getLogger(AdvanceActivityOfferingLookupableImpl.class);
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<ActivityOfferingInfo> activityOfferingInfos;
         List<CourseOfferingInfo> courseOfferingList = new ArrayList<CourseOfferingInfo>();
         String termId = null;
         String courseOfferingId;
-        String termCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_TERM_CODE);
-        String courseOfferingCode = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE);
+        String termCode = searchCriteria.get(ActivityOfferingConstants.ACTIVITYOFFERING_TERM_CODE);
+        String courseOfferingCode = searchCriteria.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_CODE);
 
         try {
             //1. get termId based on termCode

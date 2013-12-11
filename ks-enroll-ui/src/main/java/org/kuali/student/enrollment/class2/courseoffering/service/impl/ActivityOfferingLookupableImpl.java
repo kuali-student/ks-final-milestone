@@ -39,12 +39,12 @@ import java.util.Map;
 public class ActivityOfferingLookupableImpl extends LookupableImpl {
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<ActivityOfferingInfo> activityOfferingInfos = new ArrayList<ActivityOfferingInfo>();
 
         try {
-            if(hasCriteria(fieldValues)){
-                QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+            if(hasCriteria(searchCriteria)){
+                QueryByCriteria qbc = buildQueryByCriteria(searchCriteria);
                 activityOfferingInfos = getCourseOfferingService().searchForActivityOfferings(qbc, ContextUtils.createDefaultContextInfo());
             }
         } catch (Exception e) {

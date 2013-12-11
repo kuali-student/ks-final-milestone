@@ -39,9 +39,9 @@ public class SocRolloverResultItemInfoLookupableImpl extends LookupableImpl {
     public final static String SOC_ROLLOVER_RESULT_ID = "socRolloverResultId";
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<SocRolloverResultItemInfo> socRolloverResultItemInfos;
-        String resultId = fieldValues.get(SOC_ROLLOVER_RESULT_ID);
+        String resultId = searchCriteria.get(SOC_ROLLOVER_RESULT_ID);
 
         try {
             socRolloverResultItemInfos = getCourseOfferingSetService().getSocRolloverResultItemsByResultId(resultId, ContextUtils.createDefaultContextInfo());

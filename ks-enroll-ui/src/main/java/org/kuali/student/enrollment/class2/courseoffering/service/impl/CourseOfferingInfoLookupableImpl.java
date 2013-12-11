@@ -22,10 +22,10 @@ public class CourseOfferingInfoLookupableImpl extends LookupableImpl {
     private transient CourseOfferingService courseOfferingService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
-        String termKey = fieldValues.get(CourseOfferingConstants.COURSEOFFERING_TERM_ID);
-        String subjectArea = fieldValues.get(CourseOfferingConstants.COURSEOFFERING_SUBJECT_AREA);
+        String termKey = searchCriteria.get(CourseOfferingConstants.COURSEOFFERING_TERM_ID);
+        String subjectArea = searchCriteria.get(CourseOfferingConstants.COURSEOFFERING_SUBJECT_AREA);
 
         List<CourseOfferingInfo> courseOfferings;
 

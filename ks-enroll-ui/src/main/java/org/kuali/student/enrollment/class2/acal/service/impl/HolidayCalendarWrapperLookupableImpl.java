@@ -35,13 +35,13 @@ public class HolidayCalendarWrapperLookupableImpl extends LookupableImpl {
 
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
         List<HolidayCalendarWrapper> holidayCalendarWrapperList = new ArrayList<HolidayCalendarWrapper>();
         List<HolidayCalendarInfo> holidayCalendarInfoList = new ArrayList<HolidayCalendarInfo>();
         List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
 
-        Integer theStartYear = new Integer(fieldValues.get(ACADEMIC_CALENDAR_START_YEAR_KEY));
+        Integer theStartYear = new Integer(searchCriteria.get(ACADEMIC_CALENDAR_START_YEAR_KEY));
         ContextInfo context = new ContextInfo();
         try{
             holidayCalendarInfoList = getAcademicCalendarService().getHolidayCalendarsByStartYear(theStartYear, context);

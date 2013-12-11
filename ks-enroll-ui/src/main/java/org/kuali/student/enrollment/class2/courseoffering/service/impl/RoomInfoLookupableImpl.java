@@ -35,20 +35,20 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
     }
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
-        boolean validate = validateSearchParameters(lookupForm,fieldValues);
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
+        boolean validate = validateSearchParameters(lookupForm,searchCriteria);
         int firstBuilding = 0;
         if (validate){
             try {
 
-                List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(fieldValues.get("buildingCode"), ContextBuilder.loadContextInfo());
+                List<BuildingInfo> buildings = getRoomService().getBuildingsByBuildingCode(searchCriteria.get("buildingCode"), ContextBuilder.loadContextInfo());
 
                 if (buildings.isEmpty()){
                     GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM,"Invalid building code");
                     return new ArrayList<RoomInfo>();
                 }
 
-                if (StringUtils.isBlank(fieldValues.get("roomCode"))){
+                if (StringUtils.isBlank(searchCriteria.get("roomCode"))){
                     List<String> roomIds = getRoomService().getRoomIdsByBuilding(buildings.get(firstBuilding).getId(), ContextBuilder.loadContextInfo());
 
                     if(roomIds.isEmpty()) {
@@ -57,7 +57,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
 
                     return getRoomService().getRoomsByIds(roomIds,ContextBuilder.loadContextInfo());
                 } else {
-                    return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getId(),fieldValues.get("roomCode"),ContextBuilder.loadContextInfo());
+                    return getRoomService().getRoomsByBuildingAndRoomCode(buildings.get(firstBuilding).getId(),searchCriteria.get("roomCode"),ContextBuilder.loadContextInfo());
                 }
 
             } catch (DoesNotExistException e) {

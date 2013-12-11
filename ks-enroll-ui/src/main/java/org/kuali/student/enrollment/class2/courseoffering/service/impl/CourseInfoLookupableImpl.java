@@ -75,7 +75,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
     }
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
 
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
@@ -90,7 +90,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
         searchParams.add(qpv1);
 
         for (QueryParamEnum qpEnum : QueryParamEnum.values()) {
-            String fieldValue = fieldValues.get(qpEnum.getFieldValue());
+            String fieldValue = searchCriteria.get(qpEnum.getFieldValue());
             if ( ! isEmpty(fieldValue) ) {
                 SearchParamInfo qpv = new SearchParamInfo();
                 qpv.setKey(qpEnum.getQueryKey());

@@ -46,14 +46,14 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
     private transient CourseOfferingService courseOfferingService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<FormatOfferingInfo> formatOfferingInfos = null;
 
-        String typeKey = fieldValues.get(FormatOfferingConstants.FORMAT_OFFERING_TYPE_KEY);
-        String courseOfferingId = fieldValues.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID);
+        String typeKey = searchCriteria.get(FormatOfferingConstants.FORMAT_OFFERING_TYPE_KEY);
+        String courseOfferingId = searchCriteria.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID);
         try {
             if (StringUtils.isNotBlank(courseOfferingId)) {
-                formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(fieldValues.get(COURSE_OFFER_ID), ContextUtils.createDefaultContextInfo());
+                formatOfferingInfos = getCourseOfferingService().getFormatOfferingsByCourseOffering(searchCriteria.get(COURSE_OFFER_ID), ContextUtils.createDefaultContextInfo());
             }  else if (StringUtils.isNotBlank(typeKey)) {
                 formatOfferingInfos = getSearchResultsByType (typeKey);
             }
