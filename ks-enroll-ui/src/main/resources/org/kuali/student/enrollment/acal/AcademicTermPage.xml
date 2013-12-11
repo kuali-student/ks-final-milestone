@@ -124,7 +124,7 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                  since the first field is a validated dropdown -->
-                <bean parent="KS-Uif-SecondaryActionButton" p:actionLabel="Add" p:focusOnIdAfterSubmit="SELF"
+                <bean parent="KS-Uif-SecondaryActionButton" p:id="add_term" p:actionLabel="Add" p:focusOnIdAfterSubmit="SELF"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
         </property>
