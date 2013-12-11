@@ -1585,84 +1585,21 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
   background-repeat: repeat-x;
   text-decoration: none;
 
-  &:hover {
-    color: #005580;
-    text-decoration: underline;
-    background-position: 0 -15px;
-    .uif-dialogButtons-transition;
+      &:hover {
+        color: #005580;
+        text-decoration: underline;
+        background-position: 0 -15px;
+        .uif-dialogButtons-transition;
+      }
+
   }
-}
-/*
-            End
-   ======================
-*/
 
-/*
-  Identify sections and subsections so that the can be separated
-*/
+/* This is a copy of the exact same definition from ksboot.less -- but for some reason IE isn't "seeing" that rule.  If you view the raw CSS from within IE9, this rule from ksboot is entirely missing.
+ * For some reason, including the rule here gets picked up by IE.
+ * Note: the rule is actually found in kboot.less but is then inherited by ksboot.less
 
-.ks-section{
-  margin-bottom: 45px;
-}
-
-.ks-subSection{
-  margin-bottom: 10px;
-}
-
-/*
-  This is the equivalent of the uif-inputField chained with uif-boxLayoutVerticalItem
-*/
-.ks-itemSection{
-  margin-bottom: 8px;
-}
-
-/*
-    styles for forms inside the sections such as inside disclosures
-*/
-.ks-form-panel {
-  padding: 17px 0 17px 17px;
-  border: 1px solid #AAAAAA;
-  display: inline-block;
-}
-
-.uif-disclosureContent{
-  margin-left: 18px;
-}
-
-/*
-  override unnecessary indentations caused by uif-diclosureContent
-*/
-.ks-uif-diclosureContent-noIndent .uif-disclosureContent {
-  margin-left: 0px;
-}
-
-/*
- Remove the padding to align left for only acal_keydate_group
-*/
-.acal_keydate_group .uif-stackedCollectionLayout {
-  padding: 0px;
-}
-
-.ks-search-group-section{
-  border: none;
-  margin-bottom: 15px;
-  display: inline-block;
-}
-
-.ks-search-group-footer{
-  margin-bottom: 7px;
-  display: inline-block;
-}
-
- /*This is a dotted separator  */
-.ks-dottedHeaderActions{
-  border-bottom: 1px dotted #AAAAAA;
-}
-
-.ks-subSection.ks-subSection-marginTop {
-  margin-top: 10px;
-}
-
-.ks-section.ks-section-marginTop {
-  margin-top: 10px;
+ * https://jira.kuali.org/browse/KSENROLL-10508
+ */
+fieldset[data-type="InputSet"] {
+  display: inline;
 }
