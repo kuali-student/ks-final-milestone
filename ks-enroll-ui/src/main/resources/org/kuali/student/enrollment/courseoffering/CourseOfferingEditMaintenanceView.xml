@@ -599,7 +599,8 @@
 
     <bean id="KS-CourseOffering-FormatOfferingSubSection" parent="KS-CourseOffering-FormatOfferingSubSection-parent"/>
 
-    <bean id="KS-CourseOffering-FormatOfferingSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine" abstract="true" >
+    <bean id="KS-CourseOffering-FormatOfferingSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine" abstract="true"
+          p:layoutManager.style="width: 59.1em;" >
         <property name="addBlankLineAction.actionLabel" value="Add Format"/>
         <property name="addBlankLineAction.render" value="@{#dp.renderHelper.showFormatAddButton}"/>
         <property name="addBlankLineAction.id" value="KS-CourseOffering-FormatOfferingSubSection_add"/>
@@ -750,7 +751,7 @@
             <list>
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.id="ao-personnelgroup-table"
-                      p:layoutManager.style="width: 53em;">
+                      p:layoutManager.style="width: 56em;">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
@@ -768,8 +769,12 @@
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="Items">
                         <list>
-                            <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
-                                  p:label="Id" p:required="false" p:additionalCssClasses="fixedCol_14">
+                            <bean parent="Uif-InputField"
+                                  p:id="personnelPriority"
+                                  p:propertyName="offeringInstructorInfo.personId"
+                                  p:label="Id"
+                                  p:required="false"
+                                  p:additionalCssClasses="fixedCol_15">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
@@ -820,7 +825,7 @@
 
 
     <bean id="KS-CourseOfferingEdit-OrganizationSection" parent="KS-TableCollectionSubSection-BottomAddLine"
-          p:layoutManager.style="width: 45em;"
+          p:layoutManager.style="width: 47em;"
           p:layoutManager.numberOfColumns="1"
           p:headerText="Administering Organizations"
           p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
@@ -840,7 +845,7 @@
                       p:label="Organization Id"
                       p:propertyName="id"
                       p:style="font-weight:bold;white-space:nowrap;"
-                      p:additionalCssClasses="fixedCol_12">
+                      p:additionalCssClasses="fixedCol_13">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="16" p:ReadOnly="true" />
                     </property>
