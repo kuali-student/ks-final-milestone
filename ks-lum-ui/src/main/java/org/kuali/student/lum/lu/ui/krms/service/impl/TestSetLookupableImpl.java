@@ -45,13 +45,13 @@ public class TestSetLookupableImpl extends LookupableImpl {
     private CluService cluService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<CluSetInfo> cluSetInfos = new ArrayList<CluSetInfo>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        String name = fieldValues.get("name");
-        String description = fieldValues.get("descr");
-        String standardizedTestName = fieldValues.get("longName");
-        String containsSet = fieldValues.get("containsSet");
+        String name = searchCriteria.get("name");
+        String description = searchCriteria.get("descr");
+        String standardizedTestName = searchCriteria.get("longName");
+        String containsSet = searchCriteria.get("containsSet");
         if (StringUtils.isNotBlank(name) && !name.isEmpty()) {
             SearchParamInfo testNameParam = new SearchParamInfo();
             testNameParam.setKey("cluset.queryParam.optionalName");

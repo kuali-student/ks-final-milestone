@@ -45,11 +45,11 @@ public class CourseSetsLookupableImpl extends LookupableImpl {
     private CluService cluService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<CluSetInfo> cluSetInfos = new ArrayList<CluSetInfo>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        String name = fieldValues.get("name");
-        String description = fieldValues.get("descr");
+        String name = searchCriteria.get("name");
+        String description = searchCriteria.get("descr");
         if (StringUtils.isNotBlank(name) && !name.isEmpty()) {
             SearchParamInfo nameParam = new SearchParamInfo();
             nameParam.setKey("cluset.queryParam.optionalName");

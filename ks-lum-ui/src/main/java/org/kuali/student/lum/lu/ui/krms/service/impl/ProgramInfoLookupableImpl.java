@@ -73,7 +73,7 @@ public class ProgramInfoLookupableImpl extends LookupableImpl {
     }
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List <CluInformation> programInfoList = new ArrayList<CluInformation>();
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
         SearchParamInfo qpv1 = new SearchParamInfo();
@@ -101,7 +101,7 @@ public class ProgramInfoLookupableImpl extends LookupableImpl {
         qpv2.getValues().add("Suspended");
         searchParams.add(qpv2);
         for (QueryParamEnum qpEnum : QueryParamEnum.values()) {
-            String fieldValue = fieldValues.get(qpEnum.getFieldValue());
+            String fieldValue = searchCriteria.get(qpEnum.getFieldValue());
             if ( ! isEmpty(fieldValue) ) {
                 SearchParamInfo qpv = new SearchParamInfo();
                 qpv.setKey(qpEnum.getQueryKey());
