@@ -570,7 +570,8 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
                 getCourseWaitListServiceFacade().createDefaultCourseWaitlist(targetFo.getId(),
                         targetAo.getId(), targetCo.getHasWaitlist(), context);
 
-        courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, theWaitListInfo, context);
+         //   UMDENR-308 / KSENROLL-11113     createDefaultCourseWaitlist is creating waitlist not require seperate method.
+       // courseWaitListService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, theWaitListInfo, context);
     }
 
     private void _RCO_copyWaitlistForTargetAO_CopyCO(boolean sourceTermSameAsTarget,
