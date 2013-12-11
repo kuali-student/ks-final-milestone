@@ -355,7 +355,7 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
             this.buildingCode = "<span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText=" + "'" + buildingCode + "'" + " toolTip.tooltipContent=" + "'" + buildingName + "']" + "</span>";
         }
 */
-        String BldgCodeMark = "<span " + cssClass + "title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span> </span>";
+        String BldgCodeMark = underlineCssClass + buildingCode + "</span>";
         if (appendForDisplay){
             this.buildingCode = this.buildingCode + "<br>" + BldgCodeMark;
         }else{
@@ -367,7 +367,7 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
     public void setBuildingCodeWithTooltip(String buildingCode, String buildingName) {
         String underlineCssClass = "<span style=\"border-bottom: 1px dotted;\">";
 
-        String BldgCodeMark = "<span title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span> </span>";
+        String BldgCodeMark = underlineCssClass + buildingCode + "</span>";
 
         this.buildingCode = BldgCodeMark;
     }
