@@ -147,7 +147,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             urlParameters.put(EnrollConstants.GROWL_MESSAGE, CourseOfferingConstants.COURSE_OFFERING_CREATE_SUCCESS);
         }
 
-        urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());
+        urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode() + dataObject.getCourseOfferingInfo().getCourseNumberSuffix());
 
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
         urlParameters.put("termCode", dataObject.getTerm().getCode());
