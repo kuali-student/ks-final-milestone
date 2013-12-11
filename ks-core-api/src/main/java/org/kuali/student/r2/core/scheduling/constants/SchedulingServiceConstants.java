@@ -178,6 +178,11 @@ public class SchedulingServiceConstants {
     public static final String TIME_SLOT_LIFECYCLE_KEY = "kuali.scheduling.timeslot.lifecycle";
     public static final String TIME_SLOT_STATE_ACTIVE = "kuali.scheduling.timeslot.state.active";
 
+    // schedule transaction group states
+    public static final String SCHEDULE_TRANSACTION_GROUP_LIFECYCLE_KEY = "kuali.scheduling.schedule.transaction.group.lifecycle";
+    public static final String SCHEDULE_TRANSACTION_GROUP_STATE_ACTIVE = "kuali.scheduling.schedule.transaction.group.state.active";
+    public static final String SCHEDULE_TRANSACTION_GROUP_STATE_INACTIVE = "kuali.scheduling.schedule.transaction.group.state.inactive";
+
     ////////////////////////////////////////
     // TYPES / STATES not yet approved
     // for M5,  but used in the code,
