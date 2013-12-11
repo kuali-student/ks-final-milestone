@@ -757,8 +757,13 @@ function rdlStartTimeOnBlur(){
  */
 function rdlDaysOnBlur(){
 
-    retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
-        jQuery("#rdl_endtime").show();
-        jQuery("#rdl_starttime_control").focus();
-    });
+    var startTime = jQuery("#rdl_starttime_control").val();
+    var days = jQuery("#rdl_days_control").val();
+
+    if (startTime == '' || days == ''){
+        retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
+            jQuery("#rdl_endtime").show();
+            jQuery("#rdl_starttime_control").focus();
+        });
+    }
 }
