@@ -79,7 +79,7 @@
         </property>
 
         <property name="onKeyPressScript">
-            <value>dismissEnterKeyAction();</value>
+            <value>dismissEnterKeyAction(e);</value>
         </property>
 
         <property name="topGroup">
