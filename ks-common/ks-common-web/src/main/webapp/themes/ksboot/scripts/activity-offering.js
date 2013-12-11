@@ -723,7 +723,13 @@ function endTimeOnBlur(){
  * This will be called on start time focus lost. Here, we load matching endtimes for the
  * days and start time.
  */
-function rdlStartTimeOnBlur(){
+function rdlStartTimeOnBlur(event){
+
+    //relatedTarget may be null when the user just navigates to some other window and comes back
+    if (event.relatedTarget == null || event.relatedTarget.id != "rdl_endtime_control"){
+        validateFieldValue(jQuery("#rdl_starttime_control"));
+        return;
+    }
 
     var startTime = jQuery("#rdl_starttime_control").val();
     var days = jQuery("#rdl_days_control").val();
@@ -737,7 +743,6 @@ function rdlStartTimeOnBlur(){
     if (startTime == '' || days == ''){
        return;
     }
-
 
    if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
        validateFieldValue(jQuery("#rdl_days_control")) == false){
