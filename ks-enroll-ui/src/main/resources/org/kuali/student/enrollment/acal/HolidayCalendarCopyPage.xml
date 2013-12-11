@@ -48,7 +48,8 @@
                         <bean parent="Uif-SpaceField"/>
                         <bean parent="Uif-ActionLink"
                               p:methodToCall="toCreate"
-                              p:actionLabel="Create Blank Holiday Calendar"/>
+                              p:actionLabel="Create Blank Holiday Calendar"
+                              p:style="display:inline-block;"/>
                     </list>
                 </property>
             </bean>
