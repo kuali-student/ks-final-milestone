@@ -751,7 +751,7 @@
             <list>
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.id="ao-personnelgroup-table"
-                      p:layoutManager.style="width: 56em;">
+                      p:layoutManager.style="width: 60em;">
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
@@ -774,7 +774,7 @@
                                   p:propertyName="offeringInstructorInfo.personId"
                                   p:label="Id"
                                   p:required="false"
-                                  p:additionalCssClasses="fixedCol_15">
+                                  p:additionalCssClasses="fixedCol_16">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
