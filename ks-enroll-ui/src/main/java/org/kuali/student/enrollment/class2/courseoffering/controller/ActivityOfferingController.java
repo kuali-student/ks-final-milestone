@@ -144,6 +144,10 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.endTime", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
             form.setJumpToId("TOP");
             return getUIFModelAndView(form);
+        } else if (!scheduleWrapper.isTba() && StringUtils.isBlank(endTime)) {
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.endTime", ActivityOfferingConstants.MSG_ERROR_INVALID_END_TIME);
+            form.setJumpToId("TOP");
+            return getUIFModelAndView(form);
         }
 
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);

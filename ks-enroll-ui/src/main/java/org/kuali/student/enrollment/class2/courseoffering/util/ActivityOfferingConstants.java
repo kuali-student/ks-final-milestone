@@ -40,6 +40,7 @@ public class ActivityOfferingConstants {
     public static final String MSG_ERROR_INSTRUCTOR_DUPLICATE = "error.enroll.ao.instructor.duplicate";
     public static final String MSG_ERROR_SEATPOOL_DUPLICATE = "error.enroll.ao.seatpool.duplicate";
     public static final String MSG_ERROR_INVALID_START_TIME = "error.enroll.ao.starttime.invalid";
+    public static final String MSG_ERROR_INVALID_END_TIME = "error.enroll.ao.endtime.invalid";
     public static final String MSG_ERROR_TBA_VALIDATION_ERROR = "error.enroll.ao.tba.invalid";
     public static final String MSG_ERROR_ORGANIZATION_ID_REQUIRED = "error.enroll.ao.organization.id.required";
     public static final String MSG_ERROR_AO_PART_COLOCATE = "error.enroll.ao.part.colocate";
