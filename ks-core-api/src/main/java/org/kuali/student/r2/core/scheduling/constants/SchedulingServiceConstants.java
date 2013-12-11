@@ -137,6 +137,9 @@ public class SchedulingServiceConstants {
     // schedule transaction group types
     public static final String SCHEDULE_TRANSACTION_GROUP_TYPE_STANDARD = "kuali.scheduling.schedule.transaction.group.type.standard";
 
+    // schedule request group types
+    public static final String SCHEDULE_REQUEST_GROUP_TYPE_STANDARD = "kuali.scheduling.schedule.request.group.constraint.type.standard";
+
     /////////////////////////////
     // States
     /////////////////////////////
