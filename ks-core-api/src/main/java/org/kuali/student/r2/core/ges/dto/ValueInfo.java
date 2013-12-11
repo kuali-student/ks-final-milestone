@@ -69,8 +69,12 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
             atpTypeKey = value.getAtpTypeKey();
             populationId = value.getPopulationId();
             ruleId = value.getRuleId();
-            effectiveDate = new Date(value.getEffectiveDate().getTime());
-            expirationDate = new Date(value.getExpirationDate().getTime());
+            if(value.getEffectiveDate() != null) {
+                effectiveDate = new Date(value.getEffectiveDate().getTime());
+            }
+            if(value.getExpirationDate() != null) {
+                expirationDate = new Date(value.getExpirationDate().getTime());
+            }
             this.value = value.getStringValue();
         }
     }
