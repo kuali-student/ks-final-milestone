@@ -550,6 +550,11 @@
           p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
           p:id="@{#collectionGroup.id}_add"/>
 
+    <bean id="Uif-AddLineAction-SecondaryButton" parent="Uif-SecondaryActionButton" p:methodToCall="addLine"
+          p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:id="@{#collectionGroup.id}_add"/>
+
     <bean id="KS-Uif-PrimaryActionButton" abstract="true" parent="KS-Uif-PrimaryActionButton-parentBean"/>
     <bean id="KS-Uif-PrimaryActionButton-parentBean" parent="Uif-PrimaryActionButton"/>
 
