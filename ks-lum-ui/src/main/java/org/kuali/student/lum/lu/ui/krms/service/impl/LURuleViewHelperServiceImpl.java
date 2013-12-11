@@ -108,18 +108,18 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
         return KSPropositionEditor.class;
     }
 
-//    @Override
-//    public void applyAuthorizationAndPresentationLogic(View view, Component component, ViewModel model) {
-//        super.applyAuthorizationAndPresentationLogic(view, component, model);
-//
-//        if(component instanceof Group) {
-//            Group group = (Group) component;
-//
-//            if(group.isReadOnly()) {
-//                processGroupItems(group);
-//            }
-//        }
-//    }
+    @Override
+    public void performCustomApplyModel(Component component, Object model) {
+        super.performCustomApplyModel(component, model);
+
+        if(component instanceof Group) {
+            Group group = (Group) component;
+
+            if(group.isReadOnly()) {
+                processGroupItems(group);
+            }
+        }
+    }
 
     protected void processGroupItems(Group group) {
         List<Field> fields = ComponentUtils.getComponentsOfType(group.getItems(), Field.class);
