@@ -30,6 +30,8 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
 	private transient CourseOfferingService courseOfferingService;
 
+    private final String plannerScreenUrl = "<a href=\"planner?methodToCall=start&viewId=Planner-FormView&focusAtpId=";
+
 	protected CourseOfferingService getCourseOfferingService() {
 		if (this.courseOfferingService == null) {
 			// TODO: Use constants for namespace.
@@ -100,21 +102,21 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 								.getUserSessionHelper().getStudentName();
 						sb = sb.append("<dd>")
 								.append(user + " withdrew from this course in ")
-								.append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
+								.append(plannerScreenUrl)
 								.append(withdrawnTerm).append(">")
 								.append(term.getName()).append("</a>");
 					} else {
 						sb = sb.append("<dd>")
 								.append("You withdrew from this course in ")
-								.append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
-								.append(withdrawnTerm).append(">")
+								.append(plannerScreenUrl)
+								.append(withdrawnTerm).append("\">")
 								.append(term.getName()).append("</a>");
 					}
 				}
 				if (counter > 0) {
 					sb = sb.append(",")
-							.append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
-							.append(withdrawnTerm).append(">")
+							.append(plannerScreenUrl)
+							.append(withdrawnTerm).append("\">")
 							.append(term.getName()).append("</a>");
 				}
 				counter++;
@@ -152,15 +154,15 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 								.append(message)
 								.append(sec)
 								.append(" for ")
-								.append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
-								.append(nonWithdrawnTerm).append(">")
+								.append(plannerScreenUrl)
+								.append(nonWithdrawnTerm).append("\">")
 								.append(term.getName()).append("</a>");
 						currentTermRegistered = true;
 					}
 					if (counter2 > 0) {
 						sb = sb.append(",")
-								.append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
-								.append(nonWithdrawnTerm).append(">")
+								.append(plannerScreenUrl)
+								.append(nonWithdrawnTerm).append("\">")
 								.append(term.getName()).append("</a>");
 						currentTermRegistered = true;
 					}
@@ -176,15 +178,15 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						}
 						sb = sb.append("<dd>")
 								.append(message)
-								.append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
-								.append(nonWithdrawnTerm).append(">")
+								.append(plannerScreenUrl)
+								.append(nonWithdrawnTerm).append("\">")
 								.append(term.getName()).append("</a>");
 
 					}
 					if (counter3 > 0) {
 						sb = sb.append(", ")
-								.append("<a href=plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
-								.append(nonWithdrawnTerm).append(">")
+								.append(plannerScreenUrl)
+								.append(nonWithdrawnTerm).append("\">")
 								.append(term.getName()).append("</a>");
 					}
 					counter3++;
@@ -261,7 +263,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 							Term term = KsapFrameworkServiceLocator
 									.getTermHelper().getTerm(t);
 							sb = startsSub
-									.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
+									.append(plannerScreenUrl)
 									.append(t).append("\">")
 									.append(term.getName()).append(" plan")
 									.append("</a>").append(", ");
@@ -278,7 +280,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						if (!currentTermRegistered) {
 							sb = sb.append("<dd>")
 									.append("Added to ")
-									.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
+									.append(plannerScreenUrl)
 									.append(term.getId()).append("\">")
 									.append(term.getName()).append(" plan")
 									.append("</a> ").append(" on ").append(key)
@@ -286,7 +288,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						} else {
 							sb = sb.append("<dd>")
 									.append("This course was also added to ")
-									.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
+									.append(plannerScreenUrl)
 									.append(term.getId()).append("\">")
 									.append(term.getName()).append(" plan")
 									.append("</a> ").append(" on ").append(key)
@@ -301,8 +303,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						for (String t : terms) {
 							Term term = KsapFrameworkServiceLocator
 									.getTermHelper().getTerm(t);
-							sb = sb.append(
-									"<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
+							sb = sb.append(plannerScreenUrl)
 									.append(t).append("\">")
 									.append(term.getName()).append(" plan")
 									.append("</a> ").append(",");
@@ -317,7 +318,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						Term term = KsapFrameworkServiceLocator.getTermHelper()
 								.getTerm(planItemsMap.get(key));
 						sb = sb.append(" and ")
-								.append("<a href=\"plan?methodToCall=start&viewId=PlannedCourses-FormView&focusAtpId=")
+								.append(plannerScreenUrl)
 								.append(term.getId()).append("\">")
 								.append(term.getName()).append(" plan")
 								.append("</a> ").append(" on ").append(key);
