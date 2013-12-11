@@ -18,7 +18,7 @@ function handleToolbar(divId, hiddenColumns, buttons){
 }
 
 function processToolbar(divId, hiddenColumnsMap, buttonsMap) {
-    jQuery("#" + divId).find("div[id^='activityOfferingsPerCluster'] table").each(function(){
+    jQuery("#" + divId).find("table").each(function(){
         var id=jQuery(this).attr('id');
         var oTable = jQuery("#" + id).dataTable();
         var selectedRows =  jQuery(oTable.fnGetNodes()).filter(':has(:input:checkbox:checked)');
