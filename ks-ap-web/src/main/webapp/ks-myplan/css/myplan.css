@@ -359,7 +359,7 @@ a:focus {
 .myplan-view .uif-boxLayoutHorizontalItem,
 .base-view .uif-boxLayoutHorizontalItem,
 .jquerybubblepopup .uif-boxLayoutHorizontalItem {
-    margin: 0 10px 0 0;
+    margin: 0 0px 0 0;
 }
 
 .myplan-view .uif-instructionalMessage {
@@ -1695,16 +1695,16 @@ table.ksap-course-search-results-datatable .blockUI {
     margin-right: 20px;
 }
 
-.myplan-course-detail-label > .uif-boxLayout.uif-horizontalBoxLayout {
+.myplan-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout {
     float: right;
 }
 
-.myplan-course-detail-label > .uif-boxLayout.uif-horizontalBoxLayout span {
+.myplan-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout span {
     vertical-align: middle;
     margin: 0;
 }
 
-.myplan-course-detail-label > .uif-boxLayout.uif-horizontalBoxLayout img {
+.myplan-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout img {
     margin: 0 0 0 10px;
 }
 
@@ -2107,7 +2107,7 @@ table.ksap-course-search-results-datatable .blockUI {
     display: block;
 }
 
-.ksap-saved-courses-detail .myplan-saved-courses-detail-heading .uif-boxLayout {
+.ksap-saved-courses-detail .myplan-saved-courses-detail-heading .uif-verticalBoxLayout {
     float: none !important;
 }
 
@@ -2321,7 +2321,7 @@ label.scheduled {
     margin: 0 auto !important;
 }
 
-.myplan-full-plan-detail > .uif-boxLayout {
+.myplan-full-plan-detail > .uif-verticalBoxLayout {
     border: solid 1px #a9a9a9;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -2357,7 +2357,7 @@ label.scheduled {
     color: #999;
 }
 
-.myplan-full-plan-detail .uif-stackedCollectionLayout > .uif-collectionItem.uif-horizontalBoxGroup {
+.myplan-full-plan-detail .uif-stackedCollectionLayout > .uif-collectionItem.myplan-term{
     display: inline-block;
     float: left;
 }
@@ -2372,12 +2372,12 @@ label.scheduled {
     width: 135px;
 }
 
-.myplan-full-plan-detail .myplan-term > .uif-boxLayout {
+.myplan-full-plan-detail .myplan-term > .uif-verticalBoxLayout {
     padding: 5px 10px;
     min-height: 100px;
 }
 
-.myplan-full-plan-detail .myplan-term.myplan-current-term > .uif-boxLayout {
+.myplan-full-plan-detail .myplan-term.myplan-current-term > .uif-verticalBoxLayout {
     font-weight: bold;
 }
 
@@ -2726,4 +2726,13 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     margin: 0px;
     width: 300px;
     min-height: 0px;
+}
+
+#full_planned_courses_detail .uif-horizontalBoxLayout .uif-header-contentWrapper {
+    width: auto;
+    clear: none;
+    float: left;
+}
+#academicYearCollection .uif-gridLayout th[scope="row"] {
+    background-color: rgb(255, 255, 255);
 }
