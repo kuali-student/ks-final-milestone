@@ -43,10 +43,10 @@ public class KitchenSinkTermInfoLookupableImpl extends LookupableImpl {
     private transient TypeService typeService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<TermInfo> rList;
-        String name = fieldValues.get("code");
-        String year = fieldValues.get("startDate");
+        String name = searchCriteria.get("code");
+        String year = searchCriteria.get("startDate");
 
         try {
             rList = CalendarSearchViewHelperUtil.searchForTerms(name, year, ContextUtils.createDefaultContextInfo(), getAtpService(), getTypeService());

@@ -49,10 +49,10 @@ public class DepartmentLookupableImpl extends LookupableImpl {
     private OrganizationService organizationService;
 
     @Override
-    public List<?> performSearch(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
-        String shortName = fieldValues.get("shortName");
-        String longName = fieldValues.get("longName");
+        String shortName = searchCriteria.get("shortName");
+        String longName = searchCriteria.get("longName");
 
         List<OrgInfo> displays = new ArrayList<OrgInfo>();
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();

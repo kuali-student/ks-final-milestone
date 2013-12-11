@@ -41,7 +41,7 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl{
     }
 
     @Override
-    public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
 
         String nameSearch = searchCriteria.get(KSSearchParameters.NAME_SEARCH);
         if (StringUtils.isNotBlank(nameSearch)) {
@@ -61,7 +61,7 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl{
         searchCriteria.put(KIMPropertyConstants.Entity.ENTITY_TYPE_CODE, "PERSON");
         searchCriteria.put(KIMPropertyConstants.Person.ACTIVE,"Y");
 
-        List<Person> persons = getPersonService().findPeople(searchCriteria, unbounded);
+        List<Person> persons = getPersonService().findPeople(searchCriteria, !bounded);
 
         List<KSPersonImpl> ksPersons = new ArrayList<KSPersonImpl>();
         for (Person person : persons) {
