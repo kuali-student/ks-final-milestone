@@ -1739,3 +1739,13 @@ function registerClosePopups(){
     });
 }
 
+function initializeBookmarkListEvents(){
+    jQuery('#saved_courses_detail_list ul').css('minHeight',jQuery('#saved_courses_detail_list ul').height());
+    jQuery('.ksap-saved-courses-detail').on('PLAN_ITEM_DELETED', function(event, data){
+        if (data.category === 'wishlist') {
+            fnRemoveSavedItem(data.planItemId);
+            fnUpdateSavedCount( jQuery(this).find('.uif-sectionHeader .uif-headerText strong').text() );
+            fnClosePopup();
+        }
+    });
+}

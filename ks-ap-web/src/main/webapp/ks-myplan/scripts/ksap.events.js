@@ -51,8 +51,8 @@ function fnRemovePlanItem (atpId, type, planItemId) {
     Function: remove course from saved courses list
 #################################################################
  */
-function fnRemoveSavedItem (planItemId, cssStyle) {
-    jQuery("." + cssStyle + " #" + planItemId).parents("li").fadeOut(250, function(){
+function fnRemoveSavedItem (planItemId) {
+    jQuery("#" + planItemId).parents("li").fadeOut(250, function(){
         jQuery(this).remove();
     });
 }
