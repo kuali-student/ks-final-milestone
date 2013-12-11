@@ -21,11 +21,8 @@
     <!-- VIEWS ######################################################################################## -->
     <!-- View without the header and footer and just the theme -->
     <bean id="MyPlanBaseFormView" abstract="true" parent="Uif-FormView">
-    	<!--
-        <property name="preloadPoolSize" value="5"/>
-    	 -->
-        <property name="theme">
-            <bean parent="MyPlanBaseTheme"/>
+    	<property name="theme">
+            <bean parent="KSAPBaseTheme"/>
         </property>
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
@@ -36,7 +33,7 @@
 
     <bean id="MyPlanFormView" abstract="true" parent="MyPlanBaseFormView">
         <property name="theme">
-            <bean parent="MyPlanTheme"/>
+            <bean parent="KSAPTheme"/>
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
@@ -51,11 +48,8 @@
     </bean>
 
     <bean id="MyPlanBaseLookupView" abstract="true" parent="Uif-LookupView">
-    	<!-- 
-        <property name="preloadPoolSize" value="5"/>
-    	 -->
         <property name="theme">
-            <bean parent="MyPlanBaseTheme"/>
+            <bean parent="KSAPBaseTheme"/>
         </property>
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
@@ -66,7 +60,7 @@
 
     <bean id="MyPlanLookupView" abstract="true" parent="MyPlanBaseLookupView">
         <property name="theme">
-            <bean parent="MyPlanTheme"/>
+            <bean parent="KSAPTheme"/>
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
@@ -81,11 +75,8 @@
     </bean>
 
     <bean id="MyPlanBaseInquiryView" abstract="true" parent="Uif-InquiryView">
-    	<!-- 
-        <property name="preloadPoolSize" value="5"/>
-    	 -->
         <property name="theme">
-            <bean parent="MyPlanBaseTheme"/>
+            <bean parent="KSAPBaseTheme"/>
         </property>
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
@@ -96,7 +87,7 @@
 
     <bean id="MyPlanInquiryView" abstract="true" parent="MyPlanBaseInquiryView">
         <property name="theme">
-            <bean parent="MyPlanTheme"/>
+            <bean parent="KSAPTheme"/>
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
@@ -111,11 +102,8 @@
     </bean>
 
     <bean id="MyPlanBaseMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
-    	<!-- 
-        <property name="preloadPoolSize" value="5"/>
-    	 -->
         <property name="theme">
-            <bean parent="MyPlanBaseTheme"/>
+            <bean parent="KSAPBaseTheme"/>
         </property>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
@@ -125,7 +113,7 @@
 
     <bean id="MyPlanMaintenanceView" abstract="true" parent="MyPlanBaseMaintenanceView">
         <property name="theme">
-            <bean parent="MyPlanTheme"/>
+            <bean parent="KSAPTheme"/>
         </property>
         <property name="footer" ref="MyPlanFooterDocument"/>
         <property name="applicationHeader">
@@ -142,8 +130,8 @@
 
     <!-- THEMES ######################################################################################## -->
 
-    <bean id="MyPlanTheme" abstract="true" parent="MyPlanTheme-parentBean"/>
-    <bean id="MyPlanTheme-parentBean" parent="Uif-BaseTheme">
+    <bean id="KSAPTheme" abstract="true" parent="KSAPTheme-parentBean"/>
+    <bean id="KSAPTheme-parentBean" parent="Uif-BaseTheme">
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-myplan/jquery-popover/jquery.popover.css</value>
@@ -164,9 +152,9 @@
         </property>
     </bean>
     
-    <!--Myplan theme with different view-->
-    <bean id="MyPlanBaseTheme" abstract="true" parent="MyPlanBaseTheme-parentBean"/>
-    <bean id="MyPlanBaseTheme-parentBean" parent="MyPlanTheme">
+    <!--KSAP theme with additional CSS file-->
+    <bean id="KSAPBaseTheme" abstract="true" parent="KSAPBaseTheme-parentBean"/>
+    <bean id="KSAPBaseTheme-parentBean" parent="KSAPTheme">
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-myplan/css/base.css</value>
@@ -174,7 +162,7 @@
         </property>
     </bean>
 
-    <!--Myplan theme with different view-->
+    <!--KSAP theme with no CSS or JS included-->
     <bean id="MyPlanRetrievedTheme" abstract="true" parent="MyPlanRetrievedTheme-parentBean"/>
     <bean id="MyPlanRetrievedTheme-parentBean" parent="Uif-BaseTheme">
         <property name="cssFiles">
