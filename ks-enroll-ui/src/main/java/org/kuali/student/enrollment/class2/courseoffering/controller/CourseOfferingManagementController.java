@@ -808,7 +808,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
         //  If the private name has changed then check for uniqueness.
         if (! StringUtils.equals(currentPrivateName, requestedPrivateName)) {
             if ( ! CourseOfferingManagementUtil._isClusterUniqueWithinCO(theForm, coId, requestedPrivateName)) {
-                GlobalVariables.getMessageMap().putError("privateClusterNameForRename", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+                GlobalVariables.getMessageMap().putError("KS-CourseOfferingManagement-AOClustersCollection", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME, requestedPrivateName);
                 return show(theForm);
             }
             hasChange = true;

@@ -425,7 +425,7 @@ public class ActivityOfferingClusterHandler {
             theForm.setPublishedClusterNameForMovePopover("");
             createAOCFromMove = false;
         }else{
-            GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME);
+            GlobalVariables.getMessageMap().putError("privateClusterName", RegistrationGroupConstants.MSG_ERROR_INVALID_CLUSTER_NAME, growlPrivateName);
             return theForm;
         }
 
