@@ -742,13 +742,18 @@ function triggerFieldValidationAfterPageLoads(id) {
 
 /* Disabling the enter key pressed in text fields, checkboxes, radio buttons, and option selection widgets
  * so that the only the links, buttons will respond to the enter key.
- */
-function dismissEnterKeyAction() {
-    if (event.keyCode== 13) {
-        if(event.target.type == "text" || event.target.type == "checkbox" ||
-            event.target.type == "radio" || event.target.type == "select-one")  {
-            event.returnValue = false;
-            event.keyCode = 0;
+*/
+function dismissEnterKeyAction(event) {
+    // cross browser support, use jquery event.which property that normalizes event.keyCode and event.charCode
+    var keyPressed = event.which;
+
+    if (keyPressed == 13) {
+        if (event.target.type == "text" || event.target.type == "checkbox" ||
+            event.target.type == "radio" || event.target.type == "select-one") {
+
+            // cross browser support
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            event.which = 0;
         }
     }
 }
