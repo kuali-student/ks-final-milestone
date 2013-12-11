@@ -1,0 +1,2 @@
+insert into KSEN_TYPE (TYPE_KEY, NAME, DESCR_PLAIN, DESCR_FORMATTED, OBJ_ID, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.scheduling.schedule.transaction.group.type.standard', 'Standard group', 'A group of transaction requests ', 'A group of transaction requests ', null, null, null, 0, TO_DATE ('12/11/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER', TO_DATE ('12/11/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER' )
+/
