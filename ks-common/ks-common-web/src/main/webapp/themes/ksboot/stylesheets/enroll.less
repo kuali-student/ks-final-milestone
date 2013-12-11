@@ -59,12 +59,6 @@ li.uif-errorMessageItem:before
   color: @black;
 }
 
-/* Padding in between the icon and left side of the panel
-.uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-error, .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning, .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-information {
-  padding: 8px 35px 8px 10px;
-}
- */
-
 /* Vertically Centering the Icon with the Title */
 .uif-pageValidationMessages .uif-validationImage {
   vertical-align: middle;
@@ -121,6 +115,14 @@ div.jstree-editrule ul.uif-validationMessagesList a {
   margin-bottom: 0px;
 }
 
+/* Override the warning message panel */
+.uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection {
+  background-color: @warningBackground;
+  border: 1px solid @warningBorder;
+  color: @warningText;
+  width: 97%;
+}
+
 /* Informational message panel */
 .ks-informational-message-for-field {
   padding: 8px 14px 8px 14px;
@@ -132,7 +134,7 @@ div.jstree-editrule ul.uif-validationMessagesList a {
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  width: 97%;
+  width: 98%;
 
 }
 /************************************** END VALIDATION MESSAGES **************************************/
@@ -1523,13 +1525,6 @@ div.ks-uif-table-column table tr td:nth-child(1) img {
   background: transparent;
 }
 
-/* Override the warning message panel */
-.uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning {
-  background-color: @warningBackground;
-  border: 1px solid @warningBorder;
-  color: @warningText;
-  width: 97%;
-}
 
 /*
   Override buttons on dialog box
