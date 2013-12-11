@@ -134,6 +134,9 @@ public class SchedulingServiceConstants {
     public static final String ROOM_FEATURE_TYPE_WEB_CONFERENCING = "kuali.scheduling.type.room.feature.webconference";
     public static final String ROOM_FEATURE_TYPE_VIDEO_CONFERENCING = "kuali.scheduling.type.room.feature.videoconference";
 
+    // schedule transaction group types
+    public static final String SCHEDULE_TRANSACTION_GROUP_TYPE_STANDARD = "kuali.scheduling.schedule.transaction.group.type.standard";
+
     /////////////////////////////
     // States
     /////////////////////////////
