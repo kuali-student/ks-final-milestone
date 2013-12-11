@@ -725,13 +725,17 @@ function endTimeOnBlur(){
  */
 function rdlStartTimeOnBlur(event){
 
+    var startTime = jQuery("#rdl_starttime_control").val();
+
     //relatedTarget may be null when the user just navigates to some other window and comes back
     if (event.relatedTarget == null || event.relatedTarget.id != "rdl_endtime_control"){
+        if (startTime != ''){
+            parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
+        }
         validateFieldValue(jQuery("#rdl_starttime_control"));
         return;
     }
 
-    var startTime = jQuery("#rdl_starttime_control").val();
     var days = jQuery("#rdl_days_control").val();
 
     jQuery("#rdl_endtime_control").val('');
