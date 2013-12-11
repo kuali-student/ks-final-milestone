@@ -59,6 +59,9 @@ public class KitchenSinkForm extends UifFormBase {
     private List<KitchenSinkMockDisplayScheduleData> displayScheduleMockDataList = KitchenSinkMockDisplayScheduleData.mockTestData();
     private List<KitchenSinkMockActivityData> activityList;
 
+    //TODO: KSENROLL-11286 remove this workournd once krad jira is fixed
+    private Boolean disabledSelectedCheckbox;
+
     public KitchenSinkForm() {
         super();
     }
@@ -239,5 +242,13 @@ public class KitchenSinkForm extends UifFormBase {
 
     public void setConfigProperties(List<ConcreteKeyValue> configProperties) {
         this.configProperties = configProperties;
+    }
+
+    public Boolean getDisabledSelectedCheckbox() {
+        return disabledSelectedCheckbox;
+    }
+
+    public void setDisabledSelectedCheckbox(Boolean disabledSelectedCheckbox) {
+        this.disabledSelectedCheckbox = disabledSelectedCheckbox;
     }
 }
