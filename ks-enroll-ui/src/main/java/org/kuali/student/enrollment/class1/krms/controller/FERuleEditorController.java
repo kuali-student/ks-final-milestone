@@ -109,6 +109,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
         if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
             FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
             rule.setKey(maintainable.getNextRuleKey());
+            //TODO: KSENROLL-11286 remove this workournd once krad jira is fixed.
             ruleWrapper.setLocation(maintainable.getExamOfferingServiceFacade().isSetLocation());
         }
 
@@ -133,6 +134,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
 
         MaintenanceDocumentForm document = (MaintenanceDocumentForm) form;
         FERuleManagementWrapper ruleWrapper = (FERuleManagementWrapper)AgendaUtilities.getRuleWrapper(document);
+        //TODO: KSENROLL-11286 remove this workournd once krad jira is fixed.
         if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
             FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
             ruleWrapper.setLocation(maintainable.getExamOfferingServiceFacade().isSetLocation());
@@ -176,6 +178,7 @@ public class FERuleEditorController extends EnrolRuleEditorController {
             this.getViewHelper(form).initPropositionEditor(ruleEditor.getPropositionEditor());
             ruleEditor.setInitialized(true);
         }
+        //TODO: KSENROLL-11286 remove this workournd once krad jira is fixed.
         if (document.getDocument().getNewMaintainableObject() instanceof FERuleEditorMaintainableImpl) {
             FERuleEditorMaintainableImpl maintainable = (FERuleEditorMaintainableImpl) document.getDocument().getNewMaintainableObject();
             ruleWrapper.setLocation(maintainable.getExamOfferingServiceFacade().isSetLocation());
