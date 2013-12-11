@@ -22,7 +22,7 @@
     <!-- View without the header and footer and just the theme -->
     <bean id="MyPlanBaseFormView" abstract="true" parent="Uif-FormView">
     	<property name="theme">
-            <bean parent="KSAPBaseTheme"/>
+            <bean parent="KSAPTheme"/>
         </property>
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
@@ -49,7 +49,7 @@
 
     <bean id="MyPlanBaseLookupView" abstract="true" parent="Uif-LookupView">
         <property name="theme">
-            <bean parent="KSAPBaseTheme"/>
+            <bean parent="KSAPTheme"/>
         </property>
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
@@ -76,7 +76,7 @@
 
     <bean id="MyPlanBaseInquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="theme">
-            <bean parent="KSAPBaseTheme"/>
+            <bean parent="KSAPTheme"/>
         </property>
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
@@ -103,7 +103,7 @@
 
     <bean id="MyPlanBaseMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
         <property name="theme">
-            <bean parent="KSAPBaseTheme"/>
+            <bean parent="KSAPTheme"/>
         </property>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
@@ -152,17 +152,7 @@
         </property>
     </bean>
     
-    <!--KSAP theme with additional CSS file-->
-    <bean id="KSAPBaseTheme" abstract="true" parent="KSAPBaseTheme-parentBean"/>
-    <bean id="KSAPBaseTheme-parentBean" parent="KSAPTheme">
-        <property name="cssFiles">
-            <list merge="true">
-                <value>ks-myplan/css/base.css</value>
-            </list>
-        </property>
-    </bean>
-
-    <!--KSAP theme with no CSS or JS included-->
+    <!--Base generic KS theme with no CSS or JS included-->
     <bean id="MyPlanRetrievedTheme" abstract="true" parent="MyPlanRetrievedTheme-parentBean"/>
     <bean id="MyPlanRetrievedTheme-parentBean" parent="Uif-BaseTheme">
         <property name="cssFiles">
