@@ -339,7 +339,7 @@ public class ActivityOfferingTransformer {
         officialIdentifier.setCode(ao.getActivityCode());
 
         //Dynamic attributes - Some lui dynamic attributes are defined fields on Activity Offering
-        //TODO merge in attributes, not keep growing?
+        //TODO KSENROLL-11289 merge in attributes, not keep growing?
         List<AttributeInfo> attributes = lui.getAttributes();
         for (Attribute attr : ao.getAttributes()) {
             attributes.add(new AttributeInfo(attr));
