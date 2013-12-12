@@ -729,8 +729,8 @@
     <bean id="CourseOfferingEdit-Waitlist-Inactivate-Prompt" parent="Uif-DialogGroup" p:renderHeader="false">
         <property name="availableResponses">
             <list>
-                <bean parent="Uif-KeyLabelPair" p:key="Continue" p:value="Continue"/>
-                <bean parent="Uif-KeyLabelPair" p:key="Cancel" p:value="Cancel"/>
+                <bean parent="Uif-KeyLabelPair" p:key="yes" p:value="Continue"/>
+                <bean parent="Uif-KeyLabelPair" p:key="no" p:value="Cancel"/>
             </list>
         </property>
         <property name="promptText" value="Waitlists for all Activity Offerings associated with this Course Offering will be deactivated upon update."/>
