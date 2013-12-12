@@ -103,6 +103,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krad.uif.view.View;
+
 /**
  * This controller handles all the request from Academic calendar UI.
  * 
@@ -212,6 +215,73 @@ public class CourseController extends CourseRuleEditorController {
         
         return retval;
     }
+
+    /**
+     * Called by the add line action for a new collection line. Method
+     * determines which collection the add action was selected for and invokes
+     * the view helper service to add the line
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLine2")
+    public ModelAndView addLine2(@ModelAttribute("KualiForm") final UifFormBase uifForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        String selectedCollectionPath = uifForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
+        }
+
+        View view = uifForm.getPostedView();
+        view.getViewHelperService().processCollectionAddLine(view, uifForm, selectedCollectionPath);
+
+        final ModelAndView retval = getUIFModelAndView(uifForm);
+
+        final MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+
+        // Resulting Add Line is at the bottom
+        final SupportingDocumentInfoWrapper addLineResult = maintainable.getDocumentsToAdd().get(maintainable.getDocumentsToAdd().size() - 1);
+
+        // New document
+        DocumentInfo toAdd = new DocumentInfo();
+        toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
+        toAdd.setDescr(new RichTextInfo() {{ 
+            setPlain(addLineResult.getDescription());
+            setFormatted(addLineResult.getDescription());
+        }});
+        toAdd.setName(toAdd.getFileName());
+        
+        final DocumentBinaryInfo documentBinary = new DocumentBinaryInfo();
+        try {
+            toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
+        }
+        catch (Exception e) {
+            warn("Failed to get binary data: %s", e.getMessage());
+        }
+
+        try {
+            getSupportingDocumentService().createDocument("documentType.doc", "documentCategory.proposal", toAdd, ContextUtils.getContextInfo());
+        }
+        catch (Exception e) {
+            warn("Unable to create a document: %s", e.getMessage());
+        }
+
+        // Now relate the document to the course
+        RefDocRelationInfo docRelation = new RefDocRelationInfo();
+        try {
+            getSupportingDocumentService().createRefDocRelation("kuali.lu.type.CreditCourse",
+                                                      maintainable.getCourse().getId(),
+                                                      toAdd.getId(),
+                                                      "kuali.org.DocRelation.allObjectTypes",
+                                                      docRelation,
+                                                      ContextUtils.getContextInfo());
+        }
+        catch (Exception e) {
+            warn("Unable to relate a document with the course: %s", e.getMessage());
+        }
+
+        
+        return retval;
+    }
+
         
     /**
      * Add a Supporting Document line

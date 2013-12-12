@@ -645,6 +645,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#getDocumentToAdd()
      */
     public List<SupportingDocumentInfoWrapper> getDocumentsToAdd() {
+        if (documentsToAdd == null) {
+            documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
+        }
         return documentsToAdd;
     }
 

@@ -45,14 +45,17 @@
 	<bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
 		  p:headerText="Supporting Document(s)" p:propertyName="documentsToAdd"
 		  p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
+      <!--
+		<property name="renderAddBlankLineButton" value="true" />
+		<property name="addLinePlacement" value="BOTTOM" />
+        <property name="addBlankLineAction">
+            <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Supporting Document" />
+            
+        </property>
+-->
 		<property name="addLineLabel.messageText" value="Add a Supporting Document" />
 		<property name="layoutManager.lineGroupPrototype.header.headerText"
 				  value="Document @{(#index + 1)}" />
-        <!--
-        <property name="layoutManager.richTable.render" value="true" />
-        -->
-        <!-- <property name="collectionLookup.quickfinderAction.render"
-				  value="false" /> -->
 		<property name="help">
 			<bean parent="Uif-Help"
 				  p:tooltipHelpContent="Files that will be submitted
@@ -65,7 +68,7 @@
 		</property>
 		<property name="addLineActions">
 			<list>
-                <bean parent="Uif-ActionLink" p:methodToCall="addSupportingDocument" p:actionLabel="add" />
+                <bean parent="Uif-ActionLink" p:methodToCall="addLine2" p:actionLabel="add" />
 			</list>
 		</property>
         <property name="lineActions">
