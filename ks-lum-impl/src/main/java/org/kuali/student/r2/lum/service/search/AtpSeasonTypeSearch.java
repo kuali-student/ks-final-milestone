@@ -5,6 +5,7 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
@@ -19,15 +20,9 @@ import java.util.List;
  */
 public class AtpSeasonTypeSearch extends AbstractTypeSearch{
 
-    private String ATP_SEARCH_SEASONTYPES = "atp.search.atpSeasonTypes";
-
-    private String ATP_RESULTCOLUMN_ID = "atp.resultColumn.atpSeasonType";
-    private String ATP_RESULTCOLUMN_NAME = "atp.resultColumn.atpSeasonTypeName";
-    private String ATP_RESULTCOLUM_DESC = "atp.resultColumn.atpSeasonTypeDesc";
-
     @Override
     public String getSearchTypeKey() {
-        return ATP_SEARCH_SEASONTYPES;
+        return AtpServiceConstants.ATP_SEARCH_SEASONTYPES;
     }
 
     @Override
@@ -39,6 +34,8 @@ public class AtpSeasonTypeSearch extends AbstractTypeSearch{
         typeKeys.add("kuali.atp.season.Summer");
         List<TypeInfo> typeInfos = null;
         typeInfos = this.getTypeService().getTypesByKeys(typeKeys, contextInfo);
-        return createSearchResultFromTypeInfo(typeInfos, ATP_RESULTCOLUMN_ID, ATP_RESULTCOLUMN_NAME, ATP_RESULTCOLUM_DESC);
+        return createSearchResultFromTypeInfo(typeInfos, AtpServiceConstants.ATP_RESULTCOLUMN_ID,
+                                                         AtpServiceConstants.ATP_RESULTCOLUMN_NAME,
+                                                         AtpServiceConstants.ATP_RESULTCOLUM_DESC);
     }
 }
