@@ -16,7 +16,7 @@
   <bean id="ksapDialogTheme-parentBean" parent="Uif-BaseTheme" />
 
 	<bean id="ScheduleBuild-FormView" parent="ScheduleBuild-FormView-parent" />
-	<bean abstract="true" id="ScheduleBuild-FormView-parent" parent="MyPlanFormView">
+	<bean abstract="true" id="ScheduleBuild-FormView-parent" parent="KSAPFormView">
 		<property name="id" value="ScheduleBuild-FormView" />
 		<property name="entryPageId" value="schedule_build" />
 		<property name="cssClasses">

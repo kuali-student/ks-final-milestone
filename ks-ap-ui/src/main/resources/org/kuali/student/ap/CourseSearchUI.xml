@@ -15,7 +15,7 @@
 	<bean id="CourseSearch-FormView" parent="CourseSearch-FormView-parent">
 		<property name="id" value="CourseSearch-FormView" />
 	</bean>
-	<bean abstract="true" id="CourseSearch-FormView-parent" parent="MyPlanFormView">
+	<bean abstract="true" id="CourseSearch-FormView-parent" parent="KSAPFormView">
 		<property name="headerText" value="Find Courses" />
 		<property name="entryPageId" value="course_search" />
 		<property name="cssClasses">
@@ -50,7 +50,7 @@
 		</property>
 		<property name="items">
 			<list>
-				<ref bean="myplan_dialog_anchor" />
+				<ref bean="ksap_dialog_anchor" />
 				<ref bean="course_search_result_section" />
 				<ref bean="myplan_section" />
 			</list>

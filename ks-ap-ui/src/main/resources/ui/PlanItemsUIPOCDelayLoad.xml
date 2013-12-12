@@ -24,7 +24,7 @@
 
     <!--Mock Plan View-->
     <bean id="PlannedCourses-FormView-POC-delay-load" parent="PlannedCourses-FormView-parent-POC-delay-load" />
-    <bean abstract="true" id="PlannedCourses-FormView-parent-POC-delay-load" parent="MyPlanFormView">
+    <bean abstract="true" id="PlannedCourses-FormView-parent-POC-delay-load" parent="KSAPFormView">
         <property name="id" value="PlannedCourses-FormView-POC-delay-load"/>
         <property name="cssClasses">
             <list merge="true">

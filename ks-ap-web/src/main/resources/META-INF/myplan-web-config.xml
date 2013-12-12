@@ -17,9 +17,9 @@
 
 <config>
 
-    <param name="module.name">myplan-web</param>
+    <param name="module.name">ap-web</param>
     
-    <param name="css.files" override="true">${css.files},ks-myplan/css/course.css</param>
+    <param name="css.files" override="true">${css.files}</param>
     <param name="javascript.files" override="true">${javascript.files}</param>
 
     <param name="rice.struts.message.resources" override="true">${rice.struts.message.resources},org.kuali.student.ap.KSAP-ApplicationResources</param>

@@ -14,7 +14,7 @@
          and limitations under the License. -->
 
     <!-- Not used to view audit reports. -->
-    <bean id="DegreeAudit-FormView" parent="MyPlanFormView">
+    <bean id="DegreeAudit-FormView" parent="KSAPFormView">
         <property name="headerText" value="Audit Degree"/>
 
         <!-- To Support progressive disclosure of campus select -->

@@ -24,7 +24,7 @@
 
     <!--Mock Plan View-->
     <bean id="PlannedCourses-FormView-POC-Dialog" parent="PlannedCourses-FormView-parent-POC-Dialog" />
-    <bean abstract="true" id="PlannedCourses-FormView-parent-POC-Dialog" parent="MyPlanFormView">
+    <bean abstract="true" id="PlannedCourses-FormView-parent-POC-Dialog" parent="KSAPFormView">
         <property name="id" value="PlannedCourses-FormView-POC-Dialog"/>
         <property name="cssClasses">
             <list merge="true">

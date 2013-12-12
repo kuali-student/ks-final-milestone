@@ -29,7 +29,7 @@
         <property name="applyDirtyCheck" value="false"/>
     </bean>
 
-    <bean id="MyPlanFormView" abstract="true" parent="MyPlanBaseFormView">
+    <bean id="KSAPFormView" abstract="true" parent="MyPlanBaseFormView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
@@ -303,7 +303,7 @@
 
     </bean>
 
-   	<bean id="myplan_dialog_anchor" parent="Uif-Image"
+   	<bean id="ksap_dialog_anchor" parent="Uif-Image"
    		p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
    	
     <bean id="myplan_section" parent="Uif-VerticalBoxSubSection" p:style="width: 230px; margin: 0;">

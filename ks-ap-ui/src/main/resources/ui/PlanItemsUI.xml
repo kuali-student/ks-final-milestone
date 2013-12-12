@@ -24,7 +24,7 @@
 
     <!--Mock Plan View-->
     <bean id="PlannedCourses-FormView" parent="PlannedCourses-FormView-parent" />
-    <bean abstract="true" id="PlannedCourses-FormView-parent" parent="MyPlanFormView">
+    <bean abstract="true" id="PlannedCourses-FormView-parent" parent="KSAPFormView">
         <property name="id" value="PlannedCourses-FormView"/>
         <property name="cssClasses">
             <list merge="true">

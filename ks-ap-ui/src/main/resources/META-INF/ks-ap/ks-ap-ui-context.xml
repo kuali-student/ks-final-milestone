@@ -51,10 +51,10 @@
 				<value>classpath:org/kuali/rice/student/bo</value>
 				<value>classpath:ks-AuditReportInfo-dictionary.xml</value>
 
-				<value>classpath:org/kuali/student/ap/UifMyPlanDefinitions.xml</value>
+				<value>classpath:org/kuali/student/ap/UifKSAPDefinitions.xml</value>
                 <value>classpath:ui/UifExtensionDefinitions.xml</value>
                 <value>classpath:ui/HelpDefinitions.xml</value>
-                <value>classpath:ui/MyPlanDataObjects.xml</value>
+                <value>classpath:ui/KSAPDataObjects.xml</value>
                 <value>classpath:org/kuali/student/ap/HelpDefinitions.xml</value>
                 <value>classpath:org/kuali/student/ap/CourseSearchUI.xml</value>
                 <value>classpath:ui/CourseDetailsUI.xml</value>
@@ -73,7 +73,7 @@
 		<property name="packagePrefixes">
 			<list>
 				<value>org.kuali.rice.student.</value>
-				<value>org.kuali.student.myplan.</value>
+				<value>org.kuali.student.ap.</value>
 			</list>
 		</property>
 	</bean>

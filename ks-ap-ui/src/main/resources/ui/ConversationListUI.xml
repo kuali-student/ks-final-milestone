@@ -19,7 +19,7 @@
      limitations under the License.
     -->
     <bean id="Conversation-list-FormView" parent="Conversation-list-FormView-parent" />
-	<bean abstract="true" id="Conversation-list-FormView-parent" parent="MyPlanFormView">
+	<bean abstract="true" id="Conversation-list-FormView-parent" parent="KSAPFormView">
 		<property name="id" value="Conversation-list-FormView" />
 		<property name="entryPageId" value="conversation_main" />
 		<property name="cssClasses">
