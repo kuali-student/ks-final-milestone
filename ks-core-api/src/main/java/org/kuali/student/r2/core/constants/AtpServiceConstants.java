@@ -126,6 +126,12 @@ public class AtpServiceConstants {
     // exam periods
     public static final String ATP_EXAM_PERIOD_TYPE_KEY = "kuali.atp.type.ExamPeriod";
 
+    // season types
+    public static final String ATP_SEARCH_SEASONTYPES = "atp.search.atpSeasonTypes";
+    public static final String ATP_RESULTCOLUMN_ID = "atp.resultColumn.atpSeasonType";
+    public static final String ATP_RESULTCOLUMN_NAME = "atp.resultColumn.atpSeasonTypeName";
+    public static final String ATP_RESULTCOLUM_DESC = "atp.resultColumn.atpSeasonTypeDesc";
+
     /**
      * Milstone types
      */
