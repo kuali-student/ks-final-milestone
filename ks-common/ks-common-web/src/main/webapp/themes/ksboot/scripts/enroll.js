@@ -13,6 +13,33 @@ function toggleAddAOCButton(buttonId, controlId) {
     }
 }
 
+/* Disables the default-behavior for the ENTER-key in the
+ * "Move Activity > Private/Published Names"-fields; replaces instead with
+ * a click on the "Move"-button (but only if the button has previously been
+ * enabled by toggleAddAOCBUtton() )
+ */
+function submitMoveAoOnEnterKeyIfValid() {
+    var KEYCODE_ENTER = 13;
+    var moveAocButton = jQuery( "#moveAOCButton" );
+
+    // cross browser support, use jquery event.which property that normalizes event.keyCode and event.charCode
+    var keyPressed = event.which;
+
+    // redirect enter-key to submit via the "Move"-AOC button instead of the default page-submit
+    if( keyPressed == KEYCODE_ENTER ) {
+
+        // cross browser support
+        event.preventDefault ? event.preventDefault() : event.returnValue = false;
+        event.which = 0;
+
+        if( moveAocButton.attr( "disabled" ) == undefined ) {
+            moveAocButton.click();
+        }
+
+    }
+
+}
+
 function removeCheckboxColumns(column, componentId, functionToCall) {
     var components = jQuery('div[id^="' + componentId + '"]');
     jQuery.each(components, function (index) {
