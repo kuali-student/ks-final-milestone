@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="PlannerDialog-FormView" parent="MyPlanBaseFormView">
+    <bean id="PlannerDialog-FormView" parent="PlannerDialog-FormView-parent"/>
+    <bean id="PlannerDialog-FormView-parent" abstract="true" parent="MyPlanBaseFormView">
 		<property name="headerText" value="Plan" />
 		<property name="id" value="PlannerDialog-FormView" />
 		<property name="footer.render" value="false" />
@@ -44,7 +45,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_add_course_page" parent="planner_dialog_page">
+    <bean id="planner_add_course_page" parent="planner_add_course_page-parent"/>
+	<bean id="planner_add_course_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_add_course_page" />
 		<property name="innerViewWrapperId" value="planner_add_course_inner" />
 		<property name="headerText" value="What would you like to add to @{term.name}?" />
@@ -80,7 +82,8 @@
 		</property>
 	</bean>
 
-    <bean id="planner_edit_term_note_page" parent="planner_dialog_page">
+    <bean id="planner_edit_term_note_page" parent="planner_edit_term_note_page-parent"/>
+    <bean id="planner_edit_term_note_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_edit_term_note_page" />
 		<property name="innerViewWrapperId" value="planner_edit_term_note_inner" />
 		<property name="headerText" value="Edit @{term.name} term note" />
@@ -114,7 +117,8 @@
 		</property>
 	</bean>
 
-    <bean id="planner_course_summary_page" parent="KSAP-PopoverPage">
+    <bean id="planner_course_summary_page" parent="planner_course_summary_page-parent"/>
+    <bean id="planner_course_summary_page-parent" abstract="true" parent="KSAP-PopoverPage">
 		<property name="id" value="planner_course_summary_page" />
 		<property name="innerViewWrapperId" value="planner_course_summary_inner" />
 		<property name="headerText" value="View course summary" />
@@ -138,7 +142,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_course_summary_link" parent="Uif-Link" p:target="">
+    <bean id="planner_course_summary_link" parent="planner_course_summary_link-parent"/>
+	<bean id="planner_course_summary_link-parent" abstract="true" parent="Uif-Link" p:target="">
 		<property name="cssClasses">
 			<list merge="true">
 				<value>fl-text-bold</value>
@@ -151,7 +156,8 @@
 		<property name="href" value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{courseId}"/>
 	</bean>
 
-	<bean id="planner_course_details_summary_info" parent="Uif-VerticalBoxGroup">
+    <bean id="planner_course_details_summary_info" parent="planner_course_details_summary_info-parent"/>
+	<bean id="planner_course_details_summary_info-parent" abstract="true" parent="Uif-VerticalBoxGroup">
 		<property name="validationMessages.render" value="false"/>
 		<property name="items">
 			<list>
@@ -166,7 +172,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_course_summary_details_data" parent="Uif-VerticalBoxGroup">
+    <bean id="planner_course_summary_details_data" parent="planner_course_summary_details_data-parent"/>
+	<bean id="planner_course_summary_details_data-parent" abstract="true" parent="Uif-VerticalBoxGroup">
 		<property name="validationMessages.render" value="false"/>
 		<property name="cssClasses">
 			<list merge="true">
@@ -233,7 +240,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_edit_plan_item_page" parent="planner_dialog_page">
+    <bean id="planner_edit_plan_item_page" parent="planner_edit_plan_item_page-parent"/>
+	<bean id="planner_edit_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_edit_plan_item_page" />
 		<property name="innerViewWrapperId" value="planner_edit_plan_item_inner" />
 		<property name="headerText" value="Edit @{course.code} @{termId eq null ? 'Bookmark' : 'from the '+term.name+' plan'}" />
@@ -268,7 +276,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_copy_course_page" parent="planner_dialog_page">
+    <bean id="planner_copy_course_page" parent="planner_copy_course_page-parent"/>
+	<bean id="planner_copy_course_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_copy_course_page" />
 		<property name="innerViewWrapperId" value="planner_copy_course_inner" />
 		<property name="headerText" value="Which term would you like to copy &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
@@ -304,7 +313,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_copy_plan_item_page" parent="planner_dialog_page">
+    <bean id="planner_copy_plan_item_page" parent="planner_copy_plan_item_page-parent"/>
+	<bean id="planner_copy_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_copy_plan_item_page" />
 		<property name="innerViewWrapperId" value="planner_copy_plan_item_inner" />
 		<property name="headerText" value="Which term would you like to copy &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
@@ -338,7 +348,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_move_plan_item_page" parent="planner_dialog_page">
+    <bean id="planner_move_plan_item_page" parent="planner_move_plan_item_page-parent"/>
+	<bean id="planner_move_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_move_plan_item_page" />
 		<property name="innerViewWrapperId" value="planner_move_plan_item_inner" />
 		<property name="headerText" value="Which term would you like to move &lt;strong&gt;@{course.code}&lt;/strong&gt; to?" />
@@ -372,7 +383,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_delete_plan_item_page" parent="planner_dialog_page">
+    <bean id="planner_delete_plan_item_page" parent="planner_delete_plan_item_page-parent"/>
+	<bean id="planner_delete_plan_item_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_delete_plan_item_page" />
 		<property name="innerViewWrapperId" value="planner_delete_plan_item_inner" />
 		<property name="headerText" value="Delete @{course.code} @{termId eq null ? 'bookmark' : 'from '+term.name}?" />
@@ -426,7 +438,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_term_input" parent="planner_dialog_input">
+    <bean id="planner_term_input" parent="planner_term_input-parent"/>
+	<bean id="planner_term_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="propertyName" value="targetTermId" />
 		<property name="label" value="Term &amp; Year" />
 		<property name="instructionalText" value="Note: This course MAY NOT be offered in your selected term. Check back after the schedule of classes has been released." />
@@ -438,7 +451,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_course_code_input" parent="planner_dialog_input">
+    <bean id="planner_course_code_input" parent="planner_course_code_input-parent"/>
+	<bean id="planner_course_code_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="propertyName" value="courseCd" />
 		<property name="label" value="Enter subject and catalog number" />
 		<property name="control">
@@ -452,7 +466,8 @@
 		</property>
 	</bean>
 
- 	<bean id="planner_course_credit_input" parent="planner_dialog_input">
+    <bean id="planner_course_credit_input" parent="planner_course_credit_input-parent"/>
+ 	<bean id="planner_course_credit_input-parent" abstract="true" parent="planner_dialog_input">
  		<property name="propertyName" value="courseCredit" />
  		<property name="label" value="Credits" />
  		<property name="instructionalText" value="Optional, for courses with a variable number of credits." />
@@ -463,7 +478,8 @@
  		</property>
  	</bean>
 
-	<bean id="planner_course_note_input" parent="planner_dialog_input">
+    <bean id="planner_course_note_input" parent="planner_course_note_input-parent"/>
+	<bean id="planner_course_note_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />
 		<property name="propertyName" value="courseNote" />
 		<property name="label" value="Notes" />
@@ -493,7 +509,8 @@
 		</property>
 	</bean>
 
-	<bean id="planner_term_note_input" parent="planner_dialog_input">
+    <bean id="planner_term_note_input" parent="planner_term_note_input-parent"/>
+	<bean id="planner_term_note_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />
 		<property name="propertyName" value="termNote" />
 		<property name="label" value="Note for @{term.name}" />
