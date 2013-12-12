@@ -3,6 +3,7 @@ package org.kuali.student.ap.framework.context;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
 
@@ -199,4 +200,17 @@ public interface TermHelper {
      */
     public List<Term> getCalendarTerms(Term startTerm);
 
+    /**
+     * Gets the current term based on the current date.
+     *
+     * @return Current Term
+     */
+    public Term getCurrentTerm();
+
+    /**
+     * Gets the current academic calendar based on the current date
+     *
+     * @return Current academic calendar
+     */
+    public AcademicCalendar getCurrentAcademicCalendar();
 }

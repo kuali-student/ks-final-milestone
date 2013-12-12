@@ -25,6 +25,7 @@ import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -562,6 +563,49 @@ public class DefaultTermHelper implements TermHelper {
             }
         }
         return calendarTerms;
+    }
+
+    /**
+     * Gets the current term based on the current date.
+     * Uses Logic - If the start date < current time < the end date of an Academic Term
+     *
+     * @return Current Term
+     */
+    @Override
+    public Term getCurrentTerm() {
+        List<Term> currentTerms = getCurrentTerms();
+        if(currentTerms!=null && currentTerms.size()>0){
+            return currentTerms.get(0);
+        }
+        throw new IllegalArgumentException("Acal lookup failure, no current term found");
+    }
+
+    /**
+     * Gets the current academic calendar based on the current date
+     * Uses Logic - If the start date < current time < the end date of an Academic Calendar
+     *
+     * @return Current academic calendar
+     */
+    @Override
+    public AcademicCalendar getCurrentAcademicCalendar() {
+        try{
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
+                    or(equal("typeKey", "kuali.atp.type.AcademicCalendar")), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
+            List<AcademicCalendarInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForAcademicCalendars(query,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+            if(rv!=null && rv.size()>0){
+                return rv.get(0);
+            }
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("Acal lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("Acal lookup failure", e);
+        }
+        throw new IllegalArgumentException("Acal lookup failure, no current calendar found");
     }
 
 

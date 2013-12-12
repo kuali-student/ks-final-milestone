@@ -2,6 +2,7 @@ package org.kuali.student.ap.test.mock;
 
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
 
@@ -253,6 +254,26 @@ public class TermHelperMockTest implements TermHelper {
 
     @Override
     public List<Term> getCalendarTerms(Term startTerm) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Gets the current term based on the current date.
+     *
+     * @return Current Term
+     */
+    @Override
+    public Term getCurrentTerm() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Gets the current academic calendar based on the current date
+     *
+     * @return Current academic calendar
+     */
+    @Override
+    public AcademicCalendar getCurrentAcademicCalendar() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
