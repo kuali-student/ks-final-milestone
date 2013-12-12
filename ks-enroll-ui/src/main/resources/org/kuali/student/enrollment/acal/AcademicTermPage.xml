@@ -357,8 +357,8 @@
         <property name="header.render" value="@{!#view.readOnly}"/>
 
         <!-- Move the add button to the right of the fields -->
-        <property name="layoutManager.addLineGroup.layoutManager.style" value="float:left;"/>
-        <property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:2em;"/>
+        <property name="layoutManager.addLineGroup.layoutManager.additionalCssClasses" value="ks-search-group-section"/>
+        <property name="layoutManager.addLineGroup.footer.additionalCssClasses" value="ks-search-group-footer"/>
         <property name="layoutManager.addLineGroup.id" value="key_date_grp_section"/>
 
         <property name="layoutManager.addLineGroup.header.render" value="false"/>
@@ -370,7 +370,7 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                 since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-CapitalButtonLabel" p:focusOnIdAfterSubmit="SELF"/>
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF"/>
             </list>
         </property>
         <property name="lineActions">

@@ -531,7 +531,7 @@ limitations under the License.
         <property name="layoutManager.actionsInLineGroup" value="true"/>
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add Holiday Calendar"
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Holiday Calendar"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"
                       p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}"/>
             </list>
