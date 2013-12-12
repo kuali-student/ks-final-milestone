@@ -212,7 +212,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-AddAOCPopupForm" parent="Uif-HorizontalBoxSection">
-        <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
         <property name="hidden" value="true"/>
         <property name="cssClasses">
             <list>
@@ -261,8 +260,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-MoveAOCPopupForm" parent="Uif-HorizontalBoxSection" p:forceSessionPersistence="true">
-        <!--<property name="render" value="@{enableAddButton and !currentCourseOfferingWrapper.crossListed}"/>-->
-        <!--<property name="hidden" value="true"/>-->
         <property name="cssClasses">
             <list>
                 <value>uif-bubblepopup-content</value>
@@ -286,12 +283,19 @@
                 </bean>
                 <bean p:id="privateNameForMoveId" parent="Uif-InputField" p:propertyName="privateClusterNameForMovePopover" p:label="Private Name" p:labelPlacement="TOP" p:render="true" p:required="true" p:style="display:none">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="20" p:onKeyUpScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
+                        <bean parent="Uif-TextControl"
+                              p:size="10"
+                              p:maxLength="20"
+                              p:onKeyPressScript="submitMoveAoOnEnterKeyIfValid();"
+                              p:onKeyUpScript="toggleAddAOCButton('moveAOCButton','privateNameForMoveId_control');"/>
                     </property>
                 </bean>
                 <bean p:id="publishedNameForMoveId" parent="Uif-InputField"  p:propertyName="publishedClusterNameForMovePopover" p:label="Published Name" p:labelPlacement="TOP"  p:render="true" p:style="display:none">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="10" p:maxLength="20"/>
+                        <bean parent="Uif-TextControl"
+                              p:size="10"
+                              p:maxLength="20"
+                              p:onKeyPressScript="submitMoveAoOnEnterKeyIfValid();" />
                     </property>
                 </bean>
                 <!--these fields above are used for creating a cluster and moving AOs-->
