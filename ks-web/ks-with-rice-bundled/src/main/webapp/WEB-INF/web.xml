@@ -274,26 +274,26 @@
        <load-on-startup>3</load-on-startup>
     </servlet>
 
-    <!-- Setup for custom servlet myplan-servlet.xml-->
+    <!-- Setup for custom servlet ksap-servlet.xml-->
     <servlet>
-        <servlet-name>myplan</servlet-name>
+        <servlet-name>ksap</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
-    <!-- Adds filter for user logins for use when myplan-servlet used-->
+    <!-- Adds filter for user logins for use when ksap-servlet used-->
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
-        <servlet-name>myplan</servlet-name>
+        <servlet-name>ksap</servlet-name>
     </filter-mapping>
 
-    <!-- Maps myplan-servlet to handle {application}/myplan/ urls-->
+    <!-- Maps ksap-servlet to handle {application}/myplan/ urls-->
     <servlet-mapping>
-        <servlet-name>myplan</servlet-name>
+        <servlet-name>ksap</servlet-name>
         <url-pattern>/myplan/*</url-pattern>
     </servlet-mapping>
 
     <servlet-mapping>
-        <servlet-name>myplan</servlet-name>
+        <servlet-name>ksap</servlet-name>
         <url-pattern>/ap/*</url-pattern>
     </servlet-mapping>
 
@@ -304,7 +304,7 @@
 
     <filter-mapping>
         <filter-name>DefaultContext</filter-name>
-        <servlet-name>myplan</servlet-name>
+        <servlet-name>ksap</servlet-name>
     </filter-mapping>
 
 	<servlet-mapping>

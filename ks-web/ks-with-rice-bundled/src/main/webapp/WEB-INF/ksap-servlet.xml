@@ -26,7 +26,7 @@
 
     <!-- Global Resource Loader Service Bean for a Student Service-->
     <bean id="StudentService" class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
-        <property name="serviceName" value="{MyPlan}StudentServiceClient"/>
+        <property name="serviceName" value="{KSAP}StudentServiceClient"/>
     </bean>
 
     <!-- List of files that contain message collections for use in the application-->
