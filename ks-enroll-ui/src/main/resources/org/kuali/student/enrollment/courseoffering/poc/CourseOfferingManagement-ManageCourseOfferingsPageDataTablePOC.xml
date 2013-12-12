@@ -91,16 +91,16 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField"
-                      p:label="STATUS"
+                      p:label="Status"
                       p:propertyName="courseOfferingStateDisplay"/>
                 <bean parent="Uif-DataField"
-                      p:label="TITLE"
+                      p:label="Title"
                       p:propertyName="courseOfferingDesc"/>
                 <bean parent="Uif-DataField"
-                      p:label="CREDITS"
+                      p:label="Credits"
                       p:propertyName="courseOfferingCreditOptionDisplay"/>
                 <bean parent="Uif-DataField"
-                      p:label="GRADING"
+                      p:label="Grading"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
                 <!--<bean parent="Uif-DataField"-->
                       <!--p:label="STATUS"-->
@@ -108,7 +108,7 @@
             </list>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions"/>
         </property>
         <property name="lineActions">
             <list>

@@ -162,7 +162,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-DeleteCourseOfferingListSection" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false" p:renderLineActions="false">
+          p:renderAddLine="false" p:renderLineActions="false" p:cssClasses="ks-courseOfferingManagement-DeleteCourseOfferingListTable">
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper"/>
         <property name="propertyName" value="selectedCoToDeleteList"/>
@@ -209,13 +209,13 @@
         <property name="items">
             <list>
                 <!-- This column is hidden unless there are 2(or more) CO's to delete; see the property-replacer above -->
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false">
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false" p:cssClasses="checkBox_course_offering">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
 
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="COURSE">
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Course" p:cssClasses="course_course_offering">
                     <property name="items">
                        <list>
                             <bean parent="Uif-DataField" p:propertyName="courseOfferingCode"/>
@@ -240,13 +240,21 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-DataField" p:label="TITLE" p:propertyName="courseOfferingDesc"/>
-                <bean parent="Uif-DataField" p:label="CREDITS" p:propertyName="courseOfferingCreditOptionDisplay"/>
+                <bean parent="Uif-DataField"
+                      p:label="Title"
+                      p:propertyName="courseOfferingDesc"
+                      p:cssClasses="title_course_offering"/>
+                <bean parent="Uif-DataField"
+                      p:label="Credits"
+                      p:propertyName="courseOfferingCreditOptionDisplay"
+                      p:cssClasses="credits_course_offering"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="9" p:style="margin-left:1.8em;">
+    <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection"
+          p:layoutManager.numberOfColumns="9"
+          p:cssClasses="ks-courseOfferingManagement-DeletedAoListTable">
         <property name="headerText" value="Activities"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper"/>
@@ -257,8 +265,13 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-DataField-Simple" p:label="STATUS" p:propertyName="aoDisplayInfo.stateName"/>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                <bean parent="KS-Uif-DataField-Simple"
+                      p:label="Status"
+                      p:propertyName="aoDisplayInfo.stateName"
+                      p:cssClasses="status_course_offering"/>
+                <bean parent="Uif-HorizontalFieldGroup"
+                      p:fieldLabel.labelText="Code"
+                      p:cssClasses="code_course_offering" >
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-DataField-Simple"  p:propertyName="aoDisplayInfo.activityOfferingCode"/>
@@ -275,13 +288,34 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-DataField-Simple" p:label="TYPE" p:propertyName="aoDisplayInfo.typeName" />
-                <bean parent="KS-Uif-DataField-Simple" p:label="FORMAT" p:propertyName="aoDisplayInfo.formatOfferingName" />
-                <bean parent="Uif-MessageField"  p:label="DAYS"  p:messageText="@{#lp.daysDisplayName}" />
-                <bean parent="Uif-MessageField"  p:label="START TIME"  p:messageText="@{#lp.startTimeDisplay}" />
-                <bean parent="Uif-MessageField" p:label="END TIME" p:messageText="@{#lp.endTimeDisplay}" />
-                <bean parent="KS-Uif-DataField-Simple" p:label="INSTRUCTOR" p:propertyName="aoDisplayInfo.instructorName" />
-                <bean parent="KS-Uif-DataField-Simple" p:label="MAX ENR" p:propertyName="aoDisplayInfo.maximumEnrollment" />
+                <bean parent="KS-Uif-DataField-Simple"
+                      p:label="Type"
+                      p:propertyName="aoDisplayInfo.typeName"
+                      p:cssClasses="type_course_offering"/>
+                <bean parent="KS-Uif-DataField-Simple"
+                      p:label="Format"
+                      p:propertyName="aoDisplayInfo.formatOfferingName"
+                      p:cssClasses="format_course_offering"/>
+                <bean parent="Uif-MessageField"
+                      p:label="Days"
+                      p:messageText="@{#lp.daysDisplayName}"
+                      p:cssClasses="days_course_offering"/>
+                <bean parent="Uif-MessageField"
+                      p:label="Start Time"
+                      p:messageText="@{#lp.startTimeDisplay}"
+                      p:cssClasses="startTime_course_offering"/>
+                <bean parent="Uif-MessageField"
+                      p:label="End Time"
+                      p:messageText="@{#lp.endTimeDisplay}"
+                      p:cssClasses="endTime_course_offering"/>
+                <bean parent="KS-Uif-DataField-Simple"
+                      p:label="Instructor"
+                      p:propertyName="aoDisplayInfo.instructorName"
+                      p:cssClasses="instructor_course_offering"/>
+                <bean parent="KS-Uif-DataField-Simple"
+                      p:label="Max ENR"
+                      p:propertyName="aoDisplayInfo.maximumEnrollment"
+                      p:cssClasses="maxEnr_course_offering"/>
             </list>
         </property>
     </bean>

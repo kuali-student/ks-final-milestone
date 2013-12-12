@@ -197,7 +197,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField"  p:cssClasses="fixedCol_3" p:propertyName="startTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
+                <bean parent="Uif-InputField"  p:cssClasses="am_pm_style" p:propertyName="startTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
@@ -224,7 +224,7 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:cssClasses="fixedCol_3" p:propertyName="endTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
+                <bean parent="Uif-InputField" p:cssClasses="am_pm_style" p:propertyName="endTimeAmPm" p:defaultValue="AM" p:render="@{!#view.readOnly}"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"
