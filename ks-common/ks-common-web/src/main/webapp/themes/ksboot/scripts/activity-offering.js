@@ -737,6 +737,7 @@ function rdlStartTimeOnBlur(event){
     }
 
     var days = jQuery("#rdl_days_control").val();
+    var tbaChecked = document.getElementById('rdl_tba_control').checked;
 
     jQuery("#rdl_endtime_control").val('');
 
@@ -744,14 +745,20 @@ function rdlStartTimeOnBlur(event){
         parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
     }
 
-    if (startTime == '' || days == ''){
-       return;
+    if (!tbaChecked && (startTime == '' || days == '' || (jQuery("#rdl_starttime_control").val() == jQuery("#rdl_starttime_control").data("starttime")
+        && jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("days"))) ) {
+        jQuery("#rdl_endtime").show();
+        jQuery("#rdl_endtime_control").focus();
+        return;
     }
 
-   if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
-       validateFieldValue(jQuery("#rdl_days_control")) == false){
-       return;
-   }
+    jQuery("#rdl_starttime_control").data("starttime", jQuery("#rdl_starttime_control").val());
+    jQuery("#rdl_days_control").data("days", jQuery("#rdl_days_control").val());
+
+    if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
+        validateFieldValue(jQuery("#rdl_days_control")) == false){
+        return;
+    }
 
     retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
         jQuery("#rdl_endtime").show();
@@ -765,14 +772,16 @@ function rdlStartTimeOnBlur(event){
  * and set the focus on start time.
  */
 function rdlDaysOnBlur(){
-
-    var startTime = jQuery("#rdl_starttime_control").val();
     var days = jQuery("#rdl_days_control").val();
 
-    if (startTime == '' || days == ''){
-        retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
-            jQuery("#rdl_endtime").show();
-            jQuery("#rdl_starttime_control").focus();
-        });
+    if (days == '' || jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("daysOnly")){
+        jQuery("#rdl_endtime").show();
+        return;
     }
+
+    jQuery("#rdl_days_control").data("daysOnly", jQuery("#rdl_days_control").val());
+
+    retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
+        jQuery("#rdl_endtime").show();
+    });
 }
