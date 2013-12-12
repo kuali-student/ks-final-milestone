@@ -27,8 +27,6 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
-        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="MyPlanFormView" abstract="true" parent="MyPlanBaseFormView">
@@ -54,8 +52,6 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
-        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="MyPlanLookupView" abstract="true" parent="MyPlanBaseLookupView">
@@ -81,8 +77,6 @@
         <property name="persistFormToSession" value="false"/>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
-        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="MyPlanInquiryView" abstract="true" parent="MyPlanBaseInquiryView">
@@ -107,8 +101,6 @@
         </property>
         <property name="breadcrumbs.render" value="false"/>
         <property name="applyDirtyCheck" value="false"/>
-        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
-        <property name="onLoadScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="MyPlanMaintenanceView" abstract="true" parent="MyPlanBaseMaintenanceView">
@@ -816,8 +808,6 @@
 	        	<value>ks-Popover-footer</value>
         	</list>
         </property>
-        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
-        <property name="onDocumentReadyScript" value="jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();"/>
     </bean>
 
     <bean id="KSAP-Suggest" parent="Uif-Suggest-parentBean">
