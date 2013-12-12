@@ -65,7 +65,7 @@
         </property>
         <property name="Items">
             <list>
-                <bean parent="Uif-HeaderFour" p:headerText="@{dataObject.courseOfferingCode} - @{dataObject.courseOfferingTitle} (@{dataObject.credits} Credits)"/>
+                <bean parent="Uif-HeaderFour" p:headerText="@{dataObject.courseOfferingCode} - @{dataObject.courseOfferingTitle} (@{dataObject.credits} Credits)" p:additionalCssClasses="ks-subSection,ks-subSection-marginTop"/>
                 <bean parent="Uif-HeaderThree" p:headerText="Activity Offering: @{dataObject.activityCode} (@{dataObject.abbreviatedCourseType})"/>
                 <ref bean="ActivityOfferingEdit-section1"/>
                 <ref bean="ActivityOfferingEdit-section2"/>
@@ -87,6 +87,11 @@
           p:propertyName="actualScheduleComponents"
           p:readOnly="true"
           p:layoutManager.renderSequenceField="false">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
@@ -110,6 +115,11 @@
           p:propertyName="requestedScheduleComponents"
           p:renderAddLine="false"
           p:layoutManager.renderSequenceField="false">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="headerText" value="Requested Scheduling Information"/>
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
@@ -196,6 +206,11 @@
     </bean>
 
     <bean id="KS-ActivityOffering-Inquiry-WaitList" parent="Uif-VerticalBoxSection">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="headerText" value="Waitlist" />
         <property name="items">
             <list>
@@ -217,6 +232,11 @@
     </bean>
 
     <bean id="KS-ActivityOffering-Inquiry-SeatPool" parent="Uif-VerticalBoxSection">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>

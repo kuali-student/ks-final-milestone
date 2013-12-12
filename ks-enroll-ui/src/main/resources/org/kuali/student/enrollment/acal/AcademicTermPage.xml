@@ -47,16 +47,18 @@
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper"/>
         <property name="style" value="min-width:70em;"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-subSection</value>
+                <value>ks-subSection-marginTop</value>
+            </list>
+        </property>
         <property name="onDocumentReadyScript"
                   value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields'); initAddExamPeriodButtons('acal-term-examdates', 'exam_date_type', 'acal-term-examdates-add', '@{#ConfigProperties['application.url']}');"/>
-        <!--<property name="header.render" value="false" />-->
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value=""/>
         <property name="layoutManager.addLineGroup.header.render" value="true"/>
-        <!-- Move the add button to the right of the fields -->
-        <!--<property name="layoutManager.addLineGroup.layoutManager.style" value="float:left; margin-bottom:30px;"/>-->
         <property name="layoutManager.addLineGroup.layoutManager.additionalCssClasses" value="ks-search-group-section"/>
-        <!--<property name="layoutManager.addLineGroup.footer.style" value="display:inline-block;margin-top:2em;"/>-->
         <property name="layoutManager.addLineGroup.footer.additionalCssClasses" value="ks-search-group-footer"/>
         <property name="layoutManager.lineGroupPrototype">
             <bean id="term_section" parent="Uif-CollectionVerticalBoxItem">
