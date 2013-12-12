@@ -23,7 +23,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
      limitations under the License.
     -->
     <bean id="CourseDetails-InquiryView" parent="CourseDetails-InquiryView-parent" />
-    <bean id="CourseDetails-InquiryView-parent" abstract="true" parent="MyPlanInquiryView">
+    <bean id="CourseDetails-InquiryView-parent" abstract="true" parent="KSAPInquiryView">
         <property name="headerText" value="Course Details"/>
         <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
@@ -54,7 +54,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<property name="items">
 			<list>
 				<ref bean="course_details_section" />
-				<ref bean="myplan_section" />
+				<ref bean="ksap_section" />
 			</list>
 		</property>
         <property name="stickyFooter" value="false"/>
@@ -93,7 +93,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 					</property>
 					<property name="items">
 						<list>
-							<bean parent="MyPlanMessagingIcon" />
+							<bean parent="KSAPMessagingIcon" />
 							<bean parent="Uif-DataField" p:propertyName="details"
 								p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
 								<property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal" />
@@ -1484,7 +1484,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
     </bean>
 
-    <bean id="CourseDetailsSections-InquiryView" parent="MyPlanBaseInquiryView">
+    <bean id="CourseDetailsSections-InquiryView" parent="KSAPBaseInquiryView">
         <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetails"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.ap.coursesearch.service.impl.CourseDetailsInquiryHelperImpl"/>
@@ -1494,7 +1494,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="singlePageView" value="true"/>
         <property name="viewName" value="CourseDetailsSections-InquiryView"/>
         <property name="theme">
-            <bean parent="MyPlanRetrievedTheme"/>
+            <bean parent="KSAPRetrievedTheme"/>
         </property>
         <property name="onLoadScript" value=""/>
         <property name="page">

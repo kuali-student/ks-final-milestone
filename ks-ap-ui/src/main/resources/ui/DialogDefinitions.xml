@@ -23,7 +23,7 @@ limitations under the License.
 
     <!-- Base View Bean for all Dialogs-->
     <bean id="PlannedCourse-FormView" parent="PlannedCourse-FormView-parent"/>
-    <bean id="PlannedCourse-FormView-parent" abstract="true" parent="MyPlanBaseFormView">
+    <bean id="PlannedCourse-FormView-parent" abstract="true" parent="KSAPBaseFormView">
         <property name="id" value="PlannedCourse-FormView"/>
         <property name="entryPageId" value="add_remove_course_popover_page"/>
         <property name="formClass" value="org.kuali.student.myplan.plan.form.PlanForm"/>
@@ -231,7 +231,7 @@ limitations under the License.
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="MyPlanMessagingIcon"/>
+                            <bean parent="KSAPMessagingIcon"/>
                             <bean parent="Uif-DataField" p:propertyName="planActivities"
                                   p:escapeHtmlInPropertyValue="false"
                                   p:render="@{planActivities ne null ? true : false}">
@@ -333,7 +333,7 @@ limitations under the License.
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="MyPlanMessagingIcon"/>
+                            <bean parent="KSAPMessagingIcon"/>
                             <bean parent="Uif-DataField" p:propertyName="planActivities"
                                   p:escapeHtmlInPropertyValue="false"
                                   p:render="@{planActivities ne null ? true : false}">
@@ -442,7 +442,7 @@ limitations under the License.
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="MyPlanMessagingIcon"/>
+                            <bean parent="KSAPMessagingIcon"/>
                             <bean parent="Uif-DataField" p:propertyName="planActivities"
                                   p:escapeHtmlInPropertyValue="false"
                                   p:render="@{planActivities ne null ? true : false}">
@@ -932,7 +932,7 @@ limitations under the License.
 
     <!--****************************Academic Planned Form View (Unsure if really still used)**********************-->
     <bean id="StudentAcademicPlanner-FormView" parent="StudentAcademicPlanner-FormView-parent"/>
-    <bean id="StudentAcademicPlanner-FormView-parent" abstract="true" parent="MyPlanBaseFormView">
+    <bean id="StudentAcademicPlanner-FormView-parent" abstract="true" parent="KSAPBaseFormView">
         <property name="id" value="StudentAcademicPlanner-FormView"/>
         <property name="footer.render" value="false"/>
         <property name="header.render" value="false"/>
@@ -1327,7 +1327,7 @@ limitations under the License.
                                 <property name="group.validationMessages.render" value="false"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="MyPlanMessagingIcon"/>
+                                        <bean parent="KSAPMessagingIcon"/>
                                         <bean parent="Uif-DataField"
                                               p:propertyName="courseAndPlanSummary"
                                               p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">

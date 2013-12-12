@@ -20,7 +20,7 @@
     -->
     <!-- VIEWS ######################################################################################## -->
     <!-- View without the header and footer and just the theme -->
-    <bean id="MyPlanBaseFormView" abstract="true" parent="Uif-FormView">
+    <bean id="KSAPBaseFormView" abstract="true" parent="Uif-FormView">
     	<property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
@@ -29,7 +29,7 @@
         <property name="applyDirtyCheck" value="false"/>
     </bean>
 
-    <bean id="KSAPFormView" abstract="true" parent="MyPlanBaseFormView">
+    <bean id="KSAPFormView" abstract="true" parent="KSAPBaseFormView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
@@ -45,7 +45,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanBaseLookupView" abstract="true" parent="Uif-LookupView">
+    <bean id="KSAPBaseLookupView" abstract="true" parent="Uif-LookupView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
@@ -54,7 +54,7 @@
         <property name="applyDirtyCheck" value="false"/>
     </bean>
 
-    <bean id="MyPlanLookupView" abstract="true" parent="MyPlanBaseLookupView">
+    <bean id="KSAPLookupView" abstract="true" parent="KSAPBaseLookupView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
@@ -70,7 +70,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanBaseInquiryView" abstract="true" parent="Uif-InquiryView">
+    <bean id="KSAPBaseInquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
@@ -79,7 +79,7 @@
         <property name="applyDirtyCheck" value="false"/>
     </bean>
 
-    <bean id="MyPlanInquiryView" abstract="true" parent="MyPlanBaseInquiryView">
+    <bean id="KSAPInquiryView" abstract="true" parent="KSAPBaseInquiryView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
@@ -95,7 +95,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanBaseMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
+    <bean id="KSAPBaseMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
@@ -103,11 +103,11 @@
         <property name="applyDirtyCheck" value="false"/>
     </bean>
 
-    <bean id="MyPlanMaintenanceView" abstract="true" parent="MyPlanBaseMaintenanceView">
+    <bean id="KSAPMaintenanceView" abstract="true" parent="KSAPBaseMaintenanceView">
         <property name="theme">
             <bean parent="KSAPTheme"/>
         </property>
-        <property name="footer" ref="MyPlanFooterDocument"/>
+        <property name="footer" ref="KSAPFooterDocument"/>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/MyPlanApplicationHeader.ftl"
@@ -145,8 +145,8 @@
     </bean>
     
     <!--Base generic KS theme with no CSS or JS included-->
-    <bean id="MyPlanRetrievedTheme" abstract="true" parent="MyPlanRetrievedTheme-parentBean"/>
-    <bean id="MyPlanRetrievedTheme-parentBean" parent="Uif-BaseTheme">
+    <bean id="KSAPRetrievedTheme" abstract="true" parent="KSAPRetrievedTheme-parentBean"/>
+    <bean id="KSAPRetrievedTheme-parentBean" parent="Uif-BaseTheme">
         <property name="cssFiles">
             <list merge="false"/>
         </property>
@@ -155,7 +155,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanFooterDocument" parent="Uif-FooterBase">
+    <bean id="KSAPFooterDocument" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
@@ -193,7 +193,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanFooter_SubmitCancel" parent="MyPlanFooterDocument">
+    <bean id="KSAPFooter_SubmitCancel" parent="KSAPFooterDocument">
         <property name="items">
             <list>
                 <bean parent="Uif-PrimaryActionButton" p:actionScript="validateAndSubmit('route', replacePage);"
@@ -205,17 +205,17 @@
         </property>
     </bean>
 
-    <bean id="MyPlanHeader_Empty" parent="Uif-HeaderOne">
+    <bean id="KSAPHeader_Empty" parent="Uif-HeaderOne">
         <property name="items">
             <list/>
         </property>
     </bean>
 
-    <bean id="MyPlanHelpImage" parent="Uif-HelpImage"
+    <bean id="KSAPHelpImage" parent="Uif-HelpImage"
           p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconHelp.png" p:altText="" p:title="">
     </bean>
 
-    <bean id="MyPlan-Tooltip" parent="Uif-Tooltip">
+    <bean id="KSAP-Tooltip" parent="Uif-Tooltip">
         <property name="onFocus" value="false"/>
         <property name="onMouseHover" value="true"/>
         <property name="templateOptions">
@@ -229,7 +229,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlan-Tooltip-Right" parent="MyPlan-Tooltip">
+    <bean id="KSAP-Tooltip-Right" parent="KSAP-Tooltip">
         <property name="templateOptions">
             <map merge="true">
                 <entry key="align" value="right"/>
@@ -238,7 +238,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlan-Tooltip-Left" parent="MyPlan-Tooltip">
+    <bean id="KSAP-Tooltip-Left" parent="KSAP-Tooltip">
         <property name="templateOptions">
             <map merge="true">
                 <entry key="align" value="left"/>
@@ -247,7 +247,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanRegistrationStatusIcon" parent="Uif-Image" p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
+    <bean id="KSAPRegistrationStatusIcon" parent="Uif-Image" p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
         <property name="cssClasses">
             <list merge="true">
                 <value>@{#parentLine.completedTerm ? 'locked' : (#parentLine.openForPlanning ? 'unlocked' : 'locked')}</value>
@@ -258,7 +258,7 @@
         </property>
     </bean>
 
-    <bean id="MyPlanMessagingIcon" parent="Uif-Image" p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
+    <bean id="KSAPMessagingIcon" parent="Uif-Image" p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
         <property name="cssClasses">
             <list merge="true">
                 <value>icon</value>
@@ -266,15 +266,15 @@
         </property>
     </bean>
 
-    <bean id="UifMyPlan-HorizontalStackedSubCollection-WithinSection"
+    <bean id="UifKSAP-HorizontalStackedSubCollection-WithinSection"
           parent="Uif-StackedSubCollection-WithinSection-parentBean">
         <property name="layoutManager">
-            <bean parent="UifMyPlan-HorizontalStackedCollectionLayout"/>
+            <bean parent="UifKSAP-HorizontalStackedCollectionLayout"/>
         </property>
     </bean>
 
 
-    <bean id="UifMyPlan-HorizontalStackedCollectionLayout"
+    <bean id="UifKSAP-HorizontalStackedCollectionLayout"
           parent="Uif-StackedCollectionLayout-WithBoxItems-parentBean">
 
         <!--
@@ -306,7 +306,7 @@
    	<bean id="ksap_dialog_anchor" parent="Uif-Image"
    		p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
    	
-    <bean id="myplan_section" parent="Uif-VerticalBoxSubSection" p:style="width: 230px; margin: 0;">
+    <bean id="ksap_section" parent="Uif-VerticalBoxSubSection" p:style="width: 230px; margin: 0;">
         <property name="header.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -812,22 +812,6 @@
 
     <bean id="KSAP-Suggest" parent="Uif-Suggest-parentBean">
         <property name="template" value="/ks-myplan/WEB-INF/ftl/components/widget/suggest.ftl"/>
-    </bean>
-
-    <bean id="Myplan-Dialog-Base" parent="Uif-DialogGroup">
-        <property name="renderHeader" value="false"/>
-        <property name="promptText" value=""/>
-        <property name="availableResponses">
-            <list>
-                <!-- Empty -->
-            </list>
-        </property>
-        <property name="cssClasses">
-            <list>
-                <value>uif-page</value>
-                <value>fl-container-300</value>
-            </list>
-        </property>
     </bean>
     <bean id="Ksap-Page" parent="Uif-Page" class="org.kuali.rice.krad.uif.container.extension.KSAPPageGroup"/>
 

@@ -22,7 +22,7 @@
     <!-- ################# Tabular view of full academic plan ############################# -->
 
     <!--Bean for the Full Academic Plan View  -->
-    <bean id="FullPlannedCourses-LookupView" parent="MyPlanBaseLookupView">
+    <bean id="FullPlannedCourses-LookupView" parent="KSAPBaseLookupView">
         <property name="viewName" value="FullPlannedCourses-LookupView"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
         <property name="viewHelperServiceClass"
@@ -263,7 +263,7 @@
         </property>
     </bean>
 
-    <bean id="termsCollection" parent="UifMyPlan-HorizontalStackedSubCollection-WithinSection">
+    <bean id="termsCollection" parent="UifKSAP-HorizontalStackedSubCollection-WithinSection">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses" value="myplan-remove-margin"/>
         <property name="collectionObjectClass"
@@ -276,7 +276,7 @@
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.validationMessages.render" value="false"/>
         <property name="layoutManager">
-            <bean parent="UifMyPlan-HorizontalStackedCollectionLayout">
+            <bean parent="UifKSAP-HorizontalStackedCollectionLayout">
                 <property name="lineGroupPrototype">
                     <bean parent="Uif-CollectionHorizontalBoxItem">
                         <property name="cssClasses">

@@ -20,7 +20,7 @@
     -->
 
 
-    <bean id="Message-FormView" parent="MyPlanBaseFormView">
+    <bean id="Message-FormView" parent="KSAPBaseFormView">
         <property name="id" value="Message-FormView"/>
         <property name="header.render" value="false"/>
        <!-- <property name="header">
@@ -430,7 +430,7 @@
     </bean>
 
     <!--  Messages Summary (Gutter) Lookup -->
-    <bean id="MessagesSummary-LookupView" parent="MyPlanBaseLookupView">
+    <bean id="MessagesSummary-LookupView" parent="KSAPBaseLookupView">
         <property name="headerText" value="Messages Summary"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
@@ -686,7 +686,7 @@
         </property>
     </bean>
 
-    <bean id="MessagesDetail-LookupView" parent="MyPlanLookupView">
+    <bean id="MessagesDetail-LookupView" parent="KSAPLookupView">
         <property name="viewName" value="MessagesDetail-LookupView"/>
         <property name="headerText" value="Messages &amp; Comments"/>
         <property name="page.header.render" value="false"/>
@@ -711,7 +711,7 @@
                     <property name="items">
                         <list>
                             <ref bean="messages_detail"/>
-                            <bean parent="myplan_section">
+                            <bean parent="ksap_section">
                                 <property name="items">
                                     <list>
                                         <ref bean="your_stuff_widget"/>

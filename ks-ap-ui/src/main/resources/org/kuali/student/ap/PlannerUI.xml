@@ -74,7 +74,7 @@
 	</bean>
 
     <bean id="planner_sidebar_section" parent="planner_sidebar_section-parent" />
-    <bean id="planner_sidebar_section-parent" abstract="true" parent="myplan_section">
+    <bean id="planner_sidebar_section-parent" abstract="true" parent="ksap_section">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-plan-Widgets</value>
@@ -986,7 +986,7 @@
 			</list>
 		</property>
 	</bean>
-    <bean id="course_note_icon" parent="MyPlanHelpImage" >
+    <bean id="course_note_icon" parent="KSAPHelpImage" >
         <property name="cssClasses">
             <list merge="true">
                 <value>coursenote</value>
@@ -995,7 +995,7 @@
         <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconInfo.png"/>
         <property name="title" value=""/>
     </bean>
-    <bean id="term_note_icon" parent="MyPlanHelpImage" >
+    <bean id="term_note_icon" parent="KSAPHelpImage" >
         <property name="cssClasses">
             <list merge="true">
                 <value>termnote</value>

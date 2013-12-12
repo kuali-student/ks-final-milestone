@@ -5,7 +5,7 @@
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
     <bean id="PlannerDialog-FormView" parent="PlannerDialog-FormView-parent"/>
-    <bean id="PlannerDialog-FormView-parent" abstract="true" parent="MyPlanBaseFormView">
+    <bean id="PlannerDialog-FormView-parent" abstract="true" parent="KSAPBaseFormView">
 		<property name="headerText" value="Plan" />
 		<property name="id" value="PlannerDialog-FormView" />
 		<property name="footer.render" value="false" />

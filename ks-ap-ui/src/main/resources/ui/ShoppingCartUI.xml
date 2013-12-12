@@ -13,7 +13,7 @@
 		and limitations under the License. -->
 
 	<bean id="ShoppingCart-FormView" parent="ShoppingCart-FormView-parent" />
-	<bean abstract="true" id="ShoppingCart-FormView-parent" parent="MyPlanBaseFormView">
+	<bean abstract="true" id="ShoppingCart-FormView-parent" parent="KSAPBaseFormView">
 		<property name="id" value="ShoppingCart-FormView" />
 		<property name="entryPageId" value="sb_cart_add_page" />
 		<property name="items">

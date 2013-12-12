@@ -13,7 +13,7 @@
 		and limitations under the License. -->
 
 	<bean id="ScheduleBuild-ReservedTime-FormView" parent="ScheduleBuild-ReservedTime-FormView-parent" />
-	<bean abstract="true" id="ScheduleBuild-ReservedTime-FormView-parent" parent="MyPlanBaseFormView">
+	<bean abstract="true" id="ScheduleBuild-ReservedTime-FormView-parent" parent="KSAPBaseFormView">
 		<property name="id" value="ScheduleBuild-ReservedTime-FormView" />
 		<property name="items">
 			<list>

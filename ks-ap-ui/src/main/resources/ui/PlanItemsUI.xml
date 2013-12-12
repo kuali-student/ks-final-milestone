@@ -72,7 +72,7 @@
     </bean>
     
     <bean id="plannedCourses_myplan_section" parent="plannedCourses_myplan_section-parent" />
-    <bean id="plannedCourses_myplan_section-parent" abstract="true" parent="myplan_section">
+    <bean id="plannedCourses_myplan_section-parent" abstract="true" parent="ksap_section">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-plan-Widgets</value>
@@ -301,7 +301,7 @@
       This lookup provides the term by term view of Planned Courses.
     -->
     <bean id="PlannedCourses-LookupView" parent="PlannedCourses-LookupView-parent"/>
-    <bean id="PlannedCourses-LookupView-parent" abstract="true" parent="MyPlanBaseLookupView">
+    <bean id="PlannedCourses-LookupView-parent" abstract="true" parent="KSAPBaseLookupView">
         <property name="headerText" value="Plan"/>
         <property name="header.render" value="false"/>
         <property name="viewName" value="PlannedCourses-LookupView"/>
@@ -671,7 +671,7 @@
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
-                        <ref bean="MyPlanRegistrationStatusIcon"/>
+                        <ref bean="KSAPRegistrationStatusIcon"/>
                     </list>
                 </property>
             </bean>
@@ -838,7 +838,7 @@
                 <property name="validationMessages.render" value="false"/>
                 <property name="items">
                     <list>
-                        <ref bean="MyPlanRegistrationStatusIcon"/>
+                        <ref bean="KSAPRegistrationStatusIcon"/>
                     </list>
                 </property>
             </bean>

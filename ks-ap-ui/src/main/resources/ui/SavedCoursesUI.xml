@@ -21,7 +21,7 @@
 
     <!--  Saved Courses (wishlist) components -->
 
-    <bean id="SavedCoursesSummary-LookupView" parent="MyPlanBaseLookupView">
+    <bean id="SavedCoursesSummary-LookupView" parent="KSAPBaseLookupView">
         <property name="headerText" value="Saved Courses Summary"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>
@@ -179,7 +179,7 @@
         Saved Courses Page.
         This lookup view provides the list of saved courses which make up the full saved courses page.
       -->
-    <bean id="SavedCoursesDetail-LookupView" parent="MyPlanLookupView">
+    <bean id="SavedCoursesDetail-LookupView" parent="KSAPLookupView">
         <property name="headerText" value="Bookmarked Courses"/>
         <property name="viewName" value="SavedCoursesDetail-LookupView"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject"/>
@@ -219,7 +219,7 @@
 		<property name="items">
 			<list>
 				<ref bean="saved_courses_detail" />
-				<bean parent="myplan_section">
+				<bean parent="ksap_section">
 					<property name="items">
 						<list>
 							<bean parent="your_stuff_widget">

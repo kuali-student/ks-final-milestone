@@ -21,7 +21,7 @@
     -->
 
     <!-- Inquiry View -->
-    <bean id="DegreeAuditDetails-InquiryView" parent="MyPlanInquiryView">
+    <bean id="DegreeAuditDetails-InquiryView" parent="KSAPInquiryView">
         <property name="headerText" value="Audit Degree"/>
         <property name="dataObjectClassName" value="org.kuali.student.ap.audit.dataobject.DegreeAuditItem"/>
         <property name="viewHelperServiceClass"
@@ -48,7 +48,7 @@
                     <property name="items">
                         <list>
                             <ref bean="degree_audit_details_section"/>
-                            <bean parent="myplan_section" p:headerText="AUDIT">
+                            <bean parent="ksap_section" p:headerText="AUDIT">
                                 <property name="items">
                                     <list>
                                         <ref bean="degree_audits_list"/>
@@ -97,7 +97,7 @@
     </bean>
 
     <!-- Lookup View -->
-    <bean id="DegreeAuditsSummary-LookupView" parent="MyPlanBaseLookupView">
+    <bean id="DegreeAuditsSummary-LookupView" parent="KSAPBaseLookupView">
         <property name="headerText" value="Recent Audit Reports"/>
         <property name="page.header.render" value="false"/>
         <property name="header.render" value="false"/>

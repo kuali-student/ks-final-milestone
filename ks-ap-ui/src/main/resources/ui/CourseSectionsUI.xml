@@ -19,7 +19,7 @@
      limitations under the License.
     -->
     <bean id="CourseSections-InquiryView" parent="CourseSections-InquiryView-parent"/>
-    <bean abstract="true" id="CourseSections-InquiryView-parent" parent="MyPlanBaseInquiryView">
+    <bean abstract="true" id="CourseSections-InquiryView-parent" parent="KSAPBaseInquiryView">
         <property name="headerText" value="Course Sections"/>
         <property name="viewName" value="CourseSections-InquiryView"/>
         <property name="dataObjectClassName" value="org.kuali.student.ap.coursesearch.dataobject.CourseDetails"/>

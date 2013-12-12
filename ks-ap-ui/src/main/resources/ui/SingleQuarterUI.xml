@@ -6,7 +6,7 @@
 
     <!--Single Plan Item View-->
 
-    <bean id="SingleTerm-InquiryView" parent="MyPlanInquiryView">
+    <bean id="SingleTerm-InquiryView" parent="KSAPInquiryView">
         <property name="headerText" value="Single Term View"/>
         <property name="header.render" value="false"/>
         <property name="viewName" value="SingleTerm-InquiryView"/>
@@ -32,7 +32,7 @@
                     <property name="items">
                         <list>
                             <ref bean="single_collection_data"/>
-                            <bean parent="myplan_section" p:style="width:310px; margin:0;">
+                            <bean parent="ksap_section" p:style="width:310px; margin:0;">
                                 <property name="items">
                                     <list>
                                         <ref bean="messages_widget"/>

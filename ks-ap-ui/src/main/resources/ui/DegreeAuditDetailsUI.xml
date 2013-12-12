@@ -88,7 +88,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="myplan_section">
+                                        <bean parent="ksap_section">
                                             <property name="cssClasses">
                                                 <list merge="true">
                                                     <value>no-primary</value>
@@ -173,7 +173,7 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="myplan_section">
+                                        <bean parent="ksap_section">
                                             <property name="items">
                                                 <list>
 
