@@ -142,7 +142,10 @@
 
                 <bean id="KS-CourseOfferingManagement-SelectedActivityOfferingListSection"
                       parent="Uif-TableCollectionSection"
-                      p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:readOnly="true">
+                      p:layoutManager.numberOfColumns="3"
+                      p:renderAddLine="false"
+                      p:readOnly="true"
+                      p:cssClasses="ks-courseOfferingManagement-SelectedActivityOfferingListTable">
                     <property name="collectionObjectClass"
                               value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                     <property name="propertyName" value="selectedToDeleteList"/>
@@ -158,8 +161,13 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName"/>
-                             <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                            <bean parent="Uif-DataField"
+                                  p:label="Status"
+                                  p:propertyName="stateName"
+                                  p:cssClasses="status_activity_offering"/>
+                             <bean parent="Uif-HorizontalFieldGroup"
+                                   p:fieldLabel.labelText="Code"
+                                   p:cssClasses="code_activity_offering">
                                  <property name="items">
                                     <list>
                                         <bean parent="Uif-DataField"  p:showLabel="false" p:propertyName="aoInfo.activityCode"/>
@@ -177,8 +185,14 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
-                            <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
+                            <bean parent="Uif-DataField"
+                                  p:label="Type"
+                                  p:propertyName="typeName"
+                                  p:cssClasses="type_activity_offering"/>
+                            <bean parent="Uif-DataField"
+                                  p:label="Format"
+                                  p:propertyName="aoInfo.formatOfferingName"
+                                  p:cssClasses="format_activity_offering"/>
                         </list>
                     </property>
                 </bean>
