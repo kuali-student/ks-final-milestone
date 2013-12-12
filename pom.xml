@@ -710,6 +710,10 @@
                         <groupId>itext</groupId>
                         <artifactId>itext</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
@@ -721,6 +725,12 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-core-api</artifactId>
                 <version>${kuali.rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>hsqldb</groupId>
+                        <artifactId>hsqldb</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
