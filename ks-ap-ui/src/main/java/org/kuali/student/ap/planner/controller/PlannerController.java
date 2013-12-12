@@ -243,9 +243,13 @@ public class PlannerController extends KsapControllerBase {
 				found = true;
 				comment.setCommentText(newNote);
 				try {
-                    // If existing note is found replace the rich text and update it in the database.
-					commentService.updateComment(comment.getId(), comment, KsapFrameworkServiceLocator.getContext()
-							.getContextInfo());
+                    if(StringUtils.isEmpty(termNote)){
+                        commentService.deleteComment(comment.getId(),KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    }else{
+                        // If existing note is found replace the rich text and update it in the database.
+                        commentService.updateComment(comment.getId(), comment, KsapFrameworkServiceLocator.getContext()
+                                .getContextInfo());
+                    }
 				} catch (DataValidationErrorException e) {
 					throw new IllegalArgumentException("Comment lookup failure", e);
 				} catch (DoesNotExistException e) {
@@ -268,7 +272,7 @@ public class PlannerController extends KsapControllerBase {
 		}
 
         // If no existing note is found create new term note and save it to the database
-		if (!found) {
+		if (!found && !StringUtils.isEmpty(termNote)) {
 			CommentInfo newComment = new CommentInfo();
 			newComment.setCommentText(newNote);
 			newComment.setEffectiveDate(new Date());
