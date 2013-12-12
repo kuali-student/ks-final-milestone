@@ -113,7 +113,7 @@ function handleWaitListPrompt(dialog) {
     var dialogResponses = jQuery('input.uif-dialogButtons',dialog);
     for(i =0; i < dialogResponses.length; i++){
         if (dialogResponses[i].checked==true) {
-            if (dialogResponses[i].value=='Continue') {
+            if (dialogResponses[i].value=='yes') {
                 jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',false);
                 jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').hide();
             }
