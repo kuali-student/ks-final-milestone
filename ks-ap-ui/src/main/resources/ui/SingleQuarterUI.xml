@@ -73,7 +73,7 @@
         <property name="layoutManager.id" value="course_details_section_datatable"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-course-sections</value>
+                <value>ksap-course-sections</value>
             </list>
         </property>
         <property name="renderAddLine" value="false"/>
@@ -202,7 +202,7 @@
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-course-item</value>
+                            <value>ksap-course-item</value>
                         </list>
                     </property>
                     <property name="items">
@@ -270,7 +270,7 @@
                 <property name="validationMessages.render" value="false"/>
                 <property name="cssClasses">
                     <list merge="true">
-                        <value>myplan-credit-total</value>
+                        <value>ksap-credit-total</value>
                     </list>
                 </property>
                 <property name="items">
@@ -303,7 +303,7 @@
         <property name="layoutManager.id" value="course_details_section_datatable"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-course-sections</value>
+                <value>ksap-course-sections</value>
             </list>
         </property>
         <property name="renderAddLine" value="false"/>
@@ -542,7 +542,7 @@
                       p:render="@{#line.planItemId ne null ? true : false}">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-delete</value>
+                            <value>ksap-delete</value>
                             <value>fl-text-align-center</value>
                         </list>
                     </property>

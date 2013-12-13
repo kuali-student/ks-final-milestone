@@ -51,7 +51,7 @@
                     <property name="items">
                         <list>
                             <ref bean="planned_mock_detail"/>
-                            <ref bean="plannedCourses_myplan_section"/>
+                            <ref bean="plannedCourses_ksap_section"/>
                             <ref bean="planned_menu_items"/>
                             <ref bean="backup_menu_items"/>
                             <ref bean="completed_menu_items"/>
@@ -71,8 +71,8 @@
         <property name="onDocumentReadyScript" value="registerClosePopups();"/>
     </bean>
     
-    <bean id="plannedCourses_myplan_section" parent="plannedCourses_myplan_section-parent" />
-    <bean id="plannedCourses_myplan_section-parent" abstract="true" parent="ksap_section">
+    <bean id="plannedCourses_ksap_section" parent="plannedCourses_ksap_section-parent" />
+    <bean id="plannedCourses_ksap_section-parent" abstract="true" parent="ksap_section">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-plan-Widgets</value>
@@ -89,7 +89,7 @@
     <bean id="planned_mock_detail" parent="Uif-VerticalBoxSubSection">
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-plan-loader</value>
+                <value>ksap-plan-loader</value>
                 <value>ks-plan-Loader</value>
             </list>
         </property>
@@ -762,7 +762,7 @@
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-course-invalid</value>
+                            <value>ksap-course-invalid</value>
                             <value>ks-plan-Bucket-item</value>
                             <value>ks-plan-Bucket-item--invalid</value>
                         </list>
@@ -922,7 +922,7 @@
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-course-invalid</value>
+                            <value>ksap-course-invalid</value>
                         </list>
                     </property>
                     <property name="items">
@@ -1633,7 +1633,7 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>fl-text-gray</value>
-                            <value>myplan-text-italic</value>
+                            <value>ksap-text-italic</value>
                             <value>ks-plan-Bucket-emptyLabel</value>
                         </list>
                     </property>

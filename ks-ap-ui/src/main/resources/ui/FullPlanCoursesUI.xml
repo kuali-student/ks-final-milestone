@@ -79,7 +79,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderOne" p:style="border-bottom:solid 1px #ddd; padding:10px; margin:0;">
-                    <property name="headerText" value="Student Academic Plan (MyPlan)"/>
+                    <property name="headerText" value="Student Academic Plan (KSAP)"/>
                 </bean>
                 <bean parent="Uif-VerticalBoxGroup" p:style="border-bottom:solid 1px #ddd; padding:10px; margin:0;">
                     <property name="validationMessages.render" value="false"/>
@@ -152,17 +152,17 @@
             jQuery('th, td').removeAttr('width');
             jQuery('div.uif-subCollection').each(function() {
                 var maxHeight = 0;
-                jQuery(this).find('.myplan-term > .uif-horizontalBoxLayout').each(function() {
+                jQuery(this).find('.ksap-term > .uif-horizontalBoxLayout').each(function() {
                     if (jQuery(this).height() > maxHeight) maxHeight = jQuery(this).height();
                 });
-                jQuery(this).find('.myplan-term > .uif-horizontalBoxLayout').each(function() {
+                jQuery(this).find('.ksap-term > .uif-horizontalBoxLayout').each(function() {
                     jQuery(this).height(maxHeight);
                 });
             });
         "/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-full-plan-detail</value>
+                <value>ksap-full-plan-detail</value>
             </list>
         </property>
         <property name="header">
@@ -250,7 +250,7 @@
                     <property name="fieldLabel.render" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>@{#line.currentYear ? 'myplan-current-year':''}</value>
+                            <value>@{#line.currentYear ? 'ksap-current-year':''}</value>
                         </list>
                     </property>
                 </bean>
@@ -281,8 +281,8 @@
                     <bean parent="Uif-CollectionHorizontalBoxItem">
                         <property name="cssClasses">
                             <list merge="true">
-                                <value>myplan-term</value>
-                                <value>@{#line.currentTermForView ? 'myplan-current-term':''}</value>
+                                <value>ksap-term</value>
+                                <value>@{#line.currentTermForView ? 'ksap-current-term':''}</value>
                             </list>
                         </property>
                         <property name="style" value="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;"/>

@@ -974,7 +974,7 @@ limitations under the License.
                                             <property name="render" value="@{messagesCount ne 0}"/>
                                         </bean>
                                         <bean parent="Uif-MessageField" p:messageText="Messages (0)"
-                                              p:cssClasses="myplan-text-gray">
+                                              p:cssClasses="ksap-text-gray">
                                             <property name="render" value="@{messagesCount eq 0}"/>
                                         </bean>
                                         <bean parent="Uif-Link" p:linkText="Bookmarked Courses (@{bookmarkedCount})">
@@ -990,11 +990,11 @@ limitations under the License.
                                         <bean parent="Uif-MessageField"
                                               p:cssClasses="fl-font-size-100 fl-text-bold">
                                             <property name="message">
-                                                <bean parent="Uif-Message" p:messageText="MyPlan Settings"/>
+                                                <bean parent="Uif-Message" p:messageText="KSAP Settings"/>
                                             </property>
                                         </bean>
                                         <bean parent="Uif-MessageField"
-                                              p:cssClasses="myplan-text-gray" p:style="font-size:x-small;">
+                                              p:cssClasses="ksap-text-gray" p:style="font-size:x-small;">
                                             <property name="message">
                                                 <bean parent="Uif-Message"
                                                       p:messageText=" &quot;Shared&quot; plans are viewable by all UW advisers. &quot;Private&quot; plans are only viewable by you."/>
@@ -1027,7 +1027,7 @@ limitations under the License.
                                         </bean>
                                         <bean parent="Uif-Link" p:linkText="Help">
                                             <property name="href"
-                                                      value="javascript:openHelpWindow('http://depts.washington.edu/myplan/help-site/');"/>
+                                                      value="javascript:openHelpWindow('http://www.google.com');"/>
                                         </bean>
                                         <bean parent="Uif-Link" p:linkText="Log out">
                                             <property name="href"

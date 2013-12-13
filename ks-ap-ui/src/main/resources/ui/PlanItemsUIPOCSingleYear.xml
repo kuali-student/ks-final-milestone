@@ -51,7 +51,7 @@
                     <property name="items">
                         <list>
                             <ref bean="planned_courses_detail-POC-Single-Year"/>
-                            <ref bean="plannedCourses_myplan_section"/>
+                            <ref bean="plannedCourses_ksap_section"/>
                             <ref bean="planned_menu_items"/>
                             <ref bean="backup_menu_items"/>
                             <ref bean="completed_menu_items"/>

@@ -240,7 +240,7 @@
     <bean id="run_degree_audits" parent="Uif-VerticalBoxGroup">
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-run-audit-panel</value>
+                <value>ksap-run-audit-panel</value>
             </list>
         </property>
         <property name="header">
@@ -287,8 +287,8 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>fl-container-600</value>
-                <value>myplan-audit-info-panel</value>
-                <value>myplan-audit-message-info</value>
+                <value>ksap-audit-info-panel</value>
+                <value>ksap-audit-message-info</value>
             </list>
         </property>
         <property name="items">
@@ -307,7 +307,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>fl-container-300</value>
-                <value>myplan-audit-info-panel</value>
+                <value>ksap-audit-info-panel</value>
             </list>
         </property>
         <property name="items">
@@ -334,7 +334,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>fl-container-300</value>
-                <value>myplan-audit-info-panel</value>
+                <value>ksap-audit-info-panel</value>
                 <value>ksap-carousel-list</value>
             </list>
         </property>

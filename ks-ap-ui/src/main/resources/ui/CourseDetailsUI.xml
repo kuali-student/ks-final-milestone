@@ -249,7 +249,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <bean parent="Uif-HeaderThree">
                 <property name="cssClasses">
                     <list merge="true">
-                        <value>myplan-underline-header</value>
+                        <value>ksap-underline-header</value>
                     </list>
                 </property>
             </bean>
@@ -720,7 +720,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <bean parent="Uif-HeaderThree" >
                 <property name="cssClasses">
                     <list merge="true">
-                        <value>myplan-underline-header</value>
+                        <value>ksap-underline-header</value>
                     </list>
                 </property>
             </bean>
@@ -758,7 +758,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="render" value="@{dataObject.courseOfferingInstitutionList.size() eq 1}"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-course-detail</value>
+                <value>ksap-course-detail</value>
             </list>
         </property>
         <property name="layoutManager">
@@ -817,7 +817,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         </property>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-course-detail</value>
+                <value>ksap-course-detail</value>
             </list>
         </property>
         <property name="header">
@@ -846,7 +846,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="propertyName" value="courseOfferingTermList"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-course-sections</value>
+                <value>ksap-course-sections</value>
             </list>
         </property>
         <property name="layoutManager">
@@ -1105,7 +1105,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                       parent="KSAP-SimpleDataField" p:propertyName="code" p:label="Section">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>@{!#line.primary ? 'myplan-associated-section' : 'myplan-primary-section'}</value>
+                            <value>@{!#line.primary ? 'ksap-associated-section' : 'ksap-primary-section'}</value>
                         </list>
                     </property>
                 </bean>

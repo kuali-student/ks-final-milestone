@@ -162,7 +162,7 @@
                 <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false" p:id="@{#line.report.auditId}" p:title="@{#line.programTitle}">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-click</value>
+                            <value>ksap-click</value>
                         </list>
                     </property>
                     <property name="onClickScript"
@@ -173,7 +173,7 @@
                                   p:fieldLabel.render="true" p:fieldLabel.renderColon="false">
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-audit-title</value>
+                                        <value>ksap-audit-title</value>
                                     </list>
                                 </property>
                             </bean>
@@ -183,7 +183,7 @@
                                 <property name="propertyEditor" ref="timestamp_formatter"/>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-text-gray</value>
+                                        <value>ksap-text-gray</value>
                                         <value>fl-font-size-90</value>
                                     </list>
                                 </property>

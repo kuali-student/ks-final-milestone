@@ -195,7 +195,7 @@
                 <bean parent="Uif-DataField" p:propertyName="body" p:style="width:610px; margin:0;" p:escapeHtmlInPropertyValue="false">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-block-ellipsis</value>
+                            <value>ksap-block-ellipsis</value>
                         </list>
                     </property>
                 </bean>
@@ -218,18 +218,18 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-stacked-list</value>
-                <value>myplan-comments-list</value>
+                <value>ksap-comments-list</value>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="if ( jQuery('.myplan-comments-list ul')[0].scrollHeight > jQuery('.myplan-comments-list ul').height() ) {
-            jQuery('.myplan-comments-list ul').scrollTop(jQuery('.myplan-comments-list ul')[0].scrollHeight);
+        <property name="onDocumentReadyScript" value="if ( jQuery('.ksap-comments-list ul')[0].scrollHeight > jQuery('.ksap-comments-list ul').height() ) {
+            jQuery('.ksap-comments-list ul').scrollTop(jQuery('.ksap-comments-list ul')[0].scrollHeight);
         }"/>
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" >
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-messages-comments</value>
+                            <value>ksap-messages-comments</value>
                         </list>
                     </property>
                     <property name="items">
@@ -266,7 +266,7 @@
                             <bean parent="Uif-DataField" p:propertyName="body" p:escapeHtmlInPropertyValue="false">
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>myplan-messages-comments-body</value>
+                                        <value>ksap-messages-comments-body</value>
                                         <value>fl-container-500</value>
                                     </list>
                                 </property>
@@ -305,7 +305,7 @@
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>fl-container-500</value>
-                                    <value>myplan-textarea</value>
+                                    <value>ksap-textarea</value>
                                     <value>ksap-required</value>
                                 </list>
                             </property>
@@ -322,10 +322,10 @@
                 <bean parent="Uif-MessageField" p:messageText="" p:style="margin:0;">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-counter</value>
+                            <value>ksap-counter</value>
                         </list>
                     </property>
-                    <property name="onDocumentReadyScript" value="jQuery('.myplan-textarea').characterCount({maxLength:500,classCounter:'myplan-counter'});"/>
+                    <property name="onDocumentReadyScript" value="jQuery('.ksap-textarea').characterCount({maxLength:500,classCounter:'ksap-counter'});"/>
                 </bean>
             </list>
         </property>
@@ -337,10 +337,10 @@
                 <bean parent="Uif-MessageField" p:messageText="" p:style="margin:0;">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-counter</value>
+                            <value>ksap-counter</value>
                         </list>
                     </property>
-                    <property name="onDocumentReadyScript" value="jQuery('.myplan-textarea').characterCount({maxLength:1000,classCounter:'myplan-counter'});"/>
+                    <property name="onDocumentReadyScript" value="jQuery('.ksap-textarea').characterCount({maxLength:1000,classCounter:'ksap-counter'});"/>
                 </bean>
             </list>
         </property>
@@ -399,7 +399,7 @@
                               p:watermarkText="Maximum characters are 1000" p:disabled="@{feedBackMode ? true : false}">
                             <property name="cssClasses">
                                 <list merge="true">
-                                    <value>myplan-textarea</value>
+                                    <value>ksap-textarea</value>
                                     <value>fl-container-500</value>
                                     <value>ksap-required</value>
                                 </list>
@@ -532,7 +532,7 @@
                     -->
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-click</value>
+                            <value>ksap-click</value>
                         </list>
                     </property>
                     <property name="onClickScript" value="ksapLightBoxLink('comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}', {helpers:{overlay:{closeClick: false}},autoScale:true,width:660,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe'}, e);"/>
@@ -568,7 +568,7 @@
                                                           p:render="@{#line.comments.size() gt 0}" p:style="margin-left:0.5em;">
                                                         <property name="cssClasses">
                                                             <list merge="true">
-                                                                <value>myplan-comment-bubble</value>
+                                                                <value>ksap-comment-bubble</value>
                                                             </list>
                                                         </property>
                                                     </bean>
@@ -735,7 +735,7 @@
     <bean id="messages_detail" parent="Uif-VerticalBoxSubSection" p:validationMessages.render="false" p:style="width: 710px; margin-right: 10px;">
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-messages-detail</value>
+                <value>ksap-messages-detail</value>
             </list>
         </property>
         <property name="items">
