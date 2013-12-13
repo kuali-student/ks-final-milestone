@@ -561,8 +561,7 @@
                             <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);" p:cssClasses="col_6">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"
-                                          p:cssClasses="this, validSeatsAndPopulationName"/>
+                                    <bean parent="Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"/>
                                 </property>
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder" p:lightBoxLookup.lookupReturnByScript="true">
