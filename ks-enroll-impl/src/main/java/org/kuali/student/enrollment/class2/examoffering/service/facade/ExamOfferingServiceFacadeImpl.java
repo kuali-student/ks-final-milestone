@@ -282,7 +282,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 //Create a new Exam Offering
                 eo = createExamOffering(examPeriodId, ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, Driver.PER_CO.name(),
                         context);
-                this.getScheduleEvaluator().executeRuleForCOScheduling(courseOffering, eo.getId(), termType, context);
+                if(this.getScheduleEvaluator()!=null){
+                    this.getScheduleEvaluator().executeRuleForCOScheduling(courseOffering, eo.getId(), termType, context);
+                }
             }
 
             //Create new Exam Offering Relationship
@@ -611,7 +613,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         attributes.add(attribute);
 
         ExamOfferingInfo eo = this.createExamOffering(examPeriodId, stateKey, attributes, context);
-        this.getScheduleEvaluator().executeRuleForAOScheduling(activityOffering, eo.getId(), termType, context);
+        if(this.getScheduleEvaluator()!=null){
+            this.getScheduleEvaluator().executeRuleForAOScheduling(activityOffering, eo.getId(), termType, context);
+        }
 
         //Create new Exam Offering Relationship
         List<String> aoIds = new ArrayList<String>();
