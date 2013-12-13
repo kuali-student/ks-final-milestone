@@ -181,8 +181,6 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
     protected boolean validateNewScheduleRequest(ScheduleWrapper scheduleWrapper){
 
-        GlobalVariables.getMessageMap().clearErrorMessages();
-
         // validate the weekdays
         if (StringUtils.isNotEmpty(scheduleWrapper.getDays())) {
             String scheduleDays = StringUtils.upperCase(scheduleWrapper.getDays());
