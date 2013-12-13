@@ -1,3 +1,19 @@
+/*
+ * Copyright 2011 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
 package org.kuali.student.enrollment.lpr.dto;
 
 import java.io.Serializable;
@@ -17,40 +33,43 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"id",
-    "personId",
-    "transactionId",
-    "luiId",
-    "existingLprId",
-    "resultValuesGroupKeys",
-    "requestOptions",
-    "lprTransactionItemResult",
-    "name",
-    "descr",
-    "typeKey",
-    "stateKey",
-    "meta",
-    "attributes",
-    "_futureElements"})
-public class LprTransactionItemInfo extends IdEntityInfo implements LprTransactionItem, Serializable {
+@XmlType(name = "LprTransactionItemInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr",
+                "transactionId", "personId", "luiId",
+                "existingLprId", "resultValuesGroupKeys",
+                "requestOptions", "lprTransactionItemResult",
+                "meta", "attributes", "_futureElements"})
+
+public class LprTransactionItemInfo 
+    extends IdEntityInfo 
+    implements LprTransactionItem, Serializable {
 
     private static final long serialVersionUID = 1L;
-    @XmlElement
-    private String personId;
+
     @XmlElement
     private String transactionId;
-    @XmlElement
-    private String luiId;
-    @XmlElement
-    private String existingLprId;
-    @XmlElement
-    private List<String> resultValuesGroupKeys;
-    @XmlElement
-    private List<LprTransactionItemRequestOptionInfo> requestOptions;
+
     @XmlElement
     private LprTransactionItemResultInfo lprTransactionItemResult;
+
+    @XmlElement
+    private String personId;
+
+    @XmlElement
+    private String luiId;
+
+    @XmlElement
+    private String existingLprId;
+
+    @XmlElement
+    private List<String> resultValuesGroupKeys;
+
+    @XmlElement
+    private List<LprTransactionItemRequestOptionInfo> requestOptions;
+
     @XmlAnyElement
     private List<Element> _futureElements;
+
 
     public LprTransactionItemInfo() {
         super();
@@ -60,8 +79,14 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
 
         super(lprTransactionItem);
         if (null != lprTransactionItem) {
-            this.personId = lprTransactionItem.getPersonId();
             this.transactionId = lprTransactionItem.getTransactionId();
+            LprTransactionItemResult result = lprTransactionItem.getLprTransactionItemResult();
+            if (result != null) {
+            	// only set the result if there is a result in the item.
+            	this.lprTransactionItemResult = new LprTransactionItemResultInfo(result);	
+            }
+
+            this.personId = lprTransactionItem.getPersonId();
             this.luiId = lprTransactionItem.getLuiId();
             this.existingLprId = lprTransactionItem.getExistingLprId();
             
@@ -76,14 +101,16 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
             if (null != lprTransactionItem.getResultValuesGroupKeys()) {
                 resultValuesGroupKeys.addAll(lprTransactionItem.getResultValuesGroupKeys());
             }
-            LprTransactionItemResult result = lprTransactionItem.getLprTransactionItemResult();
-            if (result != null) {
-            	// only set the result if there is a result in the item.
-            	this.lprTransactionItemResult = new LprTransactionItemResultInfo(result);	
-            }
-
-            this._futureElements = null;
         }
+    }
+
+    @Override
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String transactionId) {
+        this.transactionId = transactionId;
     }
 
     @Override
@@ -93,6 +120,24 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
 
     public void setLprTransactionResult(LprTransactionItemResultInfo lprTransactionResult) {
         this.lprTransactionItemResult = lprTransactionResult;
+    }
+
+    @Override
+    public String getLuiId() {
+        return luiId;
+    }
+
+    public void setLuiId(String luiId) {
+        this.luiId = luiId;
+    }
+
+    @Override
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     @Override
@@ -107,40 +152,14 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
         this.requestOptions = requestOptions;
     }
 
-    public void setLuiId(String luiId) {
-        this.luiId = luiId;
-    }
-
     public void setExistingLprId(String existingLprId) {
         this.existingLprId = existingLprId;
     }
 
-    @Override
-    public String getLuiId() {
-        return luiId;
-    }
 
     @Override
     public String getExistingLprId() {
         return existingLprId;
-    }
-
-    @Override
-    public String getPersonId() {
-        return personId;
-    }
-
-    public void setPersonId(String personId) {
-        this.personId = personId;
-    }
-
-    @Override
-    public String getTransactionId() {
-        return transactionId;
-    }
-
-    public void setTransactionId(String transactionId) {
-        this.transactionId = transactionId;
     }
 
     @Override
@@ -158,27 +177,4 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
     public void setLprTransactionItemResult(LprTransactionItemResultInfo lprTransactionItemResult) {
         this.lprTransactionItemResult = lprTransactionItemResult;
     }
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("LprTransactionItemInfo [id=");
-		builder.append(getId());
-		builder.append(", type=");
-		builder.append(getTypeKey());
-		builder.append(", state=");
-		builder.append(getStateKey());
-		builder.append(", personId=");
-		builder.append(personId);
-		builder.append(", transactionId=");
-		builder.append(transactionId);
-		builder.append(", luiId=");
-		builder.append(luiId);
-		builder.append(", existingLprId=");
-		builder.append(existingLprId);
-		builder.append("]");
-		return builder.toString();
-	}
-    
-    
 }

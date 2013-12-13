@@ -72,7 +72,7 @@ public interface CourseRegistrationService  {
     // CourseRegistration methods
 
     /**
-     * Retrieves a single CourseRegistration by an CourseRegistration Id.
+     * Retrieves a single CourseRegistration by a CourseRegistration Id.
      *
      * @param courseRegistrationId the identifier for the
      *        CourseRegistration to be retrieved
@@ -711,7 +711,7 @@ public interface CourseRegistrationService  {
                PermissionDeniedException;
 
     /**
-     * Validates an RegistrationRequest. Depending on the value of
+     * Validates a RegistrationRequest. Depending on the value of
      * validationType, this validation could be limited to tests on
      * just the current RegistrationRequest and its directly contained
      * sub-objects or expanded to perform all tests related to this
@@ -856,26 +856,32 @@ public interface CourseRegistrationService  {
                VersionMismatchException;
 
     /**
-     * Updates the state of an existing RegistrationRequest to another state
-     * provided that it is valid to do so.
+     * Updates the state of an existing RegistrationRequest to another
+     * state provided that it is valid to do so.
      *
-     * @param registrationRequestId     identifier of the RegistrationRequest to be
-     *                                  updated
-     * @param nextStateKey       The State Key into which the identified
-     *                           RegistrationRequest will be placed if the
-     *                           operation succeeds.
-     * @param contextInfo        Context information containing the principalId
-     *                           and locale information about the caller of
-     *                           service operation
-     * @return status of the operation (success, failed)
-     * @throws DoesNotExistException     the identified RegistrationRequest does
-     *                                   not exist
+     * @param registrationRequestId the identifier of the
+     *        RegistrationRequest to be updated
+     * @param nextStateKey the State Key into which the identified
+     *        RegistrationRequest will be placed if the operation
+     *        succeeds
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return status of the operation. This value must be true.
+     * @throws DoesNotExistException registrationRequestId not found
      * @throws InvalidParameterException the contextInfo object is invalid
-     * @throws MissingParameterException One or more parameters missing
-     * @throws OperationFailedException  unable to complete request
+     * @throws MissingParameterException registrationRequestId,
+     *         nextStateKey, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo changeRegistrationRequestState(@WebParam(name = "registrationRequestId") String registrationRequestId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo changeRegistrationRequestState(@WebParam(name = "registrationRequestId") String registrationRequestId, 
+                                                     @WebParam(name = "nextStateKey") String nextStateKey, 
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) 
+        throws DoesNotExistException, 
+               InvalidParameterException, 
+               MissingParameterException, 
+               OperationFailedException, 
+               PermissionDeniedException;
 
     /**
      * Deletes an existing RegistrationRequest.
@@ -886,7 +892,7 @@ public interface CourseRegistrationService  {
      *        locale information about the caller of the service
      *        operation
      * @return the status of the delete operation. This must always be
-     *         true.q
+     *         true.
      * @throws DoesNotExistException registrationRequestId is not found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException registrationRequestId or

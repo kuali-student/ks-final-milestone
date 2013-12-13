@@ -25,8 +25,8 @@ import org.kuali.student.r2.common.infc.Relationship;
  * link together a learning unit instance and a person in such widely defined
  * domains as a student registering in a course or an instructor being assigned
  * to advise students in a particular program.
- * 
  */
+
 public interface Lpr 
     extends Relationship {
 
