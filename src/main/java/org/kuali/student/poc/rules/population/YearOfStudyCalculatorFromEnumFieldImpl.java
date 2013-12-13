@@ -19,14 +19,12 @@ package org.kuali.student.poc.rules.population;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
-import java.util.Date;
-
 /**
  * This class represents a Year of Study calculator where the year of study is obtained from the field "Year of Study" in the student enum.
  *
  * @author Mezba Mahtab
  */
-public class yearOfStudyCalculatorFromEnumFieldImpl implements yearOfStudyCalculator {
+public class YearOfStudyCalculatorFromEnumFieldImpl implements YearOfStudyCalculator {
 
     @Override
     public String getYearOfStudy(PopulationPocStudentEnum populationPocStudentEnum, ContextInfo contextInfo) throws OperationFailedException {

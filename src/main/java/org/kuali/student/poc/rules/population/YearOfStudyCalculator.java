@@ -11,7 +11,7 @@ import java.util.Date;
  * Date: 12/9/13
  * Time: 3:43 PM
  */
-public interface yearOfStudyCalculator {
+public interface YearOfStudyCalculator {
 
     /**
      * Gets the year of study of a student now.

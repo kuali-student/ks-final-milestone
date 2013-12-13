@@ -11,7 +11,7 @@ import java.util.Date;
  * Date: 12/10/13
  * Time: 10:25 AM
  */
-public interface isMemberAsOfDateEvaluator {
+public interface IsMemberAsOfDateEvaluator {
     public Boolean isMemberAsOfDate(PopulationPocPersonEnum populationPocPersonEnum, String populationId, Date date, ContextInfo contextInfo)
             throws OperationFailedException;
 }

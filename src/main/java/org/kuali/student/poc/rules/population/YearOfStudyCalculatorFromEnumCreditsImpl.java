@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author Mezba Mahtab
  */
-public class yearOfStudyCalculatorFromEnumCreditsImpl implements yearOfStudyCalculator {
+public class YearOfStudyCalculatorFromEnumCreditsImpl implements YearOfStudyCalculator {
 
     ///////////////////////////
     // DATA VARIABLES
@@ -59,7 +59,7 @@ public class yearOfStudyCalculatorFromEnumCreditsImpl implements yearOfStudyCalc
     // CONSTRUCTOR
     ///////////////////////////
 
-    public yearOfStudyCalculatorFromEnumCreditsImpl(String maximumCreditsNeededToComplete, List<String> yearsOfStudyLabels) {
+    public YearOfStudyCalculatorFromEnumCreditsImpl(String maximumCreditsNeededToComplete, List<String> yearsOfStudyLabels) {
         this.maximumCreditsNeededToComplete = maximumCreditsNeededToComplete;
         this.yearsOfStudyLabels = yearsOfStudyLabels;
     }

@@ -26,7 +26,7 @@ import javax.xml.namespace.QName;
  *
  * @author Kuali Student Team
  */
-public abstract class isMemberAsOfDateEvaluatorAbstractWithServiceImpl implements isMemberAsOfDateEvaluator {
+public abstract class IsMemberAsOfDateEvaluatorAbstractWithServiceImpl implements IsMemberAsOfDateEvaluator {
 
     private PopulationService populationService;
 
