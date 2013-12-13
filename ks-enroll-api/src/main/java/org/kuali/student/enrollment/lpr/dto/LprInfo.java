@@ -25,10 +25,14 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprInfo", propOrder = {"id", "typeKey", "stateKey", "luiId", "personId",
-        "resultValuesGroupKeys", "commitmentPercent", "effectiveDate", "expirationDate", "meta", "attributes",
+@XmlType(name = "LprInfo", propOrder = {
+        "id", "typeKey", "stateKey", "effectiveDate", "expirationDate", 
+        "luiId", "personId", "atpId",
+        "resultValuesGroupKeys", "commitmentPercent", "meta", "attributes",
         "_futureElements"})
-public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
+public class LprInfo 
+    extends RelationshipInfo 
+    implements Lpr, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,6 +41,9 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
 
     @XmlElement
     private String personId;
+
+    @XmlElement
+    private String atpId;
 
     @XmlElement
     private List<String> resultValuesGroupKeys;
@@ -55,6 +62,7 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
         if (lpr != null) {
             this.luiId = lpr.getLuiId();
             this.personId = lpr.getPersonId();
+            this.atpId = lpr.getAtpId();
             this.commitmentPercent = lpr.getCommitmentPercent();
             if (lpr.getResultValuesGroupKeys() != null) {
                 this.resultValuesGroupKeys = new ArrayList<String>(lpr.getResultValuesGroupKeys());
@@ -81,6 +89,15 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
     }
 
     @Override
+    public String getAtpId() {
+        return atpId;
+    }
+
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
+    }
+
+    @Override
     public String getCommitmentPercent() {
         return commitmentPercent;
     }
@@ -100,25 +117,4 @@ public class LprInfo extends RelationshipInfo implements Lpr, Serializable {
     public void setResultValuesGroupKeys(List<String> resultValuesGroupKeys) {
         this.resultValuesGroupKeys = resultValuesGroupKeys;
     }
-
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("LprInfo [id=");
-		builder.append(getId());
-		builder.append(", type=");
-		builder.append(getTypeKey());
-		builder.append(", state=");
-		builder.append(getStateKey());
-		builder.append(", luiId=");
-		builder.append(luiId);
-		builder.append(", personId=");
-		builder.append(personId);
-		builder.append(", commitmentPercent=");
-		builder.append(commitmentPercent);
-		builder.append("]");
-		return builder.toString();
-	}
-    
-    
 }

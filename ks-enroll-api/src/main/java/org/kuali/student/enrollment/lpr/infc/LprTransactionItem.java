@@ -12,13 +12,14 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author Kuali Student Team (sambit)
  */
 
-public interface LprTransactionItem extends IdEntity {
+public interface LprTransactionItem 
+    extends IdEntity {
 
     /**
      * The type of the transaction item.
      * 
-     * The types of LPR transaction item  are things like ADD, UPDATE, DROP,
-     * and SWAP
+     * The types of LPR transaction item are things like ADD, UPDATE,
+     * DROP, and SWAP.
      * 
      * @name Type Key
      * @required
@@ -30,8 +31,8 @@ public interface LprTransactionItem extends IdEntity {
     /**
      * The state of this transaction item
      * 
-     * The states of the LPR transaction item are things like DRAFT, SUBMITTED,
-     * and FAILED. etc
+     * The states of the LPR transaction item are things like DRAFT,
+     * SUBMITTED, and FAILED.
      * 
      * @name State Key
      * @required
@@ -41,7 +42,8 @@ public interface LprTransactionItem extends IdEntity {
     public String getStateKey();
 
     /**
-     * The person id for whom this request is to generate or update the lpr
+     * The person id for whom this request is to generate or update
+     * the LPR.
      * 
      * @name Person Id
      * @required
@@ -49,7 +51,9 @@ public interface LprTransactionItem extends IdEntity {
     public String getPersonId();
 
     /**
-     * The identifier of the transaction that contains this transaction item.
+     * The identifier of the transaction that contains this
+     * transaction item.
+     * 
      * @name Transaction Id
      * @required
      * @readOnly
@@ -64,22 +68,24 @@ public interface LprTransactionItem extends IdEntity {
     public String getLuiId();
 
     /**
-     * The existing Lpr id for an existing relation for delete or updaterequests.
+     * The existing Lpr id for an existing relation for delete or
+     * updaterequests.
      * 
-     * @Existing LPR Id
+     * @name Existing LPR Id
      */
     public String getExistingLprId();
 
     /**
-     * Specify the various request (or registration ) options for creating this
-     * relationship.
+     * Specify the various request (or registration ) options for
+     * creating this relationship.
      * 
      * @name Request Options
      */
     public List<? extends LprTransactionItemRequestOption> getRequestOptions();
 
     /**
-     * Returns the result for this transaction item once it has been processed.
+     * Returns the result for this transaction item once it has been
+     * processed.
      * 
      * @name LPR Transaction Item Result
      */
@@ -89,11 +95,10 @@ public interface LprTransactionItem extends IdEntity {
      * The keys of the result values groups to be applied to the LPR
      * once created.
      * 
-     * For example, setting the grading option to pass/fail or the credits to 3
-     * for a course.
+     * For example, setting the grading option to pass/fail or the
+     * credits to 3 for a course.
      * 
      * @name Result Values Group Keys
      */
     public List<String> getResultValuesGroupKeys();
-
 }
