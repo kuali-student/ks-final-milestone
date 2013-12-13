@@ -728,9 +728,11 @@ function endTimeOnBlur(){
 function rdlStartTimeOnBlur(event){
 
     var startTime = jQuery("#rdl_starttime_control").val();
+    var isMozilla = jQuery.browser.mozilla != null;
 
+    //Mozilla supports relatedTarget only for mouse event.
     //relatedTarget may be null when the user just navigates to some other window and comes back
-    if (event.relatedTarget == null || event.relatedTarget.id != "rdl_endtime_control"){
+    if (isMozilla == false && (event.relatedTarget == null || event.relatedTarget.id != "rdl_endtime_control")){
         if (startTime != ''){
             parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
         }
@@ -750,7 +752,9 @@ function rdlStartTimeOnBlur(event){
     if (!tbaChecked && (startTime == '' || days == '' || (jQuery("#rdl_starttime_control").val() == jQuery("#rdl_starttime_control").data("starttime")
         && jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("days"))) ) {
         jQuery("#rdl_endtime").show();
-        jQuery("#rdl_endtime_control").focus();
+        if (isMozilla == false){
+            jQuery("#rdl_endtime_control").focus();
+        }
         return;
     }
 
@@ -764,7 +768,9 @@ function rdlStartTimeOnBlur(event){
 
     retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
         jQuery("#rdl_endtime").show();
-        jQuery("#rdl_endtime_control").focus();
+        if (isMozilla == false){
+            jQuery("#rdl_endtime_control").focus();
+        }
         validateFieldValue(jQuery("#rdl_endtime_control"));
     });
 }
