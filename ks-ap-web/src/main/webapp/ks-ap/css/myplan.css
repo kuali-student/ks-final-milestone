@@ -362,6 +362,12 @@ a:focus {
     margin: 0 0px 0 0;
 }
 
+.ksap-view.ks-plan-View .uif-boxLayoutHorizontalItem,
+.base-view .uif-boxLayoutHorizontalItem,
+.jquerybubblepopup .uif-boxLayoutHorizontalItem {
+    margin: 0 10px 0 0;
+}
+
 .ksap-view .uif-instructionalMessage {
     max-width: none;
     font-size: 1em;

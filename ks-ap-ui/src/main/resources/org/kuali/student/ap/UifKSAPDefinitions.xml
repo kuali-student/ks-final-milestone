@@ -126,7 +126,7 @@
     <bean id="KSAPTheme-parentBean" parent="Uif-BaseTheme">
         <property name="cssFiles">
             <list merge="true">
-                <value>ks-myplan/jquery-popover/jquery.popover.css</value>
+                <value>ks-ap/scripts/jquery-popover/jquery.popover.css</value>
                 <value>ks-myplan/jquery-ui/jquery-ui.css</value>
                 <value>ks-ap/css/myplan.css</value>
             </list>
@@ -139,7 +139,7 @@
                 <value>ks-myplan/scripts/ksap.events.js?@{#ConfigProperties['ksap.version']}</value>
                 <value>ks-myplan/plugins/jquery.subscribe.js?@{#ConfigProperties['ksap.version']}</value>
                 <value>ks-myplan/plugins/polling.js?@{#ConfigProperties['ksap.version']}</value>
-                <value>ks-myplan/jquery-popover/jquery.popover.js?@{#ConfigProperties['ksap.version']}</value>
+                <value>ks-ap/scripts/jquery-popover/jquery.popover.js?@{#ConfigProperties['ksap.version']}</value>
             </list>
         </property>
     </bean>
