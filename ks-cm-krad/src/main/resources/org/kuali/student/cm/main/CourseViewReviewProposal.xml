@@ -29,7 +29,7 @@
                 <ref bean="KS-CourseView-GovernancePage-ReviewWidgets" />
                 <ref bean="KS-CourseView-CourseLogisticsPage-ReviewWidgets" />
                 <ref bean="KS-CourseView-ActiveDatesPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-LearningObjectives-ReviewWidgets" />
+                <ref bean="KS-CourseView-LearningObjectivesPage-ReviewWidgets" />
                 <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage-ReviewWidgets" />
                 <ref bean="KS-CourseView-SupportingDocumentsPage-ReviewWidgets" />
             </list>
