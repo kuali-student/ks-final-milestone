@@ -186,8 +186,15 @@
             <bean parent="Uif-VerticalBoxGroup" >
                 <property name="items">
                     <list>
-                        <bean parent="Uif-Message" p:messageText="(This Course Has No Activity Offerings)" p:render="@{!#lp.coHasAoToDelete}"/>
-                        <bean parent="KS-CourseOfferingManagement-DeletedAoListSection" p:propertyName="aoToBeDeletedList"/>
+                        <bean parent="Uif-Message"
+                              p:messageText="(This Course Has No Activity Offerings)"
+                              p:render="@{!#lp.coHasAoToDelete}"
+                              p:align="center"
+                              p:cssClasses="course-has-no-aos"  />
+
+                        <bean parent="KS-CourseOfferingManagement-DeletedAoListSection"
+                              p:propertyName="aoToBeDeletedList"
+                              p:render="@{#lp.coHasAoToDelete}" />
                     </list>
                 </property>
             </bean>
