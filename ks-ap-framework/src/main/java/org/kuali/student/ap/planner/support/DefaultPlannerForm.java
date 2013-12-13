@@ -438,7 +438,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 			termHelper.frontLoadForPlanner(firstTermId);
 
 			List<Term> calendarTerms = termHelper.getCalendarTerms(firstTerm);
-			String focusTermId = termHelper.getPlanningTerms().get(0).getId();
+			String focusTermId = termHelper.getTermsInAcademicYear().get(0).getId();
 
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(firstTerm.getStartDate());

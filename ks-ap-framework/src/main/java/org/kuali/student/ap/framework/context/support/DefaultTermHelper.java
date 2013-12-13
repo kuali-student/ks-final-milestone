@@ -540,12 +540,15 @@ public class DefaultTermHelper implements TermHelper {
         Term end = calendarTerms.get(calendarTerms.size()-1);
         List<Term> startYear = getTermsInAcademicYear(new DefaultYearTerm(start.getId(),start.getTypeKey(),start.getStartDate().getYear()));
         List<Term> endYear=getTermsInAcademicYear(new DefaultYearTerm(end.getId(),end.getTypeKey(),end.getStartDate().getYear()));
+
+        // Sorted in reverse order so terms are added in order.
         Collections.sort(startYear, new Comparator<Term>() {
             @Override
             public int compare(Term o1, Term o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
+                return o2.getStartDate().compareTo(o1.getStartDate());
             }
         });
+
         Collections.sort(endYear, new Comparator<Term>() {
             @Override
             public int compare(Term o1, Term o2) {
