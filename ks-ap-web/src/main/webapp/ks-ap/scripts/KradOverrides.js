@@ -2,7 +2,7 @@
  * Fix under KSAP-
  * Placed for retrieve component since refresh image doesnt seem to get set.
  */
-var refreshImage = jQuery("<img src='/student/ks-ap/images/ajaxLoader.gif' alt='" + getMessage(kradVariables.MESSAGE_LOADING) + "' /> ");
+var refreshImage = jQuery("<img src='../ks-ap/images/ajaxLoader.gif' alt='" + getMessage(kradVariables.MESSAGE_LOADING) + "' /> ");
 
 /**
  * Fix under KSAP-265
