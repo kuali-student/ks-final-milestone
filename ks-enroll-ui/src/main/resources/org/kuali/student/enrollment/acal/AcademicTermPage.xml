@@ -346,7 +346,7 @@
     <bean id="KS-KeyDatesGroup-EditSubSection"
           parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
           p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
-          p:additionalCssClasses="acal_keydate_group,ks-subSection,ks-subSection-marginTop">
+          p:additionalCssClasses="acal_keydate_group,ks-subSection,ks-subSection-marginTop,ks-uif-diclosureContent-noIndent">
         <property name="id" value="acal-term-keydatesgroup"/>
         <property name="disclosure.render" value="false"/>
         <property name="readOnly" value="@{#view.readOnly}"/>
@@ -366,18 +366,44 @@
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="@{#line.keyDateGroupNameUI} Key Dates"/>
         <property name="layoutManager.lineGroupPrototype.id" value="key_date_grp_section"/>
+        <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="ks-key-date-header"/>
+        <property name="layoutManager.lineGroupPrototype.header.id" value="ks-key-date-header-id"/>
         <property name="addLineActions">
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                 since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF"/>
+                <!--p:onClickScript="addBootstrapImageToLink('acal-term');"-->
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF" p:onDocumentReadyScript="addBootstrapImageToLink('acal-term');"/>
+            </list>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.header.rightGroup">
+            <bean id="KeyDateGroup-RightGroup" parent="Uif-VerticalBoxGroup">
+                <!--<property name="items">-->
+                    <!--<bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"-->
+                          <!--p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>-->
+                <!--</property>-->
+            </bean>
+        </property>
+        <property name="layoutManager.lineGroupPrototype.header.rightGroup.items">
+            <list>
+                <bean id="key_date_group_delete_button" parent="KS-Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="deleteKeyDateGroup"
+                      p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
+                      p:actionScript="actionInvokeHandler(this);"
+                      p:actionImagePlacement="LEFT">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="ks-fontello-icon-cancel"/>
+                    </property>
+                </bean>
+                <!--<bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"-->
+                      <!--p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>-->
             </list>
         </property>
         <property name="lineActions">
-            <list>
-                <bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"
-                      p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>
-            </list>
+            <null/>
+            <!--<list>-->
+                <!--<bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"-->
+                      <!--p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>-->
+            <!--</list>-->
         </property>
         <property name="items">
             <list>
@@ -439,7 +465,7 @@
                 <bean id="key_date_type" parent="KS-Uif-InputField" p:propertyName="keyDateType"
                       p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
                       p:label="Key Date Type *"
-                      p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;">
+                      p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;" p:additionalCssClasses="ks-subSection">
                     <property name="onDocumentReadyScript"
                               value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');"/>
                     <property name="control">
