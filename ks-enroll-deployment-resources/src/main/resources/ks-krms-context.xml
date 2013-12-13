@@ -37,7 +37,6 @@
     </bean>
 
     <bean id="actionTypeService" class="org.kuali.student.r2.common.krms.type.KSActionTypeServiceImpl">
-        <property name="schedulingService" ref="schedulingClient"/>
     </bean>
 
     <bean id="propositionTemplater"

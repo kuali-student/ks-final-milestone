@@ -46,6 +46,11 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
+/**
+ * This is an implementation of the TermResolverTypeService to load actions for the execution of rules.
+ *
+ * @author Kuali Student Team
+ */
 public class KSTermResolverTypeService implements TermResolverTypeService {
 
 	private AcademicRecordService acadRecordService;
@@ -180,19 +185,11 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
 			resolver.setAcademicRecordService(acadRecordService);
 			return resolver;
 		} else if (KSKRMSServiceConstants.TERM_RESOLVER_MATCHINGTIMESLOT.equals(termResolverDefinition.getName())){
-            MatchingTimeSlotTermResolver resolver = new MatchingTimeSlotTermResolver();
-            resolver.setCourseOfferingService(courseOfferingService);
-            resolver.setSchedulingService(schedulingService);
-            return resolver;
+            return new MatchingTimeSlotTermResolver();
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_MATCHINGCOURSE.equals(termResolverDefinition.getName())){
-            MatchingCourseTermResolver resolver = new MatchingCourseTermResolver();
-            resolver.setCourseOfferingService(courseOfferingService);
-            resolver.setCourseService(courseService);
-            return resolver;
+            return new MatchingCourseTermResolver();
         } else if (KSKRMSServiceConstants.TERM_RESOLVER_MATCHINGCOURSESET.equals(termResolverDefinition.getName())){
             MatchingCourseSetTermResolver resolver = new MatchingCourseSetTermResolver();
-            resolver.setCourseOfferingService(courseOfferingService);
-            resolver.setCourseService(courseService);
             resolver.setCluIdsInCluSetTermResolver(getCluIdsInCluSetTermResolver());
             return resolver;
         }

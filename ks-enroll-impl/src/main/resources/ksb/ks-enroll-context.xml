@@ -641,7 +641,13 @@
         <property name="examOfferingService" ref="ExamOfferingService"/>
         <property name="socService" ref="CourseOfferingSetService" />
         <property name="typeService" ref="typeServiceCacheDecorator" />
+        <property name="scheduleEvaluator" ref="examOfferingScheduleEvaluator" />
         <property name="setLocation" value="true" />
+    </bean>
+
+    <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluatorImpl">
+        <property name="schedulingService" ref="SchedulingService"/>
+        <property name="courseService" ref="courseServiceImpl"/>
     </bean>
 
     <!-- Put facade on the bus -->

@@ -45,13 +45,10 @@ import java.util.Set;
  */
 public class MatchingCourseTermResolver implements TermResolver<Boolean> {
 
-    private CourseOfferingService courseOfferingService;
-    private CourseService courseService;
-
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CO_ID);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_COURSE_VERSIONINDID);
         prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         return Collections.unmodifiableSet(prereqs);
     }
@@ -70,20 +67,16 @@ public class MatchingCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public int getCost() {
-        return 5;
+        return 1;
     }
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-
         String courseId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
 
         try {
-            CourseOffering co = this.retrieveCourseOffering(resolvedPrereqs, context);
-            Course course = this.getCourseService().getCourse(co.getCourseId(), context);
-
-            if(courseId.equals(course.getVersion().getVersionIndId())){
+            String versionIndId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_COURSE_VERSIONINDID);
+            if(courseId.equals(versionIndId)){
                 return true;
             }
 
@@ -94,33 +87,4 @@ public class MatchingCourseTermResolver implements TermResolver<Boolean> {
         return false;
     }
 
-    private CourseOffering retrieveCourseOffering(Map<String, Object> resolvedPrereqs, ContextInfo context)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
-            DoesNotExistException {
-
-        CourseOffering co = (CourseOffering) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CO);
-        if(co == null){
-            String coId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CO_ID);
-            co = this.getCourseOfferingService().getCourseOffering(coId, context);
-            resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CO, co);
-        }
-
-        return co;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
-    }
-
-    public CourseService getCourseService() {
-        return courseService;
-    }
-
-    public void setCourseService(CourseService courseService) {
-        this.courseService = courseService;
-    }
 }

@@ -44,7 +44,7 @@ import java.util.Set;
 /**
  * Return true if student has an unsubmitted registration request that includes
  * the given course or if the student is currently enrolled for the given course.
- *
+ * <p/>
  * Example rule statement:
  * 1) Must be concurrently enrolled in all courses from <courses>
  *
@@ -52,13 +52,10 @@ import java.util.Set;
  */
 public class MatchingTimeSlotTermResolver implements TermResolver<Boolean> {
 
-    private CourseOfferingService courseOfferingService;
-    private SchedulingService schedulingService;
-
     @Override
     public Set<String> getPrerequisites() {
         Set<String> prereqs = new HashSet<String>(2);
-        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_AO_ID);
+        prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS);
         prereqs.add(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         return Collections.unmodifiableSet(prereqs);
     }
@@ -84,23 +81,16 @@ public class MatchingTimeSlotTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
 
         String weekdays = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_WEEKDAY_STRING);
         String startTime = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START);
 
         try {
-            ActivityOffering ao = this.retrieveActivityOffering(resolvedPrereqs, context);
-            List<ScheduleInfo> schedules = this.getSchedulingService().getSchedulesByIds(ao.getScheduleIds(), context);
-            for(ScheduleInfo schedule : schedules){
-                for(ScheduleComponentInfo scheduleComponent : schedule.getScheduleComponents()){
-                    List<TimeSlotInfo> timeSlots = this.getSchedulingService().getTimeSlotsByIds(scheduleComponent.getTimeSlotIds(), context);
-                    for(TimeSlotInfo timeSlot : timeSlots){
-                        if(weekdays.equals(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()))
-                                && Long.valueOf(startTime).equals(timeSlot.getStartTime().getMilliSeconds())){
-                            return true;
-                        }
-                    }
+            List<TimeSlotInfo> timeSlots = (List<TimeSlotInfo>) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS);
+            for (TimeSlotInfo timeSlot : timeSlots) {
+                if (weekdays.equals(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()))
+                        && Long.valueOf(startTime).equals(timeSlot.getStartTime().getMilliSeconds())) {
+                    return true;
                 }
             }
 
@@ -112,33 +102,4 @@ public class MatchingTimeSlotTermResolver implements TermResolver<Boolean> {
         return false;
     }
 
-    private ActivityOffering retrieveActivityOffering(Map<String, Object> resolvedPrereqs, ContextInfo context)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException,
-            DoesNotExistException {
-
-        ActivityOffering ao = (ActivityOffering) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_AO);
-        if(ao == null){
-            String aoId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_AO_ID);
-            ao = this.getCourseOfferingService().getActivityOffering(aoId, context);
-            resolvedPrereqs.put(KSKRMSServiceConstants.TERM_PREREQUISITE_AO, ao);
-        }
-
-        return ao;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
-    }
-
-    public SchedulingService getSchedulingService() {
-        return schedulingService;
-    }
-
-    public void setSchedulingService(SchedulingService schedulingService) {
-        this.schedulingService = schedulingService;
-    }
 }
