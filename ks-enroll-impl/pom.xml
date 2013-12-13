@@ -163,6 +163,14 @@
             <artifactId>groovy-all</artifactId>
             <version>${groovy.version}</version>
         </dependency>
+
+        <!-- This is needed for JSON in KSB REST Services-->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-jaxrs</artifactId>
+            <version>1.9.13</version>
+        </dependency>
+
         <!-- end -->
     </dependencies>
 </project>
