@@ -15,103 +15,23 @@
   limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 	<bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage"
-		p:headerText="Review Proposal" p:disclosure.render="false">
+		  p:headerText="Review Proposal" p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-Header" />
 
         <property name="items">
             <list>
-
-                <bean parent="Uif-Disclosure-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-CourseView-SectionHeader">
-                                <property name="headerText" value="Course Information" />
-                            </bean>
-                            <ref bean="KS-CourseView-CourseInfoPage-Widgets" />
-                        </list>                        
-                    </property>
-                </bean>
-
-                <bean parent="Uif-Disclosure-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-CourseView-SectionHeader">
-                                <property name="headerText" value="Governance" />
-                            </bean>
-                            <ref bean="KS-CourseView-GovernancePage-Widgets" />
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-Disclosure-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-CourseView-SectionHeader">
-                                <property name="headerText" value="Course Logistics" />
-                            </bean>
-                            <ref bean="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets" />
-                            <ref bean="KS-CourseView-CourseLogisticsPage-DurationCount-Widgets" />
-                            <ref bean="KS-CourseView-CourseLogisticsPage-LearningResults-Widgets" />
-                            <ref bean="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets" />
-                            <ref bean="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" />
-                            <ref bean="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets" />
-                            <ref bean="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" />
-                            <ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" />
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-Disclosure-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-CourseView-SectionHeader">
-                                <property name="headerText" value="Learning Objectives" />
-                            </bean>
-                            <ref bean="LearningObjective-CollectionSection" />
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-Disclosure-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-CourseView-SectionHeader">
-                                <property name="headerText" value="Active Dates" />
-                            </bean>
-                            <ref bean="KS-CourseView-ActiveDatesPage-Widgets" />
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-Disclosure-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-CourseView-SectionHeader">
-                                <property name="headerText" value="Authors and Collaborators"/>
-                            </bean>
-
-                            <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" />
-                        </list>
-                    </property>
-                </bean>
-
-                <bean parent="Uif-Disclosure-VerticalBoxSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="KS-CourseView-SectionHeader">
-                                <property name="headerText" value="Supporting Documents" />
-                            </bean>
-
-                            <ref bean="KS-CourseView-SupportingDocumentsPage-Widgets" />
-                        </list>
-                    </property>
-                </bean>
-
+                <ref bean="KS-CourseView-CourseInfoPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-GovernancePage-ReviewWidgets" />
+                <ref bean="KS-CourseView-CourseLogisticsPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-ActiveDatesPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-LearningObjectives-ReviewWidgets" />
+                <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-SupportingDocumentsPage-ReviewWidgets" />
             </list>
         </property>
 
@@ -119,4 +39,78 @@
             <bean parent="KS-CourseView-Footer"/>
         </property>	
     </bean>
+
+
+    <bean name="KS-CourseView-CourseInfoPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Course Information" />
+                </bean>
+            </list>                        
+        </property>
+    </bean>
+
+    <bean name="KS-CourseView-GovernancePage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Governance" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-CourseView-CourseLogisticsPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Course Logistics" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-CourseView-LearningObjectivesPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Learning Objectives" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-CourseView-ActiveDatesPge-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Active Dates" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-CourseView-AuthorsAndCollaboratorsPage-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Authors and Collaborators"/>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-CourseView-SupportingDocumentsPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Supporting Documents" />
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
 </beans>
