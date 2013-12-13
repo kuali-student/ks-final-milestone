@@ -65,7 +65,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -504,11 +503,12 @@ public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingSer
             }
             List<ActivityOfferingClusterInfo> targetClusters =
                     _RCO_rolloverActivityOfferingClusters(sourceFo, targetFo, context, sourceAoIdToTargetAoId);
+            List<RegistrationGroupInfo> regGroupCache = new ArrayList<RegistrationGroupInfo>();
             for (ActivityOfferingClusterInfo cluster: targetClusters) {
                 List<ActivityOfferingInfo> aosInCluster = _getAosInCluster(cluster, targetAoId2Ao);
                 CourseOfferingServiceRolloverHelper.generateRegGroupsForClusterHelper(cluster.getId(), context,
                         coService, registrationCodeGeneratorFactory,
-                        true, new ArrayList<RegistrationGroupInfo>(),
+                        true, regGroupCache,
                         cluster, targetFo, aosInCluster);
             }
         }

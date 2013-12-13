@@ -65,7 +65,7 @@ public class CourseOfferingServiceRolloverHelper {
             throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException,
             OperationFailedException, MissingParameterException, DoesNotExistException {
         return generateRegGroupsForClusterHelper(activityOfferingClusterId, contextInfo, coService, registrationCodeGeneratorFactory,
-                false, null, null, null, null);
+                false, new ArrayList<RegistrationGroupInfo>(), null, null, null);
     }
 
 
@@ -229,6 +229,7 @@ public class CourseOfferingServiceRolloverHelper {
                 status.setSuccess(Boolean.TRUE);
                 status.setMessage("Created Registration Group");
                 rgChanges.add(status);
+                regGroupCache.add(rgInfo);
 
                 // Now determine if this registration group is in a valid state
                 List<ValidationResultInfo> validations =
