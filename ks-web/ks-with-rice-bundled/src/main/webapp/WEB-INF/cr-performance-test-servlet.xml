@@ -37,6 +37,6 @@
         <property name="suffix" value=".ftl"/>
     </bean>
 
-    <context:component-scan base-package="org.kuali.student.enrollment.class2.registration.controller"/>
+    <context:component-scan base-package="org.kuali.student.enrollment.class2.registration.performance.kradlite.controller"/>
 
 </beans>

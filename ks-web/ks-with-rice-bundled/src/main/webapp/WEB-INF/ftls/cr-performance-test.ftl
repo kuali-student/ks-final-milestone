@@ -122,22 +122,19 @@ Table Generation Test
                                      class="uif-inputField uif-boxLayoutHorizontalItem">
 <span id="KS-KitchenSink-TextField-Perf_label_span" class="uif-label">
 <label id="KS-KitchenSink-TextField-Perf_label" for="KS-KitchenSink-TextField-Perf_control">
-    Number Of Rows
+    Course Search
 </label>
 <span id="u56_span" class="uif-requiredMessage" style=";display: none;">
 * </span>
 </span>
                                 <span id="KS-KitchenSink-TextField-Perf_instructional_span"
                                       class="uif-instructionalMessage">
-Please enter how many rows you want to generate </span>
-                                    <input id="KS-KitchenSink-TextField-Perf_control" type="number" name="inputOne"
-                                           value="30"
+Please enter a partial course code to search </span>
+                                    <input id="KS-KitchenSink-TextField-Perf_control" name="inputOne"
+                                           value="${inputOne}"
                                            size="25" class="uif-textControl"
                                            tabindex="0"
-                                           maxlength="10">
-
-<span id="KS-KitchenSink-TextField-Perf_constraint_span" class="uif-constraintMessage">
-Must be an integer </span>
+                                           maxlength="8">
                                 </div>
                                 <button id="generate_button"
                                         class="btn btn-primary btn btn-primary uif-boxLayoutHorizontalItem">
@@ -152,35 +149,56 @@ Must be an integer </span>
                                 <th scope="col">
 <span id="u83_c1_span" class="infoline">
 <label id="u83_c1" for="">
-    Column 1
+    courseOfferingId
 </label>
 </span>
                                 </th>
                                 <th scope="col">
 <span id="u83_c2_span" class="infoline">
 <label id="u83_c2" for="">
-    Column 2
+    courseOfferingCode
 </label>
 </span>
                                 </th>
                                 <th scope="col">
 <span id="u83_c3_span" class="infoline">
 <label id="u83_c3" for="">
-    Column 3
+    courseOfferingDesc
 </label>
 </span>
                                 </th>
                                 <th scope="col">
 <span id="u83_c4_span" class="infoline">
 <label id="u83_c4" for="">
-    Column 4
+    courseOfferingCreditOptionDisplay
 </label>
 </span>
                                 </th>
                                 <th scope="col">
 <span id="u83_c5_span" class="infoline">
 <label id="u83_c5" for="">
-    Column 5
+    courseOfferingGradingOptionDisplay
+</label>
+</span>
+                                </th>
+                                <th scope="col">
+<span id="u83_c5_span" class="infoline">
+<label id="u83_c5" for="">
+    studentSelectablePassFail
+</label>
+</span>
+                                </th>
+                                <th scope="col">
+<span id="u83_c5_span" class="infoline">
+<label id="u83_c5" for="">
+    auditCourse
+</label>
+</span>
+                                </th>
+                                <th scope="col">
+<span id="u83_c5_span" class="infoline">
+<label id="u83_c5" for="">
+    honorsCourse
 </label>
 </span>
                                 </th>
@@ -195,40 +213,61 @@ Must be an integer </span>
                             </thead>
                             <tbody>
 
-                            <#list perfCollection as row>
+                            <#list courseResults as row>
                             <tr>
                                 <td role="presentation">
                                     <div id="u110_line${row_index}" class="uif-field">
 <span id="u110_line${row_index}_control" class="uif-readOnlyContent">
-${row.column1}
+${row.courseOfferingId}
 </span>
                                     </div>
                                 </td>
                                 <td role="presentation">
                                     <div id="u115_line${row_index}" class="uif-field">
 <span id="u115_line${row_index}_control" class="uif-readOnlyContent">
-${row.column2}
+${row.courseOfferingCode}
 </span>
                                     </div>
                                 </td>
                                 <td role="presentation">
                                     <div id="u120_line${row_index}" class="uif-field">
 <span id="u120_line${row_index}_control" class="uif-readOnlyContent">
-${row.column3}
+${row.courseOfferingDesc}
 </span>
                                     </div>
                                 </td>
                                 <td role="presentation">
                                     <div id="u125_line${row_index}" class="uif-field">
 <span id="u125_line${row_index}_control" class="uif-readOnlyContent">
-${row.column4}
+${row.courseOfferingCreditOptionDisplay}
 </span>
                                     </div>
                                 </td>
                                 <td role="presentation">
                                     <div id="u130_line${row_index}" class="uif-field">
 <span id="u130_line${row_index}_control" class="uif-readOnlyContent">
-${row.column5}
+${row.courseOfferingGradingOptionDisplay}
+</span>
+                                    </div>
+                                </td>
+                                <td role="presentation">
+                                    <div id="u130_line${row_index}" class="uif-field">
+<span id="u130_line${row_index}_control" class="uif-readOnlyContent">
+${row.studentSelectablePassFail?c}
+</span>
+                                    </div>
+                                </td>
+                                <td role="presentation">
+                                    <div id="u130_line${row_index}" class="uif-field">
+<span id="u130_line${row_index}_control" class="uif-readOnlyContent">
+${row.auditCourse?c}
+</span>
+                                    </div>
+                                </td>
+                                <td role="presentation">
+                                    <div id="u130_line${row_index}" class="uif-field">
+<span id="u130_line${row_index}_control" class="uif-readOnlyContent">
+${row.honorsCourse?c}
 </span>
                                     </div>
                                 </td>
