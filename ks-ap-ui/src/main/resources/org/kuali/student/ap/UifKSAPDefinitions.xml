@@ -128,7 +128,7 @@
             <list merge="true">
                 <value>ks-myplan/jquery-popover/jquery.popover.css</value>
                 <value>ks-myplan/jquery-ui/jquery-ui.css</value>
-                <value>ks-myplan/css/myplan.css</value>
+                <value>ks-ap/css/myplan.css</value>
             </list>
         </property>
         <property name="scriptFiles">
