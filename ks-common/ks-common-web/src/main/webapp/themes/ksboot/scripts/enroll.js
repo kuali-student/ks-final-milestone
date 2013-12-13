@@ -462,24 +462,21 @@ function rgbToHex(r, g, b) {
  go back to using the src attribute.
  */
 function addBootstrapImageToLink(containerId) {
-    jQuery("#" + containerId).find('img').each(function () {
+//    jQuery("#" + containerId).find('img').each(function () {
+    jQuery("#" + containerId + " img[style^=ks-fontello-icon-]").each(function () {
         /*Style is used instead of src to prevent errors in krad*/
         var src = jQuery(this).attr('style');
-        if (src !== undefined) {
-            if (src.match("^ks-fontello-icon-")) {
-                var anchor = jQuery(this).parent();
-                var imagePosition = jQuery(anchor).data("imageposition");
-                var aText = anchor.text();
-                anchor.text("");
-                var imageFont = '<i class="' + src + '"></i>';
-                if (imagePosition != undefined && imagePosition == 'right') {
-                    imageFont = jQuery.trim(aText) + imageFont;
-                } else {
-                    imageFont = imageFont + jQuery.trim(aText);
-                }
-                jQuery(anchor).append(imageFont);
-            }
+        var anchor = jQuery(this).parent();
+        var imagePosition = jQuery(anchor).data("imageposition");
+        var aText = anchor.text();
+        anchor.text("");
+        var imageFont = '<i class="' + src + '"></i>';
+        if (imagePosition != undefined && imagePosition == 'right') {
+            imageFont = jQuery.trim(aText) + imageFont;
+        } else {
+            imageFont = imageFont + jQuery.trim(aText);
         }
+        jQuery(anchor).append(imageFont);
     });
 }
 
