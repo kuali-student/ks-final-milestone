@@ -1439,23 +1439,13 @@
     <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
-                <property name="serviceNameSpaceURI" value="test" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/scheduleOfClasses" />
                 <property name="service" ref="scheduleOfClassesService" />
                 <property name="resourceClass" value="org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService" />
-                <property name="localServiceName" value="scheduleOfClassesService" />
+                <property name="localServiceName" value="ScheduleOfClassesService" />
                 <property name="providers">
                     <list>
-                        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider">
-                            <!--<property name="mapper">-->
-                                <!--<bean id="jacksonMapper" class="com.fasterxml.jackson.databind.ObjectMapper">-->
-                                    <!--<property name="dateFormat">-->
-                                        <!--<bean class="java.text.SimpleDateFormat">-->
-                                            <!--<constructor-arg type="java.lang.String" value="yyyy-MM-dd'T'HH:mm:ss.SSSZ"></constructor-arg>-->
-                                        <!--</bean>-->
-                                    <!--</property>-->
-                                <!--</bean>-->
-                            <!--</property>-->
-                        </bean>
+                        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
                     </list>
                 </property>
             </bean>
