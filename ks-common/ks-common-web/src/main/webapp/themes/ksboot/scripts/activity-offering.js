@@ -230,6 +230,8 @@ function checkAOEditWIP(){
 
 function validatePopulationForSP(field, populationsJSONString) {
     var fieldId = jQuery(field).attr('id'); //id of the population name text box
+    validateFieldValue(jQuery("#" + fieldId));
+
     var populationName = jQuery(field).val();
     var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0); //div for error message display on top of SP table
     var ul = jQuery('#seatpool_validation_errorMessageUl');
@@ -788,3 +790,16 @@ function rdlDaysOnBlur(){
         });
     }
 }
+
+/**
+ * Validate the seat pool seats and change the error message.
+ */
+jQuery.validator.addMethod("validSeatsAndPopulationName",
+    function(value, element) {
+        if(element) {
+            var populationId = jQuery(element).attr('id'); //id of the population name text box
+            var seatId = populationId.replace("ao-seatpoolgroup-population-name", "seatLimit");
+            return (jQuery("#" + seatId).val() && jQuery("#" + seatId).val().length);
+        }
+    },
+    "Seats must be entered before Population Name.")
