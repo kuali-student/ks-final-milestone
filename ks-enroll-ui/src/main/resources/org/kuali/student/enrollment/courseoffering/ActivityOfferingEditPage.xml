@@ -717,7 +717,7 @@
                                     </map>
                                 </property>
                             </bean>
-                             <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel"/>
+                             <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel" p:cssClasses="cancel_link"/>
                         </list>
                     </property>
                 </bean>
