@@ -2357,7 +2357,7 @@ label.scheduled {
     color: #999;
 }
 
-.ksap-full-plan-detail .uif-stackedCollectionLayout > .uif-collectionItem.myplan-term{
+.ksap-full-plan-detail .uif-stackedCollectionLayout > .uif-collectionItem.ksap-term{
     display: inline-block;
     float: left;
 }
