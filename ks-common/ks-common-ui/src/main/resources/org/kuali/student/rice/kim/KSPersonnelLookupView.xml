@@ -43,9 +43,9 @@
                 <list>
                     <bean parent="Uif-LookupCriteriaInputField" p:propertyName="ksNameSearch" p:label="Name" p:required="true" >
                         <property name="control">
-                            <bean parent="Uif-TextControl"  p:minLength="3"  p:size="50" p:watermarkText="&quot;Smith&quot; OR  &quot;Smith, J&quot; OR  &quot;Smith, Jon&quot;"/>
+                            <bean parent="Uif-TextControl"  p:minLength="3"  p:size="50" p:watermarkText="&quot;Smith&quot; OR  &quot;Smi, J&quot; OR  &quot;Smith, John&quot;"/>
                         </property>
-                        <property name="constraintText" value="&quot;Last Name, First Name&quot;" />
+                        <property name="constraintText" value="&quot;Last Name, First Name&quot; or Partial Name." />
 
                     </bean>
                 </list>
@@ -62,8 +62,10 @@
             <property name="criteriaGroup.footer.items">
               <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:render="@{#form.renderedInLightBox}"
-                                p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                      p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"
+                      p:additionalCssClasses="cancel_link"/>
               </list>
             </property>
         </bean>
