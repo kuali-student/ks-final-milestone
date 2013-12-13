@@ -397,7 +397,7 @@
                         <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" p:cssClasses="new_ts_control"/>
                     </property>
                 </bean>
-                <bean id="addOrEdit_action" parent="KS-Uif-PrimaryActionButton" >
+                <bean id="addOrEdit_action" parent="Uif-SecondaryActionButton" >
                     <property name="style" value="margin-top:20px;"/>
                     <property name="actionLabel" value="Add Slot"/>
                     <property name="preSubmitCall" value="resetTSValidSelection(); return validateTimeSlot('new_ts_control');"/>
