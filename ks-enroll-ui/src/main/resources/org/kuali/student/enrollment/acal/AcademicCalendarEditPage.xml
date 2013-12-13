@@ -482,7 +482,7 @@ limitations under the License.
                 <property name="disclosure.render" value="true"/>
                 <property name="footer.render" value="@{#isAddLine}"/>
                 <property name="header">
-                    <bean parent="Uif-HeaderFour" p:additionalCssClasses="acal-header">
+                    <bean parent="Uif-HeaderFour" p:additionalCssClasses="acal-header,ks-dottedHeaderActions">
                         <property name="headerText" value="@{#line.holidayCalendarHeading}"/>
                         <property name="rightGroup">
                             <bean parent="Uif-HorizontalBoxGroup" p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
