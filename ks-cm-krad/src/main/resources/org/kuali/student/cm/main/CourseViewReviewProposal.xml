@@ -81,7 +81,7 @@
         </property>
     </bean>
 
-    <bean name="KS-CourseView-ActiveDatesPge-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-ActiveDatesPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
