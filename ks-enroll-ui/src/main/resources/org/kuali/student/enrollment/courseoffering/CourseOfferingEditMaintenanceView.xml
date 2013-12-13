@@ -568,8 +568,6 @@
                 <value>ks-section</value>
             </list>
         </property>
-        <property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>
-
         <property name="header.headerText" value="Delivery Formats"/>
         <property name="header.headerLevel" value="Uif-HeaderOne"/>
         <property name="header.style" value="font-weight:bold;"/>
