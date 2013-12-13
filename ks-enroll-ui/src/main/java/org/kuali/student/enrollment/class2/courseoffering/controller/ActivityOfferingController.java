@@ -140,7 +140,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
             endTimeAmPm = StringUtils.substringAfter(scheduleWrapper.getEndTime()," ");
         }
 
-        if (!scheduleWrapper.isTba() && !StringUtils.isBlank(endTime) && validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
+        if (!StringUtils.isBlank(startTime) && !StringUtils.isBlank(endTime) && validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
             GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.newScheduleRequest.endTime", ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
         }
 

@@ -200,7 +200,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             if (StringUtils.isNotBlank(scheduleWrapper.getBuildingCode())){
                 List<BuildingInfo> buildings = retrieveBuildingInfoByCode(scheduleWrapper.getBuildingCode(),true);
                 if (buildings.isEmpty()) {
-                    addErrorMessage(ScheduleInput.BUILDING, "Facility code was invalid");
+                    addErrorMessage(ScheduleInput.BUILDING, "Facility code was invalid.");
                 } else {
                     scheduleWrapper.setBuilding(buildings.get(firstInfo));
                 }
@@ -209,7 +209,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 if (!buildings.isEmpty() && StringUtils.isNotEmpty(scheduleWrapper.getRoomCode())) {
                     List<RoomInfo> rooms = CourseOfferingManagementUtil.getRoomService().getRoomsByBuildingAndRoomCode(scheduleWrapper.getBuildingCode(), scheduleWrapper.getRoomCode(), contextInfo);
                     if (rooms.isEmpty()) {
-                        addErrorMessage(ScheduleInput.ROOM, "Room code was invalid");
+                        addErrorMessage(ScheduleInput.ROOM, "Room code was invalid.");
                     } else {
                         RoomInfo room = rooms.get(firstInfo);
                         if (room.getRoomUsages() != null && !room.getRoomUsages().isEmpty()) {
