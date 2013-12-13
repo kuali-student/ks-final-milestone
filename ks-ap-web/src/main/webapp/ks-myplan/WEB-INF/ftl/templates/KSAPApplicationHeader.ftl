@@ -1,4 +1,4 @@
-<#macro myplan_app_header element>
+<#macro ksap_app_header element>
 <div id="applicationHeader">
     <div id="applicationHeading">
         <div id="applicationLogo">Kuali Student Academic Planning</div>

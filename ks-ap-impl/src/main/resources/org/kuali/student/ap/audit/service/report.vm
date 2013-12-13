@@ -10,7 +10,7 @@
 			<table>
 				<tr>
 					<td class="prepared-for">
-                        ## This is replaced by the MyPlan client code, who knows who the logged in
+                        ## This is replaced by the KSAP client code, who knows who the logged in
                         ## student is, versus the DegreeAuditService, who doesn't.
 						<label>Prepared for:</label> $$PreparedFor$$
 					</td>

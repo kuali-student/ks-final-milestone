@@ -21,7 +21,7 @@
 		<property name="entryPageId" value="schedule_build" />
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-view</value>
+				<value>ksap-view</value>
 			</list>
 		</property>
 		<property name="additionalCssFiles">

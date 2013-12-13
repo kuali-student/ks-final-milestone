@@ -27,50 +27,50 @@ strong {
     z-index: 200 !important;
 }
 td.jquerybubblepopup-innerHtml {
-	background-color : white;
+    background-color : white;
 }
-.myplan-view h1,
-.myplan-view h2,
-.myplan-view h3,
-.myplan-view h4,
-.myplan-view h5,
-.myplan-view h6 {
+.ksap-view h1,
+.ksap-view h2,
+.ksap-view h3,
+.ksap-view h4,
+.ksap-view h5,
+.ksap-view h6 {
     font-weight: 500;
     font-family: Arial, Helvetica, Verdana, sans-serif;
     text-transform: none;
 }
 
-.myplan-view h1.uif-headerText {
+.ksap-view h1.uif-headerText {
     font-size: 2.3077em;
     line-height: 1.3333em;
 }
 
-.myplan-view h2.uif-headerText {
+.ksap-view h2.uif-headerText {
     font-size: 1.8462em;
     line-height: 1.6667em;
 }
 
-.myplan-view h3.uif-headerText {
+.ksap-view h3.uif-headerText {
     font-size: 1.3846em;
     line-height: 1.1111em;
 }
 
-.myplan-view h4.uif-headerText {
+.ksap-view h4.uif-headerText {
     font-size: 1.1538em;
     line-height: 1.3333em;
 }
 
-.myplan-view h5.uif-headerText {
+.ksap-view h5.uif-headerText {
     font-size: 1em;
     line-height: 1.5385em;
 }
 
-.myplan-view h6.uif-headerText {
+.ksap-view h6.uif-headerText {
     font-size: 0.9231em;
     line-height: 1.6667em;
 }
 
-.myplan-view table.dataTable thead th.sorting_disabled {
+.ksap-view table.dataTable thead th.sorting_disabled {
     cursor: default;
 }
 
@@ -128,7 +128,7 @@ a:focus {
 
 #applicationHeading,
 #applicationNavigation,
-.myplan-view,
+.ksap-view,
 #applicationFooterSection {
     margin: 0 auto;
     width: 950px;
@@ -143,7 +143,7 @@ a:focus {
     /*color: #FFFFFF;*/
 }
 
-.myplan-view {
+.ksap-view {
     min-height: 600px;
 }
 
@@ -293,11 +293,11 @@ a:focus {
     border: none;
 }
 
-.myplan-view .uif-pageHeader {
+.ksap-view .uif-pageHeader {
     margin: 0 0 1em 0;
 }
 
-.myplan-view #Uif-ViewContentWrapper {
+.ksap-view #Uif-ViewContentWrapper {
     /*min-height: 450px;*/
 }
 
@@ -324,56 +324,56 @@ a:focus {
 }
 
 /* Overwrite KRAD Styles ########################################################################### */
-.myplan-view #Uif-PageContentWrapper,
-.myplan-view #viewfooter_div {
+.ksap-view #Uif-PageContentWrapper,
+.ksap-view #viewfooter_div {
     margin: 0;
     padding: 0;
     width: auto;
     clear: both;
 }
 
-.myplan-view #Uif-Navigation {
+.ksap-view #Uif-Navigation {
     display: none;
 }
 
-.myplan-view .uif-pageHeaderField .uif-header {
+.ksap-view .uif-pageHeaderField .uif-header {
     border: none;
     font-size: 1.8462em;
     line-height: 1.6667em;
     padding: 0;
 }
 
-.myplan-view .kr-breadcrumbs {
+.ksap-view .kr-breadcrumbs {
     margin: 0 0 1em 0;
     padding: 0;
     width: auto;
     clear: both;
 }
 
-.myplan-view .uif-boxLayoutVerticalItem,
+.ksap-view .uif-boxLayoutVerticalItem,
 .base-view .uif-boxLayoutVerticalItem,
 .jquerybubblepopup .uif-boxLayoutVerticalItem {
     margin: 0 0 10px 0;
 }
 
-.myplan-view .uif-boxLayoutHorizontalItem,
+.ksap-view .uif-boxLayoutHorizontalItem,
 .base-view .uif-boxLayoutHorizontalItem,
 .jquerybubblepopup .uif-boxLayoutHorizontalItem {
     margin: 0 0px 0 0;
 }
 
-.myplan-view .uif-instructionalMessage {
+.ksap-view .uif-instructionalMessage {
     max-width: none;
     font-size: 1em;
 }
 
-.myplan-view .uif-collectionGroup > div:nth-child(2) {
+.ksap-view .uif-collectionGroup > div:nth-child(2) {
     padding: 0;
     margin: 0;
 }
 
-.myplan-view .uif-stackedCollectionLayout,
-.myplan-view .uif-stackedCollectionLayout > .uif-collectionItem {
+.ksap-view .uif-stackedCollectionLayout,
+.ksap-view .uif-stackedCollectionLayout > .uif-collectionItem {
     padding: 0;
     margin: 0;
     background: none;
@@ -470,23 +470,23 @@ button.uif-secondaryActionButton {
 /*Secondary Button Hover/Focused*/
 button.uif-secondaryActionButton:hover,
 button.uif-secondaryActionButton:focus {
-   /* color: #39275b;
+    /* color: #39275b;
 
-    border-color: #bea877;
+     border-color: #bea877;
 
-    background-color: #e2ca91;
-    background-image: url('../images/secondaryActionButtonHover.svg');
-    background-image: -ms-linear-gradient(top, #e2ca91 0%, #ebdab2 100%);
-    background-image: -moz-linear-gradient(center top, #e2ca91 0%, #ebdab2 100%);
-    background-image: -o-linear-gradient(top, #e2ca91 0%, #ebdab2 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e2ca91), color-stop(1, #ebdab2));
-    background-image: -webkit-linear-gradient(top, #e2ca91 0%, #ebdab2 100%);
-    background-image: linear-gradient(to bottom, #e2ca91 0%, #ebdab2 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#e2ca91', endColorstr = '#ebdab2');
+     background-color: #e2ca91;
+     background-image: url('../images/secondaryActionButtonHover.svg');
+     background-image: -ms-linear-gradient(top, #e2ca91 0%, #ebdab2 100%);
+     background-image: -moz-linear-gradient(center top, #e2ca91 0%, #ebdab2 100%);
+     background-image: -o-linear-gradient(top, #e2ca91 0%, #ebdab2 100%);
+     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #e2ca91), color-stop(1, #ebdab2));
+     background-image: -webkit-linear-gradient(top, #e2ca91 0%, #ebdab2 100%);
+     background-image: linear-gradient(to bottom, #e2ca91 0%, #ebdab2 100%);
+     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#e2ca91', endColorstr = '#ebdab2');
 
-    -moz-box-shadow: 0px 1px 3px -1px rgba(000, 000, 000, 0.2), inset 0px -1px 0px 0px #ebdbb3;
-    -webkit-box-shadow: 0px 1px 3px -1px rgba(000, 000, 000, 0.2), inset 0px -1px 0px 0px #ebdbb3;
-    box-shadow:0px 1px 3px -1px rgba(000, 000, 000, 0.2), inset 0px -1px 0px 0px #ebdbb3;*/
+     -moz-box-shadow: 0px 1px 3px -1px rgba(000, 000, 000, 0.2), inset 0px -1px 0px 0px #ebdbb3;
+     -webkit-box-shadow: 0px 1px 3px -1px rgba(000, 000, 000, 0.2), inset 0px -1px 0px 0px #ebdbb3;
+     box-shadow:0px 1px 3px -1px rgba(000, 000, 000, 0.2), inset 0px -1px 0px 0px #ebdbb3;*/
 }
 
 button.uif-primaryActionButton.uif-smallActionButton,
@@ -579,22 +579,22 @@ input.myplan-delete,
     vertical-align: middle;
 }
 
-.myplan-stacked-list,
-.myplan-stacked-list ul,
-.myplan-stacked-list li,
-.myplan-stacked-list ul li,
-.myplan-stacked-list dl,
-.myplan-stacked-list dd,
-.myplan-stacked-list dl dd {
+.ksap-stacked-list,
+.ksap-stacked-list ul,
+.ksap-stacked-list li,
+.ksap-stacked-list ul li,
+.ksap-stacked-list dl,
+.ksap-stacked-list dd,
+.ksap-stacked-list dl dd {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.myplan-stacked-list li,
-.myplan-stacked-list ul li,
-.myplan-stacked-list dd,
-.myplan-stacked-list dl dd {
+.ksap-stacked-list li,
+.ksap-stacked-list ul li,
+.ksap-stacked-list dd,
+.ksap-stacked-list dl dd {
     display: block;
 }
 
@@ -772,14 +772,14 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     -webkit-border-radius: 5px 5px 0px 0px;
     -moz-border-radius: 5px 5px 0px 0px;
 
-   /* background-color: #ede1c1;
-    background-image: -ms-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
-    background-image: -moz-linear-gradient(center top, #ede1c1 0%, #efd89e 100%);
-    background-image: -o-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ede1c1), color-stop(1, #efd89e));
-    background-image: -webkit-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
-    background-image: linear-gradient(to bottom, #ede1c1 0%, #efd89e 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ede1c1', endColorstr='#efd89e');*/
+    /* background-color: #ede1c1;
+     background-image: -ms-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
+     background-image: -moz-linear-gradient(center top, #ede1c1 0%, #efd89e 100%);
+     background-image: -o-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
+     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ede1c1), color-stop(1, #efd89e));
+     background-image: -webkit-linear-gradient(top, #ede1c1 0%, #efd89e 100%);
+     background-image: linear-gradient(to bottom, #ede1c1 0%, #efd89e 100%);
+     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ede1c1', endColorstr='#efd89e');*/
 }
 
 .ksap-carousel-list ul li > .uif-group > .uif-header h4 .uif-headerText-span {
@@ -792,13 +792,13 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 .ksap-carousel-list ul li > .uif-group.ksap-term-past > .uif-header h4 {
     border: solid 1px #cccccc;
     background-color: #dedede;
-   /* background-image: -ms-linear-gradient(top, #dedede 0%, #cccccc 100%);
-    background-image: -moz-linear-gradient(center top, #dedede 0%, #cccccc 100%);
-    background-image: -o-linear-gradient(top, #dedede 0%, #cccccc 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #dedede), color-stop(1, #cccccc));
-    background-image: -webkit-linear-gradient(top, #dedede 0%, #cccccc 100%);
-    background-image: linear-gradient(to bottom, #dedede 0%, #cccccc 100%);
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#cccccc');*/
+    /* background-image: -ms-linear-gradient(top, #dedede 0%, #cccccc 100%);
+     background-image: -moz-linear-gradient(center top, #dedede 0%, #cccccc 100%);
+     background-image: -o-linear-gradient(top, #dedede 0%, #cccccc 100%);
+     background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #dedede), color-stop(1, #cccccc));
+     background-image: -webkit-linear-gradient(top, #dedede 0%, #cccccc 100%);
+     background-image: linear-gradient(to bottom, #dedede 0%, #cccccc 100%);
+     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#dedede', endColorstr='#cccccc');*/
 }
 /* Planner Calendar current term */
 .ksap-carousel-list ul li > .uif-group.ksap-term-current > .uif-header h4 {
@@ -895,17 +895,17 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     margin: 7px 0 0 0;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .ksap-registration-status {
     width: 9px;
     height: 11px;
     background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status.unlocked {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .ksap-registration-status.unlocked {
     background-position: -1px -134px;
 }
 
-.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .myplan-registration-status.locked {
+.ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .ksap-registration-status.locked {
     background-position: -12px -134px;
 }
 
@@ -1016,7 +1016,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     width: 75px;
 }
 /*Course Search, Search Box*/
-.myplan-course-search-panel {
+.ksap-course-search-panel {
     /*background: #fcf9f0;
     border: solid 1px #e1e1e0;    */
     padding: 20px 10px 10px 20px;
@@ -1036,8 +1036,8 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     overflow: hidden;
 }
 
-.myplan-remove-margin .uif-boxLayoutVerticalItem,
-.myplan-remove-margin .uif-boxLayoutHorizontalItem {
+.ksap-remove-margin .uif-boxLayoutVerticalItem,
+.ksap-remove-margin .uif-boxLayoutHorizontalItem {
     margin: 0;
     padding: 0;
 }
@@ -1173,12 +1173,12 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     white-space: nowrap !important;
 }
 
-.myplan-text-wrap {
+.ksap-text-wrap {
     white-space: normal !important;
 }
 
-.myplan-text-normal,
-.myplan-text-normal label {
+.ksap-text-normal,
+.ksap-text-normal label {
     font-weight: normal !important;
 }
 
@@ -1202,12 +1202,12 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 
 /* Styles for Course Search Panel ################################################################################## */
-.myplan-course-search-panel .uif-label {
+.ksap-course-search-panel .uif-label {
     margin: 0 10px 0 0;
 }
 
-.myplan-course-search-panel input[type='text'],
-.myplan-course-search-panel select {
+.ksap-course-search-panel input[type='text'],
+.ksap-course-search-panel select {
     font-size: 13px;
     border: solid 1px #dddddd;
     padding: 5px 10px;
@@ -1217,14 +1217,14 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     vertical-align: middle;
 }
 
-.myplan-course-search-panel input[type='text'] {
+.ksap-course-search-panel input[type='text'] {
     width: 220px;
     height: 18px;
     background: #fff;
 
 }
 
-.myplan-course-search-panel select {
+.ksap-course-search-panel select {
     background: #fff;
     overflow: hidden;
     width: 205px;
@@ -1233,7 +1233,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     white-space: nowrap;
 }
 /*Course Search, Search Field Highlight*/
-.myplan-course-search-panel input[type='text']:focus {
+.ksap-course-search-panel input[type='text']:focus {
     /*border-color: #fc9e5d;
     -webkit-box-shadow: 0px 0px 4px rgba(252, 158, 93, 1);
     -moz-box-shadow: 0px 0px 4px rgba(252, 158, 93, 1);
@@ -1249,30 +1249,30 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     background: transparent;*/
 }
 
-.myplan-course-search-params span input[type='checkbox'] {
+.ksap-course-search-params span input[type='checkbox'] {
     margin: 0 5px 0 0;
 }
 
-.myplan-course-search-params span label {
+.ksap-course-search-params span label {
     margin: 0 35px 0 0;
 }
 
 /* Styles for Facet Panel ################################################################################## */
-.myplan-facets-panel {
+.ksap-facets-panel {
     border: solid 1px #ddd;
     border-radius: 5px;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
 }
 
-.myplan-facets-panel a, .myplan-facets-panel a:hover {
+.ksap-facets-panel a, .ksap-facets-panel a:hover {
     color: #333;
     vertical-align: bottom;
 }
 
-.myplan-facets-panel .uif-boxLayoutVerticalItem,
-.myplan-facets-panel .ksap-facets-group ul,
-.myplan-facets-panel .ksap-facets-group ul li {
+.ksap-facets-panel .uif-boxLayoutVerticalItem,
+.ksap-facets-panel .ksap-facets-group ul,
+.ksap-facets-panel .ksap-facets-group ul li {
     margin: 0;
     padding: 0;
 }
@@ -1281,13 +1281,13 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     text-decoration: none;
 }
 
-.myplan-facets-panel .uif-header {
+.ksap-facets-panel .uif-header {
     background: #f5f2e8;
     padding: 7px 10px;
     border: none;
 }
 
-.myplan-facets-panel .uif-header.primary {
+.ksap-facets-panel .uif-header.primary {
     -webkit-box-shadow: inset 0px 1px 1px 0px rgba(242, 237, 220, 1);
     -moz-box-shadow: inset 0px 1px 1px 0px rgba(242, 237, 220, 1);
     box-shadow: inset 0px 1px 1px 0px rgba(242, 237, 220, 1);
@@ -1296,7 +1296,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     padding: 10px;
 }
 
-.myplan-facets-panel .uif-header .uif-header-rightGroup {
+.ksap-facets-panel .uif-header .uif-header-rightGroup {
     position: relative;
     right: auto;
     top: auto;
@@ -1305,24 +1305,24 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     margin: 0 0 0 5px;
 }
 
-.myplan-facets-panel .uif-headerText {
+.ksap-facets-panel .uif-headerText {
     font-size: 13px;
     font-weight: normal;
     vertical-align: middle;
     display: inline-block;
 }
 
-.myplan-facets-panel h5.uif-headerText {
+.ksap-facets-panel h5.uif-headerText {
     color: #000;
     text-transform: uppercase;
 }
 
-.myplan-facets-panel h6.uif-headerText {
+.ksap-facets-panel h6.uif-headerText {
     color: #323232;
     text-transform: none;
 }
 
-.myplan-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image {
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image {
     position: absolute;
     top: 9px;
     right: 10px;
@@ -1334,41 +1334,41 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 
 }
 
-.myplan-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="expand"] {
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="expand"] {
     background-position: 0px -16px;
 }
 
-.myplan-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="expand"]:hover {
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="expand"]:hover {
     background-position: -16px -16px;
 }
 
-.myplan-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="collapse"] {
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="collapse"] {
     background-position: 0px -32px;
 }
 
-.myplan-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="collapse"]:hover {
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="collapse"]:hover {
     background-position: -16px -32px;
 }
 
-.myplan-facets-panel .ksap-facets-group div.facets {
+.ksap-facets-panel .ksap-facets-group div.facets {
     max-height: 72px;
     overflow-y: auto;
 }
 
-.myplan-facets-panel .ksap-facets-group div.facets ul {
+.ksap-facets-panel .ksap-facets-group div.facets ul {
     overflow: hidden;
 }
 
-.myplan-facets-panel .ksap-facets-group div.all,
-.myplan-facets-panel .ksap-facets-group div.facets {
+.ksap-facets-panel .ksap-facets-group div.all,
+.ksap-facets-panel .ksap-facets-group div.facets {
     padding: 0 0 0 10px;
 }
 
-.myplan-facets-panel .ksap-facets-group div.all {
+.ksap-facets-panel .ksap-facets-group div.all {
     border-bottom: dotted 1px #cfcfcf;
 }
 
-.myplan-facets-panel .ksap-facets-group ul li {
+.ksap-facets-panel .ksap-facets-group ul li {
     padding: 0 0 0 19px;
     margin: 4px 0 4px 0;
     background: url('../images/ksap_icon_sprites.png') no-repeat 0px -64px transparent;
@@ -1381,59 +1381,59 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 
 }
 
-.myplan-facets-panel .ksap-facets-group ul li.checked {
+.ksap-facets-panel .ksap-facets-group ul li.checked {
     background-position: 0px -82px;
 }
 
-.myplan-facets-panel .ksap-facets-group ul li span {
+.ksap-facets-panel .ksap-facets-group ul li span {
     color: #777;
     margin-left: 4px;
     font-size: 11px;
     line-height: 11px;
 }
 
-.myplan-facets-panel .ksap-facets-group ul li:hover a {
+.ksap-facets-panel .ksap-facets-group ul li:hover a {
     text-decoration: underline;
 }
 
-.myplan-facets-panel .ksap-facets-group ul li.disabled,
-.myplan-facets-panel .ksap-facets-group ul li.disabled:hover {
+.ksap-facets-panel .ksap-facets-group ul li.disabled,
+.ksap-facets-panel .ksap-facets-group ul li.disabled:hover {
     text-decoration: none;
     cursor: default;
     opacity: 0.33;
 }
 
-.myplan-facets-panel .ksap-facets-group ul li.static,
-.myplan-facets-panel .ksap-facets-group ul li.static:hover,
-.myplan-facets-panel .ksap-facets-group ul li.static a,
-.myplan-facets-panel .ksap-facets-group ul li.static a:hover {
+.ksap-facets-panel .ksap-facets-group ul li.static,
+.ksap-facets-panel .ksap-facets-group ul li.static:hover,
+.ksap-facets-panel .ksap-facets-group ul li.static a,
+.ksap-facets-panel .ksap-facets-group ul li.static a:hover {
     background-position: 0px -82px;
     cursor: default;
     text-decoration: none;
 }
 
 /* Styles for course search results ########################################################################### */
-.myplan-course-search-results .dataTables_wrapper {
+.ksap-course-search-results .dataTables_wrapper {
     width: 76%;
     float: left;
     clear: none;
     margin: 0;
 }
 
-.myplan-course-search-results .dataTables_wrapper .dataTables_info {
+.ksap-course-search-results .dataTables_wrapper .dataTables_info {
     float: none;
     font-size: 150%;
     margin: 0;
 }
 
-.myplan-course-search-results .dataTables_wrapper .dataTables_length {
+.ksap-course-search-results .dataTables_wrapper .dataTables_length {
     float: right;
     text-align: right;
     clear: both;
     margin: 0 0 0.5em 0;
 }
 
-.myplan-course-search-results .dataTables_wrapper .ksap-course-search-results-datatable {
+.ksap-course-search-results .dataTables_wrapper .ksap-course-search-results-datatable {
     border: solid 1px #ddd;
     -webkit-border-radius: 5px 5px 0 0;
     -moz-border-radius: 5px 5px 0 0;
@@ -1672,43 +1672,43 @@ table.ksap-course-search-results-datatable .blockUI {
 
 /* Course Details Styles ########################################################################### */
 /*
-.myplan-course-details table td,
-.myplan-course-details table th {
+.ksap-course-details table td,
+.ksap-course-details table th {
     padding-bottom: 1.8em;
 }
-.myplan-course-details table td .uif-boxLayoutHorizontalItem {
+.ksap-course-details table td .uif-boxLayoutHorizontalItem {
     margin: 0 0.33em 0 0;
 }
 */
 
-.myplan-view .myplan-underline-header {
+.ksap-view .myplan-underline-header {
     border-bottom: solid 2px #f2e4b7;
     margin-bottom: 20px;
 }
 
-.myplan-view .myplan-underline-header .uif-headerText {
+.ksap-view .myplan-underline-header .uif-headerText {
     font-weight: 700;
 }
 
-.myplan-view .myplan-course-detail-label {
+.ksap-view .ksap-course-detail-label {
     width: 150px;
     margin-right: 20px;
 }
 
-.myplan-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout {
+.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout {
     float: right;
 }
 
-.myplan-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout span {
+.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout span {
     vertical-align: middle;
     margin: 0;
 }
 
-.myplan-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout img {
+.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout img {
     margin: 0 0 0 10px;
 }
 
-.myplan-view .myplan-course-detail-field {
+.ksap-view .ksap-course-detail-field {
     width: 500px;
     margin: 0;
 }
@@ -1923,8 +1923,8 @@ table.ksap-course-search-results-datatable .blockUI {
     display: none;
 }
 
-/* MyPlan Section (right side container) ########################################################################### */
-.myplan-widget {
+/* KSAP Section (right side container) ########################################################################### */
+.ksap-widget {
     border: solid 1px #dddddd;
     border-radius: 5px;
     -webkit-border-radius: 5px;
@@ -1932,13 +1932,13 @@ table.ksap-course-search-results-datatable .blockUI {
     line-height: 16px;
 }
 
-.myplan-section .uif-boxLayoutVerticalItem,
-.myplan-section .uif-boxLayoutHorizontalItem {
+.ksap-section .uif-boxLayoutVerticalItem,
+.ksap-section .uif-boxLayoutHorizontalItem {
     margin: 0;
     padding: 0;
 }
 /*The Your Stuff Section Headers*/
-.myplan-section .uif-header {
+.ksap-section .uif-header {
     font-weight: normal;
     margin: 0;
     border-top: solid 1px #ddd;
@@ -1952,31 +1952,31 @@ table.ksap-course-search-results-datatable .blockUI {
     background-image: linear-gradient(to bottom, #F5F5F5 0%, #EBEBEB 100%);
     -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#F5F5F5', endColorstr='#EBEBEB')";*/ /* IE8 */
 }
-.myplan-section .uif-tooltip span.uif-headerText-span{
+.ksap-section .uif-tooltip span.uif-headerText-span{
     border-bottom: dotted 1px #777;
 }
 /*The Your Stuff Header*/
-.myplan-section .uif-header.primary {
+.ksap-section .uif-header.primary {
 
     border: none;
     padding: 7px 10px;
-/*    background-image: -ms-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
-    background-image: -moz-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
-    background-image: -o-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f6ebcd), color-stop(1, #f2e3b8));
-    background-image: -webkit-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
-    background-image: linear-gradient(to bottom, #f6ebcd 0%, #f2e3b8 100%);
-    -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#f6ebcd', endColorstr='#f2e3b8')";*/ /* IE8 */
+    /*    background-image: -ms-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
+        background-image: -moz-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
+        background-image: -o-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
+        background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #f6ebcd), color-stop(1, #f2e3b8));
+        background-image: -webkit-linear-gradient(top, #f6ebcd 0%, #f2e3b8 100%);
+        background-image: linear-gradient(to bottom, #f6ebcd 0%, #f2e3b8 100%);
+        -ms-filter: "progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr='#f6ebcd', endColorstr='#f2e3b8')";*/ /* IE8 */
     border-radius: 5px 5px 0 0;
     text-shadow: 1px 1px 1px #ffffff;
 }
 
-.myplan-section.no-primary .uif-header {
+.ksap-section.no-primary .uif-header {
     border-top: none;
     border-radius: 5px 5px 0 0;
 }
 
-.myplan-section .uif-header .uif-header-rightGroup {
+.ksap-section .uif-header .uif-header-rightGroup {
     position: relative;
     right: auto;
     top: auto;
@@ -1985,22 +1985,22 @@ table.ksap-course-search-results-datatable .blockUI {
     margin: 0 0 0 5px;
 }
 
-.myplan-section .uif-headerText {
+.ksap-section .uif-headerText {
     display: inline-block;
     vertical-align: middle;
 }
 
-.myplan-section h5.uif-headerText {
+.ksap-section h5.uif-headerText {
     font-size: 15px;
     text-transform: uppercase;
 }
 
-.myplan-section h6.uif-headerText {
+.ksap-section h6.uif-headerText {
     font-size: 13px;
     text-transform: none;
 }
 
-.myplan-section div.blockElement {
+.ksap-section div.blockElement {
     left: auto !important;
     top: 1px !important;
     right: 0px !important;
@@ -2008,44 +2008,44 @@ table.ksap-course-search-results-datatable .blockUI {
     width: 16px;
 }
 
-.myplan-section .uif-listCollectionGroup ul li {
+.ksap-section .uif-listCollectionGroup ul li {
     border-bottom: dotted 1px #cfcfcf;
     display: block;
     clear: both;
     padding: 0;
 }
 
-.myplan-section .uif-listCollectionGroup ul li .myplan-click {
+.ksap-section .uif-listCollectionGroup ul li .myplan-click {
     padding: 7px 10px;
     cursor: pointer;
 }
 
-.myplan-section .uif-listCollectionGroup.myplan-recent-audit ul li {
+.ksap-section .uif-listCollectionGroup.ksap-recent-audit ul li {
     border-bottom: none;
     border-top: dotted 1px #ccc;
 }
 
-.myplan-section .uif-listCollectionGroup ul li:hover {
+.ksap-section .uif-listCollectionGroup ul li:hover {
     background-color: #e3f0fe;
 }
 
-.myplan-section .myplan-recent-audit .pending {
+.ksap-section .ksap-recent-audit .pending {
     padding: 7px 10px;
 }
 
-.myplan-section .myplan-recent-audit .pending:hover {
+.ksap-section .ksap-recent-audit .pending:hover {
     background-color: transparent;
     cursor: default;
 }
 
-.myplan-section .myplan-recent-audit .pending .icon {
+.ksap-section .ksap-recent-audit .pending .icon {
     width: 16px;
     height: 16px;
     vertical-align: middle;
     margin-right: 5px;
 }
 
-.myplan-section .myplan-recent-audit .pending .title {
+.ksap-section .ksap-recent-audit .pending .title {
     vertical-align: middle;
     color: #777;
     text-overflow: ellipsis;
@@ -2055,11 +2055,11 @@ table.ksap-course-search-results-datatable .blockUI {
     width: 187px;
 }
 
-.myplan-section .myplan-recent-audit .pending .program {
+.ksap-section .ksap-recent-audit .pending .program {
     color: #333;
 }
 
-.myplan-section .myplan-recent-audit label {
+.ksap-section .ksap-recent-audit label {
     color: #777777 !important;
     font-weight: normal;
     float: left;
@@ -2069,11 +2069,11 @@ table.ksap-course-search-results-datatable .blockUI {
 /* Saved Courses Summary Styles ########################################################################### */
 
 /* Recent Audit List Styles ########################################################################### */
-.myplan-section .myplan-recent-audit ul li:first-child {
+.ksap-section .ksap-recent-audit ul li:first-child {
     border: none;
 }
 
-.myplan-section .myplan-recent-audit a {
+.ksap-section .ksap-recent-audit a {
     white-space: normal;
 }
 
@@ -2249,26 +2249,26 @@ table.ksap-course-search-results-datatable .blockUI {
     width: 688px;
 }
 
-.myplan-messages-lightbox h6 {
+.ksap-messages-lightbox h6 {
     font-weight: bold;
     text-transform: none;
     font-size: 1.25em;
     line-height: 1.75em;
 }
 
-.myplan-messages-lightbox .myplan-messages-original {
+.ksap-messages-lightbox .ksap-messages-original {
     background: #eaeaea;
     border-top: solid 1px #a9a9a9;
     padding: 20px;
     margin: 0 0 20px 0;
 }
 
-.myplan-messages-lightbox .myplan-comments-list ul {
+.ksap-messages-lightbox .myplan-comments-list ul {
     max-height: 125px;
     overflow: auto;
 }
 
-.myplan-messages-lightbox .myplan-comments-list ul li {
+.ksap-messages-lightbox .myplan-comments-list ul li {
     overflow: hidden;
 }
 
@@ -2612,7 +2612,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .ks-plan-Header-buttonWrapper {
     margin: 0 !important;
     text-align: right !important;
-    width: 90px !important;   
+    width: 90px !important;
 }
 
 .ks-plan-Header-button {

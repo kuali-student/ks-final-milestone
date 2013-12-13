@@ -28,7 +28,7 @@
         <property name="id" value="PlannedCourses-FormView-POC-Single-Year"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
                 <value>ks-plan-View</value>
             </list>
         </property>
@@ -132,7 +132,7 @@
                     <property name="validationMessages.render" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-plan-heading</value>
+                            <value>ksap-plan-heading</value>
                             <value>ks-plan-Header</value>
                         </list>
                     </property>
@@ -308,7 +308,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-carousel-list</value>
-                <value>myplan-remove-margin</value>
+                <value>ksap-remove-margin</value>
                 <value>ks-plan-TermsList</value>
             </list>
         </property>

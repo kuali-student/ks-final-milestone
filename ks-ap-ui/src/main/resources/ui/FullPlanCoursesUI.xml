@@ -31,7 +31,7 @@
         <property name="page.header.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
             </list>
         </property>
         <property name="style" value="width:682px;"/>
@@ -89,7 +89,7 @@
                                   p:messageText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentName()} (@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentNumber() ne null ? T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().getStudentNumber() : 'No student number'})">
                                 <property name="fieldLabel.cssClasses">
                                     <list merge="true">
-                                        <value>myplan-text-normal</value>
+                                        <value>ksap-text-normal</value>
                                     </list>
                                 </property>
                                 <property name="cssClasses">
@@ -104,7 +104,7 @@
                                 <property name="style" value="margin:0;"/>
                                 <property name="fieldLabel.cssClasses">
                                     <list merge="true">
-                                        <value>myplan-text-normal</value>
+                                        <value>ksap-text-normal</value>
                                     </list>
                                 </property>
                                 <property name="cssClasses">
@@ -138,7 +138,7 @@
                     <property name="style" value="padding:10px; margin:0;"/>
                     <property name="fieldLabel.cssClasses">
                         <list merge="true">
-                            <value>myplan-text-normal</value>
+                            <value>ksap-text-normal</value>
                         </list>
                     </property>
                 </bean>
@@ -265,7 +265,7 @@
 
     <bean id="termsCollection" parent="UifKSAP-HorizontalStackedSubCollection-WithinSection">
         <property name="validationMessages.render" value="false"/>
-        <property name="cssClasses" value="myplan-remove-margin"/>
+        <property name="cssClasses" value="ksap-remove-margin"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
         <property name="propertyName" value="terms"/>
@@ -305,7 +305,7 @@
                             <property name="fieldLabel.style" value="color:#999;"/>
                             <property name="fieldLabel.cssClasses">
                                 <list merge="true">
-                                    <value>myplan-text-normal</value>
+                                    <value>ksap-text-normal</value>
                                 </list>
                             </property>
                             <property name="cssClasses">

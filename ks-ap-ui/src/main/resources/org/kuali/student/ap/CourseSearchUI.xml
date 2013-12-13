@@ -20,7 +20,7 @@
 		<property name="entryPageId" value="course_search" />
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-view</value>
+				<value>ksap-view</value>
 			</list>
 		</property>
 		<property name="header">
@@ -85,7 +85,7 @@
     <bean id="course_search_panel-parent" abstract="true" parent="Uif-VerticalBoxGroup">
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-course-search-panel</value>
+				<value>ksap-course-search-panel</value>
 			</list>
 		</property>
 		<property name="items">
@@ -160,7 +160,7 @@
 	<bean id="course_search_params-parent" abstract="true" parent="Uif-HorizontalFieldGroup">
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-course-search-params</value>
+				<value>ksap-course-search-params</value>
 			</list>
 		</property>
 		<property name="items">
@@ -193,7 +193,7 @@
 		p:style="display: none;">
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-course-search-results</value>
+                <value>ksap-course-search-results</value>
             </list>
         </property>
 		<property name="items">
@@ -282,7 +282,7 @@
 		</property>
 		<property name="cssClasses">
 			<list merge="true">
-				<value>myplan-facets-panel</value>
+				<value>ksap-facets-panel</value>
 			</list>
 		</property>
 		<property name="items">
@@ -382,7 +382,7 @@
 		relying on a server call for "quick" details. -->
     <bean id="course_quick_detail" parent="course_quick_detail-parent"/>
 	<bean id="course_quick_detail-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-		p:cssClasses="myplan-quick-detail" p:style="margin: 0;">
+		p:style="margin: 0;">
 		<property name="hidden" value="true" />
 		<property name="headerText" value="__KSAP__COURSEHEADER__" />
 		<property name="items">
@@ -396,7 +396,7 @@
 								p:validationMessages.render="false">
 								<property name="cssClasses">
 									<list merge="true">
-										<value>myplan-course-detail-label</value>
+										<value>ksap-course-detail-label</value>
 									</list>
 								</property>
 								<property name="items">
@@ -411,7 +411,7 @@
 								p:validationMessages.render="false">
 								<property name="cssClasses">
 									<list merge="true">
-										<value>myplan-course-detail-field</value>
+										<value>ksap-course-detail-field</value>
 									</list>
 								</property>
 								<property name="items">
@@ -431,7 +431,7 @@
 								p:validationMessages.render="false">
 								<property name="cssClasses">
 									<list merge="true">
-										<value>myplan-course-detail-label</value>
+										<value>ksap-course-detail-label</value>
 									</list>
 								</property>
 								<property name="items">
@@ -446,7 +446,7 @@
 								p:validationMessages.render="false">
 								<property name="cssClasses">
 									<list merge="true">
-										<value>myplan-course-detail-field</value>
+										<value>ksap-course-detail-field</value>
 									</list>
 								</property>
 								<property name="items">

@@ -24,7 +24,7 @@
         <property name="entryPageId" value="degree_audit"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
             </list>
         </property>
         <property name="header">
@@ -359,7 +359,7 @@
     </bean>
 
 
-    <bean id="select_instruction" parent="Uif-Message" p:cssClasses="myplan-text-normal">
+    <bean id="select_instruction" parent="Uif-Message" p:cssClasses="ksap-text-normal">
         <property name="messageText"
                   value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_CAMPUS')}"/>
     </bean>

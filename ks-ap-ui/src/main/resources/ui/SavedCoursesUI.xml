@@ -32,7 +32,7 @@
         <property name="singlePageView" value="true"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
             </list>
         </property>
         <property name="criteriaFields">
@@ -65,7 +65,7 @@
         </property>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-saved-courses-summary</value>
+                <value>ksap-saved-courses-summary</value>
             </list>
         </property>
         <property name="collectionObjectClass"
@@ -191,7 +191,7 @@
         <property name="renderSearchButtons" value="false" />
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
             </list>
         </property>
 
@@ -287,7 +287,7 @@
         <property name="onDocumentReadyScript" value="initializeBookmarkListEvents();"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-stacked-list</value>
+                <value>ksap-stacked-list</value>
             </list>
         </property>
         <property name="items">
@@ -297,7 +297,7 @@
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>myplan-remove-margin</value>
+                            <value>ksap-remove-margin</value>
                             <value>myplan-saved-courses-detail-heading</value>
                         </list>
                     </property>
@@ -328,7 +328,7 @@
                             </bean>
                             <bean parent="Uif-DataField" p:propertyName="planItemDataObject.dateAdded"
                                   p:style="width:131px;" p:label="Added on">
-                                <property name="fieldLabel.cssClasses" value="myplan-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="fieldLabel.renderColon" value="false"/>
                                 <property name="fieldLabel.render" value="false"/>
                                 <property name="cssClasses">
@@ -348,7 +348,7 @@
                         <list>
                             <bean parent="Uif-DataField" p:label="Scheduled For"
                                   p:propertyName="courseDetails"
-                                  p:fieldLabel.cssClasses="fl-text-gray myplan-text-normal" p:labelPlacement="LEFT"
+                                  p:fieldLabel.cssClasses="fl-text-gray ksap-text-normal" p:labelPlacement="LEFT"
                                   p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="scheduled_terms_list_formatter_savedCourses"/>
                                 <property name="cssClasses">
@@ -362,13 +362,13 @@
 
                             <bean parent="Uif-DataField" p:label="Last Offered"
                                   p:propertyName="courseDetails.lastOffered" p:labelPlacement="LEFT">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
                                 <property name="render" value="@{#line.courseDetails.lastOffered ne null and #line.courseDetails.scheduledTerms.size() eq 0}"/>
                             </bean>
                             <bean parent="Uif-DataField" p:label="Projected For"
                                   p:propertyName="courseDetails.termsOffered"
                                   p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
                                 <property name="propertyEditor">
                                     <bean parent="terms_formatter" p:emptyListMessage="No projected term"/>
                                 </property>
@@ -390,7 +390,7 @@
                             <bean parent="Uif-DataField" p:label="Course Requisites"
                                   p:propertyName="courseDetails.requisites"
                                   p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
                                 <property name="propertyEditor" ref="data_list_formatter"/>
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -414,7 +414,7 @@
                             <bean parent="Uif-DataField" p:label="Course Description"
                                   p:propertyName="courseDetails.courseDescription"
                                   p:labelPlacement="TOP" p:escapeHtmlInPropertyValue="false">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>courseDescription</value>
@@ -426,7 +426,7 @@
                             <!-- If Course Description is empty-->
                             <bean parent="Uif-MessageField" p:label="Course Description"
                                   p:labelPlacement="TOP">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray myplan-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
                                 <property name="message">
                                     <bean parent="Uif-Message" p:messageText="This course has no description."/>
                                 </property>
@@ -550,7 +550,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>fl-container-200</value>
-                <value>myplan-section</value>
+                <value>ksap-section</value>
             </list>
         </property>
         <property name="items">

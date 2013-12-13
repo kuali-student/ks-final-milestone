@@ -17,7 +17,7 @@
         <property name="page.header.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-view</value>
+                <value>ksap-view</value>
             </list>
         </property>
         <property name="items">
@@ -53,7 +53,7 @@
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
-                <value>myplan-remove-margin</value>
+                <value>ksap-remove-margin</value>
             </list>
         </property>
         <property name="items">
