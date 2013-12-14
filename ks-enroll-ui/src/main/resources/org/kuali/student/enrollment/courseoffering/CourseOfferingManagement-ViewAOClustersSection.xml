@@ -18,7 +18,14 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-AOClustersCollection" parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" p:renderAddLine="false"  p:renderLineActions="false"
-          p:onDocumentReadyScript="removeCheckboxColumns(1, 'activityOfferingsPerCluster', &quot;handleToolbar('KS-CourseOfferingManagement-AOClustersCollection div[id^=activityOfferingsPerCluster]',['enableCancelButton', 'enableSuspendButton', 'enableReinstateButton', 'enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'], ['KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab'])&quot;), removeZebraColoring('activityOfferingsPerCluster');">
+          p:onDocumentReadyScript="removeCheckboxColumns(1, 'activityOfferingsPerCluster',
+                                                        &quot;handleToolbar('KS-CourseOfferingManagement-AOClustersCollection div[id^=activityOfferingsPerCluster]',
+                                                        ['enableCancelButton', 'enableSuspendButton', 'enableReinstateButton', 'enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'],
+                                                        ['KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab',
+                                                        'KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab',
+                                                        'KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab',
+                                                        'KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab'])&quot;),
+                                                        removeZebraColoring('activityOfferingsPerCluster');">
         <property name="disclosure.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper" />
         <property name="propertyName" value="clusterResultList" />
@@ -129,7 +136,12 @@
         <property name="items">
             <list>
                 <bean parent="KS-Uif-InputField-Simple" p:propertyName="isCheckedByCluster" p:required="false" p:readOnlyDisplayReplacement=" "
-                      p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection div[id^=activityOfferingsPerCluster]',['enableCancelButton', 'enableSuspendButton', 'enableReinstateButton', 'enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'], ['KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab','KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab']);"
+                      p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-AOClustersCollection div[id^=activityOfferingsPerCluster]',
+                                                     ['enableCancelButton', 'enableSuspendButton', 'enableReinstateButton', 'enableApproveButton', 'enableDeleteButton', 'enableDraftButton', 'enableMoveToButton'],
+                                                     ['KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab',
+                                                     'KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Approve-AO-ClusterTab',
+                                                     'KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab', 'KS-CourseOfferingManagement-ToolBar-Draft-AO-ClusterTab',
+                                                     'KS-CourseOfferingManagement-ToolBar-MoveTo-AO-ClusterTab']);"
                       p:hidden="@{!#line.isEnableDeleteButton()}">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
