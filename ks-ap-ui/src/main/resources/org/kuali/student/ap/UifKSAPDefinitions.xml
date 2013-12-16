@@ -306,11 +306,12 @@
    	<bean id="ksap_dialog_anchor" parent="Uif-Image"
    		p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
    	
-    <bean id="ksap_section" parent="Uif-VerticalBoxSubSection" p:style="width: 230px; margin: 0;">
+    <bean id="ksap_section" parent="Uif-VerticalBoxSubSection">
         <property name="header.render" value="false"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-section</value>
+                <value>ksap-no-margin</value>
             </list>
         </property>
         <property name="items">
@@ -322,8 +323,7 @@
     </bean>
 
 
-    <bean id="your_stuff_widget" parent="Uif-VerticalBoxSubSection" p:headerText="YOUR STUFF"
-          p:style="margin-bottom:10px;">
+    <bean id="your_stuff_widget" parent="Uif-VerticalBoxSubSection" p:headerText="YOUR STUFF">
         <property name="header">
             <bean parent="Uif-HeaderFive">
                 <property name="cssClasses">
@@ -359,8 +359,7 @@
         </property>
     </bean>
 
-    <bean id="your_stuff_widget_planner" parent="Uif-VerticalBoxSubSection" p:headerText="YOUR STUFF"
-          p:style="margin-bottom:10px;">
+    <bean id="your_stuff_widget_planner" parent="Uif-VerticalBoxSubSection" p:headerText="YOUR STUFF">
         <property name="header">
             <bean parent="Uif-HeaderFive">
                 <property name="cssClasses">
@@ -396,7 +395,7 @@
         </property>
     </bean>
 
-    <bean id="messages_widget" parent="Uif-VerticalBoxGroup" p:headerText="MESSAGES" p:style="margin-bottom: 10px;">
+    <bean id="messages_widget" parent="Uif-VerticalBoxGroup" p:headerText="MESSAGES" >
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-widget</value>
@@ -538,7 +537,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:style="margin:0px;">
+                <bean parent="Uif-HorizontalFieldGroup" p:cssClasses="ksap-no-margin">
                     <property name="fieldLabel.render" value="false"/>
                     <property name="items">
                         <list>

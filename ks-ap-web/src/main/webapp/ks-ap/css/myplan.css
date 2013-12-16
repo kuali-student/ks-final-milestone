@@ -2743,6 +2743,14 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     margin-right: 10px;
 }
 
+/* UIFKSAPDefinitions.xml styles */
+.ksap-section {
+    width: 230px;
+}
+.ks-plan-Widgets .ksap-widget {
+    margin-bottom: 10px;
+}
+
 /* Common Utility Styles */
 .ksap-no-margin {margin: 0;}
 .ksap-hide {display:none;}
