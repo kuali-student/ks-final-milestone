@@ -184,7 +184,6 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-text-gray</value>
-                                        <value>fl-font-size-90</value>
                                     </list>
                                 </property>
                             </bean>
@@ -212,12 +211,6 @@
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup" p:style="padding: 1em 0px;">
-
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-text-align-center</value>
-                        </list>
-                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"

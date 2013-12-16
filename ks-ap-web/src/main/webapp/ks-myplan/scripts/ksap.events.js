@@ -20,7 +20,7 @@ function fnAddPlanItem (atpId, type, planItemId, courseCode, courseTitle, course
                     '</div>' +
                 '</fieldset>' +
             '</div>' +
-            '<input name="script" type="hidden" value="jQuery(\'#\' + \'' + planItemId + '_' + type + '\').click(function(e) { openMenu(\'' + planItemId + '\', \'' + type + '_menu_items\',null,e,\'.uif-collectionItem\',\'fl-container-150 uif-boxLayoutHorizontalItem\',{tail:{align:\'top\'},align:\'top\',position:\'right\'},false); });">' +
+            '<input name="script" type="hidden" value="jQuery(\'#\' + \'' + planItemId + '_' + type + '\').click(function(e) { openMenu(\'' + planItemId + '\', \'' + type + '_menu_items\',null,e,\'.uif-collectionItem\',\'uif-boxLayoutHorizontalItem\',{tail:{align:\'top\'},align:\'top\',position:\'right\'},false); });">' +
         '</div>' +
     '</div>';
     var size = parseFloat(jQuery("." + atpId + ".ksap-term-" + type).data("size")) + 1;

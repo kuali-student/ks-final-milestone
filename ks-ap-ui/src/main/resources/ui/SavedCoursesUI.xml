@@ -138,11 +138,6 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:style="display: block;">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-text-align-right</value>
-                        </list>
-                    </property>
                     <property name="linkText"
                               value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'course' : 'all '+lookupResults.size()+' courses'} in full details"/>
                     <property name="title"
@@ -157,11 +152,6 @@
                     <property name="validationMessages.render" value="false"/>
                     <property name="render"
                               value="@{lookupResults ne null and lookupResults.size() gt 0 ? false : true}"/>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-text-align-center</value>
-                        </list>
-                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
@@ -317,7 +307,6 @@
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-data-list</value>
-                                        <value>fl-text-gray</value>
                                         <value>ksap-text-italic</value>
                                     </list>
                                 </property>
@@ -333,7 +322,6 @@
                                 <property name="fieldLabel.render" value="false"/>
                                 <property name="cssClasses">
                                     <list merge="true">
-                                        <value>fl-text-gray</value>
                                         <value>ksap-text-italic</value>
                                     </list>
                                 </property>
@@ -348,7 +336,7 @@
                         <list>
                             <bean parent="Uif-DataField" p:label="Scheduled For"
                                   p:propertyName="courseDetails"
-                                  p:fieldLabel.cssClasses="fl-text-gray ksap-text-normal" p:labelPlacement="LEFT"
+                                  p:fieldLabel.cssClasses="ksap-text-normal" p:labelPlacement="LEFT"
                                   p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="scheduled_terms_list_formatter_savedCourses"/>
                                 <property name="cssClasses">
@@ -362,13 +350,13 @@
 
                             <bean parent="Uif-DataField" p:label="Last Offered"
                                   p:propertyName="courseDetails.lastOffered" p:labelPlacement="LEFT">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="render" value="@{#line.courseDetails.lastOffered ne null and #line.courseDetails.scheduledTerms.size() eq 0}"/>
                             </bean>
                             <bean parent="Uif-DataField" p:label="Projected For"
                                   p:propertyName="courseDetails.termsOffered"
                                   p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="propertyEditor">
                                     <bean parent="terms_formatter" p:emptyListMessage="No projected term"/>
                                 </property>
@@ -390,7 +378,7 @@
                             <bean parent="Uif-DataField" p:label="Course Requisites"
                                   p:propertyName="courseDetails.requisites"
                                   p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="propertyEditor" ref="data_list_formatter"/>
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -414,7 +402,7 @@
                             <bean parent="Uif-DataField" p:label="Course Description"
                                   p:propertyName="courseDetails.courseDescription"
                                   p:labelPlacement="TOP" p:escapeHtmlInPropertyValue="false">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>courseDescription</value>
@@ -426,7 +414,7 @@
                             <!-- If Course Description is empty-->
                             <bean parent="Uif-MessageField" p:label="Course Description"
                                   p:labelPlacement="TOP">
-                                <property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal"/>
+                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="message">
                                     <bean parent="Uif-Message" p:messageText="This course has no description."/>
                                 </property>
@@ -506,11 +494,6 @@
             <list>
                 <bean parent="Uif-Message" p:style="padding-bottom: 10px;"
                       p:messageText="Your List Is Empty. &lt;a href=&quot;@{#ConfigProperties['application.url']}/ap/course?methodToCall=start&amp;viewId=CourseSearch-FormView&quot;&gt;Find Courses&lt;/a&gt; and bookmark them.">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-font-size-150</value>
-                        </list>
-                    </property>
                 </bean>
                 <ref bean="empty_bookmarked_section"/>
 
@@ -521,21 +504,20 @@
     <bean id="empty_bookmarked_section" parent="Uif-VerticalFieldGroup" p:style="padding: 10px;">
         <property name="cssClasses">
             <list merge="true">
-                <value>fl-container-650</value>
                 <value>ksap-audit-info-panel</value>
                 <value>ksap-carousel-list</value>
             </list>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:style="padding: 5px;" p:cssClasses="fl-font-size-130 fl-text-bold ">
+                <bean parent="Uif-Message" p:style="padding: 5px;">
                     <property name="messageText" value="With Bookmarked Courses, you can: "/>
                 </bean>
-                <bean parent="Uif-Message" p:style="padding-left: 20px;" p:cssClasses="fl-font-size-100">
+                <bean parent="Uif-Message" p:style="padding-left: 20px;">
                     <property name="messageText"
                               value="&lt;li style=&quot;list-style: disc;&quot;&gt; Save courses before adding to your Plan &lt;/li&gt;"/>
                 </bean>
-                <bean parent="Uif-Message" p:style="padding-left: 20px;" p:cssClasses="fl-font-size-100">
+                <bean parent="Uif-Message" p:style="padding-left: 20px;">
                     <property name="messageText"
                               value="&lt;li style=&quot;list-style: disc;&quot;&gt;Share your list with advisers&lt;/li&gt;"/>
                 </bean>
@@ -549,7 +531,6 @@
             >
         <property name="cssClasses">
             <list merge="true">
-                <value>fl-container-200</value>
                 <value>ksap-section</value>
             </list>
         </property>

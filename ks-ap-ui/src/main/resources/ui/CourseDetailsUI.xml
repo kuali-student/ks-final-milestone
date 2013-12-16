@@ -96,7 +96,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 							<bean parent="KSAPMessagingIcon" />
 							<bean parent="Uif-DataField" p:propertyName="details"
 								p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-								<property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal" />
+								<property name="fieldLabel.cssClasses" value="ksap-text-normal" />
 								<property name="propertyEditor" ref="crud_message_matrix_formatter" />
 								<property name="cssClasses">
 									<list merge="true">
@@ -268,7 +268,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>ksap-data-list</value>
-                                    <value>fl-text-gray</value>
                                     <value>ksap-text-normal</value>
                                 </list>
                             </property>
@@ -416,15 +415,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                             <bean parent="Uif-Message" p:messageText="None"/>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-Message" p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')})"
-                                                          >
-                                                        <property name="cssClasses">
-                                                            <list merge="true">
-                                                                <value>fl-font-size-80</value>
-                                                                <value>fl-text-gray</value>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
+                                                    <bean parent="Uif-Message" p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')})" />
                                                 </list>
                                             </property>
                                         </bean>
@@ -478,7 +469,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                       p:escapeHtmlInPropertyValue="false"
                                                                       p:render="@{dataObject.courseSummaryDetails.scheduledTerms.size() gt 0}">
                                                                     <property name="fieldLabel.cssClasses"
-                                                                              value="fl-text-gray ksap-text-normal"/>
+                                                                              value="ksap-text-normal"/>
                                                                     <property name="propertyEditor"
                                                                               ref="scheduled_terms_list_formatter"/>
                                                                     <property name="cssClasses">
@@ -493,12 +484,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                 </bean>
                                                                 <bean parent="Uif-Message" 
                                                                       p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')})">
-                                                                    <property name="cssClasses">
-                                                                        <list merge="true">
-                                                                            <value>fl-font-size-80</value>
-                                                                            <value>fl-text-gray</value>
-                                                                        </list>
-                                                                    </property>
                                                                 </bean>
                                                             </list>
                                                         </property>
@@ -515,7 +500,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                       p:label="Last Offered"
                                                                       p:render="@{dataObject.courseSummaryDetails.lastOffered ne null ? true : false}">
                                                                     <property name="fieldLabel.cssClasses"
-                                                                              value="fl-text-gray ksap-text-normal"/>
+                                                                              value="ksap-text-normal"/>
                                                                 </bean>
                                                             </list>
                                                         </property>
@@ -532,7 +517,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                       p:escapeHtmlInPropertyValue="false"
                                                                       p:render="@{dataObject.courseSummaryDetails.termsOffered.size() gt 0}">
                                                                     <property name="fieldLabel.cssClasses"
-                                                                              value="fl-text-gray ksap-text-normal"/>
+                                                                              value="ksap-text-normal"/>
                                                                     <property name="cssClasses">
                                                                         <list merge="true">
                                                                             <value>ksap-data-list</value>
@@ -543,21 +528,14 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                       p:label="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMSOFFERED_LABEL')}"
                                                                       p:render="@{dataObject.courseSummaryDetails.termsOffered.size() eq 0}">
                                                                     <property name="fieldLabel.cssClasses"
-                                                                              value="fl-text-gray ksap-text-normal"/>
+                                                                              value="ksap-text-normal"/>
                                                                     <property name="message">
                                                                         <bean parent="Uif-Message"
                                                                               p:messageText="Check with the department or your adviser for more information about this course."/>
                                                                     </property>
                                                                 </bean>
                                                                 <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')})">
-                                                                    <property name="cssClasses">
-                                                                        <list merge="true">
-                                                                            <value>fl-font-size-80</value>
-                                                                            <value>fl-text-gray</value>
-                                                                        </list>
-                                                                    </property>
-                                                                </bean>
+                                                                      p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')})" />
                                                             </list>
                                                         </property>
                                                     </bean>
@@ -1078,25 +1056,9 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <null/>
         </property>
         <property name="label" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_SECTION_NUMBER_HEADING')}"/>
-        <!-- 
-        <property name="onDocumentReadyScript" value="
-            var row = jQuery('#@{#line.luiIdXmlSafe}').parents('tr');
-            row.addClass('row');
-            if (@{#line.primary}) {
-                row.addClass('primary');
-            } else {
-                row.addClass('secondary');
-                if (row.prev('tr').prev('tr').prev('tr').hasClass('primary')) row.addClass('top');
-            }
-            if (@{#line.planItemId NE null}) row.addClass('ksap-section-planned');
-            if (@{#line.stateKey NE 'kuali.lui.activity.offering.state.offered'}) row.addClass('fl-text-lightgray');
-        "/>
-         -->
         <property name="cssClasses">
             <list merge="true">
                 <value>activityCode</value>
-                <value>fl-text-align-center</value>
-                <value>@{#line.stateKey EQ 'kuali.lui.activity.offering.state.offered'?'':'fl-text-gray'}</value>
             </list>
         </property>
         <property name="items">
@@ -1118,11 +1080,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                     </property>
                     <property name="actionScript"
                               value="toggleSectionDetails(jQuery(this).parents('tr.row'), jQuery(this), 'View more', 'View less')"/>
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>fl-font-size-80</value>
-                        </list>
-                    </property>
                 </bean>
             </list>
         </property>
@@ -1219,8 +1176,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="cssClasses">
             <list merge="true">
                 <value>activityEnrlStatus</value>
-                <value>fl-text-bold</value>
-                <value>fl-text-align-center</value>
             </list>
         </property>
         <property name="style" value="text-transform:capitalize;"/>
@@ -1407,7 +1362,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="cssClasses">
             <list merge="true">
                 <value>activityAction</value>
-                <value>fl-text-align-center</value>
             </list>
         </property>
         <property name="style" value="line-height:32px;"/>
@@ -1418,11 +1372,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                           value="@{#line.code} is added. To delete or move, go to @{#line.longTermName} Plan."/>
                 <property name="href"
                           value="inquiry?methodToCall=start&amp;viewId=SingleTerm-InquiryView&amp;term_atp_id=@{#line.atpId}"/>
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>fl-font-size-80</value>
-                    </list>
-                </property>
             </bean>
         </property>
     </bean>
@@ -1434,7 +1383,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             <list merge="true">
                 <value>activityAction</value>
                 <value>ksap-add</value>
-                <value>fl-text-align-center</value>
             </list>
         </property>
         <property name="style" value="margin:8px 0 0 0;"/>
@@ -1479,7 +1427,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="cssClasses">
             <list merge="true">
                 <value>activityAction</value>
-                <value>fl-text-align-center</value>
             </list>
         </property>
     </bean>
@@ -1510,14 +1457,14 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		                                              jQuery('body').on('SECTION_ITEM_ADDED', function(event, data){
 		                                                      var link = '&lt;a href=&quot;inquiry?methodToCall=start&amp;viewId=SingleTerm-InquiryView&amp;term_atp_id=' + data.atpId.replace(/-/g,'.') + '&quot;&gt;Added&lt;/a&gt;';
 		                                                     jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).attr('title', data.SectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
-		                                                      fnDisplayMessage(link, 'fl-font-size-80 fl-text-align-center', 'button_' + data.atpId + '_' + data.RegistrationCode, false);
+		                                                      fnDisplayMessage(link, '', 'button_' + data.atpId + '_' + data.RegistrationCode, false);
 		                                                      var row = jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).parents('tr.row');
 		                                                      row.addClass('ksap-section-planned');
 		                                                      if (data.ItemsToUpdate != null) {
 		                                                          var items = data.ItemsToUpdate.split(',');
 		                                                          jQuery.each(items, function (index, value) {
 		                                                              jQuery('#button_' + data.atpId + '_' + items[index]).attr('title', data.PrimarySectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
-		                                                              fnDisplayMessage(link, 'fl-font-size-80 fl-text-align-center', 'button_' + data.atpId + '_' + items[index], false);
+		                                                              fnDisplayMessage(link, '', 'button_' + data.atpId + '_' + items[index], false);
 		                                                              var row = jQuery('#button_' + data.atpId + '_' + items[index]).parents('tr.row');
 		                                                              row.addClass('ksap-section-planned');
 		                                                          });

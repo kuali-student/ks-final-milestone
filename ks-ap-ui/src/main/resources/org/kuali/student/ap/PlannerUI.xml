@@ -366,7 +366,7 @@
                 <bean p:id="__KSAP__UID__" parent="Uif-HorizontalFieldGroup" p:title="__KSAP__COURSETITLE__">
                     <property name="onClickScript"
                               value="openMenu('__KSAP__UID__', 'planner_menu___KSAP__CATEGORY____KSAP__MENUSUFFIX__', null, e,
-								'.uif-collectionItem', 'fl-container-150 uif-boxLayoutHorizontalItem',
+								'.uif-collectionItem', 'uif-boxLayoutHorizontalItem',
 								{tail: {align:'top'}, align:'top', position:'right'}, false);" />
                     <property name="cssClasses">
                         <list merge="true">
@@ -471,7 +471,7 @@
                     <property name="group.validationMessages.render" value="false" />
                     <property name="onClickScript"
                               value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
-									'.uif-collectionItem', 'fl-container-150 uif-boxLayoutHorizontalItem test4', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
+									'.uif-collectionItem', 'uif-boxLayoutHorizontalItem test4', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
                     <property name="dataAttributes">
                         <map>
                             <entry key="termid" value="@{#line.termId}" />
@@ -816,8 +816,7 @@
 
     <!-- Planner Menus -->
     <bean id="planner_menu_cart" parent="planner_menu_cart-parent"/>
-    <bean id="planner_menu_cart-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-        p:cssClasses="fl-container-150">
+    <bean id="planner_menu_cart-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-plan-ContextMenu</value>
@@ -834,8 +833,7 @@
     </bean>
 
     <bean id="planner_menu_planned" parent="planner_menu_planned-parent"/>
-    <bean id="planner_menu_planned-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-          p:cssClasses="fl-container-150">
+    <bean id="planner_menu_planned-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-plan-ContextMenu</value>
@@ -855,8 +853,7 @@
     </bean>
 
     <bean id="planner_menu_planned_cartavailable" parent="planner_menu_planned_cartavailable-parent"/>
-    <bean id="planner_menu_planned_cartavailable-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-          p:cssClasses="fl-container-150">
+    <bean id="planner_menu_planned_cartavailable-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-plan-ContextMenu</value>
@@ -877,8 +874,7 @@
     </bean>
 
     <bean id="planner_menu_backup" parent="planner_menu_backup-parent"/>
-    <bean id="planner_menu_backup-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-          p:cssClasses="fl-container-150">
+    <bean id="planner_menu_backup-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-plan-ContextMenu</value>
@@ -933,8 +929,7 @@
     </bean>
 
     <bean id="planner_menu_completed" parent="planner_menu_completed-parent"/>
-    <bean id="planner_menu_completed-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-		p:cssClasses="fl-container-150">
+    <bean id="planner_menu_completed-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
 		<property name="layoutManager.cssClasses">
 			<list merge="true">
 				<value>ks-plan-ContextMenu</value>
@@ -995,8 +990,7 @@
 	</bean>
 
     <bean id="planner_menu_completed_backup" parent="planner_menu_completed_backup-parent"/>
-	<bean id="planner_menu_completed_backup-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-		p:cssClasses="fl-container-150">
+	<bean id="planner_menu_completed_backup-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
 		<property name="layoutManager.cssClasses">
 			<list merge="true">
 				<value>ks-plan-ContextMenu</value>

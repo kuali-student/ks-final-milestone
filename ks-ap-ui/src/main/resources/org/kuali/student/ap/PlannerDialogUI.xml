@@ -147,7 +147,6 @@
 	<bean id="planner_course_summary_link-parent" abstract="true" parent="Uif-Link" p:target="">
 		<property name="cssClasses">
 			<list merge="true">
-				<value>fl-text-bold</value>
 				<value>ksap-text-wrap</value>
 				<value>ks-Popover-bodyLabel</value>
 			</list>
@@ -190,7 +189,7 @@
 			<list>
 				<!-- Scheduled Terms -->
 				<bean parent="Uif-DataField" p:label="Scheduled for" p:propertyName="courseSummaryDetails.scheduledTermsNames"
-						p:fieldLabel.cssClasses="fl-text-gray ksap-text-normal ks-Popover-detailLabel" p:labelPlacement="LEFT">
+						p:fieldLabel.cssClasses="ksap-text-normal ks-Popover-detailLabel" p:labelPlacement="LEFT">
 					<property name="cssClasses">
 						<list merge="true">
 							<value>ksap-data-list</value>
@@ -200,7 +199,7 @@
 					<property name="render" value="@{courseSummaryDetails.scheduledTerms.size() gt 0}"/>
 				</bean>
 				<bean parent="Uif-MessageField" p:label="Scheduled for"
-						p:fieldLabel.cssClasses="fl-text-gray ksap-text-normal ks-Popover-detailLabel"
+						p:fieldLabel.cssClasses="ksap-text-normal ks-Popover-detailLabel"
 						p:render="@{courseSummaryDetails.scheduledTerms.size() eq 0}">
 					<property name="message">
 						<bean parent="Uif-Message" p:messageText="Not currently scheduled"/>
@@ -208,13 +207,13 @@
 				</bean>
 				<!-- Last Offered -->
 				<bean parent="Uif-DataField" p:label="Last Offered" p:propertyName="courseSummaryDetails.lastOffered" p:labelPlacement="LEFT">
-					<property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal ks-Popover-detailLabel"/>
+					<property name="fieldLabel.cssClasses" value="ksap-text-normal ks-Popover-detailLabel"/>
 					<property name="render" value="@{courseSummaryDetails.lastOffered ne null and courseSummaryDetails.scheduledTerms.size() eq 0}"/>
 				</bean>
 				<!-- Projected Terms -->
 				<bean parent="Uif-DataField" p:label="Projected for" p:propertyName="courseSummaryDetails.termsOffered"
 						p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-					<property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal ks-Popover-detailLabel"/>
+					<property name="fieldLabel.cssClasses" value="ksap-text-normal ks-Popover-detailLabel"/>
 					<property name="propertyEditor" ref="terms_formatter"/>
 					<property name="cssClasses">
 						<list merge="true">
@@ -227,7 +226,7 @@
 				<!-- Requisites -->
 				<bean parent="Uif-DataField" p:label="Course Requisites"
 						p:propertyName="courseSummaryDetails.requisites" p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-					<property name="fieldLabel.cssClasses" value="fl-text-gray ksap-text-normal ks-Popover-detailLabel"/>
+					<property name="fieldLabel.cssClasses" value="ksap-text-normal ks-Popover-detailLabel"/>
 					<property name="propertyEditor" ref="data_list_formatter"/>
 					<property name="cssClasses">
 						<list merge="true">

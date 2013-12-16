@@ -115,7 +115,7 @@
 
     <!--Cart Menu Items-->
     <bean id="cart_menu_items" parent="cart_menu_items-parent"/>
-    <bean id="cart_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="cart_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
         	<list merge="true">
         		<value>ks-plan-ContextMenu</value>
@@ -148,25 +148,23 @@
 
                 <ref bean="menuOptionMarkPlanned"/>
 
-                <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total and into the planned credit total"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total and into the planned credit total"/>
 
                 <ref bean="menuOptionMarkBackup"/>
 
-                <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total"
-                      p:cssClasses="fl-text-gray fl-font-size-90"/>
+                <bean parent="Uif-Message" p:messageText="Will be moved out of the cart credit total"/>
 
                 <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
             </list>
         </property>
     </bean>
 
-    <bean id="planned_menu_items" parent="planned_menu_items-parent" p:cssClasses="fl-container-150"/>
-    <bean id="planned_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="planned_menu_items" parent="planned_menu_items-parent"/>
+    <bean id="planned_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-plan-ContextMenu</value>
@@ -188,13 +186,13 @@
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
 
                 <ref bean="menuOptionMarkBackup"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
                 <ref bean="menuOptionMovePlanItem"/>
 
@@ -203,7 +201,7 @@
                 <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
             </list>
         </property>
@@ -211,7 +209,7 @@
 
     <!--Backup menu items-->
     <bean id="backup_menu_items" parent="backup_menu_items-parent"/>
-    <bean id="backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
         	<list merge="true">
         		<value>ks-plan-ContextMenu</value>
@@ -227,24 +225,24 @@
                 <ref bean="menuOptionMarkCart"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
                 <ref bean="menuOptionMarkPlanned"/>
                 <bean parent="Uif-Message" p:messageText="Will be moved above the Total Credit line"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
                 <ref bean="menuOptionCopyPlanItem"/>
                 <ref bean="menuOptionMovePlanItem"/>
                 <ref bean="menuOptionDeletePlanItem"/>
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
             </list>
         </property>
     </bean>
 
     <!--Completed Menu Items-->
     <bean id="completed_menu_items" parent="completed_menu_items-parent"/>
-    <bean id="completed_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="completed_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
         	<list merge="true">
         		<value>ks-plan-ContextMenu</value>
@@ -261,7 +259,7 @@
 
     <!--Completed backup Menu Items-->
     <bean id="completed_backup_menu_items" parent="completed_backup_menu_items-parent"/>
-    <bean id="completed_backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="completed_backup_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
         	<list merge="true">
         		<value>ks-plan-ContextMenu</value>
@@ -275,14 +273,14 @@
                 <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
             </list>
         </property>
     </bean>
 
     <!--Completed backup Menu Items-->
     <bean id="termnote_menu_items" parent="termnote_menu_items-parent"/>
-    <bean id="termnote_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="termnote_menu_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
         	<list merge="true">
         		<value>ks-plan-ContextMenu</value>
@@ -711,7 +709,7 @@
                       p:render="@{#line.courseCode ne null and #line.courseId ne null}">
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="onClickScript"
-                              value="openMenu('@{#line.uuid}_completed','completed_menu_items','@{#line.atpId}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem ks-plan-ContextMenu',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                              value="openMenu('@{#line.uuid}_completed','completed_menu_items','@{#line.atpId}',e,'.uif-collectionItem','uif-boxLayoutHorizontalItem ks-plan-ContextMenu',{tail:{align:'top'},align:'top',position:'right'},false);"/>
                     <property name="dataAttributes">
                         <map>
                             <entry key="courseid" value="@{#line.courseId}"/>
@@ -1031,7 +1029,7 @@
                       p:title="@{#line.courseTitle}">
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="onClickScript"
-                              value="openMenu('@{#line.planItemDataObject.id}_cart','cart_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                              value="openMenu('@{#line.planItemDataObject.id}_cart','cart_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
                     <property name="dataAttributes">
                         <map>
                             <entry key="courseid" value="@{#line.courseDetails.courseId}"/>
@@ -1199,7 +1197,7 @@
                       p:title="@{#line.courseTitle}">
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="onClickScript"
-                              value="openMenu('@{#line.planItemDataObject.id}_planned','planned_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                              value="openMenu('@{#line.planItemDataObject.id}_planned','planned_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
                     <!-- TODO: after M2 upgrade : add SpEL for page name in openMenu param to swtich menu -->
                     <!-- @{#parentLine.openForPlanning ? 'planned_menu_items' : 'completed_backup_menu_items'} -->
                     <property name="dataAttributes">
@@ -1475,7 +1473,7 @@
                       p:render="@{#line.courseCode ne null}">
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="onClickScript"
-                              value="openMenu('@{#line.planItemDataObject.id}_backup','backup_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
+                              value="openMenu('@{#line.planItemDataObject.id}_backup','backup_menu_items','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);"/>
                     <!-- TODO: after M2 upgrade : add SpEL for page name in openMenu param to switch menu -->
                     <!-- @{#parentLine.openForPlanning ? 'backup_menu_items' : 'completed_backup_menu_items'} -->
                     <property name="dataAttributes">
@@ -1632,7 +1630,6 @@
                 <bean parent="Uif-Message" p:messageText="No courses planned">
                     <property name="cssClasses">
                         <list merge="true">
-                            <value>fl-text-gray</value>
                             <value>ksap-text-italic</value>
                             <value>ks-plan-Bucket-emptyLabel</value>
                         </list>

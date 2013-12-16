@@ -45,8 +45,6 @@ public class CourseSectionDetailsLayoutManager extends TableLayoutManager {
 			r1css.append(aoi.isPrimary() ? " primary" : " secondary");
 			boolean offered = LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY
 					.equals(aoi.getStateKey());
-			if (!offered)
-				r1css.append(" fl-text-lightgray");
 			StringBuilder r2css = offered ? new StringBuilder() : null;
 			if (offered && !aoi.isPrimary())
 				r2css.append("collapsible");

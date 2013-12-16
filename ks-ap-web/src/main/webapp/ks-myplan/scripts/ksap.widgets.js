@@ -1266,13 +1266,13 @@ function ksapGetSectionEnrollment(url, retrieveOptions, componentId) {
         success:function (response) {
             elementToBlock.fadeOut(250);
             jQuery.each(response, function (sectionId, enrlObject) {
-                var message = "<span class='fl-font-size-120 ksap-text-bold'>--</span><br />";
+                var message = "<span class='ksap-text-bold'>--</span><br />";
                 if (enrlObject.status) {
                     if (enrlObject.status == "open") {
-                        message = "<span class='fl-text-green fl-font-size-120 ksap-text-bold'>Open</span><br />";
+                        message = "<span class='ksap-text-bold'>Open</span><br />";
                     }
                     else if (enrlObject.status == "closed") {
-                        message = "<span class='fl-font-size-120 ksap-text-bold'>Closed</span><br />";
+                        message = "<span class='ksap-text-bold'>Closed</span><br />";
                     }
                 }
                 message += "<strong>" + enrlObject.enrollCount + "</strong> / " + enrlObject.enrollMaximum;

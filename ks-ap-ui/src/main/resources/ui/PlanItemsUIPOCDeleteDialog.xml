@@ -82,8 +82,8 @@
 
     </bean>
 
-    <bean id="planned_menu_items-POC-Dialog" parent="planned_menu_items-parent-POC-Dialog" p:cssClasses="fl-container-150"/>
-    <bean id="planned_menu_items-parent-POC-Dialog" abstract="true" parent="Uif-VerticalBoxSubSection" p:cssClasses="fl-container-150">
+    <bean id="planned_menu_items-POC-Dialog" parent="planned_menu_items-parent-POC-Dialog"/>
+    <bean id="planned_menu_items-parent-POC-Dialog" abstract="true" parent="Uif-VerticalBoxSubSection">
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-plan-ContextMenu</value>
@@ -106,13 +106,13 @@
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved out of the Total Credit"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
 
                 <ref bean="menuOptionMarkBackup"/>
 
                 <bean parent="Uif-Message" p:messageText="Will be moved below the Total Credit line"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
                 <ref bean="menuOptionMovePlanItem"/>
 
@@ -121,7 +121,7 @@
                 <ref bean="menuOptionDeletePlanItem"/>
 
                 <bean parent="Uif-Message" p:messageText="Cannot Undo" p:style="margin:0;"
-                      p:cssClasses="fl-text-gray fl-font-size-90 ks-plan-ContextMenu-note"/>
+                      p:cssClasses="ks-plan-ContextMenu-note"/>
 
             </list>
         </property>
@@ -452,7 +452,7 @@
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="onClickScript"
                               value="
-                              openMenu('@{#line.planItemDataObject.id}_planned','planned_menu_items-POC-Dialog','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','fl-container-150 uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);
+                              openMenu('@{#line.planItemDataObject.id}_planned','planned_menu_items-POC-Dialog','@{#line.planItemDataObject.atp}',e,'.uif-collectionItem','uif-boxLayoutHorizontalItem',{tail:{align:'top'},align:'top',position:'right'},false);
                               jQuery('#PlanItems_planItemId_control')[0].value='@{#line.planItemDataObject.id}';
                               jQuery('#PlanItems_atpId_control')[0].value='@{#line.planItemDataObject.atp}';"/>
                     <!-- TODO: after M2 upgrade : add SpEL for page name in openMenu param to swtich menu -->

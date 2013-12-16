@@ -645,7 +645,7 @@ headerline:
 </#if> 
 
 <#if showIncludeBottomText>
-    <div class="fl-text-align-center" >
+    <div>
     <#list includeBottomText as bottomTextLine>
 	${bottomTextLine?replace("*", "")?replace("_", "")?replace("END OF ANALYSIS", "<br/>END OF ANALYSIS")?trim }      
     </#list>

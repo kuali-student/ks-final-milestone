@@ -92,11 +92,6 @@
                                         <value>ksap-text-normal</value>
                                     </list>
                                 </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>fl-text-bold</value>
-                                    </list>
-                                </property>
                             </bean>
 
                             <bean parent="Uif-MessageField" p:label="Document is accurate at the time of creation"
@@ -105,11 +100,6 @@
                                 <property name="fieldLabel.cssClasses">
                                     <list merge="true">
                                         <value>ksap-text-normal</value>
-                                    </list>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>fl-text-bold</value>
                                     </list>
                                 </property>
                             </bean>
@@ -179,31 +169,26 @@
 
 
                             <bean parent="Uif-HeaderThree"
-                                  p:cssClasses="fl-text-align-center fl-text-bold"
                                   p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; border-left:solid 1px #a9a9a9;">
                                 <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(0)}"/>
                                 <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(0))}"/>
                                   </bean>
                             <bean parent="Uif-HeaderThree"
-                                  p:cssClasses="fl-text-align-center fl-text-bold"
                                   p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; border-left:solid 1px #a9a9a9;">
                                 <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(1)}"/>
                                 <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(1))}"/>
                                   </bean>
                             <bean parent="Uif-HeaderThree"
-                                  p:cssClasses="fl-text-align-center fl-text-bold"
                                   p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; border-left:solid 1px #a9a9a9;">
                                 <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(2)}"/>
                                 <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(2))}"/>
                                   </bean>
                             <bean parent="Uif-HeaderThree"
-                                  p:cssClasses="fl-text-align-center fl-text-bold"
                                   p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; border-left:solid 1px #a9a9a9;">
                                 <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(3)}"/>
                                 <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(3))}"/>
                                   </bean>
                             <bean parent="Uif-HeaderThree"
-                                  p:cssClasses="fl-text-align-center fl-text-bold"
                                   p:style="width:@{535/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px; border-left:solid 1px #a9a9a9;">
                                 <property name="headerText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(4)}"/>
                                 <property name="render" value="@{!#empty(T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getTermNameInAcadmicYear(4))}"/>
@@ -306,11 +291,6 @@
                             <property name="fieldLabel.cssClasses">
                                 <list merge="true">
                                     <value>ksap-text-normal</value>
-                                </list>
-                            </property>
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>fl-text-bold</value>
                                 </list>
                             </property>
                         </bean>

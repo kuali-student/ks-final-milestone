@@ -36,12 +36,12 @@
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
-                  p:cssClasses="fl-container-flex" p:templateName="ksap_app_header"/>
+                  p:templateName="ksap_app_header"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
-                  p:cssClasses="fl-container-flex ks-page-bottom" p:templateName="ksap_app_footer"/>
+                  p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
         </property>
     </bean>
 
@@ -61,12 +61,12 @@
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
-                  p:cssClasses="fl-container-flex" p:templateName="ksap_app_header"/>
+                  p:templateName="ksap_app_header"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
-                  p:cssClasses="fl-container-flex ks-page-bottom" p:templateName="ksap_app_footer"/>
+                  p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
         </property>
     </bean>
 
@@ -86,12 +86,12 @@
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
-                  p:cssClasses="fl-container-flex" p:templateName="ksap_app_header"/>
+                  p:templateName="ksap_app_header"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
-                  p:cssClasses="fl-container-flex ks-page-bottom" p:templateName="ksap_app_footer"/>
+                  p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
         </property>
     </bean>
 
@@ -111,12 +111,12 @@
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
-                  p:cssClasses="fl-container-flex" p:templateName="ksap_app_header"/>
+                  p:templateName="ksap_app_header"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
-                  p:cssClasses="fl-container-flex ks-page-bottom" p:templateName="ksap_app_header"/>
+                  p:cssClasses="ks-page-bottom" p:templateName="ksap_app_header"/>
         </property>
     </bean>
 

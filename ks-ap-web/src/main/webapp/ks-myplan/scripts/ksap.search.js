@@ -58,7 +58,7 @@ function ksapCourseSearchColumns() {
 }
 
 function ksapEmptyTable() {
-	return '<div class="ksap-course-search-empty"><p class="fl-font-size-130">We couldn&#39;t find anything matching your search.</p><p>A few suggestions:</p><ul><li>Check your spelling</li><li>Try a more general search (Any term, ENGL 1xx)</li><li>Use at least 3 characters</li></ul></div>'
+	return '<div class="ksap-course-search-empty"><p>We couldn&#39;t find anything matching your search.</p><p>A few suggestions:</p><ul><li>Check your spelling</li><li>Try a more general search (Any term, ENGL 1xx)</li><li>Use at least 3 characters</li></ul></div>'
 }
 
 function ksapGetCampusSelect() {
