@@ -726,7 +726,7 @@ function endTimeOnBlur(){
  * This will be called on start time focus lost. Here, we load matching endtimes for the
  * days and start time.
  */
-function rdlStartTimeOnBlur(event){
+function rdlStartTimeOnBlur(){
 
     var startTime = jQuery("#rdl_starttime_control").val();
     var isMozilla = jQuery.browser.mozilla != null;
