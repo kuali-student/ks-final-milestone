@@ -58,7 +58,6 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
-@SuppressWarnings("deprecation")
 public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	private static final long serialVersionUID = 4933435913745621395L;
@@ -344,7 +343,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				acadrec.setCourseId(studentInfo.getId());
 				acadrec.setCredit(studentInfo.getCreditsEarned());
 				acadrec.setGrade(studentInfo.getCalculatedGradeValue());
-				acadrec.setRepeated(studentInfo.getIsRepeated());
+				acadrec.setRepeated(studentInfo.getIsRepeated()!=null?studentInfo.getIsRepeated():false);
 				acadrec.setActivityCode(studentInfo.getActivityCode());
 
 				if (course.getId().equalsIgnoreCase(studentInfo.getId())) {
