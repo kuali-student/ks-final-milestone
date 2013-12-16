@@ -165,6 +165,7 @@
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="true" />
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
@@ -213,6 +214,7 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper" />
         <property name="propertyName" value="eoClusterResultList" />
         <property name="additionalCssClasses" value="aoc_disclosure,ks-uif-diclosureContent-noIndent"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="headerText" value="Exam Offerings for Activity Offerings"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />

@@ -31,6 +31,7 @@
         <property name="propertyName" value="clusterResultList" />
         <property name="cssClasses" value="aoc_disclosure"/>
         <property name="headerText" value=""/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
         </property>
@@ -119,6 +120,7 @@
         <property name="collectionLookup">
             <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
         </property>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
@@ -293,6 +295,7 @@
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="disclosure.defaultOpen" value="false"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
