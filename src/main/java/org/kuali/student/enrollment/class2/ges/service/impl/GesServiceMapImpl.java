@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.ges.service.impl;
 
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.UUIDHelper;
@@ -34,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.ges.dto.ParameterInfo;
 import org.kuali.student.r2.core.ges.dto.ValueInfo;
 import org.kuali.student.r2.core.ges.service.GesService;
+import org.kuali.student.r2.core.population.service.PopulationService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,12 +46,24 @@ import java.util.Map;
 
 public class GesServiceMapImpl implements MockService, GesService
 {
-	// cache variable 
+
+	private PopulationService populationService;
+
+	// cache variable
 	// The LinkedHashMap is just so the values come back in a predictable order
 	private Map<String, ParameterInfo> parameterMap = new LinkedHashMap<String, ParameterInfo>();
 	private Map<String, ValueInfo> valueMap = new LinkedHashMap<String, ValueInfo>();
 
-	@Override
+
+    public PopulationService getPopulationService() {
+        return populationService;
+    }
+
+    public void setPopulationService(PopulationService populationService) {
+        this.populationService = populationService;
+    }
+
+    @Override
 	public void clear()
 	{
 		this.parameterMap.clear ();
@@ -401,10 +415,25 @@ public class GesServiceMapImpl implements MockService, GesService
 		throws InvalidParameterException
 		      ,MissingParameterException
 		      ,OperationFailedException
-		      ,PermissionDeniedException
-	{
-		// UNKNOWN
-		throw new OperationFailedException("evaluateValuesByParameterAndPerson has not been implemented");
+		      ,PermissionDeniedException {
+		List<ValueInfo> values = getValuesByParameter(parameterId, contextInfo);
+        List<ValueInfo> resultValues = new ArrayList<ValueInfo>();
+        Date now = new Date();
+        for(ValueInfo value : values) {
+            try {
+                if(isActive(value, now) && isInPopulation(value.getPopulationId(), personId, now, contextInfo)) {
+                    if(StringUtils.isEmpty(value.getRuleId())) {
+                        if(StringUtils.isEmpty(value.getAtpTypeKey())) {
+                            resultValues.add(value);
+                        }
+                    }
+                }
+            } catch (DoesNotExistException e) {
+                throw new OperationFailedException("Unable to evaluate values for parameter " + parameterId, e);
+            }
+        }
+
+        return resultValues;
 	}
 	
 	@Override
@@ -417,8 +446,18 @@ public class GesServiceMapImpl implements MockService, GesService
 		// UNKNOWN
 		throw new OperationFailedException("evaluateValuesByParameterAndPersonAndAtpAndOnDate has not been implemented");
 	}
-	
-	private MetaInfo newMeta(ContextInfo context) {
+
+    private boolean isActive(ValueInfo value, Date date) {
+        return (value.getEffectiveDate() == null || !date.before(value.getEffectiveDate()) &&
+                (value.getExpirationDate() == null || !date.after(value.getExpirationDate())));
+    }
+
+    private boolean isInPopulation(String popId, String personId, Date date, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        return StringUtils.isEmpty(popId) || populationService.isMemberAsOfDate(personId, popId, date, contextInfo);
+    }
+
+    private MetaInfo newMeta(ContextInfo context) {
 	     MetaInfo meta = new MetaInfo();
 	     meta.setCreateId(context.getPrincipalId());
 	     meta.setCreateTime(new Date());
