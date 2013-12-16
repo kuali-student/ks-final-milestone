@@ -2734,3 +2734,15 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 #academicYearCollection .uif-gridLayout th[scope="row"] {
     background-color: rgb(255, 255, 255);
 }
+
+/* Refactoring styles from XML bean files*/
+
+/* CourseSearchUI.xml styles*/
+#course_search_results_facets {
+    width:146px;
+    margin-right: 10px;
+}
+
+/* Common Utility Styles */
+.ksap-no-margin {margin: 0;}
+.ksap-hide {display:none;}

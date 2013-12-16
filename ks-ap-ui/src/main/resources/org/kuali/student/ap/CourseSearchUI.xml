@@ -60,8 +60,7 @@
 
 	<!-- Layout for Empty Course Search Form Page -->
     <bean id="course_search_section" parent="course_search_section-parent"/>
-    <bean id="course_search_section-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-		p:style="width: 710px; margin-right: 10px;">
+    <bean id="course_search_section-parent" abstract="true" parent="Uif-VerticalBoxSubSection" >
 		<property name="items">
 			<list>
 				<ref bean="course_search_panel" />
@@ -71,7 +70,7 @@
 
 	<!-- Layout for Course Search Result Page -->
     <bean id="course_search_result_section" parent="course_search_result_section-parent"/>
-    <bean id="course_search_result_section-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:style="width:73%">
+    <bean id="course_search_result_section-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
 		<property name="items">
 			<list>
 				<ref bean="course_search_panel" />
@@ -143,8 +142,7 @@
 
 	<!-- Group for Search Input Fields -->
 	<bean id="course_search_fields" parent="course_search_fields-parent" />
-	<bean id="course_search_fields-parent" abstract="true" parent="Uif-HorizontalFieldGroup"
-		p:style="margin:0 0 20px 0;" p:group.validationMessages.render="false">
+	<bean id="course_search_fields-parent" abstract="true" parent="Uif-HorizontalFieldGroup" p:group.validationMessages.render="false">
 		<property name="items">
 			<list>
 				<ref bean="text_searchQuery" />
@@ -189,11 +187,11 @@
 
 	<!-- Layout for Search Facets and Search Results -->
     <bean id="course_search_results_panel" parent="course_search_results_panel-parent"/>
-	<bean id="course_search_results_panel-parent" abstract="true" parent="Uif-HorizontalBoxGroup"
-		p:style="display: none;">
+	<bean id="course_search_results_panel-parent" abstract="true" parent="Uif-HorizontalBoxGroup">
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-course-search-results</value>
+                <value>ksap-hide</value>
             </list>
         </property>
 		<property name="items">
@@ -270,7 +268,7 @@
 	<!-- Group for Search Facets -->
 	<bean id="course_search_results_facets" parent="course_search_results_facets-parent" />
 	<bean id="course_search_results_facets-parent" abstract="true" parent="Uif-VerticalBoxGroup"
-		p:headerText="Narrow Results" p:style="width:146px; margin-right: 10px;">
+		p:headerText="Narrow Results">
 		<property name="header">
 			<bean parent="Uif-HeaderFive">
 				<property name="cssClasses">
@@ -346,7 +344,7 @@
 	<!--Add Course Menu -->
     <bean id="add_course_items" parent="add_course_items-parent"/>
 	<bean id="add_course_items-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-		p:cssClasses="ksap-container-75" p:style="margin: 0;">
+		p:cssClasses="ksap-container-75 ksap-no-margin">
 		<property name="hidden" value="true" />
 		<property name="items">
 			<list>
@@ -364,7 +362,7 @@
 
 				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
                       p:title="Bookmark"
-                      p:style="margin:0;">
+                      p:cssClasses="ksap-no-margin">
                     <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
                     <property name="onClickScript" value="
                         var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addSavedCourse', courseId:jQuery(this).data('courseid')};
@@ -382,7 +380,7 @@
 		relying on a server call for "quick" details. -->
     <bean id="course_quick_detail" parent="course_quick_detail-parent"/>
 	<bean id="course_quick_detail-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
-		p:style="margin: 0;">
+        p:cssClasses="ksap-no-margin">
 		<property name="hidden" value="true" />
 		<property name="headerText" value="__KSAP__COURSEHEADER__" />
 		<property name="items">
@@ -460,7 +458,7 @@
 				</bean>
 				<bean parent="Uif-Message" p:messageText="__KSAP__SECTIONS__" />
 				<bean parent="Uif-Link" p:target="" p:href="__KSAP__INQUIRYURL__"
-					p:linkText="Full details..." p:title="Course Details" p:style="margin:0;" />
+					p:linkText="Full details..." p:title="Course Details" p:cssClasses="ksap-no-margin"/>
 			</list>
 		</property>
 	</bean>
