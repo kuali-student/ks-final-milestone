@@ -352,7 +352,8 @@
         </property>
     </bean>
 
-    <bean id="planner_item_template" p:id="planner_item_template" parent="Uif-VerticalBoxGroup" p:hidden="true">
+    <bean id="planner_item_template" parent="planner_item_template-parent"/>
+    <bean id="planner_item_template-parent" abstract="true" p:id="planner_item_template" parent="Uif-VerticalBoxGroup" p:hidden="true">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-plan-Bucket-collection</value>
@@ -425,7 +426,8 @@
         </property>
     </bean>
 
-    <bean id="planner_item_collection" parent="Uif-StackedCollectionGroup" abstract="true">
+    <bean id="planner_item_collection" parent="planner_item_collection-parent" abstract="true"/>
+    <bean id="planner_item_collection-parent" abstract="true" parent="Uif-StackedCollectionGroup">
         <property name="validationMessages.render" value="false" />
         <property name="header">
             <bean parent="Uif-HeaderSix" p:additionalCssClasses="ks-plan-Bucket-header" />
@@ -559,7 +561,8 @@
         <property name="collectionLookup.quickfinderAction.render" value="false" />
     </bean>
 
-    <bean id="planner_completed_collection" parent="planner_item_collection"
+    <bean id="planner_completed_collection" parent="planner_completed_collection-parent"/>
+    <bean id="planner_completed_collection-parent" abstract="true" parent="planner_item_collection"
           p:headerText="@{#line.completed ? 'Completed': (#line.academicRecord.size() gt 0 or !#line.planning)? 'Registered' : ''}"
           p:render="@{#line.completed or #line.academicRecord.size() gt 0 or !#line.planning}">
         <property name="propertyName" value="academicRecord" />
@@ -625,7 +628,8 @@
         </property>
     </bean>
 
-    <bean id="planner_cart_collection" parent="planner_item_collection"
+    <bean id="planner_cart_collection" parent="planner_cart_collection-parent"/>
+    <bean id="planner_cart_collection-parent" abstract="true" parent="planner_item_collection"
           p:headerText="Cart" p:render="@{#line.cartAvailable}">
         <property name="validationMessages.render" value="false" />
         <property name="propertyName" value="cartList" />
@@ -668,7 +672,8 @@
         </property>
     </bean>
 
-    <bean id="planner_planned_collection" parent="planner_item_collection" p:headerText="Planned">
+    <bean id="planner_planned_collection" parent="planner_planned_collection-parent"/>
+    <bean id="planner_planned_collection-parent" abstract="true" parent="planner_item_collection" p:headerText="Planned">
         <property name="propertyName" value="plannedList" />
         <property name="validationMessages.render" value="false" />
         <property name="header.toolTip">
@@ -718,7 +723,8 @@
         </property>
     </bean>
 
-    <bean id="planner_backup_collection" parent="planner_item_collection" p:headerText="Backup">
+    <bean id="planner_backup_collection" parent="planner_backup_collection-parent"/>
+    <bean id="planner_backup_collection-parent" abstract="true" parent="planner_item_collection" p:headerText="Backup">
         <property name="propertyName" value="backupList" />
         <property name="validationMessages.render" value="false" />
         <property name="header.toolTip">
@@ -755,7 +761,8 @@
         </property>
     </bean>
 
-    <bean abstract="true" id="planner_quick_add" parent="Uif-HorizontalBoxGroup">
+    <bean abstract="true" id="planner_quick_add" parent="planner_quick_add-parent"/>
+    <bean abstract="true" id="planner_quick_add-parent" parent="Uif-HorizontalBoxGroup">
         <property name="validationMessages.render" value="false" />
         <property name="cssClasses">
             <list merge="true">
@@ -777,7 +784,8 @@
         </property>
     </bean>
 
-    <bean abstract="true" id="planner_credits_footer" parent="Uif-HorizontalBoxGroup">
+    <bean abstract="true" id="planner_credits_footer" parent="planner_credits_footer-parent"/>
+    <bean abstract="true" id="planner_credits_footer-parent" parent="Uif-HorizontalBoxGroup">
         <property name="validationMessages.render" value="false" />
         <property name="cssClasses">
             <list merge="true">
@@ -796,7 +804,8 @@
         </property>
     </bean>
 
-    <bean abstract="true" id="planner_term_total_credits_text" parent="Uif-MessageField">
+    <bean abstract="true" id="planner_term_total_credits_text" parent="planner_term_total_credits_text-parent"/>
+    <bean abstract="true" id="planner_term_total_credits_text-parent" parent="Uif-MessageField">
         <property name="cssClasses">
             <list merge="true">
                 <value>credits</value>
@@ -806,8 +815,9 @@
     </bean>
 
     <!-- Planner Menus -->
-    <bean id="planner_menu_cart" parent="Uif-VerticalBoxSubSection"
-          p:cssClasses="fl-container-150">
+    <bean id="planner_menu_cart" parent="planner_menu_cart-parent"/>
+    <bean id="planner_menu_cart-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
+        p:cssClasses="fl-container-150">
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-plan-ContextMenu</value>
@@ -823,7 +833,8 @@
         </property>
     </bean>
 
-    <bean id="planner_menu_planned" parent="Uif-VerticalBoxSubSection"
+    <bean id="planner_menu_planned" parent="planner_menu_planned-parent"/>
+    <bean id="planner_menu_planned-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
           p:cssClasses="fl-container-150">
         <property name="layoutManager.cssClasses">
             <list merge="true">
@@ -843,7 +854,8 @@
         </property>
     </bean>
 
-    <bean id="planner_menu_planned_cartavailable" parent="Uif-VerticalBoxSubSection"
+    <bean id="planner_menu_planned_cartavailable" parent="planner_menu_planned_cartavailable-parent"/>
+    <bean id="planner_menu_planned_cartavailable-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
           p:cssClasses="fl-container-150">
         <property name="layoutManager.cssClasses">
             <list merge="true">
@@ -864,7 +876,8 @@
         </property>
     </bean>
 
-    <bean id="planner_menu_backup" parent="Uif-VerticalBoxSubSection"
+    <bean id="planner_menu_backup" parent="planner_menu_backup-parent"/>
+    <bean id="planner_menu_backup-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
           p:cssClasses="fl-container-150">
         <property name="layoutManager.cssClasses">
             <list merge="true">
@@ -886,7 +899,8 @@
     </bean>
 
     <!-- Planner Menu Actions -->
-    <bean id="planner_menu_remove_from_cart" parent="Uif-ActionLink"
+    <bean id="planner_menu_remove_from_cart" parent="planner_menu_remove_from_cart-parent"/>
+    <bean id="planner_menu_remove_from_cart-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="Remove from shopping cart" p:title="Remove from shopping cart">
         <property name="cssClasses">
             <list merge="true">
@@ -897,25 +911,29 @@
                   value="ksapPlannerOpenDialog('sb_cart_remove','sb/cart','remove', this, e);" />
     </bean>
 
-    <bean id="planner_menu_copy_plan_item" parent="Uif-ActionLink"
+    <bean id="planner_menu_copy_plan_item" parent="planner_menu_copy_plan_item-parent"/>
+    <bean id="planner_menu_copy_plan_item-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="Copy to another term" p:title="Copy to another term">
         <property name="actionScript"
                   value="ksapPlannerOpenDialog('planner_copy_plan_item','planner','startDialog', this, e);" />
     </bean>
 
-    <bean id="planner_menu_copy_course" parent="Uif-ActionLink"
+    <bean id="planner_menu_copy_course" parent="planner_menu_copy_course-parent"/>
+    <bean id="planner_menu_copy_course-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="Copy to another term" p:title="Copy to another term">
         <property name="actionScript"
                   value="ksapPlannerOpenDialog('planner_copy_course','planner','startDialog', this, e);" />
     </bean>
 
-    <bean id="planner_menu_course_summary" parent="Uif-ActionLink"
+    <bean id="planner_menu_course_summary" parent="planner_menu_course_summary-parent"/>
+    <bean id="planner_menu_course_summary-parent" abstract="true" parent="Uif-ActionLink"
           p:actionLabel="View course summary" p:title="View course summary">
         <property name="actionScript"
                   value="ksapPlannerOpenDialog('planner_course_summary','planner','startDialog', this, e);" />
     </bean>
 
-    <bean id="planner_menu_completed" parent="Uif-VerticalBoxSubSection"
+    <bean id="planner_menu_completed" parent="planner_menu_completed-parent"/>
+    <bean id="planner_menu_completed-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
 		p:cssClasses="fl-container-150">
 		<property name="layoutManager.cssClasses">
 			<list merge="true">
@@ -931,30 +949,35 @@
 		</property>
 	</bean>
 
-	<bean id="planner_menu_edit_plan_item" parent="Uif-ActionLink"
+    <bean id="planner_menu_edit_plan_item" parent="planner_menu_edit_plan_item-parent"/>
+	<bean id="planner_menu_edit_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Edit plan item" p:title="Edit plan item">
 		<property name="actionScript"
 			value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
-	<bean id="planner_menu_add_to_cart" parent="Uif-ActionLink"
+    <bean id="planner_menu_add_to_cart" parent="planner_menu_add_to_cart-parent"/>
+	<bean id="planner_menu_add_to_cart-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Add to shopping cart" p:title="Add to shopping cart">
 		<property name="actionScript"
 			value="ksapPlannerOpenDialog('sb_cart_add_from_plan','sb/cart','addFromPlan', this, e);" />
 	</bean>
 
-	<bean id="planner_menu_mark_as_backup" parent="Uif-ActionLink"
+    <bean id="planner_menu_mark_as_backup" parent="planner_menu_mark_as_backup-parent"/>
+	<bean id="planner_menu_mark_as_backup-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Mark as backup course" p:title="Mark as backup course">
 		<property name="actionScript" value="ksapPlannerUpdateCategory(true, this, e);" />
 	</bean>
 
-	<bean id="planner_menu_move_plan_item" parent="Uif-ActionLink"
+    <bean id="planner_menu_move_plan_item" parent="planner_menu_move_plan_item-parent"/>
+	<bean id="planner_menu_move_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Move to another term" p:title="Move to another term">
 		<property name="actionScript"
 			value="ksapPlannerOpenDialog('planner_move_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
-	<bean id="planner_menu_delete_plan_item" parent="Uif-ActionLink"
+    <bean id="planner_menu_delete_plan_item" parent="planner_menu_delete_plan_item-parent"/>
+	<bean id="planner_menu_delete_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Delete from plan" p:title="Delete from plan">
 		<property name="cssClasses">
 			<list merge="true">
@@ -965,12 +988,14 @@
 			value="ksapPlannerOpenDialog('planner_delete_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
-	<bean id="planner_menu_mark_as_planned" parent="Uif-ActionLink"
+    <bean id="planner_menu_mark_as_planned" parent="planner_menu_mark_as_planned-parent"/>
+	<bean id="planner_menu_mark_as_planned-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Mark as planned course" p:title="Mark as planned course">
 		<property name="actionScript" value="ksapPlannerUpdateCategory(false, this, e);" />
 	</bean>
 
-	<bean id="planner_menu_completed_backup" parent="Uif-VerticalBoxSubSection"
+    <bean id="planner_menu_completed_backup" parent="planner_menu_completed_backup-parent"/>
+	<bean id="planner_menu_completed_backup-parent" abstract="true" parent="Uif-VerticalBoxSubSection"
 		p:cssClasses="fl-container-150">
 		<property name="layoutManager.cssClasses">
 			<list merge="true">
@@ -986,7 +1011,9 @@
 			</list>
 		</property>
 	</bean>
-    <bean id="course_note_icon" parent="KSAPHelpImage" >
+
+    <bean id="course_note_icon" parent="course_note_icon-parent"/>
+    <bean id="course_note_icon-parent" abstract="true" parent="KSAPHelpImage" >
         <property name="cssClasses">
             <list merge="true">
                 <value>coursenote</value>
@@ -995,7 +1022,9 @@
         <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconInfo.png"/>
         <property name="title" value=""/>
     </bean>
-    <bean id="term_note_icon" parent="KSAPHelpImage" >
+
+    <bean id="term_note_icon" parent="term_note_icon-parent"/>
+    <bean id="term_note_icon-parent" abstract="true" parent="KSAPHelpImage" >
         <property name="cssClasses">
             <list merge="true">
                 <value>termnote</value>
