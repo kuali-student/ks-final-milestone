@@ -221,7 +221,7 @@
                       p:disableNativeAutocomplete="true" p:required="@{!#dp.newScheduleRequest.tba}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur(e);"/>
+                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur();"/>
                     </property>
                 </bean>
                 <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime"
