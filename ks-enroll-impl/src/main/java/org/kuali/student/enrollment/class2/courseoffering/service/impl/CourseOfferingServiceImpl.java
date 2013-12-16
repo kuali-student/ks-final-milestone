@@ -648,7 +648,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
             qbcBuilder.setPredicates(PredicateFactory.and(
                     PredicateFactory.like("courseOfferingCode", courseCode + "%"),
-                    PredicateFactory.equalIgnoreCase("atpId", termId)));
+                    PredicateFactory.equal("atpId", termId)));
             QueryByCriteria criteria = qbcBuilder.build();
 
             //Do search. In ideal case, returns one element, which is the desired CO.
