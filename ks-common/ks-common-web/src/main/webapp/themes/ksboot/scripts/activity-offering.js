@@ -744,14 +744,13 @@ function rdlStartTimeOnBlur(event){
     var days = jQuery("#rdl_days_control").val();
     var tbaChecked = document.getElementById('rdl_tba_control').checked;
 
-    jQuery("#rdl_endtime_control").val('');
-
     if (startTime != ''){
         parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
     }
 
     if (!tbaChecked && (startTime == '' || days == '' || (jQuery("#rdl_starttime_control").val() == jQuery("#rdl_starttime_control").data("starttime")
         && jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("days"))) ) {
+        jQuery("#rdl_endtime_control").val('');
         jQuery("#rdl_endtime").show();
         if (isMozilla == false){
             jQuery("#rdl_endtime_control").focus();
