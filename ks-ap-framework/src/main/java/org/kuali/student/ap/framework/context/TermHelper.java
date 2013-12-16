@@ -213,4 +213,11 @@ public interface TermHelper {
      * @return Current academic calendar
      */
     public AcademicCalendar getCurrentAcademicCalendar();
+
+    /**
+     * Gets the id of the term that the planner should display first.
+     *
+     * @return Term Id
+     */
+    public String getStartTermId();
 }

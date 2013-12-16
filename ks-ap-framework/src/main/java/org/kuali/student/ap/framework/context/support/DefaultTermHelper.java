@@ -611,5 +611,21 @@ public class DefaultTermHelper implements TermHelper {
         throw new IllegalArgumentException("Acal lookup failure, no current calendar found");
     }
 
+    /**
+     * Gets the id of the first term of the current academic year
+     *
+     * @return Term Id
+     */
+    @Override
+    public String getStartTermId() {
+        List<Term> terms = getTermsInAcademicYear();
+        if(terms.size()>0){
+            return getTermsInAcademicYear().get(0).getId();
+        }
+
+        // If start id can not be found start at beginning of calendar.
+        return "";
+    }
+
 
 }

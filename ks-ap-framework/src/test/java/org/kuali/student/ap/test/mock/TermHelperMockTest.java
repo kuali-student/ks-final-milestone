@@ -276,4 +276,14 @@ public class TermHelperMockTest implements TermHelper {
     public AcademicCalendar getCurrentAcademicCalendar() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    /**
+     * Gets the id of the term that the planner should display first.
+     *
+     * @return Term Id
+     */
+    @Override
+    public String getStartTermId() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
