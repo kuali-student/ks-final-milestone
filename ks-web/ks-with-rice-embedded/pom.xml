@@ -15,22 +15,6 @@
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
     </properties>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>META-INF/build-details.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>META-INF/build-details.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <!--
                    Use KS version of codehaus gwt plugin, until compilation required

@@ -29,6 +29,7 @@
     <param name="config.location">classpath:META-INF/common-config-locations.xml</param>
     
     <!-- BEGIN KUALI STUDENT SETTINGS -->
+    <param name="version">${project.name} :: ${project.version} :: ${project.build.timestamp}</param>
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-enroll-config.xml</param>

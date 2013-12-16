@@ -28,6 +28,7 @@
     <param name="config.location">classpath:org/kuali/rice/standalone/config/standalone-config-defaults.xml</param>
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
+    <param name="version">${project.name} :: ${project.version} :: ${project.build.timestamp}</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
     <param name="appserver.url">http://localhost:8080</param>
     <param name="app.code">ks-rice-standalone</param>

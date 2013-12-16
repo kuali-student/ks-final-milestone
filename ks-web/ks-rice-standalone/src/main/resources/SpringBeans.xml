@@ -51,7 +51,7 @@
 		<property name="configLocations">
 			<list>
 				<value>classpath:META-INF/ks-rice-standalone-config.xml</value>
-                <value>classpath:META-INF/build-details.xml</value>
+                <value>classpath:META-INF/org/kuali/student/ks-rice-standalone/project-rice-properties.xml</value>
 			</list>
 		</property>
 	</bean>
