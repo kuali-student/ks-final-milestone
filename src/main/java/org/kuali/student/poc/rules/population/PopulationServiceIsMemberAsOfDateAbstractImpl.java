@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
@@ -56,6 +57,42 @@ public abstract class PopulationServiceIsMemberAsOfDateAbstractImpl implements P
             else return Boolean.FALSE;
         }
 
+        // an intersection
+        else if (PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY.equals(populationRuleInfo.getTypeKey())) {
+            for (String childPopulationId : populationRuleInfo.getChildPopulationIds()) {
+                if (!isMemberAsOfDate(personId, childPopulationId, date, contextInfo)) {
+                    return Boolean.FALSE;
+                }
+            }
+            return Boolean.TRUE;
+        }
+
+        // an union
+        else if (PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY.equals(populationRuleInfo.getTypeKey())) {
+            for (String childPopulationId : populationRuleInfo.getChildPopulationIds()) {
+                if (isMemberAsOfDate(personId, childPopulationId, date, contextInfo)) {
+                    return Boolean.TRUE;
+                }
+            }
+            return Boolean.FALSE;
+        }
+
+        // an exclusion
+        else if (PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY.equals(populationRuleInfo.getTypeKey())) {
+            // the person has to be in the reference population
+            if (!isMemberAsOfDate(personId, populationRuleInfo.getReferencePopulationId(), date, contextInfo)) {
+                return Boolean.FALSE;
+            }
+
+            // the person cannot be in the child population
+            for (String childPopulationId : populationRuleInfo.getChildPopulationIds()) {
+                if (isMemberAsOfDate(personId, childPopulationId, date, contextInfo)) {
+                    return Boolean.FALSE;
+                }
+            }
+            return Boolean.TRUE;
+        }
+
         // unimplemented type
         else {
             throw new OperationFailedException ("population rule type " + populationRuleInfo.getTypeKey() +  " has not been implemented");
@@ -64,6 +101,11 @@ public abstract class PopulationServiceIsMemberAsOfDateAbstractImpl implements P
 
     @Override
     public List<String> getMembersAsOfDate(String populationId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        PopulationInfo populationInfo = getPopulation(populationId, contextInfo);
+        if (populationInfo.getSupportsGetMembers()) {
+            return (getPopulationRuleForPopulation(populationId, contextInfo)).getPersonIds();
+        } else {
+            throw new OperationFailedException("This population does not support getMembers");
+        }
     }
 }

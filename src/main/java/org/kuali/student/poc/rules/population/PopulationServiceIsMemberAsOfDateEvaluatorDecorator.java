@@ -29,7 +29,9 @@ import java.util.Date;
 
 /**
  * This class represents a PopulationService decorator which can apply a specific
- * IsMemberAsOfDateEvaluator to the population, as well as a specific YearOfStudyCalculator.
+ * IsMemberAsOfDateEvaluator when evaluation person ids and population. This is written
+ * so that one can bypass the current implementation of isMemberxxx methods and write
+ * their own evaluation policy.
  *
  * @author Mezba Mahtab
  */

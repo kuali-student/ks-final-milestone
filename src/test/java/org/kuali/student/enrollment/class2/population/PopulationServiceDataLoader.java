@@ -38,11 +38,31 @@ import java.util.List;
  */
 public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLoader {
 
+    /////////////////////
+    // Data Variables
+    /////////////////////
+
     @Resource
     private PopulationService populationService;
 
+    /////////////////////////
+    // Getters and Setters
+    /////////////////////////
+
+    public PopulationService getPopulationService() {
+        return populationService;
+    }
+
+    public void setPopulationService(PopulationService populationService) {
+        this.populationService = populationService;
+    }
+
+    ////////////////////////////
+    // Functionals
+    ////////////////////////////
+
     @Override
-    protected void initializeData() throws Exception {
+    public void initializeData() throws Exception {
 
         // First year students
         PopulationInfo pop1 = createPopulationInfo
@@ -119,6 +139,10 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
 
     }
 
+    /////////////////////////
+    // Helper Methods
+    /////////////////////////
+
     protected PopulationInfo createPopulationInfo
             (String name,
              String descriptionPlain,
@@ -150,6 +174,35 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         ruleInfo.setStateKey(stateKey);
         ruleInfo.setVariesByTime(Boolean.FALSE);
         ruleInfo.setSupportsGetMembers(Boolean.TRUE);
+        return ruleInfo;
+    }
+
+    protected PopulationRuleInfo PopulationRuleInfo
+            (String name,
+             String descriptionPlain,
+             String typeKey,
+             String stateKey,
+             List<String> agendaIds,
+             List<String> groupIds,
+             List<String> personIds,
+             List<String> childPopulationIds,
+             String referencePopulationId,
+             List<String> sortOrderTypeKeys,
+             Boolean variesByTime,
+             Boolean supportsGetMembers) {
+        PopulationRuleInfo ruleInfo = new PopulationRuleInfo();
+        ruleInfo.setName(name);
+        ruleInfo.setDescr(new RichTextHelper().fromPlain(descriptionPlain));
+        ruleInfo.setTypeKey(typeKey);
+        ruleInfo.setStateKey(stateKey);
+        ruleInfo.setAgendaIds(agendaIds);
+        ruleInfo.setGroupIds(groupIds);
+        ruleInfo.setPersonIds(personIds);
+        ruleInfo.setChildPopulationIds(childPopulationIds);
+        ruleInfo.setReferencePopulationId(referencePopulationId);
+        ruleInfo.setSortOrderTypeKeys(sortOrderTypeKeys);
+        ruleInfo.setVariesByTime(variesByTime);
+        ruleInfo.setSupportsGetMembers(supportsGetMembers);
         return ruleInfo;
     }
 }
