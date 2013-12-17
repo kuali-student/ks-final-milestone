@@ -43,7 +43,7 @@ import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
 
-public class PopulationServiceMapImpl implements MockService, PopulationService
+public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateAbstractImpl implements MockService, PopulationService
 {
 
     ///////////////////////
@@ -70,28 +70,6 @@ public class PopulationServiceMapImpl implements MockService, PopulationService
         populationRuleMap.clear();
         populationCategoryMap.clear();
         populationRulePopulationMap.clear();
-    }
-
-    @Override
-    public Boolean isMemberAsOfDate(String personId, String populationId, Date date, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
-        throw new OperationFailedException ("isMemberAsOfDate has not been implemented");
-    }
-
-    @Override
-    public List<String> getMembersAsOfDate(String populationId, Date date, ContextInfo contextInfo)
-            throws DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-    {
-        throw new OperationFailedException ("getMembersAsOfDate has not been implemented");
     }
 
     @Override
