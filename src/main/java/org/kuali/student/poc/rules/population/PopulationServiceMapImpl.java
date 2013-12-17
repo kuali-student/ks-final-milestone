@@ -55,6 +55,11 @@ public class PopulationServiceMapImpl implements MockService, PopulationService
     private Map<String, PopulationRuleInfo> populationRuleMap = new LinkedHashMap<String, PopulationRuleInfo>();
     private Map<String, PopulationCategoryInfo> populationCategoryMap = new LinkedHashMap<String, PopulationCategoryInfo>();
 
+    // the map that will hold the mapping of population rule and population.
+    // the key will be population rule id and the values are the populations that will
+    // be mapped to that rule
+    private Map<String, List<PopulationInfo>> populationRulePopulationMap = new LinkedHashMap<String, List<PopulationInfo>>();
+
     /////////////////////
     // Functionals
     /////////////////////
@@ -64,6 +69,7 @@ public class PopulationServiceMapImpl implements MockService, PopulationService
         populationMap.clear();
         populationRuleMap.clear();
         populationCategoryMap.clear();
+        populationRulePopulationMap.clear();
     }
 
     @Override
@@ -140,7 +146,12 @@ public class PopulationServiceMapImpl implements MockService, PopulationService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("getPopulationsForPopulationRule has not been implemented");
+        List<PopulationInfo> list = new ArrayList<PopulationInfo> ();
+        if (!this.populationRulePopulationMap.containsKey(populationRuleId)) {
+            return list;
+        } else {
+            return this.populationRulePopulationMap.get(populationRuleId);
+        }
     }
 
     @Override
@@ -390,7 +401,30 @@ public class PopulationServiceMapImpl implements MockService, PopulationService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("applyPopulationRuleToPopulation has not been implemented");
+        // both rule and population must exist
+        PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo);
+        PopulationInfo populationInfo = getPopulation(populationId, contextInfo);
+
+        List<PopulationInfo> populationInfos = new ArrayList<PopulationInfo>();
+
+        // if there is no mapping for this population rule
+        if (!this.populationRulePopulationMap.containsKey(populationRuleId)) {
+            populationInfos.add(populationInfo);
+            this.populationRulePopulationMap.put(populationRuleId, populationInfos);
+        }
+        // else will have to obtain current list, check if this is present and if not, add it
+        else {
+            populationInfos = this.populationRulePopulationMap.get(populationRuleId);
+            for (PopulationInfo pi : populationInfos) {
+                if (pi.getId().equals(populationId)) {
+                    return newStatus();
+                }
+            }
+            // add population to the end
+            populationInfos.add(populationInfo);
+            this.populationRulePopulationMap.put(populationRuleId, populationInfos);
+        }
+        return newStatus();
     }
 
     @Override
@@ -401,7 +435,23 @@ public class PopulationServiceMapImpl implements MockService, PopulationService
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        throw new OperationFailedException ("removePopulationRuleFromPopulation has not been implemented");
+        // both rule and population must exist
+        PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo);
+        PopulationInfo populationInfo = getPopulation(populationId, contextInfo);
+
+        List<PopulationInfo> populationInfos = new ArrayList<PopulationInfo>();
+
+        // if there is no mapping for this population rule
+        if (!this.populationRulePopulationMap.containsKey(populationRuleId)) {
+           return newStatus();
+        }
+        // else will have to obtain current list and remove it
+        else {
+            populationInfos = this.populationRulePopulationMap.get(populationRuleId);
+            populationInfos.remove(populationInfo); // will remove if there
+            this.populationRulePopulationMap.put(populationRuleId, populationInfos);
+        }
+        return newStatus();
     }
 
     @Override
