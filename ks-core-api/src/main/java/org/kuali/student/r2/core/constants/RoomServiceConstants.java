@@ -74,6 +74,18 @@ public class RoomServiceConstants {
     public static final String ORG_ROOM_RESPONSIBILITY_TYPE_SCHEDULING_KEY = "kuali.room.org.responsibility.scheduling";
 
     // *-*-*-*-*-*-*-*-*-* Facility *-*-*-*-*-*-*-*-*-*
+    /**
+     * Facility types (KSENROLL-4281)
+     */
+    public static final String ROOM_FACILITY_TYPE_BUILDING_KEY = "kuali.room.facility.type.building";
+    public static final String ROOM_FACILITY_TYPE_REGION_KEY = "kuali.room.facility.type.region";
+    public static final String ROOM_FACILITY_TYPE_PARTITION_KEY = "kuali.room.facility.type.partition";
+
+    /**
+     * Facility States (KSENROLL-4281)
+     */
+    public static final String ROOM_FACILITY_ONLINE_STATE_KEY = "kuali.room.facility.state.online";
+    public static final String ROOM_FACILITY_OFFLINE_STATE_KEY = "kuali.room.facility.state.offline";
 
     /**
      * Facility lifecycle (KSENROLL-4281)

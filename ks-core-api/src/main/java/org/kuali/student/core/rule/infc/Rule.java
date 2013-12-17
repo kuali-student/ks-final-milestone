@@ -13,17 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.constants;
+package org.kuali.student.core.rule.infc;
 
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.core.rule.dto.RuleInfo;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
- * This class holds the constants used by the Rule service
- *
+ * Provides the definition of a rule, i.e., the description of
+ * a rule in a BRMS (business rule management system).
  */
-public class RuleServiceConstants {
-    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "rule";
-    public static final String REF_OBJECT_URI_RULE = NAMESPACE + "/" + RuleInfo.class.getSimpleName();
-    public static final String SERVICE_NAME_LOCAL_PART = "RuleService";
+public interface Rule extends IdEntity {
 }

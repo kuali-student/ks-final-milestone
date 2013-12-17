@@ -177,6 +177,9 @@ public class KSKRMSServiceConstants {
     public static final String TERM_PARAMETER_TYPE_TIMESLOT_START = "kuali.term.parameter.type.timeslot.start";
     public static final String TERM_PARAMETER_TYPE_TIMESLOT_END = "kuali.term.parameter.type.timeslot.end";
 
+    // term resolver types
+    public static final String TERM_RESOLVER_TYPE_FINAL_EXAM = "kuali.krms.termresolver.type.final.exam";
+
     // action parameters
     public static final String ACTION_PARAMETER_TYPE_RDL_TBA = "tba";
     public static final String ACTION_PARAMETER_TYPE_RDL_DAY = "day";
@@ -263,14 +266,16 @@ public class KSKRMSServiceConstants {
     public static final String KRMS_NL_TYPE_INSTRUCTION = "kuali.krms.type.instruction";
 
     // term prerequisite
-    public static final String TERM_PREREQUISITE_CONTEXTINFO = "contextInfo";
-    public static final String TERM_PREREQUISITE_PERSON_ID = "personId";
-    public static final String TERM_PREREQUISITE_CLU_ID = "cluId";
-    public static final String TERM_PREREQUISITE_CO_ID = "coId";
-    public static final String TERM_PREREQUISITE_CO = "co";
-    public static final String TERM_PREREQUISITE_AO_ID = "aoId";
-    public static final String TERM_PREREQUISITE_AO = "ao";
-    public static final String TERM_PREREQUISITE_EO_ID = "eoId";
-    public static final String TERM_PREREQUISITE_TERM_ID = "termId";
+    public static final String TERM_PREREQUISITE_CONTEXTINFO = "kuali.term.prerequisite.contextInfo";
+    public static final String TERM_PREREQUISITE_PERSON_ID = "kuali.term.prerequisite.personId";
+    public static final String TERM_PREREQUISITE_CLU_ID = "kuali.term.prerequisite.cluId";
+    public static final String TERM_PREREQUISITE_CO_ID = "kuali.term.prerequisite.courseOfferingId";
+    public static final String TERM_PREREQUISITE_CO = "kuali.term.prerequisite.courseOffering";
+    public static final String TERM_PREREQUISITE_AO_ID = "kuali.term.prerequisite.activityOffering";
+    public static final String TERM_PREREQUISITE_AO = "kuali.term.prerequisite.activityOffering";
+    public static final String TERM_PREREQUISITE_EO_ID = "kuali.term.prerequisite.examOfferingId";
+    public static final String TERM_PREREQUISITE_TERM_ID = "kuali.term.prerequisite.termId";
+    public static final String TERM_PREREQUISITE_TIMESLOTS = "kuali.term.prerequisite.timeslots";
+    public static final String TERM_PREREQUISITE_COURSE_VERSIONINDID = "kuali.term.prerequisite.course.versionIndId";
 
 }

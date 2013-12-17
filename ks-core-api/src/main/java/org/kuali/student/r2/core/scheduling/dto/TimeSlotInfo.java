@@ -15,8 +15,10 @@
 
 package org.kuali.student.r2.core.scheduling.dto;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 //import org.w3c.dom.Element;
 
@@ -94,18 +96,54 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable
 
     /*
      * An object is equal to this TimeSlotInfo if it's also a
-     * TimeSlotInfo AND the weekdays are the same (in the same order)
+     * TimeSlotInfo AND the type keys are the same AND the weekdays are the same (in the same order)
      * AND the start time is same AND the end time is same.
+     * Weekdays, start time, and end time can all be null (for a TBA time slot), so we need to check that as well
+     * if corresponding fields in both objects are both null, they are considered to be the same.
      */
     public boolean equals (Object obj) {
-        TimeSlotInfo ts = (TimeSlotInfo) obj; // will throw a ClassCastException
-        //  To avoid IndexOutOfBoundsExceptions see if the weekdays collections have the same element count before trying to compare the elements.
-        if (this.getWeekdays().size() != ts.getWeekdays().size()) { return false; }
-        for (int i=0; i<this.weekdays.size(); i++)  {
-            if (!this.weekdays.get(i).equals(ts.weekdays.get(i))) { return false; }
+        if (!(obj instanceof TimeSlotInfo)) {
+            return false;
         }
-        if (!this.startTime.equals(ts.startTime)) { return false; }
-        if (!this.endTime.equals(ts.endTime)) { return false; }
+        TimeSlotInfo ts = (TimeSlotInfo) obj;
+        //  Type keys must be equal
+        if (!(StringUtils.equals(this.getTypeKey(), ts.getTypeKey()))) {
+            return false;
+        }
+        //  Weekdays must be either both null or both not null (XOR)
+        if ((this.weekdays == null) != (ts.weekdays == null)) {
+            return false;
+        }
+        //  Check for null before comparing values
+        if ((this.weekdays != null) && (ts.weekdays != null)) {
+            //  To avoid IndexOutOfBoundsExceptions see if the weekdays collections have the same element count before trying to compare the elements.
+            if (this.getWeekdays().size() != ts.getWeekdays().size()) {
+                return false;
+            }
+            for (int i = 0; i < this.weekdays.size(); i++) {
+                if (!this.weekdays.get(i).equals(ts.weekdays.get(i))) {
+                    return false;
+                }
+            }
+        }
+        //  Start times must be either both null or both not null (XOR)
+        if ((this.startTime == null) != (ts.startTime == null)) {
+            return false;
+        }
+        //  Check for null before comparing values (if this.startTime != null, then by our previous test,
+        //  ts.startTime is also != null, so we only need to test one)
+        if ((this.startTime != null) && (!this.startTime.equals(ts.startTime))) {
+            return false;
+        }
+        //  End times must be either both null or both not null (XOR)
+        if ((this.endTime == null) != (ts.endTime == null)) {
+            return false;
+        }
+        //  Check for null before comparing values (if this.endTime != null, then by our previous test,
+        //  ts.endTime is also != null, so we only need to test one)
+        if ((this.endTime != null) && (!this.endTime.equals(ts.endTime))) {
+            return false;
+        }
         return true;
     }
 
