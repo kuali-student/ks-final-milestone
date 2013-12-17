@@ -1,24 +1,35 @@
 package org.kuali.student.poc.rules.population;
 
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+
 /**
  * Represents people that will be queried about.
  * User: mahtabme
  * Date: 12/9/13
  * Time: 11:23 AM
  */
-public enum PopulationPocPersonEnum {
+public enum PopulationPocPersonEnum implements hasPersonId {
 
-    STUDENT1(2001, PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020001", "student1", "kstone@kuali.edu", "student1", "kstone", true, "Kara", "Q", "Stone", "Female", "Ms.", "", "11 Walrus Circle", "", "West Newton", "MA", "02165", "1992-04-21", ""),
-    STUDENT2(2002, PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020002", "student2", "daleri@utoronto.ca", "student2", "daleri", true, "Daler", "", "Iqbal", "Male", "Mr.", "", "35 Penny Circle", "909", "Toronto", "ON", "M5V A4A", "1991-02-06", ""),
-    STUDENT3(2003, PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020003", "student3", "chowo@utoronto.ca", "student3", "chowo", true, "Oliver", "S", "Chow", "Male", "Mr.", "", "35 Spadina Crescent", "", "Toronto", "ON", "M5S 2A1", "1995-03-07", ""),
-    INSTRUCTOR1(3001, PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030001", "instructor1", "clintonb@umd.edu", "instructor1", "clintonb", false, "Bill", "", "Clinton", "Male", "Mr.", "", "11 Washington Street", "", "New York City", "NY", "12345", "1952-04-21", ""),
-    INSTRUCTOR2(3002, PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030002", "instructor2", "gandhis@utoronto.ca", "instructor2", "gandhis", true, "Sabrina", "", "Gandhi", "Female", "Mrs.", "", "35 Huron Street", "", "Toronto", "ON", "M5S 1A1", "1953-02-06", "");
+    STUDENT1("2001", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020001", "student1", "kstone@kuali.edu", "student1", "kstone", true, "Kara", "Quentin", "Stone", "Female", "Ms.", "", "11 Walrus Circle", "", "West Newton", "MA", "02165", "1992-04-21", ""),
+    STUDENT2("2002", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020002", "student2", "daleri@utoronto.ca", "student2", "daleri", true, "Daler", "", "Iqbal", "Male", "Mr.", "", "35 Penny Circle", "909", "Toronto", "ON", "M5V A4A", "1991-02-06", ""),
+    STUDENT3("2003", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020003", "student3", "chowo@utoronto.ca", "student3", "chowo", true, "Oliver", "So", "Chow", "Male", "Mr.", "", "35 Spadina Crescent", "", "Toronto", "ON", "M5S 2A1", "1995-03-07", ""),
+    STUDENT4("2004", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020004", "student4", "khant@utoronto.ca", "student4", "khant", true, "Tauhid", "", "Khan", "Male", "Mr.", "", "135 Calmwaters", "", "Toronto", "ON", "K5S 2A1", "1985-03-25", ""),
+    STUDENT5("2005", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020005", "student5", "chowo2@utoronto.ca", "student5", "chowo2", true, "Oliver", "Se", "Chow", "Male", "Mr.", "", "35 Spadina Crescent", "", "Toronto", "ON", "X1X 5H5", "1995-05-24", ""),
+    STUDENT6("2006", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020006", "student6", "chowj@utoronto.ca", "student6", "chowj", true, "James", "Kirk", "Chow", "Male", "Mr.", "", "83 Calms", "", "Toronto", "ON", "H5H Y2E", "1995-04-07", ""),
+    STUDENT7("2007", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020007", "student7", "clauses@kuali.edu", "student7", "clauses", false, "Santa", "", "Clause", "Male", "Mr.", "", "1 North Pole", "", "Ellesmere Island", "YK", "H0H 0H0", "1990-09-09", ""),
+    STUDENT8("2008", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020008", "student8", "kabulwa@utoronto.ca", "student8", "kabulwa", false, "Ahmed", "Kabir", "Kabulwallah", "Male", "Mr.", "", "135 Huronia Crescent", "", "Etobicoke", "ON", "L1K 3J3", "1999-10-19", ""),
+    STUDENT9("2009", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020009", "student9", "talukdarm@utoronto.ca", "student9", "talukdarm", true, "Mannan", "Mohammad", "Talukdar", "Male", "Mr.", "", "24 Telfer Gardens", "", "Toronto", "ON", "M1H 3J5", "1980-05-23", ""),
+    STUDENT10("2010", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020010", "student10", "kapoora@utoronto.ca", "student10", "kapoora", true, "Aamir", "Krishnachand", "Kapoor", "Male", "Mr.", "", "1 Ford Drive", "", "Toronto", "ON", "M5S 2B1", "1995-03-07", ""),
+    STUDENT11("2011", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020011", "student11", "guptas@utoronto.ca", "student11", "guptas", true, "Sushmita", "Sen", "Gupta", "Female", "Ms.", "", "77 Clarke Boulevard", "", "Toronto", "ON", "N5S 6B1", "1995-06-22", ""),
+    STUDENT12("2012", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020012", "student12", "solos@utoronto.ca", "student12", "solos", true, "Sushi", "San", "Solo", "Female", "Mrs.", "", "13 Elm Street", "", "North York", "ON", "O5S 4C1", "1995-12-12", ""),
+    INSTRUCTOR1("3001", PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030001", "instructor1", "clintonb@umd.edu", "instructor1", "clintonb", false, "Bill", "", "Clinton", "Male", "Mr.", "", "11 Washington Street", "", "New York City", "NY", "12345", "1952-04-21", ""),
+    INSTRUCTOR2("3002", PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030002", "instructor2", "gandhis@utoronto.ca", "instructor2", "gandhis", true, "Sabrina", "", "Gandhi", "Female", "Mrs.", "", "35 Huron Street", "", "Toronto", "ON", "M5S 1A1", "1953-02-06", "");
 
     /////////////////
     // PROPERTIES
     /////////////////
 
-    private int personId;
+    private String personId;
     private String affiliation;
     private String governmentIssuedIdentificationNumber;
     private String principalId;
@@ -44,7 +55,7 @@ public enum PopulationPocPersonEnum {
     // CONSTRUCTOR
     //////////////////////////
 
-    private PopulationPocPersonEnum (int personId,
+    private PopulationPocPersonEnum (String personId,
                                      String affiliation,
                                      String governmentIssuedIdentificationNumber,
                                      String principalId,
@@ -92,11 +103,11 @@ public enum PopulationPocPersonEnum {
     // GETTERS AND SETTERS
     /////////////////////////////
 
-    public int getPersonId() {
+    public String getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 
@@ -263,4 +274,13 @@ public enum PopulationPocPersonEnum {
     /////////////////////////////
     // FUNCTIONALS
     /////////////////////////////
+
+    public static PopulationPocPersonEnum getPerson (String personId) throws DoesNotExistException {
+        for (PopulationPocPersonEnum person : PopulationPocPersonEnum.values()) {
+            if (person.getPersonId()!=null && person.getPersonId().equals (personId)) {
+                return person;
+            }
+        }
+        throw new DoesNotExistException("Person with person id " + personId + " not found");
+    }
 }

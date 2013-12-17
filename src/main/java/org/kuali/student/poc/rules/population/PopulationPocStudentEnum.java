@@ -1,22 +1,33 @@
 package org.kuali.student.poc.rules.population;
 
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+
 /**
  * Represents student specific information of persons that are students.
  * User: mahtabme
  * Date: 12/9/13
  * Time: 2:28 PM
  */
-public enum PopulationPocStudentEnum {
+public enum PopulationPocStudentEnum implements hasPersonId {
 
-    STUDENT1(2001, "888020001", "Biology", PopulationPocConstants.PROGRAM_BACHELOR_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "freshman", "0"),
-    STUDENT2(2002, "888020002", "Humanities", PopulationPocConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "3", "10"),
-    STUDENT3(2003, "888020003", "Computer Science", PopulationPocConstants.PROGRAM_MASTER_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "2", "5");
+    STUDENT1("2001", "888020001", "Biology", PopulationPocConstants.PROGRAM_BACHELOR_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "freshman", "0"),
+    STUDENT2("2002", "888020002", "Humanities", PopulationPocConstants.PROGRAM_MASTER_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "2", "5"),
+    STUDENT3("2003", "888020003", "Computer Science", PopulationPocConstants.PROGRAM_MASTER_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "2", "5"),
+    STUDENT4("2004", "888020004", "Computer Science", PopulationPocConstants.PROGRAM_MASTER_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "1", "0"),
+    STUDENT5("2005", "888020005", "Computer Science", PopulationPocConstants.PROGRAM_MASTER_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "1", "0"),
+    STUDENT6("2006", "888020006", "Arts", PopulationPocConstants.PROGRAM_MASTER_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "3", "10"),
+    STUDENT7("2007", "888020007", "Physics", PopulationPocConstants.PROGRAM_MASTER_OF_SCIENCE, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "1", "0"),
+    STUDENT8("2008", "888020008", "English", PopulationPocConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "3", "10"),
+    STUDENT9("2009", "888020009", "English", PopulationPocConstants.PROGRAM_MASTER_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_GRADUATE, "2", "5"),
+    STUDENT10("2010", "888020010", "Biology", PopulationPocConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "1", "0"),
+    STUDENT11("2011", "888020011", "Chemistry", PopulationPocConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "2", "5"),
+    STUDENT12("2012", "888020012", "Chemistry", PopulationPocConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationPocConstants.PROGRAM_LEVEL_UNDERGRADUATE, "3", "10");
 
     //////////////////////
     // PROPERTIES
     //////////////////////
 
-    private int personId;
+    private String personId;
     private String governmentIssuedIdentificationNumber;
     private String dept;
     private String programName;
@@ -28,7 +39,7 @@ public enum PopulationPocStudentEnum {
     // CONSTRUCTORS
     ////////////////////////
 
-    private PopulationPocStudentEnum (int personId,
+    private PopulationPocStudentEnum (String personId,
                                       String governmentIssuedIdentificationNumber,
                                       String dept,
                                       String programName,
@@ -48,11 +59,11 @@ public enum PopulationPocStudentEnum {
     // GETTERS AND SETTERS
     //////////////////////////
 
-    public int getPersonId() {
+    public String getPersonId() {
         return personId;
     }
 
-    public void setPersonId(int personId) {
+    public void setPersonId(String personId) {
         this.personId = personId;
     }
 
@@ -102,5 +113,18 @@ public enum PopulationPocStudentEnum {
 
     public void setCreditsCompleted(String creditsCompleted) {
         this.creditsCompleted = creditsCompleted;
+    }
+
+    /////////////////////////////
+    // FUNCTIONALS
+    /////////////////////////////
+
+    public static PopulationPocStudentEnum getStudent (String personId) throws DoesNotExistException {
+        for (PopulationPocStudentEnum student : PopulationPocStudentEnum.values()) {
+            if (student.getPersonId()!=null && student.getPersonId().equals (personId)) {
+                return student;
+            }
+        }
+        throw new DoesNotExistException("Student with person id " + personId + " not found");
     }
 }

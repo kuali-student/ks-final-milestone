@@ -35,6 +35,7 @@ public class PopulationPocConstants {
     public static final String PROGRAM_BACHELOR_OF_SCIENCE = "kuali.student.poc.rules.population.program.name.bsc";
     public static final String PROGRAM_BACHELOR_OF_ARTS = "kuali.student.poc.rules.population.program.name.ba";
     public static final String PROGRAM_MASTER_OF_SCIENCE = "kuali.student.poc.rules.population.program.name.msc";
+    public static final String PROGRAM_MASTER_OF_ARTS = "kuali.student.poc.rules.population.program.name.ma";
 
     public static final String MAX_CREDITS_IN_PROGRAM_UNIVERSITY_OF_TORONTO_UNDERGRADUATE = "20";
     public static final String MAX_CREDITS_IN_PROGRAM_UNIVERSITY_OF_UTAH_UNDERGRADUATE = "122";
