@@ -161,7 +161,7 @@
                                               p:render = "@{currentCourseOfferingWrapper.isDeleteCoValid(currentCourseOfferingWrapper.stateKey)}"
                                               p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCO" />
                                         <bean parent="Uif-ActionLink" p:actionLabel=" | View All Registration Groups (@{rgResultList.size()})"
-                                              p:actionScript = "showLightboxComponent('KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering', '@{#ConfigProperties['application.url']}');"/>
+                                              p:actionScript = "showLightboxComponent( 'KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering' );"/>
                                         <bean parent="Uif-Link" p:linkText="| Course Offering Requisites "
                                               p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingRules?methodToCall=maintenanceEdit&amp;viewTypeName=MAINTENANCE&amp;viewName=COAgendaManagementView&amp;dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper&amp;refObjectId=@{currentCourseOfferingWrapper.courseOfferingId}"/>
                                         <bean id="view_eo" parent="Uif-ActionLink" p:methodToCall="viewExamOfferings" p:actionLabel=" | View Exam Offerings"
