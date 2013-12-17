@@ -137,7 +137,7 @@ public class CourseController extends CourseRuleEditorController {
         LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
         COURSE_REQUISITES("KS-CourseView-CourseRequisitesPage"), 
         ACTIVE_DATES("KS-CourseView-ActiveDatesPage"), 
-        //FINANCIALS("KS-CourseView-FinancialsPage"),
+        FINANCIALS("KS-CourseView-FinancialsPage"),
         AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaboratorsPage"),
         SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocumentsPage"),
         REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");

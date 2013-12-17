@@ -298,7 +298,7 @@
                 <bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink"
                       p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" />
                 <bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
-                      p:actionLabel="Financials" p:disabled="true"/>
+                      p:actionLabel="Financials"/>
                 <bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink" parent="Uif-NavigationActionLink"
                       p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="false"/>
                 <bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
