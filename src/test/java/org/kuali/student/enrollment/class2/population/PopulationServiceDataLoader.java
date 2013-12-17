@@ -137,6 +137,61 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         PopulationRuleInfo rule3 = populationService.createPopulationRule(rule3e, context);
         populationService.applyPopulationRuleToPopulation(rule3e.getId(), pop3.getId(), context);
 
+        // Undergraduate Students
+        PopulationInfo pop4 = createPopulationInfo
+                ("Undergraduate Students",
+                        "A list of undergraduate students",
+                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
+                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
+                        new ArrayList<String>(),
+                        Boolean.FALSE,
+                        Boolean.TRUE);
+        pop4 = populationService.createPopulation(pop4, context);
+        ExplicitlyListedPersonsPopulationRuleInfo rule4e =
+                createExplicitlyListedPersonsPopulationRuleInfo
+                        ("Undergraduate Students",
+                                "A list of undergraduate students",
+                                PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+        rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT1);
+        rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT8);
+        rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT10);
+        rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT11);
+        rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT12);
+        PopulationRuleInfo rule4 = populationService.createPopulationRule(rule4e, context);
+        populationService.applyPopulationRuleToPopulation(rule4e.getId(), pop4.getId(), context);
+
+        // Undergraduate Freshmen Students
+        PopulationInfo pop5 = createPopulationInfo
+                ("Undergraduate Freshmen Students",
+                        "A list of undergraduate freshmen students",
+                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
+                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
+                        new ArrayList<String>(),
+                        Boolean.FALSE,
+                        Boolean.FALSE);
+        pop5 = populationService.createPopulation(pop5, context);
+
+        List<String> childPopulationRuleIds = new ArrayList<String> ();
+        childPopulationRuleIds.add(rule1.getId());
+        childPopulationRuleIds.add(rule4.getId());
+        String refPopulationId = null;
+
+        PopulationRuleInfo rule5 = createPopulationRuleInfo
+                ("Undergraduate Freshmen Students",
+                        "A list of undergraduate freshmen students",
+                        PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY,
+                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY,
+                        new ArrayList<String>(),
+                        new ArrayList<String>(),
+                        new ArrayList<String>(),
+                        childPopulationRuleIds,
+                        refPopulationId,
+                        new ArrayList<String>(),
+                        Boolean.FALSE,
+                        Boolean.FALSE);
+        rule5 = populationService.createPopulationRule(rule5, context);
+        populationService.applyPopulationRuleToPopulation(rule5.getId(), pop5.getId(), context);
+
     }
 
     /////////////////////////
@@ -177,7 +232,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         return ruleInfo;
     }
 
-    protected PopulationRuleInfo PopulationRuleInfo
+    protected PopulationRuleInfo createPopulationRuleInfo
             (String name,
              String descriptionPlain,
              String typeKey,
