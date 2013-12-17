@@ -24,6 +24,7 @@ package org.kuali.student.enrollment.class2.scheduleofclasses.util;
 public class ScheduleOfClassesConstants {
 
     // Errors
+    public static final String SOC_MSG_ERROR_NO_PUBLISHED_TERM = "error.enroll.scheduleofclasses.termNoPublished";
     public static final String SOC_MSG_ERROR_TERM_IS_EMPTY = "error.enroll.scheduleofclasses.termIsEmpty";
     public static final String SOC_MSG_ERROR_COURSE_IS_EMPTY = "error.enroll.scheduleofclasses.courseIsEmpty";
     public static final String SOC_MSG_ERROR_INSTRUCTOR_IS_EMPTY = "error.enroll.scheduleofclasses.instructorIsEmpty";

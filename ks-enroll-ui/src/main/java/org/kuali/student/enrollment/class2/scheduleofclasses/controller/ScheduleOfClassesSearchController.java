@@ -98,6 +98,10 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         scheduleOfClassesSearchForm.setSearchType( SEARCH_TYPE_COURSE );
 
         configureCurrentTermCodeOnInitialRequest( scheduleOfClassesSearchForm );
+        //This scenario will be very rare if ever (no published term in db)
+        if (GlobalVariables.getMessageMap().hasErrors() && GlobalVariables.getMessageMap().containsMessageKey(ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_PUBLISHED_TERM)) {
+            return getUIFModelAndView(scheduleOfClassesSearchForm, ScheduleOfClassesConstants.SOC_RESULT_PAGE);
+        }
         configureDefaultAoDisplayFormat( scheduleOfClassesSearchForm );
         configureSelectableAoRenderingWidget( scheduleOfClassesSearchForm, request );
 
@@ -108,8 +112,10 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         if (form.getTermCode() == null) {
             ContextInfo context = ContextUtils.getContextInfo();
             List<AtpInfo> atps = ScheduleOfClassesUtil.getValidSocTerms(ScheduleOfClassesUtil.getCourseOfferingSetService(), ScheduleOfClassesUtil.getAtpService(), context);
-            if (!atps.isEmpty()) {
+            if (atps != null && atps.size() > 0 && !atps.isEmpty()) {
                 form.setTermCode(ScheduleOfClassesUtil.getClosestAtp(atps).getId());
+            } else {
+                GlobalVariables.getMessageMap().putError("termCode", ScheduleOfClassesConstants.SOC_MSG_ERROR_NO_PUBLISHED_TERM);
             }
         }
     }

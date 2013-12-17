@@ -145,7 +145,7 @@ public class ScheduleOfClassesUtil {
     public static List<AtpInfo> getValidSocTerms(CourseOfferingSetService courseOfferingSetService, AtpService atpService, ContextInfo context) {
         List<SocInfo> socs;
         List<String> termIds = new ArrayList<String>();
-        List<AtpInfo> atps;
+        List<AtpInfo> atps = new ArrayList<AtpInfo>();
 
         // Build a predicate to search for published Socs
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
@@ -154,6 +154,9 @@ public class ScheduleOfClassesUtil {
         qBuilder.setPredicates(pred);
         try {
             socs = courseOfferingSetService.searchForSocs(qBuilder.build(), context);
+            if (socs == null && socs.size() < 1) {
+                return atps;
+            }
             for(SocInfo soc: socs){
                 // Add all published Soc termIds to termIds List
                 termIds.add(soc.getTermId());
