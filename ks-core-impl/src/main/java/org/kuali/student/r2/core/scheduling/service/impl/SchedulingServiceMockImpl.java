@@ -55,8 +55,10 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestGroupConstraintInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionGroupInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
@@ -68,6 +70,7 @@ import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -1409,4 +1412,173 @@ public class SchedulingServiceMockImpl implements SchedulingService, MockService
         return matcher.findMatching(collection);
     }
 
+	@Override
+	public ScheduleTransactionGroupInfo getScheduleTransactionGroup(
+			String scheduleTransactionGroupId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ScheduleTransactionGroupInfo> getScheduleTransactionGroupsByIds(
+			List<String> scheduleTransactionGroupIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<String> getScheduleTransactionGroupIdsByType(
+			String scheduleTransactionGroupTypeKey, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<String> searchForScheduleTransactionGroupIds(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ScheduleTransactionGroupInfo> searchForScheduleTransactionGroups(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateScheduleTransactionGroup(
+			String validationTypeKey, String scheduleTransactionGroupTypeKey,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleTransactionGroupInfo createScheduleTransactionGroup(
+			String scheduleTransactionGroupTypeKey,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleTransactionGroupInfo updateScheduleTransactionGroup(
+			String scheduleTransactionGroupId,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo deleteScheduleTransactionGroup(
+			String scheduleTransactionGroupId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo getScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ScheduleRequestGroupConstraintInfo> getScheduleRequestGroupConstraintsByIds(
+			List<String> scheduleRequestGroupConstraintIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<String> getScheduleRequestGroupConstraintIdsByType(
+			String scheduleRequestGroupConstraintTypeKey,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<String> searchForScheduleRequestGroupConstraintIds(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ScheduleRequestGroupConstraintInfo> searchForScheduleRequestGroupConstraints(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateScheduleRequestGroupConstraint(
+			String validationTypeKey,
+			String scheduleRequestGroupConstraintTypeKey,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo createScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintTypeKey,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo updateScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo deleteScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
 }

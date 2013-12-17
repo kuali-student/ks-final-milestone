@@ -26,6 +26,7 @@ import org.kuali.student.r2.core.scheduling.dto.*;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
 import javax.jws.WebParam;
+
 import java.util.List;
 
 /**
@@ -451,5 +452,178 @@ public class SchedulingServiceDecorator implements SchedulingService {
         return getNextDecorator().getScheduleRequestsByScheduleRequestSet(scheduleRequestSetId, contextInfo);
     }
 
+	@Override
+	public ScheduleTransactionGroupInfo getScheduleTransactionGroup(
+			String scheduleTransactionGroupId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getScheduleTransactionGroup(scheduleTransactionGroupId, contextInfo);
+	}
+
+	@Override
+	public List<ScheduleTransactionGroupInfo> getScheduleTransactionGroupsByIds(
+			List<String> scheduleTransactionGroupIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		
+		return getNextDecorator().getScheduleTransactionGroupsByIds(scheduleTransactionGroupIds, contextInfo);
+		
+	}
+
+	@Override
+	public List<String> getScheduleTransactionGroupIdsByType(
+			String scheduleTransactionGroupTypeKey, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getScheduleTransactionGroupIdsByType(scheduleTransactionGroupTypeKey, contextInfo);
+	}
+
+	@Override
+	public List<String> searchForScheduleTransactionGroupIds(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().searchForScheduleTransactionGroupIds(criteria, contextInfo);
+	}
+
+	@Override
+	public List<ScheduleTransactionGroupInfo> searchForScheduleTransactionGroups(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().searchForScheduleTransactionGroups(criteria, contextInfo);
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateScheduleTransactionGroup(
+			String validationTypeKey, String scheduleTransactionGroupTypeKey,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().validateScheduleTransactionGroup(validationTypeKey, scheduleTransactionGroupTypeKey, scheduleTransactionGroupInfo, contextInfo);
+	}
+
+	@Override
+	public ScheduleTransactionGroupInfo createScheduleTransactionGroup(
+			String scheduleTransactionGroupTypeKey,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		return getNextDecorator().createScheduleTransactionGroup(scheduleTransactionGroupTypeKey, scheduleTransactionGroupInfo, contextInfo);
+	}
+
+	@Override
+	public ScheduleTransactionGroupInfo updateScheduleTransactionGroup(
+			String scheduleTransactionGroupId,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		return getNextDecorator().updateScheduleTransactionGroup(scheduleTransactionGroupId, scheduleTransactionGroupInfo, contextInfo);
+	}
+
+	@Override
+	public StatusInfo deleteScheduleTransactionGroup(
+			String scheduleTransactionGroupId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().deleteScheduleTransactionGroup(scheduleTransactionGroupId, contextInfo);
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo getScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getScheduleRequestGroupConstraint(scheduleRequestGroupConstraintId, contextInfo);
+	}
+
+	@Override
+	public List<ScheduleRequestGroupConstraintInfo> getScheduleRequestGroupConstraintsByIds(
+			List<String> scheduleRequestGroupConstraintIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getScheduleRequestGroupConstraintsByIds(scheduleRequestGroupConstraintIds, contextInfo);
+	}
+
+	@Override
+	public List<String> getScheduleRequestGroupConstraintIdsByType(
+			String scheduleRequestGroupConstraintTypeKey,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getScheduleRequestGroupConstraintIdsByType(scheduleRequestGroupConstraintTypeKey, contextInfo);
+	}
+
+	@Override
+	public List<String> searchForScheduleRequestGroupConstraintIds(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().searchForScheduleRequestGroupConstraintIds(criteria, contextInfo);
+	}
+
+	@Override
+	public List<ScheduleRequestGroupConstraintInfo> searchForScheduleRequestGroupConstraints(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().searchForScheduleRequestGroupConstraints(criteria, contextInfo);
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateScheduleRequestGroupConstraint(
+			String validationTypeKey,
+			String scheduleRequestGroupConstraintTypeKey,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().validateScheduleRequestGroupConstraint(validationTypeKey, scheduleRequestGroupConstraintTypeKey, scheduleRequestGroupConstraintInfo, contextInfo);
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo createScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintTypeKey,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		return getNextDecorator().createScheduleRequestGroupConstraint(scheduleRequestGroupConstraintTypeKey, scheduleRequestGroupConstraintInfo, contextInfo);
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo updateScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		return getNextDecorator().updateScheduleRequestGroupConstraint(scheduleRequestGroupConstraintId, scheduleRequestGroupConstraintInfo, contextInfo);
+	}
+
+	@Override
+	public StatusInfo deleteScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().deleteScheduleRequestGroupConstraint(scheduleRequestGroupConstraintId, contextInfo);
+	}
+
+    
 
 }
