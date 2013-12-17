@@ -54,9 +54,6 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 	@Override
 	public String getAsText() {
 
-		Term currentTerm = KsapFrameworkServiceLocator.getTermHelper()
-				.getCurrentTerms().get(0);
-
 		CourseDetails courseDetails = (CourseDetails) super.getValue();
 		StringBuffer sb = new StringBuffer();
 		boolean currentTermRegistered = false;
@@ -129,7 +126,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						.getTerm(nonWithdrawnTerm);
 				List<String> sections = getSections(courseDetails,
 						nonWithdrawnTerm);
-				if (term.getStartDate().after(currentTerm.getStartDate())) {
+				if (!KsapFrameworkServiceLocator.getTermHelper().isCompleted(term.getId())) {
 					if (counter2 == 0) {
 						String message = "You are enrolled in ";
 						if (KsapFrameworkServiceLocator.getUserSessionHelper()
