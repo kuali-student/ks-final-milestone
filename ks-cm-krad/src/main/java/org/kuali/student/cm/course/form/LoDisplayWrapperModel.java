@@ -25,7 +25,7 @@ import java.util.List;
  * 
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class LoDisplayWrapperModel {
+public class LoDisplayWrapperModel implements java.io.Serializable {
 
     private List<LoDisplayInfoWrapper> loWrappers;
 
