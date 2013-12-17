@@ -1,7 +1,7 @@
 
 
 function toggleShowButton() {
-    var termCodeText = jQuery("#termCode_control").find(":selected").text();
+    var termCodeText = jQuery("#term_code_control").find(":selected").text();
     var searchTypeVal = jQuery("#searchType_control").find(":selected");
     var searchTypeText = searchTypeVal.text();
     var searchTextBoxVal = '';
