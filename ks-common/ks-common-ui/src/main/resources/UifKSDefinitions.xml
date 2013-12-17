@@ -138,6 +138,15 @@
         <property name="resultsGroup.collectionLookup">
             <null/>
         </property>
+        <property name="criteriaGroup.footer.items">
+          <list>
+            <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+            <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                  p:render="@{#form.renderedInLightBox}"
+                  p:onClickScript="e.preventDefault();closeLightbox();return false;"
+                  p:additionalCssClasses="cancel_link"/>
+          </list>
+        </property>
     </bean>
 
     <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
