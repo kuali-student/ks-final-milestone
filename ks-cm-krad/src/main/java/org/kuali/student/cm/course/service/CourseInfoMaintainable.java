@@ -313,6 +313,12 @@ public interface CourseInfoMaintainable extends Maintainable {
      */
     LoDisplayWrapperModel getLoDisplayWrapperModel();
     
+    /**
+     * 
+     * Retrieve the {@link CourseRuleManagementWrapper} instance that is specifically used for KRMS (Course Requisites) purposes.
+     * 
+     * @return {@link CourseRuleManagementWrapper}
+     */
     CourseRuleManagementWrapper getCourseRuleManagementWrapper();
 
 }

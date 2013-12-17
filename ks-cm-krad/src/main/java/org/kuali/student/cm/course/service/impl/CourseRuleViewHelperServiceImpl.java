@@ -18,6 +18,7 @@ package org.kuali.student.cm.course.service.impl;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
@@ -49,30 +50,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *  This class was created to override {@link LURuleViewHelperServiceImpl} for Curriculum Management KRMS (Course Requisites) purposes. 
  *
- * @author Kuali Student Team
+ * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
     private KSRuleCompareTreeBuilder compareTreeBuilder;
 
-    /**
-     *
-     * @return
-     */
     @Override
     public Class<? extends PropositionEditor> getPropositionEditorClass() {
         return LUPropositionEditor.class;
     }
 
-    /**
-     * Builds compare tree for the compare CO and CLU lightbox links.
-     *
-     * @param original
-     * @param compare
-     * @return
-     * @throws Exception
-     */
     @Override
     public Tree<CompareTreeNode, String> buildCompareTree(RuleEditor original, RuleEditor compare) {
 
@@ -188,8 +178,31 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
 
         container.setItems(components);
     }
+    
+    
+    @Override
+    public boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    }
 
+    @Override
+    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
+            boolean isValidLine) {
+        super.processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
+    }
+    
+    @Override
+    protected RuleEditor getRuleEditor(Object model) {
+        if (model instanceof MaintenanceDocumentForm) {
+            MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
+            CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)maintenanceDocumentForm.getDocument().getNewMaintainableObject();
+            RuleManagementWrapper ruleWrapper = courseInfoMaintainable.getCourseRuleManagementWrapper();
+            return ruleWrapper.getRuleEditor();
+        }
+        return null;
+    }
 
+    @Override
     protected RuleCompareTreeBuilder getCompareTreeBuilder() {
         if (compareTreeBuilder == null) {
             compareTreeBuilder = new KSRuleCompareTreeBuilder();

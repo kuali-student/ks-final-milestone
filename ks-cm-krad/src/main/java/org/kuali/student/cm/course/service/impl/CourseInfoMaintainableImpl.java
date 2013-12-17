@@ -19,7 +19,6 @@ import static org.kuali.student.logging.FormattedLogger.error;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
@@ -71,10 +70,9 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
-import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -97,16 +95,6 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService {
 
     private static final long serialVersionUID = 1338662637708570500L;
-
-    private transient OrganizationService organizationService;
-
-    private transient SearchService searchService;
-
-    private transient SubjectCodeService subjectCodeService;
-
-    private transient CluService cluService;
-
-    private transient LearningObjectiveService learningObjectiveService;
 
     private ProposalInfo proposalInfo;
 
@@ -153,8 +141,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private CourseRuleManagementWrapper courseRuleManagementWrapper;
 
     private RuleViewHelperService ruleViewHelperService = new CourseRuleViewHelperServiceImpl();
+    
+    private transient OrganizationService organizationService;
 
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CourseInfoMaintainableImpl.class);
+    private transient SearchService searchService;
+
+    private transient SubjectCodeService subjectCodeService;
+
+    private transient CluService cluService;
+
+    private transient LearningObjectiveService learningObjectiveService;
 
     private transient CourseService courseService;
 
@@ -750,7 +746,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return loDisplayWrapperModel;
     }
-
+    
     @Override
     public CourseRuleManagementWrapper getCourseRuleManagementWrapper() {
         if (courseRuleManagementWrapper == null) {
@@ -759,46 +755,79 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return courseRuleManagementWrapper;
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public Tree<RuleEditorTreeNode, String> getEditTree() {
         return courseRuleManagementWrapper.getEditTree();
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public Tree<TreeNode, String> getPreviewTree() {
         return courseRuleManagementWrapper.getPreviewTree();
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public Tree<TreeNode, String> getViewTree() {
         return courseRuleManagementWrapper.getViewTree();
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public String getSelectedKey() {
         return courseRuleManagementWrapper.getSelectedKey();
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public void setSelectedKey(String selectedKey) {
         courseRuleManagementWrapper.setSelectedKey(selectedKey);
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public String getCutKey() {
         return courseRuleManagementWrapper.getCutKey();
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public void setCutKey(String cutKey) {
         courseRuleManagementWrapper.setCutKey(cutKey);
     }
-
+    
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public String getCopyKey() {
         return courseRuleManagementWrapper.getCopyKey();
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public void setCopyKey(String copyKey) {
         courseRuleManagementWrapper.setCopyKey(copyKey);
     }
-
+    
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public String getLogicArea() {
         return courseRuleManagementWrapper.getLogicArea();
     }
 
+    /**
+     * Specifically created for KRMS purposes.
+     */
     public void setLogicArea(String logicArea) {
         courseRuleManagementWrapper.setLogicArea(logicArea);
     }
@@ -833,44 +862,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
             return StringUtils.isNotEmpty(collaboratorWrapper.getDisplayName()) ? true : false;
         }
-        return true;
+        return ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).performAddLineValidation(view, collectionGroup, model, addLine);
     }
-
-    protected SearchService getSearchService() {
-        if (searchService == null) {
-            searchService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_PERSONSEACH, CourseServiceConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
-        }
-        return searchService;
-    }
-
-    protected SubjectCodeService getSubjectCodeService() {
-        if (subjectCodeService == null) {
-            subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
-        }
-        return subjectCodeService;
-    }
-
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
-        }
-        return cluService;
-    }
-
-    protected LearningObjectiveService getLearningObjectiveService() {
-        if (learningObjectiveService == null) {
-            learningObjectiveService = GlobalResourceLoader.getService(new QName(
-                                                                           LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
-        }
-        return learningObjectiveService;
-    }
-
-    protected OrganizationService getOrganizationService() {
-        if (organizationService == null) {
-            organizationService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
-        }
-        return organizationService;
+    
+    @Override
+    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
+            boolean isValidLine) {
+        ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
     }
     
     
@@ -974,6 +972,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return KSKRMSServiceConstants.AGENDA_TYPE_COURSE;
     }
 
+    @Override
     public List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId) {
         // Initialize new array lists.
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
@@ -1009,28 +1008,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return sortedAgendas;
     }
 
-    /**
-     * This method was overriden from the RuleEditorMaintainableImpl to create an EnrolAgendaEditor instead of
-     * an AgendaEditor.
-     *
-     * @param agendaId
-     * @return EnrolAgendaEditor.
-     */
     @Override
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        LOG.info("Retrieved agenda for id: " + agendaId);
         return new LUAgendaEditor(agenda);
     }
 
-    /**
-     * Retrieves all the rules from the agenda tree and create a list of ruleeditor objects.
-     * <p/>
-     * Also initialize the proposition editors for each rule recursively and set natural language for the view trees.
-     *
-     * @param agendaItem
-     * @return
-     */
     @Override
     protected List<RuleEditor> getRuleEditorsFromTree(AgendaItemDefinition agendaItem, boolean initProps) {
 
@@ -1057,19 +1040,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return rules;
     }
 
-    /**
-     * Return the clu id from the canonical course that is linked to the given course offering id.
-     *
-     * @param refObjectId - the course offering id.
-     * @return
-     * @throws Exception
-     */
     @Override
     public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
         return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, refObjectId);
     }
-
-
 
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (this.viewTreeBuilder == null) {
@@ -1086,6 +1060,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return nlHelper;
     }
+    
+    protected RuleViewHelperService getRuleViewHelperService() {
+        return ruleViewHelperService;
+    }
 
     protected CourseService getCourseService() {
         if (courseService == null) {
@@ -1093,9 +1071,42 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
         return courseService;
     }
-
-    protected RuleViewHelperService getRuleViewHelperService() {
-        return ruleViewHelperService;
+    
+    protected SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_PERSONSEACH, CourseServiceConstants.PERSONSEACH_SERVICE_NAME_LOCAL_PART));
+        }
+        return searchService;
     }
+
+    protected SubjectCodeService getSubjectCodeService() {
+        if (subjectCodeService == null) {
+            subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
+        }
+        return subjectCodeService;
+    }
+
+    protected CluService getCluService() {
+        if (cluService == null) {
+            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluService.class.getSimpleName()));
+        }
+        return cluService;
+    }
+
+    protected LearningObjectiveService getLearningObjectiveService() {
+        if (learningObjectiveService == null) {
+            learningObjectiveService = GlobalResourceLoader.getService(new QName(
+                                                                           LearningObjectiveServiceConstants.NAMESPACE, LearningObjectiveService.class.getSimpleName()));
+        }
+        return learningObjectiveService;
+    }
+
+    protected OrganizationService getOrganizationService() {
+        if (organizationService == null) {
+            organizationService = (OrganizationService) GlobalResourceLoader
+                .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
+        }
+        return organizationService;
+    }    
 
 }

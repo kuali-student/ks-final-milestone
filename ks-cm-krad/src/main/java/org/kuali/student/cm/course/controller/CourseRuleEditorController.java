@@ -15,6 +15,11 @@
  */
 package org.kuali.student.cm.course.controller;
 
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -36,14 +41,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
-
 /**
- * Override of RuleEditorController for Student
+ * Override of RuleEditorController for CM KRAD purposes.
  *
- * @author Kuali Student Team
+ * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 @Controller
 @RequestMapping(value = "/courseOfferingRules")
