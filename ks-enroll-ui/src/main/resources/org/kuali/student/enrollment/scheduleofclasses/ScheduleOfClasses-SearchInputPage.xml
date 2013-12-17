@@ -41,7 +41,7 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="termCode" p:id="termCode" p:label="Term" p:labelPlacement="TOP"
+                            <bean parent="Uif-InputField" p:propertyName="termCode" p:id="term_code" p:label="Term" p:labelPlacement="TOP"
                                   p:fieldLabel.renderColon="false" p:required="true" p:onChangeScript="toggleShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl"/>
