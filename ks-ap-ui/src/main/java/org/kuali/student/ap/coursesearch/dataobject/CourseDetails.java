@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.kuali.student.ap.coursesearch.util.CrudMessageMatrixFormatter;
-import org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
 
 /**
@@ -107,28 +105,5 @@ public class CourseDetails {
 	public List<CourseOfferingInstitution> getInstitutionsList() {
 		return getCourseOfferingInstitutionList();
 	}
-
-    /**
-     * get details formatted as a String using propertyFormatter setup to support KRAD rendering
-     * @return
-     */
-    @JsonIgnore
-    public String getDetailsFormatted() {
-        CrudMessageMatrixFormatter formatter = new CrudMessageMatrixFormatter();
-        formatter.setValue(this);
-        return formatter.getAsText();
-    }
-
-    /**
-     * get CourseSummaryDetails as an edited String using a propertyEditor setup to support KRAD rendering
-     * @return
-     */
-    @JsonIgnore
-    public String  getCourseSummaryDetailsEdited() {
-        ScheduledTermsPropertyEditor editor = new ScheduledTermsPropertyEditor();
-        editor.setValue((Object) this.courseSummaryDetails);
-        return editor.getAsText();
-    }
-
 
 }

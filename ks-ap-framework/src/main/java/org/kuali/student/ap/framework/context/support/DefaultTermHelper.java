@@ -1,6 +1,5 @@
 package org.kuali.student.ap.framework.context.support;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
@@ -260,9 +259,9 @@ public class DefaultTermHelper implements TermHelper {
 	public List<Term> getCurrentTerms() {
 		try {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(getTermPredicates()), or(equal("name","Fall 2013"),and(lessThanOrEqual("startDate", new Date()), greaterThanOrEqual("endDate", new Date()))));
+                    or(getTermPredicates()), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
 			List<TermInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			if (rv == null)
 				rv = Collections.emptyList();
 			return getTermMarker().cache(rv);

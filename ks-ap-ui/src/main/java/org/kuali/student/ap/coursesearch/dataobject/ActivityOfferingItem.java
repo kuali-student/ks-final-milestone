@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.ap.coursesearch.util.MeetingDetailsPropertyEditor;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 
 /**
@@ -440,15 +439,4 @@ public class ActivityOfferingItem implements Serializable {
 	public void setPrimaryActivityOfferingId(String primaryActivityOfferingId) {
 		this.primaryActivityOfferingId = primaryActivityOfferingId;
 	}
-
-    /**
-     * get ActivityOfferingItem formatted using a propertyEditor setup to support KRAD rendering
-     * @return
-     */
-    public String getActivityItemEdited() {
-        MeetingDetailsPropertyEditor editor = new MeetingDetailsPropertyEditor();
-        editor.setValue(this);
-        return editor.getAsText();
-    }
-
 }
