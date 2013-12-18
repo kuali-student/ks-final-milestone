@@ -25,8 +25,11 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -61,7 +64,7 @@ public class RegistrationRequestItemInfo
     private String existingCourseRegistrationId;
 
     @XmlElement
-    private String credits;
+    private KualiDecimal credits;
 
     @XmlElement
     private String gradingOptionId;
@@ -96,7 +99,7 @@ public class RegistrationRequestItemInfo
             this.personId = registrationRequestItem.getPersonId();
             this.registrationGroupId = registrationRequestItem.getRegistrationGroupId();
             this.existingCourseRegistrationId = registrationRequestItem.getExistingCourseRegistrationId();
-            this.credits = registrationRequestItem.getCredits();
+            this.credits = new KualiDecimal(registrationRequestItem.getCredits().bigDecimalValue());
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
@@ -140,11 +143,11 @@ public class RegistrationRequestItemInfo
     }
 
     @Override
-    public String getCredits() {
+    public KualiDecimal getCredits() {
         return credits;
     }
 
-    public void setCredits(String credits) {
+    public void setCredits(KualiDecimal credits) {
         this.credits = credits;
     }
 

@@ -26,8 +26,11 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
+
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -69,7 +72,7 @@ public class LprInfo
     private List<String> resultValuesGroupKeys;
 
     @XmlElement
-    private String commitmentPercent;
+    private KualiDecimal commitmentPercent;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -84,7 +87,7 @@ public class LprInfo
             this.personId = lpr.getPersonId();
             this.atpId = lpr.getAtpId();
             this.masterLprId = lpr.getMasterLprId();
-            this.commitmentPercent = lpr.getCommitmentPercent();
+            this.commitmentPercent = new KualiDecimal(lpr.getCommitmentPercent().bigDecimalValue());
             if (lpr.getResultValuesGroupKeys() != null) {
                 this.resultValuesGroupKeys = new ArrayList<String>(lpr.getResultValuesGroupKeys());
             }
@@ -128,11 +131,11 @@ public class LprInfo
     }    
 
     @Override
-    public String getCommitmentPercent() {
+    public KualiDecimal getCommitmentPercent() {
         return commitmentPercent;
     }
 
-    public void setCommitmentPercent(String commitmentPercent) {
+    public void setCommitmentPercent(KualiDecimal commitmentPercent) {
         this.commitmentPercent = commitmentPercent;
     }
 

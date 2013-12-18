@@ -16,7 +16,10 @@
 
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import org.kuali.student.r2.common.infc.Relationship;
+
 
 /**
  * Course Registration is the consolidated view of the details of a
@@ -41,12 +44,13 @@ public interface CourseRegistration
      */
     public String getPersonId();
 
-    
     /**
      * The Id of the term that governs this registration.
      * 
-     * Note: this typically is the same as the termId on the associated Course Offering but may be different.
-     * This is especially true if the Course Offering term is a mini within the main or non-standard term.
+     * Note: this typically is the same as the termId on the
+     * associated Course Offering but may be different.  This is
+     * especially true if the Course Offering term is a mini within
+     * the main or non-standard term.
      * 
      * @name Term Id
      * @readOnly
@@ -55,7 +59,6 @@ public interface CourseRegistration
      */
     public String getTermId();
 
-    
     /**
      * The Course Offering Id for this course registration.
      * 
@@ -76,7 +79,6 @@ public interface CourseRegistration
      */
     public String getRegistrationGroupId();
     
-    
     /**
      * The number of credits for which the student
      * registered. Typically, this number should be in the range
@@ -90,7 +92,7 @@ public interface CourseRegistration
      *       value within a range of allowable credits. Consult the
      *       ResultValuesGroup Type for credit value types.
      */
-    public String getCredits();
+    public KualiDecimal getCredits();
 
     /**
      * The Id for the Grading Option for which the student

@@ -16,6 +16,8 @@
 
 package org.kuali.student.enrollment.courseregistration.infc;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -96,7 +98,7 @@ public interface RegistrationRequestItem
      * @impl LprTransactionItem.ResultValuesGroups filtering on the
      *       ResultValuesGroup Type for a credit option.
      */
-    public String getCredits();
+    public KualiDecimal getCredits();
 
     /**
      * The requested grading scheme option (e.g. A-F or Pass/Fail).

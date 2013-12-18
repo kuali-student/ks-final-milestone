@@ -17,14 +17,16 @@
 package org.kuali.student.enrollment.lpr.infc;
 
 import java.util.List;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
- * Detailed information about a single LUI to Person Relation. This is used to
- * link together a learning unit instance and a person in such widely defined
- * domains as a student registering in a course or an instructor being assigned
- * to advise students in a particular program.
+ * Detailed information about a single LUI to Person Relation. This is
+ * used to link together a learning unit instance and a person in such
+ * widely defined domains as a student registering in a course or an
+ * instructor being assigned to advise students in a particular
+ * program.
  */
 
 public interface Lpr 
@@ -49,9 +51,9 @@ public interface Lpr
     /**
      * The ATP for the LPR.
      * 
-     * This the is the ATP that governs the creation and management of this LPR. 
-     * Typically is will be the same as the ATP associated with the LUI 
-     * but does not have to be.  
+     * This the is the ATP that governs the creation and management of
+     * this LPR.  Typically is will be the same as the ATP associated
+     * with the LUI but does not have to be.
      * 
      * @name ATP Id
      * @required
@@ -68,9 +70,6 @@ public interface Lpr
     public String getMasterLprId();
 
     /**
-     * NOTE:: this should be changed to KSDecimal
-     * Commitment percentage for the person in the LUI
-     * 
      * Valid range should be between 0 and 100.00 inclusive.
      * 
      * @name Commitment Percent
@@ -79,7 +78,7 @@ public interface Lpr
      * as a number so it can be easily queried This was done because
      * of the rounding problems with many Floating implementations
      */
-    public String getCommitmentPercent();
+    public KualiDecimal getCommitmentPercent();
 
     /**
      * The keys of the result values groups to be applied to this LPR

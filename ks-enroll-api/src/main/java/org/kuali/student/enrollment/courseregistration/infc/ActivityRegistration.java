@@ -44,12 +44,13 @@ public interface ActivityRegistration
      */
     public String getPersonId();
     
-    
     /**
      * The Id of the term that governs this registration.
      * 
-     * Note: this typically is the same as the termId on the associated Activity Offering but may be different.
-     * This is especially true if the Course Offering term is a mini within the main or non-standard term.
+     * Note: this typically is the same as the termId on the
+     * associated Activity Offering but may be different.  This is
+     * especially true if the Course Offering term is a mini within
+     * the main or non-standard term.
      * 
      * @name Term Id
      * @readOnly
@@ -69,7 +70,8 @@ public interface ActivityRegistration
     public String getActivityOfferingId();
     
      /**
-     * The id of the course registration with which this activity registration is associated.
+     * The id of the course registration with which this activity
+     * registration is associated.
      * 
      * @name Course Registration Id
      * @readOnly
