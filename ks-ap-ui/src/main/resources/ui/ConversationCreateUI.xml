@@ -256,8 +256,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="dynamic_course_type_list" parent="Uif-ListCollectionSection">
+
+    <bean id="dynamic_course_type_list" parent="dynamic_course_type_list-parent"/>
+	<bean abstract="true" id="dynamic_course_type_list-parent" parent="Uif-ListCollectionSection">
 		<property name="collectionObjectClass"
                   value="org.kuali.student.ap.plannerreview.dto.CourseTypeInfo"/>
         <property name="propertyName" value="courseTypes"/>
@@ -284,8 +285,9 @@
           	</list>
       	</property>
 	</bean>
-	
-	<bean id="dynamic_course_list" abstract="false" parent="Uif-ListCollectionSection">
+
+    <bean id="dynamic_course_list" abstract="false" parent="dynamic_course_list-parent"/>
+	<bean id="dynamic_course_list-parent" abstract="false" parent="Uif-ListCollectionSection">
         <property name="collectionObjectClass"
                   value="org.kuali.student.ap.plannerreview.dto.CourseInfo"/>
         <property name="renderAddLine" value="false"/>
@@ -353,8 +355,9 @@
 			</list>
 		</property>
 	</bean>
-	
-	<bean id="course_checkbox_tooltip" parent="Uif-MessageField" p:messageText="Message Field Text">
+
+    <bean id="course_checkbox_tooltip" parent="course_checkbox_tooltip-parent"/>
+	<bean abstract="true" id="course_checkbox_tooltip-parent" parent="Uif-MessageField" p:messageText="Message Field Text">
 		<property name="toolTip">
 			<bean parent="Uif-Tooltip" p:tooltipContent=""/>
 		</property>
