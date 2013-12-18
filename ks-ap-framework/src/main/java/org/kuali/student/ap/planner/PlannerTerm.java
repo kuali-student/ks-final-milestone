@@ -21,7 +21,7 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 	private String termName;
 
 	private boolean planning;
-	private boolean published;
+	private boolean official;
 	private boolean inProgress;
 	private boolean cartAvailable;
 	private boolean completed;
@@ -56,7 +56,7 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 		Term term = termHelper.getTerm(termId);
 		termName = term.getName();
 		planning = termHelper.isPlanning(termId);
-		published = termHelper.isPublished(termId);
+		official = termHelper.isOfficial(termId);
 		completed = termHelper.isCompleted(termId);
 		cartAvailable = KsapFrameworkServiceLocator.getShoppingCartStrategy()
 				.isCartAvailable(termId, null);
@@ -82,12 +82,12 @@ public class PlannerTerm implements HasUniqueId, Serializable, Comparable<Planne
 		this.planning = planning;
 	}
 
-	public boolean isPublished() {
-		return published;
+	public boolean isOfficial() {
+		return official;
 	}
 
-	public void setPublished(boolean published) {
-		this.published = published;
+	public void setOfficial(boolean official) {
+		this.official = official;
 	}
 
 	public boolean isInProgress() {

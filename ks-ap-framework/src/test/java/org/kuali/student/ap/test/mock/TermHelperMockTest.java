@@ -171,7 +171,7 @@ public class TermHelperMockTest implements TermHelper {
      *         if not.
      */
     @Override
-    public boolean isPublished(String termId) {
+    public boolean isOfficial(String termId) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -193,7 +193,7 @@ public class TermHelperMockTest implements TermHelper {
      * @return
      */
     @Override
-    public List<Term> getPublishedTerms() {
+    public List<Term> getOfficialTerms() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

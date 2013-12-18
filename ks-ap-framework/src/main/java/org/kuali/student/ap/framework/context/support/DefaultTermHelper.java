@@ -269,7 +269,7 @@ public class DefaultTermHelper implements TermHelper {
 	@Override
 	public Term getLastScheduledTerm() {
 		Term rv = null;
-		for (Term t : getPublishedTerms())
+		for (Term t : getOfficialTerms())
 			if (rv == null || t.getEndDate().after(rv.getEndDate()))
 				rv = t;
 		assert rv != null;
@@ -426,8 +426,8 @@ public class DefaultTermHelper implements TermHelper {
 	}
 
 	@Override
-	public boolean isPublished(String termId) {
-		for (Term t : getPublishedTerms())
+	public boolean isOfficial(String termId) {
+		for (Term t : getOfficialTerms())
 			if (t.getId().equals(termId))
 				return true;
 		return false;
@@ -449,7 +449,7 @@ public class DefaultTermHelper implements TermHelper {
 
 
 	@Override
-	public List<Term> getPublishedTerms() {
+	public List<Term> getOfficialTerms() {
 		try {
 			QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),or(KsapHelperUtil.getTermPredicates()));
 			List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,

@@ -79,7 +79,7 @@ public interface PlanItemForm extends HasUniqueId {
 	 * 
 	 * @return True if the requested term is a published term, false if not.
 	 */
-	boolean isPublished();
+	boolean isOfficial();
 
 	/**
 	 * Get the requested term.

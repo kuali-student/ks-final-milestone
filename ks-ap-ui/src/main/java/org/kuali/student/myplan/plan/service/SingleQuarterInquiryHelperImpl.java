@@ -102,7 +102,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 		String[] params = {};
 
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
-		List<Term> publishedTerms = th.getPublishedTerms();
+		List<Term> publishedTerms = th.getOfficialTerms();
 
 		/************* PlannedCourseList **************/
 		List<PlannedCourseDataObject> plannedCoursesList = new ArrayList<PlannedCourseDataObject>();

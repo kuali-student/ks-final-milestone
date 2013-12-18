@@ -2554,7 +2554,7 @@ public class PlanController extends UifControllerBase {
             TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
             String pp = planItem.getPlanPeriods().get(0);
             boolean timeScheduleOpen = false;
-            for (Term t : th.getPublishedTerms())
+            for (Term t : th.getOfficialTerms())
                 timeScheduleOpen = timeScheduleOpen || t.getId().equals(pp);
             Course c;
             try {

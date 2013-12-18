@@ -1011,7 +1011,7 @@ public class QuickAddController extends UifControllerBase {
 			// event for aler Icon
 			TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
 			Term pt = th.getTerm(planItem.getPlanPeriods().get(0));
-			List<Term> publishedTerms = th.getPublishedTerms();
+			List<Term> publishedTerms = th.getOfficialTerms();
 			try {
 				params.put("showAlert",
 						String.valueOf(!KsapFrameworkServiceLocator.getCourseHelper().isCourseOffered(

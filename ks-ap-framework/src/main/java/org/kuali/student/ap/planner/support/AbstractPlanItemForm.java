@@ -96,8 +96,8 @@ public abstract class AbstractPlanItemForm extends UifFormBase implements PlanIt
 	}
 
 	@Override
-	public boolean isPublished() {
-		return termId != null && KsapFrameworkServiceLocator.getTermHelper().isPublished(termId);
+	public boolean isOfficial() {
+		return termId != null && KsapFrameworkServiceLocator.getTermHelper().isOfficial(termId);
 	}
 
 	@Override

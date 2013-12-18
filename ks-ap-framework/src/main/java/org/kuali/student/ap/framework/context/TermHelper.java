@@ -53,7 +53,7 @@ public interface TermHelper {
 
 	/**
 	 * Query the Academic Calendar Service for terms that have offerings
-	 * published, determine the last ATP, and return its ID.
+	 * official, determine the last ATP, and return its ID.
 	 * 
 	 * @return The ID of the last scheduled ATP.
 	 * @throws RuntimeException
@@ -124,20 +124,20 @@ public interface TermHelper {
 	boolean isPlanning(String termId);
 
 	/**
-	 * Returns true if a term published on the schedule of classes.
+	 * Returns true if a term official on the schedule of classes.
 	 * 
 	 * @param termId
 	 *            The term ID.
-	 * @return True if the term is published on the schedule of classes, false
+	 * @return True if the term is official on the schedule of classes, false
 	 *         if not.
 	 */
-	boolean isPublished(String termId);
+	boolean isOfficial(String termId);
 
 	/**
 	 * Returns true if an ATP is considered present or greater in the context of
 	 * the current term's term. Otherwise, false.
 	 * 
-	 * @param termId
+	 * @param atpId
 	 * @return
 	 */
 	boolean isCompleted(String atpId);
@@ -145,11 +145,11 @@ public interface TermHelper {
 
 
 	/**
-	 * Gets a list of published terms.
+	 * Gets a list of official terms.
 	 * 
 	 * @return
 	 */
-	List<Term> getPublishedTerms();
+	List<Term> getOfficialTerms();
 
 	/**
 	 * Gets a list of planning terms.
@@ -176,8 +176,7 @@ public interface TermHelper {
 
 	/**
 	 * 
-	 * @param termId
-	 *            - Id of a term
+	 * @param term - term obj
 	 * @return YearTerm holding information for the term
 	 */
 	YearTerm getYearTerm(Term term);

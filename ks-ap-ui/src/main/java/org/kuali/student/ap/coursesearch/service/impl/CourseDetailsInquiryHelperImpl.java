@@ -572,7 +572,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
 		boolean published = false;
-		for (Term t : th.getPublishedTerms())
+		for (Term t : th.getOfficialTerms())
 			published = published || t.getId().equals(termId);
 		if (published) {
 			boolean openForPlanning = th.isPlanning(termId);

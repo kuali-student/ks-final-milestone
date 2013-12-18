@@ -69,7 +69,7 @@ public class DefaultScheduleBuildForm extends UifFormBase implements
 
 		term = null;
 		StringBuilder pubs = new StringBuilder();
-		for (Term t : th.getPublishedTerms()) {
+		for (Term t : th.getOfficialTerms()) {
 			pubs.append(" ").append(t.getId());
 			if (t.getId().equals(termId))
 				term = t;
