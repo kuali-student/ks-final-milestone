@@ -34,13 +34,28 @@ public interface CourseRegistration
     /**
      * The person Id for the course registration.
      * 
-     * @name Student Id
+     * @name Person Id
      * @readOnly
      * @required
      * @impl Lpr.personId
      */
-    public String getStudentId();
+    public String getPersonId();
 
+    
+    /**
+     * The Id of the term that governs this registration.
+     * 
+     * Note: this typically is the same as the termId on the associated Course Offering but may be different.
+     * This is especially true if the Course Offering term is a mini within the main or non-standard term.
+     * 
+     * @name Term Id
+     * @readOnly
+     * @required
+     * @impl Lpr.atpId
+     */
+    public String getTermId();
+
+    
     /**
      * The Course Offering Id for this course registration.
      * 

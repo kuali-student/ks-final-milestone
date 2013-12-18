@@ -34,7 +34,8 @@ import org.w3c.dom.Element;
         "id", 
         "typeKey", 
         "stateKey", 
-        "studentId", 
+        "personId", 
+        "termId", 
         "courseOfferingId", 
         "registrationGroupId", 
         "credits", 
@@ -52,7 +53,10 @@ public class CourseRegistrationInfo
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String studentId;
+    private String personId;
+    
+    @XmlElement
+    private String termId;
 
     @XmlElement
     private String courseOfferingId;
@@ -86,7 +90,8 @@ public class CourseRegistrationInfo
         super(courseRegistration);
 
         if (courseRegistration != null) {
-            this.studentId = courseRegistration.getStudentId();
+            this.personId = courseRegistration.getPersonId();
+            this.termId = courseRegistration.getTermId();
             this.courseOfferingId = courseRegistration.getCourseOfferingId();
             this.registrationGroupId = courseRegistration.getRegistrationGroupId();
             this.credits = courseRegistration.getCredits();
@@ -95,14 +100,25 @@ public class CourseRegistrationInfo
     }
 
     @Override
-    public String getStudentId() {
-        return studentId;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setPersonId(String studentId) {
+        this.personId = studentId;
     }
 
+    @Override
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    
+    
     @Override
     public String getCourseOfferingId() {
         return courseOfferingId;

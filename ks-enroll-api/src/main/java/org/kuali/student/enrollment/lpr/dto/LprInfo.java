@@ -32,9 +32,19 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LprInfo", propOrder = {
-        "id", "typeKey", "stateKey", "effectiveDate", "expirationDate", 
-        "luiId", "personId", "atpId",
-        "resultValuesGroupKeys", "commitmentPercent", "meta", "attributes",
+        "id", 
+        "typeKey", 
+        "stateKey", 
+        "effectiveDate", 
+        "expirationDate", 
+        "luiId", 
+        "personId", 
+        "atpId",
+        "masterLprId", 
+        "resultValuesGroupKeys", 
+        "commitmentPercent", 
+        "meta", 
+        "attributes",
         "_futureElements"})
 
 public class LprInfo 
@@ -51,6 +61,9 @@ public class LprInfo
 
     @XmlElement
     private String atpId;
+    
+    @XmlElement
+    private String masterLprId;
 
     @XmlElement
     private List<String> resultValuesGroupKeys;
@@ -70,6 +83,7 @@ public class LprInfo
             this.luiId = lpr.getLuiId();
             this.personId = lpr.getPersonId();
             this.atpId = lpr.getAtpId();
+            this.masterLprId = lpr.getMasterLprId();
             this.commitmentPercent = lpr.getCommitmentPercent();
             if (lpr.getResultValuesGroupKeys() != null) {
                 this.resultValuesGroupKeys = new ArrayList<String>(lpr.getResultValuesGroupKeys());
@@ -103,6 +117,15 @@ public class LprInfo
     public void setAtpId(String atpId) {
         this.atpId = atpId;
     }
+
+    @Override
+    public String getMasterLprId() {
+        return masterLprId;
+    }
+
+    public void setMasterLprId(String masterLprId) {
+        this.masterLprId = masterLprId;
+    }    
 
     @Override
     public String getCommitmentPercent() {

@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "RegistrationRequestItemInfo", propOrder = {
                 "id", "name", "descr", "typeKey", "stateKey",
                 "registrationRequestId", 
-                "studentId", 
+                "personId", 
                 "registrationGroupId",
                 "existingCourseRegistrationId", 
                 "credits", 
@@ -52,7 +52,7 @@ public class RegistrationRequestItemInfo
     private String registrationRequestId;
 
     @XmlElement
-    private String studentId;
+    private String personId;
 
     @XmlElement
     private String registrationGroupId;
@@ -93,7 +93,7 @@ public class RegistrationRequestItemInfo
 
         if (registrationRequestItem != null) {
             this.registrationRequestId = registrationRequestItem.getRegistrationRequestId();
-            this.studentId = registrationRequestItem.getStudentId();
+            this.personId = registrationRequestItem.getPersonId();
             this.registrationGroupId = registrationRequestItem.getRegistrationGroupId();
             this.existingCourseRegistrationId = registrationRequestItem.getExistingCourseRegistrationId();
             this.credits = registrationRequestItem.getCredits();
@@ -113,12 +113,12 @@ public class RegistrationRequestItemInfo
     }
 
     @Override
-    public String getStudentId() {
-        return studentId;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     @Override

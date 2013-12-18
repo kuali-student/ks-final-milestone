@@ -30,6 +30,17 @@ import org.kuali.student.r2.common.infc.Relationship;
 public interface Lpr 
     extends Relationship {
 
+     /**
+     * Id if the master LPR
+     * Often LPRs are created by virtue of another LPR.
+     * This field contains it id of that "master" lpr.
+     * If null then this is the master.
+     * 
+     * 
+     * @name Master LPR id
+     */
+    public String getMasterLprId();
+    
     /**
      * Unique identifier for a Learning Unit Instance (LUI).
      * 
@@ -48,6 +59,10 @@ public interface Lpr
 
     /**
      * The ATP for the LPR.
+     * 
+     * This the is the ATP that governs the creation and management of this LPR. 
+     * Typically is will be the same as the ATP associated with the LUI 
+     * but does not have to be.  
      * 
      * @name ATP Id
      * @required

@@ -56,13 +56,13 @@ public interface RegistrationRequestItem
     public String getRegistrationRequestId();
 
     /**
-     * The Student to which this request item applies.
+     * The Person to which this request item applies.
      * 
-     * @name Student Id
+     * @name Person Id
      * @required
      * @readOnly on update
      */
-    public String getStudentId();
+    public String getPersonId();
 
     /**
      * The RegistrationGroup to which the student will be registered
