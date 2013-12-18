@@ -1,5 +1,6 @@
 package org.kuali.student.ap.framework.util;
 
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 
 import java.util.ArrayList;
@@ -21,7 +22,8 @@ public class KsapHelperUtil {
     public static List<String> getTermTypes(){
         if(termTypes==null){
             termTypes = new ArrayList<String>();
-            for(String term : KsapConstants.defaultTerms){
+            String types[] = ConfigContext.getCurrentContextConfig().getProperty("ks.ap.planner.term.types").split(",");
+            for(String term : types){
                 termTypes.add(term);
             }
         }

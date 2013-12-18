@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.PlanHelper;
@@ -15,8 +16,6 @@ import org.kuali.student.r2.core.acal.infc.Term;
  * Default implementation of the PlanHelper
  */
 public class DefaultPlanHelper implements PlanHelper {
-    // Todo KSAP-476
-    private static final int NUMBER_OF_FUTRUE_TERMS = 4;
 
 	/**
 	 * Retrieves the first plan item of type
@@ -78,7 +77,8 @@ public class DefaultPlanHelper implements PlanHelper {
     @Override
     public List<Term> getCalendarTerms(Term startTerm) {
         Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR, NUMBER_OF_FUTRUE_TERMS);
+        int futureYears = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty( "ks.ap.planner.future.years"));
+        c.add(Calendar.YEAR, futureYears);
         List<Term> calendarTerms = KsapFrameworkServiceLocator.getTermHelper().getTermsByDateRange(startTerm.getStartDate(),c.getTime());
         calendarTerms = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(calendarTerms,true);
         Term start = calendarTerms.get(0);
@@ -89,8 +89,13 @@ public class DefaultPlanHelper implements PlanHelper {
         // Sorted in reverse order so terms are added in order.
         startYear = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(startYear,false);
 
-        endYear = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(endYear,true);
-
+        endYear = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(endYear,false);
+        Collections.sort(endYear, new Comparator<Term>() {
+            @Override
+            public int compare(Term o1, Term o2) {
+                return o1.getStartDate().compareTo(o2.getStartDate());
+            }
+        });
         for(Term t : startYear){
             if(t.getStartDate().compareTo(start.getStartDate())<0){
                 calendarTerms.add(0,t);
