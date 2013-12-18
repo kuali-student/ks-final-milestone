@@ -609,7 +609,7 @@
         <property name="items">
             <list>
                 <bean id="edit_co_format_id" parent="Uif-InputField" p:propertyName="formatOfferingInfo.formatId"  p:readOnly="@{!#lp.renderHelper.newRow}"
-                      p:label="FORMAT" p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name" p:required="true">
+                      p:label="Format" p:readOnlyDisplayReplacementPropertyName="formatOfferingInfo.name" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:onChangeScript="retrieveDeliveryFormatsComponent('edit_co_grade_roster_level_line@{#index}','edit_co_final_exam_type_line@{#index}', '@{#dp.courseOfferingInfo.finalExamType}');"/>
                     </property>
@@ -618,7 +618,7 @@
                     </property>
                 </bean>
                 <bean id="edit_co_grade_roster_level" parent="Uif-InputField" p:propertyName="formatOfferingInfo.gradeRosterLevelTypeKey"
-                      p:label="GRADE ROSTER LEVEL" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="gradeRosterUI">
+                      p:label="Grade Roster Level" p:required="true" p:finalizeMethodToCall="populateGradeRosterLevelTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="gradeRosterUI">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -628,9 +628,9 @@
                 </bean>
 
                 <bean parent="Uif-DataField" p:id="final_exam_driver_ui" p:propertyName="courseOfferingWrapper.finalExamDriverUI" p:render="@{!#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}" p:label="FINAL EXAM DRIVER"/>
-                <bean parent="Uif-MessageField" p:label="FINAL EXAM DRIVER" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="@{#lp.courseOfferingWrapper.finalExamDriverUI}" p:render="@{#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}" />
+                <bean parent="Uif-MessageField" p:label="Final Exam Driver" p:labelPlacement="TOP" p:fieldLabel.renderColon="false" p:messageText="@{#lp.courseOfferingWrapper.finalExamDriverUI}" p:render="@{#parent.readOnly and (#dp.courseOfferingInfo.finalExamType eq 'STANDARD')}" />
 
-                <bean id="edit_co_final_exam_type" parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="FINAL EXAM DRIVER ACTIVITY"
+                <bean id="edit_co_final_exam_type" parent="Uif-InputField" p:propertyName="formatOfferingInfo.finalExamLevelTypeKey" p:label="Final Exam Driver Activity"
                       p:labelPlacement="TOP" p:required="true" p:render="@{#dp.courseOfferingInfo.finalExamType eq 'STANDARD'}"  p:finalizeMethodToCall="populateFinalExamDriverTypes" p:forceSessionPersistence="true" p:readOnlyDisplayReplacementPropertyName="finalExamUI"
                       p:onDocumentReadyScript="updateExamDriverInFOTable('KS-CourseOfferingEdit-FinalExamDriver', 'final_exam_driver_ui', @{#parent.readOnly});">
                     <property name="control">
@@ -719,7 +719,7 @@
                     <property name="Items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
-                                  p:label="ID" p:required="false" p:additionalCssClasses="col_5">
+                                  p:label="Id" p:required="false" p:additionalCssClasses="col_5">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
                                         <property name="dataObjectClassName" value="org.kuali.student.rice.kim.impl.KSPersonImpl"/>
@@ -737,7 +737,7 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION"  p:required="false">
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation"  p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="coInstructors-options" />
                                 </property>
@@ -772,7 +772,7 @@
     <bean id="KS-CourseOfferingEdit-OrganizationSection" parent="KS-TableCollectionSubSection-BottomAddLine"
           p:layoutManager.style="width: 100%;"
           p:layoutManager.numberOfColumns="1"
-          p:headerText="ADMINISTERING ORGANIZATIONS"
+          p:headerText="Administering Organizations"
           p:collectionObjectClass="org.kuali.student.enrollment.class2.courseoffering.dto.OrganizationInfoWrapper"
           p:propertyName="organizationNames"
           p:layoutManager.renderSequenceField="false"
@@ -781,7 +781,7 @@
           p:layoutManager.richTable.disableTableSort="true"
           p:layoutManager.richTable.render="false"
           p:layoutManager.applyAlternatingRowStyles="false">
-        <property name="addBlankLineAction.actionLabel" value="Add Administrating Organization"/>
+        <property name="addBlankLineAction.actionLabel" value="Add Administering Organization"/>
         <property name="addBlankLineAction.id" value="KS-CourseOfferingEdit-OrganizationSection_add"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true" />
         <property name="items">
