@@ -2572,7 +2572,7 @@ public class PlanController extends UifControllerBase {
                 throw new IllegalStateException("Course lookup failure", e);
             }
             params.put("showAlert",
-                    String.valueOf(!KsapFrameworkServiceLocator.getTermHelper().isCourseOffered(th.getTerm(pp), c)));
+                    String.valueOf(!KsapFrameworkServiceLocator.getCourseHelper().isCourseOffered(th.getTerm(pp), c)));
             params.put("termName",
                     KsapFrameworkServiceLocator.getTermHelper().getYearTerm(planItem.getPlanPeriods().get(0))
                             .getTermName());

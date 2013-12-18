@@ -117,7 +117,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 		for (PlannedCourseDataObject pl : plannedCoursesList) {
 			Term pt = th.getTerm(pl.getPlanItemDataObject().getAtp());
 			try {
-				pl.setShowAlert(!KsapFrameworkServiceLocator.getTermHelper()
+				pl.setShowAlert(!KsapFrameworkServiceLocator.getCourseHelper()
 						.isCourseOffered(pt,
 								KsapFrameworkServiceLocator.getCourseService().getCourse(
 										pl.getCourseDetails().getCourseId(),
@@ -169,7 +169,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 		for (PlannedCourseDataObject pl : backupCoursesList) {
 			Term pt = th.getTerm(pl.getPlanItemDataObject().getAtp());
 			try {
-				pl.setShowAlert(!KsapFrameworkServiceLocator.getTermHelper()
+				pl.setShowAlert(!KsapFrameworkServiceLocator.getCourseHelper()
 						.isCourseOffered(pt,
 								KsapFrameworkServiceLocator.getCourseService().getCourse(
 										pl.getCourseDetails().getCourseId(),

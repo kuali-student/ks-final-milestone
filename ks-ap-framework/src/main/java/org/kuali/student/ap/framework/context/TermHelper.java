@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.lum.course.infc.Course;
-
 /**
  * Provides access to common ATP functionality.
  */
@@ -144,14 +142,7 @@ public interface TermHelper {
 	 */
 	boolean isCompleted(String atpId);
 
-	/**
-	 * Determines whether a course is in a specific term.
-	 * 
-	 * @param term
-	 * @param course
-	 * @return
-	 */
-	boolean isCourseOffered(Term term, Course course);
+
 
 	/**
 	 * Gets a list of published terms.
@@ -195,14 +186,6 @@ public interface TermHelper {
             (Date termBeginDate, Date termEndDate, String termName);
 
     /**
-     * Gets the list of Terms to use in the Planner Calendar using a Start Term.
-     *
-     * @param startTerm - Term that the calendar starts around
-     * @return A full List of terms to display in the calendar.
-     */
-    public List<Term> getCalendarTerms(Term startTerm);
-
-    /**
      * Gets the current term based on the current date.
      *
      * @return Current Term
@@ -217,11 +200,4 @@ public interface TermHelper {
      */
     @Deprecated
     public AcademicCalendar getCurrentAcademicCalendar();
-
-    /**
-     * Gets the id of the term that the planner should display first.
-     *
-     * @return Term Id
-     */
-    public String getStartTermId();
 }

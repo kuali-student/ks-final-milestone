@@ -1014,7 +1014,7 @@ public class QuickAddController extends UifControllerBase {
 			List<Term> publishedTerms = th.getPublishedTerms();
 			try {
 				params.put("showAlert",
-						String.valueOf(!th.isCourseOffered(
+						String.valueOf(!KsapFrameworkServiceLocator.getCourseHelper().isCourseOffered(
 								th.getTerm(planItem.getPlanPeriods().get(0)),
 								KsapFrameworkServiceLocator.getCourseService()
 										.getCourse(

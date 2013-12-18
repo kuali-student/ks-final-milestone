@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 
@@ -44,5 +45,14 @@ public interface CourseHelper {
 	String getCodeFromActivityId(String activityId);
 
 	List<Course> getCoursesByCode(String courseCd);
+
+    /**
+     * Determines whether a course is in a specific term.
+     *
+     * @param term
+     * @param course
+     * @return
+     */
+    boolean isCourseOffered(Term term, Course course);
 
 }

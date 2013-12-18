@@ -3,6 +3,7 @@ package org.kuali.student.ap.test.mock;
 import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.DeconstructedCourseCode;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 
@@ -95,5 +96,17 @@ public class CourseHelperMockTest implements CourseHelper {
     @Override
     public List<Course> getCoursesByCode(String courseCd) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Determines whether a course is in a specific term.
+     *
+     * @param term
+     * @param course
+     * @return
+     */
+    @Override
+    public boolean isCourseOffered(Term term, Course course) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

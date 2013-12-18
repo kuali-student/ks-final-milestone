@@ -25,7 +25,6 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -35,7 +34,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.lum.course.infc.Course;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -448,25 +446,7 @@ public class DefaultTermHelper implements TermHelper {
 		return getTerm(atpId).getEndDate().before(new Date());
 	}
 
-	@Override
-	public boolean isCourseOffered(Term term, Course course) {
-		try {
-			List<CourseOfferingInfo> cos = KsapFrameworkServiceLocator.getCourseOfferingService()
-					.getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(),
-                            KsapFrameworkServiceLocator.getContext().getContextInfo());
-			return cos != null && !cos.isEmpty();
-		} catch (DoesNotExistException e) {
-			return false;
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CO lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CO lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CO lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CO lookup failure", e);
-		}
-	}
+
 
 	@Override
 	public List<Term> getPublishedTerms() {
@@ -498,49 +478,6 @@ public class DefaultTermHelper implements TermHelper {
 		c.setTime(term.getStartDate());
 		return new DefaultYearTerm(term.getId(), term.getTypeKey(), c.get(Calendar.YEAR));
 	}
-
-    @Override
-    public List<Term> getCalendarTerms(Term startTerm){
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.YEAR, NUMBER_OF_FUTRUE_TERMS);
-        List<Term> calendarTerms = getTermsByDateRange(startTerm.getStartDate(),c.getTime());
-        Collections.sort(calendarTerms, new Comparator<Term>() {
-            @Override
-            public int compare(Term o1, Term o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
-        Term start = calendarTerms.get(0);
-        Term end = calendarTerms.get(calendarTerms.size()-1);
-        List<Term> startYear = getTermsInAcademicYear(new DefaultYearTerm(start.getId(),start.getTypeKey(),start.getStartDate().getYear()));
-        List<Term> endYear=getTermsInAcademicYear(new DefaultYearTerm(end.getId(),end.getTypeKey(),end.getStartDate().getYear()));
-
-        // Sorted in reverse order so terms are added in order.
-        Collections.sort(startYear, new Comparator<Term>() {
-            @Override
-            public int compare(Term o1, Term o2) {
-                return o2.getStartDate().compareTo(o1.getStartDate());
-            }
-        });
-
-        Collections.sort(endYear, new Comparator<Term>() {
-            @Override
-            public int compare(Term o1, Term o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
-        for(Term t : startYear){
-            if(t.getStartDate().compareTo(start.getStartDate())<0){
-                calendarTerms.add(0,t);
-            }
-        }
-        for(Term t : endYear){
-            if(t.getStartDate().compareTo(end.getStartDate())>0){
-                calendarTerms.add(t);
-            }
-        }
-        return calendarTerms;
-    }
 
     /**
      * Gets the current term based on the current date.
@@ -584,22 +521,5 @@ public class DefaultTermHelper implements TermHelper {
         }
         throw new IllegalArgumentException("Acal lookup failure, no current calendar found");
     }
-
-    /**
-     * Gets the id of the first term of the current academic year
-     *
-     * @return Term Id
-     */
-    @Override
-    public String getStartTermId() {
-        List<Term> terms = getTermsInAcademicYear();
-        if(terms.size()>0){
-            return getTermsInAcademicYear().get(0).getId();
-        }
-
-        // If start id can not be found start at beginning of calendar.
-        return "";
-    }
-
 
 }

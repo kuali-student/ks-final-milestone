@@ -759,4 +759,23 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		}
 	}
 
+    @Override
+    public boolean isCourseOffered(Term term, Course course) {
+        try {
+            List<CourseOfferingInfo> cos = KsapFrameworkServiceLocator.getCourseOfferingService()
+                    .getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(),
+                            KsapFrameworkServiceLocator.getContext().getContextInfo());
+            return cos != null && !cos.isEmpty();
+        } catch (DoesNotExistException e) {
+            return false;
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("CO lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("CO lookup failure", e);
+        }
+    }
 }

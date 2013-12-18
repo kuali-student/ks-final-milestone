@@ -188,18 +188,6 @@ public class TermHelperMockTest implements TermHelper {
     }
 
     /**
-     * Determines whether a course is in a specific term.
-     *
-     * @param term
-     * @param course
-     * @return
-     */
-    @Override
-    public boolean isCourseOffered(Term term, Course course) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /**
      * Gets a list of published terms.
      *
      * @return
@@ -252,11 +240,6 @@ public class TermHelperMockTest implements TermHelper {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public List<Term> getCalendarTerms(Term startTerm) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     /**
      * Gets the current term based on the current date.
      *
@@ -274,16 +257,6 @@ public class TermHelperMockTest implements TermHelper {
      */
     @Override
     public AcademicCalendar getCurrentAcademicCalendar() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    /**
-     * Gets the id of the term that the planner should display first.
-     *
-     * @return Term Id
-     */
-    @Override
-    public String getStartTermId() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
