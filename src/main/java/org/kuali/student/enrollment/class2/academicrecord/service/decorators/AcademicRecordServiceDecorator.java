@@ -14,7 +14,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
+package org.kuali.student.enrollment.class2.academicrecord.service.decorators;
 
 import java.util.List;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;

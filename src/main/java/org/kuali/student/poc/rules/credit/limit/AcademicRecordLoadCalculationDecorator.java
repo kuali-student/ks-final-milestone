@@ -2,7 +2,7 @@ package org.kuali.student.poc.rules.credit.limit;
 
 import java.util.List;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
-import org.kuali.student.enrollment.class2.courseregistration.service.decorators.AcademicRecordServiceDecorator;
+import org.kuali.student.enrollment.class2.academicrecord.service.decorators.AcademicRecordServiceDecorator;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.common.dto.ContextInfo;

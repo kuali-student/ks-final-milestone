@@ -73,7 +73,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                 if (rt == null) {
                     throw new OperationFailedException("Cannot update a non-existent or non-active course registration");
                 }
-                updateRegistrationTransaction(rt, item, contextInfo);
+                updateCourseRegistrationTransaction(rt, item, contextInfo);
                 continue;
             }
             // swap
@@ -92,8 +92,8 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                     continue;
                 }
                 // if swapping sections they could also be changing the data bits on the CR
-                updateRegistrationTransaction(rt1, item, contextInfo);
-                // TODO: handle the case where we ARE just swapping sections
+                updateCourseRegistrationTransaction(rt1, item, contextInfo);
+                // TODO: handle the case where we ARE just swapping sections (activity offerings)
             }
         }
         return list;
@@ -208,7 +208,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             throws OperationFailedException {
         CourseRegistrationInfo reg = new CourseRegistrationInfo();
         RegistrationGroupInfo regGroup = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
-        reg.setStudentId(item.getStudentId());
+        reg.setPersonId(item.getPersonId());
         reg.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
         reg.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
         reg.setCourseOfferingId(regGroup.getCourseOfferingId());
@@ -226,7 +226,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             String activityOfferingId)
             throws OperationFailedException {
         ActivityRegistrationInfo reg = new ActivityRegistrationInfo();
-        reg.setStudentId(item.getStudentId());
+        reg.setPersonId(item.getPersonId());
         reg.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
         reg.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
         reg.setActivityOfferingId(activityOfferingId);
@@ -336,10 +336,10 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
      * @return true if there has been any change
      * @throws OperationFailedException if can't complete
      */
-    private boolean updateRegistrationTransaction(CourseRegistrationTransaction rt, RegistrationRequestItemInfo item,
+    private boolean updateCourseRegistrationTransaction(CourseRegistrationTransaction rt, RegistrationRequestItemInfo item,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        boolean updated = this.updateRegistrationInfo(rt.getRegistration(), item, contextInfo);
+        boolean updated = this.updateCourseRegistrationInfo(rt.getRegistration(), item, contextInfo);
         if (updated) {
             rt.setAction(ActionEnum.UPDATE);
         }
@@ -355,7 +355,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
      * @return true if there has been any change
      * @throws OperationFailedException if can't complete
      */
-    private boolean updateRegistrationInfo(CourseRegistrationInfo reg, RegistrationRequestItemInfo item, ContextInfo contextInfo)
+    private boolean updateCourseRegistrationInfo(CourseRegistrationInfo reg, RegistrationRequestItemInfo item, ContextInfo contextInfo)
             throws OperationFailedException {
         boolean changed = false;
         if (!isSame(reg.getCredits(), item.getCredits())) {

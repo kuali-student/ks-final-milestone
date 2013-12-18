@@ -32,7 +32,7 @@ public class Registration2LprTransactionTranslatorImpl implements Registration2L
             throws OperationFailedException {
         LprTransactionItemInfo item = new LprTransactionItemInfo();
         item.setLuiId(reg.getCourseOfferingId());
-        item.setPersonId(reg.getStudentId());
+        item.setPersonId(reg.getPersonId());
         item.setTypeKey(reg.getTypeKey());
         return item;
     }
