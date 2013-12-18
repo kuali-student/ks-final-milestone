@@ -329,16 +329,23 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup">
+                <bean parent="Uif-VerticalFieldGroup">
                     <property name="fieldLabel.render" value="false"/>
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Scheduled For"
+                           <!-- <bean parent="Uif-DataField" p:label="Scheduled For"
                                   p:propertyName="courseDetails"
                                   p:fieldLabel.cssClasses="ksap-text-normal" p:labelPlacement="LEFT"
                                   p:escapeHtmlInPropertyValue="false">
                                 <property name="propertyEditor" ref="scheduled_terms_list_formatter_savedCourses"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-data-list</value>
+                                    </list>
+                                </property>
+                            </bean>-->
+                            <bean parent="Uif-MessageField" p:label="Scheduled For" p:messageText="@{#line.scheduledForUI}" >
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-data-list</value>
@@ -353,13 +360,20 @@
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="render" value="@{#line.courseDetails.lastOffered ne null and #line.courseDetails.scheduledTerms.size() eq 0}"/>
                             </bean>
-                            <bean parent="Uif-DataField" p:label="Projected For"
+                            <!--<bean parent="Uif-DataField" p:label="Projected For"
                                   p:propertyName="courseDetails.termsOffered"
                                   p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="propertyEditor">
                                     <bean parent="terms_formatter" p:emptyListMessage="No projected term"/>
                                 </property>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-data-list</value>
+                                    </list>
+                                </property>
+                            </bean>-->
+                            <bean parent="Uif-MessageField" p:label="Projected For" p:messageText="@{#line.projectedForUI}" >
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-data-list</value>

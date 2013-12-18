@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
+import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor;
+import org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor;
 
 /**
  * Captures a course detail object along with a single instance of its planned
@@ -92,4 +94,16 @@ public class PlannedCourseDataObject implements
 	public void setPlanActivities(List<ActivityOfferingItem> planActivities) {
 		this.planActivities = planActivities;
 	}
+
+    public String getScheduledForUI(){
+        ScheduledTermsPropertyEditor editor = new ScheduledTermsPropertyEditor();
+        editor.setValue(getCourseDetails());
+        return editor.getAsText();
+    }
+
+    public String getProjectedForUI(){
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(getCourseDetails());
+        return editor.getAsText();
+    }
 }
