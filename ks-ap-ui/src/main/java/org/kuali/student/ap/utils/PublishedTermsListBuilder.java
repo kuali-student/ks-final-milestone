@@ -93,6 +93,7 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
         List<Term> futureTerms = getFutureTermsWithPublishedSOC();
 		// Add term info to the list if the above service call was successful.
 		if (futureTerms.size() >0) {
+            futureTerms=KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(futureTerms, true);
 			// Add the individual term items.
 			for (Term term : futureTerms)
 				keyValues.add(new ConcreteKeyValue(term.getId(), term.getName()
