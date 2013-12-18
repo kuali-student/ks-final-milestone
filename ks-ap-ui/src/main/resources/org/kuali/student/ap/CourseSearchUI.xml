@@ -132,8 +132,8 @@
 				<property name="additionalListItemsTop">
 					<map>
 						<entry key="any" value="Any term" />
-						<entry key="projected" value="Projected terms only" />
-						<entry key="scheduled" value="Scheduled terms only" />
+						<!--<entry key="projected" value="Projected terms only" />-->
+						<entry key="scheduled" value="Scheduled terms" />
 					</map>
 				</property>
 			</bean>

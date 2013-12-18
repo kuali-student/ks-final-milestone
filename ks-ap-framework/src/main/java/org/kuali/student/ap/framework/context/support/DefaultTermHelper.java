@@ -11,18 +11,15 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
@@ -38,8 +35,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -70,9 +65,6 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 public class DefaultTermHelper implements TermHelper {
 
 	private static final MarkerKey MARKER_KEY = new MarkerKey();
-    private List<String> termTypes;
-    private String[] defaultTerms = {"kuali.atp.type.Fall","kuali.atp.type.Winter",
-            "kuali.atp.type.Spring","kuali.atp.type.Summer1"};
     private static final int NUMBER_OF_FUTRUE_TERMS = 4;
 
     /**
@@ -88,7 +80,7 @@ public class DefaultTermHelper implements TermHelper {
         String matchTermId = null;
         try {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(getTermPredicates()), lessThanOrEqual("startDate",termBeginDate),greaterThanOrEqual("endDate",termEndDate),
+                    or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate",termBeginDate),greaterThanOrEqual("endDate",termEndDate),
                     equal("name",termName));
             List<TermInfo> terms = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
@@ -157,7 +149,7 @@ public class DefaultTermHelper implements TermHelper {
 					String atpType = atp.getTypeKey();
 					if (AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY.equals(atpType))
 						acalIds.add(atp.getId());
-					else if (getTermTypes().contains(atpType))
+					else if (KsapHelperUtil.getTermTypes().contains(atpType))
 						termIds.add(atp.getId());
 				}
 				List<AcademicCalendarInfo> acals = academicCalendarService.getAcademicCalendarsByIds(acalIds, ctx);
@@ -259,7 +251,7 @@ public class DefaultTermHelper implements TermHelper {
 	public List<Term> getCurrentTerms() {
 		try {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(getTermPredicates()), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
+                    or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
 			List<TermInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			if (rv == null)
@@ -324,7 +316,7 @@ public class DefaultTermHelper implements TermHelper {
 				throw new IllegalStateException(
 						"AcademicCalendarService did not return any terms for academic calendar " + ac.getId());
 
-            List<String> termTypeKeys = getTermTypes();
+            List<String> termTypeKeys = KsapHelperUtil.getTermTypes();
             List<Term> terms = new ArrayList<Term>();
             for(Term term : rl)
                 if (termTypeKeys.contains(term.getTypeKey()))
@@ -392,7 +384,7 @@ public class DefaultTermHelper implements TermHelper {
 	public List<Term> getPlanningTerms() {
 		try {
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(getTermPredicates()), greaterThanOrEqual("endDate",new Date()));
+                    or(KsapHelperUtil.getTermPredicates()), greaterThanOrEqual("endDate",new Date()));
 			List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			if (rl == null || rl.isEmpty())
@@ -428,7 +420,7 @@ public class DefaultTermHelper implements TermHelper {
 		}
 		List<Term> terms = new ArrayList<Term>(atps.size());
 
-		List<String> termTypeKeys = getTermTypes();
+		List<String> termTypeKeys = KsapHelperUtil.getTermTypes();
 		for (AtpInfo atp : atps)
 			if (termTypeKeys.contains(atp.getTypeKey()))
 				terms.add(getTerm(atp.getId()));
@@ -461,7 +453,7 @@ public class DefaultTermHelper implements TermHelper {
 		try {
 			List<CourseOfferingInfo> cos = KsapFrameworkServiceLocator.getCourseOfferingService()
 					.getCourseOfferingsByCourseAndTerm(course.getId(), term.getId(),
-							KsapFrameworkServiceLocator.getContext().getContextInfo());
+                            KsapFrameworkServiceLocator.getContext().getContextInfo());
 			return cos != null && !cos.isEmpty();
 		} catch (DoesNotExistException e) {
 			return false;
@@ -479,7 +471,7 @@ public class DefaultTermHelper implements TermHelper {
 	@Override
 	public List<Term> getPublishedTerms() {
 		try {
-			QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),or(getTermPredicates()));
+			QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),or(KsapHelperUtil.getTermPredicates()));
 			List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
 			if (rl == null || rl.isEmpty())
@@ -506,24 +498,6 @@ public class DefaultTermHelper implements TermHelper {
 		c.setTime(term.getStartDate());
 		return new DefaultYearTerm(term.getId(), term.getTypeKey(), c.get(Calendar.YEAR));
 	}
-
-    private Predicate[] getTermPredicates(){
-        Predicate predicates[] = new Predicate[getTermTypes().size()];
-        for(int i=0;i<getTermTypes().size();i++){
-            predicates[i]=equal("typeKey", getTermTypes().get(i));
-        }
-        return predicates;
-    }
-
-    private List<String> getTermTypes(){
-        if(termTypes==null){
-            termTypes = new ArrayList<String>();
-            for(String term : defaultTerms){
-                termTypes.add(term);
-            }
-        }
-        return termTypes;
-    }
 
     @Override
     public List<Term> getCalendarTerms(Term startTerm){
