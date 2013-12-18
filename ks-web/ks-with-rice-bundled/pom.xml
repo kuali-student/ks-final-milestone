@@ -106,6 +106,30 @@
                             <artifactId>ks-common-web</artifactId>
                         </overlay>
                         <overlay>
+                            <groupId>org.kuali.rice</groupId>
+                            <artifactId>rice-web</artifactId>
+                            <excludes>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/**</exclude>
+                                <exclude>**/web.xml</exclude>
+                                <exclude>WEB-INF/lib/**</exclude>
+                                <exclude>WEB-INF/krad-servlet.xml</exclude>
+                                <exclude>**/sampleTravelApplication.tag</exclude>
+                                <exclude>META-INF/**</exclude>
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>org.kuali.rice</groupId>
+                            <artifactId>rice-krad-web</artifactId>
+                            <excludes>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/**</exclude>
+                                <exclude>**/web.xml</exclude>
+                                <exclude>WEB-INF/lib/**</exclude>
+                                <exclude>WEB-INF/krad-servlet.xml</exclude>
+                                <exclude>**/sampleTravelApplication.tag</exclude>
+                                <exclude>META-INF/**</exclude>
+                            </excludes>
+                        </overlay>
+                        <overlay>
                             <!-- empty groupId/artifactId represents the current build -->
                         </overlay>
                         <!-- any other remaining overlays will be applied last -->
