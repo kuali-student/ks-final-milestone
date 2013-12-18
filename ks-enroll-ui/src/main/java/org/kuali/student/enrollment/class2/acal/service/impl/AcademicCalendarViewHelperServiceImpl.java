@@ -528,7 +528,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 return false;
             }
         }
-        else if(addLine instanceof AcademicTermWrapper) {
+        else if (addLine instanceof AcademicTermWrapper) {
             //if tries to add a Subterm, the parent term has to exist in the Form
             AcademicTermWrapper term = (AcademicTermWrapper) addLine;
             AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
@@ -558,8 +558,19 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 }
             }
 
-            return true;
+            if (term.getTermType() == null || StringUtils.isBlank(term.getTermType())) {
+                GlobalVariables.getMessageMap().putError("newCollectionLines['termWrapperList'].termType", CalendarConstants.MessageKeys.ERROR_TERM_TYPE_REQUIRED);
+            }
+
+            if (term.getStartDate() == null) {
+                GlobalVariables.getMessageMap().putError("newCollectionLines['termWrapperList'].startDate", CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, "Add Term");
+            }
+
+            if (term.getEndDate() == null) {
+                GlobalVariables.getMessageMap().putError("newCollectionLines['termWrapperList'].endDate", CalendarConstants.MessageKeys.ERROR_KEY_DATE_END_DATE_REQUIRED, "Add Term");
+            }
         }
+
         return super.performAddLineValidation(view, collectionGroup, model, addLine);
     }
 
@@ -1075,31 +1086,33 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
             //need to handle Term vs subTerm in different way
             try {
-                TypeInfo termType = getAcalService().getTermType(newLine.getTermType(), createContextInfo());
-                // check if term is subterm vs parent term
-                getParentTermType(newLine);
+                if (newLine.getTermType() != null && !StringUtils.isBlank(newLine.getTermType())) {
+                    TypeInfo termType = getAcalService().getTermType(newLine.getTermType(), createContextInfo());
+                    // check if term is subterm vs parent term
+                    getParentTermType(newLine);
 
-                if (newLine.getParentTerm() == null || StringUtils.isBlank(newLine.getParentTerm())){ //try to add a term
-                    newLine.setTermNameForUI(termType.getName());
-                    newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
-                    newLine.setTypeInfo(termType);
-                    newLine.setSubTerm(false);
-                } else { //try to add a subterm
-                    newLine.setTermNameForUI(termType.getName());
-                    newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
-                    newLine.setTypeInfo(termType);
-                    newLine.setSubTerm(true);
-                    AcademicTermWrapper parentTermWrapper = getParentTermInForm(newLine.getParentTerm(), acalForm.getTermWrapperList());
-                    if(parentTermWrapper != null){
-                        populateParentTermToSubterm(parentTermWrapper, newLine);
+                    if (newLine.getParentTerm() == null || StringUtils.isBlank(newLine.getParentTerm())){ //try to add a term
+                        newLine.setTermNameForUI(termType.getName());
+                        newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
+                        newLine.setTypeInfo(termType);
+                        newLine.setSubTerm(false);
+                    } else { //try to add a subterm
+                        newLine.setTermNameForUI(termType.getName());
+                        newLine.setName(termType.getName() + " " + DateFormatters.DEFULT_YEAR_FORMATTER.format(newLine.getStartDate()));
+                        newLine.setTypeInfo(termType);
+                        newLine.setSubTerm(true);
+                        AcademicTermWrapper parentTermWrapper = getParentTermInForm(newLine.getParentTerm(), acalForm.getTermWrapperList());
+                        if(parentTermWrapper != null){
+                            populateParentTermToSubterm(parentTermWrapper, newLine);
+                        }
+                        parentTermWrapper.setHasSubterm(true);
+                        parentTermWrapper.getSubterms().add(newLine);
                     }
-                    parentTermWrapper.setHasSubterm(true);
-                    parentTermWrapper.getSubterms().add(newLine);
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
-        }else if (addLine instanceof KeyDatesGroupWrapper){
+        } else if (addLine instanceof KeyDatesGroupWrapper){
             KeyDatesGroupWrapper group = (KeyDatesGroupWrapper)addLine;
             if(StringUtils.isNotEmpty(group.getKeyDateGroupType())) {
                 try {
@@ -1110,7 +1123,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     throw new RuntimeException(e);
                 }
             }
-        }else if (addLine instanceof HolidayCalendarInfo) {
+        } else if (addLine instanceof HolidayCalendarInfo) {
             HolidayCalendarInfo inputLine = (HolidayCalendarInfo)addLine;
             try {
                 System.out.println("HC id =" +inputLine.getId());
@@ -1126,8 +1139,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
-        }else if (addLine instanceof HolidayCalendarWrapper){
+        } else if (addLine instanceof HolidayCalendarWrapper){
             HolidayCalendarWrapper inputLine = (HolidayCalendarWrapper)addLine;
             List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
             try {
@@ -1150,7 +1162,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }catch (Exception e){
                 throw new RuntimeException(e);
             }
-
         } else if (addLine instanceof AcalEventWrapper){
             AcalEventWrapper acalEventWrapper = (AcalEventWrapper)addLine;
             try {

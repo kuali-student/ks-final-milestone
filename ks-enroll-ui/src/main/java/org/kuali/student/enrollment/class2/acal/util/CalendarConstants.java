@@ -109,6 +109,7 @@ public class CalendarConstants {
         public static final String ERROR_DUPLICATE_NAME  = "error.enroll.calendar.duplicateName";
         public static final String ERROR_DATE_NOT_IN_ACAL_RANGE = "error.enroll.event.dateNotInAcal";
         public static final String ERROR_INVALID_DATE_RANGE = "error.enroll.daterange.invalid";
+        public static final String ERROR_TERM_TYPE_REQUIRED = "error.enroll.term.type.empty";
         public static final String ERROR_DUPLICATE_TERM_NAME = "error.enroll.term.duplicateName";
         public static final String ERROR_TERM_NOT_IN_ACAL_RANGE = "error.enroll.term.dateNotInAcal";
         public static final String ERROR_TERM_NOT_IN_TERM_RANGE = "error.enroll.term.dateNotInTerm";
