@@ -22,7 +22,6 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,7 @@ public class RegistrationRequestTransformer {
 
     public static LprTransactionItemInfo regRequestItem2LprTransactionItem(RegistrationRequestItemInfo requestItem,
                                                                            LprTransactionItemInfo item)
-            throws OperationFailedException {
+            {
         // Inherited fields
         item.setId(requestItem.getId());
         item.setStateKey(requestItem.getStateKey());
@@ -107,6 +106,41 @@ public class RegistrationRequestTransformer {
         return item;
     }
 
+    public static LprTransactionItemInfo lprTransactionItem2regRequestItem(LprTransactionItemInfo item,
+                                                                           RegistrationRequestItemInfo requestItem) {
+
+        // Inherited fields
+        requestItem.setId(item.getId());
+        requestItem.setStateKey(item.getStateKey());
+        requestItem.setTypeKey(item.getTypeKey());
+        requestItem.setDescr(item.getDescr());
+        requestItem.setMeta(item.getMeta());
+        requestItem.setName(item.getName());
+        // Fields in LPRTransactionItemInfo: personId, transactionId, newLuiId, existingLuiId,
+        // resultValuesGroupKeys, requestOptions, lprTransactionItemResult
+        requestItem.setStudentId(item.getPersonId());
+        requestItem.setRegistrationRequestId(item.getTransactionId());
+        requestItem.setNewRegistrationGroupId(item.getNewLuiId());
+        requestItem.setExistingRegistrationGroupId(item.getExistingLuiId());
+        // Admittedly, a hacky way of doing things, so open for better ways to do this
+        for (String s: item.getResultValuesGroupKeys()) {
+            if (s.startsWith("kuali.resultComponent.grade")) {
+                requestItem.setGradingOptionId(s);
+            } else if (s.startsWith("kuali.creditType.credit.degree")) {
+                requestItem.setCredits(s);
+            }
+        }
+
+        for (LprTransactionItemRequestOptionInfo option: item.getRequestOptions()) {
+            if (option.getOptionKey().equals(OK_TO_WAITLIST)) {
+                requestItem.setOkToWaitlist(convertStringToBoolean(option.getOptionValue()));
+            } else if (option.getOptionKey().equals(OK_TO_HOLD_UNTIL_LIST)) {
+                requestItem.setOkToHoldUntilList(convertStringToBoolean(option.getOptionValue()));
+            }
+        }
+        return item;
+    }
+
     protected static LprTransactionItemRequestOptionInfo findOptionByKey(String key,
                                                                          List<LprTransactionItemRequestOptionInfo> options) {
         for (LprTransactionItemRequestOptionInfo option: options) {
@@ -117,11 +151,22 @@ public class RegistrationRequestTransformer {
         return null;
     }
 
+    protected static Boolean convertStringToBoolean(String value) {
+        if (value == null) {
+            return null;
+        } else if (value.equals(Boolean.TRUE.toString())) {
+            return true;
+        } else if (value.equals(Boolean.FALSE.toString())) {
+            return true;
+        }
+        return null; // May not be the best thing to do, perhaps throw exception?
+    }
+
     protected static String convertBooleanToString(Boolean value) {
         // This should eventually be moved elsewhere
         if (value == null) {
             return "null";
-        } else if (value == true) {
+        } else if (value) {
             return Boolean.TRUE.toString();
         } else {
             return Boolean.FALSE.toString();
