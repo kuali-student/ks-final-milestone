@@ -80,31 +80,17 @@ public class DefaultPlanHelper implements PlanHelper {
         Calendar c = Calendar.getInstance();
         c.add(Calendar.YEAR, NUMBER_OF_FUTRUE_TERMS);
         List<Term> calendarTerms = KsapFrameworkServiceLocator.getTermHelper().getTermsByDateRange(startTerm.getStartDate(),c.getTime());
-        Collections.sort(calendarTerms, new Comparator<Term>() {
-            @Override
-            public int compare(Term o1, Term o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
+        calendarTerms = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(calendarTerms,true);
         Term start = calendarTerms.get(0);
         Term end = calendarTerms.get(calendarTerms.size()-1);
         List<Term> startYear = KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(new DefaultYearTerm(start.getId(),start.getTypeKey(),start.getStartDate().getYear()));
         List<Term> endYear= KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(new DefaultYearTerm(end.getId(),end.getTypeKey(),end.getStartDate().getYear()));
 
         // Sorted in reverse order so terms are added in order.
-        Collections.sort(startYear, new Comparator<Term>() {
-            @Override
-            public int compare(Term o1, Term o2) {
-                return o2.getStartDate().compareTo(o1.getStartDate());
-            }
-        });
+        startYear = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(startYear,false);
 
-        Collections.sort(endYear, new Comparator<Term>() {
-            @Override
-            public int compare(Term o1, Term o2) {
-                return o1.getStartDate().compareTo(o2.getStartDate());
-            }
-        });
+        endYear = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(endYear,true);
+
         for(Term t : startYear){
             if(t.getStartDate().compareTo(start.getStartDate())<0){
                 calendarTerms.add(0,t);

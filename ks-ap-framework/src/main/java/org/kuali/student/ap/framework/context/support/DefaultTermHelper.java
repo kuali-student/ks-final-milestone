@@ -126,12 +126,8 @@ public class DefaultTermHelper implements TermHelper {
 				cache(t);
 				rv.add(t);
 			}
-			Collections.sort(rv, new Comparator<Term>() {
-				@Override
-				public int compare(Term o1, Term o2) {
-					return o1.getStartDate().compareTo(o2.getStartDate());
-				}
-			});
+
+            rv = sortTermsByStartDate(rv,true);
 			return rv;
 		}
 
@@ -322,13 +318,7 @@ public class DefaultTermHelper implements TermHelper {
 
 			for (Term at : terms)
 				tm.acalMap.put(at.getId(), acl);
-			Collections.sort(terms, new Comparator<Term>() {
-				@Override
-				public int compare(Term term1, Term term2) {
-					return KsapFrameworkServiceLocator.getTermHelper().getYearTerm(term1)
-							.compareTo(KsapFrameworkServiceLocator.getTermHelper().getYearTerm(term2));
-				}
-			});
+			terms = sortTermsByStartDate(terms,true);
 
 			return terms;
 		} catch (DoesNotExistException e) {
@@ -521,5 +511,61 @@ public class DefaultTermHelper implements TermHelper {
         }
         throw new IllegalArgumentException("Acal lookup failure, no current calendar found");
     }
+
+    /**
+     * Sort a list by its start date
+     *
+     * @param terms     - List of Terms to be sorted
+     * @param ascending - If True sort ascending, else sort descending
+     * @return - A list of sorted terms
+     */
+    @Override
+    public List<Term> sortTermsByStartDate(List<Term> terms, boolean ascending) {
+        if(ascending){
+            Collections.sort(terms, new Comparator<Term>() {
+                @Override
+                public int compare(Term o1, Term o2) {
+                    return o1.getStartDate().compareTo(o2.getStartDate());
+                }
+            });
+        }else{
+            Collections.sort(terms, new Comparator<Term>() {
+                @Override
+                public int compare(Term o1, Term o2) {
+                    return o2.getStartDate().compareTo(o1.getStartDate());
+                }
+            });
+        }
+        return terms;
+    }
+
+    /**
+     * Sort a list by its end date
+     *
+     * @param terms     - List of Terms to be sorted
+     * @param ascending - If True sort ascending, else sort descending
+     * @return - A list of sorted terms
+     */
+    @Override
+    public List<Term> sortTermsByEndDate(List<Term> terms, boolean ascending) {
+        if(ascending){
+            Collections.sort(terms, new Comparator<Term>() {
+                @Override
+                public int compare(Term o1, Term o2) {
+                    return o1.getEndDate().compareTo(o2.getEndDate());
+                }
+            });
+        }else{
+            Collections.sort(terms, new Comparator<Term>() {
+                @Override
+                public int compare(Term o1, Term o2) {
+                    return o2.getEndDate().compareTo(o1.getEndDate());
+                }
+            });
+        }
+        return terms;
+    }
+
+
 
 }

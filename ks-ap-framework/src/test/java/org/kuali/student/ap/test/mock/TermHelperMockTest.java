@@ -259,4 +259,28 @@ public class TermHelperMockTest implements TermHelper {
     public AcademicCalendar getCurrentAcademicCalendar() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    /**
+     * Sort a list by its start date
+     *
+     * @param terms     - List of Terms to be sorted
+     * @param ascending - If True sort ascending, else sort descending
+     * @return - A list of sorted terms
+     */
+    @Override
+    public List<Term> sortTermsByStartDate(List<Term> terms, boolean ascending) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Sort a list by its end date
+     *
+     * @param terms     - List of Terms to be sorted
+     * @param ascending - If True sort ascending, else sort descending
+     * @return - A list of sorted terms
+     */
+    @Override
+    public List<Term> sortTermsByEndDate(List<Term> terms, boolean ascending) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }
