@@ -444,6 +444,7 @@
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-tablecollection-table</value>
+                <value>ks-section</value>
             </list>
         </property>
         <property name="layoutManager.renderSequenceField" value="false"/>
