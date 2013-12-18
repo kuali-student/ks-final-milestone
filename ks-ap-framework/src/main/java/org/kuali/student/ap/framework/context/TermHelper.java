@@ -113,6 +113,7 @@ public interface TermHelper {
 	 * @param index
 	 * @return
 	 */
+    @Deprecated
 	public String getTermNameInAcadmicYear(int index);
 
 	/**
@@ -171,6 +172,7 @@ public interface TermHelper {
 	 *
 	 * @return A list of terms, by date range.
 	 */
+    @Deprecated
 	List<Term> getTermsByDateRange(Date startDate, Date endDate);
 
 	/**
@@ -205,6 +207,7 @@ public interface TermHelper {
      *
      * @return Current Term
      */
+    @Deprecated
     public Term getCurrentTerm();
 
     /**
@@ -212,6 +215,7 @@ public interface TermHelper {
      *
      * @return Current academic calendar
      */
+    @Deprecated
     public AcademicCalendar getCurrentAcademicCalendar();
 
     /**
