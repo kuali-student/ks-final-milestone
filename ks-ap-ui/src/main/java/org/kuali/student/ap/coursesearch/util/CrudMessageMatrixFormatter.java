@@ -30,6 +30,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
 	private transient CourseOfferingService courseOfferingService;
 
+    //We may be able to split this out so we have the URL separate from the markup of the anchor tag
     private final String plannerScreenUrl = "<a href=\"planner?methodToCall=start&viewId=Planner-FormView&focusAtpId=";
 
 	protected CourseOfferingService getCourseOfferingService() {
@@ -55,6 +56,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 	public String getAsText() {
 
 		CourseDetails courseDetails = (CourseDetails) super.getValue();
+        //@TODO: Convert to StringBuilder instead of StringBuffer
 		StringBuffer sb = new StringBuffer();
 		boolean currentTermRegistered = false;
 
@@ -97,6 +99,21 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 							.isAdviser()) {
 						String user = KsapFrameworkServiceLocator
 								.getUserSessionHelper().getStudentName();
+                        /*
+                         * @TODO: Convert this tag manipulation handling
+                         * This is simply creating an orphan DD element, with no containing DL
+                         * Moreover the ends up getting rendered inside of a SPAN element;
+                         * It is bad form, and will not validate, when you put block-level elements, such as
+                         * A UL/OL/DL, inside of an inline element like a span.
+                         *
+                         * Additional recommendations:
+                         *
+                         * If we are to use a list, would be to use a UL since we are only dealing with a list of items.
+                         * DL is for a list of key/value pairs, which is not what we have in this case.
+                         *
+                         * Instead of the string appending, a formatted string would be much easier to manage.
+                         * For an example, look at ScheduledTermsPropertyEditor.java
+                         *  */
 						sb = sb.append("<dd>")
 								.append(user + " withdrew from this course in ")
 								.append(plannerScreenUrl)
@@ -121,6 +138,11 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
 			int counter2 = 0;
 			int counter3 = 0;
+            /*
+            * @TODO: look at the efficiency of how we are looping here
+             *
+             * As it stands, we potentially have an O(n^2) going on here
+            * */
 			for (String nonWithdrawnTerm : nonWithDrawnCourseTerms) {
 				Term term = KsapFrameworkServiceLocator.getTermHelper()
 						.getTerm(nonWithdrawnTerm);

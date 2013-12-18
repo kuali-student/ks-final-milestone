@@ -10,6 +10,15 @@ public enum CollectionListPropertyEditorHtmlListType {
     /** Output an ordered list. */
     OL("ol","li"),
     /** Output a data definition list. */
+    //@TODO: This is incorrect usage of an HTML definition list
+    // DL are for key/value pairs, not for a list of items.
+    // For example:
+    /**
+     * <dl>
+     *     <dt>Term here (the key)</dt>
+     *     <dd>Definition here (the value)</dd>
+     * </dl>
+     * */
     DL("dl", "dd");
 
     private String listElementName;
