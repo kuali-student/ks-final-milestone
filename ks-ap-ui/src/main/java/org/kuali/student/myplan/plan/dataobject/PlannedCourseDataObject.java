@@ -1,6 +1,7 @@
 package org.kuali.student.myplan.plan.dataobject;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
@@ -104,6 +105,25 @@ public class PlannedCourseDataObject implements
     public String getProjectedForUI(){
         CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
         editor.setValue(getCourseDetails());
+        editor.setEmptyListMessage("Check with the department or your adviser for more information about this course.");
+        editor.setApplyClassOnItem(true);
+        if (editor.getEmptyListStyleClasses()==null) {
+            editor.setEmptyListStyleClasses(new ArrayList<String>());
+        }
+        editor.getEmptyListStyleClasses().add("empty");
+
+        return editor.getAsText();
+    }
+    public String getRequisitesForUI(){
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(getCourseDetails().getRequisites());
+        editor.setEmptyListMessage("None");
+        return editor.getAsText();
+    }
+    public String getAbbrGenEdRequirementsForUI(){
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(getCourseDetails().getAbbrGenEdRequirements());
+        editor.setEmptyListMessage("&nbsp;");
         return editor.getAsText();
     }
 }

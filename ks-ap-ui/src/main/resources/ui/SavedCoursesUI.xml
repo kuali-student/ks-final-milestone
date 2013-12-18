@@ -302,18 +302,14 @@
                                 <property name="href"
                                           value="inquiry?methodToCall=start&amp;viewId=CourseDetails-InquiryView&amp;courseId=@{#line.courseDetails.courseId}"/>
                             </bean>
-                            <bean parent="Uif-DataField" p:propertyName="courseDetails.abbrGenEdRequirements"
-                                  p:style="width:131px;" p:escapeHtmlInPropertyValue="false">
+                            <bean parent="Uif-MessageField" p:messageText="@{#line.abbrGenEdRequirementsForUI}"
+                                  p:style="width:131px;">
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-data-list</value>
                                         <value>ksap-text-italic</value>
                                     </list>
                                 </property>
-                                <property name="propertyEditor">
-                                    <bean parent="data_list_formatter" p:emptyListMessage="&amp;nbsp;"/>
-                                </property>
-                                <!--<property name="render" value="@{#line.courseDetails.genEdRequirements.size() gt 0 ? 'true' : 'false'}"/>-->
                             </bean>
                             <bean parent="Uif-DataField" p:propertyName="planItemDataObject.dateAdded"
                                   p:style="width:131px;" p:label="Added on">
@@ -334,17 +330,6 @@
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="items">
                         <list>
-                           <!-- <bean parent="Uif-DataField" p:label="Scheduled For"
-                                  p:propertyName="courseDetails"
-                                  p:fieldLabel.cssClasses="ksap-text-normal" p:labelPlacement="LEFT"
-                                  p:escapeHtmlInPropertyValue="false">
-                                <property name="propertyEditor" ref="scheduled_terms_list_formatter_savedCourses"/>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-data-list</value>
-                                    </list>
-                                </property>
-                            </bean>-->
                             <bean parent="Uif-MessageField" p:label="Scheduled For" p:messageText="@{#line.scheduledForUI}" >
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -360,19 +345,6 @@
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="render" value="@{#line.courseDetails.lastOffered ne null and #line.courseDetails.scheduledTerms.size() eq 0}"/>
                             </bean>
-                            <!--<bean parent="Uif-DataField" p:label="Projected For"
-                                  p:propertyName="courseDetails.termsOffered"
-                                  p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
-                                <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
-                                <property name="propertyEditor">
-                                    <bean parent="terms_formatter" p:emptyListMessage="No projected term"/>
-                                </property>
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>ksap-data-list</value>
-                                    </list>
-                                </property>
-                            </bean>-->
                             <bean parent="Uif-MessageField" p:label="Projected For" p:messageText="@{#line.projectedForUI}" >
                                 <property name="cssClasses">
                                     <list merge="true">
@@ -389,11 +361,9 @@
                     <property name="group.validationMessages.render" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Course Requisites"
-                                  p:propertyName="courseDetails.requisites"
-                                  p:labelPlacement="LEFT" p:escapeHtmlInPropertyValue="false">
+                            <bean parent="Uif-MessageField" p:label="Course Requisites" p:messageText="@{#line.requisitesForUI}"
+                                  p:labelPlacement="LEFT">
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
-                                <property name="propertyEditor" ref="data_list_formatter"/>
                                 <property name="cssClasses">
                                     <list merge="true">
                                         <value>ksap-data-list</value>
@@ -413,9 +383,9 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Course Description"
-                                  p:propertyName="courseDetails.courseDescription"
-                                  p:labelPlacement="TOP" p:escapeHtmlInPropertyValue="false">
+                            <bean parent="Uif-MessageField" p:label="Course Description"
+                                  p:messageText="@{#line.courseDetails.courseDescription}"
+                                  p:labelPlacement="TOP" >
                                 <property name="fieldLabel.cssClasses" value="ksap-text-normal"/>
                                 <property name="cssClasses">
                                     <list merge="true">
