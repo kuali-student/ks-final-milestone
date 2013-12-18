@@ -15,12 +15,12 @@
   limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage"
-		  p:headerText="Review Proposal" p:disclosure.render="false">
+    <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage"
+          p:headerText="Review Proposal" p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-Header" />
 
         <property name="items">
@@ -37,7 +37,7 @@
 
         <property name="footer">
             <bean parent="KS-CourseView-Footer"/>
-        </property>	
+        </property> 
     </bean>
 
 
@@ -46,7 +46,22 @@
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
                     <property name="headerText" value="Course Information" />
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-NavigationActionLink" 
+                                          p:ajaxSubmit="false" 
+                                          p:methodToCall="navigate"
+                                          p:navigateToPageId="KS-CourseView-CourseInfoPage" 
+                                          p:actionLabel="Edit"/>
+                                </list> 
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
+                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
+                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list>                        
         </property>
     </bean>
@@ -56,7 +71,22 @@
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
                     <property name="headerText" value="Governance" />
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-NavigationActionLink" 
+                                          p:ajaxSubmit="false" 
+                                          p:methodToCall="navigate"
+                                          p:navigateToPageId="KS-CourseView-GovernancePage" 
+                                          p:actionLabel="Edit"/>
+                                </list> 
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
+                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
+                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list>
         </property>
     </bean>
@@ -66,7 +96,21 @@
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
                     <property name="headerText" value="Course Logistics" />
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-NavigationActionLink" 
+                                          p:ajaxSubmit="false" 
+                                          p:navigateToPageId="KS-CourseView-CourseLogisticsPage" 
+                                          p:actionLabel="Edit"/>
+                                </list> 
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
+                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
+                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list>
         </property>
     </bean>
@@ -76,9 +120,47 @@
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
                     <property name="headerText" value="Learning Objectives" />
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-NavigationActionLink" 
+                                          p:ajaxSubmit="false" 
+                                          p:navigateToPageId="KS-CourseView-LearningObjectivesPage" 
+                                          p:actionLabel="Edit"/>
+                                </list> 
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
+                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
+                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list>
         </property>
+    </bean>
+
+    <bean name="KS-CourseView-CourseRequisitesPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Course Requisites" />
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-NavigationActionLink" 
+                                          p:ajaxSubmit="false" 
+                                          p:navigateToPageId="KS-CourseView-CourseRequisitesPage" 
+                                          p:actionLabel="Edit"/>
+                                </list> 
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
+                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
+            </list> 
+       </property>
     </bean>
 
     <bean name="KS-CourseView-ActiveDatesPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
@@ -86,9 +168,23 @@
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
                     <property name="headerText" value="Active Dates" />
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-NavigationActionLink" 
+                                          p:ajaxSubmit="false" 
+                                          p:navigateToPageId="KS-CourseView-ActiveDatesPage" 
+                                          p:actionLabel="Edit"/>
+                                </list> 
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
-            </list>
-        </property>
+                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
+                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
+            </list> 
+       </property>
     </bean>
 
     <bean name="KS-CourseView-AuthorsAndCollaboratorsPage-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
@@ -96,8 +192,19 @@
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
                     <property name="headerText" value="Authors and Collaborators"/>
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-NavigationActionLink" 
+                                          p:ajaxSubmit="false" 
+                                          p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" 
+                                          p:actionLabel="Edit"/>
+                                </list> 
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
-
             </list>
         </property>
     </bean>
@@ -107,8 +214,19 @@
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
                     <property name="headerText" value="Supporting Documents" />
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-NavigationActionLink" 
+                                          p:ajaxSubmit="false" 
+                                          p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" 
+                                          p:actionLabel="Edit"/>
+                                </list> 
+                            </property>
+                        </bean>
+                    </property>
                 </bean>
-
             </list>
         </property>
     </bean>

@@ -121,29 +121,28 @@
         </property>
     </bean>  
 
+    <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-header</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="navigate&amp;pageId=KS-CourseView-CourseInfoPage" 
+                      p:actionLabel="Edit"/>
+            </list> 
+        </property>
+    </bean>
+
     <bean id="KS-CourseView-SectionHeader" parent="Uif-HeaderTwo">
         <property name="cssClasses">
             <list merge="true">
                 <value>ks-header</value>
             </list>
         </property>
-        <property name="upperGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>ks-cm-page-header</value>
-                    </list>
-                </property>
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" 
-                              p:ajaxSubmit="false" 
-                              p:methodToCall="navigate&amp;pageId=KS-CourseView-CourseInfoPage" 
-                              p:actionLabel="Edit"/>
-                    </list> 
-                </property>
-            </bean>
-        </property>                   
     </bean>
           
     <bean id="KS-CourseView-Header" parent="Uif-HeaderTwo">

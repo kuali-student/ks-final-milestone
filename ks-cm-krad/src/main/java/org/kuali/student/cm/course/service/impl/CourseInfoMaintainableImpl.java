@@ -54,6 +54,7 @@ import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
+import org.kuali.student.cm.course.form.ReviewInfo;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
@@ -144,7 +145,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     
     private transient OrganizationService organizationService;
 
-    private transient SearchService searchService;
+    private ReviewInfo reviewInfo;
 
     private transient SubjectCodeService subjectCodeService;
 
@@ -1008,12 +1009,27 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return sortedAgendas;
     }
 
+    /**
+     * This method was overriden from the RuleEditorMaintainableImpl to create an EnrolAgendaEditor instead of
+     * an AgendaEditor.
+     *
+     * @param agendaId
+     * @return EnrolAgendaEditor.
+     */
     @Override
     protected AgendaEditor getAgendaEditor(String agendaId) {
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
         return new LUAgendaEditor(agenda);
     }
 
+    /**
+     * Retrieves all the rules from the agenda tree and create a list of ruleeditor objects.
+     * <p/>
+     * Also initialize the proposition editors for each rule recursively and set natural language for the view trees.
+     *
+     * @param agendaItem
+     * @return
+     */
     @Override
     protected List<RuleEditor> getRuleEditorsFromTree(AgendaItemDefinition agendaItem, boolean initProps) {
 
@@ -1040,9 +1056,23 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return rules;
     }
 
+    /**
+     * Return the clu id from the canonical course that is linked to the given course offering id.
+     *
+     * @param refObjectId - the course offering id.
+     * @return
+     * @throws Exception
+     */
     @Override
     public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
         return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, refObjectId);
+    }
+
+    public ReviewInfo getReviewInfo() {
+        if (this.reviewInfo == null) {
+            reviewInfo = new ReviewInfo();
+        }
+        return reviewInfo;
     }
 
     protected RuleViewTreeBuilder getViewTreeBuilder() {
