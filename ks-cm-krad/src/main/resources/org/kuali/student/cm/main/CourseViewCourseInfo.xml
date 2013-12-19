@@ -88,7 +88,6 @@
 								<property name="validCharactersConstraint">
 									<bean parent="AlphaPatternConstraint" />
 								</property>
-                                <!--
                                 <property name="simpleConstraint">
                                     <bean parent="RequiredConstraint">
                                         <property name="states">
@@ -98,7 +97,6 @@
                                         </property>
                                     </bean>
                                 </property>
-                                -->
 								<property name="control">
 									<bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA" />
 								</property>
@@ -239,7 +237,7 @@
                                     <bean parent="RequiredConstraint">
                                         <property name="states">
                                             <list>
-                                                <value>S>A</value>
+                                                <value>S+</value>
                                             </list>
                                         </property>
                                     </bean>

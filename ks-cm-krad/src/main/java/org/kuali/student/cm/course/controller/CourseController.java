@@ -94,6 +94,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
@@ -492,6 +493,9 @@ public class CourseController extends CourseRuleEditorController {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
 
         final CourseInfo course = maintainable.getCourse();
+        for (final CourseVariationInfo variation : course.getVariations()) {
+            variation.setTypeKey("kuali.lu.type.Variation");
+        }
         maintainable.setCourse(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
         
         info("Saving Proposal for course %s", maintainable.getCourse().getId());
