@@ -29,8 +29,9 @@ public class ReviewInfo implements java.io.Serializable {
     private GovernanceInfoWrapper governanceInfo;
     private CourseLogisticsInfoWrapper courseLogisticsInfo;
     private LearningObjectivesInfoWrapper learningObjectivesInfo;
+    private CourseRequisitesInfoWrapper courseRequisitesInfo;
     private ActiveDatesInfoWrapper activeDatesInfo;
-    private AuthorsAndCollaboratorsInfoWrapper authorsAndCollaboratorsInfo;
+    private FinancialsInfoWrapper financialsInfo;
     private SupportingDocumentsInfoWrapper supportingDocumentsInfo;
 
     public CourseInfoWrapper getCourseInfo() {
@@ -62,19 +63,19 @@ public class ReviewInfo implements java.io.Serializable {
         return learningObjectivesInfo;
     }
 
-    public ActiveDatesInfoWrapper getActiveDatesInfo() {
-        if (this.activeDatesInfo == null) {
-            activeDatesInfo = new ActiveDatesInfoWrapper();
+    public CourseRequisitesInfoWrapper getCourseRequisitesInfo() {
+        if (this.courseRequisitesInfo == null) {
+            courseRequisitesInfo = new CourseRequisitesInfoWrapper();
         }
-        return activeDatesInfo;
+        return courseRequisitesInfo;
     
     }
 
-    public AuthorsAndCollaboratorsInfoWrapper getAuthorsAndCollaboratorsInfo() {
-        if (this.authorsAndCollaboratorsInfo == null) {
-            authorsAndCollaboratorsInfo = new AuthorsAndCollaboratorsInfoWrapper();
+    public FinancialsInfoWrapper getFinancialsInfo() {
+        if (this.financialsInfo == null) {
+            financialsInfo = new FinancialsInfoWrapper();
         }
-        return authorsAndCollaboratorsInfo;
+        return financialsInfo;
     
     }
 
@@ -171,20 +172,56 @@ public class ReviewInfo implements java.io.Serializable {
     }
 
     public class GovernanceInfoWrapper implements java.io.Serializable {
-        
+        private List<String> campusLocations;
+        private List<String> curriculumOversight;
+        private List<String> administeringOrganization;
+
+        public List<String> getCampusLocations() {
+            if (this.campusLocations == null) {
+                campusLocations = new LinkedList<String>();
+            }
+            return campusLocations;
+        }
+
+        public List<String> getCurriculumOversight() {
+            if (this.curriculumOversight == null) {
+                curriculumOversight = new LinkedList<String>();
+            }
+            return curriculumOversight;
+        }
+
+        public List<String> getAdministeringOrganization() {
+            if (this.administeringOrganization == null) {
+                administeringOrganization = new LinkedList<String>();
+            }
+            return administeringOrganization;
+        }
     }
+    
 
     public class CourseLogisticsInfoWrapper implements java.io.Serializable {
+        private String term;
+        private String gradingOptions;
+        private String atpDurationType;
+        private String timeQuantity;
+        private String passFail;
+        private String audit;
     }
 
     public class LearningObjectivesInfoWrapper implements java.io.Serializable {
     }
 
+    public class CourseRequisitesInfoWrapper implements java.io.Serializable {
+    }
+
     public class ActiveDatesInfoWrapper implements java.io.Serializable {
+        private String startTerm;
+        private String endTerm;
+        private String pilotCourse;
         
     }
 
-    public class AuthorsAndCollaboratorsInfoWrapper implements java.io.Serializable {
+    public class FinancialsInfoWrapper implements java.io.Serializable {
         
     }
 

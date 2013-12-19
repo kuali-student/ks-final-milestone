@@ -30,7 +30,7 @@
                 <ref bean="KS-CourseView-CourseLogisticsPage-ReviewWidgets" />
                 <ref bean="KS-CourseView-ActiveDatesPage-ReviewWidgets" />
                 <ref bean="KS-CourseView-LearningObjectivesPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-FinancialsPage-ReviewWidgets" />
                 <ref bean="KS-CourseView-SupportingDocumentsPage-ReviewWidgets" />
             </list>
         </property>
@@ -91,8 +91,6 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
-                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list>
         </property>
     </bean>
@@ -115,8 +113,6 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
-                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list>
         </property>
     </bean>
@@ -139,8 +135,6 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
-                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list>
         </property>
     </bean>
@@ -163,8 +157,6 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
-                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list> 
        </property>
     </bean>
@@ -187,13 +179,11 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
-                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
             </list> 
        </property>
     </bean>
 
-    <bean name="KS-CourseView-AuthorsAndCollaboratorsPage-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-FinancialsPage-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
@@ -204,7 +194,7 @@
                                 <list>
                                     <bean parent="Uif-NavigationActionLink" 
                                           p:ajaxSubmit="false" 
-                                          p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" 
+                                          p:navigateToPageId="KS-CourseView-FinancialsPage" 
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
