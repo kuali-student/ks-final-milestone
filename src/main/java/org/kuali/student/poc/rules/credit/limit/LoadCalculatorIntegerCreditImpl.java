@@ -40,8 +40,7 @@ public class LoadCalculatorIntegerCreditImpl extends LoadCalculatorAbstractImpl 
             String loadLevelTypeKey,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        String creditString = this.getCreditsForRegistration(action, load, courseRegistrations, loadLevelTypeKey, contextInfo);
-        int credits = this.parseCreditsAsInt(creditString);
-        return credits;
+        KualiDecimal credits = this.getCreditsForRegistration(action, load, courseRegistrations, loadLevelTypeKey, contextInfo);
+        return credits.intValue();
     }
 }

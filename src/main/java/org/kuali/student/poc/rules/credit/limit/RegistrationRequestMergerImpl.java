@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.ActivityRegistrationInfo;
@@ -371,14 +372,14 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
         return changed;
     }
 
-    private boolean isSame(String oldStr, String newStr) {
-        if (oldStr == null) {
-            if (newStr == null) {
+    private boolean isSame(KualiDecimal oldKD, KualiDecimal newKD) {
+        if (oldKD == null) {
+            if (newKD == null) {
                 return true;
             }
             return false;
         }
-        return oldStr.equals(newStr);
+        return oldKD.equals(newKD);
     }
 
     /**

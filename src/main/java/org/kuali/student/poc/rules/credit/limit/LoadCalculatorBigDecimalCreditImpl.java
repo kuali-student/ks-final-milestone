@@ -23,26 +23,25 @@ public class LoadCalculatorBigDecimalCreditImpl extends LoadCalculatorAbstractIm
         LoadInfo load = this.constructLoadInfo(AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
                 courseRegistrations, loadLevelTypeKey, contextInfo);
 
-        BigDecimal totalCredits = BigDecimal.ZERO;
+        KualiDecimal totalCredits = new KualiDecimal (BigDecimal.ZERO);
         for (CourseRegistrationInfo action : courseRegistrations) {
             if (!this.accept(action, load, courseRegistrations, loadLevelTypeKey, contextInfo)) {
                 continue;
             }
-            BigDecimal credits = this.calcBigDecimalCreditsForRegistration(action, load, courseRegistrations, loadLevelTypeKey, contextInfo);
+            KualiDecimal credits = this.calcBigDecimalCreditsForRegistration(action, load, courseRegistrations, loadLevelTypeKey, contextInfo);
             totalCredits = totalCredits.add(credits);
         }
-        load.setTotalCredits(new KualiDecimal (totalCredits));
+        load.setTotalCredits(totalCredits);
         return load;
     }
 
-    protected BigDecimal calcBigDecimalCreditsForRegistration(CourseRegistrationInfo action,
+    protected KualiDecimal calcBigDecimalCreditsForRegistration(CourseRegistrationInfo action,
             LoadInfo load,
             List<CourseRegistrationInfo> courseRegistrations,
             String loadLevelTypeKey,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        String creditString = this.getCreditsForRegistration(action, load, courseRegistrations, loadLevelTypeKey, contextInfo);
-        BigDecimal credits = this.parseCreditsAsBigDecimal(creditString);
+        KualiDecimal credits = this.getCreditsForRegistration(action, load, courseRegistrations, loadLevelTypeKey, contextInfo);
         return credits;
     }
 

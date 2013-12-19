@@ -584,7 +584,8 @@ public class CourseRegistrationServiceMapImpl
         }
         // 
         //TODO: investigate how the requestor id is not the same as the student id on each of the items!
-        //THIS only supports the reg. requests for the same student.  TODO: support bulk registration changes to multiple students.
+        //THIS only supports the reg. requests for the same student.  
+//        TODO: support bulk registration changes to multiple students.
         List<CourseRegistrationInfo> registrations = this.getCourseRegistrationsByStudentAndTerm(rr.getRequestorId(),
                 rr.getTermId(), contextInfo);
         List<CourseRegistrationTransaction> trans = this.getMerger().merge(rr, registrations, false, contextInfo);

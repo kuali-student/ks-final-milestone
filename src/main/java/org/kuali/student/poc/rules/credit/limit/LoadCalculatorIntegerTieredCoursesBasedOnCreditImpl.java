@@ -40,12 +40,12 @@ public class LoadCalculatorIntegerTieredCoursesBasedOnCreditImpl extends LoadCal
             String loadLevelTypeKey,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        String creditString = this.getCreditsForRegistration(action, load, courseRegistrations, loadLevelTypeKey, contextInfo);
+        KualiDecimal creditsKD = this.getCreditsForRegistration(action, load, courseRegistrations, loadLevelTypeKey, contextInfo);
         // this is an example of the kind of crazy logic schools use.. .in this example any 1 credit courses doesn't count at all
         // course of 2-4 counts as one course and any course with more than 4 credits counts as 2
         // some may exclude not by the credits but by the type of course... i.e. registration for thesis automatically counts as 4 courses
         // and a ROTC course counts as 0 no matter how many credits it has.
-        int credits = this.parseCreditsAsInt(creditString);
+        int credits = creditsKD.intValue();
         if (credits <= 1) {
             return 0;
         }

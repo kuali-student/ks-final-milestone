@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import javax.xml.namespace.QName;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -79,7 +80,7 @@ public abstract class LoadCalculatorAbstractImpl implements LoadCalculator {
         return false;
     }
 
-    protected String getCreditsForRegistration(CourseRegistrationInfo reg,
+    protected KualiDecimal getCreditsForRegistration(CourseRegistrationInfo reg,
             LoadInfo load,
             List<CourseRegistrationInfo> actions,
             String loadLevelTypeKey,
@@ -92,9 +93,11 @@ public abstract class LoadCalculatorAbstractImpl implements LoadCalculator {
         // when did we add credit cnt to the CO record?  I was expecting to have to look up the actual value 
         // using the creditOptionId in the result value
         // Why the ugly abbreviation? "Cnt"  can't we spell it out?
-        return co.getCreditCnt();
+        return new KualiDecimal (this.parseCreditsAsBigDecimal(co.getCreditCnt()));
     }
 
+   
+    
     protected CourseOfferingInfo getCourseOffering(String coId,
             ContextInfo contextInfo)
             throws OperationFailedException {
