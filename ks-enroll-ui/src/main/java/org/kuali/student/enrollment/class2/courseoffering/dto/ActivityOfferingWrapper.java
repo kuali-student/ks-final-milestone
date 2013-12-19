@@ -20,7 +20,6 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
-import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -877,6 +876,27 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         return bldgCodeSimple;
     }
 
+    public void setBldgCodeSimple(String buildingCode, String buildingName, String dlTypeClass) {
+        String cssClass = "";
+        boolean  appendForDisplay = true;
+        if(!StringUtils.isEmpty(dlTypeClass)){
+            cssClass = "class=\"" + dlTypeClass + "\"";
+        }
+        if(StringUtils.isEmpty(this.bldgCodeSimple)){
+            appendForDisplay = false;
+        } else {
+            appendForDisplay = true;
+        }
+        String underlineCssClass = "<span" + cssClass + "style=\"border-bottom: 1px dotted\">";
+
+        String BldgCodeMark = underlineCssClass + buildingCode + "</span>";
+        if (appendForDisplay){
+            this.bldgCodeSimple = this.bldgCodeSimple + "<br>" + BldgCodeMark;
+        }else{
+            this.bldgCodeSimple = BldgCodeMark;
+        }
+    }
+
     public void setBldgCodeSimple(String bldgCodeSimple) {
         this.bldgCodeSimple = bldgCodeSimple;
     }
@@ -895,17 +915,18 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
     }
 
     public void setBuildingCode(String buildingCode, boolean appendForDisplay, String dlTypeClass) {
+
         String cssClass = "";
         if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "style=\"border-bottom: 1px dotted;\"";
+            cssClass = "style=\"border-bottom: 1px dotted\"";
         }
-        if(StringUtils.isEmpty(this.buildingCode)){
+        if(StringUtils.isEmpty(buildingCode)){
             appendForDisplay = false;
         }
         if (appendForDisplay){
-            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " >" + buildingCode + "</span>";
+            this.buildingCode = this.buildingCode + "<br><span " + cssClass + " class=\"" + dlTypeClass + "\""+ " >" + buildingCode + "</span>";
         }else{
-            this.buildingCode = "<span " + cssClass + " >" + buildingCode + "</span>";
+            this.buildingCode = "<span " + cssClass + " class=\"" + dlTypeClass + "\""+ " >" + buildingCode + "</span>";
         }
     }
 

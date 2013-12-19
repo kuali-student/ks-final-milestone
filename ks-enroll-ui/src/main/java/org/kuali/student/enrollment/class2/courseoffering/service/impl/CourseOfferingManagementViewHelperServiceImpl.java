@@ -768,7 +768,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             String bldgCode = StringUtils.defaultIfEmpty(bldg.getBuildingCode(), StringUtils.EMPTY);
             aoWrapper.setBuildingName(bldgName, newline, "uif-scheduled-dl");
             aoWrapper.setBuildingCode(bldgCode, newline, "uif-scheduled-dl");
-            aoWrapper.setBldgCodeSimple(bldgCode);
+            aoWrapper.setBldgCodeSimple(bldgCode, bldgName, "uif-scheduled-dl");
         }
     }
 
@@ -923,7 +923,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 rgWrapper.setScheduledState(rgWrapper.getScheduledState() + (newLine ? "<br/>" : "") + aoWrapper.getScheduledState() + lineBreaksInstructors);
                 rgWrapper.setRoomName(rgWrapper.getRoomName() + (newLine ? "<br/>" : "") + aoWrapper.getRoomName() + lineBreaksInstructors);
                 rgWrapper.setBuildingName(rgWrapper.getBuildingName() + (newLine ? "<br/>" : "") + aoWrapper.getBuildingName() + lineBreaksInstructors);
-                rgWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName(), (newLine ? "<br/>" : ""));
+                boolean isScheduled=aoWrapper.getBuildingName().contains("uif-scheduled-dl");
+                if(isScheduled){
+                    rgWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName(), "uif-scheduled-dl");
+                } else {
+                    rgWrapper.setBuildingCodeWithTooltip(aoWrapper.getBldgCodeSimple(), aoWrapper.getBuildingName(), (newLine ? "<br>" : "uif-scheduled-dl"));
+                }
                 rgWrapper.setAoInstructorText(rgWrapper.getAoInstructorText() + (newLine ? "<br/>" : "") + (aoWrapper.getInstructorDisplayNames() == null ? "" : aoWrapper.getInstructorDisplayNames()) + lineBreaksDeliveries);
 
                 clusterWrapper.getRgWrapperList().add(rgWrapper);

@@ -339,14 +339,14 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
         String cssClass = "";
         boolean  appendForDisplay = true;
         if(!StringUtils.isEmpty(dlTypeClass)){
-            cssClass = "class=\"" + dlTypeClass + "\"";
+            cssClass = " class=\"" + dlTypeClass + "\"";
         }
         if(StringUtils.isEmpty(this.buildingCode)){
             appendForDisplay = false;
         } else {
             appendForDisplay = true;
         }
-        String underlineCssClass = "<span style=\"border-bottom: 1px dotted;\">";
+        String underlineCssClass = "<span style=\"border-bottom: 1px dotted\"";
 
 /*
         if (appendForDisplay){
@@ -355,7 +355,8 @@ public class RegistrationGroupWrapper implements Serializable, ComparatorModel {
             this.buildingCode = "<span " + cssClass + " >" + "  [id='SchOfClasses-RegGroup-BuildingCodeAndName-Tooltip' messageText=" + "'" + buildingCode + "'" + " toolTip.tooltipContent=" + "'" + buildingName + "']" + "</span>";
         }
 */
-        String BldgCodeMark = "<span " + cssClass + "title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span> </span>";
+        String BldgCodeMark = underlineCssClass + cssClass + ">" + buildingCode + "</span>";
+        //String BldgCodeMark = "<span " + cssClass + "title='" + buildingName  + "'>" + underlineCssClass + buildingCode + "</span> </span>";
         if (appendForDisplay){
             this.buildingCode = this.buildingCode + "<br>" + BldgCodeMark;
         }else{
