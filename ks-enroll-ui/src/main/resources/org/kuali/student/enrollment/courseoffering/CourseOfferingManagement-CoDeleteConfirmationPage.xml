@@ -162,7 +162,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-DeleteCourseOfferingListSection" parent="Uif-TableCollectionSection"
-          p:renderAddLine="false" p:renderLineActions="false" p:cssClasses="ks-courseOfferingManagement-DeleteCourseOfferingListTable">
+          p:renderAddLine="false" p:renderLineActions="false" >
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper"/>
         <property name="propertyName" value="selectedCoToDeleteList"/>
@@ -260,8 +260,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-DeletedAoListSection" parent="Uif-TableSubCollection-WithinSection"
-          p:layoutManager.numberOfColumns="9"
-          p:cssClasses="ks-courseOfferingManagement-DeletedAoListTable">
+          p:layoutManager.numberOfColumns="9">
         <property name="headerText" value="Activities"/>
         <property name="collectionObjectClass"
                   value="org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper"/>
