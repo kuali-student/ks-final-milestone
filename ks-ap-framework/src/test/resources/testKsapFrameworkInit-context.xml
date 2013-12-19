@@ -2,6 +2,19 @@
        xsi:schemaLocation="
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+    <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:ks-test-system-property-configurer.xml" />
+
+    <bean id="configContext" class="org.kuali.student.common.test.KSTestConfigContextLoader">
+        <constructor-arg index="0">
+            <list>
+                <value>classpath:META-INF/ks-ap/ks-ap-test-config.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="kualiConfigurationService" class="org.kuali.rice.core.impl.services.ConfigurationServiceImpl" depends-on="configContext" />
+
 
     <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
         <property name="ksapContext" ref="ksapContext"/>
