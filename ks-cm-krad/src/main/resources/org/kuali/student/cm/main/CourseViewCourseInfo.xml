@@ -82,7 +82,7 @@
 							<bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop"
 								p:label="Subject Code" p:propertyName="course.subjectArea">
 								<property name="fieldLabel.requiredMessage">
-                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
                                 </property>
                                 <property name="constraintText" value="Must be a 4 letter code" />
 								<property name="validCharactersConstraint">
@@ -217,7 +217,7 @@
 							<bean parent="Uif-InputField-LabelTop" p:label="Description"
 								p:propertyName="course.descr.plain">
                                 <property name="fieldLabel.requiredMessage">
-                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
                                 </property>
                                 <property name="cssClasses">
                                     <list>
@@ -233,7 +233,7 @@
 							<bean id="KS-ProposalRationale" parent="Uif-InputField-LabelTop" p:label="Proposal Rationale"
 								p:propertyName="proposal.rationale.plain">
 								<property name="fieldLabel.requiredMessage">
-                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on Submit" />
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
                                 </property>
                                 <property name="instructionalText"
 									value="This will be used in evaluating the proposal. It will not be published in the catalog." />
@@ -361,8 +361,17 @@
 									<bean parent="Uif-TextControl" p:size="1" p:maxLength="1" />
 								</property>
 								<property name="validCharactersConstraint">
-									<bean parent="AlphaPatternConstraint" />
+									<bean parent="AlphaPatternConstraint"/>
 								</property>
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>S>R</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
 							</bean>
 							<bean parent="Uif-InputField-LabelTop" p:label="Course Title"
 								p:propertyName="variationTitle" p:required="true">

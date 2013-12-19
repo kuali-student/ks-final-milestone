@@ -43,6 +43,15 @@
                 </bean>
             </list>
         </property> -->    
+        <property name="stateMapping">
+            <bean parent="WorkflowStateMapping">
+                <property name="customClientSideValidationStates">
+                    <map>
+                        <entry key="S" value="A"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>

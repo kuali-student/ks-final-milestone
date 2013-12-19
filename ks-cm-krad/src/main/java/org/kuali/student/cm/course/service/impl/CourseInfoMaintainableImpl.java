@@ -94,6 +94,8 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService {
+    
+    private static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
 
     private static final long serialVersionUID = 1338662637708570500L;
 
@@ -145,6 +147,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     
     private transient OrganizationService organizationService;
 
+    private transient SearchService searchService;
+
     private ReviewInfo reviewInfo;
 
     private transient SubjectCodeService subjectCodeService;
@@ -158,6 +162,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private transient KSRuleViewTreeBuilder viewTreeBuilder;
 
     private transient NaturalLanguageHelper nlHelper;
+
+    private String requiredWorkflowMode; 
 
     public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
         this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
@@ -1054,6 +1060,17 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         return rules;
+    }
+
+    public String getRequiredWorkflowMode() {
+        if (requiredWorkflowMode == null) {
+            requiredWorkflowMode = DEFAULT_REQUIRED_WORKFLOW_MODE;;
+        }
+        return requiredWorkflowMode;
+    }
+
+    public void setRequiredWorkflowMode(final String requiredWorkflowMode) {
+        this.requiredWorkflowMode = requiredWorkflowMode;
     }
 
     /**
