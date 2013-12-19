@@ -127,7 +127,7 @@
             <list>
                 <bean parent="Uif-HeaderFive" p:headerText="Courses" />
                 <bean parent="Uif-Link" p:linkText="Find a Course"
-                    p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Course-LookupView&amp;dataObjectClassName=org.kuali.student.lum.lu.ui.krms.dto.CluInformation&amp;showMaintenanceLinks=true&amp;returnLocation=http://env1.rice.kuali.org/portal.do&amp;hideReturnLink=true" />
+                    p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Course-FindACourse&amp;dataObjectClassName=org.kuali.student.lum.lu.ui.krms.dto.CluInformation&amp;showMaintenanceLinks=true&amp;returnLocation=http://env1.rice.kuali.org/portal.do&amp;hideReturnLink=true" />
                 <bean parent="Uif-Link" p:linkText="Find a Course Proposal" />
             </list>
         </property>
