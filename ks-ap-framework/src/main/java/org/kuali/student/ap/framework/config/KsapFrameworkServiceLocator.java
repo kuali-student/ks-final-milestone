@@ -17,6 +17,7 @@ import org.kuali.student.ap.plannerreview.LearningPlanReviewStrategy;
 import org.kuali.student.ap.schedulebuilder.ScheduleBuildStrategy;
 import org.kuali.student.ap.schedulebuilder.ShoppingCartStrategy;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -140,6 +141,10 @@ public final class KsapFrameworkServiceLocator {
 	public static CourseOfferingService getCourseOfferingService() {
 		return getInstance().ksEnrollCourseOfferingService;
 	}
+    
+    public static CourseOfferingSetService getCourseOfferingSetService() {
+        return getInstance().ksEnrollCourseOfferingSetService;
+    }
 
 	/**
 	 * Get the ks-enroll remote academic calendar service.
@@ -357,6 +362,10 @@ public final class KsapFrameworkServiceLocator {
         getInstance().ksEnrollCourseOfferingService = ksEnrollCourseOfferingService;
     }
 
+    public void setKsEnrollCourseOfferingSetService(CourseOfferingSetService ksEnrollCourseOfferingSetService) {
+        getInstance().ksEnrollCourseOfferingSetService = ksEnrollCourseOfferingSetService;
+    }
+
     public void setKsEnrollAcalService(AcademicCalendarService ksEnrollAcalService) {
         getInstance().ksEnrollAcalService = ksEnrollAcalService;
     }
@@ -439,7 +448,7 @@ public final class KsapFrameworkServiceLocator {
 
     public void setScheduleBuildStrategy(ScheduleBuildStrategy scheduleBuildStrategy) {
         getInstance().scheduleBuildStrategy = scheduleBuildStrategy;
-    }
+    }    
 
 	@EJB
 	private transient AtpService ksCoreAtpService;
@@ -456,7 +465,9 @@ public final class KsapFrameworkServiceLocator {
 	@EJB
 	private transient LuiService ksEnrollLuiService;
 	@EJB
-	private transient CourseOfferingService ksEnrollCourseOfferingService;
+    private transient CourseOfferingService ksEnrollCourseOfferingService;
+    @EJB
+    private transient CourseOfferingSetService ksEnrollCourseOfferingSetService;
 	@EJB
 	private transient AcademicCalendarService ksEnrollAcalService;
 	@EJB

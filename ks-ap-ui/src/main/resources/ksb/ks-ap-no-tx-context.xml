@@ -32,6 +32,7 @@
         <property name="ksEnrollAcalService" ref="ksEnrollAcalService"/>
         <property name="ksEnrollAcademicRecordService" ref="ksEnrollAcademicRecordService"/>
         <property name="ksEnrollCourseOfferingService" ref="ksEnrollCourseOfferingService"/>
+        <property name="ksEnrollCourseOfferingSetService" ref="ksEnrollCourseOfferingSetService"/>
         <property name="ksEnrollLuiService" ref="ksEnrollLuiService"/>
         <property name="ksCoreCommentService" ref="ksCoreCommentService"/>
         <property name="ksCoreEnumerationManagementService" ref="enumServiceClient"/>
@@ -104,6 +105,12 @@
                   value="org.kuali.student.enrollment.courseoffering.service.CourseOfferingService" />
         <property name="serviceQName"
                   value="{http://student.kuali.org/wsdl/courseOffering}CourseOfferingService" />
+    </bean>
+    <bean id="ksEnrollCourseOfferingSetService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService" />
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/courseOfferingSet}CourseOfferingSetService" />
     </bean>
     <bean id="ksEnrollAcademicRecordService" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"

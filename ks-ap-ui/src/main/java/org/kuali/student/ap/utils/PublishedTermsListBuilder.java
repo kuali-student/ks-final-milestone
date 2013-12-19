@@ -162,7 +162,7 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
         for (Term term : inputTerms){
             List<String> socIds;
             try {
-                socIds = getCourseOfferingSetService().getSocIdsByTerm(term.getId(), ContextUtils.createDefaultContextInfo());
+                socIds = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSocIdsByTerm(term.getId(), ContextUtils.createDefaultContextInfo());
             } catch (Exception e){
                 if (LOG.isDebugEnabled()){
                     LOG.debug("Getting SOCs for the term " + term.getCode() + " results in service error");
@@ -182,7 +182,7 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
             SocInfo socInfo;
             int firstId = 0;
             try {
-                socInfo = getCourseOfferingSetService().getSoc(socIds.get(firstId), ContextUtils.createDefaultContextInfo());
+                socInfo = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSoc(socIds.get(firstId), ContextUtils.createDefaultContextInfo());
             } catch (Exception e){
                 if (LOG.isDebugEnabled()){
                     LOG.debug("Error getting the soc [id=" + socIds.get(firstId) + "]");
@@ -224,8 +224,4 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
 		this.additionalListItemsBottom = additionalListItems;
 	}
 
-    protected CourseOfferingSetService getCourseOfferingSetService(){
-        CourseOfferingSetService courseOfferingSetService = (CourseOfferingSetService) GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE, CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
-        return courseOfferingSetService;
-    }
 }
