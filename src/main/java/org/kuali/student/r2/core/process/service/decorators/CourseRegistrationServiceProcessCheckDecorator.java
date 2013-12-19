@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.r2.core.process;
+package org.kuali.student.r2.core.process.service.decorators;
 
 import org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceDecorator;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;

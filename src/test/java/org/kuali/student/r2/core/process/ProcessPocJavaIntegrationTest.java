@@ -5,6 +5,7 @@
 
 package org.kuali.student.r2.core.process;
 
+import org.kuali.student.r2.core.process.service.decorators.CourseRegistrationServiceProcessCheckDecorator;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
