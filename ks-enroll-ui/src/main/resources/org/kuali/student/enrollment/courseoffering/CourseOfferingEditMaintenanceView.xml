@@ -837,7 +837,7 @@
           p:layoutManager.richTable.disableTableSort="true"
           p:layoutManager.richTable.render="false"
           p:layoutManager.applyAlternatingRowStyles="false">
-        <property name="addBlankLineAction.actionLabel" value="Add Administrating Organization"/>
+        <property name="addBlankLineAction.actionLabel" value="Add Administering Organization"/>
         <property name="addBlankLineAction.id" value="KS-CourseOfferingEdit-OrganizationSection_add"/>
         <property name="addBlankLineAction.dirtyOnAction" value="true" />
         <property name="items">
