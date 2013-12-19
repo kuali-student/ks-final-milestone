@@ -13,7 +13,7 @@ import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
-import org.kuali.student.r2.core.process.impl.ProcessServiceMockImpl;
+import org.kuali.student.r2.core.process.impl.ProcessServiceMapImpl;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.kuali.student.r2.core.process.service.impl.ProcessServiceDataLoader;
 
@@ -51,7 +51,7 @@ public class ProcessPocProcessServiceDecoratorTest {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-tester");
 
-        ProcessService processService = new ProcessServiceMockImpl();
+        ProcessService processService = new ProcessServiceMapImpl();
         processService = new ProcessPocProcessServiceDecorator(processService);
 
         ProcessInfo process = null;
