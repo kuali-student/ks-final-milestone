@@ -154,15 +154,16 @@ public class ScheduleOfClassesUtil {
         qBuilder.setPredicates(pred);
         try {
             socs = courseOfferingSetService.searchForSocs(qBuilder.build(), context);
-            if (socs == null && socs.size() < 1) {
+            if (socs != null && socs.size() > 0) {
+                for(SocInfo soc: socs){
+                    // Add all published Soc termIds to termIds List
+                    termIds.add(soc.getTermId());
+                }
+                // Use AtpService to get Term name by Id
+                atps = atpService.getAtpsByIds(termIds, context);
+            } else {
                 return atps;
             }
-            for(SocInfo soc: socs){
-                // Add all published Soc termIds to termIds List
-                termIds.add(soc.getTermId());
-            }
-            // Use AtpService to get Term name by Id
-            atps = atpService.getAtpsByIds(termIds, context);
         } catch (Exception e) {
             throw new RuntimeException("Error getting Valid SOC Terms", e);
         }
