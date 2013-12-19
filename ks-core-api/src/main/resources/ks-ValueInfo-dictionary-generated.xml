@@ -1,0 +1,198 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+
+	<!-- ValueInfo-->
+	<bean id="ValueInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="valueInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.ges.dto.ValueInfo"/>
+		<property name="objectLabel" value="Value"/>
+		<property name="objectDescription">
+			<value>
+A value associated with a specific parameter.
+
+The applicability of this value is restricted by specifying an ATP type key, Population Id, Rule Id, and onDate
+This allows multiple values to be tied to a single parameter and a subset of these values to be tied to a combination of the limiting criteria given above.
+
+A value may store a single type of value that is determined using the values typeKey.  Following from this, for example,
+it is not valid to attempt to set a boolean and date on a single value.
+
+Values are assigned a priority that may or may not be unique for all values associated with a given parameter and the highest priority is one.
+The uniqueness of the priority is determined by the associated parameter.
+			</value>
+		</property>
+		<property name="titleAttribute" value="id"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+
+		<property name="attributes">
+			<list>
+				<ref bean="ValueInfo.id"/>
+				<ref bean="ValueInfo.typeKey"/>
+				<ref bean="ValueInfo.stateKey"/>
+				<ref bean="ValueInfo.effectiveDate"/>
+				<ref bean="ValueInfo.expirationDate"/>
+				<ref bean="ValueInfo.parameterId"/>
+				<ref bean="ValueInfo.priority"/>
+				<ref bean="ValueInfo.atpTypeKey"/>
+				<ref bean="ValueInfo.populationId"/>
+				<ref bean="ValueInfo.ruleId"/>
+			</list>
+		</property>
+
+		<property name="complexAttributes">
+			<list>
+			</list>
+		</property>
+
+		<property name="collections">
+			<list>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="ValueInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+	</bean>
+
+	<bean id="ValueInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+	</bean>
+
+	<bean id="ValueInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+	</bean>
+
+	<bean id="ValueInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
+		<property name="name" value="effectiveDate"/>
+	</bean>
+
+	<bean id="ValueInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
+		<property name="name" value="expirationDate"/>
+	</bean>
+
+	<bean id="ValueInfo.parameterId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="parameterId"/>
+		<property name="shortLabel" value="Parameter Id"/>
+		<property name="summary">
+			<value>
+The parameter associated with this value.
+			</value>
+		</property>
+		<property name="label" value="Parameter Id"/>
+		<property name="description">
+			<value>
+The parameter associated with this value.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ValueInfo.priority-generated" abstract="true" parent="BaseKuali.integer">
+		<property name="name" value="priority"/>
+		<property name="shortLabel" value="Priority"/>
+		<property name="summary">
+			<value>
+An Integer that sets the priority of this value relative to other values associated with
+ a specific parameter.
+			</value>
+		</property>
+		<property name="label" value="Priority"/>
+		<property name="description">
+			<value>
+An Integer that sets the priority of this value relative to other values associated with
+ a specific parameter.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ValueInfo.atpTypeKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="atpTypeKey"/>
+		<property name="shortLabel" value="Atp Type Key"/>
+		<property name="summary">
+			<value>
+An optional ATP type key that restricts the applicability of this value.
+			</value>
+		</property>
+		<property name="label" value="ATP Type Key"/>
+		<property name="description">
+			<value>
+An optional ATP type key that restricts the applicability of this value.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ValueInfo.populationId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="populationId"/>
+		<property name="shortLabel" value="Population Id"/>
+		<property name="summary">
+			<value>
+An optional Population Id that restricts the applicability of this value.
+			</value>
+		</property>
+		<property name="label" value="Population Id"/>
+		<property name="description">
+			<value>
+An optional Population Id that restricts the applicability of this value.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="ValueInfo.ruleId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="ruleId"/>
+		<property name="shortLabel" value="Rule Id"/>
+		<property name="summary">
+			<value>
+An optional Rule Id that restricts the applicability of this value.
+			</value>
+		</property>
+		<property name="label" value="Rule Id"/>
+		<property name="description">
+			<value>
+An optional Rule Id that restricts the applicability of this value.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+</beans>
