@@ -88,6 +88,15 @@
 								<property name="validCharactersConstraint">
 									<bean parent="AlphaPatternConstraint" />
 								</property>
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>S>A</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
 								<property name="control">
 									<bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA" />
 								</property>
@@ -224,6 +233,15 @@
                                         <value>uif-label</value>
                                     </list>
                                 </property>
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>S>A</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
 								<property name="instructionalText"
 									value="This description will appear in the catalog." />
 								<property name="control">
@@ -237,6 +255,15 @@
                                 </property>
                                 <property name="instructionalText"
 									value="This will be used in evaluating the proposal. It will not be published in the catalog." />
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>S>R</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
 								<property name="control">
 									<bean parent="Uif-LargeTextAreaControl">
                                         <property name="cssClasses">
@@ -363,15 +390,6 @@
 								<property name="validCharactersConstraint">
 									<bean parent="AlphaPatternConstraint"/>
 								</property>
-                                <property name="simpleConstraint">
-                                    <bean parent="RequiredConstraint">
-                                        <property name="states">
-                                            <list>
-                                                <value>S>R</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
 							</bean>
 							<bean parent="Uif-InputField-LabelTop" p:label="Course Title"
 								p:propertyName="variationTitle" p:required="true">
