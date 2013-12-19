@@ -103,10 +103,7 @@
                   <bean id="edit_schedule_request_action_link" parent="Uif-NavigationActionLink"
                         p:methodToCall="editScheduleComponent" p:actionLabel="Edit"
                         p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
-                  <bean parent="KS-Uif-ActionLink"
-                        p:methodToCall="deleteLine"
-                        p:actionLabel="delete"
-                        p:successCallback="reDisplayRDLSection();"/>
+                  <bean parent="Uif-DeleteLineAction" p:successCallback="reDisplayRDLSection();"/>
               </list>
         </property>
     </bean>
