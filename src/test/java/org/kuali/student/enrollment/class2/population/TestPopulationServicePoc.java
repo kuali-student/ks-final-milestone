@@ -17,10 +17,14 @@
 package org.kuali.student.enrollment.class2.population;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
+import org.kuali.student.r2.core.population.infc.PopulationRule;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -28,6 +32,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertEquals;
 
 /**
  * This class tests the PopulationService POC
@@ -72,19 +78,38 @@ public class TestPopulationServicePoc {
         dataLoader.afterTest();
     }
 
-
     // ====================
     // TESTING
     // ====================
 
     @Test
     public void testDataLoad() throws Exception {
+
+        // initially all the population ids should be null
+        assertNull(dataLoader.getFirstYearStudentPopulationId());
+        assertNull(dataLoader.getFreshmenStudentPopulationId());
+        assertNull(dataLoader.getInstructorPopulationId());
+        assertNull(dataLoader.getStudentPopulationId());
+        assertNull(dataLoader.getUndergraduteStudentPopulationId());
+
+        // load the date
         dataLoader.beforeTest();
+
+        // now the values should be there
         assertNotNull(dataLoader.getFirstYearStudentPopulationId());
         assertNotNull(dataLoader.getFreshmenStudentPopulationId());
         assertNotNull(dataLoader.getInstructorPopulationId());
         assertNotNull(dataLoader.getStudentPopulationId());
         assertNotNull(dataLoader.getUndergraduteStudentPopulationId());
+
+        // get the population and print out
+        PopulationInfo freshmenPop = populationService.getPopulation(dataLoader.getFreshmenStudentPopulationId(), contextInfo);
+        assertNotNull(freshmenPop);
+        assertEquals(freshmenPop.getId(), dataLoader.getFreshmenStudentPopulationId());
+        PopulationRuleInfo freshmenPopRule = populationService.getPopulationRuleForPopulation(dataLoader.getFreshmenStudentPopulationId(), contextInfo);
+        assertNotNull(freshmenPopRule);
+        System.out.println (freshmenPopRule);
+
 
     }
 

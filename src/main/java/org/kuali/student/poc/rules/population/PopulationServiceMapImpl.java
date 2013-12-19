@@ -56,9 +56,8 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
     private Map<String, PopulationCategoryInfo> populationCategoryMap = new LinkedHashMap<String, PopulationCategoryInfo>();
 
     // the map that will hold the mapping of population rule and population.
-    // the key will be population rule id and the values are the populations that will
-    // be mapped to that rule
-    private Map<String, List<PopulationInfo>> populationRulePopulationMap = new LinkedHashMap<String, List<PopulationInfo>>();
+    // the key will be population id and the value will be the population rule
+    private Map<String, PopulationRuleInfo> populationRulePopulationMap = new LinkedHashMap<String, PopulationRuleInfo>();
 
     /////////////////////
     // Functionals
@@ -124,12 +123,23 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
             ,OperationFailedException
             ,PermissionDeniedException
     {
+        if (populationRuleId==null) throw new InvalidParameterException("populationRuleId is null");
         List<PopulationInfo> list = new ArrayList<PopulationInfo> ();
-        if (!this.populationRulePopulationMap.containsKey(populationRuleId)) {
-            return list;
-        } else {
-            return this.populationRulePopulationMap.get(populationRuleId);
+
+        // go through each value in populationRulePopulationMap. If the value is
+        // the population rule whose id is specified, add the population (the key) to
+        // list of returned populations.
+
+        for (String populationId: populationRulePopulationMap.keySet()) {
+            if (populationRuleId.equals (populationRulePopulationMap.get(populationId).getId())) {
+                try {
+                    list.add(getPopulation(populationId, contextInfo));
+                } catch (Exception e) {
+                    throw new OperationFailedException("Unable to read population for id " + populationId);
+                }
+            }
         }
+        return list;
     }
 
     @Override
@@ -275,10 +285,10 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
             ,OperationFailedException
             ,PermissionDeniedException
     {
-        if (!this.populationRuleMap.containsKey(populationId)) {
+        if (!this.populationRulePopulationMap.containsKey(populationId)) {
             throw new DoesNotExistException(populationId);
         }
-        return new PopulationRuleInfo(this.populationRuleMap.get (populationId));
+        return populationRulePopulationMap.get (populationId);
     }
 
     @Override
@@ -382,26 +392,12 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
         // both rule and population must exist
         PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo);
         PopulationInfo populationInfo = getPopulation(populationId, contextInfo);
-
-        List<PopulationInfo> populationInfos = new ArrayList<PopulationInfo>();
-
-        // if there is no mapping for this population rule
-        if (!this.populationRulePopulationMap.containsKey(populationRuleId)) {
-            populationInfos.add(populationInfo);
-            this.populationRulePopulationMap.put(populationRuleId, populationInfos);
+        // check if this population has any population rule
+        if (populationRulePopulationMap.containsKey(populationId)) {
+            // remove it as one population can only have one population rule id.
+            populationRulePopulationMap.remove(populationId);
         }
-        // else will have to obtain current list, check if this is present and if not, add it
-        else {
-            populationInfos = this.populationRulePopulationMap.get(populationRuleId);
-            for (PopulationInfo pi : populationInfos) {
-                if (pi.getId().equals(populationId)) {
-                    return newStatus();
-                }
-            }
-            // add population to the end
-            populationInfos.add(populationInfo);
-            this.populationRulePopulationMap.put(populationRuleId, populationInfos);
-        }
+        populationRulePopulationMap.put(populationId, populationRuleInfo);
         return newStatus();
     }
 
@@ -416,18 +412,10 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
         // both rule and population must exist
         PopulationRuleInfo populationRuleInfo = getPopulationRule(populationRuleId, contextInfo);
         PopulationInfo populationInfo = getPopulation(populationId, contextInfo);
-
-        List<PopulationInfo> populationInfos = new ArrayList<PopulationInfo>();
-
-        // if there is no mapping for this population rule
-        if (!this.populationRulePopulationMap.containsKey(populationRuleId)) {
-           return newStatus();
-        }
-        // else will have to obtain current list and remove it
-        else {
-            populationInfos = this.populationRulePopulationMap.get(populationRuleId);
-            populationInfos.remove(populationInfo); // will remove if there
-            this.populationRulePopulationMap.put(populationRuleId, populationInfos);
+        // check if this population has any population rule
+        if (populationRulePopulationMap.containsKey(populationId)) {
+            // remove it as one population can only have one population rule id.
+            populationRulePopulationMap.remove(populationId);
         }
         return newStatus();
     }
