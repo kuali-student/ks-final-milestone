@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.r2.core.ges.dto.ParameterInfo;
 import org.kuali.student.r2.core.ges.dto.ValueInfo;
 
@@ -151,12 +152,12 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public List<ValueInfo> evaluateValuesByParameterAndPerson(String parameterId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().evaluateValuesByParameterAndPerson(parameterId, personId, contextInfo);
+    public List<ValueInfo> evaluateValues(String parameterId, GesCriteriaInfo criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().evaluateValues(parameterId,criteria, contextInfo);
     }
 
     @Override
-    public List<ValueInfo> evaluateValuesByParameterAndPersonAndAtpAndOnDate(String parameterId, String personId, String atpId, Date onDate, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().evaluateValuesByParameterAndPersonAndAtpAndOnDate(parameterId, personId, atpId, onDate, contextInfo);
+    public List<ValueInfo> evaluateValuesOnDate(String parameterId, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().evaluateValuesOnDate(parameterId, criteria, onDate, contextInfo);
     }
 }

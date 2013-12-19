@@ -33,6 +33,9 @@ import java.util.Date;
  * A value may store a single type of value that is determined using the values typeKey.  Following from this, for example,
  * it is not valid to attempt to set a boolean and date on a single value.
  *
+ * Values are assigned a priority that may or may not be unique for all values associated with a given parameter and the highest priority is one.
+ * The uniqueness of the priority is determined by the associated parameter.
+ *
  */
 public interface Value extends IdNamelessEntity, HasEffectiveDates {
 
@@ -43,6 +46,13 @@ public interface Value extends IdNamelessEntity, HasEffectiveDates {
      * @required
      */
     String getParameterId();
+
+    /**
+     *  An Integer that sets the priority of this value relative to other values associated with
+     *  a specific parameter.
+     * @name Priority
+     */
+    Integer getPriority();
 
     /**
      *  An optional ATP type key that restricts the applicability of this value.

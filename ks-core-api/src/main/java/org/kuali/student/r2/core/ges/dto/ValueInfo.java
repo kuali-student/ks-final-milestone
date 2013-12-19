@@ -40,7 +40,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValueInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "parameterId","atpTypeKey","populationId","ruleId", "value", "meta", "attributes", "_futureElements" })
+        "parameterId","priority","atpTypeKey","populationId","ruleId", "value", "meta", "attributes", "_futureElements" })
 public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffectiveDates {
     @XmlElement
     private Date effectiveDate;
@@ -48,6 +48,8 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     private Date expirationDate;
     @XmlElement
     private String parameterId;
+    @XmlElement
+    private Integer priority;
     @XmlElement
     private String atpTypeKey;
     @XmlElement
@@ -66,6 +68,7 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         super(value);
         if(value != null) {
             parameterId = value.getParameterId();
+            priority = value.getPriority();
             atpTypeKey = value.getAtpTypeKey();
             populationId = value.getPopulationId();
             ruleId = value.getRuleId();
@@ -104,6 +107,14 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
 
     public void setParameterId(String parameterId) {
         this.parameterId = parameterId;
+    }
+    @Override
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
     }
 
     @Override

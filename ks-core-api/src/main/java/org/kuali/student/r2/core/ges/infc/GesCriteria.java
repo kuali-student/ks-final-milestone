@@ -14,32 +14,26 @@
  */
 package org.kuali.student.r2.core.ges.infc;
 
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
+
+
 
 /**
- * A key to a possibly empty set of values.
-*/
-public interface Parameter extends IdNamelessEntity {
+ * Criteria used to evaluate the applicability of a value(s) associated with a parameter.
+ */
+public interface GesCriteria {
+    /**
+     * ATP used to restrict the value(s) returned by evaluations using this criteria.
+     * An empty or null value is treated as a wild card.
+     * @name Atp Type Key
+     */
+    String getAtpTypeKey();
 
     /**
-     * The user friendly key for this parameter
-     * @name Key Id
-     * @readOnly
-     * @required
+     * Person Id used to derive attributes that constrain the applicability of a value.
+     * An empty or null value is treated as a wild card.
+     * @name Person Id
      */
-    String getKey();
+    String getPersonId();
 
-    /**
-     * Restricts the types of values that may be associated with this parameter.
-     * @name Value Type Key
-     * @readOnly
-     * @required
-     */
-    String getValueTypeKey();
 
-    /**
-     * Indicates if duplicate priorities are allowed for all values associated with this parameter.
-     * @name Require Unique Priorities
-     */
-    Boolean getRequireUniquePriorities();
 }

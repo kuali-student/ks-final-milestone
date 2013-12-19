@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.r2.core.ges.dto.ParameterInfo;
 import org.kuali.student.r2.core.ges.dto.ValueInfo;
 
@@ -575,25 +576,26 @@ public interface GesService {
 
     /**
      * Retrieves a list of values associated with a particular parameter
-     * that are applicable based on the evaluation of the given person.  This will
-     * restrict the values returned to those with a population in which the given person is a member.
-     * Values that do not have an associated population will also be returned.
+     * that are applicable based on the evaluation of the given criteria.
+     * Empty or null fields within the criteria are treated as a wild card and will not restrict values that are returned.
+     * Empty or null attributes on the value are treated as a wild card and will not restrict values that are returned.
      *
      * The relevant values must also have rules that are either null or evaluate to true.
      *
      * @param parameterId the identifier for the parameter associated with the values that will be returned.
-     * @param personId the identifier for the person that will be used for the evaluation.
+     * @param criteria    the criteria that restricts the values returned by this method.
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return A List of applicable values.
+     * @return A List of applicable values. The values returned will be sorted based on priority.
+     *         Values with duplicate priorities will be returned in an unspecified order.
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException parameterId, personId, or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValueInfo> evaluateValuesByParameterAndPerson(@WebParam(name = "parameterId") String parameterId,
-                                                              @WebParam(name = "personId") String personId,
+    public List<ValueInfo> evaluateValues(@WebParam(name = "parameterId") String parameterId,
+                                                              @WebParam(name = "criteria") GesCriteriaInfo criteria,
                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -602,32 +604,30 @@ public interface GesService {
 
     /**
      * Retrieves a list of values associated with a particular parameter
-     * that are applicable based on the evaluation of the given person, atp, and date. This will
-     * restrict the values returned to those with a population in which the given person is a member and that
-     * match the given atp and date.
-     * Values that do not have an associated population will also be returned, assuming that the other criteria match
-     * those that are given.
+     * that are applicable based on the evaluation of the given criteria, and date.
+     *
+     * Empty or null fields within the criteria are treated as a wild card and will not restrict values that are returned.
+     * Empty or null attributes on the value are treated as a wild card and will not restrict values that are returned.
      *
      * The relevant values must also have rules that are either null or evaluate to true.
      *
      * The date parameter is used as the date for the evaluation.
      *
      * @param parameterId the identifier for the parameter associated with the values that will be returned.
-     * @param personId the identifier for the person that will be used for the evaluation.
-     * @param atpId the identifier for the atp that will be used for the evaluation
+     * @param criteria    the criteria that restricts the values returned by this method.
      * @param onDate the date that will be used for the evaluation.
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return A List of applicable values.
+     * @return A List of applicable values. The values returned will be sorted based on priority.
+     *         Values with duplicate priorities will be returned in an unspecified order.
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException parameterId, personId, or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValueInfo> evaluateValuesByParameterAndPersonAndAtpAndOnDate(@WebParam(name = "parameterId") String parameterId,
-                                                                             @WebParam(name = "personId") String personId,
-                                                                             @WebParam(name = "atpId") String atpId,
+    public List<ValueInfo> evaluateValuesOnDate(@WebParam(name = "parameterId") String parameterId,
+                                                                             @WebParam(name = "criteria") GesCriteriaInfo criteria,
                                                                              @WebParam(name = "onDate") Date onDate,
                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
