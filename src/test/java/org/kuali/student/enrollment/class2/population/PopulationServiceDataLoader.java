@@ -111,7 +111,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         rule1e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT7);
         rule1e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT10);
         PopulationRuleInfo rule1 = populationService.createPopulationRule(rule1e, context);
-        populationService.applyPopulationRuleToPopulation(rule1e.getId(), pop1.getId(), context);
+        populationService.applyPopulationRuleToPopulation(rule1.getId(), pop1.getId(), context);
         firstYearStudentPopulationId = pop1.getId();
 
         // Students
@@ -142,7 +142,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         rule2e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT11);
         rule2e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT12);
         PopulationRuleInfo rule2 = populationService.createPopulationRule(rule2e, context);
-        populationService.applyPopulationRuleToPopulation(rule2e.getId(), pop2.getId(), context);
+        populationService.applyPopulationRuleToPopulation(rule2.getId(), pop2.getId(), context);
         studentPopulationId = pop2.getId();
 
         // Instructors
@@ -163,7 +163,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         rule3e.addPersonIdOfPersonToList(PopulationPocPersonEnum.INSTRUCTOR1);
         rule3e.addPersonIdOfPersonToList(PopulationPocPersonEnum.INSTRUCTOR2);
         PopulationRuleInfo rule3 = populationService.createPopulationRule(rule3e, context);
-        populationService.applyPopulationRuleToPopulation(rule3e.getId(), pop3.getId(), context);
+        populationService.applyPopulationRuleToPopulation(rule3.getId(), pop3.getId(), context);
         instructorPopulationId = pop3.getId();
 
         // Undergraduate Students
@@ -187,7 +187,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT11);
         rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT12);
         PopulationRuleInfo rule4 = populationService.createPopulationRule(rule4e, context);
-        populationService.applyPopulationRuleToPopulation(rule4e.getId(), pop4.getId(), context);
+        populationService.applyPopulationRuleToPopulation(rule4.getId(), pop4.getId(), context);
         undergraduteStudentPopulationId = pop4.getId();
 
         // Undergraduate Freshmen Students

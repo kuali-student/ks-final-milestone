@@ -127,4 +127,17 @@ public enum PopulationPocStudentEnum implements hasPersonId {
         }
         throw new DoesNotExistException("Student with person id " + personId + " not found");
     }
+
+    @Override
+    public String toString() {
+        return "PopulationPocStudentEnum{" +
+                "personId='" + personId + '\'' +
+                ", governmentIssuedIdentificationNumber='" + governmentIssuedIdentificationNumber + '\'' +
+                ", dept='" + dept + '\'' +
+                ", programName='" + programName + '\'' +
+                ", programLevel='" + programLevel + '\'' +
+                ", yearOfStudy='" + yearOfStudy + '\'' +
+                ", creditsCompleted='" + creditsCompleted + '\'' +
+                '}';
+    }
 }

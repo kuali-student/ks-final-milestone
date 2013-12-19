@@ -283,4 +283,32 @@ public enum PopulationPocPersonEnum implements hasPersonId {
         }
         throw new DoesNotExistException("Person with person id " + personId + " not found");
     }
+
+    @Override
+    public String toString() {
+        return "PopulationPocPersonEnum{" +
+                "personId='" + personId + '\'' +
+                ", affiliation='" + affiliation + '\'' +
+                ", governmentIssuedIdentificationNumber='" + governmentIssuedIdentificationNumber + '\'' +
+                ", principalId='" + principalId + '\'' +
+                ", principalName='" + principalName + '\'' +
+                ", entityId='" + entityId + '\'' +
+                ", password='" + password + '\'' +
+                ", active=" + active +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", gender='" + gender + '\'' +
+                ", title='" + title + '\'' +
+                ", suffix='" + suffix + '\'' +
+                ", street_name_number='" + street_name_number + '\'' +
+                ", apartment_number='" + apartment_number + '\'' +
+                ", city='" + city + '\'' +
+                ", state_province='" + state_province + '\'' +
+                ", zip_postal_code='" + zip_postal_code + '\'' +
+                ", birthDate='" + birthDate + '\'' +
+                ", deceasedDate='" + deceasedDate + '\'' +
+                '}';
+    }
+
 }
