@@ -62,6 +62,12 @@
                 </bean>
                 <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" />
                 <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" />
+                <bean parent="Uif-DataField" p:label="Transcript Course Title" p:propertyName="reviewInfo.courseInfo.transcriptTitle" />
+                <bean parent="Uif-DataField" p:label="Subject Code" p:propertyName="reviewInfo.courseInfo.subjectArea" />
+                <bean parent="Uif-DataField" p:label="Course Number" p:propertyName="reviewInfo.courseInfo.courseNumberSuffix" />
+                <!--
+                <bean parent="Uif-DataField" p:label="Instructor(s)" p:propertyName="reviewInfo.courseInfo.courseNumberSuffix" />
+                -->
             </list>                        
         </property>
     </bean>
