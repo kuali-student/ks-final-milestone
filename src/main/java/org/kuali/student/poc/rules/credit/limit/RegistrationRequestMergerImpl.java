@@ -83,29 +83,25 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                 if (rt1 == null) {
                     throw new OperationFailedException("Cannot swap non-existent or non-active course registration");
                 }
-                // if swapping course A for course B then drop A and add B
-                if (!isJustSwappingSections(rt1, item, contextInfo)) {
-                    // drop old one
-                    markCourseRegistrationTransactionAsDropped(rt1, item, contextInfo);
-                    // create a new one
-                    CourseRegistrationTransaction rt2 = this.createNewCourseRegistrationTransaction(item, skipActivities, contextInfo);
-                    list.add(rt2);
-                    continue;
+                // if trying to use swap to swap course A for course B
+                if (!areRegGroupsForSameCourseFormat(rt1, item, contextInfo)) {
+                   throw new OperationFailedException ("you cannot use the swap to change courses use drop and add instead");
                 }
                 // if swapping sections they could also be changing the data bits on the CR
                 updateCourseRegistrationTransaction(rt1, item, contextInfo);
-                // TODO: handle the case where we ARE just swapping sections (activity offerings)
+                // TODO: actually swap the sections (activity offerings)
             }
         }
         return list;
     }
 
-    private boolean isJustSwappingSections(CourseRegistrationTransaction rt, RegistrationRequestItemInfo item,
+    private boolean areRegGroupsForSameCourseFormat(CourseRegistrationTransaction rt, RegistrationRequestItemInfo item,
             ContextInfo contextInfo)
             throws OperationFailedException {
-        RegistrationGroupInfo rg = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
-        // TODO: decide if this should be comparing format offering ids instead of CO ids?  What if you are just swapping formats?
-        if (rg.getCourseOfferingId().equals(rt.getRegistration().getCourseOfferingId())) {
+        RegistrationGroupInfo rg1 = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
+        RegistrationGroupInfo rg2 = this.getRegGroup(rt.getRegistration().getRegistrationGroupId(), contextInfo);
+        //TODO: decide if swap should be ok between format offerings but just not course offerings 
+        if (rg1.getFormatOfferingId().equals(rg2.getFormatOfferingId())) {
             return true;
         }
         return false;
