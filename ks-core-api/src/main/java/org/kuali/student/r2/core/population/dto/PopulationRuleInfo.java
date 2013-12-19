@@ -212,4 +212,20 @@ public class PopulationRuleInfo
     public void setSupportsGetMembers(Boolean supportsGetMembers) {
         this.supportsGetMembers = supportsGetMembers;
     }
+
+    @Override
+    public String toString() {
+        return "PopulationRuleInfo{" +
+                "searchCriteria=" + searchCriteria +
+                ", agendaIds=" + agendaIds +
+                ", groupIds=" + groupIds +
+                ", personIds=" + personIds +
+                ", childPopulationIds=" + childPopulationIds +
+                ", referencePopulationId='" + referencePopulationId + '\'' +
+                ", sortOrderTypeKeys=" + sortOrderTypeKeys +
+                ", variesByTime=" + variesByTime +
+                ", supportsGetMembers=" + supportsGetMembers +
+                ", _futureElements=" + _futureElements +
+                '}';
+    }
 }

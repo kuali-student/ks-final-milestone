@@ -58,4 +58,17 @@ public interface ScheduleTransactionGroup extends IdEntity {
      */
     public Boolean getIsSameRoomRequired();
 
+    /**
+     * Schedule Batch identifier
+     *
+     * @name Schedule Batch id
+     */
+    public String getScheduleBatchId ();
+
+    /**
+     * Gets all the ScheduleTransactions that are part of this group.
+     */
+    public List<String> getScheduleTransactionIds ();
+
+
 }
