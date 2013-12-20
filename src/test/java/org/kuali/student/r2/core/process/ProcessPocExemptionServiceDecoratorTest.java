@@ -8,7 +8,6 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -29,7 +28,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author nwright
  */
-@Ignore // TODO: re-enable after refactoring
+//@Ignore // TODO: re-enable after refactoring
 public class ProcessPocExemptionServiceDecoratorTest {
 
     public ProcessPocExemptionServiceDecoratorTest() {
