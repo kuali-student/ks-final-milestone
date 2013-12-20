@@ -19,18 +19,22 @@ package org.kuali.student.enrollment.class2.ges.service;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.poc.rules.population.PopulationPocStudentEnum;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.r2.core.ges.dto.ParameterInfo;
 import org.kuali.student.r2.core.ges.dto.ValueInfo;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -67,6 +71,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		expected.setStateKey("stateKey01");
 		expected.setKey("key01");
 		expected.setValueTypeKey("valueTypeKey01");
+        expected.setRequireUniquePriorities(true);
 	}
 	
 	/*
@@ -81,6 +86,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
 		assertEquals (expected.getValueTypeKey(), actual.getValueTypeKey());
+        assertEquals (expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
 	}
 	
 	/*
@@ -89,6 +95,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	public void testCrudParameter_setDTOFieldsForTestUpdate(ParameterInfo expected)
 	{
 		expected.setStateKey("stateKey_Updated");
+        expected.setRequireUniquePriorities(false);
 	}
 	
 	/*
@@ -102,6 +109,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
 		assertEquals (expected.getValueTypeKey(), actual.getValueTypeKey());
+        assertEquals (expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
 	}
 	
 	/*
@@ -112,6 +120,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	{
 		expected.setKey("key_Updated");
 		expected.setValueTypeKey("valueTypeKey_Updated");
+        expected.setRequireUniquePriorities(false);
 	}
 	
 	
@@ -133,6 +142,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         expected.setEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("1600-06-12"));
         expected.setExpirationDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("3030-01-01"));
 		expected.setStringValue("stringValue01");
+        expected.setPriority(5);
 	}
 	
 	/*
@@ -152,6 +162,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getStringValue(), actual.getStringValue());
         assertEquals (expected.getExpirationDate(), actual.getExpirationDate());
         assertEquals (expected.getEffectiveDate(), actual.getEffectiveDate());
+        assertEquals (expected.getPriority(), actual.getPriority());
 	}
 	
 	/*
@@ -166,6 +177,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         expected.setEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("1902-12-25"));
         expected.setExpirationDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-10-10"));
 		expected.setStringValue("stringValue_Updated");
+        expected.setPriority(1);
 	}
 	
 	/*
@@ -183,6 +195,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         assertEquals (expected.getStringValue(), actual.getStringValue());
         assertEquals (expected.getExpirationDate(), actual.getExpirationDate());
         assertEquals (expected.getEffectiveDate(), actual.getEffectiveDate());
+        assertEquals (expected.getPriority(), actual.getPriority());
 	}
 	
 	/*
@@ -200,6 +213,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         expected.setEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("1902-12-26"));
         expected.setExpirationDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-10-11"));
         expected.setBooleanValue(true);
+        expected.setPriority(1234);
 	}
 	
 	
@@ -249,16 +263,15 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	throws InvalidParameterException,MissingParameterException,OperationFailedException,PermissionDeniedException {
         loadData();
 
-        List<ValueInfo> values = testService.getValuesByParameter("1", contextInfo);
+        List<ValueInfo> values = testService.getValuesByParameter(dataLoader.getMaxCreditsParameter().getId(), contextInfo);
         assertEquals(3, values.size());
-        assertTrue(containsValue("1", values));
-        assertTrue(containsValue("2", values));
-        assertTrue(containsValue("3", values));
+        assertTrue(containsValue(20L, values));
+        assertTrue(containsValue(15L, values));
+        assertTrue(containsValue(10L, values));
 
-        values = testService.getValuesByParameter("2", contextInfo);
-        assertEquals(2, values.size());
-        assertTrue(containsValue("4", values));
-        assertTrue(containsValue("5", values));
+        values = testService.getValuesByParameter(dataLoader.getMinCreditsForProgramParameter().getId(), contextInfo);
+        assertEquals(1, values.size());
+        assertTrue(containsValue(122L, values));
 
         values = testService.getValuesByParameter("A_BAD_PARAMETER_ID", contextInfo);
         assertEquals(0, values.size());
@@ -266,16 +279,65 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	
 	/* Method Name: evaluateValuesByParameterAndPerson */
 	@Test
-	public void test_evaluateValuesByParameterAndPerson() 
-	throws InvalidParameterException,MissingParameterException,OperationFailedException,PermissionDeniedException {
+	public void test_evaluateValues() throws InvalidParameterException,MissingParameterException,
+            OperationFailedException,PermissionDeniedException {
         loadData();
+        GesCriteriaInfo criteriaInfo = new GesCriteriaInfo();
+        criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT1.getPersonId());
+        criteriaInfo.setAtpTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        List<ValueInfo> values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, contextInfo);
+        assertEquals(2, values.size());
+        assertEquals(15, (long)values.get(0).getNumericValue());
+        assertEquals(20, (long)values.get(1).getNumericValue());
+
+        criteriaInfo.setPersonId(null);
+        criteriaInfo.setAtpTypeKey(null);
+        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, contextInfo);
+        assertEquals(3, values.size());
+        assertEquals(15, (long)values.get(0).getNumericValue());
+        assertEquals(10, (long)values.get(1).getNumericValue());
+        assertEquals(20, (long)values.get(2).getNumericValue());
+
+        criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT8.getPersonId());
+        criteriaInfo.setAtpTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, contextInfo);
+        assertEquals(1, values.size());
+        assertEquals(20, (long)values.get(0).getNumericValue());
+
+        criteriaInfo.setPersonId("SOME_RANDOM_ID_THAT_DOES_NOT_EXIST");
+        criteriaInfo.setAtpTypeKey(null);
+        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, contextInfo);
+        assertEquals(0, values.size());
 	}
 	
 	/* Method Name: evaluateValuesByParameterAndPersonAndAtpAndOnDate */
 	@Test
-	public void test_evaluateValuesByParameterAndPersonAndAtpAndOnDate() 
-	throws InvalidParameterException,MissingParameterException,OperationFailedException,PermissionDeniedException {
+	public void test_evaluateValuesOnDate() throws InvalidParameterException,MissingParameterException,
+            OperationFailedException,PermissionDeniedException {
         loadData();
+        GesCriteriaInfo criteriaInfo = new GesCriteriaInfo();
+        criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT1.getPersonId());
+        criteriaInfo.setAtpTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        List<ValueInfo> values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2051-01-01"), contextInfo);
+        assertEquals(0, values.size());
+
+        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-11"), contextInfo);
+        assertEquals(0, values.size());
+
+        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"), contextInfo);
+        assertEquals(2, values.size());
+        assertEquals(15, (long)values.get(0).getNumericValue());
+        assertEquals(20, (long)values.get(1).getNumericValue());
+
+        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, new Date(), contextInfo);
+        assertEquals(2, values.size());
+        assertEquals(15, (long)values.get(0).getNumericValue());
+        assertEquals(20, (long)values.get(1).getNumericValue());
+
+        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), contextInfo);
+        assertEquals(2, values.size());
+        assertEquals(15, (long)values.get(0).getNumericValue());
+        assertEquals(20, (long)values.get(1).getNumericValue());
 	}
 
     private void loadData() throws OperationFailedException {
@@ -286,9 +348,9 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         }
     }
 
-    private boolean containsValue(String id, List<ValueInfo> values) {
+    private boolean containsValue(Long value, List<ValueInfo> values) {
         for(ValueInfo info : values) {
-            if(info.getId().equals(id))
+            if(info.getNumericValue().equals(value))
                 return true;
         }
         return false;

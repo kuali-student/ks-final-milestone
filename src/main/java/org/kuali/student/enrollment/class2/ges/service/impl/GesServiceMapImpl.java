@@ -39,6 +39,8 @@ import org.kuali.student.r2.core.ges.service.GesService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -419,6 +421,7 @@ public class GesServiceMapImpl implements MockService, GesService {
                 throw new OperationFailedException("Unable to evaluate values for parameter " + parameterId, e);
             }
         }
+        Collections.sort(resultValues, new ValuePriorityComparator());
         return resultValues;
     }
 
@@ -468,6 +471,17 @@ public class GesServiceMapImpl implements MockService, GesService {
         meta.setUpdateTime(new Date());
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
+    }
+
+    private class ValuePriorityComparator implements Comparator<ValueInfo> {
+
+        @Override
+        public int compare(ValueInfo o1, ValueInfo o2) {
+            int priorityOne = o1.getPriority() == null ? Integer.MAX_VALUE: o1.getPriority();
+            int priorityTwo = o2.getPriority() == null ? Integer.MAX_VALUE: o2.getPriority();
+
+            return priorityOne - priorityTwo;
+        }
     }
 
 }

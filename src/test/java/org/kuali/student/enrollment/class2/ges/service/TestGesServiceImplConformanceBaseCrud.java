@@ -564,12 +564,12 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 	
 	/* Method Name: evaluateValuesByParameterAndPerson */
 	@Test
-	public abstract void test_evaluateValuesByParameterAndPerson() 
+	public abstract void test_evaluateValues()
 	throws InvalidParameterException,MissingParameterException,OperationFailedException,PermissionDeniedException;
 	
 	/* Method Name: evaluateValuesByParameterAndPersonAndAtpAndOnDate */
 	@Test
-	public abstract void test_evaluateValuesByParameterAndPersonAndAtpAndOnDate() 
+	public abstract void test_evaluateValuesOnDate()
 	throws InvalidParameterException,MissingParameterException,OperationFailedException,PermissionDeniedException;
 	
 }

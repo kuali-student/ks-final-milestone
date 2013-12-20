@@ -15,4 +15,5 @@
 
     <bean id="gesDataLoader" class="org.kuali.student.enrollment.class2.ges.service.GesServiceDataLoader" />
 
+    <bean id="popDataLoader" class="org.kuali.student.enrollment.class2.population.PopulationServiceDataLoader" />
 </beans>
