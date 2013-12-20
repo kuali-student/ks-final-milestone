@@ -29,7 +29,7 @@ import static org.junit.Assert.assertEquals;
  *
  * @author nwright
  */
-@Ignore // TODO: re-enable after refactoring
+//@Ignore // TODO: re-enable after refactoring
 public class ProcessPocAtpServiceDecoratorTest {
 
     public ProcessPocAtpServiceDecoratorTest() {

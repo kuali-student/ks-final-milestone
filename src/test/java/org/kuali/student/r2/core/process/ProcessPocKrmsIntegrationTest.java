@@ -29,7 +29,7 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
  * @author nwright
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:process-poc-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:ProcessPocKrmsIntegrationTest-context.xml"})
 //@Ignore // TODO: re-enable after refactoring
 public class ProcessPocKrmsIntegrationTest {
 
