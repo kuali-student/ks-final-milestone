@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.SeatPoolWrapper;
@@ -141,6 +142,16 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
 
             CourseOfferingManagementUtil.getScheduleHelper().loadSchedules(aoWapper,contextInfo);
 
+            if (aoInfo.getIsColocated()){
+                List colocateIds = new ArrayList(aoWapper.getScheduleRequestSetInfo().getRefObjectIds());
+                colocateIds.remove(aoInfo.getId());
+                List<ActivityOfferingInfo> aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(colocateIds,contextInfo);
+                StringBuilder builder = new StringBuilder();
+                for (ActivityOfferingInfo ao : aoInfos){
+                    builder.append(ao.getCourseOfferingCode() + "-" + ao.getActivityCode() + ",");
+                }
+                aoWapper.setColocatedAoInfo(StringUtils.removeEnd(builder.toString(),","));
+            }
             return aoWapper;
         } catch (Exception e) {
             throw new RuntimeException(e);
