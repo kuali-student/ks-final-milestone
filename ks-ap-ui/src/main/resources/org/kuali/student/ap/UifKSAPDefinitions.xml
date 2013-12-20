@@ -143,6 +143,7 @@
             <!--@TODO: KSAP-254: Create ksap.js and include here-->
             <list merge="true">
                 <value>ks-ap/scripts/KradOverrides.js</value>
+                <value>ks-ap/scripts/plan/planner.js</value>
                 <value>ks-myplan/scripts/ksap.widgets.js?@{#ConfigProperties['ksap.version']}</value>
                 <value>ks-myplan/scripts/ksap.events.js?@{#ConfigProperties['ksap.version']}</value>
                 <value>ks-myplan/plugins/jquery.subscribe.js?@{#ConfigProperties['ksap.version']}</value>
@@ -459,11 +460,11 @@
         </property>
         <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onDocumentReadyScript" value="
-            ksapRetrieveComponent('watch_list','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
+            ksapRetrieveComponent('watch_list','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});
             var obj = jQuery('div.ksap-saved-courses-summary.ksap-stacked-list',jQuery('body').html());
             obj.on('PLAN_ITEM_DELETED', function(event, data){
                 if (data.category === 'wishlist') {
-                    ksapRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'});
+                    ksapRetrieveComponent('saved_courses_summary','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});
                     jQuery('div.jquerybubblepopup.jquerybubblepopup-ksap .jquerybubblepopup-tail').fadeOut(250, function() {
                         jQuery(this).remove();
                         fnCloseAllPopups();
@@ -471,7 +472,7 @@
                 }
             }).on('PLAN_ITEM_ADDED', function(event, data){
                 if (data.category === 'wishlist') {
-                    ksapRetrieveComponent('saved_courses_summary','saved_courses_summary','search','lookup',{viewId:'SavedCoursesSummary-LookupView'},data.planItemId);
+                    ksapRetrieveComponent('saved_courses_summary','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'},data.planItemId);
                 }
             });
         "/>

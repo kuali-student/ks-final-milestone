@@ -298,6 +298,7 @@
                 <value>classpath:ui/ConversationCreateUI.xml</value>
                 <value>classpath:ui/ConversationListUI.xml</value>
                 <value>classpath:ui/ConversationViewUI.xml</value>
+                <value>classpath:org/kuali/student/ap/BookmarkUI.xml</value>
 
                 <!-- POC -->
                 <value>classpath:ui/PlanItemsUIPOCNoIframe.xml</value>

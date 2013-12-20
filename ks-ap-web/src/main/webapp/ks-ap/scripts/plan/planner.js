@@ -236,37 +236,39 @@ function ksapPlannerUpdateEvent(response, textStatus, jqXHR) {
  * @param data - Data for the new object
  */
 function ksapPlannerAddPlanItem (data) {
-    var item = jQuery("#planner_item_template").html();
-    for (var key in data)
-		if (data.hasOwnProperty(key))
-			item = eval("item.replace(/__KSAP__"+key.toUpperCase()+"__/gi,'"+data[key]+"')");
-    item = item.replace(/id=\"(u\d+)\"/gi,"id=\""+data.uid+"_$1\"");
-    var termUid = data.termId.replace(/\./g,'-');
-    var itemElement = jQuery("<div/>").html(item);
-    if(data.courseNoteRender == 'false'){
-        itemElement.find(".coursenote").addClass("invisible");
-    }else{
-        itemElement.find(".coursenote").removeClass("invisible");
-    }
-    itemElement.find("input[data-for='"+data.uid+"']")
-		.removeAttr("script")
-		.attr("name", "script");
-    itemElement
-    		.attr("id", data.uid+"_wrap")
-    		.attr("class", "uif-group uif-boxGroup uif-verticalBoxGroup ks-plan-Bucket-collection uif-collectionItem uif-boxCollectionItem uif-boxLayoutHorizontalItem")
-    		.prependTo("." + termUid + ".ksap-term-" + data.category + " .uif-stackedCollectionLayout")
-    		.css({backgroundColor:"#ffffcc"})
-    		.hide()
-    		.fadeIn(250, function() {
-    	        var bucket = jQuery(".ksap-term-" + data.category + "." + termUid);
-    	        var unitcell = bucket.find(".ksap-carousel-term-total");
-    	    	unitcell.addClass("ks-plan-Bucket-footer-show");
-    	    	unitcell.removeClass("ks-plan-Bucket-footer-hide");
-    		})
-    		.animate({backgroundColor:"#ffffff"}, 1500, function() {
-    			runHiddenScripts(data.uid);
-    		});
+    if(jQuery("#planner_item_template").length){
+        var item = jQuery("#planner_item_template").html();
+        for (var key in data)
+            if (data.hasOwnProperty(key))
+                item = eval("item.replace(/__KSAP__"+key.toUpperCase()+"__/gi,'"+data[key]+"')");
+        item = item.replace(/id=\"(u\d+)\"/gi,"id=\""+data.uid+"_$1\"");
+        var termUid = data.termId.replace(/\./g,'-');
+        var itemElement = jQuery("<div/>").html(item);
+        if(data.courseNoteRender == 'false'){
+            itemElement.find(".coursenote").addClass("invisible");
+        }else{
+            itemElement.find(".coursenote").removeClass("invisible");
+        }
+        itemElement.find("input[data-for='"+data.uid+"']")
+            .removeAttr("script")
+            .attr("name", "script");
+        itemElement
+                .attr("id", data.uid+"_wrap")
+                .attr("class", "uif-group uif-boxGroup uif-verticalBoxGroup ks-plan-Bucket-collection uif-collectionItem uif-boxCollectionItem uif-boxLayoutHorizontalItem")
+                .prependTo("." + termUid + ".ksap-term-" + data.category + " .uif-stackedCollectionLayout")
+                .css({backgroundColor:"#ffffcc"})
+                .hide()
+                .fadeIn(250, function() {
+                    var bucket = jQuery(".ksap-term-" + data.category + "." + termUid);
+                    var unitcell = bucket.find(".ksap-carousel-term-total");
+                    unitcell.addClass("ks-plan-Bucket-footer-show");
+                    unitcell.removeClass("ks-plan-Bucket-footer-hide");
+                })
+                .animate({backgroundColor:"#ffffff"}, 1500, function() {
+                    runHiddenScripts(data.uid);
+                });
 
+    }
 }
 
 /**

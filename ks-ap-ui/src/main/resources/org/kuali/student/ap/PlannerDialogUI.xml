@@ -27,6 +27,7 @@
 				<ref bean="planner_copy_plan_item_page" />
 				<ref bean="planner_move_plan_item_page" />
 				<ref bean="planner_delete_plan_item_page" />
+                <ref bean="bookmark_add_course_page" />
 			</list>
 		</property>
 	</bean>
@@ -419,6 +420,54 @@
 		</property>
 	</bean>
 
+    <!-- Dialogs for other pages-->
+
+    <bean id="bookmark_add_course_page" parent="bookmark_add_course_page-parent"/>
+    <bean id="bookmark_add_course_page-parent" abstract="true" parent="KSAP-PopoverPage">
+        <property name="id" value="bookmark_add_course_page" />
+        <property name="innerViewWrapperId" value="bookmark_add_course_inner" />
+        <property name="headerText" value="Add Bookmark Course" />
+        <property name="items">
+            <list merge="true">
+                <ref bean="planner_course_summary_link" />
+                <ref bean="planner_course_summary_details_data"/>
+                <bean parent="planner_term_input">
+                    <property name="propertyName" value="termId" />
+                </bean>
+                <bean parent="planner_course_credit_input" />
+                <bean parent="planner_course_note_input" />
+                <bean parent="planner_backup_input"/>
+                <bean parent="planner_hidden_input" p:propertyName="courseId" />
+                <bean parent="planner_hidden_input" p:propertyName="uniqueId" />
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HorizontalBoxGroup">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="planner_submit_button" p:actionLabel="Add Course To Plan" />
+                                                <bean parent="planner_cancel_button" />
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="planner_error_placeholder" />
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+
 	<!-- Dialog Input Components-->
 
     <bean id="planner_hidden_input" parent="Uif-InputField" abstract="true">
@@ -539,6 +588,13 @@
 			</bean>
 		</property>
 	</bean>
+
+    <bean id="planner_backup_input" parent="planner_dialog_input" p:propertyName="backup" p:defaultValue="false">
+        <property name="label" value="Mark as &lt;strong&gt;'Backup'&lt;/strong&gt; course. (Optional)"/>
+        <property name="control">
+            <bean parent="Uif-CheckboxControl"/>
+        </property>
+    </bean>
 
 	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
 			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />

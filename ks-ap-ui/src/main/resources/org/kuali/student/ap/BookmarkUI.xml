@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+    <!--  Saved Courses (wishlist) components -->
+
+    <bean id="BookmarkSideBar-LookupView" parent="KSAPBaseLookupView">
+        <property name="headerText" value="Bookmarks"/>
+        <property name="page.header.render" value="false"/>
+        <property name="header.render" value="false"/>
+        <property name="footer.render" value="false"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.bookmark.dto.BookmarkSideBarWrapper"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.bookmark.service.impl.BookmarkSideBarLookupableHelper"/>
+        <property name="singlePageView" value="true"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-view</value>
+            </list>
+        </property>
+        <property name="criteriaFields">
+            <list/>
+        </property>
+        <property name="resultFields">
+            <list/>
+        </property>
+
+        <!-- Not Displaying any criteria -->
+        <property name="criteriaGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="validationMessages.render" value="false"/>
+                <property name="footer">
+                    <bean parent="Uif-FooterBase"/>
+                </property>
+            </bean>
+        </property>
+        <property name="resultsGroup">
+            <bean id="bookmark_summary" parent="bookmark_summary_list"/>
+        </property>
+    </bean>
+
+    <bean id="bookmark_summary_list" parent="Uif-ListCollectionSection" p:headerText="Bookmarked Courses">
+        <property name="header">
+            <bean p:id="bookmark_summary_list_header" parent="Uif-HeaderSix"/>
+        </property>
+        <property name="header.toolTip">
+            <ref bean="bookmarks_help_tooltip"/>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-saved-courses-summary</value>
+            </list>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.bookmark.dto.BookmarkSideBarWrapper"/>
+        <property name="propertyName" value="lookupResults"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <property name="filters">
+            <list>
+                <bean parent="Uif-ConditionalCollectionFilter" p:expression="#index lt 7"/>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="truncateField('bookmark_summary');"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:id="@{#line.uniqueId}" p:style="cursor:pointer;">
+                    <property name="fieldLabel.render" value="false"/>
+                    <property name="group.validationMessages.render" value="false"/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-click</value>
+                            <value>uif-tooltip</value>
+                        </list>
+                    </property>
+                    <property name="onClickScript"
+                              value="ksapPlannerOpenDialog('bookmark_add_course','planner','startDialog', this, e);" />
+                    <property name="dataAttributes">
+                        <map>
+                            <entry key="courseid" value="@{#line.courseId}" />
+                            <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                            <entry key="planitemid" value="@{#line.planItemId}" />
+                            <entry key="uniqueid" value="@{#line.uniqueId}" />
+                        </map>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="@{#line.courseCd}">
+                                <property name="style" value="margin-right:5px;"/>
+                            </bean>
+                            <bean p:id="@{#line.planItemId}_saved" parent="Uif-Message"
+                                  p:messageText="@{#line.courseTitle}">
+                                <property name="style" value="margin-right:5px;"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-text-ellipsis</value>
+                                        <value>ksap-text-gray</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-Message" p:messageText="(@{#line.credits})">
+                                <property name="style" value="margin-right:0px;"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-text-gray</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="bookmark_summary_footer"/>
+        </property>
+    </bean>
+
+    <bean id="bookmark_summary_footer" parent="Uif-VerticalBoxSection"
+          p:style="padding: 7px 10px;">
+        <property name="header.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link" p:style="display: block;">
+                    <property name="linkText"
+                              value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'course' : 'all '+lookupResults.size()+' courses'} in full details"/>
+                    <property name="title"
+                              value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'course' : 'all '+lookupResults.size()+' courses'} in full details"/>
+                    <property name="href"
+                              value="lookup?methodToCall=search&amp;viewId=SavedCoursesDetail-LookupView"/>
+                    <property name="render"
+                              value="@{lookupResults ne null and lookupResults.size() gt 0}"/>
+                    <property name="target" value=""/>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup" p:style="padding: 1em 0px;">
+                    <property name="validationMessages.render" value="false"/>
+                    <property name="render"
+                              value="@{lookupResults ne null and lookupResults.size() gt 0 ? false : true}"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="You have no bookmarked courses. &lt;a href=&quot;course?methodToCall=start&amp;viewId=CourseSearch-FormView&quot;&gt;Find courses&lt;/a&gt; and add them to your bookmarked list."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
