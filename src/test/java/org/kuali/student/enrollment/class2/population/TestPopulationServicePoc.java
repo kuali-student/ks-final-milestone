@@ -35,6 +35,7 @@ import javax.annotation.Resource;
 
 import java.util.Date;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
@@ -90,9 +91,24 @@ public class TestPopulationServicePoc {
     @Test
     public void testDataLoad() throws Exception {
 
+        // the students should have same id in "person" and "student" enums
+        assertEquals(PopulationPocPersonEnum.STUDENT1.getPersonId(), PopulationPocStudentEnum.STUDENT1.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT2.getPersonId(), PopulationPocStudentEnum.STUDENT2.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT3.getPersonId(), PopulationPocStudentEnum.STUDENT3.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT4.getPersonId(), PopulationPocStudentEnum.STUDENT4.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT5.getPersonId(), PopulationPocStudentEnum.STUDENT5.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT6.getPersonId(), PopulationPocStudentEnum.STUDENT6.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT7.getPersonId(), PopulationPocStudentEnum.STUDENT7.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT8.getPersonId(), PopulationPocStudentEnum.STUDENT8.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT9.getPersonId(), PopulationPocStudentEnum.STUDENT9.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT10.getPersonId(), PopulationPocStudentEnum.STUDENT10.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT11.getPersonId(), PopulationPocStudentEnum.STUDENT11.getPersonId());
+        assertEquals(PopulationPocPersonEnum.STUDENT12.getPersonId(), PopulationPocStudentEnum.STUDENT12.getPersonId());
+
+        // create today's date
         Date date = new Date(System.currentTimeMillis());
 
-        // initially all the population ids should be null
+        // initially all the population ids in data loader should be null
         assertNull(dataLoader.getFirstYearStudentPopulationId());
         assertNull(dataLoader.getFreshmenStudentPopulationId());
         assertNull(dataLoader.getInstructorPopulationId());
@@ -121,6 +137,13 @@ public class TestPopulationServicePoc {
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT5.getPersonId(), firstYearPop.getId(), date, contextInfo));
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT7.getPersonId(), firstYearPop.getId(), date, contextInfo));
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT10.getPersonId(), firstYearPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT2.getPersonId(), firstYearPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT3.getPersonId(), firstYearPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT6.getPersonId(), firstYearPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT8.getPersonId(), firstYearPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT9.getPersonId(), firstYearPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT11.getPersonId(), firstYearPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT12.getPersonId(), firstYearPop.getId(), date, contextInfo));
 
         // check population students
         PopulationInfo studentPop = populationService.getPopulation(dataLoader.getStudentPopulationId(), contextInfo);
@@ -141,6 +164,8 @@ public class TestPopulationServicePoc {
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT10.getPersonId(), studentPop.getId(), date, contextInfo));
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT11.getPersonId(), studentPop.getId(), date, contextInfo));
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT12.getPersonId(), studentPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR1.getPersonId(), studentPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR2.getPersonId(), studentPop.getId(), date, contextInfo));
 
         // check population instructors
         PopulationInfo instructorsPop = populationService.getPopulation(dataLoader.getInstructorPopulationId(), contextInfo);
@@ -151,8 +176,20 @@ public class TestPopulationServicePoc {
         assertEquals(2, instructorsPopRule.getPersonIds().size());
         assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR1.getPersonId(), instructorsPop.getId(), date, contextInfo));
         assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR2.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT1.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT2.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT3.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT4.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT5.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT6.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT7.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT8.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT9.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT10.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT11.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.STUDENT12.getPersonId(), instructorsPop.getId(), date, contextInfo));
 
-        // check population unbdergraduate students
+        // check population undergraduate students
         PopulationInfo undergradPop = populationService.getPopulation(dataLoader.getUndergraduteStudentPopulationId(), contextInfo);
         assertNotNull(undergradPop);
         assertEquals(undergradPop.getId(), dataLoader.getUndergraduteStudentPopulationId());
@@ -164,6 +201,32 @@ public class TestPopulationServicePoc {
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT10.getPersonId(), undergradPop.getId(), date, contextInfo));
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT11.getPersonId(), undergradPop.getId(), date, contextInfo));
         assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT12.getPersonId(), undergradPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT2.getPersonId(), undergradPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT3.getPersonId(), undergradPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT4.getPersonId(), undergradPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT5.getPersonId(), undergradPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT6.getPersonId(), undergradPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT7.getPersonId(), undergradPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT9.getPersonId(), undergradPop.getId(), date, contextInfo));
+
+        // check population freshmen (undergraduate first year) students
+        PopulationInfo freshmenPop = populationService.getPopulation(dataLoader.getFreshmenStudentPopulationId(), contextInfo);
+        assertNotNull(freshmenPop);
+        assertEquals(freshmenPop.getId(), dataLoader.getFreshmenStudentPopulationId());
+        PopulationRuleInfo freshmenPopRule = populationService.getPopulationRuleForPopulation(dataLoader.getFreshmenStudentPopulationId(), contextInfo);
+        assertNotNull(freshmenPopRule);
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT1.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT10.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT2.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT3.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT4.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT5.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT6.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT7.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT8.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT9.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT11.getPersonId(), freshmenPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT12.getPersonId(), freshmenPop.getId(), date, contextInfo));
 
     }
 
