@@ -31,15 +31,13 @@ import org.kuali.rice.kim.api.group.GroupMember;
 import org.kuali.rice.kim.api.group.GroupMemberQueryResults;
 import org.kuali.rice.kim.api.group.GroupQueryResults;
 import org.kuali.rice.kim.api.group.GroupService;
-import org.kuali.rice.kim.api.role.Role;
 import org.kuali.student.common.mock.MockService;
 
-import javax.jws.WebParam;
 
 /**
  * @author nwright
  */
-public class GroupServiceMockImpl implements GroupService, MockService {
+public class GroupServiceMapImpl implements GroupService, MockService {
 
     private transient Map<String, Group> groupCache = new HashMap<String, Group>();
     private transient Map<String, GroupMember> groupMembershipCache = new HashMap<String, GroupMember>();

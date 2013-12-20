@@ -21,13 +21,17 @@ import java.util.Date;
  */
 public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
 
+    public ProcessPocHoldServiceDecorator() {
+    }
+
+    
     public ProcessPocHoldServiceDecorator(HoldService nextDecorator) {
         super();
         this.setNextDecorator(nextDecorator);
-        _initializeData();
+        init();
     }
 
-    private void _initializeData() {
+    public void init() {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-Initializer");
 

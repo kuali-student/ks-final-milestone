@@ -14,30 +14,11 @@
  */
 package org.kuali.student.r2.core.process.krms;
 
-import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.EngineResults;
-import org.kuali.rice.krms.api.engine.ExecutionFlag;
-import org.kuali.rice.krms.api.engine.ExecutionOptions;
-import org.kuali.rice.krms.api.engine.ResultEvent;
-import org.kuali.rice.krms.api.engine.SelectionCriteria;
-import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.framework.engine.Agenda;
-import org.kuali.rice.krms.framework.engine.AgendaTreeEntry;
-import org.kuali.rice.krms.framework.engine.BasicAgenda;
-import org.kuali.rice.krms.framework.engine.BasicAgendaTree;
-import org.kuali.rice.krms.framework.engine.BasicAgendaTreeEntry;
-import org.kuali.rice.krms.framework.engine.BasicContext;
-import org.kuali.rice.krms.framework.engine.BasicRule;
 import org.kuali.rice.krms.framework.engine.CompoundProposition;
-import org.kuali.rice.krms.framework.engine.Context;
-import org.kuali.rice.krms.framework.engine.ContextProvider;
 import org.kuali.rice.krms.framework.engine.Proposition;
-import org.kuali.rice.krms.framework.engine.ProviderBasedEngine;
-import org.kuali.student.common.util.krms.ManualContextProvider;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -51,15 +32,12 @@ import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.infc.DateOverride;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
-import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
-import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.process.context.CourseRegistrationProcessContextInfo;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.evaluator.ProcessEvaluator;
 import org.kuali.student.r2.core.process.krms.evaluator.KRMSEvaluator;
-import org.kuali.student.r2.core.process.krms.proposition.ExemptionAwareProposition;
 import org.kuali.student.r2.core.process.krms.proposition.MilestoneDateComparisonProposition;
 import org.kuali.student.r2.core.process.krms.proposition.MilestoneDateComparisonProposition.DateComparisonType;
 import org.kuali.student.r2.core.process.krms.proposition.PersonLivingProposition;
@@ -70,13 +48,15 @@ import org.kuali.student.r2.core.process.service.ProcessService;
 import org.kuali.student.r2.core.process.util.InstructionComparator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Utility class to build up a Proposition tree for to evaluate checks from a Process
@@ -87,15 +67,17 @@ public class KRMSProcessEvaluator extends KRMSEvaluator implements ProcessEvalua
 
     public static final String EXEMPTION_WAS_USED_MESSAGE_SUFFIX = " (exemption applied)";
 
-    private AcademicCalendarService acalService;
+    private AtpService atpService;
     private ProcessService processService;
     private PopulationService populationService;
     private ExemptionService exemptionService;
 
-    public void setAcalService(AcademicCalendarService acalService) {
-        this.acalService = acalService;
+    @Autowired
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
     }
 
+    @Autowired
     public void setProcessService(ProcessService processService) {
         this.processService = processService;
     }
@@ -121,11 +103,11 @@ public class KRMSProcessEvaluator extends KRMSEvaluator implements ProcessEvalua
             throw new OperationFailedException("unexpected", ex);
         }
 
-        TermInfo term = null;
+        AtpInfo term = null;
 
         if (processContext.getTermKey() != null) {
             try {
-                term = acalService.getTerm(processContext.getTermKey(), context);
+                term = atpService.getAtp(processContext.getTermKey(), context);
             } catch (OperationFailedException ex) {
                 throw ex;
             } catch (Exception ex) {
@@ -322,7 +304,7 @@ public class KRMSProcessEvaluator extends KRMSEvaluator implements ProcessEvalua
     public List<ValidationResultInfo> evaluateSummerTermRule(InstructionInfo instruction, CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
-        TermInfo term = acalService.getTerm(processContext.getTermKey(), context);
+        AtpInfo term = atpService.getAtp(processContext.getTermKey(), context);
 
         // Build the list of known facts prior to execution
         Map<String, Object> executionFacts = buildExecutionFacts(processContext, context);

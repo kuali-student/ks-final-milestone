@@ -44,7 +44,7 @@ import java.util.Map;
  *
  * @author nwright
  */
-public class IdentityServiceMockImpl implements IdentityService, MockService {
+public class IdentityServiceMapImpl implements IdentityService, MockService {
 
     private Map<String, Entity> entities = new HashMap<String,Entity> ();
     

@@ -29,7 +29,6 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;

@@ -24,13 +24,16 @@ import java.util.Date;
  */
 public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorator {
 
+    public ProcessPocExemptionServiceDecorator() {
+    }
+
     public ProcessPocExemptionServiceDecorator(ExemptionService nextDecorator) {
         super();
         setNextDecorator(nextDecorator);
-        initializeData();
+        init();
     }
 
-    private void initializeData() {
+    public void init() {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-Initializer");
 

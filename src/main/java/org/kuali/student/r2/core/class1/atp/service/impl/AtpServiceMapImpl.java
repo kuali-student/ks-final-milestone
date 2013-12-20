@@ -49,7 +49,7 @@ import java.util.Set;
  *
  * @author Kuali Student Team (Kamal)
  */
-public class AtpServiceMockImpl implements AtpService, MockService {
+public class AtpServiceMapImpl implements AtpService, MockService {
 
     private Map<String, AtpInfo> atpCache = new HashMap<String, AtpInfo>();
     private Map<String, MilestoneInfo> milestoneCache = new HashMap<String, MilestoneInfo>();

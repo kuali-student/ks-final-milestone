@@ -23,13 +23,15 @@ import java.util.List;
  */
 public class ProcessPocAtpServiceDecorator extends AtpServiceDecorator {
 
+    public ProcessPocAtpServiceDecorator() {
+    }
     public ProcessPocAtpServiceDecorator(AtpService nextDecorator) {
         super();
         this.setNextDecorator(nextDecorator);
-        _initializeData();
+        init();
     }
 
-    private void _initializeData() {
+    public void init() {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-Initializer");
 

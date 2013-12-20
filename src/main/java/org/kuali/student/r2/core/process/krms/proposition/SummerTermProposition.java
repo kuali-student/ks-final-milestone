@@ -20,7 +20,7 @@ import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 /**
@@ -30,16 +30,16 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
  */
 public class SummerTermProposition extends AbstractLeafProposition {
 
-    private TermInfo term;
+    private AtpInfo atp;
 
-    public SummerTermProposition(TermInfo term) {
-        this.term = term;
+    public SummerTermProposition(AtpInfo term) {
+        this.atp = term;
     }
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
-        PropositionResult result = new PropositionResult(term.getTypeKey().equals(AtpServiceConstants.ATP_SUMMER_TYPE_KEY));
+        PropositionResult result = new PropositionResult(atp.getTypeKey().equals(AtpServiceConstants.ATP_SUMMER_TYPE_KEY));
 
         environment.getEngineResults().addResult(new BasicResult(ResultEvent.PROPOSITION_EVALUATED, this, environment, result.getResult()));
 

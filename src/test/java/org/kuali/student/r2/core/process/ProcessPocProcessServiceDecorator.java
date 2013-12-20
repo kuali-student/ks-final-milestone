@@ -28,10 +28,15 @@ import java.util.List;
  */
 public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
 
+    public ProcessPocProcessServiceDecorator() {
+    }
+
+    
+    
     public ProcessPocProcessServiceDecorator(ProcessService nextDecorator) {
         super();
         this.setNextDecorator(nextDecorator);
-        initializeData();
+        init();
     }
 
     private boolean isInitalized() {
@@ -47,7 +52,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         return true;
     }
 
-    private void initializeData() {
+    public void init() {
         if (isInitalized()) {
             return;
         }
@@ -100,6 +105,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
             ContextInfo context) {
 
         InstructionInfo info = new InstructionInfo();
+        info.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
         info.setStateKey(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY);
         info.setProcessKey(processKey);
         // info.setAppliedPopulationKeys(Arrays.asList(populationKey));
@@ -111,7 +117,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         info.setIsWarning(isWarning);
         info.setIsExemptible(canBeExempted);
         try {
-            info = this.createInstruction(ProcessServiceConstants.INSTRUCTION_TYPE_KEY, info.getProcessKey(), info.getCheckId(), info, context);
+            info = this.createInstruction(info.getProcessKey(), info.getCheckId(), info.getTypeKey(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }
@@ -121,11 +127,12 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
     private ProcessInfo _createProcess(String key, String name, String descr, ContextInfo context) {
         ProcessInfo info = new ProcessInfo();
         info.setKey(key);
+        info.setTypeKey(ProcessServiceConstants.PROCESS_TYPE_KEY);
         info.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         info.setName(name);
         info.setDescr(new RichTextHelper().fromPlain(descr));
         try {
-            info = this.createProcess(ProcessServiceConstants.PROCESS_TYPE_KEY, info.getKey(), info, context);
+            info = this.createProcess(info.getKey(), info.getTypeKey(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }

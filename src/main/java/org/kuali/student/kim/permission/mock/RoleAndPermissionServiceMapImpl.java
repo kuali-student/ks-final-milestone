@@ -49,7 +49,7 @@ import org.kuali.student.common.UUIDHelper;
 // Note: had to combine Role and Permission services because RICE put the role/permission 
 // assignment methods on the Role Service but the Getter methods on the Permission service!
 // so no one service has jurisdiction over the mapping.
-public class RoleAndPermissionServiceMockImpl implements RoleService, PermissionService, MockService {
+public class RoleAndPermissionServiceMapImpl implements RoleService, PermissionService, MockService {
 
     private Map<String, Role> roleMap = new HashMap<String, Role>();
     private Map<String, RoleMembership> roleMembershipMap = new HashMap<String, RoleMembership>();
@@ -59,7 +59,7 @@ public class RoleAndPermissionServiceMockImpl implements RoleService, Permission
     private Map<String, Permission> permissionMap = new HashMap<String, Permission>();
     private GroupService groupService;
 
-    public RoleAndPermissionServiceMockImpl() {
+    public RoleAndPermissionServiceMapImpl() {
     }
 
     @Override

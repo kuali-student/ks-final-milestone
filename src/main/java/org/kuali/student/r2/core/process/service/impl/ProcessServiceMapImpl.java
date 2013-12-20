@@ -10,7 +10,7 @@
  *
  * Created by Mezba Mahtab on 6/19/12
  */
-package org.kuali.student.r2.core.process.impl;
+package org.kuali.student.r2.core.process.service.impl;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;

@@ -31,6 +31,42 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
  */
 public class RegistrationRequestMergerImpl implements RegistrationRequestMerger {
 
+    //
+    // configuration
+    //
+    private CourseRegistrationService courseRegistrationService;
+
+    public CourseRegistrationService getCourseRegistrationService() {
+        if (courseRegistrationService == null) {
+            QName qname = new QName(CourseRegistrationServiceConstants.NAMESPACE,
+                    CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART);
+            courseRegistrationService = GlobalResourceLoader.getService(qname);
+        }
+        return courseRegistrationService;
+    }
+
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
+    }
+    private CourseOfferingService courseOfferingService;
+
+    public RegistrationRequestMergerImpl(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        if (courseOfferingService == null) {
+            QName qname = new QName(CourseOfferingServiceConstants.NAMESPACE,
+                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART);
+            courseOfferingService = GlobalResourceLoader.getService(qname);
+        }
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
+
     public RegistrationRequestMergerImpl() {
     }
 
@@ -85,7 +121,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                 }
                 // if trying to use swap to swap course A for course B
                 if (!areRegGroupsForSameCourseFormat(rt1, item, contextInfo)) {
-                   throw new OperationFailedException ("you cannot use the swap to change courses use drop and add instead");
+                    throw new OperationFailedException("you cannot use the swap to change courses use drop and add instead");
                 }
                 // if swapping sections they could also be changing the data bits on the CR
                 updateCourseRegistrationTransaction(rt1, item, contextInfo);
@@ -125,8 +161,9 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
 
     /**
      * protected so can be overridden by implementing institution if what they consider "ACTIVE" is different
+     *
      * @param reg
-     * @return 
+     * @return
      */
     protected boolean isActive(CourseRegistrationInfo reg) {
         return this.isActive(reg.getStateKey());
@@ -134,8 +171,9 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
 
     /**
      * protected so can be overridden by implementing institution if what they consider "ACTIVE" is different
+     *
      * @param stateKey
-     * @return 
+     * @return
      */
     protected boolean isActive(String stateKey) {
         if (stateKey.equals(LprServiceConstants.REGISTERED_STATE_KEY)) {
@@ -352,7 +390,8 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
      * @return true if there has been any change
      * @throws OperationFailedException if can't complete
      */
-    private boolean updateCourseRegistrationInfo(CourseRegistrationInfo reg, RegistrationRequestItemInfo item, ContextInfo contextInfo)
+    private boolean updateCourseRegistrationInfo(CourseRegistrationInfo reg, RegistrationRequestItemInfo item,
+            ContextInfo contextInfo)
             throws OperationFailedException {
         boolean changed = false;
         if (!isSame(reg.getCredits(), item.getCredits())) {
@@ -485,40 +524,5 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
         } catch (PermissionDeniedException ex) {
             throw new OperationFailedException("unexpected", ex);
         }
-    }
-    //
-    // configuration
-    //
-    private CourseRegistrationService courseRegistrationService;
-
-    public CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegistrationService == null) {
-            QName qname = new QName(CourseRegistrationServiceConstants.NAMESPACE,
-                    CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART);
-            courseRegistrationService = GlobalResourceLoader.getService(qname);
-        }
-        return courseRegistrationService;
-    }
-
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
-    }
-    private CourseOfferingService courseOfferingService;
-
-    public RegistrationRequestMergerImpl(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null) {
-            QName qname = new QName(CourseOfferingServiceConstants.NAMESPACE,
-                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART);
-            courseOfferingService = GlobalResourceLoader.getService(qname);
-        }
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
     }
 }

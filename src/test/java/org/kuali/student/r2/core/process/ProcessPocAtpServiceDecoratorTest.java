@@ -17,8 +17,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMapImpl;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import java.text.SimpleDateFormat;
@@ -57,7 +56,7 @@ public class ProcessPocAtpServiceDecoratorTest {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-tester");
 
-        AtpService service = new AtpServiceMockImpl();
+        AtpService service = new AtpServiceMapImpl();
         service = new ProcessPocAtpServiceDecorator(service);
 
         AtpInfo atp = null;
