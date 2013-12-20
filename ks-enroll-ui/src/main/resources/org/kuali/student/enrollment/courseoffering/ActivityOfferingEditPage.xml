@@ -178,7 +178,9 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction"
+                <bean parent="Uif-SecondaryActionButton"
+                      p:methodToCall="addLine"
+                      p:actionLabel="add"
                       p:actionScript="showLightboxComponent('ActivityOfferingEdit-CoLocatedAddLineDialog');jQuery('#dirtyForm').val(true);"
                       p:dirtyOnAction="true"/>
             </list>
