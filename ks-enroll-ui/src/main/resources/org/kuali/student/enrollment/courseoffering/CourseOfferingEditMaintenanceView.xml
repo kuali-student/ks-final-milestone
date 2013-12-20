@@ -496,12 +496,14 @@
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
-
                 <bean parent="Uif-VerticalBoxSection">
+                    <property name="header.headerText" value="Final Exams"/>
+                    <property name="header">
+                      <bean parent="Uif-HeaderFour"/>
+                    </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Final Exams"
+                            <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Exam Type"
                                   p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:componentSecurity.editAuthz="true"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);"  >
                                 <property name="control">
@@ -560,7 +562,9 @@
         <property name="instructionalText" value="Add the delivery formats to be used for this course offering"/>
 
         <property name="header.headerText" value="Delivery Formats"/>
-        <property name="header.headerLevel" value="Uif-HeaderOne"/>
+        <property name="header">
+          <bean parent="Uif-HeaderFour"/>
+        </property>
         <property name="header.style" value="font-weight:bold;"/>
 
         <property name="items">
