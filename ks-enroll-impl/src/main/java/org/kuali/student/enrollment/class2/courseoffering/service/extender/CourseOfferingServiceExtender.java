@@ -57,6 +57,15 @@ public interface CourseOfferingServiceExtender {
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
+     * Essentially does what a copy constructor does, but does not save it to the database.  Useful if you want
+     * to copy the contents of a sourceAO, then do more modifications on the copy before adding saving it to the
+     * database via services.  IDs are removed so when it's saved, new IDs are created.
+     * @param sourceAo The AO you want to copy from
+     * @return The copied AO (with IDs, etc removed)
+     */
+    ActivityOfferingInfo copyActivityOfferingInMemory(ActivityOfferingInfo sourceAo);
+
+    /**
      * This method calls the search service to pull a list of AO Codes for a given CO. This is MUCH faster than
      * our old way of pulling the FULL ao objects, when we just need the code.
      *
