@@ -24,7 +24,7 @@ import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 
 public class ScheduledTermsPropertyEditor extends PropertyEditorSupport {
-	protected CollectionListPropertyEditorHtmlListType listType = CollectionListPropertyEditorHtmlListType.UL;
+//	protected CollectionListPropertyEditorHtmlListType listType = CollectionListPropertyEditorHtmlListType.UL;
 
 	@Override
 	public void setValue(Object value) {
@@ -36,33 +36,32 @@ public class ScheduledTermsPropertyEditor extends PropertyEditorSupport {
 	public String getAsText() {
 		CourseSummaryDetails courseSummaryDetails = (CourseSummaryDetails) super.getValue();
 		StringBuilder formattedText = new StringBuilder();
-		formattedText.append(String.format("<%s class=\"scheduled\">", listType.getListElementName()));
+		formattedText.append(String.format("<%s class=\"scheduled\">", "span"));
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
 
         if (courseSummaryDetails != null
 				&& courseSummaryDetails.getScheduledTerms() != null
 				&& courseSummaryDetails.getScheduledTerms().size() > 0) {
-            //@TODO Evaluate if we even need a loop and "list items" here.
-            // We may be able to get by with just putting out text, or even just spans.
-            // Note: nested spans are perfectly okay, and if you need to treat them as "blocks" sometimes, you
-            // Can do that with CSS easily.
-			for (String termId : courseSummaryDetails.getScheduledTerms()) {
-				YearTerm yt = th.getYearTerm(termId);
+
+            int counter = 0;
+
+            for (String termId : courseSummaryDetails.getScheduledTerms()) {
+
+                if (counter > 0) {
+                    formattedText.append(", ");
+                }
+
+                YearTerm yt = th.getYearTerm(termId);
 				String text = yt.getShortName();
-				formattedText.append(String.format("<%s class=\"%s\">%s</%s>",
-						                            listType.getListItemElementName(),
-						                            text.replaceAll("\\d*$", "").trim(),
-                                                    text,
-						                            listType.getListItemElementName()));
+				formattedText.append(String.format("<%s class=\"%s\">%s</%s>", "span", text.replaceAll("\\d*$", "").trim(), text, "span"));
+
+                counter++;
 			}
 		} else {
-			formattedText.append(String.format("<%s>%s</%s>",
-                                                listType.getListItemElementName(),
-                                                "Not currently scheduled",
-                                                listType.getListItemElementName()));
+			formattedText.append(String.format("<%s>%s</%s>", "span", "Not currently scheduled", "span"));
 		}
 
-        formattedText.append(String.format("</%s>", listType.getListElementName()));
+        formattedText.append(String.format("</%s>", "span"));
 
 		return formattedText.toString();
 	}
