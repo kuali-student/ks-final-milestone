@@ -62,8 +62,11 @@
             <property name="criteriaGroup.footer.items">
               <list>
                 <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:render="@{#form.renderedInLightBox}"
-                                p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
+                <bean parent="Uif-ActionLink"
+                      p:actionLabel="Cancel"
+                      p:render="@{#form.renderedInLightBox}"
+                      p:onClickScript="e.preventDefault();closeLightbox();return false;"
+                      p:additionalCssClasses="cancel_link"/>
               </list>
             </property>
         </bean>
