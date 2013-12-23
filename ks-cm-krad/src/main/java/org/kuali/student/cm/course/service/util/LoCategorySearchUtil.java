@@ -5,6 +5,7 @@ import static org.kuali.student.logging.FormattedLogger.error;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -22,13 +23,14 @@ public class LoCategorySearchUtil {
 
         List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
 
-        SearchParamInfo categoryNameParam = new SearchParamInfo();
-        categoryNameParam.setKey(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM);
-        List<String> categoryNameValues = new ArrayList<String>();
-        categoryNameValues.add(categoryName);
-        categoryNameParam.setValues(categoryNameValues);
-
-        queryParamValueList.add(categoryNameParam);
+        if (StringUtils.isNotEmpty(categoryName)) {
+            SearchParamInfo categoryNameParam = new SearchParamInfo();
+            categoryNameParam.setKey(CourseServiceConstants.OPTIONAL_LO_CATEGORY_NAME_PARAM);
+            List<String> categoryNameValues = new ArrayList<String>();
+            categoryNameValues.add(categoryName);
+            categoryNameParam.setValues(categoryNameValues);
+            queryParamValueList.add(categoryNameParam);
+        }
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(CourseServiceConstants.LOCATEGORY_SEARCH);
@@ -59,7 +61,7 @@ public class LoCategorySearchUtil {
                 retrievedCategories.add(newCat);
             }
         } catch (Exception e) {
-            error("An error occurred in getLoCategoriesForSuggest.", e);
+            error("An error occurred in searchForLoCategories.", e);
         }
 
         return retrievedCategories;

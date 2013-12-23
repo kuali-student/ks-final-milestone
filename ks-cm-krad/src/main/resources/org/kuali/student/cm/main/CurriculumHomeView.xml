@@ -69,6 +69,12 @@
         <property name="url.viewId" value="ksFunctionalHomeView"/>
     </bean>
     
+    <bean id="KS-HomewardPathBreadcrumbs-CMKRAD" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Curriculum Management KRAD"/>
+        <property name="url.baseUrl" value="cmHome"/>
+        <property name="url.viewId" value="curriculumHomeView"/>
+    </bean>
+    
     <bean id="KS-CurriculumHome-Group" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
@@ -196,7 +202,8 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Course Set Management" />
-                <bean parent="Uif-Link" p:linkText="Learning Objective Categories" />
+                <bean parent="Uif-Link" p:linkText="Learning Objective Categories"  
+                    p:href="@{#ConfigProperties['application.url']}/kr-krad/loCategory?viewId=loCatMaintenanceView&amp;methodToCall=start" />
             </list>
         </property>
     </bean>
