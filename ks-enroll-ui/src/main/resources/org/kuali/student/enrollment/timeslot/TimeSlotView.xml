@@ -425,8 +425,11 @@
                         <list>
                             <bean id="timeslot_delete_confirm" parent="Uif-PrimaryActionButton" p:preSubmitCall="resetTSValidSelection(); closeLightbox(); return true;"
                                   p:methodToCall="deleteTimeSlots" p:actionLabel="Delete Time Slots" p:successCallback="setupTimeSlotTypeDropdown();"/>
-                            <bean id="button_close" parent="Uif-ActionLink" p:actionLabel="Cancel"
-                                  p:actionScript="closeLightbox();"/>
+                            <bean id="button_close"
+                                  parent="Uif-ActionLink"
+                                  p:actionLabel="Cancel"
+                                  p:actionScript="closeLightbox();"
+                                  p:additionalCssClasses="cancel_link"/>
                         </list>
                     </property>
                 </bean>
