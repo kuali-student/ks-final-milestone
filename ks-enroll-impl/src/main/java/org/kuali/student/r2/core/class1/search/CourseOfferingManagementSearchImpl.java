@@ -478,7 +478,10 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         //Roll up the org ids (if the org cell exists already then
         String deploymentOrg = (String)result[i++];
 
-        row.addCell(SearchResultColumns.CREDIT_OPTION_NAME,(String)result[i++]);
+        String creditNameForDisplay = StringUtils.stripEnd(StringUtils.lowerCase((String)result[i++])," credits");
+        creditNameForDisplay = StringUtils.stripEnd(creditNameForDisplay," credit");
+
+        row.addCell(SearchResultColumns.CREDIT_OPTION_NAME,creditNameForDisplay);
 
         String gradingName = (String)result[i++];
         row.addCell(SearchResultColumns.GRADING_OPTION_NAME,gradingName);
