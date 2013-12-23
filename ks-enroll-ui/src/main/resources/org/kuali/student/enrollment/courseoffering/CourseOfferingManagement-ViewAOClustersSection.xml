@@ -281,7 +281,6 @@
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="disclosure.defaultOpen" value="false"/>
-        <property name="layoutManager.style" value="margin-left: 20px; width: 98%;"/>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="rtip"/>
