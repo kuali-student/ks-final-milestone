@@ -336,7 +336,10 @@
                                 <property name="errorCallback" value="jQuery('div[id=KS-TimeSlot-EditTimeSlotPopupForm]:gt(0)').detach();"/>-->
                                 <property name="methodToCall" value="editTimeSlot"/>
                             </bean>
-                            <bean id="addOrEdit_cancel" parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:actionScript="closeLightbox();"/>
+                            <bean id="addOrEdit_cancel" parent="Uif-ActionLink"
+                                  p:actionLabel="Cancel"
+                                  p:actionScript="closeLightbox();"
+                                  p:additionalCssClasses="cancel_link"/>
                         </list>
                     </property>
                 </bean>

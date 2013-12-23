@@ -63,7 +63,10 @@
                             <property name="items">
                                 <list>
                                     <bean parent="KS-Uif-PrimaryActionButton" p:id="AoDeleteConfirmationDeleteButton" p:actionLabel="Delete Activity Offering(s)" p:methodToCall="deleteSelectedAoList"/>
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancelDeleteAOs" />
+                                    <bean parent="Uif-ActionLink"
+                                          p:actionLabel="Cancel"
+                                          p:methodToCall="cancelDeleteAOs"
+                                          p:additionalCssClasses="cancel_link"/>
                                 </list>
                             </property>
                         </bean>
