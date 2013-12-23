@@ -39,7 +39,11 @@
                                     </map>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                            <bean parent="Uif-ActionLink"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="cancel"
+                                  p:actionLabel="Cancel"
+                                  p:additionalCssClasses="cancel_link"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
                         </list>
                     </property>
