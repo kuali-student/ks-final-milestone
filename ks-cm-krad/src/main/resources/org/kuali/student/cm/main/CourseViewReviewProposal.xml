@@ -146,7 +146,7 @@
                 <bean parent="Uif-DataField" p:label="Duration Count" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
                 <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
                 <bean parent="Uif-DataField" p:label="Audit" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
-                <bean parent="Uif-DataField" p:label="Final Exam Status" p:propertyName="reviewInfo.courseLogisticsInfo.term" required="true" />
+                <bean parent="Uif-DataField" p:label="Final Exam Status" p:propertyName="reviewInfo.courseLogisticsInfo.term" p:required="true" />
 
                 <bean parent="Uif-DataField" p:label="Outcome 1" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
                 <bean parent="Uif-DataField" p:label="Type" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
