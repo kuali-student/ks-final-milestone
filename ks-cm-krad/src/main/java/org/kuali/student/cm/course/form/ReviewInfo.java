@@ -63,6 +63,13 @@ public class ReviewInfo implements java.io.Serializable {
         return learningObjectivesInfo;
     }
 
+    public ActiveDatesInfoWrapper getActiveDatesInfo() {
+        if (this.activeDatesInfo == null) {
+            activeDatesInfo = new ActiveDatesInfoWrapper();
+        }
+        return activeDatesInfo;
+    }
+
     public CourseRequisitesInfoWrapper getCourseRequisitesInfo() {
         if (this.courseRequisitesInfo == null) {
             courseRequisitesInfo = new CourseRequisitesInfoWrapper();
@@ -107,11 +114,19 @@ public class ReviewInfo implements java.io.Serializable {
             return proposalName;
         }
 
+        public void setProposalName(final String proposalName) {
+            this.proposalName = proposalName;
+        }
+
         public String getCourseTitle() {
             if (this.courseTitle == null) {
                 courseTitle = new String();
             }
             return courseTitle;
+        }
+
+        public void setCourseTitle(final String courseTitle) {
+            this.courseTitle = courseTitle;
         }
 
         public String getTranscriptTitle() {
@@ -121,6 +136,10 @@ public class ReviewInfo implements java.io.Serializable {
             return transcriptTitle;
         }
 
+        public void setTranscriptTitle(final String transcriptTitle) {
+            this.transcriptTitle = transcriptTitle;
+        }
+
         public String getSubjectArea() {
             if (this.subjectArea == null) {
                 subjectArea = new String();
@@ -128,11 +147,19 @@ public class ReviewInfo implements java.io.Serializable {
             return subjectArea;
         }
 
+        public void setSubjectArea(final String subjectArea) {
+            this.subjectArea = subjectArea;
+        }
+
         public String getCourseNumberSuffix() {
             if (this.courseNumberSuffix == null) {
                 courseNumberSuffix = new String();
             }
             return courseNumberSuffix;
+        }
+
+        public void setCourseNumberSuffix(final String courseNumberSuffix) {
+            this.courseNumberSuffix = courseNumberSuffix;
         }
 
         public List<String> getInstructors() {
@@ -206,23 +233,153 @@ public class ReviewInfo implements java.io.Serializable {
         private String timeQuantity;
         private String passFail;
         private String audit;
+
+        public String getTerm() {
+            if (this.term == null) {
+                term = new String();
+            }
+            return term;
+        }
+
+        public String getGradingOptions() {
+            if (this.gradingOptions == null) {
+                gradingOptions = new String();
+            }
+            return gradingOptions;
+        }
+
+        public String getAtpDurationType() {
+            if (this.atpDurationType == null) {
+                atpDurationType = new String();
+            }
+            return atpDurationType;
+        }
+
+        public String getTimeQuantity() {
+            if (this.timeQuantity == null) {
+                timeQuantity = new String();
+            }
+            return timeQuantity;
+        }
+
+        public String getPassFail() {
+            if (this.passFail == null) {
+                passFail = new String();
+            }
+            return passFail;
+        }
+
+        public void setAudit(final String audit) {
+            this.audit = audit;
+        }
+
+        public String getAudit() {
+            if (this.audit == null) {
+                audit = new String();
+            }
+            return audit;
+        }
     }
 
     public class LearningObjectivesInfoWrapper implements java.io.Serializable {
+
+
     }
 
     public class CourseRequisitesInfoWrapper implements java.io.Serializable {
+
     }
 
     public class ActiveDatesInfoWrapper implements java.io.Serializable {
         private String startTerm;
         private String endTerm;
         private String pilotCourse;
+
+        public void setStartTerm(final String startTerm) {
+            this.startTerm = startTerm;
+        }
+
+        public String getStartTerm() {
+            if (this.startTerm == null) {
+                startTerm = new String();
+            }
+            return startTerm;
+        }
+ 
+        public void setEndTerm(final String endTerm) {
+            this.endTerm = endTerm;
+        }
+
+        public String getEndTerm() {
+            if (this.endTerm == null) {
+                endTerm = new String();
+            }
+            return endTerm;
+        }
+        
+        public void setPilotCourse(final String pilotCourse) {
+            this.pilotCourse = pilotCourse;
+        }
+
+        public String getPilotCourse() {
+            if (this.pilotCourse == null) {
+                pilotCourse = new String();
+            }
+            return pilotCourse;
+        }
         
     }
 
     public class FinancialsInfoWrapper implements java.io.Serializable {
+        private String justificationOfFees;
+        private String fee;
+        private String revenueSource;
+        private String expendingOrganization;
+
         
+        public void setJustificationOfFees(final String justificationOfFees) {
+            this.justificationOfFees = justificationOfFees;
+        }
+
+        public String getJustificationOfFees() {
+            if (this.justificationOfFees == null) {
+                justificationOfFees = new String();
+            }
+            return justificationOfFees;
+        }
+
+        public void setFee(final String fee) {
+            this.fee = fee;
+        }
+
+        public String getFee() {
+            if (this.fee == null) {
+                fee = new String();
+            }
+            return fee;
+        }
+
+        public void setRevenueSource(final String revenueSource) {
+            this.revenueSource = revenueSource;
+        }
+
+        public String getRevenueSource() {
+            if (this.revenueSource == null) {
+                revenueSource = new String();
+            }
+            return revenueSource;
+        }
+
+        public void setExpendingOrganization(final String expendingOrganization) {
+            this.expendingOrganization = expendingOrganization;
+        }
+
+        public String getExpendingOrganization() {
+            if (this.expendingOrganization == null) {
+                expendingOrganization = new String();
+            }
+            return expendingOrganization;
+        }
     }
 
     public class SupportingDocumentsInfoWrapper implements java.io.Serializable {

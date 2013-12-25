@@ -60,6 +60,7 @@ import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
+import org.kuali.student.cm.course.form.ReviewInfo;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
@@ -202,7 +203,8 @@ public class CourseController extends CourseRuleEditorController {
                 maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
             }
             
-        } else if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, maintenanceDocForm.getCommand()) && maintenanceDocForm.getDocId() != null) {
+        } 
+        else if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, maintenanceDocForm.getCommand()) && maintenanceDocForm.getDocId() != null) {
             ProposalInfo proposal = null;
             try {            
                 proposal = getProposalService().getProposalByWorkflowId(maintenanceDocForm.getDocument().getDocumentHeader().getDocumentNumber(), ContextUtils.getContextInfo());
@@ -212,72 +214,6 @@ public class CourseController extends CourseRuleEditorController {
                 warn("Unable to retrieve the proposal: %s", e.getMessage());
             }
         }
-        
-        return retval;
-    }
-
-    /**
-     * Called by the add line action for a new collection line. Method
-     * determines which collection the add action was selected for and invokes
-     * the view helper service to add the line
-     */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLine2")
-    public ModelAndView addLine2(@ModelAttribute("KualiForm") final UifFormBase uifForm, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
-        String selectedCollectionPath = uifForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
-        }
-
-        View view = uifForm.getPostedView();
-        view.getViewHelperService().processCollectionAddLine(view, uifForm, selectedCollectionPath);
-
-        final ModelAndView retval = getUIFModelAndView(uifForm);
-
-        final MaintenanceDocumentForm form = (MaintenanceDocumentForm) uifForm;
-        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-
-        // Resulting Add Line is at the bottom
-        final SupportingDocumentInfoWrapper addLineResult = maintainable.getDocumentsToAdd().get(maintainable.getDocumentsToAdd().size() - 1);
-
-        // New document
-        DocumentInfo toAdd = new DocumentInfo();
-        toAdd.setFileName(addLineResult.getDocumentUpload().getOriginalFilename());
-        toAdd.setDescr(new RichTextInfo() {{ 
-            setPlain(addLineResult.getDescription());
-            setFormatted(addLineResult.getDescription());
-        }});
-        toAdd.setName(toAdd.getFileName());
-        
-        final DocumentBinaryInfo documentBinary = new DocumentBinaryInfo();
-        try {
-            toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
-        }
-        catch (Exception e) {
-            warn("Failed to get binary data: %s", e.getMessage());
-        }
-
-        try {
-            getSupportingDocumentService().createDocument("documentType.doc", "documentCategory.proposal", toAdd, ContextUtils.getContextInfo());
-        }
-        catch (Exception e) {
-            warn("Unable to create a document: %s", e.getMessage());
-        }
-
-        // Now relate the document to the course
-        RefDocRelationInfo docRelation = new RefDocRelationInfo();
-        try {
-            getSupportingDocumentService().createRefDocRelation("kuali.lu.type.CreditCourse",
-                                                      maintainable.getCourse().getId(),
-                                                      toAdd.getId(),
-                                                      "kuali.org.DocRelation.allObjectTypes",
-                                                      docRelation,
-                                                      ContextUtils.getContextInfo());
-        }
-        catch (Exception e) {
-            warn("Unable to relate a document with the course: %s", e.getMessage());
-        }
-
         
         return retval;
     }
@@ -483,6 +419,28 @@ public class CourseController extends CourseRuleEditorController {
         
         return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
     }
+    
+    /**
+     *
+     * @param maintainable
+     */
+    protected void updateReview(final CourseInfoMaintainable maintainable) {
+
+        // Update course info
+        final ReviewInfo reviewData = maintainable.getReviewInfo();
+        reviewData.getCourseInfo().setCourseTitle(maintainable.getCourse().getCourseTitle());
+        reviewData.getCourseInfo().setProposalName(maintainable.getProposal().getName());
+        reviewData.getCourseInfo().setTranscriptTitle(maintainable.getCourse().getTranscriptTitle());
+        reviewData.getCourseInfo().setSubjectArea(maintainable.getCourse().getSubjectArea());
+        reviewData.getCourseInfo().setCourseNumberSuffix(maintainable.getCourse().getCourseNumberSuffix());
+
+        // Update governance info
+        reviewData.getGovernanceInfo().getCampusLocations().clear();
+        reviewData.getGovernanceInfo().getCampusLocations().addAll(maintainable.getCourse().getCampusLocations());
+        reviewData.getGovernanceInfo().getCurriculumOversight().clear();
+        reviewData.getGovernanceInfo().getCurriculumOversight().addAll(maintainable.getCourse().getUnitsContentOwner());
+    }
+
 
     /**
      * Handles functionality that should only happen when the document is first saved.
@@ -863,6 +821,7 @@ public class CourseController extends CourseRuleEditorController {
 
 
     /**
+     * Lookup Organization by subject area and organization id
      *
      * @param code
      * @param orgId
@@ -938,6 +897,21 @@ public class CourseController extends CourseRuleEditorController {
         
         return getUIFModelAndView(form);
     }
+
+    /**
+     * Handles menu navigation between view pages
+     */
+    @Override
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=navigate")
+    public ModelAndView navigate(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        final ModelAndView retval = super.navigate(form, result, request, response);
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom((MaintenanceDocumentForm) form);
+
+        updateReview(maintainable);
+
+        return retval;
+    }
     
     @RequestMapping(params = "methodToCall=moveLearningObjectiveLeft")
     public ModelAndView moveLearningObjectiveLeft(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
@@ -951,7 +925,7 @@ public class CourseController extends CourseRuleEditorController {
     }
     
     private LoDisplayWrapperModel setupLoModel(MaintenanceDocumentForm form) {
-        CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(form);
+        final CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(form);
         LoDisplayWrapperModel loDisplayWrapperModel = courseInfoMaintainable.getLoDisplayWrapperModel();
         List<LoDisplayInfoWrapper> loWrappers = loDisplayWrapperModel.getLoWrappers();
         LoDisplayInfoWrapper selectedLoWrapper = getSelectedLoWrapper(loWrappers);
