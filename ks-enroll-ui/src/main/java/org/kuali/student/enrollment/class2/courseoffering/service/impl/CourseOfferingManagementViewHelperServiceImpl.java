@@ -231,8 +231,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         loadCourseOfferings(searchRequest, form);
 
         if (form.getCourseOfferingResultList().isEmpty()) {
-            LOG.error("Error: Can't find any Course Offering for a Course Code: " + courseCode + " in term: " + termInfo.getName());
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Course Code", courseCode, termInfo.getName());
+            LOG.error("Error: Can't find any Course Offering for a course code: " + courseCode + " in term: " + termInfo.getName());
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "course code", courseCode, termInfo.getName());
         }
 
         form.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(form.getTermInfo(), form.getSocStateKey(),
