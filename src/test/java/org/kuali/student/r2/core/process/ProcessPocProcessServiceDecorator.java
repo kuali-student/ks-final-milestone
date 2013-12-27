@@ -67,18 +67,14 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         _createProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "Eligible for Courses", "The process of checking a student's eligibility and ability to register for a proposed set of courses.", context);
         _createProcess(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES, "Register for Courses", "The process of checking a student's eligibility and actually register for a proposed set of courses.", context);
 
-        _createCheck(ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "", "", "kuali.agenda.is.alive", "", "is alive", "Checks if student is actually alive", context);
-        _createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, "kuali.hold.issue.library.book.overdue", "", "", "", "has overdue library book", "Checks if student has an overdue library book", context);
-        _createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, "kuali.hold.issue.financial.unpaid.tuition.prior.term", "", "", "", "has not paid bill from prior term", "Checks if student has an unpaid bill from a prior term", context);
-        _createCheck(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "", "", "", "kuali.process.registration.basic.eligibility", "student has basic eligibility", "Checks all the checks defined in the basic eligibility process", context);
-        _createCheck(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY, "", "kuali.atp.milestone.RegistrationPeriod", "", "", "registration period is open", "Checks that the registration period is open", context);
-        _createCheck(ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY, "", "kuali.atp.milestone.RegistrationPeriod", "", "", "registration period is not closed", "Checks that the registration period is not yet closed", context);
-        _createCheck(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "", "", "", "kuali.process.registration.holds.cleared", "Registration Holds Cleared", "Checks that the checks in the registration holds process", context);
-        _createCheck(ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "", "", "kuali.agenda.is.not.summer.term", "", "is not Summer Term", "Checks that this is not the summer term", context);
-        _createCheck(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "", "", "", "kuali.process.registration.eligibility.for.term", "Eligibility for Term", "Checks all the checks that the student is eligible for the term", context);
-        _createCheck(ProcessServiceConstants.INDIRECT_RULE_CHECK_TYPE_KEY, "", "", "", "", "Has the necessary pre-req", "Checks that the student has all the necessary pee-requisites to take the course", context);
-        _createCheck(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "", "", "", "kuali.process.registration.eligible.for.course", "student has eligibility for each course", "Checks all the checks that make sure the student is eligible for a particular course but does it for all the courses in the proposed set of courses", context);
-        _createCheck(ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, "", "", "", "", "does not exceed credit limit", "Checks that the student has not exceeded her credit limit", context);
+        _createCheck (ProcessPocConstants.CHECK_ID_IS_ALIVE, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY,"","","kuali.agenda.is.alive","","is alive","Checks if student is actually alive",context);
+        _createCheck (ProcessPocConstants.CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY,"kuali.hold.issue.library.book.overdue","","","","has overdue library book","Checks if student has an overdue library book",context);
+        _createCheck (ProcessPocConstants.CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM, ProcessServiceConstants.HOLD_CHECK_TYPE_KEY,"kuali.hold.issue.financial.unpaid.tuition.prior.term","","","","has not paid bill from prior term","Checks if student has an unpaid bill from a prior term",context);
+        _createCheck (ProcessPocConstants.CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY,"","","","kuali.process.registration.basic.eligibility","student has basic eligibility","Checks all the checks defined in the basic eligibility process",context);
+        _createCheck (ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN, ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY,"","kuali.atp.milestone.RegistrationPeriod","","","registration period is open","Checks that the registration period is open",context);
+        _createCheck (ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED, ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY,"","kuali.atp.milestone.RegistrationPeriod","","","registration period is not closed","Checks that the registration period is not yet closed",context);
+        _createCheck (ProcessPocConstants.CHECK_ID_REGISTRATION_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY,"","","","kuali.process.registration.holds.cleared","Registration Holds Cleared","Checks that the checks in the registration holds process",context);
+        _createCheck (ProcessPocConstants.CHECK_ID_IS_NOT_SUMMER_TERM, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY,"","","kuali.agenda.is.not.summer.term","","is not Summer Term","Checks that this is not the summer term",context);
 
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, "kuali.population.everyone", "kuali.check.is.alive", "A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.", 1, false, false, false, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, "kuali.population.everyone", "kuali.check.has.overdue.library.book", "Please note: you have an overdue library book", 3, true, true, true, context);
@@ -139,9 +135,11 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         return info;
     }
 
-    private CheckInfo _createCheck(String type, String issueId, String milestoneTypeKey, String agendaId, String processKey, String name, String descr, ContextInfo context) {
+    private CheckInfo _createCheck(String checkId, String type, String issueId, String milestoneTypeKey, 
+            String agendaId, String processKey, String name, String descr, ContextInfo context) {
         CheckInfo info = new CheckInfo();
 
+        info.setId(checkId);
         info.setTypeKey(type);
         info.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE);
         info.setName(name);

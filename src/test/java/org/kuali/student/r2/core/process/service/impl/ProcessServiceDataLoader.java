@@ -248,7 +248,8 @@ public class ProcessServiceDataLoader {
             // load checks
             // --------------
             if (debugMode) { logger.warn("loading checks"); }
-            loadCheck(CHECK_ID_IS_ALIVE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_ALIVE,
+            loadCheck(CHECK_ID_IS_ALIVE, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, ProcessServiceConstants.PROCESS_CHECK_STATE_ACTIVE, 
+                    CHECK_NAME_IS_ALIVE,
                     "Checks if student is actually alive",
                     "Checks if student is actually alive",
                     null, // issue id

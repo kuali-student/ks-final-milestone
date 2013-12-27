@@ -19,13 +19,17 @@ public class ProcessPocConstants {
     public static final String PERSON_ID_JOHNNY_MANNING_2374 = "2374";
     public static final String PERSON_ID_EDDIE_PITTMAN_2406 = "2406";
     public static final String PERSON_ID_TRACY_BURTON_2132 = "2132";
-    
-    public static final String SPRING_2011_TERM_KEY = "kuali.atp.SP2011";    
-    public static final String SUMMER_2011_TERM_KEY = "kuali.atp.SU2011";        
+    public static final String SPRING_2011_TERM_KEY = "kuali.atp.SP2011";
+    public static final String SUMMER_2011_TERM_KEY = "kuali.atp.SU2011";
     public static final String FALL_2011_TERM_KEY = "kuali.atp.FA2011";
     public static final String SPRING_2012_TERM_KEY = "kuali.atp.SP2012";
-
-    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_OPEN = "18";
-    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = "19";
-
+    // checks
+    public static final String CHECK_ID_IS_ALIVE = "kuali.check.is.alive";
+    public static final String CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK = "kuali.check.has.overdue.library.book";
+    public static final String CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "kuali.check.has.not.paid.bill.from.prior.term";
+    public static final String CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY = "kuali.check.student.has.basic.eligibility";
+    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_OPEN = "kuali.check.registration.period.is.open";
+    public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
+    public static final String CHECK_ID_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";
+    public static final String CHECK_ID_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
 }

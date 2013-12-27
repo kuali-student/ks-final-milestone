@@ -873,18 +873,18 @@ public class ProcessServiceMapImpl
             OperationFailedException,
             PermissionDeniedException {
         List<InstructionInfo> instructions = getInstructionsByProcess(processKey, contextInfo);
+        List<InstructionInfo> list = new ArrayList<InstructionInfo>();
         for (InstructionInfo instruction : instructions) {
-            if (!ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY.equals(instruction.getStateKey())) {
-                // remove non-active
-                instructions.remove(instruction);
-            } else if (!isInstructionCurrent(instruction, contextInfo)) {
-                // remove non-current
-                instructions.remove(instruction);
+            if (ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY.equals(instruction.getStateKey())) {
+                if (isInstructionCurrent(instruction, contextInfo)) {
+                    // remove non-current
+                    list.add(instruction);
+                }
             }
         }
 
         // order instructions
-        Collections.sort(instructions, new Comparator<InstructionInfo>() {
+        Collections.sort(list, new Comparator<InstructionInfo>() {
             @Override
             public int compare(InstructionInfo instruction1,
                     InstructionInfo instruction2) {
@@ -892,32 +892,31 @@ public class ProcessServiceMapImpl
             }
         });
 
-        return instructions;
+        return list;
     }
 
     // copied from ProcessServiceImpl
     private boolean isInstructionCurrent(InstructionInfo instruction,
             ContextInfo contextInfo)
             throws InvalidParameterException {
-        boolean result = false;
         Date effectiveDate = instruction.getEffectiveDate();
         Date expirationDate = instruction.getExpirationDate();
-        Date currentDate = Calendar.getInstance().getTime(); // TODO incorporate
-        // context
-
-        if (null == effectiveDate) { // TODO move to validation decorator?
-            throw new InvalidParameterException("Instruction does not have an effective date.");
+        if (contextInfo.getCurrentDate() == null) {
+            contextInfo.setCurrentDate(new Date());
         }
+        Date currentDate = contextInfo.getCurrentDate();
 
-        if (!effectiveDate.after(currentDate)) {
-            if (null == expirationDate) {
-                result = true;
-            } else if (!expirationDate.before(currentDate)) {
-                result = true;
+        if (effectiveDate != null) {
+            if (currentDate.before(effectiveDate)) {
+                return false;
             }
         }
-
-        return result;
+        if (expirationDate != null) {
+            if (currentDate.before(expirationDate)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private MetaInfo newMeta(ContextInfo context) {
