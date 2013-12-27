@@ -100,6 +100,7 @@
                 <ref bean="KS-CourseOfferingEdit-DeliveryAndAssessment"/>
                 <ref bean="KS-CourseOfferingEdit-Waitlist"/>
                 <ref bean="KS-CourseOfferingEdit-PersonnelSection"/>
+                <ref bean="KS-CourseOfferingEdit-OrganizationSectionHeader"/>
                 <ref bean="KS-CourseOfferingEdit-MiscSection"/>
                 <ref bean="CourseOfferingEdit-NavigationConfirmation" />
             </list>
@@ -656,7 +657,6 @@
     <bean id="KS-CourseOfferingEdit-Waitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlists">
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
@@ -704,7 +704,6 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.id="ao-personnelgroup-table"
                       p:layoutManager.style="width: 100%;">
@@ -763,13 +762,19 @@
         </property>
     </bean>
 
+    <bean id="KS-CourseOfferingEdit-OrganizationSectionHeader" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingEdit-OrganizationSection"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KS-CourseOfferingEdit-MiscSection" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;" p:headerText="Miscellaneous">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;hr&gt;"/>
-                <ref bean="KS-CourseOfferingEdit-OrganizationSection"/>
                 <ref bean="KS-CourseOfferingEdit-HonorsOffering"/>
             </list>
         </property>
@@ -821,10 +826,9 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
+    <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText=""/>
                 <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
