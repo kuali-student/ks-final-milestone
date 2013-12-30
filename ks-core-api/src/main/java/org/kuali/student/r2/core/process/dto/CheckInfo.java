@@ -32,7 +32,7 @@ import java.util.List;
     "descr",
     "holdIssueId",
     "milestoneTypeKey",
-    "agendaId",
+    "ruleId",
     "childProcessKey",
     "rightComparisonValue",
     "leftComparisonAgendaId",
@@ -56,7 +56,7 @@ public class CheckInfo
     private String milestoneTypeKey;
 
     @XmlElement 
-    private String agendaId;
+    private String ruleId;
 
     @XmlElement
     private String rightComparisonAgendaId;
@@ -93,7 +93,7 @@ public class CheckInfo
         if (check != null) {
             this.holdIssueId = check.getHoldIssueId();
             this.milestoneTypeKey = check.getMilestoneTypeKey();
-            this.agendaId = check.getAgendaId();
+            this.ruleId = check.getRuleId();
             this.leftComparisonAgendaId = check.getLeftComparisonAgendaId();
             this.rightComparisonValue = check.getRightComparisonValue();
             this.rightComparisonAgendaId = check.getRightComparisonAgendaId();
@@ -124,12 +124,12 @@ public class CheckInfo
     }
 
     @Override
-    public String getAgendaId() {
-        return this.agendaId;
+    public String getRuleId() {
+        return this.ruleId;
     }
 
-    public void setAgendaId(String agendaId) {
-        this.agendaId = agendaId;
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
     }
 
     @Override

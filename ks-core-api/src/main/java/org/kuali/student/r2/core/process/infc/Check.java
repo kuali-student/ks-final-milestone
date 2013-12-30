@@ -57,12 +57,12 @@ public interface Check
     public String getMilestoneTypeKey();
 
     /**
-     * The Agenda Id if this Check is based on evaluating
-     * an Agenda. (do we need a reference for the eval?)
+     * The Rule Id if this Check is based on evaluating
+     * a rule. 
      *
-     * @name Agenda Id
+     * @name Rule Id
      */
-    public String getAgendaId();
+    public String getRuleId();
 
     /**
      * The Process Key if this Check is to evaluate a all the instructions

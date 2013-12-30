@@ -82,6 +82,7 @@ public class ProcessServiceConstants {
     public static final String DEADLINE_CHECK_TYPE_KEY = "kuali.process.check.type.milestone.deadline";
     public static final String TIME_PERIOD_CHECK_TYPE_KEY = "kuali.process.check.type.milestone.period";
     public static final String PROCESS_CHECK_TYPE_KEY = "kuali.process.check.type.process";
+    public static final String ALWAYS_FALSE_CHECK_TYPE_KEY = "kuali.process.check.type.hardwired.false";
     public static final String DIRECT_RULE_CHECK_TYPE_KEY = "kuali.process.check.type.rule.direct";
     public static final String INDIRECT_RULE_CHECK_TYPE_KEY = "kuali.process.check.type.rule.indirect";
     public static final String EQUAL_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.equals";

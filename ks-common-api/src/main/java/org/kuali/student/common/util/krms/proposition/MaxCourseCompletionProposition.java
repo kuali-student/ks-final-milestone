@@ -51,7 +51,7 @@ public class MaxCourseCompletionProposition extends AbstractLeafProposition {
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-        Collection<String> completedCourses = environment.resolveTerm(RulesExecutionConstants.completedCourseIdsTerm, this);
+        Collection<String> completedCourses = environment.resolveTerm(RulesExecutionConstants.COMPLETED_COURSE_IDS_TERM, this);
         Collection<String> coursesToCheck;
 
         if(singleCourseId == null) {
