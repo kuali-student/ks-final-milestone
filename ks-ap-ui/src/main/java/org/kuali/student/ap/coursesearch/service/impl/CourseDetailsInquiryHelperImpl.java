@@ -115,7 +115,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 * @param course
 	 * @return
 	 */
-	protected CourseSummaryDetails retrieveCourseSummary(CourseInfo course) {
+	public CourseSummaryDetails retrieveCourseSummary(CourseInfo course) {
 
 		if (null == course) {
 			return null;

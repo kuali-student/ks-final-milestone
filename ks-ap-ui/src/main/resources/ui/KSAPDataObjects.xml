@@ -6,6 +6,103 @@
 
     <import resource="classpath:ks-base-dictionary.xml"/>
 
+    <!--**************BookmarkDetailWrapper Start*****************-->
+    <bean id="BookmarkDetailWrapper" parent="BookmarkDetailWrapper-parentBean"/>
+    <bean id="BookmarkDetailWrapper-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="objectLabel" value="Saved Courses"/>
+        <property name="dataObjectClass" value="org.kuali.student.ap.bookmark.dto.BookmarkDetailWrapper"/>
+        <property name="titleAttribute" value=""/>
+        <property name="attributes">
+            <list>
+                <ref bean="BookmarkDetailWrapper.learningPlanId"/>
+                <ref bean="BookmarkDetailWrapper.planItemId"/>
+                <ref bean="BookmarkDetailWrapper.uniqueId"/>
+                <ref bean="BookmarkDetailWrapper.dateAdded"/>
+            </list>
+        </property>
+        <property name="complexAttributes">
+            <list>
+                <ref bean="BookmarkDetailWrapper.courseSummaryDetails"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="BookmarkDetailWrapper.learningPlanId" parent="BookmarkDetailWrapper.learningPlanId-parentBean"/>
+    <bean id="BookmarkDetailWrapper.learningPlanId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="learningPlanId"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="learningPlanId"/>
+        <property name="shortLabel" value="learningPlanId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="20"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="BookmarkDetailWrapper.planItemId" parent="BookmarkDetailWrapper.planItemId-parentBean"/>
+    <bean id="BookmarkDetailWrapper.planItemId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="planItemId"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="planItemId"/>
+        <property name="shortLabel" value="planItemId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="20"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="BookmarkDetailWrapper.dateAdded" parent="BookmarkDetailWrapper.dateAdded-parentBean"/>
+    <bean id="BookmarkDetailWrapper.dateAdded-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="dateAdded"/>
+        <property name="dataType" value="DATE"/>
+        <property name="label" value="Date Added"/>
+        <property name="shortLabel" value="Added"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="16"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="20"/>
+        </property>
+    </bean>
+    <bean id="BookmarkDetailWrapper.uniqueId" parent="BookmarkDetailWrapper.uniqueId-parentBean"/>
+    <bean id="BookmarkDetailWrapper.uniqueId-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="uniqueId"/>
+        <property name="dataType" value="STRING"/>
+        <property name="label" value="uniqueId"/>
+        <property name="shortLabel" value="uniqueId"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="20"/>
+        <property name="validCharactersConstraint">
+            <bean parent="NoWhitespacePatternConstraint"/>
+        </property>
+        <property name="control">
+            <bean parent="TextControlDefinition" p:size="10"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+    <bean id="BookmarkDetailWrapper.courseSummaryDetails" parent="ComplexAttributeDefinition">
+        <property name="name" value="courseSummaryDetails"/>
+        <property name="dataObjectEntry" ref="CourseSummaryDetails"/>
+    </bean>
+
     <!--**************BookmarkSideBarWrapper Start*****************-->
     <bean id="BookmarkSideBarWrapper" parent="BookmarkSideBarWrapper-parentBean"/>
     <bean id="BookmarkSideBarWrapper-parentBean" abstract="true" parent="DataObjectEntry">

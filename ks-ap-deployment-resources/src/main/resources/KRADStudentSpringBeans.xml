@@ -300,11 +300,6 @@
                 <value>classpath:ui/ConversationViewUI.xml</value>
                 <value>classpath:org/kuali/student/ap/BookmarkUI.xml</value>
 
-                <!-- POC -->
-                <value>classpath:ui/PlanItemsUIPOCNoIframe.xml</value>
-                <value>classpath:ui/PlanItemsUIPOCSingleYear.xml</value>
-                <value>classpath:ui/PlanItemsUIPOCDeleteDialog.xml</value>
-                <value>classpath:ui/PlanItemsUIPOCDelayLoad.xml</value>
                 <!-- Course Search POC -->
                 <value>classpath:org/kuali/student/ap/CourseInfoLookupView-ForKSAP.xml</value>
             </list>

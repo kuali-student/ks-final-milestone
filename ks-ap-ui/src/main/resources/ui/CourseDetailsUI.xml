@@ -191,7 +191,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 		<property name="items">
 			<list>
 				<bean parent="Uif-Link" p:linkText="Bookmarked"
-					p:href="lookup?methodToCall=search&amp;viewId=SavedCoursesDetail-LookupView"
+					p:href="lookup?methodToCall=search&amp;viewId=BookmarkDetail-LookupView"
 					p:title="Bookmarked" p:target="" />
 				<bean parent="Uif-Message"
 					p:messageText="on @{dataObject.plannedCourseSummary.savedItemDateCreated}">
