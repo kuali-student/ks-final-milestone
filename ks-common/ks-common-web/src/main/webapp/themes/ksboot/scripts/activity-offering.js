@@ -1,4 +1,54 @@
 /**
+ * This method handles the on load event
+ *
+ */
+function activityEditDocumentOnLoad(){
+
+    jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+    jQuery("#shared_max_enr_control").addClass("ignoreValid");
+    jQuery('.new_rdl_components').addClass("ignoreValid");
+
+    if(jQuery("#is_co_located_control").length != 0) {
+        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
+    }
+
+    if (jQuery("#share_seats_control_0").length != 0){
+        jQuery('#share_seats_control_0').change(function() {
+            if(jQuery(this).is(":checked")) {
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").hide();
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").show();
+                jQuery("#shared_max_enr_control").removeClass("ignoreValid");
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+            } else {
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").show();
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").hide();
+                jQuery("#shared_max_enr_control").addClass("ignoreValid");
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
+            }
+        });
+    }
+
+    if (jQuery("#share_seats_control_1").length != 0){
+        jQuery('#share_seats_control_1').change(function() {
+            if(jQuery(this).is(":checked")) {
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").show();
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").hide();
+                jQuery("#shared_max_enr_control").addClass("ignoreValid");
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
+            } else {
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").hide();
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").show();
+                jQuery("#shared_max_enr_control").removeClass("ignoreValid");
+                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+            }
+        });
+    }
+
+    onColoCheckBoxChange(true);
+
+}
+
+/**
  * This method handles colocate/unclocate AO.
  *
  */
@@ -11,7 +61,7 @@ function handleColocation(){
      * checkbox and the colo had previously been persisted at the database
      */
     if( !isColoCheckboxSet && isColoPersistedOnInfo ) {
-        var overrideOptions = { autoDimensions:false, width:500, afterClose:breakColoWarningHasClosed };
+        overrideOptions = { autoDimensions:false, width:500, afterClose:breakColoWarningHasClosed };
         showLightboxComponent('ActivityOfferingEdit-BreakColocateConfirmation', overrideOptions);
     }
     // failing that, just hide the colo-box
@@ -99,55 +149,6 @@ function setupColoCheckBoxChange(control,doRDLCheck){
 
 }
 
-/**
- * This method handles the on load event
- *
- */
-function activityEditDocumentOnLoad(){
-
-    jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-    jQuery("#shared_max_enr_control").addClass("ignoreValid");
-    jQuery('.new_rdl_components').addClass("ignoreValid");
-
-    if(jQuery("#is_co_located_control").length != 0) {
-        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
-    }
-
-    if (jQuery("#share_seats_control_0").length != 0){
-        jQuery('#share_seats_control_0').change(function() {
-            if(jQuery(this).is(":checked")) {
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").hide();
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").show();
-                jQuery("#shared_max_enr_control").removeClass("ignoreValid");
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-            } else {
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").show();
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").hide();
-                jQuery("#shared_max_enr_control").addClass("ignoreValid");
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
-            }
-        });
-    }
-
-    if (jQuery("#share_seats_control_1").length != 0){
-        jQuery('#share_seats_control_1').change(function() {
-            if(jQuery(this).is(":checked")) {
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").show();
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").hide();
-                jQuery("#shared_max_enr_control").addClass("ignoreValid");
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
-            } else {
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").hide();
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").show();
-                jQuery("#shared_max_enr_control").removeClass("ignoreValid");
-                jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-            }
-        });
-    }
-
-    onColoCheckBoxChange(true);
-
-}
 
 /**
  * This method refreshes all the related components when the user adds/deletes an AO from the colocated set.
@@ -156,6 +157,43 @@ function addColocatedAOSuccessCallBack(){
     retrieveComponent('enr_shared_table',undefined, function () {
         jQuery('#ActivityOfferingEdit-CoLocatedActivities').show();
     });
+}
+
+/**
+ * Due to FancyBox limitations, we have to implement this extra variable (and related control-logic) to determine
+ * which of the 3 lightbox buttons the user pressed.  For more detail, refer to the comments for the breaking-colocation
+ * block of code (which is different functionality, but with the same work-around).
+ */
+var didConfirmRemoveAllOfferingsFromScheduler = false;
+function confirmRemoveAllOfferingsFromScheduler() {  // this method gets called only when the user clicks on the confirm-button
+    didConfirmRemoveAllOfferingsFromScheduler = true;
+    closeLightbox();
+    return true;
+}
+var removeAllOfferingsFromSchedulerConfirmationHasClosed = function() {  // this method executes whenever the dialog is closing
+    if( !didConfirmRemoveAllOfferingsFromScheduler ) {  // user canceled
+        jQuery('#send_RDLs_to_scheduler_control').prop('checked', false);
+    }
+    else {  // user confirmed
+        didConfirmRemoveAllOfferingsFromScheduler = false;
+    }
+}
+
+function refreshRemoveAllOfferingsFromSchedulerConfirmation() {
+    retrieveComponent('ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation', undefined, function() {
+        jQuery('#send_RDLs_to_scheduler_control').prop('checked', false);
+    });
+}
+
+function showRemoveAllOfferingsFromSchedulerConfirmation() {
+    isActivityInOfferedState = ( jQuery('#ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_ActivityState_control').prop('value') == "Offered" ? true : false );
+    isRdlListEmpty = ( jQuery('#ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_IsRdlListRecentlyEmpty_control').prop('value') == "true" ? true : false );
+    isUserSendingToScheduler = ( jQuery('#send_RDLs_to_scheduler_control').attr('checked') == "checked" ? true : false );
+
+    if( isActivityInOfferedState && isRdlListEmpty && isUserSendingToScheduler  ) {
+        overrideOptions = { autoDimensions:false, width:500, afterClose:removeAllOfferingsFromSchedulerConfirmationHasClosed };
+        showLightboxComponent( 'ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation', overrideOptions );
+    }
 }
 
 function reDisplayPersonnelSection() {
