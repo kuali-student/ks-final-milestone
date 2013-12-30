@@ -151,7 +151,7 @@
                     <property name="label" value="Colocate With"/>
                 </bean>
 
-                <bean id="add_rdl_button" parent="Uif-SecondaryActionButton-Small" p:disabled="@{#parent.readOnly}"
+                <bean id="add_rdl_button" parent="Uif-SecondaryActionButton" p:disabled="@{#parent.readOnly}"
                       p:actionLabel="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add' : 'Update'}"
                       p:preSubmitCall="return preSubmitNewRDL();" p:methodToCall="addScheduleComponent"
                       p:ajaxSubmit="false"
