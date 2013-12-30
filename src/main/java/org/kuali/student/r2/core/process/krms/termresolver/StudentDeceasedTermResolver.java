@@ -41,7 +41,7 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
 
     static {
         Set<String> temp = new HashSet<String>(2);
-        temp.add(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+        temp.add(RulesExecutionConstants.PERSON_ID_TERM_NAME);
         temp.add(RulesExecutionConstants.CURRENT_DATE_TERM_NAME);
 
         preRequisites = Collections.unmodifiableSet(temp);
@@ -74,10 +74,10 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM_NAME);
         Date currentDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.CURRENT_DATE_TERM_NAME);
 
-        Entity entity = identityService.getEntity(studentId);
+        Entity entity = identityService.getEntity(personId);
 
         Date deceasedDate = null;
 

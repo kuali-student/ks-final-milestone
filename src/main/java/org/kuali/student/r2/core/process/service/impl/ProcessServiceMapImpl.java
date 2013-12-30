@@ -28,6 +28,7 @@ import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 
 import java.util.*;
+import org.kuali.student.r2.core.process.util.InstructionComparator;
 
 /**
  * This class is a mock implementation of ProcessService
@@ -884,14 +885,7 @@ public class ProcessServiceMapImpl
         }
 
         // order instructions
-        Collections.sort(list, new Comparator<InstructionInfo>() {
-            @Override
-            public int compare(InstructionInfo instruction1,
-                    InstructionInfo instruction2) {
-                return instruction1.getPosition().compareTo(instruction2.getPosition());
-            }
-        });
-
+        Collections.sort(list, new InstructionComparator()); 
         return list;
     }
 

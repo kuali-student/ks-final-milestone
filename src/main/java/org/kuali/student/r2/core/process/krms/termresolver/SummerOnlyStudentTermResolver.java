@@ -44,7 +44,7 @@ public class SummerOnlyStudentTermResolver implements TermResolver<Boolean> {
     private final String summerPopulationKey;
 
     static {
-        prerequisites.add(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+        prerequisites.add(RulesExecutionConstants.PERSON_ID_TERM_NAME);
         prerequisites.add(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
 
@@ -81,7 +81,7 @@ public class SummerOnlyStudentTermResolver implements TermResolver<Boolean> {
 
         Boolean result = false;
 
-        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM_NAME);
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
 
         try {

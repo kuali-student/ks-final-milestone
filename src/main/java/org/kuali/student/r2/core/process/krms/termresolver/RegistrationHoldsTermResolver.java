@@ -46,7 +46,7 @@ public class RegistrationHoldsTermResolver implements TermResolver<List<AppliedH
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
-        prerequisites.add(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+        prerequisites.add(RulesExecutionConstants.PERSON_ID_TERM_NAME);
         prerequisites.add(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
     }
 
@@ -76,7 +76,7 @@ public class RegistrationHoldsTermResolver implements TermResolver<List<AppliedH
 
     @Override
     public List<AppliedHoldInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM_NAME);
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
         String issueId = parameters.get(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY);
 

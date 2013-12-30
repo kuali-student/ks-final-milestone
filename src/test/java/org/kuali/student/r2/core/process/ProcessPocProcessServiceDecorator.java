@@ -4,6 +4,9 @@
  */
 package org.kuali.student.r2.core.process;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -21,6 +24,7 @@ import org.kuali.student.r2.core.process.service.ProcessService;
 import org.kuali.student.r2.core.process.service.decorators.ProcessServiceDecorator;
 
 import java.util.List;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 /**
  *
@@ -74,8 +78,8 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         _createCheck (ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_OPEN, ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY,"","kuali.atp.milestone.RegistrationPeriod","","","registration period is open","Checks that the registration period is open",context);
         _createCheck (ProcessPocConstants.CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED, ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY,"","kuali.atp.milestone.RegistrationPeriod","","","registration period is not closed","Checks that the registration period is not yet closed",context);
         _createCheck (ProcessPocConstants.CHECK_ID_REGISTRATION_HOLDS_CLEARED, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY,"","","","kuali.process.registration.holds.cleared","Registration Holds Cleared","Checks that the checks in the registration holds process",context);
-        _createCheck (ProcessPocConstants.CHECK_ID_IS_NOT_SUMMER_TERM, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY,"","","kuali.agenda.is.not.summer.term","","is not Summer Term","Checks that this is not the summer term",context);
-
+        _createCheck (ProcessPocConstants.CHECK_ID_FALSE, ProcessServiceConstants.ALWAYS_FALSE_CHECK_TYPE_KEY,"","","","","FALSE","Always False",context);
+        
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, "kuali.population.everyone", "kuali.check.is.alive", "A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.", 1, false, false, false, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, "kuali.population.everyone", "kuali.check.has.overdue.library.book", "Please note: you have an overdue library book", 3, true, true, true, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, "kuali.population.everyone", "kuali.check.has.not.paid.bill.from.prior.term", "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter", 5, false, true, true, context);
@@ -83,7 +87,9 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.open", "Registration period for this term has not yet begun", 3, false, true, true, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.not.closed", "Registration period for this term is closed", 4, false, true, true, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.holds.cleared", "You have one or more holds that need to be cleared", 5, false, true, true, context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.summer.only.student", "kuali.check.is.not.summer.term", "Summer only students cannot register for fall, winter or spring terms", 9, false, true, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.summer.only.student",
+                Arrays.asList(AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_WINTER_TYPE_KEY, AtpServiceConstants.ATP_SPRING_TYPE_KEY),
+                "kuali.check.false", "Summer only students cannot register for fall, winter or spring terms", 9, false, true, true, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone", "kuali.check.eligibility.for.term", "", 1, false, false, true, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone", "kuali.check.has.the.necessary.prereq", "", 2, false, true, true, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone", "kuali.check.student.has.eligibility.for.each.course", "", 1, false, false, true, context);
@@ -99,13 +105,28 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
             boolean continueOnFail,
             boolean canBeExempted,
             ContextInfo context) {
+         List<String> atpTypeKeys = Collections.EMPTY_LIST;
+         this._createInstruction(processKey, populationKey, atpTypeKeys, checkKey, message, position, isWarning, continueOnFail,
+                canBeExempted, context);
+    }
+    
+    private void _createInstruction(String processKey,
+            String populationKey,
+            List<String> atpTypeKeys,
+            String checkKey,
+            String message,
+            int position,
+            boolean isWarning,
+            boolean continueOnFail,
+            boolean canBeExempted,
+            ContextInfo context) {
 
         InstructionInfo info = new InstructionInfo();
         info.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
         info.setStateKey(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY);
         info.setProcessKey(processKey);
-        // info.setAppliedPopulationKeys(Arrays.asList(populationKey));
         info.setAppliedPopulationId(populationKey);
+        info.setAppliedAtpTypeKeys(atpTypeKeys);
         info.setCheckId(checkKey);
         info.setMessage(new RichTextHelper().fromPlain(message));
         info.setPosition(position);
@@ -136,7 +157,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
     }
 
     private CheckInfo _createCheck(String checkId, String type, String issueId, String milestoneTypeKey, 
-            String agendaId, String processKey, String name, String descr, ContextInfo context) {
+            String ruleId, String processKey, String name, String descr, ContextInfo context) {
         CheckInfo info = new CheckInfo();
 
         info.setId(checkId);
@@ -145,7 +166,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         info.setName(name);
         info.setHoldIssueId(_toNull(issueId));
         info.setMilestoneTypeKey(_toNull(milestoneTypeKey));
-        info.setAgendaId(_toNull(agendaId));
+        info.setRuleId(_toNull(ruleId));
         info.setChildProcessKey(_toNull(processKey));
         info.setDescr(new RichTextHelper().fromPlain(descr));
 

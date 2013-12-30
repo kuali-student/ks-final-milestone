@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.process.krms.KRMSProcessEvaluator;
+import org.kuali.student.r2.core.process.evaluator.KRMSProcessEvaluator;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -30,7 +30,6 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:ProcessPocKrmsIntegrationTest-context.xml"})
-//@Ignore // TODO: re-enable after refactoring
 public class ProcessPocKrmsIntegrationTest {
 
     private ContextInfo context;

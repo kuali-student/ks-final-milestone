@@ -11,7 +11,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMockImpl;
+import org.kuali.student.r2.core.class1.hold.mock.HoldServiceMapImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
@@ -48,7 +48,7 @@ public class ProcessPocHoldServiceDecoratorTest {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-tester");
 
-        HoldService holdService = new HoldServiceMockImpl();
+        HoldService holdService = new HoldServiceMapImpl();
         holdService = new ProcessPocHoldServiceDecorator(holdService);
         List<AppliedHoldInfo> holds = null;
             holds = holdService.getActiveAppliedHoldsByIssueAndPerson(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE, 

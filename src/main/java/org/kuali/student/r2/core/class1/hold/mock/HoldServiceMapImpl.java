@@ -34,7 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HoldServiceMockImpl
+public class HoldServiceMapImpl
         implements HoldService, MockService {
 
     @Override

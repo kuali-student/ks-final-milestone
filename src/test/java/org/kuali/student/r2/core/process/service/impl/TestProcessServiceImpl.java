@@ -115,7 +115,7 @@ public class TestProcessServiceImpl {
         // Create & Read
         CheckInfo check = new CheckInfo();
         check.setName("kuali.process.check.is.alive");
-        check.setAgendaId("AgendaId-1");
+        check.setRuleId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setChildProcessKey("kuali.process.registration.basic.eligibility");
@@ -124,7 +124,7 @@ public class TestProcessServiceImpl {
         CheckInfo checkR = processService.createCheck(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check, context);
         check = processService.getCheck(checkR.getId(), context);
         assertNotNull(check);
-        assertEquals("AgendaId-1", check.getAgendaId());
+        assertEquals("AgendaId-1", check.getRuleId());
         assertEquals("Hold-Issue-2", check.getHoldIssueId());
         assertEquals("milestoneTypeKey-1", check.getMilestoneTypeKey());
         assertEquals("kuali.process.registration.basic.eligibility", check.getChildProcessKey());
@@ -136,13 +136,13 @@ public class TestProcessServiceImpl {
         check.setName("kuali.process.check.is.not.expelled");
         check.setMilestoneTypeKey("milestoneTypeKey-2");
         check.setChildProcessKey(null);
-        check.setAgendaId("AgendaId-2");
+        check.setRuleId("AgendaId-2");
         check.setTypeKey(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_INACTIVE);
         processService.updateCheck(check.getId(), check, context);
         check = processService.getCheck(check.getId(), context);
         assertNotNull(check);
-        assertEquals("AgendaId-2", check.getAgendaId());
+        assertEquals("AgendaId-2", check.getRuleId());
         assertEquals("Hold-Issue-1", check.getHoldIssueId());
         assertEquals("milestoneTypeKey-2", check.getMilestoneTypeKey());
         assertNull(check.getChildProcessKey());
@@ -173,7 +173,7 @@ public class TestProcessServiceImpl {
         CheckInfo check = new CheckInfo();
         check.setName("kuali.process.check.is.not.suspended");
         check.setId("kuali.check.paid.bill.prior.term");
-        check.setAgendaId("AgendaId-1");
+        check.setRuleId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setChildProcessKey(processId);
@@ -231,7 +231,7 @@ public class TestProcessServiceImpl {
         check = new CheckInfo();
         check.setName("kuali.process.check.paid.all.fees");
         check.setId("kuali.check.has.overdue.library.book");
-        check.setAgendaId("AgendaId-1");
+        check.setRuleId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setChildProcessKey(processId);
@@ -309,7 +309,7 @@ public class TestProcessServiceImpl {
         CheckInfo check = new CheckInfo();
         check.setName("Check Name");
         check.setId("kuali.check.paid.bill.prior.term");
-        check.setAgendaId("AgendaId-1");
+        check.setRuleId("AgendaId-1");
         check.setHoldIssueId("Hold-Issue-2");
         check.setMilestoneTypeKey("milestoneTypeKey-1");
         check.setChildProcessKey(processId);

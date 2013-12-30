@@ -1,16 +1,12 @@
 /**
- * Copyright 2011 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2011 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.r2.core.process.krms.evaluator;
 
@@ -23,14 +19,11 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.hold.dto.AppliedHoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
-import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.krms.proposition.ExemptionAwareProposition;
 import org.kuali.student.r2.core.process.krms.proposition.SubProcessProposition;
-import org.kuali.student.r2.core.process.service.ProcessService;
 
 import java.util.*;
 
@@ -42,12 +35,11 @@ import java.util.*;
 public abstract class KRMSEvaluator {
 
     public static final String EXEMPTION_WAS_USED_MESSAGE_SUFFIX = " (exemption applied)";
-
     private HoldService holdService;
     private List<TermResolver<?>> termResolvers;
     private ExecutionOptions executionOptions;
-
-    private Map<String, String> contextQualifiers = Collections.singletonMap(RulesExecutionConstants.DOCTYPE_CONTEXT_QUALIFIER, RulesExecutionConstants.STUDENT_ELIGIBILITY_DOCTYPE);
+    private Map<String, String> contextQualifiers = Collections.singletonMap(RulesExecutionConstants.DOCTYPE_CONTEXT_QUALIFIER,
+            RulesExecutionConstants.STUDENT_ELIGIBILITY_DOCTYPE);
 
     public void setHoldService(HoldService holdService) {
         this.holdService = holdService;
@@ -69,8 +61,10 @@ public abstract class KRMSEvaluator {
      *
      * @param proposition
      * @param executionFacts
+     * @param agendaQualifiers
      */
-    public EngineResults evaluateProposition(Proposition proposition, Map<String, Object> executionFacts, Map<String, String> agendaQualifiers) {
+    public EngineResults evaluateProposition(Proposition proposition, Map<String, Object> executionFacts,
+            Map<String, String> agendaQualifiers) {
 
         // Build the KRMS agenda and other startup objects to execute
         List<AgendaTreeEntry> treeEntries = new ArrayList<AgendaTreeEntry>(1);
@@ -103,12 +97,18 @@ public abstract class KRMSEvaluator {
             executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
         }
 
-        SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(new DateTime(), contextQualifiers, agendaQualifiers);
+        SelectionCriteria selectionCriteria = SelectionCriteria.
+                createCriteria(new DateTime(), contextQualifiers, agendaQualifiers);
 
         return engine.execute(selectionCriteria, executionFacts, executionOptions);
     }
 
-    public List<ValidationResultInfo> buildValidationResultsFromEngineResults(EngineResults engineResults, Map<Proposition, InstructionInfo> propositionInstructionMap, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    public List<ValidationResultInfo> buildValidationResultsFromEngineResults(EngineResults engineResults,
+            Map<Proposition, InstructionInfo> propositionInstructionMap, ContextInfo context) throws InvalidParameterException,
+            MissingParameterException,
+            DoesNotExistException,
+            PermissionDeniedException,
+            OperationFailedException {
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
         // go through all the results from the Propositions, and build validation results based on any propositions that failed
@@ -121,7 +121,8 @@ public abstract class KRMSEvaluator {
             ExemptionAwareProposition exemptionProp = null;
 
             if (prop instanceof SubProcessProposition) {
-                List<ValidationResultInfo> subResults = (List<ValidationResultInfo>) e.getResultDetails().get(RulesExecutionConstants.SUBPROCESS_EVALUATION_RESULTS);
+                List<ValidationResultInfo> subResults = (List<ValidationResultInfo>) e.getResultDetails().get(
+                        RulesExecutionConstants.SUBPROCESS_EVALUATION_RESULTS);
                 results.addAll(subResults);
             } else {
                 // if the proposition is could have an exemption, check for the exemption and add a suffix to the message
@@ -155,13 +156,15 @@ public abstract class KRMSEvaluator {
         }
 
         // Now check if there are any warnings from Holds that are marked as warning only
-        List<String> warningHoldIds = (List<String>) engineResults.getAttribute(RulesExecutionConstants.REGISTRATION_HOLD_WARNINGS_ATTRIBUTE);
+        List<String> warningHoldIds = (List<String>) engineResults.getAttribute(
+                RulesExecutionConstants.REGISTRATION_HOLD_WARNINGS_ATTRIBUTE);
 
         if (warningHoldIds != null && !warningHoldIds.isEmpty()) {
             for (String holdId : warningHoldIds) {
                 AppliedHoldInfo hold = holdService.getAppliedHold(holdId, context);
                 ValidationResultInfo result = new ValidationResultInfo();
-                result.setWarn("The following hold was found on the student's account, but set as a warning: " + hold.getDescr().getPlain());
+                result.setWarn("The following hold was found on the student's account, but set as a warning: " + hold.getDescr().
+                        getPlain());
                 results.add(result);
             }
         }

@@ -31,5 +31,5 @@ public class ProcessPocConstants {
     public static final String CHECK_ID_REGISTRATION_PERIOD_IS_OPEN = "kuali.check.registration.period.is.open";
     public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
     public static final String CHECK_ID_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";
-    public static final String CHECK_ID_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
+    public static final String CHECK_ID_FALSE = "kuali.check.false";
 }

@@ -798,7 +798,7 @@ public class ProcessServiceDataLoader {
     }
 
     private void loadCheck (String checkId, String type, String state, String name, String descriptionPlain, String descriptionFormatted,
-                            String issueId,String milestoneType, String agendaId, String checkRightAgendaId,
+                            String issueId,String milestoneType, String ruleId, String checkRightAgendaId,
                             String checkLeftAgendaId, String checkChildProcessId, ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -810,7 +810,7 @@ public class ProcessServiceDataLoader {
         info.setDescr(new RichTextInfo(descriptionPlain, descriptionFormatted));
         info.setHoldIssueId(issueId);
         info.setMilestoneTypeKey(milestoneType);
-        info.setAgendaId(agendaId);
+        info.setRuleId(ruleId);
         info.setRightComparisonAgendaId(checkRightAgendaId);
         info.setLeftComparisonAgendaId(checkLeftAgendaId);
         info.setChildProcessKey(checkChildProcessId);

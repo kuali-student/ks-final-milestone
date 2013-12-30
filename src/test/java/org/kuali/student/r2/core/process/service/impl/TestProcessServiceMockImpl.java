@@ -332,7 +332,7 @@ public class TestProcessServiceMockImpl {
         expected.setName("check name");
         expected.setDescr(new RichTextHelper().fromPlain("description of check"));
         expected.setHoldIssueId("holdIssue1");
-        expected.setAgendaId("agendaId1");
+        expected.setRuleId("agendaId1");
         expected.setChildProcessKey("childprocesskey1");
         expected.setLeftComparisonAgendaId("leftcomparisonagendaid1");
         expected.setMilestoneTypeKey("milestonetypekey1");
@@ -342,7 +342,7 @@ public class TestProcessServiceMockImpl {
         CheckInfo actual = processService.createCheck(expected.getTypeKey(), expected, contextInfo);
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
-        assertEquals(expected.getAgendaId(), actual.getAgendaId());
+        assertEquals(expected.getRuleId(), actual.getRuleId());
         assertEquals(expected.getChildProcessKey(), actual.getChildProcessKey());
         assertEquals(expected.getLeftComparisonAgendaId(), actual.getLeftComparisonAgendaId());
         assertEquals(expected.getMilestoneTypeKey(), actual.getMilestoneTypeKey());
@@ -355,7 +355,7 @@ public class TestProcessServiceMockImpl {
         actual = processService.getCheck(expected.getId(), contextInfo);
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
-        assertEquals(expected.getAgendaId(), actual.getAgendaId());
+        assertEquals(expected.getRuleId(), actual.getRuleId());
         assertEquals(expected.getChildProcessKey(), actual.getChildProcessKey());
         assertEquals(expected.getLeftComparisonAgendaId(), actual.getLeftComparisonAgendaId());
         assertEquals(expected.getMilestoneTypeKey(), actual.getMilestoneTypeKey());
@@ -369,7 +369,7 @@ public class TestProcessServiceMockImpl {
         expected.setDescr(new RichTextHelper().fromPlain(expected.getDescr().getPlain() + " updated"));
         expected.setStateKey(ProcessServiceConstants.PROCESS_ACTIVE_STATE_KEY);
         expected.setHoldIssueId("holdIssue2");
-        expected.setAgendaId("agendaId2");
+        expected.setRuleId("agendaId2");
         expected.setChildProcessKey("childprocesskey2");
         expected.setLeftComparisonAgendaId("leftcomparisonagendaid2");
         expected.setMilestoneTypeKey("milestonetypekey2");
@@ -378,7 +378,7 @@ public class TestProcessServiceMockImpl {
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = processService.updateCheck(expected.getId(), expected, contextInfo);
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
-        assertEquals(expected.getAgendaId(), actual.getAgendaId());
+        assertEquals(expected.getRuleId(), actual.getRuleId());
         assertEquals(expected.getChildProcessKey(), actual.getChildProcessKey());
         assertEquals(expected.getLeftComparisonAgendaId(), actual.getLeftComparisonAgendaId());
         assertEquals(expected.getMilestoneTypeKey(), actual.getMilestoneTypeKey());
@@ -391,7 +391,7 @@ public class TestProcessServiceMockImpl {
         actual = processService.getCheck(expected.getId(), contextInfo);
         new IdEntityTester().check(expected, actual);
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
-        assertEquals(expected.getAgendaId(), actual.getAgendaId());
+        assertEquals(expected.getRuleId(), actual.getRuleId());
         assertEquals(expected.getChildProcessKey(), actual.getChildProcessKey());
         assertEquals(expected.getLeftComparisonAgendaId(), actual.getLeftComparisonAgendaId());
         assertEquals(expected.getMilestoneTypeKey(), actual.getMilestoneTypeKey());

@@ -15,7 +15,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
-import org.kuali.student.r2.core.process.context.CourseRegistrationProcessContextInfo;
+import org.kuali.student.r2.core.process.context.ProcessContextInfo;
 import org.kuali.student.r2.core.process.evaluator.ProcessEvaluator;
 
 import java.util.ArrayList;
@@ -25,30 +25,34 @@ import java.util.List;
  *
  * @author nwright
  */
-public class CourseRegistrationServiceProcessCheckDecorator 
-    extends CourseRegistrationServiceDecorator {
+public class CourseRegistrationServiceProcessCheckDecorator
+        extends CourseRegistrationServiceDecorator {
 
     public CourseRegistrationServiceProcessCheckDecorator() {
     }
 
     public CourseRegistrationServiceProcessCheckDecorator(CourseRegistrationService nextDecorator) {
-         setNextDecorator(nextDecorator);
+        setNextDecorator(nextDecorator);
     }
+    private ProcessEvaluator processEvaluator;
 
-    private ProcessEvaluator<CourseRegistrationProcessContextInfo> processEvaluator;
-
-    public ProcessEvaluator<CourseRegistrationProcessContextInfo> getProcessEvaluator() {
+    public ProcessEvaluator getProcessEvaluator() {
         return processEvaluator;
     }
 
-    public void setProcessEvaluator(ProcessEvaluator<CourseRegistrationProcessContextInfo> processEvaluator) {
+    public void setProcessEvaluator(ProcessEvaluator processEvaluator) {
         this.processEvaluator = processEvaluator;
     }
 
     @Override
-    public List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        CourseRegistrationProcessContextInfo processContext = CourseRegistrationProcessContextInfo.createForRegistrationEligibility(studentId, null);
-        processContext.setProcessKey(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY);
+    public List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        ProcessContextInfo processContext = new ProcessContextInfo(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY,
+                studentId, null);
         List<? extends ValidationResult> results = this.processEvaluator.evaluate(processContext, context);
         List<ValidationResultInfo> infos = new ArrayList<ValidationResultInfo>(results.size());
         for (ValidationResult vr : results) {
@@ -58,9 +62,13 @@ public class CourseRegistrationServiceProcessCheckDecorator
     }
 
     @Override
-    public List<ValidationResultInfo> checkStudentEligibilityForTerm(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        CourseRegistrationProcessContextInfo processContext = CourseRegistrationProcessContextInfo.createForRegistrationEligibility(studentId, termKey);
-        processContext.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
+    public List<ValidationResultInfo> checkStudentEligibilityForTerm(String studentId, String termKey, ContextInfo context) throws
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        ProcessContextInfo processContext = new ProcessContextInfo(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, 
+                studentId, termKey);
         List<? extends ValidationResult> results;
         results = this.processEvaluator.evaluate(processContext, context);
         List<ValidationResultInfo> infos = new ArrayList<ValidationResultInfo>(results.size());
@@ -72,7 +80,11 @@ public class CourseRegistrationServiceProcessCheckDecorator
     }
 
     @Override
-    public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId,
+            ContextInfo context) throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
         // TODO: implement in phase II
         return new ArrayList();
     }

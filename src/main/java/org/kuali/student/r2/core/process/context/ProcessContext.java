@@ -1,15 +1,10 @@
 package org.kuali.student.r2.core.process.context;
 
-public class ProcessContext {
+public interface ProcessContext {
 
-    private String processKey;
+    public String getProcessKey();
 
-    public String getProcessKey() {
-        return processKey;
-    }
+    public String getPersonId();
 
-    public void setProcessKey(String processKey) {
-        this.processKey = processKey;
-    }
-
+    public String getAtpId();
 }

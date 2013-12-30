@@ -25,7 +25,7 @@ import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.core.process.context.CourseRegistrationProcessContextInfo;
+import org.kuali.student.r2.core.process.context.ProcessContextInfo;
 import org.kuali.student.r2.core.process.evaluator.ProcessEvaluator;
 
 import java.util.HashMap;
@@ -39,10 +39,10 @@ import java.util.Map;
  */
 public class SubProcessProposition extends AbstractLeafProposition {
 
-    private CourseRegistrationProcessContextInfo checkContext;
-    private ProcessEvaluator<CourseRegistrationProcessContextInfo> processEvaluator;
+    private ProcessContextInfo checkContext;
+    private ProcessEvaluator processEvaluator;
 
-    public SubProcessProposition(CourseRegistrationProcessContextInfo checkContext, ProcessEvaluator<CourseRegistrationProcessContextInfo> processEvaluator) {
+    public SubProcessProposition(ProcessContextInfo checkContext, ProcessEvaluator processEvaluator) {
         this.checkContext = checkContext;
         this.processEvaluator = processEvaluator;
     }
