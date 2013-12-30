@@ -147,33 +147,20 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 			</bean>
 		</property>
 		<property name="actionScript" value="
-                        var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddDialog', courseId:'@{dataObject.courseSummaryDetails.courseId}',pageId:'add_dialog_page'};
-                        var popupStyle = {width:'300px', height:'16px'};
-                        var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-                        var pageId = 'add_dialog_page.@{dataObject.courseSummaryDetails.courseIdXmlSafe}';
-                        openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+                        ksapPlannerOpenDialog('course_add_course','planner','startDialog', this, e);
                     "/>
+        <property name="dataAttributes">
+            <map>
+                <entry key="courseid" value="@{dataObject.courseSummaryDetails.courseId}" />
+            </map>
+        </property>
     </bean>
 
 	<bean id="ksapAddSavedCourse" parent="ksapAddSavedCourse-parent" />
 	<bean id="ksapAddSavedCourse-parent" abstract="true" parent="Uif-SecondaryActionButton"
 		p:actionLabel="Bookmark Course" p:render="@{!dataObject.plannedCourseSummary.bookmarked}">
-		<property name="onDocumentReadyScript"
-			value="
-                jQuery('#@{dataObject.courseSummaryDetails.courseIdXmlSafe}_addSavedCourse')
-                    .on('PLAN_ITEM_ADDED', function(event, data){
-                        if (data.planItemType === 'wishlist') {
-                            fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseId+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
-                        }
-                    })
-                    .on('PLAN_ITEM_DELETED', function(event, data){
-                        if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseId === '@{dataObject.courseSummaryDetails.courseId}') {
-                            fnRestoreDetailsAddButton(data.courseDetails.courseId);
-                        }
-                    });" />
         <property name="actionScript" value="
-                        var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addSavedCourse', courseId:'@{dataObject.courseSummaryDetails.courseId}'};
-                        submitHiddenForm('plan', additionalFormData, e);
+                        bookmarkCourse('@{dataObject.courseSummaryDetails.courseId}', e);
                     "/>
 	</bean>
 

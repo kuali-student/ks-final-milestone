@@ -64,7 +64,7 @@ public class PlannerController extends KsapControllerBase {
 	private static final String PLANNER_FORM = "Planner-FormView";
 	private static final String DIALOG_FORM = "PlannerDialog-FormView";
 
-	private static final String ADD_COURSE_PAGE = "planner_add_course_page";
+	private static final String QUICKADD_COURSE_PAGE = "planner_add_course_page";
 	private static final String EDIT_TERM_NOTE_PAGE = "planner_edit_term_note_page";
 	private static final String COURSE_SUMMARY_PAGE = "planner_course_summary_page";
 	private static final String COPY_COURSE_PAGE = "planner_copy_course_page";
@@ -74,6 +74,7 @@ public class PlannerController extends KsapControllerBase {
 	private static final String DELETE_PLAN_ITEM_PAGE = "planner_delete_plan_item_page";
     private static final String ADD_BOOKMARK_PAGE = "bookmark_add_course_page";
     private static final String DELETE_BOOKMARK_PAGE = "bookmark_delete_course_page";
+    private static final String ADD_COURSE_PAGE = "course_add_course_page";
 
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -145,7 +146,7 @@ public class PlannerController extends KsapControllerBase {
 		String pageId = uifForm.getPageId();
 
         // If screen is add course or edit term note valid term information is needed
-		boolean termRequired = ADD_COURSE_PAGE.equals(pageId) || EDIT_TERM_NOTE_PAGE.equals(pageId);
+		boolean termRequired = QUICKADD_COURSE_PAGE.equals(pageId) || EDIT_TERM_NOTE_PAGE.equals(pageId);
 		if (termRequired) {
 			String termId = form.getTermId();
 			Term term = form.getTerm();
@@ -156,7 +157,7 @@ public class PlannerController extends KsapControllerBase {
 		}
 
         // If screen is course summary or copy course valid course information is needed
-		boolean courseRequired = COURSE_SUMMARY_PAGE.equals(pageId) || COPY_COURSE_PAGE.equals(pageId);
+		boolean courseRequired = COURSE_SUMMARY_PAGE.equals(pageId) || COPY_COURSE_PAGE.equals(pageId) || ADD_COURSE_PAGE.equals(pageId);
 
         // Retrieve plan item information if an id is returned
 		boolean hasPlanItem = form.getPlanItemId() != null;
@@ -317,7 +318,7 @@ public class PlannerController extends KsapControllerBase {
      * Handles submissions from the quick add course dialog.
      * Validates the course and addes it to the students plan.
      */
-	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + ADD_COURSE_PAGE)
+	@RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + QUICKADD_COURSE_PAGE)
 	public ModelAndView addPlanItem(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
 			HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
@@ -794,7 +795,7 @@ public class PlannerController extends KsapControllerBase {
      * Validates the course and adds it to the students plan.
      */
     @RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + ADD_BOOKMARK_PAGE)
-    public ModelAndView addBookmark(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
+    public ModelAndView addBookmarkedCourse(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
                                     HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         // Retrieve student's plan
@@ -869,4 +870,95 @@ public class PlannerController extends KsapControllerBase {
         return null;
     }
 
+    @RequestMapping(params = "methodToCall=addBookmark")
+    public ModelAndView addBookmark(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
+                                       HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{
+
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
+
+        Course course = form.getCourse();
+        if (course == null) {
+            LOG.warn("Missing course for summary ");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing course for summary ");
+            return null;
+        }
+
+        // Add the course to the plan
+        PlanItemInfo newBookmark = new PlanItemInfo();
+        newBookmark.setRefObjectId(course.getId());
+        newBookmark.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        newBookmark.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
+        newBookmark.setRefObjectType(PlanConstants.COURSE_TYPE);
+        newBookmark.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
+        newBookmark.setLearningPlanId(plan.getId());
+
+        try {
+                // If creating new add it to the database
+            newBookmark = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(newBookmark,
+                        KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (AlreadyExistsException e) {
+            LOG.warn("Course " + course.getCode() + " is already bookmarked", e);
+            PlanEventUtils.sendJsonEvents(false,
+                    "Course " + course.getCode() + " is already bookmarked", response, eventList);
+            return null;
+        } catch (DataValidationErrorException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("LP service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("LP service failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("LP service failure", e);
+        }
+        eventList = PlanEventUtils.makeAddEvent(newBookmark, eventList);
+        PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to bookmarks",
+                response, eventList);
+        return null;
+    }
+
+    /**
+     * Handles submissions from the course add dialog.
+     * Validates the course and adds it to the students plan.
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "view.currentPageId=" + ADD_COURSE_PAGE)
+    public ModelAndView addCourse(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
+                                            HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
+        // Retrieve student's plan
+        LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request, response);
+        JsonObjectBuilder eventList = Json.createObjectBuilder();
+        if (plan == null)
+            return null;
+
+        String termId = form.getTermId();
+
+        String courseId = form.getCourseId();
+        if (!StringUtils.hasText(courseId)) {
+            PlanEventUtils.sendJsonEvents(false, "Course id required", response, eventList);
+            return null;
+        }
+
+        // Retrieve course information using the course code entered by the user
+        Course course;
+        try {
+            course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        }
+
+        // Add the course to the plan
+        finishAddCourse(plan, form, course, termId, response);
+        return null;
+    }
 }

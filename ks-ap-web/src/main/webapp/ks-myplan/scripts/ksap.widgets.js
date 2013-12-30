@@ -1749,3 +1749,34 @@ function initializeBookmarkListEvents(){
         }
     });
 }
+
+/**
+ *
+ *
+ * @param additionalFormData -
+ * @param type -
+ * @param methodToCall -
+ * @param e - An object containing data that will be passed to the event handler.
+ */
+function bookmarkCourse(courseId, e) {
+    stopEvent(e);
+    var form = jQuery('<form />').attr("id", "popupForm").attr("action", "planner").attr("method", "post");
+    jQuery("body").append(form);
+    var additionalFormData = {
+        methodToCall:"addBookmark",
+        courseId:courseId
+    }
+    form.ajaxSubmit({
+        data : ksapAdditionalFormData(additionalFormData),
+        dataType : 'json',
+        success : ksapPlannerUpdateEvent,
+        error : function(jqXHR, textStatus, errorThrown) {
+            if (textStatus == "parsererror")
+                textStatus = "JSON Parse Error";
+            showGrowl(errorThrown, jqXHR.status + " " + textStatus);
+            fnClosePopup();
+        }
+    });
+    fnCloseAllPopups();
+    jQuery("form#popupForm").remove();
+}
