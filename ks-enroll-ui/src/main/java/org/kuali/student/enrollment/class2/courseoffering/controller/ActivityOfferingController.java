@@ -124,6 +124,18 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=deleteScheduleComponent")
+    public ModelAndView deleteScheduleComponent( @ModelAttribute("KualiForm") MaintenanceDocumentForm form ) throws Exception {
+
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        ScheduleWrapper scheduleWrapper = (ScheduleWrapper) getSelectedObject(form);
+
+        activityOfferingWrapper.getDeletedScheduleComponents().add(scheduleWrapper);
+        activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(params = "methodToCall=addScheduleComponent")
     public ModelAndView addScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 

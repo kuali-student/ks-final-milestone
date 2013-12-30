@@ -715,12 +715,27 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         this.requestedScheduleComponents = requestedScheduleComponents;
     }
 
+    public List<ScheduleWrapper> getDeletedScheduleComponents() {
+        return deletedScheduleComponents;
+    }
+
+    public void setDeletedScheduleComponents(List<ScheduleWrapper> deletedScheduleComponents) {
+        this.deletedScheduleComponents = deletedScheduleComponents;
+    }
+
     public ScheduleWrapper getNewScheduleRequest() {
         return newScheduleRequest;
     }
 
     public void setNewScheduleRequest(ScheduleWrapper newScheduleRequest) {
         this.newScheduleRequest = newScheduleRequest;
+    }
+
+    public boolean isRequestedScheduleComponentsRecentlyEmpty() {
+        boolean haveNoRequesteds = ( this.requestedScheduleComponents == null || this.requestedScheduleComponents.isEmpty() ) ? true : false;
+        boolean haveSomeDeleteds = ( this.deletedScheduleComponents != null && !this.deletedScheduleComponents.isEmpty() ) ? true : false;
+
+        return haveNoRequesteds && haveSomeDeleteds;
     }
 
     public String getStartTimeDisplay() {
@@ -954,14 +969,6 @@ public class ActivityOfferingWrapper implements Serializable, ComparatorModel{
         }else{
             this.roomName = "<span " + cssClass + " >" + roomName + "</span>";
         }
-    }
-
-    public List<ScheduleWrapper> getDeletedScheduleComponents() {
-        return deletedScheduleComponents;
-    }
-
-    public void setDeletedScheduleComponents(List<ScheduleWrapper> deletedScheduleComponents) {
-        this.deletedScheduleComponents = deletedScheduleComponents;
     }
 
     public String getTypeKey() {

@@ -103,7 +103,11 @@
                   <bean id="edit_schedule_request_action_link" parent="Uif-NavigationActionLink"
                         p:methodToCall="editScheduleComponent" p:actionLabel="Edit"
                         p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
-                  <bean parent="Uif-DeleteLineAction" p:successCallback="reDisplayRDLSection();"/>
+
+                  <bean parent="Uif-DeleteLineAction"
+                        p:methodToCall="deleteScheduleComponent"
+                        p:successCallback="reDisplayRDLSection(); refreshRemoveAllOfferingsFromSchedulerConfirmation();" />
+
               </list>
         </property>
     </bean>
@@ -160,26 +164,6 @@
             </list>
         </property>
     </bean>
-
-    <!-- Facility features are current being used, so no need to define the beans.
-    <bean id="ActivityOffering-DeliveryLogistic-New-Features-Section" parent="Uif-Disclosure-VerticalBoxSection">
-        <property name="disclosure.defaultOpen" value="false"/>
-        <property name="header">
-            <bean parent="Uif-HeaderSix" p:headerText="Optional Facility Features"/>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-InputField" p:id='featuresList' p:propertyName="newScheduleRequest.features" p:label="Features" p:readOnlyDisplayReplacementPropertyName="newScheduleRequest.featuresUI"
-                        p:instructionalText="Any features requested will reduce the room assignement possibilities (we only have so many rooms with operable windows!)">
-                  <property name="control">
-                    <bean parent="Uif-DropdownControl" p:multiple="true" p:size="7" p:options-ref="features-options"/>
-                  </property>
-                </bean>
-                <bean parent="Uif-ActionLink" p:actionLabel="Clear selections" p:preSubmitCall="clearFeaturesSelected();"/>
-            </list>
-        </property>
-    </bean>
-    -->
 
     <!--
         The widgets for adding a schedule request (TBA checkbox, Days, Start time etc.)
@@ -355,4 +339,50 @@
             </list>
         </property>
     </bean>
+
+    <bean id="ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Removing All Delivery Logistics"/>
+        <property name="hidden" value="true"/>
+        <property name="forceSessionPersistence" value="true" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message"
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;]  Removing all delivery logistics from this activity offering will cause it to become unscheduled."
+                      p:style="background-color:#F4E271; padding-top:4px; padding-bottom: 4px; font-size: 100%; margin-bottom:20px;"
+                      p:colSpan="2" />
+
+                <bean id="ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_ActivityState"
+                      parent="Uif-InputField"
+                      p:propertyName="stateName">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
+                </bean>
+
+                <bean id="ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_IsRdlListRecentlyEmpty"
+                      parent="Uif-InputField"
+                      p:propertyName="requestedScheduleComponentsRecentlyEmpty">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
+                </bean>
+
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean id="edit_ao_removeAllOfferingsFromScheduler" parent="Uif-PrimaryActionButton"
+                                  p:actionLabel="Remove All Delivery Logistics"
+                                  p:actionScript="confirmRemoveAllOfferingsFromScheduler();"/>
+
+                            <bean id="edit_ao_removeAllOfferingsFromScheduler_cancel" parent="Uif-ActionLink"
+                                  p:actionLabel="Close"
+                                  p:actionScript="closeLightbox();" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
 </beans>
