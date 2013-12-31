@@ -352,21 +352,17 @@
                       p:title="Add to Plan">
                     <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
                     <property name="actionScript" value="
-                        var retrieveData = {action:'plan', viewId:'PlannedCourse-FormView', methodToCall:'startAddDialog', courseId:jQuery(this).data('courseid'),pageId:'add_dialog_page'};
-                        var popupStyle = {width:'300px', height:'16px'};
-                        var popupOptions = {tail:{hidden:true}, align:'top', close:true};
-                        var pageId = 'add_dialog_page.'+ jQuery(this).data('coursexid');
-                        openPopup(pageId, retrieveData, 'plan', popupStyle, popupOptions, e);
+                        ksapPlannerOpenDialog('course_add_course','planner','startDialog', this, e);
                     "/>
                 </bean>
+
 
 				<bean parent="Uif-Link" p:target="" p:href="#" p:linkText="Bookmark"
                       p:title="Bookmark"
                       p:cssClasses="ksap-no-margin">
                     <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
                     <property name="onClickScript" value="
-                        var additionalFormData = {viewId:'PlannedCourse-FormView', methodToCall:'addSavedCourse', courseId:jQuery(this).data('courseid')};
-                        submitHiddenForm('plan', additionalFormData, e);
+                        bookmarkCourse(jQuery(this).data('courseid'), e);
                     "/>
 				</bean>
 

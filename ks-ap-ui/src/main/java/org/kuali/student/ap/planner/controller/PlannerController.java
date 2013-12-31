@@ -913,7 +913,8 @@ public class PlannerController extends KsapControllerBase {
         } catch (PermissionDeniedException e) {
             throw new IllegalStateException("LP service failure", e);
         }
-        eventList = PlanEventUtils.makeAddEvent(newBookmark, eventList);
+        eventList = PlanEventUtils.makeAddBookmarkEvent(newBookmark, eventList);
+        eventList = PlanEventUtils.makeUpdateBookmarkTotalEvent(newBookmark, eventList);
         PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to bookmarks",
                 response, eventList);
         return null;

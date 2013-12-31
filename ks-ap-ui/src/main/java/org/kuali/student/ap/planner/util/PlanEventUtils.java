@@ -496,4 +496,65 @@ public class PlanEventUtils {
 	private PlanEventUtils() {
 	}
 
+    /**
+     * Creates an add plan item event on the current transaction.
+     *
+     * @param planItem
+     *            The plan item to report as added.
+     * @return The transactional events builder, with the add plan item event
+     *         added.
+     */
+    public static JsonObjectBuilder makeAddBookmarkEvent(PlanItem planItem, JsonObjectBuilder eventList) {
+        CourseHelper courseHelper = KsapFrameworkServiceLocator
+                .getCourseHelper();
+
+        assert PlanConstants.COURSE_TYPE.equals(planItem.getRefObjectType()) : planItem
+                .getRefObjectType() + " " + planItem.getId();
+
+        Course course = courseHelper.getCourseInfo(planItem.getRefObjectId());
+        assert course != null : "Missing course for plan item "
+                + planItem.getId() + ", ref ID " + planItem.getRefObjectId();
+
+        JsonObjectBuilder addEvent = Json.createObjectBuilder();
+        addEvent.add("uid", UUID.randomUUID().toString());
+        addEvent.add("learningPlanId", planItem.getLearningPlanId());
+        addEvent.add("planItemId", planItem.getId());
+        addEvent.add("courseId", course.getId());
+        addEvent.add("courseCd",course.getCode());
+        addEvent.add("courseTitle", course.getCourseTitle());
+        if (planItem.getCredit() != null) {
+            addEvent.add("credits", CreditsFormatter.trimCredits(planItem
+                    .getCredit().toString()));
+        } else {
+            addEvent.add("credits", CreditsFormatter.formatCredits(course));
+        }
+
+        eventList.add(PlanConstants.JS_EVENT_NAME.BOOKMARK_ADDED.name(), addEvent);
+        return eventList;
+    }
+
+    /**
+     * Creates an add plan item event on the current transaction.
+     *
+     * @param planItem
+     *            The plan item to report as added.
+     * @return The transactional events builder, with the add plan item event
+     *         added.
+     */
+    public static JsonObjectBuilder makeUpdateBookmarkTotalEvent(PlanItem planItem, JsonObjectBuilder eventList) {
+        List<PlanItemInfo> bookmarks;
+        try{
+            bookmarks = KsapFrameworkServiceLocator.getAcademicPlanService().getPlanItemsInPlanByCategory(
+                    planItem.getLearningPlanId(), AcademicPlanServiceConstants.ItemCategory.WISHLIST,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+        }catch (Exception e){
+            return eventList;
+        }
+        JsonObjectBuilder addEvent = Json.createObjectBuilder();
+        addEvent.add("bookmarkTotal",bookmarks.size());
+
+        eventList.add(PlanConstants.JS_EVENT_NAME.UPDATE_BOOKMARK_TOTAL.name(), addEvent);
+        return eventList;
+    }
+
 }

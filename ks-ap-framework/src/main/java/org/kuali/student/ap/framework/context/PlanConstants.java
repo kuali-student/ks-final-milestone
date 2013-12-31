@@ -93,26 +93,16 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	 * outcome of a plan item request.
 	 */
 	public static enum JS_EVENT_NAME {
-		/* (atpId), type, courseId, courseCode, courseTitle, courseCredits */
 		PLAN_ITEM_ADDED,
-		/*
-		 * (atpId), type, courseId, courseCode, courseTitle, sectionCode,
-		 * primarySection, courseCredits
-		 */
 		SECTION_ITEM_ADDED,
-		/* atpId, type, courseId */
 		PLAN_ITEM_DELETED,
-		/* atpId, courseId, sectionCode, primarySection, courseCredits */
 		SECTION_ITEM_DELETED,
-		/* atpId, newTotalCredits */
 		UPDATE_NEW_TERM_TOTAL_CREDITS,
-		/* atpId, oldTotalCredits */
 		UPDATE_OLD_TERM_TOTAL_CREDITS,
-        /* atpId, planItemId */
         PLAN_NOTE_UPDATED,
-        /*atpId*/
         TERM_NOTE_UPDATED,
-        /*courseId, type*/
-        COURSE_ADDED
+        COURSE_ADDED,
+        BOOKMARK_ADDED,
+        UPDATE_BOOKMARK_TOTAL
 	}
 }

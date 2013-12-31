@@ -210,7 +210,11 @@ function ksapPlannerUpdateEvent(response, textStatus, jqXHR) {
 			} else if (key == "UPDATE_NEW_TERM_TOTAL_CREDITS"
 					|| key == "UPDATE_OLD_TERM_TOTAL_CREDITS") {
 				ksapPlannerUpdateCredits(data);
-			}
+			} else if (key == "BOOKMARK_ADDED"){
+                ksapBookmarkAddItem(data);
+            } else if (key == "UPDATE_BOOKMARK_TOTAL"){
+                ksapBookmarkUpdateTotal(data);
+            }
 		}
 
         // Display success response message in growl message
@@ -268,6 +272,14 @@ function ksapPlannerAddPlanItem (data) {
                     runHiddenScripts(data.uid);
                 });
 
+    }
+    if(jQuery("#"+data.courseId+"_status").length){
+        var item = jQuery("#"+data.courseId+"_status");
+        item.addClass("planned").html("Planned");
+    }
+    if(jQuery("#"+data.courseId+"_addPlannedCourse").length){
+        var item = jQuery("#"+data.courseId+"_addPlannedCourse");
+        item.hide();
     }
 }
 
@@ -360,4 +372,53 @@ function registerClosePopups(){
  */
 function doNothing(){
 
+}
+
+/**
+ * Adds an html object into the calendar by copying a hidden template copy
+ * and filling in placeholders with the needed data
+ *
+ * @param data - Data for the new object
+ */
+function ksapBookmarkAddItem (data) {
+    if(jQuery("#bookmark_sidebar_item_template").length){
+        var item = jQuery("#bookmark_sidebar_item_template").html();
+        for (var key in data)
+            if (data.hasOwnProperty(key))
+                item = eval("item.replace(/__KSAP__"+key.toUpperCase()+"__/gi,'"+data[key]+"')");
+        item = item.replace(/id=\"(u\d+)\"/gi,"id=\""+data.uid+"_$1\"");
+        var itemElement = jQuery("<li/>").html(jQuery("<div/>").html(item));
+        itemElement.find(".ksap-text-ellipsis-holder").addClass("ksap-text-ellipsis").removeClass("ksap-text-ellipsis-holder");
+        itemElement.find("input[data-for='"+data.uid+"']")
+            .removeAttr("script")
+            .attr("name", "script");
+        itemElement
+            .prependTo("#bookmark_summary ul")
+            .animate({backgroundColor:"#ffffff"}, 1500, function() {
+                runHiddenScripts(data.uid);
+            });
+
+    }
+    if(jQuery("#"+data.courseId+"_status").length){
+        var item = jQuery("#"+data.courseId+"_status");
+        item.addClass("bookmarked").html("Bookmarked");
+    }
+    if(jQuery("#"+data.courseId+"_addSavedCourse").length){
+        var item = jQuery("#"+data.courseId+"_addSavedCourse");
+        item.hide();
+    }
+}
+
+/**
+ * Adds an html object into the calendar by copying a hidden template copy
+ * and filling in placeholders with the needed data
+ *
+ * @param data - Data for the new object
+ */
+function ksapBookmarkUpdateTotal (data) {
+    if(jQuery("#bookmark_summary_number").length){
+        var item = jQuery("#bookmark_summary_number");
+        item.attr("title","View all "+data.bookmarkTotal+" courses in full details");
+        item.html("View all "+data.bookmarkTotal+" courses in full details");
+    }
 }
