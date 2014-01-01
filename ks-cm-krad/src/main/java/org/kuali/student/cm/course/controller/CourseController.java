@@ -103,6 +103,7 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -155,12 +156,14 @@ public class CourseController extends CourseRuleEditorController {
         }
 
     }
+
+    
     
     /**
      * After the document is loaded calls method to setup the maintenance object
      */
     @Override
-    @RequestMapping(params = "methodToCall=docHandler")
+    @RequestMapping(value = "/create")
     public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         final MaintenanceDocumentForm maintenanceDocForm = (MaintenanceDocumentForm) formBase;
@@ -321,6 +324,26 @@ public class CourseController extends CourseRuleEditorController {
         }
         
         return deleteLine(form, result, request, response);
+    }
+
+    @RequestMapping(value = "/modify/{courseId}")
+    public ModelAndView initiateModify(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
+                                       final @PathVariable String courseId, 
+                                       final BindingResult result,
+                                       final HttpServletRequest request,
+                                       final HttpServletResponse response) throws Exception {
+        final ModelAndView retval = super.docHandler(form, result, request, response);
+        return retval;
+    }
+
+    @RequestMapping(value = "/retire/{courseId}")
+    public ModelAndView initiateRetire(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
+                                       final @PathVariable String courseId, 
+                                       final BindingResult result,
+                                       final HttpServletRequest request,
+                                       final HttpServletResponse response) throws Exception {
+        final ModelAndView retval = super.docHandler(form, result, request, response);
+        return retval;
     }
 
     /**
