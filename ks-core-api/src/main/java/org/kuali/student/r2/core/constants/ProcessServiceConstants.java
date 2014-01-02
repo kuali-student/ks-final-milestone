@@ -131,10 +131,9 @@ public class ProcessServiceConstants {
     public static final String PROCESS_KEY_VIEW_COURSE_GRADE = "kuali.process.acad.record.view.course.grade";
 
     /**
-     * known agenda ids / names
+     * known rule ids / names
      */
-    public static final String AGENDA_IS_ALIVE_ID = "kuali.agenda.is.alive";
-    public static final String AGENDA_IS_NOT_SUMMER_TERM_ID = "kuali.agenda.is.not.summer.term";
+    public static final String RULE_IS_ALIVE_ID = "kuali.rule.is.alive";
 
     /**
      * known issue ids / names

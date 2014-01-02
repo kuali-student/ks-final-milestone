@@ -35,8 +35,8 @@ import java.util.List;
     "ruleId",
     "childProcessKey",
     "rightComparisonValue",
-    "leftComparisonAgendaId",
-    "rightComparisonAgendaId",
+    "leftComparisonRuleId",
+    "rightComparisonRuleId",
     "meta",
     "attributes", "_futureElements" }) 
 public class CheckInfo 
@@ -59,13 +59,13 @@ public class CheckInfo
     private String ruleId;
 
     @XmlElement
-    private String rightComparisonAgendaId;
+    private String rightComparisonRuleId;
 
     @XmlElement
     private String rightComparisonValue;
 
     @XmlElement
-    private String leftComparisonAgendaId;
+    private String leftComparisonRuleId;
 
     @XmlElement 
     private String childProcessKey;
@@ -94,9 +94,9 @@ public class CheckInfo
             this.holdIssueId = check.getHoldIssueId();
             this.milestoneTypeKey = check.getMilestoneTypeKey();
             this.ruleId = check.getRuleId();
-            this.leftComparisonAgendaId = check.getLeftComparisonAgendaId();
+            this.leftComparisonRuleId = check.getLeftComparisonRuleId();
             this.rightComparisonValue = check.getRightComparisonValue();
-            this.rightComparisonAgendaId = check.getRightComparisonAgendaId();
+            this.rightComparisonRuleId = check.getRightComparisonRuleId();
             this.childProcessKey = check.getChildProcessKey();
         }
     }
@@ -151,20 +151,20 @@ public class CheckInfo
     }
 
     @Override
-    public String getLeftComparisonAgendaId() {
-        return this.leftComparisonAgendaId;
+    public String getLeftComparisonRuleId() {
+        return this.leftComparisonRuleId;
     }
 
-    public void setLeftComparisonAgendaId(String leftComparisonAgendaId) {
-        this.leftComparisonAgendaId = leftComparisonAgendaId;
+    public void setLeftComparisonRuleId(String leftComparisonRuleId) {
+        this.leftComparisonRuleId = leftComparisonRuleId;
     }
 
     @Override
-    public String getRightComparisonAgendaId() {
-        return this.rightComparisonAgendaId;
+    public String getRightComparisonRuleId() {
+        return this.rightComparisonRuleId;
     }
 
-    public void setRightComparisonAgendaId(String rightComparisonAgendaId) {
-        this.rightComparisonAgendaId = rightComparisonAgendaId;
+    public void setRightComparisonRuleId(String rightComparisonRuleId) {
+        this.rightComparisonRuleId = rightComparisonRuleId;
     }
 }

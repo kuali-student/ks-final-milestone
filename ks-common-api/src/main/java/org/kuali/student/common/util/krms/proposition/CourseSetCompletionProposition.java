@@ -48,7 +48,8 @@ public class CourseSetCompletionProposition extends CourseCompletionProposition 
         
         if(courseIds == null) {
             
-            Term term = new Term(RulesExecutionConstants.COURSE_SET_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY, courseSetId));
+            Term term = new Term(RulesExecutionConstants.COURSE_SET_TERM.getName(), 
+                    Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM.getName(), courseSetId));
 
             courseIds = environment.resolveTerm(term, this);
         }

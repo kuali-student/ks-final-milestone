@@ -86,21 +86,21 @@ public interface Check
     public String getRightComparisonValue();
     
     /**
-     * The Left Comparison Agenda Id is for comparison Check Types of
+     * The Left Comparison rule id is for comparison Check Types of
      * min/max/equals for determining the left-hand side of the
      * comparison.
      *
      * For example, this rule evaluation may determine the current
      * credit load for a particular student in a Term to compare it
      * with a credit limit as determined by getRightComparisonValue()
-     * or an evaluation resulting from getRightComparisonAgendaId().
+     * or an evaluation resulting from getRightComparisonRuleId().
      *
-     * @name Left Comparison Agenda Id
+     * @name Left Comparison Rule Id
      */
-    public String getLeftComparisonAgendaId();
+    public String getLeftComparisonRuleId();
 
     /**
-     * The Right Comparison Agenda Id is for comparison Check Types of
+     * The Right Comparison rule id is for comparison Check Types of
      * min/max/equals for determining the right-hand side of the
      * comparison.
      *
@@ -108,7 +108,7 @@ public interface Check
      *  the credit limit for a particular student if it fluctuates by
      *  other criteria such as Term or Population. 
      *
-     * @name Right Comparison Agenda Id
+     * @name Right Comparison Rule Id
      */
-    public String getRightComparisonAgendaId();
+    public String getRightComparisonRuleId();
 }
