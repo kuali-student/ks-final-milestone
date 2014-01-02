@@ -341,13 +341,13 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Removing All Delivery Logistics"/>
+        <property name="headerText" value="Removing All Scheduling Information"/>
         <property name="hidden" value="true"/>
         <property name="forceSessionPersistence" value="true" />
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
-                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;]  Removing all delivery logistics from this activity offering will cause it to become unscheduled."
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;]  Removing all scheduling information from this activity offering will cause it to become unscheduled."
                       p:style="background-color:#F4E271; padding-top:4px; padding-bottom: 4px; font-size: 100%; margin-bottom:20px;"
                       p:colSpan="2" />
 
@@ -371,7 +371,7 @@
                     <property name="items">
                         <list>
                             <bean id="edit_ao_removeAllOfferingsFromScheduler" parent="Uif-PrimaryActionButton"
-                                  p:actionLabel="Remove All Delivery Logistics"
+                                  p:actionLabel="Remove All Scheduling Information"
                                   p:actionScript="confirmRemoveAllOfferingsFromScheduler();"/>
 
                             <bean id="edit_ao_removeAllOfferingsFromScheduler_cancel" parent="Uif-ActionLink"
