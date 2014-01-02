@@ -27,20 +27,20 @@
         <property name="shoppingCartHelper" ref="shoppingCartHelper"/>
         <property name="planHelper" ref="planHelper"/>
         <property name="courseSearchStrategy" ref="courseSearchStrategy"/>
-        <property name="ksEnrollAcalService" ref="ksEnrollAcalService"/>
-        <property name="ksEnrollAcademicRecordService" ref="ksEnrollAcademicRecordService"/>
-        <property name="ksEnrollCourseOfferingService" ref="ksEnrollCourseOfferingService"/>
-        <property name="ksEnrollLuiService" ref="ksEnrollLuiService"/>
-        <property name="ksCoreCommentService" ref="ksCoreCommentService"/>
-        <property name="ksCoreEnumerationManagementService" ref="ksCoreEnumerationManagementService"/>
-        <property name="ksLumCourseService" ref="ksLumCourseService"/>
-        <property name="ksLumProgramService" ref="ksLumProgramService"/>
-        <property name="ksLumCluService" ref="ksLumCluService"/>
-        <property name="ksLumLrcService" ref="ksLumLrcService"/>
-        <property name="ksCoreOrganizationService" ref="ksCoreOrganizationService"/>
-        <property name="ksCoreMessageService" ref="ksCoreMessageService"/>
-        <property name="ksCoreTypeService" ref="ksCoreTypeService"/>
-        <property name="ksCoreAtpService" ref="ksCoreAtpService"/>
+        <property name="academicCalendarService" ref="ksEnrollAcalService"/>
+        <property name="academicRecordService" ref="ksEnrollAcademicRecordService"/>
+        <property name="courseOfferingService" ref="ksEnrollCourseOfferingService"/>
+        <property name="luiService" ref="ksEnrollLuiService"/>
+        <property name="commentService" ref="ksCoreCommentService"/>
+        <property name="enumerationManagementService" ref="ksCoreEnumerationManagementService"/>
+        <property name="courseService" ref="ksLumCourseService"/>
+        <property name="programService" ref="ksLumProgramService"/>
+        <property name="cluService" ref="ksLumCluService"/>
+        <property name="lrcService" ref="ksLumLrcService"/>
+        <property name="organizationService" ref="ksCoreOrganizationService"/>
+        <property name="messageService" ref="ksCoreMessageService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="atpService" ref="atpService"/>
         <property name="academicPlanService" ref="academicPlanService"/>
         <property name="enrollmentStatusHelper" ref="enrollmentStatusHelper"/>
         <property name="learningPlanReviewStrategy" ref="learningPlanReviewStrategy"/>
@@ -71,10 +71,10 @@
     <bean id="ksLumProgramService" class="org.kuali.student.ap.test.mock.ProgramServiceMockTest"/>
     <bean id="ksLumCluService" class="org.kuali.student.ap.test.mock.CluServiceMockTest"/>
     <bean id="ksLumLrcService" class="org.kuali.student.ap.test.mock.LRCServiceMockTest"/>
-    <bean id="ksCoreOrganizationService" class="org.kuali.student.ap.test.mock.OrganizationServiceMockTest"/>
-    <bean id="ksCoreMessageService" class="org.kuali.student.ap.test.mock.MessageServiceMockTest"/>
-    <bean id="ksCoreTypeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
-    <bean id="ksCoreAtpService" class="org.kuali.student.ap.test.mock.AtpServiceMockTest"/>
+    <bean id="organizationService" class="org.kuali.student.ap.test.mock.OrganizationServiceMockTest"/>
+    <bean id="messageService" class="org.kuali.student.ap.test.mock.MessageServiceMockTest"/>
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+    <bean id="atpService" class="org.kuali.student.ap.test.mock.AtpServiceMockTest"/>
     <bean id="academicPlanService" class="org.kuali.student.ap.test.mock.AcademicPlanServiceMockTest"/>
     <bean id="enrollmentStatusHelper" class="org.kuali.student.ap.test.mock.EnrollmentStatusHelperMockTest" />
     <bean id="learningPlanReviewStrategy" class="org.kuali.student.ap.test.mock.LearningPlanReviewStrategyMockTest" />

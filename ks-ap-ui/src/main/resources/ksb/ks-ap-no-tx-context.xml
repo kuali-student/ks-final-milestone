@@ -29,21 +29,21 @@
         <property name="shoppingCartHelper" ref="shoppingCartHelper"/>
         <property name="planHelper" ref="planHelper"/>
         <property name="courseSearchStrategy" ref="courseSearchStrategy"/>
-        <property name="ksEnrollAcalService" ref="ksEnrollAcalService"/>
-        <property name="ksEnrollAcademicRecordService" ref="ksEnrollAcademicRecordService"/>
-        <property name="ksEnrollCourseOfferingService" ref="ksEnrollCourseOfferingService"/>
-        <property name="ksEnrollCourseOfferingSetService" ref="ksEnrollCourseOfferingSetService"/>
-        <property name="ksEnrollLuiService" ref="ksEnrollLuiService"/>
-        <property name="ksCoreCommentService" ref="ksCoreCommentService"/>
-        <property name="ksCoreEnumerationManagementService" ref="enumServiceClient"/>
-        <property name="ksLumCourseService" ref="ksLumCourseService"/>
-        <property name="ksLumProgramService" ref="ksLumProgramService"/>
-        <property name="ksLumCluService" ref="ksLumCluService"/>
-        <property name="ksLumLrcService" ref="ksLumLrcService"/>
-        <property name="ksCoreOrganizationService" ref="orgClient"/>
-        <property name="ksCoreMessageService" ref="ksCoreMessageService"/>
-        <property name="ksCoreTypeService" ref="typeClient"/>
-        <property name="ksCoreAtpService" ref="atpServiceClient"/>
+        <property name="academicCalendarService" ref="ksEnrollAcalService"/>
+        <property name="academicRecordService" ref="ksEnrollAcademicRecordService"/>
+        <property name="courseOfferingService" ref="ksEnrollCourseOfferingService"/>
+        <property name="courseOfferingSetService" ref="ksEnrollCourseOfferingSetService"/>
+        <property name="luiService" ref="ksEnrollLuiService"/>
+        <property name="commentService" ref="ksCoreCommentService"/>
+        <property name="enumerationManagementService" ref="enumServiceClient"/>
+        <property name="courseService" ref="ksLumCourseService"/>
+        <property name="programService" ref="ksLumProgramService"/>
+        <property name="cluService" ref="ksLumCluService"/>
+        <property name="lrcService" ref="ksLumLrcService"/>
+        <property name="organizationService" ref="orgClient"/>
+        <property name="messageService" ref="ksCoreMessageService"/>
+        <property name="typeService" ref="typeClient"/>
+        <property name="atpService" ref="atpServiceClient"/>
         <property name="academicPlanService" ref="academicPlanService"/>
         <property name="enrollmentStatusHelper" ref="enrollStatusHelper"/>
         <property name="learningPlanReviewStrategy" ref="learningPlanReviewStrategy"/>
