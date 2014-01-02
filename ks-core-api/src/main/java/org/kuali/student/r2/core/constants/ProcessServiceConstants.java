@@ -85,7 +85,7 @@ public class ProcessServiceConstants {
     public static final String ALWAYS_FALSE_CHECK_TYPE_KEY = "kuali.process.check.type.hardwired.false";
     public static final String DIRECT_RULE_CHECK_TYPE_KEY = "kuali.process.check.type.rule.direct";
     public static final String INDIRECT_RULE_CHECK_TYPE_KEY = "kuali.process.check.type.rule.indirect";
-    public static final String EQUAL_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.equals";
+    public static final String EQUALS_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.equals";
     public static final String MAXIMUM_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.max";
     public static final String MINIMUM_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.min";
     public static final String ACKNOWLEDGEMENT_CHECK_TYPE_KEY = "kuali.process.check.type.acknowledgement";

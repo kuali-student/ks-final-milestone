@@ -32,6 +32,9 @@ public class ExemptionServiceConstants {
      * Exemption types
      */
     public static final String MILESTONE_DATE_EXEMPTION_TYPE_KEY = "kuali.exemption.type.process.check.milestone.date";
+    public static final String CHECK_VALUE_MIN_EXEMPTION_TYPE_KEY = "kuali.exemption.type.process.check.value.min";
+    public static final String CHECK_VALUE_MAX_EXEMPTION_TYPE_KEY = "kuali.exemption.type.process.check.value.max";
+    public static final String CHECK_VALUE_EQUALS_EXEMPTION_TYPE_KEY = "kuali.exemption.type.process.check.value.max";
     public static final String CHECK_EXEMPTION_TYPE_KEY = "kuali.exemption.type.process.check";
     // public static final String EXTERNAL_EXEMPTION_TYPE_KEY =
     // "kuali.exemption.type.external";

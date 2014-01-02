@@ -30,6 +30,7 @@ import org.kuali.student.r2.core.exemption.infc.Exemption;
                 "name", "descr", "exemptionRequestId", "processKey", "checkId",
                 "personId", "effectiveDate", "expirationDate", 
                 "useLimit", "useCount", "dateOverride", 
+                "valueOverride",
                 "milestoneOverride", "learningResultOverride", 
                 "meta", "attributes", "_futureElements" }) 
 
@@ -64,6 +65,9 @@ public class ExemptionInfo
 
     @XmlElement
     private DateOverrideInfo dateOverride;
+    
+    @XmlElement
+    private ValueOverrideInfo valueOverride;
 
     @XmlElement
     private MilestoneOverrideInfo milestoneOverride;
@@ -99,6 +103,9 @@ public class ExemptionInfo
 
             if (exemption.getDateOverride() != null) {
                 this.dateOverride = new DateOverrideInfo(exemption.getDateOverride());
+            }
+            if (exemption.getValueOverride() != null) {
+                this.valueOverride = new ValueOverrideInfo(exemption.getValueOverride());
             }
 
             if (exemption.getMilestoneOverride() != null) {
@@ -196,6 +203,16 @@ public class ExemptionInfo
         this.dateOverride = new DateOverrideInfo(dateOverrideInfo);
     }
 
+    @Override
+    public ValueOverrideInfo getValueOverride() {
+        return valueOverride;
+    }
+
+    public void setValueOverride(ValueOverrideInfo valueOverride) {
+        this.valueOverride = valueOverride;
+    }
+    
+    
     @Override
     public MilestoneOverrideInfo getMilestoneOverride() {
         return milestoneOverride;
