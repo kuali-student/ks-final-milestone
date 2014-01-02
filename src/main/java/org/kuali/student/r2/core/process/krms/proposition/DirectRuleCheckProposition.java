@@ -13,17 +13,11 @@
 package org.kuali.student.r2.core.process.krms.proposition;
 
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
-import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
-import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.evaluator.KRMSEvaluator;
@@ -42,7 +36,6 @@ public class DirectRuleCheckProposition extends AbstractCheckProposition {
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-        boolean recordSuccesses = environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
         PropositionFactory propositionFactory =
                 environment.resolveTerm(RulesExecutionConstants.PROPOSITION_FACTORY_TERM, this);

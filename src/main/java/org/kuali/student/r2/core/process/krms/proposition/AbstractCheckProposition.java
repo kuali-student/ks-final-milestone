@@ -53,7 +53,7 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
             ValidationResultInfo vr = new ValidationResultInfo();
             vr.setElement(instruction.getId());
             vr.setLevel(ValidationResult.ErrorLevel.OK);
-            vr.setMessage("Passed " + check.getName());
+            vr.setMessage("Successfully passed this check: " + check.getName());
             Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
             executionDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, vr);
             PropositionResult result = new PropositionResult(true, executionDetails);

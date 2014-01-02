@@ -45,6 +45,7 @@
                 <bean class="org.kuali.student.r2.core.process.krms.termresolver.PersonId2DeceasedDateTermResolver" />
                 <bean class="org.kuali.student.r2.core.process.krms.termresolver.ContextInfo2AsOfDateTermResolver" />
                 <bean class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationRequest2PersonIdTermResolver" />
+                <bean class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
                 <bean class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
             </list>
         </property>

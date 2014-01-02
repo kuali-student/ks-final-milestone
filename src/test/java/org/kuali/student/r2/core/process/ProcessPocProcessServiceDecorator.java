@@ -105,7 +105,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
                 "Checks that the student has not exceeded her credit limit", context);
         _createCheck(ProcessPocConstants.CHECK_ID_DOES_NOT_MEET_CREDIT_MINIMUM,
                 ProcessServiceConstants.MINIMUM_VALUE_CHECK_TYPE_KEY, "", "", "", "kuali.rule.credit.load",
-                "kuali.rule.minimum.credits", "", "does not meet credit minimum",
+                "kuali.rule.credit.minimum", "", "does not meet credit minimum",
                 "Checks that the student has enough credits to meet the minimum required for her student type", context);
 
         // create instructions

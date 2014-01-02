@@ -119,6 +119,21 @@ public class InstructionProposition extends AbstractLeafProposition {
             Proposition prop = new DirectRuleCheckProposition(instruction, check);
             return prop;
         }
+        // minimum value check key
+        if (check.getTypeKey().equals(ProcessServiceConstants.MINIMUM_VALUE_CHECK_TYPE_KEY)) {
+            Proposition prop = new MinValueCheckProposition(instruction, check);
+            return prop;
+        }
+        // max value check key
+        if (check.getTypeKey().equals(ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY)) {
+            Proposition prop = new MaxValueCheckProposition(instruction, check);
+            return prop;
+        }
+        // equals value check key
+        if (check.getTypeKey().equals(ProcessServiceConstants.EQUALS_VALUE_CHECK_TYPE_KEY)) {
+            Proposition prop = new EqualsValueCheckProposition(instruction, check);
+            return prop;
+        }
         throw new OperationFailedException("unknown/unsupported check type" + check.getTypeKey() + " check=" + check);
     }
 }
