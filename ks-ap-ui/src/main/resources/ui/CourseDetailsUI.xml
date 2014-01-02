@@ -1259,17 +1259,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="group.validationMessages">
             <null/>
         </property>
-        <!-- 
-        <property name="onDocumentReadyScript" value="
-            var collapsibleRow = jQuery('#details_@{#line.luiIdXmlSafe}').parents('tr');
-            var secondary = @{!#line.primary};
-            if (secondary) {
-                collapsibleRow.addClass('collapsible').hide();
-                collapsibleRow.find('.activityAdditionalDetails').parents('td').attr('colspan', '5');
-            }
-            if (@{#line.planItemId NE null}) collapsibleRow.addClass('ksap-section-planned');
-        "/>
-         -->
         <property name="cssClasses">
             <list merge="true">
                 <value>activityAdditionalDetails</value>
@@ -1334,7 +1323,12 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
             </list>
         </property>
         <property name="style" value="margin:8px 0 0 0;"/>
-        <property name="onClickScript" value="
+        <!--
+        Disabling until decision on how activities/section are to be added to plan is reached
+        Button does not display at this time for any activities and is not shown on IU version either.
+        If reactivated will need to rewrite to use new functionality.  See how bookmarks are added for example.
+        -->
+        <!--<property name="onClickScript" value="
             var additionalFormData = {
                 viewId: 'PlannedCourse-FormView',
                 methodToCall: 'addUpdatePlanItem',
@@ -1345,7 +1339,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 registrationCode: '@{#line.registrationCode}'
             };
             submitHiddenForm('plan', additionalFormData, e);
-        "/>
+        "/>-->
     </bean>
 
     <bean id="section_button" abstract="true" parent="section_button-parent"/>

@@ -327,7 +327,6 @@
                   value="org.kuali.student.ap.bookmark.dto.BookmarkDetailWrapper"/>
         <property name="propertyName" value="lookupResults"/>
         <property name="render" value="@{lookupResults.size() gt 0}"/>
-        <property name="onDocumentReadyScript" value="initializeBookmarkListEvents();"/>
         <property name="layoutManager.lineGroupPrototype.id" value="@{#line.uniqueId}"/>
         <property name="cssClasses">
             <list merge="true">

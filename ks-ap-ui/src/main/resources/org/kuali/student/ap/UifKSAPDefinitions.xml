@@ -145,9 +145,9 @@
                 <value>ks-ap/scripts/KradOverrides.js</value>
                 <value>ks-ap/scripts/plan/planner.js</value>
                 <value>ks-myplan/scripts/ksap.widgets.js?@{#ConfigProperties['ksap.version']}</value>
-                <value>ks-myplan/scripts/ksap.events.js?@{#ConfigProperties['ksap.version']}</value>
+                <!--<value>ks-myplan/scripts/ksap.events.js?@{#ConfigProperties['ksap.version']}</value>-->
                 <value>ks-myplan/plugins/jquery.subscribe.js?@{#ConfigProperties['ksap.version']}</value>
-                <value>ks-myplan/plugins/polling.js?@{#ConfigProperties['ksap.version']}</value>
+                <!--<value>ks-myplan/plugins/polling.js?@{#ConfigProperties['ksap.version']}</value>-->
                 <value>ks-ap/scripts/jquery-popover/jquery.popover.js?@{#ConfigProperties['ksap.version']}</value>
             </list>
         </property>

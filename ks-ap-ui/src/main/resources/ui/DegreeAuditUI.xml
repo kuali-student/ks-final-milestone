@@ -144,10 +144,11 @@
                 <value>ksap-recent-audit</value>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="
+        <!-- Disabled until Audit page work starts -->
+        <!--<property name="onDocumentReadyScript" value="
             getPendingAudit('degree_audits_summary','degree');
              indicateViewingAudit('degree_audits_summary','degreeAudit');
-        "/>
+        "/>-->
         <property name="layoutManager.lineGroupPrototype.disclosure.render" value="false"/>
         <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
         <property name="collectionObjectClass" value="org.kuali.student.ap.audit.dataobject.DegreeAuditItem"/>
