@@ -870,6 +870,10 @@ public class PlannerController extends KsapControllerBase {
         return null;
     }
 
+    /**
+     * Handles the additions of items to the bookmark list.
+     * Creates a plan item for a course and adds it as a bookmark.
+     */
     @RequestMapping(params = "methodToCall=addBookmark")
     public ModelAndView addBookmark(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{

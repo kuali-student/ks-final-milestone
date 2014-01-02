@@ -384,124 +384,6 @@ function ksapRetrieveComponent(id, getId, methodToCall, action, retrieveOptions,
     ksapAjaxSubmitForm(additionalData, updateRefreshableComponentCallback, elementToBlock, formId, elementBlockingSettings);
     jQuery("form#" + id + "_form").remove();
 }
-/*
- ######################################################################################
- Function:   KRAD's ajax submit function modified to allow submission of a form
- other then the kuali form
- ######################################################################################
- */
-function ksapAjaxSubmitGenericForm(methodToCall, successCallback, additionalData, elementToBlock, formId, elementBlockingSettings) {
-    var data = {};
-
-    // methodToCall checks
-    if (methodToCall == null) {
-        var methodToCallInput = jQuery("input[name='methodToCall']");
-        if (methodToCallInput.length > 0) {
-            methodToCall = jQuery("input[name='methodToCall']").val();
-        }
-    }
-
-    // check to see if methodToCall is still null
-    if (methodToCall != null || methodToCall !== "") {
-        data.methodToCall = methodToCall;
-    }
-
-    data.renderFullView = false;
-
-    // remove this since the methodToCall was passed in or extracted from the page, to avoid issues
-    jQuery("input[name='methodToCall']").remove();
-
-    if (additionalData != null) {
-        jQuery.extend(data, additionalData);
-    }
-
-    var viewState = jQuery(document).data(kradVariables.VIEW_STATE);
-    if (!jQuery.isEmptyObject(viewState)) {
-        var jsonViewState = jQuery.toJSON(viewState);
-
-        // change double quotes to single because escaping causes problems on URL
-        jsonViewState = jsonViewState.replace(/"/g, "'");
-        jQuery.extend(data, {clientViewState:jsonViewState});
-    }
-
-    var submitOptions = {
-        data:data,
-        success:function (response) {
-            var tempDiv = document.createElement('div');
-            tempDiv.innerHTML = response;
-            var hasError = checkForIncidentReport(response);
-            if (!hasError) {
-                successCallback(tempDiv);
-            }
-            jQuery("#formComplete").empty();
-        },
-        error:function (jqXHR, textStatus) {
-            alert("Request failed: " + textStatus);
-        }
-    };
-
-    if (elementToBlock != null && elementToBlock.length) {
-        var elementBlockingOptions = {
-            beforeSend:function () {
-                if (elementToBlock.hasClass("unrendered")) {
-                    elementToBlock.append('<img src="' + getConfigParam("kradImageLocation") + 'loader.gif" alt="Loading..." /> Loading...');
-                    elementToBlock.show();
-                }
-                else {
-                    var elementBlockingDefaults = {
-                        baseZ:500,
-                        message:'<img src="../ks-ap/images/ajaxLoader16.gif" alt="loading..." />',
-                        fadeIn:0,
-                        fadeOut:0,
-                        overlayCSS:{
-                            backgroundColor:'#fff',
-                            opacity:0
-                        },
-                        css:{
-                            border:'none',
-                            width:'16px',
-                            top:'0px',
-                            left:'0px'
-                        }
-                    };
-                    elementToBlock.block(jQuery.extend(elementBlockingDefaults, elementBlockingSettings));
-                }
-            },
-            complete:function () {
-                elementToBlock.unblock();
-            },
-            error:function(jqXHR, textStatus,
-                           errorThrown) {
-                hideLoading();
-                showGrowl(textStatus + " "
-                    + errorThrown,
-                    "Error");
-                if (elementToBlock.hasClass("unrendered")) {
-                    elementToBlock.hide();
-                }
-                else {
-                    elementToBlock.unblock();
-                }
-            },
-            statusCode : {
-                500 : function() {
-                    showGrowl(
-                        "500 Internal Server Error",
-                        "Fatal Error");
-                }
-            }
-
-        };
-    }
-    jQuery.extend(submitOptions, elementBlockingOptions);
-    var form;
-    if (formId) {
-        form = jQuery("#" + formId + "_form");
-    } else {
-        form = jQuery("#kualiForm");
-    }
-    form.ajaxSubmit(submitOptions);
-}
 
 /*
  ######################################################################################
@@ -532,6 +414,12 @@ function truncateField(id, floated) {
     });
 }
 
+/**
+ * Registers events to close a popup if user clicks outside it.
+ *
+ * @param popoverId
+ * @param element
+ */
 function clickOutsidePopOver(popoverId, element) {
     jQuery("body").on("click", function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;
@@ -735,6 +623,9 @@ function buildHoverText(obj) {
     obj.attr("title", message).find("img.uif-image").attr("alt", message);
 }
 
+/**
+ * Registers event to close tooltip popup when clicking on something other than a toolips
+ */
 function registerClosePopups(){
     jQuery(document).on('click', function (e) {
         var tempTarget = (e.target) ? e.target : e.srcElement;
@@ -892,7 +783,11 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
     jQuery("form#retrieveForm").remove();
 }
 
+/**
+ * Sets up character counting functionality for notes
+ */
 (function ($) {
+
     $.fn.characterCount = function (options) {
         var oDefaults = {
             maxLength: 999,
