@@ -12,8 +12,8 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-  <bean id="ksapDialogTheme" abstract="true" parent="ksapDialogTheme-parentBean"/>
-  <bean id="ksapDialogTheme-parentBean" parent="Uif-BaseTheme" />
+    <bean id="ksapDialogTheme" abstract="true" parent="ksapDialogTheme-parentBean"/>
+    <bean id="ksapDialogTheme-parentBean" parent="Uif-BaseTheme" />
 
 	<bean id="ScheduleBuild-FormView" parent="ScheduleBuild-FormView-parent" />
 	<bean abstract="true" id="ScheduleBuild-FormView-parent" parent="KSAPFormView">
@@ -138,7 +138,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_possible_options" parent="Uif-VerticalBoxGroup" p:id="sb_possible_options">
+    <bean id="sb_possible_options" parent="sb_possible_options-parent" />
+	<bean id="sb_possible_options-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:id="sb_possible_options">
 		<property name="validationMessages.render" value="false" />
 		<property name="items">
 			<list />
@@ -151,7 +152,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_schedule_option_template" parent="Uif-VerticalBoxGroup" p:style="display : none">
+    <bean id="sb_schedule_option_template" parent="sb_schedule_option_template-parent"/>
+	<bean id="sb_schedule_option_template-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="display : none">
 		<property name="validationMessages.render" value="false" />
 		<property name="items">
 			<list>
@@ -260,7 +262,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_reserved_time_template" parent="Uif-VerticalBoxGroup" p:style="display : none">
+    <bean id="sb_reserved_time_template" parent="sb_reserved_time_template-parent"/>
+	<bean id="sb_reserved_time_template-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:style="display : none">
 		<property name="validationMessages.render" value="false" />
 		<property name="items">
 			<list>
@@ -306,7 +309,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_course_options" parent="Uif-StackedCollectionGroup" p:id="sb_course_options"
+    <bean id="sb_course_options" parent="sb_course_options-parent"/>
+	<bean id="sb_course_options-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:id="sb_course_options"
 			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false">
 		<property name="propertyName" value="courseOptions" />
 		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.CourseOption" />
@@ -387,7 +391,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_activity_options" parent="Uif-StackedCollectionGroup" p:id="sb_activity_options"
+    <bean id="sb_activity_options" parent="sb_activity_options-parent"/>
+	<bean id="sb_activity_options-parent" parent="Uif-StackedCollectionGroup" p:id="sb_activity_options"
 			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false" abstract="true">
 		<property name="propertyName" value="activityOptions" />
 		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.ActivityOption" />
@@ -401,7 +406,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_activity_option_row" abstract="true" parent="Uif-HorizontalBoxGroup"
+    <bean id="sb_activity_option_row" abstract="true" parent="sb_activity_option_row-parent"/>
+    <bean id="sb_activity_option_row-parent" abstract="true" parent="Uif-HorizontalBoxGroup"
 			p:additionalCssClasses="ksap-sb-@{#line.primary?'primary':'secondary'}-row,ksap-sb-@{#line.selected?'selected':'deselected'},ksap-sb-activity-@{#line.closed?'closed':'open'}">
 		<property name="validationMessages.render" value="false" />
 		<property name="dataAttributes">
@@ -473,7 +479,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_secondary_options" parent="Uif-StackedCollectionGroup" p:id="sb_secondary_options"
+    <bean id="sb_secondary_options" parent="sb_secondary_options-parent"/>
+	<bean id="sb_secondary_options-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:id="sb_secondary_options"
 			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false">
 		<property name="propertyName" value="secondaryOptions" />
 		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.SecondaryActivityOptions" />
@@ -550,7 +557,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_weekgroup_template" parent="Uif-HorizontalBoxGroup" p:style="display : none">
+    <bean id="sb_weekgroup_template" parent="sb_weekgroup_template-parent"/>
+	<bean id="sb_weekgroup_template-parent" abstract="true" parent="Uif-HorizontalBoxGroup" p:style="display : none">
 		<property name="validationMessages.render" value="false" />
 		<property name="items">
 			<list>
