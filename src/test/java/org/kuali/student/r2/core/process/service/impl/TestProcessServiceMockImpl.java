@@ -334,9 +334,9 @@ public class TestProcessServiceMockImpl {
         expected.setHoldIssueId("holdIssue1");
         expected.setRuleId("agendaId1");
         expected.setChildProcessKey("childprocesskey1");
-        expected.setLeftComparisonAgendaId("leftcomparisonagendaid1");
+        expected.setLeftComparisonRuleId("leftcomparisonagendaid1");
         expected.setMilestoneTypeKey("milestonetypekey1");
-        expected.setRightComparisonAgendaId("rightcomparisonagendaid1");
+        expected.setRightComparisonRuleId("rightcomparisonagendaid1");
         expected.setRightComparisonValue("rightcomparisonvalue1");
         new AttributeTester().add2ForCreate(expected.getAttributes());
         CheckInfo actual = processService.createCheck(expected.getTypeKey(), expected, contextInfo);
@@ -344,7 +344,7 @@ public class TestProcessServiceMockImpl {
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
         assertEquals(expected.getRuleId(), actual.getRuleId());
         assertEquals(expected.getChildProcessKey(), actual.getChildProcessKey());
-        assertEquals(expected.getLeftComparisonAgendaId(), actual.getLeftComparisonAgendaId());
+        assertEquals(expected.getLeftComparisonRuleId(), actual.getLeftComparisonRuleId());
         assertEquals(expected.getMilestoneTypeKey(), actual.getMilestoneTypeKey());
         assertEquals(expected.getRightComparisonValue(), actual.getRightComparisonValue());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -357,7 +357,7 @@ public class TestProcessServiceMockImpl {
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
         assertEquals(expected.getRuleId(), actual.getRuleId());
         assertEquals(expected.getChildProcessKey(), actual.getChildProcessKey());
-        assertEquals(expected.getLeftComparisonAgendaId(), actual.getLeftComparisonAgendaId());
+        assertEquals(expected.getLeftComparisonRuleId(), actual.getLeftComparisonRuleId());
         assertEquals(expected.getMilestoneTypeKey(), actual.getMilestoneTypeKey());
         assertEquals(expected.getRightComparisonValue(), actual.getRightComparisonValue());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -371,16 +371,16 @@ public class TestProcessServiceMockImpl {
         expected.setHoldIssueId("holdIssue2");
         expected.setRuleId("agendaId2");
         expected.setChildProcessKey("childprocesskey2");
-        expected.setLeftComparisonAgendaId("leftcomparisonagendaid2");
+        expected.setLeftComparisonRuleId("leftcomparisonagendaid2");
         expected.setMilestoneTypeKey("milestonetypekey2");
-        expected.setRightComparisonAgendaId("rightcomparisonagendaid2");
+        expected.setRightComparisonRuleId("rightcomparisonagendaid2");
         expected.setRightComparisonValue("rightcomparisonvalue2");
         new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
         actual = processService.updateCheck(expected.getId(), expected, contextInfo);
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
         assertEquals(expected.getRuleId(), actual.getRuleId());
         assertEquals(expected.getChildProcessKey(), actual.getChildProcessKey());
-        assertEquals(expected.getLeftComparisonAgendaId(), actual.getLeftComparisonAgendaId());
+        assertEquals(expected.getLeftComparisonRuleId(), actual.getLeftComparisonRuleId());
         assertEquals(expected.getMilestoneTypeKey(), actual.getMilestoneTypeKey());
         assertEquals(expected.getRightComparisonValue(), actual.getRightComparisonValue());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
@@ -393,7 +393,7 @@ public class TestProcessServiceMockImpl {
         assertEquals(expected.getHoldIssueId(), actual.getHoldIssueId());
         assertEquals(expected.getRuleId(), actual.getRuleId());
         assertEquals(expected.getChildProcessKey(), actual.getChildProcessKey());
-        assertEquals(expected.getLeftComparisonAgendaId(), actual.getLeftComparisonAgendaId());
+        assertEquals(expected.getLeftComparisonRuleId(), actual.getLeftComparisonRuleId());
         assertEquals(expected.getMilestoneTypeKey(), actual.getMilestoneTypeKey());
         assertEquals(expected.getRightComparisonValue(), actual.getRightComparisonValue());
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());

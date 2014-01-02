@@ -15,7 +15,6 @@ import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.impl.ProcessServiceMapImpl;
 import org.kuali.student.r2.core.process.service.ProcessService;
-import org.kuali.student.r2.core.process.service.impl.ProcessServiceDataLoader;
 
 import java.util.List;
 
@@ -94,5 +93,11 @@ public class ProcessPocProcessServiceDecoratorTest {
         assertEquals(new Integer(4), instructions.get(2).getPosition());
         assertEquals(new Integer(5), instructions.get(3).getPosition());
         assertEquals(new Integer(9), instructions.get(4).getPosition());
+        
+        instructions = processService.getInstructionsForEvaluation(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES,
+                context);
+        assertEquals(2, instructions.size());
+        assertEquals(new Integer(2), instructions.get(0).getPosition());
+        assertEquals(new Integer(3), instructions.get(1).getPosition());
     }
 }

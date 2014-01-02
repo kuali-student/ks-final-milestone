@@ -19,6 +19,7 @@ import org.kuali.student.r2.core.exemption.service.impl.ExemptionServiceMapImpl;
 import org.kuali.student.r2.core.process.service.impl.ProcessServiceDataLoader;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -50,11 +51,22 @@ public class ProcessPocExemptionServiceDecoratorTest {
     public void tearDown() {
     }
 
+    private ContextInfo getContextInfoAsOf12302011() {
+        Calendar cal = Calendar.getInstance();
+        cal.set(2011, 11, 30);
+        return getContextInfo(cal.getTime());
+    }
+
+    private ContextInfo getContextInfo(Date asOfDate) {
+        ContextInfo contextInfo = new ContextInfo();
+        contextInfo.setPrincipalId("testPrincipal1");
+        contextInfo.setCurrentDate(asOfDate);
+        return contextInfo;
+
+    }
     @Test
     public void testSomeMethod() throws Exception {
-        ContextInfo context = new ContextInfo();
-        context.setPrincipalId("POC-tester");
-        context.setCurrentDate(new Date ());
+        ContextInfo context = this.getContextInfoAsOf12302011();
 
         ExemptionService exemptionService = new ExemptionServiceMapImpl();
         exemptionService = new ProcessPocExemptionServiceDecorator(exemptionService);

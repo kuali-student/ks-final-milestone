@@ -19,11 +19,12 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,16 +33,24 @@ import java.util.Set;
  * Time: 3:19 PM
  * To change this template use File | Settings | File Templates.
  */
-public class CurrentDateResolver implements TermResolver<Date> {
+public class ContextInfo2AsOfDateTermResolver implements TermResolver<Date> {
+
+    private final static Set<String> prereqs;
+
+    static {
+        Set<String> temp = new HashSet<String>(0);
+        temp.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        prereqs = Collections.unmodifiableSet(temp);
+    }
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.emptySet();
+        return prereqs;
     }
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.CURRENT_DATE_TERM_NAME;
+        return RulesExecutionConstants.AS_OF_DATE_TERM.getName();
     }
 
     @Override
@@ -56,10 +65,7 @@ public class CurrentDateResolver implements TermResolver<Date> {
 
     @Override
     public Date resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        Calendar cal = Calendar.getInstance();
-
-        cal.set(2011, 11, 30);
-
-        return cal.getTime();
+        ContextInfo contextInfo = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
+        return contextInfo.getCurrentDate();
     }
 }

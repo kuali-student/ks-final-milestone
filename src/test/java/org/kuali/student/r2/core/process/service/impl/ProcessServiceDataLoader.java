@@ -254,7 +254,7 @@ public class ProcessServiceDataLoader {
                     "Checks if student is actually alive",
                     null, // issue id
                     null, // milestone type
-                    ProcessServiceConstants.AGENDA_IS_ALIVE_ID, // agenda id
+                    ProcessServiceConstants.RULE_IS_ALIVE_ID, // agenda id
                     null, // right
                     null, // left
                     null, // child process id
@@ -435,16 +435,6 @@ public class ProcessServiceDataLoader {
                     null, // issue id
                     null, // milestone type
                     null, // agenda id
-                    null, // right
-                    null, // left
-                    null, // child process id
-                    contextInfo);
-            loadCheck(CHECK_ID_IS_NOT_SUMMER_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_NOT_SUMMER_TERM,
-                    "Checks that this is not the summer term",
-                    "Checks that this is not the summer term",
-                    null, // issue id
-                    null, // milestone type
-                    ProcessServiceConstants.AGENDA_IS_NOT_SUMMER_TERM_ID, // agenda id
                     null, // right
                     null, // left
                     null, // child process id
@@ -811,8 +801,8 @@ public class ProcessServiceDataLoader {
         info.setHoldIssueId(issueId);
         info.setMilestoneTypeKey(milestoneType);
         info.setRuleId(ruleId);
-        info.setRightComparisonAgendaId(checkRightAgendaId);
-        info.setLeftComparisonAgendaId(checkLeftAgendaId);
+        info.setRightComparisonRuleId(checkRightAgendaId);
+        info.setLeftComparisonRuleId(checkLeftAgendaId);
         info.setChildProcessKey(checkChildProcessId);
         processService.createCheck(type, info, contextInfo);
     }

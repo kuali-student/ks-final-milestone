@@ -1,4 +1,4 @@
-package org.kuali.student.poc.rules.credit.limit;
+package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
 import java.util.List;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
@@ -8,7 +8,14 @@ import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.poc.rules.credit.limit.AcademicRecordServiceTypeStateConstants;
+import org.kuali.student.poc.rules.credit.limit.LoadCalculator;
+import org.kuali.student.poc.rules.credit.limit.LoadCalculatorRuleFactory;
+import org.kuali.student.poc.rules.credit.limit.LoadCalculatorRuleFactoryHardwiredImpl;
+import org.kuali.student.poc.rules.credit.limit.RegistrationRequestMerger;
+import org.kuali.student.poc.rules.credit.limit.RegistrationRequestMergerImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -125,4 +132,7 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
             throw new OperationFailedException("this implementation only supports integer credits: " + creditString, ex);
         }
     }
+
+    
+    
 }

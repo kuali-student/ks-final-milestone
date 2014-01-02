@@ -12,57 +12,50 @@
         <constructor-arg value="false" />
     </bean>
     
-    <bean id="courseRegistrationService" class="org.kuali.student.r2.core.process.service.decorators.CourseRegistrationServiceProcessCheckDecorator" >
+    <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceProcessCheckDecorator" >
         <property name="nextDecorator" ref="courseRegistrationServiceMapImpl"/>
-        <property name="processEvaluator" ref="krmsProcessEvaluator"/>
+        <property name="krmsEvaluator" ref="krmsEvaluator"/>
     </bean>
     <bean id="courseRegistrationServiceMapImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMapImpl" >
         <property name="merger" ref="mergerImpl"/>
     </bean>
-    <bean id="krmsProcessEvaluator" class="org.kuali.student.r2.core.process.evaluator.KRMSProcessEvaluator" >
-        <property name="atpService" ref="atpService"/>
-        <property name="processService" ref="processServiceMapImpl"/>
-        <property name="populationService" ref="populationService"/>
-        <property name="exemptionService" ref="exemptionService"/>
-        <property name="propositionFactory" ref="propositionFactoryHardwiredImpl"/>
+    <bean id="krmsEvaluator" class="org.kuali.student.r2.core.process.evaluator.KRMSEvaluator" >
+        <property name="defaultFacts">
+            <map>
+                <!--needed services-->
+                <entry key="atpService" value-ref="atpService"/>
+                <entry key="processService" value-ref="processService"/>
+                <entry key="courseRegistrationService" value-ref="courseRegistrationService"/>
+                <entry key="populationService" value-ref="populationService"/>
+                <entry key="exemptionService" value-ref="exemptionService"/>
+                <entry key="identityService" value-ref="identityService"/>
+                <entry key="holdService" value-ref="holdService"/>
+                <!--factory to be replaced by someething not hardwired-->
+                <entry key="propositionFactory" value-ref="propositionFactoryHardwiredImpl"/>
+                <!--flag to tell if should log sucesses as well as failures-->
+                <entry key="shouldRecordInstructionSuccesses" > 
+                    <bean class="java.lang.Boolean">
+                        <constructor-arg value="true" />
+                    </bean>
+                </entry>
+            </map>
+        </property>
         <property name="termResolvers">
             <list>
-                <ref bean="registrationHoldsTermResolver"/>
-                <ref bean="milestoneByTypeResolver"/>
-                <ref bean="studentDeceasedTermResolver"/>
-                <ref bean="summerOnlyStudentTermResolver"/>
-                <ref bean="currentDateResolver"/>
+                <bean class="org.kuali.student.r2.core.process.krms.termresolver.PersonId2DeceasedDateTermResolver" />
+                <bean class="org.kuali.student.r2.core.process.krms.termresolver.ContextInfo2AsOfDateTermResolver" />
+                <bean class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationRequest2PersonIdTermResolver" />
+                <bean class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
             </list>
         </property>
-    </bean>
-
-    <bean id="registrationHoldsTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationHoldsTermResolver">
-        <property name="holdService" ref="holdService"/>
-    </bean>
-    
-    <bean id="milestoneByTypeResolver" class="org.kuali.student.r2.core.process.krms.termresolver.MilestoneByTypeResolver">
-        <property name="atpService" ref="atpService"/>
-    </bean>
-    
-    <bean id="studentDeceasedTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.StudentDeceasedTermResolver">
-        <property name="identityService" ref="identityService"/>
     </bean>
 
     <bean id="identityService" class="org.kuali.student.r2.core.process.ProcessPocIdentityServiceDecorator">
         <constructor-arg ref="identityServiceMapImpl"/>
     </bean>
-    
-    <bean id="summerOnlyStudentTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.SummerOnlyStudentTermResolver">
-        <constructor-arg value="kuali.population.summer.only.student"/>
-        <property name="populationService" ref="populationService"/>
-    </bean>
-    
-    <bean id="currentDateResolver" class="org.kuali.student.r2.core.process.krms.termresolver.CurrentDateResolver"/>
-    
     <bean id="identityServiceMapImpl" class="org.kuali.student.kim.permission.mock.IdentityServiceMapImpl"/>
-
-
-    <bean id="propositionFactoryHardwiredImpl" class="org.kuali.student.r2.core.process.krms.evaluator.PropositionFactoryHardwiredImpl" >  
+            
+    <bean id="propositionFactoryHardwiredImpl" class="org.kuali.student.r2.core.process.evaluator.PropositionFactoryHardwiredImpl" >  
     </bean>
     
     <bean id="mergerImpl" class="org.kuali.student.poc.rules.credit.limit.RegistrationRequestMergerImpl" >   

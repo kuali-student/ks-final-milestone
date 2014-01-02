@@ -32,4 +32,6 @@ public class ProcessPocConstants {
     public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
     public static final String CHECK_ID_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";
     public static final String CHECK_ID_FALSE = "kuali.check.false";
+    public static final String CHECK_ID_DOES_NOT_EXCEED_CREDIT_LIMIT = "kuali.check.does.not.exceed.credit.limit";
+    public static final String CHECK_ID_DOES_NOT_MEET_CREDIT_MINIMUM = "kuali.check.does.not.meet.credit.minimum";
 }

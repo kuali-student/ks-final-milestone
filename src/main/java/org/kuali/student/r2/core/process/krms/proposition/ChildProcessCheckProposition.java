@@ -16,20 +16,34 @@ import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
-import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
 
 /**
- * This class represents a proposition that is always false
+ * Executes a child process and processes those results
  *
  * @author nwright
  */
-public class AlwaysFalseProposition extends AbstractLeafProposition {
+public class ChildProcessCheckProposition extends AbstractCheckProposition {
+
+    public ChildProcessCheckProposition(InstructionInfo instruction, CheckInfo check) {
+        super(instruction, check);
+    }
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-        PropositionResult result = new PropositionResult(false);
-        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PROPOSITION_EVALUATED, this, environment, result.
-                getResult()));
-        return result;
+
+        ProcessProposition childProp = new ProcessProposition(check.getChildProcessKey());
+        PropositionResult childResult = childProp.evaluate(environment);
+        if (childResult.getResult()) {
+            return this.recordSuccessResult(environment);
+        }
+        return this.recordFailureResultOrExemption(environment);
     }
 }

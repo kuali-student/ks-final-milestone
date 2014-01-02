@@ -33,32 +33,26 @@ import java.util.Set;
 /**
  * @author alubbers
  */
-public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
+public class PersonId2DeceasedDateTermResolver implements TermResolver<Date> {
 
-    private IdentityService identityService;
-
-    private final static Set<String> preRequisites;
+    private final static Set<String> prereqs;
 
     static {
         Set<String> temp = new HashSet<String>(2);
-        temp.add(RulesExecutionConstants.PERSON_ID_TERM_NAME);
-        temp.add(RulesExecutionConstants.CURRENT_DATE_TERM_NAME);
+        temp.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        temp.add(RulesExecutionConstants.IDENTITY_SERVICE_TERM.getName());
 
-        preRequisites = Collections.unmodifiableSet(temp);
-    }
-
-    public void setIdentityService(IdentityService identityService) {
-        this.identityService = identityService;
+        prereqs = Collections.unmodifiableSet(temp);
     }
 
     @Override
     public Set<String> getPrerequisites() {
-        return preRequisites;
+        return prereqs;
     }
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.STUDENT_DECEASED_TERM_NAME;
+        return RulesExecutionConstants.STUDENT_DECEASED_DATE_TERM.getName();
     }
 
     @Override
@@ -68,19 +62,17 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
 
     @Override
     public int getCost() {
-        return 0;
+        return 5;
     }
 
     @Override
-    public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public Date resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM_NAME);
-        Date currentDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.CURRENT_DATE_TERM_NAME);
+        String personId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        IdentityService identityService = (IdentityService) resolvedPrereqs.get(RulesExecutionConstants.IDENTITY_SERVICE_TERM.getName());
 
         Entity entity = identityService.getEntity(personId);
-
         Date deceasedDate = null;
-
         if(entity.getBioDemographics().getDeceasedDate() != null) {
             try {
                 deceasedDate = DateUtils.parseDate(entity.getBioDemographics().getDeceasedDate(), new String[]{EntityBioDemographicsContract.DECEASED_DATE_FORMAT});
@@ -88,11 +80,7 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
                 throw new TermResolutionException(e.getMessage(), this, parameters, e);
             }
         }
+        return deceasedDate;
 
-        if(deceasedDate != null) {
-            return deceasedDate.before(currentDate);
-        }
-
-        return false;
     }
 }
