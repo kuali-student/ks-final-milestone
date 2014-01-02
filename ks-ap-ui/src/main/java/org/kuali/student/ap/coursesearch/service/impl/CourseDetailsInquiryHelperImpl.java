@@ -34,7 +34,6 @@ import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingInstitution;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingTerm;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 import org.kuali.student.ap.coursesearch.dataobject.MeetingDetails;
-import org.kuali.student.myplan.plan.controller.PlanController;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
@@ -851,31 +850,6 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 	 */
 	public boolean isCourseIdValid(String courseId) {
 		return KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(courseId) != null;
-	}
-
-	/**
-	 * Checks if the Given refObjId for a section (eg: com 453 A or com 453 AA
-	 * or can use a versionIndependentId) for the given atpId exists in
-	 * Plan/backup returns planItemId if exists otherwise returns null.
-	 * 
-	 * @param refObjId
-	 * @param atpId
-	 * @return
-	 */
-	public String getPlanItemId(String refObjId, String atpId) {
-		String planItemId = null;
-		try {
-			PlanController planController = new PlanController();
-			PlanItemInfo planItem = planController.getPlannedOrBackupPlanItem(refObjId, atpId);
-			if (planItem != null) {
-				planItemId = planItem.getId();
-			}
-
-		} catch (Exception e) {
-			LOG.error(" Exception loading plan item :" + refObjId + " for atp: " + atpId + " " + e.getMessage());
-			return null;
-		}
-		return planItemId;
 	}
 
 }
