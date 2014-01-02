@@ -192,19 +192,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="validationMessages">
             <null/>
         </property>
-        <property name="onDocumentReadyScript"
-                  value="
-                      jQuery('#course_details_actions')
-                          .on('PLAN_ITEM_ADDED', function(event, data){
-                              if (data.planItemType === 'wishlist') {
-                                  fnDisplayMessage(data.message, data.cssClass, data.courseDetails.courseIdXmlSafe+'_addSavedCourse', true, null, false, '@{dataObject.courseSummaryDetails.courseId}_bookmarked');
-                              }
-                          })
-                          .on('PLAN_ITEM_DELETED', function(event, data){
-                              if (data.planItemType === 'wishlist' &amp;&amp; data.courseDetails.courseIdXmlSafe === '@{dataObject.courseSummaryDetails.courseId}') {
-                                  fnRestoreDetailsAddButton(data.courseDetails.courseId);
-                              }
-                          });"/>
         <property name="items">
             <list>
             	<bean parent="ksapAddPlannedCourse"
@@ -1178,17 +1165,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                 </bean>
             </list>
         </property>
-        <!--
-        <property name="onDocumentReadyScript" value="
-            var collapsibleRow = jQuery('#instructor_@{#line.luiIdXmlSafe}').parents('tr');
-            var secondary = @{!#line.primary};
-            if (secondary) {
-                collapsibleRow.addClass('collapsible').hide();
-                collapsibleRow.find('.activityOther').parents('td').attr('colspan', '3');
-            }
-            if (@{#line.planItemId NE null}) collapsibleRow.addClass('ksap-section-planned');
-        "/>
-         -->
     </bean>
 
     <bean id="ksapOtherInformation" parent="ksapOtherInformation-parent"/>
@@ -1397,26 +1373,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 				<property name="items">
 					<list>
 						<bean id="course_details_sections_list" parent="Uif-VerticalBoxGroup">
-							<property name="onDocumentReadyScript"
-								value="
-		                                              jQuery('body').on('SECTION_ITEM_ADDED', function(event, data){
-		                                                      var link = '&lt;a href=&quot;inquiry?methodToCall=start&amp;viewId=SingleTerm-InquiryView&amp;term_atp_id=' + data.atpId.replace(/-/g,'.') + '&quot;&gt;Added&lt;/a&gt;';
-		                                                     jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).attr('title', data.SectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
-		                                                      fnDisplayMessage(link, '', 'button_' + data.atpId + '_' + data.RegistrationCode, false);
-		                                                      var row = jQuery('#button_' + data.atpId + '_' + data.RegistrationCode).parents('tr.row');
-		                                                      row.addClass('ksap-section-planned');
-		                                                      if (data.ItemsToUpdate != null) {
-		                                                          var items = data.ItemsToUpdate.split(',');
-		                                                          jQuery.each(items, function (index, value) {
-		                                                              jQuery('#button_' + data.atpId + '_' + items[index]).attr('title', data.PrimarySectionCode + ' is added. To delete or move, go to ' + data.termName + ' Plan.').unbind('click');
-		                                                              fnDisplayMessage(link, '', 'button_' + data.atpId + '_' + items[index], false);
-		                                                              var row = jQuery('#button_' + data.atpId + '_' + items[index]).parents('tr.row');
-		                                                              row.addClass('ksap-section-planned');
-		                                                          });
-		                                                      }
-		                                                  });
-		                                              ksapGetSectionEnrollment('course/enroll', {'courseId':'@{dataObject.courseSummaryDetails.courseId}'});
-		                                          " />
 							<property name="validationMessages">
 								<null />
 							</property>
