@@ -67,7 +67,7 @@ public class CommentController extends UifControllerBase {
 	private transient MyPlanMailService mailService;
 
     //TODO: why do we need to specify propertiesFilePath here?
-	private transient String propertiesFilePath = "/org/kuali/student/ap/KSAP-ApplicationResources.properties";
+	private transient String propertiesFilePath = "/org/kuali/student/kr-krad/KSAP-ApplicationResources.properties";
 
 	@Override
 	protected CommentForm createInitialForm(HttpServletRequest request) {
@@ -424,7 +424,7 @@ public class CommentController extends UifControllerBase {
 	}
 
 	public String errorPage(@ModelAttribute("KualiForm") CommentForm form) {
-		return "redirect:/ap/unauthorized";
+		return "redirect:/kr-krad/unauthorized";
 	}
 
 	private MyPlanMailService getMailService() {

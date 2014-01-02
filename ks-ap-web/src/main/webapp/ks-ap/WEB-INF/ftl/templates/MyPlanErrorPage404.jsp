@@ -20,9 +20,9 @@
     </div>
     <h3>Try these links to the MyPlan site:</h3>
     <ul id="links">
-        <li class="home"><a href="/student/myplan/plan?methodToCall=start&viewId=PlannedCourses-FormView">Plan</a></li>
-        <li><a href="/student/myplan/course?methodToCall=start&viewId=CourseSearch-FormView">Find Courses</a></li>
-        <li><a href="/student/myplan/audit?methodToCall=audit&viewId=DegreeAudit-FormView">Audit Degree</a></li>
+        <li class="home"><a href="/kr-krad/plan?methodToCall=start&viewId=PlannedCourses-FormView">Plan</a></li>
+        <li><a href="/kr-krad/course?methodToCall=start&viewId=CourseSearch-FormView">Find Courses</a></li>
+        <li><a href="/kr-krad/audit?methodToCall=audit&viewId=DegreeAudit-FormView">Audit Degree</a></li>
     </ul>
     <div id="more">Completely lost? Visit our <a href="http://depts.washington.edu/myplan/help-site/">help page</a> or
         <a href="https://depts.washington.edu/myplan/contact-the-myplan-team/feedback/">let us know</a>.

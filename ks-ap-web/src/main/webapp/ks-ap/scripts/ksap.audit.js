@@ -246,7 +246,7 @@ function setPendingAudit(obj, minutes) {
         if (data.programId != 'default') {
             changeLoadingMessage('.ksap-audit-report', data.programName, data.auditType);
             jQuery.ajax({
-                url: "/student/ap/audit/status",
+                url: "/student/kr-krad/audit/status",
                 data:{"programId":data.programId, "auditId":data.recentAuditId},
                 dataType:"json",
                 beforeSend:null,
@@ -321,7 +321,7 @@ function pollPendingAudit(programId, recentAuditId, auditType) {
     jQuery.ajaxPollSettings.interval = 250; // polling interval in milliseconds
 
     jQuery.ajaxPoll({
-        url: "/student/ap/audit/status",
+        url: "/student/kr-krad/audit/status",
         data: {"programId":programId, "auditId":recentAuditId},
         dataType: "json",
         beforeSend: null,

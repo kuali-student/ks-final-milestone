@@ -872,7 +872,7 @@ public class PlannerController extends KsapControllerBase {
 
     /**
      * Handles the additions of items to the bookmark list.
-     * Creates a plan item for a course and adds it as a bookmark.
+     * Creates a plan item for a course and adds it as a bookmarrk.
      */
     @RequestMapping(params = "methodToCall=addBookmark")
     public ModelAndView addBookmark(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,

@@ -1067,7 +1067,7 @@ public class CourseSearchController extends UifControllerBase {
 	public String doGet(@ModelAttribute("KualiForm") UifFormBase form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) {
-		return "redirect:/ap/course";
+		return "redirect:/kr-krad/course";
 	}
 
 	@RequestMapping(params = "methodToCall=start")

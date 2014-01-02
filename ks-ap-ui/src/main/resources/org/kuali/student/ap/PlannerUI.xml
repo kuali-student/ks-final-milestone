@@ -41,7 +41,7 @@
                                             <property name="linkText" value="Print your entire academic plan"/>
                                             <property name="title" value="Print your entire academic plan"/>
                                             <property name="href"
-                                                      value="../myplan/lookup?methodToCall=search&amp;viewId=FullPlannedCourses-LookupView"/>
+                                                      value="../kr-krad/lookup?methodToCall=search&amp;viewId=FullPlannedCourses-LookupView"/>
                                             <property name="lightBox">
                                                 <bean parent="Uif-LightBox" p:width="90%"/>
                                             </property>
