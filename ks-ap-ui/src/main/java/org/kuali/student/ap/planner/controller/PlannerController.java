@@ -786,7 +786,7 @@ public class PlannerController extends KsapControllerBase {
         // Create json strings for displaying action's response and updating the planner screen.
         eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
         eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
-        PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to plan for " + term.getName(),
+        PlanEventUtils.sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
                 response, eventList);
     }
 
