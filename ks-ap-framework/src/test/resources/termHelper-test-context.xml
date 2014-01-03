@@ -86,7 +86,7 @@
 
     <!--<bean id="dataLoader" class="org.kuali.student.ap.framework.context.support.TermAndCalDataLoader" />-->
 
-    <bean id="ksEnrollAcalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
+    <bean id="academicCalendarService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
         <property name="atpService" ref="atpService" />
         <property name="stateService" ref="stateService" />
         <property name="typeService" ref="typeService" />
