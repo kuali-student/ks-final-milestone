@@ -38,22 +38,23 @@ public class RegistrationRequestTransformer {
     public static LprTransactionInfo regRequest2LprTransaction(RegistrationRequestInfo request)
             throws OperationFailedException {
         LprTransactionInfo lprTransaction = new LprTransactionInfo();
+        lprTransaction.setTypeKey(request.getTypeKey());
+        lprTransaction.setStateKey(request.getStateKey());
         lprTransaction.setAtpId(request.getTermId());
         lprTransaction.setName(request.getName());
         lprTransaction.setDescr(request.getDescr());
         lprTransaction.setRequestingPersonId(request.getRequestorId());
+
         lprTransaction.setLprTransactionItems(new ArrayList<LprTransactionItemInfo>());
-        for (RegistrationRequestItemInfo requestItem: request.getRegistrationRequestItems()) {
-            LprTransactionItemInfo lprItem = new LprTransactionItemInfo();
-            regRequestItem2LprTransactionItem(requestItem, lprItem);
+        for (RegistrationRequestItemInfo requestItem : request.getRegistrationRequestItems()) {
+            LprTransactionItemInfo lprItem = regRequestItem2LprTransactionItem(requestItem);
             lprTransaction.getLprTransactionItems().add(lprItem);
         }
         return lprTransaction;
     }
 
-    public static LprTransactionItemInfo regRequestItem2LprTransactionItem(RegistrationRequestItemInfo requestItem,
-                                                                           LprTransactionItemInfo item)
-            {
+    public static LprTransactionItemInfo regRequestItem2LprTransactionItem(RegistrationRequestItemInfo requestItem) {
+        LprTransactionItemInfo item = new LprTransactionItemInfo();
         // Inherited fields
         item.setId(requestItem.getId());
         item.setStateKey(requestItem.getStateKey());
@@ -106,9 +107,27 @@ public class RegistrationRequestTransformer {
         return item;
     }
 
-    public static LprTransactionItemInfo lprTransactionItem2regRequestItem(LprTransactionItemInfo item,
-                                                                           RegistrationRequestItemInfo requestItem) {
+    public static RegistrationRequestInfo  lprTransaction2RegRequest(LprTransactionInfo lprTransaction)
+            throws OperationFailedException {
+        RegistrationRequestInfo request = new RegistrationRequestInfo();
+        request.setTermId(lprTransaction.getAtpId());
+        request.setName(lprTransaction.getName());
+        request.setDescr(lprTransaction.getDescr());
+        request.setRequestorId(lprTransaction.getRequestingPersonId());
+        request.setTypeKey(lprTransaction.getTypeKey());
+        request.setStateKey(lprTransaction.getStateKey());
 
+        request.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
+        for (LprTransactionItemInfo transactionItem : lprTransaction.getLprTransactionItems()) {
+            RegistrationRequestItemInfo reqItem = lprTransactionItem2regRequestItem(transactionItem);
+            request.getRegistrationRequestItems().add(reqItem);
+        }
+        return request;
+    }
+
+    public static RegistrationRequestItemInfo lprTransactionItem2regRequestItem(LprTransactionItemInfo item) {
+
+        RegistrationRequestItemInfo requestItem = new RegistrationRequestItemInfo();
         // Inherited fields
         requestItem.setId(item.getId());
         requestItem.setStateKey(item.getStateKey());
@@ -123,7 +142,7 @@ public class RegistrationRequestTransformer {
         requestItem.setNewRegistrationGroupId(item.getNewLuiId());
         requestItem.setExistingRegistrationGroupId(item.getExistingLuiId());
         // Admittedly, a hacky way of doing things, so open for better ways to do this
-        for (String s: item.getResultValuesGroupKeys()) {
+        for (String s : item.getResultValuesGroupKeys()) {
             if (s.startsWith("kuali.resultComponent.grade")) {
                 requestItem.setGradingOptionId(s);
             } else if (s.startsWith("kuali.creditType.credit.degree")) {
@@ -131,19 +150,19 @@ public class RegistrationRequestTransformer {
             }
         }
 
-        for (LprTransactionItemRequestOptionInfo option: item.getRequestOptions()) {
+        for (LprTransactionItemRequestOptionInfo option : item.getRequestOptions()) {
             if (option.getOptionKey().equals(OK_TO_WAITLIST)) {
                 requestItem.setOkToWaitlist(convertStringToBoolean(option.getOptionValue()));
             } else if (option.getOptionKey().equals(OK_TO_HOLD_UNTIL_LIST)) {
                 requestItem.setOkToHoldUntilList(convertStringToBoolean(option.getOptionValue()));
             }
         }
-        return item;
+        return requestItem;
     }
 
     protected static LprTransactionItemRequestOptionInfo findOptionByKey(String key,
                                                                          List<LprTransactionItemRequestOptionInfo> options) {
-        for (LprTransactionItemRequestOptionInfo option: options) {
+        for (LprTransactionItemRequestOptionInfo option : options) {
             if (option.getOptionKey().equals(key)) {
                 return option;
             }

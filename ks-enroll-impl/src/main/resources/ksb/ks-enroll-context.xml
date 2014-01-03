@@ -23,6 +23,7 @@
     <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
     <import resource="classpath:enrollDao.xml" />
     <import resource="classpath:statement-context.xml" />
+    <import resource="classpath:mq-context.xml" />
     <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
     <!-- Top Level Alias -->
@@ -34,7 +35,7 @@
     <alias name="populationServiceValidation" alias="PopulationService" />
     <alias name="roomServiceValidation" alias="RoomService"/>
     <alias name="holdServiceValidation" alias="HoldService" />
-    <alias name="courseRegistrationServiceValidator" alias="CourseRegistrationService" />
+    <alias name="courseRegistrationImpl" alias="CourseRegistrationService" />
     <alias name="processServiceValidationDecorator" alias="ProcessService" />
     <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
     <alias name="courseWaitListServiceImpl" alias="courseWaitListService" />
@@ -900,6 +901,7 @@
     <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
         <property name="lprService" ref="LprService" />
         <property name="courseOfferingService" ref="CourseOfferingService" />
+        <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
     <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
@@ -1077,7 +1079,7 @@
     </bean>
 
     <bean id="CourseOfferingManagementSearchImpl" class="org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl">
-        <property name="genericEntityDao" ref="searchDao"/>
+        <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
 
     <!-- autoGen -->
