@@ -797,7 +797,7 @@
             <null/>
         </property>
         <property name="header">
-            <bean parent="Uif-HeaderSix">
+            <bean parent="Uif-HeaderFour">
 		        <property name="cssClasses">
 		        	<list merge="true">
 			        	<value>ks-Popover-header</value>

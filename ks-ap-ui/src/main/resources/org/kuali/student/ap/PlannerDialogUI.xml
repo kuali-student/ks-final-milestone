@@ -90,7 +90,7 @@
     <bean id="planner_edit_term_note_page-parent" abstract="true" parent="planner_dialog_page">
 		<property name="id" value="planner_edit_term_note_page" />
 		<property name="innerViewWrapperId" value="planner_edit_term_note_inner" />
-		<property name="headerText" value="Edit @{term.name} term note" />
+		<property name="headerText" value="Term Note (@{term.name})" />
     	<property name="items">
 	    	<list merge="true">
 				<bean parent="planner_term_note_input" />
@@ -561,11 +561,6 @@
 	<bean id="planner_dialog_input" parent="Uif-InputField" abstract="true">
 		<property name="labelPlacement" value="TOP" />
 		<property name="fieldLabel.render" value="true" />
-		<property name="fieldLabel.cssClasses">
-			<list merge="true">
-				<value>ksap-text-normal</value>
-			</list>
-		</property>
 	</bean>
 
     <bean id="planner_term_input" parent="planner_term_input-parent"/>
@@ -643,9 +638,9 @@
 	<bean id="planner_term_note_input-parent" abstract="true" parent="planner_dialog_input">
 		<property name="additionalCssClasses" value="ks-plan-Note" />
 		<property name="propertyName" value="termNote" />
-		<property name="label" value="Note for @{term.name}" />
+		<property name="label" value="Notes" />
 		<property name="control">
-			<bean parent="Uif-TextAreaControl" p:watermarkText="Note for the term (500 characters max)"
+			<bean parent="Uif-TextAreaControl" p:watermarkText="Enter a short note (500 characters max)"
 				p:maxLength="500">
 				<property name="cssClasses">
 					<list merge="true">
@@ -680,13 +675,13 @@
 	<bean id="planner_error_placeholder" parent="Uif-HorizontalBoxGroup"
 			p:hidden="true" p:additionalCssClasses="ksap-feedback,error,ks-Popover-error" />
 
-	<bean id="planner_submit_button" parent="Uif-SecondaryActionButton-Small"
+	<bean id="planner_submit_button" parent="Uif-PrimaryActionButton"
 		p:additionalCssClasses="ks-Button ks-Button--primary">
 		<property name="actionScript" value="ksapPlannerSubmitDialog(e);" />
 	</bean>
 
-	<bean id="planner_cancel_button" parent="Uif-SecondaryActionButton-Small"
-		p:actionLabel="Cancel" p:additionalCssClasses="ks-Button">
+	<bean id="planner_cancel_button" parent="Uif-ActionLink"
+		p:actionLabel="Cancel" >
 		<property name="actionScript" value="fnClosePopup();" />
 	</bean>
 

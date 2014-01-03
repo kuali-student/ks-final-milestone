@@ -798,7 +798,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
 
         function calculate(obj, options) {
             var iCount = $(obj).val().length;
-            var iAvailable = options.maxLength - iCount;
+            var iAvailable = iCount;
             var sValue = $(obj).val();
             if (iCount > options.maxLength) {
                 $(obj).val(sValue.substr(0, options.maxLength));
@@ -808,7 +808,7 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
             } else {
                 $('.' + options.classCounter).removeClass(options.classWarning);
             }
-            $('.' + options.classCounter).html("<strong>" + iAvailable + "</strong>" + " character" + ((iAvailable != 1) ? "s" : "") + " remaining");
+            $('.' + options.classCounter).html(iAvailable + "/" +options.maxLength+ " characters");
         }
 
         this.each(function () {
