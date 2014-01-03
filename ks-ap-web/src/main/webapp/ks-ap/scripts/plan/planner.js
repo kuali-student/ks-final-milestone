@@ -9,6 +9,7 @@
  */
 function ksapLoadPlannerItems(loaded,pageSize) {
     if(!loaded){
+        setupImages();
         retrieveComponent('planner_courses_detail','load');
     }else{
         ksapInitializePlannerItems(pageSize);

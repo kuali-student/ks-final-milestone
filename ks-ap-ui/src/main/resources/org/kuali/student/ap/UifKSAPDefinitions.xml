@@ -45,6 +45,16 @@
                   p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
                   p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
         </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KSAPBaseLookupView" abstract="true" parent="KSAPBaseLookupView-parent"/>
@@ -71,6 +81,16 @@
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
                   p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
         </property>
     </bean>
 
@@ -99,6 +119,16 @@
                   p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
                   p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
         </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
     </bean>
 
     <bean id="KSAPBaseMaintenanceView" abstract="true" parent="KSAPBaseMaintenanceView-parent"/>
@@ -125,6 +155,16 @@
             <bean parent="Uif-FooterBase" p:id="ks-footer"
                   p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
                   p:cssClasses="ks-page-bottom" p:templateName="ksap_app_header"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
         </property>
     </bean>
 
