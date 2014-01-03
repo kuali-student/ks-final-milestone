@@ -243,7 +243,7 @@
         <property name="layoutManager.lineGroupPrototype.style"
                   value="width:@{588/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;
                   margin:0 @{20/T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTermHelper().getNumberOfTermsInAcademicYear()}px;" />
-        <property name="layoutManager.lineGroupPrototype.header.lowerGroup">
+        <!--<property name="layoutManager.lineGroupPrototype.header.lowerGroup">
             <bean parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-plan-TermNote">
                 <property name="items">
                     <list>
@@ -272,7 +272,7 @@
                     </list>
                 </property>
             </bean>
-        </property>
+        </property>-->
         <property name="header">
             <bean parent="Uif-HeaderFour" />
         </property>
@@ -295,11 +295,8 @@
                         </bean>
                         <bean p:id="@{#line.uniqueId}_termNote" parent="term_note_icon">
                             <property name="render" value="@{#empty(#line.allTermNotesHtml)}"/>
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>invisible</value>
-                                </list>
-                            </property>
+                            <property name="source" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}btnAdd.png"/>
+                            <property name="title" value="Add Term Note"/>
                             <property name="onClickScript"
                                       value="ksapPlannerOpenDialog('planner_edit_term_note','planner','startDialog', this, e);" />
                             <property name="dataAttributes">
@@ -309,6 +306,7 @@
                                 </map>
                             </property>
                         </bean>
+
                     </list>
                 </property>
             </bean>

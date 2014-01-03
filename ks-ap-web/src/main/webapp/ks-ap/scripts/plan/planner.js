@@ -346,17 +346,13 @@ function ksapPlannerUpdateCredits (data) {
  * @param data - Data needed to removed the object
  */
 function ksapPlannerUpdateTermNote (data) {
-    jQuery("#"+data.uniqueId+"_termnote_message_span").fadeOut(250, function() {
-    	if (data.termNote == null || data.termNote == "") {
-            jQuery(this).text("No term notes").addClass("ks-plan-TermNote-input-empty").fadeIn(250);
-            jQuery("#"+data.uniqueId+"_termNote").attr("title","");
-            jQuery("#"+data.uniqueId+"_termNote").addClass('invisible');
-        } else {
-            jQuery(this).text(data.termNote).removeClass("ks-plan-TermNote-input-empty").fadeIn(250);
-            jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
-            jQuery("#"+data.uniqueId+"_termNote").removeClass('invisible');
-    	}
-    });
+    if (data.termNote == null || data.termNote == "") {
+        jQuery("#"+data.uniqueId+"_termNote").attr("title","");
+        jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/btnAdd.png");
+    } else {
+        jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
+        jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/iconInfo.png");
+    }
 
 }
 
