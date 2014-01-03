@@ -27,9 +27,9 @@ import java.util.Date;
  *
  * @author tom
  * @since Tue Sep 06 14:22:34 EDT 2011
- */ 
+ */
 
-public interface StudentCourseRecord 
+public interface StudentCourseRecord
     extends IdNamelessEntity {
 
     /**
@@ -105,6 +105,16 @@ public interface StudentCourseRecord
      *       Registration
      */
     public String getActivityCode();
+
+    /**
+     * The term Id of the term in which the student took the offering.
+     *
+     * @name Term Id
+     * @readonly
+     * @impl retrieved from the Term related to the Course Offering
+     *       in the Course Registration
+     */
+    public String getTermId();
 
     /**
      * The name of the term in which the student took the offering.
