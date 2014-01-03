@@ -39,12 +39,12 @@ public class CourseRegistrationUiServiceImpl implements CourseRegistrationUiServ
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
         regReqInfo.setRequestorId(contextInfo.getPrincipalId());
         regReqInfo.setTermId(getScheduleOfClassesService().getAtpIdByAtpCode(termCode)); // bad bc we have it from the load call above
-        regReqInfo.setStateKey("reggroup.enroll.persist"); // making this up for poc
+        regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY); // new reg request
         regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
 
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
-        registrationRequestItem.setTypeKey("registration.request.item");
-        registrationRequestItem.setStateKey("registration.request.item.active");
+        registrationRequestItem.setTypeKey(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
+        registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         registrationRequestItem.setExistingRegistrationGroupId(regGroupSearchResult.getRegGroupId());
         registrationRequestItem.setStudentId(contextInfo.getPrincipalId());
 

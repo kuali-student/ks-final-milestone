@@ -110,6 +110,7 @@ public class RegistrationRequestTransformer {
     public static RegistrationRequestInfo  lprTransaction2RegRequest(LprTransactionInfo lprTransaction)
             throws OperationFailedException {
         RegistrationRequestInfo request = new RegistrationRequestInfo();
+        request.setId(lprTransaction.getId());
         request.setTermId(lprTransaction.getAtpId());
         request.setName(lprTransaction.getName());
         request.setDescr(lprTransaction.getDescr());
