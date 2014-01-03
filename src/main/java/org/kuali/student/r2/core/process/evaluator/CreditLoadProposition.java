@@ -8,30 +8,31 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.core.process.krms.proposition;
+package org.kuali.student.r2.core.process.evaluator;
 
-import java.util.Date;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
-import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
-import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 
 /**
  * This proposition is used to evaluate whether or not a person is alive
  *
  * @author alubbers
  */
-public class IsAliveProposition extends AbstractLeafProposition {
+public class CreditLoadProposition extends AbstractLeafProposition {
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-        Date deceasedDate = environment.resolveTerm(RulesExecutionConstants.STUDENT_DECEASED_DATE_TERM, this);
-
-        if (deceasedDate == null) {
-            return this.recordResultWithNoDetails(environment, true);
-        }
-        return this.recordResultWithNoDetails(environment, false);
+        RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
+        String registrationRequestId = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM, this);
+        String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
+        String atpId = environment.resolveTerm(RulesExecutionConstants.ATP_ID_TERM, this);
+        
+        // TODO: wire in the actual credit load calculation
+        KualiDecimal value = new KualiDecimal ("14");
+        return this.recordSuccessWithDecimalValueDetail(environment, value);
     }
 }

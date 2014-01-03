@@ -51,10 +51,7 @@ public class InstructionProposition extends AbstractLeafProposition {
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-//        String processKey = environment.resolveTerm(RulesExecutionConstants.PROCESS_KEY_TERM, this);
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
-        String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
-        Date asOfDate = environment.resolveTerm(RulesExecutionConstants.AS_OF_DATE_TERM, this);
 
         // get all the needed services from the execution context
         // we do this so we can locally cache some services and the cache lives just for the length of krms execution
@@ -69,7 +66,7 @@ public class InstructionProposition extends AbstractLeafProposition {
 
         Proposition proposition;
         try {
-            proposition = this.constructProposition(check, environment, personId, asOfDate, contextInfo);
+            proposition = this.constructProposition(check);
         } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
@@ -77,11 +74,7 @@ public class InstructionProposition extends AbstractLeafProposition {
         return result;
     }
 
-    private Proposition constructProposition(CheckInfo check,
-            ExecutionEnvironment environment,
-            String personId,
-            Date asOfDate,
-            ContextInfo contextInfo) throws Exception {
+    private Proposition constructProposition(CheckInfo check) throws Exception {
 
         // TODO: when we can use java7 change to a switch  statement based on the type
         // if a sub-process is found,

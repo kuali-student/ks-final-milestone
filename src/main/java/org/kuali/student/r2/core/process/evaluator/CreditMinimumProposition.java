@@ -8,7 +8,7 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.core.process.krms.proposition;
+package org.kuali.student.r2.core.process.evaluator;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
@@ -22,7 +22,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
  *
  * @author alubbers
  */
-public class CreditLimitProposition extends AbstractLeafProposition {
+public class CreditMinimumProposition extends AbstractLeafProposition {
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
@@ -31,8 +31,8 @@ public class CreditLimitProposition extends AbstractLeafProposition {
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
         String atpId = environment.resolveTerm(RulesExecutionConstants.ATP_ID_TERM, this);
         
-        // TODO: wire in the actual credit limit calculation
-        KualiDecimal value = new KualiDecimal ("15");
+        // TODO: wire in the actual credit minimum calculation
+        KualiDecimal value = new KualiDecimal ("10");
         return this.recordSuccessWithDecimalValueDetail(environment, value);
     }
 }

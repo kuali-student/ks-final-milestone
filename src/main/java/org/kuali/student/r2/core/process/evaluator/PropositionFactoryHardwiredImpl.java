@@ -4,10 +4,6 @@ import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.core.process.krms.proposition.CreditLimitProposition;
-import org.kuali.student.r2.core.process.krms.proposition.CreditLoadProposition;
-import org.kuali.student.r2.core.process.krms.proposition.CreditMinimumProposition;
-import org.kuali.student.r2.core.process.krms.proposition.IsAliveProposition;
 
 /**
  * Factory for getting the required load calculation rule given a key
