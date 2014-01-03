@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.ui.registration;
 
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.ui.registration.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.InstructorSearchResult;
@@ -101,12 +100,11 @@ public interface ScheduleOfClassesService {
     @Path("/instructors/activityOfferingId/{activityOfferingId}/")
     public List<InstructorSearchResult> loadInstructorsByActivityOfferingId(@PathParam("activityOfferingId") String activityOfferingId) throws Exception;
 
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
-    @Path("/registerreggroup/termcode/{termCode}/course/{courseCode}/reggroupname/{regGroupName}")
-    public RegistrationResponseInfo RegisterForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(@PathParam("termCode") String termCode,
-                                                                                            @PathParam("courseCode") String courseCode,
-                                                                                            @PathParam("regGroupName") String regGroupName) throws Exception;
+    @Path("/atp/termcode/{termCode}/")
+    public String getAtpIdByAtpCode(@PathParam("termCode") String termCode) throws Exception;
 
 }

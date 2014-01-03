@@ -10,13 +10,7 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService;
@@ -26,14 +20,12 @@ import org.kuali.student.enrollment.ui.registration.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.RegGroupSearchResult;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -52,10 +44,8 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
@@ -63,7 +53,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private LprService lprService;
     private IdentityService identityService;
     private AtpService atpService;
-    private CourseRegistrationService courseRegistrationService;
 
     Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
 
@@ -160,52 +149,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return searchForInstructorsAoId(aoIds, ContextUtils.createDefaultContextInfo());
     }
 
+
     @Override
-    public RegistrationResponseInfo RegisterForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode, @PathParam("regGroupName") String regGroupName) throws Exception {
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-        RegGroupSearchResult regGroupSearchResult = loadRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(termCode, courseCode, regGroupName);
-
-        RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
-        regReqInfo.setRequestorId(contextInfo.getPrincipalId());
-        regReqInfo.setTermId(getAtpIdByAtpCode(termCode)); // bad bc we have it from the load call above
-        regReqInfo.setStateKey("reggroup.enroll.persist"); // making this up for poc
-        regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
-
-        RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
-        registrationRequestItem.setTypeKey("registration.request.item");
-        registrationRequestItem.setStateKey("registration.request.item.active");
-        registrationRequestItem.setExistingRegistrationGroupId(regGroupSearchResult.getRegGroupId());
-        registrationRequestItem.setStudentId(contextInfo.getPrincipalId());
-
-
-        regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
-
-        RegistrationRequestInfo newRegReq = getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
-
-        RegistrationResponseInfo registrationResponseInfo = getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
-
-        return registrationResponseInfo;
-    }
-
-    private ContextInfo createDefaultContextInfo(){
-        ContextInfo contextInfo = new ContextInfo();
-
-        UserSession userSession = GlobalVariables.getUserSession();
-        if (userSession != null) {
-            contextInfo.setAuthenticatedPrincipalId(userSession.getPrincipalId());
-            contextInfo.setPrincipalId(userSession.getPrincipalId());
-        }
-
-        contextInfo.setCurrentDate(new Date());
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(Locale.getDefault().getLanguage());
-        localeInfo.setLocaleRegion(Locale.getDefault().getCountry());
-        contextInfo.setLocale(localeInfo);
-        return contextInfo;
-    }
-
-    private String getAtpIdByAtpCode(String atpCode) throws Exception {
+    public String getAtpIdByAtpCode(String atpCode) throws Exception {
         String sRet = null;
         List<AtpInfo> atpList = getAtpService().getAtpsByCode(atpCode, ContextUtils.createDefaultContextInfo());
         if(atpList != null && !atpList.isEmpty()){
@@ -559,15 +505,4 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         this.atpService = atpService;
     }
 
-    public CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegistrationService == null){
-            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-
-        return courseRegistrationService;
-    }
-
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
-    }
 }
