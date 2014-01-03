@@ -9,6 +9,7 @@
  */
 function ksapLoadPlannerItems(loaded,pageSize) {
     if(!loaded){
+        setupImages();
         retrieveComponent('planner_courses_detail','load');
     }else{
         ksapInitializePlannerItems(pageSize);
@@ -160,7 +161,7 @@ function ksapPlannerUpdateCategory(backup, target, e) {
 			planItemId : t.data('planitemid'),
 			courseId : t.data('courseid'),
 			uniqueId : t.data('uniqueid'),
-			backup : backup,
+			backup : backup
 		});
 	var form = jQuery("<form/>")
 			.attr("action", "planner")
@@ -240,6 +241,7 @@ function ksapPlannerUpdateEvent(response, textStatus, jqXHR) {
  * @param data - Data for the new object
  */
 function ksapPlannerAddPlanItem (data) {
+    // Add plan item to the planner calendar
     if(jQuery("#planner_item_template").length){
         var item = jQuery("#planner_item_template").html();
         for (var key in data)
@@ -273,10 +275,14 @@ function ksapPlannerAddPlanItem (data) {
                 });
 
     }
+
+    // Change status on the course search page
     if(jQuery("#"+data.courseId+"_status").length){
         var item = jQuery("#"+data.courseId+"_status");
         item.addClass("planned").html("Planned");
     }
+
+    // Hide add to plan button on the course details page
     if(jQuery("#"+data.courseId+"_addPlannedCourse").length){
         var item = jQuery("#"+data.courseId+"_addPlannedCourse");
         item.hide();
@@ -341,17 +347,13 @@ function ksapPlannerUpdateCredits (data) {
  * @param data - Data needed to removed the object
  */
 function ksapPlannerUpdateTermNote (data) {
-    jQuery("#"+data.uniqueId+"_termnote_message_span").fadeOut(250, function() {
-    	if (data.termNote == null || data.termNote == "") {
-            jQuery(this).text("No term notes").addClass("ks-plan-TermNote-input-empty").fadeIn(250);
-            jQuery("#"+data.uniqueId+"_termNote").attr("title","");
-            jQuery("#"+data.uniqueId+"_termNote").addClass('invisible');
-        } else {
-            jQuery(this).text(data.termNote).removeClass("ks-plan-TermNote-input-empty").fadeIn(250);
-            jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
-            jQuery("#"+data.uniqueId+"_termNote").removeClass('invisible');
-    	}
-    });
+    if (data.termNote == null || data.termNote == "") {
+        jQuery("#"+data.uniqueId+"_termNote").attr("title","");
+        jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/btnAdd.png");
+    } else {
+        jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
+        jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/iconInfo.png");
+    }
 
 }
 
@@ -375,12 +377,13 @@ function doNothing(){
 }
 
 /**
- * Adds an html object into the calendar by copying a hidden template copy
+ * Adds an html object into the bookmark sidebar by copying a hidden template copy
  * and filling in placeholders with the needed data
  *
  * @param data - Data for the new object
  */
 function ksapBookmarkAddItem (data) {
+    // Add Bookmark sidebar item
     if(jQuery("#bookmark_sidebar_item_template").length){
         var item = jQuery("#bookmark_sidebar_item_template").html();
         for (var key in data)
@@ -397,12 +400,16 @@ function ksapBookmarkAddItem (data) {
             .animate({backgroundColor:"#ffffff"}, 1500, function() {
                 runHiddenScripts(data.uid);
             });
-
+        truncateField('bookmark_summary');
     }
+
+    // Change status on course search page
     if(jQuery("#"+data.courseId+"_status").length){
         var item = jQuery("#"+data.courseId+"_status");
         item.addClass("bookmarked").html("Bookmarked");
     }
+
+    // Hide bookmark button on course detail page
     if(jQuery("#"+data.courseId+"_addSavedCourse").length){
         var item = jQuery("#"+data.courseId+"_addSavedCourse");
         item.hide();
@@ -410,8 +417,7 @@ function ksapBookmarkAddItem (data) {
 }
 
 /**
- * Adds an html object into the calendar by copying a hidden template copy
- * and filling in placeholders with the needed data
+ * Updates the html object containing the total number of bookmarks for the bookmark side bar.y
  *
  * @param data - Data for the new object
  */

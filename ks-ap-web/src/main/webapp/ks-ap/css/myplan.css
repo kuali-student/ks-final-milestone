@@ -2668,7 +2668,7 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 
 .ks-plan-Note-input {
     resize: none;
-    width:97%;
+    width:95%;
 }
 
 #popupForm .jquerybubblepopup{
@@ -2754,3 +2754,18 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 /* Common Utility Styles */
 .ksap-no-margin {margin: 0;}
 .ksap-hide {display:none;}
+
+.ks-Popover-header.uif-hideHeaderText h4{
+    display: block;
+    border-bottom: solid 1px #000000;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    font-weight: bold;
+}
+.jquerypopover{
+    text-align: left;
+}
+
+.ks-plan-Bucket-headerStatusIcons{
+    right:5px;
+}

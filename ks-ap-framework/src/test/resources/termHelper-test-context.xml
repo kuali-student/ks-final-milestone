@@ -86,10 +86,10 @@
 
     <!--<bean id="dataLoader" class="org.kuali.student.ap.framework.context.support.TermAndCalDataLoader" />-->
 
-    <bean id="ksEnrollAcalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
-        <property name="atpService" ref="ksCoreAtpService" />
+    <bean id="academicCalendarService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
+        <property name="atpService" ref="atpService" />
         <property name="stateService" ref="stateService" />
-        <property name="typeService" ref="ksCoreTypeService" />
+        <property name="typeService" ref="typeService" />
         <property name="acalAssembler" ref="acalAssembler" />
         <property name="holidayAssembler" ref="holidayAssembler" />
         <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
@@ -99,7 +99,7 @@
     </bean>
 
     <bean id="acalAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler">
-        <property name="atpService" ref="ksCoreAtpService" />
+        <property name="atpService" ref="atpService" />
     </bean>
 
     <bean id="holidayAssembler" class="org.kuali.student.r2.core.acal.service.assembler.HolidayAssembler" />
@@ -112,7 +112,7 @@
     <bean id="acalEventAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler" />
 
 
-    <bean id="ksCoreAtpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao"/>
         <property name="atpRelDao" ref="atpAtpRelationDao"/>
         <property name="milestoneDao" ref="milestoneDao"/>

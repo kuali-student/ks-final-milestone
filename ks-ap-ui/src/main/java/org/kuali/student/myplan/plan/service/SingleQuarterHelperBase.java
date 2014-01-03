@@ -66,7 +66,7 @@ public class SingleQuarterHelperBase {
 		 ******************/
 		if (studentCourseRecordInfos.size() > 0) {
 			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
-                String termId = KsapFrameworkServiceLocator.getTermHelper().findTermIdByNameAndContainingDates(studentInfo.getCourseBeginDate(), studentInfo.getCourseEndDate(), studentInfo.getTermName());
+                String termId = studentInfo.getTermId();
 				if (termAtp.equalsIgnoreCase(termId)) {
 					CourseDetailsInquiryHelperImpl courseDetailsService = new CourseDetailsInquiryHelperImpl();
 					AcademicRecordDataObject academicRecordDataObject = new AcademicRecordDataObject();

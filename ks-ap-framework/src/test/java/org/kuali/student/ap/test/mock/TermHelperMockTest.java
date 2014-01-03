@@ -235,11 +235,6 @@ public class TermHelperMockTest implements TermHelper {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    @Override
-    public String findTermIdByNameAndContainingDates(Date termBeginDate, Date termEndDate, String termName) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     /**
      * Gets the current term based on the current date.
      *

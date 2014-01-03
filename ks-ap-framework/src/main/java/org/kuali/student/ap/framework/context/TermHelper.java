@@ -181,9 +181,6 @@ public interface TermHelper {
 	 */
 	YearTerm getYearTerm(Term term);
 
-    public String findTermIdByNameAndContainingDates
-            (Date termBeginDate, Date termEndDate, String termName);
-
     /**
      * Gets the current term based on the current date.
      *

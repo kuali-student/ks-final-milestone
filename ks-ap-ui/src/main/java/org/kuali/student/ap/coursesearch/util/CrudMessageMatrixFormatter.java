@@ -370,7 +370,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
 	/**
 	 * returns the section links string for given courseId and term in the form
-	 * ("<a href="http://localhost:8080/student/myplan/inquiry?methodToCall=
+	 * ("<a href="http://localhost:8080/kr-krad/inquiry?methodToCall=
 	 * start&viewId=CourseDetails-InquiryView&courseId=60325fa8-7307-454a-be73-3
 	 * cc1c642122d#kuali-uw-atp-2013-1-19889"> Section (SLN) </a>")
 	 * 
@@ -399,7 +399,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 					.format("<a href=\"%s\">%s</a>",
 							ConfigContext.getCurrentContextConfig()
 									.getProperty("appserver.url")
-									+ "/ap/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
+									+ "/kr-krad/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId="
 									+ courseDetails.getCourseSummaryDetails()
 											.getCourseId()
 									+ "#"

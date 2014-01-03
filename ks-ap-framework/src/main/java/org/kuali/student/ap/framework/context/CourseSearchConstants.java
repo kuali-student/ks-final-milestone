@@ -58,7 +58,7 @@ public class CourseSearchConstants {
 
     //Unused
 
-    public static final String LINK = "<a href=\"%s/ap/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=%s#%s_tab-%s\">%s</a>";
+    public static final String LINK = "<a href=\"%s/kr-krad/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=%s#%s_tab-%s\">%s</a>";
 
     public static final String APP_URL = "appserver.url";
 

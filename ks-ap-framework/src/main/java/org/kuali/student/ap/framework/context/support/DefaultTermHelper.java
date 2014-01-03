@@ -64,40 +64,6 @@ public class DefaultTermHelper implements TermHelper {
 
 	private static final MarkerKey MARKER_KEY = new MarkerKey();
 
-
-
-    /**
-     * Find TermId by termName and that contains the specified begin/end dates
-     * @param termBeginDate begin date
-     * @param termEndDate end date
-     * @param termName term name
-     * @return termId
-     */
-    @Override
-    public String findTermIdByNameAndContainingDates
-            (Date termBeginDate, Date termEndDate, String termName) {
-        String matchTermId = null;
-        try {
-            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate",termBeginDate),greaterThanOrEqual("endDate",termEndDate),
-                    equal("name",termName));
-            List<TermInfo> terms = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
-            for (TermInfo term : terms) {
-                if (term.getName().equals(termName)) {
-                    if (matchTermId != null)
-                        throw new RuntimeException("multiple terms found with name=" + termName+" and start/end="+termBeginDate+"/"+termEndDate);
-                    matchTermId = term.getId();
-                }
-            }
-        } catch (Exception e) {
-            String errMsg = "exception retrieving termId by dates/type for termName=" + termName +
-                    " and start/end="+termBeginDate+"/"+termEndDate+"; exception: " + e.getMessage();
-            throw new RuntimeException(errMsg, e);
-        }
-        return matchTermId;
-    }
-
     private static class MarkerKey {
 		@Override
 		public int hashCode() {

@@ -3144,7 +3144,7 @@ public class PlanController extends UifControllerBase {
 				double academicTotalMax = 0;
 				if (studentCourseRecordInfos.size() > 0) {
 					for (StudentCourseRecordInfo ar : studentCourseRecordInfos) {
-                        String atpId = KsapFrameworkServiceLocator.getTermHelper().findTermIdByNameAndContainingDates(ar.getCourseBeginDate(), ar.getCourseEndDate(), ar.getTermName());
+                        String atpId = ar.getTermId();
                         if (atpId.equalsIgnoreCase(termId)) {
 							if (ar.getCreditsEarned() != null || !ar.getCreditsEarned().isEmpty()
 									&& !ar.getCreditsEarned().contains(".")) {

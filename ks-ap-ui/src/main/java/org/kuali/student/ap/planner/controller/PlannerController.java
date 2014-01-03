@@ -786,7 +786,7 @@ public class PlannerController extends KsapControllerBase {
         // Create json strings for displaying action's response and updating the planner screen.
         eventList = PlanEventUtils.makeAddEvent(planItemInfo, eventList);
         eventList = PlanEventUtils.updateTotalCreditsEvent(true, termId, eventList);
-        PlanEventUtils.sendJsonEvents(true, "Course " + course.getCode() + " added to plan for " + term.getName(),
+        PlanEventUtils.sendJsonEvents(true, course.getCode() + " was successfully added to your plan.",
                 response, eventList);
     }
 
@@ -870,6 +870,10 @@ public class PlannerController extends KsapControllerBase {
         return null;
     }
 
+    /**
+     * Handles the additions of items to the bookmark list.
+     * Creates a plan item for a course and adds it as a bookmarrk.
+     */
     @RequestMapping(params = "methodToCall=addBookmark")
     public ModelAndView addBookmark(@ModelAttribute("KualiForm") PlannerForm form, BindingResult result,
                                        HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException{

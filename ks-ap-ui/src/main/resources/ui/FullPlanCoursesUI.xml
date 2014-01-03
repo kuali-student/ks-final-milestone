@@ -22,7 +22,8 @@
     <!-- ################# Tabular view of full academic plan ############################# -->
 
     <!--Bean for the Full Academic Plan View  -->
-    <bean id="FullPlannedCourses-LookupView" parent="KSAPBaseLookupView">
+    <bean id="FullPlannedCourses-LookupView" parent="FullPlannedCourses-LookupView-parent"/>
+    <bean id="FullPlannedCourses-LookupView-parent" abstract="true" parent="KSAPBaseLookupView">
         <property name="viewName" value="FullPlannedCourses-LookupView"/>
         <property name="dataObjectClassName" value="org.kuali.student.myplan.plan.dataobject.PlannedTerm"/>
         <property name="viewHelperServiceClass"
@@ -73,7 +74,8 @@
         <property name="footer.render" value="false"/>
     </bean>
 
-    <bean id="full_planned_courses" parent="Uif-VerticalBoxSection">
+    <bean id="full_planned_courses" parent="full_planned_courses-parent"/>
+    <bean id="full_planned_courses-parent" abstract="true" parent="Uif-VerticalBoxSection">
         <property name="validationMessages.render" value="false"/>
         <property name="style" value="border:solid 1px #ddd; border-radius:5px; margin-top:20px;"/>
         <property name="items">
@@ -136,7 +138,8 @@
         </property>
     </bean>
 
-    <bean id="full_planned_courses_detail" parent="Uif-VerticalBoxSubSection" p:headerText="Entire Academic Plan">
+    <bean id="full_planned_courses_detail" parent="full_planned_courses_detail-parent"/>
+    <bean id="full_planned_courses_detail-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="Entire Academic Plan">
         <property name="style" value="padding:10px;"/>
         <property name="onDocumentReadyScript" value="
             jQuery('th, td').removeAttr('width');
@@ -202,7 +205,8 @@
     </bean>
 
     <!--Collection list of the Full Plan Items-->
-    <bean id="academicYearCollection" parent="Uif-StackedCollectionGroup" p:style="margin:0;">
+    <bean id="academicYearCollection" parent="academicYearCollection-parent"/>
+    <bean id="academicYearCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:style="margin:0;">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses" value=""/>
         <property name="collectionObjectClass"
@@ -248,7 +252,8 @@
         </property>
     </bean>
 
-    <bean id="termsCollection" parent="UifKSAP-HorizontalStackedSubCollection-WithinSection">
+    <bean id="termsCollection" parent="termsCollection-parent"/>
+    <bean id="termsCollection-parent" abstract="true" parent="UifKSAP-HorizontalStackedSubCollection-WithinSection">
         <property name="validationMessages.render" value="false"/>
         <property name="cssClasses" value="ksap-remove-margin"/>
         <property name="collectionObjectClass"
@@ -307,7 +312,8 @@
         </property>
     </bean>
 
-    <bean id="academicRecordDOCollection" parent="Uif-StackedCollectionGroup" p:headerText="Registered">
+    <bean id="academicRecordDOCollection" parent="academicRecordDOCollection-parent"/>
+    <bean id="academicRecordDOCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Registered">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderFour"/>
@@ -353,7 +359,8 @@
         <property name="collectionLookup.quickfinderAction.render" value="false"/>
     </bean>
 
-    <bean id="plannedCourseDOCollection" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
+    <bean id="plannedCourseDOCollection" parent="plannedCourseDOCollection-parent"/>
+    <bean id="plannedCourseDOCollection-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:headerText="Planned">
         <property name="validationMessages.render" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderFour"/>

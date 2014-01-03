@@ -89,7 +89,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
 		String firstAtpId = null;
 		if (studentCourseRecordInfos != null)  {
             StudentCourseRecordInfo rec0=studentCourseRecordInfos.get(0);
-            firstAtpId= KsapFrameworkServiceLocator.getTermHelper().findTermIdByNameAndContainingDates(rec0.getCourseBeginDate(), rec0.getCourseEndDate(), rec0.getTermName());
+            firstAtpId= rec0.getTermId();
         }
 		KsapFrameworkServiceLocator.getTermHelper().frontLoadForPlanner(firstAtpId);
 
@@ -171,7 +171,7 @@ public class PlannedCoursesLookupableHelperImpl extends PlanItemLookupableHelper
         String firstAtpId = null;
         if (studentCourseRecordInfos != null)  {
             StudentCourseRecordInfo rec0=studentCourseRecordInfos.get(0);
-            firstAtpId= KsapFrameworkServiceLocator.getTermHelper().findTermIdByNameAndContainingDates(rec0.getCourseBeginDate(), rec0.getCourseEndDate(), rec0.getTermName());
+            firstAtpId= rec0.getTermId();
         }
         KsapFrameworkServiceLocator.getTermHelper().frontLoadForPlanner(firstAtpId);
 

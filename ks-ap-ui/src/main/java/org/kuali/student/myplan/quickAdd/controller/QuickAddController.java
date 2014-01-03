@@ -775,7 +775,7 @@ public class QuickAddController extends UifControllerBase {
 				double academicTotalMax = 0;
 				if (studentCourseRecordInfos.size() > 0) {
 					for (StudentCourseRecordInfo ar : studentCourseRecordInfos) {
-                        String stuRecTermId = KsapFrameworkServiceLocator.getTermHelper().findTermIdByNameAndContainingDates(ar.getCourseBeginDate(), ar.getCourseEndDate(), ar.getTermName());
+                        String stuRecTermId = ar.getTermId();
                         if (stuRecTermId.equalsIgnoreCase(termId)) {
 							if (ar.getCreditsEarned() != null
 									|| !ar.getCreditsEarned().isEmpty()

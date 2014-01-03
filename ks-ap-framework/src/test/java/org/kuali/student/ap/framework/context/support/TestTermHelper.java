@@ -68,15 +68,6 @@ public class TestTermHelper {
     }
 
     @Test
-    public void testFindTermIdByNameAndContainingDates() throws Exception {
-        Date now = new Date();
-        String name = "ksapAtpNow2";
-
-        String termId = th.findTermIdByNameAndContainingDates(now, now, name);
-        assertEquals(name, termId);
-    }
-
-    @Test
     @Ignore
     public void testFrontLoadForPlanner() throws Exception {
         //TODO What is this doing?  Do we really need it?

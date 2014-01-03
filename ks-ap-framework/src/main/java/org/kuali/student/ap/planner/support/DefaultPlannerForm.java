@@ -374,7 +374,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
 
 			if (completedRecords != null)
 				for (StudentCourseRecordInfo completedRecord : completedRecords) {
-					String termId = KsapFrameworkServiceLocator.getTermHelper().findTermIdByNameAndContainingDates(completedRecord.getCourseBeginDate(), completedRecord.getCourseEndDate(), completedRecord.getTermName());
+					String termId =completedRecord.getTermId();
 					termIds.add(termId);
 					List<PlannerItem> itemList = completed.get(termId);
 					if (itemList == null)

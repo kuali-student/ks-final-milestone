@@ -1,10 +1,4 @@
 /**
- * Fix under KSAP-
- * Placed for retrieve component since refresh image doesnt seem to get set.
- */
-var refreshImage = jQuery("<img src='../ks-ap/images/ajaxLoader.gif' alt='" + getMessage(kradVariables.MESSAGE_LOADING) + "' /> ");
-
-/**
  * Fix under KSAP-265
  * Override of krad.actions.js.  Allowing alternate form name to be set on retrieve.
  */

@@ -327,7 +327,6 @@
                   value="org.kuali.student.ap.bookmark.dto.BookmarkDetailWrapper"/>
         <property name="propertyName" value="lookupResults"/>
         <property name="render" value="@{lookupResults.size() gt 0}"/>
-        <property name="onDocumentReadyScript" value="initializeBookmarkListEvents();"/>
         <property name="layoutManager.lineGroupPrototype.id" value="@{#line.uniqueId}"/>
         <property name="cssClasses">
             <list merge="true">
@@ -538,7 +537,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:style="padding-bottom: 10px;"
-                      p:messageText="Your List Is Empty. &lt;a href=&quot;@{#ConfigProperties['application.url']}/ap/course?methodToCall=start&amp;viewId=CourseSearch-FormView&quot;&gt;Find Courses&lt;/a&gt; and bookmark them.">
+                      p:messageText="Your List Is Empty. &lt;a href=&quot;@{#ConfigProperties['application.url']}/kr-krad/course?methodToCall=start&amp;viewId=CourseSearch-FormView&quot;&gt;Find Courses&lt;/a&gt; and bookmark them.">
                 </bean>
                 <ref bean="empty_bookmark_section"/>
 

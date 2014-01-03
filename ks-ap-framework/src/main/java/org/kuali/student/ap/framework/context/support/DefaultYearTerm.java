@@ -6,12 +6,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
 /**
  * Data Storage for the Term and Year of a single atp. Formats different output
@@ -21,42 +17,12 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 
 	private static final Logger LOG = Logger.getLogger(DefaultYearTerm.class);
 
-	private static String[] termTypes;
-
-	private static String[] getTermTypes() {
-		if (termTypes == null) {
-			try {
-				List<TypeInfo> termTypeInfos = KsapFrameworkServiceLocator
-						.getAcademicCalendarService().getTermTypes(
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
-				if (termTypeInfos == null || termTypeInfos.isEmpty())
-					throw new IllegalStateException(
-							"No term types available using AcademicCalendarService.getTermTypes()");
-				String[] tto = new String[termTypeInfos.size()];
-				for (int i = 0; i < tto.length; i++)
-					tto[i] = termTypeInfos.get(i).getKey();
-				termTypes = tto;
-				LOG.info("Set term types to " + Arrays.toString(termTypes));
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("Type lookup error", e);
-			} catch (MissingParameterException e) {
-				throw new IllegalArgumentException("Type lookup error", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("Type lookup error", e);
-			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("Type lookup error", e);
-			}
-		}
-		return termTypes;
-	}
-
 	private final String termId;
 	private final String termType;
 	private final int year;
 
 	public DefaultYearTerm(String termId, String termType, int year) {
-		if (!Arrays.asList(getTermTypes()).contains(termType))
+		if (!KsapHelperUtil.getTermTypes().contains(termType))
 			throw new IllegalArgumentException("Term type " + termType
 					+ " not supported");
 		this.termId = termId;

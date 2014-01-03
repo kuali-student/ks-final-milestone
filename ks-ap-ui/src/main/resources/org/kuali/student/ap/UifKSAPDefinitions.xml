@@ -37,13 +37,23 @@
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
                   p:templateName="ksap_app_header"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
                   p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
         </property>
     </bean>
 
@@ -64,13 +74,23 @@
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
                   p:templateName="ksap_app_header"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
                   p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
         </property>
     </bean>
 
@@ -91,13 +111,23 @@
         </property>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
                   p:templateName="ksap_app_header"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
                   p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
         </property>
     </bean>
 
@@ -118,13 +148,23 @@
         <property name="footer" ref="KSAPFooterDocument"/>
         <property name="applicationHeader">
             <bean parent="Uif-HeaderOne" p:id="ks-banner"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
                   p:templateName="ksap_app_header"/>
         </property>
         <property name="applicationFooter">
             <bean parent="Uif-FooterBase" p:id="ks-footer"
-                  p:template="/ks-myplan/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
                   p:cssClasses="ks-page-bottom" p:templateName="ksap_app_header"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
         </property>
     </bean>
 
@@ -135,7 +175,7 @@
         <property name="cssFiles">
             <list merge="true">
                 <value>ks-ap/scripts/jquery-popover/jquery.popover.css</value>
-                <value>ks-myplan/jquery-ui/jquery-ui.css</value>
+                <value>ks-ap/jquery-ui/jquery-ui.css</value>
                 <value>ks-ap/css/myplan.css</value>
             </list>
         </property>
@@ -144,10 +184,8 @@
             <list merge="true">
                 <value>ks-ap/scripts/KradOverrides.js</value>
                 <value>ks-ap/scripts/plan/planner.js</value>
-                <value>ks-myplan/scripts/ksap.widgets.js?@{#ConfigProperties['ksap.version']}</value>
-                <value>ks-myplan/scripts/ksap.events.js?@{#ConfigProperties['ksap.version']}</value>
-                <value>ks-myplan/plugins/jquery.subscribe.js?@{#ConfigProperties['ksap.version']}</value>
-                <value>ks-myplan/plugins/polling.js?@{#ConfigProperties['ksap.version']}</value>
+                <value>ks-ap/scripts/ksap.widgets.js?@{#ConfigProperties['ksap.version']}</value>
+                <value>ks-ap/plugins/jquery.subscribe.js?@{#ConfigProperties['ksap.version']}</value>
                 <value>ks-ap/scripts/jquery-popover/jquery.popover.js?@{#ConfigProperties['ksap.version']}</value>
             </list>
         </property>
@@ -297,7 +335,7 @@
           parent="Uif-StackedCollectionLayout-WithBoxItems-parentBean">
 
         <!--
-        <property name="template" value="/ks-myplan/WEB-INF/jsp/templates/layout/override/horizontalstacked.jsp"/>
+        <property name="template" value="/ks-ap/WEB-INF/jsp/templates/layout/override/horizontalstacked.jsp"/>
         -->
 
         <property name="addLineGroup">
@@ -461,20 +499,6 @@
         <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
         <property name="onDocumentReadyScript" value="
             ksapRetrieveComponent('watch_list','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});
-            var obj = jQuery('div.ksap-saved-courses-summary.ksap-stacked-list',jQuery('body').html());
-            obj.on('PLAN_ITEM_DELETED', function(event, data){
-                if (data.category === 'wishlist') {
-                    ksapRetrieveComponent('saved_courses_summary','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});
-                    jQuery('div.jquerybubblepopup.jquerybubblepopup-ksap .jquerybubblepopup-tail').fadeOut(250, function() {
-                        jQuery(this).remove();
-                        fnCloseAllPopups();
-                    });
-                }
-            }).on('PLAN_ITEM_ADDED', function(event, data){
-                if (data.category === 'wishlist') {
-                    ksapRetrieveComponent('saved_courses_summary','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'},data.planItemId);
-                }
-            });
         "/>
     </bean>
 
@@ -617,7 +641,7 @@
     <bean id="KSAP-SimpleDataField" parent="KSAP-SimpleDataField-parentBean"/>
     <bean id="KSAP-SimpleDataField-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
         <property name="fieldLabel.render" value="false"/>
-        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
         <property name="templateName" value="ksap_simpleDataField"/>
         <property name="inquiry">
             <null/>
@@ -631,7 +655,7 @@
     <bean id="KSAP-SimpleInputField" parent="KSAP-SimpleInputField-parentBean"/>
     <bean id="KSAP-SimpleInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
         <property name="fieldLabel.render" value="false"/>
-        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
         <property name="templateName" value="ksap_simpleDataField"/>
         <property name="inquiry">
             <null/>
@@ -669,7 +693,7 @@
 
     <bean id="KSAP-StackedCollectionGroup" parent="KSAP-StackedCollectionGroup-parentBean"/>
     <bean id="KSAP-StackedCollectionGroup-parentBean" abstract="true" parent="Uif-StackedCollectionGroup-parentBean">
-        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/KSAPcollectionGroup.ftl"/>
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/KSAPcollectionGroup.ftl"/>
         <property name="templateName" value="ksap_collectionGroup"/>
 
 
@@ -763,7 +787,7 @@
 
     <bean id="KSAP-VerticalFieldGroup" parent="KSAP-VerticalFieldGroup-parent"/>
     <bean id="KSAP-VerticalFieldGroup-parent" abstract="true" parent="Uif-VerticalFieldGroup">
-        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/field/fieldGroup.ftl"/>
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/field/fieldGroup.ftl"/>
         <property name="fieldLabel">
             <bean parent="Uif-Label">
                 <property name="render" value="false"/>
@@ -786,7 +810,7 @@
 
     <bean id="KSAP-HorizontalFieldGroup" parent="KSAP-HorizontalFieldGroup-parent"/>
     <bean id="KSAP-HorizontalFieldGroup-parent" abstract="true" parent="Uif-HorizontalFieldGroup">
-        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/field/fieldGroup.ftl"/>
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/field/fieldGroup.ftl"/>
         <property name="fieldLabel">
             <bean parent="Uif-Label">
                 <property name="render" value="false"/>
@@ -813,7 +837,7 @@
             <null/>
         </property>
         <property name="header">
-            <bean parent="Uif-HeaderSix">
+            <bean parent="Uif-HeaderFour">
 		        <property name="cssClasses">
 		        	<list merge="true">
 			        	<value>ks-Popover-header</value>
@@ -844,7 +868,7 @@
 
     <bean id="KSAP-Suggest" parent="KSAP-Suggest-parent"/>
     <bean id="KSAP-Suggest-parent" abstract="true" parent="Uif-Suggest-parentBean">
-        <property name="template" value="/ks-myplan/WEB-INF/ftl/components/widget/suggest.ftl"/>
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/widget/suggest.ftl"/>
     </bean>
 
     <bean id="Ksap-Page" parent="Uif-Page" class="org.kuali.rice.krad.uif.container.extension.KSAPPageGroup"/>

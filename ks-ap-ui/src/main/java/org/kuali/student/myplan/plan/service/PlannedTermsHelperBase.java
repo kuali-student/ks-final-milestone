@@ -54,7 +54,7 @@ public class PlannedTermsHelperBase {
 	                    try{
 	                        LOG.warn("Could not find future planned term, using last term", e2);
                             StudentCourseRecordInfo studentInfo = studentCourseRecordInfos.get(studentCourseRecordInfos.size() - 1);
-                            String termId = KsapFrameworkServiceLocator.getTermHelper().findTermIdByNameAndContainingDates(studentInfo.getCourseBeginDate(), studentInfo.getCourseEndDate(), studentInfo.getTermName());
+                            String termId = studentInfo.getTermId();
                             focusQuarterYear = th.getYearTerm(termId);
 	                    }catch(Exception e3){
 	                        LOG.error("Could not find last term, using first term");
@@ -98,7 +98,7 @@ public class PlannedTermsHelperBase {
 
 		if (studentCourseRecordInfos.size() > 0) {
 			for (StudentCourseRecordInfo studentInfo : studentCourseRecordInfos) {
-				String termId = KsapFrameworkServiceLocator.getTermHelper().findTermIdByNameAndContainingDates(studentInfo.getCourseBeginDate(), studentInfo.getCourseEndDate(), studentInfo.getTermName());
+				String termId = studentInfo.getTermId();
 				PlannedTerm pt = termsList.get(termId);
 				if (pt == null) {
 					Term t = KsapFrameworkServiceLocator.getTermHelper().getTerm(termId);

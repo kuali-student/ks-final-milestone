@@ -49,7 +49,8 @@
 			p:template="/WEB-INF/ftl/sb/sb_cart_radio.ftl" p:templateName="sb_cart_radio"
 			class="org.kuali.rice.krad.uif.element.extension.ShoppingCartRadioComponent" />
 
-	<bean id="sb_cart_course_options" parent="Uif-StackedCollectionGroup" p:id="sb_cart_course_options"
+    <bean id="sb_cart_course_options" parent="sb_cart_course_options-parent"/>
+	<bean id="sb_cart_course_options-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:id="sb_cart_course_options"
 			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false">
 		<property name="propertyName" value="courseOptions" />
 		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.CourseOption" />
@@ -129,7 +130,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_cart_classtimes" abstract="true" parent="Uif-StackedCollectionGroup"
+    <bean id="sb_cart_classtimes" abstract="true" parent="sb_cart_classtimes-parent"/>
+	<bean id="sb_cart_classtimes-parent" abstract="true" parent="Uif-StackedCollectionGroup"
  			p:id="sb_cart_activity_classtimes_@{#line.uniqueId}" p:renderAddLine="false"
 			p:renderSaveLineActions="false" p:renderLineActions="false">
 		<property name="propertyName" value="classMeetingTimes" />
@@ -162,7 +164,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_cart_activity_options" parent="Uif-StackedCollectionGroup" p:id="sb_cart_activity_options"
+    <bean id="sb_cart_activity_options" parent="sb_cart_activity_options-parent"/>
+	<bean id="sb_cart_activity_options-parent" parent="Uif-StackedCollectionGroup" p:id="sb_cart_activity_options"
 			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false" abstract="true">
 		<property name="propertyName" value="activityOptions" />
 		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.ActivityOption" />
@@ -181,7 +184,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_cart_secondary_options" parent="Uif-StackedCollectionGroup" p:id="sb_cart_secondary_options"
+    <bean id="sb_cart_secondary_options" parent="sb_cart_secondary_options-parent"/>
+	<bean id="sb_cart_secondary_options-parent" abstract="true" parent="Uif-StackedCollectionGroup" p:id="sb_cart_secondary_options"
 			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false">
 		<property name="propertyName" value="secondaryOptions" />
 		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.SecondaryActivityOptions" />
@@ -247,7 +251,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_cart_remove_page" parent="KSAP-PopoverPage">
+    <bean id="sb_cart_remove_page" parent="sb_cart_remove_page-parent"/>
+	<bean id="sb_cart_remove_page-parent" abstract="true" parent="KSAP-PopoverPage">
 		<property name="id" value="sb_cart_remove_page" />
 		<property name="innerViewWrapperId" value="sb_cart_remove_inner" />
 		<property name="headerText" value="Remove @{shoppingCartRequests[0].course.code} from @{shoppingCartRequests[0].term.name}?" />
@@ -291,7 +296,6 @@
 	</bean>
 
 	<bean id="sb_cart_add_from_plan_page" parent="sb_cart_add_from_plan_page-parent" />
-
 	<bean abstract="true" id="sb_cart_add_from_plan_page-parent" parent="sb_cart_add_page-parent" p:innerViewWrapperId="sb_cart_add_from_plan_inner">
 		<property name="items">
 			<list>
@@ -302,7 +306,8 @@
 		</property>
 	</bean>
 
-	<bean id="sb_activity_table_row" abstract="true" parent="Uif-VerticalFieldGroup" p:additionalCssClasses="ksap-sb-cart-activity-row,ksap-sb-cart-primary-selected">
+    <bean id="sb_activity_table_row" abstract="true" parent="sb_activity_table_row-parent" />
+	<bean id="sb_activity_table_row-parent" abstract="true" parent="Uif-VerticalFieldGroup" p:additionalCssClasses="ksap-sb-cart-activity-row,ksap-sb-cart-primary-selected">
 		<property name="items">
 			<list>
 				<bean parent="Uif-HorizontalBoxGroup">
@@ -348,7 +353,8 @@
 		</property>
 	</bean>
 
-	<bean abstract="true" id="sb_cart_activities" parent="Uif-Disclosure-StackedCollectionSection"
+    <bean abstract="true" id="sb_cart_activities" parent="sb_cart_activities-parent"/>
+	<bean abstract="true" id="sb_cart_activities-parent" parent="Uif-Disclosure-StackedCollectionSection"
 			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false" p:includeLineSelectionField="false">
 		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.ActivityOption" />
     <property name="layoutManager">
@@ -365,7 +371,8 @@
 		</property>
 	</bean>
 
-	<bean abstract="true" id="sb_cart_courses" parent="Uif-StackedCollectionSection" p:additionalCssClasses="ksap-sb-cart-courses"
+    <bean abstract="true" id="sb_cart_courses" parent="sb_cart_courses-parent"/>
+	<bean abstract="true" id="sb_cart_courses-parent" parent="Uif-StackedCollectionSection" p:additionalCssClasses="ksap-sb-cart-courses"
 			p:renderAddLine="false" p:renderSaveLineActions="false" p:renderLineActions="false" p:includeLineSelectionField="false">
 		<property name="collectionObjectClass" value="org.kuali.student.ap.schedulebuilder.infc.CourseOption" />
     <property name="layoutManager">
