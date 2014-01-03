@@ -8,6 +8,7 @@ import java.util.regex.Matcher;
 import org.apache.commons.lang.StringUtils;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
+import org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 
@@ -246,6 +247,26 @@ public class CourseSummaryDetails implements Serializable {
 		}
 		return schTermsb.toString();
 	}
+
+    public String getRequisitesForUI(){
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(getRequisites());
+        editor.setEmptyListMessage("None");
+        return editor.getAsText();
+    }
+
+    public String getTermsOfferedForUI(){
+        CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
+        editor.setValue(getTermsOffered());
+        editor.setEmptyListMessage("Check with the department or your adviser for more information about this course.");
+        editor.setApplyClassOnItem(true);
+        if (editor.getEmptyListStyleClasses()==null) {
+            editor.setEmptyListStyleClasses(new ArrayList<String>());
+        }
+        editor.getEmptyListStyleClasses().add("empty");
+
+        return editor.getAsText();
+    }
 
 	@Override
 	public String toString() {
