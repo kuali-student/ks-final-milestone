@@ -11,6 +11,8 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService;
@@ -26,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -38,6 +41,9 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.ws.rs.PathParam;
 import javax.xml.namespace.QName;
@@ -53,6 +59,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private LprService lprService;
     private IdentityService identityService;
     private AtpService atpService;
+    private CourseService courseService;
+    private CourseOfferingService courseOfferingService;
 
     Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
 
@@ -74,7 +82,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public List<ActivityOfferingSearchResult> loadActivitiesByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception {
+    public List<ActivityOfferingSearchResult> loadActivityOfferingsByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception {
         List<ActivityOfferingSearchResult> retList = searchForActivities(courseOfferingId);
         return retList;
     }
@@ -119,15 +127,15 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public List<ActivityOfferingSearchResult> loadActivitiesByTermIdAndCourseCode(@PathParam("termId") String termId, @PathParam("courseCode") String courseCode) throws Exception {
+    public List<ActivityOfferingSearchResult> loadActivityOfferingsByTermIdAndCourseCode(@PathParam("termId") String termId, @PathParam("courseCode") String courseCode) throws Exception {
         List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, termId);
-        return loadActivitiesByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
+        return loadActivityOfferingsByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
 
     }
 
     @Override
-    public List<ActivityOfferingSearchResult> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
-        return loadActivitiesByTermIdAndCourseCode(getAtpIdByAtpCode(termCode), courseCode);
+    public List<ActivityOfferingSearchResult> loadActivityOfferingsByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
+        return loadActivityOfferingsByTermIdAndCourseCode(getAtpIdByAtpCode(termCode), courseCode);
     }
 
     @Override
@@ -159,6 +167,30 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
 
         return sRet;
+    }
+
+    @Override
+    public List<String> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
+        List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, getAtpIdByAtpCode(termCode));
+        return loadActivitiesByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
+
+    }
+
+    @Override
+    public List<String> loadActivitiesByCourseOfferingId(String courseOfferingId) throws Exception {
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        List<String> activitiesTypeKeys = new ArrayList<String>();
+        List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
+        List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
+        for (FormatOfferingInfo formatOffering : formatOfferings){
+               activities.addAll(getCourseService().getCourseActivitiesByCourseFormat(formatOffering.getFormatId(), contextInfo));
+        }
+
+        for(ActivityInfo activityInfo : activities){
+            activitiesTypeKeys.add(activityInfo.getTypeKey());
+        }
+
+        return activitiesTypeKeys;
     }
 
     private List<CourseSearchResult> searchForCourseOfferings(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
@@ -505,4 +537,28 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         this.atpService = atpService;
     }
 
+    public CourseService getCourseService() {
+        if (courseService == null) {
+            QName qname = new QName(CourseServiceConstants.NAMESPACE,
+                    CourseServiceConstants.SERVICE_NAME_LOCAL_PART);
+            courseService = GlobalResourceLoader.getService(qname);
+        }
+        return courseService;
+    }
+
+    public void setCourseService(CourseService courseService) {
+        this.courseService = courseService;
+    }
+
+    public CourseOfferingService getCourseOfferingService() {
+        if(courseOfferingService == null) {
+            courseOfferingService =  GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
+                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingService;
+    }
+
+    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
+        this.courseOfferingService = courseOfferingService;
+    }
 }

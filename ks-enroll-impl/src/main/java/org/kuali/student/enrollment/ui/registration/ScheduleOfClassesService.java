@@ -59,20 +59,20 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
-    @Path("/activities/courseOfferingId/{courseOfferingId}/")
-    public List<ActivityOfferingSearchResult> loadActivitiesByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception;
+    @Path("/activityofferings/courseOfferingId/{courseOfferingId}/")
+    public List<ActivityOfferingSearchResult> loadActivityOfferingsByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
-    @Path("/activities/termid/{termId}/course/{courseCode}/")
-    public List<ActivityOfferingSearchResult> loadActivitiesByTermIdAndCourseCode(@PathParam("termId") String termId,
+    @Path("/activityofferings/termid/{termId}/course/{courseCode}/")
+    public List<ActivityOfferingSearchResult> loadActivityOfferingsByTermIdAndCourseCode(@PathParam("termId") String termId,
                                                                                 @PathParam("courseCode") String courseCode) throws Exception;
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
-    @Path("/activities/termcode/{termCode}/course/{courseCode}/")
-    public List<ActivityOfferingSearchResult> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode,
+    @Path("/activityofferings/termcode/{termCode}/course/{courseCode}/")
+    public List<ActivityOfferingSearchResult> loadActivityOfferingsByTermCodeAndCourseCode(@PathParam("termCode") String termCode,
                                                                                 @PathParam("courseCode") String courseCode) throws Exception;
 
     @GET
@@ -106,5 +106,18 @@ public interface ScheduleOfClassesService {
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
     @Path("/atp/termcode/{termCode}/")
     public String getAtpIdByAtpCode(@PathParam("termCode") String termCode) throws Exception;
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
+    @Path("/activities/courseOfferingId/{courseOfferingId}/")
+    public List<String> loadActivitiesByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception;
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
+    @Path("/activities/termcode/{termCode}/course/{courseCode}/")
+    public List<String> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode,
+                                                                                           @PathParam("courseCode") String courseCode) throws Exception;
 
 }
