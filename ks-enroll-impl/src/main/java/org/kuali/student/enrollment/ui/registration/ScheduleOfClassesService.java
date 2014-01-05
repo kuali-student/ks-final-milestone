@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.ui.registration;
 
 import org.kuali.student.enrollment.ui.registration.dto.ActivityOfferingSearchResult;
+import org.kuali.student.enrollment.ui.registration.dto.ActivityTypeSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.RegGroupSearchResult;
@@ -111,13 +112,13 @@ public interface ScheduleOfClassesService {
     @Produces({MediaType.APPLICATION_JSON})
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
     @Path("/activities/courseOfferingId/{courseOfferingId}/")
-    public List<String> loadActivitiesByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception;
+    public List<ActivityTypeSearchResult> loadActivitiesByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
     @Path("/activities/termcode/{termCode}/course/{courseCode}/")
-    public List<String> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode,
+    public List<ActivityTypeSearchResult> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode,
                                                                                            @PathParam("courseCode") String courseCode) throws Exception;
 
 }

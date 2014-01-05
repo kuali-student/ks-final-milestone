@@ -4,13 +4,14 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
         "formatOfferingId", "formatOfferingName", "formatId", "activityOfferingClusterId",
         "activityOfferingClusterName", "activityOfferingClusterPrivateName", "activityOfferingId", "activityOfferingCode",
-        "activityOfferingType", "activityOfferingState", "activityOfferingMaxSeats", "scheduleId", "atpId"})
+        "activityOfferingType", "activityOfferingState", "activityOfferingMaxSeats", "scheduleId", "schedule", "atpId", "instructors"})
 public class ActivityOfferingSearchResult {
     String formatOfferingId;
     String formatOfferingName;
@@ -25,6 +26,9 @@ public class ActivityOfferingSearchResult {
     String activityOfferingMaxSeats;
     String scheduleId;
     String atpId;
+
+    ScheduleSearchResult schedule;
+    List<InstructorSearchResult> instructors;
 
     public String getFormatOfferingId() {
         return formatOfferingId;
@@ -128,5 +132,21 @@ public class ActivityOfferingSearchResult {
 
     public void setAtpId(String atpId) {
         this.atpId = atpId;
+    }
+
+    public ScheduleSearchResult getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(ScheduleSearchResult schedule) {
+        this.schedule = schedule;
+    }
+
+    public List<InstructorSearchResult> getInstructors() {
+        return instructors;
+    }
+
+    public void setInstructors(List<InstructorSearchResult> instructors) {
+        this.instructors = instructors;
     }
 }

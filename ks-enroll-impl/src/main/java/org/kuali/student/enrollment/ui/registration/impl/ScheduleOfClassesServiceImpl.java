@@ -17,9 +17,11 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService;
 import org.kuali.student.enrollment.ui.registration.dto.ActivityOfferingSearchResult;
+import org.kuali.student.enrollment.ui.registration.dto.ActivityTypeSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.ui.registration.dto.ScheduleSearchResult;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -34,8 +36,10 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
+import org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -83,7 +87,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     @Override
     public List<ActivityOfferingSearchResult> loadActivityOfferingsByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception {
-        List<ActivityOfferingSearchResult> retList = searchForActivities(courseOfferingId);
+        List<ActivityOfferingSearchResult> retList = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
         return retList;
     }
 
@@ -140,21 +144,21 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     @Override
     public List<InstructorSearchResult> loadInstructorsByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception {
-        List<ActivityOfferingSearchResult> aoList = searchForActivities(courseOfferingId);
+        List<ActivityOfferingSearchResult> aoList = searchForRawActivities(courseOfferingId);
 
         List<String> aoIds = new ArrayList<String>();
         for(ActivityOfferingSearchResult ao : aoList){
             aoIds.add(ao.getActivityOfferingId());
         }
 
-        return searchForInstructorsAoId(aoIds, ContextUtils.createDefaultContextInfo());
+        return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
     }
 
     @Override
     public List<InstructorSearchResult> loadInstructorsByActivityOfferingId(@PathParam("activityOfferingId") String activityOfferingId) throws Exception {
         List<String> aoIds = new ArrayList<String>();
         aoIds.add(activityOfferingId);
-        return searchForInstructorsAoId(aoIds, ContextUtils.createDefaultContextInfo());
+        return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
     }
 
 
@@ -170,16 +174,16 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public List<String> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
+    public List<ActivityTypeSearchResult> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
         List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, getAtpIdByAtpCode(termCode));
         return loadActivitiesByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
 
     }
 
     @Override
-    public List<String> loadActivitiesByCourseOfferingId(String courseOfferingId) throws Exception {
+    public List<ActivityTypeSearchResult> loadActivitiesByCourseOfferingId(String courseOfferingId) throws Exception {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        List<String> activitiesTypeKeys = new ArrayList<String>();
+        List<ActivityTypeSearchResult> activitiesTypeKeys = new ArrayList<ActivityTypeSearchResult>();
         List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
         List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
         for (FormatOfferingInfo formatOffering : formatOfferings){
@@ -187,7 +191,18 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
 
         for(ActivityInfo activityInfo : activities){
-            activitiesTypeKeys.add(activityInfo.getTypeKey());
+            ActivityTypeSearchResult atsr = new ActivityTypeSearchResult();
+            atsr.setTypeKey(activityInfo.getTypeKey());
+            atsr.setName(activityInfo.getName());
+            if(activityInfo.getDescr() != null){
+                if(activityInfo.getDescr().getFormatted() != null){
+                    atsr.setDescription(activityInfo.getDescr().getFormatted());
+                }
+                else {
+                    atsr.setDescription(activityInfo.getDescr().getPlain());
+                }
+            }
+            activitiesTypeKeys.add(atsr);
         }
 
         return activitiesTypeKeys;
@@ -295,7 +310,14 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return resultList;
     }
 
-    private List<ActivityOfferingSearchResult> searchForActivities(String courseOfferingId) throws Exception {
+    /**
+     * Searches for a raw ( schedules, and instructors aren't pulled) of activities.
+     *
+     * @param courseOfferingId
+     * @return
+     * @throws Exception
+     */
+    private List<ActivityOfferingSearchResult> searchForRawActivities(String courseOfferingId) throws Exception {
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
 
         searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
@@ -407,9 +429,172 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return resultList;
     }
 
-    private List<InstructorSearchResult> searchForInstructorsAoId(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    /**
+     * This is an internal method that will return a map of scheduleId, ScheduleSearchResult. We are using a map object
+     * so it is easier to build up complex objects in a more performant way. ie. If you're building a list of complex
+     * ActivityOffering display objects and you want that object to contain schedule information. you can build this
+     * list of schedules THEN as your building your list of ActivityObjects you can easily add a schedule object.
+     * @param scheduleIds   list of schedule Ids to retrieve from db
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
+    protected Map<String, ScheduleSearchResult> searchForScheduleByScheduleIds(List<String> scheduleIds, ContextInfo contextInfo) throws Exception {
+        Map<String, ScheduleSearchResult> resultList = new HashMap<String, ScheduleSearchResult>();
 
+        SearchRequestInfo sr = new SearchRequestInfo(CoreSearchServiceImpl.SCH_AND_ROOM_SEARH_BY_ID_SEARCH_KEY);
+        sr.addParam(CoreSearchServiceImpl.SearchParameters.SCHEDULE_IDS, new ArrayList<String>(scheduleIds));
+        SearchResultInfo searchResult  = getSearchService().search(sr, contextInfo);
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            ScheduleSearchResult searchResultRow = new ScheduleSearchResult();
+            for (SearchResultCellInfo cell : row.getCells()) {
+                String value = StringUtils.EMPTY;
+                if (cell.getValue() != null) {
+                    value = cell.getValue();
+                }
+                if (CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())) {
+                    searchResultRow.setScheduleId(value);
+                }else if (CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())) {
+                    searchResultRow.setStartTimeMili(value);
+                    searchResultRow.setStartTimeDisplay(convertMiliToDisplayTime(value));
+                }else if (CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())) {
+                    searchResultRow.setEndTimeMili(value);
+                    searchResultRow.setEndTimeDisplay(convertMiliToDisplayTime(value));
+                }else if (CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())) {
+                    searchResultRow.setTba(Boolean.parseBoolean(value));
+                }else if (CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())) {
+                    searchResultRow.setRoomName(value);
+                }else if (CoreSearchServiceImpl.SearchResultColumns.BLDG_NAME.equals(cell.getKey())) {
+                    searchResultRow.setBuildingName(value);
+                }else if (CoreSearchServiceImpl.SearchResultColumns.BLDG_CODE.equals(cell.getKey())) {
+                    searchResultRow.setBuildingCode(value);
+                }else if (CoreSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cell.getKey())) {
+                    searchResultRow.setDays(value);
+                }else if (CoreSearchServiceImpl.SearchResultColumns.SCH_ID.equals(cell.getKey())) {
+                    searchResultRow.setScheduleId(value);
+                }
+            }
+            resultList.put(searchResultRow.getScheduleId(), searchResultRow);
+        }
+
+        return resultList;
+    }
+
+    /**
+     * Most of our public instructor methods take a list of AO IDS and want a list of instructors. Our interal instructor
+     * processing returns a map. So, to make things easy we're providing a way to bypass the fact a map is used.
+     * @param aoIds
+     * @return
+     * @throws Exception
+     */
+    private  List<InstructorSearchResult> getInstructorListByAoIds(List<String> aoIds, ContextInfo contextInfo) throws Exception {
         List<InstructorSearchResult> resultList = new ArrayList<InstructorSearchResult>();
+        Map<String, List<InstructorSearchResult>> resultMap = searchForInstructorsByAoIds(aoIds, contextInfo);
+
+        if(resultMap != null && !resultMap.isEmpty()){
+            for(List<InstructorSearchResult> insrList : resultMap.values()){
+                resultList.addAll(insrList);
+            }
+        }
+        return resultList;
+
+    }
+
+    /**
+     * Since schedule data must be pulled in a separate query, it's best if we populate the AOSearchResult
+     * in this method. We could do all of this in the the raw activity search, but we have found cases
+     * where the additional schedule search is not desired.
+     *
+     * @param aoList list of ActivityOfferingSearchResults that will be modified to include schedule data.
+     * @param contextInfo
+     * @throws Exception
+     */
+    private void populateActivityOfferingsWithScheduleData(List<ActivityOfferingSearchResult> aoList, ContextInfo contextInfo) throws Exception {
+        List<String> scheduleIds = new ArrayList<String>();
+
+        for(ActivityOfferingSearchResult ao : aoList){
+            String scheduleId = ao.getScheduleId();
+            if(scheduleId != null && !"".equals(scheduleId)){
+                scheduleIds.add(scheduleId);
+            }
+        }
+
+        Map<String, ScheduleSearchResult> schedMap = searchForScheduleByScheduleIds(scheduleIds, contextInfo);
+
+        if(schedMap != null && !schedMap.isEmpty()){
+            for(ActivityOfferingSearchResult ao : aoList){
+                String scheduleId = ao.getScheduleId();
+                if(scheduleId != null && !"".equals(scheduleId) && schedMap.containsKey(scheduleId)){
+                    ao.setSchedule(schedMap.get(scheduleId));
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Since schedule data must be pulled in a separate query, it's best if we populate the AOSearchResult
+     * in this method. We could do all of this in the the raw activity search, but we have found cases
+     * where the additional schedule search is not desired.
+     *
+     * @param aoList list of ActivityOfferingSearchResults that will be modified to include schedule data.
+     * @param contextInfo
+     * @throws Exception
+     */
+    private void populateActivityOfferingsWithInstructorData(List<ActivityOfferingSearchResult> aoList, ContextInfo contextInfo) throws Exception {
+        List<String> aoIds = new ArrayList<String>();
+
+        for(ActivityOfferingSearchResult ao : aoList){
+            String aoId = ao.getActivityOfferingId();
+            if(aoId != null && !"".equals(aoId)){
+                aoIds.add(aoId);
+            }
+        }
+
+        Map<String, List<InstructorSearchResult>> instMap = searchForInstructorsByAoIds(aoIds, contextInfo);
+
+        if(instMap != null && !instMap.isEmpty()){
+            for(ActivityOfferingSearchResult ao : aoList){
+                String aoId = ao.getActivityOfferingId();
+                if(aoId != null && !"".equals(aoId) && instMap.containsKey(aoId)){
+                    ao.setInstructors(instMap.get(aoId));
+                }
+            }
+        }
+    }
+
+    /**
+     * We're making this a protected method so that implementing institutions can extend this class and change the way
+     * that times are displayed.
+     * @param mili
+     * @return
+     */
+    protected String convertMiliToDisplayTime(String mili){
+        String sRet = "";
+        if(mili != null && !"".equals(mili)){
+            sRet = SchedulingServiceUtil.makeFormattedTimeFromMillis(Long.parseLong(mili));
+        }
+        return sRet;
+
+    }
+
+    /**
+     * This is an internal method that will return a map of aoId, InstructorSearchResult. We are using a map object
+     * so it is easier to build up complex objects in a more performant way
+     *
+     * @param aoIds
+     * @param contextInfo
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    protected Map<String, List<InstructorSearchResult>> searchForInstructorsByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        Map<String, List<InstructorSearchResult>> resultList = new HashMap<String, List<InstructorSearchResult>>();
         Map<String, InstructorSearchResult> principalId2aoIdMap = new HashMap<String, InstructorSearchResult>();
 
         List<LprInfo> lprInfos = getLprService().getLprsByLuis(aoIds, contextInfo);
@@ -417,6 +602,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
             for (LprInfo lprInfo : lprInfos) {
                 InstructorSearchResult result = new InstructorSearchResult();
+
+                String aoId = lprInfo.getLuiId();
                 //  Only include the main instructor.
                 if (!StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
                     result.setPrimary(false);
@@ -425,8 +612,15 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 }
                 result.setPrincipalId(lprInfo.getPersonId());
                 principalId2aoIdMap.put(lprInfo.getPersonId(), result);
-                result.setActivityOfferingId(lprInfo.getLuiId());
-                resultList.add(result);
+                result.setActivityOfferingId(aoId);
+
+                if(resultList.containsKey(aoId)){
+                  resultList.get(aoId).add(result);
+                } else{
+                    List<InstructorSearchResult> newList = new ArrayList<InstructorSearchResult>();
+                    newList.add(result);
+                    resultList.put(aoId, newList);
+                }
             }
 
             if (!resultList.isEmpty()) {
@@ -442,8 +636,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                                 } else {
                                     instructor.setDisplayName(principal.getPrincipalId());
                                 }
-
-
                         }
                     }
                 }
@@ -481,6 +673,22 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
 
         return searchRequest;
+    }
+
+    /**
+     * This is the method that should be called when you want a FULLY populated ActivityOfferingSearchResult object.
+     * That means that the activityOfferingSearchResult objects will be populated with schedule, and instructor data.
+     *
+     * @param courseOfferingId
+     * @param contextInfo
+     * @return
+     * @throws Exception
+     */
+    private List<ActivityOfferingSearchResult> loadPopulatedActivityOfferingsByCourseOfferingId(String courseOfferingId, ContextInfo contextInfo) throws Exception {
+        List<ActivityOfferingSearchResult> retList = searchForRawActivities(courseOfferingId);
+        populateActivityOfferingsWithScheduleData(retList, contextInfo);
+        populateActivityOfferingsWithInstructorData(retList, contextInfo);
+        return retList;
     }
 
     private SearchRequestInfo createSearchRequest(String termId, String courseCode) {
