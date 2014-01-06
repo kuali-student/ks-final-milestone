@@ -14,9 +14,7 @@
  */
 package org.kuali.student.core.constants;
 
-
 import org.kuali.student.r2.core.ges.service.GesServiceNamespace;
-
 
 /**
  * This class holds the constants used by the Scheduling service
@@ -38,12 +36,15 @@ public class GesServiceConstants
     public static final String GES_VALUE_TYPE_KEY_TIMEOFDAY = "kuali.ges.value.type.timeofday";
     //Parameter Types
     public static final String GES_PARAMETER_TYPE_KEY = "kuali.ges.parameter.type";
-
     //Value State
     public static final String GES_VALUE_ACTIVE_STATE_KEY = "kuali.ges.value.state.active";
     public static final String GES_VALUE_INACTIVE_STATE_KEY = "kuali.ges.value.state.inactive";
     //Parameter State
     public static final String GES_PARAMETER_ACTIVE_STATE_KEY = "kuali.ges.parameter.state.active";
     public static final String GES_PARAMETER_INACTIVE_STATE_KEY = "kuali.ges.parameter.state.inactive";
-
+    /**
+     * known parameters
+     */
+    public static final String PARAMETER_KEY_CREDIT_MINIMUM = "kuali.ges.credit.minimum";
+    public static final String PARAMETER_KEY_CREDIT_LIMIT = "kuali.ges.credit.limit";
 }
