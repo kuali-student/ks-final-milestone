@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.registration.performance.kradlite.co
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
@@ -52,7 +53,8 @@ public class CRPerformanceTestController {
         }
         model.addAttribute("courseResults", collectionList); // add collection to model.
         model.addAttribute("inputOne", courseCode); // add collection to form.
-
+        String appUrl = ConfigContext.getCurrentContextConfig().getProperty("application.url");
+        model.addAttribute("appUrl", appUrl);
         return "cr-performance-test";
     }
 
