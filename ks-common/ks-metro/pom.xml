@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.kuali.student.core</groupId>
-        <version>2.1.0-FR1-SNAPSHOT</version>
+        <version>2.1.0-FR2-SNAPSHOT</version>
         <artifactId>ks-common</artifactId>
     </parent>
     <artifactId>ks-metro</artifactId>
