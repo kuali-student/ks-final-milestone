@@ -33,7 +33,7 @@
 <div id="Uif-ApplicationHeader-Wrapper">
     <script type="text/javascript">
         function logout() {
-            var url = "http://localhost:8081/ks-with-rice-bundled-dev/backdoorlogin.do?methodToCall=logout";
+            var url = "${appUrl}/backdoorlogin.do?methodToCall=logout";
             window.location = url;
         }
     </script>
@@ -44,7 +44,7 @@
         <div class="header-right-group">
             <ul class="ks-header-list nav pull-right">
                 <li class="ks-header-action-list"><a
-                        href="http://localhost:8081/ks-with-rice-bundled-dev/kew/ActionList.do">Action List</a>
+                        href="${appUrl}/kew/ActionList.do">Action List</a>
                 </li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -66,7 +66,7 @@
 <div id="Uif-BreadcrumbWrapper">
     <ol class="uif-breadcrumbs" role="navigation">
         <li>
-            <a id="u16" data-role="breadcrumb" href="http://localhost:8081/ks-with-rice-bundled-dev/cr-performance-test/action">Simple
+            <a id="u16" data-role="breadcrumb" href="${appUrl}/cr-performance-test/action">Simple
                 Performance Test Page</a>
         </li>
         <li>
@@ -97,7 +97,7 @@ Table Generation Test </span>
 <div id="Uif-ViewContentWrapper" class="uif-viewContentWrapper">
 <div id="Uif-PageContentWrapper" class="uif-pageContentWrapper">
 
-    <form id="kualiForm" action="http://localhost:8081/ks-with-rice-bundled-dev/cr-performance-test/action"
+    <form id="kualiForm" action="${appUrl}/cr-performance-test/action"
           method="get" accept-charset="UTF-8">
         <!-- PAGE CONTENT -->
 
