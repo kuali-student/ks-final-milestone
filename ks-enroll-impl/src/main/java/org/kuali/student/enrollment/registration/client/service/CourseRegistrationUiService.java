@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.registration.ui;
+package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 

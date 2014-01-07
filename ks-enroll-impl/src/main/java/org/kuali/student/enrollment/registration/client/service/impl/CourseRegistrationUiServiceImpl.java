@@ -1,11 +1,11 @@
-package org.kuali.student.enrollment.registration.ui.impl;
+package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.registration.ui.CourseRegistrationUiService;
+import org.kuali.student.enrollment.registration.client.service.CourseRegistrationUiService;
 import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService;
 import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.ui.registration.dto.RegGroupSearchResult;
