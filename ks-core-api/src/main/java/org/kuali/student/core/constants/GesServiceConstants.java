@@ -14,7 +14,7 @@
  */
 package org.kuali.student.core.constants;
 
-import org.kuali.student.r2.core.ges.service.GesServiceNamespace;
+import org.kuali.student.core.ges.service.GesServiceNamespace;
 
 /**
  * This class holds the constants used by the Scheduling service

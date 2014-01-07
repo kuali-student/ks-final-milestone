@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.core.ges.dto;
+package org.kuali.student.core.ges.dto;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.r2.common.dto.AmountInfo;
@@ -27,7 +27,7 @@ import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.ges.infc.Value;
+import org.kuali.student.core.ges.infc.Value;
 
 
 import javax.xml.bind.annotation.XmlAccessType;

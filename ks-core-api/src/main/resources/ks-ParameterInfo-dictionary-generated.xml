@@ -35,7 +35,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ParameterInfo-->
 	<bean id="ParameterInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="parameterInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.core.ges.dto.ParameterInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.core.ges.dto.ParameterInfo"/>
 		<property name="objectLabel" value="Parameter"/>
 		<property name="objectDescription">
 			<value>
