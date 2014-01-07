@@ -16,7 +16,7 @@
  */
 package org.kuali.student.common.kitchensink;
 
-import org.hsqldb.lib.StringUtil;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -52,7 +52,7 @@ public class KitchenSinkHelper extends ViewHelperServiceImpl {
 
     public TermInfo termInfoAjaxQuery(String termCode) {
         TermInfo termInfo = new TermInfo();
-        if (!StringUtil.isEmpty(termCode)) {
+        if (!StringUtils.isEmpty(termCode)) {
             try {
                 List<TermInfo> termInfoList = new ArrayList();
                 termInfoList = getAcademicCalendarService().getTermsByCode(termCode, getContextInfo());
@@ -94,7 +94,7 @@ public class KitchenSinkHelper extends ViewHelperServiceImpl {
     }
 
     public void setDirectLinkUrl(LinkField linkField, Object model, String methodToCall) {
-        if (StringUtil.isEmpty(methodToCall)) {
+        if (StringUtils.isEmpty(methodToCall)) {
             methodToCall = "start";
         }
 

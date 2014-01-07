@@ -269,6 +269,9 @@ function checkAOEditWIP(){
 function validatePopulationForSP(field, populationsJSONString) {
     var fieldId = jQuery(field).attr('id'); //id of the population name text box
     var populationName = jQuery(field).val();
+    if(populationName && populationName.length)  {
+        validateFieldValue(jQuery("#" + fieldId));
+    }
     var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0); //div for error message display on top of SP table
     var ul = jQuery('#seatpool_validation_errorMessageUl');
 
@@ -445,21 +448,12 @@ function clearFeaturesSelected(){
 }
 
 function validateSeatsForSP(jqObject) {
-    var currentId = jqObject.attr('id');
-        if (currentId.indexOf("_control") == -1) {
-            currentId = currentId + "_control";
-        }
-        var element = jQuery('#' + currentId);
-        var numValue = element.val();
-        var numericExpression = /^[0-9]+$/;
-        if(!numValue.match(numericExpression) && numValue != '') {
-            if (currentId == 'maximumEnrollment') {
-                alert("Maximum enrollment must be a number!");
-            } else {
-                alert("Number of seats must be a number!");
-            }
-            element.val('');
-        }
+
+    var valid = validateFieldValue(jqObject);
+
+    if (!valid){
+        return;
+    }
 
     var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0);
     var ul = jQuery('#seatpool_validation_errorMessageUl');
@@ -773,7 +767,20 @@ function endTimeOnBlur(){
 function rdlStartTimeOnBlur(){
 
     var startTime = jQuery("#rdl_starttime_control").val();
+    var isMozilla = jQuery.browser.mozilla != null;
+
+    //Mozilla supports relatedTarget only for mouse event.
+    //relatedTarget may be null when the user just navigates to some other window and comes back
+    if (isMozilla == false && (event.relatedTarget == null || event.relatedTarget.id != "rdl_endtime_control")){
+        if (startTime != ''){
+            parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
+        }
+        validateFieldValue(jQuery("#rdl_starttime_control"));
+        return;
+    }
+
     var days = jQuery("#rdl_days_control").val();
+    var tbaChecked = document.getElementById('rdl_tba_control').checked;
 
     jQuery("#rdl_endtime_control").val('');
 
@@ -781,19 +788,29 @@ function rdlStartTimeOnBlur(){
         parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
     }
 
-    if (startTime == '' || days == ''){
-       return;
+    if (!tbaChecked && (startTime == '' || days == '' || (jQuery("#rdl_starttime_control").val() == jQuery("#rdl_starttime_control").data("starttime")
+        && jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("days"))) ) {
+        jQuery("#rdl_endtime").show();
+        if (isMozilla == false){
+            jQuery("#rdl_endtime_control").focus();
+        }
+        return;
     }
 
+    jQuery("#rdl_starttime_control").data("starttime", jQuery("#rdl_starttime_control").val());
+    jQuery("#rdl_days_control").data("days", jQuery("#rdl_days_control").val());
 
-   if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
-       validateFieldValue(jQuery("#rdl_days_control")) == false){
-       return;
-   }
+    if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
+        validateFieldValue(jQuery("#rdl_days_control")) == false){
+        return;
+    }
 
     retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
         jQuery("#rdl_endtime").show();
-        jQuery("#rdl_endtime_control").focus();
+        if (isMozilla == false){
+            jQuery("#rdl_endtime_control").focus();
+        }
+        validateFieldValue(jQuery("#rdl_endtime_control"));
     });
 }
 
@@ -802,9 +819,65 @@ function rdlStartTimeOnBlur(){
  * and set the focus on start time.
  */
 function rdlDaysOnBlur(){
+    var days = jQuery("#rdl_days_control").val();
+    var startTime = jQuery("#rdl_starttime_control").val();
 
-    retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
+    if (days == '' || jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("daysOnly")){
         jQuery("#rdl_endtime").show();
-        jQuery("#rdl_starttime_control").focus();
-    });
+        return;
+    }
+
+    jQuery("#rdl_days_control").data("daysOnly", jQuery("#rdl_days_control").val());
+
+    if (days == '' ||  startTime == '') {
+        retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
+        jQuery("#rdl_endtime").show();
+        });
+    }
 }
+
+/**
+ * KRAD displays true or false as the value for a readonly checkbox
+ * This function replaces true or false with a disabled checkbox
+ */
+function makeReadOnlyCheckboxDisabled (componentId) {
+    var domId = componentId + '_control';
+
+    var checkboxValueSpan = jQuery('span[id="' + domId + '"]');
+    if(checkboxValueSpan!==null && checkboxValueSpan.length>0 ) {
+        var checked;
+        if (checkboxValueSpan.text().indexOf('true') >= 0) {
+            checked = true;
+        } else if (checkboxValueSpan.text().indexOf('false') >= 0) {
+            checked = false;
+        }
+        checkboxValueSpan.replaceWith(
+            jQuery("<input>", {
+                    type:'checkbox',
+                    id:domId,
+                    name:'document.newMaintainableObject.dataObject.aoInfo.isApprovedForNonStandardTimeSlots',
+                    class:'uif-checkboxControl valid',
+                    tabindex:'0',
+                    disabled:'disabled'
+                }
+            )
+        );
+        jQuery('#'+domId).prop("checked", checked);
+        var newComponent = jQuery('#'+domId);
+    }
+}
+
+/**
+ * Validate the seat pool seats and change the error message.
+ */
+jQuery.validator.addMethod("validSeatsAndPopulationName",
+    function(value, element) {
+        if(element) {
+            var populationNameVal = jQuery(element).val();
+            if(populationNameVal == "") return true;
+            var populationId = jQuery(element).attr('id'); //id of the population name text box
+            var seatId = populationId.replace("ao-seatpoolgroup-population-name", "seatLimit");
+            return (jQuery("#" + seatId).val() && jQuery("#" + seatId).val().length);
+        }
+    },
+    "Seats must be entered before Population Name.")

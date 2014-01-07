@@ -64,6 +64,16 @@
         <property name="instructionalText"
                   value="Single CheckboxControl with defaultValue=&quot;true&quot; so checkbox is checked by default."/>
     </bean>
+    <!--TODO: KSENROLL-11286 remove this workournd once krad jira is fixed.-->
+    <bean id="KS-KitchenSink-Checkbox-Disabled-Parent" parent="Uif-InputField"
+          p:label="Disabled checkbox" p:propertyName="disabledSelectedCheckbox"
+          p:labelPlacement="LEFT"
+          p:uppercaseValue="false">
+        <property name="control">
+            <bean parent="Uif-CheckboxControl" p:disabled="true"/>
+        </property>
+    </bean>
+    <bean id="KS-KitchenSink-Checkbox-Disabled" parent="KS-KitchenSink-Checkbox-Disabled-Parent"/>
 
 
 
@@ -178,6 +188,7 @@
         <property name="items">
             <list>
                 <ref bean="KS-KitchenSink-Checkbox-OptIn"/>
+                <ref bean="KS-KitchenSink-Checkbox-Disabled"/>
             </list>
         </property>
     </bean>

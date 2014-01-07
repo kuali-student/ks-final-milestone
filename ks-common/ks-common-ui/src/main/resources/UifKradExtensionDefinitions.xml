@@ -32,13 +32,17 @@
         <property name="actionImagePlacement" value="TOP"/>
     </bean>
 
-    <bean id="Uif-KS-Default-DateControl" parent="Uif-DateControl" p:size="9" p:minLength="8" p:maxLength="10" p:watermarkText="mm/dd/yyyy">
+    <bean id="KS-Uif-Default-DateControl" parent="KS-Uif-Default-DateControl-parent"/>
+    <bean id="KS-Uif-Default-DateControl-parent" parent="Uif-DateControl" p:size="9" p:minLength="8" p:maxLength="10" p:watermarkText="mm/dd/yyyy">
         <property name="datePicker.templateOptions">
             <map merge="true">
                 <entry key="showOn" value="button"/>
                 <entry key="buttonImageOnly" value="false"/>
                 <entry key="constrainInput" value="false"/>
             </map>
+        </property>
+        <property name="toolTip">
+            <null/>
         </property>
     </bean>
 

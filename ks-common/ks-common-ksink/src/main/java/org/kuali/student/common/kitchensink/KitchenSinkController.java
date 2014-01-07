@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -213,34 +214,34 @@ public class KitchenSinkController extends UifControllerBase {
 
     private Node<KitchenSinkFormCollection2, String> buildTree2() {
         Node<KitchenSinkFormCollection2, String> item1 = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1-A", "1-B", "1-C",
-                "1-D"), "Item 1");
-        item1.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1SA-A", "1SA-B", "1SA-C", "1SA-D"),
+                new Date()), "Item 1");
+        item1.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1SA-A", "1SA-B", "1SA-C", new Date()),
                 "SubItem A"));
-        item1.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1SB-A", "1SB-B", "1SB-C", "1SB-D"),
+        item1.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1SB-A", "1SB-B", "1SB-C", new Date()),
                 "SubItem B"));
 
         Node<KitchenSinkFormCollection2, String> item2 = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("2-A", "2-B", "2-C",
-                "2-D"), "Item 2");
-        item2.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("SA-a", "SA-b", "SA-c", "SA-d"),
+                new Date()), "Item 2");
+        item2.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("SA-a", "SA-b", "SA-c", new Date()),
                 "SubItem A"));
         Node<KitchenSinkFormCollection2, String> sub2B = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("SB-a", "SB-b", "SB-c",
-                "SB-d"), "SubItem B");
-        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("AA", "BB", "CC", "DD"), "Item B-1"));
-        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("Aa", "Bb", "Cc", "Dd"), "Item B-2"));
-        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("aA", "bB", "cC", "dD"), "Item B-3"));
+                new Date()), "SubItem B");
+        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("AA", "BB", "CC", new Date()), "Item B-1"));
+        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("Aa", "Bb", "Cc", new Date()), "Item B-2"));
+        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("aA", "bB", "cC", new Date()), "Item B-3"));
         item2.addChild(sub2B);
-        item2.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("SC-a", "SC-b", "SC-c", "SC-d"),
-                "SubItem C"));
+        item2.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("SC-a", "SC-b", "SC-c", new Date()),
+                "SC-c"));
 
         Node<KitchenSinkFormCollection2, String> item3 = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("3-A", "3-B", "3-C",
-                "3-D"), "Item 3");
-        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("A", "B", "C", "D"), "SubItem A"));
-        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1", "2", "3", "4"), "SubItem B"));
-        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("w", "x", "y", "z"), "SubItem C"));
-        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("!", "@", "#", "$"), "SubItem D"));
+                new Date()), "Item 3");
+        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("A", "B", "C", new Date()), "SubItem A"));
+        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1", "2", "3", new Date()), "SubItem B"));
+        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("w", "x", "y", new Date()), "SubItem C"));
+        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("!", "@", "#", new Date()), "SubItem D"));
 
         Node<KitchenSinkFormCollection2, String> root = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("foo", "bar", "baz",
-                "roo"), "Root");
+                new Date()), "Root");
         root.addChild(item1);
         root.addChild(item2);
         root.addChild(item3);

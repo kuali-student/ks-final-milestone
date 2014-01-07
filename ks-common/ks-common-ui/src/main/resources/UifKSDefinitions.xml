@@ -132,10 +132,20 @@
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
             <map merge="true">
                 <entry key="sDom" value="ltip"/>
+                <entry key="bPaginate" value="false"/>
             </map>
         </property>
         <property name="resultsGroup.collectionLookup">
             <null/>
+        </property>
+        <property name="criteriaGroup.footer.items">
+          <list>
+            <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+            <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                  p:render="@{#form.renderedInLightBox}"
+                  p:onClickScript="e.preventDefault();closeLightbox();return false;"
+                  p:additionalCssClasses="cancel_link"/>
+          </list>
         </property>
     </bean>
 
@@ -337,7 +347,6 @@
     <!-- Opens an inquiry lightbox with a "Loading ..." pacifier message -->
     <bean id="KS-Uif-InquiryLink" parent="KS-Uif-InquiryLink-parentBean"/>
     <bean id="KS-Uif-InquiryLink-parentBean" abstract="true" parent="KS-Uif-DataField-Simple" scope="prototype">
-        <property name="onClickScript" value="showLoading();"/>
         <property name="inquiry">
             <!-- Children need to provide dataObjectClassName and inquiryParameters values -->
             <bean parent="KS-Uif-Inquiry"/>
@@ -551,6 +560,11 @@
           p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
           p:id="@{#collectionGroup.id}_add"/>
 
+    <bean id="Uif-AddLineAction-SecondaryButton" parent="Uif-SecondaryActionButton" p:methodToCall="addLine"
+          p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:id="@{#collectionGroup.id}_add"/>
+
     <bean id="KS-Uif-PrimaryActionButton" abstract="true" parent="KS-Uif-PrimaryActionButton-parentBean"/>
     <bean id="KS-Uif-PrimaryActionButton-parentBean" parent="Uif-PrimaryActionButton"/>
 
@@ -608,7 +622,7 @@
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="addBlankLineAction">
             <bean parent="KS-BottomAddLine">
-                <property name="style" value="margin-top:20px;"/>
+                <!--<property name="style" value="margin-top:20px;"/>-->
             </bean>
         </property>
         <property name="lineActions">
@@ -747,13 +761,6 @@
     <bean id="KS-Uif-DataField" parent="KS-Uif-DataField-parent"/>
     <bean id="KS-Uif-DataField-parent" parent="Uif-DataField">
         <property name="help">
-            <null/>
-        </property>
-    </bean>
-
-    <bean id="KS-Uif-KS-Default-DateControl" parent="KS-Uif-KS-Default-DateControl-parent"/>
-    <bean id="KS-Uif-KS-Default-DateControl-parent" parent="Uif-KS-Default-DateControl">
-        <property name="toolTip">
             <null/>
         </property>
     </bean>

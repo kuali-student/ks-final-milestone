@@ -107,4 +107,21 @@
         <property name="instructionalText" value="Please use the Incident Report form below to report the problems"/>
     </bean>
 
+    <bean id="Uif-Inquiry" parent="Uif-Inquiry-KS-parent"/>
+    <bean id="Uif-Inquiry-KS-parent" parent="Uif-Inquiry-parentBean" abstract="true" scope="prototype">
+        <property name="inquiryLink">
+            <bean parent="Uif-Link">
+                <property name="lightBox">
+                  <bean parent="Uif-LightBox">
+                      <property name="templateOptions">
+                          <map merge="true">
+                              <entry key="beforeLoad" value="function(){showLoading();}"/>
+                          </map>
+                      </property>
+                  </bean>
+                </property>
+             </bean>
+        </property>
+    </bean>
+
 </beans>

@@ -13,6 +13,33 @@ function toggleAddAOCButton(buttonId, controlId) {
     }
 }
 
+/* Disables the default-behavior for the ENTER-key in the
+ * "Move Activity > Private/Published Names"-fields; replaces instead with
+ * a click on the "Move"-button (but only if the button has previously been
+ * enabled by toggleAddAOCBUtton() )
+ */
+function submitMoveAoOnEnterKeyIfValid() {
+    var KEYCODE_ENTER = 13;
+    var moveAocButton = jQuery( "#moveAOCButton" );
+
+    // cross browser support, use jquery event.which property that normalizes event.keyCode and event.charCode
+    var keyPressed = event.which;
+
+    // redirect enter-key to submit via the "Move"-AOC button instead of the default page-submit
+    if( keyPressed == KEYCODE_ENTER ) {
+
+        // cross browser support
+        event.preventDefault ? event.preventDefault() : event.returnValue = false;
+        event.which = 0;
+
+        if( moveAocButton.attr( "disabled" ) == undefined ) {
+            moveAocButton.click();
+        }
+
+    }
+
+}
+
 function removeCheckboxColumns(column, componentId, functionToCall) {
     var components = jQuery('div[id^="' + componentId + '"]');
     jQuery.each(components, function (index) {
@@ -304,13 +331,6 @@ function updateContextBar(contextBarId) {
                     vh.offset({top: vhOffset});
                     vh.data("offset", vh.offset());
                 }
-
-                var cw = jQuery("#Uif-ViewContentWrapper");
-                if (jQuery(cw).length) {
-                    var cwOffset = vhOffset + contextBarHeight;
-                    cw.offset({top: cwOffset});
-                    cw.data("offset", cw.offset());
-                }
             }
         }
     }
@@ -442,24 +462,21 @@ function rgbToHex(r, g, b) {
  go back to using the src attribute.
  */
 function addBootstrapImageToLink(containerId) {
-    jQuery("#" + containerId).find('img').each(function () {
+//    jQuery("#" + containerId).find('img').each(function () {
+    jQuery("#" + containerId + " img[style^=ks-fontello-icon-]").each(function () {
         /*Style is used instead of src to prevent errors in krad*/
         var src = jQuery(this).attr('style');
-        if (src !== undefined) {
-            if (src.match("^ks-fontello-icon-")) {
-                var anchor = jQuery(this).parent();
-                var imagePosition = jQuery(anchor).data("imageposition");
-                var aText = anchor.text();
-                anchor.text("");
-                var imageFont = '<i class="' + src + '"></i>';
-                if (imagePosition != undefined && imagePosition == 'right') {
-                    imageFont = jQuery.trim(aText) + imageFont;
-                } else {
-                    imageFont = imageFont + jQuery.trim(aText);
-                }
-                jQuery(anchor).append(imageFont);
-            }
+        var anchor = jQuery(this).parent();
+        var imagePosition = jQuery(anchor).data("imageposition");
+        var aText = anchor.text();
+        anchor.text("");
+        var imageFont = '<i class="' + src + '"></i>';
+        if (imagePosition != undefined && imagePosition == 'right') {
+            imageFont = jQuery.trim(aText) + imageFont;
+        } else {
+            imageFont = imageFont + jQuery.trim(aText);
         }
+        jQuery(anchor).append(imageFont);
     });
 }
 
@@ -749,13 +766,18 @@ function triggerFieldValidationAfterPageLoads(id) {
 
 /* Disabling the enter key pressed in text fields, checkboxes, radio buttons, and option selection widgets
  * so that the only the links, buttons will respond to the enter key.
- */
-function dismissEnterKeyAction() {
-    if (event.keyCode== 13) {
-        if(event.target.type == "text" || event.target.type == "checkbox" ||
-            event.target.type == "radio" || event.target.type == "select-one")  {
-            event.returnValue = false;
-            event.keyCode = 0;
+*/
+function dismissEnterKeyAction(event) {
+    // cross browser support, use jquery event.which property that normalizes event.keyCode and event.charCode
+    var keyPressed = event.which;
+
+    if (keyPressed == 13) {
+        if (event.target.type == "text" || event.target.type == "checkbox" ||
+            event.target.type == "radio" || event.target.type == "select-one") {
+
+            // cross browser support
+            event.preventDefault ? event.preventDefault() : event.returnValue = false;
+            event.which = 0;
         }
     }
 }
