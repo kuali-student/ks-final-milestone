@@ -139,7 +139,7 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     }
 
     public void setBuildingName(String buildingName) {
-        this.buildingName = this.buildingName + "<br>" + StringUtils.defaultString(buildingName);
+        this.buildingName = buildingName;
     }
 
     public String getBldgCodeSimple() {

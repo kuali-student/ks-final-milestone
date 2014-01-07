@@ -296,7 +296,7 @@ public interface ExamOfferingServiceFacade {
 
 
     /**
-     * @param courseOfferingId
+     * @param courseOffering
      * @param termId
      * @param examPeriodId
      * @param optionKeys
@@ -309,7 +309,7 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      * @throws DataValidationErrorException
      */
-    void generateFinalExamOfferingsPerCO(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
+    void generateFinalExamOfferingsPerCO(CourseOfferingInfo courseOffering, String termId, String examPeriodId, List<String> optionKeys,
                                          ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
@@ -318,7 +318,7 @@ public interface ExamOfferingServiceFacade {
      * An "optimized" version of generateFinalExamOfferingsPerCO where a map of foId to a list of AOids
      * is passed in (for this CO) to avoid additional calls to the DB.
      *
-     * @param courseOfferingId
+     * @param courseOffering
      * @param termId
      * @param examPeriodId
      * @param optionKeys
@@ -333,9 +333,8 @@ public interface ExamOfferingServiceFacade {
      * @throws ReadOnlyException
      * @throws DataValidationErrorException
      */
-    void generateFinalExamOfferingsPerCOOptimized(String courseOfferingId, String termId, String examPeriodId, List<String> optionKeys,
-                                         ContextInfo context,
-                                         Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
+    void generateFinalExamOfferingsPerCOOptimized(CourseOfferingInfo courseOffering, String termId, String examPeriodId, List<String> optionKeys,
+                                         ContextInfo context, Map<String, List<ActivityOfferingInfo>> foIdToListOfAOs)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException;
 

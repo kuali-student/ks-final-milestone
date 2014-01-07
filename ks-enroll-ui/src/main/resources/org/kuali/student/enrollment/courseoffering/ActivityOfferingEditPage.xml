@@ -39,7 +39,11 @@
                                     </map>
                                 </property>
                             </bean>
-                            <bean parent="KS-Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Cancel"
+                            <bean parent="Uif-ActionLink"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="cancel"
+                                  p:actionLabel="Cancel"
+                                  p:additionalCssClasses="cancel_link"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
                         </list>
                     </property>
@@ -182,7 +186,9 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction"
+                <bean parent="Uif-SecondaryActionButton"
+                      p:methodToCall="addLine"
+                      p:actionLabel="add"
                       p:actionScript="showLightboxComponent('ActivityOfferingEdit-CoLocatedAddLineDialog');jQuery('#dirtyForm').val(true);"
                       p:dirtyOnAction="true"/>
             </list>
@@ -282,9 +288,9 @@
     <bean id="ActivityOfferingEdit-CoLocatedEnrollmentSeperate" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:style="width:250px;float:right;" p:forceSessionPersistence="true" >
+                <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:style="float:right;" p:forceSessionPersistence="true" >
                     <property name="validationMessages.displayMessages" value="false"/>
-                    <property name="headerText" value="Combined Maximum Enrollment"/>
+                    <property name="headerText" value="Combined Max Enr"/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
                     <property name="propertyName" value="editRenderHelper.manageSeperateEnrollmentList"/>
                     <property name="renderAddLine" value="false"/>
@@ -297,7 +303,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:propertyName="editRenderHelper.code" p:label="Colocated Activities" p:style="color:green;"/>
-                            <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Erollment" p:readOnly="@{!#lp.editRenderHelper.allowEnrollmentEdit}"
+                            <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Enr" p:readOnly="@{!#lp.editRenderHelper.allowEnrollmentEdit}"
                                   p:required="true" p:exclusiveMin="0">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="4" />
@@ -687,7 +693,10 @@
                                   </map>
                                 </property>
                             </bean>
-                            <bean id="edit_ao_cancel" parent="Uif-SecondaryActionButton-Small" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="Continue Without Saving">
+                            <bean id="edit_ao_cancel" parent="Uif-SecondaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="cancel"
+                                  p:actionLabel="Continue Without Saving">
                                 <property name="actionParameters">
                                   <map>
                                     <entry key="aoId" value=""/>

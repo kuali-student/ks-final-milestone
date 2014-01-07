@@ -15,77 +15,55 @@
  */
 package org.kuali.student.enrollment.class2.examoffering.krms.action;
 
-import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.Action;
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
-import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
-import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
-import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 
-import javax.xml.bind.annotation.XmlElement;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
- * Used to help test actions
+ * This action is executed on a successful evaluation of a rule that is part of the final exam matrix.
+ *
+ * It contains parameters to build the schedule request component and timeslot for the exam offering.
  *
  * @author Kuali Student Team
  */
 public class RDLAction implements Action {
 
-    private SchedulingService schedulingService;
-
     private List<Integer> weekdays;
     private String startTime;
     private String endTime;
+    private String buildingId;
+    private String roomId;
+    private boolean tba;
 
     @Override
     public void execute(ExecutionEnvironment environment) {
-        ContextInfo context = (ContextInfo) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
-        String eoId = (String) environment.getFacts().get(KSKRMSServiceConstants.TERM_PREREQUISITE_EO_ID);
 
-        //Create new sch set for this ao.
-        ScheduleRequestSetInfo requestSet = new ScheduleRequestSetInfo();
-        requestSet.setRefObjectTypeKey(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING);
+        ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
+        componentInfo.setIsTBA(this.isTba());
+        componentInfo.getBuildingIds().add(this.getBuildingId());
+        componentInfo.getRoomIds().add(this.getRoomId());
 
-        requestSet.setName("Exam Schedule request set");
-        requestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
-        requestSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
-        requestSet.getRefObjectIds().add(eoId);
-        try {
-            requestSet = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
-                    ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, requestSet, context);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        TimeSlotInfo timeSlot = new TimeSlotInfo();
+        timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM);
+        timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
+        timeSlot.setWeekdays(this.getWeekdays());
 
-        ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
-        scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-        scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        scheduleRequest.setScheduleRequestSetId(requestSet.getId());
+        TimeOfDayInfo startTimeOfDayInfo = new TimeOfDayInfo();
+        startTimeOfDayInfo.setMilliSeconds(Long.valueOf(this.getStartTime()));
+        timeSlot.setStartTime(startTimeOfDayInfo);
 
-        try {
-            ScheduleRequestComponentInfo componentInfo = buildScheduleComponentRequest(context);
-            scheduleRequest.getScheduleRequestComponents().add(componentInfo);
+        TimeOfDayInfo endTimeOfDayInfo = new TimeOfDayInfo();
+        endTimeOfDayInfo.setMilliSeconds(Long.valueOf(this.getEndTime()));
+        timeSlot.setEndTime(endTimeOfDayInfo);
 
-            this.getSchedulingService().createScheduleRequest(
-                    SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, scheduleRequest, context);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // set our attribute on the engine results
+        environment.getEngineResults().setAttribute("scheduleRequestComponentInfo", componentInfo);
+        environment.getEngineResults().setAttribute("timeslotInfo", timeSlot);
     }
 
     /**
@@ -94,39 +72,6 @@ public class RDLAction implements Action {
     @Override
     public void executeSimulation(ExecutionEnvironment environment) {
         throw new UnsupportedOperationException();
-    }
-
-    private ScheduleRequestComponentInfo buildScheduleComponentRequest(ContextInfo defaultContextInfo) throws Exception {
-
-        ScheduleRequestComponentInfo componentInfo = new ScheduleRequestComponentInfo();
-        componentInfo.setIsTBA(false);
-
-        componentInfo.getBuildingIds().clear();
-
-        TimeSlotInfo timeSlot = new TimeSlotInfo();
-        timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD);
-        timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
-        timeSlot.setWeekdays(this.getWeekdays());
-
-        long startTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(this.getStartTime()).getTime();
-        TimeOfDayInfo startTimeOfDayInfo = new TimeOfDayInfo();
-        startTimeOfDayInfo.setMilliSeconds(startTime);
-        timeSlot.setStartTime(startTimeOfDayInfo);
-
-        long endTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(this.getEndTime()).getTime();
-        TimeOfDayInfo endTimeOfDayInfo = new TimeOfDayInfo();
-        endTimeOfDayInfo.setMilliSeconds(endTime);
-        timeSlot.setEndTime(endTimeOfDayInfo);
-
-        try {
-            TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(
-                    SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, timeSlot, defaultContextInfo);
-            componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
-        } catch (Exception e) {
-            throw new Exception("Error creating timeslot: " + timeSlot, e);
-        }
-
-        return componentInfo;
     }
 
     public List<Integer> getWeekdays() {
@@ -153,11 +98,27 @@ public class RDLAction implements Action {
         this.endTime = endTime;
     }
 
-    public SchedulingService getSchedulingService() {
-        return schedulingService;
+    public String getBuildingId() {
+        return buildingId;
     }
 
-    public void setSchedulingService(SchedulingService schedulingService) {
-        this.schedulingService = schedulingService;
+    public void setBuildingId(String buildingId) {
+        this.buildingId = buildingId;
+    }
+
+    public String getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(String roomId) {
+        this.roomId = roomId;
+    }
+
+    public boolean isTba() {
+        return tba;
+    }
+
+    public void setTba(boolean tba) {
+        this.tba = tba;
     }
 }

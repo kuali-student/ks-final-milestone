@@ -68,7 +68,13 @@
                 <bean parent="Uif-HeaderFour" p:headerText="@{dataObject.courseOfferingCode} - @{dataObject.courseOfferingTitle} (@{dataObject.credits} Credits)" p:additionalCssClasses="ks-subSection,ks-subSection-marginTop"/>
                 <bean parent="Uif-HeaderThree" p:headerText="Activity Offering: @{dataObject.activityCode} (@{dataObject.abbreviatedCourseType})"/>
                 <ref bean="ActivityOfferingEdit-section1"/>
-                <ref bean="ActivityOfferingEdit-section2"/>
+                <bean parent="ActivityOfferingEdit-section2">
+                    <property name="items">
+                        <list merge="true">
+                            <bean parent="Uif-DataField" p:label="Colocated with" p:propertyName="colocatedAoInfo" p:render="@{dataObject.colocatedAoInfo != ''}"/>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Actuals"/>
                 <ref bean="ActivityOffering-Inquiry-DeliveryLogistic-Requested"/>
                 <ref bean="ActivityOfferingEdit-PersonnelSection"/>

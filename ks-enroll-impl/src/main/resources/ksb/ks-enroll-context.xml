@@ -23,6 +23,7 @@
     <import resource="classpath:ks-enroll-api-data-dictionary-validator-configuration.xml" />
     <import resource="classpath:enrollDao.xml" />
     <import resource="classpath:statement-context.xml" />
+    <import resource="classpath:mq-context.xml" />
     <!-- import resource="classpath:ks-enroll-mock-room-data-context.xml"/ -->
 
     <!-- Top Level Alias -->
@@ -34,7 +35,7 @@
     <alias name="populationServiceValidation" alias="PopulationService" />
     <alias name="roomServiceValidation" alias="RoomService"/>
     <alias name="holdServiceValidation" alias="HoldService" />
-    <alias name="courseRegistrationServiceValidator" alias="CourseRegistrationService" />
+    <alias name="courseRegistrationImpl" alias="CourseRegistrationService" />
     <alias name="processServiceValidationDecorator" alias="ProcessService" />
     <alias name="schedulingServiceValidationDecorator" alias="SchedulingService" />
     <alias name="courseWaitListServiceImpl" alias="courseWaitListService" />
@@ -641,7 +642,13 @@
         <property name="examOfferingService" ref="ExamOfferingService"/>
         <property name="socService" ref="CourseOfferingSetService" />
         <property name="typeService" ref="typeServiceCacheDecorator" />
+        <property name="scheduleEvaluator" ref="examOfferingScheduleEvaluator" />
         <property name="setLocation" value="true" />
+    </bean>
+
+    <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluatorImpl">
+        <property name="schedulingService" ref="SchedulingService"/>
+        <property name="courseService" ref="courseServiceImpl"/>
     </bean>
 
     <!-- Put facade on the bus -->
@@ -894,6 +901,7 @@
     <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
         <property name="lprService" ref="LprService" />
         <property name="courseOfferingService" ref="CourseOfferingService" />
+        <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
     <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
@@ -1071,7 +1079,7 @@
     </bean>
 
     <bean id="CourseOfferingManagementSearchImpl" class="org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl">
-        <property name="genericEntityDao" ref="searchDao"/>
+        <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
 
     <!-- autoGen -->
@@ -1423,6 +1431,44 @@
                 <property name="localServiceName" value="ActivityOfferingControllerTransactionHelper" />
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/activityOfferingControllerTransactionHelper" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="scheduleOfClassesService" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceImpl">
+    </bean>
+
+    <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/scheduleOfClasses" />
+                <property name="service" ref="scheduleOfClassesService" />
+                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService" />
+                <property name="localServiceName" value="ScheduleOfClassesService" />
+                <property name="providers">
+                    <list>
+                        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="courseRegistrationUiService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationUiServiceImpl">
+    </bean>
+
+    <bean id="ks.exp.courseRegistrationUiService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationUiService" />
+                <property name="service" ref="courseRegistrationUiService" />
+                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.CourseRegistrationUiService" />
+                <property name="localServiceName" value="CourseRegistrationUiService" />
+                <property name="providers">
+                    <list>
+                        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+                    </list>
+                </property>
             </bean>
         </property>
     </bean>

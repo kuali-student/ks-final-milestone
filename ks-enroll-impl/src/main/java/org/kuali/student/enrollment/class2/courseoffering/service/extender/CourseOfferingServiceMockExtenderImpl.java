@@ -60,6 +60,11 @@ public class CourseOfferingServiceMockExtenderImpl implements CourseOfferingServ
     }
 
     @Override
+    public ActivityOfferingInfo copyActivityOfferingInMemory(ActivityOfferingInfo sourceAo) {
+        throw new UnsupportedOperationException("copyActivityOfferingInMemory");
+    }
+
+    @Override
     public Map<String, String> computeAoIdToAoCodeMapByCourseOffering(String courseOfferingId, ContextInfo context) throws OperationFailedException {
         throw new UnsupportedOperationException("computeAoIdToAoCodeMapByCourseOffering");
     }

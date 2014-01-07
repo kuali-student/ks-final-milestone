@@ -36,6 +36,7 @@ public class KSAgendaTypeServiceImpl extends AgendaTypeServiceBase {
     public static final AgendaTypeService defaultAgendaTypeService = new AgendaTypeServiceBase();
     private static final String NAME_ATTRIBUTE = "name";
     private static final String ID_ATTRIBUTE = "id";
+    private static final String TYPEID_ATTRIBUTE = "typeId";
 
     @Override
     public Agenda loadAgenda(AgendaDefinition agendaDefinition) {
@@ -49,6 +50,7 @@ public class KSAgendaTypeServiceImpl extends AgendaTypeServiceBase {
         Map<String, String> existingAttributes = new HashMap<String, String>(agendaDefinition.getAttributes());
         existingAttributes.put(NAME_ATTRIBUTE, agendaDefinition.getName());
         existingAttributes.put(ID_ATTRIBUTE, agendaDefinition.getId());
+        existingAttributes.put(TYPEID_ATTRIBUTE, agendaDefinition.getTypeId());
 
         return new BasicAgenda(existingAttributes, new LazyAgendaTree(agendaDefinition, getRepositoryToEngineTranslator()));
     }

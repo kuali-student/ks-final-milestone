@@ -188,6 +188,12 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         }
     }
 
+    /**
+     * Given a reg group ID, finds the AO ids within the RG without fetching the RG
+     * @param registrationGroupId A reg group ID
+     * @param contextInfo The context info
+     * @return List of AO ids
+     */
     private List<String> vRG_getAoIdsFromRegGroupEfficiently(String registrationGroupId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -199,6 +205,10 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return aoIds;
     }
 
+    /**
+     * Create a success validationResultInfo object
+     * @return A success validationResultInfo object
+     */
     private ValidationResultInfo vRG_createSuccessValidation() {
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
         validationResultInfo.setLevel(ValidationResult.ErrorLevel.OK);
@@ -206,6 +216,10 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return validationResultInfo;
     }
 
+    /**
+     * Create a time conflict validationResultInfo object
+     * @return A time conflict validationResultInfo object
+     */
     private ValidationResultInfo vRG_createTimeConflictValidationError(TimeSlotContainer first,
                                                                        TimeSlotContainer second) {
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();
@@ -665,7 +679,8 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return targetAo;
     }
 
-    public ActivityOfferingInfo copyActivityOfferingWithoutSaving(ActivityOfferingInfo sourceAo) {
+    @Override
+    public ActivityOfferingInfo copyActivityOfferingInMemory(ActivityOfferingInfo sourceAo) {
         ActivityOfferingInfo targetAo = new ActivityOfferingInfo(sourceAo);
         targetAo.setId(null);
         // clear out the ids on the internal sub-objects
@@ -679,6 +694,24 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return targetAo;
     }
 
+    /**
+     * This is the "consolidated version of copy AO that is used by multiple areas (in copyActivityOffering,
+     * rolloverCourseOffering, etc)
+     * @param operation A string that indicates what operation is being performed (copyAO, copyCO, rollover)
+     * @param rolloverAssist Used in true rollover to handle colocating target term AOs (from colocated source
+     *                       term AOs)
+     * @param rolloverId The id used for rolloverAssist (rolloverAssist can handle multiple rollovers, so the
+     *                   ID is used to specify a single rollover)
+     * @param sourceAo The source AO (from which the copy occurred
+     * @param targetFo The targetFo which the target AO is associated with
+     * @param targetTermId The term ID for the target AO (useful for subterms).  If null, it uses the term ID
+     *                     from the targetFo
+     * @param optionKeys Rollover option keys
+     * @param coService Pass in the course offering service (a bit of a hack) to avoid potential circular
+     *                  dependencies
+     * @param context The context info
+     * @return The target AO created
+     */
     private ActivityOfferingInfo createTargetActivityOfferingCommon(String operation,
                                                                     RolloverAssist rolloverAssist,
                                                                     String rolloverId,
@@ -691,7 +724,7 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
 
-        ActivityOfferingInfo targetAo = copyActivityOfferingWithoutSaving(sourceAo);
+        ActivityOfferingInfo targetAo = copyActivityOfferingInMemory(sourceAo);
         boolean isForRollover = operation.equals(COPY_OPERATION_ROLLOVER);
 
         // Rolled over AO should be in draft state
@@ -749,6 +782,21 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         return targetAo;
     }
 
+    /**
+     * A helper method used to copy RDLs/ADLs used by method, createTargetActivityOfferingCommon
+     * @param operation A string indicating what
+     * @param rolloverAssist Used in true rollover to handle colocating target term AOs (from colocated source
+     *                       term AOs)
+     * @param rolloverId The id used for rolloverAssist (rolloverAssist can handle multiple rollovers, so the
+     *                   ID is used to specify a single rollover)
+     * @param sourceAo The source AO (from which the copy occurred
+     * @param targetAo The target AO that is created from the source AO
+     * @param sourceAndTargetHaveSameTerm true if copyCO is happening in same term or copyAO is happening in
+     *                                    same term.  false if copyCO is done across terms or for rollove
+     * @param coService Pass in the course offering service (a bit of a hack) to avoid potential circular
+     *                  dependencies
+     * @param context The context info
+     */
     private void common_copySchedules(String operation,
                                       RolloverAssist rolloverAssist,
                                       String rolloverId,
@@ -798,11 +846,20 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
         }
     }
 
+    /**
+     * Checks if valid operation has been performed.  Throws exception if operation is not valid.  Useful
+     * to make sure that null isn't passed
+     * @param operation The name of the operations permitted (constants appear at the start of the file)
+     * @throws OperationFailedException Exception thrown if operation is null or invalid
+     */
     private void invalidOperationCheck(String operation) throws OperationFailedException {
-       if (!(operation.equals(COPY_OPERATION_COPY_CO) || operation.equals(COPY_OPERATION_COPY_AO)
-               || operation.equals(COPY_OPERATION_ROLLOVER))) {
-           throw new OperationFailedException("Operation name is missing");
-       }
+        if (operation == null){
+            throw new OperationFailedException("Operation name is null");
+        }
+        if (!(operation.equals(COPY_OPERATION_COPY_CO) || operation.equals(COPY_OPERATION_COPY_AO)
+                || operation.equals(COPY_OPERATION_ROLLOVER))) {
+            throw new OperationFailedException("Operation name is missing");
+        }
     }
 
     /**

@@ -79,7 +79,10 @@
                 <property name="items">
                     <list>
                         <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Delete Target Term" p:methodToCall="deleteTargetTerm"/>
-                        <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="cancel"/>
+                        <bean parent="Uif-ActionLink"
+                              p:actionLabel="Cancel"
+                              p:methodToCall="cancel"
+                              p:additionalCssClasses="cancel_link"/>
                     </list>
                 </property>
             </bean>

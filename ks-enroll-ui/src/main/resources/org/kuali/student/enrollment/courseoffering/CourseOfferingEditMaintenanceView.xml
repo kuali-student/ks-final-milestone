@@ -100,6 +100,7 @@
                 <ref bean="KS-CourseOfferingEdit-DeliveryAndAssessment"/>
                 <ref bean="KS-CourseOfferingEdit-Waitlist"/>
                 <ref bean="KS-CourseOfferingEdit-PersonnelSection"/>
+                <ref bean="KS-CourseOfferingEdit-OrganizationSectionHeader"/>
                 <ref bean="KS-CourseOfferingEdit-MiscSection"/>
                 <ref bean="CourseOfferingEdit-NavigationConfirmation" />
             </list>
@@ -195,9 +196,12 @@
                                         </property>
                                     </bean>
 
-                                    <bean parent="KS-Uif-ActionLink" p:actionLabel="Cancel"
+                                    <bean parent="Uif-ActionLink"
+                                          p:actionLabel="Cancel"
                                           p:id="COEdit_CancelLink"
-                                          p:ajaxSubmit="false" p:methodToCall="cancel" />
+                                          p:ajaxSubmit="false"
+                                          p:methodToCall="cancel"
+                                          p:additionalCssClasses="cancel_link"/>
 
                                 </list>
                             </property>
@@ -505,9 +509,13 @@
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxSection">
+                    <property name="header.headerText" value="Final Exams"/>
+                    <property name="header">
+                      <bean parent="Uif-HeaderFour"/>
+                    </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Final Exams"
+                            <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.finalExamType" p:id="finalExamType" p:label="Exam Type"
                                   p:fieldLabel.renderColon="false" p:labelPlacement="TOP" p:componentSecurity.editAuthz="true"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);"  >
                                 <property name="control">
@@ -569,7 +577,9 @@
             </list>
         </property>
         <property name="header.headerText" value="Delivery Formats"/>
-        <property name="header.headerLevel" value="Uif-HeaderOne"/>
+        <property name="header">
+          <bean parent="Uif-HeaderFour"/>
+        </property>
         <property name="header.style" value="font-weight:bold;"/>
 
         <property name="items">
@@ -813,6 +823,14 @@
         </property>
     </bean>
 
+    <bean id="KS-CourseOfferingEdit-OrganizationSectionHeader" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
+        <property name="validationMessages.displayMessages" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseOfferingEdit-OrganizationSection"/>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KS-CourseOfferingEdit-MiscSection" parent="Uif-VerticalBoxSection" p:headerText="Miscellaneous">
         <property name="validationMessages.displayMessages" value="false"/>
@@ -881,10 +899,9 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
+    <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText=""/>
                 <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">

@@ -103,6 +103,7 @@
 
         <property name="page.id" value="ActivityOfferingEditPage"/>
 
+
         <!-- Buttons (cancel link, and controls related to the buttons) have to go in the view footer.
              This overrides the default maintenance doc buttons. -->
         <property name="footer">
@@ -112,15 +113,21 @@
                         <bean parent="Uif-VerticalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean  id="send_RDLs_to_scheduler" parent="Uif-InputField-LabelRight" p:cssClasses="unprocessed_changes_checkbox" p:render="@{#dp.schedulingCompleted}"
+                                    <bean id="send_RDLs_to_scheduler"
+                                          parent="Uif-InputField-LabelRight"
+                                          p:cssClasses="unprocessed_changes_checkbox"
+                                          p:render="@{#dp.schedulingCompleted}"
                                           p:label="@{#dp.aoInfo.stateKey eq 'kuali.lui.activity.offering.state.canceled' ? 'Scheduling information cannot be sent to the scheduler for this activity offering because it is canceled.' : 'Send revised scheduling information to the scheduler for processing upon save.'}"
                                           p:propertyName="sendRDLsToSchedulerAfterMSE">
                                         <property name="control">
-                                            <bean parent="Uif-CheckboxControl" id="send_RDLs_to_scheduler_control">
-                                            <property name="render" value="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}"/>
+                                            <bean id="send_RDLs_to_scheduler_control"
+                                                  parent="Uif-CheckboxControl"
+                                                  p:onClickScript="showRemoveAllOfferingsFromSchedulerConfirmation();">
+                                                <property name="render" value="@{#dp.aoInfo.stateKey ne 'kuali.lui.activity.offering.state.canceled'}"/>
                                             </bean>
                                         </property>
                                     </bean>
+
                                     <ref bean="ActivityOfferingEdit_SubmitCancel"/>
                                 </list>
                             </property>
@@ -157,6 +164,7 @@
                 <ref bean="ActivityOfferingEdit-NavigationConfirmation"/>
                 <ref bean="ActivityOfferingEdit-BreakColocateConfirmation"/>
                 <ref bean="ActivityOfferingEdit-CoLocatedAddLineDialog"/>
+                <ref bean="ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation"/>
             </list>
         </property>
         <property name="dialogs">
