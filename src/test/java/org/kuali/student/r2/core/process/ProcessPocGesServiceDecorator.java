@@ -8,10 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.ges.dto.ParameterInfo;
-import org.kuali.student.r2.core.ges.dto.ValueInfo;
-import org.kuali.student.r2.core.ges.service.GesService;
-import org.kuali.student.r2.core.ges.service.GesServiceDecorator;
+import org.kuali.student.core.ges.dto.ParameterInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesService;
+import org.kuali.student.core.ges.service.GesServiceDecorator;
 
 /**
  *

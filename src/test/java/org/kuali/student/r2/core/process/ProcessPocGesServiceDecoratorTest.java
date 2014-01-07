@@ -19,9 +19,9 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Ignore;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.enrollment.class2.ges.service.impl.GesServiceMapImpl;
-import org.kuali.student.r2.core.ges.dto.ParameterInfo;
-import org.kuali.student.r2.core.ges.dto.ValueInfo;
-import org.kuali.student.r2.core.ges.service.GesService;
+import org.kuali.student.core.ges.dto.ParameterInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesService;
 
 /**
  *

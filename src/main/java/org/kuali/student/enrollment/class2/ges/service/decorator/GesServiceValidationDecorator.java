@@ -31,10 +31,10 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.common.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.ges.dto.ParameterInfo;
-import org.kuali.student.r2.core.ges.dto.ValueInfo;
-import org.kuali.student.r2.core.ges.service.GesServiceDecorator;
-import org.kuali.student.r2.core.ges.service.GesServiceNamespace;
+import org.kuali.student.core.ges.dto.ParameterInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesServiceDecorator;
+import org.kuali.student.core.ges.service.GesServiceNamespace;
 
 import javax.xml.namespace.QName;
 import java.util.List;
