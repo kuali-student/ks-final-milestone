@@ -47,9 +47,6 @@ public class CourseServiceUtils {
 		//Clear Fees
 		for(CourseFeeInfo fee:course.getFees()){
 			fee.setId(null);
-			for(CurrencyAmountInfo feeAmount:fee.getFeeAmounts()){
-				feeAmount.setId(null);
-			}
 		}
 		//Clear revenue
 		for(CourseRevenueInfo revenue:course.getRevenues()){
