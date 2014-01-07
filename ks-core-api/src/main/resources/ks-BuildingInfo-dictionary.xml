@@ -79,6 +79,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<bean id="BuildingInfo.buildingCode" parent="BuildingInfo.buildingCode-parent"/>
 	<bean id="BuildingInfo.buildingCode-parent" abstract="true" parent="BuildingInfo.buildingCode-generated">
+        <property name="name" value="buildingCode"/>
+        <property name="shortLabel" value="Facility Code"/>
+        <property name="label" value="Facility Code"/>
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

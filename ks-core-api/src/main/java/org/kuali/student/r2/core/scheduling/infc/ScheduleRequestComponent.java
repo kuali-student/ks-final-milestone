@@ -143,4 +143,32 @@ public interface ScheduleRequestComponent extends HasId {
      * type TBA (weekday or start/end time TBA).
      */
     public Boolean getIsTBA();
+
+    /**
+     * The list of Room Feature Types. A feature is a characteristic of a room such as a/c, projector, or a white board.
+     *
+     * @name Room Feature Types
+     */
+    public List<String> getRoomFeatureTypeKeys();
+
+    /**
+     * The list of Room Types. A room type is the kind of room, such as a classroom or a lecture hall.
+     *
+     * @name Room Types
+     */
+    public List<String> getRoomTypeKeys();
+
+    /**
+     * The Capacity of the room.
+     *
+     * @name Capacity
+     */
+    public Integer getCapacity();
+
+    /**
+     * The Ignore Conflicts flag determines whether or not the scheduler should ignore conflicts.
+     *
+     * @name Ignore Conflicts
+     */
+    public Boolean getIgnoreConflicts();
 }

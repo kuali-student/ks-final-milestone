@@ -17,9 +17,16 @@
 package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+
+import javax.xml.namespace.QName;
 
 public class CourseRegistrationServiceConstants {
     
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseRegistrationService";
-
+    public static final String SERVICE_NAME_LOCAL_PART = CourseRegistrationService.class.getSimpleName();
+    // Called as
+    // CourseRegistrationService service =
+    //     (CourseRegistrationService) GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
+    public static final QName Q_NAME = new QName(NAMESPACE, SERVICE_NAME_LOCAL_PART);
 }

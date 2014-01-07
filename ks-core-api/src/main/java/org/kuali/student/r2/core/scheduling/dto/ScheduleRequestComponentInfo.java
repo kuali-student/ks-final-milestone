@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 
 //import org.w3c.dom.Element;
@@ -35,7 +36,8 @@ import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleRequestComponentInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds", "timeSlotIds", "partitionIds", "isTBA" , "_futureElements" })
+@XmlType(name = "ScheduleRequestComponentInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds",
+        "timeSlotIds", "partitionIds", "isTBA", "roomFeatureTypeKeys", "roomTypeKeys", "capacity", "ignoreConflicts" , "_futureElements" })
 public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, Serializable {
 
     @XmlElement
@@ -56,6 +58,14 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     private List<String> partitionIds;
     @XmlElement
     private Boolean isTBA;
+    @XmlElement
+    private List<String> roomFeatureTypeKeys;
+    @XmlElement
+    private List<String> roomTypeKeys;
+    @XmlElement
+    private Integer capacity;
+    @XmlElement
+    private Boolean ignoreConflicts;
 
     @XmlAnyElement
     private List<Object> _futureElements;  
@@ -74,6 +84,10 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
             this.timeSlotIds = new ArrayList<String>(scheduleRequestComponent.getTimeSlotIds());
             this.partitionIds = new ArrayList<String>(scheduleRequestComponent.getPartitionIds());
             this.isTBA = scheduleRequestComponent.getIsTBA();
+            this.roomFeatureTypeKeys = scheduleRequestComponent.getRoomFeatureTypeKeys();
+            this.roomTypeKeys = scheduleRequestComponent.getRoomTypeKeys();
+            this.capacity = scheduleRequestComponent.getCapacity();
+            this.ignoreConflicts = scheduleRequestComponent.getIgnoreConflicts();
         }
     }
 
@@ -83,6 +97,7 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
      */
     public boolean equals (Object obj) {
         ScheduleRequestComponentInfo srci = (ScheduleRequestComponentInfo) obj; // will throw ClassCastException
+        
         if (!this.id.equals(srci.getId())) return false;
         
         if (!KSCollectionUtils.areCollectionContentsEqual(buildingIds, srci.buildingIds)) return false;
@@ -99,11 +114,18 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         
         if (!KSCollectionUtils.areCollectionContentsEqual(partitionIds, srci.partitionIds)) return false;
         
-        if (this.isTBA==null && srci.getIsTBA()==null) return true;
+        if (!KSObjectUtils.nullSafeBooleanEquals(this.isTBA, srci.getIsTBA())) return false;
         
-        if (this.isTBA.equals(srci.getIsTBA())) { return true; }
+        if (!KSCollectionUtils.areCollectionContentsEqual(roomFeatureTypeKeys, srci.roomFeatureTypeKeys)) return false;
         
-        return false;
+        if (!KSCollectionUtils.areCollectionContentsEqual(roomTypeKeys, srci.roomTypeKeys)) return false;
+        
+        if (!KSObjectUtils.nullSafeIntegerEquals(this.capacity, srci.getCapacity())) return false;
+        
+        if (!KSObjectUtils.nullSafeBooleanEquals(this.ignoreConflicts, srci.getIgnoreConflicts())) return false;
+        
+        // at this point all of the checks have passed.
+        return true;
     }
 
     @Override
@@ -117,6 +139,10 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
         result = 31 * result + (timeSlotIds != null ? timeSlotIds.hashCode() : 0);
         result = 31 * result + (partitionIds != null ? partitionIds.hashCode() : 0);
         result = 31 * result + (isTBA != null ? isTBA.hashCode() : 0);
+        result = 31 * result + (roomFeatureTypeKeys != null ? roomFeatureTypeKeys.hashCode() : 0);
+        result = 31 * result + (roomTypeKeys != null ? roomTypeKeys.hashCode() : 0);
+        result = 31 * result + (capacity != null ? capacity.hashCode() : 0);
+        result = 31 * result + (ignoreConflicts != null ? ignoreConflicts.hashCode() : 0);
         return result;
     }
 
@@ -222,6 +248,26 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
     }
 
     @Override
+    public List<String> getRoomFeatureTypeKeys() {
+        return roomFeatureTypeKeys;
+    }
+
+    @Override
+    public List<String> getRoomTypeKeys() {
+        return roomTypeKeys;
+    }
+
+    @Override
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    @Override
+    public Boolean getIgnoreConflicts() {
+        return ignoreConflicts;
+    }
+
+    @Override
     public String toString() {
         return "ScheduleRequestComponentInfo{" +
                 "id='" + id + '\'' +
@@ -233,6 +279,10 @@ public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, S
                 ", timeSlotIds=" + timeSlotIds +
                 ", partitionIds=" + partitionIds +
                 ", isTBA=" + isTBA +
+                ", roomFeatureTypeKeys=" + roomFeatureTypeKeys +
+                ", roomTypeKeys=" + roomTypeKeys +
+                ", capacity=" + capacity +
+                ", ignoreConflicts=" + ignoreConflicts +
                 '}';
     }
 }

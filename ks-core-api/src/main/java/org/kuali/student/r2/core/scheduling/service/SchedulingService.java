@@ -33,8 +33,10 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleBatchInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestGroupConstraintInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionGroupInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
@@ -2044,6 +2046,478 @@ public interface SchedulingService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
+    /**
+     * Retrieves a ScheduleTransactionGroup
+     *
+     * @param scheduleTransactionGroupId  unique Id of a ScheduleTransactionGroup
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the ScheduleTransactionGroup
+     * @throws DoesNotExistException     scheduleTransactionGroupId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionGroupId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public ScheduleTransactionGroupInfo getScheduleTransactionGroup (@WebParam(name = "scheduleTransactionGroupId") String scheduleTransactionGroupId,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleTransactionGroups corresponding to the given list of ScheduleTransactionGroup Ids.
+     *
+     * @param scheduleTransactionGroupIds list of ScheduleTransactionGroups to be retrieved
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return a list of ScheduleTransactionGroups
+     * @throws DoesNotExistException     a scheduleTransactionGroupId in list not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionGroupId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ScheduleTransactionGroupInfo> getScheduleTransactionGroupsByIds(@WebParam(name = "scheduleTransactionGroupIds") List<String> scheduleTransactionGroupIds,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleTransactionGroup Ids by ScheduleTransactionGroup Type.
+     *
+     * @param scheduleTransactionGroupTypeKey an identifier for a ScheduleTransactionGroup Type
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of ScheduleTransactionGroup identifiers matching scheduleTransactionGroupTypeKey or an
+     *         empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionGroupTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getScheduleTransactionGroupIdsByType(@WebParam(name = "scheduleTransactionGroupTypeKey") String scheduleTransactionGroupTypeKey,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for ScheduleTransactionGroups based on the criteria and returns a list of
+     * ScheduleTransactionGroup identifiers which match the search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of ScheduleTransactionGroup Ids
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForScheduleTransactionGroupIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for ScheduleTransactionGroup based on the criteria and returns a list of
+     * ScheduleTransactionGroups which match the search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of ScheduleTransactionGroups
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ScheduleTransactionGroupInfo> searchForScheduleTransactionGroups(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates a ScheduleTransactionGroup. Depending on the value of validationType, this
+     * validation could be limited to tests on just the current ScheduleTransactionGroup and its
+     * directly contained sub-objects or expanded to perform all tests related
+     * to this ScheduleTransactionGroup. If an identifier is present for the ScheduleTransactionGroup (and/or
+     * one of its contained sub-objects) and a record is found for that
+     * identifier, the validation checks if the ScheduleTransactionGroup can be updated to the
+     * new values. If an identifier is not present or a record does not exist,
+     * the validation checks if the object with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param scheduleTransactionGroupTypeKey   the identifier for the ScheduleTransactionGroup Type
+     * @param scheduleTransactionGroupInfo      detailed information about the ScheduleTransactionGroup
+     * @param contextInfo       Context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return a list of validation results or an empty list if validation
+     *         succeeded
+     * @throws DoesNotExistException     validationTypeKey, scheduleTransactionGroupTypeKey, not
+     *                                   found
+     * @throws InvalidParameterException invalid scheduleTransactionGroupInfo or contextInfo
+     * @throws MissingParameterException validationTypeKey, scheduleTransactionGroupId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateScheduleTransactionGroup(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                       @WebParam(name = "scheduleTransactionGroupTypeKey") String scheduleTransactionGroupTypeKey,
+                                                                       @WebParam(name = "scheduleTransactionGroupInfo") ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a ScheduleTransactionGroup.
+     *
+     * @param scheduleTransactionGroupTypeKey the identifier for the ScheduleTransactionGroup Type
+     * @param scheduleTransactionGroupInfo    detailed information about the ScheduleTransactionGroup
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return detailed information about the ScheduleTransactionGroup
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        scheduleTransactionGroupId does not exist
+     * @throws InvalidParameterException    invalid scheduleTransactionGroupInfo or contextInfo
+     * @throws MissingParameterException    scheduleTransactionGroupId or contextInfo is missing
+     *                                      or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     */
+    public ScheduleTransactionGroupInfo createScheduleTransactionGroup(@WebParam(name = "scheduleTransactionGroupTypeKey") String scheduleTransactionGroupTypeKey,
+                                                                       @WebParam(name = "scheduleTransactionGroupInfo") ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates a ScheduleTransactionGroup.
+     *
+     * @param scheduleTransactionGroupId   identifier of the ScheduleTransactionGroup to be updated
+     * @param scheduleTransactionGroupInfo information about the object scheduleTransactionGroupInfo to be updated
+     * @param contextInfo  context information containing the principalId and
+     *                     locale information about the caller of service
+     *                     operation
+     * @return updated ScheduleTransactionGroup information
+     * @throws DataValidationErrorException one or more values invalid for this
+     *                                      operation
+     * @throws DoesNotExistException        ScheduleTransactionGroupId not found
+     * @throws InvalidParameterException    invalid scheduleTransactionGroupInfo or contextInfo
+     * @throws MissingParameterException    scheduleTransactionGroupId, scheduleTransactionGroupInfo or
+     *                                      contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     * @throws VersionMismatchException     optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public ScheduleTransactionGroupInfo updateScheduleTransactionGroup(@WebParam(name = "scheduleTransactionGroupId") String scheduleTransactionGroupId,
+                                                                       @WebParam(name = "scheduleTransactionGroupInfo") ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Removes a ScheduleTransactionGroup.
+     *
+     * @param scheduleTransactionGroupId  ScheduleTransactionGroup identifier
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     scheduleTransactionGroupId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleTransactionGroupId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteScheduleTransactionGroup(@WebParam(name = "scheduleTransactionGroupId") String scheduleTransactionGroupId,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+
+
+
+
+    /**
+     * Retrieves a ScheduleRequestGroupConstraint
+     *
+     * @param scheduleRequestGroupConstraintId  unique Id of a ScheduleRequestGroupConstraint
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the ScheduleRequestGroupConstraint
+     * @throws DoesNotExistException     scheduleRequestGroupConstraintId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleRequestGroupConstraintId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public ScheduleRequestGroupConstraintInfo getScheduleRequestGroupConstraint (@WebParam(name = "scheduleRequestGroupConstraintId") String scheduleRequestGroupConstraintId,
+                                                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleRequestGroupConstraints corresponding to the given list of ScheduleRequestGroupConstraint Ids.
+     *
+     * @param scheduleRequestGroupConstraintIds list of ScheduleRequestGroupConstraints to be retrieved
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return a list of ScheduleRequestGroupConstraints
+     * @throws DoesNotExistException     a scheduleRequestGroupConstraintId in list not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleRequestGroupConstraintId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ScheduleRequestGroupConstraintInfo> getScheduleRequestGroupConstraintsByIds(@WebParam(name = "scheduleRequestGroupConstraintIds") List<String> scheduleRequestGroupConstraintIds,
+                                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of ScheduleRequestGroupConstraint Ids by ScheduleRequestGroupConstraint Type.
+     *
+     * @param scheduleRequestGroupConstraintTypeKey an identifier for a ScheduleRequestGroupConstraint Type
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return a list of ScheduleRequestGroupConstraint identifiers matching scheduleRequestGroupConstraintTypeKey or an
+     *         empty list if none found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleRequestGroupConstraintTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getScheduleRequestGroupConstraintIdsByType(@WebParam(name = "scheduleRequestGroupConstraintTypeKey") String scheduleRequestGroupConstraintTypeKey,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for ScheduleRequestGroupConstraints based on the criteria and returns a list of
+     * ScheduleRequestGroupConstraint identifiers which match the search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of ScheduleRequestGroupConstraint Ids
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> searchForScheduleRequestGroupConstraintIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for ScheduleRequestGroupConstraint based on the criteria and returns a list of
+     * ScheduleRequestGroupConstraints which match the search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return list of ScheduleRequestGroupConstraints
+     * @throws InvalidParameterException invalid criteria or contextInfo
+     * @throws MissingParameterException missing criteria or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ScheduleRequestGroupConstraintInfo> searchForScheduleRequestGroupConstraints(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates a ScheduleRequestGroupConstraint. Depending on the value of validationType, this
+     * validation could be limited to tests on just the current ScheduleRequestGroupConstraint and its
+     * directly contained sub-objects or expanded to perform all tests related
+     * to this ScheduleRequestGroupConstraint. If an identifier is present for the ScheduleRequestGroupConstraint (and/or
+     * one of its contained sub-objects) and a record is found for that
+     * identifier, the validation checks if the ScheduleRequestGroupConstraint can be updated to the
+     * new values. If an identifier is not present or a record does not exist,
+     * the validation checks if the object with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param scheduleRequestGroupConstraintTypeKey   the identifier for the ScheduleRequestGroupConstraint Type
+     * @param scheduleRequestGroupConstraintInfo      detailed information about the ScheduleRequestGroupConstraint
+     * @param contextInfo       Context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return a list of validation results or an empty list if validation
+     *         succeeded
+     * @throws DoesNotExistException     validationTypeKey, scheduleRequestGroupConstraintTypeKey, not
+     *                                   found
+     * @throws InvalidParameterException invalid scheduleRequestGroupConstraintInfo or contextInfo
+     * @throws MissingParameterException validationTypeKey, scheduleRequestGroupConstraintId or
+     *                                   contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateScheduleRequestGroupConstraint(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                             @WebParam(name = "scheduleRequestGroupConstraintTypeKey") String scheduleRequestGroupConstraintTypeKey,
+                                                                             @WebParam(name = "scheduleRequestGroupConstraintInfo") ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a ScheduleRequestGroupConstraint.
+     *
+     * @param scheduleRequestGroupConstraintTypeKey the identifier for the ScheduleRequestGroupConstraint Type
+     * @param scheduleRequestGroupConstraintInfo    detailed information about the ScheduleRequestGroupConstraint
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return detailed information about the ScheduleRequestGroupConstraint
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        scheduleRequestGroupConstraintId does not exist
+     * @throws InvalidParameterException    invalid scheduleRequestGroupConstraintInfo or contextInfo
+     * @throws MissingParameterException    scheduleRequestGroupConstraintId or contextInfo is missing
+     *                                      or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
+     */
+    public ScheduleRequestGroupConstraintInfo createScheduleRequestGroupConstraint(@WebParam(name = "scheduleRequestGroupConstraintTypeKey") String scheduleRequestGroupConstraintTypeKey,
+                                                                                   @WebParam(name = "scheduleRequestGroupConstraintInfo") ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+                                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     * Updates a ScheduleRequestGroupConstraint.
+     *
+     * @param scheduleRequestGroupConstraintId   identifier of the ScheduleRequestGroupConstraint to be updated
+     * @param scheduleRequestGroupConstraintInfo information about the object ScheduleRequestGroupConstraintInfo to be updated
+     * @param contextInfo  context information containing the principalId and
+     *                     locale information about the caller of service
+     *                     operation
+     * @return updated ScheduleRequestGroupConstraint information
+     * @throws DataValidationErrorException one or more values invalid for this
+     *                                      operation
+     * @throws DoesNotExistException        scheduleRequestGroupConstraintId not found
+     * @throws InvalidParameterException    invalid scheduleRequestGroupConstraintInfo or contextInfo
+     * @throws MissingParameterException    scheduleRequestGroupConstraintId, scheduleRequestGroupConstraintInfo or
+     *                                      contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     * @throws VersionMismatchException     optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public ScheduleRequestGroupConstraintInfo updateScheduleRequestGroupConstraint(@WebParam(name = "scheduleRequestGroupConstraintId") String scheduleRequestGroupConstraintId,
+                                                                                   @WebParam(name = "scheduleRequestGroupConstraintInfo") ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+                                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException;
+
+    /**
+     * Removes a ScheduleRequestGroupConstraint.
+     *
+     * @param scheduleRequestGroupConstraintId  ScheduleRequestGroupConstraint identifier
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     scheduleRequestGroupConstraintId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleRequestGroupConstraintId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteScheduleRequestGroupConstraint(@WebParam(name = "scheduleRequestGroupConstraintId") String scheduleRequestGroupConstraintId,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
 
 }
 
