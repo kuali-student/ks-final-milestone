@@ -124,7 +124,7 @@
     <!--
       The "form" for managing scheduling requests.
       -->
-    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection"
+    <bean id="ActivityOffering-DeliveryLogistic-New" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="makeReadOnlyCheckboxDisabled('isApprovedForNonStandardTimeSlots');"
           p:componentSecurity.viewAuthz="true">
         <property name="additionalCssClasses">
             <list merge="true">
