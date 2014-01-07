@@ -30,6 +30,9 @@
                 <entry key="exemptionService" value-ref="exemptionService"/>
                 <entry key="identityService" value-ref="identityService"/>
                 <entry key="holdService" value-ref="holdService"/>
+                <entry key="gesService" value-ref="gesService"/>
+                <entry key="registrationRequestMerger" value-ref="mergerImpl"/>
+                <entry key="loadCalculatorRuleFactory" value-ref="loadCalculatorRuleFactoryHardwiredImpl"/>
                 <!--factory to be replaced by someething not hardwired-->
                 <entry key="propositionFactory" value-ref="propositionFactoryHardwiredImpl"/>
                 <!--flag to tell if should log sucesses as well as failures-->
@@ -58,6 +61,9 @@
             
     <bean id="propositionFactoryHardwiredImpl" class="org.kuali.student.r2.core.process.evaluator.PropositionFactoryHardwiredImpl" >  
     </bean>
+    <bean id="loadCalculatorRuleFactoryHardwiredImpl" class="org.kuali.student.poc.rules.credit.limit.LoadCalculatorRuleFactoryHardwiredImpl" >
+        <property name="courseOfferingService" ref="courseOfferingServiceMapImpl" />  
+    </bean>
     
     <bean id="mergerImpl" class="org.kuali.student.poc.rules.credit.limit.RegistrationRequestMergerImpl" >   
         <property name="courseOfferingService" ref="courseOfferingServiceMapImpl"/>          
@@ -77,7 +83,11 @@
         <property name="nextDecorator" ref="processServiceMapImpl"/>
     </bean>
     
-    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl" />
+    <bean id="populationServiceMapImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceDecorator"  init-method="init" >
+        <property name="nextDecorator" ref="populationServiceMapImpl"/>
+    </bean>
+    
     
     <bean id="exemptionServiceMapImpl" class="org.kuali.student.r2.core.exemption.service.impl.ExemptionServiceMapImpl" />
     <bean id="exemptionService" class="org.kuali.student.r2.core.process.ProcessPocExemptionServiceDecorator"  init-method="init" >
@@ -88,4 +98,10 @@
         <constructor-arg ref="holdServiceMapImpl"/>
     </bean>
     <bean id="holdServiceMapImpl" class="org.kuali.student.r2.core.class1.hold.mock.HoldServiceMapImpl"/>
+    <bean id="gesService" class="org.kuali.student.r2.core.process.ProcessPocGesServiceDecorator">
+        <constructor-arg ref="gesServiceMapImpl"/>
+    </bean>
+    <bean id="gesServiceMapImpl" class="org.kuali.student.enrollment.class2.ges.service.impl.GesServiceMapImpl" >
+        <property name="populationService" ref="populationService" />
+    </bean>
 </beans>

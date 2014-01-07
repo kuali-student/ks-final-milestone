@@ -18,7 +18,7 @@ public class AcademicRecordServiceTypeStateConstants extends AcademicRecordServi
     public static final String LOAD_STATE_FINAL = "kuali.academic.record.load.state.final";
     // Calculation types "LoadLevelType" code
     public static final String LOAD_CALC_CREDITS_INTEGER = "kuali.academic.record.calculation.type.load.credit.integer";
-    public static final String LOAD_CALC_CREDITS_BIG_DECIMAL = "kuali.academic.record.calculation.type.load.credit.big.decimal";
+    public static final String LOAD_CALC_CREDITS_DECIMAL = "kuali.academic.record.calculation.type.load.credit.decimal";
     public static final String LOAD_CALC_COURSES_SIMPLE = "kuali.academic.record.calculation.type.load.courses.simple";
     public static final String LOAD_CALC_COURSES_TIERED = "kuali.academic.record.calculation.type.load.courses.tiered";
     public static final String LOAD_CALC_CODE_4_TIERS = "kuali.academic.record.calculation.type.load.code.4.tiers";

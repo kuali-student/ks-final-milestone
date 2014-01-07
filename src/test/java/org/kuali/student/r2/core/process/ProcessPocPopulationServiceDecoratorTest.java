@@ -14,14 +14,15 @@ import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import org.kuali.student.poc.rules.population.PopulationServiceMapImpl;
 
 /**
  *
  * @author nwright
  */
-public class ProcessPocPopulationServiceMockImplTest {
+public class ProcessPocPopulationServiceDecoratorTest {
 
-    public ProcessPocPopulationServiceMockImplTest() {
+    public ProcessPocPopulationServiceDecoratorTest() {
     }
 
     @BeforeClass
@@ -50,7 +51,8 @@ public class ProcessPocPopulationServiceMockImplTest {
         ContextInfo context = new ContextInfo();
         context.setPrincipalId("POC-tester");
 
-        ProcessPocPopulationServiceMockImpl instance = new ProcessPocPopulationServiceMockImpl();
+        PopulationServiceMapImpl mapImpl = new PopulationServiceMapImpl ();
+        ProcessPocPopulationServiceDecorator instance = new ProcessPocPopulationServiceDecorator(mapImpl);
         assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_AMBER_HOPKINS_2155, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
         assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BARBARA_HARRIS_2016, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
         assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));

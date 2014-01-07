@@ -43,7 +43,7 @@ public class LoadCalculatorRuleFactoryHardwiredImpl implements LoadCalculatorRul
             impl.setCourseOfferingService(this.getCourseOfferingService());
             return impl;
         }
-        if (loadLevelCalcuationTypeKey.equals(AcademicRecordServiceTypeStateConstants.LOAD_CALC_CREDITS_BIG_DECIMAL)) {
+        if (loadLevelCalcuationTypeKey.equals(AcademicRecordServiceTypeStateConstants.LOAD_CALC_CREDITS_DECIMAL)) {
             LoadCalculatorBigDecimalCreditImpl impl = new LoadCalculatorBigDecimalCreditImpl ();
             impl.setCourseOfferingService(this.getCourseOfferingService());
             return impl;

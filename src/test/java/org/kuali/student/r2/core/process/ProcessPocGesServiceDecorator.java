@@ -31,15 +31,19 @@ public class ProcessPocGesServiceDecorator extends GesServiceDecorator {
     public void init() {
         ContextInfo contextInfo = new ContextInfo();
         contextInfo.setPrincipalId("POC-Initializer");
+        // parameters
         _createParam(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, "Credit Minimum",
                 "Minimum number of credits that a student can register for in a given term",
                 GesServiceConstants.GES_VALUE_TYPE_KEY_KUALIDECIMAL, contextInfo);
         _createParam(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, "Credit Limit",
                 "Maximum number of credits that a student can register for in a given term",
                 GesServiceConstants.GES_VALUE_TYPE_KEY_KUALIDECIMAL, contextInfo);
+        _createParam(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS, "Load Calculation for Credit Checks",
+                "The Load Calculation to use for credit limit checks", GesServiceConstants.GES_VALUE_TYPE_KEY_STRING, contextInfo);
 
-        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "6", "kuali.population.everyone", "kuali.atp.type.Summer",
-                contextInfo);
+        // values
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "6", "kuali.population.everyone",
+                "kuali.atp.type.Summer", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, "9", "kuali.population.everyone",
                 "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, "15", "kuali.population.freshman",
@@ -58,6 +62,9 @@ public class ProcessPocGesServiceDecorator extends GesServiceDecorator {
                 "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 4, "0", "kuali.population.everyone",
                 "kuali.atp.type.Summer", contextInfo);
+
+        _createValue(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS, 1,
+                "kuali.academic.record.calculation.type.load.credit.decimal", "kuali.population.everyone", "", contextInfo);
 
     }
 
