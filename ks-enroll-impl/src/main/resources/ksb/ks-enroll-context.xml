@@ -1435,7 +1435,7 @@
         </property>
     </bean>
 
-    <bean id="scheduleOfClassesService" class="org.kuali.student.enrollment.ui.registration.impl.ScheduleOfClassesServiceImpl">
+    <bean id="scheduleOfClassesService" class="org.kuali.student.enrollment.registration.client.service.impl.ScheduleOfClassesServiceImpl">
     </bean>
 
     <bean id="ks.exp.scheduleOfClassesService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -1443,7 +1443,7 @@
             <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
                 <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/scheduleOfClasses" />
                 <property name="service" ref="scheduleOfClassesService" />
-                <property name="resourceClass" value="org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService" />
+                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService" />
                 <property name="localServiceName" value="ScheduleOfClassesService" />
                 <property name="providers">
                     <list>

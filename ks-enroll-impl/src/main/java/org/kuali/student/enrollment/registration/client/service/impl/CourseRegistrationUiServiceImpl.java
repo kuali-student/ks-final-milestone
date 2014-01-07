@@ -6,8 +6,8 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationUiService;
-import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService;
-import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesServiceConstants;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.ui.registration.dto.RegGroupSearchResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;

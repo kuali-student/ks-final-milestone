@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.ui.registration;
+package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.ui.registration.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.ActivityTypeSearchResult;

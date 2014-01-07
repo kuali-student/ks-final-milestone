@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.ui.registration.impl;
+package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +15,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
-import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.ui.registration.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.ActivityTypeSearchResult;
 import org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult;

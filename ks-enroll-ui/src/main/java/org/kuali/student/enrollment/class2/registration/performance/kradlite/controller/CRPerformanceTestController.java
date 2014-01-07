@@ -7,7 +7,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
-import org.kuali.student.enrollment.ui.registration.ScheduleOfClassesService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
