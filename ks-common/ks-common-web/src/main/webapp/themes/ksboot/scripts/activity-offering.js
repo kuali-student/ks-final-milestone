@@ -799,6 +799,37 @@ function rdlDaysOnBlur(){
 }
 
 /**
+ * KRAD displays true or false as the value for a readonly checkbox
+ * This function replaces true or false with a disabled checkbox
+ */
+function makeReadOnlyCheckboxDisabled (componentId) {
+    var domId = componentId + '_control';
+
+    var checkboxValueSpan = jQuery('span[id="' + domId + '"]');
+    if(checkboxValueSpan!==null && checkboxValueSpan.length>0 ) {
+        var checked;
+        if (checkboxValueSpan.text().indexOf('true') >= 0) {
+            checked = true;
+        } else if (checkboxValueSpan.text().indexOf('false') >= 0) {
+            checked = false;
+        }
+        checkboxValueSpan.replaceWith(
+            jQuery("<input>", {
+                    type:'checkbox',
+                    id:domId,
+                    name:'document.newMaintainableObject.dataObject.aoInfo.isApprovedForNonStandardTimeSlots',
+                    class:'uif-checkboxControl valid',
+                    tabindex:'0',
+                    disabled:'disabled'
+                }
+            )
+        );
+        jQuery('#'+domId).prop("checked", checked);
+        var newComponent = jQuery('#'+domId);
+    }
+}
+
+/**
  * Validate the seat pool seats and change the error message.
  */
 jQuery.validator.addMethod("validSeatsAndPopulationName",
