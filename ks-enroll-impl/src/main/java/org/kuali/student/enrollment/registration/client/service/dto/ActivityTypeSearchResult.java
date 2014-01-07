@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.ui.registration.dto;
+package org.kuali.student.enrollment.registration.client.service.dto;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

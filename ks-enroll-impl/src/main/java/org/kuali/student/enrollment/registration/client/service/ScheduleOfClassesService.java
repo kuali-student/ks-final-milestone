@@ -1,10 +1,11 @@
 package org.kuali.student.enrollment.registration.client.service;
 
-import org.kuali.student.enrollment.ui.registration.dto.ActivityOfferingSearchResult;
-import org.kuali.student.enrollment.ui.registration.dto.ActivityTypeSearchResult;
-import org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult;
-import org.kuali.student.enrollment.ui.registration.dto.InstructorSearchResult;
-import org.kuali.student.enrollment.ui.registration.dto.RegGroupSearchResult;
+
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
