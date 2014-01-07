@@ -24,13 +24,10 @@
 
 
     <jms:listener-container concurrency="10" >
-        <jms:listener id="queueListener" destination="Test.Queue.Name" ref="testMessageListener" />
         <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initilizationListenerQueue" ref="registrationInitilizationListener" />
         <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
         <jms:listener id="regSeatCheckListener" destination="org.kuali.student.enrollment.registration.seatCheckQueue" ref="registrationSeatCheckListener" />
     </jms:listener-container>
-
-    <bean id="testMessageListener" class="org.kuali.student.enrollment.ui.registration.mq.TestMessageListener"/>
 
 
     <bean id="registrationInitilizationListener" class="org.kuali.student.enrollment.registration.engine.listener.BaseRegistrationListener">
