@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
-import org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;

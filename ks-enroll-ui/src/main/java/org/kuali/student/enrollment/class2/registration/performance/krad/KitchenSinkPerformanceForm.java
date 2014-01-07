@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.registration.performance.krad;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 
 import java.util.List;
 
