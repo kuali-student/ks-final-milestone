@@ -1768,12 +1768,26 @@ fieldset[data-type="InputSet"] {
 /*
  make the right group align with the dotted line if there is one
 */
-div.ks-dottedHeaderActions div.uif-header-rightGroup {
-    right: -10px;
+.ks-dottedHeaderActions .uif-header-rightGroup.right-aligned {
+  right: -@rightGroupRightAlignment;
+}
+
+.ks-dottedHeaderActions .uif-header-rightGroup a.right-aligned{
+  padding-right: @rightGroupRightAlignment;
+  margin-right: 0px;
 }
 
 .ks-key-date-header h5 {
   padding-bottom: 5px;
+}
+
+.ks-key-date-header .uif-header-rightGroup.right-aligned{
+  right: -@rightGroupRightAlignment;
+}
+
+.ks-key-date-header .uif-header-rightGroup a.right-aligned{
+  padding-right: @rightGroupRightAlignment;
+  margin-right: 0px
 }
 
 .ks-manage-scheduling-request-form-fields{
