@@ -22,9 +22,6 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 	private final int year;
 
 	public DefaultYearTerm(String termId, String termType, int year) {
-		if (!KsapHelperUtil.getTermTypes().contains(termType))
-			throw new IllegalArgumentException("Term type " + termType
-					+ " not supported");
 		this.termId = termId;
 		this.termType = termType;
 		this.year = year;

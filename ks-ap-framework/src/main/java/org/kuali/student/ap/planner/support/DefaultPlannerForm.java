@@ -421,7 +421,12 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
             for(String tempId : termIds){
                 tempTerms.add(termHelper.getTerm(tempId));
             }
-            String firstTermId = termIds.first();
+            String firstTermId;
+            if(termIds.isEmpty()){
+                firstTermId = termHelper.getCurrentTerm().getId();
+            }else{
+                firstTermId = termIds.first();
+            }
             Term firstTerm;
             if(tempTerms.size()>0){
                 tempTerms = termHelper.sortTermsByStartDate(tempTerms,true);
