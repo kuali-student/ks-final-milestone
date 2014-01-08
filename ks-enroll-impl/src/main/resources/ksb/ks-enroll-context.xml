@@ -1460,7 +1460,7 @@
     <bean id="ks.exp.courseRegistrationUiService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationUiService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationUi" />
                 <property name="service" ref="courseRegistrationUiService" />
                 <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.CourseRegistrationUiService" />
                 <property name="localServiceName" value="CourseRegistrationUiService" />

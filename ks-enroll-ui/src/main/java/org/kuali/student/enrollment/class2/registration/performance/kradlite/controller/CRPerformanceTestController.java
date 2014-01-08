@@ -7,11 +7,13 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -94,7 +96,7 @@ public class CRPerformanceTestController {
 
     private ScheduleOfClassesService getScheduleOfClassesService() {
         if (scheduleOfClassesService == null) {
-            scheduleOfClassesService = (ScheduleOfClassesService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "scheduleOfClasses", ScheduleOfClassesService.class.getSimpleName()));
+            scheduleOfClassesService = (ScheduleOfClassesService) GlobalResourceLoader.getService(new QName(ScheduleOfClassesServiceConstants.NAMESPACE, ScheduleOfClassesServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return scheduleOfClassesService;
     }
@@ -110,7 +112,7 @@ public class CRPerformanceTestController {
 
     public CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {
-            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseRegistrationService", CourseRegistrationService.class.getSimpleName()));
+            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseRegistrationService;
     }
