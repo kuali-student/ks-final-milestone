@@ -1279,7 +1279,7 @@
 
     <bean id="orgSearchManager"
           class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:ksap-orgsearch-config.xml" />
+        <constructor-arg index="0" value="classpath:organization-search-config.xml" />
         <property name="dao" ref="enrollSearchableDao"/>
     </bean>
 
