@@ -105,7 +105,7 @@
     </bean>
 
     <bean id="KS-Uif-LookupView" abstract="true"
-          class="org.kuali.student.common.uif.view.KSLookupView" parent="Uif-LookupView">
+          class="org.kuali.student.common.uif.view.KSLookupView" parent="Uif-LookupView" p:stickyFooter="true">
         <property name="theme">
             <bean parent="KSTheme"/>
         </property>
@@ -140,12 +140,26 @@
         </property>
         <property name="criteriaGroup.footer.items">
           <list>
-            <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
-            <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-                  p:render="@{#form.renderedInLightBox}"
-                  p:onClickScript="e.preventDefault();closeLightbox();return false;"
-                  p:additionalCssClasses="cancel_link"/>
           </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                          p:render="@{#form.renderedInLightBox}"
+                                          p:onClickScript="e.preventDefault();closeLightbox();return false;"
+                                          p:additionalCssClasses="cancel_link"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
