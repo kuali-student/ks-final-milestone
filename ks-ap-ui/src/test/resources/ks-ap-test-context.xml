@@ -18,8 +18,6 @@
 
     <bean id="courseSearchStrategy" class="org.kuali.student.ap.coursesearch.controller.CourseSearchStrategyImpl" />
 
-    <bean id="planController" class="org.kuali.student.myplan.plan.controller.PlanController"/>
-
     <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper" />
     <import resource="classpath:enumService-test-context.xml"/>
 
