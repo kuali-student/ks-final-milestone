@@ -44,6 +44,7 @@ public class StudentCourseRecordAssemblerMockAllGradeA extends StudentCourseReco
 
                 if (lui.getAtpId() != null) {
                     AtpInfo atp = getAtpService().getAtp(lui.getAtpId(), context);
+                    courseRecord.setTermId(atp.getId());
                     courseRecord.setTermName(atp.getName());
                     courseRecord.setCourseBeginDate(atp.getStartDate());
                     courseRecord.setCourseEndDate(atp.getEndDate());
