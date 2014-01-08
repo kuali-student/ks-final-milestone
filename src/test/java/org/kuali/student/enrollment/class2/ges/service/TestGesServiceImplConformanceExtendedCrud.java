@@ -20,12 +20,15 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.poc.rules.population.PopulationPocStudentEnum;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ParameterInfo;
@@ -34,6 +37,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -104,7 +109,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	*/
 	public void testCrudParameter_testDTOFieldsForTestReadAfterUpdate(ParameterInfo expected, ParameterInfo actual)
 	{
-		assertEquals (expected.getId(), actual.getId());
+		assertEquals (expected.getKey(), actual.getKey());
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
@@ -135,8 +140,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	{
 		expected.setTypeKey(GesServiceDataLoader.VALUE_TYPE_STRING);
 		expected.setStateKey("stateKey01");
-		expected.setParameterId("parameterId01");
-		expected.setAtpTypeKey("atpTypeKey01");
+		expected.setParameterKey("max.credit");
+        expected.setAtpTypeKeys(Arrays.asList("atpTypeKey01"));
 		expected.setPopulationId("populationId01");
 		expected.setRuleId("ruleId01");
         expected.setEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("1600-06-12"));
@@ -155,8 +160,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	{
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
-		assertEquals (expected.getParameterId(), actual.getParameterId());
-		assertEquals (expected.getAtpTypeKey(), actual.getAtpTypeKey());
+		assertEquals (expected.getParameterKey(), actual.getParameterKey());
+        assertEquals (expected.getAtpTypeKeys(), actual.getAtpTypeKeys());
 		assertEquals (expected.getPopulationId(), actual.getPopulationId());
 		assertEquals (expected.getRuleId(), actual.getRuleId());
 		assertEquals (expected.getStringValue(), actual.getStringValue());
@@ -171,7 +176,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	public void testCrudValue_setDTOFieldsForTestUpdate(ValueInfo expected)
 	{
 		expected.setStateKey("stateKey_Updated");
-		expected.setAtpTypeKey("atpTypeKey_Updated");
+        expected.setAtpTypeKeys(Arrays.asList("atpTypeKey_Updated"));
 		expected.setPopulationId("populationId_Updated");
 		expected.setRuleId("ruleId_Updated");
         expected.setEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("1902-12-25"));
@@ -188,8 +193,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	{
         assertEquals (expected.getTypeKey(), actual.getTypeKey());
         assertEquals (expected.getStateKey(), actual.getStateKey());
-        assertEquals (expected.getParameterId(), actual.getParameterId());
-        assertEquals (expected.getAtpTypeKey(), actual.getAtpTypeKey());
+        assertEquals (expected.getParameterKey(), actual.getParameterKey());
+        assertEquals (expected.getAtpTypeKeys(), actual.getAtpTypeKeys());
         assertEquals (expected.getPopulationId(), actual.getPopulationId());
         assertEquals (expected.getRuleId(), actual.getRuleId());
         assertEquals (expected.getStringValue(), actual.getStringValue());
@@ -205,9 +210,9 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	public void testCrudValue_setDTOFieldsForTestReadAfterUpdate(ValueInfo expected)
 	{
         expected.setTypeKey(GesServiceDataLoader.VALUE_TYPE_BOOLEAN);
-        expected.setParameterId("parameterId02");
+        expected.setParameterKey("min_credit");
         expected.setStateKey("stateKey2");
-        expected.setAtpTypeKey("atpTypeKey2");
+        expected.setAtpTypeKeys(Arrays.asList("atpTypeKey2"));
         expected.setPopulationId("populationId2");
         expected.setRuleId("ruleId2");
         expected.setEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("1902-12-26"));
@@ -263,13 +268,13 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	throws InvalidParameterException,MissingParameterException,OperationFailedException,PermissionDeniedException {
         loadData();
 
-        List<ValueInfo> values = testService.getValuesByParameter(dataLoader.getMaxCreditsParameter().getId(), contextInfo);
+        List<ValueInfo> values = testService.getValuesByParameter(dataLoader.getMaxCreditsParameter().getKey(), contextInfo);
         assertEquals(3, values.size());
         assertTrue(containsValue(20L, values));
         assertTrue(containsValue(15L, values));
         assertTrue(containsValue(10L, values));
 
-        values = testService.getValuesByParameter(dataLoader.getMinCreditsForProgramParameter().getId(), contextInfo);
+        values = testService.getValuesByParameter(dataLoader.getMinCreditsForProgramParameter().getKey(), contextInfo);
         assertEquals(1, values.size());
         assertTrue(containsValue(122L, values));
 
@@ -284,29 +289,29 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         loadData();
         GesCriteriaInfo criteriaInfo = new GesCriteriaInfo();
         criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT1.getPersonId());
-        criteriaInfo.setAtpTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-        List<ValueInfo> values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, contextInfo);
+        criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
+        List<ValueInfo> values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
         assertEquals(2, values.size());
         assertEquals(15, (long)values.get(0).getNumericValue());
         assertEquals(20, (long)values.get(1).getNumericValue());
 
         criteriaInfo.setPersonId(null);
-        criteriaInfo.setAtpTypeKey(null);
-        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, contextInfo);
+        criteriaInfo.setAtpId(null);
+        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
         assertEquals(3, values.size());
         assertEquals(15, (long)values.get(0).getNumericValue());
         assertEquals(10, (long)values.get(1).getNumericValue());
         assertEquals(20, (long)values.get(2).getNumericValue());
 
         criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT8.getPersonId());
-        criteriaInfo.setAtpTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, contextInfo);
+        criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
+        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
         assertEquals(1, values.size());
         assertEquals(20, (long)values.get(0).getNumericValue());
 
         criteriaInfo.setPersonId("SOME_RANDOM_ID_THAT_DOES_NOT_EXIST");
-        criteriaInfo.setAtpTypeKey(null);
-        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, contextInfo);
+        criteriaInfo.setAtpId(null);
+        values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
         assertEquals(0, values.size());
 	}
 	
@@ -317,24 +322,24 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         loadData();
         GesCriteriaInfo criteriaInfo = new GesCriteriaInfo();
         criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT1.getPersonId());
-        criteriaInfo.setAtpTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-        List<ValueInfo> values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2051-01-01"), contextInfo);
+        criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
+        List<ValueInfo> values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2051-01-01"), contextInfo);
         assertEquals(0, values.size());
 
-        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-11"), contextInfo);
+        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-11"), contextInfo);
         assertEquals(0, values.size());
 
-        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"), contextInfo);
+        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"), contextInfo);
         assertEquals(2, values.size());
         assertEquals(15, (long)values.get(0).getNumericValue());
         assertEquals(20, (long)values.get(1).getNumericValue());
 
-        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, new Date(), contextInfo);
+        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, new Date(), contextInfo);
         assertEquals(2, values.size());
         assertEquals(15, (long)values.get(0).getNumericValue());
         assertEquals(20, (long)values.get(1).getNumericValue());
 
-        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getId(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), contextInfo);
+        values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), contextInfo);
         assertEquals(2, values.size());
         assertEquals(15, (long)values.get(0).getNumericValue());
         assertEquals(20, (long)values.get(1).getNumericValue());

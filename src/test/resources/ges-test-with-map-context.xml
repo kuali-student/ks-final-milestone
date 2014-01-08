@@ -8,9 +8,11 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
     <bean id="popServiceImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
+    <bean id="atpServiceImpl" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMapImpl"/>
 
     <bean id="gesServiceImpl" class="org.kuali.student.enrollment.class2.ges.service.impl.GesServiceMapImpl">
         <property name="populationService" ref="popServiceImpl"/>
+        <property name="atpService" ref="atpServiceImpl"/>
     </bean>
 
     <bean id="gesDataLoader" class="org.kuali.student.enrollment.class2.ges.service.GesServiceDataLoader" />

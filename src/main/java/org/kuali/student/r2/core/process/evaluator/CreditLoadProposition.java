@@ -54,7 +54,7 @@ public class CreditLoadProposition extends AbstractLeafProposition {
         // get the name of rule to use to calculation load
         GesCriteriaInfo criteria = new GesCriteriaInfo();
         criteria.setPersonId(personId);
-        criteria.setAtpTypeKey(atpId + "???");
+        criteria.setAtpId(atpId);
         List<ValueInfo> values;
         try {
             values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS,

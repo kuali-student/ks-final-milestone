@@ -36,6 +36,8 @@ import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
 import java.util.ArrayList;
@@ -50,6 +52,7 @@ import java.util.Map;
 public class GesServiceMapImpl implements MockService, GesService {
 
     private PopulationService populationService;
+    private AtpService atpService;
 
     // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
@@ -65,6 +68,14 @@ public class GesServiceMapImpl implements MockService, GesService {
         this.populationService = populationService;
     }
 
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
     @Override
     public void clear() {
         this.parameterMap.clear();
@@ -73,21 +84,21 @@ public class GesServiceMapImpl implements MockService, GesService {
 
 
     @Override
-    public ParameterInfo getParameter(String parameterId, ContextInfo contextInfo)
+    public ParameterInfo getParameter(String parameterKey, ContextInfo contextInfo)
             throws DoesNotExistException
             , InvalidParameterException
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
         // GET_BY_ID
-        if (!this.parameterMap.containsKey(parameterId)) {
-            throw new DoesNotExistException(parameterId);
+        if (!this.parameterMap.containsKey(parameterKey)) {
+            throw new DoesNotExistException(parameterKey);
         }
-        return new ParameterInfo(this.parameterMap.get(parameterId));
+        return new ParameterInfo(this.parameterMap.get(parameterKey));
     }
 
     @Override
-    public List<ParameterInfo> getParametersByIds(List<String> parameterIds, ContextInfo contextInfo)
+    public List<ParameterInfo> getParametersByKeys(List<String> parameterKeys, ContextInfo contextInfo)
             throws DoesNotExistException
             , InvalidParameterException
             , MissingParameterException
@@ -95,14 +106,14 @@ public class GesServiceMapImpl implements MockService, GesService {
             , PermissionDeniedException {
         // GET_BY_IDS
         List<ParameterInfo> list = new ArrayList<ParameterInfo>();
-        for (String id : parameterIds) {
+        for (String id : parameterKeys) {
             list.add(this.getParameter(id, contextInfo));
         }
         return list;
     }
 
     @Override
-    public List<String> getParameterIdsByType(String parameterTypeKey, ContextInfo contextInfo)
+    public List<String> getParameterKeysByType(String parameterTypeKey, ContextInfo contextInfo)
             throws InvalidParameterException
             , MissingParameterException
             , OperationFailedException
@@ -111,20 +122,20 @@ public class GesServiceMapImpl implements MockService, GesService {
         List<String> list = new ArrayList<String>();
         for (ParameterInfo info : parameterMap.values()) {
             if (parameterTypeKey.equals(info.getTypeKey())) {
-                list.add(info.getId());
+                list.add(info.getKey());
             }
         }
         return list;
     }
 
     @Override
-    public List<String> searchForParameterIds(QueryByCriteria criteria, ContextInfo contextInfo)
+    public List<String> searchForParameterKeys(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
         // UNKNOWN
-        throw new OperationFailedException("searchForParameterIds has not been implemented");
+        throw new OperationFailedException("searchForParameterKeys has not been implemented");
     }
 
     @Override
@@ -138,7 +149,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String valueTypeKey, String parameterTypeKey, String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
+    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String valueTypeKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , InvalidParameterException
             , MissingParameterException
@@ -149,7 +160,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public ParameterInfo createParameter(String valueTypeKey, String parameterTypeKey, String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
+    public ParameterInfo createParameter(String valueTypeKey, String parameterKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , DataValidationErrorException
             , InvalidParameterException
@@ -171,16 +182,16 @@ public class GesServiceMapImpl implements MockService, GesService {
         }
 
         ParameterInfo copy = new ParameterInfo(parameterInfo);
-        if (copy.getId() == null) {
-            copy.setId(UUIDHelper.genStringUUID());
+        if (copy.getKey() == null) {
+            copy.setKey(UUIDHelper.genStringUUID());
         }
         copy.setMeta(newMeta(contextInfo));
-        parameterMap.put(copy.getId(), copy);
+        parameterMap.put(copy.getKey(), copy);
         return new ParameterInfo(copy);
     }
 
     @Override
-    public ParameterInfo updateParameter(String parameterId, ParameterInfo parameterInfo, ContextInfo contextInfo)
+    public ParameterInfo updateParameter(String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
             throws DataValidationErrorException
             , DoesNotExistException
             , InvalidParameterException
@@ -190,10 +201,10 @@ public class GesServiceMapImpl implements MockService, GesService {
             , ReadOnlyException
             , VersionMismatchException {
         // UPDATE
-        if (!parameterId.equals(parameterInfo.getId())) {
+        if (!parameterKey.equals(parameterInfo.getKey())) {
             throw new InvalidParameterException("The id parameter does not match the id on the info object");
         }
-        ParameterInfo old = this.getParameter(parameterInfo.getId(), contextInfo);
+        ParameterInfo old = this.getParameter(parameterInfo.getKey(), contextInfo);
 
         // CREATE
         if (!old.getValueTypeKey().equals(parameterInfo.getValueTypeKey())) {
@@ -213,20 +224,20 @@ public class GesServiceMapImpl implements MockService, GesService {
             throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
         copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
-        this.parameterMap.put(parameterInfo.getId(), copy);
+        this.parameterMap.put(parameterInfo.getKey(), copy);
         return new ParameterInfo(copy);
     }
 
     @Override
-    public StatusInfo deleteParameter(String parameterId, ContextInfo contextInfo)
+    public StatusInfo deleteParameter(String parameterKey, ContextInfo contextInfo)
             throws DoesNotExistException
             , InvalidParameterException
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
         // DELETE
-        if (this.parameterMap.remove(parameterId) == null) {
-            throw new DoesNotExistException(parameterId);
+        if (this.parameterMap.remove(parameterKey) == null) {
+            throw new DoesNotExistException(parameterKey);
         }
         return new StatusInfo();
     }
@@ -297,7 +308,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateValue(String validationTypeKey, String valueTypeKey, String parameterId, ValueInfo valueInfo, ContextInfo contextInfo)
+    public List<ValidationResultInfo> validateValue(String validationTypeKey, String valueTypeKey, String parameterKey, ValueInfo valueInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , InvalidParameterException
             , MissingParameterException
@@ -308,7 +319,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public ValueInfo createValue(String valueTypeKey, String parameterId, ValueInfo valueInfo, ContextInfo contextInfo)
+    public ValueInfo createValue(String valueTypeKey, String parameterKey, ValueInfo valueInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , DataValidationErrorException
             , InvalidParameterException
@@ -320,7 +331,7 @@ public class GesServiceMapImpl implements MockService, GesService {
         if (!valueTypeKey.equals(valueInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
-        if (!parameterId.equals(valueInfo.getParameterId())) {
+        if (!parameterKey.equals(valueInfo.getParameterKey())) {
             throw new InvalidParameterException("The parameter id parameter does not match the parameter id on the info object");
         }
 
@@ -349,7 +360,7 @@ public class GesServiceMapImpl implements MockService, GesService {
         }
         ValueInfo old = this.getValue(valueInfo.getId(), contextInfo);
 
-        if (!old.getParameterId().equals(valueInfo.getParameterId())) {
+        if (!old.getParameterKey().equals(valueInfo.getParameterKey())) {
             throw new InvalidParameterException("The new parameter id does not match the old parameter id on the info object");
         }
 
@@ -377,7 +388,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public List<ValueInfo> getValuesByParameter(String parameterId, ContextInfo contextInfo)
+    public List<ValueInfo> getValuesByParameter(String parameterKey, ContextInfo contextInfo)
             throws InvalidParameterException
             , MissingParameterException
             , OperationFailedException
@@ -385,7 +396,7 @@ public class GesServiceMapImpl implements MockService, GesService {
         // GET_INFOS_BY_OTHER
         List<ValueInfo> list = new ArrayList<ValueInfo>();
         for (ValueInfo info : valueMap.values()) {
-            if (parameterId.equals(info.getParameterId())) {
+            if (parameterKey.equals(info.getParameterKey())) {
                 list.add(new ValueInfo(info));
             }
         }
@@ -393,24 +404,24 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public List<ValueInfo> evaluateValues(String parameterId, GesCriteriaInfo criteria, ContextInfo contextInfo)
+    public List<ValueInfo> evaluateValues(String parameterKey, GesCriteriaInfo criteria, ContextInfo contextInfo)
             throws InvalidParameterException
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
 
         Date now = new Date();
-        return evaluateValuesOnDate(parameterId, criteria, now, contextInfo);
+        return evaluateValuesOnDate(parameterKey, criteria, now, contextInfo);
 
     }
 
     @Override
-    public List<ValueInfo> evaluateValuesOnDate(String parameterId, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo)
+    public List<ValueInfo> evaluateValuesOnDate(String parameterKey, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo)
             throws InvalidParameterException
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        List<ValueInfo> values = getValuesByParameter(parameterId, contextInfo);
+        List<ValueInfo> values = getValuesByParameter(parameterKey, contextInfo);
         List<ValueInfo> resultValues = new ArrayList<ValueInfo>();
         for (ValueInfo value : values) {
             try {
@@ -418,7 +429,7 @@ public class GesServiceMapImpl implements MockService, GesService {
                     resultValues.add(value);
                 }
             } catch (DoesNotExistException e) {
-                throw new OperationFailedException("Unable to evaluate values for parameter " + parameterId, e);
+                throw new OperationFailedException("Unable to evaluate values for parameter " + parameterKey, e);
             }
         }
         Collections.sort(resultValues, new ValuePriorityComparator());
@@ -427,7 +438,7 @@ public class GesServiceMapImpl implements MockService, GesService {
 
     private boolean isValueApplicable(ValueInfo value, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo)
             throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        return isAtpActive(value.getAtpTypeKey(), criteria, onDate, contextInfo) &&
+        return isAtpActive(value.getAtpTypeKeys(), criteria, onDate, contextInfo) &&
                 isInPopulation(value.getPopulationId(), criteria, onDate, contextInfo) &&
                 evaluateRule(value.getRuleId(), criteria, onDate, contextInfo);
 
@@ -449,10 +460,22 @@ public class GesServiceMapImpl implements MockService, GesService {
         return true;
     }
 
-    private boolean isAtpActive(String atpTypeKey, GesCriteriaInfo criteria, Date date, ContextInfo contextInfo) {
-        return  StringUtils.isEmpty(atpTypeKey) ||
-                StringUtils.isEmpty(criteria.getAtpTypeKey()) ||
-                atpTypeKey.equals(criteria.getAtpTypeKey());
+    private boolean isAtpActive(List<String> atpTypeKeys, GesCriteriaInfo criteria, Date date, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        if (atpTypeKeys == null || atpTypeKeys.isEmpty()|| StringUtils.isEmpty(criteria.getAtpId())){
+            return true;
+        }
+        String atpTypeKey = pullAtpTypeKey(criteria.getAtpId(),contextInfo);
+        for(String key: atpTypeKeys){
+
+            if (key.equals(atpTypeKey)){
+                return true;
+            }
+        }
+        return false;
+    }
+    private String pullAtpTypeKey(String atpId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        AtpInfo info = atpService.getAtp(atpId,contextInfo);
+        return info.getTypeKey();
     }
 
     private MetaInfo newMeta(ContextInfo context) {

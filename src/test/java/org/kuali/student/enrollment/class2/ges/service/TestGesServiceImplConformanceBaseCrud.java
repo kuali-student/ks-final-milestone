@@ -24,6 +24,7 @@ import org.kuali.student.common.test.AttributeTester;
 import org.kuali.student.common.test.MetaTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.KeyNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -102,9 +103,9 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			new AttributeTester().add2ForCreate(expected.getAttributes());
 			
 			// code to create actual
-			ParameterInfo actual = testService.createParameter ( expected.getValueTypeKey(), expected.getTypeKey(), expected.getKey(), expected, contextInfo);
+			ParameterInfo actual = testService.createParameter ( expected.getValueTypeKey(), expected.getKey(), expected.getTypeKey(), expected, contextInfo);
 			
-			assertNotNull(actual.getId());
+			assertNotNull(actual.getKey());
 			check(expected, actual);
 			
 			// METHOD TO TEST DTO FIELDS HERE FOR TEST CREATE
@@ -117,8 +118,8 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			// test read
 			// -------------------------------------
 			expected = actual;
-			actual = testService.getParameter ( actual.getId(), contextInfo);
-			assertEquals(expected.getId(), actual.getId());
+			actual = testService.getParameter ( actual.getKey(), contextInfo);
+			assertEquals(expected.getKey(), actual.getKey());
 			check(expected, actual);
 			
 			// INSERT CODE FOR TESTING MORE DTO FIELDS HERE
@@ -140,9 +141,9 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 			new AttributeTester().delete1Update1Add1ForUpdate(expected.getAttributes());
 			// code to update
-			actual = testService.updateParameter ( expected.getId(), expected, contextInfo);
+			actual = testService.updateParameter ( expected.getKey(), expected, contextInfo);
 			
-			assertEquals(expected.getId(), actual.getId());
+			assertEquals(expected.getKey(), actual.getKey());
 			check(expected, actual);
 			
 			// METHOD TO INSERT CODE FOR TESTING DTO FIELDS HERE
@@ -154,7 +155,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			// Test that VersionMissmatchException's are being detected
 			boolean exception = false;
 			try {
-   			testService.updateParameter ( original.getId(), original, contextInfo);
+   			testService.updateParameter ( original.getKey(), original, contextInfo);
 			}
 			catch (VersionMismatchException e) {
    			exception = true;			}
@@ -167,9 +168,9 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 			expected = actual;
 			// code to get actual
-			actual = testService.getParameter ( actual.getId(), contextInfo);
+			actual = testService.getParameter ( actual.getKey(), contextInfo);
 			
-			assertEquals(expected.getId(), actual.getId());
+			assertEquals(expected.getKey(), actual.getKey());
 			check(expected, actual);
 			
 			// INSERT METHOD CODE FOR TESTING DTO FIELDS HERE
@@ -188,7 +189,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 			betaDTO.setTypeKey("typeKeyBeta");
 			betaDTO.setStateKey("stateKeyBeta");
-			betaDTO = testService.createParameter (betaDTO.getValueTypeKey(), betaDTO.getTypeKey(), betaDTO.getKey(), betaDTO, contextInfo);
+			betaDTO = testService.createParameter (betaDTO.getValueTypeKey(), betaDTO.getKey(), betaDTO.getTypeKey(), betaDTO, contextInfo);
 			
 			// -------------------------------------
 			// test bulk get with no ids supplied
@@ -196,7 +197,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 			List<String> parameterIds = new ArrayList<String>();
 			// code to get DTO by Ids
-			List<ParameterInfo> records = testService.getParametersByIds ( parameterIds, contextInfo);
+			List<ParameterInfo> records = testService.getParametersByKeys ( parameterIds, contextInfo);
 			
 			assertEquals(parameterIds.size(), records.size());
 			assertEquals(0, parameterIds.size());
@@ -205,17 +206,17 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			// test bulk get
 			// -------------------------------------
 			parameterIds = new ArrayList<String>();
-			parameterIds.add(alphaDTO.getId());
-			parameterIds.add(betaDTO.getId());
+			parameterIds.add(alphaDTO.getKey());
+			parameterIds.add(betaDTO.getKey());
 			// code to get DTO by Ids
-			records = testService.getParametersByIds ( parameterIds, contextInfo);
+			records = testService.getParametersByKeys ( parameterIds, contextInfo);
 			
 			assertEquals(parameterIds.size(), records.size());
 			for (ParameterInfo record : records)
 			{
-					if (!parameterIds.remove(record.getId()))
+					if (!parameterIds.remove(record.getKey()))
 					{
-							fail(record.getId());
+							fail(record.getKey());
 					}
 			}
 			assertEquals(0, parameterIds.size());
@@ -224,29 +225,29 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			// test get by type
 			// -------------------------------------
 			// code to get by specific type "typeKey01" 
-			parameterIds = testService.getParameterIdsByType ("typeKey01", contextInfo);
+			parameterIds = testService.getParameterKeysByType ("typeKey01", contextInfo);
 			
 			assertEquals(1, parameterIds.size());
-			assertEquals(alphaDTO.getId(), parameterIds.get(0));
+			assertEquals(alphaDTO.getKey(), parameterIds.get(0));
 			
 			// test get by other type
 			// code to get by specific type "typeKeyBeta" 
-			parameterIds = testService.getParameterIdsByType ("typeKeyBeta", contextInfo);
+			parameterIds = testService.getParameterKeysByType ("typeKeyBeta", contextInfo);
 			
 			assertEquals(1, parameterIds.size());
-			assertEquals(betaDTO.getId(), parameterIds.get(0));
+			assertEquals(betaDTO.getKey(), parameterIds.get(0));
 			
 			// -------------------------------------
 			// test delete
 			// -------------------------------------
 			
-			StatusInfo status = testService.deleteParameter ( actual.getId(), contextInfo);
+			StatusInfo status = testService.deleteParameter ( actual.getKey(), contextInfo);
 			
 			assertNotNull(status);
 			assertTrue(status.getIsSuccess());
 			try
 			{
-					ParameterInfo record = testService.getParameter ( actual.getId(), contextInfo);
+					ParameterInfo record = testService.getParameter ( actual.getKey(), contextInfo);
 					fail("Did not receive DoesNotExistException when attempting to get already-deleted entity");
 			}
 			catch (DoesNotExistException dnee)
@@ -313,7 +314,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			new AttributeTester().add2ForCreate(expected.getAttributes());
 			
 			// code to create actual
-			ValueInfo actual = testService.createValue (expected.getTypeKey(), expected.getParameterId(), expected, contextInfo);
+			ValueInfo actual = testService.createValue (expected.getTypeKey(), expected.getParameterKey(), expected, contextInfo);
 			
 			assertNotNull(actual.getId());
 			check(expected, actual);
@@ -399,7 +400,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 			betaDTO.setTypeKey("typeKeyBeta");
 			betaDTO.setStateKey("stateKeyBeta");
-			betaDTO = testService.createValue (betaDTO.getTypeKey(), betaDTO.getParameterId(), betaDTO, contextInfo);
+			betaDTO = testService.createValue (betaDTO.getTypeKey(), betaDTO.getParameterKey(), betaDTO, contextInfo);
 			
 			// -------------------------------------
 			// test bulk get with no ids supplied
@@ -466,6 +467,11 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			}
 			
 	}
+
+    private void check(KeyNamelessEntityInfo expected, KeyNamelessEntityInfo actual) {
+        assertEquals(expected.getTypeKey(), actual.getTypeKey());
+        assertEquals(expected.getStateKey(), actual.getStateKey());
+    }
 
     private void check(IdNamelessEntityInfo expected, IdNamelessEntityInfo actual) {
         assertEquals(expected.getTypeKey(), actual.getTypeKey());

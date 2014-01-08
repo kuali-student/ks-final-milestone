@@ -40,7 +40,7 @@ public class CreditLimitProposition extends AbstractLeafProposition {
         GesService gesService = environment.resolveTerm(RulesExecutionConstants.GES_SERVICE_TERM, this);
         GesCriteriaInfo criteria = new GesCriteriaInfo ();
         criteria.setPersonId(personId);
-        criteria.setAtpTypeKey(atpId + "???");
+        criteria.setAtpId(atpId);
         List<ValueInfo> values;
         try {
             values = gesService.evaluateValuesOnDate(atpId, criteria, asOfDate, contextInfo);

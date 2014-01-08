@@ -65,7 +65,7 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 	}
 	
 	@Override
-    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String valueTypeKey, String parameterTypeKey, String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
+    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String valueTypeKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
@@ -77,7 +77,7 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 		try {
             errors = ValidationUtils.validateTypeKey(parameterTypeKey, GesServiceNamespace.REF_OBJECT_URI_PARAMETER, getTypeService(), contextInfo);
 		    errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, parameterInfo, contextInfo));
-		    errors.addAll(getNextDecorator().validateParameter(validationTypeKey, valueTypeKey, parameterTypeKey, parameterKey, parameterInfo, contextInfo));
+		    errors.addAll(getNextDecorator().validateParameter(validationTypeKey, valueTypeKey, parameterTypeKey, parameterInfo, contextInfo));
 		} catch (DoesNotExistException ex) {
 		  throw new OperationFailedException("Error validating", ex);
 		}
@@ -85,7 +85,7 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 	}
 	
 	@Override
-    public ParameterInfo createParameter(String valueTypeKey, String parameterTypeKey, String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
+    public ParameterInfo createParameter(String valueTypeKey,String parameterKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,DataValidationErrorException
 		      ,InvalidParameterException
@@ -97,18 +97,18 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 		// create 
 		try {
 		    List<ValidationResultInfo> errors =
-		      this.validateParameter(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), valueTypeKey, parameterTypeKey, parameterKey, parameterInfo, contextInfo);
+		      this.validateParameter(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), valueTypeKey, parameterTypeKey, parameterInfo, contextInfo);
 		    if (!errors.isEmpty()) {
 		       throw new DataValidationErrorException("Error(s) occurred validating", errors);
 		    }
 		} catch (DoesNotExistException ex) {
 		    throw new OperationFailedException("Error validating", ex);
 		}
-		return getNextDecorator().createParameter(valueTypeKey, parameterTypeKey, parameterKey, parameterInfo, contextInfo);
+		return getNextDecorator().createParameter(valueTypeKey, parameterKey, parameterTypeKey, parameterInfo, contextInfo);
 	}
 	
 	@Override
-	public ParameterInfo updateParameter(String parameterId, ParameterInfo parameterInfo, ContextInfo contextInfo)
+	public ParameterInfo updateParameter(String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
 		throws DataValidationErrorException
 		      ,DoesNotExistException
 		      ,InvalidParameterException
@@ -121,18 +121,18 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 		// update
 		try {
 		    List<ValidationResultInfo> errors =
-		      this.validateParameter(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), parameterInfo.getValueTypeKey(), parameterInfo.getTypeKey(),  parameterInfo.getKey(), parameterInfo, contextInfo);
+		      this.validateParameter(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), parameterInfo.getValueTypeKey(), parameterInfo.getTypeKey(), parameterInfo, contextInfo);
 		    if (!errors.isEmpty()) {
 		       throw new DataValidationErrorException("Error(s) occurred validating", errors);
 		    }
 		} catch (DoesNotExistException ex) {
 		    throw new OperationFailedException("Error validating", ex);
 		}
-		return getNextDecorator().updateParameter(parameterId, parameterInfo, contextInfo);
+		return getNextDecorator().updateParameter(parameterKey, parameterInfo, contextInfo);
 	}
 	
 	@Override
-    public List<ValidationResultInfo> validateValue(String validationTypeKey, String valueTypeKey, String parameterId, ValueInfo valueInfo, ContextInfo contextInfo)
+    public List<ValidationResultInfo> validateValue(String validationTypeKey, String valueTypeKey, String parameterKey, ValueInfo valueInfo, ContextInfo contextInfo)
 		throws DoesNotExistException
 		      ,InvalidParameterException
 		      ,MissingParameterException
@@ -144,7 +144,7 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 		try {
             errors = ValidationUtils.validateTypeKey(valueTypeKey, GesServiceNamespace.REF_OBJECT_URI_VALUE, getTypeService(), contextInfo);
 		    errors.addAll(ValidationUtils.validateInfo(validator, validationTypeKey, valueInfo, contextInfo));
-		    errors.addAll(getNextDecorator().validateValue(validationTypeKey, valueTypeKey, parameterId, valueInfo, contextInfo));
+		    errors.addAll(getNextDecorator().validateValue(validationTypeKey, valueTypeKey, parameterKey, valueInfo, contextInfo));
 		} catch (DoesNotExistException ex) {
 		  throw new OperationFailedException("Error validating", ex);
 		}
@@ -152,7 +152,7 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 	}
 	
 	@Override
-    public ValueInfo createValue(String valueTypeKey, String parameterId, ValueInfo valueInfo, ContextInfo contextInfo)
+    public ValueInfo createValue(String valueTypeKey, String parameterKey, ValueInfo valueInfo, ContextInfo contextInfo)
         throws DoesNotExistException,
             DataValidationErrorException,
             InvalidParameterException,
@@ -164,14 +164,14 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 		// create 
 		try {
 		    List<ValidationResultInfo> errors =
-		      this.validateValue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), valueTypeKey, parameterId, valueInfo, contextInfo);
+		      this.validateValue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), valueTypeKey, parameterKey, valueInfo, contextInfo);
 		    if (!errors.isEmpty()) {
 		       throw new DataValidationErrorException("Error(s) occurred validating", errors);
 		    }
 		} catch (DoesNotExistException ex) {
 		    throw new OperationFailedException("Error validating", ex);
 		}
-		return getNextDecorator().createValue(valueTypeKey, parameterId, valueInfo, contextInfo);
+		return getNextDecorator().createValue(valueTypeKey, parameterKey, valueInfo, contextInfo);
 	}
 	
 	@Override
@@ -188,7 +188,7 @@ public class GesServiceValidationDecorator extends GesServiceDecorator
 		// update
 		try {
 		    List<ValidationResultInfo> errors =
-		      this.validateValue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), valueInfo.getTypeKey(), valueInfo.getParameterId(), valueInfo, contextInfo);
+		      this.validateValue(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), valueInfo.getTypeKey(), valueInfo.getParameterKey(), valueInfo, contextInfo);
 		    if (!errors.isEmpty()) {
 		       throw new DataValidationErrorException("Error(s) occurred validating", errors);
 		    }

@@ -4,6 +4,7 @@
  */
 package org.kuali.student.r2.core.process;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.kuali.student.core.constants.GesServiceConstants;
@@ -43,28 +44,28 @@ public class ProcessPocGesServiceDecorator extends GesServiceDecorator {
 
         // values
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 1, "6", "kuali.population.everyone",
-                "kuali.atp.type.Summer", contextInfo);
+                Arrays.asList("kuali.atp.type.Summer"), contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 2, "9", "kuali.population.everyone",
-                "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                Arrays.asList("kuali.atp.type.Fall, kuali.atp.type.Spring"), contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 3, "15", "kuali.population.freshman",
-                "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                Arrays.asList("kuali.atp.type.Fall, kuali.atp.type.Spring"), contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 4, "18", "kuali.population.upperclass",
-                "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
-        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 5, "18", "kuali.population.law.school.students", "",
+                Arrays.asList("kuali.atp.type.Fall, kuali.atp.type.Spring"), contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 5, "18", "kuali.population.law.school.students", new ArrayList<String>(),
                 contextInfo);
-        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 6, "17", "kuali.population.graduate", "", contextInfo);
+        _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 6, "17", "kuali.population.graduate", new ArrayList<String>(), contextInfo);
 
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 1, "12", "kuali.population.athletes",
-                "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                Arrays.asList("kuali.atp.type.Fall, kuali.atp.type.Spring"), contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 2, "9", "kuali.population.fin.aid.recipients",
-                "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                Arrays.asList("kuali.atp.type.Fall, kuali.atp.type.Spring"), contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 3, "1", "kuali.population.everyone",
-                "kuali.atp.type.Fall, kuali.atp.type.Spring", contextInfo);
+                Arrays.asList("kuali.atp.type.Fall, kuali.atp.type.Spring"), contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 4, "0", "kuali.population.everyone",
-                "kuali.atp.type.Summer", contextInfo);
+                Arrays.asList("kuali.atp.type.Summer"), contextInfo);
 
         _createValue(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS, 1,
-                "kuali.academic.record.calculation.type.load.credit.decimal", "kuali.population.everyone", "", contextInfo);
+                "kuali.academic.record.calculation.type.load.credit.decimal", "kuali.population.everyone", new ArrayList<String>(), contextInfo);
 
     }
 
@@ -84,17 +85,17 @@ public class ProcessPocGesServiceDecorator extends GesServiceDecorator {
         return info;
     }
 
-    private ValueInfo _createValue(String paramKey, int priority, String value, String populationId, String atpKeys,
+    private ValueInfo _createValue(String paramKey, int priority, String value, String populationId, List<String> atpKeys,
             ContextInfo context) {
         ValueInfo info = new ValueInfo();
-        info.setParameterId(paramKey);
+        info.setParameterKey(paramKey);
         info.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY_KUALIDECIMAL);
         info.setStateKey(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
         info.setPriority(priority);
         info.setStringValue(_nullIt(value));
         info.setPopulationId(populationId);
         // TODO: turn this into a list once the GES service gets fixed
-        info.setAtpTypeKey(atpKeys);
+        info.setAtpTypeKeys(atpKeys);
         try {
             info = this.createValue(info.getTypeKey(), paramKey, info, context);
         } catch (Exception ex) {
