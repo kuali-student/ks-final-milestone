@@ -54,6 +54,7 @@ public class RegistrationRequestTransformer {
     }
 
     public static LprTransactionItemInfo regRequestItem2LprTransactionItem(RegistrationRequestItemInfo requestItem) {
+        // Currently, attributes not saved.
         LprTransactionItemInfo item = new LprTransactionItemInfo();
         // Inherited fields
         item.setId(requestItem.getId());
@@ -109,6 +110,7 @@ public class RegistrationRequestTransformer {
 
     public static RegistrationRequestInfo  lprTransaction2RegRequest(LprTransactionInfo lprTransaction)
             throws OperationFailedException {
+        // Currently, saving of attributes not yet implemented.
         RegistrationRequestInfo request = new RegistrationRequestInfo();
         request.setId(lprTransaction.getId());
         request.setTermId(lprTransaction.getAtpId());
@@ -117,6 +119,7 @@ public class RegistrationRequestTransformer {
         request.setRequestorId(lprTransaction.getRequestingPersonId());
         request.setTypeKey(lprTransaction.getTypeKey());
         request.setStateKey(lprTransaction.getStateKey());
+        request.setMeta(lprTransaction.getMeta());
 
         request.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
         for (LprTransactionItemInfo transactionItem : lprTransaction.getLprTransactionItems()) {
@@ -142,6 +145,7 @@ public class RegistrationRequestTransformer {
         requestItem.setRegistrationRequestId(item.getTransactionId());
         requestItem.setNewRegistrationGroupId(item.getNewLuiId());
         requestItem.setExistingRegistrationGroupId(item.getExistingLuiId());
+
         // Admittedly, a hacky way of doing things, so open for better ways to do this
         for (String s : item.getResultValuesGroupKeys()) {
             if (s.startsWith("kuali.resultComponent.grade")) {

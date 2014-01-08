@@ -26,8 +26,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -89,7 +87,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
         LprInfo lpri = new LprInfo();
         lpri.setPersonId("personId.1");
         lpri.setLuiId("luiId.1");
-        lpri.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
+        lpri.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY);
         lpri.setStateKey(LprServiceConstants.APPLIED_STATE_KEY);
         lpri.setEffectiveDate(parseDate("2010-01-01"));
 

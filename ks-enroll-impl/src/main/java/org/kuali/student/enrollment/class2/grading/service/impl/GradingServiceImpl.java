@@ -36,7 +36,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import javax.jws.WebParam;
 import java.util.*;
 
 public class GradingServiceImpl implements GradingService {
@@ -687,11 +686,12 @@ public class GradingServiceImpl implements GradingService {
 
         List<String> lprIds = new ArrayList<String>(lprIdToRosterEntriesMap.keySet());
         List<LprInfo> lprInfos = lprService.getLprsByIds(lprIds, context);
+        List<String> registrationTypes = Arrays.asList(LprServiceConstants.COURSE_STUDENT_TYPE_KEYS);
         for (LprInfo lprInfo : lprInfos) {
             String lprInfoType = lprInfo.getTypeKey();
             if (LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY.equals(lprInfoType)) {
                 graderIds.add(lprInfo.getPersonId());
-            } else if (LprServiceConstants.REGISTRANT_TYPE_KEY.equals(lprInfoType)) {
+            } else if (registrationTypes.contains(lprInfoType)) {
                 LprRosterEntryInfo lprRosterEntryInfo = lprIdToRosterEntriesMap.get(lprInfo.getId());
                 lprRosterEntryIds.add(lprRosterEntryInfo.getId());
             }

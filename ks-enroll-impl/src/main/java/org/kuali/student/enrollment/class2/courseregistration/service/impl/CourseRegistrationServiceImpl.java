@@ -85,6 +85,15 @@ public class CourseRegistrationServiceImpl
 
     }
 
+    @Override
+    public RegistrationRequestInfo getRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        LprTransactionInfo lprTransaction = getLprService().getLprTransaction(registrationRequestId, contextInfo);
+        RegistrationRequestInfo result = RegistrationRequestTransformer.lprTransaction2RegRequest(lprTransaction);
+        return result;
+    }
+
     public JmsTemplate getJmsTemplate() {
         return jmsTemplate;
     }

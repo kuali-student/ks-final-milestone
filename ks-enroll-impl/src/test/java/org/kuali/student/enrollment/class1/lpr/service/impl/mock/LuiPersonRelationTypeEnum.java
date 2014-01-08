@@ -32,7 +32,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     INSTRUCTOR_MAIN(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, "Main Instructor", "Main instructor(s) responsible for course or section ", asDate("20100101"), null, null, null),
         INSTRUCTOR_ASSISTANT(LprServiceConstants.INSTRUCTOR_ASSISTANT_TYPE_KEY, "Assistant Instructor", "Person who assists the main instructor but is still considered an \"instructor\"", asDate("20100101"), null, null, null),
         INSTRUCTOR_SUPPORT(LprServiceConstants.INSTRUCTOR_SUPPORT_TYPE_KEY, "Support Instructor", "Persons who support the course but not in any official teaching role", asDate("20100101"), null, null, null),
-        REGISTRANT(LprServiceConstants.REGISTRANT_TYPE_KEY, "Registrant", "Registrant who is taking course or section", asDate("20010101"), null, null, null),
+        REGISTRANT(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, "Registrant", "Registrant who is taking course or section", asDate("20010101"), null, null, null),
     /**
      * Programs
      */

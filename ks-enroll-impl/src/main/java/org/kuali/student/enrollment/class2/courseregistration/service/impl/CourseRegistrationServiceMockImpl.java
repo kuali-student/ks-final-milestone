@@ -106,7 +106,7 @@ public class CourseRegistrationServiceMockImpl
         
         List<String> ret = new ArrayList<String>();
         for (CourseRegistrationInfo cr : getCourseRegistrations(contextInfo)) {
-            if (cr.getType().equals(courseRegistrationTypeKey)) {
+            if (cr.getTypeKey().equals(courseRegistrationTypeKey)) {
                 ret.add(cr.getId());
             }
         }
@@ -222,7 +222,7 @@ public class CourseRegistrationServiceMockImpl
 
         List<String> ret = new ArrayList<String>();
         for (ActivityRegistrationInfo ar : getActivityRegistrations(contextInfo)) {
-            if (ar.getType().equals(activityRegistrationTypeKey)) {
+            if (ar.getTypeKey().equals(activityRegistrationTypeKey)) {
                 ret.add(ar.getId());
             }
         }
@@ -350,7 +350,7 @@ public class CourseRegistrationServiceMockImpl
 
         List<String> ret = new ArrayList<String>();
         for (RegistrationRequestInfo rr : getRegistrationRequests(contextInfo)) {
-            if (rr.getType().equals(registrationRequestTypeKey)) {
+            if (rr.getTypeKey().equals(registrationRequestTypeKey)) {
                 ret.add(rr.getId());
             }
         }
@@ -612,7 +612,7 @@ public class CourseRegistrationServiceMockImpl
                 /* create the course registration */
                 CourseRegistrationInfo cr = new CourseRegistrationInfo();
                 cr.setId(newId());
-                cr.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
+                cr.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY); // May need fixing
                 cr.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
                 cr.setMeta(newMeta(contextInfo));
                 cr.setStudentId(item.getStudentId());
@@ -642,7 +642,7 @@ public class CourseRegistrationServiceMockImpl
                 for (String activityId : newrg.getActivityOfferingIds()) {
                     ActivityRegistrationInfo ar = new ActivityRegistrationInfo();
                     ar.setId(newId());
-                    ar.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
+                    ar.setTypeKey(LprServiceConstants.REGISTRANT_AO_TYPE_KEY); // May need fixing
                     ar.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
                     ar.setMeta(newMeta(contextInfo));
                     ar.setStudentId(item.getStudentId());
