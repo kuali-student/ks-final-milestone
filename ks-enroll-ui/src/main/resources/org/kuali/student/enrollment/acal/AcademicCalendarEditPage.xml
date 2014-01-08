@@ -486,6 +486,11 @@ limitations under the License.
                         <property name="headerText" value="@{#line.holidayCalendarHeading}"/>
                         <property name="rightGroup">
                             <bean parent="Uif-HorizontalBoxGroup" p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
+                                <property name="additionalCssClasses">
+                                    <list merge="true">
+                                        <value>right-aligned</value>
+                                    </list>
+                                </property>
                                 <property name="items">
                                     <list>
                                         <!-- DONT DELETE - For now, we're not displaying the hcal edit button as there are some issues with KRAD -->
@@ -494,7 +499,8 @@ limitations under the License.
                                               p:methodToCall="deleteHolidayCalendar" p:ajaxSubmit="true" p:actionLabel="Delete"
                                               p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);findDirtyFields('AcalEdit-DirtyFields');"
                                               p:actionScript="actionInvokeHandler(this);"
-                                              p:render="@{!#view.readOnly}">
+                                              p:render="@{!#view.readOnly}"
+                                              p:additionalCssClasses="right-aligned">
                                             <property name="actionImage">
                                                 <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
                                             </property>

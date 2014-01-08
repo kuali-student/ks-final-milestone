@@ -378,6 +378,11 @@
         </property>
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
             <bean id="KeyDateGroup-RightGroup" parent="Uif-VerticalBoxGroup">
+                <property name="additionalCssClasses">
+                    <list merge="true">
+                        <value>right-aligned</value>
+                    </list>
+                </property>
                 <!--<property name="items">-->
                     <!--<bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"-->
                           <!--p:methodToCall="deleteKeyDateGroup" p:actionLabel="Delete keydate group"/>-->
@@ -389,7 +394,8 @@
                 <bean id="key_date_group_delete_button" parent="KS-Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="deleteKeyDateGroup"
                       p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                       p:actionScript="actionInvokeHandler(this);"
-                      p:actionImagePlacement="LEFT">
+                      p:actionImagePlacement="LEFT"
+                      p:additionalCssClasses="right-aligned">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="ks-fontello-icon-cancel"/>
                     </property>
