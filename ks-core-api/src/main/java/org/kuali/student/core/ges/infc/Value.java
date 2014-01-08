@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * A value associated with a specific parameter.
@@ -41,11 +42,11 @@ public interface Value extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      * The parameter associated with this value.
-     * @name Parameter Id
+     * @name Parameter Key
      * @readOnly
      * @required
      */
-    String getParameterId();
+    String getParameterKey();
 
     /**
      *  An Integer that sets the priority of this value relative to other values associated with
@@ -55,10 +56,10 @@ public interface Value extends IdNamelessEntity, HasEffectiveDates {
     Integer getPriority();
 
     /**
-     *  An optional ATP type key that restricts the applicability of this value.
-     * @name ATP Type Key
+     *  An optional list of ATP type keys that restricts the applicability of this value.
+     * @name ATP Type Keys
      */
-    String getAtpTypeKey();
+    List<String> getAtpTypeKeys();
 
     /**
      *  An optional Population Id that restricts the applicability of this value.

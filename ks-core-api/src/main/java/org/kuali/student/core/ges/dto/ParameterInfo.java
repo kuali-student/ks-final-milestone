@@ -14,8 +14,8 @@
  */
 package org.kuali.student.core.ges.dto;
 
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.core.ges.infc.Parameter;
+import org.kuali.student.r2.common.dto.KeyNamelessEntityInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,12 +25,10 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ParameterInfo", propOrder = {"id", "typeKey", "stateKey",
-        "key", "valueTypeKey","requireUniquePriorities", "meta", "attributes", "_futureElements" })
-public class ParameterInfo extends IdNamelessEntityInfo implements Parameter {
+@XmlType(name = "ParameterInfo", propOrder = {"key", "typeKey", "stateKey",
+         "valueTypeKey","requireUniquePriorities", "meta", "attributes", "_futureElements" })
+public class ParameterInfo extends KeyNamelessEntityInfo implements Parameter {
 
-    @XmlElement
-    private String key;
     @XmlElement
     private String valueTypeKey;
     @XmlElement
@@ -45,19 +43,9 @@ public class ParameterInfo extends IdNamelessEntityInfo implements Parameter {
         super(parameter);
 
         if(parameter != null) {
-            key = parameter.getKey();
             valueTypeKey = parameter.getValueTypeKey();
             requireUniquePriorities = parameter.getRequireUniquePriorities();
         }
-    }
-
-    @Override
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 
     @Override

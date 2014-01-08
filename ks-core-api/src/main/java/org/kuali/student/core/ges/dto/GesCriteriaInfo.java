@@ -12,14 +12,14 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ParameterInfo", propOrder = {"personId",
-        "atpTypeKey", "_futureElements" })
+        "atpId", "_futureElements" })
 public class GesCriteriaInfo implements GesCriteria {
 
     @XmlElement
     private String personId;
 
     @XmlElement
-    private String atpTypeKey;
+    private String atpId;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -36,12 +36,12 @@ public class GesCriteriaInfo implements GesCriteria {
     }
 
     @Override
-    public String getAtpTypeKey() {
-        return atpTypeKey;
+    public String getAtpId() {
+        return atpId;
     }
 
-    public void setAtpTypeKey(String atpTypeKey) {
-        this.atpTypeKey = atpTypeKey;
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
     }
 
 

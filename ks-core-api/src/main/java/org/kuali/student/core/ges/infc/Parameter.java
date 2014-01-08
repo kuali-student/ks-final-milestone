@@ -14,20 +14,12 @@
  */
 package org.kuali.student.core.ges.infc;
 
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.r2.common.infc.KeyNamelessEntity;
 
 /**
  * A key to a possibly empty set of values.
 */
-public interface Parameter extends IdNamelessEntity {
-
-    /**
-     * The user friendly key for this parameter
-     * @name Key Id
-     * @readOnly
-     * @required
-     */
-    String getKey();
+public interface Parameter extends KeyNamelessEntity  {
 
     /**
      * Restricts the types of values that may be associated with this parameter.

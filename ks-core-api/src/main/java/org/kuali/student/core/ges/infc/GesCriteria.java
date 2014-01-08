@@ -24,9 +24,9 @@ public interface GesCriteria {
     /**
      * ATP used to restrict the value(s) returned by evaluations using this criteria.
      * An empty or null value is treated as a wild card.
-     * @name Atp Type Key
+     * @name Atp Id
      */
-    String getAtpTypeKey();
+    String getAtpId();
 
     /**
      * Person Id used to derive attributes that constrain the applicability of a value.

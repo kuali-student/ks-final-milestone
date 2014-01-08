@@ -57,23 +57,23 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public ParameterInfo getParameter(String parameterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getParameter(parameterId,contextInfo);
+    public ParameterInfo getParameter(String parameterKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getParameter(parameterKey,contextInfo);
     }
 
     @Override
-    public List<ParameterInfo> getParametersByIds(List<String> parameterIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getParametersByIds(parameterIds,contextInfo);
+    public List<ParameterInfo> getParametersByKeys(List<String> parameterKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getParametersByKeys(parameterKeys,contextInfo);
     }
 
     @Override
-    public List<String> getParameterIdsByType(String parameterTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getParameterIdsByType(parameterTypeKey,contextInfo);
+    public List<String> getParameterKeysByType(String parameterTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getParameterKeysByType(parameterTypeKey,contextInfo);
     }
 
     @Override
-    public List<String> searchForParameterIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().searchForParameterIds(criteria,contextInfo);
+    public List<String> searchForParameterKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().searchForParameterKeys(criteria,contextInfo);
     }
 
     @Override
@@ -82,23 +82,23 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String valueTypeKey, String parameterTypeKey, String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().validateParameter(validationTypeKey,valueTypeKey,parameterTypeKey,parameterKey,parameterInfo,contextInfo);
+    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String valueTypeKey, String parameterTypeKey,ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateParameter(validationTypeKey,valueTypeKey,parameterTypeKey,parameterInfo,contextInfo);
     }
 
     @Override
-    public ParameterInfo createParameter(String valueTypeKey, String parameterTypeKey, String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createParameter(valueTypeKey,parameterTypeKey,parameterKey,parameterInfo,contextInfo);
+    public ParameterInfo createParameter(String valueTypeKey, String parameterKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createParameter(valueTypeKey,parameterKey,parameterTypeKey,parameterInfo,contextInfo);
     }
 
     @Override
-    public ParameterInfo updateParameter(String parameterId, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return getNextDecorator().updateParameter(parameterId,parameterInfo,contextInfo);
+    public ParameterInfo updateParameter(String parameterKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return getNextDecorator().updateParameter(parameterKey,parameterInfo,contextInfo);
     }
 
     @Override
-    public StatusInfo deleteParameter(String parameterId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteParameter(parameterId,contextInfo);
+    public StatusInfo deleteParameter(String parameterKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().deleteParameter(parameterKey,contextInfo);
     }
 
     @Override
@@ -127,13 +127,13 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateValue(String validationTypeKey,String valueTypeKey, String parameterId, ValueInfo valueInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().validateValue(validationTypeKey,valueTypeKey,parameterId,valueInfo,contextInfo);
+    public List<ValidationResultInfo> validateValue(String validationTypeKey,String valueTypeKey, String parameterKey, ValueInfo valueInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateValue(validationTypeKey,valueTypeKey,parameterKey,valueInfo,contextInfo);
     }
 
     @Override
-    public ValueInfo createValue(String valueTypeKey, String parameterId, ValueInfo valueInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createValue(valueTypeKey,parameterId,valueInfo,contextInfo);
+    public ValueInfo createValue(String valueTypeKey, String parameterKey, ValueInfo valueInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createValue(valueTypeKey,parameterKey,valueInfo,contextInfo);
     }
 
     @Override
@@ -147,17 +147,17 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public List<ValueInfo> getValuesByParameter(String parameterId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getValuesByParameter(parameterId, contextInfo);
+    public List<ValueInfo> getValuesByParameter(String parameterKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getValuesByParameter(parameterKey, contextInfo);
     }
 
     @Override
-    public List<ValueInfo> evaluateValues(String parameterId, GesCriteriaInfo criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().evaluateValues(parameterId,criteria, contextInfo);
+    public List<ValueInfo> evaluateValues(String parameterKey, GesCriteriaInfo criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().evaluateValues(parameterKey,criteria, contextInfo);
     }
 
     @Override
-    public List<ValueInfo> evaluateValuesOnDate(String parameterId, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().evaluateValuesOnDate(parameterId, criteria, onDate, contextInfo);
+    public List<ValueInfo> evaluateValuesOnDate(String parameterKey, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().evaluateValuesOnDate(parameterKey, criteria, onDate, contextInfo);
     }
 }
