@@ -12,10 +12,8 @@ import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
 import org.kuali.student.enrollment.class1.timeslot.util.TimeSlotConstants;
-import org.kuali.student.enrollment.class1.util.WeekDaysDtoAndUIConversions;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -31,7 +29,6 @@ import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,7 +64,7 @@ public class TimeSlotViewHelperServiceImpl
                     tsWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime));
                 }
 
-                String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(timeSlotInfo.getWeekdays());
+                String daysUI = SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays());
                 tsWrapper.setDaysDisplayName(daysUI);
                 tsWrapper.setTypeKey(timeSlotInfo.getTypeKey());
                 if (timeSlotInfo.getTypeKey() != null) {
@@ -173,7 +170,7 @@ public class TimeSlotViewHelperServiceImpl
      */
     public boolean isUniqueTimeSlot(TimeSlotForm form, TimeSlotInfo editedTimeSlot) throws Exception {
 
-        List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
+        List<Integer> days = SchedulingServiceUtil.weekdaysString2WeekdaysList(form.getAddOrEditDays());
 
         String startTimeString = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
         TimeOfDayInfo startTimeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTimeString);
@@ -211,7 +208,7 @@ public class TimeSlotViewHelperServiceImpl
     protected void buildTimeSlotInfo(TimeSlotForm form,TimeSlotInfo tsInfo){
 
         tsInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
-        List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(form.getAddOrEditDays());
+        List<Integer> days = SchedulingServiceUtil.weekdaysString2WeekdaysList(form.getAddOrEditDays());
         tsInfo.setWeekdays(days);
 
         String startTimeString = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
@@ -224,7 +221,7 @@ public class TimeSlotViewHelperServiceImpl
     }
 
     protected void initializeTimeSlotWrapper(TimeSlotForm form,TimeSlotWrapper tsWrapper){
-        String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(tsWrapper.getTimeSlotInfo().getWeekdays());
+        String daysUI = SchedulingServiceUtil.weekdaysList2WeekdaysString(tsWrapper.getTimeSlotInfo().getWeekdays());
         tsWrapper.setDaysDisplayName(daysUI);
         tsWrapper.setEnableDeleteButton(true);
         tsWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(tsWrapper.getTimeSlotInfo().getStartTime().getMilliSeconds()));

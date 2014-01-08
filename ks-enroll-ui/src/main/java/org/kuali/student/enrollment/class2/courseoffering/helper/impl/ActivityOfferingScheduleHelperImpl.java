@@ -23,7 +23,6 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.enrollment.class1.util.WeekDaysDtoAndUIConversions;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
@@ -469,7 +468,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         TimeOfDayInfo startTimeOfDayInfo = new TimeOfDayInfo();
         TimeOfDayInfo endTimeOfDayInfo = new TimeOfDayInfo();
 
-        List<Integer> days = WeekDaysDtoAndUIConversions.buildDaysForDTO(scheduleWrapper.getDays());
+        List<Integer> days = SchedulingServiceUtil.weekdaysString2WeekdaysList(scheduleWrapper.getDays());
 
         String startTimeString = scheduleWrapper.getStartTime();
         if (StringUtils.isNotEmpty(startTimeString)) {
@@ -600,7 +599,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                     scheduleWrapper.setEndTime(formattedTime);
                 }
 
-                String daysUI = WeekDaysDtoAndUIConversions.buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays());
+                String daysUI = SchedulingServiceUtil.weekdaysList2WeekdaysString(scheduleWrapper.getTimeSlot().getWeekdays());
                 scheduleWrapper.setDaysUI(daysUI);
                 scheduleWrapper.setDays(StringUtils.remove(daysUI, " "));
             }
@@ -674,7 +673,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                             if (endTime != null){
                                 scheduleWrapper.setEndTime(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime));
                             }
-                            scheduleWrapper.setDaysUI(WeekDaysDtoAndUIConversions.buildDaysForUI(scheduleWrapper.getTimeSlot().getWeekdays()));
+                            scheduleWrapper.setDaysUI(SchedulingServiceUtil.weekdaysList2WeekdaysString(scheduleWrapper.getTimeSlot().getWeekdays()));
                         }
 
                         if (StringUtils.isNotBlank(componentInfo.getRoomId())){
@@ -849,7 +848,7 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
             return new ArrayList<String>();
         }
 
-        List<Integer> daysArray = WeekDaysDtoAndUIConversions.buildDaysForDTO(days);
+        List<Integer> daysArray = SchedulingServiceUtil.weekdaysString2WeekdaysList(days);
         TimeOfDayInfo timeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTime);
         List<TimeSlotInfo> timeSlotInfos = CourseOfferingManagementUtil.getSchedulingService().getTimeSlotsByDaysAndStartTime(timeSlotType,daysArray,timeOfDayInfo,createContextInfo());
         List<String> endTimes = new ArrayList<String>();

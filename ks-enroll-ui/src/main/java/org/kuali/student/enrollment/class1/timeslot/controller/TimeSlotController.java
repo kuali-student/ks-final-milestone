@@ -13,12 +13,12 @@ import org.kuali.student.enrollment.class1.timeslot.dto.TimeSlotWrapper;
 import org.kuali.student.enrollment.class1.timeslot.form.TimeSlotForm;
 import org.kuali.student.enrollment.class1.timeslot.service.TimeSlotViewHelperService;
 import org.kuali.student.enrollment.class1.timeslot.util.TimeSlotConstants;
-import org.kuali.student.enrollment.class1.util.WeekDaysDtoAndUIConversions;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -179,7 +179,7 @@ public class TimeSlotController extends UifControllerBase {
 
     private void validateTimeSlot(TimeSlotForm form){
 
-        if (!WeekDaysDtoAndUIConversions.isValidDays(form.getAddOrEditDays())){
+        if (!SchedulingServiceUtil.isValidDays(form.getAddOrEditDays())){
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid days");
         }
 
