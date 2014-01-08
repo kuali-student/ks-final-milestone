@@ -193,9 +193,9 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
         List<KeyValue> gradeKeyValues = new ArrayList<KeyValue>();
 
         if (StringUtils.isNotBlank(formatOfferingInfo.getFormatId())){
-            // Always include an option for Course
-            gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, getTypeName(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)));
             gradeKeyValues.addAll(collectActivityTypeKeyValues(courseInfo, formatOfferingInfo.getFormatId(), CourseOfferingManagementUtil.getTypeService(), ContextUtils.createDefaultContextInfo()));
+            // Always include an option for Course as last option
+            gradeKeyValues.add(new ConcreteKeyValue(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, getTypeName(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)));
             control.setDisabled(false);
         } else {
             control.setDisabled(true);
