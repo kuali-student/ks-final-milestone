@@ -394,7 +394,7 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete"
+                            <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>

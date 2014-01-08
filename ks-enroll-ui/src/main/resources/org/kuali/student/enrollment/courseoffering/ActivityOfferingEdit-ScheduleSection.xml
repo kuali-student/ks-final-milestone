@@ -110,14 +110,13 @@
         <property name="lineActions">
               <list>
                   <!-- TODO: KSENROLL-11002. See the onDocumentReadyScript comment in ActivityOffering-ManageSchedulingInformationSection. -->
-                  <bean id="edit_schedule_request_action_link" parent="Uif-NavigationActionLink"
+                  <bean id="edit_schedule_request_action_link" parent="KS-Uif-NavigationActionLink"
                         p:methodToCall="editScheduleComponent" p:actionLabel="Edit"
                         p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
-
-                  <bean parent="Uif-DeleteLineAction"
+                  <bean parent="Uif-ActionLink"
                         p:methodToCall="deleteScheduleComponent"
-                        p:successCallback="reDisplayRDLSection(); refreshRemoveAllOfferingsFromSchedulerConfirmation();" />
-
+                        p:actionLabel="Delete"
+                        p:successCallback="reDisplayRDLSection(); refreshRemoveAllOfferingsFromSchedulerConfirmation();"/>
               </list>
         </property>
     </bean>
@@ -133,10 +132,37 @@
                 <value>ks-form-panel</value>
             </list>
         </property>
-        <property name="headerText" value="Add New Scheduling Information" />
         <property name="header">
-            <bean parent="Uif-HeaderFour"/>
+            <bean parent="Uif-HeaderFour">
+                <property name="headerText" value="Add New Scheduling Information" />
+                <property name="rightGroup">
+                    <bean id="ActivityOffering-DeliveryLogistic-New-RightGroup" parent="Uif-ActionsGroup">
+                        <!-- Whether or not this widget is active depends on it's related institutional-configuration
+                         (ie: "kuali.ks.enrollment.timeslots.adhoc_creation_mode"); the widget appears when the config is
+                         set to "NEEDS_APPROVAL" and is not shown when set to "APPROVED" or "NOT_APPROVED". -->
+                        <!--p:render="@{#dp.canNonStandardTimeslotsBeApproved}"-->
+                        <property name="items">
+                            <list>
+                                <bean p:id="isApprovedForNonStandardTimeSlots"
+                                      parent="Uif-InputField"
+                                      p:propertyName="aoInfo.isApprovedForNonStandardTimeSlots"
+                                      p:forceSessionPersistence="true"
+                                      p:label="Approved for non-standard time slots"
+                                      p:labelPlacement="RIGHT"
+                                      p:componentSecurity.editAuthz="true"
+                                      p:render="@{#dp.canNonStandardTimeslotsBeApproved}">
+
+                                    <property name="control">
+                                        <bean parent="Uif-CheckboxControl"/>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
         </property>
+
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
@@ -176,7 +202,8 @@
                       p:preSubmitCall="return preSubmitNewRDL();" p:methodToCall="addScheduleComponent"
                       p:ajaxSubmit="false"
                       p:successCallback="reDisplayNewRDSection(); reDisplayRDLSection();"
-                      p:dirtyOnAction="true"/>
+                      p:dirtyOnAction="true"
+                      p:additionalCssClasses="ks-manage-scheduling-request-form-field-top-aligned"/>
             </list>
         </property>
     </bean>
@@ -185,9 +212,14 @@
         The widgets for adding a schedule request (TBA checkbox, Days, Start time etc.)
     -->
     <bean id="ActivityOffering-DeliveryLogistic-New-Section" parent="Uif-HorizontalBoxSubSection" p:id="requestedDeliveryLogistic">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-manage-scheduling-request-form-fields</value>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean id="rdl_tba" parent="Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:style="margin-top:15px" p:onClickScript="tbaOnClick();">
+                <bean id="rdl_tba" parent="Uif-InputField-LabelRight" p:propertyName="newScheduleRequest.tba" p:label="TBA" p:onClickScript="tbaOnClick();" p:additionalCssClasses="ks-manage-scheduling-request-form-field-top-aligned">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl"/>
                     </property>
