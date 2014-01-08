@@ -163,7 +163,7 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
     }
 
     @Override
-    public List<ValidationResultInfo> validatePopulation(String validationTypeKey, PopulationInfo populationInfo, ContextInfo contextInfo)
+    public List<ValidationResultInfo> validatePopulation(String validationTypeKey, String populationTypeKey, PopulationInfo populationInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             ,InvalidParameterException
             ,MissingParameterException
@@ -175,7 +175,7 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
     }
 
     @Override
-    public PopulationInfo createPopulation(PopulationInfo populationInfo, ContextInfo contextInfo)
+    public PopulationInfo createPopulation(String populationTypeKey, PopulationInfo populationInfo, ContextInfo contextInfo)
             throws DataValidationErrorException
             ,InvalidParameterException
             ,MissingParameterException
@@ -184,6 +184,9 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
             ,ReadOnlyException
     {
         // create
+        if (!populationTypeKey.equals (populationInfo.getTypeKey())) {
+            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
+        }
         PopulationInfo copy = new PopulationInfo(populationInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
@@ -324,7 +327,7 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
     }
 
     @Override
-    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo)
+    public PopulationRuleInfo createPopulationRule(String populationRuleTypeKey, PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo)
             throws DataValidationErrorException
             ,InvalidParameterException
             ,MissingParameterException
@@ -333,6 +336,9 @@ public class PopulationServiceMapImpl extends PopulationServiceIsMemberAsOfDateA
             ,ReadOnlyException
     {
         // create
+        if (!populationRuleTypeKey.equals (populationRuleInfo.getTypeKey())) {
+            throw new InvalidParameterException ("The type parameter does not match the type on the info object");
+        }
         PopulationRuleInfo copy = new PopulationRuleInfo(populationRuleInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
