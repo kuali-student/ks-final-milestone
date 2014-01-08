@@ -67,37 +67,37 @@ public final class SchedulingServiceUtil {
         for(Integer day : weekdaysList) {
             switch (day) {
                 case Calendar.MONDAY: {
-                    result.append(SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE + " ");
+                    result.append(SchedulingServiceConstants.MONDAY_TIMESLOT_DAY_CODE);
                     break;
                 }
                 case Calendar.TUESDAY: {
-                    result.append(SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE + " ");
+                    result.append(SchedulingServiceConstants.TUESDAY_TIMESLOT_DAY_CODE);
                     break;
                 }
                 case Calendar.WEDNESDAY: {
-                    result.append(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE + " ");
+                    result.append(SchedulingServiceConstants.WEDNESDAY_TIMESLOT_DAY_CODE);
                     break;
                 }
                 case Calendar.THURSDAY: {
-                    result.append(SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE + " ");
+                    result.append(SchedulingServiceConstants.THURSDAY_TIMESLOT_DAY_CODE);
                     break;
                 }
                 case Calendar.FRIDAY: {
-                    result.append(SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE + " ");
+                    result.append(SchedulingServiceConstants.FRIDAY_TIMESLOT_DAY_CODE);
                     break;
                 }
                 case Calendar.SATURDAY: {
-                    result.append(SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE + " ");
+                    result.append(SchedulingServiceConstants.SATURDAY_TIMESLOT_DAY_CODE);
                     break;
                 }
                 case Calendar.SUNDAY: {
-                    result.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE + " ");
+                    result.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DAY_CODE);
                     break;
                 }
             }
         }
 
-        return StringUtils.removeEnd(result.toString(), " ");
+        return result.toString();
     }
 
     public static List<Integer> weekdaysString2WeekdaysList(String weekdaysString) {
