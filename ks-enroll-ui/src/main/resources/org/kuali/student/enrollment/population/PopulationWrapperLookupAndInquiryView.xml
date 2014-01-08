@@ -117,13 +117,6 @@
                 </bean>
             </list>
         </property>
-        <property name="criteriaGroup.footer.items">
-            <list>
-                <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-                      p:actionScript="stepBrowserBackTwoPages()" p:style="margin-top: 0.3em;"/>
-            </list>
-        </property>
     </bean>
 
     <!-- InquiryView -->
