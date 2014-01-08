@@ -99,7 +99,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                         new ArrayList<String>(),
                         Boolean.FALSE,
                         Boolean.TRUE);
-        pop1 = populationService.createPopulation(pop1, context);
+        pop1 = populationService.createPopulation(pop1.getTypeKey(), pop1, context);
         ExplicitlyListedPersonsPopulationRuleInfo rule1e =
                 createExplicitlyListedPersonsPopulationRuleInfo
                         ("First year students",
@@ -110,7 +110,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         rule1e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT5);
         rule1e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT7);
         rule1e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT10);
-        PopulationRuleInfo rule1 = populationService.createPopulationRule(rule1e, context);
+        PopulationRuleInfo rule1 = populationService.createPopulationRule(rule1e.getTypeKey(), rule1e, context);
         populationService.applyPopulationRuleToPopulation(rule1.getId(), pop1.getId(), context);
         firstYearStudentPopulationId = pop1.getId();
 
@@ -123,7 +123,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                         new ArrayList<String>(),
                         Boolean.FALSE,
                         Boolean.TRUE);
-        pop2 = populationService.createPopulation(pop2, context);
+        pop2 = populationService.createPopulation(pop2.getTypeKey(), pop2, context);
         ExplicitlyListedPersonsPopulationRuleInfo rule2e =
                 createExplicitlyListedPersonsPopulationRuleInfo
                         ("Students",
@@ -141,7 +141,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         rule2e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT10);
         rule2e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT11);
         rule2e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT12);
-        PopulationRuleInfo rule2 = populationService.createPopulationRule(rule2e, context);
+        PopulationRuleInfo rule2 = populationService.createPopulationRule(rule2e.getTypeKey(), rule2e, context);
         populationService.applyPopulationRuleToPopulation(rule2.getId(), pop2.getId(), context);
         studentPopulationId = pop2.getId();
 
@@ -154,7 +154,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                         new ArrayList<String>(),
                         Boolean.FALSE,
                         Boolean.TRUE);
-        pop3 = populationService.createPopulation(pop3, context);
+        pop3 = populationService.createPopulation(pop3.getTypeKey(), pop3, context);
         ExplicitlyListedPersonsPopulationRuleInfo rule3e =
                 createExplicitlyListedPersonsPopulationRuleInfo
                         ("Instructors",
@@ -162,7 +162,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                                 PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
         rule3e.addPersonIdOfPersonToList(PopulationPocPersonEnum.INSTRUCTOR1);
         rule3e.addPersonIdOfPersonToList(PopulationPocPersonEnum.INSTRUCTOR2);
-        PopulationRuleInfo rule3 = populationService.createPopulationRule(rule3e, context);
+        PopulationRuleInfo rule3 = populationService.createPopulationRule(rule3e.getTypeKey(), rule3e, context);
         populationService.applyPopulationRuleToPopulation(rule3.getId(), pop3.getId(), context);
         instructorPopulationId = pop3.getId();
 
@@ -175,7 +175,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                         new ArrayList<String>(),
                         Boolean.FALSE,
                         Boolean.TRUE);
-        pop4 = populationService.createPopulation(pop4, context);
+        pop4 = populationService.createPopulation(pop4.getTypeKey(), pop4, context);
         ExplicitlyListedPersonsPopulationRuleInfo rule4e =
                 createExplicitlyListedPersonsPopulationRuleInfo
                         ("Undergraduate Students",
@@ -186,7 +186,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT10);
         rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT11);
         rule4e.addPersonIdOfPersonToList(PopulationPocStudentEnum.STUDENT12);
-        PopulationRuleInfo rule4 = populationService.createPopulationRule(rule4e, context);
+        PopulationRuleInfo rule4 = populationService.createPopulationRule(rule4e.getTypeKey(), rule4e, context);
         populationService.applyPopulationRuleToPopulation(rule4.getId(), pop4.getId(), context);
         undergraduteStudentPopulationId = pop4.getId();
 
@@ -199,7 +199,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                         new ArrayList<String>(),
                         Boolean.FALSE,
                         Boolean.FALSE);
-        pop5 = populationService.createPopulation(pop5, context);
+        pop5 = populationService.createPopulation(pop5.getTypeKey(), pop5, context);
 
         List<String> childPopulationRuleIds = new ArrayList<String> ();
         childPopulationRuleIds.add(firstYearStudentPopulationId);
@@ -219,7 +219,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                         new ArrayList<String>(),
                         Boolean.FALSE,
                         Boolean.FALSE);
-        rule5 = populationService.createPopulationRule(rule5, context);
+        rule5 = populationService.createPopulationRule(rule5.getTypeKey(), rule5, context);
         populationService.applyPopulationRuleToPopulation(rule5.getId(), pop5.getId(), context);
         freshmenStudentPopulationId = pop5.getId();
 
