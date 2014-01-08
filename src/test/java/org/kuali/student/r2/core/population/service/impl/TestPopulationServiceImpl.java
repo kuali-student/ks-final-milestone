@@ -121,7 +121,7 @@ public class TestPopulationServiceImpl {
         List<String> popIdsList = new ArrayList<String>();
         try {
             for (PopulationInfo popInfo: popList) {
-                PopulationInfo created = populationService.createPopulation(popInfo, contextInfo);
+                PopulationInfo created = populationService.createPopulation(popInfo.getTypeKey(), popInfo, contextInfo);
                 popIdsList.add(created.getId());
             }
         } catch (Exception e) {
@@ -145,15 +145,15 @@ public class TestPopulationServiceImpl {
         List<PopulationInfo> popList = _constructPopulationList();
         try {
             // Create ref population and child population IDs
-            PopulationInfo refCreated = populationService.createPopulation(popList.get(0), contextInfo);
-            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1), contextInfo);
-            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2), contextInfo);
+            PopulationInfo refCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
+            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1).getTypeKey(), popList.get(1), contextInfo);
+            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2).getTypeKey(), popList.get(2), contextInfo);
             PopulationRuleInfo ruleInfo = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 4);
             List<String> childPopIds = new ArrayList<String>();
             childPopIds.add(threeCreated.getId());
             childPopIds.add(fourCreated.getId());
             ruleInfo.setChildPopulationIds(childPopIds);
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
         } catch (Exception e) {
             e.printStackTrace();
             assert(false);
@@ -166,15 +166,15 @@ public class TestPopulationServiceImpl {
         List<PopulationInfo> popList = _constructPopulationList();
         try {
             // Create ref population and child population IDs
-            PopulationInfo twoCreated = populationService.createPopulation(popList.get(0), contextInfo);
-            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1), contextInfo);
-            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2), contextInfo);
+            PopulationInfo twoCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
+            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1).getTypeKey(), popList.get(1), contextInfo);
+            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2).getTypeKey(), popList.get(2), contextInfo);
             // Now the pop rule
             PopulationRuleInfo ruleInfo = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 2);
             List<String> children = new ArrayList<String>();
             children.add(twoCreated.getId());
             ruleInfo.setChildPopulationIds(children);
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
             // Now apply this rule to the other populations
             populationService.applyPopulationRuleToPopulation(ruleInfoCreated.getId(),  threeCreated.getId(), contextInfo);
             populationService.applyPopulationRuleToPopulation(ruleInfoCreated.getId(),  fourCreated.getId(), contextInfo);
@@ -218,7 +218,7 @@ public class TestPopulationServiceImpl {
         try {
             List<String> popRuleIds = new ArrayList<String>();
             for (PopulationRuleInfo info: ruleInfos) {
-                PopulationRuleInfo result = populationService.createPopulationRule(info, contextInfo);
+                PopulationRuleInfo result = populationService.createPopulationRule(info.getTypeKey(), info, contextInfo);
                 popRuleIds.add(result.getId());
             }
             // Check union types
@@ -251,9 +251,9 @@ public class TestPopulationServiceImpl {
         List<PopulationInfo> popList = _constructPopulationList();
         try {
             // Create ref population and child population IDs
-            PopulationInfo refCreated = populationService.createPopulation(popList.get(0), contextInfo);
-            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1), contextInfo);
-            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2), contextInfo);
+            PopulationInfo refCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
+            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1).getTypeKey(), popList.get(1), contextInfo);
+            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2).getTypeKey(), popList.get(2), contextInfo);
             // Now the pop rule
             PopulationRuleInfo ruleInfo = _constructExclusionPopulationRuleInfo();
             ruleInfo.setReferencePopulationId(refCreated.getId());
@@ -262,7 +262,7 @@ public class TestPopulationServiceImpl {
             childIds.add(fourCreated.getId());
             ruleInfo.setChildPopulationIds(childIds);
             // Create the rule info
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
             // Fetch it
             PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
             assertEquals(ruleInfo.getName(), ruleInfoFetched.getName());
@@ -294,7 +294,7 @@ public class TestPopulationServiceImpl {
             childIds.add(popIds.get(2));
             ruleInfo.setChildPopulationIds(childIds);
             // Create the rule info
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
             // Fetch it
             PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
             // Now check if they have the same child Ids
@@ -332,7 +332,7 @@ public class TestPopulationServiceImpl {
         before();
         PopulationInfo info = _constructPopulationInfo(null);
         try {
-            PopulationInfo created = populationService.createPopulation(info, contextInfo);
+            PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
             PopulationInfo fetched = populationService.getPopulation(created.getId(), contextInfo);
             assertEquals(info.getName(), fetched.getName());
             assertEquals(info.getDescr().getPlain(), fetched.getDescr().getPlain());
@@ -353,7 +353,7 @@ public class TestPopulationServiceImpl {
             String name = "TestPop2";
             String plain = "plain2";
             String formatted = "formatted2";
-            PopulationInfo created = populationService.createPopulation(info, contextInfo);
+            PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
             created.setName(name);
             RichTextInfo richTextInfo = new RichTextInfo();
             richTextInfo.setPlain(plain);
@@ -381,7 +381,7 @@ public class TestPopulationServiceImpl {
             String name = "TestPop2";
             String plain = "plain2";
             String formatted = "formatted2";
-            PopulationInfo created = populationService.createPopulation(info, contextInfo);
+            PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
             created.setName(name);
             RichTextInfo richTextInfo = new RichTextInfo();
             richTextInfo.setPlain(plain);
@@ -419,7 +419,7 @@ public class TestPopulationServiceImpl {
 
         try {
             // Create ref population and child population IDs
-            PopulationInfo infoCreated = populationService.createPopulation(info, contextInfo);
+            PopulationInfo infoCreated = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
 
             // Fetch it
             PopulationInfo refFetched = populationService.getPopulation(infoCreated.getId(), contextInfo);
@@ -447,7 +447,7 @@ public class TestPopulationServiceImpl {
 
         try {
             // Create ref population and child population IDs
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
 
             // Testing search
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();

@@ -39,8 +39,8 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public List<ValidationResultInfo> validatePopulation(String validationTypeId, PopulationInfo populationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().validatePopulation(validationTypeId, populationInfo, contextInfo);
+    public List<ValidationResultInfo> validatePopulation(String validationTypeId, String populationTypeKey, PopulationInfo populationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validatePopulation(validationTypeId, populationTypeKey, populationInfo, contextInfo);
     }
 
     @Override
@@ -139,13 +139,13 @@ public class PopulationServiceDecorator implements PopulationService {
     }
 
     @Override
-    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createPopulationRule(populationInfo, contextInfo);
+    public PopulationRuleInfo createPopulationRule(String populationRuleTypeKey, PopulationRuleInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createPopulationRule(populationRuleTypeKey, populationInfo, contextInfo);
     }
 
     @Override
-    public PopulationInfo createPopulation(PopulationInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createPopulation(populationInfo, contextInfo);
+    public PopulationInfo createPopulation(String populationTypeKey, PopulationInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createPopulation(populationTypeKey, populationInfo, contextInfo);
     }
 
     @Override
@@ -229,6 +229,7 @@ public class PopulationServiceDecorator implements PopulationService {
     @Override
     public PopulationCategoryInfo createPopulationCategory(String populationCategoryTypeKey, PopulationCategoryInfo populationCategoryInfo, ContextInfo contextInfo)
             throws DataValidationErrorException
+            ,DoesNotExistException
             ,InvalidParameterException
             ,MissingParameterException
             ,OperationFailedException
