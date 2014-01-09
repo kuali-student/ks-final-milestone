@@ -57,15 +57,17 @@ public class ProcessPocGesServiceDecoratorTest {
         GesService service = new GesServiceMapImpl();
         service = new ProcessPocGesServiceDecorator(service);
 
-        ParameterInfo creditLimitParameter = null;
+        ParameterInfo param = null;
         List<ValueInfo> values = null;
 
-        creditLimitParameter = service.getParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, contextInfo);
+        param = service.getParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, contextInfo);
+        assertEquals (GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, param.getKey());
         values = service.getValuesByParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT,contextInfo);
         assertEquals(6, values.size());
         
         
-        creditLimitParameter = service.getParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, contextInfo);
+        param = service.getParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, contextInfo);
+        assertEquals (GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, param.getKey());
         values = service.getValuesByParameter(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM,contextInfo);
         assertEquals(4, values.size());
     }
