@@ -166,25 +166,6 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-
-                <!-- Whether or not this widget is active depends on it's related institutional-configuration
-                     (ie: "kuali.ks.enrollment.timeslots.adhoc_creation_mode"); the widget appears when the config is
-                     set to "NEEDS_APPROVAL" and is not shown when set to "APPROVED" or "NOT_APPROVED". -->
-                <bean p:id="isApprovedForNonStandardTimeSlots"
-                      parent="Uif-InputField"
-                      p:propertyName="aoInfo.isApprovedForNonStandardTimeSlots"
-                      p:forceSessionPersistence="true"
-                      p:label="Approved for non-standard time slots"
-                      p:labelPlacement="RIGHT"
-                      p:render="@{#dp.canNonStandardTimeslotsBeApproved}"
-                      p:componentSecurity.editAuthz="true"
-                      p:style="margin:-45px 0 20px 460px;">
-
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" />
-                    </property>
-                </bean>
-
                 <!-- The widgets for adding a schedule request (TBA checkbox, Days, Start time etc.)-->
                 <ref bean="ActivityOffering-DeliveryLogistic-New-Section"/>
 
