@@ -154,14 +154,17 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
      */
     @Deprecated
     public void setMilliSeconds(Long milliSeconds) {
-        long hours = TimeUnit.MILLISECONDS.toHours(milliSeconds);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
+        if (milliSeconds != null) {
+            long hours = TimeUnit.MILLISECONDS.toHours(milliSeconds);
+            long minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
+            long seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
 
-        LocalTime localTime = new LocalTime((int)hours, (int)minutes, (int)seconds);
-        setHour(localTime.getHourOfDay());
-        setMinute(localTime.getMinuteOfHour());
-        setSecond(localTime.getSecondOfMinute());
+            LocalTime localTime = new LocalTime((int)hours, (int)minutes, (int)seconds);
+            setHour(localTime.getHourOfDay());
+            setMinute(localTime.getMinuteOfHour());
+            setSecond(localTime.getSecondOfMinute());
+        }
+
     }
 
     /**
