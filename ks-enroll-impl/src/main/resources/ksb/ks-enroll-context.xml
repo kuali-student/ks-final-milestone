@@ -904,19 +904,21 @@
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
-    <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
+
+    //TODO Should these be removed or CompletedCoureResolver returned
+    <!--<bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
         <property name="lprService" ref="LprService" />
         <property name="lrrService" ref="lrrPersistenceService" />
         <property name="luiService" ref="LuiService" />
-    </bean>
+    </bean>-->
 
-    <bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
+    <!--<bean id="rulesEvaluationUtil" class="org.kuali.student.r2.core.statement.util.RulesEvaluationUtil">
         <property name="termResolvers">
             <list>
                 <ref bean="completedCoursesResolver" />
             </list>
         </property>
-    </bean>
+    </bean>-->
 
     <bean id="propositionBuilder" class="org.kuali.student.r2.core.statement.util.PropositionBuilder" />
 
