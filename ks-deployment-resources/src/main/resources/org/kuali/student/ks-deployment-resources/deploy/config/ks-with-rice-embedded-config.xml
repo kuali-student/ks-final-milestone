@@ -16,7 +16,7 @@
 
 -->
 <config>
-  <param name="appserver.url">${public.url}</param>
+  <param name="application.url">${public.url}</param>
   <param name="app.context.name" />
   <param name="datasource.driver.name">${jdbc.driver}</param>
   <param name="datasource.url">${jdbc.url}</param>
