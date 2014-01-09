@@ -836,7 +836,6 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
-                <ref bean="KS-CourseOfferingEdit-OrganizationSection"/>
                 <ref bean="KS-CourseOfferingEdit-HonorsOffering"/>
             </list>
         </property>
