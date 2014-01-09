@@ -31,7 +31,7 @@ import java.util.List;
     "name",
     "descr",
     "searchCriteria",
-    "agendaIds",
+    "ruleIds",
     "groupIds",
     "personIds",
     "childPopulationIds",
@@ -49,7 +49,7 @@ public class PopulationRuleInfo
     @XmlElement
     private QueryByCriteria searchCriteria;
     @XmlElement
-    private List<String> agendaIds;
+    private List<String> ruleIds;
     @XmlElement
     private List<String> groupIds;
     @XmlElement
@@ -85,8 +85,8 @@ public class PopulationRuleInfo
 
         if (populationRule != null) {
             this.searchCriteria = populationRule.getSearchCriteria(); /* fix */
-            if (populationRule.getAgendaIds() != null) {
-                this.agendaIds = new ArrayList<String>(populationRule.getAgendaIds());
+            if (populationRule.getRuleIds() != null) {
+                this.ruleIds = new ArrayList<String>(populationRule.getRuleIds());
             }
 
             if (populationRule.getGroupIds() != null) {
@@ -122,16 +122,16 @@ public class PopulationRuleInfo
     }
 
     @Override
-    public List<String> getAgendaIds() {
-        if (this.agendaIds == null) {
-            this.agendaIds = new ArrayList<String>();
+    public List<String> getRuleIds() {
+        if (this.ruleIds == null) {
+            this.ruleIds = new ArrayList<String>();
         }
 
-        return this.agendaIds;
+        return this.ruleIds;
     }
 
-    public void setAgendaIds(List<String> agendaIds) {
-        this.agendaIds = agendaIds;
+    public void setRuleIds(List<String> ruleIds) {
+        this.ruleIds = ruleIds;
     }
 
     @Override
@@ -217,7 +217,7 @@ public class PopulationRuleInfo
     public String toString() {
         return "PopulationRuleInfo{" +
                 "searchCriteria=" + searchCriteria +
-                ", agendaIds=" + agendaIds +
+                ", ruleIds=" + ruleIds +
                 ", groupIds=" + groupIds +
                 ", personIds=" + personIds +
                 ", childPopulationIds=" + childPopulationIds +
