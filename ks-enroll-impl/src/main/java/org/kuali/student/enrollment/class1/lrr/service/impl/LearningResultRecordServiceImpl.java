@@ -286,6 +286,15 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
 		// TODO KSENROLL-8713
 		throw new UnsupportedOperationException("not implemented");
 	}
+
+	@Override
+	public List<LearningResultRecordInfo> getLearningResultRecordsByIds(
+			List<String> learningResultRecordIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
     
     
 

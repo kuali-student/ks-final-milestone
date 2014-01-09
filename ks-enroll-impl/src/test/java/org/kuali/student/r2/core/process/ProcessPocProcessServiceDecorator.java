@@ -140,7 +140,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         info.setName(name);
         info.setHoldIssueId(_toNull(issueId));
         info.setMilestoneTypeKey(_toNull(milestoneTypeKey));
-        info.setAgendaId(_toNull(agendaId));
+        info.setRuleId(_toNull(agendaId));
         info.setChildProcessKey(_toNull(processKey));
         info.setDescr(new RichTextHelper().fromPlain(descr));
 

@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.service.impl.mock.LprTestDataLoader;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -25,6 +26,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -197,7 +199,7 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		lpr.setId("lpr-4");
 		lpr.setLuiId("lui-4");
 		lpr.setPersonId("person-4");
-		lpr.setCommitmentPercent("20.0");
+		lpr.setCommitmentPercent(new KualiDecimal("20.0"));
 		lpr.setStateKey("kuali.courseoffering.");
 //		lpr.setTypeKey("kuali.lpr.type.courseoffering.instructor.main");
         lpr.setTypeKey(LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);

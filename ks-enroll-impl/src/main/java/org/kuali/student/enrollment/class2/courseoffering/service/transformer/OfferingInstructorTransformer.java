@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -71,8 +72,8 @@ public class OfferingInstructorTransformer {
         for (LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
-            if (!StringUtils.isEmpty(lpr.getCommitmentPercent())) {
-                instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+            if (lpr.getCommitmentPercent() != null) {
+                instructor.setPercentageEffort(lpr.getCommitmentPercent().floatValue());
             }
             instructor.setId(lpr.getId());
             instructor.setTypeKey(lpr.getTypeKey());
@@ -153,9 +154,10 @@ public class OfferingInstructorTransformer {
         for (LprInfo lpr : lprs) {
             OfferingInstructorInfo instructor = new OfferingInstructorInfo();
             instructor.setPersonId(lpr.getPersonId());
-            if (!StringUtils.isEmpty(lpr.getCommitmentPercent())) {
-                instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+            if (lpr.getCommitmentPercent() != null) {
+                instructor.setPercentageEffort(lpr.getCommitmentPercent().floatValue());
             }
+            
             instructor.setId(lpr.getId());
             instructor.setTypeKey(lpr.getTypeKey());
             instructor.setStateKey(lpr.getStateKey());
@@ -212,7 +214,7 @@ public class OfferingInstructorTransformer {
             Float cp = instructorInfo.getPercentageEffort();
 
             if (cp != null)
-                lprInfo.setCommitmentPercent("" + cp);
+                lprInfo.setCommitmentPercent(new KualiDecimal(cp));
             else
                 lprInfo.setCommitmentPercent(null);
 

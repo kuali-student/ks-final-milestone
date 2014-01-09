@@ -53,7 +53,7 @@ public class RegistrationViewHelperServiceImpl extends ViewHelperServiceImpl {
 
                 if (form.getRegRequest() != null && form.getRegRequest().getRegistrationRequestItems() != null) {
                     for (RegistrationRequestItemInfo regRequestItemInfo : form.getRegRequest().getRegistrationRequestItems()) {
-                        String regGroupId = regRequestItemInfo.getNewRegistrationGroupId();
+                        String regGroupId = regRequestItemInfo.getRegistrationGroupId();
                         if (StringUtils.isNotBlank(regGroupId)) {
                             // find the regGroupWrapper that matches the id from the supplemental list
                             //RegistrationGroupWrapper regGroupWrapper = form.getRegistrationGroupWrappersById().get(regGroupId);

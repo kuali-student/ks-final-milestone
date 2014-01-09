@@ -81,8 +81,8 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         List<LprInfo> lprInfos = new ArrayList<LprInfo>();
 
         for (RegistrationRequestItem registrationRequestItem : registrationRequestInfo.getRegistrationRequestItems()){
-            if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)){
-                lprInfos.addAll(buildLprItems(registrationRequestItem.getNewRegistrationGroupId(), contextInfo));
+            if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)){
+                lprInfos.addAll(buildLprItems(registrationRequestItem.getRegistrationGroupId(), contextInfo));
             }
         }
         return lprInfos;

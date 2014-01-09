@@ -293,7 +293,7 @@ public class KRMSProcessEvaluator extends KRMSEvaluator implements ProcessEvalua
         }
 
         if (exemptions.isEmpty()) {
-            return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), processContext.getTermKey(), true, null);
+            return new MilestoneDateComparisonProposition(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), comparisonType, check.getMilestoneTypeKey(), processContext.getTermKey(), true, null);
         }
 
         // For now, assume there is only one active Exemption
@@ -301,7 +301,7 @@ public class KRMSProcessEvaluator extends KRMSEvaluator implements ProcessEvalua
         int firstExemptionInfo = 0;
         DateOverride dateOverrideInfo = exemptions.get(firstExemptionInfo).getDateOverride();
 
-        return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), processContext.getTermKey(), true, dateOverrideInfo);
+        return new MilestoneDateComparisonProposition(RulesExecutionConstants.AS_OF_DATE_TERM.getName(), comparisonType, check.getMilestoneTypeKey(), processContext.getTermKey(), true, dateOverrideInfo);
     }
 
     public List<ValidationResultInfo> evaluateStudentAliveRule(InstructionInfo instruction, CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
@@ -338,10 +338,10 @@ public class KRMSProcessEvaluator extends KRMSEvaluator implements ProcessEvalua
 
     private Map<String, Object> buildExecutionFacts(CourseRegistrationProcessContextInfo processContext, ContextInfo context) {
         Map<String, Object> executionFacts = new HashMap<String, Object>();
-        executionFacts.put(RulesExecutionConstants.STUDENT_ID_TERM_NAME, processContext.getStudentId());
-        executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME, context);
+        executionFacts.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), processContext.getStudentId());
+        executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), context);
         if (processContext.getTermKey() != null) {
-            executionFacts.put(RulesExecutionConstants.REGISTRATION_TERM_TERM_NAME, processContext.getTermKey());
+            executionFacts.put(RulesExecutionConstants.REGISTRATION_TERM_TERM.getName(), processContext.getTermKey());
         }
         return executionFacts;
     }

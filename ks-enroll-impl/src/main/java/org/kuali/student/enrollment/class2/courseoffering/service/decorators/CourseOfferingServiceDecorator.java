@@ -707,6 +707,24 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
             PermissionDeniedException {
         return getNextDecorator().getActivityOfferingsForSeatPoolDefinition(seatPoolDefinitionId, context);
     }
+
+	@Override
+	public List<CourseOfferingInfo> getFormatOfferingsByIds(
+			List<String> formatOfferingIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getFormatOfferingsByIds(formatOfferingIds, contextInfo);
+	}
+
+	@Override
+	public List<CourseOfferingInfo> getSeatPoolDefinitionsByIds(
+			List<String> seatPoolDefinitionIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getSeatPoolDefinitionsByIds(seatPoolDefinitionIds, contextInfo);
+	}
     
     
 

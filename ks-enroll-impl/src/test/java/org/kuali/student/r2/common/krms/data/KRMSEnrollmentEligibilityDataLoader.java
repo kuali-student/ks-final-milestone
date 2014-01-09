@@ -22,6 +22,7 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.joda.time.DateTime;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
@@ -302,11 +303,11 @@ public class KRMSEnrollmentEligibilityDataLoader extends AbstractMockServicesAwa
     public RegistrationRequestItemInfo createRegistrationItem(String studentId, String regGroupId) {
 
         RegistrationRequestItemInfo requestItem = new RegistrationRequestItemInfo();
-        requestItem.setStudentId(studentId);
-        requestItem.setNewRegistrationGroupId(regGroupId);
-        requestItem.setCredits("3.0");
+        requestItem.setPersonId(studentId);
+        requestItem.setRegistrationGroupId(regGroupId);
+        requestItem.setCredits(new KualiDecimal (3.0));
         requestItem.setGradingOptionId(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
-        requestItem.setTypeKey(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
+        requestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
         return requestItem;
     }
 

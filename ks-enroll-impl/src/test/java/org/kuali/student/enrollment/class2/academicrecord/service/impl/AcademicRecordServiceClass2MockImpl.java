@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
@@ -512,7 +513,7 @@ public class AcademicRecordServiceClass2MockImpl implements
         //LoadInfo
         LoadInfo load = new LoadInfo();
         load.setLoadLevelTypeKey("mock.TypeKey.MediumLoad");
-        load.setTotalCredits("4");
+        load.setTotalCredits(new KualiDecimal(4));
         loadsMap.put("mediumLoad", load);
 
     }

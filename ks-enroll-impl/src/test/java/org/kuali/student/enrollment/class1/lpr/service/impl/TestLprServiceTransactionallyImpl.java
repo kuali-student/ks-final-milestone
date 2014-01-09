@@ -22,6 +22,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
@@ -44,6 +45,7 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
@@ -162,7 +164,7 @@ public class TestLprServiceTransactionallyImpl {
 		expected.setStateKey(LprServiceConstants.ASSIGNED_STATE_KEY);
 		expected.setEffectiveDate(new Date());
 		expected.setExpirationDate(new Date(new Date().getTime() + 1000));
-		expected.setCommitmentPercent("100.00");
+		expected.setCommitmentPercent(new KualiDecimal(100.00));
 		expected.getResultValuesGroupKeys().add("rvg1");
 		expected.getResultValuesGroupKeys().add("rvg2");
 		new AttributeTester().add2ForCreate(expected.getAttributes());
@@ -202,7 +204,7 @@ public class TestLprServiceTransactionallyImpl {
 				.getTime() - 2000));
 		expected.setExpirationDate(new Timestamp(expected.getExpirationDate()
 				.getTime() + 2000));
-		expected.setCommitmentPercent("33.33");
+		expected.setCommitmentPercent(new KualiDecimal (33.33));
 		expected.getResultValuesGroupKeys().remove(0);
 		expected.getResultValuesGroupKeys().add("rvg3");
 		new AttributeTester().delete1Update1Add1ForUpdate(expected

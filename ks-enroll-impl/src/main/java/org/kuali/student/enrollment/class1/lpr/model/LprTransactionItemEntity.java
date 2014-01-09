@@ -117,8 +117,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
 	    super.fromDTO(lprTransactionItem);
 	    
-		this.setNewLuiId(lprTransactionItem.getNewLuiId());
-		this.setExistingLuiId(lprTransactionItem.getExistingLuiId());
+		this.setNewLuiId(lprTransactionItem.getLuiId());
+		this.setExistingLuiId(lprTransactionItem.getExistingLprId());
 		this.setPersonId(lprTransactionItem.getPersonId());
 		
 		this.setLprTransactionItemState(lprTransactionItem.getStateKey());
@@ -170,8 +170,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
 		lprTransItemInfo.setTypeKey(this.getLprTransactionItemType());
 		lprTransItemInfo.setStateKey(this.getLprTransactionItemState());
-		lprTransItemInfo.setExistingLuiId(this.getExistingLuiId());
-		lprTransItemInfo.setNewLuiId(this.getNewLuiId());
+		lprTransItemInfo.setExistingLprId(this.getExistingLuiId());
+		lprTransItemInfo.setLuiId(this.getNewLuiId());
 		lprTransItemInfo.setPersonId(this.getPersonId());
 		
 		if (this.owner != null)

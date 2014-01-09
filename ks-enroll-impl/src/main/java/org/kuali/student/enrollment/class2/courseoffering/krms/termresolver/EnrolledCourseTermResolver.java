@@ -90,10 +90,12 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
             List<RegistrationRequestInfo> regRequests = this.getCourseRegistrationService().getUnsubmittedRegistrationRequestsByRequestorAndTerm(personId, termId, context) ;
             for(RegistrationRequestInfo request : regRequests){
                 for(RegistrationRequestItemInfo regItem : request.getRegistrationRequestItems()){
-                    if(regItem.getExistingRegistrationGroupId()!=null){
-                        regGroupIds.remove(regItem.getExistingRegistrationGroupId());
+                    if(regItem.getExistingCourseRegistrationId()!=null){
+                    	// FIXME KSENROLL-11465
+                    	// the existing registration is an lpr  so this can't work this way.
+                        regGroupIds.remove(regItem.getExistingCourseRegistrationId());
                     }
-                    regGroupIds.add(regItem.getNewRegistrationGroupId());
+                    regGroupIds.add(regItem.getRegistrationGroupId());
                 }
             }
 

@@ -96,10 +96,10 @@ public class RegistrationController extends UifControllerBase {
 
     protected RegistrationRequestItemInfo generateRegRequestItem(RegistrationGroupWrapper regGroupWrapper, Context context){
         RegistrationRequestItemInfo regRequestItem = new RegistrationRequestItemInfo();
-        regRequestItem.setTypeKey(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY);
+        regRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
         regRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        regRequestItem.setStudentId(context.getPrincipalId());
-        regRequestItem.setNewRegistrationGroupId(regGroupWrapper.getRegistrationGroup().getId());
+        regRequestItem.setPersonId(context.getPrincipalId());
+        regRequestItem.setRegistrationGroupId(regGroupWrapper.getRegistrationGroup().getId());
         //        regRequestItem.setCreditOptionKey("kuali.credit.option.RVG1"); TODO: fix
         regRequestItem.setGradingOptionId("kuali.grading.option.RVG1");
         regRequestItem.setName(regGroupWrapper.getRegistrationGroup().getName());
@@ -110,10 +110,10 @@ public class RegistrationController extends UifControllerBase {
 
     protected RegistrationRequestItemInfo generateDropRegRequestItem(RegistrationGroupWrapper regGroupWrapper, Context context){
         RegistrationRequestItemInfo regRequestItem = new RegistrationRequestItemInfo();
-        regRequestItem.setTypeKey(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
+        regRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
         regRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        regRequestItem.setStudentId(context.getPrincipalId());
-        regRequestItem.setExistingRegistrationGroupId(regGroupWrapper.getRegistrationGroup().getId());
+        regRequestItem.setPersonId(context.getPrincipalId());
+        regRequestItem.setExistingCourseRegistrationId(regGroupWrapper.getRegistrationGroup().getId());
         //        regRequestItem.setCredits("kuali.credit.option.RVG1");
         regRequestItem.setGradingOptionId("kuali.grading.option.RVG1");
         regRequestItem.setName(regGroupWrapper.getRegistrationGroup().getName());
@@ -193,8 +193,8 @@ public class RegistrationController extends UifControllerBase {
             regForm.setRegRequest(regRequest);
             if(regRequest != null && regRequest.getRegistrationRequestItems() != null){
                 for(RegistrationRequestItemInfo item: regRequest.getRegistrationRequestItems()){
-                    if(StringUtils.isNotBlank(item.getNewRegistrationGroupId())){
-                        RegistrationGroupInfo regGroup = getCourseOfferingService().getRegistrationGroup(item.getNewRegistrationGroupId(), context);
+                    if(StringUtils.isNotBlank(item.getRegistrationGroupId())){
+                        RegistrationGroupInfo regGroup = getCourseOfferingService().getRegistrationGroup(item.getRegistrationGroupId(), context);
                         CourseOfferingInfo courseOffering = getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), context);
                         RegistrationGroupWrapper registrationGroupWrapper = new RegistrationGroupWrapper();
                         registrationGroupWrapper.setRegistrationGroup(regGroup);
@@ -202,8 +202,9 @@ public class RegistrationController extends UifControllerBase {
                         registrationGroupWrapper.setActivityOfferingWrappers(getActivityOfferingInfos(regGroup, courseOffering, context));
                         regForm.getRegistrationGroupWrappersById().put(registrationGroupWrapper.getRegistrationGroup().getId(), registrationGroupWrapper);
                     }
-                    if(StringUtils.isNotBlank(item.getExistingRegistrationGroupId())){
-                        RegistrationGroupInfo regGroup = getCourseOfferingService().getRegistrationGroup(item.getExistingRegistrationGroupId(), context);
+                    if(StringUtils.isNotBlank(item.getExistingCourseRegistrationId())){
+                    	// FIXME KSENROLL-11465 need to get the reg group from the course registration
+                        RegistrationGroupInfo regGroup = getCourseOfferingService().getRegistrationGroup(item.getExistingCourseRegistrationId(), context);
                         CourseOfferingInfo courseOffering = getCourseOfferingService().getCourseOffering(regGroup.getCourseOfferingId(), context);
                         RegistrationGroupWrapper registrationGroupWrapper = new RegistrationGroupWrapper();
                         registrationGroupWrapper.setRegistrationGroup(regGroup);
@@ -532,8 +533,8 @@ public class RegistrationController extends UifControllerBase {
                         it.remove();
                         break;
                     }
-                    else if(StringUtils.isNotBlank(regGroupId) && StringUtils.isNotBlank(item.getNewRegistrationGroupId())
-                        && item.getNewRegistrationGroupId().equals(regGroupId)){
+                    else if(StringUtils.isNotBlank(regGroupId) && StringUtils.isNotBlank(item.getRegistrationGroupId())
+                        && item.getRegistrationGroupId().equals(regGroupId)){
                         it.remove();
                         break;
                 }

@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseregistration.service.transformer;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
@@ -65,19 +66,19 @@ public class RegistrationRequestTransformer {
         item.setName(requestItem.getName());
         // Fields in LPRTransactionItemInfo: personId, transactionId, newLuiId, existingLuiId,
         // resultValuesGroupKeys, requestOptions, lprTransactionItemResult
-        item.setPersonId(requestItem.getStudentId());
+        item.setPersonId(requestItem.getPersonId());
         item.setTransactionId(requestItem.getRegistrationRequestId());
-        item.setNewLuiId(requestItem.getNewRegistrationGroupId());
-        item.setExistingLuiId(requestItem.getExistingRegistrationGroupId());
+        item.setLuiId(requestItem.getRegistrationGroupId());
+        item.setExistingLprId(requestItem.getExistingCourseRegistrationId());
         if (item.getResultValuesGroupKeys() != null) {
             item.getResultValuesGroupKeys().clear();
         } else {
             item.setResultValuesGroupKeys(new ArrayList<String>());
         }
-        String creditsId = requestItem.getCredits(); // For now, assume it's an RVG option with a single credit
-        if (creditsId != null) {
+        KualiDecimal credits = requestItem.getCredits(); // For now, assume it's an RVG option with a single credit
+        if (credits != null) {
             // This gets more complex if it's actual credits
-            item.getResultValuesGroupKeys().add(creditsId);
+            item.getResultValuesGroupKeys().add(String.valueOf(credits.bigDecimalValue()));
         }
         String gradingOptionId = requestItem.getGradingOptionId();
         if (gradingOptionId != null) {
@@ -141,17 +142,23 @@ public class RegistrationRequestTransformer {
         requestItem.setName(item.getName());
         // Fields in LPRTransactionItemInfo: personId, transactionId, newLuiId, existingLuiId,
         // resultValuesGroupKeys, requestOptions, lprTransactionItemResult
-        requestItem.setStudentId(item.getPersonId());
+        requestItem.setPersonId(item.getPersonId());
         requestItem.setRegistrationRequestId(item.getTransactionId());
-        requestItem.setNewRegistrationGroupId(item.getNewLuiId());
-        requestItem.setExistingRegistrationGroupId(item.getExistingLuiId());
+        requestItem.setRegistrationGroupId(item.getLuiId());
+        requestItem.setExistingCourseRegistrationId(item.getExistingLprId());
 
         // Admittedly, a hacky way of doing things, so open for better ways to do this
         for (String s : item.getResultValuesGroupKeys()) {
             if (s.startsWith("kuali.resultComponent.grade")) {
                 requestItem.setGradingOptionId(s);
             } else if (s.startsWith("kuali.creditType.credit.degree")) {
-                requestItem.setCredits(s);
+            	// FIXME KSENROLL-11466
+                // requestItem.setCredits(s);
+            }
+            else {
+            	// added as a place holder until KSENROLL-11466 is worked on.
+            	// the inverse will write just the decimal value into the rvg so unpack it here.
+            	requestItem.setCredits(new KualiDecimal(s));
             }
         }
 

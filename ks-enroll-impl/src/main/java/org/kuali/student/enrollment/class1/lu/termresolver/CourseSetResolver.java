@@ -26,17 +26,17 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
     }
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.COURSE_SET_TERM_NAME;
+        return RulesExecutionConstants.COURSE_SET_TERM.getName();
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY);
+        return Collections.singleton(RulesExecutionConstants.COURSE_SET_ID_TERM.getName());
     }
 
     @Override
@@ -47,11 +47,11 @@ public class CourseSetResolver implements TermResolver<Collection<String>> {
 
     @Override
     public Collection<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        String courseSetId = parameters.get(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY);
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String courseSetId = parameters.get(RulesExecutionConstants.COURSE_SET_ID_TERM.getName());
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
         
         if(courseSetId == null) {
-            throw new TermResolutionException("No parameter found with name: " + RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY, this, parameters);
+            throw new TermResolutionException("No parameter found with name: " + RulesExecutionConstants.COURSE_SET_ID_TERM.getName(), this, parameters);
         }
 
         List<String> results = null;

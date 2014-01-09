@@ -163,8 +163,7 @@ public class LprServiceValidationDecorator extends LprServiceDecorator {
 
     @Override
     public LprTransactionInfo createLprTransactionFromExisting(String lprTransactionId, ContextInfo contextInfo)
-            throws DataValidationErrorException
-            , DoesNotExistException
+            throws DoesNotExistException
             , InvalidParameterException
             , MissingParameterException
             , OperationFailedException
@@ -176,7 +175,7 @@ public class LprServiceValidationDecorator extends LprServiceDecorator {
         List<ValidationResultInfo> errors = ValidationUtils.validateTypesAreEqual(newLprTransactionInfo, oldLprTransactionInfo);
 
         if(errors != null && !errors.isEmpty()){
-            throw new DataValidationErrorException("Error(s) occurred validating", errors);
+            throw new OperationFailedException(new DataValidationErrorException("Error(s) occurred validating", errors));
         }
 
         errors = this.validateLprTransaction(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), newLprTransactionInfo.getTypeKey(), newLprTransactionInfo, contextInfo);

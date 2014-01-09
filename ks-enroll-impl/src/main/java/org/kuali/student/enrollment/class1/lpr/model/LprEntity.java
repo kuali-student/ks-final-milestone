@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -91,7 +92,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         super.fromDTO(dto);
         
         if(dto.getCommitmentPercent() != null) {
-            this.setCommitmentPercent(new BigDecimal(dto.getCommitmentPercent()));
+            this.setCommitmentPercent(dto.getCommitmentPercent().bigDecimalValue());
         }
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
@@ -164,7 +165,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         lprInfo.setId(getId());
         lprInfo.setLuiId(luiId);
         if(commitmentPercent != null) {
-            lprInfo.setCommitmentPercent("" + commitmentPercent);
+            lprInfo.setCommitmentPercent(new KualiDecimal(commitmentPercent));
         }
         lprInfo.setPersonId(personId);
         lprInfo.setEffectiveDate(effectiveDate);

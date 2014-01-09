@@ -253,7 +253,7 @@ public class ProcessServiceDataLoader {
                     "Checks if student is actually alive",
                     null, // issue id
                     null, // milestone type
-                    ProcessServiceConstants.AGENDA_IS_ALIVE_ID, // agenda id
+                    ProcessServiceConstants.RULE_IS_ALIVE_ID, // agenda id
                     null, // right
                     null, // left
                     null, // child process id
@@ -438,16 +438,18 @@ public class ProcessServiceDataLoader {
                     null, // left
                     null, // child process id
                     contextInfo);
-            loadCheck(CHECK_ID_IS_NOT_SUMMER_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_NOT_SUMMER_TERM,
-                    "Checks that this is not the summer term",
-                    "Checks that this is not the summer term",
-                    null, // issue id
-                    null, // milestone type
-                    ProcessServiceConstants.AGENDA_IS_NOT_SUMMER_TERM_ID, // agenda id
-                    null, // right
-                    null, // left
-                    null, // child process id
-                    contextInfo);
+            
+            // TODO KSENROLL-11461
+//            loadCheck(CHECK_ID_IS_NOT_SUMMER_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_IS_NOT_SUMMER_TERM,
+//                    "Checks that this is not the summer term",
+//                    "Checks that this is not the summer term",
+//                    null, // issue id
+//                    null, // milestone type
+//                    ProcessServiceConstants.AGENDA_IS_NOT_SUMMER_TERM_ID, // agenda id
+//                    null, // right
+//                    null, // left
+//                    null, // child process id
+//                    contextInfo);
             loadCheck(CHECK_ID_MANDATORY_ADVISING_CHECK, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, CHECK_NAME_MANDATORY_ADVISING_CHECK,
                     "Mandatory Advising Check",
                     "Mandatory Advising Check",
@@ -797,8 +799,8 @@ public class ProcessServiceDataLoader {
     }
 
     private void loadCheck (String checkId, String type, String state, String name, String descriptionPlain, String descriptionFormatted,
-                            String issueId,String milestoneType, String agendaId, String checkRightAgendaId,
-                            String checkLeftAgendaId, String checkChildProcessId, ContextInfo contextInfo)
+                            String issueId,String milestoneType, String ruleId, String checkRightRuleId,
+                            String checkRuleAgendaId, String checkChildProcessId, ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
         CheckInfo info = new CheckInfo();
@@ -809,9 +811,9 @@ public class ProcessServiceDataLoader {
         info.setDescr(new RichTextInfo(descriptionPlain, descriptionFormatted));
         info.setHoldIssueId(issueId);
         info.setMilestoneTypeKey(milestoneType);
-        info.setAgendaId(agendaId);
-        info.setRightComparisonAgendaId(checkRightAgendaId);
-        info.setLeftComparisonAgendaId(checkLeftAgendaId);
+        info.setRuleId(ruleId);
+        info.setRightComparisonRuleId(checkRightRuleId);
+        info.setLeftComparisonRuleId(checkRuleAgendaId);
         info.setChildProcessKey(checkChildProcessId);
         processService.createCheck(type, info, contextInfo);
     }

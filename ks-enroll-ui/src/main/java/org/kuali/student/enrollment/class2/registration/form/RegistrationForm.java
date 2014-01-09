@@ -151,7 +151,8 @@ public class RegistrationForm extends UifFormBase {
             // first loop all the items in the reg request
             for (RegistrationRequestItemInfo regRequestItemInfo : getRegRequest().getRegistrationRequestItems()) {
                 // find the regGroupId of the current item
-                String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getNewRegistrationGroupId())) ? regRequestItemInfo.getNewRegistrationGroupId() : regRequestItemInfo.getExistingRegistrationGroupId();
+            	// FIXME KSENROLL-11465 existingRegistrationId is an lpr not a lui so this can't work as is.
+                String regGroupId = (StringUtils.isNotBlank(regRequestItemInfo.getRegistrationGroupId())) ? regRequestItemInfo.getRegistrationGroupId() : regRequestItemInfo.getExistingCourseRegistrationId();
                 // find the regGroupWrapper that matches the id from the supplemental list
                 RegistrationGroupWrapper regGroupWrapper = getRegistrationGroupWrappersById().get(regGroupId);
                 // if no valid regGroupWrapper object can be found something is wrong with the RegistrationContoller method that adds courses to the cart

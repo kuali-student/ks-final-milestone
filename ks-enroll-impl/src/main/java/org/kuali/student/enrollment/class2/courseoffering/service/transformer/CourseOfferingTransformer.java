@@ -829,8 +829,6 @@ public class CourseOfferingTransformer {
         List<LprInfo> lprs = null;
         try {
             lprs = lprService.getLprsByLui(luiId, context);
-        } catch (DoesNotExistException e) {
-            LOG.warn("Instructors do not exist for LuiId: " + luiId, e);
         } catch (InvalidParameterException e) {
             LOG.error("Error getting instructors for LuiId: " + luiId + " Invalid Parameter ", e);
             throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Invalid Parameter ", e);
@@ -855,7 +853,7 @@ public class CourseOfferingTransformer {
                     OfferingInstructorInfo instructor = new OfferingInstructorInfo();
                     instructor.setPersonId(lpr.getPersonId());
                     if (lpr.getCommitmentPercent() != null) {
-                        instructor.setPercentageEffort(Float.parseFloat(lpr.getCommitmentPercent()));
+                        instructor.setPercentageEffort(lpr.getCommitmentPercent().floatValue());
                     } else {
                         instructor.setPercentageEffort(null);
                     }

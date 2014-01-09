@@ -3,7 +3,9 @@ package org.kuali.student.enrollment.class1.lpr.service.decorators;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+
 import org.apache.commons.collections.keyvalue.MultiKey;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -11,6 +13,7 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 
 import javax.jws.WebParam;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -126,7 +129,7 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
     }
 
     @Override
-    public List<LprInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         MultiKey cacheKey = new MultiKey(PERSON_ID, personId,LUI_ID,luiId);
 
@@ -140,7 +143,11 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
         if(cachedResult!=null) {
 
             lprIds = (List<String>)cachedResult.getValue();
-            lprInfos = getLprsByIds(lprIds,contextInfo);
+            try {
+				lprInfos = getLprsByIds(lprIds,contextInfo);
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException("failed to load lpr's using lprIds = " + StringUtils.join(lprIds, ", "), e);
+			}
 
         } else {
 
@@ -158,7 +165,7 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
     }
 
     @Override
-    public List<LprInfo> getLprsByPerson(String personId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         MultiKey cacheKey = new MultiKey(PERSON_ID,personId);
 
@@ -172,7 +179,11 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
         if(cachedResult!=null) {
 
             lprIds = (List<String>)cachedResult.getValue();
-            lprInfos = getLprsByIds(lprIds,contextInfo);
+            try {
+				lprInfos = getLprsByIds(lprIds,contextInfo);
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException("failed to load lpr's using lprIds = " + StringUtils.join(lprIds, ", "), e);
+			}
 
         } else {
 
@@ -226,7 +237,7 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
     }
 
     @Override
-    public List<LprInfo> getLprsByLui(String luiId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprInfo> getLprsByLui(String luiId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         MultiKey cacheKey = new MultiKey(LUI_ID,luiId);
 
@@ -240,7 +251,11 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
         if(cachedResult!=null) {
 
             lprIds = (List<String>)cachedResult.getValue();
-            lprInfos = getLprsByIds(lprIds,contextInfo);
+            try {
+				lprInfos = getLprsByIds(lprIds,contextInfo);
+			} catch (DoesNotExistException e) {
+				throw new OperationFailedException("failed to load lpr's using lprIds = " + StringUtils.join(lprIds, ", "), e);
+			}
 
         } else {
 

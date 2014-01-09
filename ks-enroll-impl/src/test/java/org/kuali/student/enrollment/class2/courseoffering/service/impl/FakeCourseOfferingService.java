@@ -31,6 +31,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import javax.jws.WebParam;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -742,6 +743,25 @@ class FakeCourseOfferingService implements CourseOfferingService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+	@Override
+	public List<CourseOfferingInfo> getFormatOfferingsByIds(
+			List<String> formatOfferingIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
 
+	@Override
+	public List<CourseOfferingInfo> getSeatPoolDefinitionsByIds(
+			List<String> seatPoolDefinitionIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+
+    
 }
 

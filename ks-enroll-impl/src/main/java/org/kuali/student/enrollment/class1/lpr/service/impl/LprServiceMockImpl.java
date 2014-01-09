@@ -158,7 +158,7 @@ public class LprServiceMockImpl implements LprService, MockService {
 
     @Override
     public List<LprInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<LprInfo> list = new ArrayList<LprInfo>();
         for (LprInfo info : lprMap.values()) {
@@ -173,7 +173,7 @@ public class LprServiceMockImpl implements LprService, MockService {
 
     @Override
     public List<LprInfo> getLprsByPerson(String personId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<LprInfo> list = new ArrayList<LprInfo>();
         for (LprInfo info : lprMap.values()) {
@@ -186,7 +186,7 @@ public class LprServiceMockImpl implements LprService, MockService {
 
     @Override
     public List<LprInfo> getLprsByLui(String luiId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<LprInfo> list = new ArrayList<LprInfo>();
         for (LprInfo info : lprMap.values()) {
@@ -212,39 +212,51 @@ public class LprServiceMockImpl implements LprService, MockService {
         return list;
     }
 
+    
+    
     @Override
-    public List<LprInfo> getLprsByPersonForAtp(String personId, String atpId, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        List<LprInfo> list = new ArrayList<LprInfo>();
-        for (LprInfo info : lprMap.values()) {
-            if (personId.equals(info.getPersonId())) {
-                LuiInfo lui = luiService.getLui(info.getLuiId(), contextInfo);
-                if (atpId.equals(lui.getAtpId())) {
-                    list.add(info);
-                }
-            }
-        }
-        return list;
-    }
+	public List<String> getLprIdsByType(String lprTypeKey,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+    	throw new UnsupportedOperationException("not implemented");
+	}
 
-    @Override
-    public List<LprInfo> getLprsByPersonAndTypeForAtp(String personId, String atpId, String lprTypeKey, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        List<LprInfo> list = new ArrayList<LprInfo>();
-        for (LprInfo info : lprMap.values()) {
-            if (personId.equals(info.getPersonId())) {
-                if (lprTypeKey.equals(info.getTypeKey())) {
-                    LuiInfo lui = luiService.getLui(info.getLuiId(), contextInfo);
-                    if (atpId.equals(lui.getAtpId())) {
-                        list.add(info);
-                    }
-                }
-            }
-        }
-        return list;
-    }
+	@Override
+	public List<LprInfo> getLprsByTypeAndPersonAndAtp(String lprTypeKey,
+			String personId, String atpId, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		List<LprInfo> list = new ArrayList<LprInfo>();
+		for (LprInfo info : lprMap.values()) {
+
+			if (info.getTypeKey().equals(lprTypeKey)) {
+				if (personId.equals(info.getPersonId())) {
+					LuiInfo lui;
+					try {
+						lui = luiService.getLui(info.getLuiId(), contextInfo);
+					} catch (DoesNotExistException e) {
+						throw new OperationFailedException(
+								"failed to load lui for id = "
+										+ info.getLuiId(), e);
+					}
+					if (atpId.equals(lui.getAtpId())) {
+						list.add(info);
+					}
+				}
+			}
+
+		}
+		return list;
+	}
+
+	@Override
+	public List<String> getLprTransactionIdsByType(
+			String lprTransactionTypeKey, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
 
     @Override
     public List<LprInfo> getLprsByPersonAndLuiType(String personId, String luiTypeKey, ContextInfo contextInfo)
@@ -421,7 +433,7 @@ public class LprServiceMockImpl implements LprService, MockService {
 
     @Override
     public LprTransactionInfo createLprTransactionFromExisting(String lprTransactionId, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("createLprTransactionFromExisting has not been implemented");
     }
@@ -462,9 +474,7 @@ public class LprServiceMockImpl implements LprService, MockService {
         for (LprTransactionInfo trans : lprTransactionMap.values()) {
             for (LprTransactionItemInfo info : trans.getLprTransactionItems()) {
                 if (personId.equals(info.getPersonId())) {
-                    if (luiId.equals(info.getNewLuiId())) {
-                        list.add(info);
-                    } else if (luiId.equals(info.getExistingLuiId())) {
+                    if (luiId.equals(info.getLuiId())) {
                         list.add(info);
                     }
                 }
@@ -507,9 +517,7 @@ public class LprServiceMockImpl implements LprService, MockService {
 
         for (LprTransactionInfo trans : lprTransactionMap.values()) {
             for (LprTransactionItemInfo info : trans.getLprTransactionItems()) {
-                if (luiId.equals(info.getNewLuiId())) {
-                    list.add(info);
-                } else if (luiId.equals(info.getExistingLuiId())) {
+                if (luiId.equals(info.getLuiId())) {
                     list.add(info);
                 }
             }
@@ -613,8 +621,7 @@ public class LprServiceMockImpl implements LprService, MockService {
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-		// TODO KSENROLL-8714
-		throw new UnsupportedOperationException("not implemented");
+    	throw new UnsupportedOperationException("not implemented");
 	}
 
 	@Override
@@ -623,7 +630,14 @@ public class LprServiceMockImpl implements LprService, MockService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO KSENROLL-8714
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<LprInfo> getLprsByPersonAndAtp(String personId, String atpId,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
 		throw new UnsupportedOperationException("not implemented");
 	}
     

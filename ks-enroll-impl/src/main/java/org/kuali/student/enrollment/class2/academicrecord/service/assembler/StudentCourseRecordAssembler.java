@@ -65,7 +65,7 @@ public class StudentCourseRecordAssembler
             StudentCourseRecordInfo courseRecord = new StudentCourseRecordInfo();
             
             courseRecord.setCourseRegistrationId(courseReg.getId());
-            courseRecord.setPersonId(courseReg.getStudentId());
+            courseRecord.setPersonId(courseReg.getPersonId());
 
             try {
             
@@ -90,7 +90,7 @@ public class StudentCourseRecordAssembler
                 }
 
                 GradeRosterEntryInfo finalRosterEntry = null;
-                finalRosterEntry = gradingService.getFinalGradeForStudentInCourseOffering(courseReg.getStudentId(), lui.getId(), context);
+                finalRosterEntry = gradingService.getFinalGradeForStudentInCourseOffering(courseReg.getPersonId(), lui.getId(), context);
                 courseRecord.setAssignedGradeValue(getValue(finalRosterEntry.getAssignedGradeKey(), context));
                 courseRecord.setAssignedGradeScaleKey(getScaleKey(finalRosterEntry.getAssignedGradeKey(), context));
                 courseRecord.setAdministrativeGradeValue(getValue(finalRosterEntry.getAdministrativeGradeKey(), context));
