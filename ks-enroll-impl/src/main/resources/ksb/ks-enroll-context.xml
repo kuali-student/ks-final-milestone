@@ -905,7 +905,7 @@
     </bean>
 
 
-    //TODO Should these be removed or CompletedCoureResolver returned
+    <!--TODO Should these be removed or CompletedCoureResolver returned-->
     <!--<bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
         <property name="lprService" ref="LprService" />
         <property name="lrrService" ref="lrrPersistenceService" />
