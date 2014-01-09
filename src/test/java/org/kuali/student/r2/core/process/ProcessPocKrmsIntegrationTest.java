@@ -299,6 +299,6 @@ public class ProcessPocKrmsIntegrationTest {
         List<ValidationResultInfo> results = null;
         results = courseRegistrationService.verifyRegistrationRequestForSubmission(request.getId(), getContextInfoAsOf12302011());
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
-        assertEquals(0, errors.size());
+        assertEquals(1, errors.size());
     }
 }
