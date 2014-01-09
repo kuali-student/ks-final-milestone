@@ -3038,6 +3038,9 @@
         </index>
     </table>
     <table name="KSEN_LPR">
+        <column name="ATP_ID" type="STRING">
+            <size value="255"/>
+        </column>
         <column name="COMMIT_PERCT" type="FLOAT">
             <size value="22"/>
         </column>
@@ -3047,11 +3050,17 @@
         <column name="CREATETIME" nullable="false" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
+        <column name="CREDITS" type="STRING">
+            <size value="255"/>
+        </column>
         <column name="EFF_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
         <column name="EXPIR_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="GRADING_OPT_ID" type="STRING">
+            <size value="255"/>
         </column>
         <column name="ID" nullable="false" primaryKey="true" type="STRING">
             <size value="255"/>
@@ -3063,6 +3072,9 @@
             <size value="255"/>
         </column>
         <column name="LUI_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="MASTER_LUI_ID" type="STRING">
             <size value="255"/>
         </column>
         <column name="OBJ_ID" type="STRING">
