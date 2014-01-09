@@ -6,6 +6,7 @@ package org.kuali.student.r2.core.process;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -106,7 +107,7 @@ public class ProcessPocGesServiceDecorator extends GesServiceDecorator {
 
     private List<String> _splitIt(String str) {
         if (str.trim().isEmpty()) {
-            return null;
+            return Collections.EMPTY_LIST;
         }
         String[] strs = str.split(",");
         for (int i = 0; i < strs.length; i++) {
