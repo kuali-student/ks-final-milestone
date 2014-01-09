@@ -11,6 +11,7 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -18,11 +19,13 @@ import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -38,7 +41,11 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -65,6 +72,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private AtpService atpService;
     private CourseService courseService;
     private CourseOfferingService courseOfferingService;
+    private TypeService typeService;
+    private Map<String, Integer> activityPriorityMap = null;
 
     Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
 
@@ -77,6 +86,163 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     @Override
     public List<CourseSearchResult> loadCourseOfferingsByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
         return loadCourseOfferingsByTermAndCourseCode(getAtpIdByAtpCode(termCode), courseCode);
+    }
+
+    /**
+     * In order to support the UI we have been asked to provide a course offering search that will return course offering information as well as
+     * a list of primary activity offerings. There is a default order of activity offering types. Ex: lecture, lab, discussion.
+     * In that case the search will return the course offering information and a list of lectures.
+     * @param termCode  This is the atp.code field. Ex: 201201 = Spring 2012
+     * @param courseCode  Lui.code. Ex: CHEM237
+     * @return Returns an object that contains Course offering Info and a list of primary activity offerings.
+     * @throws Exception
+     */
+    @Override
+    public List<CourseAndPrimaryAOSearchResult> loadCourseOfferingsAndPrimaryAoByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
+
+        List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
+        List<CourseSearchResult> courseOfferingList = loadCourseOfferingsByTermCodeAndCourseCode(termCode, courseCode); // search for the course offerings
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build defualt context info
+
+        if(courseOfferingList != null && !courseOfferingList.isEmpty()){   // if we found course offerings
+            for(CourseSearchResult csr : courseOfferingList){
+                CourseAndPrimaryAOSearchResult resultElement = new CourseAndPrimaryAOSearchResult(); // this is the element in the list we will return
+                List<ActivityOfferingSearchResult> activityOfferingList = getPrimaryActivityOfferingsByCo(csr.getCourseOfferingId(), contextInfo);
+
+                resultElement.setCourseOfferingInfo(csr);
+                resultElement.setPrimaryActivityOfferingInfo(activityOfferingList);
+                resultList.add(resultElement);
+            }
+        }
+        return resultList;
+
+    }
+
+    /**
+     *  There is a business case where the user wants a list of primary activity offerings for a particular
+     *  course offering. Ie. CHEM 237 has a format offering of Lecture, Lab, Discussion. There are 6 lectures, 3 labs,
+     *  and three discussions.
+     *
+     *  If the system is configured so Lecture is the highest priority, then this method would return a list of the
+     *  6 activity offerings of type lecture.
+     *
+     * @param coId Course Offering Id
+     * @param contextInfo
+     * @return A list of Primary Activity Offerings for a particular Course Offering
+     * @throws Exception
+     */
+    private List<ActivityOfferingSearchResult> getPrimaryActivityOfferingsByCo(String coId, ContextInfo contextInfo) throws Exception{
+
+        List<ActivityOfferingSearchResult> resultList = new ArrayList<ActivityOfferingSearchResult>();
+
+        // get a list of format offerings for this particular co. ie: CHEM231 has 1 FO: Lecture / Discussion
+        // there is a possibility that a course can offer multiple formats. ie. "Lecture / Discussion"  and "Lecture / Web Discussion"
+        List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(coId,contextInfo);
+
+        // Because there can be multiple formats [Lec/lab, lab/disc] we need to seperate our results by the FoId. That is because if there are
+        // multiple formats, the primary for one FO could be Lecture, while another FO could be Discussion.
+        // Map<FoId, List<ActivityOfferings>>
+        Map<String, List<ActivityOfferingSearchResult>> aoMap = groupActivityOfferingsByFormatOfferingId(loadActivityOfferingsByCourseOfferingId(coId));
+
+        for(FormatOfferingInfo formatOffering : formatOfferings){
+            sortActivityOfferingTypeKeyList(formatOffering.getActivityOfferingTypeKeys(), contextInfo);  // sort the activity offerings type keys by priority order
+            String primaryTypeKey = formatOffering.getActivityOfferingTypeKeys().get(0);
+
+            for(ActivityOfferingSearchResult ao : aoMap.get(formatOffering.getId())){
+                if(primaryTypeKey.equals(ao.getActivityOfferingType())){
+                    resultList.add(ao);
+                }
+            }
+        }
+        return resultList;
+    }
+
+    /**
+     * Because there can be multiple formats [Lec/lab, lab/disc] we need to seperate our results by the FoId. That is because if there are
+     * multiple formats, the primary for one FO could be Lecture, while another FO could be Discussion.
+     *
+     * Note: Most, 98% of all courses only have one format, but this needs to be here for the rare case.
+     *
+     * @param aoList  list of activity offerings
+     * @return    Map<FormatOfferingId, List<ActivityOfferings>>
+     */
+    private Map<String, List<ActivityOfferingSearchResult>> groupActivityOfferingsByFormatOfferingId(List<ActivityOfferingSearchResult> aoList){
+        Map<String, List<ActivityOfferingSearchResult>> retMap = new HashMap<String, List<ActivityOfferingSearchResult>>();
+        for(ActivityOfferingSearchResult ao : aoList){
+            if(!retMap.containsKey(ao.getFormatOfferingId())){
+                retMap.put(ao.getFormatOfferingId(), new ArrayList<ActivityOfferingSearchResult>());
+            }
+            retMap.get(ao.getFormatOfferingId()).add(ao);
+        }
+        return retMap;
+    }
+
+
+    /**
+     * This method takes in a list of activity offering type keys and sorts them in priority order. The priority
+     * order comes from the priority established in the Activity Types.
+     * @param typeKeys  list of activity offering type keys
+     * @param contextInfo
+     */
+    private void sortActivityOfferingTypeKeyList(List<String> typeKeys, final ContextInfo contextInfo) {
+        Collections.sort(typeKeys, new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                int val1 = 0;
+                int val2 = 0;
+                try{
+                    val1 = getActivityPriorityMap(contextInfo).get(o1).intValue();
+                    val2 = getActivityPriorityMap(contextInfo).get(o2).intValue();
+                }catch (Exception ex){
+                    // I'm not sure if this is the correct thing to do here.
+                    throw new RuntimeException("Failed to sort activity offering types", ex);
+                }
+
+                return (val1<val2 ? -1 : (val1==val2 ? 0 : 1));
+            }
+        });
+    }
+
+    /**
+     * This method grabs all kuali.lu.type.grouping.activity types. These types have attributes with priority values.
+     * Since we are interested in the priority of the lui types, not the lu types we then need to get the type type
+     * relation between lu and lui.
+     *
+     * Ex:
+     * Lu.Lucture priority = 1; Lu.Lecture has a 1:1 relation with Lui.Lecture so we say
+     * the Lui.Lecture.priority = Lu.Lecture.priority
+     *
+     * These values never change so I'm storing them in a map inside the service for performance reasons.
+     *
+     * So, if a course offering has Lec, Lab, Discussion and you want to know which is the Primary type, just get the
+     * lowest priority of the ao type.
+     *
+     * @param contextInfo
+     * @return  Map<ActivityOfferingTypeKey, priorityInt>
+     * @throws Exception
+     */
+    private Map<String, Integer> getActivityPriorityMap(ContextInfo contextInfo) throws Exception{
+         if(activityPriorityMap == null){
+            activityPriorityMap = new HashMap<String, Integer>();
+             List<TypeInfo> activityTypes = getTypeService().getTypesForGroupType("kuali.lu.type.grouping.activity", contextInfo);
+
+             for(TypeInfo typeInfo : activityTypes){
+                 List<AttributeInfo> attributes = typeInfo.getAttributes();
+                 if(attributes != null && !attributes.isEmpty()){
+                     for(AttributeInfo attribute : attributes){
+                         if(TypeServiceConstants.ACTIVITY_SELECTION_PRIORITY_ATTR.equals(attribute.getKey())){
+                             TypeTypeRelation typeTypeRelation = KSCollectionUtils.getRequiredZeroElement(getTypeService().getTypeTypeRelationsByOwnerAndType(typeInfo.getKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, contextInfo));
+                             activityPriorityMap.put(typeTypeRelation.getRelatedTypeKey(), new Integer(Integer.parseInt(attribute.getValue())));
+                         }
+                     }
+                 }
+             }
+
+
+         }
+
+        return activityPriorityMap;
+
     }
 
     @Override
@@ -187,6 +353,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
         List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
         for (FormatOfferingInfo formatOffering : formatOfferings){
+            List<ActivityOfferingClusterInfo> aocList = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOffering.getId(), contextInfo);
+
                activities.addAll(getCourseService().getCourseActivitiesByCourseFormat(formatOffering.getFormatId(), contextInfo));
         }
 
@@ -768,5 +936,17 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
         this.courseOfferingService = courseOfferingService;
+    }
+
+    public TypeService getTypeService() {
+        if(typeService == null) {
+            typeService =  GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE,
+                    TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
     }
 }
