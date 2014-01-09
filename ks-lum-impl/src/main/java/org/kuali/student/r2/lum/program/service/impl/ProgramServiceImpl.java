@@ -48,10 +48,12 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
 
@@ -1605,4 +1607,14 @@ public class ProgramServiceImpl implements ProgramService{
 		//return null;
 	}
 
+	@Override
+	public List<MinorDisciplineInfo> getMinorDisciplinesByIds(
+			List<String> minorDisciplineIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		 throw new UnsupportedOperationException ("not implemented");
+	}
+
+	
 }

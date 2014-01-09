@@ -23,6 +23,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -1203,4 +1204,41 @@ public class CluServiceMockImpl implements CluService {
     public SearchService getSearchService() {
         return this.searchService;
     }
+
+	@Override
+	public List<CluCluRelationInfo> getCluCluRelationsByIds(
+			List<String> cluCluRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluPublicationInfo> getCluPublicationsByIds(
+			List<String> cluPublicationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluResultInfo> getCluResultsByIds(List<String> cluResultIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluLoRelationInfo> getCluLoRelationsByIds(
+			List<String> cluLoRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
+    
 }
