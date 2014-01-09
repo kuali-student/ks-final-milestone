@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -47,11 +48,13 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             // get reg request
             RegistrationRequestInfo registrationRequestInfo
                     = getCourseRegistrationService().getRegistrationRequest(registrationRequestId, contextInfo);
+            // contextInfo might have a null principalId.  Fill it in with the regRequestInfo's
+            contextInfo.setPrincipalId(registrationRequestInfo.getRequestorId());
 
-//            List<LprInfo> lprInfos = makeLprsFromRegRequest(registrationRequestInfo, contextInfo);
-//            if (lprInfos == null || lprInfos.isEmpty()) {
-//                return makeErrorResponse(registrationRequestId);
-//            }
+            List<LprInfo> lprInfos = makeLprsFromRegRequest(registrationRequestInfo, contextInfo);
+            if (lprInfos == null || lprInfos.isEmpty()) {
+                return makeErrorResponse(registrationRequestId);
+            }
 
 
         } catch (Exception ex){
@@ -68,15 +71,20 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         return response;
     }
 
-    private List<LprInfo> makeLprsFromRegRequest(RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(registrationRequestInfo.getStateKey())) {
+    private List<LprInfo> makeLprsFromRegRequest(RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        RegistrationRequestInfo fetched = null;
+        if (!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(registrationRequestInfo.getStateKey())) {
             // If this state is not new, then it's been processed, so skip.
             LOGGER.info("Request item already processed");
             return null;
         } else {
             // By changing to processing, we avoid reprocessing the request
-            courseRegistrationService.changeRegistrationRequestState(registrationRequestInfo.getId(),
+            getCourseRegistrationService().changeRegistrationRequestState(registrationRequestInfo.getId(),
                     LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY, contextInfo);
+            fetched =
+                getCourseRegistrationService().getRegistrationRequest(registrationRequestInfo.getId(), contextInfo);
         }
         List<LprInfo> lprInfos = new ArrayList<LprInfo>();
 
@@ -100,16 +108,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         //List<LuiInfo> ao1List = getLuiService().getLuisByRelatedLuiAndRelationType(registrationRequestInfo.get);
         LuiService luiServiceLocal = getLuiService();
         try {
-            // Create AO LPRs
-            List<String> aoIds = luiServiceLocal.getLuiIdsByLuiAndRelationType(regGroupId,
-                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
-            for (String aoId: aoIds) {
-                LprInfo aoLprCreated = makeLpr(LprServiceConstants.REGISTRANT_AO_TYPE_KEY, aoId, context);
-                result.add(aoLprCreated);
-            }
-            // Create RG LPR
-            LprInfo rgLprCreated = makeLpr(LprServiceConstants.REGISTRANT_RG_TYPE_KEY, regGroupId, context);
-            result.add(rgLprCreated);
+            Date effDate = new Date();
             // Get the CO
             List<String> foIds = luiServiceLocal.getLuiIdsByRelatedLuiAndRelationType(regGroupId,
                     LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_RG_TYPE_KEY, context);
@@ -118,16 +117,28 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
                     LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
             String coId = KSCollectionUtils.getRequiredZeroElement(coIds);
             // Create CO LPR
-            LprInfo coLprCreated = makeLpr(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, coId, context);
+            LprInfo coLprCreated = makeLpr(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, coId, coId, effDate, context);
+            result.add(coLprCreated);
+
+            // Create AO LPRs
+            List<String> aoIds = luiServiceLocal.getLuiIdsByLuiAndRelationType(regGroupId,
+                    LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
+            for (String aoId: aoIds) {
+                LprInfo aoLprCreated = makeLpr(LprServiceConstants.REGISTRANT_AO_TYPE_KEY, aoId, coId, effDate, context);
+                result.add(aoLprCreated);
+            }
+            // Create RG LPR
+            LprInfo rgLprCreated = makeLpr(LprServiceConstants.REGISTRANT_RG_TYPE_KEY, regGroupId, coId, effDate, context);
             result.add(rgLprCreated);
+
         } catch (Exception ex) {
             ex.printStackTrace();
-            return null;
+            return new ArrayList<LprInfo>();
         }
         return result;
     }
 
-    private LprInfo makeLpr(String lprType, String luiId, ContextInfo context)
+    private LprInfo makeLpr(String lprType, String luiId, String masterLuiId, Date effDate, ContextInfo context)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException,
             DataValidationErrorException {
@@ -136,7 +147,8 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         lpr.setStateKey(LprServiceConstants.PLANNED_STATE_KEY);
         lpr.setPersonId(context.getPrincipalId());
         lpr.setLuiId(luiId);
-        LprInfo lprCreated = lprService.createLpr(lpr.getPersonId(), lpr.getLuiId(),
+        lpr.setEffectiveDate(effDate);
+        LprInfo lprCreated = getLprService().createLpr(lpr.getPersonId(), lpr.getLuiId(),
                 lpr.getTypeKey(), lpr, context);
         return lprCreated;
     }

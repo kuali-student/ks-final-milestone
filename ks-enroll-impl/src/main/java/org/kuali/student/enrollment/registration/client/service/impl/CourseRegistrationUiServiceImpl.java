@@ -45,7 +45,7 @@ public class CourseRegistrationUiServiceImpl implements CourseRegistrationUiServ
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
         registrationRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
         registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        registrationRequestItem.setExistingCourseRegistrationId(regGroupSearchResult.getRegGroupId());
+        registrationRequestItem.setRegistrationGroupId(regGroupSearchResult.getRegGroupId());
         registrationRequestItem.setPersonId(contextInfo.getPrincipalId());
 
 

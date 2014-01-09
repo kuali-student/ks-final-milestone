@@ -938,9 +938,19 @@ public class LprServiceImpl implements LprService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO KSENROLL-8714
-		throw new UnsupportedOperationException("not implemented");
-	}
+		// KSENROLL-8714
+		LprTransactionInfo lprTransaction = getLprTransaction(lprTransactionId, contextInfo);
+        lprTransaction.setStateKey(nextStateKey);
+        try {
+            updateLprTransaction(lprTransactionId, lprTransaction, contextInfo);
+        } catch (DataValidationErrorException e) {
+            e.printStackTrace();
+            throw new OperationFailedException("changeLprTransactionState failed", e);
+        }
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
+    }
 
 	@Override
 	public List<String> getLprIdsByType(String lprTypeKey,

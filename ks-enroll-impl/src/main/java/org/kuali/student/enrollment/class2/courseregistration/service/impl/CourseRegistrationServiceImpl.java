@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -22,6 +23,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.jms.core.JmsTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
@@ -54,7 +56,9 @@ public class CourseRegistrationServiceImpl
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
+            throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 
         try{
@@ -74,6 +78,7 @@ public class CourseRegistrationServiceImpl
     }
 
     @Override
+    @Transactional
     public RegistrationRequestInfo createRegistrationRequest(String registrationRequestTypeKey, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // There is no Reg Request table. the reg request is converted to an LPR and stored.
 
@@ -86,12 +91,26 @@ public class CourseRegistrationServiceImpl
     }
 
     @Override
+    @Transactional(readOnly = true)
     public RegistrationRequestInfo getRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LprTransactionInfo lprTransaction = getLprService().getLprTransaction(registrationRequestId, contextInfo);
         RegistrationRequestInfo result = RegistrationRequestTransformer.lprTransaction2RegRequest(lprTransaction);
         return result;
+    }
+
+    @Override
+    @Transactional
+    public StatusInfo changeRegistrationRequestState(String registrationRequestId, String nextStateKey,
+                                                     ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        // Need a validation decorator to check for valid nextStateKey
+        getLprService().changeLprTransactionState(registrationRequestId, nextStateKey, contextInfo);
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
     }
 
     public JmsTemplate getJmsTemplate() {
