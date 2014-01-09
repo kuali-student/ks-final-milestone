@@ -45,8 +45,12 @@ public class RulesExecutionConstants {
     public static final Term COURSE_SERVICE_TERM = new Term("courseService");
     public static final Term POPULATION_SERVICE_TERM = new Term("populationService");
     public static final Term HOLD_SERVICE_TERM = new Term("holdService");
+    public static final Term GES_SERVICE_TERM = new Term("gesService");
     // factories
     public static final Term PROPOSITION_FACTORY_TERM = new Term("propositionFactory");
+    public static final Term LOAD_CALCULATOR_RULE_FACTORY_TERM = new Term("loadCalculatorRuleFactory");
+    // logic
+    public static final Term REGISTRATION_REQUEST_MERGER_TERM = new Term("registrationRequestMerger");
     /**
      * properties
      */

@@ -12,10 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.core.ges.dto;
+package org.kuali.student.core.ges.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.core.ges.infc.Parameter;
+import org.kuali.student.core.ges.infc.Parameter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

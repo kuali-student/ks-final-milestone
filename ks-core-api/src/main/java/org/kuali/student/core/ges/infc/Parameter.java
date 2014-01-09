@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.r2.core.ges.infc;
+package org.kuali.student.core.ges.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 

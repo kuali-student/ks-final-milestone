@@ -14,7 +14,7 @@
  */
 package org.kuali.student.core.constants;
 
-import org.kuali.student.r2.core.ges.service.GesServiceNamespace;
+import org.kuali.student.core.ges.service.GesServiceNamespace;
 
 /**
  * This class holds the constants used by the Scheduling service
@@ -47,4 +47,5 @@ public class GesServiceConstants
      */
     public static final String PARAMETER_KEY_CREDIT_MINIMUM = "kuali.ges.credit.minimum";
     public static final String PARAMETER_KEY_CREDIT_LIMIT = "kuali.ges.credit.limit";
+    public static final String PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS = "kuali.ges.load.calculation.for.credit.checks";
 }

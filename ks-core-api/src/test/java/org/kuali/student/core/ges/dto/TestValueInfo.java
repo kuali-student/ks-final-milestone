@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.ges.dto;
+package org.kuali.student.core.ges.dto;
 
 
 import org.junit.Test;
