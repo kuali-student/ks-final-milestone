@@ -44,6 +44,10 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
     @XmlAnyElement
     private List<Object> _futureElements;
 
+    // need milliSeconds until deprecated methods 
+    // getMilliSeconds/setMilliSeconds are no longer used
+    private Long milliSeconds;
+
     public TimeOfDayInfo() {
 
     }
@@ -142,6 +146,10 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
     @Override
     @Deprecated
     public Long getMilliSeconds() {
+        // if milliSeconds is null or negative don't do conversion
+        if(milliSeconds == null || milliSeconds < 0) {
+            return milliSeconds;
+        }
         LocalTime localTime = new LocalTime(hour, minute, second);
         return (long)localTime.getMillisOfDay();
     }
@@ -154,17 +162,20 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
      */
     @Deprecated
     public void setMilliSeconds(Long milliSeconds) {
-        if (milliSeconds != null) {
-            long hours = TimeUnit.MILLISECONDS.toHours(milliSeconds);
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
-            long seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
+        this.milliSeconds = milliSeconds;
 
-            LocalTime localTime = new LocalTime((int)hours, (int)minutes, (int)seconds);
-            setHour(localTime.getHourOfDay());
-            setMinute(localTime.getMinuteOfHour());
-            setSecond(localTime.getSecondOfMinute());
+        // if milliSeconds is null or negative don't do conversion
+        if(milliSeconds == null || milliSeconds < 0) {
+            return;
         }
+        long hours = TimeUnit.MILLISECONDS.toHours(milliSeconds);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
 
+        LocalTime localTime = new LocalTime((int)hours, (int)minutes, (int)seconds);
+        setHour(localTime.getHourOfDay());
+        setMinute(localTime.getMinuteOfHour());
+        setSecond(localTime.getSecondOfMinute());
     }
 
     /**
