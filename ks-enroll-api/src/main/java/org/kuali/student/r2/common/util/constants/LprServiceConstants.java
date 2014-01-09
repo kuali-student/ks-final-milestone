@@ -61,9 +61,9 @@ public class LprServiceConstants {
         LPRTRANS_ITEM_NO_CHANGE_TYPE_KEY};
 
     // transaction states
-    public static final String LPRTRANS_NEW_STATE_KEY = "kuali.lpr.trans.item.state.new";
+    public static final String LPRTRANS_NEW_STATE_KEY = "kuali.lpr.trans.state.new";
     public static final String LPRTRANS_PROCESSING_STATE_KEY = "kuali.lpr.trans.state.processing";
-    public static final String LPRTRANS_SUCCEEDED_STATE_KEY = "kuali.lpr.trans.item.state.succeeded";
+    public static final String LPRTRANS_SUCCEEDED_STATE_KEY = "kuali.lpr.trans.state.succeeded";
     public static final String LPRTRANS_FAILED_STATE_KEY = "kuali.lpr.trans.state.failed";
     public static final String LPRTRANS_DISCARDED_STATE_KEY = "kuali.lpr.trans.state.discarded";
 
