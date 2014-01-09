@@ -344,20 +344,37 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     }
 
+    /**
+     * There is a need to get a list of valid activity types for a particular Course offering. There's a little added
+     * wrinkle that each course can have multiple formats.
+     *
+     * This method grabs the format offerings for a particular course offering and returns some type data. We are also
+     * returning a "priority" number. Which is the system priority number for that particular activity offering type.
+     *
+     * @param courseOfferingId
+     * @return An object that contains activity offering type information with an additional priority field.
+     * @throws Exception
+     */
     @Override
     public List<ActivityTypeSearchResult> loadActivityTypesByCourseOfferingId(String courseOfferingId) throws Exception {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         List<ActivityTypeSearchResult> activitiesTypeKeys = new ArrayList<ActivityTypeSearchResult>();
+
+        // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
         List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
 
+        // for each FO
         for (FormatOfferingInfo formatOffering : formatOfferings){
-            List<String> aoTypeKeys = formatOffering.getActivityOfferingTypeKeys();
-            List<TypeInfo> typeInfos = getTypeService().getTypesByKeys(aoTypeKeys, contextInfo);
+            List<String> aoTypeKeys = formatOffering.getActivityOfferingTypeKeys(); // grab the type keys
+            List<TypeInfo> typeInfos = getTypeService().getTypesByKeys(aoTypeKeys, contextInfo); // turn those keys into full type objects
 
+            // for each type, build the search result
             for(TypeInfo activityTypeInfo : typeInfos){
                 ActivityTypeSearchResult atsr = new ActivityTypeSearchResult();
                 atsr.setTypeKey(activityTypeInfo.getKey());
                 atsr.setName(activityTypeInfo.getName());
+
+                // I'm not sure what do do here. Guess we return the formatted over the plain?
                 if(activityTypeInfo.getDescr() != null){
                     if(activityTypeInfo.getDescr().getFormatted() != null){
                         atsr.setDescription(activityTypeInfo.getDescr().getFormatted());
@@ -366,8 +383,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                         atsr.setDescription(activityTypeInfo.getDescr().getPlain());
                     }
                 }
+                // This prioirty comes from the configured lu (not lui) type attributes. Somewhat complex mapping
+                // to get from the lu -> lui type key.
                 atsr.setPriority(getActivityPriorityMap(contextInfo).get(activityTypeInfo.getKey()));
-                atsr.setFormatOfferingId(formatOffering.getId());
+                atsr.setFormatOfferingId(formatOffering.getId());  // Adding FoId to keep data structures flat.
                 activitiesTypeKeys.add(atsr);
             }
         }
