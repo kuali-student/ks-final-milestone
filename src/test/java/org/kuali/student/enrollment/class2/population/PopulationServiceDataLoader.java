@@ -268,7 +268,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
              String descriptionPlain,
              String typeKey,
              String stateKey,
-             List<String> agendaIds,
+             List<String> ruleIds,
              List<String> groupIds,
              List<String> personIds,
              List<String> childPopulationIds,
@@ -281,7 +281,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         ruleInfo.setDescr(new RichTextHelper().fromPlain(descriptionPlain));
         ruleInfo.setTypeKey(typeKey);
         ruleInfo.setStateKey(stateKey);
-        ruleInfo.setAgendaIds(agendaIds);
+        ruleInfo.setRuleIds(ruleIds);
         ruleInfo.setGroupIds(groupIds);
         ruleInfo.setPersonIds(personIds);
         ruleInfo.setChildPopulationIds(childPopulationIds);

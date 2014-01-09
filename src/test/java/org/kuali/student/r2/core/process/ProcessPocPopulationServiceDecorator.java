@@ -4,6 +4,8 @@
  */
 package org.kuali.student.r2.core.process;
 
+import java.util.List;
+import org.kuali.student.enrollment.class2.population.service.decorators.PopulationServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
@@ -11,7 +13,6 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
-import org.kuali.student.r2.core.population.service.decorators.PopulationServiceDecorator;
 
 public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecorator implements PopulationService {
 
@@ -27,21 +28,21 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
         ContextInfo contextInfo = new ContextInfo();
         contextInfo.setPrincipalId("POC-Initializer");
         try {
- 
+
             final String ALL_STUDENTS = PopulationServiceConstants.EVERYONE_POPULATION_KEY;
-            final String SUMMER_ONLY_STUDENTS = PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY;
-            final String SENIOR_ONLY_STUDENTS = "kuali.population.senior.only.student";
-            final String ATHLETES_ONLY_STUDENTS = "kuali.population.athletes.only.student";
+            final String SUMMER_ONLY_STUDENTS = PopulationServiceConstants.SUMMER_ONLY_STUDENT_POPULATION_KEY;
+            final String SENIOR_ONLY_STUDENTS = PopulationServiceConstants.SENIOR_CITIZENS_POPULATION_KEY;
+            final String ATHLETES_ONLY_STUDENTS = PopulationServiceConstants.ATHLETES_POPULATION_KEY;
 
             PopulationInfo everyonePop = new PopulationInfo();
             everyonePop.setId(ALL_STUDENTS);
             everyonePop.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
             everyonePop.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
             everyonePop.setName("Everyone");
-            everyonePop.setDescr(new RichTextHelper ().fromPlain("Everyone"));
+            everyonePop.setDescr(new RichTextHelper().fromPlain("Everyone"));
             everyonePop = this.createPopulation(everyonePop.getTypeKey(), everyonePop, contextInfo);
-            
-            PopulationRuleInfo everyoneRule = new PopulationRuleInfo ();
+
+            PopulationRuleInfo everyoneRule = new PopulationRuleInfo();
             everyoneRule.setId(ALL_STUDENTS);
             everyoneRule.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY);
             everyoneRule.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
@@ -50,7 +51,7 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
             }
             everyoneRule = this.createPopulationRule (everyoneRule.getTypeKey(), everyoneRule, contextInfo);
             this.applyPopulationRuleToPopulation(everyoneRule.getId(), everyonePop.getId(), contextInfo);
-            
+
 
             PopulationInfo summerPop = new PopulationInfo();
             summerPop.setId(SUMMER_ONLY_STUDENTS);
@@ -73,10 +74,10 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
             everyonePop.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
             everyonePop.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
             seniorPop.setName("Senior students");
-            everyonePop.setDescr(new RichTextHelper ().fromPlain("Senior citizens who can take classes for free"));
+            everyonePop.setDescr(new RichTextHelper().fromPlain("Senior citizens who can take classes for free"));
             createPopulation(seniorPop.getTypeKey(), seniorPop, contextInfo);
 
-            PopulationRuleInfo seniorRule = new PopulationRuleInfo ();
+            PopulationRuleInfo seniorRule = new PopulationRuleInfo();
             seniorRule.setId(SUMMER_ONLY_STUDENTS);
             seniorRule.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY);
             seniorRule.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
@@ -86,13 +87,13 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
 
             PopulationInfo athletePop = new PopulationInfo();
             athletePop.setId(ATHLETES_ONLY_STUDENTS);
-            everyonePop.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
-            everyonePop.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
+            athletePop.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
+            athletePop.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
             athletePop.setName("Athletes");
-            everyonePop.setDescr(new RichTextHelper ().fromPlain("NCAA athletes"));
+            everyonePop.setDescr(new RichTextHelper().fromPlain("NCAA athletes"));
             createPopulation(athletePop.getTypeKey(), athletePop, contextInfo);
 
-            PopulationRuleInfo athleteRule = new PopulationRuleInfo ();
+            PopulationRuleInfo athleteRule = new PopulationRuleInfo();
             athleteRule.setId(SUMMER_ONLY_STUDENTS);
             athleteRule.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY);
             athleteRule.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
@@ -105,5 +106,35 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
         }
     }
 
+    private PopulationInfo createPop(String id, String name, String descr, String ruleTypeKey, List<String> personIds, ContextInfo contextInfo) {
+        PopulationInfo pop = new PopulationInfo();
+        pop.setId(id);
+        pop.setTypeKey(PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY);
+        pop.setStateKey(PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY);
+        pop.setName(name);
+        pop.setDescr(new RichTextHelper().fromPlain(descr));
+        try {
+            pop = createPopulation(pop.getTypeKey(), pop, contextInfo);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unexpected during initilaization", ex);
+        } 
 
+        PopulationRuleInfo rule = new PopulationRuleInfo();
+        rule.setId(id);
+        rule.setTypeKey(ruleTypeKey);
+        rule.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
+        rule.getPersonIds().addAll(personIds);
+        try {
+            rule = this.createPopulationRule(rule.getTypeKey(), rule, contextInfo);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unexpected during initilaization", ex);
+        } 
+        try {
+            this.applyPopulationRuleToPopulation(rule.getId(), pop.getId(), contextInfo);
+        } catch (Exception ex) {
+            throw new RuntimeException("Unexpected during initilaization", ex);
+        } 
+
+        return pop;
+    }
 }

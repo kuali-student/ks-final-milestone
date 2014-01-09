@@ -78,7 +78,7 @@ public class ProcessPocGesServiceDecorator extends GesServiceDecorator {
         info.setStateKey(GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY);
         info.setRequireUniquePriorities(true);
         try {
-            info = this.createParameter(info.getValueTypeKey(), info.getTypeKey(), info.getKey(), info, context);
+            info = this.createParameter(info.getValueTypeKey(), info.getKey(), info.getTypeKey(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);
         }

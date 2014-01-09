@@ -27,7 +27,7 @@ import org.kuali.student.core.ges.service.GesService;
  *
  * @author nwright
  */
-@Ignore // undo once the GES service is fixed
+//@Ignore
 public class ProcessPocGesServiceDecoratorTest {
 
     public ProcessPocGesServiceDecoratorTest() {

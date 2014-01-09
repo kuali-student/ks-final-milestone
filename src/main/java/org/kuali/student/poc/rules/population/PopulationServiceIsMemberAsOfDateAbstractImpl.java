@@ -56,6 +56,10 @@ public abstract class PopulationServiceIsMemberAsOfDateAbstractImpl implements P
             if (populationRuleInfo.getPersonIds().contains(personId)) return Boolean.TRUE; // found a match
             else return Boolean.FALSE;
         }
+        // everyone
+        if (PopulationServiceConstants.POPULATION_RULE_TYPE_EVERYONE_KEY.equals(populationRuleInfo.getTypeKey())) {
+            return Boolean.TRUE;
+        }
 
         // an intersection
         else if (PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY.equals(populationRuleInfo.getTypeKey())) {

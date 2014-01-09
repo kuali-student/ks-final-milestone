@@ -63,9 +63,9 @@ public class ProcessPocPopulationServiceDecoratorTest {
         assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
         assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_TRACY_BURTON_2132, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
 
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_AMBER_HOPKINS_2155, PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY, context.getCurrentDate(), context));
-        assertFalse(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BARBARA_HARRIS_2016, PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY, context.getCurrentDate(), context));
-        assertFalse(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005, PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_AMBER_HOPKINS_2155, PopulationServiceConstants.SUMMER_ONLY_STUDENT_POPULATION_KEY, context.getCurrentDate(), context));
+        assertFalse(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BARBARA_HARRIS_2016, PopulationServiceConstants.SUMMER_ONLY_STUDENT_POPULATION_KEY, context.getCurrentDate(), context));
+        assertFalse(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005, PopulationServiceConstants.SUMMER_ONLY_STUDENT_POPULATION_KEY, context.getCurrentDate(), context));
 
     }
 }

@@ -50,6 +50,7 @@
                 <bean class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationRequest2PersonIdTermResolver" />
                 <bean class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationRequest2AtpIdTermResolver" />
                 <bean class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationRequestId2RegistrationRequestTermResolver" />
+                <bean class="org.kuali.student.r2.core.process.krms.termresolver.AtpId2AtpTermResolver" />
             </list>
         </property>
     </bean>

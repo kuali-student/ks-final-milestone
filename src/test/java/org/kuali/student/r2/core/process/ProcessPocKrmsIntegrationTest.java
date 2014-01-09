@@ -284,7 +284,7 @@ public class ProcessPocKrmsIntegrationTest {
         assertEquals("Registration period for this term is closed", errors.get(0).getMessage());
     }
 
-//    @Test
+    @Test
     public void testPhase2Case1DoesNotExceedCreditLimit() throws Exception {
         System.out.println("Phase 2 case 1: Does Not Exceed Credit Limit");
 
