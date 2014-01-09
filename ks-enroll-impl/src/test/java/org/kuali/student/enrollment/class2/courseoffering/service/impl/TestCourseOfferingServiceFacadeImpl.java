@@ -499,39 +499,5 @@ public class TestCourseOfferingServiceFacadeImpl {
         assertEquals("11:59 pm", todStr);
         todStr = TimeOfDayHelper.formatTimeOfDay(tod, options);
         assertEquals("23:59", todStr);
-        // Check for invalid times -----------------------------------------------------
-        // 1 millisecond too large
-        assertTrue(_testExceptionOnCreateTimeOfDay(tod.getMilliSeconds() + 1));
-        // Check 1 millisecond too small
-        assertTrue(_testExceptionOnCreateTimeOfDay(-1L));
-        // Check creating hours too large
-        assertTrue(_testExceptionOnCreateTimeOfDay(13, 0, TimeOfDayAmPmEnum.AM));
-        // Check creating hours too small
-        assertTrue(_testExceptionOnCreateTimeOfDay(0, 0, TimeOfDayAmPmEnum.AM));
-        // Check creating minutes too large
-        assertTrue(_testExceptionOnCreateTimeOfDay(1, 60, TimeOfDayAmPmEnum.AM));
-        // Check creating minutes too small
-        assertTrue(_testExceptionOnCreateTimeOfDay(1, -1, TimeOfDayAmPmEnum.AM));
-    }
-
-    private boolean _testExceptionOnCreateTimeOfDay(long millis) {
-        TimeOfDayInfo info = new TimeOfDayInfo();
-        info.setMilliSeconds(-1L);
-        boolean exceptionThrown = false;
-        try {
-            String todStr = TimeOfDayHelper.formatTimeOfDay(info);
-        } catch (InvalidParameterException e) {
-            exceptionThrown = true;
-        }
-        return exceptionThrown;
-    }
-    private boolean _testExceptionOnCreateTimeOfDay(int normalHour, int minute, TimeOfDayAmPmEnum amOrPm) {
-        boolean exceptionThrown = false;
-        try {
-            TimeOfDay tod = TimeOfDayHelper.createTimeOfDay(13, 0, TimeOfDayAmPmEnum.AM);
-        } catch (InvalidParameterException e) {
-            exceptionThrown = true;
-        }
-        return exceptionThrown;
     }
 }
