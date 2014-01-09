@@ -9,11 +9,13 @@ import javax.xml.bind.annotation.XmlType;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
         "typeKey", "name",
-        "description"})
+        "description", "priority", "formatOfferingId"})
 public class ActivityTypeSearchResult {
     String typeKey;
     String name;
     String description;
+    String formatOfferingId;
+    Integer priority;
 
     public String getTypeKey() {
         return typeKey;
@@ -37,5 +39,21 @@ public class ActivityTypeSearchResult {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public String getFormatOfferingId() {
+        return formatOfferingId;
+    }
+
+    public void setFormatOfferingId(String formatOfferingId) {
+        this.formatOfferingId = formatOfferingId;
     }
 }

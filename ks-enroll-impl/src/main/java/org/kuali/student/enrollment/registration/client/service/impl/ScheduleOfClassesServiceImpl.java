@@ -11,7 +11,6 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -52,7 +51,6 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
@@ -340,37 +338,38 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public List<ActivityTypeSearchResult> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
+    public List<ActivityTypeSearchResult> loadActivityTypesByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
         List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, getAtpIdByAtpCode(termCode));
-        return loadActivitiesByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
+        return loadActivityTypesByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
 
     }
 
     @Override
-    public List<ActivityTypeSearchResult> loadActivitiesByCourseOfferingId(String courseOfferingId) throws Exception {
+    public List<ActivityTypeSearchResult> loadActivityTypesByCourseOfferingId(String courseOfferingId) throws Exception {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         List<ActivityTypeSearchResult> activitiesTypeKeys = new ArrayList<ActivityTypeSearchResult>();
         List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
-        List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
+
         for (FormatOfferingInfo formatOffering : formatOfferings){
-            List<ActivityOfferingClusterInfo> aocList = getCourseOfferingService().getActivityOfferingClustersByFormatOffering(formatOffering.getId(), contextInfo);
+            List<String> aoTypeKeys = formatOffering.getActivityOfferingTypeKeys();
+            List<TypeInfo> typeInfos = getTypeService().getTypesByKeys(aoTypeKeys, contextInfo);
 
-               activities.addAll(getCourseService().getCourseActivitiesByCourseFormat(formatOffering.getFormatId(), contextInfo));
-        }
-
-        for(ActivityInfo activityInfo : activities){
-            ActivityTypeSearchResult atsr = new ActivityTypeSearchResult();
-            atsr.setTypeKey(activityInfo.getTypeKey());
-            atsr.setName(activityInfo.getName());
-            if(activityInfo.getDescr() != null){
-                if(activityInfo.getDescr().getFormatted() != null){
-                    atsr.setDescription(activityInfo.getDescr().getFormatted());
+            for(TypeInfo activityTypeInfo : typeInfos){
+                ActivityTypeSearchResult atsr = new ActivityTypeSearchResult();
+                atsr.setTypeKey(activityTypeInfo.getKey());
+                atsr.setName(activityTypeInfo.getName());
+                if(activityTypeInfo.getDescr() != null){
+                    if(activityTypeInfo.getDescr().getFormatted() != null){
+                        atsr.setDescription(activityTypeInfo.getDescr().getFormatted());
+                    }
+                    else {
+                        atsr.setDescription(activityTypeInfo.getDescr().getPlain());
+                    }
                 }
-                else {
-                    atsr.setDescription(activityInfo.getDescr().getPlain());
-                }
+                atsr.setPriority(getActivityPriorityMap(contextInfo).get(activityTypeInfo.getKey()));
+                atsr.setFormatOfferingId(formatOffering.getId());
+                activitiesTypeKeys.add(atsr);
             }
-            activitiesTypeKeys.add(atsr);
         }
 
         return activitiesTypeKeys;

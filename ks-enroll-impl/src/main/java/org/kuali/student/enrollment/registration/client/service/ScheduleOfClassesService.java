@@ -120,14 +120,14 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
-    @Path("/activities/courseOfferingId/{courseOfferingId}/")
-    public List<ActivityTypeSearchResult> loadActivitiesByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception;
+    @Path("/activitytypes/courseOfferingId/{courseOfferingId}/")
+    public List<ActivityTypeSearchResult> loadActivityTypesByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception;
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     //@Produces({MediaType.APPLICATION_XML, MediaType.TEXT_XML})
-    @Path("/activities/termcode/{termCode}/course/{courseCode}/")
-    public List<ActivityTypeSearchResult> loadActivitiesByTermCodeAndCourseCode(@PathParam("termCode") String termCode,
-                                                                                           @PathParam("courseCode") String courseCode) throws Exception;
+    @Path("/activitytypes/termcode/{termCode}/course/{courseCode}/")
+    public List<ActivityTypeSearchResult> loadActivityTypesByTermCodeAndCourseCode(@PathParam("termCode") String termCode,
+                                                                                   @PathParam("courseCode") String courseCode) throws Exception;
 
 }
