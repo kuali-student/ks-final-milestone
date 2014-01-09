@@ -33,7 +33,7 @@ import java.util.List;
         "id", "typeKey", "stateKey",
         "courseOfferingId", "sourceTypeKey", "courseRegistrationId",
         "personId", "courseTitle", "courseCode", "activityCode",
-        "termName", "courseBeginDate", "courseEndDate",
+        "termId", "termName", "courseBeginDate", "courseEndDate",
         "assignedGradeValue", "assignedGradeScaleKey",
         "administrativeGradeValue", "administrativeGradeScaleKey",
         "calculatedGradeValue", "calculatedGradeScaleKey",
@@ -67,6 +67,9 @@ public class StudentCourseRecordInfo
 
     @XmlElement
     private String activityCode;
+
+    @XmlElement
+    private String termId;
 
     @XmlElement
     private String termName;
@@ -133,6 +136,7 @@ public class StudentCourseRecordInfo
         this.courseTitle = scr.getCourseTitle();
         this.courseCode = scr.getCourseCode();
         this.activityCode = scr.getActivityCode();
+        this.termId = scr.getTermId();
         this.termName = scr.getTermName();
         this.courseBeginDate = scr.getCourseBeginDate();
         this.courseEndDate = scr.getCourseEndDate();
@@ -210,6 +214,15 @@ public class StudentCourseRecordInfo
 
     public void setActivityCode(String activityCode) {
         this.activityCode = activityCode;
+    }
+
+    @Override
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     @Override

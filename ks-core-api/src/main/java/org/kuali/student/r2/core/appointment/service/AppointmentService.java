@@ -577,6 +577,31 @@ public interface AppointmentService extends AppointmentServiceBusinessLogic {
      */
     public AppointmentWindowInfo updateAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentWindowInfo") AppointmentWindowInfo appointmentWindowInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
+
+    /**
+     * Deletes an existing AppointmentWindow.
+     *
+     * @param appointmentWindowId   the identifier for the  of the appointmentWindow to be deleted.
+     *                              to be updated
+     * @param contextInfo           context information containing the
+     *                              principalId and locale information about the
+     *                              caller of service operation
+     * @return StatusInfo
+     * @throws DoesNotExistException     appointmentWindow is not valid
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException appointmentWindowId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo" ) ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+
     /**
      * Updates the state of an existing AppointmentWindow to another state
      * provided that it is valid to do so.

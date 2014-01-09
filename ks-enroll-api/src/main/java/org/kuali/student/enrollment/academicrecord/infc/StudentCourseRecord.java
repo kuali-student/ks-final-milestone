@@ -107,6 +107,16 @@ public interface StudentCourseRecord
     public String getActivityCode();
 
     /**
+     * The term Id of the term in which the student took the offering.
+     *
+     * @name Term Id
+     * @readonly
+     * @impl retrieved from the Term related to the Course Offering
+     *       in the Course Registration
+     */
+    public String getTermId();
+
+    /**
      * The name of the term in which the student took the offering.
      *
      * @name Term Name

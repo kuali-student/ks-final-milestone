@@ -747,6 +747,29 @@ public interface ProgramService extends  SearchService,  VersionManagementServic
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of minorDisciplines from a list of minorDiscipline Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param minorDisciplineIds a list of minorDiscipline identifiers
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return CluLoRelationInfo        a list of minorDisciplines
+     * @throws DoesNotExistException    an minorDisciplineId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException minorDisciplineIds, an Id in the minorDisciplineIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<MinorDisciplineInfo> getMinorDisciplinesByIds(@WebParam(name = "minorDisciplineIds") List<String> minorDisciplineIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
      * Retrieves the list of Minor Discipline Program a given Credential Program
      * Type.
      * 

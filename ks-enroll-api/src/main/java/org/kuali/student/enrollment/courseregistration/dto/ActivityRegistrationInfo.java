@@ -31,9 +31,17 @@ import org.w3c.dom.Element;
  
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityRegistrationInfo", propOrder = {
-                "id", "typeKey", "stateKey", 
-                "studentId", "activityOfferingId",
-                "effectiveDate", "expirationDate", "meta", "attributes", 
+                "id", 
+                "typeKey", 
+                "stateKey", 
+                "personId", 
+                "termId",
+                "activityOfferingId",
+                "courseRegistrationId",
+                "effectiveDate", 
+                "expirationDate", 
+                "meta", 
+                "attributes", 
                 "_futureElements"})
 
 public class ActivityRegistrationInfo 
@@ -43,10 +51,16 @@ public class ActivityRegistrationInfo
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String studentId;
+    private String personId;
 
     @XmlElement
+    private String termId;
+        
+    @XmlElement
     private String activityOfferingId;
+    
+    @XmlElement
+    private String courseRegistrationId;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -69,20 +83,33 @@ public class ActivityRegistrationInfo
         super(activityRegistration);
 
         if (activityRegistration != null) {
-            this.studentId = activityRegistration.getStudentId();
+            this.personId = activityRegistration.getPersonId();
+            this.termId = activityRegistration.getTermId();
+            this.courseRegistrationId = activityRegistration.getCourseRegistrationId();
             this.activityOfferingId = activityRegistration.getActivityOfferingId();
         }
     }
   
     @Override
-    public String getStudentId() {
-        return studentId;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
+    @Override
+    public String getTermId() {
+        return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    
+    
     @Override
     public String getActivityOfferingId() {
         return activityOfferingId;
@@ -91,4 +118,15 @@ public class ActivityRegistrationInfo
     public void setActivityOfferingId(String activityOfferingId) {
         this.activityOfferingId = activityOfferingId;
     }
+
+    @Override
+    public String getCourseRegistrationId() {
+        return courseRegistrationId;
+    }
+
+    public void setCourseRegistrationId(String courseRegistrationId) {
+        this.courseRegistrationId = courseRegistrationId;
+    }
+    
+    
 }

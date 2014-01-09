@@ -56,8 +56,6 @@ public class R1TestDataUtil {
         CurrencyAmountInfo r1CurAmountInfo = new CurrencyAmountInfo();
         r1CurAmountInfo.setCurrencyQuantity(1);
         r1CurAmountInfo.setCurrencyTypeKey("R1 Currency Type Key");
-        r1CurAmountInfo.setId("R1 Id");
-        r1CurAmountInfo.setMeta(R1TestDataUtil.getMetadataInfoData());
         r1List.add(r1CurAmountInfo);
         return r1List;
     }

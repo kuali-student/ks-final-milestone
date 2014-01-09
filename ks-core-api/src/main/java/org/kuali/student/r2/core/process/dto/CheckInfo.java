@@ -32,11 +32,11 @@ import java.util.List;
     "descr",
     "holdIssueId",
     "milestoneTypeKey",
-    "agendaId",
+    "ruleId",
     "childProcessKey",
     "rightComparisonValue",
-    "leftComparisonAgendaId",
-    "rightComparisonAgendaId",
+    "leftComparisonRuleId",
+    "rightComparisonRuleId",
     "meta",
     "attributes", "_futureElements" }) 
 public class CheckInfo 
@@ -56,16 +56,16 @@ public class CheckInfo
     private String milestoneTypeKey;
 
     @XmlElement 
-    private String agendaId;
+    private String ruleId;
 
     @XmlElement
-    private String rightComparisonAgendaId;
+    private String rightComparisonRuleId;
 
     @XmlElement
     private String rightComparisonValue;
 
     @XmlElement
-    private String leftComparisonAgendaId;
+    private String leftComparisonRuleId;
 
     @XmlElement 
     private String childProcessKey;
@@ -93,10 +93,10 @@ public class CheckInfo
         if (check != null) {
             this.holdIssueId = check.getHoldIssueId();
             this.milestoneTypeKey = check.getMilestoneTypeKey();
-            this.agendaId = check.getAgendaId();
-            this.leftComparisonAgendaId = check.getLeftComparisonAgendaId();
+            this.ruleId = check.getRuleId();
+            this.leftComparisonRuleId = check.getLeftComparisonRuleId();
             this.rightComparisonValue = check.getRightComparisonValue();
-            this.rightComparisonAgendaId = check.getRightComparisonAgendaId();
+            this.rightComparisonRuleId = check.getRightComparisonRuleId();
             this.childProcessKey = check.getChildProcessKey();
         }
     }
@@ -124,12 +124,12 @@ public class CheckInfo
     }
 
     @Override
-    public String getAgendaId() {
-        return this.agendaId;
+    public String getRuleId() {
+        return this.ruleId;
     }
 
-    public void setAgendaId(String agendaId) {
-        this.agendaId = agendaId;
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
     }
 
     @Override
@@ -151,20 +151,20 @@ public class CheckInfo
     }
 
     @Override
-    public String getLeftComparisonAgendaId() {
-        return this.leftComparisonAgendaId;
+    public String getLeftComparisonRuleId() {
+        return this.leftComparisonRuleId;
     }
 
-    public void setLeftComparisonAgendaId(String leftComparisonAgendaId) {
-        this.leftComparisonAgendaId = leftComparisonAgendaId;
+    public void setLeftComparisonRuleId(String leftComparisonRuleId) {
+        this.leftComparisonRuleId = leftComparisonRuleId;
     }
 
     @Override
-    public String getRightComparisonAgendaId() {
-        return this.rightComparisonAgendaId;
+    public String getRightComparisonRuleId() {
+        return this.rightComparisonRuleId;
     }
 
-    public void setRightComparisonAgendaId(String rightComparisonAgendaId) {
-        this.rightComparisonAgendaId = rightComparisonAgendaId;
+    public void setRightComparisonRuleId(String rightComparisonRuleId) {
+        this.rightComparisonRuleId = rightComparisonRuleId;
     }
 }

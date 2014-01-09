@@ -105,4 +105,14 @@ public class PopulationInfo
     public void setSupportsGetMembers(Boolean supportsGetMembers) {
         this.supportsGetMembers = supportsGetMembers;
     }
+
+    @Override
+    public String toString() {
+        return "PopulationInfo{" +
+                "sortOrderTypeKeys=" + sortOrderTypeKeys +
+                ", variesByTime=" + variesByTime +
+                ", supportsGetMembers=" + supportsGetMembers +
+                ", _futureElements=" + _futureElements +
+                '}';
+    }
 }

@@ -14,13 +14,14 @@
  */
 package org.kuali.student.r2.core.ges.infc;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.r2.common.infc.Amount;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -28,8 +29,15 @@ import java.util.Date;
  *
  * The applicability of this value is restricted by specifying an ATP type key, Population Id, Rule Id, and onDate
  * This allows multiple values to be tied to a single parameter and a subset of these values to be tied to a combination of the limiting criteria given above.
+ *
+ * A value may store a single type of value that is determined using the values typeKey.  Following from this, for example,
+ * it is not valid to attempt to set a boolean and date on a single value.
+ *
+ * Values are assigned a priority that may or may not be unique for all values associated with a given parameter and the highest priority is one.
+ * The uniqueness of the priority is determined by the associated parameter.
+ *
  */
-public interface Value extends IdNamelessEntity {
+public interface Value extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      * The parameter associated with this value.
@@ -37,19 +45,26 @@ public interface Value extends IdNamelessEntity {
      * @readOnly
      * @required
      */
-     String getParameterId();
+    String getParameterId();
+
+    /**
+     *  An Integer that sets the priority of this value relative to other values associated with
+     *  a specific parameter.
+     * @name Priority
+     */
+    Integer getPriority();
 
     /**
      *  An optional ATP type key that restricts the applicability of this value.
      * @name ATP Type Key
      */
-     String getAtpTypeKey();
+    String getAtpTypeKey();
 
     /**
      *  An optional Population Id that restricts the applicability of this value.
      * @name Population Id
      */
-     String getPopulationId();
+    String getPopulationId();
 
     /**
      * An optional Rule Id that restricts the applicability of this value.
@@ -57,63 +72,58 @@ public interface Value extends IdNamelessEntity {
      */
     String getRuleId();
 
-    /**
-     *  An optional Date that indicates the point in time in which this value becomes active.
-     * @name On Date
-     */
-     Date getOnDate();
 
     /**
      * The Boolean value contained within this entity
      * @name Boolean Value
      */
-     Boolean getBooleanValue();
+    Boolean getBooleanValue();
 
     /**
      * The Date value contained within this entity
      * @name Date Value
      */
-     Date getDateValue();
+    Date getDateValue();
 
     /**
      * The Numeric value contained within this entity.
      * @name Numeric Value
      */
-     Long getNumericValue();
+    Long getNumericValue();
 
     /**
-     * The BigDecimal value contained within this entity
+     * The KualiDecimal value contained within this entity
      * @name Decimal Value
      */
-     BigDecimal getDecimalValue();
+    KualiDecimal getDecimalValue();
 
     /**
      * The String value contained within this entity
      * @name String Value
      */
-     String getStringValue();
+    String getStringValue();
 
     /**
      * The Amount value contained within this entity
      * @name Amount Value
      */
-     Amount getAmountValue();
+    Amount getAmountValue();
 
     /**
      * The CurrencyAmount value contained within this entity
      * @name Currency Amount Value
      */
-     CurrencyAmount getCurrencyAmountValue();
+    CurrencyAmount getCurrencyAmountValue();
 
     /**
      * The TimeAmount value contained within this entity
      * @name Time Amount Value
      */
-     TimeAmount getTimeAmountValue();
+    TimeAmount getTimeAmountValue();
 
     /**
      * The TimeOfDay value contained within this entity
      * @name Time of Day Value
      */
-     TimeOfDay getTimeOfDayValue();
+    TimeOfDay getTimeOfDayValue();
 }

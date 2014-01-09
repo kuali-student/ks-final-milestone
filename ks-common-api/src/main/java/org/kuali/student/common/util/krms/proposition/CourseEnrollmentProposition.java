@@ -48,7 +48,7 @@ public abstract class CourseEnrollmentProposition extends AbstractLeafPropositio
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
-        Collection<String> enrolledCourses = environment.resolveTerm(RulesExecutionConstants.enrolledCourseIdsTerm, this);
+        Collection<String> enrolledCourses = environment.resolveTerm(RulesExecutionConstants.STUDENT_ENROLLED_COURSE_IDS_TERM, this);
 
         Collection<String> requiredCourseIds = getRequiredCourseIds(environment);
 

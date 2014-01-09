@@ -51,11 +51,12 @@ public class MaxCourseCompletionProposition extends AbstractLeafProposition {
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-        Collection<String> completedCourses = environment.resolveTerm(RulesExecutionConstants.completedCourseIdsTerm, this);
+        Collection<String> completedCourses = environment.resolveTerm(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM, this);
         Collection<String> coursesToCheck;
 
         if(singleCourseId == null) {
-            Term term = new Term(RulesExecutionConstants.COURSE_SET_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY, courseSetId));
+            Term term = new Term(RulesExecutionConstants.COURSE_SET_TERM.getName(), 
+                    Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM.getName(), courseSetId));
             coursesToCheck = environment.resolveTerm(term, this);
         }
         else {

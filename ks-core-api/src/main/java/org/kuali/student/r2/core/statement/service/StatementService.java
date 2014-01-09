@@ -461,6 +461,30 @@ public interface StatementService extends SearchService {
     public StatementInfo getStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of statements from a list of statement Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param statementIds a list of statement identifiers
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return statementInfo             a list of statements
+     * @throws DoesNotExistException     an statementId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException statementIds, an Id in the statementIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StatementInfo> getStatementsByIds(@WebParam(name = "statementIds") List<String> statementIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+
+    /**
      * Retrieves a list of statements that use a particular requirement
      * component. Note: The reference may not be direct, but through an
      * intermediate object definition (ex. nested statements).
@@ -711,6 +735,31 @@ public interface StatementService extends SearchService {
      * @throws PermissionDeniedException authorization failure
      */
     public ReqComponentInfo getReqComponent(@WebParam(name = "reqComponentId") String reqComponentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of reqComponents from a list of reqComponent Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param reqComponentByIds a list of reqComponent identifiers
+     * @param contextInfo    context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return ReqComponentInfo          a list of reqComponents
+     * @throws DoesNotExistException     an reqComponent in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException reqComponentIds, an Id in the reqComponentIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+
+    public List<ReqComponentInfo> getReqComponentsByIds(@WebParam(name = "reqComponentByIds") List<String> reqComponentByIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
 
     /**
      * Retrieves a list of requirement components of a particular type.

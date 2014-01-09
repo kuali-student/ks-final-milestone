@@ -118,6 +118,14 @@ public interface Exemption extends IdEntity {
      * @name Date Override
      */
     public DateOverride getDateOverride(); 
+    
+    
+    /**
+     * The data for a value override for left/right comparisons
+     *
+     * @name Value Override
+     */
+    public ValueOverride getValueOverride(); 
 
     /**
      * The data for a milestone override.

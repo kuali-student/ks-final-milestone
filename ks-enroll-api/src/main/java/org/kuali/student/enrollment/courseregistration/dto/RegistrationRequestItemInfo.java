@@ -25,16 +25,24 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+
 import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationRequestItemInfo", propOrder = {
                 "id", "name", "descr", "typeKey", "stateKey",
-                "registrationRequestId", "studentId", 
-                "newRegistrationGroupId", "existingRegistrationGroupId", 
-                "credits", "gradingOptionId", "okToWaitlist", "okToHoldUntilList", 
+                "registrationRequestId", 
+                "personId", 
+                "registrationGroupId",
+                "existingCourseRegistrationId", 
+                "credits", 
+                "gradingOptionId", 
+                "okToWaitlist", 
+                "okToHoldUntilList", 
                 "meta", "attributes", "_futureElements"})
 
 public class RegistrationRequestItemInfo 
@@ -47,16 +55,16 @@ public class RegistrationRequestItemInfo
     private String registrationRequestId;
 
     @XmlElement
-    private String studentId;
+    private String personId;
 
     @XmlElement
-    private String newRegistrationGroupId;
+    private String registrationGroupId;
 
     @XmlElement
-    private String existingRegistrationGroupId;
+    private String existingCourseRegistrationId;
 
     @XmlElement
-    private String credits;
+    private KualiDecimal credits;
 
     @XmlElement
     private String gradingOptionId;
@@ -88,10 +96,10 @@ public class RegistrationRequestItemInfo
 
         if (registrationRequestItem != null) {
             this.registrationRequestId = registrationRequestItem.getRegistrationRequestId();
-            this.studentId = registrationRequestItem.getStudentId();
-            this.newRegistrationGroupId = registrationRequestItem.getNewRegistrationGroupId();
-            this.existingRegistrationGroupId = registrationRequestItem.getExistingRegistrationGroupId();
-            this.credits = registrationRequestItem.getCredits();
+            this.personId = registrationRequestItem.getPersonId();
+            this.registrationGroupId = registrationRequestItem.getRegistrationGroupId();
+            this.existingCourseRegistrationId = registrationRequestItem.getExistingCourseRegistrationId();
+            this.credits = new KualiDecimal(registrationRequestItem.getCredits().bigDecimalValue());
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
@@ -108,38 +116,38 @@ public class RegistrationRequestItemInfo
     }
 
     @Override
-    public String getStudentId() {
-        return studentId;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-
-    @Override
-    public String getNewRegistrationGroupId() {
-        return newRegistrationGroupId;
-    }
-
-    public void setNewRegistrationGroupId(String newRegistrationGroupId) {
-        this.newRegistrationGroupId = newRegistrationGroupId;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     @Override
-    public String getExistingRegistrationGroupId() {
-        return existingRegistrationGroupId;
+    public String getRegistrationGroupId() {
+        return registrationGroupId;
     }
 
-    public void setExistingRegistrationGroupId(String existingRegistrationGroupId) {
-        this.existingRegistrationGroupId = existingRegistrationGroupId;
+    public void setRegistrationGroupId(String registrationGroupId) {
+        this.registrationGroupId = registrationGroupId;
     }
 
     @Override
-    public String getCredits() {
+    public String getExistingCourseRegistrationId() {
+        return existingCourseRegistrationId;
+    }
+
+    public void setExistingCourseRegistrationId(String existingCourseRegistrationId) {
+        this.existingCourseRegistrationId = existingCourseRegistrationId;
+    }
+
+    @Override
+    public KualiDecimal getCredits() {
         return credits;
     }
 
-    public void setCredits(String credits) {
+    public void setCredits(KualiDecimal credits) {
         this.credits = credits;
     }
 

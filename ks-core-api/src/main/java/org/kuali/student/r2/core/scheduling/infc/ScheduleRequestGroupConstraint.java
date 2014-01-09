@@ -55,4 +55,10 @@ public interface ScheduleRequestGroupConstraint extends IdEntity {
      * implies the same room cannot be assigned, then this is a failure.
      */
     public Boolean getIsSameRoomRequired();
+
+    /**
+     * Gets all the ScheduleRequests that are part of this group.
+     */
+    public List<String> getScheduleRequestIds ();
+
 }

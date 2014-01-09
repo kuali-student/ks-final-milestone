@@ -32,6 +32,16 @@ public interface CourseOfferingCrossListing
      */
     public String getCode();
 
+
+    /**
+     *
+     * Name of the course used in the college catalog.
+     * Refer to detailed description of CourseOfferingTitle in CourseOffering
+     * 
+     * @name longName
+     */
+    public String getLongName();
+
     /**
      * The subject area/code for this cross listing.
      * Example: In ENGL101A, the subject area/code is ENGL

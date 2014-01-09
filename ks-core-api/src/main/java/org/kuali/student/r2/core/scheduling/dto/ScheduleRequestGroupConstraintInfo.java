@@ -35,7 +35,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRequestGroupConstraintInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "isAllRequired", "requiredScheduleRequestIds", "isContiguous", "isSameRoomRequired",
+        "isAllRequired", "requiredScheduleRequestIds", "isContiguous", "isSameRoomRequired", "scheduleRequestIds",
         "meta", "attributes", "_futureElements" })
 public class ScheduleRequestGroupConstraintInfo extends IdEntityInfo implements ScheduleRequestGroupConstraint, Serializable {
 
@@ -54,6 +54,9 @@ public class ScheduleRequestGroupConstraintInfo extends IdEntityInfo implements 
 
     @XmlElement
     private Boolean isSameRoomRequired = false;
+
+    @XmlElement
+    private List<String> scheduleRequestIds;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -74,6 +77,10 @@ public class ScheduleRequestGroupConstraintInfo extends IdEntityInfo implements 
             this.requiredScheduleRequestIds = new ArrayList<String>();
             for(String requiredId : scheduleRequestGroupConstraint.getRequiredScheduleRequestIds()) {
                 this.requiredScheduleRequestIds.add(requiredId);
+            }
+            this.scheduleRequestIds = new ArrayList<String>();
+            for(String schedReqId : scheduleRequestGroupConstraint.getScheduleRequestIds()) {
+                this.scheduleRequestIds.add(schedReqId);
             }
         }
     }
@@ -116,5 +123,14 @@ public class ScheduleRequestGroupConstraintInfo extends IdEntityInfo implements 
 
     public void setIsSameRoomRequired(Boolean sameRoomRequired) {
         isSameRoomRequired = sameRoomRequired;
+    }
+
+    @Override
+    public List<String> getScheduleRequestIds() {
+        return scheduleRequestIds;
+    }
+
+    public void setScheduleRequestIds(List<String> scheduleRequestIds) {
+        this.scheduleRequestIds = scheduleRequestIds;
     }
 }

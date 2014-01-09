@@ -658,6 +658,28 @@ public interface CluService extends VersionManagementService ,SearchService {
     public CluCluRelationInfo getCluCluRelation(@WebParam(name = "cluCluRelationId") String cluCluRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     *  Retrieves a list of cluCluRelations from a list of cluCluRelation Ids.
+     *  The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param cluCluRelationIds a list of cluCluRelation identifiers
+     * @param contextInfo      Context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return CluCluRelationInfo        a list of cluCluRelations
+     * @throws DoesNotExistException     an cluCluRelation in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException cluCluRelations, an Id in the cluCluRelationIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CluCluRelationInfo> getCluCluRelationsByIds(@WebParam(name = "cluCluRelationIds") List<String> cluCluRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Retrieves the list of relationship information for the specified CLU
      *
      * @param cluId       identifier of the parent or From CLU
@@ -724,6 +746,29 @@ public interface CluService extends VersionManagementService ,SearchService {
     public CluPublicationInfo getCluPublication(@WebParam(name = "cluPublicationId") String cluPublicationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of cluPublications from a list of cluPublication Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param cluPublicationIds  a list of cluPublication identifiers
+     * @param contextInfo      Context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return CluPublicationInfo        a list of cluPublications
+     * @throws DoesNotExistException     an cluPublicationId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException cluPublicationIds, an Id in the cluPublicationIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CluPublicationInfo> getCluPublicationsByIds(@WebParam(name = "cluPublicationIds") List<String> cluPublicationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+
+    /**
      * Retrieves information about a Clu Result
      *
      * @param cluResultId identifier of the Clu Result
@@ -738,6 +783,28 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException authorization failure
      */
     public CluResultInfo getCluResult(@WebParam(name = "cluResultId") String cluResultId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of cluResults from a list of cluResult Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param cluResultIds identifier of the cluResult
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return CluResultInfo             a list of cluResults
+     * @throws DoesNotExistException     an cluResultId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException cluResultIds, an Id in the cluResultIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CluResultInfo> getCluResultsByIds(@WebParam(name = "cluResultIds") List<String> cluResultIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves the cluResult for a particular clu
@@ -771,7 +838,7 @@ public interface CluService extends VersionManagementService ,SearchService {
      */
     public List<CluResultInfo> getCluResultsByClus(@WebParam(name = "cluIds") List<String> cluIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    
+
     /**
      * Retrieves the list of clu Ids with the results of the specified usage
      * type. This would for example allow requests for all clus which have a
@@ -819,6 +886,28 @@ public interface CluService extends VersionManagementService ,SearchService {
      * @throws PermissionDeniedException authorization failure
      */
     public CluLoRelationInfo getCluLoRelation(@WebParam(name = "cluLoRelationId") String cluLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of cluLoRelations from a list of cluLoRelation Ids.
+     * The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param cluLoRelationIds a list of cluLoRelations
+     * @param contextInfo     Context information containing the principalId and
+     *                        locale information about the caller of service
+     *                        operation
+     * @return CluLoRelationInfo        a list of cluLoRelations
+     * @throws DoesNotExistException    an cluLoRelationId in the list was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException cluLoRelationIds, an Id in the cluLoRelationIds, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CluLoRelationInfo> getCluLoRelationsByIds(@WebParam(name = "cluLoRelationIds") List<String> cluLoRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo )
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieves the list of canonical learning unit to learning objective

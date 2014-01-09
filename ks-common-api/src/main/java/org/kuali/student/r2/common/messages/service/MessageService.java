@@ -79,7 +79,7 @@ public interface MessageService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getMessageGroupKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo) 
+    public List<String> getMessageGroupKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo)
         throws InvalidParameterException, 
                MissingParameterException, 
                OperationFailedException, 
@@ -112,6 +112,29 @@ public interface MessageService {
                MissingParameterException, 
                OperationFailedException, 
                PermissionDeniedException;
+
+
+
+    /**
+     * Retrieves a list of Messages from a list of Message keys.
+     * The returned list may be in any order and if duplicates keys are supplied, a unique set may or may not be returned
+     *
+     * @param messageKeys a list of Message keys
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of MessageInfo
+     * @throws DoesNotExistException an MessageKey in the list was not found
+     * @throws InvalidParameterException context is not valid
+     * @throws MissingParameterException MessageKeys, a key in MessageKeys, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<MessageInfo> getMessagesByKeys(@WebParam(name = "messageKeys") List<String> messageKeys,@WebParam(name = "contextInfo")ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Retrieve messages associated with a locale and group.

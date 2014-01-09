@@ -22,8 +22,7 @@ package org.kuali.student.r2.common.infc;
  * @since Mon Jan 11 15:20:51 PST 2010
  */
 
-public interface CurrencyAmount 
-    extends HasId, HasMeta {
+public interface CurrencyAmount {
         
     /**
      * The kind of units associated with the quantity, such as US

@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.r2.core.ges.dto.ParameterInfo;
 import org.kuali.student.r2.core.ges.dto.ValueInfo;
 
@@ -177,6 +178,7 @@ public interface GesService {
      * @param validationTypeKey the identifier for the validation Type
      * @param valueTypeKey      the identifier for types of values that this parameter may be associated with.
      * @param parameterTypeKey  the identifier for the parameter Type
+     * @param parameterKey     the key of the parameter - for example, 'max-credits'
      * @param parameterInfo     the Parameter information to be validated
      * @param contextInfo       information containing the principalId and
      *                          locale information about the caller of service operation
@@ -186,7 +188,7 @@ public interface GesService {
      *                                   parameterTypeKey is not found
      * @throws InvalidParameterException parameterInfo or
      *                                   contextInfo is not valid
-     * @throws MissingParameterException validationTypeKey, valueTypeKey, parameterTypeKey,
+     * @throws MissingParameterException validationTypeKey, valueTypeKey, parameterTypeKey, parameterKey,
      *                                   parameterInfo, or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -194,6 +196,7 @@ public interface GesService {
     public List<ValidationResultInfo> validateParameter(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                         @WebParam(name = "valueTypeKey") String valueTypeKey,
                                                         @WebParam(name = "parameterTypeKey") String parameterTypeKey,
+                                                        @WebParam(name = "parameterKey") String parameterKey,
                                                         @WebParam(name = "parameterInfo") ParameterInfo parameterInfo,
                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -209,17 +212,17 @@ public interface GesService {
      * @param valueTypeKey     the identifier for types of values that this parameter may be associated with.
      * @param parameterTypeKey the identifier for the Type of
      *                         the new Parameter
+     * @param parameterKey     the key of the parameter - for example, 'max-credits'
      * @param parameterInfo    the data with which to create the
      *                         Parameter
      * @param contextInfo      information containing the principalId and
      *                         locale information about the caller of service operation
      * @return the new Parameter
-     * @throws DoesNotExistException     valueTypeKey or
-     *                                   parameterTypeKey does not exist or is not
+     * @throws DoesNotExistException     valueTypeKey or parameterTypeKey does not exist or is not
      *                                   supported
      * @throws InvalidParameterException parameterInfo or
      *                                   contextInfo is not valid
-     * @throws MissingParameterException valueTypeKey, parameterTypeKey, parameterInfo or
+     * @throws MissingParameterException valueTypeKey, parameterTypeKey, parameterKey, parameterInfo or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -229,6 +232,7 @@ public interface GesService {
      */
     public ParameterInfo createParameter(@WebParam(name = "valueTypeKey") String valueTypeKey,
                                          @WebParam(name = "parameterTypeKey") String parameterTypeKey,
+                                         @WebParam(name = "parameterKey") String parameterKey,
                                          @WebParam(name = "parameterInfo") ParameterInfo parameterInfo,
                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -429,21 +433,23 @@ public interface GesService {
      *
      * @param validationTypeKey the identifier for the validation Type
      * @param valueTypeKey      the identifier for the value Type
+     * @param parameterId  the id of the parameter that this value is attached to.
      * @param valueInfo         the Value information to be validated
      * @param contextInfo       information containing the principalId and
      *                          locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
-     * @throws DoesNotExistException     validationTypeKey or valueTypeKey is not found
+     * @throws DoesNotExistException     validationTypeKey, parameterId, or valueTypeKey is not found
      * @throws InvalidParameterException valueInfo or
      *                                   contextInfo is not valid
-     * @throws MissingParameterException validationTypeKey, valueTypeKey,
+     * @throws MissingParameterException validationTypeKey, parameterId, valueTypeKey,
      *                                   valueInfo, or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateValue(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                     @WebParam(name = "valueTypeKey") String valueTypeKey,
+                                                    @WebParam(name = "parameterId") String parameterId,
                                                     @WebParam(name = "valueInfo") ValueInfo valueInfo,
                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -458,16 +464,17 @@ public interface GesService {
      *
      * @param valueTypeKey the identifier for the Type of
      *                     the new Value
+     * @param parameterId  the id of the parameter that this value is attached to.
      * @param valueInfo    the data with which to create the
      *                     Value
      * @param contextInfo  information containing the principalId and
      *                     locale information about the caller of service operation
      * @return the new Value
-     * @throws DoesNotExistException     valueTypeKey does not exist or is not
+     * @throws DoesNotExistException     valueTypeKey or parameterId does not exist or is not
      *                                   supported
-     * @throws InvalidParameterException valueInfo or
+     * @throws InvalidParameterException valueInfo
      *                                   contextInfo is not valid
-     * @throws MissingParameterException valueTypeKey, valueInfo or
+     * @throws MissingParameterException valueTypeKey, parameterId, valueInfo or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -476,6 +483,7 @@ public interface GesService {
      * @throws DataValidationErrorException supplied data is invalid
      */
     public ValueInfo createValue(@WebParam(name = "valueTypeKey") String valueTypeKey,
+                                 @WebParam(name = "parameterId") String parameterId,
                                  @WebParam(name = "valueInfo") ValueInfo valueInfo,
                                  @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -568,25 +576,26 @@ public interface GesService {
 
     /**
      * Retrieves a list of values associated with a particular parameter
-     * that are applicable based on the evaluation of the given person.  This will
-     * restrict the values returned to those with a population in which the given person is a member.
-     * Values that do not have an associated population will also be returned.
+     * that are applicable based on the evaluation of the given criteria.
+     * Empty or null fields within the criteria are treated as a wild card and will not restrict values that are returned.
+     * Empty or null attributes on the value are treated as a wild card and will not restrict values that are returned.
      *
      * The relevant values must also have rules that are either null or evaluate to true.
      *
      * @param parameterId the identifier for the parameter associated with the values that will be returned.
-     * @param personId the identifier for the person that will be used for the evaluation.
+     * @param criteria    the criteria that restricts the values returned by this method.
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return A List of applicable values.
+     * @return A List of applicable values. The values returned will be sorted based on priority.
+     *         Values with duplicate priorities will be returned in an unspecified order.
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException parameterId, personId, or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValueInfo> evaluateValuesByParameterAndPerson(@WebParam(name = "parameterId") String parameterId,
-                                                              @WebParam(name = "personId") String personId,
+    public List<ValueInfo> evaluateValues(@WebParam(name = "parameterId") String parameterId,
+                                                              @WebParam(name = "criteria") GesCriteriaInfo criteria,
                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -595,33 +604,30 @@ public interface GesService {
 
     /**
      * Retrieves a list of values associated with a particular parameter
-     * that are applicable based on the evaluation of the given person, atp, and date. This will
-     * restrict the values returned to those with a population in which the given person is a member and that
-     * match the given atp and date.
-     * Values that do not have an associated population will also be returned, assuming that the other criteria match
-     * those that are given.
+     * that are applicable based on the evaluation of the given criteria, and date.
+     *
+     * Empty or null fields within the criteria are treated as a wild card and will not restrict values that are returned.
+     * Empty or null attributes on the value are treated as a wild card and will not restrict values that are returned.
      *
      * The relevant values must also have rules that are either null or evaluate to true.
      *
-     * The date parameter restricts the values returned to those with the smallest onDate field
-     * that is greater than or equal to the given date.
+     * The date parameter is used as the date for the evaluation.
      *
      * @param parameterId the identifier for the parameter associated with the values that will be returned.
-     * @param personId the identifier for the person that will be used for the evaluation.
-     * @param atpId the identifier for the atp that will be used for the evaluation
+     * @param criteria    the criteria that restricts the values returned by this method.
      * @param onDate the date that will be used for the evaluation.
      * @param contextInfo information containing the principalId and
      *                    locale information about the caller of service operation
-     * @return A List of applicable values.
+     * @return A List of applicable values. The values returned will be sorted based on priority.
+     *         Values with duplicate priorities will be returned in an unspecified order.
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException parameterId, personId, or
      *                                   contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValueInfo> evaluateValuesByParameterAndPersonAndAtpAndOnDate(@WebParam(name = "parameterId") String parameterId,
-                                                                             @WebParam(name = "personId") String personId,
-                                                                             @WebParam(name = "atpId") String atpId,
+    public List<ValueInfo> evaluateValuesOnDate(@WebParam(name = "parameterId") String parameterId,
+                                                                             @WebParam(name = "criteria") GesCriteriaInfo criteria,
                                                                              @WebParam(name = "onDate") Date onDate,
                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,

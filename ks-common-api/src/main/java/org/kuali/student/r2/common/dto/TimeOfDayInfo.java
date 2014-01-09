@@ -16,7 +16,9 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -24,20 +26,23 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.joda.time.LocalDateTime;
+import org.joda.time.LocalTime;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 
-//import javax.xml.bind.Element;
-//import java.util.List;
-
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TimeOfDayInfo", propOrder = {"milliSeconds", "_futureElements" }) 
-public class TimeOfDayInfo implements TimeOfDay, Serializable {
+@XmlType(name = "TimeOfDayInfo", propOrder = {"hour", "minute", "second", "_futureElements" })
+public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializable {
 
     @XmlElement
-    private Long milliSeconds;
-    
+    private Integer hour;
+    @XmlElement
+    private Integer minute;
+    @XmlElement
+    private Integer second;
+
     @XmlAnyElement
-    private List<Object> _futureElements;  
+    private List<Object> _futureElements;
 
     public TimeOfDayInfo() {
 
@@ -45,65 +50,204 @@ public class TimeOfDayInfo implements TimeOfDay, Serializable {
 
     public TimeOfDayInfo(TimeOfDay timeOfDay) {
         if(null != timeOfDay) {
-            this.milliSeconds = timeOfDay.getMilliSeconds();
+            hour = timeOfDay.getHour();
+            minute = timeOfDay.getMinute();
+            second = timeOfDay.getSecond();
         }
     }
 
-    @Override
-    public Long getMilliSeconds() {
-        return this.milliSeconds;
+    public TimeOfDayInfo(Integer hour) {
+        this(hour, null, null);
     }
 
-    public void setMilliSeconds(Long milliSeconds) {
-        this.milliSeconds = milliSeconds;
+    public TimeOfDayInfo(Integer hour, Integer minute) {
+        this(hour, minute, null);
+    }
+
+    public TimeOfDayInfo(Integer hour, Integer minute, Integer second) {
+        this.hour = hour;
+        this.minute = minute;
+        this.second = second;
     }
 
     /**
-     * Tests if this TimeOfDay is after the specified TimeOfDay.
-     * @param timeOfDay the specified TimeOfDay
+     *
+     * @return hour of the day in military time (14 is 2pm)
+     */
+    @Override
+    public Integer getHour() {
+        return this.hour == null ? 0 : this.hour;
+    }
+
+    /**
+     *
+     * @return minute of the hour
+     */
+    @Override
+    public Integer getMinute() {
+        return this.minute == null ? 0 : this.minute;
+    }
+
+    /**
+     *
+     * @return second of the minute
+     */
+    @Override
+    public Integer getSecond() {
+        return this.second == null ? 0 : this.second;
+    }
+
+    /**
+     *
+     * @param hour of the day in military time (14 is 2pm)
+     */
+    public void setHour(Integer hour) {
+        this.hour = hour;
+    }
+
+    /**
+     *
+     * @param minute of the hour
+     */
+    public void setMinute(Integer minute) {
+        this.minute = minute;
+    }
+
+    /**
+     *
+     * @param second of the minute
+     */
+    public void setSecond(Integer second) {
+        this.second = second;
+    }
+
+    /**
+     *
+     * @param date a java.util.Date to which timeOfDay is added
+     * @param timeOfDay the TimeOfDay that is added to the date parameter
+     * @return a java.util.Date that is the sum of date and timeOfDay
+     */
+    public static Date getDateWithTimeOfDay(Date date, TimeOfDay timeOfDay) {
+        LocalDateTime localDateTime = new LocalDateTime(date);
+        localDateTime = localDateTime.plusHours(timeOfDay.getHour());
+        localDateTime = localDateTime.plusMinutes(timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute());
+        localDateTime = localDateTime.plusSeconds(timeOfDay.getSecond() == null ? 0 : timeOfDay.getSecond());
+        return localDateTime.toDate();
+    }
+
+    /**
+     * @return the Milli Seconds since midnight
+     * @deprecated instead use getHour/getMinute/getSecond
+     */
+    @Override
+    @Deprecated
+    public Long getMilliSeconds() {
+        LocalTime localTime = new LocalTime(hour, minute, second);
+        return (long)localTime.getMillisOfDay();
+    }
+
+    /**
+     * used to set the time since midnight, however precision will
+     * be stored only to the second.
+     * @param milliSeconds  the Milli Seconds since midnight
+     * @deprecated instead use setHour/setMinute/setSecond
+     */
+    @Deprecated
+    public void setMilliSeconds(Long milliSeconds) {
+        long hours = TimeUnit.MILLISECONDS.toHours(milliSeconds);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
+
+        LocalTime localTime = new LocalTime((int)hours, (int)minutes, (int)seconds);
+        setHour(localTime.getHourOfDay());
+        setMinute(localTime.getMinuteOfHour());
+        setSecond(localTime.getSecondOfMinute());
+    }
+
+    /**
+     * Tests if this TimeOfDay is after the specified TimeOfDay. The assumption is
+     * that timeOfDay.hour is military time (14 is 2pm)
+     * @param other the specified TimeOfDay
      * @return true if this TimeOfDay is after the specified TimeOfDay, false otherwise.
      */
-    public boolean isAfter(TimeOfDay timeOfDay) {
-        return this.milliSeconds>timeOfDay.getMilliSeconds();
+    @Override
+    public boolean isAfter(TimeOfDay other) {
+        return compareTo(other) > 0;
     }
 
     /**
-     * Tests if this TimeOfDay is before the specified TimeOfDay.
-     * @param timeOfDay the specified TimeOfDay
+     * Tests if this TimeOfDay is before the specified TimeOfDay. The assumption is
+     * that timeOfDay.hour is military time (14 is 2pm)
+     * @param other the specified TimeOfDay
      * @return true if this TimeOfDay is before the specified TimeOfDay, false otherwise.
      */
-    public boolean isBefore(TimeOfDay timeOfDay) {
-        return this.milliSeconds<timeOfDay.getMilliSeconds();
+    @Override
+    public boolean isBefore(TimeOfDay other) {
+        return compareTo(other) < 0;
     }
 
     /**
      * Compares two TimeOfDays for equality. The result is true if and
      * only if the argument is not null and is a TimeOfDay object that represents the same
-     * point in time, to the millisecond, as this object.
+     * time of day as this object.
      * @param obj the object to compare with
      * @return true if the objects are the same; false otherwise.
      */
     public boolean equals (Object obj) {
-        TimeOfDay timeOfDay = (TimeOfDay) obj;
-        if (this.milliSeconds == null) {
-            if (timeOfDay == null) {
-                return true;
-            } else {
-                return false;
-            }
+        if(obj == null || !(obj instanceof TimeOfDayInfo))
+            return false;
+        TimeOfDay other = (TimeOfDay) obj;
+        if(!getHour().equals(other.getHour())) {
+            return false;
         }
-        return this.milliSeconds.equals(timeOfDay.getMilliSeconds());
+        if(!getMinute().equals(other.getMinute())) {
+            return false;
+        }
+        return getSecond().equals(other.getSecond());
     }
 
     @Override
     public int hashCode() {
-        return milliSeconds != null ? milliSeconds.hashCode() : 0;
+        int result = 17;
+        result = 31 * result + (getHour() == null ? 0 : getHour());
+        result = 31 * result + (getMinute() == null ? 0 : getMinute());
+        result = 31 * result + (getSecond() == null ? 0 : getSecond());
+        return result;
     }
 
     @Override
     public String toString() {
-        return "TimeOfDayInfo{" +
-                "milliSeconds=" + milliSeconds +
-                '}';
+        return "TimeOfDayInfo{" + getHour()
+                + ":" + (getMinute() != 0 ? getMinute() : "00") + ":"
+                + (getSecond() != 0 ? getSecond() : "00") +"}";
+    }
+
+    /**
+     *
+     * @param other a TimeOfDay to check against
+     * @return negative if this is less, zero if equal, positive if greater
+     * @throws NullPointerException if the TimeOfDay is null
+     */
+    public int compareTo(TimeOfDay other) {
+        if(this.getHour() > other.getHour()) {
+            return 1;
+        }
+        if(this.getHour() < other.getHour()) {
+            return -1;
+        }
+        // this.hour and other.hour are equal so check the minutes
+        if(this.getMinute() > other.getMinute())
+            return 1;
+        // if this.minute is less than other.minute then we know it is less
+        if(this.getMinute() < other.getMinute())
+            return -1;
+        // this.minute and other.minute are equal so check the seconds
+        if(this.getSecond() > other.getSecond())
+            return 1;
+        // if this.second is less than other.second then we know it is less
+        if(this.getSecond() < other.getSecond())
+            return -1;
+
+        return 0;
     }
 }

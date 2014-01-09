@@ -37,6 +37,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleTransactionGroupInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "isAllRequired", "requiredScheduleTransactionIds", "isContiguous", "isSameRoomRequired",
+        "scheduleBatchId", "scheduleTransactionIds",
         "meta", "attributes", "_futureElements" })
 public class ScheduleTransactionGroupInfo extends IdEntityInfo implements ScheduleTransactionGroup, Serializable {
 
@@ -55,6 +56,12 @@ public class ScheduleTransactionGroupInfo extends IdEntityInfo implements Schedu
 
     @XmlElement
     private Boolean isSameRoomRequired = false;
+
+    @XmlElement
+    private String scheduleBatchId;
+
+    @XmlElement
+    private List<String> scheduleTransactionIds;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -76,12 +83,35 @@ public class ScheduleTransactionGroupInfo extends IdEntityInfo implements Schedu
             for(String requiredId : scheduleTransactionGroup.getRequiredScheduleTransactionIds()) {
                 this.requiredScheduleTransactionIds.add(requiredId);
             }
+            this.scheduleBatchId= scheduleTransactionGroup.getScheduleBatchId();
+            this.scheduleTransactionIds = new ArrayList<String>();
+            for(String schedTransId : scheduleTransactionGroup.getScheduleTransactionIds()) {
+                this.scheduleTransactionIds.add(schedTransId);
+            }
         }
     }
 
     ///////////////////
     // Functionals
     ///////////////////
+
+    @Override
+    public String getScheduleBatchId() {
+        return scheduleBatchId;
+    }
+
+    public void setScheduleBatchId(String batchId) {
+        this.scheduleBatchId = batchId;
+    }
+
+    @Override
+    public List<String> getScheduleTransactionIds() {
+        return scheduleTransactionIds;
+    }
+
+    public void setScheduleTransactionIds(List<String> scheduleTransactionIds) {
+        this.scheduleTransactionIds = scheduleTransactionIds;
+    }
 
     @Override
     public Boolean getIsAllRequired() {

@@ -134,6 +134,12 @@ public class SchedulingServiceConstants {
     public static final String ROOM_FEATURE_TYPE_WEB_CONFERENCING = "kuali.scheduling.type.room.feature.webconference";
     public static final String ROOM_FEATURE_TYPE_VIDEO_CONFERENCING = "kuali.scheduling.type.room.feature.videoconference";
 
+    // schedule transaction group types
+    public static final String SCHEDULE_TRANSACTION_GROUP_TYPE_STANDARD = "kuali.scheduling.schedule.transaction.group.type.standard";
+
+    // schedule request group types
+    public static final String SCHEDULE_REQUEST_GROUP_TYPE_STANDARD = "kuali.scheduling.schedule.request.group.constraint.type.standard";
+
     /////////////////////////////
     // States
     /////////////////////////////
@@ -171,6 +177,16 @@ public class SchedulingServiceConstants {
     // time slot states
     public static final String TIME_SLOT_LIFECYCLE_KEY = "kuali.scheduling.timeslot.lifecycle";
     public static final String TIME_SLOT_STATE_ACTIVE = "kuali.scheduling.timeslot.state.active";
+
+    // schedule transaction group states
+    public static final String SCHEDULE_TRANSACTION_GROUP_LIFECYCLE_KEY = "kuali.scheduling.schedule.transaction.group.lifecycle";
+    public static final String SCHEDULE_TRANSACTION_GROUP_STATE_ACTIVE = "kuali.scheduling.schedule.transaction.group.state.active";
+    public static final String SCHEDULE_TRANSACTION_GROUP_STATE_INACTIVE = "kuali.scheduling.schedule.transaction.group.state.inactive";
+
+    // schedule request group states
+    public static final String SCHEDULE_REQUEST_GROUP_LIFECYCLE_KEY = "kuali.scheduling.schedule.request.group.constraint.lifecycle";
+    public static final String SCHEDULE_REQUEST_GROUP_STATE_ACTIVE = "kuali.scheduling.schedule.request.group.constraint.state.active";
+    public static final String SCHEDULE_REQUEST_GROUP_STATE_INACTIVE = "kuali.scheduling.schedule.request.group.constraint.state.inactive";
 
     ////////////////////////////////////////
     // TYPES / STATES not yet approved

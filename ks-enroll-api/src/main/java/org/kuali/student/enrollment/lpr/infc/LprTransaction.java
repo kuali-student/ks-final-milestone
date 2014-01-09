@@ -1,5 +1,5 @@
 /*
- * Copyright 2010 The Kuali Foundation 
+ * Copyright 2011 The Kuali Foundation 
  *
  * Licensed under the Educational Community License, Version 2.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -29,14 +29,15 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * @author Kuali Student Team (sambit)
  */
 
-public interface LprTransaction extends IdEntity {
+public interface LprTransaction 
+    extends IdEntity {
 
     /**
      * The person who requested for this transaction
      * 
-     * Note this does not have to be the same as the person on the transaction 
-     * item. It could be, for example, an administrator creating registrations 
-     * on behalf of the student.
+     * Note this does not have to be the same as the person on the
+     * transaction item. It could be, for example, an administrator
+     * creating registrations on behalf of the student.
      *
      * @name Requesting Person Id
      */
@@ -45,8 +46,9 @@ public interface LprTransaction extends IdEntity {
     /**
      * The ATP for which this transaction applies.
      * 
-     * This constrains which lui's can be manipulated by this transaction's items. 
-     * The items may only refer to this ATP or nested ATPs.
+     * This constrains which lui's can be manipulated by this
+     * transaction's items.  The items may only refer to this ATP or
+     * nested ATPs.
      * 
      * @name ATP Id
      */

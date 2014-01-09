@@ -36,4 +36,10 @@ public interface Parameter extends IdNamelessEntity {
      * @required
      */
     String getValueTypeKey();
+
+    /**
+     * Indicates if duplicate priorities are allowed for all values associated with this parameter.
+     * @name Require Unique Priorities
+     */
+    Boolean getRequireUniquePriorities();
 }

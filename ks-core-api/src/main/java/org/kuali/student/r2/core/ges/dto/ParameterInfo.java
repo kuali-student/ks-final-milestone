@@ -26,13 +26,15 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ParameterInfo", propOrder = {"id", "typeKey", "stateKey",
-        "key", "valueTypeKey", "meta", "attributes", "_futureElements" })
+        "key", "valueTypeKey","requireUniquePriorities", "meta", "attributes", "_futureElements" })
 public class ParameterInfo extends IdNamelessEntityInfo implements Parameter {
 
     @XmlElement
     private String key;
     @XmlElement
     private String valueTypeKey;
+    @XmlElement
+    private Boolean requireUniquePriorities;
     @XmlAnyElement
     private List<Object> _futureElements;
 
@@ -45,6 +47,7 @@ public class ParameterInfo extends IdNamelessEntityInfo implements Parameter {
         if(parameter != null) {
             key = parameter.getKey();
             valueTypeKey = parameter.getValueTypeKey();
+            requireUniquePriorities = parameter.getRequireUniquePriorities();
         }
     }
 
@@ -65,5 +68,15 @@ public class ParameterInfo extends IdNamelessEntityInfo implements Parameter {
     public void setValueTypeKey(String valueTypeKey) {
         this.valueTypeKey = valueTypeKey;
     }
+
+    @Override
+    public Boolean getRequireUniquePriorities() {
+        return requireUniquePriorities;
+    }
+
+    public void setRequireUniquePriorities(Boolean requireUniquePriorities) {
+        this.requireUniquePriorities = requireUniquePriorities;
+    }
+
 
 }

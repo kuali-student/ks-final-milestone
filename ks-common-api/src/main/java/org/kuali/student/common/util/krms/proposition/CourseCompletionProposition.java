@@ -49,7 +49,7 @@ public abstract class CourseCompletionProposition extends AbstractLeafPropositio
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
             	
-        Collection<String> completedCourses = environment.resolveTerm(RulesExecutionConstants.completedCourseIdsTerm, this);
+        Collection<String> completedCourses = environment.resolveTerm(RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM, this);
 
         Collection<String> termCourses = getTermCourseIds(environment);
 

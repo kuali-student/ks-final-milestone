@@ -37,12 +37,27 @@ public interface ActivityRegistration
     /**
      * The person Id for this registration.
      * 
-     * @name Student Id
+     * @name Person Id
      * @readOnly
      * @required
      * @impl Lpr.personId
      */
-    public String getStudentId();
+    public String getPersonId();
+    
+    /**
+     * The Id of the term that governs this registration.
+     * 
+     * Note: this typically is the same as the termId on the
+     * associated Activity Offering but may be different.  This is
+     * especially true if the Course Offering term is a mini within
+     * the main or non-standard term.
+     * 
+     * @name Term Id
+     * @readOnly
+     * @required
+     * @impl Lpr.atpId
+     */
+    public String getTermId();
 
     /**
      * The ActivityOffering Id.
@@ -53,4 +68,15 @@ public interface ActivityRegistration
      * @impl Lpr.luiId
      */
     public String getActivityOfferingId();
+    
+     /**
+     * The id of the course registration with which this activity
+     * registration is associated.
+     * 
+     * @name Course Registration Id
+     * @readOnly
+     * @required
+     * @impl Lpr.masterLuiId
+     */
+    public String getCourseRegistrationId();
 }

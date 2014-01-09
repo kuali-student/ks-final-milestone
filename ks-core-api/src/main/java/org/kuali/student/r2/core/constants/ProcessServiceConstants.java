@@ -82,9 +82,10 @@ public class ProcessServiceConstants {
     public static final String DEADLINE_CHECK_TYPE_KEY = "kuali.process.check.type.milestone.deadline";
     public static final String TIME_PERIOD_CHECK_TYPE_KEY = "kuali.process.check.type.milestone.period";
     public static final String PROCESS_CHECK_TYPE_KEY = "kuali.process.check.type.process";
+    public static final String ALWAYS_FALSE_CHECK_TYPE_KEY = "kuali.process.check.type.hardwired.false";
     public static final String DIRECT_RULE_CHECK_TYPE_KEY = "kuali.process.check.type.rule.direct";
     public static final String INDIRECT_RULE_CHECK_TYPE_KEY = "kuali.process.check.type.rule.indirect";
-    public static final String EQUAL_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.equals";
+    public static final String EQUALS_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.equals";
     public static final String MAXIMUM_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.max";
     public static final String MINIMUM_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.min";
     public static final String ACKNOWLEDGEMENT_CHECK_TYPE_KEY = "kuali.process.check.type.acknowledgement";
@@ -130,10 +131,9 @@ public class ProcessServiceConstants {
     public static final String PROCESS_KEY_VIEW_COURSE_GRADE = "kuali.process.acad.record.view.course.grade";
 
     /**
-     * known agenda ids / names
+     * known rule ids / names
      */
-    public static final String AGENDA_IS_ALIVE_ID = "kuali.agenda.is.alive";
-    public static final String AGENDA_IS_NOT_SUMMER_TERM_ID = "kuali.agenda.is.not.summer.term";
+    public static final String RULE_IS_ALIVE_ID = "kuali.rule.is.alive";
 
     /**
      * known issue ids / names

@@ -73,10 +73,10 @@ public class KSCollectionUtils {
      */
     public static <T> T getRequiredZeroElement(List<T> list, boolean throwOnNullList, boolean throwOnEmptyList) throws OperationFailedException{
         
-    	if (!checkListNotNull(list, throwOnNullList))
+    	if (isListNull(list, throwOnNullList))
     		return null;
     	
-    	if (!checkListNotEmpty(list, throwOnEmptyList))
+    	if (isListEmpty(list, throwOnEmptyList))
     		return null;
     	
         T t;
@@ -92,35 +92,35 @@ public class KSCollectionUtils {
     /*
      * Helper code for validating that the list is not null whether to throw an exception or indicate null should be returned.
      * 
-     * a return value of false indicates that null should be returned; a value of true means the list has contents.
+     * a return value of true indicates that null should be returned; a value of false means the list has contents.
      */
     
-    private static <T> boolean checkListNotNull (List<T>list, boolean throwOnNullList) throws OperationFailedException {
+    private static <T> boolean isListNull (List<T>list, boolean throwOnNullList) throws OperationFailedException {
     	if(list == null){
         	
         	if (throwOnNullList)
         		throw new OperationFailedException("list cannot be null");
         	else
-        		return false;
+        		return true;
         }
     	else
-    		return true;
+    		return false;
     }
     /*
      * Helper code for validating that the list is not empty and also whether to throw an exception or indicate null should be returned.
      * 
-     * a return value of false indicates that null should be returned; a value of true means the list has contents.
+     * a return value of true indicates that null should be returned; a value of false means the list has contents.
      */
-    private static <T> boolean checkListNotEmpty (List<T>list, boolean throwOnEmptyList) throws OperationFailedException {
+    private static <T> boolean isListEmpty (List<T>list, boolean throwOnEmptyList) throws OperationFailedException {
     	
     	if (list.isEmpty()) {
     		if (throwOnEmptyList)
     			throw new OperationFailedException("list cannot be empty");
     		else
-    			return false;
+    			return true;
     	}
     	else
-    		return true;
+    		return false;
     }
     /**
      * Cardinality of zero or one. Will return the value or null depending on what's in the list.
@@ -169,9 +169,9 @@ public class KSCollectionUtils {
      * @return       the get(0) element in the list. If there are no elements, return null.
      * @throws OperationFailedException
      */ 
-    public static <T> T getOptionalZeroElement(List<T> list, boolean throwOnNullList) throws OperationFailedException{
+    public static <T> T getOptionalZeroElement(List<T> list, boolean throwOnNullList) throws OperationFailedException {
     	
-    	if (!checkListNotNull(list, throwOnNullList))
+    	if (isListNull(list, throwOnNullList))
     		return null;
 
         T t;
