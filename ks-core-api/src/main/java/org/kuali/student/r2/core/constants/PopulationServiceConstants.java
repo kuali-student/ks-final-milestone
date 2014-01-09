@@ -33,14 +33,13 @@ public class PopulationServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "population";
     public static final String REF_OBJECT_URI_POPULATION = NAMESPACE + "/" + PopulationInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_POPULATION_RULE = NAMESPACE + "/" + PopulationRuleInfo.class.getSimpleName();
-
     //////////////////////////////////
     // POPULATION RULE
     //////////////////////////////////
-
     /**
      * PopulationRule types
      */
+    public static final String POPULATION_RULE_TYPE_EVERYONE_KEY = "kuali.population.rule.type.everyone";
     public static final String POPULATION_RULE_TYPE_PERSON_KEY = "kuali.population.rule.type.person";
     public static final String POPULATION_RULE_TYPE_RULE_KEY = "kuali.population.rule.type.rule";
     public static final String POPULATION_RULE_TYPE_SEARCH_KEY = "kuali.population.rule.type.search";
@@ -49,12 +48,12 @@ public class PopulationServiceConstants {
     public static final String POPULATION_RULE_TYPE_EXCLUSION_KEY = "kuali.population.rule.type.exclusion";
 
     public static final String[] POPULATION_RULE_TYPE_KEYS = {
-            PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY,
-            PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY,
-            PopulationServiceConstants.POPULATION_RULE_TYPE_SEARCH_KEY,
-            PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY,
-            PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY,
-            PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY
+        PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY,
+        PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY,
+        PopulationServiceConstants.POPULATION_RULE_TYPE_SEARCH_KEY,
+        PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY,
+        PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY,
+        PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY
     };
 
     /**
@@ -84,8 +83,8 @@ public class PopulationServiceConstants {
     public static final String POPULATION_CATEGORY_ACTIVE_STATE_KEY = "kuali.population.population.category.state.active";
     public static final String POPULATION_CATEGORY_INACTIVE_STATE_KEY = "kuali.population.population.category.state.inactive";
     public static final String[] POPULATION_CATEGORY_LIFECYCLE_KEYS = {
-            POPULATION_CATEGORY_ACTIVE_STATE_KEY,
-            POPULATION_CATEGORY_INACTIVE_STATE_KEY
+        POPULATION_CATEGORY_ACTIVE_STATE_KEY,
+        POPULATION_CATEGORY_INACTIVE_STATE_KEY
     };
 
     //////////////////////////////////
@@ -110,8 +109,36 @@ public class PopulationServiceConstants {
     };
 
     /**
-     * known population keys
+     * known population ids/keys
      */
-    public static final String SUMMER_ONLY_STUDENTS_POPULATION_KEY = "kuali.population.summer.only.student";
     public static final String EVERYONE_POPULATION_KEY = "kuali.population.everyone";
+    public static final String ATHLETES_POPULATION_KEY = "kuali.population.athletes";
+    public static final String DISABLED_POPULATION_KEY = "kuali.population.disabled";
+    public static final String CURRENT_STUDENTS_POPULATION_KEY = "kuali.population.current.students";
+    public static final String CONTINUING_STUDENTS_POPULATION_KEY = "kuali.population.continuing.students";
+    public static final String NEW_STUDENTS_POPULATION_KEY = "kuali.population.new.students";
+    public static final String RETURNING_STUDENTS_POPULATION_KEY = "kuali.population.returning.students";
+    public static final String FRESHMAN_POPULATION_KEY = "kuali.population.freshman";
+    public static final String SOPHOMORE_POPULATION_KEY = "kuali.population.sophomore";
+    public static final String JUNIOR_POPULATION_KEY = "kuali.population.junior";
+    public static final String SENIOR_POPULATION_KEY = "kuali.population.senior";
+    public static final String UPPERCLASS_POPULATION_KEY = "kuali.population.upperclass";
+    public static final String FINAL_TERM_SENIORS_POPULATION_KEY = "kuali.population.final.term.seniors";
+    public static final String GRADUATE_POPULATION_KEY = "kuali.population.graduate";
+    public static final String PROFESSIONAL_POPULATION_KEY = "kuali.population.professional";
+    public static final String LAW_SCHOOL_STUDENTS_POPULATION_KEY = "kuali.population.law.school.students";
+    public static final String UNDERGRADUATE_POPULATION_KEY = "kuali.population.undergraduate";
+    public static final String FIN_AID_RECIPIENTS_POPULATION_KEY = "kuali.population.fin.aid.recipients";
+    public static final String IN_A_DEGREE_GRANTING_PROGRAM_POPULATION_KEY = "kuali.population.in.a.degree.granting.program";
+    public static final String NOT_IN_A_DEGREE_GRANTING_PROGRAM_POPULATION_KEY = "kuali.population.not.in.a.degree.granting.program";
+    public static final String INTERNATIONAL_STUDENT_POPULATION_KEY = "kuali.population.international.student";
+    public static final String SUMMER_ONLY_STUDENT_POPULATION_KEY = "kuali.population.summer.only.student";
+    public static final String IN_A_PART_TIME_PROGRAM_POPULATION_KEY = "kuali.population.in.a.part-time.program";
+    public static final String NORTH_CAMPUS_STUDENTS_POPULATION_KEY = "kuali.population.north.campus.students";
+    public static final String SOUTH_CAMPUS_STUDENTS_POPULATION_KEY = "kuali.population.south.campus.students";
+    public static final String SENIOR_CITIZENS_POPULATION_KEY = "kuali.population.senior.citizens";
+    public static final String TUITION_EXEMPT_EMPLOYEES_POPULATION_KEY = "kuali.population.tuition.exempt.employees";
+    public static final String TUITION_EXEMPT_OTHERS_POPULATION_KEY = "kuali.population.tuition.exempt.others";
+    public static final String ODD_NUMBERED_POPULATION_KEY = "kuali.population.odd.numbered";
+    public static final String EVEN_NUMBERED_POPULATION_KEY = "kuali.population.even.numbered";
 }
