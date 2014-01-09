@@ -48,6 +48,7 @@ import org.kuali.student.ap.audit.service.DegreeAuditConstants;
 import org.kuali.student.ap.audit.service.DegreeAuditService;
 import org.kuali.student.ap.audit.service.DegreeAuditServiceConstants;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -151,8 +152,8 @@ public class DegreeAuditController extends UifControllerBase {
 						.getAuditsForStudentInDateRange(systemKey, startDate,
 								endDate, contextInfo);
 				if (auditId == null && auditReportInfoList.size() > 0) {
-					auditId = auditReportInfoList.get(0).getAuditId();
-					programParam = auditReportInfoList.get(0).getProgramId();
+					auditId = KSCollectionUtils.getRequiredZeroElement(auditReportInfoList).getAuditId();
+					programParam = KSCollectionUtils.getRequiredZeroElement(auditReportInfoList).getProgramId();
 				}
 
 				// TODO: For now we are getting the auditType from the end

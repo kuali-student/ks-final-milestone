@@ -10,6 +10,8 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.PlanHelper;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
+import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.acal.infc.Term;
 
 /**
@@ -40,14 +42,11 @@ public class DefaultPlanHelper implements PlanHelper {
 			throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
 		}
 
-		if (learningPlans == null) {
-			throw new RuntimeException(String.format("Could not fetch plan for user [%s]. The query returned null.",
-					studentId));
-		}
-
-		if (learningPlans.size() != 0) {
-			defaultPlan = learningPlans.get(0);
-		}
+        try {
+            defaultPlan =  KSCollectionUtils.getRequiredZeroElement(learningPlans);
+        }catch (OperationFailedException e){
+            throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+        }
 
 		return defaultPlan;
 	}

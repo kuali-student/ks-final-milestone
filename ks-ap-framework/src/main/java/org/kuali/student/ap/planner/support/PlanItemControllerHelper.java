@@ -6,6 +6,8 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.planner.PlanItemForm;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.lum.course.infc.Course;
 
 import javax.servlet.ServletException;
@@ -85,12 +87,18 @@ public final class PlanItemControllerHelper {
 
 		String expectedTermId = form.getTermId();
 		if (expectedTermId != null) {
-			List<String> planPeriods = planItem.getPlanPeriods();
-			if (planPeriods == null || planPeriods.isEmpty() || !expectedTermId.equals(planPeriods.get(0))) {
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plan item " + planItemId
-						+ " not from expected term " + expectedCategory + ", found " + planItem.getTypeKey());
-				return null;
+            try{
+                String planPeriod = KSCollectionUtils.getRequiredZeroElement(planItem.getPlanPeriods());
+                if (!expectedTermId.equals(planPeriod)) {
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plan item " + planItemId
+                            + " not from expected term " + expectedCategory + ", found " + planItem.getTypeKey());
+                    return null;
 			}
+            }catch (OperationFailedException e){
+                response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Plan item " + planItemId
+                        + " not from expected term " + expectedCategory + ", found " + planItem.getTypeKey());
+                return null;
+            }
 		}
 
 		return planItem;

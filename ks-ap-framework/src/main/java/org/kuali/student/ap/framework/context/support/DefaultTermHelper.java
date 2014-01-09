@@ -20,6 +20,7 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
@@ -184,7 +185,7 @@ public class DefaultTermHelper implements TermHelper {
 
 	@Override
 	public void frontLoadForPlanner(String firstAtpId) {
-		Term firstTerm = firstAtpId == null ? getPlanningTerms().get(0) : getTerm(firstAtpId);
+		Term firstTerm = firstAtpId == null ? getFirstPlanningTerm() : getTerm(firstAtpId);
 		Date start = firstTerm.getStartDate();
 		Date end = null;
 		for (Term pt : getPlanningTerms()) {
@@ -280,10 +281,7 @@ public class DefaultTermHelper implements TermHelper {
 						t.getId(),
 						acl = KsapFrameworkServiceLocator.getAcademicCalendarService().getAcademicCalendarsForTerm(
 								t.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo()));
-			if (acl == null || acl.isEmpty())
-				throw new IllegalStateException(
-						"AcademicCalendarService did not return an academic calendar for year/term " + yearTerm);
-			AcademicCalendarInfo ac = acl.get(0);
+			AcademicCalendarInfo ac = KSCollectionUtils.getRequiredZeroElement(acl);
 			List<Term> rl = tm.acalTermMap.get(ac.getId());
 			try {
 				tm.acalTermMap.put(
@@ -340,12 +338,12 @@ public class DefaultTermHelper implements TermHelper {
 
 	@Override
 	public int getNumberOfTermsInAcademicYear() {
-		return getNumberOfTermsInAcademicYear(getYearTerm(getPlanningTerms().get(0)));
+		return getNumberOfTermsInAcademicYear(getYearTerm(getFirstPlanningTerm()));
 	}
 
 	@Override
 	public List<Term> getTermsInAcademicYear() {
-		return getTermsInAcademicYear(getYearTerm(getPlanningTerms().get(0)));
+		return getTermsInAcademicYear(getYearTerm(getFirstPlanningTerm()));
 	}
 
 	@Override
@@ -474,7 +472,11 @@ public class DefaultTermHelper implements TermHelper {
     public Term getCurrentTerm() {
         List<Term> currentTerms = getCurrentTerms();
         if(currentTerms!=null && currentTerms.size()>0){
-            return currentTerms.get(0);
+            try{
+                return KSCollectionUtils.getRequiredZeroElement(currentTerms);
+            }catch (OperationFailedException e){
+                throw new IllegalArgumentException("Acal lookup failure, no current term found");
+            }
         }
         throw new IllegalArgumentException("Acal lookup failure, no current term found");
     }
@@ -492,9 +494,8 @@ public class DefaultTermHelper implements TermHelper {
                     or(equal("typeKey", "kuali.atp.type.AcademicCalendar")), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
             List<AcademicCalendarInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForAcademicCalendars(query,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
-            if(rv!=null && rv.size()>0){
-                return rv.get(0);
-            }
+
+            return KSCollectionUtils.getRequiredZeroElement(rv);
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("Acal lookup failure", e);
         } catch (MissingParameterException e) {
@@ -504,7 +505,6 @@ public class DefaultTermHelper implements TermHelper {
         } catch (PermissionDeniedException e) {
             throw new IllegalStateException("Acal lookup failure", e);
         }
-        throw new IllegalArgumentException("Acal lookup failure, no current calendar found");
     }
 
     /**
@@ -561,6 +561,9 @@ public class DefaultTermHelper implements TermHelper {
         return terms;
     }
 
+    private Term getFirstPlanningTerm(){
+        return getPlanningTerms().get(0);
+    }
 
 
 }

@@ -11,6 +11,7 @@ import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.PlannerItem;
 import org.kuali.student.ap.planner.PlannerTerm;
 import org.kuali.student.ap.planner.PlannerTermNote;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
@@ -137,7 +138,12 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
         if (creditsForPlanItem == null && courseCredit != null) {
             BigDecimal minCredit = BigDecimal.ZERO;
             BigDecimal maxCredit = ONE_HUNDRED;
-            ResultValuesGroupInfo rci = course.getCreditOptions().get(0);
+            ResultValuesGroupInfo rci;
+            try{
+                rci = KSCollectionUtils.getRequiredZeroElement(course.getCreditOptions());
+            }catch (OperationFailedException e){
+                throw new RuntimeException("Invalid Credit Options", e);
+            }
             String type = rci.getTypeKey();
             if (type.equals("kuali.result.values.group.type.fixed")) {
                 boolean useAttributes = rci.getResultValueKeys().isEmpty();
@@ -145,9 +151,9 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
                     try {
                         ResultValueInfo rv = KsapFrameworkServiceLocator
                                 .getLrcService().getResultValue(
-                                        rci.getResultValueKeys().get(0),
-                                        KsapFrameworkServiceLocator
-                                                .getContext().getContextInfo());
+                                        KSCollectionUtils.getRequiredZeroElement(rci.getResultValueKeys()),
+                                                KsapFrameworkServiceLocator
+                                                        .getContext().getContextInfo());
                         if (rv == null)
                             useAttributes = true;
                         else
@@ -431,7 +437,7 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
             if(tempTerms.size()>0){
                 tempTerms = termHelper.sortTermsByStartDate(tempTerms,true);
                 firstTerm = tempTerms.get(0);
-                firstTermId = tempTerms.get(0).getId();
+                firstTermId = firstTerm.getId();
             }else{
                 firstTerm = termHelper.getTerm(firstTermId);
             }

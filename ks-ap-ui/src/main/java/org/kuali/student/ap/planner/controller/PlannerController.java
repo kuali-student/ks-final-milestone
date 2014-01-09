@@ -12,6 +12,7 @@ import org.kuali.student.ap.planner.PlannerForm;
 import org.kuali.student.ap.planner.support.PlanItemControllerHelper;
 import org.kuali.student.ap.planner.form.PlannerFormImpl;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
@@ -337,14 +338,19 @@ public class PlannerController extends KsapControllerBase {
 		}
 
         // Retrieve course information using the course code entered by the user
-		Course course;
+		Course course=null;
 		try {
 			List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCd);
 			if (courses == null || courses.isEmpty()) {
 				PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response, eventList);
 				return null;
 			}
-			course = courses.get(0);
+            for(Course courseTemp : courses){
+                if(courseTemp.getStateKey().equals("Active")){
+                    course=courseTemp;
+                    break;
+                }
+            }
 		} catch (IllegalArgumentException e) {
 			LOG.error("Invalid course code " + courseCd, e);
 			PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response, eventList);
@@ -472,7 +478,11 @@ public class PlannerController extends KsapControllerBase {
         // Construct json events for updating the planner screen
         JsonObjectBuilder eventList = Json.createObjectBuilder();
         eventList = PlanEventUtils.updatePlanItemEvent(form.getUniqueId(), planItemInfo, eventList);
-        eventList = PlanEventUtils.updateTotalCreditsEvent(true, planItemInfo.getPlanPeriods().get(0), eventList);
+        try{
+            eventList = PlanEventUtils.updateTotalCreditsEvent(true, KSCollectionUtils.getRequiredZeroElement(planItemInfo.getPlanPeriods()), eventList);
+        }catch(OperationFailedException e){
+            LOG.warn("Unable to update total credits", e);
+        }
 
         // Create json strings for displaying action's response and send those updating the planner screen.
 		if(notesEdited && creditEdited){

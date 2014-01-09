@@ -56,6 +56,7 @@ import org.kuali.student.ap.framework.course.FacetKeyValue;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
 import org.kuali.student.ap.coursesearch.util.CampusSearch;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -432,7 +433,7 @@ public class CourseSearchController extends UifControllerBase {
 			if (searchResults.isEmpty())
 				facetState = Collections.emptyMap();
 			else {
-				Map<String, List<String>> facetColumns = searchResults.get(0).facetColumns;
+                Map<String, List<String>> facetColumns = searchResults.get(0).facetColumns;
 				assert facetColumns.size() == searcher.getFacetSort().size() : facetColumns
 						.size()
 						+ " != "
@@ -575,7 +576,13 @@ public class CourseSearchController extends UifControllerBase {
 
 			// Determine the number of facet columns - this should be uniform
 			// across the facet state table and the facet columns in each row
-			Map<String, List<String>> facetCols = searchResults.get(0).facetColumns;
+            Map<String, List<String>> facetCols;
+            try{
+                facetCols = KSCollectionUtils.getRequiredZeroElement(searchResults).facetColumns;
+            }catch (OperationFailedException e){
+                return;
+            }
+
 			assert facetState.size() == facetCols.size() : facetState.size()
 					+ " != " + facetCols.size();
 
@@ -1017,8 +1024,13 @@ public class CourseSearchController extends UifControllerBase {
 
 		ArrayList<String> divisions = new ArrayList<String>();
 		strategy.extractDivisions(divisionMap, subject, divisions, false);
-		if (divisions.size() > 0) {
-			subject = divisions.get(0);
+
+        if (divisions.size() > 0) {
+			try{
+                subject = KSCollectionUtils.getRequiredZeroElement(divisions);
+            }catch (OperationFailedException e) {
+                LOG.warn("No subject found from divisions",e);
+            }
 		}
 
 		SearchRequestInfo searchRequest = new SearchRequestInfo(
@@ -1028,7 +1040,7 @@ public class CourseSearchController extends UifControllerBase {
 			searchRequest.addParam("number", number);
 			searchRequest.addParam("subject", subject.trim());
 			searchRequest.addParam("currentTerm", KsapFrameworkServiceLocator
-					.getTermHelper().getCurrentTerms().get(0).getId());
+					.getTermHelper().getCurrentTerm().getId());
 			searchRequest.addParam("lastScheduledTerm",
 					KsapFrameworkServiceLocator.getTermHelper()
 							.getLastScheduledTerm().getId());
@@ -1136,7 +1148,6 @@ public class CourseSearchController extends UifControllerBase {
 		// end, but is only loosely coupled on the server side.
 		List<SearchInfo> filteredResults = table
 				.getFilteredResults(dataTablesInputs);
-		// System.out.println(filteredResults.get(0).getItem().toJson().toString());
 
 		// Render JSON response for DataTables
 		ObjectNode json = mapper.createObjectNode();
@@ -1259,7 +1270,7 @@ public class CourseSearchController extends UifControllerBase {
 		request.addParam("lastScheduledTerm", KsapFrameworkServiceLocator
 				.getTermHelper().getLastScheduledTerm().getId());
 		request.addParam("currentTerm", KsapFrameworkServiceLocator
-				.getTermHelper().getCurrentTerms().get(0).getId());
+				.getTermHelper().getCurrentTerm().getId());
 		SearchResult searchResult;
 		try {
 			if ((searchResult = KsapFrameworkServiceLocator.getCluService()

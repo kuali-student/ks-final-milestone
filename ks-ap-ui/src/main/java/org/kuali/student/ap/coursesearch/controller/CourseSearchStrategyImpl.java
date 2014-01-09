@@ -23,6 +23,7 @@ import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.Credit;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -341,8 +342,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				listOfCourses.add(course);
 			}
 		}
-		// SearchResultRow row = result.getRows().get(0);
-		// row.getCells().
 
 		LOG.info("End of method getCourseInfo of CourseSearchController:"
 				+ System.currentTimeMillis());
@@ -371,29 +370,30 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalArgumentException("CLU lookup error", e);
 		}
-		if (result.getRows().isEmpty())
-			return new CourseSearchItemImpl();
+		try{
+            SearchResultRow row = KSCollectionUtils.getRequiredZeroElement(result.getRows());
+            CourseSearchItemImpl course = new CourseSearchItemImpl();
+            course.setCourseId(courseId);
+            course.setSubject(getCellValue(row, "course.subject"));
+            course.setNumber(getCellValue(row, "course.number"));
+            course.setLevel(getCellValue(row, "course.level"));
+            course.setCourseName(getCellValue(row, "course.name"));
+            course.setCode(getCellValue(row, "course.code"));
 
-		SearchResultRow row = result.getRows().get(0);
-		CourseSearchItemImpl course = new CourseSearchItemImpl();
-		course.setCourseId(courseId);
-		course.setSubject(getCellValue(row, "course.subject"));
-		course.setNumber(getCellValue(row, "course.number"));
-		course.setLevel(getCellValue(row, "course.level"));
-		course.setCourseName(getCellValue(row, "course.name"));
-		course.setCode(getCellValue(row, "course.code"));
-
-		String cellValue = getCellValue(row, "course.credits");
-		Credit credit = getCreditByID(cellValue);
-		if (credit != null) {
-			course.setCreditMin(credit.getMin());
-			course.setCreditMax(credit.getMax());
-			course.setCreditType(credit.getType());
-			course.setCredit(credit.getDisplay());
-		}
-		LOG.info("End of method getCourseInfo of CourseSearchController:"
-				+ System.currentTimeMillis());
-		return course;
+            String cellValue = getCellValue(row, "course.credits");
+            Credit credit = getCreditByID(cellValue);
+            if (credit != null) {
+                course.setCreditMin(credit.getMin());
+                course.setCreditMax(credit.getMax());
+                course.setCreditType(credit.getType());
+                course.setCredit(credit.getDisplay());
+            }
+            LOG.info("End of method getCourseInfo of CourseSearchController:"
+                    + System.currentTimeMillis());
+            return course;
+        }catch (OperationFailedException e){
+            return new CourseSearchItemImpl();
+        }
 	}
 
 	public boolean isCourseOffered(CourseSearchForm form,
@@ -1242,10 +1242,16 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			if (requests.get(i).getSearchKey() != null) {
 				if (requests.get(i).getSearchKey()
 						.equalsIgnoreCase("ksap.lu.search.division")) {
-					String queryText = (String) requests.get(i).getParams()
-							.get(0).getValues().get(0);
-					String key = (String) requests.get(i).getParams().get(0)
-							.getValues().get(0);
+                    String queryText;
+                    String key;
+					try{
+                        queryText = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
+                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
+                        key = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
+                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
+                    }catch (OperationFailedException e){
+                        throw new RuntimeException("Search Failure", e);
+                    }
 					if (form.getSearchQuery().length() <= 2) {
 						break;
 					} else {
@@ -1301,12 +1307,21 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				}
 				if (requests.get(i).getSearchKey()
 						.equalsIgnoreCase("ksap.lu.search.fulltext")) {
-					String key = (String) requests.get(i).getParams().get(0)
-							.getValues().get(0);
+                    String key;
+                    try{
+                        key = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
+                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
+                    }catch (OperationFailedException e){
+                        throw new RuntimeException("Search Failure", e);
+                    }
 					String division = null;
 					if (key.length() <= 2) {
-						requests.get(i).getParams().get(0)
+                        try{
+                            KSCollectionUtils.getRequiredZeroElement(requests.get(i).getParams())
 								.setValues(Arrays.asList("null"));
+                        } catch (OperationFailedException e){
+
+                        }
 						break;
 					} else {
 						if (key.length() > 2) {
@@ -1339,10 +1354,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 							if (division != null) {
 								requests.get(i).setSearchKey(
 										"ksap.lu.search.division");
-								requests.get(i).getParams().get(0)
+                                try{
+                                    KSCollectionUtils.getRequiredZeroElement(requests.get(i).getParams())
 										.setKey("division");
-								requests.get(i).getParams().get(0)
+                                    KSCollectionUtils.getRequiredZeroElement(requests.get(i).getParams())
 										.setValues(Arrays.asList(division));
+                                }catch (OperationFailedException e){
+                                    LOG.warn("Couldn't set params for division");
+                                }
 
 								SearchRequestInfo request1 = new SearchRequestInfo(
 										"ksap.lu.search.title");

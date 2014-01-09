@@ -4,8 +4,10 @@ import org.apache.log4j.Logger;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CreditsFormatter;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -53,8 +55,11 @@ public class PlannerItem implements
 		campusCode = completedRecord.getAttributeValue("campusCode");
 		courseCode = completedRecord.getCourseCode();
         List<Course> courses = KsapFrameworkServiceLocator.getCourseHelper().getCoursesByCode(courseCode);
-        if(courses != null){
-            if(courses.size()>0) courseId = courses.get(0).getId();
+        for(Course course : courses){
+            if(course.getStateKey().equals("Active")){
+                courseId = course.getId();
+                break;
+            }
         }
 		activityCode = completedRecord.getActivityCode();
 		courseTitle = completedRecord.getCourseTitle();
@@ -80,7 +85,11 @@ public class PlannerItem implements
 
 	public PlannerItem(PlanItem planItem, Course course) {
 		uniqueId = UUID.randomUUID().toString();
-		termId = planItem.getPlanPeriods().get(0);
+        try{
+		    termId = KSCollectionUtils.getRequiredZeroElement(planItem.getPlanPeriods());
+        }catch (OperationFailedException e){
+            LOG.warn("No Term id found for "+course.getCode(),e);
+        }
 		learningPlanId = planItem.getLearningPlanId();
 		planItemId = planItem.getId();
 		courseId = planItem.getRefObjectId();

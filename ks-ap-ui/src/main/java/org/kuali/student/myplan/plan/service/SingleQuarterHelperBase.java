@@ -27,7 +27,7 @@ public class SingleQuarterHelperBase {
 			String termAtp, boolean isServiceUp) {
 		String globalCurrentAtpId = null;
 		globalCurrentAtpId = KsapFrameworkServiceLocator.getTermHelper()
-				.getCurrentTerms().get(0).getId();
+				.getCurrentTerm().getId();
 
 		/*
 		 * Populating the PlannedTerm List.

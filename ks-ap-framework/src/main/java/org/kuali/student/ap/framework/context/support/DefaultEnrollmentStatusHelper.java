@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -127,12 +128,12 @@ public class DefaultEnrollmentStatusHelper implements EnrollmentStatusHelper {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("CLU lookup failure", e);
 		}
-		String courseId = null;
-		if (searchResult.getRows().size() > 0) {
-			courseId = searchResult.getRows().get(0).getCells().get(0)
-					.getValue();
-		}
-		return courseId;
+        try{
+			return KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils.getRequiredZeroElement(searchResult.getRows()).getCells())
+                    .getValue();
+        }catch(OperationFailedException e){
+            return null;
+        }
 	}
 
 }

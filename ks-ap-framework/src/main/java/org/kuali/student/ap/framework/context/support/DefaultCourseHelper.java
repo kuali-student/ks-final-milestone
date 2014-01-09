@@ -14,6 +14,7 @@ import org.kuali.student.ap.framework.context.CourseHelper;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.DeconstructedCourseCode;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -461,7 +462,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			TermInfo lo;
 			try {
 				lo = KsapFrameworkServiceLocator.getAcademicCalendarService().getTerm(
-						courseOfferingInfo.get(0).getTermId(),
+                        KSCollectionUtils.getRequiredZeroElement(courseOfferingInfo).getTermId(),
 						KsapFrameworkServiceLocator.getContext().getContextInfo());
 			} catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
 				throw new IllegalArgumentException("AC lookup failure", e);
@@ -575,7 +576,11 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("CLU lookup error", e);
 		}
-		return searchResult.getRows().size() > 0 ? searchResult.getRows().get(0).getCells().get(0).getValue() : null;
+		try{
+            return KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils.getRequiredZeroElement(searchResult.getRows()).getCells()).getValue();
+        }catch (OperationFailedException e){
+            return null;
+        }
 	}
 
 	/**

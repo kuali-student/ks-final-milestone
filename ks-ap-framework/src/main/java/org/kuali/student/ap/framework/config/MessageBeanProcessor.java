@@ -22,6 +22,8 @@ import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.field.ActionField;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -181,8 +183,13 @@ public class MessageBeanProcessor extends DictionaryBeanProcessorBase {
         // list factory beans just have the one list property (with no name)
         if (ListFactoryBean.class.isAssignableFrom(beanClass)) {
             MutablePropertyValues pvs = beanDefinition.getPropertyValues();
+            PropertyValue propertyValue;
+            try{
+                propertyValue = KSCollectionUtils.getRequiredZeroElement(pvs.getPropertyValueList());
+            }catch(OperationFailedException e){
+                throw new RuntimeException("Message Failure", e);
+            }
 
-            PropertyValue propertyValue = pvs.getPropertyValueList().get(0);
             List<?> listValue = (List<?>) propertyValue.getValue();
 
             applyMessageToNestedListBean(message, listValue, key);

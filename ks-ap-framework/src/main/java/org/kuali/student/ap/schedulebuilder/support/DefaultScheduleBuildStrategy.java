@@ -20,6 +20,7 @@ import org.kuali.student.ap.schedulebuilder.infc.CourseOption;
 import org.kuali.student.ap.schedulebuilder.infc.PossibleScheduleOption;
 import org.kuali.student.ap.schedulebuilder.infc.ReservedTime;
 import org.kuali.student.ap.schedulebuilder.infc.SecondaryActivityOptions;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
@@ -877,7 +878,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 					throw new PermissionDeniedException(
 							"No learning plans found for student " + studentId);
 				}
-				return lps.get(0);
+				return KSCollectionUtils.getRequiredZeroElement(lps);
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException(
 						"No learning plan exists for student " + studentId, e);

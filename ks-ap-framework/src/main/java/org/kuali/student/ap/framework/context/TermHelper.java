@@ -186,7 +186,6 @@ public interface TermHelper {
      *
      * @return Current Term
      */
-    @Deprecated
     public Term getCurrentTerm();
 
     /**

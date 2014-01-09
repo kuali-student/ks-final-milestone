@@ -4,13 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
 
 public class PlanItemDataObject implements Serializable {
-
+    private static final Logger LOG = Logger
+            .getLogger(PlanItemDataObject.class);
 	private static final long serialVersionUID = -3416993703358577253L;
 
 	//  Common properties.
@@ -33,12 +37,14 @@ public class PlanItemDataObject implements Serializable {
         PlanItemDataObject itemDO = new PlanItemDataObject();
 
         // At the application level we are only dealing with single ATP per plan item
-        if (item.getPlanPeriods() != null && item.getPlanPeriods().size() > 0) {
-            itemDO.setAtp(item.getPlanPeriods().get(0));
+        try{
+            itemDO.setAtp(KSCollectionUtils.getRequiredZeroElement(item.getPlanPeriods()));
             YearTerm termYear = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(itemDO.getAtp());
             itemDO.setTermName(termYear.getTermName());
             itemDO.setYear(termYear.getYear());
             itemDO.setTerm(termYear.getLongName());
+        }catch (OperationFailedException e){
+            LOG.warn("No term found during build",e);
         }
 
         itemDO.setDateAdded(item.getMeta().getCreateTime());

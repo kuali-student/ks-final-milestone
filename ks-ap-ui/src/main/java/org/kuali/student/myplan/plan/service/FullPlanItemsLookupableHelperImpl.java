@@ -10,6 +10,7 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.myplan.plan.dataobject.FullPlanItemsDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
@@ -91,9 +92,14 @@ public class FullPlanItemsLookupableHelperImpl extends
                     plannedTermList.add(new PlannedTerm());
                 }
             }
-
-			YearTerm minYear = KsapFrameworkServiceLocator.getTermHelper()
-					.getYearTerm(plannedTermList.get(0).getAtpId());
+            YearTerm minYear;
+			try{
+                minYear= KsapFrameworkServiceLocator.getTermHelper()
+                        .getYearTerm(KSCollectionUtils.getRequiredZeroElement(plannedTermList).getAtpId());
+            }catch (OperationFailedException e){
+                minYear=KsapFrameworkServiceLocator.getTermHelper()
+                        .getYearTerm(KsapFrameworkServiceLocator.getTermHelper().getCurrentTerm());
+            }
             YearTerm maxYear = minYear;
             if(!StringUtils.isEmpty(plannedTermList.get(plannedTermList.size() - 1)
                     .getAtpId())){

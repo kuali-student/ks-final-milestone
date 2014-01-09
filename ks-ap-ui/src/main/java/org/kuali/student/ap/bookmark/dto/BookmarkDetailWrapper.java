@@ -75,7 +75,7 @@ public class BookmarkDetailWrapper implements HasUniqueId, Comparable<BookmarkDe
 
     public String getProjectedForUI(){
         CollectionListPropertyEditor editor = new CollectionListPropertyEditor();
-        editor.setValue(getCourseSummaryDetails());
+        editor.setValue(getCourseSummaryDetails().getTermsOffered());
         editor.setEmptyListMessage("Check with the department or your adviser for more information about this course.");
         editor.setApplyClassOnItem(true);
         if (editor.getEmptyListStyleClasses()==null) {

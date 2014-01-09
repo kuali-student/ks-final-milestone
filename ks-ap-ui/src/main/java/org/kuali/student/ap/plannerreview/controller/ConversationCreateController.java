@@ -21,6 +21,7 @@ import org.kuali.student.ap.plannerreview.dto.CourseTypeInfo;
 import org.kuali.student.ap.plannerreview.dto.LearningPlanReviewRequestInfo;
 import org.kuali.student.ap.plannerreview.dto.LearningPlanReviewTermInfo;
 import org.kuali.student.ap.plannerreview.dto.PlanTermInfo;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
@@ -440,10 +441,12 @@ public class ConversationCreateController extends ConversationControllerBase {
 		List<AcademicYearInfo> availableAcademicYears = new ArrayList<AcademicYearInfo>();
 
 		List<LearningPlanInfo> plans;
+        String planId;
 		try {
 			plans = getAcademicPlanService().getLearningPlansForStudentByType(
 					getUserId(), PlanConstants.LEARNING_PLAN_TYPE_PLAN,
 					KsapFrameworkServiceLocator.getContext().getContextInfo());
+            planId = KSCollectionUtils.getRequiredZeroElement(plans).getId();
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("LP lookup failure", e);
 		} catch (InvalidParameterException e) {
@@ -454,7 +457,7 @@ public class ConversationCreateController extends ConversationControllerBase {
 			throw new IllegalStateException("LP lookup failure", e);
 		}
 
-		String planId = plans.get(0).getId();
+
 		form.setLearningPlanId(planId);
 		List<PlanItemInfo> planItems;
 		try {

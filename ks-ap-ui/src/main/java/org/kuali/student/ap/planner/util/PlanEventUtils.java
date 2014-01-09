@@ -1,5 +1,6 @@
 package org.kuali.student.ap.planner.util;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
@@ -7,6 +8,7 @@ import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.course.CreditsFormatter;
 import org.kuali.student.ap.framework.course.CreditsFormatter.Range;
+import org.kuali.student.common.util.KSCollectionUtils;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -37,6 +39,7 @@ import java.util.UUID;
  * @version 0.7.6
  */
 public class PlanEventUtils {
+    private static final Logger LOG = Logger.getLogger(PlanEventUtils.class);
 
 	private static class EventsKey {
 		@Override
@@ -185,8 +188,8 @@ public class PlanEventUtils {
         String menusuffix = "";
 
         List<String> planPeriods = planItem.getPlanPeriods();
-        if (planPeriods != null && !planPeriods.isEmpty()) {
-            String termId = planPeriods.get(0);
+        try{
+            String termId = KSCollectionUtils.getRequiredZeroElement(planPeriods);
 
             Term term = termHelper.getTerm(termId);
             assert term != null : "Invalid term " + termId + " in plan item "
@@ -202,6 +205,8 @@ public class PlanEventUtils {
                     && KsapFrameworkServiceLocator.getShoppingCartStrategy()
                     .isCartAvailable(termId, campusCode))
                 menusuffix = "_cartavailable";
+        }catch (OperationFailedException e){
+            LOG.warn("No term found during add event", e);
         }
 
         addEvent.add("category", category);
@@ -226,8 +231,12 @@ public class PlanEventUtils {
                 AcademicPlanServiceConstants.ItemCategory.BACKUP)
                 || planItem.getCategory().equals(
                 AcademicPlanServiceConstants.ItemCategory.CART)) {
-            removeEvent.add("termId",
-                    planItem.getPlanPeriods().get(0).replace('.', '-'));
+            try{
+                removeEvent.add("termId",
+                    KSCollectionUtils.getRequiredZeroElement(planItem.getPlanPeriods()).replace('.', '-'));
+            }catch(OperationFailedException e){
+                LOG.warn("No term id found during remove",e);
+            }
         }
 
         JsonObjectBuilder events = getEventsBuilder();
@@ -370,8 +379,8 @@ public class PlanEventUtils {
 		String menusuffix = "";
 
 		List<String> planPeriods = planItem.getPlanPeriods();
-		if (planPeriods != null && !planPeriods.isEmpty()) {
-			String termId = planPeriods.get(0);
+		try{
+			String termId = KSCollectionUtils.getRequiredZeroElement(planPeriods);
 
 			Term term = termHelper.getTerm(termId);
 			assert term != null : "Invalid term " + termId + " in plan item "
@@ -387,7 +396,9 @@ public class PlanEventUtils {
 					&& KsapFrameworkServiceLocator.getShoppingCartStrategy()
 							.isCartAvailable(termId, campusCode))
 				menusuffix = "_cartavailable";
-		}
+		}catch (OperationFailedException e){
+            LOG.warn("No term found on add event", e);
+        }
 
 		addEvent.add("category", category);
 		addEvent.add("menusuffix", menusuffix);
@@ -410,8 +421,12 @@ public class PlanEventUtils {
 						AcademicPlanServiceConstants.ItemCategory.BACKUP)
 				|| planItem.getCategory().equals(
 						AcademicPlanServiceConstants.ItemCategory.CART)) {
-			removeEvent.add("termId",
-					planItem.getPlanPeriods().get(0).replace('.', '-'));
+            try{
+			    removeEvent.add("termId",
+                        KSCollectionUtils.getRequiredZeroElement(planItem.getPlanPeriods()).replace('.', '-'));
+            }catch(OperationFailedException e){
+                LOG.warn("No term found during remove", e);
+            }
 		}
 
         eventList.add(PlanConstants.JS_EVENT_NAME.PLAN_ITEM_DELETED.name(),
