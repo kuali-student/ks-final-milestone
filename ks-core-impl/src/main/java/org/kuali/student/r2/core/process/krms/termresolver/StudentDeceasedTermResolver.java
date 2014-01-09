@@ -41,8 +41,8 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
 
     static {
         Set<String> temp = new HashSet<String>(2);
-        temp.add(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
-        temp.add(RulesExecutionConstants.CURRENT_DATE_TERM_NAME);
+        temp.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        temp.add(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
 
         preRequisites = Collections.unmodifiableSet(temp);
     }
@@ -58,7 +58,7 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.STUDENT_DECEASED_TERM_NAME;
+        return RulesExecutionConstants.STUDENT_DECEASED_DATE_TERM.getName();
     }
 
     @Override
@@ -74,8 +74,8 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
-        Date currentDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.CURRENT_DATE_TERM_NAME);
+        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        Date currentDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.AS_OF_DATE_TERM.getName());
 
         Entity entity = identityService.getEntity(studentId);
 

@@ -115,7 +115,7 @@ public abstract class KRMSEvaluator {
             ExemptionAwareProposition exemptionProp = null;
 
             if (prop instanceof SubProcessProposition) {
-                List<ValidationResultInfo> subResults = (List<ValidationResultInfo>) e.getResultDetails().get(RulesExecutionConstants.SUBPROCESS_EVALUATION_RESULTS);
+                List<ValidationResultInfo> subResults = (List<ValidationResultInfo>) e.getResultDetails().get(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS);
                 results.addAll(subResults);
             } else {
                 // if the proposition is could have an exemption, check for the exemption and add a suffix to the message

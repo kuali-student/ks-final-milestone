@@ -44,8 +44,8 @@ public class SummerOnlyStudentTermResolver implements TermResolver<Boolean> {
     private final String summerPopulationKey;
 
     static {
-        prerequisites.add(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
-        prerequisites.add(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        prerequisites.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
     }
 
     public SummerOnlyStudentTermResolver(String summerPopulationKey) {
@@ -63,7 +63,7 @@ public class SummerOnlyStudentTermResolver implements TermResolver<Boolean> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.SUMMER_ONLY_STUDENT_TERM_NAME;
+        return RulesExecutionConstants.SUMMER_ONLY_STUDENT_TERM.getName();
     }
 
     @Override
@@ -81,8 +81,8 @@ public class SummerOnlyStudentTermResolver implements TermResolver<Boolean> {
 
         Boolean result = false;
 
-        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
 
         try {
             result = populationService.isMemberAsOfDate(studentId, summerPopulationKey, context.getCurrentDate(), context);

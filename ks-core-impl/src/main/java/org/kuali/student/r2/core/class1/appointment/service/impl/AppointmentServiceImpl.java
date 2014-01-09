@@ -609,6 +609,14 @@ public class AppointmentServiceImpl implements AppointmentService {
 		// TODO KSENROLL-8703
 		throw new UnsupportedOperationException("not implemented");
 	}
+
+	@Override
+	public StatusInfo deleteAppointmentWindow(String appointmentWindowId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
     
     
     
