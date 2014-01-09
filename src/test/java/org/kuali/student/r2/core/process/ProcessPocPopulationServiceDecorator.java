@@ -28,7 +28,6 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
     private void init() {
         ContextInfo contextInfo = new ContextInfo();
         contextInfo.setPrincipalId("POC-Initializer");
-
         _createPop(PopulationServiceConstants.EVERYONE_POPULATION_KEY, "Everyone", "Everyone is included in this population",
                 PopulationServiceConstants.POPULATION_RULE_TYPE_EVERYONE_KEY, "", "", false, false, contextInfo);
         _createPop(PopulationServiceConstants.ATHLETES_POPULATION_KEY, "Athletes", "Active NCAA qualified athletes",
@@ -48,19 +47,19 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
                 PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "", "", false, true, contextInfo);
 
         _createPop(PopulationServiceConstants.FRESHMAN_POPULATION_KEY, "Freshman", "Class level or year of study first year",
-                PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "", "", true, false, contextInfo);
+                PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "", "", true, false, contextInfo);
         _createPop(PopulationServiceConstants.SOPHOMORE_POPULATION_KEY, "Sophomore", "Class level or year of study second year",
-                PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "", "", true, false, contextInfo);
+                PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "", "", true, false, contextInfo);
         _createPop(PopulationServiceConstants.JUNIOR_POPULATION_KEY, "Junior", "Class level or year of study thrird year",
-                PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "", "", true, false, contextInfo);
+                PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "", "", true, false, contextInfo);
         _createPop(PopulationServiceConstants.SENIOR_POPULATION_KEY, "Senior",
                 "Class level or year of study fourth and typically final year",
-                PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "", "", true, false, contextInfo);
+                PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "", "", true, false, contextInfo);
         _createPop(PopulationServiceConstants.UPPERCLASS_POPULATION_KEY, "Upperclass", "Undergraduate but not freshmen",
-                PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "", "", true, false, contextInfo);
+                PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "", "", true, false, contextInfo);
         _createPop(PopulationServiceConstants.FINAL_TERM_SENIORS_POPULATION_KEY, "Final Term Seniors",
                 "Students who have enough credits to graduate this semester",
-                PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, "", "", true, false, contextInfo);
+                PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "", "", true, false, contextInfo);
 
         _createPop(PopulationServiceConstants.GRADUATE_POPULATION_KEY, "Graduate",
                 "Graduate level student, working on masters or higher", PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY,
@@ -118,7 +117,6 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
         _createPop(PopulationServiceConstants.EVEN_NUMBERED_POPULATION_KEY, "Even Numbered",
                 "Students whose last digit of their id is even 0,2,4,6,8",
                 PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, "", "", false, true, contextInfo);
-
 
 
     }

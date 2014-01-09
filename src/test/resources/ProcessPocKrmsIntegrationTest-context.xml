@@ -104,5 +104,6 @@
     </bean>
     <bean id="gesServiceMapImpl" class="org.kuali.student.enrollment.class2.ges.service.impl.GesServiceMapImpl" >
         <property name="populationService" ref="populationService" />
+        <property name="atpService" ref="atpService" />
     </bean>
 </beans>
