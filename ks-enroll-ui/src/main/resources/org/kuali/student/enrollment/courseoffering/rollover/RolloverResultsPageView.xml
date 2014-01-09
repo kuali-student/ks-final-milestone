@@ -61,7 +61,7 @@
                                                 <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Go" p:methodToCall="showRolloverResults" p:valign="bottom"/>
+                                        <bean parent="Uif-SecondaryActionButton" p:performClientSideValidation="true" p:actionLabel="Show" p:methodToCall="showRolloverResults" p:valign="bottom"/>
                                         <bean parent="Uif-Message" p:messageText="Enter Valid Term" p:render="@{rolloverSourceTermDesc=='' and rolloverTargetTermCode!=''}" p:style="color:red;"/>
                                     </list>
                                 </property>
