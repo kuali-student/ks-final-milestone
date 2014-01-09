@@ -2103,10 +2103,8 @@
    <list>
     <ref bean="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyQuantity" />
     <ref bean="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey" />
-    <ref bean="courseFeeInfo.feeAmounts.currencyAmountInfo.id" />
    </list>
   </property>
-  <property name="hasMetaData" value="true" />
  </bean>
  <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo" parent="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent" />
 
@@ -2122,11 +2120,6 @@
   <property name="defaultValue" value="kuali.currency.typeKey.usdollars.cents" />
  </bean>
  <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyTypeKey-parent" />
-
- <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" abstract="true" parent="currencyAmountInfo.id-parent">
-  <property name="name" value="id" />
- </bean>
- <bean id="courseFeeInfo.feeAmounts.currencyAmountInfo.id" parent="courseFeeInfo.feeAmounts.currencyAmountInfo.id-parent" />
 
 <!-- Redefine the ResultComponentInfo to have dynamic attributes -->
 <bean id="courseInfo.creditOptions.ResultValuesGroupInfo-parent" abstract="true"
