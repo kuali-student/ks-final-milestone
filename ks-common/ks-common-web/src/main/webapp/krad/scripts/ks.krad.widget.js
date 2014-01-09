@@ -312,7 +312,7 @@ function _openPopupContentFunction(source, contentId, popupOptions, closeButton)
     }
 
     var clonedDefaultOptions = jQuery.extend({}, BUBBLEPOPUP_DEFAULT_OPTIONS);
-    jQuery.extend(clonedDefaultOptions, popupOptions, {innerHtmlId:contentId});
+    jQuery.extend(clonedDefaultOptions, popupOptions, {innerHtml:jQuery("#" + contentId).html()});
     popupTarget.ShowBubblePopup(clonedDefaultOptions,true);
     popupTarget.FreezeBubblePopup();
 
