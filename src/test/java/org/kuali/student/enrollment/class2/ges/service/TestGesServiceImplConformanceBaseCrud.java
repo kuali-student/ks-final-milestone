@@ -22,9 +22,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.AttributeTester;
 import org.kuali.student.common.test.MetaTester;
+import org.kuali.student.common.test.util.KeyEntityTester;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.KeyNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -57,7 +57,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 	// SETUP
 	// ====================
 	
-	@Resource
+	@Resource(name = "gesServiceImpl")
 	public GesService testService;
 	public GesService getGesService() { return testService; }
 	public void setGesService(GesService service) { testService = service; }
@@ -106,7 +106,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			ParameterInfo actual = testService.createParameter ( expected.getValueTypeKey(), expected.getKey(), expected.getTypeKey(), expected, contextInfo);
 			
 			assertNotNull(actual.getKey());
-			check(expected, actual);
+        new KeyEntityTester().check(expected, actual);
 			
 			// METHOD TO TEST DTO FIELDS HERE FOR TEST CREATE
 			testCrudParameter_testDTOFieldsForTestCreateUpdate (expected, actual);
@@ -120,7 +120,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			expected = actual;
 			actual = testService.getParameter ( actual.getKey(), contextInfo);
 			assertEquals(expected.getKey(), actual.getKey());
-			check(expected, actual);
+            new KeyEntityTester().check(expected, actual);
 			
 			// INSERT CODE FOR TESTING MORE DTO FIELDS HERE
 			testCrudParameter_testDTOFieldsForTestCreateUpdate (expected, actual);
@@ -144,7 +144,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			actual = testService.updateParameter ( expected.getKey(), expected, contextInfo);
 			
 			assertEquals(expected.getKey(), actual.getKey());
-			check(expected, actual);
+            new KeyEntityTester().check(expected, actual);
 			
 			// METHOD TO INSERT CODE FOR TESTING DTO FIELDS HERE
 			testCrudParameter_testDTOFieldsForTestCreateUpdate (expected, actual);
@@ -171,7 +171,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			actual = testService.getParameter ( actual.getKey(), contextInfo);
 			
 			assertEquals(expected.getKey(), actual.getKey());
-			check(expected, actual);
+            new KeyEntityTester().check(expected, actual);
 			
 			// INSERT METHOD CODE FOR TESTING DTO FIELDS HERE
 			testCrudParameter_testDTOFieldsForTestReadAfterUpdate (expected, actual);
@@ -468,10 +468,6 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 	}
 
-    private void check(KeyNamelessEntityInfo expected, KeyNamelessEntityInfo actual) {
-        assertEquals(expected.getTypeKey(), actual.getTypeKey());
-        assertEquals(expected.getStateKey(), actual.getStateKey());
-    }
 
     private void check(IdNamelessEntityInfo expected, IdNamelessEntityInfo actual) {
         assertEquals(expected.getTypeKey(), actual.getTypeKey());

@@ -19,17 +19,15 @@ package org.kuali.student.enrollment.class2.ges.service;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.common.test.util.RichTextTester;
 import org.kuali.student.poc.rules.population.PopulationPocStudentEnum;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
@@ -44,6 +42,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -76,6 +75,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		expected.setStateKey("stateKey01");
 		expected.setKey("key01");
 		expected.setValueTypeKey("valueTypeKey01");
+        expected.setName("Max Credit");
+        expected.setDescr((RichTextHelper.buildRichTextInfo("The max credit student can take in a period of time.", "formatted descr")));
         expected.setRequireUniquePriorities(true);
 	}
 	
@@ -91,7 +92,9 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
 		assertEquals (expected.getValueTypeKey(), actual.getValueTypeKey());
-        assertEquals (expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
+        assertEquals (expected.getName(), actual.getName());
+        new RichTextTester().check(expected.getDescr(),actual.getDescr());
+        assertEquals(expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
 	}
 	
 	/*
@@ -100,6 +103,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	public void testCrudParameter_setDTOFieldsForTestUpdate(ParameterInfo expected)
 	{
 		expected.setStateKey("stateKey_Updated");
+        expected.setName("My Max Credit");
+        expected.setDescr((RichTextHelper.buildRichTextInfo("My max credit student can take in a period of time." ,"formatted descr")));
         expected.setRequireUniquePriorities(false);
 	}
 	
@@ -114,6 +119,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
 		assertEquals (expected.getValueTypeKey(), actual.getValueTypeKey());
+        assertEquals (expected.getName(), actual.getName());
+        new RichTextTester().check(expected.getDescr(),actual.getDescr());
         assertEquals (expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
 	}
 	
@@ -125,6 +132,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	{
 		expected.setKey("key_Updated");
 		expected.setValueTypeKey("valueTypeKey_Updated");
+        expected.setName("Max Credit Limit");
+        expected.setDescr((RichTextHelper.buildRichTextInfo("Limit max credit student can take in a period of time." ,"formatted descr")));
         expected.setRequireUniquePriorities(false);
 	}
 	
@@ -314,6 +323,8 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
         assertEquals(0, values.size());
 	}
+
+
 	
 	/* Method Name: evaluateValuesByParameterAndPersonAndAtpAndOnDate */
 	@Test
@@ -344,6 +355,71 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         assertEquals(15, (long)values.get(0).getNumericValue());
         assertEquals(20, (long)values.get(1).getNumericValue());
 	}
+    /* Method Name: */
+    @Test
+    public void test_evaluateValue() throws OperationFailedException, MissingParameterException, InvalidParameterException, PermissionDeniedException, DoesNotExistException {
+        loadData();
+        GesCriteriaInfo criteriaInfo = new GesCriteriaInfo();
+        criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT1.getPersonId());
+        criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
+        ValueInfo value = testService.evaluateValue(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
+
+        assertEquals(15, (long) value.getNumericValue());
+
+
+        criteriaInfo.setPersonId(null);
+        criteriaInfo.setAtpId(null);
+        value = testService.evaluateValue(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
+
+        assertEquals(15, (long) value.getNumericValue());
+
+
+        criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT8.getPersonId());
+        criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
+        value = testService.evaluateValue(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
+
+        assertEquals(20, (long) value.getNumericValue());
+
+        criteriaInfo.setPersonId("SOME_RANDOM_ID_THAT_DOES_NOT_EXIST");
+        criteriaInfo.setAtpId(null);
+        try {
+            value = testService.evaluateValue(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
+            fail("Exception should have been thrown");
+        }catch (DoesNotExistException e){
+
+        }
+    }
+    /* Method Name: evaluateValuesByParameterAndPersonAndAtpAndOnDate */
+    @Test
+    public void test_evaluateValueOnDate() throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        loadData();
+        GesCriteriaInfo criteriaInfo = new GesCriteriaInfo();
+        criteriaInfo.setPersonId(PopulationPocStudentEnum.STUDENT1.getPersonId());
+        criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
+        try{
+            ValueInfo value = testService.evaluateValueOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2051-01-01"), contextInfo);
+            fail("Exception should have been thrown");
+        }catch (DoesNotExistException e){
+
+        }
+        try{
+            ValueInfo value = testService.evaluateValueOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-11"), contextInfo);
+            fail("Exception should have been thrown");
+        }catch (DoesNotExistException e){
+
+        }
+
+
+        ValueInfo value = testService.evaluateValueOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"), contextInfo);
+        assertEquals(15, (long)value.getNumericValue());
+
+        value = testService.evaluateValueOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, new Date(), contextInfo);
+        assertEquals(15, (long)value.getNumericValue());
+
+        value = testService.evaluateValueOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), contextInfo);
+        assertEquals(15, (long)value.getNumericValue());
+    }
 
     private void loadData() throws OperationFailedException {
         try {

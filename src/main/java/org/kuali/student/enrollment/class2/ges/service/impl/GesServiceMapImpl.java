@@ -16,7 +16,7 @@
 package org.kuali.student.enrollment.class2.ges.service.impl;
 
 
-import org.apache.commons.lang.StringUtils;
+
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.UUIDHelper;
@@ -36,9 +36,6 @@ import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.population.service.PopulationService;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -51,8 +48,6 @@ import java.util.Map;
 
 public class GesServiceMapImpl implements MockService, GesService {
 
-    private PopulationService populationService;
-    private AtpService atpService;
 
     // cache variable
     // The LinkedHashMap is just so the values come back in a predictable order
@@ -60,21 +55,6 @@ public class GesServiceMapImpl implements MockService, GesService {
     private Map<String, ValueInfo> valueMap = new LinkedHashMap<String, ValueInfo>();
 
 
-    public PopulationService getPopulationService() {
-        return populationService;
-    }
-
-    public void setPopulationService(PopulationService populationService) {
-        this.populationService = populationService;
-    }
-
-    public AtpService getAtpService() {
-        return atpService;
-    }
-
-    public void setAtpService(AtpService atpService) {
-        this.atpService = atpService;
-    }
 
     @Override
     public void clear() {
@@ -409,9 +389,7 @@ public class GesServiceMapImpl implements MockService, GesService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-
-        Date now = new Date();
-        return evaluateValuesOnDate(parameterKey, criteria, now, contextInfo);
+        return new ArrayList<ValueInfo>();
 
     }
 
@@ -421,61 +399,31 @@ public class GesServiceMapImpl implements MockService, GesService {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        List<ValueInfo> values = getValuesByParameter(parameterKey, contextInfo);
-        List<ValueInfo> resultValues = new ArrayList<ValueInfo>();
-        for (ValueInfo value : values) {
-            try {
-                if (isActive(value, onDate) && isValueApplicable(value, criteria, onDate, contextInfo)) {
-                    resultValues.add(value);
-                }
-            } catch (DoesNotExistException e) {
-                throw new OperationFailedException("Unable to evaluate values for parameter " + parameterKey, e);
-            }
-        }
-        Collections.sort(resultValues, new ValuePriorityComparator());
-        return resultValues;
+
+
+        return new ArrayList<ValueInfo>();
     }
 
-    private boolean isValueApplicable(ValueInfo value, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo)
-            throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        return isAtpActive(value.getAtpTypeKeys(), criteria, onDate, contextInfo) &&
-                isInPopulation(value.getPopulationId(), criteria, onDate, contextInfo) &&
-                evaluateRule(value.getRuleId(), criteria, onDate, contextInfo);
+    @Override
+    public ValueInfo evaluateValue(String parameterKey, GesCriteriaInfo criteria, ContextInfo contextInfo)
+            throws InvalidParameterException
+            , DoesNotExistException
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException {
+        throw new DoesNotExistException("There are not any applicable values for the given criteria");
 
     }
 
-    private boolean isActive(ValueInfo value, Date date) {
-        return (value.getEffectiveDate() == null || !date.before(value.getEffectiveDate()) &&
-                (value.getExpirationDate() == null || !date.after(value.getExpirationDate())));
-    }
+    @Override
+    public ValueInfo evaluateValueOnDate(String parameterKey, GesCriteriaInfo criteria, Date onDate, ContextInfo contextInfo)
+            throws InvalidParameterException
+            , DoesNotExistException
+            , MissingParameterException
+            , OperationFailedException
+            , PermissionDeniedException {
+            throw new DoesNotExistException("There are not any applicable values for the given criteria");
 
-    private boolean isInPopulation(String popId, GesCriteriaInfo criteria, Date date, ContextInfo contextInfo)
-            throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        return StringUtils.isEmpty(popId) || StringUtils.isEmpty(criteria.getPersonId()) ||
-                populationService.isMemberAsOfDate(criteria.getPersonId(), popId, date, contextInfo);
-    }
-
-    private boolean evaluateRule(String ruleId, GesCriteriaInfo criteria, Date date, ContextInfo contextInfo) {
-
-        return true;
-    }
-
-    private boolean isAtpActive(List<String> atpTypeKeys, GesCriteriaInfo criteria, Date date, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        if (atpTypeKeys == null || atpTypeKeys.isEmpty()|| StringUtils.isEmpty(criteria.getAtpId())){
-            return true;
-        }
-        String atpTypeKey = pullAtpTypeKey(criteria.getAtpId(),contextInfo);
-        for(String key: atpTypeKeys){
-
-            if (key.equals(atpTypeKey)){
-                return true;
-            }
-        }
-        return false;
-    }
-    private String pullAtpTypeKey(String atpId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        AtpInfo info = atpService.getAtp(atpId,contextInfo);
-        return info.getTypeKey();
     }
 
     private MetaInfo newMeta(ContextInfo context) {
@@ -495,17 +443,5 @@ public class GesServiceMapImpl implements MockService, GesService {
         meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
         return meta;
     }
-
-    private class ValuePriorityComparator implements Comparator<ValueInfo> {
-
-        @Override
-        public int compare(ValueInfo o1, ValueInfo o2) {
-            int priorityOne = o1.getPriority() == null ? Integer.MAX_VALUE: o1.getPriority();
-            int priorityTwo = o2.getPriority() == null ? Integer.MAX_VALUE: o2.getPriority();
-
-            return priorityOne - priorityTwo;
-        }
-    }
-
 }
 

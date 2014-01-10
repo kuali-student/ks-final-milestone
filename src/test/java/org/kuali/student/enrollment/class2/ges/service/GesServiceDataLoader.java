@@ -39,7 +39,7 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
     public static final String PARAM_KEY_MAX_CREDITS = "max.credits";
     public static final String PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM = "min.credits.required.for.program";
 
-    @Resource
+    @Resource(name = "gesServiceImpl")
     private GesService gesService;
     @Resource
     private PopulationServiceDataLoader popDataLoader;
