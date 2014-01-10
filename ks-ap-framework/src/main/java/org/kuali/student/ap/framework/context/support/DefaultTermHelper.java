@@ -284,7 +284,19 @@ public class DefaultTermHelper implements TermHelper {
             if (acl == null || acl.isEmpty())
                 throw new IllegalStateException(
                         "AcademicCalendarService did not return an academic calendar for year/term " + yearTerm);
-            AcademicCalendarInfo ac = acl.get(0);
+            // Works on the assumption that there is only 1 official calendar for any term.
+            AcademicCalendarInfo ac =null;
+            for(AcademicCalendarInfo calendar : acl){
+                if(calendar.getStateKey().equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY)){
+                    ac=calendar;
+                    break;
+                }
+            }
+            if(ac==null){
+                throw new IllegalStateException(
+                        "AcademicCalendarService did not return an academic calendar for year/term " + yearTerm);
+            }
+
 			List<Term> rl = tm.acalTermMap.get(ac.getId());
 			try {
 				tm.acalTermMap.put(
