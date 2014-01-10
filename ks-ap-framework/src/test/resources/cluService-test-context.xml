@@ -2,7 +2,7 @@
        xsi:schemaLocation="
           http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="ksLumCluService" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl">
+    <bean id="cluService" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl">
         <property name="searchService" ref="searchService" />
     </bean>
 

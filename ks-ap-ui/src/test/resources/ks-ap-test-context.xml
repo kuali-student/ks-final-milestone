@@ -20,5 +20,6 @@
 
     <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.framework.context.support.DefaultEnumerationHelper" />
     <import resource="classpath:enumService-test-context.xml"/>
+    <bean id="enumerationManagementService" parent="ksCoreEnumerationManagementService"/>
 
 </beans>
