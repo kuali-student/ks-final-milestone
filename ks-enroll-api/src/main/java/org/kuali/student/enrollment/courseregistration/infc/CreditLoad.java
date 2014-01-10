@@ -46,6 +46,13 @@ public interface CreditLoad {
     public KualiDecimal getCreditLimit();
 
     /**
+     * The minimum credits allowed for the student in the current term.
+     * 
+     * @name Credit Minimum
+     */
+    public KualiDecimal getCreditMinimum();
+
+    /**
      * The additional credits from the RegistrationRequest. For drops,
      * this amount can be negative.
      * 

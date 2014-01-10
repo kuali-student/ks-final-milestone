@@ -264,9 +264,12 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
             this.endTerm = courseInfo.getEndTerm();
 
-            this.effectiveDate = new Date(courseInfo.getEffectiveDate().getTime());
-
-            this.expirationDate = new Date(courseInfo.getExpirationDate().getTime());
+            if (courseInfo.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(courseInfo.getEffectiveDate().getTime());
+            }
+            if (courseInfo.getExpirationDate() != null) {
+                this.expirationDate = new Date(courseInfo.getExpirationDate().getTime());
+            }
             this.transcriptTitle = courseInfo.getTranscriptTitle();
             this.code = courseInfo.getCode();
 

@@ -31,7 +31,11 @@ import org.w3c.dom.Element;
  
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CreditLoadInfo", propOrder = {
-                "studentId", "creditLoad", "creditLimit", "additionalCredits",
+                "studentId", 
+                "creditLoad",
+                "creditLimit", 
+                "creditMinimum", 
+                "additionalCredits",
                 "_futureElements"})
 
 public class CreditLoadInfo 
@@ -47,6 +51,9 @@ public class CreditLoadInfo
 
     @XmlElement
     private KualiDecimal creditLimit;
+    
+    @XmlElement
+    private KualiDecimal creditMinimum;
 
     @XmlElement
     private KualiDecimal additionalCredits;
@@ -72,6 +79,7 @@ public class CreditLoadInfo
             this.studentId = creditLoad.getStudentId();
             this.creditLoad = creditLoad.getCreditLoad();
             this.creditLimit = creditLoad.getCreditLimit();
+            this.creditMinimum = creditLoad.getCreditMinimum();
             this.additionalCredits = creditLoad.getAdditionalCredits();
         }
     }
@@ -103,6 +111,15 @@ public class CreditLoadInfo
         this.creditLimit = creditLimit;
     }
 
+    @Override
+    public KualiDecimal getCreditMinimum() {
+        return creditMinimum;
+    }
+
+    public void setCreditMinimum(KualiDecimal creditMinimum) {
+        this.creditMinimum = creditMinimum;
+    }
+    
     @Override
     public KualiDecimal getAdditionalCredits() {
         return additionalCredits;

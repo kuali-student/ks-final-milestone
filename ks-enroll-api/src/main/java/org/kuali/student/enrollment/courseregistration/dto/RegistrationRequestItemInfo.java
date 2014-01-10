@@ -99,7 +99,9 @@ public class RegistrationRequestItemInfo
             this.personId = registrationRequestItem.getPersonId();
             this.registrationGroupId = registrationRequestItem.getRegistrationGroupId();
             this.existingCourseRegistrationId = registrationRequestItem.getExistingCourseRegistrationId();
-            this.credits = new KualiDecimal(registrationRequestItem.getCredits().bigDecimalValue());
+            if (registrationRequestItem.getCredits() != null) {
+                this.credits = new KualiDecimal(registrationRequestItem.getCredits().bigDecimalValue());
+            }
             this.gradingOptionId = registrationRequestItem.getGradingOptionId();
             this.okToWaitlist = registrationRequestItem.getOkToWaitlist();
             this.okToHoldUntilList = registrationRequestItem.getOkToHoldUntilList();
