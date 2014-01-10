@@ -41,9 +41,21 @@
      <aop:advisor advice-ref="txAdvice" pointcut-ref="controllerTransaction"/>
   </aop:config>
 
+  <!-- Overwriting to add KSAP-ApplicationResources to the source list-->
+  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>org/kuali/student/ap/KSAP-ApplicationResources</value>
+                <value>org/kuali/rice/krad/ApplicationResources</value>
+                <value>org/kuali/rice/krad/KRAD-ApplicationResources</value>
+            </list>
+        </property>
+  </bean>
+
   <context:component-scan base-package="org.kuali.rice.core.web.cache" />
   <context:component-scan base-package="org.kuali.student.enrollment" />
   <context:component-scan base-package="org.kuali.student.common.kitchensink" />
   <context:component-scan base-package="org.kuali.student.common.uif" />
+  <context:component-scan base-package="org.kuali.student.ap" />
 
 </beans>
