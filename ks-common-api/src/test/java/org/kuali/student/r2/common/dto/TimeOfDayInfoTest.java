@@ -17,6 +17,7 @@
 package org.kuali.student.r2.common.dto;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 
@@ -103,6 +104,8 @@ public class TimeOfDayInfoTest {
     }
 
     @Test
+    @Ignore
+    // Deprecated method throws exception (which is why this test is now ignored)
     public void testSetMilliSeconds() {
         TimeOfDayInfo timeOfDay = new TimeOfDayInfo();
 
@@ -119,6 +122,8 @@ public class TimeOfDayInfoTest {
     }
 
     @Test
+    @Ignore
+    // Deprecated method throws exception (which is why this test is now ignored)
     public void testSetMilliSecondsTruncated() {
         TimeOfDayInfo timeOfDay = new TimeOfDayInfo();
 

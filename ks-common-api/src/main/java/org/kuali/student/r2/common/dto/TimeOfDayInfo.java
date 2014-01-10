@@ -142,8 +142,8 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
     @Override
     @Deprecated
     public Long getMilliSeconds() {
-        LocalTime localTime = new LocalTime(this.getHour().intValue(), this.getMinute().intValue(), this.getSecond().intValue());
-        return (long)localTime.getMillisOfDay();
+        // Use TimeOfDayHelper.getMillis(timeOfDayObj) instead
+        throw new RuntimeException("getMilliSeconds is deprecated");
     }
 
     /**
@@ -154,17 +154,8 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
      */
     @Deprecated
     public void setMilliSeconds(Long milliSeconds) {
-        if (milliSeconds != null) {
-            long hours = TimeUnit.MILLISECONDS.toHours(milliSeconds);
-            long minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds) % 60;
-            long seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds) % 60;
-
-            LocalTime localTime = new LocalTime((int)hours, (int)minutes, (int)seconds);
-            setHour(localTime.getHourOfDay());
-            setMinute(localTime.getMinuteOfHour());
-            setSecond(localTime.getSecondOfMinute());
-        }
-
+        // Use TimeOfDayHelper.setMillis to create a new TimeOfDayHelper
+        throw new RuntimeException("setMilliSeconds: Method is deprecated");
     }
 
     /**
