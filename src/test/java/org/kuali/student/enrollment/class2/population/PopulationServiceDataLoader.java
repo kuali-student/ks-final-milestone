@@ -201,13 +201,14 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         childPopulationRuleIds.add(firstYearStudentPopulationId);
         childPopulationRuleIds.add(undergraduteStudentPopulationId);
         String refPopulationId = null;
+        String ruleId = null;
 
         PopulationRuleInfo rule5 = createPopulationRuleInfo
                 ("Undergraduate Freshmen Students",
                         "A list of undergraduate freshmen students",
                         PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY,
                         PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY,
-                        new ArrayList<String>(),
+                        ruleId,
                         new ArrayList<String>(),
                         new ArrayList<String>(),
                         childPopulationRuleIds,
@@ -263,7 +264,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
              String descriptionPlain,
              String typeKey,
              String stateKey,
-             List<String> agendaIds,
+             String ruleId,
              List<String> groupIds,
              List<String> personIds,
              List<String> childPopulationIds,
@@ -276,7 +277,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         ruleInfo.setDescr(new RichTextHelper().fromPlain(descriptionPlain));
         ruleInfo.setTypeKey(typeKey);
         ruleInfo.setStateKey(stateKey);
-        ruleInfo.setAgendaIds(agendaIds);
+        ruleInfo.setRuleId(ruleId);
         ruleInfo.setGroupIds(groupIds);
         ruleInfo.setPersonIds(personIds);
         ruleInfo.setChildPopulationIds(childPopulationIds);
