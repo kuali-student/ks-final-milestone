@@ -60,6 +60,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -83,31 +84,32 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
 
+
+/** COURSE OFFERINGS **/
+
     @Override
-    public List<CourseSearchResult> loadCourseOfferingsByTermAndCourseCode(String termId, String courseCode) throws Exception {
-        List<CourseSearchResult> courseSearchResults = searchForCourseOfferings(termId, courseCode);
+    public List<CourseSearchResult> loadCourseOfferings( String termId, String termCode, String courseCode ) throws Exception {
+        termId = getTermId( termId, termCode );
+        List<CourseSearchResult> courseSearchResults = searchForCourseOfferings( termId, courseCode );
+
         return courseSearchResults;
     }
 
     @Override
-    public List<CourseSearchResult> loadCourseOfferingsByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
-        return loadCourseOfferingsByTermAndCourseCode(getAtpIdByAtpCode(termCode), courseCode);
+    public List<CourseSearchResult> loadCourseOfferingsByTermIdAndCourse( String termId, String courseCode ) throws Exception {
+        return loadCourseOfferings( termId, null, courseCode );
     }
 
-    /**
-     * In order to support the UI we have been asked to provide a course offering search that will return course offering information as well as
-     * a list of primary activity offerings. There is a default order of activity offering types. Ex: lecture, lab, discussion.
-     * In that case the search will return the course offering information and a list of lectures.
-     * @param termCode  This is the atp.code field. Ex: 201201 = Spring 2012
-     * @param courseCode  Lui.code. Ex: CHEM237
-     * @return Returns an object that contains Course offering Info and a list of primary activity offerings.
-     * @throws Exception
-     */
     @Override
-    public List<CourseAndPrimaryAOSearchResult> loadCourseOfferingsAndPrimaryAoByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
+    public List<CourseSearchResult> loadCourseOfferingsByTermCodeAndCourse( String termCode, String courseCode ) throws Exception {
+        return loadCourseOfferings( null, termCode, courseCode );
+    }
+
+    @Override
+    public List<CourseAndPrimaryAOSearchResult> loadCourseOfferingsAndPrimaryAosByTermAndCourse( String termCode, String courseCode ) throws Exception {
 
         List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
-        List<CourseSearchResult> courseOfferingList = loadCourseOfferingsByTermCodeAndCourseCode(termCode, courseCode); // search for the course offerings
+        List<CourseSearchResult> courseOfferingList = loadCourseOfferingsByTermCodeAndCourse(termCode, courseCode); // search for the course offerings
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build defualt context info
 
         if(courseOfferingList != null && !courseOfferingList.isEmpty()){   // if we found course offerings
@@ -121,7 +123,184 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             }
         }
         return resultList;
+    }
 
+
+/** REGISTRATION GROUPS **/
+
+    @Override
+    public List<RegGroupSearchResult> loadRegistrationGroups( String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName ) throws Exception {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
+        return getRegGroupList(courseOfferingId, regGroupName);
+    }
+
+    @Override
+    public RegGroupSearchResult loadRegistrationGroupByTermAndCourseAndRegGroup( String termCode, String courseCode, String regGroupName ) throws Exception {
+        List<RegGroupSearchResult> regGroupSearchResults = loadRegistrationGroups( null, null, termCode, courseCode, regGroupName );
+        return KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
+    }
+
+
+/** ACTIVITY OFFERINGS **/
+
+    @Override
+    public List<ActivityOfferingSearchResult> loadActivityOfferings( String courseOfferingId, String termId, String termCode, String courseCode ) throws Exception {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode );
+        List<ActivityOfferingSearchResult> activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
+
+        return activityOfferingSearchResults;
+    }
+
+
+/** ACTIVITY TYPES **/
+
+    @Override
+    public List<ActivityTypeSearchResult> loadActivityTypes( String courseOfferingId, String termCode, String courseCode ) throws Exception {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, null, termCode );
+
+        // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
+
+        return getActivityTypesForFormatOfferings( formatOfferings, contextInfo );
+    }
+
+
+/** INSTRUCTORS **/
+
+    @Override
+    public List<InstructorSearchResult> loadInstructors( String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode ) throws Exception {
+
+        if( !StringUtils.isEmpty(activityOfferingId) ) {
+            return getInstructorsByActivityOfferingId(activityOfferingId);
+        }
+
+        courseOfferingId = getCourseOfferingId( courseOfferingId, courseCode, termId, termCode );
+        return getInstructorsByCourseOfferingId(courseOfferingId);
+    }
+
+
+/** TERMS **/
+
+    @Override
+    public String getTermIdByTermCode(String atpCode) throws Exception {
+        String sRet = null;
+        List<AtpInfo> atpList = getAtpService().getAtpsByCode(atpCode, ContextUtils.createDefaultContextInfo());
+        if(atpList != null && !atpList.isEmpty()){
+            sRet = KSCollectionUtils.getRequiredZeroElement(atpList).getId();
+        }
+
+        return sRet;
+    }
+
+    @Override
+    public List<TermSearchResult> loadActiveTerms() throws Exception {
+        List<TermSearchResult> termSearchResults = new ArrayList<TermSearchResult>();
+        List<AtpInfo> validAtps = getValidAtps();
+        for(AtpInfo atpInfo: validAtps){
+            TermSearchResult termSearchResult = new TermSearchResult();
+            termSearchResult.setTermId(atpInfo.getId());
+            termSearchResult.setTermName(atpInfo.getName());
+            termSearchResults.add(termSearchResult);
+        }
+        return termSearchResults;
+    }
+
+
+/** PRIVATE HELPERS **/
+
+
+    private List<InstructorSearchResult> getInstructorsByCourseOfferingId( String courseOfferingId ) throws Exception {
+
+        List<ActivityOfferingSearchResult> aoList = searchForRawActivities(courseOfferingId);
+
+        List<String> aoIds = new ArrayList<String>();
+        for(ActivityOfferingSearchResult ao : aoList){
+            aoIds.add(ao.getActivityOfferingId());
+        }
+
+        return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
+
+    }
+
+    private List<InstructorSearchResult> getInstructorsByActivityOfferingId( String activityOfferingId ) throws Exception {
+        List<String> aoIds = new ArrayList<String>();
+        aoIds.add(activityOfferingId);
+        return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
+    }
+
+    private List<ActivityTypeSearchResult> getActivityTypesForFormatOfferings( List<FormatOfferingInfo> formatOfferings, ContextInfo contextInfo ) throws Exception {
+
+        List<ActivityTypeSearchResult> activitiesTypeKeys = new ArrayList<ActivityTypeSearchResult>();
+
+
+        // for each FO
+        for (FormatOfferingInfo formatOffering : formatOfferings){
+            List<String> aoTypeKeys = formatOffering.getActivityOfferingTypeKeys(); // grab the type keys
+            List<TypeInfo> typeInfos = getTypeService().getTypesByKeys(aoTypeKeys, contextInfo); // turn those keys into full type objects
+
+            // for each type, build the search result
+            for(TypeInfo activityTypeInfo : typeInfos){
+                ActivityTypeSearchResult atsr = new ActivityTypeSearchResult();
+                atsr.setTypeKey(activityTypeInfo.getKey());
+                atsr.setName(activityTypeInfo.getName());
+
+                // I'm not sure what do do here. Guess we return the formatted over the plain?
+                if(activityTypeInfo.getDescr() != null){
+                    if(activityTypeInfo.getDescr().getFormatted() != null){
+                        atsr.setDescription(activityTypeInfo.getDescr().getFormatted());
+                    }
+                    else {
+                        atsr.setDescription(activityTypeInfo.getDescr().getPlain());
+                    }
+                }
+                // This prioirty comes from the configured lu (not lui) type attributes. Somewhat complex mapping
+                // to get from the lu -> lui type key.
+                atsr.setPriority(getActivityPriorityMap(contextInfo).get(activityTypeInfo.getKey()));
+                atsr.setFormatOfferingId(formatOffering.getId());  // Adding FoId to keep data structures flat.
+                activitiesTypeKeys.add(atsr);
+            }
+        }
+
+        return activitiesTypeKeys;
+
+    }
+
+    private String getTermId( String termId, String termCode ) throws Exception {
+        if( !StringUtils.isEmpty(termId) ) {
+            return termId;
+        }
+
+        return getTermIdByTermCode(termCode);
+    }
+
+    private List<RegGroupSearchResult> getRegGroupList( String courseOfferingId, String regGroupName ) throws Exception {
+
+        List<RegGroupSearchResult> regGroupSearchResults = searchForRegGroups(courseOfferingId);
+
+        // return a list with a single entity if regGroupName was provided
+        if( !StringUtils.isEmpty(regGroupName) ) {
+            for(RegGroupSearchResult rg : regGroupSearchResults){
+                if(rg.getRegGroupName().equals(regGroupName)){
+                    List<RegGroupSearchResult> result = new ArrayList<RegGroupSearchResult>();
+                    result.add(rg);
+                    return result;
+                }
+            }
+        }
+
+        return new ArrayList<RegGroupSearchResult>( regGroupSearchResults );
+    }
+
+    private String getCourseOfferingId( String courseOfferingId, String courseCode, String termId, String termCode ) throws Exception {
+        if( !StringUtils.isEmpty(courseOfferingId) ) {
+            return courseOfferingId;
+        }
+
+        termId = getTermId(termId, termCode);
+        List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, termId);
+
+        return KSCollectionUtils.getRequiredZeroElement(coIds);
     }
 
     /**
@@ -148,7 +327,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         // Because there can be multiple formats [Lec/lab, lab/disc] we need to seperate our results by the FoId. That is because if there are
         // multiple formats, the primary for one FO could be Lecture, while another FO could be Discussion.
         // Map<FoId, List<ActivityOfferings>>
-        Map<String, List<ActivityOfferingSearchResult>> aoMap = groupActivityOfferingsByFormatOfferingId(loadActivityOfferingsByCourseOfferingId(coId));
+        Map<String, List<ActivityOfferingSearchResult>> aoMap = groupActivityOfferingsByFormatOfferingId(loadActivityOfferings(coId, null, null, null));
 
         for(FormatOfferingInfo formatOffering : formatOfferings){
             sortActivityOfferingTypeKeyList(formatOffering.getActivityOfferingTypeKeys(), contextInfo);  // sort the activity offerings type keys by priority order
@@ -228,128 +407,29 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      * @throws Exception
      */
     private Map<String, Integer> getActivityPriorityMap(ContextInfo contextInfo) throws Exception{
-         if(activityPriorityMap == null){
+        if(activityPriorityMap == null){
             activityPriorityMap = new HashMap<String, Integer>();
-             List<TypeInfo> activityTypes = getTypeService().getTypesForGroupType("kuali.lu.type.grouping.activity", contextInfo);
+            List<TypeInfo> activityTypes = getTypeService().getTypesForGroupType("kuali.lu.type.grouping.activity", contextInfo);
 
-             for(TypeInfo typeInfo : activityTypes){
-                 List<AttributeInfo> attributes = typeInfo.getAttributes();
-                 if(attributes != null && !attributes.isEmpty()){
-                     for(AttributeInfo attribute : attributes){
-                         if(TypeServiceConstants.ACTIVITY_SELECTION_PRIORITY_ATTR.equals(attribute.getKey())){
-                             TypeTypeRelation typeTypeRelation = KSCollectionUtils.getRequiredZeroElement(getTypeService().getTypeTypeRelationsByOwnerAndType(typeInfo.getKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, contextInfo));
-                             activityPriorityMap.put(typeTypeRelation.getRelatedTypeKey(), new Integer(Integer.parseInt(attribute.getValue())));
-                         }
-                     }
-                 }
-             }
+            for(TypeInfo typeInfo : activityTypes){
+                List<AttributeInfo> attributes = typeInfo.getAttributes();
+                if(attributes != null && !attributes.isEmpty()){
+                    for(AttributeInfo attribute : attributes){
+                        if(TypeServiceConstants.ACTIVITY_SELECTION_PRIORITY_ATTR.equals(attribute.getKey())){
+                            TypeTypeRelation typeTypeRelation = KSCollectionUtils.getRequiredZeroElement(getTypeService().getTypeTypeRelationsByOwnerAndType(typeInfo.getKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, contextInfo));
+                            activityPriorityMap.put(typeTypeRelation.getRelatedTypeKey(), new Integer(Integer.parseInt(attribute.getValue())));
+                        }
+                    }
+                }
+            }
 
 
-         }
+        }
 
         return activityPriorityMap;
-
     }
 
-    @Override
-    public List<RegGroupSearchResult> loadRegistrationGroupsByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception {
-        List<RegGroupSearchResult> regGroupResult = searchForRegGroups(courseOfferingId);
-        return regGroupResult;
-    }
-
-    @Override
-    public List<ActivityOfferingSearchResult> loadActivityOfferingsByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception {
-        List<ActivityOfferingSearchResult> retList = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
-        return retList;
-    }
-
-    @Override
-    public List<InstructorSearchResult> loadInstructorsByTermIdAndCourseCode(@PathParam("termId") String termId, @PathParam("courseCode") String courseCode) throws Exception {
-        List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, termId);
-
-        return loadInstructorsByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
-    }
-
-    @Override
-    public List<InstructorSearchResult> loadInstructorsByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
-        return loadInstructorsByTermIdAndCourseCode(getAtpIdByAtpCode(termCode), courseCode);
-    }
-
-    @Override
-    public List<RegGroupSearchResult> loadRegistrationGroupsByTermIdAndCourseCode(@PathParam("termId") String termId, @PathParam("courseCode") String courseCode) throws Exception {
-        List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, termId);
-
-        return loadRegistrationGroupsByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
-    }
-
-    @Override
-    public List<RegGroupSearchResult> loadRegistrationGroupsByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
-        return loadRegistrationGroupsByTermIdAndCourseCode(getAtpIdByAtpCode(termCode), courseCode);
-    }
-
-    @Override
-    public RegGroupSearchResult loadRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode, @PathParam("regGroupName") String regGroupName) throws Exception {
-
-        RegGroupSearchResult result = null;
-        List<RegGroupSearchResult> regGroupList = loadRegistrationGroupsByTermCodeAndCourseCode(termCode, courseCode);
-
-        for(RegGroupSearchResult rg : regGroupList){
-            if(rg.getRegGroupName().equals(regGroupName)){
-                result = rg;
-                break;
-            }
-        }
-        return result;
-    }
-
-    @Override
-    public List<ActivityOfferingSearchResult> loadActivityOfferingsByTermIdAndCourseCode(@PathParam("termId") String termId, @PathParam("courseCode") String courseCode) throws Exception {
-        List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, termId);
-        return loadActivityOfferingsByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
-
-    }
-
-    @Override
-    public List<ActivityOfferingSearchResult> loadActivityOfferingsByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
-        return loadActivityOfferingsByTermIdAndCourseCode(getAtpIdByAtpCode(termCode), courseCode);
-    }
-
-    @Override
-    public List<InstructorSearchResult> loadInstructorsByCourseOfferingId(@PathParam("courseOfferingId") String courseOfferingId) throws Exception {
-        List<ActivityOfferingSearchResult> aoList = searchForRawActivities(courseOfferingId);
-
-        List<String> aoIds = new ArrayList<String>();
-        for(ActivityOfferingSearchResult ao : aoList){
-            aoIds.add(ao.getActivityOfferingId());
-        }
-
-        return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
-    }
-
-    @Override
-    public List<InstructorSearchResult> loadInstructorsByActivityOfferingId(@PathParam("activityOfferingId") String activityOfferingId) throws Exception {
-        List<String> aoIds = new ArrayList<String>();
-        aoIds.add(activityOfferingId);
-        return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
-    }
-
-    @Override
-    public List<TermSearchResult> loadActiveTerms() throws Exception{
-        List<TermSearchResult> termSearchResults = new ArrayList<TermSearchResult>();
-        List<AtpInfo> validAtps=getValidAtps();
-        for(AtpInfo atpInfo: validAtps){
-            TermSearchResult termSearchResult = new TermSearchResult();
-            termSearchResult.setTermId(atpInfo.getId());
-            termSearchResult.setTermName(atpInfo.getName());
-            termSearchResults.add(termSearchResult);
-        }
-        return termSearchResults;
-
-
-
-    }
-
-    private List<AtpInfo> getValidAtps(){
+    private List<AtpInfo> getValidAtps() {
         List<SocInfo> socs;
         List<String> termIds = new ArrayList<String>();
         List<AtpInfo> atps = new ArrayList<AtpInfo>();
@@ -376,75 +456,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             throw new RuntimeException("Error getting Valid SOC Terms", e);
         }
         return atps;
-    }
-
-
-    @Override
-    public String getAtpIdByAtpCode(String atpCode) throws Exception {
-        String sRet = null;
-        List<AtpInfo> atpList = getAtpService().getAtpsByCode(atpCode, ContextUtils.createDefaultContextInfo());
-        if(atpList != null && !atpList.isEmpty()){
-            sRet = KSCollectionUtils.getRequiredZeroElement(atpList).getId();
-        }
-
-        return sRet;
-    }
-
-    @Override
-    public List<ActivityTypeSearchResult> loadActivityTypesByTermCodeAndCourseCode(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode) throws Exception {
-        List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, getAtpIdByAtpCode(termCode));
-        return loadActivityTypesByCourseOfferingId(KSCollectionUtils.getRequiredZeroElement(coIds));
-
-    }
-
-    /**
-     * There is a need to get a list of valid activity types for a particular Course offering. There's a little added
-     * wrinkle that each course can have multiple formats.
-     *
-     * This method grabs the format offerings for a particular course offering and returns some type data. We are also
-     * returning a "priority" number. Which is the system priority number for that particular activity offering type.
-     *
-     * @param courseOfferingId
-     * @return An object that contains activity offering type information with an additional priority field.
-     * @throws Exception
-     */
-    @Override
-    public List<ActivityTypeSearchResult> loadActivityTypesByCourseOfferingId(String courseOfferingId) throws Exception {
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        List<ActivityTypeSearchResult> activitiesTypeKeys = new ArrayList<ActivityTypeSearchResult>();
-
-        // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
-        List<FormatOfferingInfo> formatOfferings = getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
-
-        // for each FO
-        for (FormatOfferingInfo formatOffering : formatOfferings){
-            List<String> aoTypeKeys = formatOffering.getActivityOfferingTypeKeys(); // grab the type keys
-            List<TypeInfo> typeInfos = getTypeService().getTypesByKeys(aoTypeKeys, contextInfo); // turn those keys into full type objects
-
-            // for each type, build the search result
-            for(TypeInfo activityTypeInfo : typeInfos){
-                ActivityTypeSearchResult atsr = new ActivityTypeSearchResult();
-                atsr.setTypeKey(activityTypeInfo.getKey());
-                atsr.setName(activityTypeInfo.getName());
-
-                // I'm not sure what do do here. Guess we return the formatted over the plain?
-                if(activityTypeInfo.getDescr() != null){
-                    if(activityTypeInfo.getDescr().getFormatted() != null){
-                        atsr.setDescription(activityTypeInfo.getDescr().getFormatted());
-                    }
-                    else {
-                        atsr.setDescription(activityTypeInfo.getDescr().getPlain());
-                    }
-                }
-                // This prioirty comes from the configured lu (not lui) type attributes. Somewhat complex mapping
-                // to get from the lu -> lui type key.
-                atsr.setPriority(getActivityPriorityMap(contextInfo).get(activityTypeInfo.getKey()));
-                atsr.setFormatOfferingId(formatOffering.getId());  // Adding FoId to keep data structures flat.
-                activitiesTypeKeys.add(atsr);
-            }
-        }
-
-        return activitiesTypeKeys;
     }
 
     private List<CourseSearchResult> searchForCourseOfferings(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {

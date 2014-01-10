@@ -34,11 +34,11 @@ public class CourseRegistrationUiServiceImpl implements CourseRegistrationUiServ
             throw new LoginException("User must be logged in to access this service");
         }
 
-        RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().loadRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(termCode, courseCode, regGroupName);
+        RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().loadRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
 
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
         regReqInfo.setRequestorId(contextInfo.getPrincipalId());
-        regReqInfo.setTermId(getScheduleOfClassesService().getAtpIdByAtpCode(termCode)); // bad bc we have it from the load call above
+        regReqInfo.setTermId(getScheduleOfClassesService().getTermIdByTermCode(termCode)); // bad bc we have it from the load call above
         regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY); // new reg request
         regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
 

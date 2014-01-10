@@ -80,7 +80,7 @@ public class KitchenSinkPerformanceController extends UifControllerBase {
 
         List<CourseSearchResult> collectionList;
         try {
-            collectionList = getScheduleOfClassesService().loadCourseOfferingsByTermAndCourseCode(termId, courseCode);
+            collectionList = getScheduleOfClassesService().loadCourseOfferingsByTermIdAndCourse(termId, courseCode);
         } catch (Exception e) {
             throw new RuntimeException("Error", e);
         }
