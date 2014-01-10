@@ -66,7 +66,7 @@ function removeCheckboxColumns(column, componentId, functionToCall) {
             var tf = jQuery('#' + tableId + ' tfoot tr').find('th:nth-child(' + column + ')');
             jQuery(tf).remove();
         } else {
-            var toggleCheckbox = jQuery("<input type='checkbox' id='" + tableId + "_toggle_control_checkbox'/>");
+            var toggleCheckbox = jQuery("<input type='checkbox' id='" + subComponentId + "_toggle_control_checkbox'/>");
             var isChecked = toggleCheckbox.prop('checked');
             toggleCheckbox.click(function (e) {
                 jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
@@ -80,9 +80,44 @@ function removeCheckboxColumns(column, componentId, functionToCall) {
             });
             var th = jQuery('#' + tableId + ' thead tr').find('th:nth-child(' + column + ')');
             jQuery(th).append(toggleCheckbox);
+
+            var collectionCheckboxes = jQuery('div#'+ subComponentId +' tbody > tr').find('td:first input[type="checkbox"]');
+            var clickName;
+            collectionCheckboxes.each(function(ndx,ctl) {
+                clickName = "click." + subComponentId + "_row_" + ndx;
+                jQuery(this).on(clickName, function(){
+                    controlCheckboxStatus(subComponentId,this);
+                });
+            });
         }
 
     });
+}
+
+/*
+ *  Collection row checkboxes in the first cell will cause the control checkbox
+ *  to be set or unset.  The control checkbox should only be checked when all
+ *  collection checkboxes are set, otherwise it should be unchecked.
+ */
+function controlCheckboxStatus(collectionId,source) {
+    var controlCheckbox = jQuery("#" + collectionId + "_toggle_control_checkbox");
+
+    // if any row selection checkbox is false, the control checkbox is false also
+    if ( ! jQuery(source).prop('checked')) {
+        controlCheckbox.prop('checked',false);
+        return;
+    }
+
+    // if all row selection checkboxes are true, make the control checkbox true also
+    var areAllRowsChecked = true;
+    jQuery('div#' + collectionId + ' tbody > tr').find('td:first input[type="checkbox"]')
+        .each(function(ndx,ctl) {
+            if (!jQuery(this).prop('checked')) {
+                areAllRowsChecked = false;
+                return false; // exit .each()
+            }
+        });
+    controlCheckbox.prop('checked',areAllRowsChecked);
 }
 
 function addActionColumn(isReadOnly, componentId) {
