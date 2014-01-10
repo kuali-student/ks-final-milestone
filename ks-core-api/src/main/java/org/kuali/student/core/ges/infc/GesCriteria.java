@@ -15,12 +15,12 @@
 package org.kuali.student.core.ges.infc;
 
 
-
+import org.kuali.student.r2.common.infc.HasAttributes;
 
 /**
  * Criteria used to evaluate the applicability of a value(s) associated with a parameter.
  */
-public interface GesCriteria {
+public interface GesCriteria extends HasAttributes {
     /**
      * ATP used to restrict the value(s) returned by evaluations using this criteria.
      * An empty or null value is treated as a wild card.

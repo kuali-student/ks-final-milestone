@@ -15,7 +15,7 @@
 package org.kuali.student.core.ges.dto;
 
 import org.kuali.student.core.ges.infc.Parameter;
-import org.kuali.student.r2.common.dto.KeyNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,9 +25,9 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ParameterInfo", propOrder = {"key", "typeKey", "stateKey",
+@XmlType(name = "ParameterInfo", propOrder = {"key", "typeKey", "stateKey","name","descr",
          "valueTypeKey","requireUniquePriorities", "meta", "attributes", "_futureElements" })
-public class ParameterInfo extends KeyNamelessEntityInfo implements Parameter {
+public class ParameterInfo extends KeyEntityInfo implements Parameter {
 
     @XmlElement
     private String valueTypeKey;
