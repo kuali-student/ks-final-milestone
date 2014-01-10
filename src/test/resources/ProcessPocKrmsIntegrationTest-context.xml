@@ -13,8 +13,16 @@
     </bean>
     
     <bean id="courseRegistrationService" class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceProcessCheckDecorator" >
-        <property name="nextDecorator" ref="courseRegistrationServiceMapImpl"/>
+        <property name="nextDecorator" ref="courseRegistrationServiceLoadCalculationDecorator"/>
         <property name="krmsEvaluator" ref="krmsEvaluator"/>
+    </bean>
+    <bean id="courseRegistrationServiceLoadCalculationDecorator" 
+          class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationLoadCalculationDecorator" >
+        <property name="registrationRequestMerger" ref="mergerImpl"/>
+        <property name="loadCalculatorRuleFactory" ref="loadCalculatorRuleFactoryHardwiredImpl"/>
+        <property name="courseOfferingService" ref="courseOfferingService"/>
+        <property name="gesService" ref="gesService"/>
+        <property name="nextDecorator" ref="courseRegistrationServiceMapImpl"/>
     </bean>
     <bean id="courseRegistrationServiceMapImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMapImpl" >
         <property name="merger" ref="mergerImpl"/>
@@ -63,15 +71,19 @@
     <bean id="propositionFactoryHardwiredImpl" class="org.kuali.student.r2.core.process.evaluator.PropositionFactoryHardwiredImpl" >  
     </bean>
     <bean id="loadCalculatorRuleFactoryHardwiredImpl" class="org.kuali.student.poc.rules.credit.limit.LoadCalculatorRuleFactoryHardwiredImpl" >
-        <property name="courseOfferingService" ref="courseOfferingServiceMapImpl" />  
+        <property name="courseOfferingService" ref="courseOfferingService" />  
     </bean>
     
     <bean id="mergerImpl" class="org.kuali.student.poc.rules.credit.limit.RegistrationRequestMergerImpl" >   
-        <property name="courseOfferingService" ref="courseOfferingServiceMapImpl"/>          
+        <property name="courseOfferingService" ref="courseOfferingService"/>          
         <property name="courseRegistrationService" ref="courseRegistrationService"/>        
     </bean>
     
     <bean id="courseOfferingServiceMapImpl" class="org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceMapImpl" />
+    <bean id="courseOfferingService" class="org.kuali.student.r2.core.process.ProcessPocCourseOfferingServiceDecorator" init-method="init" >
+        <property name="nextDecorator" ref="courseOfferingServiceMapImpl"/>
+    </bean>
+    
     
     <bean id="atpServiceMapImpl" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMapImpl" />
     <bean id="atpService" class="org.kuali.student.r2.core.process.ProcessPocAtpServiceDecorator" init-method="init" >

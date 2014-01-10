@@ -96,8 +96,9 @@ public class ProcessPocProcessServiceDecoratorTest {
         
         instructions = processService.getInstructionsForEvaluation(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES,
                 context);
-        assertEquals(2, instructions.size());
-        assertEquals(new Integer(2), instructions.get(0).getPosition());
-        assertEquals(new Integer(3), instructions.get(1).getPosition());
+        assertEquals(3, instructions.size());
+        assertEquals(new Integer(1), instructions.get(0).getPosition());
+        assertEquals(new Integer(2), instructions.get(1).getPosition());
+        assertEquals(new Integer(3), instructions.get(2).getPosition());
     }
 }

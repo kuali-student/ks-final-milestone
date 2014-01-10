@@ -10,12 +10,20 @@
  */
 package org.kuali.student.r2.core.process.evaluator;
 
+import java.util.Date;
+import java.util.List;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
+import org.kuali.student.core.constants.GesServiceConstants;
+import org.kuali.student.core.ges.dto.GesCriteriaInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
 /**
  * This proposition is used to evaluate whether or not a person is alive
@@ -26,13 +34,28 @@ public class CreditMinimumProposition extends AbstractLeafProposition {
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
-        RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
-        String registrationRequestId = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM, this);
+        ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
+//        RegistrationRequestInfo request = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_TERM, this);
+//        String registrationRequestId = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM, this);
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
         String atpId = environment.resolveTerm(RulesExecutionConstants.ATP_ID_TERM, this);
-        
-        // TODO: wire in the actual credit minimum calculation
-        KualiDecimal value = new KualiDecimal ("10");
-        return this.recordSuccessWithDecimalValueDetail(environment, value);
+//        AtpInfo atp = environment.resolveTerm(RulesExecutionConstants.ATP_TERM, this);
+        Date asOfDate = environment.resolveTerm(RulesExecutionConstants.AS_OF_DATE_TERM, this);
+        GesService gesService = environment.resolveTerm(RulesExecutionConstants.GES_SERVICE_TERM, this);
+        GesCriteriaInfo criteria = new GesCriteriaInfo();
+        criteria.setPersonId(personId);
+        criteria.setAtpId(atpId);
+        List<ValueInfo> values;
+        try {
+            values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 
+                    criteria, 
+                    asOfDate,
+                    contextInfo);
+        } catch (Exception ex) {
+            return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
+        }
+
+        // TODO: wire in the actual credit limit calculation
+        return this.recordSuccessWithDecimalValueDetail(environment, values.get(0).getDecimalValue());
     }
 }

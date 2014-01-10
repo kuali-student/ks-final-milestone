@@ -1,9 +1,13 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.decorators;
 
+import java.util.Date;
 import java.util.List;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.core.constants.GesServiceConstants;
+import org.kuali.student.core.ges.dto.GesCriteriaInfo;
+import org.kuali.student.core.ges.dto.ValueInfo;
+import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
-import org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceDecorator;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CreditLoadInfo;
@@ -15,7 +19,6 @@ import org.kuali.student.poc.rules.credit.limit.LoadCalculatorRuleFactoryHardwir
 import org.kuali.student.poc.rules.credit.limit.RegistrationRequestMerger;
 import org.kuali.student.poc.rules.credit.limit.RegistrationRequestMergerImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -28,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrationServiceDecorator {
 
     private CourseOfferingService courseOfferingService;
+    private GesService gesService;
     private RegistrationRequestMerger registrationRequestMerger;
     private LoadCalculatorRuleFactory loadCalculatorRuleFactory;
 
@@ -39,6 +43,16 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
         this.courseOfferingService = courseOfferingService;
     }
 
+    public GesService getGesService() {
+        return gesService;
+    }
+
+    public void setGesService(GesService gesService) {
+        this.gesService = gesService;
+    }
+
+    
+    
     public LoadCalculatorRuleFactory getLoadCalculatorRuleFactory() {
         if (this.loadCalculatorRuleFactory == null) {
             loadCalculatorRuleFactory = new LoadCalculatorRuleFactoryHardwiredImpl();
@@ -72,7 +86,7 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
     }
 
     @Override
-    public CreditLoadInfo calculateCreditLoadForStudentRegistrationRequest(String registrationRequestId, String studentId,
+    public CreditLoadInfo calculateCreditLoadForStudentRegistrationRequest(String registrationRequestId, String personId,
             ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -83,7 +97,7 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
 
         // get current request and current courses if any
         RegistrationRequestInfo currentRequest = this.getRegistrationRequest(registrationRequestId, contextInfo);
-        List<CourseRegistrationInfo> existingCrs = this.getCourseRegistrationsByStudentAndTerm(studentId,
+        List<CourseRegistrationInfo> existingCrs = this.getCourseRegistrationsByStudentAndTerm(personId,
                 currentRequest.getTermId(),
                 contextInfo);
         // use an empty request just so we can get a list of existing Crs as a list of courseRegistrations
@@ -94,28 +108,65 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
         LoadCalculator calculator = this.getCalculatorForRuleType(this.getLoadLevelTypeKey(), contextInfo);
 
         // calculate the load prior to the request
-        LoadInfo beforeLoad = calculator.calculateLoad(beforeRegistrations, studentId, contextInfo);
+        LoadInfo beforeLoad = calculator.calculateLoad(beforeRegistrations, personId, contextInfo);
 
         // calculate the load assuming the request went through
         List<CourseRegistrationInfo> afterRegistrations = merger.simulate(currentRequest, existingCrs, true, contextInfo);
-        LoadInfo afterLoad = calculator.calculateLoad(afterRegistrations, studentId, contextInfo);
+        LoadInfo afterLoad = calculator.calculateLoad(afterRegistrations, personId, contextInfo);
 
         // compute the before and after so we can get the difference
         KualiDecimal beforeCredits = beforeLoad.getTotalCredits();
         KualiDecimal afterCredits = afterLoad.getTotalCredits();
         CreditLoadInfo creditLoad = new CreditLoadInfo();
-        creditLoad.setStudentId(studentId);
-        creditLoad.setCreditLimit(this.calcStudentCreditLimit(studentId, contextInfo));
+        creditLoad.setStudentId(personId);
+        creditLoad.setCreditLimit(this.calcStudentCreditLimit(personId, currentRequest.getTermId(),
+                contextInfo.getCurrentDate(),
+                contextInfo));
+        creditLoad.setCreditMinimum(this.calcStudentCreditMinimum(personId, currentRequest.getTermId(),
+                contextInfo.getCurrentDate(),
+                contextInfo));
         creditLoad.setCreditLoad(beforeCredits);
         KualiDecimal addlCredits = new KualiDecimal(afterCredits.bigDecimalValue().subtract(beforeCredits.bigDecimalValue()));
         creditLoad.setAdditionalCredits(addlCredits);
         return creditLoad;
     }
 
-    private KualiDecimal calcStudentCreditLimit(String studentId, ContextInfo contextInfo) throws OperationFailedException {
-//        TODO: call GES to get this
-//                ??? do we return override if student had an exemption here?
-        return new KualiDecimal(12);
+    private KualiDecimal calcStudentCreditLimit(String personId, String atpId, Date asOfDate, ContextInfo contextInfo)
+            throws OperationFailedException {
+        GesCriteriaInfo criteria = new GesCriteriaInfo();
+        criteria.setPersonId(personId);
+        criteria.setAtpId(atpId);
+        List<ValueInfo> values;
+        try {
+            values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT,
+                    criteria,
+                    asOfDate,
+                    contextInfo);
+        } catch (OperationFailedException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new OperationFailedException("Unexpected", ex);
+        }
+        return values.get(0).getDecimalValue();
+    }
+
+    private KualiDecimal calcStudentCreditMinimum(String personId, String atpId, Date asOfDate, ContextInfo contextInfo)
+            throws OperationFailedException {
+        GesCriteriaInfo criteria = new GesCriteriaInfo();
+        criteria.setPersonId(personId);
+        criteria.setAtpId(atpId);
+        List<ValueInfo> values;
+        try {
+            values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM,
+                    criteria,
+                    asOfDate,
+                    contextInfo);
+        } catch (OperationFailedException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new OperationFailedException("Unexpected", ex);
+        }
+        return values.get(0).getDecimalValue();
     }
 
     private LoadCalculator getCalculatorForRuleType(String loadLevelTypeKey, ContextInfo contextInfo)
@@ -132,7 +183,4 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
             throw new OperationFailedException("this implementation only supports integer credits: " + creditString, ex);
         }
     }
-
-    
-    
 }

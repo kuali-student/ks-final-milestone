@@ -20,7 +20,6 @@ import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 
@@ -38,7 +37,7 @@ public class CreditLimitProposition extends AbstractLeafProposition {
 //        String registrationRequestId = environment.resolveTerm(RulesExecutionConstants.REGISTRATION_REQUEST_ID_TERM, this);
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
         String atpId = environment.resolveTerm(RulesExecutionConstants.ATP_ID_TERM, this);
-        AtpInfo atp = environment.resolveTerm(RulesExecutionConstants.ATP_TERM, this);
+//        AtpInfo atp = environment.resolveTerm(RulesExecutionConstants.ATP_TERM, this);
         Date asOfDate = environment.resolveTerm(RulesExecutionConstants.AS_OF_DATE_TERM, this);
         GesService gesService = environment.resolveTerm(RulesExecutionConstants.GES_SERVICE_TERM, this);
         GesCriteriaInfo criteria = new GesCriteriaInfo();

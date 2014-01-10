@@ -28,6 +28,7 @@ public class ProcessPocConstants {
     public static final String CHECK_ID_HAS_OVERDUE_LIBRARY_BOOK = "kuali.check.has.overdue.library.book";
     public static final String CHECK_ID_HAS_NOT_PAID_BILL_FROM_PRIOR_TERM = "kuali.check.has.not.paid.bill.from.prior.term";
     public static final String CHECK_ID_STUDENT_HAS_BASIC_ELIGIBILITY = "kuali.check.student.has.basic.eligibility";
+    public static final String CHECK_ID_ELIGIBILITY_FOR_TERM = "kuali.check.eligibility.for.term";
     public static final String CHECK_ID_REGISTRATION_PERIOD_IS_OPEN = "kuali.check.registration.period.is.open";
     public static final String CHECK_ID_REGISTRATION_PERIOD_IS_NOT_CLOSED = "kuali.check.registration.period.is.not.closed";
     public static final String CHECK_ID_REGISTRATION_HOLDS_CLEARED = "kuali.check.registration.holds.cleared";

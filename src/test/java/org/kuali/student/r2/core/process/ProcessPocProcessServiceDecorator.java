@@ -72,8 +72,6 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
                 "The process of checking a student's eligibility to register for a particular course.", context);
         _createProcess(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "Eligible for Courses",
                 "The process of checking a student's eligibility and ability to register for a proposed set of courses.", context);
-        _createProcess(ProcessServiceConstants.PROCESS_KEY_REGISTER_FOR_COURSES, "Register for Courses",
-                "The process of checking a student's eligibility and actually register for a proposed set of courses.", context);
 
         // create checks
         _createCheck(ProcessPocConstants.CHECK_ID_IS_ALIVE, ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, "", "",
@@ -97,7 +95,10 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
                 "", "", "kuali.process.registration.holds.cleared", "Registration Holds Cleared",
                 "Checks that the checks in the registration holds process", context);
         _createCheck(ProcessPocConstants.CHECK_ID_FALSE, ProcessServiceConstants.ALWAYS_FALSE_CHECK_TYPE_KEY, "", "", "", "",
-                "FALSE", "Always False", context);
+                "FALSE", "Always False", context);        
+        _createCheck(ProcessPocConstants.CHECK_ID_ELIGIBILITY_FOR_TERM, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "", "", "",
+                "", "", "kuali.process.registration.eligibility.for.term", "Eligibility for Term",
+                "Checks all the checks that the student is eligible for the term", context);
 
         _createCheck(ProcessPocConstants.CHECK_ID_DOES_NOT_EXCEED_CREDIT_LIMIT,
                 ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, "", "", "", "kuali.rule.credit.load",
@@ -142,8 +143,9 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
                 "kuali.check.eligibility.for.term", "", 1, false, false, true, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone",
                 "kuali.check.has.the.necessary.prereq", "", 2, false, true, true, context);
-//        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone",
-//                "kuali.check.student.has.eligibility.for.each.course", "", 1, false, false, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone",
+                "kuali.check.eligibility.for.term", "You are not eligible to register for the term", 1, false, false, true,
+                context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone",
                 "kuali.check.does.not.exceed.credit.limit", "You have exceeded your credit limit", 2, false, false, true, context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone",
