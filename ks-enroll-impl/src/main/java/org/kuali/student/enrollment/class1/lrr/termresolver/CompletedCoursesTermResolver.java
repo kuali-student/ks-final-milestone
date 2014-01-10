@@ -58,8 +58,8 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     private final static Set<String> prerequisites = new HashSet<String>(2);
 
     static {
-        prerequisites.add(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
-        prerequisites.add(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        prerequisites.add(RulesExecutionConstants.PERSON_ID_TERM.getName());
+        prerequisites.add(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
     }
 
     public void setLrrService(LearningResultRecordService lrrService) {
@@ -81,7 +81,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM_NAME;
+        return RulesExecutionConstants.STUDENT_COMPLETED_COURSE_IDS_TERM.getName();
     }
 
     @Override
@@ -97,13 +97,13 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
 
     @Override
     public Collection<String> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        String studentId = resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME).toString();
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String personId = resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName()).toString();
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
 
         Collection<String> results = null;
 
         try {
-            List<LprInfo> lprs = lprService.getLprsByPerson(studentId, context);
+            List<LprInfo> lprs = lprService.getLprsByPerson(personId, context);
 
             Map<String, String> lprIdToCluId = new HashMap<String, String>();
             List<String> lprIds = new ArrayList<String>(lprs.size());
