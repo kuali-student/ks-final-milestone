@@ -1240,6 +1240,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		int size = requests.size();
 		for (int i = 0; i < size; i++) {
 			if (requests.get(i).getSearchKey() != null) {
+
+                // Assumes a controlled build order of the query Division parameters should always be added first.
 				if (requests.get(i).getSearchKey()
 						.equalsIgnoreCase("ksap.lu.search.division")) {
                     String queryText = (String) requests.get(i).getParams()
