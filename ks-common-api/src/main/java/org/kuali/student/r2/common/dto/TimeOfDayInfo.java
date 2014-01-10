@@ -142,7 +142,7 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
     @Override
     @Deprecated
     public Long getMilliSeconds() {
-        LocalTime localTime = new LocalTime(hour, minute, second);
+        LocalTime localTime = new LocalTime(this.getHour().intValue(), this.getMinute().intValue(), this.getSecond().intValue());
         return (long)localTime.getMillisOfDay();
     }
 
