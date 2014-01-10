@@ -294,16 +294,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingEdit-Term" parent="Uif-VerticalBoxSection">
-        <property name="additionalCssClasses">
-            <list merge="true">
-                <value>ks-section</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-DataField" p:label="Term" p:propertyName="termStartEnd"/>
-            </list>
-        </property>
     </bean>
 
     <bean id="KS-CourseOfferingEdit-CourseOfferingInformation" parent="Uif-VerticalBoxSection">
