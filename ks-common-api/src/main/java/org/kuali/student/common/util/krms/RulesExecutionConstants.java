@@ -5,7 +5,7 @@ import org.kuali.rice.krms.api.engine.Term;
 public class RulesExecutionConstants {
 
     /**
-     * term names TODO: convert these all to TERM's
+     * Rule execution related Term's  
      */
     public static final Term STUDENT_DECEASED_DATE_TERM = new Term("studentDeceasedDate");
     public static final Term COURSE_ID_TO_ENROLL_TERM = new Term("courseIdToEnroll");
