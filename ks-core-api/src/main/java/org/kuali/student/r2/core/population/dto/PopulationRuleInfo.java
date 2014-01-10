@@ -31,7 +31,7 @@ import java.util.List;
     "name",
     "descr",
     "searchCriteria",
-    "ruleIds",
+    "ruleId",
     "groupIds",
     "personIds",
     "childPopulationIds",
@@ -49,7 +49,7 @@ public class PopulationRuleInfo
     @XmlElement
     private QueryByCriteria searchCriteria;
     @XmlElement
-    private List<String> ruleIds;
+    private String ruleId;
     @XmlElement
     private List<String> groupIds;
     @XmlElement
@@ -85,9 +85,7 @@ public class PopulationRuleInfo
 
         if (populationRule != null) {
             this.searchCriteria = populationRule.getSearchCriteria(); /* fix */
-            if (populationRule.getRuleIds() != null) {
-                this.ruleIds = new ArrayList<String>(populationRule.getRuleIds());
-            }
+            this.ruleId = populationRule.getRuleId();
 
             if (populationRule.getGroupIds() != null) {
                 this.groupIds = new ArrayList<String>(populationRule.getGroupIds());
@@ -122,16 +120,12 @@ public class PopulationRuleInfo
     }
 
     @Override
-    public List<String> getRuleIds() {
-        if (this.ruleIds == null) {
-            this.ruleIds = new ArrayList<String>();
-        }
-
-        return this.ruleIds;
+    public String getRuleId() {
+        return this.ruleId;
     }
 
-    public void setRuleIds(List<String> ruleIds) {
-        this.ruleIds = ruleIds;
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
     }
 
     @Override
@@ -216,8 +210,11 @@ public class PopulationRuleInfo
     @Override
     public String toString() {
         return "PopulationRuleInfo{" +
-                "searchCriteria=" + searchCriteria +
-                ", ruleIds=" + ruleIds +
+                "id=" + getId() +
+                ", typeKey=" + getTypeKey() +
+                ", state=" + getStateKey() +
+                ", searchCriteria=" + searchCriteria +
+                ", ruleId=" + ruleId +
                 ", groupIds=" + groupIds +
                 ", personIds=" + personIds +
                 ", childPopulationIds=" + childPopulationIds +

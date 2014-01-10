@@ -109,7 +109,10 @@ public class PopulationInfo
     @Override
     public String toString() {
         return "PopulationInfo{" +
-                "sortOrderTypeKeys=" + sortOrderTypeKeys +
+                "id=" + getId() +
+                ", typeKey=" + getTypeKey() +
+                ", state=" + getStateKey() +
+                ", sortOrderTypeKeys=" + sortOrderTypeKeys +
                 ", variesByTime=" + variesByTime +
                 ", supportsGetMembers=" + supportsGetMembers +
                 ", _futureElements=" + _futureElements +

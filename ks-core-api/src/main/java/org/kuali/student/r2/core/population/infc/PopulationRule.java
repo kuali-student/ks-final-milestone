@@ -46,12 +46,12 @@ public interface PopulationRule
     public QueryByCriteria getSearchCriteria();
 
     /**
-     * Rule Ids to be used in building this population.
+     * Rule Id to be used in building this population.
      *
-     * @name Rule Ids
+     * @name Rule Id
      * @required when the rule type indicates this is based on a rule
      */
-    public List<String> getRuleIds();
+    public String getRuleId();
 
     /**
      * A list of Group Ids to be used in building this population.
