@@ -57,6 +57,7 @@
    	<import resource="classpath:ksb/ks-core-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
     <import resource="classpath:ksb/ks-enroll-context.xml"/>
+    <import resource="classpath:ksb/ks-ap-no-tx-context.xml"/>
 
     <import resource="classpath:StudentSpringBeans.xml"/>
 

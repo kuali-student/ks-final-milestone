@@ -299,5 +299,32 @@
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap</artifactId>
+            <version>${ks.ap.version}</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-framework</artifactId>
+            <version>${ks.ap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-impl</artifactId>
+            <version>${ks.ap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-ui</artifactId>
+            <version>${ks.ap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-web</artifactId>
+            <version>${ks.ap.version}</version>
+            <type>war</type>
+        </dependency>
     </dependencies>
 </project>
