@@ -222,13 +222,13 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
         days.add(5);
         Collections.sort(days);  //  Make the order predictable.
 
-        TimeOfDayInfo startTime = SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("08:00");
-        //  Define some end times
-        TimeOfDayInfo endTime850 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("08:50");
-        TimeOfDayInfo endTime910 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("09:10");
-        TimeOfDayInfo endTime950 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("09:50");
-        TimeOfDayInfo endTime1050 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("10:50");
-        TimeOfDayInfo endTime1110 =  SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("11:10");
+        TimeOfDayInfo startTime = new TimeOfDayInfo(8, 0); // 8 AM (military)
+        //  Define some end times (in military)
+        TimeOfDayInfo endTime850 =  new TimeOfDayInfo(8, 50);
+        TimeOfDayInfo endTime910 =  new TimeOfDayInfo(9, 10);
+        TimeOfDayInfo endTime950 =  new TimeOfDayInfo(9, 50);
+        TimeOfDayInfo endTime1050 =  new TimeOfDayInfo(10, 50);
+        TimeOfDayInfo endTime1110 =  new TimeOfDayInfo(11, 10);
 
         //  Search
         List<TimeSlotInfo> timeSlots = courseOfferingService
@@ -246,21 +246,21 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
             tsDays.addAll(ts.getWeekdays());
             Collections.sort(tsDays);
             assertEquals(days.toString(), tsDays.toString());
-            assertEquals(startTime.getMilliSeconds(), ts.getStartTime().getMilliSeconds());
+            assertEquals(startTime, ts.getStartTime());
         }
 
         //  Check end times.
         TimeSlotInfo endTime = timeSlots.get(0);
-        assertEquals(endTime850.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+        assertEquals(endTime850, endTime.getEndTime());
         endTime = timeSlots.get(1);
-        assertEquals(endTime910.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+        assertEquals(endTime910, endTime.getEndTime());
         endTime = timeSlots.get(2);
-        assertEquals(endTime950.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+        assertEquals(endTime950, endTime.getEndTime());
 
         /*
          *  Search for time slots for an AO in a Fall term, with days == MWF, and start time == 10am
          */
-        startTime = SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString("10:00");
+        startTime = new TimeOfDayInfo(10, 0); // 10 AM
 
         days = new ArrayList<Integer>();
         days.add(2);
@@ -280,14 +280,14 @@ public class TestCourseOfferingServiceImplWithClass1Mocks {
             tsDays.addAll(ts.getWeekdays());
             Collections.sort(tsDays);
             assertEquals(days.toString(), tsDays.toString());
-            assertEquals(startTime.getMilliSeconds(), ts.getStartTime().getMilliSeconds());
+            assertEquals(startTime, ts.getStartTime());
         }
 
         //  Check end times.
         endTime = timeSlots.get(0);
-        assertEquals(endTime1050.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+        assertEquals(endTime1050, endTime.getEndTime());
         endTime = timeSlots.get(1);
-        assertEquals(endTime1110.getMilliSeconds(), endTime.getEndTime().getMilliSeconds());
+        assertEquals(endTime1110, endTime.getEndTime());
     }
 
     private CourseOfferingInfo testCRUDCourseOffering() throws DoesNotExistException,

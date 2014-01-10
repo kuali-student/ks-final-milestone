@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.class2.appointment.util;
 
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 
 import java.util.ArrayList;
@@ -72,8 +73,8 @@ public class AppointmentSlotRuleTypeConversion {
                     tempSlotRule.append(day);
                 }
             }
-            tempSlotRule.append(DELIMITER + convertToMins(slotRuleInfo.getStartTimeOfDay().getMilliSeconds()));
-            tempSlotRule.append(DELIMITER + convertToMins(slotRuleInfo.getEndTimeOfDay().getMilliSeconds()));
+            tempSlotRule.append(DELIMITER + convertToMins(slotRuleInfo.getStartTimeOfDay()));
+            tempSlotRule.append(DELIMITER + convertToMins(slotRuleInfo.getEndTimeOfDay()));
             tempSlotRule.append(DELIMITER + slotRuleInfo.getSlotStartInterval().getAtpDurationTypeKey());
             tempSlotRule.append(DELIMITER + slotRuleInfo.getSlotStartInterval().getTimeQuantity());
             tempSlotRule.append(DELIMITER + slotRuleInfo.getSlotDuration().getAtpDurationTypeKey());
@@ -87,8 +88,7 @@ public class AppointmentSlotRuleTypeConversion {
         if(time == null){
             return null;
         }
-        TimeOfDayInfo info = new TimeOfDayInfo();
-        info.setMilliSeconds(time);
+        TimeOfDayInfo info = TimeOfDayHelper.setMillis(time);
         return info;
     }
 
@@ -109,9 +109,9 @@ public class AppointmentSlotRuleTypeConversion {
         return timeInMillis;
     }
 
-    private static String convertToMins(Long milliSecs) {
-        int temp = (int) (milliSecs / (SECOND_IN_MILLIS * MINUTE_IN_SECS));
-        return  String.valueOf(temp);
+    private static String convertToMins(TimeOfDayInfo tod) {
+        int minutes = tod.getHour() * 60 + tod.getMinute();
+        return  String.valueOf(minutes);
     }
 
 }

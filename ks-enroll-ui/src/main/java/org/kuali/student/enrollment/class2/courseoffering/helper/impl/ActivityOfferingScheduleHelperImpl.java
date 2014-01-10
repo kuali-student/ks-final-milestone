@@ -587,15 +587,15 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 int firstTimeSlotInfo = 0;
                 scheduleWrapper.setTimeSlot(timeSlotInfos.get(firstTimeSlotInfo));
 
-                Long startTime = scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds();
+                TimeOfDayInfo startTime = scheduleWrapper.getTimeSlot().getStartTime();
                 if(startTime != null) {
-                    String formattedTime = SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime);
+                    String formattedTime = SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(startTime);
                     scheduleWrapper.setStartTime(formattedTime);
                 }
 
-                Long endTime = scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds();
-                if(endTime != null) {
-                    String formattedTime = SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime);
+                TimeOfDayInfo endTime = scheduleWrapper.getTimeSlot().getEndTime();
+                if (endTime != null) {
+                    String formattedTime = SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(endTime);
                     scheduleWrapper.setEndTime(formattedTime);
                 }
 
@@ -664,14 +664,14 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                             int firstTimeSlotInfo = 0;
                             scheduleWrapper.setTimeSlot(timeSlotInfos.get(firstTimeSlotInfo));
 
-                            Long startTime = scheduleWrapper.getTimeSlot().getStartTime().getMilliSeconds();
+                            TimeOfDayInfo startTime = scheduleWrapper.getTimeSlot().getStartTime();
                             if (startTime != null){
-                                scheduleWrapper.setStartTime(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime));
+                                scheduleWrapper.setStartTime(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(startTime));
                             }
 
-                            Long endTime = scheduleWrapper.getTimeSlot().getEndTime().getMilliSeconds();
+                            TimeOfDayInfo endTime = scheduleWrapper.getTimeSlot().getEndTime();
                             if (endTime != null){
-                                scheduleWrapper.setEndTime(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime));
+                                scheduleWrapper.setEndTime(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(endTime));
                             }
                             scheduleWrapper.setDaysUI(SchedulingServiceUtil.weekdaysList2WeekdaysString(scheduleWrapper.getTimeSlot().getWeekdays()));
                         }
@@ -854,9 +854,9 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         List<String> endTimes = new ArrayList<String>();
 
         for (TimeSlotInfo ts : timeSlotInfos){
-            Long st = ts.getStartTime().getMilliSeconds();
+            TimeOfDayInfo st = ts.getStartTime();
             if (st != null) {
-                endTimes.add(SchedulingServiceUtil.makeFormattedTimeFromMillis(ts.getEndTime().getMilliSeconds()));
+                endTimes.add(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(ts.getEndTime()));
             }
         }
 

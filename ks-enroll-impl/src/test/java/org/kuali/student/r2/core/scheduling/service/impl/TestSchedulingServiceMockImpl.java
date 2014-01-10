@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -101,6 +102,16 @@ public class TestSchedulingServiceMockImpl {
     public static String principalId2 = "321";
     public ContextInfo callContext = null;
     public CrudInfoTester crudInfoTester = null;
+
+    public static final TimeOfDayInfo TOD_8_AM = new TimeOfDayInfo(8, 0);
+    public static final TimeOfDayInfo TOD_8_50_AM = new TimeOfDayInfo(8, 50);
+    public static final TimeOfDayInfo TOD_9_10_AM = new TimeOfDayInfo(9, 10);
+    public static final TimeOfDayInfo TOD_10_AM = new TimeOfDayInfo(10, 0);
+    public static final TimeOfDayInfo TOD_10_50_AM = new TimeOfDayInfo(10, 50);
+    public static final TimeOfDayInfo TOD_1_PM = new TimeOfDayInfo(13, 0);
+    public static final TimeOfDayInfo TOD_2_10_PM = new TimeOfDayInfo(14, 10);
+    public static final TimeOfDayInfo TOD_3_PM = new TimeOfDayInfo(15, 0);
+    public static final TimeOfDayInfo TOD_3_50_PM = new TimeOfDayInfo(15, 50);
 
     /////////////////////////////
     // ACCESSORS AND MODIFIERS
@@ -938,20 +949,22 @@ public class TestSchedulingServiceMockImpl {
         crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         expected.setName("1"); //Timeslot Code.
         expected.setWeekdays(DOW_M_W_F);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
+        TimeOfDayInfo startTime = TOD_8_AM; // 8 AM
         expected.setStartTime(startTime);
-        TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(END_TIME_MILLIS_8_50_AM);
+        TimeOfDayInfo endTime = TOD_8_50_AM; // 8:50 AM
         expected.setEndTime(endTime);
         TimeSlotInfo actual = schedulingService.createTimeSlot(expected.getTypeKey(), expected, callContext);
         crudInfoTester.testCreate(expected, actual);
         assertEquals(expected.getWeekdays(), actual.getWeekdays());
         assertEquals(DOW_M_W_F, actual.getWeekdays());
         assertEquals(expected.getStartTime(), actual.getStartTime());
-        assertEquals(START_TIME_MILLIS_8_00_AM, actual.getStartTime().getMilliSeconds());
+        assertEquals(TOD_8_AM.getHour(), actual.getStartTime().getHour());
+        assertEquals(TOD_8_AM.getMinute(), actual.getStartTime().getMinute());
+        assertEquals(TOD_8_AM.getSecond(), actual.getStartTime().getSecond());
         assertEquals(expected.getEndTime(), actual.getEndTime());
-        assertEquals(END_TIME_MILLIS_8_50_AM, actual.getEndTime().getMilliSeconds());
+        assertEquals(TOD_8_50_AM.getHour(), actual.getEndTime().getHour());
+        assertEquals(TOD_8_50_AM.getMinute(), actual.getEndTime().getMinute());
+        assertEquals(TOD_8_50_AM.getSecond(), actual.getEndTime().getSecond());
 
         // test read
         // ----------------
@@ -964,11 +977,9 @@ public class TestSchedulingServiceMockImpl {
         // ----------------
         expected = actual;
         expected.setWeekdays(DOW_T_TH);
-        TimeOfDayInfo startTime_update = new TimeOfDayInfo();
-        startTime_update.setMilliSeconds(START_TIME_MILLIS_10_00_AM);
+        TimeOfDayInfo startTime_update = TOD_10_AM; // 10 AM
         expected.setStartTime(startTime_update);
-        TimeOfDayInfo endTime_update = new TimeOfDayInfo();
-        endTime_update.setMilliSeconds(END_TIME_MILLIS_10_50_AM);
+        TimeOfDayInfo endTime_update = TOD_10_50_AM; // 10:50 AM
         expected.setEndTime(endTime_update);
         crudInfoTester.initializeInfoForTestUpdate(expected, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         actual = schedulingService.updateTimeSlot(actual.getId(), expected, callContext);
@@ -976,20 +987,16 @@ public class TestSchedulingServiceMockImpl {
         assertEquals(expected.getWeekdays(), actual.getWeekdays());
         assertEquals(DOW_T_TH, actual.getWeekdays());
         assertEquals(expected.getStartTime(), actual.getStartTime());
-        assertEquals(START_TIME_MILLIS_10_00_AM, actual.getStartTime().getMilliSeconds());
         assertEquals(expected.getEndTime(), actual.getEndTime());
-        assertEquals(END_TIME_MILLIS_10_50_AM, actual.getEndTime().getMilliSeconds());
 
         // create a 2nd TimeSlot
         // -------------------------------
         TimeSlotInfo expected2 = new TimeSlotInfo() ;
         crudInfoTester.initializeInfoForTestCreate(expected2, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         expected2.setWeekdays(DOW_T_TH);
-        TimeOfDayInfo startTime2 = new TimeOfDayInfo();
-        startTime2.setMilliSeconds(START_TIME_MILLIS_10_00_AM);
+        TimeOfDayInfo startTime2 = TOD_10_AM; // 10 AM
         expected2.setStartTime(startTime2);
-        TimeOfDayInfo endTime2 = new TimeOfDayInfo();
-        endTime2.setMilliSeconds(END_TIME_MILLIS_10_50_AM);
+        TimeOfDayInfo endTime2 = TOD_10_50_AM; // 10:50 AM
         expected2.setEndTime(endTime2);
         TimeSlotInfo actual2 = schedulingService.createTimeSlot(expected2.getTypeKey(), expected2, callContext);
 
@@ -1104,8 +1111,12 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_9_10_AM);
+        assertEquals(ts.getStartTime().getHour(), TOD_8_AM.getHour()); // 8:00 AM
+        assertEquals(ts.getStartTime().getMinute(), TOD_8_AM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_8_AM.getSecond());
+        assertEquals(ts.getEndTime().getHour(), TOD_9_10_AM.getHour()); // 9:10 AM
+        assertEquals(ts.getEndTime().getMinute(), TOD_9_10_AM.getMinute());
+        assertEquals(ts.getEndTime().getSecond(), TOD_9_10_AM.getSecond());
 
         // test specific records - 3
         ts = schedulingService.getTimeSlot("3", callContext);
@@ -1117,8 +1128,12 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(dow.contains(Calendar.TUESDAY));
         assertTrue(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_8_50_AM);
+        assertEquals(ts.getStartTime().getHour(), TOD_8_AM.getHour()); // 8:00 AM
+        assertEquals(ts.getStartTime().getMinute(), TOD_8_AM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_8_AM.getSecond());
+        assertEquals(ts.getEndTime().getHour(), TOD_8_50_AM.getHour()); // 8:50 AM
+        assertEquals(ts.getEndTime().getMinute(), TOD_8_50_AM.getMinute());
+        assertEquals(ts.getEndTime().getSecond(), TOD_8_50_AM.getSecond());
 
         // test specific records - 10
         ts = schedulingService.getTimeSlot("10", callContext);
@@ -1130,8 +1145,12 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_1_00_PM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_2_10_PM);
+        assertEquals(ts.getStartTime().getHour(), TOD_1_PM.getHour()); // 1:00 PM
+        assertEquals(ts.getStartTime().getMinute(), TOD_1_PM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_1_PM.getSecond());
+        assertEquals(ts.getEndTime().getHour(), TOD_2_10_PM.getHour()); // 2:10 PM
+        assertEquals(ts.getEndTime().getMinute(), TOD_2_10_PM.getMinute());
+        assertEquals(ts.getEndTime().getSecond(), TOD_2_10_PM.getSecond());
 
         // test get time slot ids by type
         List<String> l_actoff = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, callContext);
@@ -1159,8 +1178,12 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_9_10_AM);
+        assertEquals(ts.getStartTime().getHour(), TOD_8_AM.getHour()); // 8:00 AM
+        assertEquals(ts.getStartTime().getMinute(), TOD_8_AM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_8_AM.getSecond());
+        assertEquals(ts.getEndTime().getHour(), TOD_9_10_AM.getHour()); // 9:10 AM
+        assertEquals(ts.getEndTime().getMinute(), TOD_9_10_AM.getMinute());
+        assertEquals(ts.getEndTime().getSecond(), TOD_9_10_AM.getSecond());
 
         assertEquals("15", l_valid_ts.get(1).getId());
         ts = l_valid_ts.get(1);
@@ -1172,8 +1195,12 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(dow.contains(Calendar.TUESDAY));
         assertTrue(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_3_00_PM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_3_50_PM);
+        assertEquals(ts.getStartTime().getHour(), TOD_3_PM.getHour()); // 3:00 PM
+        assertEquals(ts.getStartTime().getMinute(), TOD_3_PM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_3_PM.getSecond());
+        assertEquals(ts.getEndTime().getHour(), TOD_3_50_PM.getHour()); // 3:50 AM
+        assertEquals(ts.getEndTime().getMinute(), TOD_3_50_PM.getMinute());
+        assertEquals(ts.getEndTime().getSecond(), TOD_3_50_PM.getSecond());
 
         // test case: all invalid ids
         List<String> invalid_ids = new ArrayList<String>();
@@ -1221,8 +1248,7 @@ public class TestSchedulingServiceMockImpl {
         dow = new ArrayList<Integer>();
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
+        TimeOfDayInfo startTime = TOD_8_AM; // 8 AM
         List<TimeSlotInfo> tsi = schedulingService.getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, dow, startTime, callContext);
         assertEquals(2, tsi.size());
 
@@ -1236,7 +1262,9 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getStartTime().getHour(), TOD_8_AM.getHour());
+        assertEquals(ts.getStartTime().getMinute(), TOD_8_AM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_8_AM.getSecond());
 
         assertEquals("4", tsi.get(1).getId());
         ts = tsi.get(1);
@@ -1248,17 +1276,17 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getStartTime().getHour(), TOD_8_AM.getHour());
+        assertEquals(ts.getStartTime().getMinute(), TOD_8_AM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_8_AM.getSecond());
 
         // test getTimeSlotsByDaysAndStartTimeAndEndTime
         // should return record 3
         dow = new ArrayList<Integer>();
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
-        startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
-        TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(END_TIME_MILLIS_8_50_AM);
+        startTime = TOD_8_AM; // 8 AM
+        TimeOfDayInfo endTime = TOD_8_50_AM; // 8:50 AM
         tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, dow, startTime, endTime, callContext);
         assertEquals(1, tsi.size());
         assertEquals("3", tsi.get(0).getId());
@@ -1271,18 +1299,20 @@ public class TestSchedulingServiceMockImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_8_50_AM);
+        assertEquals(ts.getStartTime().getHour(), TOD_8_AM.getHour());
+        assertEquals(ts.getStartTime().getMinute(), TOD_8_AM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_8_AM.getSecond());
+        assertEquals(ts.getEndTime().getHour(), TOD_8_50_AM.getHour());
+        assertEquals(ts.getEndTime().getMinute(), TOD_8_50_AM.getMinute());
+        assertEquals(ts.getEndTime().getSecond(), TOD_8_50_AM.getSecond());
 
         // should return record 10
         dow = new ArrayList<Integer>();
         dow.add(Calendar.MONDAY);
         dow.add(Calendar.WEDNESDAY);
         dow.add(Calendar.FRIDAY);
-        startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(START_TIME_MILLIS_1_00_PM);
-        endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(END_TIME_MILLIS_2_10_PM);
+        startTime = TOD_1_PM; // 1 PM
+        endTime = TOD_2_10_PM; // 2:10 PM
         tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD, dow, startTime, endTime, callContext);
         assertEquals(1, tsi.size());
         assertEquals("10", tsi.get(0).getId());
@@ -1295,8 +1325,12 @@ public class TestSchedulingServiceMockImpl {
         // should not contain Tuesday or Thursday
         assertFalse(ts_dow.contains(Calendar.TUESDAY));
         assertFalse(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), START_TIME_MILLIS_1_00_PM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), END_TIME_MILLIS_2_10_PM);
+        assertEquals(ts.getStartTime().getHour(), TOD_1_PM.getHour());
+        assertEquals(ts.getStartTime().getMinute(), TOD_1_PM.getMinute());
+        assertEquals(ts.getStartTime().getSecond(), TOD_1_PM.getSecond());
+        assertEquals(ts.getEndTime().getHour(), TOD_2_10_PM.getHour());
+        assertEquals(ts.getEndTime().getMinute(), TOD_2_10_PM.getMinute());
+        assertEquals(ts.getEndTime().getSecond(), TOD_2_10_PM.getSecond());
 
         // test areTimeSlotsInConflict
         assertTrue(schedulingService.areTimeSlotsInConflict("1", "2", callContext));
@@ -1311,11 +1345,9 @@ public class TestSchedulingServiceMockImpl {
         TimeSlotInfo ts = new TimeSlotInfo();
         ts.setId(ts_id);
         ts.setWeekdays(weekdays);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(startTimeInMillisecs);
+        TimeOfDayInfo startTime = TimeOfDayHelper.setMillis(startTimeInMillisecs);
         ts.setStartTime(startTime);
-        TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(endTimeInMillisecs);
+        TimeOfDayInfo endTime = TimeOfDayHelper.setMillis(endTimeInMillisecs);
         ts.setEndTime(endTime);
         ts.setStateKey(stateKey);
         ts.setTypeKey(typeKey);
@@ -1373,11 +1405,9 @@ public class TestSchedulingServiceMockImpl {
         TimeSlotInfo expected = new TimeSlotInfo() ;
         crudInfoTester.initializeInfoForTestCreate(expected, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
         expected.setWeekdays(DOW_T_TH);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(START_TIME_MILLIS_8_00_AM);
+        TimeOfDayInfo startTime = new TimeOfDayInfo(8, 0); // 8 AM
         expected.setStartTime(startTime);
-        TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(END_TIME_MILLIS_8_50_AM);
+        TimeOfDayInfo endTime = new TimeOfDayInfo(8, 50); // 8:50 AM
         expected.setEndTime(endTime);
         TimeSlotInfo TIME_SLOT = schedulingService.createTimeSlot(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY, expected, callContext);
         List<String> TIME_SLOT_IDS = new ArrayList<String>();

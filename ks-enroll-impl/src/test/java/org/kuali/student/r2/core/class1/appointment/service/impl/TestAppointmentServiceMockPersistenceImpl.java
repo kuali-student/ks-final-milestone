@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
@@ -91,8 +92,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
         orig.setMaxAppointmentsPerSlot(100);
         orig.setPeriodMilestoneId("test.reg.period.1");
         orig.setSlotRule(new AppointmentSlotRuleInfo());
-        orig.getSlotRule().setStartTimeOfDay(getTimeOfDay(1000L));
-        orig.getSlotRule().setEndTimeOfDay(getTimeOfDay(2000L));
+        orig.getSlotRule().setStartTimeOfDay(TimeOfDayHelper.setMillis(1000L));
+        orig.getSlotRule().setEndTimeOfDay(TimeOfDayHelper.setMillis(2000L));
         orig.getSlotRule().setSlotDuration(getTimeAmount("hours", 1));
         orig.getSlotRule().setSlotStartInterval(getTimeAmount("minutes", 2));
         orig.getSlotRule().setWeekdays(Arrays.asList(1, 2, 3));
@@ -152,8 +153,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
         orig.setMaxAppointmentsPerSlot(150);
         orig.setPeriodMilestoneId("test.reg.period.1Updated");
         orig.setSlotRule(new AppointmentSlotRuleInfo());
-        orig.getSlotRule().setStartTimeOfDay(getTimeOfDay(1500L));
-        orig.getSlotRule().setEndTimeOfDay(getTimeOfDay(250L));
+        orig.getSlotRule().setStartTimeOfDay(TimeOfDayHelper.setMillis(1500L));
+        orig.getSlotRule().setEndTimeOfDay(TimeOfDayHelper.setMillis(250L));
         orig.getSlotRule().setSlotDuration(getTimeAmount("eons", 2));
         orig.getSlotRule().setWeekdays(Arrays.asList(2, 3, 4));
         orig.getSlotRule().setSlotStartInterval(getTimeAmount("seconds", 3));
@@ -351,7 +352,7 @@ public class TestAppointmentServiceMockPersistenceImpl {
         if (info == null) {
             fail("Got a null but expected " + orig);
         }
-        assertEquals(orig.getMilliSeconds(), info.getMilliSeconds());
+        assertEquals(orig, info);
     }
 
     private void compareTimeAmountInfo(TimeAmountInfo orig, TimeAmountInfo info) {
@@ -462,15 +463,6 @@ public class TestAppointmentServiceMockPersistenceImpl {
         } catch (DoesNotExistException ex) {
             // expected
         }
-    }
-
-    private TimeOfDayInfo getTimeOfDay(Long milliseconds) {
-        if (milliseconds == null) {
-            return null;
-        }
-        TimeOfDayInfo info = new TimeOfDayInfo();
-        info.setMilliSeconds(milliseconds);
-        return info;
     }
 
     private TimeAmountInfo getTimeAmount(String durationType, Integer quantity) {

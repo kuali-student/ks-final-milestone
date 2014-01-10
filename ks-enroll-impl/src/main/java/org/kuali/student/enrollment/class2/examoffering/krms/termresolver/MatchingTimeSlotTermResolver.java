@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.krms.util.KSKRMSExecutionUtil;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
@@ -89,7 +90,7 @@ public class MatchingTimeSlotTermResolver implements TermResolver<Boolean> {
             List<TimeSlotInfo> timeSlots = (List<TimeSlotInfo>) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS);
             for (TimeSlotInfo timeSlot : timeSlots) {
                 if (weekdays.equals(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()))
-                        && Long.valueOf(startTime).equals(timeSlot.getStartTime().getMilliSeconds())) {
+                        && Long.valueOf(startTime).equals(TimeOfDayHelper.getMillis(timeSlot.getStartTime()))) {
                     return true;
                 }
             }

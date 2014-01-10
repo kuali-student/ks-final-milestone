@@ -160,12 +160,12 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             TimeOfDayInfo endTime = timeSlot.getEndTime();
             List<Integer> days = timeSlot.getWeekdays();
 
-            if (startTime != null && startTime.getMilliSeconds() != null) {
-                aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime.getMilliSeconds()),append);
+            if (startTime != null && startTime.getHour() != null) {
+                aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(startTime), append);
             }
 
-            if (endTime != null && endTime.getMilliSeconds() != null) {
-                aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime.getMilliSeconds()),append);
+            if (endTime != null && endTime.getHour() != null) {
+                aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(endTime), append);
             }
 
             if (days != null && days.size() > 0) {

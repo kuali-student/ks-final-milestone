@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -54,12 +55,12 @@ public class TimeSlotViewHelperServiceImpl
             for (TimeSlotInfo timeSlotInfo : timeSlotInfos) {
                 TimeSlotWrapper tsWrapper = new TimeSlotWrapper();
                 tsWrapper.setTimeSlotInfo(timeSlotInfo);
-                Long startTime = timeSlotInfo.getStartTime().getMilliSeconds();
+                Long startTime = TimeOfDayHelper.getMillis(timeSlotInfo.getStartTime());
                 if (startTime != null) {
                     tsWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime));
                 }
 
-                Long endTime = timeSlotInfo.getEndTime().getMilliSeconds();
+                Long endTime = TimeOfDayHelper.getMillis(timeSlotInfo.getEndTime());
                 if (endTime != null) {
                     tsWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime));
                 }
@@ -224,8 +225,8 @@ public class TimeSlotViewHelperServiceImpl
         String daysUI = SchedulingServiceUtil.weekdaysList2WeekdaysString(tsWrapper.getTimeSlotInfo().getWeekdays());
         tsWrapper.setDaysDisplayName(daysUI);
         tsWrapper.setEnableDeleteButton(true);
-        tsWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(tsWrapper.getTimeSlotInfo().getStartTime().getMilliSeconds()));
-        tsWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(tsWrapper.getTimeSlotInfo().getEndTime().getMilliSeconds()));
+        tsWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(tsWrapper.getTimeSlotInfo().getStartTime()));
+        tsWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(tsWrapper.getTimeSlotInfo().getEndTime()));
         TypeInfo type = getTypeInfo(form.getAddOrEditTermKey());
         tsWrapper.setTypeName(type.getName());
 

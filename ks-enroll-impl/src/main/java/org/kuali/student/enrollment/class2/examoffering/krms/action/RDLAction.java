@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.examoffering.krms.action;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.Action;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
@@ -53,12 +54,10 @@ public class RDLAction implements Action {
         timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
         timeSlot.setWeekdays(this.getWeekdays());
 
-        TimeOfDayInfo startTimeOfDayInfo = new TimeOfDayInfo();
-        startTimeOfDayInfo.setMilliSeconds(Long.valueOf(this.getStartTime()));
+        TimeOfDayInfo startTimeOfDayInfo = TimeOfDayHelper.setMillis(Long.valueOf(this.getStartTime()));
         timeSlot.setStartTime(startTimeOfDayInfo);
 
-        TimeOfDayInfo endTimeOfDayInfo = new TimeOfDayInfo();
-        endTimeOfDayInfo.setMilliSeconds(Long.valueOf(this.getEndTime()));
+        TimeOfDayInfo endTimeOfDayInfo = TimeOfDayHelper.setMillis(Long.valueOf(this.getEndTime()));
         timeSlot.setEndTime(endTimeOfDayInfo);
 
         // set our attribute on the engine results

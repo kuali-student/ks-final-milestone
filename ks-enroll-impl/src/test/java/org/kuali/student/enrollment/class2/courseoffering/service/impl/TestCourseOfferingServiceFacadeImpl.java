@@ -486,7 +486,7 @@ public class TestCourseOfferingServiceFacadeImpl {
         assertEquals("11:59 pm", todStr);
         // Military time --------------------------------------------------------------
         // Check 8 am
-        tod = TimeOfDayHelper.createTimeOfDayInMilitary(8, 0);
+        tod = new TimeOfDayInfo(8, 0);
         todStr = TimeOfDayHelper.formatTimeOfDay(tod);
         assertEquals("8:00 am", todStr);
         List<TimeOfDayFormattingEnum> options = new ArrayList<TimeOfDayFormattingEnum>();
@@ -494,7 +494,7 @@ public class TestCourseOfferingServiceFacadeImpl {
         todStr = TimeOfDayHelper.formatTimeOfDay(tod, options);
         assertEquals("8:00", todStr);
         // Check 11:59 PM
-        tod = TimeOfDayHelper.createTimeOfDayInMilitary(23, 59);
+        tod = new TimeOfDayInfo(23, 59);
         todStr = TimeOfDayHelper.formatTimeOfDay(tod);
         assertEquals("11:59 pm", todStr);
         todStr = TimeOfDayHelper.formatTimeOfDay(tod, options);
