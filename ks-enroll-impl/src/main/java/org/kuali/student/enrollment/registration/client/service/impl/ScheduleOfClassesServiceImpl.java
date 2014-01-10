@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -13,6 +14,8 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
@@ -23,6 +26,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.CourseSearch
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -33,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -63,6 +68,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+
 public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private SearchService searchService;
     private LprService lprService;
@@ -71,6 +78,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private CourseService courseService;
     private CourseOfferingService courseOfferingService;
     private TypeService typeService;
+    private CourseOfferingSetService courseOfferingSetService;
     private Map<String, Integer> activityPriorityMap = null;
 
     Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
@@ -323,6 +331,51 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         List<String> aoIds = new ArrayList<String>();
         aoIds.add(activityOfferingId);
         return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
+    }
+
+    @Override
+    public List<TermSearchResult> loadActiveTerms() throws Exception{
+        List<TermSearchResult> termSearchResults = new ArrayList<TermSearchResult>();
+        List<AtpInfo> validAtps=getValidAtps();
+        for(AtpInfo atpInfo: validAtps){
+            TermSearchResult termSearchResult = new TermSearchResult();
+            termSearchResult.setTermId(atpInfo.getId());
+            termSearchResult.setTermName(atpInfo.getName());
+            termSearchResults.add(termSearchResult);
+        }
+        return termSearchResults;
+
+
+
+    }
+
+    private List<AtpInfo> getValidAtps(){
+        List<SocInfo> socs;
+        List<String> termIds = new ArrayList<String>();
+        List<AtpInfo> atps = new ArrayList<AtpInfo>();
+        courseOfferingSetService = getCourseOfferingSetService();
+        atpService = getAtpService();
+        // Build a predicate to search for published Socs
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        qBuilder.setPredicates();
+        Predicate pred = equal(CourseOfferingSetServiceConstants.SearchParameters.SOC_STATE, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
+        qBuilder.setPredicates(pred);
+        try {
+            socs = courseOfferingSetService.searchForSocs(qBuilder.build(), ContextUtils.createDefaultContextInfo());
+            if (socs != null && socs.size() > 0) {
+                for(SocInfo soc: socs){
+                    // Add all published Soc termIds to termIds List
+                    termIds.add(soc.getTermId());
+                }
+                // Use AtpService to get Term name by Id
+                atps = atpService.getAtpsByIds(termIds, ContextUtils.createDefaultContextInfo());
+            } else {
+                return atps;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error getting Valid SOC Terms", e);
+        }
+        return atps;
     }
 
 
@@ -966,5 +1019,17 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
+    }
+
+    public CourseOfferingSetService getCourseOfferingSetService() {
+        if(courseOfferingSetService == null) {
+            courseOfferingSetService =  GlobalResourceLoader.getService(new QName(CourseOfferingSetServiceConstants.NAMESPACE,
+                    CourseOfferingSetServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseOfferingSetService;
+    }
+
+    public void setCourseOfferingSetService(CourseOfferingSetService courseOfferingSetService) {
+        this.courseOfferingSetService = courseOfferingSetService;
     }
 }
