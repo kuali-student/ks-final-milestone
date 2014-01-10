@@ -106,6 +106,9 @@
                             <artifactId>ks-common-web</artifactId>
                         </overlay>
                         <overlay>
+                            <!-- empty groupId/artifactId represents the current build -->
+                        </overlay>
+                        <overlay>
                             <groupId>org.kuali.rice</groupId>
                             <artifactId>rice-web</artifactId>
                             <excludes>
@@ -130,9 +133,6 @@
                                 <exclude>**/sampleTravelApplication.tag</exclude>
                                 <exclude>META-INF/**</exclude>
                             </excludes>
-                        </overlay>
-                        <overlay>
-                            <!-- empty groupId/artifactId represents the current build -->
                         </overlay>
                         <!-- any other remaining overlays will be applied last -->
                     </overlays>
