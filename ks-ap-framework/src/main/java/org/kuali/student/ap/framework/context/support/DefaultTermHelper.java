@@ -281,7 +281,10 @@ public class DefaultTermHelper implements TermHelper {
 						t.getId(),
 						acl = KsapFrameworkServiceLocator.getAcademicCalendarService().getAcademicCalendarsForTerm(
 								t.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo()));
-			AcademicCalendarInfo ac = KSCollectionUtils.getRequiredZeroElement(acl);
+            if (acl == null || acl.isEmpty())
+                throw new IllegalStateException(
+                        "AcademicCalendarService did not return an academic calendar for year/term " + yearTerm);
+            AcademicCalendarInfo ac = acl.get(0);
 			List<Term> rl = tm.acalTermMap.get(ac.getId());
 			try {
 				tm.acalTermMap.put(
