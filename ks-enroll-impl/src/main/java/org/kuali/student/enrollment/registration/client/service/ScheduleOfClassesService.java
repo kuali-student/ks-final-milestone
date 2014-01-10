@@ -238,7 +238,7 @@ public interface ScheduleOfClassesService {
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
-    @Path("/atp/termcode/{termCode}")
+    @Path("/terms/termcode/{termCode}")
     public String getTermIdByTermCode( @PathParam("termCode") String termCode ) throws Exception;
 
     /**
