@@ -1,6 +1,7 @@
 package org.kuali.student.ap.framework.context;
 
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
 public class PlanConstants extends AcademicPlanServiceConstants {
@@ -74,7 +75,7 @@ public class PlanConstants extends AcademicPlanServiceConstants {
 	/* Query keys for getting the termInfos from the academic calender */
 	public static final String PLANNING = "%kuali.atp.state.Planning%";
 	public static final String INPROGRESS = "%kuali.atp.state.Inprogress%";
-	public static final String PUBLISHED = "kuali.atp.state.Official";
+	public static final String PUBLISHED = AtpServiceConstants.ATP_OFFICIAL_STATE_KEY;
 
 	public static final String WITHDRAWN_GRADE = "W";
 

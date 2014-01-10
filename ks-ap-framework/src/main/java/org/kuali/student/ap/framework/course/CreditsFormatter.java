@@ -69,12 +69,9 @@ public class CreditsFormatter {
 		if (options.size() > 1) {
 			LOG.warn("Credit option list contained more than one value.");
 		}
-        ResultValuesGroupInfo rci;
-        try{
-		    rci = KSCollectionUtils.getRequiredZeroElement(options);
-        }catch (OperationFailedException e){
-            throw new RuntimeException("",e);
-        }
+
+        // Aways use the first credit option if multiple are found.
+        ResultValuesGroupInfo rci = options.get(0);
 
 		/**
 		 * Credit values are provided in three formats: FIXED, LIST (Multiple),

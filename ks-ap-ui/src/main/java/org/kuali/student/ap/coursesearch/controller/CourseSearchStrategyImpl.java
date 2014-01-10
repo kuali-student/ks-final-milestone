@@ -1242,16 +1242,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			if (requests.get(i).getSearchKey() != null) {
 				if (requests.get(i).getSearchKey()
 						.equalsIgnoreCase("ksap.lu.search.division")) {
-                    String queryText;
-                    String key;
-					try{
-                        queryText = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
-                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
-                        key = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
-                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
-                    }catch (OperationFailedException e){
-                        throw new RuntimeException("Search Failure", e);
-                    }
+                    String queryText = (String) requests.get(i).getParams()
+                            .get(0).getValues().get(0);
+                    String key = (String) requests.get(i).getParams().get(0)
+                            .getValues().get(0);
 					if (form.getSearchQuery().length() <= 2) {
 						break;
 					} else {

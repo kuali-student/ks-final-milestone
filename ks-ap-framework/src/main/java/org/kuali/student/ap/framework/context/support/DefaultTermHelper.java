@@ -509,8 +509,17 @@ public class DefaultTermHelper implements TermHelper {
                     or(equal("typeKey", "kuali.atp.type.AcademicCalendar")), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
             List<AcademicCalendarInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForAcademicCalendars(query,
                     KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-            return KSCollectionUtils.getRequiredZeroElement(rv);
+            AcademicCalendarInfo acal =null;
+            for(AcademicCalendarInfo calendar : rv){
+                if(calendar.getStateKey().equals(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY)){
+                    acal=calendar;
+                    break;
+                }
+            }
+            if(acal == null){
+                throw new IllegalArgumentException("No current calendar found");
+            }
+            return acal;
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("Acal lookup failure", e);
         } catch (MissingParameterException e) {
