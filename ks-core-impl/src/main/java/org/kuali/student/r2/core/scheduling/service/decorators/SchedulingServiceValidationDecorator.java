@@ -370,19 +370,19 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
     protected void validateAOTimeSlotCreateAndUpdate(TimeSlotInfo timeSlotInfo) throws DataValidationErrorException{
 
         if (!StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA)){
-            if (timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getMilliSeconds() == null){
+            if (timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getHour() == null){
                 throw new DataValidationErrorException("Start Time should not be empty for standard and ad hoc time slots");
             }
 
-            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getMilliSeconds() == null){
+            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getHour() == null){
                 throw new DataValidationErrorException("End Time should not be empty for standard time slots");
             }
 
-            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getMilliSeconds() == null){
+            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getHour() == null){
                 throw new DataValidationErrorException("End Time should not be empty for standard time slots");
             }
 
-            if (timeSlotInfo.getStartTime().getMilliSeconds() > timeSlotInfo.getEndTime().getMilliSeconds()){
+            if (timeSlotInfo.getStartTime().isAfter(timeSlotInfo.getEndTime())) {
                 throw new DataValidationErrorException("Start time should be less than End time");
             }
 

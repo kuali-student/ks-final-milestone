@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
@@ -100,10 +101,10 @@ public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlo
         setName(timeSlot.getName());
         setWeekdays(SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlot.getWeekdays()));
         if(timeSlot.getStartTime() != null) {
-            setStartTimeMillis(timeSlot.getStartTime().getMilliSeconds());
+            setStartTimeMillis(TimeOfDayHelper.getMillis(timeSlot.getStartTime()));
         }
         if(timeSlot.getEndTime() != null) {
-            setEndTimeMillis(timeSlot.getEndTime().getMilliSeconds());
+            setEndTimeMillis(TimeOfDayHelper.getMillis(timeSlot.getEndTime()));
         }
 
         if (timeSlot.getDescr() != null) {
@@ -139,11 +140,9 @@ public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlo
         info.setName(getName());
         info.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(getWeekdays()));
 
-        info.setStartTime(new TimeOfDayInfo());
-        info.getStartTime().setMilliSeconds(getStartTimeMillis());
+        info.setStartTime(TimeOfDayHelper.setMillis(getStartTimeMillis()));
 
-        info.setEndTime(new TimeOfDayInfo());
-        info.getEndTime().setMilliSeconds(getEndTimeMillis());
+        info.setEndTime(TimeOfDayHelper.setMillis(getEndTimeMillis()));
 
         info.setDescr(new RichTextHelper().toRichTextInfo(this.getDescrPlain(), this.getDescrFormatted()));
 

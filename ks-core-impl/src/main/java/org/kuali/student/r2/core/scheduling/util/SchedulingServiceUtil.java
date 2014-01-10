@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
@@ -152,10 +153,10 @@ public final class SchedulingServiceUtil {
             return false;
         }
 
-        if (timeSlotInfo1.getStartTime().getMilliSeconds() == null ||
-                timeSlotInfo1.getEndTime().getMilliSeconds() == null ||
-                timeSlotInfo2.getStartTime().getMilliSeconds() == null ||
-                timeSlotInfo2.getEndTime().getMilliSeconds() == null ) {
+        if (timeSlotInfo1.getStartTime().getHour() == null ||
+                timeSlotInfo1.getEndTime().getHour() == null ||
+                timeSlotInfo2.getStartTime().getHour() == null ||
+                timeSlotInfo2.getEndTime().getHour() == null ) {
             // If there are null values in any of these spots, assume no conflict can occur.
             return false;
         }
@@ -309,9 +310,11 @@ public final class SchedulingServiceUtil {
 
     /**
      * Makes a TimeOfDayInfo given a time in military format. This is used in tests.
+     * Jan 10, 2014: Use new TimeOfDay(hour, min) instead of this (to create TODs in military time) --cclin
      * @param time A time string in miltary format (e.g. "13:00" or "08:15").
      * @return A new TimeOfDayInfo. If a time string isn't provided the returned TimeofDayInfo#milliSeconds will be uninitialized.
      */
+    @Deprecated
     public static TimeOfDayInfo makeTimeOfDayFromMilitaryTimeString(String time) {
         TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
 
@@ -328,7 +331,7 @@ public final class SchedulingServiceUtil {
         DateTime epoch = new DateTime(0, DateTimeZone.UTC);
         DateTime epochPlusTime = epoch.plusHours(hour).plusMinutes(min);
         Duration duration = new Duration(epoch, epochPlusTime);
-        timeOfDayInfo.setMilliSeconds(duration.getMillis());
+        timeOfDayInfo = TimeOfDayHelper.setMillis(duration.getMillis());
 
         return timeOfDayInfo;
     }
@@ -399,13 +402,13 @@ public final class SchedulingServiceUtil {
                 }
 
                 //  Compare start time
-                if (! o1.getStartTime().getMilliSeconds().equals(o2.getStartTime().getMilliSeconds())) {
-                    return o1.getStartTime().getMilliSeconds().compareTo(o2.getStartTime().getMilliSeconds());
+                if (! o1.getStartTime().equals(o2.getStartTime())) {
+                    return o1.getStartTime().compareTo(o2.getStartTime());
                 }
 
                 //  Compare end time
-                if (! o1.getEndTime().getMilliSeconds().equals(o2.getEndTime().getMilliSeconds())) {
-                    return o1.getEndTime().getMilliSeconds().compareTo(o2.getEndTime().getMilliSeconds());
+                if (! o1.getEndTime().equals(o2.getEndTime())) {
+                    return o1.getEndTime().compareTo(o2.getEndTime());
                 }
                 //  They match.
                 return 0;
@@ -415,14 +418,28 @@ public final class SchedulingServiceUtil {
 
     /**
      * Creates a time string in hh:mm aa format. Does not suffer from DST issues.
-     *
+     * Jan 10. 2014: Use makeFormattedTimeFromTimeOfDay instead --cclin
      * @param offsetFromMidnight Number of milliseconds since midnight.
      * @return  A time string.
      */
+    @Deprecated
     public static String makeFormattedTimeFromMillis(Long offsetFromMidnight) {
         //  Calculate from the UNIX epoch to avoid DST bugs.
         DateTime epoch = new DateTime(0, DateTimeZone.UTC);
         DateTime epochPlusTime = epoch.plusMillis((int)(long) offsetFromMidnight);
+        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(epochPlusTime);
+    }
+
+    /**
+     * Creates a time string in hh:mm aa format. Does not suffer from DST issues.
+     *
+     * @param tod Time of day
+     * @return  A time string.
+     */
+    public static String makeFormattedTimeFromTimeOfDay(TimeOfDayInfo tod) {
+        //  Calculate from the UNIX epoch to avoid DST bugs.
+        DateTime epoch = new DateTime(0, DateTimeZone.UTC);
+        DateTime epochPlusTime = epoch.plusMillis((int)(long) TimeOfDayHelper.getMillis(tod));
         return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(epochPlusTime);
     }
 }

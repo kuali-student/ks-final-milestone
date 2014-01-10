@@ -2,6 +2,7 @@ package org.kuali.student.r2.core.scheduling.util;
 
 import org.junit.Test;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +41,7 @@ public class TestSchedulingServiceUtil {
         for (Object t[] : times) {
             String standardTime = (String) t[2];
             Long millis = (Long) t[1];
-            String time = SchedulingServiceUtil.makeFormattedTimeFromMillis(millis);
+            String time = SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(TimeOfDayHelper.setMillis(millis));
             assertEquals(standardTime, time);
         }
     }
@@ -51,7 +52,7 @@ public class TestSchedulingServiceUtil {
             String militaryTime =  (String) t[0];
             Long millis = (Long) t[1];
             TimeOfDayInfo tdi = SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString(militaryTime);
-            assertEquals(millis, tdi.getMilliSeconds());
+            assertEquals(millis, TimeOfDayHelper.getMillis(tdi));
         }
     }
 

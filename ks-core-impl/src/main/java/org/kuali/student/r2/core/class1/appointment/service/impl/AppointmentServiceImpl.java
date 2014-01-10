@@ -491,11 +491,11 @@ public class AppointmentServiceImpl implements AppointmentService {
                 throw new MissingParameterException("Missing start time of day in slot rule");
             } else if (slotRule.getEndTimeOfDay() == null) {
                 throw new MissingParameterException("Missing end time of day in slot rule");
-            } else if (slotRule.getStartTimeOfDay().getMilliSeconds() >= slotRule.getEndTimeOfDay().getMilliSeconds()) {
+            } else if (!slotRule.getStartTimeOfDay().isBefore(slotRule.getEndTimeOfDay())) {
                 throw new InvalidParameterException("End time of day should be AFTER start time of day");
-            } else if (slotRule.getStartTimeOfDay().getMilliSeconds() < 1L * MINUTES_IN_HOUR * MILLIS_IN_MINUTE) {
+            } else if (slotRule.getStartTimeOfDay().getHour() < 1) {
                 throw new InvalidParameterException("Start time should be 1 AM or after");
-            } else if (slotRule.getEndTimeOfDay().getMilliSeconds() < 1L * MINUTES_IN_HOUR * MILLIS_IN_MINUTE) {
+            } else if (slotRule.getEndTimeOfDay().getHour() < 1) {
                 throw new InvalidParameterException("End time should be 1 AM or after");
             }
 

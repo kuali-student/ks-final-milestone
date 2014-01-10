@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -556,7 +557,9 @@ public class SchedulingServiceImpl implements SchedulingService {
         // Build the string version of the days
         String weekdays = SchedulingServiceUtil.weekdaysList2WeekdaysString(daysOfWeek);
 
-        List<TimeSlotEntity> entities = timeSlotDao.getByTimeSlotTypeWeekdaysAndStartTime(timeSlotTypeKey, weekdays, startTime.getMilliSeconds());
+        List<TimeSlotEntity> entities =
+                timeSlotDao.getByTimeSlotTypeWeekdaysAndStartTime(timeSlotTypeKey, weekdays,
+                        TimeOfDayHelper.getMillis(startTime));
 
         List<TimeSlotInfo> results = new ArrayList<TimeSlotInfo>(entities.size());
 
@@ -574,7 +577,10 @@ public class SchedulingServiceImpl implements SchedulingService {
         // Build the string version of the days
         String weekdays = SchedulingServiceUtil.weekdaysList2WeekdaysString(daysOfWeek);
 
-        List<TimeSlotEntity> entities = timeSlotDao.getByTimeSlotTypeWeekdaysStartTimeAndEndTime(timeSlotTypeKey, weekdays, startTime.getMilliSeconds(), endTime.getMilliSeconds());
+        List<TimeSlotEntity> entities =
+                timeSlotDao.getByTimeSlotTypeWeekdaysStartTimeAndEndTime(timeSlotTypeKey, weekdays,
+                        TimeOfDayHelper.getMillis(startTime),
+                        TimeOfDayHelper.getMillis(endTime));
 
         List<TimeSlotInfo> results = new ArrayList<TimeSlotInfo>(entities.size());
 

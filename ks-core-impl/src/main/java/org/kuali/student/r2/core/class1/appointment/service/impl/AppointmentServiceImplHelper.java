@@ -20,6 +20,7 @@ import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
@@ -203,8 +204,8 @@ public class AppointmentServiceImplHelper {
             totalStudents = _computeTotalStudents(apptWinInfo, contextInfo);
         }
 
-        int startTimeInMinutes = _computeMinuteOffsetSinceMidnight(apptWinInfo.getSlotRule().getStartTimeOfDay().getMilliSeconds());
-        int endTimeInMinutes =  _computeMinuteOffsetSinceMidnight(apptWinInfo.getSlotRule().getEndTimeOfDay().getMilliSeconds());
+        int startTimeInMinutes = _computeMinuteOffsetSinceMidnight(TimeOfDayHelper.getMillis(apptWinInfo.getSlotRule().getStartTimeOfDay()));
+        int endTimeInMinutes =  _computeMinuteOffsetSinceMidnight(TimeOfDayHelper.getMillis(apptWinInfo.getSlotRule().getEndTimeOfDay()));
         // TODO: Current implementation only supports minutes.  Except thrown at start of this method for any other
         int startIntervalInMinutes = apptWinInfo.getSlotRule().getSlotStartInterval().getTimeQuantity();
         int durationInMinutes = -1; // TODO: Currently, unsupported
