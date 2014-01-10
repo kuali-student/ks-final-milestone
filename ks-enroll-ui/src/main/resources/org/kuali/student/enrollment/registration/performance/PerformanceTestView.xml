@@ -76,7 +76,7 @@
     <bean id="KS-KitchenSink-Performance-Collection" parent="Uif-TableCollectionSection">
         <property name="propertyName" value="perfCollection"/>
         <property name="collectionObjectClass"
-                  value="org.kuali.student.enrollment.ui.registration.dto.CourseSearchResult"/>
+                  value="org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="header">
             <bean parent="Uif-HeaderThree"/>
