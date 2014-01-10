@@ -16,6 +16,10 @@
  */
 package org.kuali.student.poc.rules.population;
 
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+
+import java.util.List;
+
 /**
  * This class holds some basic utilties for the POC.
  *
@@ -28,5 +32,30 @@ public class PopulationPocUtilities {
      */
     public static String getFormattedName(String firstName, String middleName, String lastName, String suffix) {
         return firstName + (middleName != null?" " + middleName:"") + lastName + (suffix!=null?" " + suffix:"");
+    }
+
+    /**
+     * Adds a String to a List of Strings if the given String does NOT exist in the List.
+     * @return the List of Strings after the operation
+     */
+    public static List<String> addStringToListString (String toAdd, List<String> list) {
+        if (!list.contains(toAdd)) {
+           list.add(toAdd);
+        }
+        return list;
+    }
+
+    /**
+     * Removes a String from a List of Strings if the given String exists in the List.
+     * @throws DoesNotExistException if the given String does not exist in the List.
+     * @return the List of Strings after the operation
+     */
+    public static List<String> removeStringFromListString (String toRemove, List<String> list) throws DoesNotExistException {
+        if (list.contains(toRemove)) {
+            list.remove(toRemove);
+        } else {
+            throw new DoesNotExistException("The element " + toRemove + " not found in the list!");
+        }
+        return list;
     }
 }
