@@ -26,7 +26,7 @@ import java.util.Date;
 /**
  * Unit test for TestOfDayInfo
  */
-public class TimeOfDayInfoTest {
+public class TestTimeOfDay {
 
     @Test
     public void testHourPrecisionAreEqual() {
@@ -98,9 +98,9 @@ public class TimeOfDayInfoTest {
         int newDateHours = newDate.getHours();
         int newDateMinutes = newDate.getMinutes();
         int newDateSeconds = newDate.getSeconds();
-        Assert.assertTrue("getDateWithTimeOfDay hours failed", newDateHours == 5);
-        Assert.assertTrue("getDateWithTimeOfDay minutes failed", newDateMinutes == 0);
-        Assert.assertTrue("getDateWithTimeOfDay seconds failed", newDateSeconds == 20);
+        Assert.assertTrue("getDateWithTimeOfDay hours failed", newDateHours == 3);
+        Assert.assertTrue("getDateWithTimeOfDay minutes failed", newDateMinutes == 30);
+        Assert.assertTrue("getDateWithTimeOfDay seconds failed", newDateSeconds == 10);
     }
 
     @Test

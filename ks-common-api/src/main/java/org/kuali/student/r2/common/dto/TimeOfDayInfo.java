@@ -16,9 +16,9 @@
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,8 +26,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.joda.time.LocalDateTime;
-import org.joda.time.LocalTime;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -128,11 +126,12 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
      * @return a java.util.Date that is the sum of date and timeOfDay
      */
     public static Date getDateWithTimeOfDay(Date date, TimeOfDay timeOfDay) {
-        LocalDateTime localDateTime = new LocalDateTime(date);
-        localDateTime = localDateTime.plusHours(timeOfDay.getHour());
-        localDateTime = localDateTime.plusMinutes(timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute());
-        localDateTime = localDateTime.plusSeconds(timeOfDay.getSecond() == null ? 0 : timeOfDay.getSecond());
-        return localDateTime.toDate();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(Calendar.HOUR_OF_DAY, timeOfDay.getHour());
+        cal.set(Calendar.MINUTE, (timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute()));
+        cal.set(Calendar.SECOND, (timeOfDay.getSecond() == null ? 0 : timeOfDay.getSecond()));
+        return cal.getTime();
     }
 
     /**

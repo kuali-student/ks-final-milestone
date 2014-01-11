@@ -16,10 +16,13 @@
  */
 package org.kuali.student.r2.common.util;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,6 +32,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class TimeOfDayHelper {
+    public static Logger LOGGER = Logger.getLogger(TimeOfDayHelper.class);
 
     public static TimeOfDay createTimeOfDay(int normalHours, int minutes, TimeOfDayAmPmEnum amOrPm) throws InvalidParameterException {
         if (normalHours < 1 || normalHours > 12 || minutes < 0 || minutes > 59) {
@@ -84,11 +88,37 @@ public class TimeOfDayHelper {
         return new TimeOfDayInfo(hours, minutes, seconds);
     }
 
+
+    /**
+     * Creates a time string in hh:mm aa format. Does not suffer from DST issues.
+     * Used to display times in Manage CO screens for each of the activity offerings
+     * (This was refactored from SchedulingServiceUtil::makeFormattedTimeFromMillis
+     * which is why there are two versions of formatting
+     * time of day).
+     *
+     * @param tod Time of day
+     * @return  A time string.
+     */
+    public static String makeFormattedTimeForAOSchedules(TimeOfDayInfo tod) {
+        List<TimeOfDayFormattingEnum> options = new ArrayList<TimeOfDayFormattingEnum>();
+        String result = "error";
+        try {
+            options.add(TimeOfDayFormattingEnum.USE_ALL_CAPS_AM_PM);
+            options.add(TimeOfDayFormattingEnum.USE_TWO_DIGITS_FOR_HOURS);
+            result = formatTimeOfDay(tod, options);
+        } catch (InvalidParameterException e) {
+            LOGGER.warn("Unable to format: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public static String formatTimeOfDay(TimeOfDay timeOfDay) throws InvalidParameterException {
         return formatTimeOfDay(timeOfDay, null);
     }
 
-    public static String formatTimeOfDay(TimeOfDay timeOfDay, List<TimeOfDayFormattingEnum> options) throws InvalidParameterException {
+    public static String formatTimeOfDay(TimeOfDay timeOfDay,
+                                         List<TimeOfDayFormattingEnum> options) throws InvalidParameterException {
         int hours = 0;
         boolean isMilitary = false;
         boolean skip = false;
@@ -115,7 +145,7 @@ public class TimeOfDayHelper {
         if (!isMilitary) {
             if (!skip && options.contains(TimeOfDayFormattingEnum.USE_ALL_CAPS_AM_PM)) {
                 amOrPm = isAM ? "AM" : "PM";
-            } else if (!skip && options.contains(TimeOfDayFormattingEnum.USE_ALL_CAPS_AM_PM)) {
+            } else if (!skip && options.contains(TimeOfDayFormattingEnum.CAPITALIZE_A_OR_P_ONLY)) {
                 amOrPm = isAM ? "Am" : "Pm";
             } else {
                 amOrPm = isAM ? "am" : "pm";
@@ -194,5 +224,37 @@ public class TimeOfDayHelper {
         if (timeOfDay.getSecond() < 0 || timeOfDay.getSecond() > 59) {
             throw new InvalidParameterException("getSecond() has out of range values");
         }
+    }
+
+    /**
+     * Creates a new TimeOfDayInfo given a time in standard format.
+     * @param time A time string of format HH:MM AM or HH:MM PM
+     * @return  A new TimeOfDayInfo.
+     */
+    public static TimeOfDayInfo makeTimeOfDayInfoFromTimeString(String time) {
+        if (StringUtils.isBlank(time)) {
+            return null;
+        }
+
+        boolean isPM = true;
+        if (time.endsWith("AM")) {
+            isPM = false;
+        }
+
+        String t[] = time.split(":");
+        int hour = Integer.valueOf(t[0]);
+        int min = Integer.valueOf(t[1].substring(0, 2));
+
+        if (isPM) {
+            //  For PM times just add 12
+            hour = (hour % 12) + 12;
+        } else {
+            // For AM times if the hour is 12 then it becomes zero. Otherwise, noop.
+            if (hour == 12) {
+                hour = 0;
+            }
+        }
+
+        return new TimeOfDayInfo(hour, min);
     }
 }
