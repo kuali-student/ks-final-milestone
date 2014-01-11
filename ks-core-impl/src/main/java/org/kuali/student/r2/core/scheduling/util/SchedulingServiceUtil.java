@@ -16,18 +16,12 @@
 package org.kuali.student.r2.core.scheduling.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Duration;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.TimeOfDayHelper;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -309,76 +303,6 @@ public final class SchedulingServiceUtil {
     }
 
     /**
-     * Makes a TimeOfDayInfo given a time in military format. This is used in tests.
-     * Jan 10, 2014: Use new TimeOfDay(hour, min) instead of this (to create TODs in military time) --cclin
-     * @param time A time string in miltary format (e.g. "13:00" or "08:15").
-     * @return A new TimeOfDayInfo. If a time string isn't provided the returned TimeofDayInfo#milliSeconds will be uninitialized.
-     */
-    @Deprecated
-    public static TimeOfDayInfo makeTimeOfDayFromMilitaryTimeString(String time) {
-        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-
-        if (StringUtils.isBlank(time)) {
-            return timeOfDayInfo;
-        }
-
-        // Parse the time string.
-        String[] t = time.split(":");
-        int hour = Integer.valueOf(t[0]);
-        int min = Integer.valueOf(t[1]);
-
-        //  Calculate from the UNIX epoch to avoid DST bugs.
-        DateTime epoch = new DateTime(0, DateTimeZone.UTC);
-        DateTime epochPlusTime = epoch.plusHours(hour).plusMinutes(min);
-        Duration duration = new Duration(epoch, epochPlusTime);
-        timeOfDayInfo = TimeOfDayHelper.setMillis(duration.getMillis());
-
-        return timeOfDayInfo;
-    }
-
-    /**
-     * Creates a new TimeOfDayInfo given a time in standard format.
-     * @param time A time string of format HH:MM AM or HH:MM PM
-     * @return  A new TimeOfDayInfo.
-     */
-    public static TimeOfDayInfo makeTimeOfDayInfoFromTimeString(String time) {
-        return makeTimeOfDayFromMilitaryTimeString(standardTimeStringToMilitaryTimeString(time));
-    }
-
-    /**
-     * Takes a time string in the format (HH:MM AM|PM or H:MM AM/PM) and converts it to
-     * 24 hour / military format (HH:MM).
-     * @param time A standard time string.
-     * @return A 24 hour / military time string. If the time string is blank then the given value is returned.
-     */
-    public static String standardTimeStringToMilitaryTimeString(String time) {
-        if (StringUtils.isBlank(time)) {
-            return time;
-        }
-
-        boolean isPM = true;
-        if (time.endsWith("AM")) {
-            isPM = false;
-        }
-
-        String t[] = time.split(":");
-        int hour = Integer.valueOf(t[0]);
-        int min = Integer.valueOf(t[1].substring(0, 2));
-
-        if (isPM) {
-            //  For PM times just add 12
-            hour = (hour % 12) + 12;
-        } else {
-            // For AM times if the hour is 12 then it becomes zero. Otherwise, noop.
-            if (hour == 12) {
-                hour = 0;
-            }
-        }
-
-        return String.format("%02d:%02d", hour, min);
-    }
-
-    /**
      * Makes a new Comparator<TimeSlotInfo> which can be use to sort a collection of TimeSlotInfo.
      * @return A new Comparator<TimeSlotInfo>.
      */
@@ -416,30 +340,4 @@ public final class SchedulingServiceUtil {
         };
     }
 
-    /**
-     * Creates a time string in hh:mm aa format. Does not suffer from DST issues.
-     * Jan 10. 2014: Use makeFormattedTimeFromTimeOfDay instead --cclin
-     * @param offsetFromMidnight Number of milliseconds since midnight.
-     * @return  A time string.
-     */
-    @Deprecated
-    public static String makeFormattedTimeFromMillis(Long offsetFromMidnight) {
-        //  Calculate from the UNIX epoch to avoid DST bugs.
-        DateTime epoch = new DateTime(0, DateTimeZone.UTC);
-        DateTime epochPlusTime = epoch.plusMillis((int)(long) offsetFromMidnight);
-        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(epochPlusTime);
-    }
-
-    /**
-     * Creates a time string in hh:mm aa format. Does not suffer from DST issues.
-     *
-     * @param tod Time of day
-     * @return  A time string.
-     */
-    public static String makeFormattedTimeFromTimeOfDay(TimeOfDayInfo tod) {
-        //  Calculate from the UNIX epoch to avoid DST bugs.
-        DateTime epoch = new DateTime(0, DateTimeZone.UTC);
-        DateTime epochPlusTime = epoch.plusMillis((int)(long) TimeOfDayHelper.getMillis(tod));
-        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(epochPlusTime);
-    }
 }

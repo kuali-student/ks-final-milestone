@@ -64,7 +64,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -533,7 +532,7 @@ public class TestSchedulingServiceImpl {
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
         TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime = TimeOfDayHelper.setMillis(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        startTime = SchedulingServiceDataLoader.TOD_8_00_AM;
         List<TimeSlotInfo> tsi = schedulingService
             .getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, contextInfo);
         assertEquals(3, tsi.size());
@@ -581,10 +580,8 @@ public class TestSchedulingServiceImpl {
         List<Integer> dow = new ArrayList<Integer>();
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime = TimeOfDayHelper.setMillis(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
-        TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime = TimeOfDayHelper.setMillis(SchedulingServiceDataLoader.END_TIME_MILLIS_8_50_AM);
+        TimeOfDayInfo startTime = SchedulingServiceDataLoader.TOD_8_00_AM;
+        TimeOfDayInfo endTime  = SchedulingServiceDataLoader.TOD_8_50_AM;
         List<TimeSlotInfo> tsi = schedulingService
             .getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
@@ -607,9 +604,9 @@ public class TestSchedulingServiceImpl {
         dow.add(Calendar.WEDNESDAY);
         dow.add(Calendar.FRIDAY);
         startTime = new TimeOfDayInfo();
-        startTime = TimeOfDayHelper.setMillis(SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
+        startTime = SchedulingServiceDataLoader.TOD_1_00_PM;
         endTime = new TimeOfDayInfo();
-        endTime = TimeOfDayHelper.setMillis(SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
+        endTime = SchedulingServiceDataLoader.TOD_2_10_PM;
         tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("ts110", tsi.get(0).getId());
@@ -1153,7 +1150,8 @@ public class TestSchedulingServiceImpl {
             PredicateFactory.and(
                     PredicateFactory.equal("timeSlotType", fallFull),
                     PredicateFactory.equal("weekdays", days),
-                    PredicateFactory.equal("startTimeMillis", SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM)
+                    PredicateFactory.equal("startTimeMillis",
+                            TimeOfDayHelper.getMillis(SchedulingServiceDataLoader.TOD_8_00_AM))
             )
         );
         QueryByCriteria criteria = qbcBuilder.build();
@@ -1175,7 +1173,7 @@ public class TestSchedulingServiceImpl {
         String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
 
         String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
-        List<String> refObjectIds = new ArrayList();
+        List<String> refObjectIds = new ArrayList<String>();
         refObjectIds.add("Ao1");
         refObjectIds.add("Ao2");
         ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
@@ -1216,7 +1214,7 @@ public class TestSchedulingServiceImpl {
         String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
 
         String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
-        List<String> refObjectIds = new ArrayList();
+        List<String> refObjectIds = new ArrayList<String>();
         refObjectIds.add("Ao1");
         refObjectIds.add("Ao2");
         ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
