@@ -708,8 +708,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 List<ScheduleCalcContainer> schedList = ao2sch.get(aoId);
                 boolean newRow = false;
                 for (ScheduleCalcContainer sched : schedList) {
-                    aoWrapper.setStartTimeDisplay(sched.getStart().isEmpty() ? sched.getStart() : SchedulingServiceUtil.makeFormattedTimeFromMillis(Long.parseLong(sched.getStart())), newRow);
-                    aoWrapper.setEndTimeDisplay(sched.getEnd().isEmpty() ? sched.getEnd() : SchedulingServiceUtil.makeFormattedTimeFromMillis(Long.parseLong(sched.getEnd())), newRow);
+                    TimeOfDayInfo start = sched.getStart().isEmpty() ? null
+                            : TimeOfDayHelper.setMillis(Long.parseLong(sched.getStart()));
+                    aoWrapper.setStartTimeDisplay(start == null ? ""
+                            : TimeOfDayHelper.makeFormattedTimeForAOSchedules(start), newRow);
+                    TimeOfDayInfo end = sched.getEnd().isEmpty() ? null
+                            : TimeOfDayHelper.setMillis(Long.parseLong(sched.getEnd()));
+                    aoWrapper.setEndTimeDisplay(end == null ? ""
+                            : TimeOfDayHelper.makeFormattedTimeForAOSchedules(end), newRow);
                     aoWrapper.setBuildingName(sched.getBldgName(), newRow);
                     aoWrapper.setBuildingCode(sched.getBldgCode(), newRow);
                     aoWrapper.setBldgCodeSimple(sched.getBldgCode());
@@ -811,7 +817,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             aoWrapper.setStartTimeDisplay(StringUtils.EMPTY, newline, cssStyle);
             return;
         }
-        aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(timeSlotInfo.getStartTime()), newline, "uif-scheduled-dl");
+        aoWrapper.setStartTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()), newline, "uif-scheduled-dl");
     }
 
     private void setEndTimeOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
@@ -819,7 +825,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             aoWrapper.setEndTimeDisplay(StringUtils.EMPTY, newline, cssStyle);
             return;
         }
-        aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(timeSlotInfo.getEndTime()), newline, "uif-scheduled-dl");
+        aoWrapper.setEndTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()), newline, "uif-scheduled-dl");
     }
 
     private void setScheduledStateOnAoWrapper(TimeSlotInfo timeSlotInfo, ActivityOfferingWrapper aoWrapper, boolean newline, String cssStyle) {
@@ -2522,11 +2528,11 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     List<Integer> days = timeSlot.getWeekdays();
 
                     if (startTime != null && startTime.getHour() != null) {
-                        eoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(startTime));
+                        eoWrapper.setStartTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime));
                     }
 
                     if (endTime != null && endTime.getHour() != null) {
-                        eoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(endTime));
+                        eoWrapper.setEndTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime));
                     }
 
                     if (days != null && days.size() > 0) {
@@ -2549,7 +2555,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     private String timeOfDayToTime(TimeOfDayInfo tod) {
-        return SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(tod);
+        return TimeOfDayHelper.makeFormattedTimeForAOSchedules(tod);
     }
 
     private String convertIntoDaysDisplay(int day) {

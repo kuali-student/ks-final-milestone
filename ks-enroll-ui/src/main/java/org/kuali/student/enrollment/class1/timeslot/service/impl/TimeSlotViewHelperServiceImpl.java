@@ -55,14 +55,12 @@ public class TimeSlotViewHelperServiceImpl
             for (TimeSlotInfo timeSlotInfo : timeSlotInfos) {
                 TimeSlotWrapper tsWrapper = new TimeSlotWrapper();
                 tsWrapper.setTimeSlotInfo(timeSlotInfo);
-                Long startTime = TimeOfDayHelper.getMillis(timeSlotInfo.getStartTime());
-                if (startTime != null) {
-                    tsWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(startTime));
+                if (timeSlotInfo.getStartTime() != null) {
+                    tsWrapper.setStartTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getStartTime()));
                 }
 
-                Long endTime = TimeOfDayHelper.getMillis(timeSlotInfo.getEndTime());
-                if (endTime != null) {
-                    tsWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromMillis(endTime));
+                if (timeSlotInfo.getEndTime() != null) {
+                    tsWrapper.setEndTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(timeSlotInfo.getEndTime()));
                 }
 
                 String daysUI = SchedulingServiceUtil.weekdaysList2WeekdaysString(timeSlotInfo.getWeekdays());
@@ -174,10 +172,10 @@ public class TimeSlotViewHelperServiceImpl
         List<Integer> days = SchedulingServiceUtil.weekdaysString2WeekdaysList(form.getAddOrEditDays());
 
         String startTimeString = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
-        TimeOfDayInfo startTimeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTimeString);
+        TimeOfDayInfo startTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(startTimeString);
 
         String endTimeString = form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm();
-        TimeOfDayInfo endTimeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(endTimeString);
+        TimeOfDayInfo endTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(endTimeString);
 
         List<TimeSlotInfo> exisitingTS = getSchedulingService()
                 .getTimeSlotsByDaysAndStartTimeAndEndTime(form.getAddOrEditTermKey(),days,startTimeOfDayInfo,endTimeOfDayInfo,createContextInfo());
@@ -213,10 +211,10 @@ public class TimeSlotViewHelperServiceImpl
         tsInfo.setWeekdays(days);
 
         String startTimeString = form.getAddOrEditStartTime() + " " + form.getAddOrEditStartTimeAmPm();
-        tsInfo.setStartTime(SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTimeString));
+        tsInfo.setStartTime(TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(startTimeString));
 
         String endTimeString = form.getAddOrEditEndTime() + " " + form.getAddOrEditEndTimeAmPm();
-        tsInfo.setEndTime(SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(endTimeString));
+        tsInfo.setEndTime(TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(endTimeString));
 
         tsInfo.setTypeKey(form.getAddOrEditTermKey());
     }
@@ -225,8 +223,8 @@ public class TimeSlotViewHelperServiceImpl
         String daysUI = SchedulingServiceUtil.weekdaysList2WeekdaysString(tsWrapper.getTimeSlotInfo().getWeekdays());
         tsWrapper.setDaysDisplayName(daysUI);
         tsWrapper.setEnableDeleteButton(true);
-        tsWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(tsWrapper.getTimeSlotInfo().getStartTime()));
-        tsWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(tsWrapper.getTimeSlotInfo().getEndTime()));
+        tsWrapper.setStartTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(tsWrapper.getTimeSlotInfo().getStartTime()));
+        tsWrapper.setEndTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(tsWrapper.getTimeSlotInfo().getEndTime()));
         TypeInfo type = getTypeInfo(form.getAddOrEditTermKey());
         tsWrapper.setTypeName(type.getName());
 

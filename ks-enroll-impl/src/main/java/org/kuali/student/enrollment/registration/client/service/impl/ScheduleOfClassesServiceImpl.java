@@ -30,12 +30,14 @@ import org.kuali.student.enrollment.registration.client.service.dto.TermSearchRe
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -50,7 +52,6 @@ import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -59,8 +60,6 @@ import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -707,10 +706,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     searchResultRow.setScheduleId(value);
                 }else if (CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())) {
                     searchResultRow.setStartTimeMili(value);
-                    searchResultRow.setStartTimeDisplay(convertMiliToDisplayTime(value));
+                    TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
+                    searchResultRow.setStartTimeDisplay(convertTimeOfDayToDisplayTime(tod));
                 }else if (CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())) {
                     searchResultRow.setEndTimeMili(value);
-                    searchResultRow.setEndTimeDisplay(convertMiliToDisplayTime(value));
+                    TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
+                    searchResultRow.setEndTimeDisplay(convertTimeOfDayToDisplayTime(tod));
                 }else if (CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())) {
                     searchResultRow.setTba(Boolean.parseBoolean(value));
                 }else if (CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())) {
@@ -817,13 +818,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     /**
      * We're making this a protected method so that implementing institutions can extend this class and change the way
      * that times are displayed.
-     * @param mili
+     * @param tod Tune Of Day object
      * @return
      */
-    protected String convertMiliToDisplayTime(String mili){
+    protected String convertTimeOfDayToDisplayTime(TimeOfDayInfo tod){
         String sRet = "";
-        if(mili != null && !"".equals(mili)){
-            sRet = SchedulingServiceUtil.makeFormattedTimeFromMillis(Long.parseLong(mili));
+        if (tod != null){
+            sRet = TimeOfDayHelper.makeFormattedTimeForAOSchedules(tod);
         }
         return sRet;
 

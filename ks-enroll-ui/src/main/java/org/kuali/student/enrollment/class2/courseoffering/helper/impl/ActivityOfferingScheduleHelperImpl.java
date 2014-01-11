@@ -42,6 +42,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -472,12 +473,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
         String startTimeString = scheduleWrapper.getStartTime();
         if (StringUtils.isNotEmpty(startTimeString)) {
-            startTimeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTimeString);
+            startTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(startTimeString);
         }
 
         String endTimeString = scheduleWrapper.getEndTime();
         if (StringUtils.isNotEmpty(endTimeString)) {
-            endTimeOfDayInfo =  SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(endTimeString);
+            endTimeOfDayInfo =  TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(endTimeString);
         }
 
         TimeSlotInfo timeSlot;
@@ -589,13 +590,13 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
                 TimeOfDayInfo startTime = scheduleWrapper.getTimeSlot().getStartTime();
                 if(startTime != null) {
-                    String formattedTime = SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(startTime);
+                    String formattedTime = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
                     scheduleWrapper.setStartTime(formattedTime);
                 }
 
                 TimeOfDayInfo endTime = scheduleWrapper.getTimeSlot().getEndTime();
                 if (endTime != null) {
-                    String formattedTime = SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(endTime);
+                    String formattedTime = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
                     scheduleWrapper.setEndTime(formattedTime);
                 }
 
@@ -666,12 +667,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
 
                             TimeOfDayInfo startTime = scheduleWrapper.getTimeSlot().getStartTime();
                             if (startTime != null){
-                                scheduleWrapper.setStartTime(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(startTime));
+                                scheduleWrapper.setStartTime(TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime));
                             }
 
                             TimeOfDayInfo endTime = scheduleWrapper.getTimeSlot().getEndTime();
                             if (endTime != null){
-                                scheduleWrapper.setEndTime(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(endTime));
+                                scheduleWrapper.setEndTime(TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime));
                             }
                             scheduleWrapper.setDaysUI(SchedulingServiceUtil.weekdaysList2WeekdaysString(scheduleWrapper.getTimeSlot().getWeekdays()));
                         }
@@ -849,14 +850,14 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         }
 
         List<Integer> daysArray = SchedulingServiceUtil.weekdaysString2WeekdaysList(days);
-        TimeOfDayInfo timeOfDayInfo = SchedulingServiceUtil.makeTimeOfDayInfoFromTimeString(startTime);
+        TimeOfDayInfo timeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(startTime);
         List<TimeSlotInfo> timeSlotInfos = CourseOfferingManagementUtil.getSchedulingService().getTimeSlotsByDaysAndStartTime(timeSlotType,daysArray,timeOfDayInfo,createContextInfo());
         List<String> endTimes = new ArrayList<String>();
 
         for (TimeSlotInfo ts : timeSlotInfos){
             TimeOfDayInfo st = ts.getStartTime();
             if (st != null) {
-                endTimes.add(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(ts.getEndTime()));
+                endTimes.add(TimeOfDayHelper.makeFormattedTimeForAOSchedules(ts.getEndTime()));
             }
         }
 

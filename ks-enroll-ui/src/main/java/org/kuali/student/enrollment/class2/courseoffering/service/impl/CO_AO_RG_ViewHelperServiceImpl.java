@@ -14,6 +14,7 @@ import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -26,7 +27,6 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
-import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.util.List;
 
@@ -161,11 +161,11 @@ public class CO_AO_RG_ViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             List<Integer> days = timeSlot.getWeekdays();
 
             if (startTime != null && startTime.getHour() != null) {
-                aoWrapper.setStartTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(startTime), append);
+                aoWrapper.setStartTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime), append);
             }
 
             if (endTime != null && endTime.getHour() != null) {
-                aoWrapper.setEndTimeDisplay(SchedulingServiceUtil.makeFormattedTimeFromTimeOfDay(endTime), append);
+                aoWrapper.setEndTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime), append);
             }
 
             if (days != null && days.size() > 0) {
