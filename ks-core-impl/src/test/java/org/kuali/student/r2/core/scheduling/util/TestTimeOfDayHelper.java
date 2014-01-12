@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.scheduling.util;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
@@ -53,5 +54,41 @@ public class TestTimeOfDayHelper {
             //  Convert a standard time string to a military time string.
             assertEquals(militaryTime, TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(standardTime));
         }
+    }
+
+    @Test
+    public void testSetMilliSeconds() {
+        TimeOfDayInfo timeOfDay = null;
+
+        // 5:45:25
+        timeOfDay = TimeOfDayHelper.setMillis((long)(60 * 60 * 1000 * 5) + (60 * 1000 * 45) + (1000 * 25));
+
+        Integer hour = timeOfDay.getHour();
+        Integer minute = timeOfDay.getMinute();
+        Integer second = timeOfDay.getSecond();
+
+        Assert.assertTrue("TimeOfDay setMilliSeconds hour failed", hour == 5);
+        Assert.assertTrue("TimeOfDay setMilliSeconds minute failed", minute == 45);
+        Assert.assertTrue("TimeOfDay setMilliSeconds second failed", second == 25);
+    }
+
+    @Test
+    public void testSetMilliSecondsTruncated() {
+        TimeOfDayInfo timeOfDay = null;
+
+        // 5:45:25.300 or 20725300 millis
+        timeOfDay = TimeOfDayHelper.setMillis((long)(60 * 60 * 1000 * 5) + (60 * 1000 * 45) + (1000 * 25) + 300);
+        Long truncatedMillis = TimeOfDayHelper.getMillis(timeOfDay);
+
+        // 5:45:25 or 20725000 millis
+        Assert.assertTrue(truncatedMillis == 20725000);
+
+        Integer hour = timeOfDay.getHour();
+        Integer minute = timeOfDay.getMinute();
+        Integer second = timeOfDay.getSecond();
+
+        Assert.assertTrue("TimeOfDay setMilliSecondsTruncated hour failed", hour == 5);
+        Assert.assertTrue("TimeOfDay setMilliSecondsTruncated minute failed", minute == 45);
+        Assert.assertTrue("TimeOfDay setMilliSecondsTruncated second failed", second == 25);
     }
 }
