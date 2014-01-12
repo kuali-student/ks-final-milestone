@@ -121,16 +121,22 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
 
     /**
      *
-     * @param date a java.util.Date to which timeOfDay is added
+     * @param date a java.util.Date to which timeOfDay is added (the hours, minutes, seconds
+     *             and milliseconds are ignored and treated as 0.  Only the month, day, year
+     *             of date is relevant)
      * @param timeOfDay the TimeOfDay that is added to the date parameter
      * @return a java.util.Date that is the sum of date and timeOfDay
      */
     public static Date getDateWithTimeOfDay(Date date, TimeOfDay timeOfDay) {
+        if (date == null || timeOfDay == null) {
+            return null;
+        }
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         cal.set(Calendar.HOUR_OF_DAY, timeOfDay.getHour());
         cal.set(Calendar.MINUTE, (timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute()));
         cal.set(Calendar.SECOND, (timeOfDay.getSecond() == null ? 0 : timeOfDay.getSecond()));
+        cal.set(Calendar.MILLISECOND, 0); // Get rid of any fractional part
         return cal.getTime();
     }
 
