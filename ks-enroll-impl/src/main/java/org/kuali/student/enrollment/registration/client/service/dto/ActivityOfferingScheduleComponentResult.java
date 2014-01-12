@@ -107,4 +107,24 @@ public class ActivityOfferingScheduleComponentResult {
     public void setWed(boolean wed) {
         this.wed = wed;
     }
+
+    public void setBooleanSchedules(String daysOfTheWeek){
+        if(daysOfTheWeek != null && !daysOfTheWeek.isEmpty()){
+            if(daysOfTheWeek.contains("M")){
+                 setMon(true);
+            } else if(daysOfTheWeek.contains("T")){
+                setTue(true);
+            } else if(daysOfTheWeek.contains("W")){
+                setWed(true);
+            }else if(daysOfTheWeek.contains("H")){
+                setThu(true);
+            }else if(daysOfTheWeek.contains("F")){
+                setFri(true);
+            }else if(daysOfTheWeek.contains("S")){
+                setSat(true);
+            }else if(daysOfTheWeek.contains("U")){
+                setSun(true);
+            }
+        }
+    }
 }

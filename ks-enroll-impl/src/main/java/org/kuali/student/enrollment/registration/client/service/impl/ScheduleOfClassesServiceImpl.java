@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetS
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
@@ -706,12 +707,16 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     searchResultRow.setScheduleId(value);
                 }else if (CoreSearchServiceImpl.SearchResultColumns.START_TIME.equals(cell.getKey())) {
                     searchResultRow.setStartTimeMili(value);
-                    TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
-                    searchResultRow.setStartTimeDisplay(convertTimeOfDayToDisplayTime(tod));
+                    if(value != null && !value.isEmpty()){
+                        TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
+                        searchResultRow.setStartTimeDisplay(convertTimeOfDayToDisplayTime(tod));
+                    }
                 }else if (CoreSearchServiceImpl.SearchResultColumns.END_TIME.equals(cell.getKey())) {
                     searchResultRow.setEndTimeMili(value);
-                    TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
-                    searchResultRow.setEndTimeDisplay(convertTimeOfDayToDisplayTime(tod));
+                    if(value != null && !value.isEmpty()){
+                        TimeOfDayInfo tod = TimeOfDayHelper.setMillis(Long.parseLong(value));
+                        searchResultRow.setEndTimeDisplay(convertTimeOfDayToDisplayTime(tod));
+                    }
                 }else if (CoreSearchServiceImpl.SearchResultColumns.TBA_IND.equals(cell.getKey())) {
                     searchResultRow.setTba(Boolean.parseBoolean(value));
                 }else if (CoreSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cell.getKey())) {
@@ -777,11 +782,23 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             for(ActivityOfferingSearchResult ao : aoList){
                 String scheduleId = ao.getScheduleId();
                 if(scheduleId != null && !"".equals(scheduleId) && schedMap.containsKey(scheduleId)){
-                    ao.setSchedule(schedMap.get(scheduleId));
+                    ao.setSchedule(convertScheduleSearchResultToAOSchedComponent(schedMap.get(scheduleId)));
                 }
             }
 
         }
+    }
+
+    private ActivityOfferingScheduleComponentResult convertScheduleSearchResultToAOSchedComponent(ScheduleSearchResult scheduleSearchResult){
+        ActivityOfferingScheduleComponentResult ret = new ActivityOfferingScheduleComponentResult();
+        if(scheduleSearchResult != null){
+            ret.setBuildingCode(scheduleSearchResult.getBuildingCode());
+            ret.setEndTime(scheduleSearchResult.getEndTimeDisplay());
+            ret.setStartTime(scheduleSearchResult.getStartTimeDisplay());
+            ret.setRoomCode(scheduleSearchResult.getRoomName());
+            ret.setBooleanSchedules(scheduleSearchResult.getDays());
+        }
+        return ret;
     }
 
     /**
@@ -811,6 +828,16 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 if(aoId != null && !"".equals(aoId) && instMap.containsKey(aoId)){
                     ao.setInstructors(instMap.get(aoId));
                 }
+            }
+        }
+    }
+
+    private void populateActivityOfferingsWithActivityTypeNames(List<ActivityOfferingSearchResult> aoList, ContextInfo contextInfo) throws Exception {
+        for(ActivityOfferingSearchResult ao : aoList){
+            String aoTypeKey = ao.getActivityOfferingType();
+            if(aoTypeKey != null && !"".equals(aoTypeKey)){
+                String aoTypeName = getTypeService().getType(aoTypeKey, contextInfo).getName();
+                ao.setActivityOfferingTypeName(aoTypeName);
             }
         }
     }
@@ -939,6 +966,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         List<ActivityOfferingSearchResult> retList = searchForRawActivities(courseOfferingId);
         populateActivityOfferingsWithScheduleData(retList, contextInfo);
         populateActivityOfferingsWithInstructorData(retList, contextInfo);
+        populateActivityOfferingsWithActivityTypeNames(retList, contextInfo);
         return retList;
     }
 

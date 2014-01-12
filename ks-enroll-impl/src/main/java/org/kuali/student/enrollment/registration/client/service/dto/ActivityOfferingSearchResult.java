@@ -11,7 +11,7 @@ import java.util.List;
 @XmlType(name = "CourseSearchResult", propOrder = {
         "formatOfferingId", "formatOfferingName", "formatId", "activityOfferingClusterId",
         "activityOfferingClusterName", "activityOfferingClusterPrivateName", "activityOfferingId", "activityOfferingCode",
-        "activityOfferingType", "activityOfferingState", "activityOfferingMaxSeats", "scheduleId", "schedule", "atpId", "instructors"})
+        "activityOfferingType", "activityOfferingTypeName", "activityOfferingState", "activityOfferingMaxSeats", "scheduleId", "schedule", "atpId", "instructors"})
 public class ActivityOfferingSearchResult {
     String formatOfferingId;
     String formatOfferingName;
@@ -21,13 +21,14 @@ public class ActivityOfferingSearchResult {
     String activityOfferingClusterPrivateName;
     String activityOfferingId;
     String activityOfferingCode;
+    String activityOfferingTypeName;
     String activityOfferingType;
     String activityOfferingState;
     String activityOfferingMaxSeats;
     String scheduleId;
     String atpId;
 
-    ScheduleSearchResult schedule;
+    ActivityOfferingScheduleComponentResult schedule;
     List<InstructorSearchResult> instructors;
 
     public String getFormatOfferingId() {
@@ -134,11 +135,11 @@ public class ActivityOfferingSearchResult {
         this.atpId = atpId;
     }
 
-    public ScheduleSearchResult getSchedule() {
+    public ActivityOfferingScheduleComponentResult getSchedule() {
         return schedule;
     }
 
-    public void setSchedule(ScheduleSearchResult schedule) {
+    public void setSchedule(ActivityOfferingScheduleComponentResult schedule) {
         this.schedule = schedule;
     }
 
@@ -148,5 +149,13 @@ public class ActivityOfferingSearchResult {
 
     public void setInstructors(List<InstructorSearchResult> instructors) {
         this.instructors = instructors;
+    }
+
+    public String getActivityOfferingTypeName() {
+        return activityOfferingTypeName;
+    }
+
+    public void setActivityOfferingTypeName(String activityOfferingTypeName) {
+        this.activityOfferingTypeName = activityOfferingTypeName;
     }
 }
