@@ -30,7 +30,9 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -350,6 +352,10 @@ public class PlannerController extends KsapControllerBase {
                     course=courseTemp;
                     break;
                 }
+            }
+            if (course == null) {
+                PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not active", response, eventList);
+                return null;
             }
 		} catch (IllegalArgumentException e) {
 			LOG.error("Invalid course code " + courseCd, e);
@@ -960,6 +966,13 @@ public class PlannerController extends KsapControllerBase {
         Course course;
         try {
             course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, course.getVersion().getVersionIndId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+            course = KsapFrameworkServiceLocator.getCourseService().getCourse((String) currentVersion.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
+
+            if(!course.getStateKey().equals("Active")){
+                PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " not active", response, eventList);
+                return null;
+            }
         } catch (PermissionDeniedException e) {
             throw new IllegalArgumentException("Course service failure", e);
         } catch (MissingParameterException e) {
