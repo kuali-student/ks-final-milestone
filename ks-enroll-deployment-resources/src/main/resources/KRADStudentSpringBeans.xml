@@ -271,6 +271,7 @@
                 <value>classpath:org/kuali/student/common/kitchensink/UnifiedPageHeader_M7.xml</value>
                 <value>classpath:org/kuali/student/common/kitchensink/ContextBar.xml</value>
                 <value>classpath:org/kuali/student/enrollment/registration/performance/PerformanceTestView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/registration/CourseRegistrationKradView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">

@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- View definitions -->
+
+    <bean id="CourseRegistrationKrad-FormView" parent="KS-Uif-FormView">
+        <property name="headerText" value="Course Registration"/>
+        <property name="formClass" value="org.kuali.student.enrollment.class2.registration.form.CourseRegistrationKradForm"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.registration.service.CourseRegistrationKradViewHelperServiceImpl"/>
+        <!--<property name="header.render" value="false"/>-->
+        <property name="footer.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>ks-common-ksink/css/kitchensink.css</value>
+            </list>
+        </property>
+        <property name="additionalScriptFiles">
+            <list merge="true">
+                <value>ks-common-ksink/scripts/kitchensink.js</value>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-Page" p:headerText="Course Search">
+                    <property name="items">
+                        <list>
+                            <ref bean="CourseRegistration-SearchInputSection"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+
+
+    <bean id="CourseRegistration-SearchInputSection" parent="Uif-VerticalBoxSection"
+          p:headerText="Text Field" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-KitchenSink-TextField-Input-Section"/>
+                <ref bean="CourseRegistration-SearchResults"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-KitchenSink-TextField-Input-Section" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <bean id="CourseRegistration-SearchInput-TermCode" parent="Uif-InputField"  >
+                    <property name="propertyName" value="termCode"/>
+                    <property name="label" value="Term Code"/>
+                    <property name="instructionalText" value="Please enter a valid term code"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="size" value="25"/>
+                            <property name="maxLength" value="8"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="CourseRegistration-SearchInput-CourseCode" parent="Uif-InputField"  >
+                    <property name="propertyName" value="courseCode"/>
+                    <property name="label" value="Course Code"/>
+                    <property name="instructionalText" value="Please enter a valid Course code"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl">
+                            <property name="size" value="25"/>
+                            <property name="maxLength" value="8"/>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="false" p:actionLabel="Search" p:methodToCall="searchForCourses"
+                      p:id="search_button"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="CourseRegistration-SearchResults" parent="Uif-TableCollectionSection">
+        <property name="propertyName" value="courseOfferingSearchResults"/>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="header">
+            <bean parent="Uif-HeaderThree"/>
+        </property>
+
+        <property name="layoutManager.richTable">
+            <!-- see http://datatables.net/ref for all options -->
+            <bean parent="KS-Uif-PagedRichTable" />
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingId" p:label="courseOfferingId"/>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="courseOfferingCode"/>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingDesc" p:label="courseOfferingDesc"/>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingCreditOptionDisplay" p:label="courseOfferingCreditOptionDisplay"/>
+                <bean parent="Uif-DataField" p:propertyName="courseOfferingGradingOptionDisplay" p:label="courseOfferingGradingOptionDisplay"/>
+                <bean parent="Uif-DataField" p:propertyName="studentSelectablePassFail" p:label="studentSelectablePassFail"/>
+                <bean parent="Uif-DataField" p:propertyName="auditCourse" p:label="auditCourse"/>
+                <bean parent="Uif-DataField" p:propertyName="honorsCourse" p:label="honorsCourse"/>
+            </list>
+
+        </property>
+    </bean>
+
+</beans>
