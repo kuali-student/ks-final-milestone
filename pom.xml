@@ -17,7 +17,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kuali.student.api.version>2.0.0-services-M9-SNAPSHOT</kuali.student.api.version>
         <spring.version>3.2.3.RELEASE</spring.version>
-        <ks.core.version>2.0.0-SNAPSHOT</ks.core.version>
         <slf4j.version>1.6.2</slf4j.version>
         <log4j.version>1.2.16</log4j.version>
     </properties>
@@ -64,12 +63,6 @@
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-test</artifactId>
-            <version>${ks.core.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
