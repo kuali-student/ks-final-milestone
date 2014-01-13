@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright 2010 The Kuali Foundation Licensed under the Educational Community 
+	License, Version 2.0 (the "License"); you may not use this file except in 
+	compliance with the License. You may obtain a copy of the License at http://www.osedu.org/licenses/ECL-2.0 
+	Unless required by applicable law or agreed to in writing, software distributed 
+	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
+	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
+	the specific language governing permissions and limitations under the License. -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<bean id="courseSearchStrategy"
+		class="org.kuali.student.ap.coursesearch.controller.CourseSearchStrategyImpl" />
+
+	<bean id="coursePreReqSearch"
+		class="org.kuali.student.ap.coursesearch.service.CoursePreReqSearch">
+		<property name="cluService" ref="ksLumCluService" />
+	</bean>
+
+	<bean id="scheduleBuildStrategy"
+		class="org.kuali.student.ap.schedulebuilder.support.DefaultScheduleBuildStrategy" />
+
+	<bean id="shoppingCartStrategy"
+		class="org.kuali.student.ap.schedulebuilder.support.DefaultShoppingCartStrategy" />
+
+	<bean id="kualiConfigurationService"
+		class="org.kuali.rice.core.impl.services.ConfigurationServiceImpl" />
+
+	<bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
+
+	<bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
+		<property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
+		<property name="kualiModuleService" ref="kualiModuleService" />
+	</bean>
+
+	<bean id="studentRiceModuleConfiguration" parent="studentRiceModuleConfiguration-parent" />
+	<bean id="studentRiceModuleConfiguration-parent" abstract="true" class="org.kuali.rice.krad.bo.ModuleConfiguration">
+		<property name="namespaceCode" value="KS-SYS" />
+		<property name="initializeDataDictionary" value="true" />
+		<property name="dataDictionaryPackages">
+			<list>
+				<!-- KSAP Application Bean Files -->
+				<value>classpath:org/kuali/rice/student/bo</value>
+				<value>classpath:ks-AuditReportInfo-dictionary.xml</value>
+
+				<value>classpath:org/kuali/student/ap/UifKSAPDefinitions.xml</value>
+                <value>classpath:ui/UifExtensionDefinitions.xml</value>
+                <value>classpath:ui/HelpDefinitions.xml</value>
+                <value>classpath:ui/KSAPDataObjects.xml</value>
+                <value>classpath:org/kuali/student/ap/HelpDefinitions.xml</value>
+                <value>classpath:org/kuali/student/ap/CourseSearchUI.xml</value>
+                <value>classpath:ui/CourseDetailsUI.xml</value>
+                <value>classpath:ui/DegreeAuditUI.xml</value>
+                <value>classpath:ui/DegreeAuditDetailsUI.xml</value>
+                <value>classpath:ui/CommentUI.xml</value>
+                <value>classpath:ui/CourseSectionsUI.xml</value>
+                <value>classpath:ui/FullPlanCoursesUI.xml</value>
+                <value>classpath:ui/SingleQuarterUI.xml</value>
+			</list>
+		</property>
+		<property name="packagePrefixes">
+			<list>
+				<value>org.kuali.rice.student.</value>
+				<value>org.kuali.student.ap.</value>
+			</list>
+		</property>
+	</bean>
+
+</beans>

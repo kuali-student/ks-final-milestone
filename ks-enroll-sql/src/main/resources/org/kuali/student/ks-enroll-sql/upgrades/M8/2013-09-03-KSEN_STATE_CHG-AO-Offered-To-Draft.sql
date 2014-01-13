@@ -1,3 +1,0 @@
--- KSENROLL-9230 : Added Missing state change config.
-insert into KSEN_STATE_CHG (ID, STATE_CHG_TYPE, STATE_CHG_STATE, OBJ_ID, FROM_STATE_ID, TO_STATE_ID, EFF_DT, EXPIR_DT, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.statechange.activityoffering.offered.draft', 'kuali.state.change.type', 'kuali.state.change.state.active', null, 'kuali.lui.activity.offering.state.offered', 'kuali.lui.activity.offering.state.draft', TO_DATE (null, 'MM/DD/YYYY'), TO_DATE (null, 'MM/DD/YYYY'), 0, TO_DATE ('8/11/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER', TO_DATE ('8/12/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER' )
-/

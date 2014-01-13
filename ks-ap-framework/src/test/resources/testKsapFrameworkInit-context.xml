@@ -1,0 +1,97 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
+    <import resource="classpath:ks-test-system-property-configurer.xml" />
+
+    <bean id="configContext" class="org.kuali.student.common.test.KSTestConfigContextLoader">
+        <constructor-arg index="0">
+            <list>
+                <value>classpath:META-INF/ks-ap/ks-ap-test-config.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <bean id="kualiConfigurationService" class="org.kuali.rice.core.impl.services.ConfigurationServiceImpl" depends-on="configContext" />
+
+
+    <bean class="org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator" factory-method="getInstance">
+        <property name="ksapContext" ref="ksapContext"/>
+        <property name="ksapTextHelper" ref="ksapTextHelper"/>
+        <property name="ksapTermHelper" ref="ksapTermHelper"/>
+        <property name="ksapUserSessionHelper" ref="ksapUserSessionHelper"/>
+        <property name="ksapEnumerationHelper" ref="ksapEnumerationHelper"/>
+        <property name="ksapOrgHelper" ref="ksapOrgHelper"/>
+        <property name="ksapCourseHelper" ref="ksapCourseHelper"/>
+        <property name="shoppingCartHelper" ref="shoppingCartHelper"/>
+        <property name="planHelper" ref="planHelper"/>
+        <property name="courseSearchStrategy" ref="courseSearchStrategy"/>
+        <property name="academicCalendarService" ref="academicCalendarService"/>
+        <property name="academicRecordService" ref="academicRecordService"/>
+        <property name="courseOfferingService" ref="courseOfferingService"/>
+        <property name="luiService" ref="luiService"/>
+        <property name="commentService" ref="commentService"/>
+        <property name="enumerationManagementService" ref="enumerationManagementService"/>
+        <property name="courseService" ref="courseService"/>
+        <property name="programService" ref="programService"/>
+        <property name="cluService" ref="cluService"/>
+        <property name="lrcService" ref="lrcService"/>
+        <property name="organizationService" ref="organizationService"/>
+        <property name="messageService" ref="messageService"/>
+        <property name="typeService" ref="typeService"/>
+        <property name="atpService" ref="atpService"/>
+        <property name="academicPlanService" ref="academicPlanService"/>
+        <property name="enrollmentStatusHelper" ref="enrollmentStatusHelper"/>
+        <property name="learningPlanReviewStrategy" ref="learningPlanReviewStrategy"/>
+        <property name="scheduleBuildStrategy" ref="scheduleBuildStrategy"/>
+        <property name="shoppingCartStrategy" ref="shoppingCartStrategy"/>
+        <property name="courseOfferingSetService" ref="courseOfferingSetService"/>
+    </bean>
+    <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
+    <bean id="ksapTextHelper" class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
+        <property name="messageGroup" value="ksap" />
+    </bean>
+    <bean id="ksapTermHelper" class="org.kuali.student.ap.framework.context.support.DefaultTermHelper" />
+    <bean id="ksapUserSessionHelper" class="org.kuali.student.ap.test.mock.UserSessionHelperMockTest" />
+    <bean id="ksapEnumerationHelper" class="org.kuali.student.ap.test.mock.EnumerationHelperMockTest" />
+    <bean id="ksapOrgHelper" class="org.kuali.student.ap.test.mock.OrgHelperMockTest" />
+    <bean id="ksapCourseHelper" class="org.kuali.student.ap.test.mock.CourseHelperMockTest" />
+    <bean id="shoppingCartHelper" class="org.kuali.student.ap.test.mock.ShoppingCartHelperMockTest" />
+    <bean id="planHelper" class="org.kuali.student.ap.test.mock.PlanHelperMockTest" />
+    <bean id="courseSearchStrategy" class="org.kuali.student.ap.test.mock.CourseSearchStrategyMockTest"/>
+    <bean id="academicCalendarService" class="org.kuali.student.ap.test.mock.AcademicCalendarServiceMockTest">
+        <property name="termAssembler" ref="termAssembler"/>
+    </bean>
+    <bean id="academicRecordService" class="org.kuali.student.ap.test.mock.AcademicRecordServiceMockTest"/>
+    <bean id="courseOfferingService" class="org.kuali.student.ap.test.mock.CourseOfferingServiceMockTest"/>
+    <bean id="luiService" class="org.kuali.student.ap.test.mock.LuiServiceMockTest"/>
+    <bean id="commentService" class="org.kuali.student.ap.test.mock.CommentServiceMockTest"/>
+    <bean id="enumerationManagementService" class="org.kuali.student.ap.test.mock.EnumerationManagementServiceMockTest"/>
+    <bean id="courseService" class="org.kuali.student.ap.test.mock.CourseServiceMockTest"/>
+    <bean id="programService" class="org.kuali.student.ap.test.mock.ProgramServiceMockTest"/>
+    <bean id="cluService" class="org.kuali.student.ap.test.mock.CluServiceMockTest"/>
+    <bean id="lrcService" class="org.kuali.student.ap.test.mock.LRCServiceMockTest"/>
+    <bean id="organizationService" class="org.kuali.student.ap.test.mock.OrganizationServiceMockTest"/>
+    <bean id="messageService" class="org.kuali.student.ap.test.mock.MessageServiceMockTest"/>
+    <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
+    <bean id="atpService" class="org.kuali.student.ap.test.mock.AtpServiceMockTest"/>
+    <bean id="academicPlanService" class="org.kuali.student.ap.test.mock.AcademicPlanServiceMockTest"/>
+    <bean id="enrollmentStatusHelper" class="org.kuali.student.ap.test.mock.EnrollmentStatusHelperMockTest" />
+    <bean id="learningPlanReviewStrategy" class="org.kuali.student.ap.test.mock.LearningPlanReviewStrategyMockTest" />
+    <bean id="scheduleBuildStrategy" class="org.kuali.student.ap.test.mock.ScheduleBuildStrategyMockTest" />
+    <bean id="shoppingCartStrategy" class="org.kuali.student.ap.test.mock.ShoppingCartStrategyMockTest" />
+    <bean id="courseOfferingSetService" class="org.kuali.student.ap.test.mock.CourseOfferingSetServiceMockTest"/>
+
+    <bean id="termAssembler"
+          class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler">
+        <property name="termCodeGenerator" ref="termCodeGenerator" />
+    </bean>
+
+    <bean id="termCodeGenerator"
+          class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl" />
+
+    <!--<import resource="enumService-test-context.xml"/>-->
+    <import resource="cluService-test-context.xml"/>
+
+</beans>

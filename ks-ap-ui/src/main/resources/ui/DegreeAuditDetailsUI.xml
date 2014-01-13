@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational
+         Community License, Version 2.0 (the "License"); you may not use this file
+         except in compliance with the License. You may obtain a copy of the License
+         at http://www.opensource.org/licenses/ecl2.php Unless required by applicable
+         law or agreed to in writing, software distributed under the License is distributed
+         on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+         express or implied. See the License for the specific language governing permissions
+         and limitations under the License. -->
+
+    <!-- Not used to view audit reports. -->
+    <bean id="DegreeAudit-FormView" parent="KSAPFormView">
+        <property name="headerText" value="Audit Degree"/>
+
+        <!-- To Support progressive disclosure of campus select -->
+        <property name="persistFormToSession" value="true"/>
+        <property name="viewName" value="DegreeAudit-FormView"/>
+        <property name="id" value="DegreeAudit-FormView"/>
+        <property name="entryPageId" value="degree_audit"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-view</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
+
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ks-ap/scripts/ksap.audit.js</value>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-ap/css/audit.css</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Page" p:id="degree_audit">
+                    <property name="layoutManager">
+                        <bean parent="Uif-HorizontalBoxLayout"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean id="degree_audit_block" parent="Uif-VerticalBoxSection"
+                                  p:style="width: 700px; margin-right: 10px; float: left;">
+                                <property name="layoutManager">
+                                    <bean parent="Uif-VerticalBoxLayout"/>
+                                </property>
+                                <property name="onDocumentReadyScript" value="
+                                    if (jQuery.cookie('ksap_audit_running')) {
+                                        if (readUrlParam('degreeAudit.auditId') == false) {
+                                            var data = jQuery.parseJSON(decodeURIComponent(jQuery.cookie('ksap_audit_running')));
+                                            blockPendingAudit(data);
+                                        }
+                                    }
+                                "/>
+                                <property name="items">
+                                    <list>
+                                        <ref bean="run_degree_audits"/>
+                                        <ref bean="audit_section"/>
+                                    </list>
+                                </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                              p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
+                                            <property name="replacement">
+                                                <list>
+                                                    <ref bean="audit_adviser_actions_message"/>
+                                                    <ref bean="audit_section"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:style="width: 230px; margin: 0;">
+                                <property name="layoutManager">
+                                    <bean parent="Uif-VerticalBoxLayout"/>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="ksap_section">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>no-primary</value>
+                                                </list>
+                                            </property>
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="your_stuff_widget" p:headerText="">
+                                                        <property name="header.render" value="false"/>
+                                                        <property name="items">
+                                                            <list>
+                                                                <ref bean="non_student_degree_audits_list"/>
+                                                            </list>
+                                                        </property>
+                                                        <property name="propertyReplacers">
+                                                            <list>
+                                                                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                                                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
+                                                                    <property name="replacement">
+                                                                        <list>
+                                                                            <ref bean="degree_audits_list"/>
+                                                                        </list>
+                                                                    </property>
+                                                                </bean>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="your_stuff_widget" p:headerText="">
+                                                        <property name="header.render" value="false"/>
+                                                        <property name="items">
+                                                            <list>
+                                                                <ref bean="watch_list"/>
+                                                            </list>
+                                                        </property>
+                                                        <property name="propertyReplacers">
+                                                            <list/>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="stickyFooter" value="false"/>
+                </bean>
+
+                <bean parent="Uif-Page" p:id="degree_audit_non_student_page">
+                    <property name="layoutManager">
+                        <bean parent="Uif-HorizontalBoxLayout"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalBoxSection" p:style="width: 700px; margin-right: 10px;">
+                                <property name="layoutManager">
+                                    <bean parent="Uif-VerticalBoxLayout"/>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <ref bean="non_student_degree_audits"/>
+                                    </list>
+                                </property>
+                                <property name="propertyReplacers">
+                                    <list>
+                                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                              p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
+                                            <property name="replacement">
+                                                <list>
+                                                    <ref bean="audit_adviser_actions_message"/>
+                                                    <ref bean="non_student_degree_audits"/>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-VerticalBoxSection" p:style="width: 230px; margin: 0;">
+                                <property name="layoutManager">
+                                    <bean parent="Uif-VerticalBoxLayout"/>
+                                </property>
+                                <property name="items">
+                                    <list>
+                                        <bean parent="ksap_section">
+                                            <property name="items">
+                                                <list>
+
+                                                    <bean parent="your_stuff_widget" p:headerText="">
+                                                        <property name="header.render" value="false"/>
+                                                        <property name="items">
+                                                            <list>
+                                                                <ref bean="watch_list"/>
+                                                            </list>
+                                                        </property>
+                                                        <property name="propertyReplacers">
+                                                            <list/>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="stickyFooter" value="false"/>
+                </bean>
+
+            </list>
+        </property>
+        <property name="footer.render" value="false"/>
+        <property name="formClass" value="org.kuali.student.ap.audit.form.DegreeAuditForm"/>
+    </bean>
+
+    <bean id="audit_section" parent="Uif-VerticalBoxSubSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-audit-report</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="empty_degree_audits"/>
+                <ref bean="audit_report_section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="audit_report_section" parent="Uif-VerticalBoxSubSection">
+        <property name="onDocumentReadyScript" value="
+            initAuditActions();
+        "/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-VerticalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="txtaudit" parent="Uif-Message" p:messageText="@{getAuditHtml()}"
+                                  p:style="display:block;"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="run_degree_audits" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-run-audit-panel</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderFive"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="select_instruction"/>
+                <ref bean="campus_params"/>
+                <ref bean="program_params"/>
+                <!-- <ref bean="degree_audit_run"/> -->
+                <!-- <ref bean="audit_type"/> -->
+                <ref bean="audit_instruction"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="empty_degree_audits" parent="Uif-HorizontalBoxGroup" p:style="padding: 10px;"
+          p:render="@{getAuditHtml() eq null ? true : false}" p:headerText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_HOW_TO')}">
+        <property name="header">
+            <bean parent="Uif-HeaderFour" p:style="padding: 5px;"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="degree_audit_info_2"/>
+                <ref bean="degree_audit_info_1"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="non_student_degree_audits" parent="Uif-HorizontalBoxGroup" p:style="padding: 10px;">
+        <property name="header">
+            <bean parent="Uif-HeaderFour" p:style="padding: 5px;"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="degree_audit_non_student_info"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="degree_audit_non_student_info" parent="Uif-VerticalFieldGroup"
+          p:style="padding: 10px;  border-color: #DAEAFF; ">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-audit-info-panel</value>
+                <value>ksap-audit-message-info</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="audit_inf_text_1" parent="Uif-Message" p:style="padding: 5px;">
+                    <property name="messageText"
+                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_FEATURE_DISABLED')}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="degree_audit_info_1" parent="Uif-VerticalFieldGroup" p:style="padding: 10px;">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-audit-info-panel</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="audit_info_header_1" parent="Uif-Message" p:style="padding: 5px;"
+                      p:cssClasses="ksap-carousel-list">
+                    <property name="messageText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_TRACK_PROGRESS')}"/>
+                </bean>
+                <bean id="audit_info_text_1" parent="Uif-Message" p:style="padding: 5px;">
+                    <property name="messageText"
+                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_YOUR_REQUIREMENTS')}"/>
+                </bean>
+                <bean id="audit_info_footer_1" parent="Uif-Message" p:style="padding: 5px;">
+                    <property name="messageText"
+                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_PROGRAM')}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="degree_audit_info_2" parent="Uif-VerticalFieldGroup" p:style="padding: 10px; height: 185px;">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-audit-info-panel</value>
+                <value>ksap-carousel-list</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="audit_info_header_2" parent="Uif-Message" p:style="padding: 5px;">
+                    <property name="messageText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_PROGRAMS_MINORS')}"/>
+                </bean>
+                <bean id="audit_info_text_2" parent="Uif-Message" p:style="padding: 5px;">
+                    <property name="messageText"
+                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_STILL_DECIDING')}"/>
+                </bean>
+                <bean id="audit_info_footer_2" parent="Uif-Message" p:style="padding: 5px;">
+                    <property name="messageText"
+                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_FROM')}"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="select_instruction" parent="Uif-Message" p:cssClasses="ksap-text-normal">
+        <property name="messageText"
+                  value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_CAMPUS')}"/>
+    </bean>
+
+    <bean id="campus_params" parent="Uif-HorizontalFieldGroup">
+        <property name="items">
+            <list>
+                <bean id="radio_campusParam" parent="Uif-InputField" p:propertyName="campusParam">
+                    <property name="onChangeScript" value="
+                        jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());
+                        setUrlHash('modified', 'yes');
+                    "/>
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.ap.coursesearch.util.AuditRunCampusParam"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="program_params" parent="Uif-HorizontalBoxSection" p:layoutManager.orientation="HORIZONTAL">
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection"
+                      p:progressiveRender="true" p:disclosure.render="true">
+                    <property name="items">
+                        <list>
+                            <bean id="select_programParam" parent="Uif-InputField"
+                                  p:propertyName="programParam" p:validationMessages.render="false"
+                                  p:width="auto"
+                                  p:refreshWhenChangedPropertyNames="#dp.campusParam">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl">
+                                        <property name="onChangeScript"
+                                                  value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                        <property name="onDocumentReadyScript"
+                                        value="jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());"/>
+                                    </bean>
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.ap.audit.util.DegreeAuditRunProgramParam"/>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="degree_audit_run"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="degree_audit_run" parent="Uif-PrimaryActionButton" p:methodToCall="runAudit" p:disabled="false"
+          p:refreshId="audit_section" p:focusOnIdAfterSubmit="degree_audits_summary"
+          p:actionLabel="Run Degree Audit"> <!-- audit_report_section degree_audit_block-->
+        <property name="onClickScript" value="setPendingAudit(jQuery(this),2); setUrlHash('modified','yes'); changeLoadingMessage('.ksap-audit-report');"/>
+        <property name="onDocumentReadyScript" value="
+            if (jQuery.cookie('ksap_audit_running')) {
+                jQuery('button#degree_audit_run').attr('disabled', true);
+            } else {
+                jQuery('button#degree_audit_run').attr('disabled', degreeAuditButton());
+            }
+            jQuery('button#degree_audit_run').on('AUDIT_COMPLETE', function () {
+                jQuery(this).attr('disabled', degreeAuditButton());
+            });
+        "/>
+    </bean>
+
+    <bean id="audit_instruction" parent="Uif-HorizontalBoxGroup" p:validationMessages.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message">
+                    <property name="messageText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_PROGRAMS_NOT_INCLUDED')}"/>
+                </bean>
+            </list>
+        </property>
+
+    </bean>
+</beans>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+       xmlns:wss="http://jax-ws.dev.java.net/spring/servlet" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
+          http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <bean id="apConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+        <property name="configLocations">
+            <list>
+                <value>classpath:META-INF/ks-ap/ks-ap-config.xml</value>
+                <value>classpath:META-INF/ks-ap/ks-ap-config-override.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="properties" value="#{apConfig.getProperties()}" />
+    </bean>
+
+	<import resource="classpath:org/kuali/rice/core/CommonSpringBeans.xml"/>
+
+    <import resource="classpath:META-INF/ks-ap/ks-ap-framework-context.xml" />
+    
+    <!-- NOTE: local run mode requires ks-ap-impl -->
+    <import resource="classpath:ks-transaction-context.xml" />
+    <import resource="classpath:META-INF/ks-ap/ks-ap-no-tx-context.xml" />
+
+    <bean id="riceDictionaryValidationService"
+          class="org.kuali.rice.core.framework.resourceloader.GlobalResourceLoaderServiceFactoryBean">
+        <property name="serviceName" value="riceDictionaryValidationService"/>
+    </bean>
+
+    <bean id="validator" class="org.kuali.student.r2.common.datadictionary.RiceDataDictionaryValidatorImpl">
+        <property name="riceDataDictionaryService" ref="dataDictionaryServiceForAcademicPlanService" />
+        <property name="riceDictionaryValidationService" ref="riceDictionaryValidationService" />
+    </bean>
+
+	<bean id="apDataSource" class="org.kuali.rice.core.framework.persistence.jdbc.datasource.PrimaryDataSourceFactoryBean" lazy-init="true">
+		<property name="preferredDataSourceParams">
+			<list>
+				<value>ap.datasource</value>
+			</list>
+		</property>
+		<property name="preferredDataSourceJndiParams">
+			<list>
+				<value>ap.datasource.jndi.location</value>
+			</list>
+		</property>
+		<property name="serverDataSource" value="true"/>
+	</bean>
+
+</beans>

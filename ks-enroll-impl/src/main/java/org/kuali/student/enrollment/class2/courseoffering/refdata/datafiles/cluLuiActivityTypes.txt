@@ -1,5 +1,0 @@
-# Short format name/CLU type/LUI type
-LEC/kuali.lu.type.activity.LectureORSeminar/kuali.lui.type.activity.offering.LectureORSeminar
-DIS/kuali.lu.type.activity.Discussion/kuali.lui.type.activity.offering.discussion
-LAB/kuali.lu.type.activity.Lab/kuali.lui.type.activity.offering.lab
-EXP/kuali.lu.type.activity.ExperientialLearningOROther/kuali.lui.type.activity.offering.ExperientialLearningOROther

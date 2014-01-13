@@ -1,71 +1,105 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.kuali.student</groupId>
-        <artifactId>student</artifactId>
-        <version>2.0.0-M8-KSAP-SNAPSHOT</version>
-    </parent>
-    <groupId>org.kuali.student.enroll</groupId>
-    <artifactId>ks-enroll</artifactId>
-    <version>1.0.0-M8-KSAP-SNAPSHOT</version>
-    <packaging>pom</packaging>
-    <name>KS Enroll</name>
-    <description>KS Enrollment</description>
-    <profiles>
-        <profile>
-            <id>default</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-                <module>ks-enroll-sql</module>
-                <module>ks-enroll-impl</module>
-                <module>ks-enroll-ui</module>
-                <module>ks-enroll-web</module>
-                <module>ks-enroll-rice</module>
-                <module>ks-enroll-deployment-resources</module>
-            </modules>
-        </profile>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+
+	<parent>
+		<groupId>org.kuali.student</groupId>
+		<artifactId>student</artifactId>
+		<version>2.0.0-M8-KSAP-SNAPSHOT</version>
+	</parent>
+
+	<groupId>org.kuali.student.ap</groupId>
+	<artifactId>ks-ap</artifactId>
+	<version>0.8.0-M8-KSAP-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>KSAP</name>
+	<description>Kuali Student Academic Planning Module</description>
+
+	<properties>
+		<jdk.min.version>1.6</jdk.min.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.3.1.Final</version>
+			<scope>test</scope>
+		</dependency>
+        <dependency>
+            <groupId>javax.json</groupId>
+            <artifactId>javax.json-api</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.2</version>
+            <scope>runtime</scope>
+        </dependency>
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<modules>
+		                <module>ks-ap-sql</module>
+				<module>ks-ap-framework</module>
+				<module>ks-ap-impl</module>
+				<module>ks-ap-ui</module>
+				<module>ks-ap-web</module>
+				<module>ks-ap-deployment-resources</module>
+			</modules>
+		</profile>
         <profile>
             <id>sql-only</id>
             <modules>
-                <module>ks-enroll-sql</module>
+                <module>ks-ap-sql</module>
             </modules>
         </profile>
-        <profile>
-            <id>skip-all-wars</id>
-            <modules>
-                <module>ks-enroll-sql</module>
-                <module>ks-enroll-impl</module>
-                <module>ks-enroll-ui</module>
-                <module>ks-enroll-rice</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>skip-surefire-tests</id>
-            <activation>
-                <property>
-                    <name>skip.enroll.tests</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <skipTests>true</skipTests>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-            <!-- include all the modules from the default profile (except SQL and Web modules) -->
-            <modules>
-                <module>ks-enroll-impl</module>
-                <module>ks-enroll-ui</module>
-                <module>ks-enroll-rice</module>
-                <module>ks-enroll-deployment-resources</module>
-            </modules>
-        </profile>
-    </profiles>
+		<profile>
+			<id>skip-deployment-wars</id>
+			<modules>
+				<module>ks-ap-impl</module>
+				<module>ks-ap-framework</module>
+				<module>ks-ap-ui</module>
+				<module>ks-ap-web</module>
+				<module>ks-ap-deployment-resources</module>
+			</modules>
+		</profile>
+		<profile>
+			<id>skip-all-wars</id>
+			<modules>
+				<module>ks-ap-impl</module>
+				<module>ks-ap-framework</module>
+				<module>ks-ap-ui</module>
+				<module>ks-ap-deployment-resources</module>
+			</modules>
+		</profile>
+	</profiles>
+
 </project>
