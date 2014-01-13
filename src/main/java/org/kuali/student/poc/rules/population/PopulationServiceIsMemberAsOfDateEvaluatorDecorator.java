@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.rules.population;
 
-import org.kuali.student.enrollment.class2.population.service.decorators.PopulationServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -26,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 import javax.jws.WebParam;
 import java.util.Date;
+import org.kuali.student.r2.core.population.service.decorators.PopulationServiceDecorator;
 
 /**
  * This class represents a PopulationService decorator which can apply a specific

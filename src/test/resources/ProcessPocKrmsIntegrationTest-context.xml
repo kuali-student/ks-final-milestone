@@ -112,10 +112,13 @@
     </bean>
     <bean id="holdServiceMapImpl" class="org.kuali.student.r2.core.class1.hold.mock.HoldServiceMapImpl"/>
     <bean id="gesService" class="org.kuali.student.r2.core.process.ProcessPocGesServiceDecorator">
-        <constructor-arg ref="gesServiceMapImpl"/>
+        <constructor-arg ref="gesServiceEvaluationDecorator"/>
     </bean>
-    <bean id="gesServiceMapImpl" class="org.kuali.student.enrollment.class2.ges.service.impl.GesServiceMapImpl" >
+    <bean id="gesServiceEvaluationDecorator" class="org.kuali.student.enrollment.class2.ges.service.decorator.GesServiceEvaluationDecorator" >
         <property name="populationService" ref="populationService" />
         <property name="atpService" ref="atpService" />
+        <property name="nextDecorator" ref="gesServiceMapImpl" />
+    </bean>
+    <bean id="gesServiceMapImpl" class="org.kuali.student.enrollment.class2.ges.service.impl.GesServiceMapImpl" >
     </bean>
 </beans>

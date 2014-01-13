@@ -104,8 +104,8 @@ public class ProcessServiceDataLoader {
     public static final String CHECK_NAME_MAX_TOTAL_CREDITS_ALLOWED = "kuali.check.max.total.credits.allowed";
     public static final String CHECK_ID_INTERNATIONAL_STUDENT_CHECK_IN = "TESTID.23";
     public static final String CHECK_NAME_INTERNATIONAL_STUDENT_CHECK_IN = "kuali.check.international.student.check.in";
-    public static final String CHECK_ID_IS_NOT_SUMMER_TERM = "TESTID.24";
-    public static final String CHECK_NAME_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
+//    public static final String CHECK_ID_IS_NOT_SUMMER_TERM = "TESTID.24";
+//    public static final String CHECK_NAME_IS_NOT_SUMMER_TERM = "kuali.check.is.not.summer.term";
     public static final String CHECK_ID_MANDATORY_ADVISING_CHECK = "TESTID.25";
     public static final String CHECK_NAME_MANDATORY_ADVISING_CHECK = "kuali.check.mandatory.advising.check";
     public static final String CHECK_ID_UNRESOLVED_INCOMPLETE_GRADES = "TESTID.26";

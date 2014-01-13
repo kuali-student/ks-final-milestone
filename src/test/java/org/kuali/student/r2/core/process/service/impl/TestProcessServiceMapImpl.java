@@ -62,15 +62,15 @@ import static org.junit.Assert.fail;
  * @author Mezba Mahtab
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:process-mock-service-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:process-map-service-test-context.xml"})
 //@Transactional
 //@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
-public class TestProcessServiceMockImpl {
+public class TestProcessServiceMapImpl {
 
     ///////////////////
     // CONSTANTS
     ///////////////////
-    private static final Logger logger = Logger.getLogger(TestProcessServiceMockImpl.class);
+    private static final Logger logger = Logger.getLogger(TestProcessServiceMapImpl.class);
     ///////////////////
     // DATA FIELDS
     ///////////////////
@@ -694,15 +694,15 @@ public class TestProcessServiceMockImpl {
         checkIds.add(ProcessServiceDataLoader.CHECK_ID_NORTH_STUDENTS_MAX_SOUTH_CREDITS);
         checkIds.add(ProcessServiceDataLoader.CHECK_ID_HAS_THE_NECESSARY_PREREQ);
         checkIds.add(ProcessServiceDataLoader.CHECK_ID_DOES_NOT_HAVE_A_TIME_CONFLICT);
-        checkIds.add(ProcessServiceDataLoader.CHECK_ID_IS_NOT_SUMMER_TERM);
+//        checkIds.add(ProcessServiceDataLoader.CHECK_ID_IS_NOT_SUMMER_TERM);
         List<CheckInfo> checksByIds = processService.getChecksByIds(checkIds, contextInfo);
-        assertEquals(6, checksByIds.size());
+        assertEquals(5, checksByIds.size());
         for (CheckInfo info : checksByIds) {
             assertTrue(checkIds.contains(info.getId()));
         }
 
         List<String> checkIdsByType = processService.getCheckIdsByType(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, contextInfo);
-        assertEquals(37, checkIdsByType.size());
+        assertEquals(35, checkIdsByType.size());
     }
 
     private void testInstructionOperations()

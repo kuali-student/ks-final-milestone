@@ -7,13 +7,13 @@ package org.kuali.student.r2.core.process;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import org.kuali.student.enrollment.class2.population.service.decorators.PopulationServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.population.service.decorators.PopulationServiceDecorator;
 
 public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecorator implements PopulationService {
 
@@ -142,7 +142,7 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
         rule.setTypeKey(ruleTypeKey);
         rule.setStateKey(PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
         rule.getPersonIds().addAll(this._splitIt(personIds));
-        rule.getRuleIds().addAll(this._splitIt(ruleId));  // fix this once the rule becomes singular
+        rule.setRuleId(_nullIt(ruleId));  
         try {
             rule = this.createPopulationRule(rule.getTypeKey(), rule, contextInfo);
         } catch (Exception ex) {
@@ -157,6 +157,13 @@ public class ProcessPocPopulationServiceDecorator extends PopulationServiceDecor
         return pop;
     }
 
+    private String _nullIt(String str) {
+        if (str.trim().isEmpty()) {
+            return null;
+        }
+        return str;
+    }
+    
     private List<String> _splitIt(String str) {
         if (str.trim().isEmpty()) {
             return Collections.EMPTY_LIST;
