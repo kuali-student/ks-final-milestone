@@ -47,6 +47,7 @@
         <property name="scheduleBuildStrategy" ref="scheduleBuildStrategy"/>
         <property name="shoppingCartStrategy" ref="shoppingCartStrategy"/>
         <property name="courseOfferingSetService" ref="courseOfferingSetService"/>
+        <property name="courseRegistrationService" ref="courseRegistrationMockImpl"/>
     </bean>
     <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
     <bean id="ksapTextHelper" class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
@@ -93,5 +94,16 @@
 
     <!--<import resource="enumService-test-context.xml"/>-->
     <import resource="cluService-test-context.xml"/>
+
+    <!--<bean id="courseRegistrationServiceMock"-->
+          <!--class="org.kuali.student.enrollment.class2.courseregistration.service.decorators.CourseRegistrationServiceValidationDecorator">-->
+        <!--<property name="validator" ref="validator" />-->
+        <!--<property name="nextDecorator" ref="courseRegistrationMockImpl" />-->
+    <!--</bean>-->
+
+     <bean id="courseRegistrationMockImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl">
+        <property name="courseOfferingService" ref="courseOfferingService" />
+    </bean>
+
 
 </beans>
