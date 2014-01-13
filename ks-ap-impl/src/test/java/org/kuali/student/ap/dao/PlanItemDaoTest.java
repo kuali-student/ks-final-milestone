@@ -133,7 +133,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
         pie.setCreateId("student1");
         pie.setCreateTime(new Date());
-        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
 
         planItemDao.persist(pie);
 
@@ -160,7 +160,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
         pie.setCreateId("student1");
         pie.setCreateTime(new Date());
-        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
 
 
         Set<String> atps = new HashSet<String>();
@@ -198,7 +198,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         pie.setRefObjectTypeKey("kuali.lu.type.CreditCourse");
         pie.setCreateId("student1");
         pie.setCreateTime(new Date());
-        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        pie.setTypeId(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
 
 
         Set<String> atps = new HashSet<String>();

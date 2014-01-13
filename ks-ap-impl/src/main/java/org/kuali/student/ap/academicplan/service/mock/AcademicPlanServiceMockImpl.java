@@ -43,7 +43,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
         atpList.add( atp );
         plan.setPlanPeriods( atpList );
         plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
 
         return plan;
     }
@@ -82,7 +82,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             atps.add("19843");
             plan.setPlanPeriods( atps );
             plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
             plan.setMeta(meta);
 
             plan.setId( "1" );
@@ -104,7 +104,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             atpList.add( atp );
             plan.setPlanPeriods( atpList );
             plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
             plan.setMeta(meta);
 
             plan.setId( "2" );
@@ -125,7 +125,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             atps.add("19843");
             plan.setPlanPeriods( atps );
             plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
             plan.setMeta(meta);
 
             plan.setId( "1" );
@@ -146,7 +146,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             atps.add("19843");
             plan.setPlanPeriods( atps );
             plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
             plan.setMeta(meta);
             plan.setId( "1" );
             list.add( plan );
@@ -167,7 +167,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
             atps.add("19843");
             plan.setPlanPeriods( atps );
             plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+            plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
             plan.setMeta(meta);
 
             list.add( plan );
@@ -232,7 +232,7 @@ public class AcademicPlanServiceMockImpl implements AcademicPlanService {
         atps.add("19843");
         plan.setPlanPeriods( atps );
         plan.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        plan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
 
         plan.setId("1");
 

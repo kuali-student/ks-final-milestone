@@ -743,7 +743,7 @@ public class PlannerController extends KsapControllerBase {
         if (create) {
             planItemInfo = new PlanItemInfo();
             planItemInfo.setCategory(category);
-            planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+            planItemInfo.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
             planItemInfo.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
             planItemInfo.setLearningPlanId(plan.getId());
         } else {
@@ -907,7 +907,7 @@ public class PlannerController extends KsapControllerBase {
         // Add the course to the plan
         PlanItemInfo newBookmark = new PlanItemInfo();
         newBookmark.setRefObjectId(course.getId());
-        newBookmark.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE_COURSE);
+        newBookmark.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
         newBookmark.setStateKey(PlanConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
         newBookmark.setRefObjectType(PlanConstants.COURSE_TYPE);
         newBookmark.setCategory(AcademicPlanServiceConstants.ItemCategory.WISHLIST);
