@@ -886,23 +886,10 @@
     <property name="nextDecorator" ref="courseRegistrationImpl" />
   </bean>
 
-    <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceMockImpl">
-        <!-- setup fake registration records until better reference data is available -->
-        <property name="fakeRegistrations">
-            <list>
-                <value type="java.lang.String[]">admin,kuali.atp.2012Spring,BSCI441</value>
-                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,ENGL201</value>
-                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,HIST137</value>
-                <value type="java.lang.String[]">admin,kuali.atp.2012Fall,PHYS404</value>
-                <value type="java.lang.String[]">janeDoe,kuali.atp.2011Fall,ENGL101</value>
-            </list>
-        </property>
-        <property name="courseOfferingService" ref="CourseOfferingService" />
-    </bean>
-  <!--<bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
+  <bean id="courseRegistrationImpl" class="org.kuali.student.enrollment.class2.courseregistration.service.impl.CourseRegistrationServiceImpl">
     <property name="lprService" ref="LprService" />
     <property name="courseOfferingService" ref="CourseOfferingService" />
-  </bean>-->
+  </bean>
 
   <bean id="completedCoursesResolver" class="org.kuali.student.enrollment.class1.lrr.termresolver.CompletedCoursesResolver">
     <property name="lprService" ref="LprService" />
@@ -933,20 +920,14 @@
     </property>
   </bean>
 
-    <bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssemblerMockAllGradeA" >
-        <property name="luiService" ref="LuiService" />
+    <bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler" />
+    <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
+        <property name="courseRegService" ref="CourseRegistrationService" />
         <property name="atpService" ref="AtpService" />
         <property name="gradingService" ref="gradingService" />
         <property name="lrcService" ref="lrcServiceCache" />
+        <property name="courseRecordAssembler" ref="courseRecordAssembler" />
     </bean>
-  <!--<bean id="courseRecordAssembler" class="org.kuali.student.enrollment.class2.academicrecord.service.assembler.StudentCourseRecordAssembler" />-->
-  <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceImpl">
-    <property name="courseRegService" ref="CourseRegistrationService" />
-    <property name="atpService" ref="AtpService" />
-    <property name="gradingService" ref="gradingService" />
-    <property name="lrcService" ref="lrcServiceCache" />
-    <property name="courseRecordAssembler" ref="courseRecordAssembler" />
-  </bean>
 
   <bean id="ks.exp.academicRecordService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
     <property name="serviceDefinition">

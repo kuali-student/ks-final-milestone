@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
@@ -30,8 +29,6 @@ import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -49,89 +46,12 @@ public class CourseRegistrationServiceMockImpl
     private final Map<String, List<RegistrationRequestItemInfo>> xactionMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* cr, ritem */
     private final Map<String, List<RegistrationRequestItemInfo>> studentMap = new LinkedHashMap<String, List<RegistrationRequestItemInfo>>(); /* stu, ritem */
     
-    //List of fake student course registrations to facilitate spring loading
-    private List<String[]> fakeRegistrations = new ArrayList<String[]>();
-
-    private final static String CREDIT_LIMIT = "15";
+    private final static String CREDIT_LIMIT = "15"; 
     private static long id = 0;
 
     private CourseOfferingService coService;
 
-    private boolean crInitialized=false;
-
-    public List<String[]> getFakeRegistrations() {
-        return fakeRegistrations;
-    }
-
-    public void setFakeRegistrations(List<String[]> fakeRegistrations) {
-        this.fakeRegistrations = fakeRegistrations;
-    }
-
-    /**
-     * Load fake registration records from spring injected list ...if they have been injected
-     * @param contextInfo
-     */
-    private void initializeCourseRegistrationMap(ContextInfo contextInfo) {
-
-        for (String[] fakeReg : fakeRegistrations) {
-            if (fakeReg.length<3) {
-                LOGGER.warn("fakeRegistration ignored due to missing triplet (required: studentId, term, courseCode), got: "+fakeReg);
-            } else {
-                fakeRegister(contextInfo, fakeReg[0], fakeReg[1],fakeReg[2]);
-            }
-        }
-    }
-
-    /**
-     * Load fake registration record
-     * @param contextInfo
-     * @param studentId  ID of student to load fake registration record for
-     * @param termId  ID of term (e.g. "kuali.atp.2012Spring") to load fake registration record
-     * @param courseCode course code (e.g. BSCI441 )
-     */
-    private void fakeRegister(ContextInfo contextInfo, String studentId, String termId, String courseCode) {
-        CourseRegistrationInfo regInfo = new CourseRegistrationInfo();
-        regInfo.setStudentId(studentId);
-        regInfo.setCourseOfferingId(getCourseIdByCodeAndTerm(contextInfo, termId, courseCode));
-        regInfo.setCredits("3"); ///default credit hours to 3 for all
-        regInfo.setGradingOptionId("def");
-        try { regInfo.setEffectiveDate(new KSDateTimeFormatter("dd/MM/yyyy").parse("01/01/2001")); } catch(Exception e) {}
-        regInfo.setId(UUID.randomUUID().toString()); //uuid generated via. oracle sql: select SYS_GUID() from dual;
-        regInfo.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);  //seems wrong...but copied from existing code below
-        regInfo.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
-        regInfo.setMeta(newMeta(contextInfo));
-        crMap.put(regInfo.getCourseOfferingId(), regInfo);
-    }
-
-    /**
-     * Lookup courseId for the indicated termId and courseCode
-     * @param contextInfo
-     * @param termId ID of term (e.g. "kuali.atp.2012Spring")
-     * @param courseCode course code (e.g. BSCI441 )
-     * @return courseId (may be first of several offerings
-     */
-    private String getCourseIdByCodeAndTerm(ContextInfo contextInfo, String termId, String courseCode) {
-        String courseOfferingId=null;
-        List<String> courseOfferingIds = null;
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.like("courseOfferingCode", courseCode + "%"),
-                PredicateFactory.equalIgnoreCase("atpId", termId)),
-                PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
-        QueryByCriteria criteria = qbcBuilder.build();
-        try {
-            courseOfferingIds = getCourseOfferingService().searchForCourseOfferingIds(criteria, contextInfo);
-        } catch (Exception e) {
-            String errMsg = "error finding course offering: " + e.getMessage();
-            LOGGER.error(errMsg,e);
-            throw new RuntimeException(errMsg);
-        }
-        if (courseOfferingIds!=null & courseOfferingIds.size()>0) {
-            courseOfferingId=courseOfferingIds.get(0);
-        }
-        return courseOfferingId;
-    }
-
+    
     @Override
 	public void clear() {
 		this.arMap.clear();
@@ -198,11 +118,6 @@ public class CourseRegistrationServiceMockImpl
     public List<CourseRegistrationInfo> getCourseRegistrationsByStudent(String studentId, ContextInfo contextInfo) 
         throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        if (!this.crInitialized)     {
-            this.initializeCourseRegistrationMap(contextInfo);
-            this.crInitialized=true;
-        }
-
         List<CourseRegistrationInfo> ret = new ArrayList<CourseRegistrationInfo>();
         for (CourseRegistrationInfo cr : getCourseRegistrations(contextInfo)) {
             if (cr.getStudentId().equals(studentId)) {
