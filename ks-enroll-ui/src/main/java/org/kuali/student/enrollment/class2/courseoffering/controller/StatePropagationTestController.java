@@ -23,6 +23,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -243,38 +244,23 @@ public class StatePropagationTestController extends UifControllerBase {
     }
 
     private SocInfo loadSocByTerm(StringBuilder stringBuilder, String termId){
-        List<String> socIds;
         SocInfo soc = null;
         try {
-            socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(termId, getContextInfo());
-        } catch (Exception e) {
-            LOG.error("Error calling getSocIdsByTerm - " + termId);
-            stringBuilder.append("\n" )
-                            .append( "Error calling SOC: " )
-                            .append( e.getMessage() );
-            return null;
-        }
-
-        if (socIds != null && !socIds.isEmpty()){
-            //For M5, it should have only one SOC
-            if (socIds.size() > 1){
-                LOG.error("More than one SOC found for a term");
-                stringBuilder.append("\n Error calling SOC: More than one SOC found for a term");
-                return null;
-            }
-
-
-            try {
-                soc = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(0), getContextInfo());
+            soc = CourseOfferingSetUtil.getMainSocForTermId(termId, getContextInfo());
+            if (soc != null) {
                 appendHtmlSpanForState(stringBuilder, "soc", getStateName(soc.getStateKey()));
                 appendHtmlSpanForState(stringBuilder, "soc_scheduling", getStateName(soc.getSchedulingStateKey()));
-            } catch (Exception e) {
-                LOG.error("Error calling getSoc - " + socIds.get(0));
-                stringBuilder.append("\n")
-                                .append( "Error calling SOC: " )
-                                .append( e.getMessage() );
+            } else {
+                LOG.error("Error getting main soc given a term id");
+                stringBuilder.append("\n Error calling SOC: Zero or more than one SOC found for a term");
                 return null;
             }
+        } catch (Exception e) {
+            LOG.error("Error calling getSoc");
+            stringBuilder.append("\n")
+                    .append( "Error calling SOC: " )
+                    .append( e.getMessage() );
+            return null;
         }
 
         return soc;

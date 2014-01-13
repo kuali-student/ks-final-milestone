@@ -119,6 +119,11 @@
         <property name="socService" ref="socService"/>
     </bean>
 
+    <!-- KSENROLL-8401 -->
+    <bean id="socUtil" class="org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil" >
+        <property name="socService" ref="socService"/>
+    </bean>
+
 
 
 </beans>

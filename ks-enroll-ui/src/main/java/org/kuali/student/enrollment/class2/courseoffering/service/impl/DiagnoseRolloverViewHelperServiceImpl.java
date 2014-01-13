@@ -20,6 +20,7 @@ import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
@@ -75,13 +76,12 @@ public class DiagnoseRolloverViewHelperServiceImpl extends ViewHelperServiceImpl
     @Override
     public boolean termHasSoc(TermInfo termInfo) throws Exception {
         ContextInfo contextInfo = new ContextInfo();
-        List<String> socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(termInfo.getId(), contextInfo);
-        List<SocInfo> socInfos = CourseOfferingManagementUtil.getSocService().getSocsByIds(socIds, contextInfo);
-        for (SocInfo socInfo: socInfos) {
-            if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                return true;
-            }
+
+        SocInfo socInfo = CourseOfferingSetUtil.getMainSocForTermId(termInfo.getId(), contextInfo);
+        if (socInfo != null) {
+            return true;
         }
+
         return false;
     }
 

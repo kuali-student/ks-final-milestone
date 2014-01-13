@@ -64,6 +64,10 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
@@ -941,16 +945,6 @@ public class CourseOfferingManagementUtil {
         return props;
     }
 
-    public static SocInfo getMainSocForTerm(TermInfo term, ContextInfo contextInfo) throws Exception {
-        List<String> socIds = getSocService().getSocIdsByTerm(term.getId(), contextInfo);
-        List<SocInfo> socInfos = getSocService().getSocsByIds(socIds, contextInfo);
-        for (SocInfo socInfo: socInfos) {
-            if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                return socInfo;
-            }
-        }
-        return null;
-    }
     public static HashMap getSchedulingStateAndNameHash() throws Exception {
         if (scheduleStateHm == null) {
             scheduleStateHm = new HashMap<String, String>();

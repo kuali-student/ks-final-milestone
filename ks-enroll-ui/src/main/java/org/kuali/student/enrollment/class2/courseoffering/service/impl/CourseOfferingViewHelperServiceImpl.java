@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingRolloverManagementForm;
@@ -81,27 +82,6 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
         return mainSocCount;
     }
 
-    private SocInfo _getUniqueMainSoc(List<String> socIds) {
-        SocInfo mainSoc = null;
-        int mainSocCount = 0;
-        try {
-            for (String socId: socIds) {
-                SocInfo socInfo = CourseOfferingManagementUtil.getSocService().getSoc(socId, new ContextInfo());
-                if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                    mainSocCount++;
-                    if (mainSocCount > 1) {
-                        mainSoc = null;
-                    } else if (mainSocCount == 1) {
-                        mainSoc = socInfo;
-                    }
-                }
-            }
-        } catch (Exception e) {
-            return null;
-        }
-        return mainSoc;
-    }
-
     @Override
     public boolean termHasSoc(String termId, CourseOfferingRolloverManagementForm form) {
         try {
@@ -142,8 +122,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     @Override
     public SocInfo getMainSoc(String termId) {
         try {
-            List<String> socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(termId, new ContextInfo());
-            return _getUniqueMainSoc(socIds);
+            return CourseOfferingSetUtil.getMainSocForTermId(termId, new ContextInfo());
         } catch (Exception e) {
             return null;
         }
@@ -152,16 +131,14 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     @Override
     public SocRolloverResultInfo performReverseRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         try {
-            List<String> socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(sourceTermId, new ContextInfo());
-            if (socIds == null || socIds.isEmpty()) {
+            SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(sourceTermId, new ContextInfo());
+
+            if (soc == null) {
                 form.setStatusField("No SOCS in source term");
-                return null;
-            } else if (socIds.size() > 1) {
-                form.setStatusField("Too many SOCS in source term: " + socIds.size());
                 return null;
             } else {
                 int firstValue = 0;
-                String sourceSocId = socIds.get(firstValue);
+                String sourceSocId = soc.getId();
                 List<String> resultIds = CourseOfferingManagementUtil.getSocService().getSocRolloverResultIdsBySourceSoc(sourceSocId, new ContextInfo());
                 if (resultIds == null || resultIds.isEmpty()) {
                     form.setStatusField("No rollover results for source term");
@@ -185,8 +162,7 @@ public class CourseOfferingViewHelperServiceImpl extends ViewHelperServiceImpl i
     public boolean performRollover(String sourceTermId, String targetTermId, CourseOfferingRolloverManagementForm form) {
         try {
             ContextInfo context = ContextUtils.getContextInfo();
-            List<String> socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(sourceTermId, context);
-            SocInfo socInfo = _getUniqueMainSoc(socIds);
+            SocInfo socInfo = CourseOfferingSetUtil.getMainSocForTermId(sourceTermId, context);
             if (socInfo == null) {
                 GlobalVariables.getMessageMap().putError("sourceTermCode", "error.rollover.sourceTerm.noSoc");
             } else {

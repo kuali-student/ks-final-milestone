@@ -32,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
@@ -421,16 +422,10 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             }
 
             //Set socInfo
-            List<String> socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(term.getId(), ContextUtils.createDefaultContextInfo());
-            if (socIds != null && !socIds.isEmpty()) {
-                List<SocInfo> targetSocs = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocsByIds(socIds, ContextUtils.createDefaultContextInfo());
-                for (SocInfo soc: targetSocs) {
-                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        wrapper.setSocInfo(soc);
-                    }
-                }
+            SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(term.getId(), ContextUtils.createDefaultContextInfo());
+            if (soc != null) {
+                wrapper.setSocInfo(soc);
             }
-
             wrapper.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(wrapper.getTerm(), wrapper.getSocInfo(),
                     CourseOfferingManagementUtil.getStateService(), CourseOfferingManagementUtil.getAcademicCalendarService(), contextInfo));
 

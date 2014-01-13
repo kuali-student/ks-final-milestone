@@ -17,6 +17,7 @@
 package org.kuali.student.poc.eventproc.handler.constraint;
 
 import org.apache.xerces.xs.AttributePSVI;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
@@ -280,7 +281,8 @@ public class ActivityOfferingStateChangeConstraintUtil {
                                                    ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         ConstraintResult result = new ConstraintResult();
-        SocInfo mainSoc = _getMainSoc(aoInfo, processor, context);
+        SocInfo mainSoc = CourseOfferingSetUtil.getMainSocForTermId(aoInfo.getTermId(), context);
+
         String fromState = aoInfo.getStateKey();
         // Check if socState is valid
         if (mainSoc == null) {
@@ -308,25 +310,4 @@ public class ActivityOfferingStateChangeConstraintUtil {
 
         return result;
     }
-
-    private static SocInfo _getMainSoc(ActivityOfferingInfo aoInfo, KSInternalEventProcessor processor, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        List<String> socIds = processor.getSocService().getSocIdsByTerm(aoInfo.getTermId(), context);
-        if (socIds == null || socIds.isEmpty()) {
-            throw new OperationFailedException("No SOC found for term: " + aoInfo.getTermId());
-        }
-        SocInfo mainSoc = null;
-        for (String socId: socIds) {
-            SocInfo socInfo = processor.getSocService().getSoc(socId, context);
-            if (CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY.equals(socInfo.getTypeKey())) {
-                // Search for main SOC
-                mainSoc = socInfo;
-                break;
-            }
-        }
-        return mainSoc;
-    }
-
-
 }

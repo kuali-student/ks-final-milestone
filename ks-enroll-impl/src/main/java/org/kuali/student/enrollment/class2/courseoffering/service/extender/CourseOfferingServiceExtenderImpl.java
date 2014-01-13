@@ -22,6 +22,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseO
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.RegistrationGroupTransformer;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -500,14 +501,8 @@ public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceE
     private SocInfo getMainSoc(String termId, ContextInfo context)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException {
-        List<String> socIds = socService.getSocIdsByTerm(termId, context);
-        for (String socId: socIds) {
-            SocInfo socInfo = socService.getSoc(socId, context);
-            if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                return socInfo;
-            }
-        }
-        return null;
+
+        return CourseOfferingSetUtil.getMainSocForTermId(termId, context);
     }
 
     /**

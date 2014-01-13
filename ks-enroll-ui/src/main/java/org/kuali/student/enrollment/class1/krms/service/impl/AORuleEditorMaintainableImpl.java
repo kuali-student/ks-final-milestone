@@ -37,6 +37,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCont
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -282,11 +283,11 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 int firstTermInfo = 0;
                 TermInfo term = terms.get(firstTermInfo);
                 //Checking soc
-                List<String> socIds = getSocService().getSocIdsByTerm(term.getId(), createContextInfo());
-                if (socIds.isEmpty()) {
+                SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(term.getId(), createContextInfo());
+                if (soc == null) {
                     GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
                 } else {
-                    socStateKey = getSocStateKey(socIds);
+                    socStateKey = soc.getStateKey();
                 }
                 //Set the contextbar details.
                 form.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(term, socStateKey,
@@ -295,22 +296,6 @@ public class AORuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         } catch (Exception e) {
             throw new RuntimeException("Could not populate context bar.");
         }
-    }
-
-    private String getSocStateKey(List<String> socIds) {
-        if (socIds != null && !socIds.isEmpty()) {
-            try {
-                List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, createContextInfo());
-                for (SocInfo soc : targetSocs) {
-                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        return soc.getStateKey();
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("Could not retrive targetSocs for context bar.");
-            }
-        }
-        return null;
     }
 
     protected RuleViewTreeBuilder getViewTreeBuilder() {

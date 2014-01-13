@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -114,26 +115,6 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         this.schedulingService = schedulingService;
     }
 
-    private SocInfo _findTargetSoc(String targetTermId) {
-        try {
-            List<String> socIds = this._getSocService().getSocIdsByTerm(targetTermId, new ContextInfo());
-            if (socIds != null) {
-                if (socIds.isEmpty()) {
-                    return null;
-                }
-                List<SocInfo> targetSocs = this._getSocService().getSocsByIds(socIds, new ContextInfo());
-                for (SocInfo soc: targetSocs) {
-                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        return soc;
-                    }
-                }
-            }
-            return null;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-
     private boolean _hasOfferingsInTargetTerm(TermInfo targetTerm) {
         if (socDao == null) {
             return false; // Mostly to satisfy Norm's mock impls
@@ -200,7 +181,7 @@ public class CourseOfferingSetServiceBusinessLogicImpl implements CourseOffering
         }
 
         // Reuse SOC in target term
-        SocInfo targetSoc = _findTargetSoc(targetTermId);
+        SocInfo targetSoc = CourseOfferingSetUtil.getMainSocForTermId(targetTermId, context);
         boolean foundTargetSoc = true;
         if (targetSoc == null) {
             // Did not find target SOC, make a new one

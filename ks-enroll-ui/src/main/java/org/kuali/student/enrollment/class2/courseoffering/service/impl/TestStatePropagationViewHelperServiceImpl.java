@@ -35,6 +35,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.util.Transitio
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -1060,12 +1061,10 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
     private SocInfo _getMainSocForTerm(String termCode) throws Exception {
         TermInfo mainTerm = getTermByTermCode(termCode);
         ContextInfo contextInfo = new ContextInfo();
-        List<String> socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(mainTerm.getId(), contextInfo);
-        List<SocInfo> socInfos = CourseOfferingManagementUtil.getSocService().getSocsByIds(socIds, contextInfo);
-        for (SocInfo socInfo: socInfos) {
-            if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                return socInfo;
-            }
+
+        SocInfo socInfo = CourseOfferingSetUtil.getMainSocForTermId(mainTerm.getId(), contextInfo);
+        if (socInfo != null) {
+            return socInfo;
         }
         return null;
     }

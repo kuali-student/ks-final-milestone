@@ -25,6 +25,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory;
@@ -101,37 +102,20 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             LOG.info("Building Manage SOC model for the term " + socForm.getTermCode());
         }
 
-        List<String> socIds;
-
+        SocInfo socInfo;
         try {
-            socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(socForm.getTermInfo().getId(), createContextInfo());
+            socInfo = CourseOfferingSetUtil.getMainSocForTermId(socForm.getTermInfo().getId(), createContextInfo());
         } catch (Exception e){
             if (LOG.isDebugEnabled()){
-                LOG.debug("Getting SOCs for the term " + socForm.getTermCode() + " results in service error");
+                LOG.debug("Error getting soc");
             }
             throw convertServiceExceptionsToUI(e);
         }
 
-        if (socIds.isEmpty()){
+        if (socInfo == null){
             GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_INFO, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
             socForm.clear();
             return;
-        }
-
-        if (socIds.size() > 1){   //Handle multiple soc when it is implemented (Not for M5)
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_MULTIPLE_SOCS);
-            return;
-        }
-
-        SocInfo socInfo;
-        int firstId = 0;
-        try {
-            socInfo = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(firstId), createContextInfo());
-        } catch (Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Error getting the soc [id=" + socIds.get(firstId) + "]");
-            }
-            throw convertServiceExceptionsToUI(e);
         }
 
         socForm.setSocInfo(socInfo);

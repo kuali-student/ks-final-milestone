@@ -19,6 +19,7 @@ import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluator;
 import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluatorImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -503,8 +504,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     private boolean isSocPublished(String termId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         boolean isSocPublished = false;
-        List<String> socIds = this.getSocService().getSocIdsByTerm(termId, context);
-        String socStateKey = this.getSocStateKey(socIds, context);
+        String socStateKey = null;
+
+        SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(termId, context);
+        if (soc != null) {
+            socStateKey = soc.getStateKey();
+        }
+
         if (CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY.equals(socStateKey)
                 || CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY.equals(socStateKey)) {
             isSocPublished = true;
@@ -804,24 +810,6 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         }
         return null;
     }
-
-    private String getSocStateKey(List<String> socIds, ContextInfo context) {
-        if (socIds != null && !socIds.isEmpty()) {
-            try {
-                List<SocInfo> targetSocs = this.getSocService().getSocsByIds(socIds, context);
-                for (SocInfo soc : targetSocs) {
-                    if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                        return soc.getStateKey();
-                    }
-                }
-            } catch (Exception e) {
-                throw new RuntimeException("Could not retrive targetSocs for context bar.");
-            }
-        }
-        return null;
-    }
-
-
 
     public AtpService getAtpService() {
         return atpService;

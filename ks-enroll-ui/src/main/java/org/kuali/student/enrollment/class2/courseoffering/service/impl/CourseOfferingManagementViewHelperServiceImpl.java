@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
@@ -164,17 +165,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             form.setTermInfo(terms.get(0));
 
             //Checking soc
-            List<String> socIds;
-            try {
-                socIds = CourseOfferingManagementUtil.getSocService().getSocIdsByTerm(form.getTermInfo().getId(), createContextInfo());
-            } catch (Exception e) {
-                throw convertServiceExceptionsToUI(e);
-            }
+            SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(form.getTermInfo().getId(), createContextInfo());
 
-            if (socIds.isEmpty()) {
+            if (soc == null) {
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, ManageSocConstants.MessageKeys.ERROR_SOC_NOT_EXISTS);
             } else {
-                setSocStateKeys(form, socIds);
+                setSocStateKeys(form, soc);
 
                 blockUserIfSocStateIs(form, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS, ManageSocConstants.MessageKeys.ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_IS_IN_PROGRESS);
                 blockUserIfSocStateIs(form, CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, ManageSocConstants.MessageKeys.ERROR_CANNOT_ACCESS_COURSE_OFFERING_WHILE_SOC_IS_PUBLISHING);
@@ -257,7 +253,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         loadCourseOfferings(searchRequest, form);
 
-       /* if (form.getCourseOfferingResultList().isEmpty()) {
+        /* if (form.getCourseOfferingResultList().isEmpty()) {
             LOG.error("Error: Can't find any Course Offering for a Subject Code: " + subjectCode + " in term: " + termId);
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CourseOfferingConstants.COURSEOFFERING_MSG_ERROR_NO_COURSE_OFFERING_IS_FOUND, "Subject Code", subjectCode, termId);
         }*/
@@ -2296,25 +2292,20 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
     }
 
-    private void setSocStateKeys(CourseOfferingManagementForm form, List<String> socIds) throws Exception {
-        if (socIds != null && !socIds.isEmpty()) {
-            List<SocInfo> targetSocs = CourseOfferingManagementUtil.getSocService().getSocsByIds(socIds, createContextInfo());
-            for (SocInfo soc : targetSocs) {
-                if (soc.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                    form.setSocStateKey(soc.getStateKey());
-                    form.setSocSchedulingStateKey(soc.getSchedulingStateKey());
+    private void setSocStateKeys(CourseOfferingManagementForm form, SocInfo soc) throws Exception {
+        if (soc != null) {
+            form.setSocStateKey(soc.getStateKey());
+            form.setSocSchedulingStateKey(soc.getSchedulingStateKey());
 
-                    //TODO: Set SOC State - temporary display, to be removed after testing is finished
+            //TODO: Set SOC State - temporary display, to be removed after testing is finished
 
-                    if (StringUtils.isNotBlank(soc.getStateKey())) {
-                        String socState = getStateService().getState(soc.getStateKey(), createContextInfo()).getName();
-                        socState = (socState.substring(0, 1)).toUpperCase() + socState.substring(1, socState.length());
-                        form.setSocState(socState);
-                    }
-
-                    return;
-                }
+            if (StringUtils.isNotBlank(soc.getStateKey())) {
+                String socState = getStateService().getState(soc.getStateKey(), createContextInfo()).getName();
+                socState = (socState.substring(0, 1)).toUpperCase() + socState.substring(1, socState.length());
+                form.setSocState(socState);
             }
+
+            return;
         }
     }
 

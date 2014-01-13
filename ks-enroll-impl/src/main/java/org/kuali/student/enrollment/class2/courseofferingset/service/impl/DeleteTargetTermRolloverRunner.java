@@ -17,6 +17,7 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
@@ -65,25 +66,10 @@ public class DeleteTargetTermRolloverRunner implements Runnable {
         this.termId = termId;
     }
 
-    private SocInfo _getMainSoc(List<String> socIds) {
-        try {
-            List<SocInfo> socInfoList = socService.getSocsByIds(socIds, new ContextInfo());
-            for (SocInfo socInfo: socInfoList) {
-                if (socInfo.getTypeKey().equals(CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY)) {
-                    return socInfo;
-                }
-            }
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
-
     @Override
     public void run() {
         try {
-            List<String> socIds = socService.getSocIdsByTerm(termId, new ContextInfo());
-            SocInfo socInfo = _getMainSoc(socIds);
+            SocInfo socInfo = CourseOfferingSetUtil.getMainSocForTermId(termId, new ContextInfo());
             if (socInfo == null) {
                 return;
             }

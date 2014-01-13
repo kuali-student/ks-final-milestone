@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -195,19 +196,19 @@ public class CourseOfferingServiceValidationDecorator
         }
         if (aoTypes.size() != activityKeys.size()) {
             throw new DataValidationErrorException("Number of type keys do not match: Activity types (" + activityKeys.size() +
-                                ") vs AO types (" + aoTypes.size() + ")");
+                    ") vs AO types (" + aoTypes.size() + ")");
         }
         Set<String> usedActivtyTypeKeys = new HashSet<String>(); // To avoid duplication of Activity keys
         for (String aoTypeKey: aoTypes) {
             List<TypeTypeRelationInfo> typeTypeRelationInfos =
-                typeService.getTypeTypeRelationsByRelatedTypeAndType(aoTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, context);
+                    typeService.getTypeTypeRelationsByRelatedTypeAndType(aoTypeKey, TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, context);
             if (typeTypeRelationInfos == null || typeTypeRelationInfos.size() != 1) {
                 int size = 0;
                 if (typeTypeRelationInfos != null) {
                     size = typeTypeRelationInfos.size();
                 }
                 throw new DataValidationErrorException("There should be exactly one Activity type for AO type (" + aoTypeKey
-                                    + ").  There are " + size + " Activity types instead");
+                        + ").  There are " + size + " Activity types instead");
             }
             String foundActivityType = typeTypeRelationInfos.get(0).getOwnerTypeKey();
             if (usedActivtyTypeKeys.contains(foundActivityType)) {
@@ -489,10 +490,10 @@ public class CourseOfferingServiceValidationDecorator
 
         // Check for duplicate populations
         for(SeatPoolDefinitionInfo seatPool : existingSeatPools){
-             String newPopId = newSeatPool.getPopulationId();
-             if(newPopId != null && newPopId.equals(seatPool.getPopulationId())){
-                 throw new AlreadyExistsException("Unable to addSeatPoolDefinitionToActivityOffering. Cannot have duplicate populations. ActitiyOffreingId["+ activityOfferingId +"] : SeatPoolId["+ seatPool.getId() +"] : PopulationId["+ seatPool.getPopulationId() +"]");
-             }
+            String newPopId = newSeatPool.getPopulationId();
+            if(newPopId != null && newPopId.equals(seatPool.getPopulationId())){
+                throw new AlreadyExistsException("Unable to addSeatPoolDefinitionToActivityOffering. Cannot have duplicate populations. ActitiyOffreingId["+ activityOfferingId +"] : SeatPoolId["+ seatPool.getId() +"] : PopulationId["+ seatPool.getPopulationId() +"]");
+            }
         }
 
         return getNextDecorator().addSeatPoolDefinitionToActivityOffering(seatPoolDefinitionId, activityOfferingId, contextInfo);    //To change body of overridden methods use File | Settings | File Templates.
@@ -742,13 +743,10 @@ public class CourseOfferingServiceValidationDecorator
     private String getSocState( String termId, ContextInfo contextInfo ) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
 
         String socStateKey = StringUtils.EMPTY;
-        List<String> socIds = getSocService().getSocIdsByTerm( termId, contextInfo );
-        if( !socIds.isEmpty() ) {
-            for( SocInfo soc : this.getSocService().getSocsByIds(socIds, contextInfo) ) {
-                if( soc.getTypeKey().equals( CourseOfferingSetServiceConstants.MAIN_SOC_TYPE_KEY ) ) {
-                    socStateKey = soc.getStateKey();
-                }
-            }
+
+        SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(termId, contextInfo);
+        if (soc != null) {
+            socStateKey = soc.getStateKey();
         }
 
         return socStateKey;
@@ -801,11 +799,11 @@ public class CourseOfferingServiceValidationDecorator
     }
 
     public CourseOfferingService getCoService() {
-    if( coService == null ) {
-        coService = (CourseOfferingService) GlobalResourceLoader.getService( new QName( CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART ) );
+        if( coService == null ) {
+            coService = (CourseOfferingService) GlobalResourceLoader.getService( new QName( CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART ) );
+        }
+        return coService;
     }
-    return coService;
-}
 
     public void setCoService( CourseOfferingService coService ) {
         this.coService = coService;

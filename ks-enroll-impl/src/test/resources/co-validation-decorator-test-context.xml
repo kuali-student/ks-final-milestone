@@ -76,5 +76,10 @@
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
     <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LrcServiceMockImpl"/>
     <bean id="examOfferingServiceFacade" class="org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacadeImpl"/>
+
+    <!-- KSENROLL-8401 -->
+    <bean id="socUtil" class="org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil" >
+        <property name="socService" ref="socService"/>
+    </bean>
 </beans>
 

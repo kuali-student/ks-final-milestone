@@ -28,6 +28,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.helper.ActivityOfferingScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -91,13 +92,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
     public void loadSchedules(ActivityOfferingWrapper wrapper,ContextInfo defaultContextInfo){
 
         try {
-            List<String> socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(wrapper.getAoInfo().getTermId(), defaultContextInfo);
-
-            if (socIds != null && !socIds.isEmpty()){
-                if (socIds.size() > 1){
-                    throw new RuntimeException("More than one SOC found for a term");
-                }
-                SocInfo soc = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(0),defaultContextInfo);
+            SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(wrapper.getAoInfo().getTermId(), defaultContextInfo);
+            if (soc != null){
                 wrapper.setSocInfo(soc);
             }
         }catch (Exception e){
@@ -710,28 +706,26 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
         String aoCurrentState = activityOfferingInfo.getStateKey();
 
         // Find the term-level SOC for this activity offering and find out its state
-        List<String> socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(activityOfferingInfo.getTermId(), context);
-
-        String mainSocId = KSCollectionUtils.getRequiredZeroElement(socIds);
-        SocInfo socInfo = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(mainSocId, context);
-
+        SocInfo socInfo = CourseOfferingSetUtil.getMainSocForTermId(activityOfferingInfo.getTermId(), context);
         String aoNextState = null;
 
         // If the SOC is in Final Edits state, and the Scheduled Activity Offering is in Draft state, set the Activity Offering state to Approved
-        if (socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)) {
-            if (LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY.equals(activityOfferingInfo.getStateKey())) {
-                aoNextState = LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY;
+        if (socInfo != null) {
+            if (socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY)) {
+                if (LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY.equals(activityOfferingInfo.getStateKey())) {
+                    aoNextState = LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY;
+                }
             }
-        }
-        // If the SOC is in Final Edits state, and the Scheduled Activity Offering is in Draft state, AND the Activity Offering is Scheduled, then set the Activity Offering State to Offered
-        else if (socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
-            if (LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY.equals(activityOfferingInfo.getStateKey())) {
-                String aoSchedulingState = activityOfferingInfo.getSchedulingStateKey();
-                if (LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY.equals(aoSchedulingState) ||
-                        LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY.equals(aoSchedulingState)) {
-                    // KSENROLL-10792 Should allow AO scheduling state of exempt (which indicates a TBA)
-                    // to cause AO state to become offered (before this, it was not changed).
-                    aoNextState = LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY;
+            // If the SOC is in Final Edits state, and the Scheduled Activity Offering is in Draft state, AND the Activity Offering is Scheduled, then set the Activity Offering State to Offered
+            else if (socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)) {
+                if (LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY.equals(activityOfferingInfo.getStateKey())) {
+                    String aoSchedulingState = activityOfferingInfo.getSchedulingStateKey();
+                    if (LuiServiceConstants.LUI_AO_SCHEDULING_STATE_SCHEDULED_KEY.equals(aoSchedulingState) ||
+                            LuiServiceConstants.LUI_AO_SCHEDULING_STATE_EXEMPT_KEY.equals(aoSchedulingState)) {
+                        // KSENROLL-10792 Should allow AO scheduling state of exempt (which indicates a TBA)
+                        // to cause AO state to become offered (before this, it was not changed).
+                        aoNextState = LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY;
+                    }
                 }
             }
         }

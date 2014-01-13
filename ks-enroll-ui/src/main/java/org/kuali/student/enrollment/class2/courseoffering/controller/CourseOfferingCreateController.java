@@ -30,6 +30,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOff
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.common.util.EnrollConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -323,11 +324,10 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
             } else {
                 // check if SOC state is "published"
                 ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-                List<String> socIds = CourseOfferingManagementUtil.getCourseOfferingSetService().getSocIdsByTerm(term.getId(), contextInfo);
-                int firstSocID = 0;
-                if (socIds != null && !socIds.isEmpty()){
+
+                SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(term.getId(), contextInfo);
+                if (soc != null){
                     // check if user authz for the soc
-                    SocInfo soc = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socIds.get(firstSocID), contextInfo);
                     coWrapper.setSocInfo(soc);
                     boolean canOpenViewSoc = form.getView().getAuthorizer().canOpenView(form.getView(), form, user);
 

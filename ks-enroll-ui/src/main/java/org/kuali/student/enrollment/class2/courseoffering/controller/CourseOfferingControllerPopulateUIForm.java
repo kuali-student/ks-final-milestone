@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.impl.DefaultOp
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacadeConstants;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -271,7 +272,7 @@ public class CourseOfferingControllerPopulateUIForm {
         if (coId != null) {
             try {
                 // configure context bar
-                SocInfo soc = CourseOfferingManagementUtil.getMainSocForTerm(coCreateWrapper.getTerm(), contextInfo);
+                SocInfo soc = CourseOfferingSetUtil.getMainSocForTermId(coCreateWrapper.getTerm().getId(), contextInfo);
                 coCreateWrapper.setSocInfo(soc);
                 coCreateWrapper.setContextBar(CourseOfferingContextBar.NEW_INSTANCE(coCreateWrapper.getTerm(), coCreateWrapper.getSocInfo(),
                         CourseOfferingManagementUtil.getStateService(), CourseOfferingManagementUtil.getAcademicCalendarService(), contextInfo));

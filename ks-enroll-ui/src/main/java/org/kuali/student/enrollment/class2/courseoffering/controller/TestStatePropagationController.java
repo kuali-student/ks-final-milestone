@@ -24,7 +24,9 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceAftDecorator;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -166,9 +168,7 @@ public class TestStatePropagationController extends UifControllerBase {
 
     private SocInfo getTargetSocInfoForTerm( String targetTermCode, ContextInfo contextInfo ) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException, DoesNotExistException {
         String targetTermId = this.getAcalService().getTermsByCode( targetTermCode, contextInfo ).get(0).getId();
-        String targetSocId = this.getSocService().getSocIdsByTerm( targetTermId, contextInfo ).get(0);
-
-        return this.getSocService().getSoc( targetSocId, contextInfo );
+        return CourseOfferingSetUtil.getMainSocForTermId(targetTermId, contextInfo);
     }
 
     private void putBypassBusinessLogicFlagOntoContext( ContextInfo contextInfo ) {
