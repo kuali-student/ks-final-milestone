@@ -564,9 +564,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseInfo> searchForCourses(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM-429
-        throw new UnsupportedOperationException("searchForCourses");
-        // To change body of implemented methods use File | Settings | File Templates.
+        List<CluInfo> clus = cluService.searchForClus(criteria, contextInfo);
+        List<CourseInfo> courses = new ArrayList<CourseInfo>();
+        for (CluInfo clu : clus){
+            try {
+                courses.add(courseAssembler.assemble(clu, null, false, contextInfo));
+            } catch (AssemblyException e) {
+                LOG.error("Error assembling course", e);
+                throw new OperationFailedException("Error assembling course");
+            }
+        }
+       return courses;
     }
 
     // TODO KSCM-429 Service Method Comparison Implementation
