@@ -46,18 +46,6 @@
         <property name="testQuery" value="${jdbc.testQuery}" />
     </bean>
 
-    <bean id="postProcessorList" class="java.util.ArrayList">
-        <constructor-arg index="0">
-            <list>
-                <bean id="ricePostProcessor"
-                    class="org.kuali.rice.krad.app.persistence.jpa.RicePersistenceUnitPostProcessor">
-                    <property name="jtaDataSource"
-                        ref="lumDataSource" />
-                </bean>
-            </list>
-        </constructor-arg>
-    </bean>
-
     <bean id="vendorAdapter" class="${jpa.vendorAdapter}" depends-on="propertyConfigurer">
         <property name="databasePlatform" value="${jpa.databasePlatform}" />
         <property name="showSql" value="${jpa.showSql}" />
@@ -68,7 +56,6 @@
         class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
         <property name="jpaVendorAdapter" ref="vendorAdapter" />
         <property name="jpaPropertyMap" value="${propertiesPrefix.jpa.properties}"/>
-        <property name="persistenceUnitPostProcessors" ref="postProcessorList" />
     </bean>
 
     <bean id="entityManagerFactory" parent="defaultEntityManagerFactory">
