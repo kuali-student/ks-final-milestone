@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.joda.time.LocalDateTime;
 import org.kuali.student.r2.common.infc.TimeOfDay;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 
@@ -132,13 +133,23 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
         if (date == null || timeOfDay == null) {
             return null;
         }
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        cal.set(Calendar.HOUR_OF_DAY, timeOfDay.getHour());
-        cal.set(Calendar.MINUTE, (timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute()));
-        cal.set(Calendar.SECOND, (timeOfDay.getSecond() == null ? 0 : timeOfDay.getSecond()));
-        cal.set(Calendar.MILLISECOND, 0); // Get rid of any fractional part
-        return cal.getTime();
+        // This is JODA which is the preferred way to deal with time.
+        // One issue: Java's Date class doesn't have a way to store the timezone associated with the date.
+        // Instead, it saves millis since Jan 1, 1970 (GMT), and uses the local machine's timezone to
+        // interpret it (although, it can also handle UTC as a timezone).  To store the timezone, you either
+        // need Joda's LocalDateTime or use the Calendar class.  Thus, it is recommended that you either
+        // pass in the date relative to the current timezone, or perhaps redo this class where you pass
+        // a timezone in, and don't use a Date class, but use a Joda DateTime class. --cclin
+        LocalDateTime time = new LocalDateTime(date);
+        LocalDateTime result =
+                new LocalDateTime(time.getYear(),
+                        time.getMonthOfYear(),
+                        time.getDayOfMonth(),
+                        timeOfDay.getHour() == null ? 0 : timeOfDay.getHour(),
+                        timeOfDay.getMinute() == null ? 0 : timeOfDay.getMinute(),
+                        timeOfDay.getSecond() == null ? 0 : timeOfDay.getSecond(),
+                        0);
+        return result.toDate();
     }
 
     /**
