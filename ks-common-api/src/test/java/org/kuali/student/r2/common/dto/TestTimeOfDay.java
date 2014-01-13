@@ -104,7 +104,6 @@ public class TestTimeOfDay {
     }
 
     @Test
-    @Ignore
     // Deprecated method throws exception (which is why this test is now ignored)
     public void testSetMilliSeconds() {
         TimeOfDayInfo timeOfDay = new TimeOfDayInfo();
@@ -122,7 +121,6 @@ public class TestTimeOfDay {
     }
 
     @Test
-    @Ignore
     // Deprecated method throws exception (which is why this test is now ignored)
     public void testSetMilliSecondsTruncated() {
         TimeOfDayInfo timeOfDay = new TimeOfDayInfo();

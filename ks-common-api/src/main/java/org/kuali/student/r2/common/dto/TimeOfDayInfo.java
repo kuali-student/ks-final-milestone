@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.TimeOfDay;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeOfDayInfo", propOrder = {"hour", "minute", "second", "_futureElements" })
@@ -148,7 +149,7 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
     @Deprecated
     public Long getMilliSeconds() {
         // Use TimeOfDayHelper.getMillis(timeOfDayObj) instead
-        throw new RuntimeException("getMilliSeconds is deprecated");
+        return TimeOfDayHelper.getMillis(this);
     }
 
     /**
@@ -160,7 +161,10 @@ public class TimeOfDayInfo implements TimeOfDay, Comparable<TimeOfDay>, Serializ
     @Deprecated
     public void setMilliSeconds(Long milliSeconds) {
         // Use TimeOfDayHelper.setMillis to create a new TimeOfDayHelper
-        throw new RuntimeException("setMilliSeconds: Method is deprecated");
+        TimeOfDayInfo tod = TimeOfDayHelper.setMillis(milliSeconds);
+        this.setHour(tod.getHour());
+        this.setMinute(tod.getMinute());
+        this.setSecond(tod.getSecond());
     }
 
     /**
