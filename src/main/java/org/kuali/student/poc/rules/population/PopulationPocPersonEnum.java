@@ -23,7 +23,12 @@ public enum PopulationPocPersonEnum implements hasPersonId {
     STUDENT11("2011", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020011", "student11", "guptas@utoronto.ca", "student11", "guptas", true, "Sushmita", "Sen", "Gupta", "Female", "Ms.", "", "77 Clarke Boulevard", "", "Toronto", "ON", "N5S 6B1", "1995-06-22", ""),
     STUDENT12("2012", PopulationPocConstants.AFFILIATION_TYPE_STUDENT, "888020012", "student12", "solos@utoronto.ca", "student12", "solos", true, "Sushi", "San", "Solo", "Female", "Mrs.", "", "13 Elm Street", "", "North York", "ON", "O5S 4C1", "1995-12-12", ""),
     INSTRUCTOR1("3001", PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030001", "instructor1", "clintonb@umd.edu", "instructor1", "clintonb", false, "Bill", "", "Clinton", "Male", "Mr.", "", "11 Washington Street", "", "New York City", "NY", "12345", "1952-04-21", ""),
-    INSTRUCTOR2("3002", PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030002", "instructor2", "gandhis@utoronto.ca", "instructor2", "gandhis", true, "Sabrina", "", "Gandhi", "Female", "Mrs.", "", "35 Huron Street", "", "Toronto", "ON", "M5S 1A1", "1953-02-06", "");
+    INSTRUCTOR2("3002", PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030002", "instructor2", "gandhis@utoronto.ca", "instructor2", "gandhis", true, "Sabrina", "", "Gandhi", "Female", "Mrs.", "", "35 Huron Street", "", "Toronto", "ON", "M5S 1A1", "1953-02-06", ""),
+
+    // These persons will be added (and then removed) later to check the validity of the add/remove methods.
+    INSTRUCTOR3("3003", PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030003", "instructor3", "ibrahimy@utoronto.ca", "instructor3", "ibrahimy", true, "Yahya", "Adel", "Ibrahim", "Male", "Mr.", "", "1 Sidney Way", "", "Toronto", "ON", "M2S 5F4", "1971-12-16", ""),
+    INSTRUCTOR4("3004", PopulationPocConstants.AFFILIATION_TYPE_INSTRUCTOR, "999030004", "instructor4", "goodfellj@utoronto.ca", "instructor4", "goodfellj", true, "John", "Fitzgerald", "Goodfellow", "Male", "Mr.", "", "101 Ohio Crescent", "", "Scarborough", "ON", "M1K 3J1", "1971-03-26", "")
+    ;
 
     /////////////////
     // PROPERTIES

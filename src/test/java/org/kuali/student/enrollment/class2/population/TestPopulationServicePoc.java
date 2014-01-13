@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.poc.rules.population.PopulationPocPersonEnum;
 import org.kuali.student.poc.rules.population.PopulationPocStudentEnum;
+import org.kuali.student.poc.rules.population.PopulationPocUtilities;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
@@ -115,7 +116,7 @@ public class TestPopulationServicePoc {
         assertNull(dataLoader.getStudentPopulationId());
         assertNull(dataLoader.getUndergraduteStudentPopulationId());
 
-        // load the date
+        // load the data
         dataLoader.beforeTest();
 
         // now the values should be there
@@ -227,6 +228,73 @@ public class TestPopulationServicePoc {
         assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT9.getPersonId(), freshmenPop.getId(), date, contextInfo));
         assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT11.getPersonId(), freshmenPop.getId(), date, contextInfo));
         assertFalse(populationService.isMemberAsOfDate(PopulationPocStudentEnum.STUDENT12.getPersonId(), freshmenPop.getId(), date, contextInfo));
+
+    }
+
+    @Test
+    public void testAddingRemovingPeople() throws Exception {
+
+        // create today's date
+        Date date = new Date(System.currentTimeMillis());
+
+        // load the data
+        dataLoader.beforeTest();
+
+        // check population instructors
+        PopulationInfo instructorsPop = populationService.getPopulation(dataLoader.getInstructorPopulationId(), contextInfo);
+        assertNotNull(instructorsPop);
+        assertEquals(instructorsPop.getId(), dataLoader.getInstructorPopulationId());
+        PopulationRuleInfo instructorsPopRule = populationService.getPopulationRuleForPopulation(dataLoader.getInstructorPopulationId(), contextInfo);
+        assertNotNull(instructorsPopRule);
+        assertEquals(2, instructorsPopRule.getPersonIds().size());
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR1.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR2.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR3.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR4.getPersonId(), instructorsPop.getId(), date, contextInfo));
+
+        // now will add instructor 3 in the population
+        instructorsPopRule.setPersonIds(PopulationPocUtilities.addStringToListString(PopulationPocPersonEnum.INSTRUCTOR3.getPersonId(), instructorsPopRule.getPersonIds()));
+        instructorsPopRule = populationService.updatePopulationRule(instructorsPopRule.getId(), instructorsPopRule, contextInfo);
+        populationService.applyPopulationRuleToPopulation(instructorsPopRule.getId(), dataLoader.getInstructorPopulationId(), contextInfo);
+
+        assertEquals(3, instructorsPopRule.getPersonIds().size());
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR1.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR2.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR3.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR4.getPersonId(), instructorsPop.getId(), date, contextInfo));
+
+        // now will add instructor 4 in the population
+        instructorsPopRule.setPersonIds(PopulationPocUtilities.addStringToListString(PopulationPocPersonEnum.INSTRUCTOR4.getPersonId(), instructorsPopRule.getPersonIds()));
+        instructorsPopRule = populationService.updatePopulationRule(instructorsPopRule.getId(), instructorsPopRule, contextInfo);
+        populationService.applyPopulationRuleToPopulation(instructorsPopRule.getId(), dataLoader.getInstructorPopulationId(), contextInfo);
+
+        assertEquals(4, instructorsPopRule.getPersonIds().size());
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR1.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR2.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR3.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR4.getPersonId(), instructorsPop.getId(), date, contextInfo));
+
+        // now will remove instructor 3 from the population
+        instructorsPopRule.setPersonIds(PopulationPocUtilities.removeStringFromListString(PopulationPocPersonEnum.INSTRUCTOR3.getPersonId(), instructorsPopRule.getPersonIds()));
+        instructorsPopRule = populationService.updatePopulationRule(instructorsPopRule.getId(), instructorsPopRule, contextInfo);
+        populationService.applyPopulationRuleToPopulation(instructorsPopRule.getId(), dataLoader.getInstructorPopulationId(), contextInfo);
+
+        assertEquals(3, instructorsPopRule.getPersonIds().size());
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR1.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR2.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR4.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR3.getPersonId(), instructorsPop.getId(), date, contextInfo));
+
+        // now will remove instructor 4 from the population
+        instructorsPopRule.setPersonIds(PopulationPocUtilities.removeStringFromListString(PopulationPocPersonEnum.INSTRUCTOR4.getPersonId(), instructorsPopRule.getPersonIds()));
+        instructorsPopRule = populationService.updatePopulationRule(instructorsPopRule.getId(), instructorsPopRule, contextInfo);
+        populationService.applyPopulationRuleToPopulation(instructorsPopRule.getId(), dataLoader.getInstructorPopulationId(), contextInfo);
+
+        assertEquals(2, instructorsPopRule.getPersonIds().size());
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR1.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR2.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR3.getPersonId(), instructorsPop.getId(), date, contextInfo));
+        assertFalse(populationService.isMemberAsOfDate(PopulationPocPersonEnum.INSTRUCTOR4.getPersonId(), instructorsPop.getId(), date, contextInfo));
 
     }
 
