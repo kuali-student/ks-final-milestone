@@ -36,7 +36,8 @@
         <li><a href="${ConfigProperties.application.url}/kr-krad/sb/cart?viewId=ShoppingCart-FormView&pageId=sb_cart_remove_page">KSAP Remove Shopping Cart</a></li>
         <h3>Course Search POC</h3>
         <li><a href="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.student.r2.lum.course.dto.CourseInfo&amp;viewId=CourseInfo-LookupView-ForKSAP">Simple Course Lookup for KSAP</a></li>
-
+        <h3>I18N POC</h3>
+        <li><a href="${ConfigProperties.application.url}/kr-krad/rb?methodToCall=startRB&amp;viewId=POCResourceBundle-FormView">POC for Resource Bundles</a></li>
 
     </ul>
 
