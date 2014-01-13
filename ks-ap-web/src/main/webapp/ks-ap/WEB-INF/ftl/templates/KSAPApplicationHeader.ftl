@@ -1,4 +1,37 @@
 <#macro ksap_app_header element>
+<script type="text/javascript">
+    function logout() {
+        var url = "${ConfigProperties['rice.server.url']}/backdoorlogin.do?methodToCall=logout";
+        redirect(url);
+    }
+</script>
+
+<div class="ks-uif-viewHeader-container navbar-inverse navbar">
+    <a href="../kr-krad/launch?methodToCall=start&viewId=ksFunctionalHomeView">
+        <img class="ks-logo-image" title="Kuali Student" src="../themes/ksboot/images/header/logo_kuali.png">
+        <span class="ks-header-student">Student</span>
+    </a>
+
+    <div class="header-right-group">
+        <ul class="ks-header-list nav pull-right">
+            <li class="ks-header-action-list"><a href="${ConfigProperties['ks.rice.actionList.serviceAddress']}">Action List</a>
+            </li>
+
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="icon-user icon-white"></i>
+                ${UserSession.loggedInUserPrincipalName!"You are not logged in."}
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#" onclick="logout();">Logout</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
 <div id="applicationHeader">
     <div id="applicationHeading">
         <div id="applicationLogo">Kuali Student Academic Planning</div>
@@ -34,13 +67,7 @@
                 </#if>
             </ul>
         </div>
-        <div class="header-right-group">
-            <ul class="ks-header-list nav pull-right">
-                <li>
-                    Logged in User: ${UserSession.loggedInUserPrincipalName!"You are not logged in."}
-                </li>
-            </ul>
-        </div>
+
     </div>
 </div>
 </#macro>

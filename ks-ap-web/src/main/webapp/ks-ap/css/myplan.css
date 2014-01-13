@@ -2769,3 +2769,10 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .ks-plan-Bucket-headerStatusIcons{
     right:5px;
 }
+
+.ksap-view .uif-viewHeader-contentWrapper {
+    padding-bottom: 0px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
