@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.util;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -43,6 +44,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class CourseOfferingSetUtil {
+    final static Logger LOG = Logger.getLogger(CourseOfferingSetUtil.class);
     private static CourseOfferingSetService socService;
 
 
@@ -77,6 +79,7 @@ public class CourseOfferingSetUtil {
 
                     //There shouldn't be more than one main SOC of a given term
                     if (mainSocCount > 1) {
+                        LOG.warn(String.format("More than one main SOCs were found for term [%s].", termId));
                         return null;
                     }
                 }
