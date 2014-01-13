@@ -64,6 +64,7 @@
                 <value>classpath:ui/CourseSectionsUI.xml</value>
                 <value>classpath:ui/FullPlanCoursesUI.xml</value>
                 <value>classpath:ui/SingleQuarterUI.xml</value>
+                <value>classpath:org/kuali/student/ap/POCResourceBundleUI.xml</value>
 			</list>
 		</property>
 		<property name="packagePrefixes">

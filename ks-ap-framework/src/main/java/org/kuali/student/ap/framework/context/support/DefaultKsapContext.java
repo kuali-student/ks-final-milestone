@@ -3,6 +3,7 @@ package org.kuali.student.ap.framework.context.support;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Date;
+import java.util.Locale;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 
 /**
@@ -52,13 +54,23 @@ public class DefaultKsapContext implements KsapContext {
 				FilterChain fc) throws IOException, ServletException {
 			try {
                 Principal principal = ((HttpServletRequest) req).getUserPrincipal();
+                LocaleInfo locInfo = null;
+                Locale loc = req.getLocale();
+                //((HttpServletRequest) req).getHeader("ServletRequest.")
+                if (loc != null) {
+                    locInfo = new LocaleInfo();
+                    locInfo.setLocaleLanguage(loc.getLanguage());
+                    locInfo.setLocaleRegion(loc.getCountry());
+                    locInfo.setLocaleVariant(loc.getVariant());
+                    locInfo.setLocaleScript(loc.getScript());
+                }
                 if(principal!=null){
                     String principalName = principal.getName();
                     String principalId=KimApiServiceLocator
                             .getIdentityService()
                             .getPrincipalByPrincipalName(principalName)
                             .getPrincipalId();
-                    before(principalId);
+                    before(principalId, locInfo);
                 }
 				fc.doFilter(req, resp);
 			} finally {
@@ -68,14 +80,19 @@ public class DefaultKsapContext implements KsapContext {
 	}
 
 	public static void before(String principalId) {
-		assert TL_CTX.get() == null : TL_CTX.get();
-		ContextInfo ksctx = ContextUtils.createDefaultContextInfo();
-		ksctx.setAuthenticatedPrincipalId(principalId);
-		ksctx.setPrincipalId(principalId);
-		ksctx.setCurrentDate(new Date());
-		ksctx.getAttributes().clear();
-		TL_CTX.set(ksctx);
+		before(principalId, null);
 	}
+
+    public static void before(String principalId, LocaleInfo locale) {
+        assert TL_CTX.get() == null : TL_CTX.get();
+        ContextInfo ksctx = ContextUtils.createDefaultContextInfo();
+        ksctx.setAuthenticatedPrincipalId(principalId);
+        ksctx.setPrincipalId(principalId);
+        ksctx.setCurrentDate(new Date());
+        ksctx.getAttributes().clear();
+        if (locale != null) ksctx.setLocale(locale);
+        TL_CTX.set(ksctx);
+    }
 
 	public static void after() {
 		TL_CTX.remove();

@@ -297,6 +297,10 @@
                 <value>classpath:ui/ConversationViewUI.xml</value>
                 <value>classpath:org/kuali/student/ap/BookmarkUI.xml</value>
 
+
+                <!-- Resource Bundle (i18n) POC -->
+                <value>classpath:org/kuali/student/ap/POCResourceBundleUI.xml</value>
+
                 <!-- Course Search POC -->
                 <value>classpath:org/kuali/student/ap/CourseInfoLookupView-ForKSAP.xml</value>
             </list>
