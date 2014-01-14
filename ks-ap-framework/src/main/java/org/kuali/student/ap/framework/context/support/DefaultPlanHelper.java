@@ -6,12 +6,20 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.PlanHelper;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.core.acal.infc.Term;
 
 /**
@@ -41,11 +49,35 @@ public class DefaultPlanHelper implements PlanHelper {
 		} catch (Exception e) {
 			throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
 		}
-
-        try {
-            defaultPlan =  KSCollectionUtils.getRequiredZeroElement(learningPlans);
-        }catch (OperationFailedException e){
-            throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+        if(learningPlans==null || learningPlans.isEmpty()){
+            LearningPlanInfo newPlan = new LearningPlanInfo();
+            newPlan.setStudentId(studentId);
+            newPlan.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ACTIVE_STATE_KEY);
+            newPlan.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN);
+            newPlan.setShared(true);
+            RichTextInfo descr = new RichTextInfo("Default Plan For "+KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName(),"Default Plan For "+KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName());
+            newPlan.setDescr(descr);
+            try{
+                defaultPlan = KsapFrameworkServiceLocator.getAcademicPlanService().createLearningPlan(newPlan,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            } catch (InvalidParameterException e) {
+                throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+            } catch (PermissionDeniedException e) {
+                throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+            } catch (OperationFailedException e) {
+                throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+            } catch (AlreadyExistsException e) {
+                throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+            } catch (MissingParameterException e) {
+                throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+            } catch (DataValidationErrorException e) {
+                throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+            }
+        }else{
+            try {
+                defaultPlan =  KSCollectionUtils.getRequiredZeroElement(learningPlans);
+            }catch (OperationFailedException e){
+                throw new RuntimeException(String.format("Could not fetch plan for user [%s].", studentId), e);
+            }
         }
 
 		return defaultPlan;

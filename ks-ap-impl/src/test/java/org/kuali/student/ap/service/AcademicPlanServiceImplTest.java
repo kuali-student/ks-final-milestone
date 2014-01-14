@@ -53,7 +53,7 @@ public class AcademicPlanServiceImplTest {
         createType("kuali.academicplan.type.plan.template", "Learning Plan Template", "Student learning plan template type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
         createType("kuali.academicplan.type.plan.review", "Learning Plan Review", "Student learning plan review type.", "http://student.kuali.org/wsdl/acadplan/LearningPlanInfo");
 
-        createType("kuali.academicplan.type.item.course", "Course Item", "Student learning plan course item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
+        createType("kuali.academicplan.planitem", "Academic Plan Item", "Academic plan item type.", "http://student.kuali.org/wsdl/acadplan/PlanItemInfo");
     }
 
 	@After
