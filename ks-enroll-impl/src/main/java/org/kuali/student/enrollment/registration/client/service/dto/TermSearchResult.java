@@ -31,10 +31,11 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TermSearchResult", propOrder = {
-        "termName", "termId"})
+        "termName", "termId", "termCode"})
 public class TermSearchResult {
     private String termName;
     private String termId;
+    private String termCode;
 
     public String getTermName() {
         return termName;
@@ -51,6 +52,15 @@ public class TermSearchResult {
     public void setTermId(String termId) {
         this.termId = termId;
     }
+
+    public String getTermCode() {
+        return termCode;
+    }
+
+    public void setTermCode(String termCode) {
+        this.termCode = termCode;
+    }
+
 
 
 }

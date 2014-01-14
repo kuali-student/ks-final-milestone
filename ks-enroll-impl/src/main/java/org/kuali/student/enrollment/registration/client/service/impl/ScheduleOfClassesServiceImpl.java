@@ -196,11 +196,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     @Override
     public List<TermSearchResult> loadActiveTerms() throws Exception {
         List<TermSearchResult> termSearchResults = new ArrayList<TermSearchResult>();
-        List<AtpInfo> validAtps = getValidAtps();
+        List<AtpInfo> validAtps = getValidAtps(ContextUtils.createDefaultContextInfo());
         for(AtpInfo atpInfo: validAtps){
             TermSearchResult termSearchResult = new TermSearchResult();
             termSearchResult.setTermId(atpInfo.getId());
             termSearchResult.setTermName(atpInfo.getName());
+            termSearchResult.setTermCode(atpInfo.getCode());
             termSearchResults.add(termSearchResult);
         }
         return termSearchResults;
@@ -429,26 +430,25 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return activityPriorityMap;
     }
 
-    private List<AtpInfo> getValidAtps() {
+    //This is a helper method to get all terms in SOCs with a state of Published
+    private List<AtpInfo> getValidAtps(ContextInfo contextInfo) {
         List<SocInfo> socs;
         List<String> termIds = new ArrayList<String>();
         List<AtpInfo> atps = new ArrayList<AtpInfo>();
-        courseOfferingSetService = getCourseOfferingSetService();
-        atpService = getAtpService();
         // Build a predicate to search for published Socs
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
         qBuilder.setPredicates();
         Predicate pred = equal(CourseOfferingSetServiceConstants.SearchParameters.SOC_STATE, CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY);
         qBuilder.setPredicates(pred);
         try {
-            socs = courseOfferingSetService.searchForSocs(qBuilder.build(), ContextUtils.createDefaultContextInfo());
-            if (socs != null && socs.size() > 0) {
+            socs = getCourseOfferingSetService().searchForSocs(qBuilder.build(), contextInfo);
+            if (socs != null && !socs.isEmpty()) {
                 for(SocInfo soc: socs){
                     // Add all published Soc termIds to termIds List
                     termIds.add(soc.getTermId());
                 }
                 // Use AtpService to get Term name by Id
-                atps = atpService.getAtpsByIds(termIds, ContextUtils.createDefaultContextInfo());
+                atps = getAtpService().getAtpsByIds(termIds, contextInfo);
             } else {
                 return atps;
             }

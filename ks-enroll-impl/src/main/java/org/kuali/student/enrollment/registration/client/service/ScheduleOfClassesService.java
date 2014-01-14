@@ -242,7 +242,7 @@ public interface ScheduleOfClassesService {
     public String getTermIdByTermCode( @PathParam("termCode") String termCode ) throws Exception;
 
     /**
-     * Returns a list of the active terms.
+     * Returns a list of the active terms. Active terms are defined as ATPs with a state of Official
      *
      * Note: this method needs to be re-thought; it violates the standards established for this Service; consider
      * instead exporting a List<TermSearchResult> for URI /terms and would return all terms by default
