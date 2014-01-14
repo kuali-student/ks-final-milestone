@@ -14,11 +14,11 @@ import java.util.List;
         "regGroupState"})
 public class RegGroupSearchResult {
 
-    String courseOfferingId;
-    List<String> activityOfferingIds;
-    String regGroupId;
-    String regGroupName;
-    String regGroupState;
+    private String courseOfferingId;
+    private List<String> activityOfferingIds;
+    private String regGroupId;
+    private String regGroupName;
+    private String regGroupState;
 
     public String getCourseOfferingId() {
         return courseOfferingId;

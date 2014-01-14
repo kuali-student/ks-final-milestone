@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import org.apache.activemq.command.ActiveMQMapMessage;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseregistration.service.transformer.RegistrationRequestTransformer;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -32,6 +33,8 @@ import javax.xml.namespace.QName;
 public class CourseRegistrationServiceImpl 
     extends AbstractCourseRegistrationService
     implements CourseRegistrationService {
+
+    private static final Logger LOG = Logger.getLogger(CourseRegistrationServiceImpl.class);
 
     private LprService lprService;
     private CourseOfferingService courseOfferingService;
@@ -67,7 +70,7 @@ public class CourseRegistrationServiceImpl
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, registrationRequestId);
             jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
         }catch (JMSException jmsEx){
-            System.out.println(jmsEx.getMessage());
+            throw new RuntimeException(jmsEx);
         }
 
         RegistrationResponseInfo regResp = new RegistrationResponseInfo();

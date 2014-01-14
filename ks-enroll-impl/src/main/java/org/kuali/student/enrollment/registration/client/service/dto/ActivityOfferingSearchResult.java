@@ -13,20 +13,20 @@ import java.util.List;
         "activityOfferingClusterName", "activityOfferingClusterPrivateName", "activityOfferingId", "activityOfferingCode",
         "activityOfferingType", "activityOfferingTypeName", "activityOfferingState", "activityOfferingMaxSeats", "scheduleId", "schedule", "atpId", "instructors"})
 public class ActivityOfferingSearchResult {
-    String formatOfferingId;
-    String formatOfferingName;
-    String formatId;
-    String activityOfferingClusterId;
-    String activityOfferingClusterName;
-    String activityOfferingClusterPrivateName;
-    String activityOfferingId;
-    String activityOfferingCode;
-    String activityOfferingTypeName;
-    String activityOfferingType;
-    String activityOfferingState;
-    String activityOfferingMaxSeats;
-    String scheduleId;
-    String atpId;
+    private String formatOfferingId;
+    private String formatOfferingName;
+    private String formatId;
+    private String activityOfferingClusterId;
+    private String activityOfferingClusterName;
+    private String activityOfferingClusterPrivateName;
+    private String activityOfferingId;
+    private String activityOfferingCode;
+    private String activityOfferingTypeName;
+    private String activityOfferingType;
+    private String activityOfferingState;
+    private String activityOfferingMaxSeats;
+    private String scheduleId;
+    private String atpId;
 
     ActivityOfferingScheduleComponentResult schedule;
     List<InstructorSearchResult> instructors;

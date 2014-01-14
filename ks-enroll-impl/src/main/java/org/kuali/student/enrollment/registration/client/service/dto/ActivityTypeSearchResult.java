@@ -11,11 +11,11 @@ import javax.xml.bind.annotation.XmlType;
         "typeKey", "name",
         "description", "priority", "formatOfferingId"})
 public class ActivityTypeSearchResult {
-    String typeKey;
-    String name;
-    String description;
-    String formatOfferingId;
-    Integer priority;
+    private String typeKey;
+    private String name;
+    private String description;
+    private String formatOfferingId;
+    private Integer priority;
 
     public String getTypeKey() {
         return typeKey;

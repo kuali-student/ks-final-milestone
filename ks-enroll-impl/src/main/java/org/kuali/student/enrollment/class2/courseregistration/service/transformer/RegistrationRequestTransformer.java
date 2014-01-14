@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,11 +71,8 @@ public class RegistrationRequestTransformer {
         item.setTransactionId(requestItem.getRegistrationRequestId());
         item.setLuiId(requestItem.getRegistrationGroupId());
         item.setExistingLprId(requestItem.getExistingCourseRegistrationId());
-        if (item.getResultValuesGroupKeys() != null) {
-            item.getResultValuesGroupKeys().clear();
-        } else {
-            item.setResultValuesGroupKeys(new ArrayList<String>());
-        }
+        item.getResultValuesGroupKeys().clear();
+
         KualiDecimal credits = requestItem.getCredits(); // For now, assume it's an RVG option with a single credit
         if (credits != null) {
             // This gets more complex if it's actual credits
@@ -83,9 +81,6 @@ public class RegistrationRequestTransformer {
         String gradingOptionId = requestItem.getGradingOptionId();
         if (gradingOptionId != null) {
             item.getResultValuesGroupKeys().add(gradingOptionId);
-        }
-        if (item.getRequestOptions() == null) {
-            item.setRequestOptions(new ArrayList<LprTransactionItemRequestOptionInfo>());
         }
         Boolean okToWaitlist = requestItem.getOkToWaitlist();
         LprTransactionItemRequestOptionInfo okToWaitlistOption =
@@ -149,9 +144,9 @@ public class RegistrationRequestTransformer {
 
         // Admittedly, a hacky way of doing things, so open for better ways to do this
         for (String s : item.getResultValuesGroupKeys()) {
-            if (s.startsWith("kuali.resultComponent.grade")) {
+            if (s.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)) { // "kuali.resultComponent.grade"
                 requestItem.setGradingOptionId(s);
-            } else if (s.startsWith("kuali.creditType.credit.degree")) {
+            } else if (s.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) { // "kuali.creditType.credit.degree"
             	// FIXME KSENROLL-11466
                 // requestItem.setCredits(s);
             }

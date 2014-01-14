@@ -12,8 +12,8 @@ import java.util.List;
         "courseOfferingInfo", "primaryActivityOfferings"})
 public class CourseAndPrimaryAOSearchResult {
 
-    CourseSearchResult courseOfferingInfo;
-    List<ActivityOfferingSearchResult> primaryActivityOfferings;
+    private CourseSearchResult courseOfferingInfo;
+    private List<ActivityOfferingSearchResult> primaryActivityOfferings;
 
     public CourseSearchResult getCourseOfferingInfo() {
         return courseOfferingInfo;

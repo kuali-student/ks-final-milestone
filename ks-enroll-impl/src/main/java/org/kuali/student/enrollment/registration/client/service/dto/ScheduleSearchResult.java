@@ -11,16 +11,16 @@ import javax.xml.bind.annotation.XmlType;
         "scheduleId", "startTimeDisplay", "startTimeMili",  "endTimeDisplay", "endTimeMili", "buildingName",
         "buildingCode", "roomName", "days", "tba"})
 public class ScheduleSearchResult {
-    String scheduleId;
-    String startTimeDisplay;
-    String endTimeDisplay;
-    String startTimeMili;
-    String endTimeMili;
-    String buildingName;
-    String buildingCode;
-    String roomName;
-    String days;
-    Boolean tba;
+    private String scheduleId;
+    private String startTimeDisplay;
+    private String endTimeDisplay;
+    private String startTimeMili;
+    private String endTimeMili;
+    private String buildingName;
+    private String buildingCode;
+    private String roomName;
+    private String days;
+    private Boolean tba;
 
     public String getScheduleId() {
         return scheduleId;
