@@ -19,14 +19,12 @@ import static org.junit.Assert.assertNotNull;
  */
 public abstract class ResourceBundlesTestBase {
 
-    //ResourceLoader rl = null;
-    KualiResourceBundle rl = null;
+    KualiResourceBundle rb = null;
 
     @Before
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1", getLocaleInfo());
-        //rl = new ResourceLoader("META-INF/ks-ap/bundles/test");
-        rl = new KualiResourceBundle("META-INF/ks-ap/bundles/test");
+        rb = new KualiResourceBundle("META-INF/ks-ap/bundles/test");
     }
 
     @After
@@ -36,30 +34,30 @@ public abstract class ResourceBundlesTestBase {
 
     @Test
     public void testIsThisThingOn() {
-        assertNotNull("ResourceLoader not found", rl);
+        assertNotNull("ResourceLoader not found", rb);
     }
 
     @Test
     public void testNormal() {
-        String value = rl.getString("testNormal");
+        String value = rb.getString("testNormal");
         assertEquals(getPrefix() + "Expected value", value);
     }
 
     @Test
     public void testDefault() {
-        String value = rl.getString("doesnt.exist", "default value");
+        String value = rb.getString("doesnt.exist", "default value");
         assertEquals("default value", value);
     }
 
     @Test
     public void testSubstitution() {
-        String value = rl.getFormattedMessage("testSubstitution", "on");
+        String value = rb.getFormattedMessage("testSubstitution", "on");
         assertEquals(getPrefix() + "Is this thing on?", value);
     }
 
     @Test
     public void testMultipleSubstitutions() {
-        String value = rl.getFormattedMessage("testMultiple", "Apples", "Bananas");
+        String value = rb.getFormattedMessage("testMultiple", "Apples", "Bananas");
         assertEquals(getPrefix() + "Apples and Bananas", value);
     }
 
@@ -68,7 +66,7 @@ public abstract class ResourceBundlesTestBase {
      */
     @Test
     public void testOnlyExistsInDefaultLocale() {
-        String value = rl.getString("testDefaultOnly");
+        String value = rb.getString("testDefaultOnly");
         assertEquals("In Default Locale Only", value);
     }
 
