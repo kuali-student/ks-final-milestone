@@ -68,12 +68,9 @@
 
     <param name="ks.ap.doDataLoad">false</param>
 
-    <!-- Rice URLS
-    <param name="ks.rice.personLookup.serviceAddress">http://localhost:8081/ks-embedded-dev/kr/lookup.do</param>
-	<param name="ks.rice.actionList.serviceAddress">http://localhost:8081/ks-embedded-dev/kew/ActionList.do</param>
-	-->
     <param name="resourceBundleNames" override="true">${rice.struts.message.resources},org.kuali.student.ap.KSAP-ApplicationResources</param>
-    
+    <param name="rice.struts.message.resources" override="true">${rice.struts.message.resources},org.kuali.student.ap.KSAP-ApplicationResources</param>
+
     <param name="ks.ap.planner.future.years">4</param>
     <param name="ks.ap.planner.term.types">kuali.atp.type.Fall,kuali.atp.type.Winter,kuali.atp.type.Spring,kuali.atp.type.Summer1</param>
 
