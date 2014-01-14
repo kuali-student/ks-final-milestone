@@ -319,7 +319,7 @@
                       p:propertyName="aoDisplayInfo.instructorName"
                       p:cssClasses="instructor_course_offering"/>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="Max ENR"
+                      p:label="Max Enr"
                       p:propertyName="aoDisplayInfo.maximumEnrollment"
                       p:cssClasses="maxEnr_course_offering"/>
             </list>

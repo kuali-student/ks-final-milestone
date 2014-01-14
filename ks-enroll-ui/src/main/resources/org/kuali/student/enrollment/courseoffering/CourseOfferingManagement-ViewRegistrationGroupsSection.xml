@@ -70,7 +70,7 @@
                       p:messageText="@{#line.aoTypeNameText}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="MAX ENR"
+                      p:label="MAX Enr"
                       p:messageText="@{#line.aoMaxEnrText}">
                 </bean>
                 <bean parent="Uif-MessageField"

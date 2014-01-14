@@ -207,7 +207,7 @@
                       p:label="Type"
                       p:propertyName="typeName"/>
                 <bean parent="Uif-DataField"
-                      p:label="Max ENR"
+                      p:label="Max Enr"
                       p:propertyName="aoInfo.maximumEnrollment"/>
                <!-- Revisit after KD13 <bean parent="Uif-MessageField"
                       p:label="SCHEDULING"
@@ -326,7 +326,7 @@
                       p:messageText="@{#line.aoTypeNameText}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="Max ENR"
+                      p:label="Max Enr"
                       p:messageText="@{#line.aoMaxEnrText}">
                 </bean>
                 <bean parent="Uif-MessageField"

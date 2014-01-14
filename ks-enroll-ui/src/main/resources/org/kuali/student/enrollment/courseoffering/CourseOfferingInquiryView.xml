@@ -216,7 +216,7 @@
                                         <bean parent="Uif-DataField" p:label="Type" p:propertyName="typeName"/>
                                         <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName"/>
                                         <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="firstInstructorDisplayName"/>
-                                        <bean parent="Uif-DataField" p:label="Max ENR" p:propertyName="aoInfo.maximumEnrollment"/>
+                                        <bean parent="Uif-DataField" p:label="Max Enr" p:propertyName="aoInfo.maximumEnrollment"/>
                                     </list>
                                 </property>
                             </bean>
