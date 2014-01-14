@@ -933,10 +933,23 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
     private void populateInstructorWithEntityInfo(InstructorSearchResult instructor, EntityDefault entity){
         if(entity.getName() != null){
-           instructor.setDisplayName(entity.getName().getCompositeName());
-           instructor.setFirstName(entity.getName().getFirstName());
-           instructor.setLastName(entity.getName().getLastName());
+           instructor.setDisplayName(trimString(entity.getName().getCompositeName()));
+           instructor.setFirstName(trimString(entity.getName().getFirstName()));
+           instructor.setLastName(trimString(entity.getName().getLastName()));
        }
+    }
+
+    /**
+     * This is a NPE safe trim.
+     * @param str
+     * @return new trimmed version of str
+     */
+    private String trimString(String str){
+       String sRet = null;
+       if(str != null){
+           sRet = str.trim();
+       }
+       return sRet;
     }
 
     class RegResultComparator implements Comparator<RegGroupSearchResult> {
