@@ -5,7 +5,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.registration.client.service.CourseRegistrationUiService;
+import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
@@ -15,47 +15,63 @@ import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConst
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
 import javax.security.auth.login.LoginException;
-import javax.ws.rs.PathParam;
 import javax.xml.namespace.QName;
 
 /**
  * Created by swedev on 1/3/14.
  */
-public class CourseRegistrationUiServiceImpl implements CourseRegistrationUiService {
+public class CourseRegistrationClientServiceImpl implements CourseRegistrationClientService {
 
-    ScheduleOfClassesService scheduleOfClassesService;
+    private ScheduleOfClassesService scheduleOfClassesService;
     private CourseRegistrationService courseRegistrationService;
 
     @Override
-    public RegistrationResponseInfo RegisterForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(@PathParam("termCode") String termCode, @PathParam("courseCode") String courseCode, @PathParam("regGroupName") String regGroupName) throws Exception {
+    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String termCode,String courseCode, String regGroupName) throws Exception {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         if(contextInfo.getPrincipalId() == null || "".equals(contextInfo.getPrincipalId())){
             throw new LoginException("User must be logged in to access this service");
         }
 
+        // get the registration group
         RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().loadRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
 
+        //Create the request object
+        RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(),
+                getScheduleOfClassesService().getTermIdByTermCode(termCode),regGroupSearchResult.getRegGroupId()  );
+
+        // persist the request object in the service
+        RegistrationRequestInfo newRegReq = getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        RegistrationResponseInfo registrationResponseInfo = getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+
+        return registrationResponseInfo;
+    }
+
+    /**
+     * This method creates a registration request for the add operation of a single registration group.
+     * @param principalId
+     * @param termId
+     * @param regGroupid
+     * @return
+     */
+    private RegistrationRequestInfo createAddRegistrationRequest(String principalId, String termId, String regGroupid){
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
-        regReqInfo.setRequestorId(contextInfo.getPrincipalId());
-        regReqInfo.setTermId(getScheduleOfClassesService().getTermIdByTermCode(termCode)); // bad bc we have it from the load call above
+        regReqInfo.setRequestorId(principalId);
+        regReqInfo.setTermId(termId); // bad bc we have it from the load call above
         regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY); // new reg request
         regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
 
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
         registrationRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
         registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        registrationRequestItem.setRegistrationGroupId(regGroupSearchResult.getRegGroupId());
-        registrationRequestItem.setPersonId(contextInfo.getPrincipalId());
-
+        registrationRequestItem.setRegistrationGroupId(regGroupid);
+        registrationRequestItem.setPersonId(principalId);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
-        RegistrationRequestInfo newRegReq = getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
-
-        RegistrationResponseInfo registrationResponseInfo = getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
-
-        return registrationResponseInfo;
+        return regReqInfo;
     }
 
     public ScheduleOfClassesService getScheduleOfClassesService() {

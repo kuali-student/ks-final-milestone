@@ -1462,16 +1462,16 @@
         </property>
     </bean>
 
-    <bean id="courseRegistrationUiService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationUiServiceImpl">
+    <bean id="courseRegistrationClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationClientServiceImpl">
     </bean>
 
-    <bean id="ks.exp.courseRegistrationUiService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    <bean id="ks.exp.courseRegistrationClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
             <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationUi" />
-                <property name="service" ref="courseRegistrationUiService" />
-                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.CourseRegistrationUiService" />
-                <property name="localServiceName" value="CourseRegistrationUiService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationClient" />
+                <property name="service" ref="courseRegistrationClientService" />
+                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService" />
+                <property name="localServiceName" value="CourseRegistrationClientService" />
                 <property name="providers">
                     <list>
                         <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
