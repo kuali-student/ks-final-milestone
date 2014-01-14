@@ -460,6 +460,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     private List<CourseSearchResult> searchForCourseOfferings(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
+        // make the course code case insensitive
+        if(courseCode != null && !courseCode.isEmpty()){
+            courseCode = courseCode.toUpperCase();
+        }
+
         SearchRequestInfo searchRequest = createSearchRequest(termId, courseCode);
         SearchResultInfo searchResult = getSearchService().search(searchRequest, ContextUtils.createDefaultContextInfo());
 
