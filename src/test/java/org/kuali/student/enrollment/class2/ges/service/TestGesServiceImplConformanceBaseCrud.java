@@ -23,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.kuali.student.common.test.AttributeTester;
 import org.kuali.student.common.test.MetaTester;
 import org.kuali.student.common.test.util.KeyEntityTester;
+import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -103,7 +104,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			new AttributeTester().add2ForCreate(expected.getAttributes());
 			
 			// code to create actual
-			ParameterInfo actual = testService.createParameter ( expected.getValueTypeKey(), expected.getKey(), expected.getTypeKey(), expected, contextInfo);
+			ParameterInfo actual = testService.createParameter ( expected.getKey(), expected.getTypeKey(), expected.getValueTypeKey(), expected, contextInfo);
 			
 			assertNotNull(actual.getKey());
         new KeyEntityTester().check(expected, actual);
@@ -189,7 +190,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			
 			betaDTO.setTypeKey("typeKeyBeta");
 			betaDTO.setStateKey("stateKeyBeta");
-			betaDTO = testService.createParameter (betaDTO.getValueTypeKey(), betaDTO.getKey(), betaDTO.getTypeKey(), betaDTO, contextInfo);
+			betaDTO = testService.createParameter (betaDTO.getKey(), betaDTO.getTypeKey(), betaDTO.getValueTypeKey(), betaDTO, contextInfo);
 			
 			// -------------------------------------
 			// test bulk get with no ids supplied
@@ -436,7 +437,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			// test get by type
 			// -------------------------------------
 			// code to get by specific type "typeKey01" 
-			valueIds = testService.getValueIdsByType (GesServiceDataLoader.VALUE_TYPE_STRING, contextInfo);
+			valueIds = testService.getValueIdsByType (GesServiceConstants.GES_VALUE_TYPE_KEY_STRING, contextInfo);
 			
 			assertEquals(1, valueIds.size());
 			assertEquals(alphaDTO.getId(), valueIds.get(0));

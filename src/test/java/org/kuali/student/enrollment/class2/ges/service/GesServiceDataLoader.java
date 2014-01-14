@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.ges.service;
 
 
 import org.kuali.student.common.test.AbstractMockServicesAwareDataLoader;
+import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.enrollment.class2.population.PopulationServiceDataLoader;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -26,15 +27,6 @@ import java.util.Date;
 import java.util.List;
 
 public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
-
-    public static final String PARAMETER_TYPE = "kuali.org.ges.parameter";
-
-    public static final String STATE_ACTIVE = "kuali.org.ges.state.active";
-
-    public static final String VALUE_TYPE_STRING = "kuali.org.ges.value.string";
-    public static final String VALUE_TYPE_BOOLEAN = "kuali.org.ges.value.boolean";
-    public static final String VALUE_TYPE_DATE = "kuali.org.ges.value.date";
-    public static final String VALUE_TYPE_NUMERIC = "kuali.org.ges.value.numeric";
 
     public static final String PARAM_KEY_MAX_CREDITS = "max.credits";
     public static final String PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM = "min.credits.required.for.program";
@@ -95,11 +87,13 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
 
     private void createParameters() throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
             OperationFailedException, MissingParameterException, DoesNotExistException {
-        ParameterInfo param = generateParameter(PARAMETER_TYPE, STATE_ACTIVE, VALUE_TYPE_NUMERIC, PARAM_KEY_MAX_CREDITS, true);
-        maxCreditsParameter = gesService.createParameter(param.getValueTypeKey(), param.getKey(), param.getTypeKey(), param, context);
+        ParameterInfo param = generateParameter(GesServiceConstants.GES_PARAMETER_TYPE_KEY, GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY,
+                GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, PARAM_KEY_MAX_CREDITS, true);
+        maxCreditsParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param.getValueTypeKey(), param, context);
 
-        param = generateParameter(PARAMETER_TYPE, STATE_ACTIVE, VALUE_TYPE_NUMERIC, PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM, true);
-        minCreditsForProgramParameter = gesService.createParameter(param.getValueTypeKey(), param.getKey(), param.getTypeKey(), param, context);
+        param = generateParameter(GesServiceConstants.GES_PARAMETER_TYPE_KEY, GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY,
+                GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM, true);
+        minCreditsForProgramParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param.getValueTypeKey(), param, context);
     }
 
 
@@ -108,25 +102,25 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
         //create max.credits value
         List<String> atpTypeKeys = new ArrayList<String>();
         atpTypeKeys.add(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-        ValueInfo info = generateValue(VALUE_TYPE_NUMERIC, STATE_ACTIVE, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
+        ValueInfo info = generateValue(GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
                 DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), popDataLoader.getUndergraduteStudentPopulationId(),atpTypeKeys , null, 3);
         info.setNumericValue(20L);
         gesService.createValue(info.getTypeKey(), info.getParameterKey(), info, context);
 
-        info = generateValue(VALUE_TYPE_NUMERIC, STATE_ACTIVE, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
+        info = generateValue(GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
                 DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), popDataLoader.getFirstYearStudentPopulationId(), atpTypeKeys, null, 1);
         info.setNumericValue(15L);
         gesService.createValue(info.getTypeKey(), info.getParameterKey(), info, context);
 
         atpTypeKeys = new ArrayList<String>();
         atpTypeKeys.add(AtpServiceConstants.ATP_SPRING_TYPE_KEY);
-        info = generateValue(VALUE_TYPE_NUMERIC, STATE_ACTIVE, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
+        info = generateValue(GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
                 DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), popDataLoader.getFirstYearStudentPopulationId(), atpTypeKeys, null, 2);
         info.setNumericValue(10L);
         gesService.createValue(info.getTypeKey(), info.getParameterKey(), info, context);
 
         //create min.credits.required.for.program values
-        info = generateValue(VALUE_TYPE_NUMERIC, STATE_ACTIVE, minCreditsForProgramParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
+        info = generateValue(GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, minCreditsForProgramParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
                 DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), popDataLoader.getStudentPopulationId(), null, null, 1);
         info.setNumericValue(122L);
         gesService.createValue(info.getTypeKey(), info.getParameterKey(), info, context);

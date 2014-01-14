@@ -4,7 +4,6 @@
  */
 package org.kuali.student.r2.core.process;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -79,7 +78,7 @@ public class ProcessPocGesServiceDecorator extends GesServiceDecorator {
         info.setStateKey(GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY);
         info.setRequireUniquePriorities(true);
         try {
-            info = this.createParameter(info.getValueTypeKey(), info.getKey(), info.getTypeKey(), info, context);
+            info = this.createParameter(info.getKey(), info.getTypeKey(), info.getValueTypeKey(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);
         }

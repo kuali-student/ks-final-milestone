@@ -38,8 +38,6 @@ import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -140,7 +138,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public ParameterInfo createParameter(String valueTypeKey, String parameterKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
+    public ParameterInfo createParameter(String parameterKey, String parameterTypeKey, String valueTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , DataValidationErrorException
             , InvalidParameterException

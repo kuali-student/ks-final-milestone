@@ -16,11 +16,12 @@
 package org.kuali.student.enrollment.class2.ges.service.decorator;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.GesCriteriaInfo;
+import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesServiceDecorator;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -73,17 +74,18 @@ public class GesServiceEvaluationDecorator extends GesServiceDecorator {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        List<ValueInfo> values = getValuesByParameter(parameterKey, contextInfo);
-        Collections.sort(values, new ValuePriorityComparator());
         List<ValueInfo> resultValues = new ArrayList<ValueInfo>();
-
-        String atpTypeKey = null;
-        if (values.size() > 0 && StringUtils.isNotEmpty(criteria.getAtpId())){
-            atpTypeKey = pullAtpTypeKey(criteria.getAtpId(),contextInfo);
-        }
-        for (ValueInfo value : values) {
-            if (isActive(value, onDate) && isValueApplicable(value, criteria, atpTypeKey, onDate, contextInfo)) {
-                resultValues.add(value);
+        if (isParamActive(pullParameter(parameterKey,contextInfo))) {
+            List<ValueInfo> values = getValuesByParameter(parameterKey, contextInfo);
+            Collections.sort(values, new ValuePriorityComparator());
+            String atpTypeKey = null;
+            if (values.size() > 0 && StringUtils.isNotEmpty(criteria.getAtpId())) {
+                atpTypeKey = pullAtpTypeKey(criteria.getAtpId(), contextInfo);
+            }
+            for (ValueInfo value : values) {
+                if (isActive(value, onDate) && isValueApplicable(value, criteria, atpTypeKey, onDate, contextInfo)) {
+                    resultValues.add(value);
+                }
             }
         }
         return resultValues;
@@ -107,25 +109,25 @@ public class GesServiceEvaluationDecorator extends GesServiceDecorator {
             , MissingParameterException
             , OperationFailedException
             , PermissionDeniedException {
-        List<ValueInfo> values = getValuesByParameter(parameterKey, contextInfo);
-        Collections.sort(values, new ValuePriorityComparator());
-        String atpTypeKey = null;
-        if (values.size() > 0 && StringUtils.isNotEmpty(criteria.getAtpId())){
-            atpTypeKey = pullAtpTypeKey(criteria.getAtpId(),contextInfo);
-        }
-        for (ValueInfo value : values) {
-            if (isActive(value, onDate) && isValueApplicable(value, criteria, atpTypeKey, onDate, contextInfo)) {
-                return value;
+        if (isParamActive(pullParameter(parameterKey,contextInfo))) {
+            List<ValueInfo> values = getValuesByParameter(parameterKey, contextInfo);
+            Collections.sort(values, new ValuePriorityComparator());
+            String atpTypeKey = null;
+            if (values.size() > 0 && StringUtils.isNotEmpty(criteria.getAtpId())) {
+                atpTypeKey = pullAtpTypeKey(criteria.getAtpId(), contextInfo);
             }
-
+            for (ValueInfo value : values) {
+                if (isActive(value, onDate) && isValueApplicable(value, criteria, atpTypeKey, onDate, contextInfo)) {
+                    return value;
+                }
+            }
         }
         throw new DoesNotExistException("There are not any applicable values for the given criteria");
-
     }
 
     private Date pullEvaluationDate(ContextInfo contextInfo) {
         Date currentDate = contextInfo.getCurrentDate();
-        if (currentDate == null){
+        if (currentDate == null) {
             currentDate = new Date();
         }
         return currentDate;
@@ -140,17 +142,36 @@ public class GesServiceEvaluationDecorator extends GesServiceDecorator {
     }
 
     private boolean isActive(ValueInfo value, Date date) {
-        return (value.getEffectiveDate() == null || !date.before(value.getEffectiveDate()) &&
-                (value.getExpirationDate() == null || !date.after(value.getExpirationDate())));
+        return value.getStateKey().equals(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY) &&
+                (value.getEffectiveDate() == null || !date.before(value.getEffectiveDate()) &&
+                        (value.getExpirationDate() == null || !date.after(value.getExpirationDate())));
     }
 
     private boolean isInPopulation(String popId, GesCriteriaInfo criteria, Date date, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
-        try{
+        try {
             return StringUtils.isEmpty(popId) || StringUtils.isEmpty(criteria.getPersonId()) ||
                     populationService.isMemberAsOfDate(criteria.getPersonId(), popId, date, contextInfo);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("Unable to determine if is member of population.", e);
+        }
+    }
+
+    private boolean isParamActive(ParameterInfo parameterInfo) {
+        if (parameterInfo.getStateKey().equals(GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY)){
+            return true;
+        }
+        return false;
+    }
+
+    private ParameterInfo pullParameter(String parameterKey,ContextInfo contextInfo) throws OperationFailedException,
+            MissingParameterException,
+            InvalidParameterException,
+            PermissionDeniedException {
+        try{
+            return getParameter(parameterKey,contextInfo);
+        }catch (DoesNotExistException e){
+            throw new OperationFailedException("Parameter key is not valid: " + parameterKey ,e);
         }
     }
 
@@ -160,50 +181,33 @@ public class GesServiceEvaluationDecorator extends GesServiceDecorator {
     }
 
     private boolean isAtpActive(List<String> atpTypeKeys, String atpTypeKey, Date date, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException {
-        if (atpTypeKeys == null || atpTypeKeys.isEmpty()|| StringUtils.isEmpty(atpTypeKey)){
+        if (atpTypeKeys.isEmpty() || StringUtils.isEmpty(atpTypeKey)) {
             return true;
         }
-        for(String key: atpTypeKeys){
+        for (String key : atpTypeKeys) {
 
-            if (key.equals(atpTypeKey)){
+            if (key.contains(atpTypeKey)) {
                 return true;
             }
         }
         return false;
     }
     private String pullAtpTypeKey(String atpId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException {
-        try{
-            AtpInfo info = atpService.getAtp(atpId,contextInfo);
+        try {
+            AtpInfo info = atpService.getAtp(atpId, contextInfo);
             return info.getTypeKey();
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("Invalid atpid " + atpId, e);
         }
     }
 
-    private MetaInfo newMeta(ContextInfo context) {
-        MetaInfo meta = new MetaInfo();
-        meta.setCreateId(context.getPrincipalId());
-        meta.setCreateTime(new Date());
-        meta.setUpdateId(context.getPrincipalId());
-        meta.setUpdateTime(meta.getCreateTime());
-        meta.setVersionInd("0");
-        return meta;
-    }
-
-    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
-        MetaInfo meta = new MetaInfo(old);
-        meta.setUpdateId(context.getPrincipalId());
-        meta.setUpdateTime(new Date());
-        meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
-        return meta;
-    }
 
     private class ValuePriorityComparator implements Comparator<ValueInfo> {
 
         @Override
         public int compare(ValueInfo o1, ValueInfo o2) {
-            int priorityOne = o1.getPriority() == null ? Integer.MAX_VALUE: o1.getPriority();
-            int priorityTwo = o2.getPriority() == null ? Integer.MAX_VALUE: o2.getPriority();
+            int priorityOne = o1.getPriority() == null ? Integer.MAX_VALUE : o1.getPriority();
+            int priorityTwo = o2.getPriority() == null ? Integer.MAX_VALUE : o2.getPriority();
 
             return priorityOne - priorityTwo;
         }

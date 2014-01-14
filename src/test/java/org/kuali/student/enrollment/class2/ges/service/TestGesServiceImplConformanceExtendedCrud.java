@@ -20,6 +20,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.RichTextTester;
+import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.poc.rules.population.PopulationPocStudentEnum;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -35,7 +36,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -147,7 +147,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	*/
 	public void testCrudValue_setDTOFieldsForTestCreate(ValueInfo expected)
 	{
-		expected.setTypeKey(GesServiceDataLoader.VALUE_TYPE_STRING);
+		expected.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY_STRING);
 		expected.setStateKey("stateKey01");
 		expected.setParameterKey("max.credit");
         expected.setAtpTypeKeys(Arrays.asList("atpTypeKey01"));
@@ -218,7 +218,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	*/
 	public void testCrudValue_setDTOFieldsForTestReadAfterUpdate(ValueInfo expected)
 	{
-        expected.setTypeKey(GesServiceDataLoader.VALUE_TYPE_BOOLEAN);
+        expected.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY_BOOLEAN);
         expected.setParameterKey("min_credit");
         expected.setStateKey("stateKey2");
         expected.setAtpTypeKeys(Arrays.asList("atpTypeKey2"));
