@@ -80,7 +80,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
     <bean id="luSearchManager"
           class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
         <constructor-arg index="0"
-                         value="classpath:META-INF/ks-ap/ksap-lu-search-config.xml"/>
+                         value="classpath:lu-search-config.xml"/>
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
         <property name="dao" ref="luSearchableDao"/>
     </bean>
