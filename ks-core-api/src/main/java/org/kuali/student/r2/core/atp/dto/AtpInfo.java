@@ -35,7 +35,7 @@ import org.kuali.student.r2.core.atp.infc.Atp;
 
 public class AtpInfo 
     extends IdEntityInfo 
-    implements Atp, Serializable {
+    implements Atp, Serializable, Comparable<AtpInfo> {
 
     private static final long serialVersionUID = 1L;
 	
@@ -118,5 +118,15 @@ public class AtpInfo
     
     public void setAdminOrgId(String adminOrgId) {
         this.adminOrgId = adminOrgId;
+    }
+
+    /**
+     * By default, an atpInfo object should be compared by the start date
+     * @param o
+     * @return
+     */
+    @Override
+    public int compareTo(AtpInfo o) {
+        return this.getStartDate().compareTo(o.getStartDate());
     }
 }
