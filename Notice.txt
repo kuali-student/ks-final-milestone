@@ -1,0 +1,217 @@
+====
+    Copyright 2005-2013 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+====
+
+Questions about licensing should be directed to licensing@kuali.org.
+
+Third Party Contributions:
+
+Portions of Kuali were developed by Indiana University, Cornell University, 
+University of Hawaii, Michigan State University, University of Arizona, 
+San Joaquin Delta Community College, University of California, Rutgers University, 
+University of Southern California, University of Maryland, University of Washington, 
+Iowa State University, University of British Columbia, Innovativ Consulting Partners, 
+Syntel Inc., and The rSmart Group (http://www.kuali.org).
+
+List of third-party dependencies grouped by their license type:
+
+Apache Software License - Version 2.0 : 
+  * avalon-framework (avalon-framework:avalon-framework:4.1.5 - no url defined)
+  * cglib (cglib:cglib-nodep:2.1_3 - http://cglib.sourceforge.net/)
+  * FindBugs-jsr305 (com.google.code.findbugs:jsr305:1.3.9 - http://findbugs.sourceforge.net/)
+  * Guava: Google Core Libraries for Java (com.google.guava:guava:11.0 - http://code.google.com/p/guava-libraries/guava)
+  * Commons Chain (commons-chain:commons-chain:1.2 - http://commons.apache.org/chain/)
+  * Commons Codec (commons-codec:commons-codec:1.6 - http://commons.apache.org/codec/)
+  * Commons Collections (commons-collections:commons-collections:3.2.1 - http://commons.apache.org/collections/)
+  * Commons DBCP (commons-dbcp:commons-dbcp:1.4 - http://commons.apache.org/dbcp/)
+  * Commons Digester (commons-digester:commons-digester:2.1 - http://commons.apache.org/digester/)
+  * Commons FileUpload (commons-fileupload:commons-fileupload:1.2.2 - http://commons.apache.org/fileupload/)
+  * HttpClient (commons-httpclient:commons-httpclient:3.1 - http://jakarta.apache.org/httpcomponents/httpclient-3.x/)
+  * Commons IO (commons-io:commons-io:2.1 - http://commons.apache.org/io/)
+  * Commons Lang (commons-lang:commons-lang:2.6 - http://commons.apache.org/lang/)
+  * Logging (commons-logging:commons-logging:1.0.4 - http://jakarta.apache.org/commons/logging/)
+  * Commons Pool (commons-pool:commons-pool:1.5.7 - http://commons.apache.org/pool/)
+  * Validator (commons-validator:commons-validator:1.3.1 - http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/)
+  * javax.inject (javax.inject:javax.inject:1 - http://code.google.com/p/atinject/)
+  * Joda time (joda-time:joda-time:2.0 - http://joda-time.sourceforge.net)
+  * Joda-Time JSP tags support (joda-time:joda-time-jsptags:1.1.1 - http://joda-time.sourceforge.net/contrib/jsptags)
+  * Apache Log4j (log4j:log4j:1.2.16 - http://logging.apache.org/log4j/1.2/)
+  * logkit (logkit:logkit:2.0 - no url defined)
+  * Ehcache Core (net.sf.ehcache:ehcache-core:2.5.0 - http://ehcache.org)
+  * Transaction (org.apache.commons.transaction:commons-transaction:1.1 - http://jakarta.apache.org/commons/${pom.artifactId.substring(8)}/)
+  * Apache CXF API (org.apache.cxf:cxf-api:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime SOAP Binding (org.apache.cxf:cxf-rt-bindings-soap:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime XML Binding (org.apache.cxf:cxf-rt-bindings-xml:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime Core (org.apache.cxf:cxf-rt-core:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime Aegis Databinding (org.apache.cxf:cxf-rt-databinding-aegis:2.7.0 - http://cxf.apache.org/)
+  * Apache CXF Runtime JAXB DataBinding (org.apache.cxf:cxf-rt-databinding-jaxb:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime JAX-RS Frontend (org.apache.cxf:cxf-rt-frontend-jaxrs:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime JAX-WS Frontend (org.apache.cxf:cxf-rt-frontend-jaxws:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime Simple Frontend (org.apache.cxf:cxf-rt-frontend-simple:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime HTTP Transport (org.apache.cxf:cxf-rt-transports-http:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime WS Addressing (org.apache.cxf:cxf-rt-ws-addr:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime WS Policy (org.apache.cxf:cxf-rt-ws-policy:2.7.0 - http://cxf.apache.org)
+  * Apache CXF Runtime WS Security (org.apache.cxf:cxf-rt-ws-security:2.7.0 - http://cxf.apache.org)
+  * Apache Neethi (org.apache.neethi:neethi:3.0.2 - http://ws.apache.org/neethi/)
+  * Apache XML Security for Java (org.apache.santuario:xmlsec:1.5.2 - http://santuario.apache.org/)
+  * Struts Core (org.apache.struts:struts-core:1.3.10 - http://struts.apache.org)
+  * Struts EL (org.apache.struts:struts-el:1.3.10 - http://struts.apache.org)
+  * Struts Extras (org.apache.struts:struts-extras:1.3.10 - http://struts.apache.org)
+  * Struts Taglib (org.apache.struts:struts-taglib:1.3.10 - http://struts.apache.org)
+  * WSS4J (org.apache.ws.security:wss4j:1.6.7 - http://ws.apache.org/wss4j/)
+  * XmlSchema Core (org.apache.ws.xmlschema:xmlschema-core:2.0.3 - http://ws.apache.org/commons/xmlschema20/xmlschema-core/)
+  * Groovy (org.codehaus.groovy:groovy-all:1.8.5 - http://groovy.codehaus.org/)
+  * Jackson (org.codehaus.jackson:jackson-core-asl:1.8.8 - http://jackson.codehaus.org)
+  * Data Mapper for Jackson (org.codehaus.jackson:jackson-mapper-asl:1.8.8 - http://jackson.codehaus.org)
+  * Woodstox (org.codehaus.woodstox:woodstox-core-asl:4.1.4 - http://woodstox.codehaus.org)
+  * dwr (org.directwebremoting:dwr:3.0.RC2 - no url defined)
+  * Jasig CAS Client for Java - Core (org.jasig.cas.client:cas-client-core:3.2.1 - http://www.Jasig.org/products/cas/cas-client-core/)
+  * Javassist (org.javassist:javassist:3.15.0-GA - http://www.javassist.org/)
+  * OpenSAML-J (org.opensaml:opensaml:1.1 - https://opensaml.org/)
+  * Quartz Enterprise Job Scheduler (org.quartz-scheduler:quartz:1.8.4 - http://quartz-scheduler.org/quartz/)
+  * Spring AOP (org.springframework:spring-aop:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Beans (org.springframework:spring-beans:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Context (org.springframework:spring-context:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Context Support (org.springframework:spring-context-support:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Core (org.springframework:spring-core:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Expression Language (SpEL) (org.springframework:spring-expression:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring JDBC (org.springframework:spring-jdbc:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Object/Relational Mapping (org.springframework:spring-orm:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Transaction (org.springframework:spring-tx:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Web (org.springframework:spring-web:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * Spring Web MVC (org.springframework:spring-webmvc:3.2.3.RELEASE - https://github.com/SpringSource/spring-framework)
+  * spring-security-cas (org.springframework.security:spring-security-cas:3.1.0.RELEASE - no url defined)
+  * spring-security-core (org.springframework.security:spring-security-core:3.1.0.RELEASE - no url defined)
+  * spring-security-crypto (org.springframework.security:spring-security-crypto:3.1.0.RELEASE - no url defined)
+  * spring-security-web (org.springframework.security:spring-security-web:3.1.0.RELEASE - no url defined)
+  * spring-modules-ojb (org.springmodules:spring-modules-ojb:0.8a - https://springmodules.dev.java.net/)
+  * oro (oro:oro:2.0.8 - no url defined)
+  * Xalan Java Serializer (xalan:serializer:2.7.1 - http://xml.apache.org/xalan-j/)
+  * Xalan Java (xalan:xalan:2.7.1 - http://xml.apache.org/xalan-j/)
+  * Xerces2 Java Parser (xerces:xercesImpl:2.9.1 - http://xerces.apache.org/xerces2-j)
+  * XML Commons External Components XML APIs (xml-apis:xml-apis:1.3.04 - http://xml.apache.org/commons/components/external/)
+  * XML Commons Resolver Component (xml-resolver:xml-resolver:1.2 - http://xml.apache.org/commons/components/resolver/)
+  * xpp3_min (xpp3:xpp3_min:1.1.3.4.O - http://www.extreme.indiana.edu/xgws/xsoap/xpp/mxp1/)
+
+Apache Software License - Version 2.0 - Modified : 
+  * JDOM (org.jdom:jdom:1.1 - http://www.jdom.org/)
+
+Artistic License : 
+  * Display tag library (displaytag:displaytag:1.2 - http://displaytag.sourceforge.net/displaytag)
+
+BSD License : 
+  * ASM Core (asm:asm:3.3.1 - http://asm.objectweb.org/asm/)
+  * XStream Core (com.thoughtworks.xstream:xstream:1.2.2 - no url defined)
+  * dom4j (dom4j:dom4j:1.6.1 - http://dom4j.org)
+  * Stax2 API (org.codehaus.woodstox:stax2-api:3.1.1 - http://woodstox.codehaus.org/StAX2)
+  * freemarker (org.freemarker:freemarker:2.3.20-patch2 - no url defined)
+  * HOWL logger (org.objectweb.howl:howl:1.0.1-1 - http://forge.objectweb.org/projects/howl/)
+  * JOTM :: Core (org.ow2.jotm:jotm-core:2.1.10 - http://jotm.ow2.org/jotm-core)
+
+Bouncy Castle Licence : 
+  * Bouncy Castle Provider (org.bouncycastle:bcprov-jdk16:1.46 - http://www.bouncycastle.org/java.html)
+
+CDDL - Version 1.0 : 
+  * JavaMail API (compat) (javax.mail:mail:1.4.4 - http://kenai.com/projects/javamail/mail)
+  * jsr311-api (javax.ws.rs:jsr311-api:1.1.1 - https://jsr311.dev.java.net)
+
+CDDL - Version 1.1 : 
+  * JAXB Reference Implementation (com.sun.xml.bind:jaxb-impl:2.2.6 - http://jaxb.java.net/)
+  * javax.ws.rs-api (javax.ws.rs:javax.ws.rs-api:2.0-m10 - http://jax-rs-spec.java.net)
+
+CDDL - Version 1.1 / GNU General Public License - Version 2 : 
+  * JavaServer Pages(TM) Standard Tag Library (javax.servlet.jsp.jstl:jstl-api:1.2 - http://jcp.org/en/jsr/detail?id=52)
+  * JavaServer Pages (TM) TagLib Implementation (org.glassfish.web:jstl-impl:1.2 - http://jstl.java.net/jstl-impl)
+
+Common Public License - Version 1.0 : 
+  * WSDL4J (wsdl4j:wsdl4j:1.6.2 - http://sf.net/projects/wsdl4j)
+
+Dual license consisting of the CDDL v1.1 and GPL v2 : 
+  * JSR 353 (JSON Processing) API (javax.json:javax.json-api:1.0 - http://json-processing-spec.java.net)
+  * JSR 353 (JSON Processing) Default Provider (org.glassfish:javax.json:1.0.1 - http://jsonp.java.net)
+  * javax.ws.rs-api (javax.ws.rs:javax.ws.rs-api:2.0-m10 - http://jax-rs-spec.java.net)
+
+Eclipse Public License - Version 1.0 : 
+  * AspectJ runtime (org.aspectj:aspectjrt:1.6.8 - http://www.aspectj.org)
+  * AspectJ weaver (org.aspectj:aspectjweaver:1.6.8 - http://www.aspectj.org)
+
+Educational Community License - Version 2.0 : 
+  * Commons BeanUtils (org.kuali.commons:commons-beanutils:1.8.3-kuali-4 - http://site.kuali.org/commons/commons-beanutils/1.8.3-kuali-4)
+  * ObJectRelationalBridge (org.kuali.db.ojb:db-ojb:1.0.4-patch8 - http://site.kuali.org/db/ojb/db-ojb/1.0.4-patch8)
+  * Rice Core API (org.kuali.rice:rice-core-api:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-core/rice-core-api)
+  * Rice Core Framework (org.kuali.rice:rice-core-framework:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-core/rice-core-framework)
+  * Rice Core Impl (org.kuali.rice:rice-core-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-core/rice-core-impl)
+  * Rice Core Service API (org.kuali.rice:rice-core-service-api:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-core-service/rice-core-service-api)
+  * Rice Core Service Framework (org.kuali.rice:rice-core-service-framework:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-core-service/rice-core-service-framework)
+  * Rice Core Service Impl (org.kuali.rice:rice-core-service-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-core-service/rice-core-service-impl)
+  * Rice Core Service Web (org.kuali.rice:rice-core-service-web:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-core-service/rice-core-service-web)
+  * Rice Core Web (org.kuali.rice:rice-core-web:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-core/rice-core-web)
+  * Rice EDL Framework (org.kuali.rice:rice-edl-framework:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-edl/rice-edl-framework)
+  * Rice Implementation (org.kuali.rice:rice-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-impl)
+  * Rice KEN API (org.kuali.rice:rice-ken-api:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-ken/rice-ken-api)
+  * Rice KEW API (org.kuali.rice:rice-kew-api:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-kew/rice-kew-api)
+  * Rice KEW Framework (org.kuali.rice:rice-kew-framework:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-kew/rice-kew-framework)
+  * Rice KEW Impl (org.kuali.rice:rice-kew-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-kew/rice-kew-impl)
+  * Rice KIM API (org.kuali.rice:rice-kim-api:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-kim/rice-kim-api)
+  * Rice KIM Framework (org.kuali.rice:rice-kim-framework:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-kim/rice-kim-framework)
+  * Rice KIM Impl (org.kuali.rice:rice-kim-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-kim/rice-kim-impl)
+  * Rice KNS (org.kuali.rice:rice-kns:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-kns)
+  * Rice KRAD Application Framework (org.kuali.rice:rice-krad-app-framework:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-framework/rice-krad-app-framework)
+  * Rice KRAD Service Impl (org.kuali.rice:rice-krad-service-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-framework/rice-krad-service-impl)
+  * Rice KRAD Web (org.kuali.rice:rice-krad-web:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-framework/rice-krad-web)
+  * Rice KRAD Web Framework (org.kuali.rice:rice-krad-web-framework:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-framework/rice-krad-web-framework)
+  * Rice KSB API (org.kuali.rice:rice-ksb-api:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-ksb/rice-ksb-api)
+  * Rice KSB Client Implementation (org.kuali.rice:rice-ksb-client-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-ksb/rice-ksb-client-impl)
+  * Rice KSB Server Implementation (org.kuali.rice:rice-ksb-server-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-ksb/rice-ksb-server-impl)
+  * Rice Location API (org.kuali.rice:rice-location-api:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-location/rice-location-api)
+  * Rice Location Framework (org.kuali.rice:rice-location-framework:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-location/rice-location-framework)
+  * Rice Location Impl (org.kuali.rice:rice-location-impl:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-location/rice-location-impl)
+  * Rice Location Web (org.kuali.rice:rice-location-web:2.3.2 - http://site.kuali.org/rice/2.3.2/rice-middleware/rice-location/rice-location-web)
+
+GNU Lesser General Public License : 
+  * Hibernate Commons Annotations (org.hibernate:hibernate-commons-annotations:3.2.0.Final - http://hibernate.org)
+  * Hibernate Core (org.hibernate:hibernate-core:3.6.9.Final - http://hibernate.org/hibernate-core)
+  * Hibernate Entity Manager (org.hibernate:hibernate-entitymanager:3.6.9.Final - http://hibernate.org/hibernate-entitymanager)
+  * JPA 2.0 API (org.hibernate.javax.persistence:hibernate-jpa-2.0-api:1.0.1.Final - http://hibernate.org)
+  * Jacorb (org.jacorb:jacorb:2.2.3-jonas-patch-20071018 - http://www.jacorb.org)
+  * Jacorb IDL (org.jacorb:jacorb-idl:2.2.3-jonas-patch-20071018 - http://www.jacorb.org)
+
+GNU Lesser General Public License - Version 2.1 : 
+  * Javassist (org.javassist:javassist:3.15.0-GA - http://www.javassist.org/)
+  * CAROL: Common Architecture for RMI OW2 Layer (org.ow2.carol:carol:3.0.6 - http://carol.ow2.org/carol-modules/carol)
+  * CAROL: Interceptors (org.ow2.carol:carol-interceptors:1.0.1 - http://carol.ow2.org)
+  * IRMI (org.ow2.carol.irmi:irmi:1.1.2 - no url defined)
+
+GNU Lesser General Public License - Version 3 : 
+  * Bitronix Transaction Manager :: Core (org.codehaus.btm:btm:2.1.2 - http://docs.codehaus.org/display/BTM/Home/btm)
+  * xapool (xapool:xapool:1.5.0-patch4 - no url defined)
+
+MIT License : 
+  * JCL 1.1.1 implemented over SLF4J (org.slf4j:jcl-over-slf4j:1.6.4 - http://www.slf4j.org)
+  * SLF4J API Module (org.slf4j:slf4j-api:1.6.2 - http://www.slf4j.org)
+  * SLF4J LOG4J-12 Binding (org.slf4j:slf4j-log4j12:1.6.2 - http://www.slf4j.org)
+
+Mozilla Public License : 
+  * iText, a Free Java-PDF library (com.lowagie:itext:2.1.7 - http://www.lowagie.com/iText/)
+
+Mozilla Public License - Version 1.1 : 
+  * Javassist (org.javassist:javassist:3.15.0-GA - http://www.javassist.org/)
+
+Public Domain : 
+  * AOP alliance (aopalliance:aopalliance:1.0 - http://aopalliance.sourceforge.net)
+
+Sun Binary License : 
+  * connector-api (javax.resource:connector-api:1.5 - no url defined)
+  * Java Transaction API (javax.transaction:jta:1.1 - http://java.sun.com/products/jta)
