@@ -30,4 +30,3 @@ public class TestTextHelper extends TestTextHelperBase {
         return null;
     }
 }
-                                                                                          Te
