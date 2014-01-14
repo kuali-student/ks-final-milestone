@@ -78,8 +78,9 @@
                 <bean parent="Uif-VerticalBoxGroup">
                     <property name="items">
                         <list>
-                            <bean id="timeSlotTypeSelection" parent="Uif-InputField" p:propertyName="termTypeSelections"  p:width="auto"
-                                  p:label="Select Term Type(s) To Edit" p:labelPlacement="TOP">
+                            <bean parent="Uif-Message" p:messageText="Select Term Type(s) To Edit" p:style="font-weight:bold;"/>
+                            <bean parent="Uif-Message" p:messageText="Use 'Ctrl' or 'Shift' to select multiple" p:additionalCssClasses="ks-subSection"/>
+                            <bean id="timeSlotTypeSelection" parent="Uif-InputField" p:propertyName="termTypeSelections" >
                                 <property name="control">
                                     <bean parent="Uif-MultiSelectControl" p:size="3" p:style="width:17em;"/>
                                 </property>
@@ -87,13 +88,12 @@
                                     <bean class="org.kuali.student.enrollment.class1.timeslot.keyvalue.TimeSlotTypeOptionsFinder" p:addBlankOption="false"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-Message" p:messageText="Use 'ctrl' or 'shift' to select multiple" />
                         </list>
                     </property>
                 </bean>
                 <!--The submit button -->
                 <bean parent="Uif-PrimaryActionButton"
-                    p:performClientSideValidation="false" p:actionLabel="Show Time Slots" p:methodToCall="show" p:style="margin-top:20px;" p:successCallback="setupTimeSlotTypeDropdown();"/>
+                    p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:46px;" p:successCallback="setupTimeSlotTypeDropdown();"/>
 
                 <!-- REMOVE ME: This is for a PoC for "intelligent" time entry
                 <bean id="daysPatternTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Days" p:required="true">
