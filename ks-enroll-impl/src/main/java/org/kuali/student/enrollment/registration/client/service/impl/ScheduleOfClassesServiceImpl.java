@@ -863,7 +863,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      *
      * @param aoIds
      * @param contextInfo
-     * @return
+     * @return Map<activityOfferingId, List<InstructorSearchResult>>
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws DoesNotExistException
@@ -901,19 +901,17 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 }
             }
 
+            // if we have a list of instructors
             if (!resultList.isEmpty()) {
+                // get the instructor entities from KIM.
                 EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()));
 
                 for (EntityDefault entity : results.getResults()) {
+                    // Each KIM entity can have multiple principals. So we need to loop through the principals
                     for (Principal principal : entity.getPrincipals()) {
-                        InstructorSearchResult instructor = principalId2aoIdMap.get(principal.getPrincipalId());
-                        if (instructor != null) {
-
-                                if (entity.getName() != null) {
-                                    instructor.setDisplayName(entity.getName().getCompositeName());
-                                } else {
-                                    instructor.setDisplayName(principal.getPrincipalId());
-                                }
+                        if(principalId2aoIdMap.containsKey(principal.getPrincipalId())){  // does this principal match the ks instructor
+                            InstructorSearchResult instructor = principalId2aoIdMap.get(principal.getPrincipalId());
+                            populateInstructorWithEntityInfo(instructor, entity);  // populate the instructor with KIM information
                         }
                     }
                 }
@@ -921,6 +919,19 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             }
         }
         return resultList;
+    }
+
+    /**
+     * This method populates the InstructorSearchResult object with infor from the Kim entity
+     * @param instructor Kuali Student Instructor
+     * @param entity     Kim Entity object
+     */
+    private void populateInstructorWithEntityInfo(InstructorSearchResult instructor, EntityDefault entity){
+        if(entity.getName() != null){
+           instructor.setDisplayName(entity.getName().getCompositeName());
+           instructor.setFirstName(entity.getName().getFirstName());
+           instructor.setLastName(entity.getName().getLastName());
+       }
     }
 
     class RegResultComparator implements Comparator<RegGroupSearchResult> {

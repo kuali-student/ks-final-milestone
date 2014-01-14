@@ -8,10 +8,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
-        "displayName", "activityOfferingId",
+        "displayName", "firstName", "lastName", "activityOfferingId",
         "isPrimary"})
 public class InstructorSearchResult {
     private String displayName;
+    private String firstName;
+    private String lastName;
     private String activityOfferingId;
     private String principalId;
     private boolean isPrimary;
@@ -38,6 +40,22 @@ public class InstructorSearchResult {
 
     public void setPrimary(boolean isPrimary) {
         this.isPrimary = isPrimary;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPrincipalId() {
