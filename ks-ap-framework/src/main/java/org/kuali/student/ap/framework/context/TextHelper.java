@@ -26,4 +26,32 @@ public interface TextHelper {
 	 */
 	String getText(String messageCode);
 
+    /**
+     * Get the text for a message code within the current transactional context.
+     *
+     * @param messageCode
+     *            The message code.
+     * @param defaultValue
+     *            The value to use as a default if nothing is found
+     * @return The text corresponding to the message code.
+     * @since KSAP-0.8.0
+     */
+    String getText(String messageCode, String defaultValue);
+
+    /**
+     * Get the text for a message code within the current transactional context.
+     * The pattern string would look like this:
+     * "My favorite color is {0}."
+     * So your code call would look like this:
+     * {@code}getFormattedMessage("msg", "Blue"){/@code}
+     * And the result would be "My favorite color is Blue"
+     * @param messageCode
+     *              The message code
+     * @param args
+     *              Values to use as replacements in the returned string.
+     * @return The text corresponding to the message code, filling in the placeholders with values supplied.
+     * @since KSAP-0.8.0
+     */
+    String getFormattedMessage(String messageCode, Object... args);
+
 }

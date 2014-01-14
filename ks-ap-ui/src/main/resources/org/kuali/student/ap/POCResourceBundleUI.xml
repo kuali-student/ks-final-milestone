@@ -53,6 +53,9 @@
 		</property>
 		<property name="items">
 			<list>
+
+                <bean parent="Uif-Message" p:messageText="[b]Getting values with the new KualiResourceBundle[/b]"/>
+
                 <bean parent="Uif-Message" p:messageText="Hard coded text (BAD)" />
 
                 <bean parent="Uif-Message"
@@ -74,6 +77,17 @@
 
                 <bean parent="Uif-Message"
                       p:messageText="#{POCResourceLoader.getFormattedMessage('poc.textWithMultiplePlaceholders', new Object[]{'3', 'number', 'string'})}"/>
+
+
+                <bean parent="Uif-Message" p:messageText="[b]Getting values with an enhanced TextHelper[/b]"/>
+                <bean parent="Uif-Message"
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('simpleText')}"/>
+
+                <bean parent="Uif-Message"
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('substitutionText', new Object[]{'Blue'})}"/>
+
+                <bean parent="Uif-Message"
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('multipleSubstitutionText', 'Apples', 'Bananas')}"/>
 
 			</list>
 		</property>

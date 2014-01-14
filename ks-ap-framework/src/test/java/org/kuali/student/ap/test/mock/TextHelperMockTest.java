@@ -20,4 +20,14 @@ public class TextHelperMockTest implements TextHelper {
     public String getText(String messageCode) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    @Override
+    public String getText(String messageCode, String defaultValue) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public String getFormattedMessage(String messageCode, Object... args) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

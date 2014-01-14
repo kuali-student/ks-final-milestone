@@ -1,7 +1,10 @@
 package org.kuali.student.ap.framework.context.support;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.TextHelper;
@@ -54,5 +57,42 @@ public class DefaultTextHelper implements TextHelper, Serializable {
 			throw new IllegalStateException("MSG lookup failure", e);
 		}
 	}
+
+    @Override
+    public String getText(String messageCode, String defaultValue) {
+        MessageService msg = KsapFrameworkServiceLocator.getMessageService();
+        KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
+        ContextInfo ctx = ksapCtx.getContextInfo();
+        if(ctx == null){
+            ctx = new ContextInfo();
+        }
+        LocaleInfo locale = ctx.getLocale();
+        try {
+            MessageInfo message = msg.getMessage(locale,messageGroup,messageCode, ctx);
+            return message.getValue();
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    @Override
+    public String getFormattedMessage(String messageCode, Object... args)
+    {
+        String pattern = getText(messageCode);
+        KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
+        ContextInfo ctx = ksapCtx.getContextInfo();
+        if(ctx == null){
+            ctx = new ContextInfo();
+        }
+        LocaleInfo locale = ctx.getLocale();
+        Locale loc = null;
+        if (locale != null) {
+            loc = new Locale(StringUtils.trimToEmpty(locale.getLocaleLanguage()),
+                    StringUtils.trimToEmpty(locale.getLocaleRegion()),
+                    StringUtils.trimToEmpty(locale.getLocaleVariant()));
+        }
+
+        return (new MessageFormat(pattern, loc)).format(args, new StringBuffer(), null).toString();
+    }
 
 }
