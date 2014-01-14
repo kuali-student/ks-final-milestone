@@ -52,21 +52,12 @@
         <property name="suffix" value=".ftl"/>
     </bean>
 
-    <!-- MVC controllers for freemarker -->
-    <!--<context:component-scan base-package="org.kuali.student.enrollment.class2.registration.performance.kradlite.controller" />-->
     <context:annotation-config/>
 
     <bean id="crPerformanceController"
           class="org.kuali.student.enrollment.class2.registration.performance.kradlite.controller.CRPerformanceTestController">
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
-
-    <!-- web socket config -->
-    <!--<websocket:handlers>-->
-    <!--<websocket:mapping path="/crStatus" handler="crStatusHandler"/>-->
-    <!--</websocket:handlers>-->
-
-    <!--<bean id="crStatusHandler" class="org.kuali.student.enrollment.ui.registration.mq.CRStatusWebSocketHandler"/>-->
 
     <!-- ActiveMQ config -->
     <amq:broker useJmx="true" persistent="false">
