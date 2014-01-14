@@ -28,7 +28,6 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -52,6 +51,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.SearchServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -776,7 +776,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         for(ActivityOfferingSearchResult ao : aoList){
             String scheduleId = ao.getScheduleId();
-            if(scheduleId != null && !"".equals(scheduleId)){
+
+            if(!StringUtils.isEmpty(scheduleId)){
                 scheduleIds.add(scheduleId);
             }
         }
@@ -786,7 +787,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         if(schedMap != null && !schedMap.isEmpty()){
             for(ActivityOfferingSearchResult ao : aoList){
                 String scheduleId = ao.getScheduleId();
-                if(scheduleId != null && !"".equals(scheduleId) && schedMap.containsKey(scheduleId)){
+                if(!StringUtils.isEmpty(scheduleId) && schedMap.containsKey(scheduleId)){
                     ao.setSchedule(convertScheduleSearchResultToAOSchedComponent(schedMap.get(scheduleId)));
                 }
             }
@@ -820,7 +821,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         for(ActivityOfferingSearchResult ao : aoList){
             String aoId = ao.getActivityOfferingId();
-            if(aoId != null && !"".equals(aoId)){
+            if(!StringUtils.isEmpty(aoId)){
                 aoIds.add(aoId);
             }
         }
@@ -830,7 +831,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         if(instMap != null && !instMap.isEmpty()){
             for(ActivityOfferingSearchResult ao : aoList){
                 String aoId = ao.getActivityOfferingId();
-                if(aoId != null && !"".equals(aoId) && instMap.containsKey(aoId)){
+                if(!StringUtils.isEmpty(aoId) && instMap.containsKey(aoId)){
                     ao.setInstructors(instMap.get(aoId));
                 }
             }
@@ -840,7 +841,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private void populateActivityOfferingsWithActivityTypeNames(List<ActivityOfferingSearchResult> aoList, ContextInfo contextInfo) throws Exception {
         for(ActivityOfferingSearchResult ao : aoList){
             String aoTypeKey = ao.getActivityOfferingType();
-            if(aoTypeKey != null && !"".equals(aoTypeKey)){
+            if(!StringUtils.isEmpty(aoTypeKey)){
                 String aoTypeName = getTypeService().getType(aoTypeKey, contextInfo).getName();
                 ao.setActivityOfferingTypeName(aoTypeName);
             }
@@ -1015,7 +1016,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     private SearchService getSearchService() {
         if (searchService == null) {
-            searchService = (SearchService) GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "search", SearchService.class.getSimpleName()));
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(SearchServiceConstants.NAMESPACE, SearchService.class.getSimpleName()));
         }
         return searchService;
     }
