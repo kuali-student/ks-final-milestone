@@ -70,11 +70,8 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         if(value != null) {
             parameterKey = value.getParameterKey();
             priority = value.getPriority();
-            if (value.getAtpTypeKeys() != null){
+            if (value.getAtpTypeKeys().size() > 0){
                 atpTypeKeys = new ArrayList<String>(value.getAtpTypeKeys());
-            }
-            else{
-                atpTypeKeys = new ArrayList<String>();
             }
             populationId = value.getPopulationId();
             ruleId = value.getRuleId();
@@ -125,6 +122,9 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
 
     @Override
     public List<String> getAtpTypeKeys() {
+        if (atpTypeKeys == null){
+            atpTypeKeys = new ArrayList<String>();
+        }
         return atpTypeKeys;
     }
 

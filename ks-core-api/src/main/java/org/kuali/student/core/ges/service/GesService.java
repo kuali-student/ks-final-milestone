@@ -193,8 +193,8 @@ public interface GesService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateParameter(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                        @WebParam(name = "valueTypeKey") String valueTypeKey,
                                                         @WebParam(name = "parameterTypeKey") String parameterTypeKey,
+                                                        @WebParam(name = "valueTypeKey") String valueTypeKey,
                                                         @WebParam(name = "parameterInfo") ParameterInfo parameterInfo,
                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -228,9 +228,9 @@ public interface GesService {
      *                                   designated as read-only
      * @throws DataValidationErrorException supplied data is invalid
      */
-    public ParameterInfo createParameter(@WebParam(name = "valueTypeKey") String valueTypeKey,
-                                         @WebParam(name = "parameterKey") String parameterKey,
+    public ParameterInfo createParameter(@WebParam(name = "parameterKey") String parameterKey,
                                          @WebParam(name = "parameterTypeKey") String parameterTypeKey,
+                                         @WebParam(name = "valueTypeKey") String valueTypeKey,
                                          @WebParam(name = "parameterInfo") ParameterInfo parameterInfo,
                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,

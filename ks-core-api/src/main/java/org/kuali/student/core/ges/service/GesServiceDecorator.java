@@ -82,13 +82,13 @@ public class GesServiceDecorator implements GesService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String valueTypeKey, String parameterTypeKey,ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().validateParameter(validationTypeKey,valueTypeKey,parameterTypeKey,parameterInfo,contextInfo);
+    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String parameterTypeKey, String valueTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().validateParameter(validationTypeKey,parameterTypeKey,valueTypeKey,parameterInfo,contextInfo);
     }
 
     @Override
-    public ParameterInfo createParameter(String valueTypeKey, String parameterKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createParameter(valueTypeKey,parameterKey,parameterTypeKey,parameterInfo,contextInfo);
+    public ParameterInfo createParameter( String parameterKey, String parameterTypeKey, String valueTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createParameter(parameterKey,parameterTypeKey,valueTypeKey,parameterInfo,contextInfo);
     }
 
     @Override
