@@ -371,12 +371,12 @@
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="AFFILIATION" p:required="false">
+                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation" p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="INST.EFFORT" p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey" p:required="false" p:inclusiveMax="100">
+                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="Inst.Effort" p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey" p:required="false" p:inclusiveMax="100">
                                   <property name="validCharactersConstraint">
                                         <bean parent="IntegerPatternConstraint" />
                                   </property>
@@ -547,7 +547,7 @@
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:id="seatPoolPriority" p:propertyName="seatPool.processingPriority" p:label="PRIORITY"
+                            <bean parent="Uif-InputField" p:id="seatPoolPriority" p:propertyName="seatPool.processingPriority" p:label="Priority"
                                   p:maxLength="2" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="2" />
@@ -556,7 +556,7 @@
                                     <bean parent="IntegerPatternConstraint" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="SEATS" p:maxLength="3" p:id="seatLimit" >
+                            <bean parent="Uif-InputField" p:propertyName="seatPool.seatLimit" p:label="Seats" p:maxLength="3" p:id="seatLimit" >
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="3" p:onBlurScript="validateSeatsForSP(jQuery(this))" />
                                 </property>
@@ -569,8 +569,8 @@
                                     <bean parent="IntegerPatternConstraint" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-MessageField" p:messageText="%" p:label="PERCENT" p:id="seatLimitPercent" />
-                            <bean parent="Uif-InputField" p:label="POPULATION NAME" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
+                            <bean parent="Uif-MessageField" p:messageText="%" p:label="Percent" p:id="seatLimitPercent" />
+                            <bean parent="Uif-InputField" p:label="Population Name" p:id="ao-seatpoolgroup-population-name" p:propertyName="seatPoolPopulation.name"
                                   p:onChangeScript="jQuery('#dirtyForm').val(true);" p:cssClasses="col_6">
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="40" p:onBlurScript="validatePopulationForSP(this,'@{document.newMaintainableObject.dataObject.populationsJSONString}');"
@@ -593,7 +593,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="EXPIRATION MILESTONE">
+                            <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Expiration Milestone">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
                                 </property>
