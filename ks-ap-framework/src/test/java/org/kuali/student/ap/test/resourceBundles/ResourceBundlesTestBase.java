@@ -70,6 +70,12 @@ public abstract class ResourceBundlesTestBase {
         assertEquals("In Default Locale Only", value);
     }
 
+    @Test
+    public void testRegionOverride() {
+        String value = rb.getString("testRegionOverride");
+        assertEquals(getPrefix() + "This will get overridden by a different local", value);
+    }
+
     /**
      * Get the prefix that will be used to verify the test results
      * @return
