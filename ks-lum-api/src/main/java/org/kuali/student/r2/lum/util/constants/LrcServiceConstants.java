@@ -813,13 +813,14 @@ public class LrcServiceConstants {
     public static final String RESULT_VALUE_KEY_HONOR_DEGREE_LATIN_SUMMA = "kuali.result.value.honor.degree.latin.summa";
     public static final String RESULT_VALUE_KEY_HONOR_DEGREE_LATIN_EGREGIA = "kuali.result.value.honor.degree.latin.egregia";
     // grade group keys
-    public static final String RESULT_GROUP_KEY_GRADE_LETTER = "kuali.resultComponent.grade.letter";
+    public static final String RESULT_GROUP_KEY_GRADE_BASE = "kuali.resultComponent.grade";
+    public static final String RESULT_GROUP_KEY_GRADE_LETTER = RESULT_GROUP_KEY_GRADE_BASE + ".letter";
     public static final String RESULT_GROUP_KEY_GRADE_LETTER_PASSING_TRANSLATION = "kuali.result.group.grade.letter.passing.translation";
     public static final String RESULT_GROUP_KEY_GRADE_LETTER_GRADUATE = "kuali.result.group.grade.letter.graduate";
-    public static final String RESULT_GROUP_KEY_GRADE_PASSFAIL = "kuali.resultComponent.grade.passFail";
+    public static final String RESULT_GROUP_KEY_GRADE_PASSFAIL = RESULT_GROUP_KEY_GRADE_BASE + ".passFail";
     public static final String RESULT_GROUP_KEY_GRADE_PNP_STANDARD = "kuali.result.group.grade.pnp.standard";
     public static final String RESULT_GROUP_KEY_GRADE_LETTER_PLUS_MINUS_STANDARD = "kuali.result.group.grade.letter.plus.minus.standard";
-    public static final String RESULT_GROUP_KEY_GRADE_PERCENTAGE = "kuali.resultComponent.grade.percentage";
+    public static final String RESULT_GROUP_KEY_GRADE_PERCENTAGE = RESULT_GROUP_KEY_GRADE_BASE + ".percentage";
     public static final String RESULT_GROUP_KEY_GRADE_PERCENTAGE_0_59 = "kuali.result.group.grade.percentage.0.59";
     public static final String RESULT_GROUP_KEY_GRADE_PERCENTAGE_60_69 = "kuali.result.group.grade.percentage.60.69";
     public static final String RESULT_GROUP_KEY_GRADE_PERCENTAGE_70_79 = "kuali.result.group.grade.percentage.70.79";
@@ -851,11 +852,11 @@ public class LrcServiceConstants {
     public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_3_5_7_9 = "kuali.creditType.credit.degree.1.3.5.7.9";
     public static final String RESULT_GROUP_KEY_GRADE_ADMIN_STANDARD = "kuali.result.group.grade.admin.standard";
     public static final String RESULT_GROUP_KEY_GRADE_ADMIN_IN_MINUSPROGRESS = "kuali.result.group.grade.admin.in-progress";
-    public static final String RESULT_GROUP_KEY_GRADE_SATISFACTORY = "kuali.resultComponent.grade.satisfactory";
-    public static final String RESULT_GROUP_KEY_GRADE_COMPLETEDNOTATION = "kuali.resultComponent.grade.completedNotation";
-    public static final String RESULT_GROUP_KEY_GRADE_AUDIT = "kuali.resultComponent.grade.audit";
-    public static final String RESULT_GROUP_KEY_GRADE_DESIGNREVIEW = "kuali.resultComponent.grade.designReview";
-    public static final String RESULT_GROUP_KEY_GRADE_RECITALREVIEW = "kuali.resultComponent.grade.recitalReview";
+    public static final String RESULT_GROUP_KEY_GRADE_SATISFACTORY = RESULT_GROUP_KEY_GRADE_BASE + ".satisfactory";
+    public static final String RESULT_GROUP_KEY_GRADE_COMPLETEDNOTATION = RESULT_GROUP_KEY_GRADE_BASE + ".completedNotation";
+    public static final String RESULT_GROUP_KEY_GRADE_AUDIT = RESULT_GROUP_KEY_GRADE_BASE + ".audit";
+    public static final String RESULT_GROUP_KEY_GRADE_DESIGNREVIEW = RESULT_GROUP_KEY_GRADE_BASE + ".designReview";
+    public static final String RESULT_GROUP_KEY_GRADE_RECITALREVIEW = RESULT_GROUP_KEY_GRADE_BASE + ".recitalReview";
     public static final String RESULT_GROUP_KEY_DEGREE_AS = "kuali.result.group.degree.as";
     public static final String RESULT_GROUP_KEY_DEGREE_AA = "kuali.result.group.degree.aa";
     public static final String RESULT_GROUP_KEY_DEGREE_BSC = "kuali.resultComponent.degree.bsc ";
