@@ -4,6 +4,7 @@
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
     <!-- Academic Plan Service -->
     <bean id="learningPlanInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-LearningPlanInfo-dictionary.xml"/>
@@ -50,6 +51,49 @@
                 <bean parent="planItemInfoDictionaryLocation" />
                 <bean parent="planItemSetInfoDictionaryLocation" />
                 <bean parent="auditReportInfoDictionaryLocation" />
+
+                <!-- now pull in rest of ks DD file location beans-->
+                <bean parent="ksBaseDictionaryLocation" />
+                <bean parent="luiPersonRelationInfoDictionaryLocation" />
+                <bean parent="luiInfoDictionaryLocation" />
+                <bean parent="luiCapacityInfoDictionaryLocation" />
+                <bean parent="luiLuiRelationInfoDictionaryLocation" />
+                <bean parent="luiSetInfoDictionaryLocation" />
+                <bean parent="courseOfferingInfoDictionaryLocation" />
+                <bean parent="activityOfferingInfoDictionaryLocation" />
+                <bean parent="formatOfferingInfoDictionaryLocation" />
+                <bean parent="activityOfferingClusterInfoDictionaryLocation"/>
+                <bean parent="activityOfferingSetInfoDictionaryLocation"/>
+                <bean parent="registrationGroupInfoDictionaryLocation" />
+                <bean parent="seatPoolDefinitionInfoDictionaryLocation" />
+                <bean parent="socInfoDictionaryLocation"/>
+                <bean parent="socRolloverResultInfoDictionaryLocation"/>
+                <bean parent="socRolloverResultItemInfoDictionaryLocation" />
+                <bean parent="appliedHoldInfoDictionaryLocation" />
+                <bean parent="holdIssueInfoDictionaryLocation" />
+                <bean parent="processInfoDictionaryLocation" />
+                <bean parent="checkInfoDictionaryLocation" />
+                <bean parent="instructionInfoDictionaryLocation" />
+
+                <bean parent="atpInfoDictionaryLocation" />
+                <bean parent="milestoneInfoDictionaryLocation" />
+                <bean parent="atpAtpRelationInfoDictionaryLocation" />
+                <bean parent="acalInfoDictionaryLocation" />
+                <bean parent="holidayCalendarInfoDictionaryLocation" />
+                <bean parent="termInfoDictionaryLocation" />
+                <bean parent="holidayInfoDictionaryLocation" />
+                <bean parent="keyDateInfoDictionaryLocation" />
+                <bean parent="scheduleInfoDictionaryLocation" />
+                <bean parent="scheduleRequestInfoDictionaryLocation" />
+                <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
+                <bean parent="timeSlotInfoDictionaryLocation"/>
+                <bean parent="timeOfDayInfoDictionaryLocation"/>
+                <bean parent="populationInfoDictionaryLocation" />
+                <bean parent="populationRuleInfoDictionaryLocation" />
+                <bean parent="buildingInfoDictionaryLocation" />
+                <bean parent="roomInfoDictionaryLocation"/>
+                <bean parent="roomResponsibleOrgInfoDictionaryLocation"/>
+                <bean parent="commentInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
