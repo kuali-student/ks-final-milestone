@@ -124,7 +124,7 @@ function searchForCourses(id, parentId) {
 	var results = jQuery("#" + parentId); // course_search_results_panel
 	results.fadeOut("fast");
     setupImages();
-	showLoading("Searching. Please wait...");
+	showLoading("Loading...");
 	fnLoadFacets();
 	oTable = jQuery("#" + id)
 			.dataTable(
