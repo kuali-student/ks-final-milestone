@@ -147,10 +147,10 @@ public final class SchedulingServiceUtil {
             return false;
         }
 
-        if (timeSlotInfo1.getStartTime().getHour() == null ||
-                timeSlotInfo1.getEndTime().getHour() == null ||
-                timeSlotInfo2.getStartTime().getHour() == null ||
-                timeSlotInfo2.getEndTime().getHour() == null ) {
+        if (timeSlotInfo1.getStartTime() == null ||
+                timeSlotInfo1.getEndTime() == null ||
+                timeSlotInfo2.getStartTime() == null ||
+                timeSlotInfo2.getEndTime() == null) {
             // If there are null values in any of these spots, assume no conflict can occur.
             return false;
         }
