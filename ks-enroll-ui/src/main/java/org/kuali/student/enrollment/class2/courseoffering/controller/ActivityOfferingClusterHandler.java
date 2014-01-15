@@ -133,9 +133,9 @@ public class ActivityOfferingClusterHandler {
         }
 
         if (selectedAolist.size() > 1) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_CANCEL_N_SUCCESS);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_CANCEL_N_SUCCESS);
         } else {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_CANCEL_1_SUCCESS);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_CANCEL_1_SUCCESS);
         }
     }
 
@@ -164,9 +164,9 @@ public class ActivityOfferingClusterHandler {
         }
 
         if (selectedAolist.size() > 1) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND_N_SUCCESS);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND_N_SUCCESS);
         } else {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND_1_SUCCESS);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_SUSPEND_1_SUCCESS);
         }
     }
 
@@ -195,9 +195,9 @@ public class ActivityOfferingClusterHandler {
         }
 
         if (selectedAolist.size() > 1) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE_N_SUCCESS);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE_N_SUCCESS);
         } else {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.INFORMATION, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE_1_SUCCESS);
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CourseOfferingConstants.ACTIVITYOFFERING_TOOLBAR_REINSTATE_1_SUCCESS);
         }
     }
 
