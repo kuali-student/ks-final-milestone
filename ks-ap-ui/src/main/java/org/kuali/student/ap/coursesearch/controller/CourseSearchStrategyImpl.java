@@ -1,6 +1,7 @@
 package org.kuali.student.ap.coursesearch.controller;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -15,17 +16,18 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.Credit;
 import org.kuali.student.common.util.KSCollectionUtils;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
-import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -415,12 +417,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		 */
 		CourseOfferingService service = KsapFrameworkServiceLocator
 				.getCourseOfferingService();
-
-		String subject = course.getSubject();
-		List<String> codes;
+		List<CourseOfferingInfo> courses;
 		try {
-			codes = service.getCourseOfferingIdsByTermAndSubjectArea(term,
-					subject, KsapFrameworkServiceLocator.getContext()
+			courses = service.getCourseOfferingsByCourseAndTerm(course.getCourseId(),term,
+					KsapFrameworkServiceLocator.getContext()
 							.getContextInfo());
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("Course Offering not found", e);
@@ -435,9 +435,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		}
 
 		// The course code is not in the list, so move on to the next item.
-		String code = course.getCode();
-		boolean result = codes.contains(code);
-		return result;
+		return (!courses.isEmpty());
 	}
 
 	// Load scheduled terms.
@@ -445,56 +443,33 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	private void loadScheduledTerms(CourseSearchItemImpl course) {
 		LOG.info("Start of method loadScheduledTerms of CourseSearchController:"
 				+ System.currentTimeMillis());
-		AcademicCalendarService atpService = KsapFrameworkServiceLocator
-				.getAcademicCalendarService();
 
-		List<TermInfo> terms;
-		try {
-			terms = atpService.searchForTerms(QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("atpState",
-							PlanConstants.PUBLISHED)),
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("ATP lookup failed", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("ATP lookup failed", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("ATP lookup failed", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("ATP lookup failed", e);
-		}
+		List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getOfficialTerms();
 
 		CourseOfferingService offeringService = KsapFrameworkServiceLocator
 				.getCourseOfferingService();
 
 		// If the course is offered in the term then add the term info to
 		// the scheduled terms list.
-		String courseId = course.getCourseId();
-
-		for (TermInfo term : terms) {
-
-			String key = term.getId();
-			String subject = course.getSubject();
-
-			try {
-				List<String> offerings = offeringService
-						.getCourseOfferingIdsByTermAndSubjectArea(key, subject,
-								KsapFrameworkServiceLocator.getContext()
-										.getContextInfo());
-				if (offerings.contains(courseId))
-					course.addScheduledTerm(term.getName());
-			} catch (InvalidParameterException e) {
-				throw new IllegalArgumentException("ATP lookup failed", e);
-			} catch (MissingParameterException e) {
-				throw new IllegalArgumentException("ATP lookup failed", e);
-			} catch (OperationFailedException e) {
-				throw new IllegalStateException("ATP lookup failed", e);
-			} catch (PermissionDeniedException e) {
-				throw new IllegalStateException("ATP lookup failed", e);
-			} catch (DoesNotExistException e) {
-				LOG.warn("Missing course offering", e);
-			}
-		}
+        try {
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("cluId",course.getCourseId()),
+                    or(getTermPredicates(terms)), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+            List<CourseOfferingInfo> offerings = offeringService
+                    .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for(CourseOfferingInfo offering : offerings){
+                if(course.getCourseId().equals(offering.getCourseId())){
+                    course.addScheduledTerm(offering.getTermId());
+                }
+            }
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        }
 		LOG.info("End of method loadScheduledTerms of CourseSearchController:"
 				+ System.currentTimeMillis());
 	}
@@ -502,63 +477,56 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	private void loadScheduledTerms(List<CourseSearchItemImpl> courses) {
 		LOG.info("Start of method loadScheduledTerms of CourseSearchController:"
 				+ System.currentTimeMillis());
-		AcademicCalendarService atpService = KsapFrameworkServiceLocator
-				.getAcademicCalendarService();
 
-		List<TermInfo> terms;
-		try {
-			terms = atpService.searchForTerms(QueryByCriteria.Builder
-					.fromPredicates(equalIgnoreCase("atpState",
-							PlanConstants.PUBLISHED)),
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("ATP lookup failed", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("ATP lookup failed", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("ATP lookup failed", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("ATP lookup failed", e);
-		}
+		List<Term> terms;
+		terms = KsapFrameworkServiceLocator.getTermHelper().getOfficialTerms();
 		if (terms == null) {
 			return;
 		}
 		CourseOfferingService offeringService = KsapFrameworkServiceLocator
 				.getCourseOfferingService();
 
-		// If the course is offered in the term then add the term info to
-		// the scheduled terms list.
-		for (CourseSearchItemImpl course : courses) {
-			String courseId = course.getCourseId();
-			for (TermInfo term : terms) {
+        try {
 
-				String key = term.getId();
-				String subject = course.getSubject();
-
-				try {
-					List<String> offerings = offeringService
-							.getCourseOfferingIdsByTermAndSubjectArea(key,
-									subject, KsapFrameworkServiceLocator
-											.getContext().getContextInfo());
-					if (offerings.contains(courseId))
-						course.addScheduledTerm(term.getName());
-				} catch (InvalidParameterException e) {
-					throw new IllegalArgumentException("ATP lookup failed", e);
-				} catch (MissingParameterException e) {
-					throw new IllegalArgumentException("ATP lookup failed", e);
-				} catch (OperationFailedException e) {
-					throw new IllegalStateException("ATP lookup failed", e);
-				} catch (PermissionDeniedException e) {
-					throw new IllegalStateException("ATP lookup failed", e);
-				} catch (DoesNotExistException e) {
-					LOG.warn("Missing course offering", e);
-				}
-			}
-		}
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(getCoursePredicates(courses)),
+                    or(getTermPredicates(terms)), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+            List<CourseOfferingInfo> offerings = offeringService
+                    .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for(CourseOfferingInfo offering : offerings){
+                for(CourseSearchItemImpl course : courses){
+                    if(course.getCourseId().equals(offering.getCourseId())){
+                        course.addScheduledTerm(offering.getTermId());
+                    }
+                }
+            }
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        }
 
 		LOG.info("End of method loadScheduledTerms of CourseSearchController:"
 				+ System.currentTimeMillis());
 	}
+
+    private Predicate[] getTermPredicates(List<Term> terms) {
+        Predicate predicates[] = new Predicate[terms.size()];
+        for(int i=0;i<terms.size();i++){
+            predicates[i]=equal("atpId", terms.get(i).getId());
+        }
+        return predicates;
+    }
+    private Predicate[] getCoursePredicates(List<CourseSearchItemImpl> courses) {
+        Predicate predicates[] = new Predicate[courses.size()];
+        for(int i=0;i<courses.size();i++){
+            predicates[i]=equal("cluId", courses.get(i).getCourseId());
+        }
+        return predicates;
+    }
 
 	private void loadTermsOffered(CourseSearchItemImpl course) {
 		LOG.info("Start of method loadTermsOffered of CourseSearchController:"
@@ -914,7 +882,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
         if(!courseIDs.isEmpty()){
             courses = getCoursesInfo(courseIDs);
-            //loadScheduledTerms(courses);
+            loadScheduledTerms(courses);
             loadTermsOffered(courses, courseIDs);
             loadGenEduReqs(courses, courseIDs);
         }
