@@ -113,7 +113,7 @@
                   <bean id="edit_schedule_request_action_link" parent="KS-Uif-NavigationActionLink"
                         p:methodToCall="editScheduleComponent" p:actionLabel="Edit"
                         p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
-                  <bean parent="Uif-ActionLink"
+                  <bean parent="KS-Uif-ActionLink"  p:style="padding-top: 2px"
                         p:methodToCall="deleteScheduleComponent"
                         p:actionLabel="Delete"
                         p:successCallback="reDisplayRDLSection(); refreshRemoveAllOfferingsFromSchedulerConfirmation();"/>
