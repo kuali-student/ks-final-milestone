@@ -273,7 +273,8 @@ function ksapPlannerAddPlanItem (data) {
                 .animate({backgroundColor:"#ffffff"}, 1500, function() {
                     runHiddenScripts(data.uid);
                 });
-
+        //KSAP-543 - Set static id on course code element for AFTs
+        ksapSetStaticCourseCodeID( data.uid + "_code" );
     }
 
     // Change status on the course search page
@@ -427,4 +428,23 @@ function ksapBookmarkUpdateTotal (data) {
         item.attr("title","View all "+data.bookmarkTotal+" courses in full details");
         item.html("View all "+data.bookmarkTotal+" courses in full details");
     }
+}
+
+/**
+ * Constructs a static ID for the course code element and replaces the existing one
+ *
+ * From KSAP-543 - Set static IDs on course code elements for AFTs
+ *
+ * @param courseCodeUniqueId - Course code Uif-message div element ID
+ */
+function ksapSetStaticCourseCodeID(courseCodeUniqueId){
+    var courseCodeJqObj = jQuery("#" + courseCodeUniqueId);
+    var termIdFormatted = courseCodeJqObj.data('termid').replace(/\./g,'-').replace(' ', '-');
+    var courseCode = courseCodeJqObj.data('coursecode');
+
+    //find the parent container
+    //examples: planner_planned... | planner_backup... | planner_completed...
+    var collectionType = courseCodeJqObj.closest("div[id^='planner_']").attr('id').split("_")[1];
+    var newCourseId = termIdFormatted + "_" + collectionType + "_" + courseCode + "_code";
+    courseCodeJqObj.attr('id', newCourseId);
 }

@@ -357,6 +357,16 @@
                                         <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="termid" value="__KSAP__TERMID__" />
+                                        <entry key="courseid" value="__KSAP__COURSEID__" />
+                                        <entry key="learningplanid" value="__KSAP__LEARNINGPLANID__" />
+                                        <entry key="planitemid" value="__KSAP__PLANITEMID__" />
+                                        <entry key="uniqueid" value="__KSAP__UID__" />
+                                        <entry key="coursecode" value="__KSAP__CODE__" />
+                                    </map>
+                                </property>
                             </bean>
                             <bean id="__KSAP__UID___courseNote" parent="course_note_icon">
                                 <property name="render" value="true"/>
@@ -453,7 +463,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-MessageField">
+                            <bean p:id="@{#line.uniqueId}_code" parent="Uif-MessageField">
                                 <property name="messageText"
                                           value="@{#line.campusCode} @{#line.courseCode} @{#line.activityCode}" />
                                 <property name="cssClasses">
@@ -462,6 +472,17 @@
                                         <value>ks-plan-Bucket-itemCode</value>
                                     </list>
                                 </property>
+                                <property name="dataAttributes">
+                                    <map>
+                                        <entry key="termid" value="@{#line.termId}" />
+                                        <entry key="courseid" value="@{#line.courseId}" />
+                                        <entry key="learningplanid" value="@{#line.learningPlanId}" />
+                                        <entry key="planitemid" value="@{#line.planItemId}" />
+                                        <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                        <entry key="coursecode" value="@{#line.courseCode}" />
+                                    </map>
+                                </property>
+                                <property name="onDocumentReadyScript" value='ksapSetStaticCourseCodeID("@{#line.uniqueId}_code")' />
                             </bean>
                             <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
                                 <property name="render" value="@{!#empty(#line.courseNote)}"/>
@@ -661,7 +682,7 @@
                 <property name="validationMessages.render" value="false" />
                 <property name="items">
                     <list>
-                        <bean p:id="@{#line.uniqueId}_planned_add" parent="planner_quick_add">
+                        <bean p:id='@{#line.termId.replaceAll("kuali\.atp\.", "").replaceAll("\.","-")}_planned_add' parent="planner_quick_add">
                             <property name="items[0].dataAttributes">
                                 <map merge="true">
                                     <entry key="backup" value="false" />
@@ -711,7 +732,7 @@
                 <property name="validationMessages.render" value="false" />
                 <property name="items">
                     <list>
-                        <bean p:id="@{#line.uniqueId}_backup_add" parent="planner_quick_add">
+                        <bean p:id='@{#line.termId.replaceAll("\.","-")}_backup_add' parent="planner_quick_add">
                             <property name="items[0].dataAttributes">
                                 <map merge="true">
                                     <entry key="backup" value="true" />
