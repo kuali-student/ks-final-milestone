@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPri
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 
 import javax.ws.rs.GET;
@@ -257,5 +258,11 @@ public interface ScheduleOfClassesService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/terms")
     public List<TermSearchResult> loadActiveTerms() throws Exception;
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/personschedule")
+    public List<StudentScheduleCourseResult> loadScheduleByPersonAndTerm( @QueryParam("person") String personId,
+                                                         @QueryParam("termCode") String termCode) throws Exception;
 
 }

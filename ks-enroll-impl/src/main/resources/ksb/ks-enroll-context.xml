@@ -1215,6 +1215,9 @@
     <bean id="InstructorSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.InstructorSearchServiceImpl">
         <property name="entityManager" ref="enrollEntityManager"/>
     </bean>
+    <bean id="CourseRegistrationSearchServiceImpl" class="org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl">
+        <property name="entityManager" ref="enrollEntityManager"/>
+    </bean>
 
     <!-- KSENROLL-9340 Overriding this to use the same EM as the services that change the db
      This was causing problems since scheduling service was using enroll EM and changing things,
@@ -1233,6 +1236,7 @@
                  <ref bean="ActivityOfferingSearchServiceImpl"/>
                  <ref bean="CoreSearchServiceImpl"/> <!-- This bean lives in ks-core-no-tx-context.xml  -->
                  <ref bean="InstructorSearchServiceImpl"/>
+                 <ref bean="CourseRegistrationSearchServiceImpl"/>
             </list>
         </property>                
     </bean>

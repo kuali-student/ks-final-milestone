@@ -27,7 +27,11 @@ import org.kuali.student.enrollment.registration.client.service.dto.CourseSearch
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
+import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -205,6 +209,151 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             termSearchResults.add(termSearchResult);
         }
         return termSearchResults;
+    }
+
+    /** Student Registration Info **/
+
+    @Override
+    public List<StudentScheduleCourseResult> loadScheduleByPersonAndTerm(String personId, String termCode) throws Exception {
+
+        List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
+        HashMap<String, StudentScheduleCourseResult> hm = new HashMap<String, StudentScheduleCourseResult>();
+        ContextInfo context = ContextUtils.createDefaultContextInfo();
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, personId);
+        String termId = getTermId(null, termCode);
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
+
+        SearchResultInfo searchResult = null;
+        try {
+            searchResult = getSearchService().search(searchRequest, context);
+        } catch (Exception e) {
+            throw new OperationFailedException("search failed for courseOfferingId = ", e);
+        }
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            String luiId = "", masterLuiId = "", personLuiType = "", credits = "",
+                    luiCode = "", luiShortName = "", luiDesc = "", luiType = "",
+                    roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
+            for (SearchResultCellInfo cellInfo : row.getCells()){
+                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID.equals(cellInfo.getKey())) {
+                    luiId = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LUI_ID.equals(cellInfo.getKey())) {
+                    masterLuiId = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_LUI_TYPE.equals(cellInfo.getKey())) {
+                    personLuiType = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS.equals(cellInfo.getKey())) {
+                    credits = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE.equals(cellInfo.getKey())) {
+                    luiCode = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_SHORT_NAME.equals(cellInfo.getKey())) {
+                    luiShortName = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC.equals(cellInfo.getKey())) {
+                    luiDesc = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_TYPE.equals(cellInfo.getKey())) {
+                    luiType = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cellInfo.getKey())) {
+                    roomCode = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE.equals(cellInfo.getKey())) {
+                    buildingCode = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cellInfo.getKey())) {
+                    weekdays = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS.equals(cellInfo.getKey())) {
+                    startTimeMs = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS.equals(cellInfo.getKey())) {
+                    endTimeMs = cellInfo.getValue();
+                }
+            }
+            // running over the list of results returned. One CO can have multiple AOs
+            if (hm.containsKey(masterLuiId)) {
+                StudentScheduleCourseResult studentScheduleCourseResult = hm.get(masterLuiId);
+                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY)) {
+                    studentScheduleCourseResult.setCourseCode(luiCode);
+                    studentScheduleCourseResult.setDescription(luiDesc);
+                    studentScheduleCourseResult.setCredits(credits);
+                    hm.put(masterLuiId, studentScheduleCourseResult);
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
+                    // Scheduling info
+                    ActivityOfferingScheduleComponentResult scheduleComponent = getActivityOfferingScheduleComponent(roomCode, buildingCode,
+                            weekdays, startTimeMs, endTimeMs);
+
+                    // have to check if we already have the AO in our list, because we can have multiple schedules for the same AO
+                    HashMap<String, StudentScheduleActivityOfferingResult> aoHm = new HashMap<String, StudentScheduleActivityOfferingResult>();
+                    for (StudentScheduleActivityOfferingResult activityOfferingResult : studentScheduleCourseResult.getActivityOfferings()) {
+                        aoHm.put(activityOfferingResult.getActiviyOfferingId(), activityOfferingResult);
+                    }
+                    if (!aoHm.containsKey(luiId)) {
+                        StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
+
+                        // AO basic info
+                        activityOffering.setActiviyOfferingId(luiId);
+                        activityOffering.setActiviyOfferingTypeShortName(luiShortName);
+                        activityOffering.setActiviyOfferingType(luiType);  // to sort over priorities
+
+                        // adding schedule to AO
+                        List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
+                        scheduleComponents.add(scheduleComponent);
+                        activityOffering.setScheduleComponents(scheduleComponents);
+
+                        // adding AO to result
+                        if (studentScheduleCourseResult.getActivityOfferings().isEmpty()) {
+                            List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
+                            activityOfferings.add(activityOffering);
+                            studentScheduleCourseResult.setActivityOfferings(activityOfferings);
+                        } else {
+                            studentScheduleCourseResult.getActivityOfferings().add(activityOffering);
+                        }
+                    } else {
+                        StudentScheduleActivityOfferingResult activityOffering = aoHm.get(luiId);
+                        studentScheduleCourseResult.getActivityOfferings().remove(activityOffering);
+                        activityOffering.getScheduleComponents().add(scheduleComponent);
+                        studentScheduleCourseResult.getActivityOfferings().add(activityOffering);
+                    }
+
+                    hm.put(masterLuiId, studentScheduleCourseResult);
+                }
+            } else {
+                StudentScheduleCourseResult studentScheduleCourseResult = new StudentScheduleCourseResult();
+                if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY)) {
+                    studentScheduleCourseResult.setCourseCode(luiCode);
+                    studentScheduleCourseResult.setDescription(luiDesc);
+                    studentScheduleCourseResult.setCredits(credits);
+                    hm.put(masterLuiId, studentScheduleCourseResult);
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
+                    List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
+                    StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
+                    // AO basic info
+                    activityOffering.setActiviyOfferingId(luiId);
+                    activityOffering.setActiviyOfferingTypeShortName(luiShortName);
+                    activityOffering.setActiviyOfferingType(luiType);  // to sort over priorities
+
+                    // Scheduling info
+                    List<ActivityOfferingScheduleComponentResult> scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
+                    ActivityOfferingScheduleComponentResult scheduleComponent = getActivityOfferingScheduleComponent(roomCode, buildingCode,
+                            weekdays, startTimeMs, endTimeMs);
+                    scheduleComponents.add(scheduleComponent);
+                    activityOffering.setScheduleComponents(scheduleComponents);
+                    // End scheduling info
+
+                    activityOfferings.add(activityOffering);
+                    studentScheduleCourseResult.setActivityOfferings(activityOfferings);
+                    hm.put(masterLuiId, studentScheduleCourseResult);
+                }
+            }
+        }
+
+        if (!hm.isEmpty()) {
+            for (String key : hm.keySet()) {
+                StudentScheduleCourseResult studentScheduleCourseResult = hm.get(key);
+                if (studentScheduleCourseResult.getActivityOfferings().size() > 1) {
+                    sortActivityOfferingReslutList(studentScheduleCourseResult.getActivityOfferings(), context);
+                }
+                studentScheduleCourseResults.add(studentScheduleCourseResult);
+            }
+        }
+
+        return studentScheduleCourseResults;
     }
 
 
@@ -388,6 +537,27 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             }
         });
     }
+
+
+    private void sortActivityOfferingReslutList(List<StudentScheduleActivityOfferingResult> activityOfferingResults, final ContextInfo contextInfo) {
+        Collections.sort(activityOfferingResults, new Comparator<StudentScheduleActivityOfferingResult>() {
+            @Override
+            public int compare(StudentScheduleActivityOfferingResult o1, StudentScheduleActivityOfferingResult o2) {
+                int val1 = 0;
+                int val2 = 0;
+                try {
+                    val1 = getActivityPriorityMap(contextInfo).get(o1.getActiviyOfferingType()).intValue();
+                    val2 = getActivityPriorityMap(contextInfo).get(o2.getActiviyOfferingType()).intValue();
+                } catch (Exception ex) {
+                    // I'm not sure if this is the correct thing to do here.
+                    throw new RuntimeException("Failed to sort activity offering types", ex);
+                }
+
+                return (val1 < val2 ? -1 : (val1 == val2 ? 0 : 1));
+            }
+        });
+    }
+
 
     /**
      * This method grabs all kuali.lu.type.grouping.activity types. These types have attributes with priority values.
@@ -806,6 +976,41 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
         return ret;
     }
+
+    private ActivityOfferingScheduleComponentResult getActivityOfferingScheduleComponent(String roomCode, String buildingCode,
+                  String weekdays, String startTimeMs, String endTimeMs) {
+        ActivityOfferingScheduleComponentResult scheduleComponent = new ActivityOfferingScheduleComponentResult();
+        scheduleComponent.setRoomCode(roomCode);
+        scheduleComponent.setBuildingCode(buildingCode);
+        if (!startTimeMs.isEmpty()) {
+            TimeOfDayInfo startTime = TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs));
+            scheduleComponent.setStartTime(TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime));
+        }
+        if (!endTimeMs.isEmpty()) {
+            TimeOfDayInfo endTime = TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs));
+            scheduleComponent.setEndTime(TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime));
+        }
+        if (!weekdays.isEmpty()) {
+            if (StringUtils.contains(weekdays, "M")) {
+                scheduleComponent.setMon(true);
+            }
+            if (StringUtils.contains(weekdays, "T")) {
+                scheduleComponent.setTue(true);
+            }
+            if (StringUtils.contains(weekdays, "W")) {
+                scheduleComponent.setWed(true);
+            }
+            if (StringUtils.contains(weekdays, "H")) {
+                scheduleComponent.setThu(true);
+            }
+            if (StringUtils.contains(weekdays, "F")) {
+                scheduleComponent.setFri(true);
+            }
+        }
+
+        return scheduleComponent;
+    }
+
 
     /**
      * Since schedule data must be pulled in a separate query, it's best if we populate the AOSearchResult
