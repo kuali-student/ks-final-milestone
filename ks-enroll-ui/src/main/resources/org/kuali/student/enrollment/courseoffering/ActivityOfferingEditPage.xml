@@ -152,13 +152,18 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:componentSecurity.viewAuthz="true"
-          p:style="width:600px;border: 1px solid black; margin-bottom: 20px; padding-bottom: 5px;" p:layoutManager.style="margin-left:10px;margin-right:10px;">
+    <bean id="ActivityOfferingEdit-CoLocation" parent="Uif-VerticalBoxSection"  p:componentSecurity.viewAuthz="true">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-activity-offering-coLocation-form</value>
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="Select Activities for Colocation" p:style="font-size:15px;"/>
+                <bean parent="Uif-Message" p:messageText="Select Activities for Colocation"/>
                 <ref bean="ActivityOfferingEdit-CoLocatedActivities"/>
-                <bean parent="Uif-Message" p:messageText="Set Maximum Enrollment" p:style="font-size:15px;"/>
+                <bean parent="Uif-Message" p:messageText="Set Maximum Enrollment"/>
                 <bean id="share_seats" parent="Uif-InputField" p:propertyName="maxEnrollmentShared">
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl">
@@ -177,13 +182,18 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-CoLocatedActivities" parent="Uif-TableCollectionSection" p:layoutManager.style="width:150px;">
+    <bean id="ActivityOfferingEdit-CoLocatedActivities" parent="Uif-TableCollectionSection">
         <property name="headerText" value=" "/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
         <property name="propertyName" value="colocatedActivities"/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-subSection</value>
+            </list>
+        </property>
         <property name="addLineActions">
             <list>
                 <bean parent="Uif-SecondaryActionButton"
@@ -238,6 +248,11 @@
                       p:uppercaseValue="true"
                       p:required="true"
                       p:readOnly="@{!#isAddLine}">
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-uif-quickFinder</value>
+                        </list>
+                    </property>
 
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" p:watermarkText="A"/>
@@ -246,7 +261,7 @@
                         <bean parent="Uif-QuickFinder"  p:lightBoxLookup.lookupReturnByScript="true">
                             <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper"/>
                             <property name="quickfinderAction">
-                                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Select" p:style="display:block" p:methodToCall="performLookup"/>
+                                <bean parent="Uif-ActionLink" p:actionLabel="Find an Activity Offering" p:methodToCall="performLookup"/>
                             </property>
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">
@@ -277,10 +292,20 @@
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="4" />
                     </property>
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-subSection</value>
+                        </list>
+                    </property>
                 </bean>
                 <bean parent="Uif-Message"
-                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  Max enrollment is shared by all co-located activities. [br] Any changes made here will update the other activities on save."
-                      p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;font-size: 110%;border: 1px solid rgb(9, 172, 248);" p:colSpan="2"/>
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  Max enrollment is shared by all co-located activities. [br] Any changes made here will update the other activities on save.">
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-informational-message-for-field</value>
+                        </list>
+                    </property>
+                      </bean>
             </list>
         </property>
     </bean>
@@ -288,21 +313,24 @@
     <bean id="ActivityOfferingEdit-CoLocatedEnrollmentSeperate" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:style="float:right;" p:forceSessionPersistence="true" >
+                <bean parent="Uif-Message" p:messageText="Combined Max Enr"/>
+                <bean id="enr_shared_table" parent="Uif-TableCollectionSection" p:forceSessionPersistence="true" >
                     <property name="validationMessages.displayMessages" value="false"/>
-                    <property name="headerText" value="Combined Max Enr"/>
+                    <property name="headerText" value=""/>
                     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity" />
                     <property name="propertyName" value="editRenderHelper.manageSeperateEnrollmentList"/>
                     <property name="renderAddLine" value="false"/>
-                    <property name="header">
-                        <bean parent="Uif-HeaderFour"/>
-                    </property>
                     <property name="renderLineActions" value="false"/>
                     <property name="layoutManager.renderSequenceField" value="false"/>
                     <property name="layoutManager.richTable.render" value="false" />
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-subSection</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:propertyName="editRenderHelper.code" p:label="Colocated Activities" p:style="color:green;"/>
+                            <bean parent="Uif-DataField" p:propertyName="editRenderHelper.code" p:label="Colocated Activities"/>
                             <bean parent="Uif-InputField" p:propertyName="maxEnrollmentCount" p:label="Max Enr" p:readOnly="@{!#lp.editRenderHelper.allowEnrollmentEdit}"
                                   p:required="true" p:exclusiveMin="0">
                                 <property name="control">
@@ -313,8 +341,13 @@
                     </property>
                 </bean>
                 <bean parent="Uif-Message"
-                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  The max enrollments for all co-located activities will be combined. Any changes may effect room availability."
-                      p:style="background-color:#C8E4F7; padding-top:4px; padding-bottom:4px;font-size: 110%;border: 1px solid rgb(9, 172, 248);float:center;" p:colSpan="2"/>
+                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/info.png&quot;]  The max enrollments for all co-located activities will be combined. Any changes may effect room availability.">
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-informational-message-for-field</value>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
