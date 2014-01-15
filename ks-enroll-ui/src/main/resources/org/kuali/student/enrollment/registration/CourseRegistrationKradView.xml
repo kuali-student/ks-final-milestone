@@ -45,13 +45,13 @@
           p:headerText="Text Field" p:header.render="false">
         <property name="items">
             <list>
-                <ref bean="KS-KitchenSink-TextField-Input-Section"/>
+                <ref bean="CourseRegistration-TextField-Input-Section"/>
                 <ref bean="CourseRegistration-SearchResults"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-KitchenSink-TextField-Input-Section" parent="Uif-HorizontalBoxSection">
+    <bean id="CourseRegistration-TextField-Input-Section" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
                 <bean id="CourseRegistration-SearchInput-TermCode" parent="Uif-InputField"  >
