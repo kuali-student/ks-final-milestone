@@ -42,5 +42,15 @@
         <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 
         <script src="scripts/6637c025.scripts.js"></script>
+
+        <script>
+            'use strict';
+
+            angular.module('kscrPocApp')
+                    .value('config', {
+                        apiBase: '${ConfigProperties.application.url}/services/ScheduleOfClassesService/'
+                    });
+
+        </script>
 </body>
 </html>
