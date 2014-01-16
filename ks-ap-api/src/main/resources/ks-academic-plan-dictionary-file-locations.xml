@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
+    <!-- Academic Plan Service -->
+    <bean id="learningPlanInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-LearningPlanInfo-dictionary.xml"/>
+    </bean>
+    <bean id="planItemInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-PlanItemInfo-dictionary.xml"/>
+    </bean>
+    <bean id="planItemSetInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-PlanItemSetInfo-dictionary.xml"/>
+    </bean>
+
+    <bean name="academicPlanServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="learningPlanInfoDictionaryLocation" />
+                <bean parent="planItemInfoDictionaryLocation" />
+                <bean parent="planItemSetInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- Degree Audit Service -->
+    <bean id="auditReportInfoDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-AuditReportInfo-dictionary.xml"/>
+    </bean>
+
+     <bean name="degreeAuditServiceDictionaryLocations" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <bean parent="auditReportInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+    <bean name="ks-ap-dictionary-file-locations" class="java.util.ArrayList">
+        <constructor-arg index="0">
+        	<list>
+                <bean parent="learningPlanInfoDictionaryLocation" />
+                <bean parent="planItemInfoDictionaryLocation" />
+                <bean parent="planItemSetInfoDictionaryLocation" />
+                <bean parent="auditReportInfoDictionaryLocation" />
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>
