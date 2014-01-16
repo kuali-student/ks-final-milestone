@@ -61,7 +61,7 @@
                                         </bean>      -->
 
                                         <!--<bean parent="Uif-DataField" p:label="Grading Option" p:propertyName="selectedGradingOptionName" />-->
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:componentSecurity.editAuthz="true" p:fieldLabel.renderColon="false">
+                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Option" p:componentSecurity.editAuthz="true" p:fieldLabel.renderColon="false">
                                             <property name="optionsFinder">
                                                 <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.GradingOptionsKeyValues" />
                                             </property>
