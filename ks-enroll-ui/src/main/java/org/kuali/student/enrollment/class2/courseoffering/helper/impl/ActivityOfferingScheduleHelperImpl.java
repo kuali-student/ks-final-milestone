@@ -491,8 +491,8 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                 timeSlot = new TimeSlotInfo();
                 timeSlot.setTypeKey(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA);
                 timeSlot.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_ACTIVE);
-                timeSlot.setStartTime(startTimeOfDayInfo);
-                timeSlot.setEndTime(endTimeOfDayInfo);
+                    timeSlot.setStartTime(startTimeOfDayInfo);
+                    timeSlot.setEndTime(endTimeOfDayInfo);
                 timeSlot.setWeekdays(days);
                 timeSlot = CourseOfferingManagementUtil.getSchedulingService().createTimeSlot(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,timeSlot,defaultContextInfo);
             } else {

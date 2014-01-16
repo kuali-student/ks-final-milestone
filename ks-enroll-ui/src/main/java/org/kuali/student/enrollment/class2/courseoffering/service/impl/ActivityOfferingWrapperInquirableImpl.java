@@ -13,6 +13,7 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -21,6 +22,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -143,14 +145,25 @@ public class ActivityOfferingWrapperInquirableImpl extends InquirableImpl {
             CourseOfferingManagementUtil.getScheduleHelper().loadSchedules(aoWapper,contextInfo);
 
             if (aoInfo.getIsColocated()){
-                List colocateIds = new ArrayList(aoWapper.getScheduleRequestSetInfo().getRefObjectIds());
-                colocateIds.remove(aoInfo.getId());
-                List<ActivityOfferingInfo> aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(colocateIds,contextInfo);
-                StringBuilder builder = new StringBuilder();
-                for (ActivityOfferingInfo ao : aoInfos){
-                    builder.append(ao.getCourseOfferingCode() + "-" + ao.getActivityCode() + ",");
+                List<ScheduleRequestSetInfo> scheduleRequestSets = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestSetsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, aoInfo.getId(), contextInfo);
+                int firstRequestSet = 0;
+                if (scheduleRequestSets != null && !scheduleRequestSets.isEmpty()) {
+                    //  Remove this when partial colocation is implemented.
+                    if (scheduleRequestSets.size() > 1) {
+                        throw new RuntimeException(String.format("Activity %s:%s [%s] has multiple ScheduleRequestSets. This shouldn't happen.",
+                                aoWapper.getCourseOfferingCode(), aoWapper.getActivityCode(), aoWapper.getId()));
+                    } else {
+                        aoWapper.setScheduleRequestSetInfo(scheduleRequestSets.get(firstRequestSet));
+                        List colocateIds = new ArrayList(aoWapper.getScheduleRequestSetInfo().getRefObjectIds());
+                        colocateIds.remove(aoInfo.getId());
+                        List<ActivityOfferingInfo> aoInfos = CourseOfferingManagementUtil.getCourseOfferingService().getActivityOfferingsByIds(colocateIds,contextInfo);
+                        StringBuilder builder = new StringBuilder();
+                        for (ActivityOfferingInfo ao : aoInfos){
+                            builder.append(ao.getCourseOfferingCode() + "-" + ao.getActivityCode() + ",");
+                        }
+                        aoWapper.setColocatedAoInfo(StringUtils.removeEnd(builder.toString(),","));
+                    }
                 }
-                aoWapper.setColocatedAoInfo(StringUtils.removeEnd(builder.toString(),","));
             }
             return aoWapper;
         } catch (Exception e) {
