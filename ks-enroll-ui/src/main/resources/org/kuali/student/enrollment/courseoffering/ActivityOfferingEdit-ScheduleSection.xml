@@ -338,19 +338,18 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message"
-                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;]  This action affect maximum enrollment and scheduling information for all colocated activities."
-                      p:style="background-color:#F4E271; padding-top:4px; padding-bottom:4px;font-size: 110%;margin-top:10px;margin-bottom-10px;" p:colSpan="2"/>
+                      p:messageText="[image class=&quot;uif-validationImage&quot; src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;] This action affects maximum enrollment and scheduling information for all colocated activities."
+                      p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
+                    <property name="style" value="display: inline-block;" />
+                </bean>
 
                 <bean parent="Uif-Message" p:messageText="[b]Scheduling Information[/b]"/>
 
-                <bean parent="Uif-Message" p:messageText="The Activity you are editing will forfeit any requested and actual scheduling information as a result [br]
-                                                          of breaking colocation. Scheduling information will be retained by any remaining Activities.[br]" p:style="margin-top:10px;margin-bottom-10px;"/>
+                <bean parent="Uif-Message" p:messageText="The Activity you are editing will forfeit any requested and actual scheduling information as a result of[br]breaking colocation. Scheduling information will be retained by any remaining Activities." p:style="margin-bottom:10px;"/>
 
                 <bean parent="Uif-Message" p:messageText="[b]Maximum Enrollment[/b]"/>
 
-                <bean parent="Uif-Message" p:messageText="The maximum enrollment was managed individually for all collocated activities. Each Activity, [br]
-                                                         including the one you are editing, will retain its unique maximum enrollment value but may [br]
-                                                         need revision."  p:style="margin-top:10px;margin-bottom-10px;"/>
+                <bean parent="Uif-Message" p:messageText="The maximum enrollment was managed individually for all collocated activities. Each Activity, including[br]the one you are editing, will retain its unique maximum enrollment value but may need revision."  p:style="margin-bottom:10px;"/>
 
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
@@ -361,7 +360,7 @@
                                   p:methodToCall="breakColo"
                                   p:actionLabel="Break Colocation"/>
 
-                            <bean id="button_close" parent="Uif-ActionLink"
+                            <bean id="button_close" parent="KS-Uif-ActionLink"
                                   p:actionLabel="Close"
                                   p:actionScript="closeLightbox();"/>
                         </list>
