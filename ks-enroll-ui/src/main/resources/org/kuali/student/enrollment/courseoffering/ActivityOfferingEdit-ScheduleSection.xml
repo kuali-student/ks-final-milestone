@@ -361,7 +361,7 @@
                                   p:actionLabel="Break Colocation"/>
 
                             <bean id="button_close" parent="KS-Uif-ActionLink"
-                                  p:actionLabel="Close"
+                                  p:actionLabel="Cancel"
                                   p:actionScript="closeLightbox();"/>
                         </list>
                     </property>
