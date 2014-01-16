@@ -63,6 +63,7 @@
                     </systemProperties>
                     <webAppConfig>
                         <contextPath>/ks-with-rice-bundled-dev</contextPath>
+                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
                     </webAppConfig>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
@@ -247,6 +248,11 @@
             <groupId>org.kuali.student.ap</groupId>
             <artifactId>ks-ap-deployment-resources</artifactId>
             <version>${ks.ap.version}</version>
+        </dependency>
+         <dependency>
+            <groupId>org.kuali.student.enroll</groupId>
+            <artifactId>ks-enroll-deployment-resources</artifactId>
+            <version>${ks.enroll.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>
