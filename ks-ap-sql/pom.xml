@@ -3,7 +3,7 @@
     <parent>
         <artifactId>ks-ap</artifactId>
         <groupId>org.kuali.student.ap</groupId>
-        <version>0.8.0-M8-KSAP-SNAPSHOT</version>
+        <version>0.8.0-KSAP-FR2-M1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-ap-sql</artifactId>
