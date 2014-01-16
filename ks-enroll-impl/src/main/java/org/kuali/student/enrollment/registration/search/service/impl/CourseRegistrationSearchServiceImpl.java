@@ -41,7 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class is used to do custom searches for Course Registration
  *
  * @author Kuali Student Team
  */
