@@ -345,7 +345,7 @@
                       p:messageText="@{#line.endTimeDisplay}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="BLDG"
+                      p:label="Building"
                       p:messageText="@{#line.buildingCode}">
                     <property name="toolTip">
                         <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#line.buildingName}" />
