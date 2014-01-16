@@ -379,8 +379,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         }
 
         if (!hm.isEmpty()) {
-            for (String key : hm.keySet()) {
-                StudentScheduleCourseResult studentScheduleCourseResult = hm.get(key);
+            for (Map.Entry<String, StudentScheduleCourseResult> pair : hm.entrySet()) {
+                StudentScheduleCourseResult studentScheduleCourseResult = pair.getValue();
                 if (studentScheduleCourseResult.getActivityOfferings().size() > 1) {
                     sortActivityOfferingReslutList(studentScheduleCourseResult.getActivityOfferings(), context);
                 }
