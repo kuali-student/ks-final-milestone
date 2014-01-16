@@ -17,6 +17,7 @@
 
 <td class="content" valign="top">
 	<mainChannel:ksApplications/>
+    <mainChannel:KSAP/>
     <mainChannel:coApplications/>
 </td>
 <td class="content" valign="top">
