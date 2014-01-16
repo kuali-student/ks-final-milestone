@@ -31,7 +31,6 @@ import org.kuali.student.enrollment.registration.client.service.dto.StudentSched
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
@@ -64,14 +63,25 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.springframework.http.HttpRequest;
 
+import javax.ws.rs.PathParam;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Request;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.xml.namespace.QName;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -92,7 +102,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 /** COURSE OFFERINGS **/
 
     @Override
-    public List<CourseSearchResult> loadCourseOfferings( String termId, String termCode, String courseCode ) throws Exception {
+    public List<CourseSearchResult> searchForCourseOfferings(String termId, String termCode, String courseCode) throws Exception {
         termId = getTermId( termId, termCode );
         List<CourseSearchResult> courseSearchResults = searchForCourseOfferings( termId, courseCode );
 
@@ -100,20 +110,20 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public List<CourseSearchResult> loadCourseOfferingsByTermIdAndCourse( String termId, String courseCode ) throws Exception {
-        return loadCourseOfferings( termId, null, courseCode );
+    public List<CourseSearchResult> searchForCourseOfferingsByTermIdAndCourse(String termId, String courseCode) throws Exception {
+        return searchForCourseOfferings(termId, null, courseCode);
     }
 
     @Override
-    public List<CourseSearchResult> loadCourseOfferingsByTermCodeAndCourse( String termCode, String courseCode ) throws Exception {
-        return loadCourseOfferings( null, termCode, courseCode );
+    public List<CourseSearchResult> searchForCourseOfferingsByTermCodeAndCourse(String termCode, String courseCode) throws Exception {
+        return searchForCourseOfferings(null, termCode, courseCode);
     }
 
     @Override
-    public List<CourseAndPrimaryAOSearchResult> loadCourseOfferingsAndPrimaryAosByTermAndCourse( String termCode, String courseCode ) throws Exception {
+    public List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourse(String termCode, String courseCode) throws Exception {
 
         List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
-        List<CourseSearchResult> courseOfferingList = loadCourseOfferingsByTermCodeAndCourse(termCode, courseCode); // search for the course offerings
+        List<CourseSearchResult> courseOfferingList = searchForCourseOfferingsByTermCodeAndCourse(termCode, courseCode); // search for the course offerings
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build defualt context info
 
         if(courseOfferingList != null && !courseOfferingList.isEmpty()){   // if we found course offerings
@@ -133,14 +143,14 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 /** REGISTRATION GROUPS **/
 
     @Override
-    public List<RegGroupSearchResult> loadRegistrationGroups( String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName ) throws Exception {
+    public List<RegGroupSearchResult> searchForRegistrationGroups(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) throws Exception {
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
         return getRegGroupList(courseOfferingId, regGroupName);
     }
 
     @Override
-    public RegGroupSearchResult loadRegistrationGroupByTermAndCourseAndRegGroup( String termCode, String courseCode, String regGroupName ) throws Exception {
-        List<RegGroupSearchResult> regGroupSearchResults = loadRegistrationGroups( null, null, termCode, courseCode, regGroupName );
+    public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termCode, String courseCode, String regGroupName) throws Exception {
+        List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroups(null, null, termCode, courseCode, regGroupName);
         return KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
     }
 
@@ -148,7 +158,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 /** ACTIVITY OFFERINGS **/
 
     @Override
-    public List<ActivityOfferingSearchResult> loadActivityOfferings( String courseOfferingId, String termId, String termCode, String courseCode ) throws Exception {
+    public List<ActivityOfferingSearchResult> searchForActivityOfferings(String courseOfferingId, String termId, String termCode, String courseCode) throws Exception {
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode );
         List<ActivityOfferingSearchResult> activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
 
@@ -159,7 +169,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 /** ACTIVITY TYPES **/
 
     @Override
-    public List<ActivityTypeSearchResult> loadActivityTypes( String courseOfferingId, String termCode, String courseCode ) throws Exception {
+    public List<ActivityTypeSearchResult> searchForActivityTypes(String courseOfferingId, String termCode, String courseCode) throws Exception {
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, null, termCode );
 
         // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
@@ -173,7 +183,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 /** INSTRUCTORS **/
 
     @Override
-    public List<InstructorSearchResult> loadInstructors( String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode ) throws Exception {
+    public List<InstructorSearchResult> searchForInstructors(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) throws Exception {
 
         if( !StringUtils.isEmpty(activityOfferingId) ) {
             return getInstructorsByActivityOfferingId(activityOfferingId);
@@ -187,34 +197,59 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 /** TERMS **/
 
     @Override
-    public String getTermIdByTermCode(String atpCode) throws Exception {
-        String sRet = null;
-        List<AtpInfo> atpList = getAtpService().getAtpsByCode(atpCode, ContextUtils.createDefaultContextInfo());
-        if(atpList != null && !atpList.isEmpty()){
-            sRet = KSCollectionUtils.getRequiredZeroElement(atpList).getId();
+    public List<TermSearchResult> searchForTerms( @QueryParam("termCode") String termCode, @QueryParam("active") boolean isActiveTerms ) throws Exception {
+
+        if( !StringUtils.isEmpty(termCode) ) {
+            return getTermsByTermCode(termCode);
         }
 
-        return sRet;
+        if( isActiveTerms ) {
+            return getActiveTerms();
+        }
+
+        return getAllTerms();
     }
 
     @Override
-    public List<TermSearchResult> loadActiveTerms() throws Exception {
-        List<TermSearchResult> termSearchResults = new ArrayList<TermSearchResult>();
+    public String getTermIdByTermCode( String termCode ) throws Exception {
+        return KSCollectionUtils.getRequiredZeroElement( getTermsByTermCode(termCode) ).getTermId();
+    }
+
+    private List<TermSearchResult> getTermsByTermCode( String termCode ) throws Exception {
+        List<AtpInfo> atpInfos = getAtpService().getAtpsByCode( termCode, ContextUtils.createDefaultContextInfo() );
+        return getTermSearchResultsFromAtpInfos( atpInfos );
+    }
+
+    private List<TermSearchResult> getActiveTerms() throws Exception {
         List<AtpInfo> validAtps = getValidAtps(ContextUtils.createDefaultContextInfo());
-        for(AtpInfo atpInfo: validAtps){
-            TermSearchResult termSearchResult = new TermSearchResult();
-            termSearchResult.setTermId(atpInfo.getId());
-            termSearchResult.setTermName(atpInfo.getName());
-            termSearchResult.setTermCode(atpInfo.getCode());
-            termSearchResults.add(termSearchResult);
-        }
-        return termSearchResults;
+        return getTermSearchResultsFromAtpInfos( validAtps );
     }
 
-    /** Student Registration Info **/
+    private List<TermSearchResult> getAllTerms() throws Exception {
+        QueryByCriteria criteria = QueryByCriteria.Builder.create().build();
+        return getTermSearchResultsFromAtpInfos(getAtpService().searchForAtps(criteria, ContextUtils.createDefaultContextInfo()));
+    }
+
+    private List<TermSearchResult> getTermSearchResultsFromAtpInfos( List<AtpInfo> atpInfos ) {
+
+        List<TermSearchResult> result = new ArrayList<TermSearchResult>();
+
+        for( AtpInfo atpInfo : atpInfos ) {
+            TermSearchResult ts = new TermSearchResult();
+            ts.setTermId(atpInfo.getId());
+            ts.setTermName(atpInfo.getName());
+            ts.setTermCode(atpInfo.getCode());
+            result.add(ts);
+        }
+
+        return result;
+    }
+
+
+/** STUDENT REGISTRATION INFO **/
 
     @Override
-    public List<StudentScheduleCourseResult> loadScheduleByPersonAndTerm(String personId, String termCode) throws Exception {
+    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(String personId, String termCode) throws Exception {
 
         List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
         HashMap<String, StudentScheduleCourseResult> hm = new HashMap<String, StudentScheduleCourseResult>();
@@ -477,7 +512,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         // Because there can be multiple formats [Lec/lab, lab/disc] we need to seperate our results by the FoId. That is because if there are
         // multiple formats, the primary for one FO could be Lecture, while another FO could be Discussion.
         // Map<FoId, List<ActivityOfferings>>
-        Map<String, List<ActivityOfferingSearchResult>> aoMap = groupActivityOfferingsByFormatOfferingId(loadActivityOfferings(coId, null, null, null));
+        Map<String, List<ActivityOfferingSearchResult>> aoMap = groupActivityOfferingsByFormatOfferingId(searchForActivityOfferings(coId, null, null, null));
 
         for(FormatOfferingInfo formatOffering : formatOfferings){
             sortActivityOfferingTypeKeyList(formatOffering.getActivityOfferingTypeKeys(), contextInfo);  // sort the activity offerings type keys by priority order

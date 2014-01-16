@@ -34,7 +34,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         // get the registration group
-        RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().loadRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
+        RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
 
         //Create the request object
         RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(),

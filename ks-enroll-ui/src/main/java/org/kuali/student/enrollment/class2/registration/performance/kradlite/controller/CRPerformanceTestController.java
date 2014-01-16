@@ -10,7 +10,6 @@ import org.kuali.student.enrollment.registration.client.service.ScheduleOfClasse
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
@@ -48,7 +47,7 @@ public class CRPerformanceTestController {
         List<CourseSearchResult> collectionList = Collections.emptyList();
         if (!StringUtils.isEmpty(courseCode)) {
             try {
-                collectionList = getScheduleOfClassesService().loadCourseOfferingsByTermIdAndCourse(termId, courseCode);
+                collectionList = getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode);
             } catch (Exception e) {
                 throw new RuntimeException("Error", e);
             }

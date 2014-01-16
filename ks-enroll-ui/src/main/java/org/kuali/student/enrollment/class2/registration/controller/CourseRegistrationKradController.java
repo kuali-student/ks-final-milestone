@@ -51,7 +51,7 @@ public class CourseRegistrationKradController extends UifControllerBase {
 
         List<CourseSearchResult> collectionList;
         try {
-            collectionList = getScheduleOfClassesService().loadCourseOfferingsByTermCodeAndCourse(termCode, courseCode);
+            collectionList = getScheduleOfClassesService().searchForCourseOfferingsByTermCodeAndCourse(termCode, courseCode);
         } catch (Exception e) {
             throw new RuntimeException("Error", e);
         }
