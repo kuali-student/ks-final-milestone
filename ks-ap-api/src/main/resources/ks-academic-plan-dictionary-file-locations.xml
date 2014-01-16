@@ -40,60 +40,13 @@
     </bean>
 
 
-    <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE 
-     and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
-     that is used in the rice dictionary validation service impl -->
-    <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
-        <constructor-arg>
-            <!--  Looks like using merge here still clobbers the list -->
-            <list merge="true">
+    <bean name="ks-ap-dictionary-file-locations" class="java.util.ArrayList">
+        <constructor-arg index="0">
+        	<list>
                 <bean parent="learningPlanInfoDictionaryLocation" />
                 <bean parent="planItemInfoDictionaryLocation" />
                 <bean parent="planItemSetInfoDictionaryLocation" />
                 <bean parent="auditReportInfoDictionaryLocation" />
-
-                <!-- now pull in rest of ks DD file location beans-->
-                <bean parent="ksBaseDictionaryLocation" />
-                <bean parent="luiPersonRelationInfoDictionaryLocation" />
-                <bean parent="luiInfoDictionaryLocation" />
-                <bean parent="luiCapacityInfoDictionaryLocation" />
-                <bean parent="luiLuiRelationInfoDictionaryLocation" />
-                <bean parent="luiSetInfoDictionaryLocation" />
-                <bean parent="courseOfferingInfoDictionaryLocation" />
-                <bean parent="activityOfferingInfoDictionaryLocation" />
-                <bean parent="formatOfferingInfoDictionaryLocation" />
-                <bean parent="activityOfferingClusterInfoDictionaryLocation"/>
-                <bean parent="activityOfferingSetInfoDictionaryLocation"/>
-                <bean parent="registrationGroupInfoDictionaryLocation" />
-                <bean parent="seatPoolDefinitionInfoDictionaryLocation" />
-                <bean parent="socInfoDictionaryLocation"/>
-                <bean parent="socRolloverResultInfoDictionaryLocation"/>
-                <bean parent="socRolloverResultItemInfoDictionaryLocation" />
-                <bean parent="appliedHoldInfoDictionaryLocation" />
-                <bean parent="holdIssueInfoDictionaryLocation" />
-                <bean parent="processInfoDictionaryLocation" />
-                <bean parent="checkInfoDictionaryLocation" />
-                <bean parent="instructionInfoDictionaryLocation" />
-
-                <bean parent="atpInfoDictionaryLocation" />
-                <bean parent="milestoneInfoDictionaryLocation" />
-                <bean parent="atpAtpRelationInfoDictionaryLocation" />
-                <bean parent="acalInfoDictionaryLocation" />
-                <bean parent="holidayCalendarInfoDictionaryLocation" />
-                <bean parent="termInfoDictionaryLocation" />
-                <bean parent="holidayInfoDictionaryLocation" />
-                <bean parent="keyDateInfoDictionaryLocation" />
-                <bean parent="scheduleInfoDictionaryLocation" />
-                <bean parent="scheduleRequestInfoDictionaryLocation" />
-                <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>
-                <bean parent="timeSlotInfoDictionaryLocation"/>
-                <bean parent="timeOfDayInfoDictionaryLocation"/>
-                <bean parent="populationInfoDictionaryLocation" />
-                <bean parent="populationRuleInfoDictionaryLocation" />
-                <bean parent="buildingInfoDictionaryLocation" />
-                <bean parent="roomInfoDictionaryLocation"/>
-                <bean parent="roomResponsibleOrgInfoDictionaryLocation"/>
-                <bean parent="commentInfoDictionaryLocation" />
             </list>
         </constructor-arg>
     </bean>
