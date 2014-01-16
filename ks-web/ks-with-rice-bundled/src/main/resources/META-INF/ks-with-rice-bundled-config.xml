@@ -170,9 +170,9 @@
     <param name="ks.lum.gwt.metadata.enable.caching">true</param>
 
     <!-- change/override this to kradScriptFiles for a non minified javascript version -->
-    <!--<param name="krad.js.scriptfiles">classpath:UifKRADJavascriptFiles.xml</param>-->
+    <param name="krad.js.scriptfiles">classpath:UifKRADJavascriptFiles.xml</param>
 
-    <param name="krad.js.scriptfiles">classpath:UifKRADJavascriptFilesMinified.xml</param>
+    <!--<param name="krad.js.scriptfiles">classpath:UifKRADJavascriptFilesMinified.xml</param>-->
 
     <!-- default config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
