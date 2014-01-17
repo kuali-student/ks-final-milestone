@@ -331,7 +331,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Label" p:labelText="Suffix" p:renderColon="false" />
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:additionalCssClasses="co_suffix" >
+                                        <bean parent="Uif-InputField" p:id="courseNumberSuffix" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:additionalCssClasses="co_suffix" >
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="10" />
                                             </property>
@@ -403,11 +403,11 @@
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
                       p:render="true"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
-                <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
+                <bean parent="Uif-CheckboxInputField" p:id="is_pass_fail" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
-                <bean parent="Uif-CheckboxInputField" p:label="Audit"
+                <bean parent="Uif-CheckboxInputField" p:id="is_audit" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
@@ -891,7 +891,7 @@
     <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="Uif-InputField" p:id="isHonoursOffering" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="This is an Honors Course"/>
