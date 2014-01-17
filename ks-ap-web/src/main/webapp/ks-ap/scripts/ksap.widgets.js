@@ -823,3 +823,29 @@ function openPopup(getId, retrieveData, formAction, popupStyle, popupOptions, e)
         });
     };
 })(jQuery);
+
+/**
+ * Registers events for the messages widget
+ *
+ * @param messagewidget - A jQuery messagewidget object
+ */
+function registerMessageEvents(jqObject){
+    jqObject.on('MESSAGE_SENT', function(){
+        ksapRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
+    }).on('COMMENT_SENT', function(){
+        ksapRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
+    });
+}
+
+/**
+ * Registers events for the degree_audits_list
+ *
+ * @param messagewidget - A jQuery messagewidget object
+ */
+function registerDegreeAuditListEvents(jqObject){
+    jqObject.on('REFRESH_AUDITS', function(data){
+        ksapRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
+    }).on('AUDIT_COMPLETE', function(data){
+        ksapRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
+        });
+}

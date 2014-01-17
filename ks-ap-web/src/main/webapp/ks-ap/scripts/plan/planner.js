@@ -448,3 +448,22 @@ function ksapSetStaticCourseCodeID(courseCodeUniqueId){
     var newCourseId = termIdFormatted + "_" + collectionType + "_" + courseCode + "_code";
     courseCodeJqObj.attr('id', newCourseId);
 }
+
+/**
+ * Utility function to focus on an element
+ *
+ * @param jqObject - Element to focus
+ */
+function focusOnElement(jqObject){
+    jqObject.focus();
+}
+
+/**
+ * Set message length options for planner notes
+ *
+ * @param jqObject - Element to set options on
+ * @param opts - Options to set
+ */
+function setPlannerNoteMessageLength(jqObject, opts){
+    jqObject.characterCount(opts);
+}

@@ -932,14 +932,14 @@
 	<bean id="planner_menu_edit_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Edit plan item" p:title="Edit plan item">
 		<property name="actionScript"
-			value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
+			      value="ksapPlannerOpenDialog('planner_edit_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
     <bean id="planner_menu_add_to_cart" parent="planner_menu_add_to_cart-parent"/>
 	<bean id="planner_menu_add_to_cart-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Add to shopping cart" p:title="Add to shopping cart">
 		<property name="actionScript"
-			value="ksapPlannerOpenDialog('sb_cart_add_from_plan','sb/cart','addFromPlan', this, e);" />
+			      value="ksapPlannerOpenDialog('sb_cart_add_from_plan','sb/cart','addFromPlan', this, e);" />
 	</bean>
 
     <bean id="planner_menu_mark_as_backup" parent="planner_menu_mark_as_backup-parent"/>
@@ -952,7 +952,7 @@
 	<bean id="planner_menu_move_plan_item-parent" abstract="true" parent="Uif-ActionLink"
 		p:actionLabel="Move to another term" p:title="Move to another term">
 		<property name="actionScript"
-			value="ksapPlannerOpenDialog('planner_move_plan_item','planner','startDialog', this, e);" />
+			      value="ksapPlannerOpenDialog('planner_move_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
     <bean id="planner_menu_delete_plan_item" parent="planner_menu_delete_plan_item-parent"/>
@@ -964,7 +964,7 @@
 			</list>
 		</property>
 		<property name="actionScript"
-			value="ksapPlannerOpenDialog('planner_delete_plan_item','planner','startDialog', this, e);" />
+			      value="ksapPlannerOpenDialog('planner_delete_plan_item','planner','startDialog', this, e);" />
 	</bean>
 
     <bean id="planner_menu_mark_as_planned" parent="planner_menu_mark_as_planned-parent"/>

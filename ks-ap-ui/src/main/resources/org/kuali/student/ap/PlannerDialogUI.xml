@@ -580,8 +580,7 @@
 		<property name="label" value="Enter subject and catalog number" />
 		<property name="control">
 			<bean parent="Uif-TextControl" p:additionalCssClasses="ksap-planner-courseCode">
-                <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
-				<property name="onDocumentReadyScript" value="jQuery('#courseCode_control').focus();" />
+                <property name="onDocumentReadyScript" value="focusOnElement(jQuery('#courseCode_control'));" />
 				<property name="watermarkText" value="e.g. BL MATH-M 119" />
 				<property name="maxLength" value="50" />
 				 <property name="size" value ="25"/>
@@ -621,7 +620,7 @@
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
                 <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript"
-					value="jQuery('.ksap-characterCount').characterCount({maxLength:500});" />
+					      value="setPlannerNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
 				<property name="cssClasses">
 					<list merge="true">
 						<value>counter</value>
@@ -652,7 +651,7 @@
 			<bean parent="KSAP-Message" p:messageText="characters remaining">
                 <!--@TODO: KSAP-254: Refactor this JS into planner.js-->
 				<property name="onDocumentReadyScript"
-					value="jQuery('.ksap-characterCount').characterCount({maxLength:500});" />
+					      value="setPlannerNoteMessageLength(jQuery('.ksap-characterCount'), {maxLength:500});" />
 				<property name="cssClasses">
 					<list merge="true">
 						<value>counter</value>
