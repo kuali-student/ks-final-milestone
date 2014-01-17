@@ -1478,7 +1478,15 @@
                 <property name="localServiceName" value="CourseRegistrationClientService" />
                 <property name="providers">
                     <list>
-                        <bean class="org.codehaus.jackson.jaxrs.JacksonJsonProvider"/>
+                        <bean class="org.kuali.student.enrollment.registration.client.service.impl.CustomHeaderJacksonJsonProvider">
+                            <property name="headers">
+                                <map>
+                                    <entry key="Access-Control-Allow-Origin" value="*"/>
+                                    <entry key="Access-Control-Allow-Methods" value="POST, GET, OPTIONS"/>
+                                    <entry key="Access-Control-Allow-Header" value="Content-Type"/>
+                                </map>
+                            </property>
+                        </bean>
                     </list>
                 </property>
             </bean>
