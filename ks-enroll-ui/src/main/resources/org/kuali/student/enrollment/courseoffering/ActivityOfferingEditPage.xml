@@ -569,6 +569,10 @@
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
+                <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount">
+                </bean>
+                <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining">
+                </bean>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="ao-seatpoolgroupZ"
                       p:layoutManager.id="ao-seatpoolgroup-table" p:additionalCssClasses="ks-subSection" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
@@ -642,10 +646,6 @@
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete" p:onDocumentReadyScript="calculatePercent()" p:dirtyOnAction="true"/>
                         </list>
                     </property>
-                </bean>
-                <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount">
-                </bean>
-                <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining">
                 </bean>
             </list>
         </property>
