@@ -31,11 +31,11 @@ import org.kuali.student.r2.core.population.service.decorators.PopulationService
  * This class represents a PopulationService decorator which can apply a specific
  * IsMemberAsOfDateEvaluator when evaluation person ids and population. This is written
  * so that one can bypass the current implementation of isMemberxxx methods and write
- * their own evaluation policy.
+ * their own evaluation policy, and plug that in.
  *
  * @author Mezba Mahtab
  */
-public class PopulationServiceIsMemberAsOfDateEvaluatorDecorator extends PopulationServiceDecorator {
+public class PopulationServicePluggableIsMemberEvaluatorDecorator extends PopulationServiceDecorator {
 
     ////////////////////////
     // Data Variable

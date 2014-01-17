@@ -55,7 +55,7 @@ public class TestPopulationServicePoc {
     // SETUP
     // ====================
 
-    @Resource
+    @Resource(name = "populationService")
     private PopulationService populationService;
 
     public PopulationService getPopulationService() {

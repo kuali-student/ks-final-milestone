@@ -9,6 +9,10 @@
 
     <bean id="populationServiceImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
 
+    <bean id="populationService" class="org.kuali.student.poc.rules.population.PopulationServiceIsMemberEvaluatorDecorator">
+        <property name="nextDecorator" ref="populationServiceImpl" />
+    </bean>
+
     <bean id="populationServiceDataLoader" class="org.kuali.student.enrollment.class2.population.PopulationServiceDataLoader" />
 
 </beans>

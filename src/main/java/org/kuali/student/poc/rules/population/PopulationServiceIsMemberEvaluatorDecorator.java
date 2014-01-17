@@ -1,5 +1,5 @@
 /**
- * Copyright 2013 The Kuali Foundation Licensed under the
+ * Copyright 2014 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by mahtabme on 12/17/13
+ * Created by mahtabme on 1/17/14
  */
 package org.kuali.student.poc.rules.population;
 
@@ -25,26 +25,18 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
-import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.population.service.decorators.PopulationServiceDecorator;
 
-import javax.jws.WebParam;
 import java.util.Date;
 import java.util.List;
 
 /**
- * This class implements the isMemberXXX methods of the Population Service.
+ * This class is a decorator that implements the isMember in a particular manner. To have one's
+ * own custom implementation, one can use PopulationServicePluggableIsMemberEvaluatorDecorator.
  *
  * @author Mezba Mahtab
  */
-public abstract class PopulationServiceIsMemberAsOfDateAbstractImpl implements PopulationService {
-
-    //////////////////////////
-    // Constants
-    //////////////////////////
-
-    //////////////////////////
-    // Functionals
-    //////////////////////////
+public class PopulationServiceIsMemberEvaluatorDecorator extends PopulationServiceDecorator {
 
     @Override
     public Boolean isMemberAsOfDate(String personId, String populationId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
