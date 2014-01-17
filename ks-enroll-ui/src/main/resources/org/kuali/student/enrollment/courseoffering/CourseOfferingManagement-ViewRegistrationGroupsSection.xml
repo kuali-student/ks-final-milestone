@@ -39,11 +39,11 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField"
-                      p:label="REG GROUP ID"
+                      p:label="Reg Group ID"
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
                 <bean parent="Uif-DataField"
-                      p:label="STATE" p:escapeHtmlInPropertyValue="false"
+                      p:label="State" p:escapeHtmlInPropertyValue="false"
                       p:propertyName="stateKey" p:valign="middle">
                 </bean>
 
@@ -51,50 +51,50 @@
                 <!-- TODO: need to add Enroll column -->
                 <!-- TODO: when have more than one Format, display FORMAT column-->
                 <bean parent="Uif-DataField"
-                      p:label="CLUSTER"
+                      p:label="Cluster"
                       p:propertyName="aoClusterName">
                 </bean>
                 <bean parent="Uif-DataField"
-                      p:label="ENROLL"
+                      p:label="Enroll"
                       p:propertyName="rgMaxEnrText">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="CODE"
+                      p:label="Code"
                       p:messageText="@{#line.aoActivityCodeText}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="STATUS"
+                      p:label="Status"
                       p:messageText="@{#line.aoStateNameText}" />
                 <bean parent="Uif-MessageField"
-                      p:label="TYPE"
+                      p:label="Type"
                       p:messageText="@{#line.aoTypeNameText}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="MAX Enr"
+                      p:label="Max Enr"
                       p:messageText="@{#line.aoMaxEnrText}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="DAYS"
+                      p:label="Days"
                       p:messageText="@{#line.daysDisplayName}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="START TIME" p:additionalCssClasses="nowrap"
+                      p:label="Start Time" p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.startTimeDisplay}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="END TIME" p:additionalCssClasses="nowrap"
+                      p:label="End Time" p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.endTimeDisplay}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="BLDG"
+                      p:label="Building"
                       p:messageText="@{#line.buildingName}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="ROOM"
+                      p:label="Room"
                       p:messageText="@{#line.roomName}">
                 </bean>
                 <bean parent="Uif-MessageField"
-                      p:label="INSTRUCTOR" p:additionalCssClasses="nowrap"
+                      p:label="Instructor" p:additionalCssClasses="nowrap"
                       p:messageText="@{#line.aoInstructorText}">
                 </bean>
             </list>
