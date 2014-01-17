@@ -14,8 +14,9 @@
  *
  * Created by mahtabme on 12/13/13
  */
-package org.kuali.student.poc.rules.population;
+package org.kuali.student.r2.core.population.service.decorators;
 
+import org.kuali.student.poc.rules.population.IsMemberAsOfDateEvaluator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;

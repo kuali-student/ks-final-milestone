@@ -9,7 +9,7 @@
 
     <bean id="populationServiceImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
 
-    <bean id="populationService" class="org.kuali.student.poc.rules.population.PopulationServiceIsMemberEvaluatorDecorator">
+    <bean id="populationService" class="org.kuali.student.r2.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator" ref="populationServiceImpl" />
     </bean>
 
