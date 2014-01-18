@@ -11,6 +11,9 @@
         <amq:transportConnectors>
             <amq:transportConnector uri="tcp://localhost:0" />
         </amq:transportConnectors>
+        <amq:plugins>
+            <amq:statisticsBrokerPlugin />
+        </amq:plugins>
     </amq:broker>
 
     <amq:connectionFactory id="connectionFactory" brokerURL="vm://localhost"/>

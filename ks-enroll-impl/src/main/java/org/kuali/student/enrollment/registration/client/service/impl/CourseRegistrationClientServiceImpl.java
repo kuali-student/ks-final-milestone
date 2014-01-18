@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -9,13 +10,28 @@ import org.kuali.student.enrollment.registration.client.service.CourseRegistrati
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 
+import javax.jms.Connection;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageProducer;
+import javax.jms.Queue;
+import javax.jms.Session;
 import javax.security.auth.login.LoginException;
+import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by swedev on 1/3/14.
@@ -48,6 +64,23 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         return registrationResponseInfo;
     }
+
+
+    @Override
+    public Response getRegEngineStats() throws Exception {
+        List<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType> statTypesToRequest = new LinkedList<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType>();
+        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER );
+        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE );
+        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE );
+        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.SEAT_CHECK_QUEUE );
+
+
+        RegEngineMqStatisticsGenerator generator = new RegEngineMqStatisticsGenerator();
+        generator.initiateRequestForStats( statTypesToRequest );
+
+        return Response.ok( generator.getStats() ).build();
+    }
+
 
     /**
      * This method creates a registration request for the add operation of a single registration group.
@@ -97,4 +130,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
         this.courseRegistrationService = courseRegistrationService;
     }
+
 }
+
+
