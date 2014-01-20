@@ -43,7 +43,7 @@ public class WaitlistTypeOptionsKeyValues extends UifKeyValuesFinderBase impleme
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         List<String> waitlistTypes  = new ArrayList<String>(Arrays.asList(LuiServiceConstants.ALL_WAITLIST_TYPES));
-        Collections.sort(waitlistTypes);
+
         for(String waitlistType: waitlistTypes) {
             if (waitlistType.equals(LuiServiceConstants.AUTOMATIC_WAITLIST_TYPE_KEY)) {
                 keyValues.add(new ConcreteKeyValue(waitlistType, "Automatic"));

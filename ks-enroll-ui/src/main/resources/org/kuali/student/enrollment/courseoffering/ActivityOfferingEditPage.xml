@@ -526,7 +526,7 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelRight" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
+                                        <bean parent="Uif-InputField-LabelRight" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl" />
                                             </property>
