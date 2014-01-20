@@ -1,21 +1,21 @@
 package org.kuali.student.ap.planner;
 
-import org.apache.log4j.Logger;
-import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.course.CreditsFormatter;
-import org.kuali.student.common.util.KSCollectionUtils;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.lum.course.infc.Course;
-
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
+
+import org.apache.log4j.Logger;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.course.CreditsFormatter;
+import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 public class PlannerItem implements
 		org.kuali.student.ap.common.infc.HasUniqueId, Serializable {
