@@ -48,9 +48,30 @@
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
                     <property name="items">
                         <list>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Cancel-parent" p:methodToCall="cancelAOs" p:render="@{hasAO}"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Suspend-parent" p:methodToCall="suspendAOs" p:render="@{hasAO}"/>
-                            <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" p:methodToCall="reinstateAOs" p:render="@{hasAO}"/>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Cancel-parent" p:methodToCall="cancelAOs" p:render="@{hasAO}">
+                                <property name="toolTip">
+                                    <bean parent="Uif-KS-Tooltip">
+                                        <property name="tooltipContent"
+                                                  value="Canceling means an activity will no longer be offered for a term.&lt;br&gt; The data is not deleted. Any assigned rooms are released."/>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Suspend-parent" p:methodToCall="suspendAOs" p:render="@{hasAO}">
+                                <property name="toolTip">
+                                    <bean parent="Uif-KS-Tooltip">
+                                        <property name="tooltipContent"
+                                                  value="Suspending temporarily freezes registration for an activity: Normally, a&lt;br&gt; suspended activity will be reinstated and available for enrollment at a&lt;br&gt; later time or, alternatively, will be ultimately cancelled. Suspended&lt;br&gt; activities retain their assigned rooms."/>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" p:methodToCall="reinstateAOs" p:render="@{hasAO}">
+                                <property name="toolTip">
+                                    <bean parent="Uif-KS-Tooltip">
+                                        <property name="tooltipContent"
+                                                  value="Reinstating un-cancels or un-suspends an activity."/>
+                                    </bean>
+                                </property>
+                            </bean>
                             <bean id="KS-CourseOfferingManagement-ToolBar-Delete-AO-ClusterTab" parent="KS-CourseOfferingManagement-ToolBar-Delete-parent" p:methodToCall="deleteAOs" p:render="@{hasAO}"/>
                         </list>
                     </property>
