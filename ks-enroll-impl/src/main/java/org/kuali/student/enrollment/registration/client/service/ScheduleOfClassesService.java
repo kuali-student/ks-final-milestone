@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 
-import org.apache.cxf.transport.http.HttpServletRequestSnapshot;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityTypeSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CourseAndPrimaryAOSearchResult;
@@ -10,18 +9,12 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
-import org.springframework.http.HttpRequest;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 /**
@@ -102,7 +95,8 @@ public interface ScheduleOfClassesService {
      * a list of primary activity offerings. There is a default order of activity offering types. Ex: lecture, lab, discussion.
      * In that case the search will return the course offering information and a list of lectures.
      *
-     * @param termCode required
+     * @param termCode optional; required if both courseOfferingId & termId are not provided
+     * @param termId optional; if provided, overrides termCode
      * @param courseCode required
      * @return Returns a list of objects that each contain a course offering and a list of primary activity offerings
      * @throws Exception
@@ -110,7 +104,8 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/courseofferings/primaryactivities")
-    public List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourse(@QueryParam("termCode") String termCode,
+    public List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourse(@QueryParam("termId") String termId,
+                                                                                                     @QueryParam("termCode") String termCode,
                                                                                                      @QueryParam("courseCode") String courseCode) throws Exception;
 
 
@@ -197,6 +192,7 @@ public interface ScheduleOfClassesService {
     @Path("/activitytypes")
     public List<ActivityTypeSearchResult> searchForActivityTypes(@QueryParam("courseOfferingId") String courseOfferingId,
                                                                  @QueryParam("termCode") String termCode,
+                                                                 @QueryParam("termId") String termId,
                                                                  @QueryParam("courseCode") String courseCode) throws Exception;
 
 

@@ -63,25 +63,15 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
-import org.springframework.http.HttpRequest;
 
-import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Request;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
 import javax.xml.namespace.QName;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
@@ -120,10 +110,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourse(String termCode, String courseCode) throws Exception {
+    public List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourse(String termId, String termCode, String courseCode) throws Exception {
 
         List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
-        List<CourseSearchResult> courseOfferingList = searchForCourseOfferingsByTermCodeAndCourse(termCode, courseCode); // search for the course offerings
+        List<CourseSearchResult> courseOfferingList = searchForCourseOfferings(termId, termCode, courseCode); // search for the course offerings
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build defualt context info
 
         if(courseOfferingList != null && !courseOfferingList.isEmpty()){   // if we found course offerings
@@ -169,8 +159,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 /** ACTIVITY TYPES **/
 
     @Override
-    public List<ActivityTypeSearchResult> searchForActivityTypes(String courseOfferingId, String termCode, String courseCode) throws Exception {
-        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, null, termCode );
+    public List<ActivityTypeSearchResult> searchForActivityTypes(String courseOfferingId, String termId, String termCode, String courseCode) throws Exception {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode );
 
         // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
