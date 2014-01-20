@@ -59,16 +59,18 @@ public class BaseRegistrationListener implements MessageListener {
             }
         }
         LOG.info("Received Message from user id: " + userId);
+        try{
 
+        beforeProcessHook(regReqId);
         // Process whatever the registrationProcessService was designed to process.
         RegistrationResponseInfo regInfo = registrationProcessService.process(regReqId);
 
-        try{
+        afterProcessHook(regInfo.getRegistrationRequestId());
+
+
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, userId); // put the user id into the map
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regInfo.getRegistrationRequestId()); // put the reg request id into map
-        }catch (JMSException jmsEx){
-            System.err.println(jmsEx.getMessage());
-        }
+
 
         // Processing can generate n messages. iterate through the messages, sending them to the user's queue
         for(String regMessage : regInfo.getMessages()){
@@ -77,12 +79,21 @@ public class BaseRegistrationListener implements MessageListener {
             jmsTemplate.convertAndSend(destination, regMessage);   // sends message to user queue
         }
 
+        }catch (JMSException jmsEx){
+            LOG.error(jmsEx);
+        } catch (Exception ex){
+            LOG.error(ex);
+        }
+
 
         // We can configure standard destinations via spring.
         notifyDestinations(mapMessage);
 
 
     }
+
+    protected void beforeProcessHook(String regReqId)throws Exception {};
+    protected void afterProcessHook(String regReqId)throws Exception {};
 
     /**
      * Internal call that takes a single message and passes to the list destinations. Often the destinations

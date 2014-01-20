@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service.impl.util.statistics;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.kuali.student.enrollment.registration.engine.listener.SimplePerformanceListener;
 
 import javax.jms.Connection;
 import javax.jms.MapMessage;
@@ -25,6 +26,7 @@ public class RegEngineMqStatisticsGenerator {
     public static final String INITIALIZATION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.initilizationListenerQueue";
     public static final String VERIFICATION_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.verificationQueue";
     public static final String SEAT_CHECK_QUEUE_NAME = DESTINATION_QUEUE_NAME_PREFIX + "." + "org.kuali.student.enrollment.registration.seatCheckQueue";
+    public static final String REGISTRATION_ENGINE_STATS_QUEUE_NAME = SimplePerformanceListener.QUEUE_NAME;
 
     private Map<RegistrationEngineStatsType, MapMessage> statsTypeMapMessageMap = new LinkedHashMap<RegistrationEngineStatsType, MapMessage>();
 
@@ -33,6 +35,7 @@ public class RegEngineMqStatisticsGenerator {
         statsTypeMapMessageMap.put( RegistrationEngineStatsType.INITIALIZATION_QUEUE, getStatsFromMqService(RegistrationEngineStatsType.INITIALIZATION_QUEUE ) );
         statsTypeMapMessageMap.put( RegistrationEngineStatsType.VERIFICATION_QUEUE, getStatsFromMqService(RegistrationEngineStatsType.VERIFICATION_QUEUE ) );
         statsTypeMapMessageMap.put( RegistrationEngineStatsType.SEAT_CHECK_QUEUE, getStatsFromMqService(RegistrationEngineStatsType.SEAT_CHECK_QUEUE ) );
+        statsTypeMapMessageMap.put( RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS, getStatsFromMqService(RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS ) );
     }
 
     public Map<String, List> getStats() throws Exception {
@@ -103,7 +106,8 @@ public class RegEngineMqStatisticsGenerator {
         BROKER( BROKER_QUEUE_NAME ),
         INITIALIZATION_QUEUE( INITIALIZATION_QUEUE_NAME ),
         VERIFICATION_QUEUE( VERIFICATION_QUEUE_NAME ),
-        SEAT_CHECK_QUEUE( SEAT_CHECK_QUEUE_NAME );
+        SEAT_CHECK_QUEUE( SEAT_CHECK_QUEUE_NAME ),
+        REGISTRATION_ENGINE_STATS(REGISTRATION_ENGINE_STATS_QUEUE_NAME);
 
         private final String queueName;
 
