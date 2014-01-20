@@ -4,11 +4,11 @@
     <parent>
         <groupId>org.kuali.student</groupId>
         <artifactId>student</artifactId>
-        <version>2.1.1-FR2-M1-build-645</version>
+        <version>2.1.1-FR2-M1-cm-krad-SNAPSHOT</version>
     </parent>
     <groupId>org.kuali.student.deployments</groupId>
     <artifactId>ks-deployments</artifactId>
-    <version>2.1.1-FR2-M1-build-645</version>
+    <version>2.1.1-FR2-M1-cm-krad-SNAPSHOT</version>
     <name>KS Deployments</name>
     <packaging>pom</packaging>
     <profiles>
