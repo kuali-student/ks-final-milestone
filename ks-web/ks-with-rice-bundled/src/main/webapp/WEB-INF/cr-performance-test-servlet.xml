@@ -31,15 +31,7 @@
                         http://activemq.apache.org/schema/core/activemq-core.xsd
                         http://www.springframework.org/schema/jms
                         http://www.springframework.org/schema/jms/spring-jms-2.5.xsd">
-
-    <!-- Spring JMS Template -->
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate" autowire-candidate="true" lazy-init="true">
-        <property name="connectionFactory">
-            <ref bean="connectionFactory"/>
-        </property>
-        <property name="receiveTimeout" value="1000"/>
-        <!--make receive calls non blocking-->
-    </bean>
+    <import resource="classpath:mq-context.xml" />
 
     <!-- freemarker config -->
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -59,52 +51,7 @@
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
-    <!-- ActiveMQ config -->
-    <amq:broker useJmx="true" persistent="false">
-        <amq:transportConnectors>
-            <amq:transportConnector uri="tcp://localhost:0"/>
-        </amq:transportConnectors>
-    </amq:broker>
 
-    <amq:connectionFactory id="connectionFactory" brokerURL="vm://localhost"/>
-
-    <jms:listener-container concurrency="10" >
-        <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initilizationListenerQueue" ref="registrationInitilizationListener" />
-        <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
-        <jms:listener id="regSeatCheckListener" destination="org.kuali.student.enrollment.registration.seatCheckQueue" ref="registrationSeatCheckListener" />
-    </jms:listener-container>
-
-
-
-    <bean id="registrationInitilizationListener" class="org.kuali.student.enrollment.registration.engine.listener.BaseRegistrationListener">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
-        <property name="destinations">
-            <list>
-                <value>org.kuali.student.enrollment.registration.verificationQueue</value>
-            </list>
-        </property>
-        <property name="registrationProcessService" ref="courseRegistratoinInitilizationService"/>
-    </bean>
-
-    <bean id="registrationVerificationListener" class="org.kuali.student.enrollment.registration.engine.listener.BaseRegistrationListener">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
-        <property name="destinations">
-            <list>
-                <value>org.kuali.student.enrollment.registration.seatCheckQueue</value>
-            </list>
-        </property>
-        <property name="registrationProcessService" ref="courseRegistratoinVerificationService"/>
-    </bean>
-
-    <bean id="registrationSeatCheckListener" class="org.kuali.student.enrollment.registration.engine.listener.BaseRegistrationListener">
-        <property name="jmsTemplate" ref="jmsTemplate"/>
-
-        <property name="registrationProcessService" ref="courseRegistratoinSeatCheckService"/>
-    </bean>
-
-    <bean id="courseRegistratoinInitilizationService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationInitilizationServiceImpl"/>
-    <bean id="courseRegistratoinVerificationService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationVerificationServiceImpl"/>
-    <bean id="courseRegistratoinSeatCheckService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationSeatCheckServiceImpl"/>
 
 
 </beans>
