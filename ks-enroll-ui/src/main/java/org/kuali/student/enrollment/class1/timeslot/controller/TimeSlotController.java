@@ -180,7 +180,7 @@ public class TimeSlotController extends UifControllerBase {
     private void validateTimeSlot(TimeSlotForm form){
 
         if (!SchedulingServiceUtil.isValidDays(form.getAddOrEditDays())){
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Invalid days");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "validation.enroll.ao.scheduleValidChars");
         }
 
         long startTime = 0;
