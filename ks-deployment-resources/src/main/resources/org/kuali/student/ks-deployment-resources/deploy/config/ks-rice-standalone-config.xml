@@ -19,6 +19,7 @@
   <param name="application.url">${public.url}</param>
   <param name="lum.application.url">${ks.app.url}</param>
   <param name="app.context.name" />
+  <param name="context.names.lum" />
   <param name="datasource.url">${jdbc.url}</param>
   <param name="datasource.username">${jdbc.username}</param>
   <param name="datasource.password">${jdbc.password}</param>

@@ -8,29 +8,13 @@
     <parent>
         <groupId>org.kuali.student.web</groupId>
         <artifactId>ks-web</artifactId>
-        <version>2.0.0-M8-KSAP-SNAPSHOT</version>
+        <version>2.1.1-KSAP-FR2-M1-SNAPSHOT</version>
     </parent>
     <properties>
         <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
     </properties>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>META-INF/build-details.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>META-INF/build-details.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <!--
                    Use KS version of codehaus gwt plugin, until compilation required
@@ -84,6 +68,8 @@
                     <webAppConfig>
                         <contextPath>/ks-with-rice-embedded-dev</contextPath>
                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                        <!-- Remove after KULRICE-11157 is fixed -->
+                        <maxFormContentSize>-1</maxFormContentSize>
                     </webAppConfig>
                     <connectors>
                         <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
@@ -110,6 +96,44 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
                     <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,WEB-INF/krad-servlet.xml,**/sampleTravelApplication.tag,META-INF/**</dependentWarExcludes>
+                    <overlays>
+                        <!-- overlays are applied with a first-win strategy -->
+                        <!-- specify order in which overlays are applied -->
+                        <overlay>
+                            <groupId>org.kuali.student.core</groupId>
+                            <artifactId>ks-common-web</artifactId>
+                        </overlay>
+                        <overlay>
+                            <!-- empty groupId/artifactId represents the current build -->
+                        </overlay>
+                        <overlay>
+                            <groupId>org.kuali.rice</groupId>
+                            <artifactId>rice-web</artifactId>
+                            <excludes>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/**</exclude>
+                                <!-- entries from dependentWarExcludes are repeated below -->
+                                <exclude>**/web.xml</exclude>
+                                <exclude>WEB-INF/lib/**</exclude>
+                                <exclude>WEB-INF/krad-servlet.xml</exclude>
+                                <exclude>**/sampleTravelApplication.tag</exclude>
+                                <exclude>META-INF/**</exclude>
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>org.kuali.rice</groupId>
+                            <artifactId>rice-krad-web</artifactId>
+                            <excludes>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/**</exclude>
+                                <!-- entries from dependentWarExcludes are repeated below -->
+                                <exclude>**/web.xml</exclude>
+                                <exclude>WEB-INF/lib/**</exclude>
+                                <exclude>WEB-INF/krad-servlet.xml</exclude>
+                                <exclude>**/sampleTravelApplication.tag</exclude>
+                                <exclude>META-INF/**</exclude>
+                            </excludes>
+                        </overlay>
+                        <!-- any other remaining overlays will be applied last -->
+                    </overlays>
                 </configuration>
             </plugin>
         </plugins>

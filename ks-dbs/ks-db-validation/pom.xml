@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.db</groupId>
         <artifactId>ks-dbs</artifactId>
-        <version>2.0.0-M8-KSAP-SNAPSHOT</version>
+        <version>2.1.1-KSAP-FR2-M1-SNAPSHOT</version>
     </parent>
     <artifactId>ks-db-validation</artifactId>
     <name>KS DB Validation</name>

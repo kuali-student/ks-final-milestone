@@ -15,7 +15,7 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<channel:portalChannelTop channelTitle="Kuali Student Acadmic Plan" />
+<channel:portalChannelTop channelTitle="Kuali Student Academic Plan" />
 <div class="body">
 
     <ul class="chan">

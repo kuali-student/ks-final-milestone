@@ -28,6 +28,7 @@
     <param name="config.location">classpath:org/kuali/rice/standalone/config/standalone-config-defaults.xml</param>
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
+    <param name="version">${project.name} :: ${project.version} :: ${project.build.timestamp}</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
     <param name="appserver.url">http://localhost:8080</param>
     <param name="app.code">ks-rice-standalone</param>
@@ -35,6 +36,7 @@
     <param name="krad.externalizable.images.url">${application.url}/themes/ksboot/images/</param>
 
     <param name="app.context.name">ks-rice-standalone-${environment}</param>
+    <param name="context.names.lum">ks-with-rice-embedded-${environment}</param>
     <param name="application.id">RICE</param>
     <param name="log4j.settings.path">classpath:META-INF/log4j.properties</param>
     <param name="rice.logging.configure">true</param>

@@ -40,7 +40,7 @@
 	</bean>
 
 	<bean id="atpMethodCacheAdvisor" class="org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice">
-		<property name="cacheName" value="atpCache" />
+		<property name="cacheName" value="atpSearchCache" />
 		<property name="cacheManager" ref="ksCacheManager"/>
 		<property name="enabled" value="${ks.atp.enable.caching}"/>
 	</bean>

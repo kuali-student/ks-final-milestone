@@ -25,7 +25,8 @@
     <param name="config.location">classpath:META-INF/ks-enroll-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-ap/ks-ap-config.xml</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
-    
+
+    <param name="version">${project.name} :: ${project.version} :: ${project.build.timestamp}</param>
     <param name="module.name">ks-with-rice-embedded</param>
     <param name="db.vendor">oracle</param>
     <param name="jpa.vendor">hibernate</param>
@@ -173,7 +174,7 @@
     
     
     <!-- KS Urls -->
-    <param name="ks.logout.url" override="false">${application.url}/j_spring_security_logout</param>
+    <param name="ks.logout.url">${application.url}/j_spring_security_logout</param>
 
     <!-- OrgUrls -->
     <param name="ks.org.MainEntryPoint" override="false">${application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</param>
@@ -198,10 +199,9 @@
     <param name="ks.lum.gwt.metadata.enable.caching">true</param>
 
     <!-- change/override this to kradScriptFiles for a non minified javascript version -->
-    <param name="krad.js.scriptfiles">classpath:UifKRADJavascriptFiles.xml</param>
-    <!--
+    <!--<param name="krad.js.scriptfiles">classpath:UifKRADJavascriptFiles.xml</param>-->
     <param name="krad.js.scriptfiles">classpath:UifKRADJavascriptFilesMinified.xml</param>
-    -->
+
 
     <!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>

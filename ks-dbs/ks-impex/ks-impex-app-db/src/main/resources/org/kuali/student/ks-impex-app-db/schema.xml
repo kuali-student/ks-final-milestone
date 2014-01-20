@@ -1160,30 +1160,6 @@
         <foreignColumnNames>TYPE_KEY</foreignColumnNames>
         <localColumnNames>OWNER</localColumnNames>
     </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN" localTableName="KSPL_LRNG_PLAN_ATTR" name="KSPL_LRNG_PLAN_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>OWNER_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN_RICH_TEXT" localTableName="KSPL_LRNG_PLAN" name="KSPL_LRNG_PLAN_FK2" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>RT_DESCR_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN_ITEM" localTableName="KSPL_LRNG_PLAN_ITEM_ATP_ID" name="KSPL_LRNG_PLAN_ITEM_ATP_ID_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>PLAN_ITEM_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN_ITEM" localTableName="KSPL_LRNG_PLAN_ITEM_ATTR" name="KSPL_LRNG_PLAN_ITEM_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>OWNER_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PLAN" localTableName="KSPL_LRNG_PLAN_ITEM" name="KSPL_LRNG_PLAN_ITEM_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>PLAN_ID</localColumnNames>
-    </foreignKey>
-    <foreignKey foreignTableName="KSPL_LRNG_PI_RICH_TEXT" localTableName="KSPL_LRNG_PLAN_ITEM" name="KSPL_LRNG_PLAN_ITEM_FK3" onDelete="RESTRICT" onUpdate="RESTRICT">
-        <foreignColumnNames>ID</foreignColumnNames>
-        <localColumnNames>RT_DESCR_ID</localColumnNames>
-    </foreignKey>
     <foreignKey foreignTableName="KSPR_PROPOSAL" localTableName="KSPR_PROPOSAL_ATTR" name="KSPR_PROPOSAL_ATTR_FK1" onDelete="RESTRICT" onUpdate="RESTRICT">
         <foreignColumnNames>PROPOSAL_ID</foreignColumnNames>
         <localColumnNames>OWNER</localColumnNames>
@@ -3062,6 +3038,9 @@
         </index>
     </table>
     <table name="KSEN_LPR">
+        <column name="ATP_ID" type="STRING">
+            <size value="255"/>
+        </column>
         <column name="COMMIT_PERCT" type="FLOAT">
             <size value="22"/>
         </column>
@@ -3071,11 +3050,17 @@
         <column name="CREATETIME" nullable="false" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
+        <column name="CREDITS" type="STRING">
+            <size value="255"/>
+        </column>
         <column name="EFF_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
         </column>
         <column name="EXPIR_DT" type="TIMESTAMP">
             <size scale="6" scaleSet="true" value="11"/>
+        </column>
+        <column name="GRADING_OPT_ID" type="STRING">
+            <size value="255"/>
         </column>
         <column name="ID" nullable="false" primaryKey="true" type="STRING">
             <size value="255"/>
@@ -3087,6 +3072,9 @@
             <size value="255"/>
         </column>
         <column name="LUI_ID" nullable="false" type="STRING">
+            <size value="255"/>
+        </column>
+        <column name="MASTER_LUI_ID" type="STRING">
             <size value="255"/>
         </column>
         <column name="OBJ_ID" type="STRING">
@@ -4284,6 +4272,12 @@
         </column>
         <index name="KSEN_LUI_IDENT_IF1">
             <column>LUI_ID</column>
+        </index>
+        <index name="KSEN_LUI_IDENT_IX1">
+            <column>LUI_CD</column>
+        </index>
+        <index name="KSEN_LUI_IDENT_IX2">
+            <column>DIVISION</column>
         </index>
     </table>
     <table name="KSEN_LUI_IDENT_ATTR">
@@ -5690,6 +5684,9 @@
         <index name="KSEN_SCHED_REF_OBJECT_IF1">
             <column>SCHED_RQST_SET_ID</column>
         </index>
+        <index name="KSEN_SCHED_REF_OBJECT_IX1">
+            <column>REF_OBJECT_ID</column>
+        </index>
     </table>
     <table name="KSEN_SCHED_RQST">
         <column name="CREATEID" nullable="false" type="STRING">
@@ -5734,6 +5731,9 @@
         <column name="VER_NBR" nullable="false" type="FLOAT">
             <size value="19"/>
         </column>
+        <index name="KSEN_SCHED_RQST_IX1">
+            <column>SCHED_RQST_SET_ID</column>
+        </index>
     </table>
     <table name="KSEN_SCHED_RQST_ATTR">
         <column name="ATTR_KEY" type="STRING">
@@ -10093,195 +10093,6 @@
         <index name="KSOR_ORGTYP_JN_ORGPREL_TYP_I2">
             <column>ORG_TYPE_ID</column>
         </index>
-    </table>
-    <table name="KSPL_LRNG_PI_RICH_TEXT">
-        <column name="FORMATTED" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="PLAIN" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-    </table>
-    <table name="KSPL_LRNG_PLAN">
-        <column name="CREATEID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="CREATETIME" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="RT_DESCR_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="SHARED" nullable="false" type="FLOAT">
-            <defaultValue>1 </defaultValue>
-            <size value="1"/>
-        </column>
-        <column name="STATE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="STUDENT_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="TYPE_ID" nullable="false" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="UPDATEID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="UPDATETIME" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSPL_LRNG_PLAN_I1">
-            <column>TYPE_ID</column>
-        </index>
-        <index name="KSPL_LRNG_PLAN_I2">
-            <column>RT_DESCR_ID</column>
-        </index>
-    </table>
-    <table name="KSPL_LRNG_PLAN_ATTR">
-        <column name="ATTR_KEY" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <index name="KSPL_LRNG_PLAN_ATTR_I1">
-            <column>OWNER_ID</column>
-        </index>
-    </table>
-    <table name="KSPL_LRNG_PLAN_ITEM">
-        <column name="CATEGORY" nullable="false" type="STRING">
-            <size value="15"/>
-        </column>
-        <column name="CREATEID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="CREATETIME" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="CREDIT" type="FLOAT">
-            <size scale="2" scaleSet="true" value="5"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="PLAN_ID" nullable="false" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="REF_OBJ_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="REF_OBJ_TYPE_KEY" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="RT_DESCR_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="STATE" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="TYPE_ID" nullable="false" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="UPDATEID" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="UPDATETIME" type="TIMESTAMP">
-            <size scale="6" scaleSet="true" value="11"/>
-        </column>
-        <column name="VER_NBR" nullable="false" type="FLOAT">
-            <size value="19"/>
-        </column>
-        <index name="KSPL_LRNG_PLAN_ITEM_I1">
-            <column>PLAN_ID</column>
-        </index>
-        <index name="KSPL_LRNG_PLAN_ITEM_I2">
-            <column>TYPE_ID</column>
-        </index>
-        <index name="KSPL_LRNG_PLAN_ITEM_I3">
-            <column>RT_DESCR_ID</column>
-        </index>
-    </table>
-    <table name="KSPL_LRNG_PLAN_ITEM_ATP_ID">
-        <column name="ATP_ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="PLAN_ITEM_ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <index name="KSPL_LRNG_PLAN_ITEM_ATP_ID_I1">
-            <column>PLAN_ITEM_ID</column>
-        </index>
-        <index name="KSPL_LRNG_PLAN_ITEM_ATP_ID_I2">
-            <column>ATP_ID</column>
-        </index>
-    </table>
-    <table name="KSPL_LRNG_PLAN_ITEM_ATTR">
-        <column name="ATTR_KEY" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="ATTR_VALUE" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="OWNER_ID" type="STRING">
-            <size value="255"/>
-        </column>
-        <index name="KSPL_LRNG_PLAN_ITEM_ATTR_I1">
-            <column>OWNER_ID</column>
-        </index>
-    </table>
-    <table name="KSPL_LRNG_PLAN_RICH_TEXT">
-        <column name="FORMATTED" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="OBJ_ID" type="STRING">
-            <size value="36"/>
-        </column>
-        <column name="PLAIN" type="STRING">
-            <size value="2000"/>
-        </column>
-        <column name="VER_NBR" type="FLOAT">
-            <size value="19"/>
-        </column>
     </table>
     <table name="KSPR_PROPOSAL">
         <column name="CREATEID" type="STRING">
