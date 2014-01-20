@@ -5,15 +5,26 @@ import org.kuali.student.enrollment.registration.engine.service.CourseRegistrati
 
 import javax.jms.MapMessage;
 
+/**
+ * This class is designed to be the Last listener in the registration engine.
+ *
+ * It performs specific last node operations.
+ */
 public class LastNodeRegistrationListener extends BaseRegistrationListener {
 
+    /**
+     * This implementation makes a final call to the performance monitoring queue
+     * @param regReqId
+     * @throws Exception
+     */
     @Override
     protected void afterProcessHook(String regReqId) throws Exception {
         MapMessage perfMap = new ActiveMQMapMessage();
 
         perfMap.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regReqId);
-        perfMap.setLong("endTime", System.currentTimeMillis());
+        perfMap.setLong("endTime", System.currentTimeMillis()); // get the end time
 
+        // notify perf queue of end time.
         getJmsTemplate().convertAndSend(SimplePerformanceListener.QUEUE_NAME, perfMap);
     }
 }
