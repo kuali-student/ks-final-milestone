@@ -31,6 +31,7 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import javax.jws.WebParam;
+
 import java.util.List;
 
 /**
@@ -1743,35 +1744,38 @@ public class CourseOfferingServiceMockTest implements CourseOfferingService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    /**
-     * Deletes an existing ActivityOffering cascaded style. Deleting an activity
-     * offering cascaded style would also delete all the registration groups and
-     * seat pools associated with it.
-     *
-     * @param activityOfferingId the Id of the ActivityOffering to be deleted
-     * @param formatOfferingId
-     * @param context            Context information containing the principalId
-     *                           and locale information about the caller of
-     *                           service operation
-     * @return status of the operation (success, failed)
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *          the identified Activity o does not
-     *          exist
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
-     *          One or more parameters invalid
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *          One or more parameters missing
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *          unable to complete request
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *          authorization failure
-     */
-    @Override
-    public StatusInfo deleteActivityOfferingCascaded(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException, DataValidationErrorException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    
 
-    /**
+    @Override
+	public List<CourseOfferingInfo> getFormatOfferingsByIds(
+			List<String> formatOfferingIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+    	// intentionally not implemented
+    	return null;
+	}
+
+	@Override
+	public StatusInfo deleteActivityOfferingCascaded(String activityOfferingId,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// intentionally not implemented
+		return null;
+	}
+
+	@Override
+	public List<CourseOfferingInfo> getSeatPoolDefinitionsByIds(
+			List<String> seatPoolDefinitionIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intentionally not implemented
+		return null;
+	}
+
+	/**
      * Attempt to schedule a single Activity Offering using the Scheduling
      * Service.
      * <p/>

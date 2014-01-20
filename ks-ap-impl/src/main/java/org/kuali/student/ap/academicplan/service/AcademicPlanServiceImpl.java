@@ -37,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.HasAttributes;
 import org.kuali.student.r2.common.infc.ValidationResult;
@@ -217,6 +218,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			OperationFailedException, PermissionDeniedException {
 
 		LearningPlanEntity lpe = new LearningPlanEntity();
+		
 		lpe.setId(UUIDHelper.genStringUUID());
 
         TypeInfo type = null;
@@ -246,6 +248,8 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		lpe.setAttributes(attributeEntities);
 
 		learningPlanDao.persist(lpe);
+		
+		learningPlanDao.getEm().flush();
 
 		return learningPlanDao.find(lpe.getId()).toDto();
 	}
@@ -318,12 +322,23 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
 		//  Save the new plan item.
 		planItemDao.persist(pie);
+		
+		planItemDao.getEm().flush();
 
+		plan.setEntityUpdated(context);
+		
 		//  Update the metadata (timestamp, updated-by) on the plan.
 		plan.setUpdateId(context.getPrincipalId());
 		plan.setUpdateTime(new Date());
-		learningPlanDao.update(plan);
+		
+		try {
+			plan = learningPlanDao.merge(plan);
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException("Failed to update learning plan("+plan.getId() +") on learning plan item change ("+planItem.getId()+")");
+		}
 
+		learningPlanDao.getEm().flush();
+		
 		return planItemDao.find(planItemId).toDto();
 	}
 
@@ -452,7 +467,14 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		lpe.setUpdateTime(new Date());
 		lpe.setShared(learningPlan.getShared());
 
-		learningPlanDao.merge(lpe);
+		try {
+			lpe = learningPlanDao.merge(lpe);
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException("Failed to update Learning Plan for id = "+ learningPlanId);
+		}
+		
+		learningPlanDao.getEm().flush();
+		
 		return learningPlanDao.find(learningPlanId).toDto();
 	}
 
@@ -562,20 +584,34 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			deletePlanItem(origPlanItemId, context);
 		} else {
 			updatePlanItemId = planItemEntity.getId();
-			planItemDao.merge(planItemEntity);
+			try {
+				planItemEntity = planItemDao.merge(planItemEntity);
+			} catch (VersionMismatchException e) {
+				throw new OperationFailedException("Failed to merge planItem for id = " + planItemId);
+			}
 		}
 
 		//  Update meta data on the original plan.
 		originalPlan.setUpdateId(context.getPrincipalId());
 		originalPlan.setUpdateTime(new Date());
-		learningPlanDao.update(originalPlan);
+		try {
+			originalPlan = learningPlanDao.merge(originalPlan);
+		} catch (VersionMismatchException e) {
+			throw new OperationFailedException("Failed to merge original plan for id = " + originalPlan.getId());
+		}
 
 		//  Update the new plan meta data if the plan changed.
 		if (newPlan != null) {
 			newPlan.setUpdateId(context.getPrincipalId());
 			newPlan.setUpdateTime(new Date());
-			learningPlanDao.update(newPlan);
+			try {
+				newPlan = learningPlanDao.merge(newPlan);
+			} catch (VersionMismatchException e) {
+				throw new OperationFailedException("Failed to merge new plan for id = " + newPlan.getId());
+			}
 		}
+		
+		
 
 
 
