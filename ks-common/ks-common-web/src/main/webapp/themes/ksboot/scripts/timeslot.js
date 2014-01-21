@@ -157,9 +157,9 @@ function resetTSValidSelection(){
 function toggleTimeSlotShowButton() {
     var inputVal = jQuery("#timeSlotTypeSelection_control").val();
     if (inputVal !==null) {
-        jQuery("#TimeSlotShowButton").removeAttr("disabled");
+        jQuery("#timeSlotShowButton").removeAttr("disabled");
     } else {
-        jQuery("#TimeSlotShowButton").attr("disabled", "disabled");
+        jQuery("#timeSlotShowButton").attr("disabled", "disabled");
     }
 }
 
