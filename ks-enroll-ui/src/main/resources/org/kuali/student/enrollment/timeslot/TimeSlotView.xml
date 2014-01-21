@@ -93,7 +93,7 @@
                 </bean>
                 <!--The submit button -->
                 <bean parent="Uif-PrimaryActionButton"
-                    p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:46px;" p:successCallback="setupTimeSlotTypeDropdown();" p:id="TimeSlotShowButton"/>
+                    p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:46px;" p:successCallback="setupTimeSlotTypeDropdown();" p:id="timeSlotShowButton"/>
 
                 <!-- REMOVE ME: This is for a PoC for "intelligent" time entry
                 <bean id="daysPatternTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Days" p:required="true">
