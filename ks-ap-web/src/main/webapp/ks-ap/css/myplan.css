@@ -1423,16 +1423,27 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 
 .ksap-course-search-results .dataTables_wrapper .dataTables_info {
-    float: none;
+    float: left;
     font-size: 150%;
     margin: 0;
+    width: 70%;
+    padding-top: 3px;
 }
 
 .ksap-course-search-results .dataTables_wrapper .dataTables_length {
-    float: right;
+    float: left;
     text-align: right;
-    clear: both;
+    width: 30%;
     margin: 0 0 0.5em 0;
+}
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword {
+    font-style: italic;
+}
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword:before {
+    content: open-quote;
+}
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword:after {
+    content: close-quote;
 }
 
 .ksap-course-search-results .dataTables_wrapper .ksap-course-search-results-datatable {

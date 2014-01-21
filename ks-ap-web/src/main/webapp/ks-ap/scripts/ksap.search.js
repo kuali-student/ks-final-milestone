@@ -167,6 +167,9 @@ function searchForCourses(id, parentId) {
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
                             if(oSettings.aoData.length){
+                                var searchKeyword = jQuery('#text_searchQuery_control').val();
+                                jQuery('<span/>', {text: ' for '}).appendTo('#course_search_results_info');
+                                jQuery('<span/>', {text: searchKeyword, class: 'search_keyword'}).appendTo('#course_search_results_info');
                                 jQuery("#course_search_results_facets").removeClass("invisible");
                             }else{
                                 jQuery("#course_search_results_facets").addClass("invisible");
