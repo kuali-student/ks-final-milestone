@@ -450,9 +450,13 @@
         <property name="layoutManager.cssClasses">
             <list merge="true">
                 <value>ks-tablecollection-table</value>
-                <value>ks-section</value>
             </list>
         </property>
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine"/>
+        </property>
+        <property name="renderAddBlankLineButton" value="true"/>
+        <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="layoutManager.separateAddLine" value="false"/>
@@ -470,8 +474,8 @@
         <property name="items">
             <list>
                 <bean id="key_date_type" parent="KS-Uif-InputField" p:propertyName="keyDateType"
-                      p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
-                      p:label="Key Date Type *"
+                      p:readOnly="@{#line.keyDateType != null and #line.keyDateType != ''}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
+                      p:label="Key Date Type *" p:required="true"
                       p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;" p:additionalCssClasses="ks-subSection">
                     <property name="onDocumentReadyScript"
                               value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');"/>
@@ -480,6 +484,9 @@
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                    </property>
+                    <property name="bindingInfo">
+                        <bean parent="Uif-BindingInfo"/>
                     </property>
                 </bean>
                 <bean id="key_date_start_date" parent="KS-Uif-InputField" p:propertyName="startDate"

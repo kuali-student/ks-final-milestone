@@ -320,12 +320,18 @@ limitations under the License.
             </list>
         </property>
     </bean>
-
-    <bean id="KS-AcademicCalendar-EventSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
+    <!--p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}"-->
+    <bean id="KS-AcademicCalendar-EventSubSection" parent="KS-TableCollectionSubSection-BottomAddLine"
           p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event"
-          p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}">
+          >
         <property name="headerText" value="Events"/>
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-disclosure</value>
+            </list>
+        </property>
+        <property name="disclosure.render" value="true"/>
         <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
@@ -336,29 +342,30 @@ limitations under the License.
         <property name="layoutManager.sequencePropertyName" value="name"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
-        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="addLineLabel.messageText" value=""/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
-        <property name="addLineActions">
+
+        <!--<property name="addLineActions">
             <list>
                 <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
-        </property>
-        <property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>
+        </property>-->
+        <!--<property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>-->
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction" p:methodToCall="deleteAcalEvent"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
+                <bean id="acal-event-delete-button" parent="Uif-ActionLink" p:methodToCall="deleteAcalEvent"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:actionLabel="Delete"/>
             </list>
         </property>
         <property name="items">
             <list>
+                <!--p:readOnly="@{!#isAddLine}"  -->
                 <bean parent="KS-Uif-InputField" p:propertyName="eventTypeKey" p:label="Event Type"
-                      p:required="true"
-                      p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;"
+                      p:style="font-weight:bold;"
                       p:readOnlyDisplayReplacementPropertyName="eventTypeName">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
