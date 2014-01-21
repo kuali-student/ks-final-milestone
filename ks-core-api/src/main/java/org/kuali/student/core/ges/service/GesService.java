@@ -176,7 +176,6 @@ public interface GesService {
      * created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param valueTypeKey      the identifier for types of values that this parameter may be associated with.
      * @param parameterTypeKey  the identifier for the parameter Type
      * @param parameterInfo     the Parameter information to be validated
      * @param contextInfo       information containing the principalId and
@@ -194,7 +193,6 @@ public interface GesService {
      */
     public List<ValidationResultInfo> validateParameter(@WebParam(name = "validationTypeKey") String validationTypeKey,
                                                         @WebParam(name = "parameterTypeKey") String parameterTypeKey,
-                                                        @WebParam(name = "valueTypeKey") String valueTypeKey,
                                                         @WebParam(name = "parameterInfo") ParameterInfo parameterInfo,
                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
@@ -207,7 +205,6 @@ public interface GesService {
      * Creates a new Parameter. The Parameter Key, Value Type, Type, and Meta information may
      * not be set in the supplied data.
      *
-     * @param valueTypeKey     the identifier for types of values that this parameter may be associated with.
      * @param parameterTypeKey the identifier for the Type of
      *                         the new Parameter
      * @param parameterKey     the key of the parameter - for example, 'max-credits'
@@ -230,7 +227,6 @@ public interface GesService {
      */
     public ParameterInfo createParameter(@WebParam(name = "parameterKey") String parameterKey,
                                          @WebParam(name = "parameterTypeKey") String parameterTypeKey,
-                                         @WebParam(name = "valueTypeKey") String valueTypeKey,
                                          @WebParam(name = "parameterInfo") ParameterInfo parameterInfo,
                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,

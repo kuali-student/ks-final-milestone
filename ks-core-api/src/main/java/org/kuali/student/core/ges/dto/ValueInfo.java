@@ -59,6 +59,8 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     private String ruleId;
     @XmlElement
     private String value;
+    @XmlElement
+    private GesCustomValueInfo customValue;
     @XmlAnyElement
     private List<Object> _futureElements;
 
@@ -82,6 +84,9 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
                 expirationDate = new Date(value.getExpirationDate().getTime());
             }
             this.value = value.getStringValue();
+            if(value.getCustomValue() != null) {
+                customValue = new GesCustomValueInfo(value.getCustomValue());
+            }
         }
     }
 
@@ -164,6 +169,15 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         } else {
             value = null;
         }
+    }
+
+    @Override
+    public GesCustomValueInfo getCustomValue() {
+        return customValue;
+    }
+
+    public void setCustomValue(GesCustomValueInfo customValue) {
+        this.customValue = customValue;
     }
 
     @Override

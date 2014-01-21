@@ -14,6 +14,7 @@
  */
 package org.kuali.student.core.ges.infc;
 
+import org.kuali.student.core.ges.service.ValueType;
 import org.kuali.student.r2.common.infc.KeyEntity;
 
 /**
@@ -23,11 +24,10 @@ public interface Parameter extends KeyEntity {
 
     /**
      * Restricts the types of values that may be associated with this parameter.
-     * @name Value Type Key
-     * @readOnly
+     * @name Ges Value Type
      * @required
      */
-    String getValueTypeKey();
+    ValueType getGesValueType();
 
     /**
      * Indicates if duplicate priorities are allowed for all values associated with this parameter.

@@ -127,4 +127,10 @@ public interface Value extends IdNamelessEntity, HasEffectiveDates {
      * @name Time of Day Value
      */
     TimeOfDay getTimeOfDayValue();
+
+    /**
+     * The custom value contained within this entity
+     * @name Custom Value
+     */
+    GesCustomValue getCustomValue();
 }

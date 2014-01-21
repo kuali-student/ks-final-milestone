@@ -25,15 +25,7 @@ public class GesServiceConstants
         extends GesServiceNamespace {
 
     //Value Types
-    public static final String GES_VALUE_TYPE_KEY_BOOLEAN = "kuali.ges.value.type.boolean";
-    public static final String GES_VALUE_TYPE_KEY_DATE = "kuali.ges.value.type.date";
-    public static final String GES_VALUE_TYPE_KEY_LONG = "kuali.ges.value.type.long";
-    public static final String GES_VALUE_TYPE_KEY_KUALIDECIMAL = "kuali.ges.value.type.kualidecimal";
-    public static final String GES_VALUE_TYPE_KEY_STRING = "kuali.ges.value.type.string";
-    public static final String GES_VALUE_TYPE_KEY_AMOUNT = "kuali.ges.value.type.amount";
-    public static final String GES_VALUE_TYPE_KEY_CURRENCYAMOUNT = "kuali.ges.value.type.currencyamount";
-    public static final String GES_VALUE_TYPE_KEY_TIMEAMOUNT = "kuali.ges.value.type.timeamount";
-    public static final String GES_VALUE_TYPE_KEY_TIMEOFDAY = "kuali.ges.value.type.timeofday";
+    public static final String GES_VALUE_TYPE_KEY = "kuali.ges.value.type";
     //Parameter Types
     public static final String GES_PARAMETER_TYPE_KEY = "kuali.ges.parameter.type";
     //Value State
