@@ -898,7 +898,12 @@ public class CourseSearchController extends UifControllerBase {
 								return "desc"
 										.equals(dataTablesInputs.sSortDir_[i]) ? -1
 										: 1;
-							int rv = s1.compareTo(s2);
+                            int rv = 0;
+                            if("desc".equals(dataTablesInputs.sSortDir_[i])){
+                                rv = s2.compareTo(s1);
+                            }else{
+                                rv = s1.compareTo(s2);
+                            }
 							if (rv != 0)
 								return rv;
 						}
