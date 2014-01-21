@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
 
@@ -74,14 +75,14 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
 			}
 		}
         // Add the current term        
-        List<Term> currentTerms = getCurrentTermsWithPublishedSOC();
+        List<Term> currentTerms = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
         if (currentTerms.size() == 0){
             LOG.info("There is no current term.");
         }
         else if(currentTerms.size() >0 ){
             if (currentTerms.size()>1) {
                 // Log an info message
-                LOG.info("There are more than one current terms.");
+                LOG.info("There is more than one current term.");
             }
             for (Term term : currentTerms) {
                 keyValues.add(new ConcreteKeyValue(term.getId(), currentTerms.get(0).getName()
@@ -90,7 +91,7 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
         }
 
         // Fetch the future terms with published SOC state .
-        List<Term> futureTerms = getFutureTermsWithPublishedSOC();
+        List<Term> futureTerms = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
 		// Add term info to the list if the above service call was successful.
 		if (futureTerms.size() >0) {
             futureTerms=KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(futureTerms, true);
@@ -112,91 +113,6 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
 		return keyValues;
 	}
     
-    private List<Term> getCurrentTermsWithPublishedSOC (){
-        List<Term> currentTerms = new ArrayList<Term>();
-        List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getCurrentTerms();
-        if (terms.size() == 0){
-            return currentTerms;
-        }
-        else {
-            currentTerms = getTermsWithPublishedSOC(terms);  
-        }
-        
-        return  currentTerms;
-    }
-
-    private List<Term> getFutureTermsWithPublishedSOC (){
-        List<Term> futureTerms = new ArrayList<Term>();
-        try {
-            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
-                    or(KsapHelperUtil.getTermPredicates()), greaterThan("startDate", new Date()));
-            List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
-                    KsapFrameworkServiceLocator.getContext().getContextInfo());
-            if (rl == null || rl.isEmpty()) {
-                LOG.info("There is no published future terms.");
-                return futureTerms;
-                //throw new IllegalStateException("AcademicCalendarService did not return any in-progress terms");
-            }
-            else{
-                List<Term> terms = new ArrayList<Term>();
-                for (TermInfo term:rl){
-                    terms.add(term);
-                }
-                futureTerms = getTermsWithPublishedSOC(terms);
-            }
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Acal lookup failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Acal lookup failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("Acal lookup failure", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("Acal lookup failure", e);
-        }
-        return futureTerms;
-
-    }
-
-    private  List<Term> getTermsWithPublishedSOC(List<Term> inputTerms){
-        List<Term> returnTerms = new ArrayList<Term>();
-        for (Term term : inputTerms){
-            List<String> socIds;
-            try {
-                socIds = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSocIdsByTerm(term.getId(), ContextUtils.createDefaultContextInfo());
-            } catch (Exception e){
-                if (LOG.isDebugEnabled()){
-                    LOG.debug("Getting SOCs for the term " + term.getCode() + " results in service error");
-                }
-                continue;
-            }
-
-            if (socIds.isEmpty()){
-                continue;
-            }
-
-            if (socIds.size() > 1){   //Handle multiple soc when it is implemented (Not for M5)
-                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KsapConstants.MessageKeys.ERROR_MULTIPLE_SOCS);
-                continue;
-            }
-
-            SocInfo socInfo;
-            int firstId = 0;
-            try {
-                socInfo = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSoc(socIds.get(firstId), ContextUtils.createDefaultContextInfo());
-            } catch (Exception e){
-                if (LOG.isDebugEnabled()){
-                    LOG.debug("Error getting the soc [id=" + socIds.get(firstId) + "]");
-                }
-                continue;
-            }
-
-            if(socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)  ){
-                returnTerms.add(term);
-            }
-        }
-        return returnTerms;
-
-    }
 
 	public String getSuffix() {
 		return suffix;
