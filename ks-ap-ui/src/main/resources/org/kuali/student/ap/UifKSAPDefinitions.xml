@@ -474,17 +474,9 @@
                 </property>
             </bean>
         </property>
-        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
-        <property name="onDocumentReadyScript" value="
-            ksapRetrieveComponent('messages_widget','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
-            jQuery('#messages_widget')
-                .on('MESSAGE_SENT', function(){
-                    ksapRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
-                })
-                .on('COMMENT_SENT', function(){
-                    ksapRetrieveComponent('messages_summary','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
-                });
-        "/>
+        <property name="onDocumentReadyScript"
+                  value="ksapRetrieveComponent('messages_widget','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
+                        registerMessageEvents(jQuery('#messages_widget'));"/>
     </bean>
 
     <bean id="watch_list" parent="watch_list-parent"/>
@@ -498,10 +490,8 @@
         <property name="header">
             <bean parent="Uif-HeaderSix"/>
         </property>
-        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
-        <property name="onDocumentReadyScript" value="
-            ksapRetrieveComponent('watch_list','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});
-        "/>
+        <property name="onDocumentReadyScript"
+                  value="ksapRetrieveComponent('watch_list','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});"/>
     </bean>
 
     <bean id="degree_audits_list" parent="degree_audits_list-parent"/>
@@ -515,15 +505,9 @@
         <property name="header">
             <bean parent="Uif-HeaderSix"/>
         </property>
-        <!--@TODO: KSAP-254: Refactor this JS into ksap.js-->
-        <property name="onDocumentReadyScript" value="
-            ksapRetrieveComponent('degree_audits_list','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
-            jQuery('#degree_audits_summary').on('REFRESH_AUDITS', function(data){
-                ksapRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
-            }).on('AUDIT_COMPLETE', function(data){
-                ksapRetrieveComponent('degree_audits_summary','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
-            });
-        "/>
+        <property name="onDocumentReadyScript"
+                  value="ksapRetrieveComponent('degree_audits_list','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
+                        registerDegreeAuditListEvents(jQuery('#degree_audits_summary'));"/>
     </bean>
 
     <bean id="non_student_degree_audits_list" parent="non_student_degree_audits_list-parent"/>

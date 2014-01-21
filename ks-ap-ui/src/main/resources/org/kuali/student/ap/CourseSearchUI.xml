@@ -166,9 +166,7 @@
                 <bean p:id="searchForCourses" parent="Uif-PrimaryActionButton"
                       p:actionLabel="Search" p:disabled="true">
                     <property name="actionScript"
-                              value="
-                        searchForCourses('course_search_results','course_search_results_panel');
-                    " />
+                              value="searchForCourses('course_search_results','course_search_results_panel');" />
                     <property name="cssClasses">
                         <list merge="true">
                             <value>course-search-submit</value>
@@ -178,8 +176,7 @@
                 <bean p:id="clearSearch"
                       parent="Uif-SecondaryActionButton-Small"
                       p:actionLabel="Clear">
-                    <property name="actionScript"
-                              value="fnClearSearch();"/>
+                    <property name="actionScript" value="fnClearSearch();"/>
                 </bean>
 			</list>	
 		</property>
@@ -351,9 +348,8 @@
                 <bean parent="Uif-ActionLink" p:actionLabel="Add to Plan"
                       p:title="Add to Plan">
                     <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
-                    <property name="actionScript" value="
-                        ksapPlannerOpenDialog('course_add_course','planner','startDialog', this, e);
-                    "/>
+                    <property name="actionScript"
+                              value="ksapPlannerOpenDialog('course_add_course','planner','startDialog', this, e);"/>
                 </bean>
 
 
@@ -361,9 +357,7 @@
                       p:title="Bookmark"
                       p:cssClasses="ksap-no-margin">
                     <!--@TODO: KSAP-254: Refactor this JS into ksap.search.js-->
-                    <property name="onClickScript" value="
-                        bookmarkCourse(jQuery(this).data('courseid'), e);
-                    "/>
+                    <property name="onClickScript" value="bookmarkCourse(jQuery(this).data('courseid'), e);"/>
 				</bean>
 
 			</list>

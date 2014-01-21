@@ -131,4 +131,32 @@ public class QueryTokenizer
 
         return tokens;
     }
+    public static List<String> extractIncompleteCourseCodes(String source, List<String> divisions)
+    {
+        ArrayList<String> tokens = new ArrayList<String>();
+        int pos = 0;
+        final int len = source.length();
+
+        Matcher m = Pattern.compile( "dummy" ).matcher( source );
+        m.useTransparentBounds( true );
+
+        while( pos < len )
+        {
+            m.region( pos, len );
+            for(String division : divisions){
+                Pattern courseCode = Pattern.compile( division+"[0-9]+" );
+                if( m.usePattern( courseCode ).lookingAt() )
+                {
+                    String value = source.substring( m.start(), m.end() );
+                    value = value.replace(division,"");
+                    tokens.add( value );
+                    pos = m.end();
+                }
+            }
+
+            pos++;
+        }
+
+        return tokens;
+    }
 }
