@@ -3,8 +3,14 @@ package org.kuali.student.ap.framework.context.support;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.i18n.DBResourceBundleControlImpl;
+import org.kuali.i18n.KualiResourceBundle;
+import org.kuali.i18n.KualiResourceBundleImpl;
+import org.kuali.i18n.LocaleHelper;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.TextHelper;
@@ -23,76 +29,60 @@ public class DefaultTextHelper implements TextHelper, Serializable {
 	private static final long serialVersionUID = -616654137052936870L;
 
 	private String messageGroup;
+    private String baseName;
+
+    private KualiResourceBundle krb = null;
 
 	public String getMessageGroup() {
-		return messageGroup;
+        if (messageGroup == null)
+            throw new IllegalArgumentException("messageGroup must be set");
+        return messageGroup;
 	}
 
 	public void setMessageGroup(String messageGroup) {
 		this.messageGroup = messageGroup;
 	}
 
-	@Override
-	public String getText(String messageCode) {
-		MessageService msg = KsapFrameworkServiceLocator.getMessageService();
-		KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
-		ContextInfo ctx = ksapCtx.getContextInfo();
-        if(ctx == null){
-            ctx = new ContextInfo();
-        }
-		LocaleInfo locale = ctx.getLocale();
-		try {
-            MessageInfo message = msg.getMessage(locale,messageGroup,messageCode, ctx);
-            if(message==null) return "Could Not Load Message";
-            return message.getValue();
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("MSG lookup failure", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("MSG lookup failure", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalStateException("MSG lookup failure", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("MSG lookup failure", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("MSG lookup failure", e);
-		}
-	}
+    public String getBaseName() {
+        if (baseName == null)
+            throw new IllegalArgumentException("baseName must be set");
+        return baseName;
+    }
 
-    @Override
-    public String getText(String messageCode, String defaultValue) {
-        MessageService msg = KsapFrameworkServiceLocator.getMessageService();
-        KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
-        ContextInfo ctx = ksapCtx.getContextInfo();
-        if(ctx == null){
-            ctx = new ContextInfo();
-        }
-        LocaleInfo locale = ctx.getLocale();
-        try {
-            MessageInfo message = msg.getMessage(locale,messageGroup,messageCode, ctx);
-            return message.getValue();
-        } catch (Exception e) {
-            return defaultValue;
-        }
+    public void setBaseName(String baseName) {
+        this.baseName = baseName;
     }
 
     @Override
-    public String getFormattedMessage(String messageCode, Object... args)
-    {
-        String pattern = getText(messageCode);
-        KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
-        ContextInfo ctx = ksapCtx.getContextInfo();
-        if(ctx == null){
-            ctx = new ContextInfo();
+    public String getText(String messageCode) {
+        String value;
+        try {
+            value = getBundle().getString(messageCode);
+        } catch (MissingResourceException mre) {
+            value = "\\[missing key (mre): " + baseName + " " + messageCode + "\\]";
         }
-        LocaleInfo locale = ctx.getLocale();
-        Locale loc = null;
-        if (locale != null) {
-            loc = new Locale(StringUtils.trimToEmpty(locale.getLocaleLanguage()),
-                    StringUtils.trimToEmpty(locale.getLocaleRegion()),
-                    StringUtils.trimToEmpty(locale.getLocaleVariant()));
-        }
+        return value;
+    }
 
-        return (new MessageFormat(pattern, loc)).format(args, new StringBuffer(), null).toString();
+    @Override
+    public String getText(String messageCode, String defaultValue) {
+        return getBundle().getString(messageCode, defaultValue);
+    }
+
+    @Override
+    public String getFormattedMessage(String key, Object... args) {
+        return getBundle().getFormattedMessage(key, args);
+    }
+
+    private KualiResourceBundle getBundle() {
+        KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
+        LocaleInfo locale = ksapCtx.getContextInfo().getLocale();
+        if (krb == null)
+            krb = new KualiResourceBundleImpl(getBaseName());
+
+        KualiResourceBundle drb = (KualiResourceBundle) ResourceBundle.getBundle("org.kuali.i18n.DBResourceBundleImpl", LocaleHelper.localeInfo2Locale(locale), new DBResourceBundleControlImpl(getMessageGroup(), krb));
+
+        return drb;
     }
 
 }

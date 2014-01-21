@@ -52,6 +52,7 @@
     <bean id="ksapContext" class="org.kuali.student.ap.framework.context.support.DefaultKsapContext" />
     <bean id="ksapTextHelper" class="org.kuali.student.ap.framework.context.support.DefaultTextHelper">
         <property name="messageGroup" value="ksap" />
+        <property name="baseName" value="META-INF/ks-ap/bundles/test"/>
     </bean>
     <bean id="ksapTermHelper" class="org.kuali.student.ap.framework.context.support.DefaultTermHelper" />
     <bean id="ksapUserSessionHelper" class="org.kuali.student.ap.test.mock.UserSessionHelperMockTest" />

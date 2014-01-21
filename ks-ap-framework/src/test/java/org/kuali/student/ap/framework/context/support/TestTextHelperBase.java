@@ -2,16 +2,10 @@ package org.kuali.student.ap.framework.context.support;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.TextHelper;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -74,13 +68,30 @@ public abstract class TestTextHelperBase {
     }
 
     @Test
-    @Ignore
-    /**
-     * TODO I guess this is just a placeholder since this isn't supported by the TextHelper/MessageService
-     */
-    public void testOnlyExistsInDefaultLocale() {
+    public void testOnlyExistsInDefaultLocale() throws Exception {
         String value = th.getText("testDefaultOnly");
         assertEquals("In Default Locale Only.", value);
+    }
+
+    @Test
+    public void testLookupWithDefaultLocaleFallback() throws Exception {
+        String value = th.getText("defaultPropsOnlyNoDB");
+        assertEquals("This is only in the properties file and not in the DB.", value);
+    }
+
+    @Test
+    public void testLookupWithLanguageLocaleFallback() throws Exception {
+        String value = th.getText("langLocalePropsOnlyNoDB");
+        assertEquals(getPrefix() + "This is also only in the properties file and not in the DB.", value);
+    }
+
+    @Test
+    public void testKeyDoesntExist() throws Exception {
+        String key = "doesnt.exist";
+        String baseName = "META-INF/ks-ap/bundles/test";
+        String value = th.getText(key);
+
+        assertEquals("\\[missing key (mre): " + baseName + " " + key + "\\]", value);
     }
 
 }

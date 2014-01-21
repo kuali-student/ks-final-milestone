@@ -3,7 +3,7 @@ package org.kuali.student.ap.test.resourceBundles;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.i18n.KualiResourceBundle;
+import org.kuali.i18n.KualiResourceBundleImpl;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 
@@ -19,12 +19,12 @@ import static org.junit.Assert.assertNotNull;
  */
 public abstract class ResourceBundlesTestBase {
 
-    KualiResourceBundle rb = null;
+    KualiResourceBundleImpl rb = null;
 
     @Before
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1", getLocaleInfo());
-        rb = new KualiResourceBundle("META-INF/ks-ap/bundles/test");
+        rb = new KualiResourceBundleImpl("META-INF/ks-ap/bundles/test");
     }
 
     @After
@@ -67,7 +67,7 @@ public abstract class ResourceBundlesTestBase {
     @Test
     public void testOnlyExistsInDefaultLocale() {
         String value = rb.getString("testDefaultOnly");
-        assertEquals("In Default Locale Only", value);
+        assertEquals("In Default Locale Only.", value);
     }
 
     @Test

@@ -51,6 +51,9 @@
 		
 				<!-- Course Search POC -->
 				<value>classpath:org/kuali/student/ap/CourseInfoLookupView-ForKSAP.xml</value>
+
+                <!-- i18n POC -->
+                <value>classpath:org/kuali/student/ap/POCResourceBundleUI.xml</value>
 			</list>
 			</constructor-arg>
 		</bean>  

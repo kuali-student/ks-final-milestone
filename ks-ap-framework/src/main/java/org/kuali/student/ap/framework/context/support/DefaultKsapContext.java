@@ -12,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
+import org.kuali.i18n.LocaleHelper;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -58,11 +59,7 @@ public class DefaultKsapContext implements KsapContext {
                 Locale loc = req.getLocale();
                 //((HttpServletRequest) req).getHeader("ServletRequest.")
                 if (loc != null) {
-                    locInfo = new LocaleInfo();
-                    locInfo.setLocaleLanguage(loc.getLanguage());
-                    locInfo.setLocaleRegion(loc.getCountry());
-                    locInfo.setLocaleVariant(loc.getVariant());
-                    locInfo.setLocaleScript(loc.getScript());
+                    locInfo = LocaleHelper.locale2LocaleInfo(loc);
                 }
                 if(principal!=null){
                     String principalName = principal.getName();

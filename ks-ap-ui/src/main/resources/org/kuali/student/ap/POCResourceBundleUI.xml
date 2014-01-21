@@ -12,15 +12,10 @@
 		express or implied. See the License for the specific language governing permissions 
 		and limitations under the License. -->
 
-    <!-- Bean for the resource bundle loader -->
-    <bean id="POCResourceLoader" class="org.kuali.i18n.KualiResourceBundle">
-        <property name="baseName" value="org.kuali.student.ap.bundles.POCResourceBundleUI"/>
-    </bean>
-
 	<bean id="POCResourceBundle-FormView" parent="POCResourceBundle-FormView-parent"/>
 	<bean abstract="true" id="POCResourceBundle-FormView-parent" parent="KSAPFormView">
         <property name="id" value="POCResourceBundle-FormView" />
-		<property name="headerText" value="#{POCResourceLoader.getString('poc.title')}" />
+		<property name="headerText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('poc.title')}" />
 		<property name="entryPageId" value="poc_resource_bundle" />
 		<property name="cssClasses">
 			<list merge="true">
@@ -47,47 +42,54 @@
 	<bean id="poc_resource_bundle_page" parent="poc_resource_bundle_page-parent" />
 	<bean abstract="true" id="poc_resource_bundle_page-parent" parent="Uif-Page" p:id="poc_resource_bundle">
 		<property name="instructionalText"
-			value="#{POCResourceLoader.getString('poc.description')}" />
+			value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('poc.description')}" />
 		<property name="layoutManager">
 			<bean parent="Uif-VerticalBoxLayout" />
 		</property>
 		<property name="items">
 			<list>
 
-                <bean parent="Uif-Message" p:messageText="[b]Getting values with the new KualiResourceBundle[/b]"/>
-
                 <bean parent="Uif-Message" p:messageText="Hard coded text (BAD)" />
 
                 <bean parent="Uif-Message"
-                      p:messageText="#{POCResourceLoader.getString('poc.staticText')}"/>
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('poc.staticText')}"/>
 
                 <bean parent="Uif-Message"
-                      p:messageText="#{POCResourceLoader.getFormattedMessage('poc.textWithPlaceholder', new Object[]{'1'})}"/>
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('poc.textWithPlaceholder', new Object[]{'1'})}"/>
 
                 <bean parent="Uif-Message"
-                      p:messageText="#{POCResourceLoader.getFormattedMessage('poc.textWithStringPlaceholder', new Object[]{'one'})}"/>
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('poc.textWithStringPlaceholder', new Object[]{'one'})}"/>
 
                 <!-- Don't try this..it won't work!
                 <bean parent="Uif-Message"
-                      p:messageText="#{POCResourceLoader.getFormattedMessage('poc.textWithStringPlaceholder', 'one')}"/>
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('poc.textWithStringPlaceholder', 'one')}"/>
                 -->
 
                 <bean parent="Uif-Message"
-                      p:messageText="#{POCResourceLoader.getFormattedMessage('poc.textWithMultiplePlaceholders', '3', 'number', 'string')}"/>
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('poc.textWithMultiplePlaceholders', '3', 'number', 'string')}"/>
 
                 <bean parent="Uif-Message"
-                      p:messageText="#{POCResourceLoader.getFormattedMessage('poc.textWithMultiplePlaceholders', new Object[]{'3', 'number', 'string'})}"/>
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('poc.textWithMultiplePlaceholders', new Object[]{'3', 'number', 'string'})}"/>
 
-
-                <bean parent="Uif-Message" p:messageText="[b]Getting values with an enhanced TextHelper[/b]"/>
-                <bean parent="Uif-Message"
-                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('simpleText')}"/>
 
                 <bean parent="Uif-Message"
-                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('substitutionText', new Object[]{'Blue'})}"/>
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('sample.simpleText')}"/>
 
                 <bean parent="Uif-Message"
-                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('multipleSubstitutionText', 'Apples', 'Bananas')}"/>
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('sample.substitutionText', new Object[]{'Blue'})}"/>
+
+                <bean parent="Uif-Message"
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getFormattedMessage('sample.multipleSubstitutionText', 'Apples', 'Bananas')}"/>
+
+                <bean parent="Uif-Message"
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('sample.fallbackToDefaultLocaleInDB')}"/>
+
+                <bean parent="Uif-Message"
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('poc.fallbackToDefaultLocaleInProps')}"/>
+
+                <bean parent="Uif-Message" p:messageText="[b]You'll see the below when you use a key that has no defined value:[/b]"/>
+                <bean parent="Uif-Message"
+                      p:messageText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('poc.doesnt.exist')}"/>
 
 			</list>
 		</property>
