@@ -126,7 +126,7 @@
 			<bean parent="Uif-DropdownControl" />
 		</property>
 		<property name="optionsFinder">
-			<bean class="org.kuali.student.ap.utils.PublishedTermsListBuilder">
+			<bean class="org.kuali.student.ap.coursesearch.keyvalue.PublishedTermsListBuilder">
 				<property name="additionalListItemsTop">
 					<map>
 						<entry key="any" value="Any term" />

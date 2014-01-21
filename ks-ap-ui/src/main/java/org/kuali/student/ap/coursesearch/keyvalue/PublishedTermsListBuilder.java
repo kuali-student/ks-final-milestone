@@ -1,39 +1,15 @@
-package org.kuali.student.ap.utils;
+package org.kuali.student.ap.coursesearch.keyvalue;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.framework.util.KsapHelperUtil;
-import org.kuali.student.ap.framework.util.KsapConstants;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-
-import javax.xml.namespace.QName;
-
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThan;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 
 /**
