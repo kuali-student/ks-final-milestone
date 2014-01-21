@@ -89,7 +89,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             Map<String, List> stats = getStatsFromRegEngine();
             response = Response.ok(stats);
         } catch( Throwable t ) {
-            LOGGER.fatal(t);
+            LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
         }
 
@@ -109,7 +109,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             response = Response.fromResponse(getRegEngineStats());
         } catch( Throwable t ) {
-            LOGGER.fatal(t);
+            LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
         }
 
