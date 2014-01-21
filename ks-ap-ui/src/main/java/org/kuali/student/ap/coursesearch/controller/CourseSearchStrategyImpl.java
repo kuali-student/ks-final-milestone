@@ -980,7 +980,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		Map<String, String> divisionMap = fetchCourseDivisions();
 
 		List<String> divisions = new ArrayList<String>();
-		query = extractDivisions(divisionMap, query, divisions, true);
+		extractDivisions(divisionMap, query, divisions, true);
+
+        List<String> incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query,divisions);
+        levels.addAll(incompleteCodes);
 
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 
