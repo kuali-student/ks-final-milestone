@@ -904,7 +904,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
 	public void addDivisionSearches(List<String> divisions, List<String> codes,
-			List<String> levels, List<SearchRequestInfo> requests) {
+			List<String> levels, List<String> incompleteCodes, List<SearchRequestInfo> requests) {
 		for (String division : divisions) {
 			boolean needDivisionQuery = true;
 
@@ -929,6 +929,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				request.addParam("level", level);
 				requests.add(request);
 			}
+
+            for (String incompleteCode : incompleteCodes) {
+                needDivisionQuery = false;
+
+                SearchRequestInfo request = new SearchRequestInfo(
+                        "ksap.lu.search.courseCode");
+                request.addParam("code", incompleteCode);
+                requests.add(request);
+            }
 
 			if (needDivisionQuery) {
 				SearchRequestInfo request = new SearchRequestInfo(
@@ -990,7 +999,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		LOG.info("Start of method addDivisionSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 		// Order is important, more exact search results appear at top of list
-		addDivisionSearches(divisions, codes, levels, requests);
+		addDivisionSearches(divisions, codes, levels, incompleteCodes, requests);
 		LOG.info("End of method addDivisionSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 

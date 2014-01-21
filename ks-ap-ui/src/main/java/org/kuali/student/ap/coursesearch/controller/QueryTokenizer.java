@@ -148,7 +148,6 @@ public class QueryTokenizer
                 if( m.usePattern( courseCode ).lookingAt() )
                 {
                     String value = source.substring( m.start(), m.end() );
-                    value = value.replace(division,"");
                     tokens.add( value );
                     pos = m.end();
                 }
