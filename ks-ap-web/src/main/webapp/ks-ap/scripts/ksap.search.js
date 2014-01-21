@@ -166,6 +166,11 @@ function searchForCourses(id, parentId) {
 							results.fadeIn("fast");
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
+                            if(oSettings.aoData.length){
+                                jQuery("#course_search_results_facets").removeClass("invisible");
+                            }else{
+                                jQuery("#course_search_results_facets").addClass("invisible");
+                            }
 							ksapSearchComplete();
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
