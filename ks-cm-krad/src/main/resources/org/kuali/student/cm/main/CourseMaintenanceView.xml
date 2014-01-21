@@ -25,7 +25,10 @@
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />
+        <!-- New Course header requires static string therefore below string construction is not required.
+        commenting below code in case required in future.
+         @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
+        <property name="headerText" value="New Course (Proposal)" />
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
@@ -140,7 +143,10 @@
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-HeaderTwo">
-                                        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />
+                                        <!-- New Course header requires static string therefore below string construction is not required.
+                                        commenting below code in case required in future.
+                                         @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
+                                        <property name="headerText" value="New Course (Proposal)" />
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>ks-header</value>
