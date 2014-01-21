@@ -71,7 +71,7 @@
         </property>
     </bean>
 
-    <bean id="TimeSlotTypeSelect-Section" parent="Uif-HorizontalBoxSection">
+    <bean id="TimeSlotTypeSelect-Section" parent="Uif-HorizontalBoxSection" p:onDocumentReadyScript="toggleTimeSlotShowButton();">
         <property name="items">
             <list>
                 <!-- The multi-select for time slot types -->
@@ -80,7 +80,7 @@
                         <list>
                             <bean parent="Uif-Message" p:messageText="Select Term Type(s) To Edit" p:style="font-weight:bold;"/>
                             <bean parent="Uif-Message" p:messageText="Use 'Ctrl' or 'Shift' to select multiple" p:additionalCssClasses="ks-subSection"/>
-                            <bean id="timeSlotTypeSelection" parent="Uif-InputField" p:propertyName="termTypeSelections" >
+                            <bean id="timeSlotTypeSelection" parent="Uif-InputField" p:propertyName="termTypeSelections"  p:onChangeScript="toggleTimeSlotShowButton();" p:onClickScript="toggleTimeSlotShowButton();">
                                 <property name="control">
                                     <bean parent="Uif-MultiSelectControl" p:size="3" p:style="width:17em;"/>
                                 </property>
@@ -93,7 +93,7 @@
                 </bean>
                 <!--The submit button -->
                 <bean parent="Uif-PrimaryActionButton"
-                    p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:46px;" p:successCallback="setupTimeSlotTypeDropdown();"/>
+                    p:performClientSideValidation="false" p:actionLabel="Show" p:methodToCall="show" p:style="margin-top:46px;" p:successCallback="setupTimeSlotTypeDropdown();" p:id="TimeSlotShowButton"/>
 
                 <!-- REMOVE ME: This is for a PoC for "intelligent" time entry
                 <bean id="daysPatternTextField" parent="Uif-InputField-LabelTop"  p:propertyName="pocTimeWithAMPM" p:label="PoC Days" p:required="true">
