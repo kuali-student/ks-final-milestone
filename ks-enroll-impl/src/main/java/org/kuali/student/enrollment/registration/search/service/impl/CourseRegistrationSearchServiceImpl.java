@@ -59,9 +59,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
     public static final class SearchParameters {
-        public static final String AO_ID = "aoId";
-        public static final String CO_ID = "coId";
-        public static final String RG_ID = "rgId";
+        public static final String AO_ID = "activityOfferingId";
+        public static final String CO_ID = "courseOfferingId";
+        public static final String RG_ID = "regGroupId";
         public static final String PERSON_ID = "personId";
         public static final String ATP_ID = "atpId";
     }
@@ -70,7 +70,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String LUI_ID = "luiId";
         public static final String MASTER_LUI_ID = "masterLuiId";
         public static final String PERSON_LUI_TYPE = "personLuiType";
-        public static final String LUI_SHORT_NAME = "luiShortName";
+        public static final String LUI_NAME = "luiName";
         public static final String LUI_CODE = "luiCode";
         public static final String LUI_TYPE = "luiType";
         public static final String LUI_DESC = "luiDesc";
@@ -131,7 +131,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     }
 
     /**
-     * Returns list of Registration Info for the person: CO, AO, Schdules, etc.
+     * Returns list of Registration Info for the person: CO, AO, Schedules, etc.
      * @throws OperationFailedException
      */
     private SearchResultInfo searchForCourseRegistrationByPersonAndTerm(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
@@ -142,13 +142,13 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         String queryStr =
                 "SELECT lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, " +
-                        "luiId.LUI_CD, luiId.SHRT_NAME, lui.DESCR_FORMATTED, lui.LUI_TYPE, " +
+                        "luiId.LUI_CD, lui.NAME, lui.DESCR_FORMATTED, lui.LUI_TYPE, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
                         "FROM KSEN_LPR lpr, " +
                         "     KSEN_LUI lui, " +
                         "     KSEN_LUI_IDENT luiId " +
-                        "LEFT JOIN KSEN_LUI_SCHEDULE aoSched " +
+                        "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = luiId.LUI_ID " +
                         "LEFT OUTER JOIN KSEN_SCHED_CMP schedCmp " +
                         "ON schedCmp.SCHED_ID = aoSched.SCHED_ID " +
@@ -179,7 +179,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.PERSON_LUI_TYPE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.CREDITS, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_CODE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.LUI_SHORT_NAME, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_NAME, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_DESC, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_TYPE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.ROOM_CODE, (String)resultRow[i++]);

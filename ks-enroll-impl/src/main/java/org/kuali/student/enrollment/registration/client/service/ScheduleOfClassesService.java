@@ -248,14 +248,4 @@ public interface ScheduleOfClassesService {
      * @throws Exception
      */
     public String getTermIdByTermCode( String termCode ) throws Exception;
-
-
-/** STUDENT REGISTRATION INFO **/
-
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
-    @Path("/personschedule")
-    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(@QueryParam("person") String personId,
-                                                                              @QueryParam("termCode") String termCode) throws Exception;
-
 }

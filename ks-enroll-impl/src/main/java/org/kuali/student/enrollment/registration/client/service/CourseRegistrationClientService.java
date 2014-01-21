@@ -1,13 +1,16 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 
+import javax.jms.Session;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
 /**
  * This class performance registration functions for a particular user. Unlike the ScheduleOfClasses service, each
@@ -45,6 +48,16 @@ public interface CourseRegistrationClientService {
     @Path("/stats/regengine")
     public Response getRegEngineStats();
 
+    /** SEARCH for STUDENT REGISTRATION INFO
+     * @param personId
+     * @param termCode
+     * @return StudentScheduleCourseResult
+    **/
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/personschedule")
+    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(@QueryParam("person") String personId,
+                                                                              @QueryParam("termCode") String termCode) throws Exception;
 
     /**
      * Clears the overall registration engine stats.
