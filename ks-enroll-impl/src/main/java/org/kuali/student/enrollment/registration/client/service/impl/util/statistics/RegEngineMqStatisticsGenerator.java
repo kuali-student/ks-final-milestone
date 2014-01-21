@@ -31,11 +31,9 @@ public class RegEngineMqStatisticsGenerator {
     private Map<RegistrationEngineStatsType, MapMessage> statsTypeMapMessageMap = new LinkedHashMap<RegistrationEngineStatsType, MapMessage>();
 
     public void initiateRequestForStats( List<RegistrationEngineStatsType> statsTypes ) throws Exception {
-        statsTypeMapMessageMap.put( RegistrationEngineStatsType.BROKER, getStatsFromMqService(RegistrationEngineStatsType.BROKER ) );
-        statsTypeMapMessageMap.put( RegistrationEngineStatsType.INITIALIZATION_QUEUE, getStatsFromMqService(RegistrationEngineStatsType.INITIALIZATION_QUEUE ) );
-        statsTypeMapMessageMap.put( RegistrationEngineStatsType.VERIFICATION_QUEUE, getStatsFromMqService(RegistrationEngineStatsType.VERIFICATION_QUEUE ) );
-        statsTypeMapMessageMap.put( RegistrationEngineStatsType.SEAT_CHECK_QUEUE, getStatsFromMqService(RegistrationEngineStatsType.SEAT_CHECK_QUEUE ) );
-        statsTypeMapMessageMap.put( RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS, getStatsFromMqService(RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS ) );
+        for( RegistrationEngineStatsType statsType : statsTypes ) {
+            statsTypeMapMessageMap.put( statsType, getStatsFromMqService(statsType) );
+        }
     }
 
     public Map<String, List> getStats() throws Exception {

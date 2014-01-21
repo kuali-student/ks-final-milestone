@@ -62,7 +62,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE );
         statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE );
         statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.SEAT_CHECK_QUEUE );
-
+        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS );
 
         RegEngineMqStatisticsGenerator generator = new RegEngineMqStatisticsGenerator();
         generator.initiateRequestForStats( statTypesToRequest );
