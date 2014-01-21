@@ -191,8 +191,8 @@ public interface ScheduleOfClassesService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/activitytypes")
     public List<ActivityTypeSearchResult> searchForActivityTypes(@QueryParam("courseOfferingId") String courseOfferingId,
-                                                                 @QueryParam("termCode") String termCode,
                                                                  @QueryParam("termId") String termId,
+                                                                 @QueryParam("termCode") String termCode,
                                                                  @QueryParam("courseCode") String courseCode) throws Exception;
 
 
