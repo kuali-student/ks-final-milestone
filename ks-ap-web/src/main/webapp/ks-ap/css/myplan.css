@@ -1216,7 +1216,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 
 .ksap-course-search-panel input[type='text'] {
-    width: 220px;
+    width: 280px;
     height: 18px;
     background: #fff;
 
@@ -1254,6 +1254,10 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 .ksap-course-search-params span label {
     margin: 0 35px 0 0;
 }
+
+#text_searchQuery,
+#select_searchTerm { margin-right: 10px; }
+#course_search_panel { padding-left:0; }
 
 /* Styles for Facet Panel ################################################################################## */
 .ksap-facets-panel {

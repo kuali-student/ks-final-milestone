@@ -90,7 +90,6 @@
 		<property name="items">
 			<list>
 				<ref bean="course_search_fields" />
-				<ref bean="course_search_params" />
 			</list>
 		</property>
 	</bean>
@@ -128,7 +127,6 @@
 		</property>
 		<property name="optionsFinder">
 			<bean class="org.kuali.student.ap.utils.PublishedTermsListBuilder">
-				<property name="suffix" value=" only" />
 				<property name="additionalListItemsTop">
 					<map>
 						<entry key="any" value="Any term" />
@@ -140,7 +138,18 @@
 		</property>
 	</bean>
 
-	<!-- Group for Search Input Fields -->
+    <bean id="searchForCourses" parent="Uif-PrimaryActionButton"
+          p:actionLabel="Search" p:disabled="true">
+        <property name="actionScript"
+                  value="searchForCourses('course_search_results','course_search_results_panel');" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>course-search-submit</value>
+            </list>
+        </property>
+    </bean>
+
+	<!-- Group for Search Fields and button-->
 	<bean id="course_search_fields" parent="course_search_fields-parent" />
 	<bean id="course_search_fields-parent" abstract="true" parent="Uif-HorizontalFieldGroup" p:group.validationMessages.render="false">
 		<property name="items">
@@ -148,37 +157,8 @@
 				<ref bean="text_searchQuery" />
 				<ref bean="select_searchTerm" />
 				<ref bean="hidden_savedCourses" />
-
+                <ref bean="searchForCourses" />
 			</list>
-		</property>
-	</bean>
-
-	<!-- Group for Search Input Parameters -->
-    <bean id="course_search_params" parent="course_search_params-parent"/>
-	<bean id="course_search_params-parent" abstract="true" parent="Uif-HorizontalFieldGroup">
-		<property name="cssClasses">
-			<list merge="true">
-				<value>ksap-course-search-params</value>
-			</list>
-		</property>
-		<property name="items">
-			<list>
-                <bean p:id="searchForCourses" parent="Uif-PrimaryActionButton"
-                      p:actionLabel="Search" p:disabled="true">
-                    <property name="actionScript"
-                              value="searchForCourses('course_search_results','course_search_results_panel');" />
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>course-search-submit</value>
-                        </list>
-                    </property>
-                </bean>
-                <bean p:id="clearSearch"
-                      parent="Uif-SecondaryActionButton-Small"
-                      p:actionLabel="Clear">
-                    <property name="actionScript" value="fnClearSearch();"/>
-                </bean>
-			</list>	
 		</property>
 	</bean>
 
