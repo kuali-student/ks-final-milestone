@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -21,11 +22,14 @@ import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by swedev on 1/3/14.
  */
 public class CourseRegistrationClientServiceImpl implements CourseRegistrationClientService {
+
+    public static final Logger LOGGER = Logger.getLogger(CourseRegistrationClientServiceImpl.class);
 
     private ScheduleOfClassesService scheduleOfClassesService;
     private CourseRegistrationService courseRegistrationService;
@@ -56,7 +60,43 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
 
     @Override
-    public Response getRegEngineStats() throws Exception {
+    public Response getRegEngineStats() {
+        Response.ResponseBuilder response;
+
+        try {
+            Map<String, List> stats = getStatsFromRegEngine();
+            response = Response.ok(stats);
+        } catch( Throwable t ) {
+            LOGGER.fatal(t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public Response clearRegEngineStats() {
+
+        Response.ResponseBuilder response;
+
+        try {
+            // This might not be the best way to do this...
+            // I would rather have one point of entry into a singleton but
+            // this is incredibly easy.
+            MQPerformanceCounter.INSTANCE.clearPerformanceStats();
+
+            response = Response.fromResponse( getRegEngineStats() );
+        } catch( Throwable t ) {
+            LOGGER.fatal(t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
+    }
+
+    private Map<String, List> getStatsFromRegEngine() throws Exception {
+
+        // define types of stats to collect
         List<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType> statTypesToRequest = new LinkedList<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType>();
         statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER );
         statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE );
@@ -64,27 +104,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.SEAT_CHECK_QUEUE );
         statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS );
 
+        // collect the stats
         RegEngineMqStatisticsGenerator generator = new RegEngineMqStatisticsGenerator();
         generator.initiateRequestForStats( statTypesToRequest );
 
-        return Response.ok( generator.getStats() ).build();
+        return generator.getStats();
     }
-
-    /**
-     * This method will clear the overall registration engine stats. It will no clear
-     * the MQ stats plugin.
-     * @return
-     * @throws Exception
-     */
-    @Override
-    public Response clearRegEngineStats() throws Exception {
-        // This might not be the best way to do this...
-        // I would rather have one point of entry into a singleton but
-        // this is incredibly easy.
-        MQPerformanceCounter.INSTANCE.clearPerformanceStats();
-        return getRegEngineStats();
-    }
-
 
     /**
      * This method creates a registration request for the add operation of a single registration group.

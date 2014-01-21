@@ -34,13 +34,26 @@ public interface CourseRegistrationClientService {
                                                                                                        @QueryParam("courseCode") String courseCode,
                                                                                                        @QueryParam("regGroupName") String regGroupName) throws Exception;
 
+    /**
+     * Returns statistics for the registration engine.
+     *
+     * @return JSON representing various statistics as a JSON-map of elements (ie: entities) where each element contains
+     *          an array of key-value pairs.
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/stats/regengine")
-    public Response getRegEngineStats() throws Exception;
+    public Response getRegEngineStats();
 
+
+    /**
+     * Clears the overall registration engine stats.
+     * It will not clear the MQ stats plugin.
+     *
+     * @return
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/stats/regengine/clear")
-    public Response clearRegEngineStats() throws Exception;
+    public Response clearRegEngineStats();
 }
