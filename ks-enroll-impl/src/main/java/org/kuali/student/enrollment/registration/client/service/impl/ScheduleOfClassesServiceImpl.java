@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -66,6 +67,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -78,16 +80,25 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
+    public static final Logger LOGGER = Logger.getLogger(ScheduleOfClassesServiceImpl.class);
+
     Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
 
 /** COURSE OFFERINGS **/
 
     @Override
-    public List<CourseSearchResult> searchForCourseOfferings(String termId, String termCode, String courseCode) throws Exception {
-        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId( termId, termCode );
-        List<CourseSearchResult> courseSearchResults = searchForCourseOfferings( termId, courseCode );
+    public Response restfulSearchForCourseOfferings(String termId, String termCode, String courseCode) {
+        Response.ResponseBuilder response;
 
-        return courseSearchResults;
+        try {
+            List<CourseSearchResult> courseSearchResults = searchForCourseOfferings( termId, termCode, courseCode );
+            response = Response.ok(courseSearchResults);
+        } catch( Throwable t ) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
     }
 
     @Override
@@ -101,32 +112,36 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourse(String termId, String termCode, String courseCode) throws Exception {
+    public Response restfulSearchForCourseOfferingsAndPrimaryAosByTermAndCourse(String termId, String termCode, String courseCode) {
+        Response.ResponseBuilder response;
 
-        List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
-        List<CourseSearchResult> courseOfferingList = searchForCourseOfferings(termId, termCode, courseCode); // search for the course offerings
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build defualt context info
-
-        if(courseOfferingList != null && !courseOfferingList.isEmpty()){   // if we found course offerings
-            for(CourseSearchResult csr : courseOfferingList){
-                CourseAndPrimaryAOSearchResult resultElement = new CourseAndPrimaryAOSearchResult(); // this is the element in the list we will return
-                List<ActivityOfferingSearchResult> activityOfferingList = getPrimaryActivityOfferingsByCo(csr.getCourseOfferingId(), contextInfo);
-
-                resultElement.setCourseOfferingInfo(csr);
-                resultElement.setPrimaryActivityOfferingInfo(activityOfferingList);
-                resultList.add(resultElement);
-            }
+        try {
+            List<CourseAndPrimaryAOSearchResult> courseSearchResults = searchForCourseOfferingsAndPrimaryAosByTermAndCourse(termId, termCode, courseCode);
+            response = Response.ok(courseSearchResults);
+        } catch( Throwable t ) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t.getMessage());
         }
-        return resultList;
+
+        return response.build();
     }
 
 
 /** REGISTRATION GROUPS **/
 
     @Override
-    public List<RegGroupSearchResult> searchForRegistrationGroups(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) throws Exception {
-        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
-        return getRegGroupList(courseOfferingId, regGroupName);
+    public Response restfulSearchForRegistrationGroups(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) {
+        Response.ResponseBuilder response;
+
+        try {
+            List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroups( courseOfferingId, termId, termCode, courseCode, regGroupName );
+            response = Response.ok(regGroupSearchResults);
+        } catch( Throwable t ) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
     }
 
     @Override
@@ -139,46 +154,83 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 /** ACTIVITY OFFERINGS **/
 
     @Override
-    public List<ActivityOfferingSearchResult> searchForActivityOfferings(String courseOfferingId, String termId, String termCode, String courseCode) throws Exception {
-        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode );
-        List<ActivityOfferingSearchResult> activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
+    public Response restfulSearchForActivityOfferings(String courseOfferingId, String termId, String termCode, String courseCode) {
+        Response.ResponseBuilder response;
 
-        return activityOfferingSearchResults;
+        try {
+            List<ActivityOfferingSearchResult> activityOfferingSearchResults = searchForActivityOfferings(courseOfferingId, termId, termCode, courseCode);
+            response = Response.ok(activityOfferingSearchResults);
+        } catch( Throwable t ) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t);
+        }
+
+        return response.build();
     }
 
 
 /** ACTIVITY TYPES **/
 
     @Override
-    public List<ActivityTypeSearchResult> searchForActivityTypes(String courseOfferingId, String termId, String termCode, String courseCode) throws Exception {
-        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode );
+    public Response restfulSearchForActivityTypes(String courseOfferingId, String termId, String termCode, String courseCode) {
+        Response.ResponseBuilder response;
 
-        // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        List<FormatOfferingInfo> formatOfferings = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
+        try {
+            List<ActivityTypeSearchResult> activityTypeSearchResults = searchForActivityTypes(courseOfferingId, termId, termCode, courseCode);
+            response = Response.ok(activityTypeSearchResults);
+        } catch( Throwable t ) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t);
+        }
 
-        return getActivityTypesForFormatOfferings( formatOfferings, contextInfo );
+        return response.build();
     }
 
 
 /** INSTRUCTORS **/
 
     @Override
-    public List<InstructorSearchResult> searchForInstructors(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) throws Exception {
+    public Response restfulSearchForInstructors(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) {
+        Response.ResponseBuilder response;
 
-        if( !StringUtils.isEmpty(activityOfferingId) ) {
-            return getInstructorsByActivityOfferingId(activityOfferingId);
+        try {
+            List<InstructorSearchResult> instructorSearchResults = searchForInstructors(courseOfferingId, activityOfferingId, termId, termCode, courseCode);
+            response = Response.ok(instructorSearchResults);
+        } catch( Throwable t ) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t);
         }
 
-        courseOfferingId = getCourseOfferingId( courseOfferingId, courseCode, termId, termCode );
-        return getInstructorsByCourseOfferingId(courseOfferingId);
+        return response.build();
     }
 
 
 /** TERMS **/
 
     @Override
-    public List<TermSearchResult> searchForTerms( @QueryParam("termCode") String termCode, @QueryParam("active") boolean isActiveTerms ) throws Exception {
+    public Response restfulSearchForTerms( String termCode, boolean isActiveTerms ) {
+        Response.ResponseBuilder response;
+
+        try {
+            List<TermSearchResult> termSearchResults = searchForTerms(termCode, isActiveTerms);
+            response = Response.ok(termSearchResults);
+        } catch( Throwable t ) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t);
+        }
+
+        return response.build();
+    }
+
+    @Override
+    public String getTermIdByTermCode( String termCode ) throws Exception {
+        return KSCollectionUtils.getRequiredZeroElement( CourseRegistrationAndScheduleOfClassesUtil.getTermsByTermCode(termCode) ).getTermId();
+    }
+
+
+/** PRIVATE HELPERS **/
+
+    private List<TermSearchResult> searchForTerms( String termCode, boolean isActiveTerms ) throws Exception {
 
         if( !StringUtils.isEmpty(termCode) ) {
             return CourseRegistrationAndScheduleOfClassesUtil.getTermsByTermCode(termCode);
@@ -191,11 +243,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return getAllTerms();
     }
 
-    @Override
-    public String getTermIdByTermCode( String termCode ) throws Exception {
-        return KSCollectionUtils.getRequiredZeroElement( CourseRegistrationAndScheduleOfClassesUtil.getTermsByTermCode(termCode) ).getTermId();
-    }
-
     private List<TermSearchResult> getActiveTerms() throws Exception {
         List<AtpInfo> validAtps = getValidAtps(ContextUtils.createDefaultContextInfo());
         return CourseRegistrationAndScheduleOfClassesUtil.getTermSearchResultsFromAtpInfos( validAtps );
@@ -206,7 +253,15 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         return CourseRegistrationAndScheduleOfClassesUtil.getTermSearchResultsFromAtpInfos(CourseRegistrationAndScheduleOfClassesUtil.getAtpService().searchForAtps(criteria, ContextUtils.createDefaultContextInfo()));
     }
 
-/** PRIVATE HELPERS **/
+    private List<InstructorSearchResult> searchForInstructors(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) throws Exception {
+
+        if( !StringUtils.isEmpty(activityOfferingId) ) {
+            return getInstructorsByActivityOfferingId(activityOfferingId);
+        }
+
+        courseOfferingId = getCourseOfferingId( courseOfferingId, courseCode, termId, termCode );
+        return getInstructorsByCourseOfferingId(courseOfferingId);
+    }
 
     private List<InstructorSearchResult> getInstructorsByCourseOfferingId( String courseOfferingId ) throws Exception {
 
@@ -225,6 +280,17 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         List<String> aoIds = new ArrayList<String>();
         aoIds.add(activityOfferingId);
         return getInstructorListByAoIds(aoIds, ContextUtils.createDefaultContextInfo());
+    }
+
+
+    private List<ActivityTypeSearchResult> searchForActivityTypes(String courseOfferingId, String termId, String termCode, String courseCode) throws Exception {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode );
+
+        // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        List<FormatOfferingInfo> formatOfferings = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId,contextInfo);
+
+        return getActivityTypesForFormatOfferings( formatOfferings, contextInfo );
     }
 
     private List<ActivityTypeSearchResult> getActivityTypesForFormatOfferings( List<FormatOfferingInfo> formatOfferings, ContextInfo contextInfo ) throws Exception {
@@ -262,6 +328,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         return activitiesTypeKeys;
 
+    }
+
+    private List<RegGroupSearchResult> searchForRegistrationGroups(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) throws Exception {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
+        return getRegGroupList(courseOfferingId, regGroupName);
     }
 
     private List<RegGroupSearchResult> getRegGroupList( String courseOfferingId, String regGroupName ) throws Exception {
@@ -378,6 +449,32 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             throw new RuntimeException("Error getting Valid SOC Terms", e);
         }
         return atps;
+    }
+
+    private List<CourseSearchResult> searchForCourseOfferings(String termId, String termCode, String courseCode) throws Exception {
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId( termId, termCode );
+        List<CourseSearchResult> courseSearchResults = searchForCourseOfferings( termId, courseCode );
+
+        return courseSearchResults;
+    }
+
+    private List<CourseAndPrimaryAOSearchResult> searchForCourseOfferingsAndPrimaryAosByTermAndCourse(String termId, String termCode, String courseCode) throws Exception {
+
+        List<CourseAndPrimaryAOSearchResult> resultList = new ArrayList<CourseAndPrimaryAOSearchResult>();
+        List<CourseSearchResult> courseOfferingList = searchForCourseOfferings(termId, termCode, courseCode); // search for the course offerings
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();  // build defualt context info
+
+        if(courseOfferingList != null && !courseOfferingList.isEmpty()){   // if we found course offerings
+            for(CourseSearchResult csr : courseOfferingList){
+                CourseAndPrimaryAOSearchResult resultElement = new CourseAndPrimaryAOSearchResult(); // this is the element in the list we will return
+                List<ActivityOfferingSearchResult> activityOfferingList = getPrimaryActivityOfferingsByCo(csr.getCourseOfferingId(), contextInfo);
+
+                resultElement.setCourseOfferingInfo(csr);
+                resultElement.setPrimaryActivityOfferingInfo(activityOfferingList);
+                resultList.add(resultElement);
+            }
+        }
+        return resultList;
     }
 
     private List<CourseSearchResult> searchForCourseOfferings(String termId, String courseCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
@@ -902,6 +999,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         searchRequest.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
 
         return searchRequest;
+    }
+
+    private List<ActivityOfferingSearchResult> searchForActivityOfferings(String courseOfferingId, String termId, String termCode, String courseCode) throws Exception {
+        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode );
+        List<ActivityOfferingSearchResult> activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
+
+        return activityOfferingSearchResults;
     }
 
     /**
