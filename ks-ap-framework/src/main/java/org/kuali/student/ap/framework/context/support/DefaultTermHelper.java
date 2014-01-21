@@ -1,27 +1,23 @@
 package org.kuali.student.ap.framework.context.support;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.lessThanOrEqual;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
+import java.util.*;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.ap.framework.util.KsapConstants;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
@@ -32,11 +28,20 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
 
 /**
  * Default implementation of {@link TermHelper} for use with applications that
@@ -63,7 +68,9 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  */
 public class DefaultTermHelper implements TermHelper {
 
-	private static final MarkerKey MARKER_KEY = new MarkerKey();
+    private final static Logger LOG = Logger.getLogger(DefaultTermHelper.class);
+
+    private static final MarkerKey MARKER_KEY = new MarkerKey();
 
     private static class MarkerKey {
 		@Override
@@ -214,6 +221,7 @@ public class DefaultTermHelper implements TermHelper {
 			} catch (PermissionDeniedException e) {
 				throw new IllegalStateException("Acal lookup failure", e);
 			}
+            
 		}
 		return rv;
 	}
@@ -229,16 +237,36 @@ public class DefaultTermHelper implements TermHelper {
 	}
 
 	@Override
+    /**
+     *  See https://wiki.kuali.org/display/STUDENT/Term+Analysis
+     *  Current term:
+     *       Academic Calendar: Term Start Date through Registration Key Date: the start date of Last Day to Add Classes
+     *       If Last Day to Add Classes does not exist for the term, or the start date of Last Day to Add Classes is blank,
+     *       use the Academic Calendar: Term End Date
+     */
 	public List<Term> getCurrentTerms() {
+        ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo(); 
         if(getTermMarker().currentTerms == null){
             try {
                 QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", PlanConstants.PUBLISHED),
                         or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
-                List<TermInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
-                        KsapFrameworkServiceLocator.getContext().getContextInfo());
+                List<TermInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,contextInfo);
+                List<TermInfo> currentTermsForCourseSearch = new ArrayList<TermInfo>();
+                for (TermInfo term:rv){
+                    KeyDateInfo lastDayToAddClasses = getLastDayToAddClassesForTerm(term.getId(), contextInfo);
+                    if(lastDayToAddClasses == null || lastDayToAddClasses.getStartDate() == null){
+                        currentTermsForCourseSearch.add(term);
+                    }else{
+                        if ( lastDayToAddClasses.getStartDate().before(new Date())){
+                            continue;
+                        }else{
+                            currentTermsForCourseSearch.add(term);
+                        }
+                    }
+                }                                                    
                 if (rv == null)
                     rv = Collections.emptyList();
-                getTermMarker().currentTerms = getTermMarker().cache(rv);
+                getTermMarker().currentTerms = getTermMarker().cache(currentTermsForCourseSearch);
             } catch (InvalidParameterException e) {
                 throw new IllegalArgumentException("Acal lookup failure", e);
             } catch (MissingParameterException e) {
@@ -247,10 +275,51 @@ public class DefaultTermHelper implements TermHelper {
                 throw new IllegalStateException("Acal lookup failure", e);
             } catch (PermissionDeniedException e) {
                 throw new IllegalStateException("Acal lookup failure", e);
+            } catch (DoesNotExistException e){
+                throw new IllegalStateException("Acal lookup failure", e);
             }
+
         }
         return getTermMarker().currentTerms;
 	}
+    
+    /*
+     *  retrieve LastDayToAddClasses KeydateInfo for a sepcified term
+     */
+    private KeyDateInfo getLastDayToAddClassesForTerm(String termId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException,PermissionDeniedException {
+        KeyDateInfo  lastDayToAddClasses = null;
+        // Find the registration/instructional milestone types.  These appear to, collectively,
+        // constitute the keydate types.
+        SearchRequestInfo searchRequest = new SearchRequestInfo("milestone.search.milestoneIdsByAtpId");
+        searchRequest.addParam("milestone.queryParam.atpId", termId);
+        //Specify the type key for "Last Day to Add Classes"
+        List<String> keydateTypes = new ArrayList<String>();
+        keydateTypes.add("kuali.atp.milestone.AddDropPeriod1");
+        // Make query
+        searchRequest.addParam("milestone.queryParam.milestoneTypes", keydateTypes);
+        SearchResultInfo searchResult = KsapFrameworkServiceLocator.getAtpService().search(searchRequest, context);
+        if(searchResult.getRows().size()== 0){
+           //No lastDayToAddClasses has been defined for the specified term
+            return lastDayToAddClasses;
+        }
+        List<String> keyDateIds = new ArrayList<String>();
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstSearchResultCellInfo = 0;
+        // Extract out IDs.  Each row should have one cell with one key, so just grab the value (which is an ID)
+        for (SearchResultRowInfo row: searchResult.getRows()) {
+            List<SearchResultCellInfo> cells = row.getCells();
+            String id = cells.get(firstSearchResultCellInfo).getValue(); // keydate ID
+            keyDateIds.add(id);
+        }
+        int first = 0;
+        if (keyDateIds.size()>=1){
+            //normally the KS application prevents to create more than one instance for lastDayToAddClasses
+            //if return more than one, we only take the first one
+            lastDayToAddClasses= KsapFrameworkServiceLocator.getAcademicCalendarService().getKeyDate(keyDateIds.get(first), context);
+        }
+        return lastDayToAddClasses;
+    }
 
 	@Override
 	public Term getLastScheduledTerm() {
@@ -584,6 +653,105 @@ public class DefaultTermHelper implements TermHelper {
         }
         return terms;
     }
+
+    /**
+     * Get a list of the current Academic Terms and make sure the SOC state associated
+     * with the term is published, and return the list of the terms.
+     * @return - A list of current terms
+     */
+    @Override
+    public List<Term> getCurrentTermsWithPublishedSOC (){
+        List<Term> currentTerms = new ArrayList<Term>();
+        List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getCurrentTerms();
+        if (terms.size() == 0){
+            return currentTerms;
+        }
+        else {
+            currentTerms = getTermsWithPublishedSOC(terms);
+        }
+
+        return  currentTerms;
+    }
+
+    /**
+     * Get a list of the future Academic Terms and make sure the SOC state associated
+     * with the term is published, and return the list of the terms.
+     * @return - A list of future terms
+     */
+    @Override
+    public List<Term> getFutureTermsWithPublishedSOC (){
+        List<Term> futureTerms = new ArrayList<Term>();
+        try {
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(equal("atpStatus", AtpServiceConstants.ATP_OFFICIAL_STATE_KEY),
+                    or(KsapHelperUtil.getTermPredicates()), greaterThan("startDate", new Date()));
+            List<TermInfo> rl = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
+            if (rl == null || rl.isEmpty()) {
+                LOG.info("There is no official future terms.");
+                return futureTerms;
+                //throw new IllegalStateException("AcademicCalendarService did not return any in-progress terms");
+            }
+            else{
+                List<Term> terms = new ArrayList<Term>();
+                for (TermInfo term:rl){
+                    terms.add(term);
+                }
+                futureTerms = getTermsWithPublishedSOC(terms);
+            }
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Acal lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("Acal lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("Acal lookup failure", e);
+        }
+        return futureTerms;
+
+    }
+
+    private  List<Term> getTermsWithPublishedSOC(List<Term> inputTerms){
+        List<Term> returnTerms = new ArrayList<Term>();
+        for (Term term : inputTerms){
+            List<String> socIds;
+            try {
+                socIds = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSocIdsByTerm(term.getId(), ContextUtils.createDefaultContextInfo());
+            } catch (Exception e){
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("Getting SOCs for the term " + term.getCode() + " results in service error");
+                }
+                continue;
+            }
+
+            if (socIds.isEmpty()){
+                continue;
+            }
+
+            if (socIds.size() > 1){   //Handle multiple soc when it is implemented (Not for M5)
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, KsapConstants.MessageKeys.ERROR_MULTIPLE_SOCS);
+                continue;
+            }
+
+            SocInfo socInfo;
+            int firstId = 0;
+            try {
+                socInfo = KsapFrameworkServiceLocator.getCourseOfferingSetService().getSoc(socIds.get(firstId), ContextUtils.createDefaultContextInfo());
+            } catch (Exception e){
+                if (LOG.isDebugEnabled()){
+                    LOG.debug("Error getting the soc [id=" + socIds.get(firstId) + "]");
+                }
+                continue;
+            }
+
+            if(socInfo.getStateKey().equals(CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY)  ){
+                returnTerms.add(term);
+            }
+        }
+        return returnTerms;
+
+    }
+
 
     private Term getFirstPlanningTerm(){
         return getPlanningTerms().get(0);

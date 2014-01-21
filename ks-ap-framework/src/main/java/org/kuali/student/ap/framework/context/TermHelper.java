@@ -211,4 +211,18 @@ public interface TermHelper {
      * @return - A list of sorted terms
      */
     public List<Term> sortTermsByEndDate(List<Term> terms, boolean ascending);
+
+    /**
+     * Get a list of the current Academic Terms and make sure the SOC state associated
+     * with the term is published, and return the list of the terms.
+     * @return - A list of current terms
+     */
+    public List<Term> getCurrentTermsWithPublishedSOC ();
+
+    /**
+     * Get a list of the future Academic Terms and make sure the SOC state associated
+     * with the term is published, and return the list of the terms.
+     * @return - A list of future terms
+     */
+    public List<Term> getFutureTermsWithPublishedSOC ();
 }

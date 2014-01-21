@@ -179,7 +179,7 @@ public class TermHelperMockTest implements TermHelper {
      * Returns true if an ATP is considered present or greater in the context of
      * the current term's term. Otherwise, false.
      *
-     * @param termId
+     * @param atpId
      * @return
      */
     @Override
@@ -227,7 +227,7 @@ public class TermHelperMockTest implements TermHelper {
     }
 
     /**
-     * @param termId - Id of a term
+     * @param term - a term
      * @return YearTerm holding information for the term
      */
     @Override
@@ -276,6 +276,24 @@ public class TermHelperMockTest implements TermHelper {
      */
     @Override
     public List<Term> sortTermsByEndDate(List<Term> terms, boolean ascending) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Get a list of the current Academic Terms and make sure the SOC state associated
+     * with the term is published, and return the list of the terms.
+     * @return - A list of current terms
+     */
+    public List<Term> getCurrentTermsWithPublishedSOC (){
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Get a list of the future Academic Terms and make sure the SOC state associated
+     * with the term is published, and return the list of the terms.
+     * @return - A list of future terms
+     */
+    public List<Term> getFutureTermsWithPublishedSOC (){
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
