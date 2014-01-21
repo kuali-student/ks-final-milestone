@@ -143,13 +143,16 @@
         </property>
     </bean>
 
-   <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection" p:style="background-color:#E0DEDE;">
+   <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection" p:onDocumentReadyScript="toggleButtonOnInput('socTermField', 'socShowButton');">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:10px;margin-bottom:10px;margin-left:15px;">
                     <property name="items">
                       <list>
-                        <bean parent="Uif-InputField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true" >
+                        <bean parent="Uif-InputField" p:id="socTermField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
+                              p:onKeyUpScript="toggleButtonOnInput('socTermField', 'socShowButton');"
+                              p:onMouseOutScript="toggleButtonOnInput('socTermField', 'socShowButton');">
+
                             <property name="control">
                                 <bean parent="Uif-TextControl" p:size="6" p:minLength="5" p:maxLength="6"/>
                             </property>
@@ -164,7 +167,7 @@
 
 
     <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton"
-          p:actionLabel="Show" p:methodToCall="buildModel" p:valign="bottom" p:ajaxSubmit="false"/>
+          p:id="socShowButton" p:actionLabel="Show" p:methodToCall="buildModel" p:valign="bottom" p:ajaxSubmit="false"/>
 
     <!--p:onClickScript="updateContextBar( null, 'KS-CourseOffering-View-ContextBar-PlaceHolder' );"-->
 
