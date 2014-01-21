@@ -74,4 +74,10 @@ public class MQPerformanceCounter {
 
     }
 
+    public synchronized void clearPerformanceStats(){
+        requestCount =0;
+        totalRequestTime =0;
+        averageRequestTime=0;
+    }
+
 }
