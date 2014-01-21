@@ -977,6 +977,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 		String query = form.getSearchQuery().toUpperCase();
 
+        // Unchanging query for full text search
+        String pureQuery = query;
+
 		List<String> levels = QueryTokenizer.extractCourseLevels(query);
 		for (String level : levels) {
 			query = query.replace(level, "");
@@ -992,7 +995,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		extractDivisions(divisionMap, query, divisions, true);
 
         List<String> incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query,divisions);
-        levels.addAll(incompleteCodes);
 
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 
@@ -1005,7 +1007,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		LOG.info("Start of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-		addFullTextSearches(query, requests);
+		addFullTextSearches(pureQuery, requests);
 		LOG.info("End of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
