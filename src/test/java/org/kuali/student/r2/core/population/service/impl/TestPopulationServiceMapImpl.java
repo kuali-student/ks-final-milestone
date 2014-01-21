@@ -60,7 +60,7 @@ public class TestPopulationServiceMapImpl {
         PopulationService service = this.populationService;
         while (true) {
             if (service instanceof MockService) {
-                MockService mockService = (MockService) populationService;
+                MockService mockService = (MockService) service;
                 mockService.clear();
                 break;
             }
