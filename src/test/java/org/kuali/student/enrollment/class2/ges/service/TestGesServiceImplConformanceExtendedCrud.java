@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.RichTextTester;
-import org.kuali.student.core.constants.GesServiceConstants;
+import org.kuali.student.core.ges.service.ValueType;
 import org.kuali.student.poc.rules.population.PopulationPocStudentEnum;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -33,7 +33,6 @@ import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import javax.annotation.Resource;
 
 import java.util.Arrays;
@@ -74,7 +73,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
 		expected.setKey("key01");
-		expected.setValueTypeKey("valueTypeKey01");
+        expected.setGesValueType(ValueType.STRING);
         expected.setName("Max Credit");
         expected.setDescr((RichTextHelper.buildRichTextInfo("The max credit student can take in a period of time.", "formatted descr")));
         expected.setRequireUniquePriorities(true);
@@ -91,7 +90,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
-		assertEquals (expected.getValueTypeKey(), actual.getValueTypeKey());
+        assertEquals(expected.getGesValueType(), actual.getGesValueType());
         assertEquals (expected.getName(), actual.getName());
         new RichTextTester().check(expected.getDescr(),actual.getDescr());
         assertEquals(expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
@@ -104,6 +103,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	{
 		expected.setStateKey("stateKey_Updated");
         expected.setName("My Max Credit");
+        expected.setGesValueType(ValueType.BOOLEAN);
         expected.setDescr((RichTextHelper.buildRichTextInfo("My max credit student can take in a period of time." ,"formatted descr")));
         expected.setRequireUniquePriorities(false);
 	}
@@ -118,7 +118,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
-		assertEquals (expected.getValueTypeKey(), actual.getValueTypeKey());
+        assertEquals(expected.getGesValueType(), actual.getGesValueType());
         assertEquals (expected.getName(), actual.getName());
         new RichTextTester().check(expected.getDescr(),actual.getDescr());
         assertEquals (expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
@@ -131,7 +131,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	public void testCrudParameter_setDTOFieldsForTestReadAfterUpdate(ParameterInfo expected)
 	{
 		expected.setKey("key_Updated");
-		expected.setValueTypeKey("valueTypeKey_Updated");
+        expected.setGesValueType(ValueType.NUMERIC);
         expected.setName("Max Credit Limit");
         expected.setDescr((RichTextHelper.buildRichTextInfo("Limit max credit student can take in a period of time." ,"formatted descr")));
         expected.setRequireUniquePriorities(false);
@@ -147,7 +147,6 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	*/
 	public void testCrudValue_setDTOFieldsForTestCreate(ValueInfo expected)
 	{
-		expected.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY_STRING);
 		expected.setStateKey("stateKey01");
 		expected.setParameterKey("max.credit");
         expected.setAtpTypeKeys(Arrays.asList("atpTypeKey01"));
@@ -156,6 +155,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         expected.setEffectiveDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("1600-06-12"));
         expected.setExpirationDate(DateFormatters.DEFAULT_DATE_FORMATTER.parse("3030-01-01"));
 		expected.setStringValue("stringValue01");
+        expected.setTypeKey("typeKey01");
         expected.setPriority(5);
 	}
 	
@@ -218,9 +218,9 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	*/
 	public void testCrudValue_setDTOFieldsForTestReadAfterUpdate(ValueInfo expected)
 	{
-        expected.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY_BOOLEAN);
         expected.setParameterKey("min_credit");
         expected.setStateKey("stateKey2");
+        expected.setTypeKey("typeKey02");
         expected.setAtpTypeKeys(Arrays.asList("atpTypeKey2"));
         expected.setPopulationId("populationId2");
         expected.setRuleId("ruleId2");

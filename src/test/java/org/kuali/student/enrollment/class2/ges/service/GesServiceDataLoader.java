@@ -20,6 +20,7 @@ import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
+import org.kuali.student.core.ges.service.ValueType;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -88,12 +89,12 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
     private void createParameters() throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
             OperationFailedException, MissingParameterException, DoesNotExistException {
         ParameterInfo param = generateParameter(GesServiceConstants.GES_PARAMETER_TYPE_KEY, GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY,
-                GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, PARAM_KEY_MAX_CREDITS, true);
-        maxCreditsParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param.getValueTypeKey(), param, context);
+                ValueType.NUMERIC, PARAM_KEY_MAX_CREDITS, true);
+        maxCreditsParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param, context);
 
         param = generateParameter(GesServiceConstants.GES_PARAMETER_TYPE_KEY, GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY,
-                GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM, true);
-        minCreditsForProgramParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param.getValueTypeKey(), param, context);
+                ValueType.NUMERIC, PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM, true);
+        minCreditsForProgramParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param, context);
     }
 
 
@@ -102,25 +103,25 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
         //create max.credits value
         List<String> atpTypeKeys = new ArrayList<String>();
         atpTypeKeys.add(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-        ValueInfo info = generateValue(GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
+        ValueInfo info = generateValue(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
                 DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), popDataLoader.getUndergraduteStudentPopulationId(),atpTypeKeys , null, 3);
         info.setNumericValue(20L);
         gesService.createValue(info.getTypeKey(), info.getParameterKey(), info, context);
 
-        info = generateValue(GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
+        info = generateValue(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
                 DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), popDataLoader.getFirstYearStudentPopulationId(), atpTypeKeys, null, 1);
         info.setNumericValue(15L);
         gesService.createValue(info.getTypeKey(), info.getParameterKey(), info, context);
 
         atpTypeKeys = new ArrayList<String>();
         atpTypeKeys.add(AtpServiceConstants.ATP_SPRING_TYPE_KEY);
-        info = generateValue(GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
+        info = generateValue( GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, maxCreditsParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
                 DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), popDataLoader.getFirstYearStudentPopulationId(), atpTypeKeys, null, 2);
         info.setNumericValue(10L);
         gesService.createValue(info.getTypeKey(), info.getParameterKey(), info, context);
 
         //create min.credits.required.for.program values
-        info = generateValue(GesServiceConstants.GES_VALUE_TYPE_KEY_LONG, GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, minCreditsForProgramParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
+        info = generateValue(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY, minCreditsForProgramParameter.getKey(), DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"),
                 DateFormatters.DEFAULT_DATE_FORMATTER.parse("2050-01-01"), popDataLoader.getStudentPopulationId(), null, null, 1);
         info.setNumericValue(122L);
         gesService.createValue(info.getTypeKey(), info.getParameterKey(), info, context);
@@ -142,10 +143,10 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
         return populationInfo;
     }
 
-    public ValueInfo generateValue(String typeKey, String stateKey, String parameterKey, Date effDate, Date expDate,
+    public ValueInfo generateValue(String stateKey, String parameterKey, Date effDate, Date expDate,
                                     String populationId, List<String> atpTypeKeys, String ruleId, Integer priority) {
         ValueInfo info = new ValueInfo();
-        info.setTypeKey(typeKey);
+        info.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY);
         info.setStateKey(stateKey);
         info.setEffectiveDate(effDate);
         info.setExpirationDate(expDate);
@@ -156,11 +157,11 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
         return info;
     }
 
-    public ParameterInfo generateParameter(String typeKey, String stateKey, String valueTypeKey, String key, Boolean requireUniquePriorities) {
+    public ParameterInfo generateParameter(String typeKey, String stateKey, ValueType gesValueType, String key, Boolean requireUniquePriorities) {
         ParameterInfo info = new ParameterInfo();
         info.setKey(key);
-        info.setValueTypeKey(valueTypeKey);
         info.setTypeKey(typeKey);
+        info.setGesValueType(gesValueType);
         info.setStateKey(stateKey);
         info.setRequireUniquePriorities(requireUniquePriorities);
 

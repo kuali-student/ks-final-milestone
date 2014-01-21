@@ -12,14 +12,14 @@
 
 
     <!-- Population Service -->
-
-    <bean id="populationServiceMapImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
-
     <bean id="popServiceImpl" class="org.kuali.student.r2.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
-        <property name="nextDecorator" ref="populationServiceMapImpl" />
+        <property name="nextDecorator">
+            <bean id="populationServiceMapImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
+        </property>
     </bean>
 
-    <bean id="popDataLoader" class="org.kuali.student.enrollment.class2.population.PopulationServiceDataLoader" />
+    <bean id="popDataLoader" class="org.kuali.student.enrollment.class2.population.PopulationServiceDataLoader"/>
+
 
     <!-- GES service -->
 

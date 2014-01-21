@@ -127,7 +127,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String valueTypeKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
+    public List<ValidationResultInfo> validateParameter(String validationTypeKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , InvalidParameterException
             , MissingParameterException
@@ -138,7 +138,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public ParameterInfo createParameter(String parameterKey, String parameterTypeKey, String valueTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
+    public ParameterInfo createParameter(String parameterKey, String parameterTypeKey, ParameterInfo parameterInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , DataValidationErrorException
             , InvalidParameterException
@@ -147,9 +147,6 @@ public class GesServiceMapImpl implements MockService, GesService {
             , PermissionDeniedException
             , ReadOnlyException {
         // CREATE
-        if (!valueTypeKey.equals(parameterInfo.getValueTypeKey())) {
-            throw new InvalidParameterException("The valueTypeKey parameter does not match the valueTypeKey on the info object");
-        }
 
         if (!parameterTypeKey.equals((parameterInfo.getTypeKey()))) {
             throw new InvalidParameterException("The typeKey parameter does not match the typeKey on the info object");
@@ -185,9 +182,6 @@ public class GesServiceMapImpl implements MockService, GesService {
         ParameterInfo old = this.getParameter(parameterInfo.getKey(), contextInfo);
 
         // CREATE
-        if (!old.getValueTypeKey().equals(parameterInfo.getValueTypeKey())) {
-            throw new ReadOnlyException("The new valueTypeKey does not match the old valueTypeKey on the info object");
-        }
 
         if (!old.getTypeKey().equals(parameterInfo.getTypeKey())) {
             throw new ReadOnlyException("The new typeKey does not match the old typeKey on the info object");
@@ -297,7 +291,7 @@ public class GesServiceMapImpl implements MockService, GesService {
     }
 
     @Override
-    public ValueInfo createValue(String valueTypeKey, String parameterKey, ValueInfo valueInfo, ContextInfo contextInfo)
+    public ValueInfo createValue(String typeKey, String parameterKey, ValueInfo valueInfo, ContextInfo contextInfo)
             throws DoesNotExistException
             , DataValidationErrorException
             , InvalidParameterException
@@ -306,7 +300,7 @@ public class GesServiceMapImpl implements MockService, GesService {
             , PermissionDeniedException
             , ReadOnlyException {
         // CREATE
-        if (!valueTypeKey.equals(valueInfo.getTypeKey())) {
+        if (!typeKey.equals(valueInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
         if (!parameterKey.equals(valueInfo.getParameterKey())) {

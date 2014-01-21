@@ -97,8 +97,11 @@
     </bean>
     
     <bean id="populationServiceMapImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
-    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceDecorator"  init-method="init" >
+    <bean id="popEvalDec" class="org.kuali.student.r2.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator" ref="populationServiceMapImpl"/>
+    </bean>
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceDecorator"  init-method="init" >
+        <property name="nextDecorator" ref="popEvalDec"/>
     </bean>
     
     
