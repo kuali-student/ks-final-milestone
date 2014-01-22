@@ -16,6 +16,7 @@ import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.messages.service.MessageService;
 
 import javax.jws.WebParam;
+
 import java.util.List;
 
 /**
@@ -281,4 +282,14 @@ public class MessageServiceMockTest implements MessageService {
     public StatusInfo createMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	@Override
+	public List<MessageInfo> getMessagesByKeys(List<String> messageKeys,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// intentionally not implemented because not needed for ksap testing
+		return null;
+	}
+    
 }

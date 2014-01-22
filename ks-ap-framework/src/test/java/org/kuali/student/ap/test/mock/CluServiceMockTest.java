@@ -31,6 +31,7 @@ import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import javax.jws.WebParam;
+
 import java.util.Date;
 import java.util.List;
 
@@ -3141,4 +3142,45 @@ public class CluServiceMockTest implements CluService {
     public List<VersionDisplayInfo> getVersionsInDateRange(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "from") Date from, @WebParam(name = "to") Date to, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	@Override
+	public List<CluCluRelationInfo> getCluCluRelationsByIds(
+			List<String> cluCluRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intentionally not implemented because not needed for ap testing purposes.
+		return null;
+	}
+
+	@Override
+	public List<CluPublicationInfo> getCluPublicationsByIds(
+			List<String> cluPublicationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intentionally not implemented because not needed for ap testing purposes.
+		return null;
+	}
+
+	@Override
+	public List<CluResultInfo> getCluResultsByIds(List<String> cluResultIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// intentionally not implemented because not needed for ap testing purposes.
+		return null;
+	}
+
+	@Override
+	public List<CluLoRelationInfo> getCluLoRelationsByIds(
+			List<String> cluLoRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intentionally not implemented because not needed for ap testing purposes.
+		return null;
+	}
+    
+    
 }
