@@ -613,7 +613,8 @@
                       p:onClickScript="writeCurrentPageToSession(this);"
                       p:loadingMessageText="Deleting Line..."
                       p:id="@{#collectionGroup.id}_del@{#lineSuffix}"
-                      p:additionalCssClasses="delete_course_offering">
+                      p:additionalCssClasses="delete_course_offering"
+                      p:style="float:none;display:inline-block;padding:0;margin-top:0.18em;">
                     <property name="render" value="@{#lp.formatOfferingInfo.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
                 </bean>
             </list>
