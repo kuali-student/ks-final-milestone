@@ -35,6 +35,7 @@ import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.GrowlMessage;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
@@ -464,9 +465,26 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     @Override
     public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
-        super.processCollectionAddBlankLine(view, model, collectionPath);
-        if (model instanceof AcademicCalendarForm) {
+        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
+
+        if (collectionGroup.getCollectionObjectClass().equals(KeyDateWrapper.class)) {
             AcademicCalendarForm form = (AcademicCalendarForm) model;
+            KeyDatesGroupWrapper groupWrapper = ObjectPropertyUtils.getPropertyValue(form,collectionGroup.getBindingInfo().getBindByNamePrefix());
+
+            boolean isValid = false;
+            if (StringUtils.isNotBlank(groupWrapper.getKeyDateGroupType())){
+                try {
+                    List<TypeInfo> types = getTypeService().getTypesForGroupType(groupWrapper.getKeyDateGroupType(),createContextInfo());
+                    for (TypeInfo type : types) {
+                        if (!groupWrapper.isKeyDateExists(type.getKey())){
+                            isValid = true;
+                        }
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
             for (Object addLine : form.getAddedCollectionItems()) {
                 if (addLine instanceof KeyDateWrapper) {
                     KeyDateWrapper keydate = (KeyDateWrapper)addLine;
@@ -481,6 +499,14 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     }
                 }
             }
+
+            if (isValid) {
+                super.processCollectionAddBlankLine(view, model, collectionPath);
+            } else {
+                GlobalVariables.getMessageMap().addGrowlMessage("", CalendarConstants.MessageKeys.ERROR_KEY_DATE_EMPTY, "");
+            }
+        } else {
+            super.processCollectionAddBlankLine(view, model, collectionPath);
         }
     }
 

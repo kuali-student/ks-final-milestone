@@ -120,6 +120,7 @@ public class CalendarConstants {
         public static final String ERROR_EMPTY_DATES = "error.enroll.examdate.empty";
         public static final String ERROR_EXAM_PERIOD_DAYS_VALIDATION = "error.enroll.acal.examperiod.days.validation";
         public static final String ERROR_HOLIDAY_END_DATE_BEFORE_START = "error.enroll.holiday.invalidDates";
+        public static final String ERROR_KEY_DATE_EMPTY = "error.enroll.keydate.empty";
     }
 
     public static final String EMPTY_TERM_CODE = "No Code";

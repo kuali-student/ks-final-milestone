@@ -127,8 +127,10 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                  since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF" p:actionLabel="Add Term"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');">
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+                </bean>
             </list>
         </property>
         <property name="lineActions">
@@ -373,7 +375,11 @@
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                 since the first field is a validated dropdown -->
                 <!--p:onClickScript="addBootstrapImageToLink('acal-term');"-->
-                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF" p:onDocumentReadyScript="addBootstrapImageToLink('acal-term');"/>
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Key Date Group" p:focusOnIdAfterSubmit="SELF" p:onDocumentReadyScript="addBootstrapImageToLink('acal-term');">
+                    <property name="disabled" value="@{(#lp.keyDateGroupType == null) or (#lp.keyDateGroupType == '')}"/>
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+                    <property name="refreshWhenChangedPropertyNames" value="@{#lp.keyDateGroupType}"/>
+                </bean>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
@@ -455,6 +461,7 @@
         <property name="addBlankLineAction">
             <bean parent="KS-BottomAddLine"/>
         </property>
+        <property name="addBlankLineAction.actionLabel" value="Add Key Date"/>
         <property name="renderAddBlankLineButton" value="true"/>
         <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
@@ -462,15 +469,6 @@
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="layoutManager.richTable.render" value="false"/>
-
-        <property name="addLineActions">
-            <list>
-                <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
-                since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <bean id="key_date_type" parent="KS-Uif-InputField" p:propertyName="keyDateType"

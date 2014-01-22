@@ -347,6 +347,7 @@ limitations under the License.
         <property name="addLineLabel.messageText" value=""/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="addBlankLineAction.actionLabel" value="Add Event"/>
 
         <!--<property name="addLineActions">
             <list>
@@ -546,7 +547,9 @@ limitations under the License.
             <list>
                 <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Holiday Calendar"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"
-                      p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}"/>
+                      p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}">
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+                </bean>
             </list>
         </property>
         <property name="items">
