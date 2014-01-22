@@ -164,13 +164,9 @@
         <property name="addBlankLineAction">
             <bean parent="KS-BottomAddLine"/>
         </property>
+        <property name="addBlankLineAction.actionLabel" value="Add Holiday"/>
         <property name="renderAddBlankLineButton" value="true"/>
         <property name="addLinePlacement" value="BOTTOM"/>
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF" />
-            </list>
-        </property>
 
         <property name="items">
 			<list>
