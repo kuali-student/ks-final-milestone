@@ -676,7 +676,9 @@ limitations under the License.
     </bean>
     <bean id="KRMS-AoCompareRule" parent="KRMS-AoCompareRule-parent"/>
 
-    <bean id="KRMS-AoCompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 1200px;">
+    <bean id="KRMS-AoCompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 1200px;"
+          p:additionalCssClasses="compareTree">
+        <property name="tree"><null/></property>
         <property name="propertyName" value="compareTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
