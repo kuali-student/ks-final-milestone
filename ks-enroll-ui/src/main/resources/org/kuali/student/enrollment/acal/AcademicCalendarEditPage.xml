@@ -598,7 +598,7 @@ limitations under the License.
 
     <bean id="KS-Holidays-SubSection" parent="Uif-TableSubCollection-WithinSection" p:readOnly="true"
           p:id="acal-hc-holidays" p:layoutManager.numberOfColumns="4"
-          p:layoutManager.cssClasses="acal-layout-style,acal-layout">
+          p:layoutManager.additionalCssClasses="acal-layout-style">
         <property name="headerText" value="Holidays"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>

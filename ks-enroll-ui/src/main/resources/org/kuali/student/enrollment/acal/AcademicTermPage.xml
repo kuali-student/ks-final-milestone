@@ -453,11 +453,6 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <!--<property name="validationMessages.displayMessages" value="false"/>-->
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
-        <property name="layoutManager.cssClasses">
-            <list merge="true">
-                <value>ks-tablecollection-table</value>
-            </list>
-        </property>
         <property name="addBlankLineAction">
             <bean parent="KS-BottomAddLine"/>
         </property>
