@@ -98,7 +98,7 @@ limitations under the License.
         <property name="actionLabel" value="Preview Change"/>
     </bean>
 
-    <bean id="KRMS-LogicPreview-Tree" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode"
+    <bean id="KRMS-LogicPreview-Tree" parent="Uif-VerticalBoxGroup" p:cssClasses="ks-form-panel"
           p:width="50%" p:style="border: 1px solid #999999">
         <property name="items">
             <list>

@@ -132,7 +132,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-Tree-Section" parent="KRMS-Tree-Section-parent"/>
 
-    <bean id="KRMS-ViewTree-Section-parent" parent="KRMS-Tree-Section" p:additionalCssClasses="krms-ruleViewTreeSection">
+    <bean id="KRMS-ViewTree-Section-parent" parent="KRMS-Tree-Section" >
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
@@ -236,7 +236,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-CompareRule" parent="KRMS-CompareRule-parent"/>
 
-    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Tree-Section" p:additionalCssClasses="krms-ruleViewTreeSection">
+    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Tree-Section" >
         <property name="propertyName" value="previewTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
