@@ -1850,3 +1850,64 @@ fieldset[data-type="InputSet"] {
 #limit_waitlist_size_text {
     margin-top: -5px;
 }
+
+/*
+  Customizing the collections
+*/
+table.dataTable th.sorting_asc {
+  color: #000;
+  background-image: url(../images/icon-sort-up.png);
+  background-color: #c4c4c4;
+}
+
+table.dataTable th.sorting_desc {
+  color: #000;
+  background-image: url(../images/icon-sort-down.png);
+  background-color: #c4c4c4;
+}
+
+table.dataTable tr.odd td.sorting_1 {
+  background-color: #fff;
+}
+
+table.dataTable tr.even td.sorting_1 {
+  background-color: #fff;
+}
+
+.uif-tableCollectionLayout tbody tr:hover > td, .uif-tableCollectionLayout tbody tr:hover > th {
+  background-color: #F5F5F5;
+}
+
+.uif-tableCollectionLayout tbody tr:hover > td.sorting_1, .uif-tableCollectionLayout tbody tr:hover > th.sorting_1 {
+  background-color: #F5F5F5;
+}
+
+.uif-tableCollectionLayout th,
+.uif-tableCollectionLayout td {
+  border-left: none;
+  border-right: none;
+  padding: 10px 15px 5px 15px;
+}
+
+.uif-tableCollectionLayout {
+  border: 0;
+}
+
+.uif-tableCollectionLayout thead th {
+  border-top: 0;
+}
+
+.uif-tableCollectionLayout th{
+  font-family: 'Lato', sans-serif;
+  font-size: 1em;
+}
+
+.uif-tableCollectionLayout td {
+  border-bottom: 1px solid #F5F5F5;
+  border-top: 0;
+}
+
+.uif-tableCollectionLayout tfoot th {
+  padding: 0 !important;
+  border: 0;
+}
