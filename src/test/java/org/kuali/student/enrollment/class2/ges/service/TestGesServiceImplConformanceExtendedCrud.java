@@ -48,7 +48,7 @@ import static org.junit.Assert.fail;
 public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesServiceImplConformanceBaseCrud
 {
 
-    @Resource
+    @Resource(name = "gesDataLoader")
     private GesServiceDataLoader dataLoader;
 
     @After
