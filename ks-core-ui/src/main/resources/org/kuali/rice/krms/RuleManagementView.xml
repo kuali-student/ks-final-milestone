@@ -180,7 +180,9 @@ limitations under the License.
     </bean>
     <bean id="KRMS-View-Section" parent="KRMS-View-Section-parent"/>
 
-    <bean id="KRMS-CompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 800px;">
+    <bean id="KRMS-CompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 790px; min-height:100px;"
+          p:additionalCssClasses="compareTree">
+        <property name="tree"><null/></property>
         <property name="propertyName" value="compareTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -190,7 +192,7 @@ limitations under the License.
                 <property name="dataGroupPrototype">
                     <bean parent="Uif-GroupBase" p:style="margin-left: 2em;">
                         <property name="layoutManager">
-                            <bean parent="Uif-BoxLayoutBase" p:style="display: table; width: 750px; margin: 1px;"/>
+                            <bean parent="Uif-BoxLayoutBase" p:style="display: table; width: 760px; margin: 1px;"/>
                         </property>
                         <property name="items">
                             <list>
