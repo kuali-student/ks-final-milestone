@@ -750,20 +750,18 @@
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.id="ao-personnelgroup-table"
                       p:layoutManager.style="width: 60em;">
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
-                    <property name="propertyName" value="instructors" />
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper"/>
+                    <property name="propertyName" value="instructors"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
-                    <property name="addBlankLineAction.style" value="margin-top:30px; display:block;"/>
-                    <property name="layoutManager.richTable">
-                        <!-- see http://datatables.net/ref for all options -->
-                        <bean parent="KS-Uif-RichTable">
-                            <property name="templateOptions">
-                                <map merge="true">
-                                    <entry key="aaSorting" value="[[1,'desc']]"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
+                    <property name="addBlankLineAction.id" value="KS-CourseOfferingEdit-PersonnelSection_add"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="Items">
                         <list>
