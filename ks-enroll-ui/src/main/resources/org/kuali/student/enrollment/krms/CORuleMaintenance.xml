@@ -194,7 +194,7 @@ limitations under the License.
                 <bean id="KSCO-RuleView-ActionLinks" parent="KSCO-RuleView-Links" p:align="left"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
                 <bean id="KSCO-ViewTree-Group" parent="Uif-VerticalBoxGroup"
-                      p:cssClasses="viewModeNode">
+                      p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>
                             <ref bean="KSCO-ViewTree-Section"/>
