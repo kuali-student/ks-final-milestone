@@ -10,7 +10,7 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.myplan.plan.dataobject.FullPlanItemsDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;

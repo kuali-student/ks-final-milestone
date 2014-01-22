@@ -20,6 +20,7 @@ package org.kuali.student.ap.courseregistration.impl;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.class2.courseregistration.service.impl.AbstractCourseRegistrationService;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
@@ -78,7 +79,8 @@ public class CourseRegistrationServiceMockImpl2
     //List of fake student course registrations to facilitate spring loading
     private List<String[]> fakeRegistrations = new ArrayList<String[]>();
 
-    private final static String CREDIT_LIMIT = "15";
+    private final static KualiDecimal CREDIT_LIMIT = new KualiDecimal(15);
+    
     private static long id = 0;
 
     private CourseOfferingService coService;
@@ -117,13 +119,13 @@ public class CourseRegistrationServiceMockImpl2
      */
     private void fakeRegister(ContextInfo contextInfo, String studentId, String termId, String courseCode) {
         CourseRegistrationInfo regInfo = new CourseRegistrationInfo();
-        regInfo.setStudentId(studentId);
+        regInfo.setPersonId(studentId);
         regInfo.setCourseOfferingId(getCourseIdByCodeAndTerm(contextInfo, termId, courseCode));
-        regInfo.setCredits("3"); ///default credit hours to 3 for all
+        regInfo.setCredits(new KualiDecimal (3)); ///default credit hours to 3 for all
         regInfo.setGradingOptionId("def");
         try { regInfo.setEffectiveDate(new KSDateTimeFormatter("dd/MM/yyyy").parse("01/01/2001")); } catch(Exception e) {}
         regInfo.setId(UUID.randomUUID().toString()); //uuid generated via. oracle sql: select SYS_GUID() from dual;
-        regInfo.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);  //seems wrong...but copied from existing code below
+        regInfo.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY);  //seems wrong...but copied from existing code below
         regInfo.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
         regInfo.setMeta(newMeta(contextInfo));
         crMap.put(regInfo.getCourseOfferingId(), regInfo);
@@ -231,7 +233,7 @@ public class CourseRegistrationServiceMockImpl2
 
         List<CourseRegistrationInfo> ret = new ArrayList<CourseRegistrationInfo>();
         for (CourseRegistrationInfo cr : getCourseRegistrations(contextInfo)) {
-            if (cr.getStudentId().equals(studentId)) {
+            if (cr.getPersonId().equals(studentId)) {
                 ret.add(cr);
             }
         }
@@ -359,7 +361,7 @@ public class CourseRegistrationServiceMockImpl2
 
         List<ActivityRegistrationInfo> ret = new ArrayList<ActivityRegistrationInfo>();
         for (ActivityRegistrationInfo ar : getActivityRegistrations(contextInfo)) {
-            if (ar.getStudentId().equals(studentId)) {
+            if (ar.getPersonId().equals(studentId)) {
                 ret.add(ar);
             }
         }
@@ -534,17 +536,17 @@ public class CourseRegistrationServiceMockImpl2
         }
 
         for (RegistrationRequestItem item : registrationRequestInfo.getRegistrationRequestItems()) {
-            if (item.getStudentId() == null) {
+            if (item.getPersonId() == null) {
                 results.add(makeValidationError("RegistrationRequestItem.studentId", "cannot be null"));
             }
 
-            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
-                if (item.getNewRegistrationGroupId() == null) {
-                    results.add(makeValidationError("RegistrationRequestItem.newRegistrationGroupId", "cannot be null"));
+            if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
+                if (item.getRegistrationGroupId() == null) {
+                    results.add(makeValidationError("RegistrationRequestItem.registrationGroupId", "cannot be null"));
                 }
 
-                if (item.getExistingRegistrationGroupId() != null) {
-                    results.add(makeValidationError("RegistrationRequestItem.existingRegistrationGroupId", "must be null"));
+                if (item.getExistingCourseRegistrationId() != null) {
+                    results.add(makeValidationError("RegistrationRequestItem.existingCourseRegistrationId", "must be null"));
                 }
 
                 if (item.getCredits() == null) {
@@ -554,14 +556,14 @@ public class CourseRegistrationServiceMockImpl2
                 if (item.getGradingOptionId() == null) {
                     results.add(makeValidationError("RegistrationRequestItem.gradingOptionId", "cannot be null"));
                 }
-            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
-                if (item.getNewRegistrationGroupId() != null) {
-                    results.add(makeValidationError("RegistrationRequestItem.newRegistrationGroupId", "must be null"));
-                }
+            } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
+            	 if (item.getRegistrationGroupId() == null) {
+                     results.add(makeValidationError("RegistrationRequestItem.registrationGroupId", "cannot be null"));
+                 }
 
-                if (item.getExistingRegistrationGroupId() == null) {
-                    results.add(makeValidationError("RegistrationRequestItem.existingRegistrationGroupId", "cannot be null"));
-                }
+                 if (item.getExistingCourseRegistrationId() != null) {
+                     results.add(makeValidationError("RegistrationRequestItem.existingCourseRegistrationId", "must be null"));
+                 }
 
                 if (item.getCredits() != null) {
                     results.add(makeValidationError("RegistrationRequestItem.credits", "must be null"));
@@ -570,14 +572,15 @@ public class CourseRegistrationServiceMockImpl2
                 if (item.getGradingOptionId() != null) {
                     results.add(makeValidationError("RegistrationRequestItem.gradingOptionId", "must be null"));
                 }
-            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
-                if (item.getNewRegistrationGroupId() == null) {
-                    results.add(makeValidationError("RegistrationRequestItem.newRegistrationGroupId", "cannot be null"));
-                }
+            } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY)) {
+            	 if (item.getRegistrationGroupId() == null) {
+                     results.add(makeValidationError("RegistrationRequestItem.registrationGroupId", "cannot be null"));
+                 }
 
-                if (item.getExistingRegistrationGroupId() == null) {
-                    results.add(makeValidationError("RegistrationRequestItem.existingRegistrationGroupId", "cannot be null"));
-                }
+                 if (item.getExistingCourseRegistrationId() != null) {
+                     results.add(makeValidationError("RegistrationRequestItem.existingCourseRegistrationId", "must be null"));
+                 }
+
 
                 if (item.getCredits() == null) {
                     results.add(makeValidationError("RegistrationRequestItem.credits", "cannot be null"));
@@ -587,13 +590,14 @@ public class CourseRegistrationServiceMockImpl2
                     results.add(makeValidationError("RegistrationRequestItem.gradingOptionId", "cannot be null"));
                 }
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
-                if (item.getNewRegistrationGroupId() != null) {
-                    results.add(makeValidationError("RegistrationRequestItem.newRegistrationGroupId", "must be null"));
-                }
+            	 if (item.getRegistrationGroupId() == null) {
+                     results.add(makeValidationError("RegistrationRequestItem.registrationGroupId", "cannot be null"));
+                 }
 
-                if (item.getExistingRegistrationGroupId() == null) {
-                    results.add(makeValidationError("RegistrationRequestItem.existingRegistrationGroupId", "cannot be null"));
-                }
+                 if (item.getExistingCourseRegistrationId() != null) {
+                     results.add(makeValidationError("RegistrationRequestItem.existingCourseRegistrationId", "must be null"));
+                 }
+
             } else {
                 results.add(makeValidationError("RegistrationRequestItem.typeKey", "unknown item type"));
             }
@@ -714,19 +718,19 @@ public class CourseRegistrationServiceMockImpl2
         for (RegistrationRequestItemInfo item : rr.getRegistrationRequestItems()) {
 
             /* get the registration groups */
-            RegistrationGroup newrg = getCourseOfferingService().getRegistrationGroup(item.getNewRegistrationGroupId(), contextInfo);
+            RegistrationGroup newrg = getCourseOfferingService().getRegistrationGroup(item.getRegistrationGroupId(), contextInfo);
             //RegistrationGroup existingrg = getCourseOfferingService().getRegistrationGroup(item.getExistingRegistrationGroupId(), contextInfo);
 
             /* an ADD */
-            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
+            if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
                 
                 /* create the course registration */
                 CourseRegistrationInfo cr = new CourseRegistrationInfo();
                 cr.setId(newId());
-                cr.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
+                cr.setTypeKey(LprServiceConstants.REGISTRANT_CO_TYPE_KEY);
                 cr.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
                 cr.setMeta(newMeta(contextInfo));
-                cr.setStudentId(item.getStudentId());
+                cr.setPersonId(item.getPersonId());
                 cr.setCourseOfferingId(newrg.getCourseOfferingId());
                 cr.setCredits(item.getCredits());
                 cr.setGradingOptionId(item.getGradingOptionId());
@@ -741,10 +745,10 @@ public class CourseRegistrationServiceMockImpl2
                 
                 items.add(item);
 
-                items = this.studentMap.get(item.getStudentId());
+                items = this.studentMap.get(item.getPersonId());
                 if (items == null) {
                     items = new ArrayList<RegistrationRequestItemInfo>();
-                    this.xactionMap.put(item.getStudentId(), items);
+                    this.xactionMap.put(item.getPersonId(), items);
                 }
                 
                 items.add(item);
@@ -753,10 +757,10 @@ public class CourseRegistrationServiceMockImpl2
                 for (String activityId : newrg.getActivityOfferingIds()) {
                     ActivityRegistrationInfo ar = new ActivityRegistrationInfo();
                     ar.setId(newId());
-                    ar.setTypeKey(LprServiceConstants.REGISTRANT_TYPE_KEY);
+                    ar.setTypeKey(LprServiceConstants.REGISTRANT_AO_TYPE_KEY);
                     ar.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
                     ar.setMeta(newMeta(contextInfo));
-                    ar.setStudentId(item.getStudentId());
+                    ar.setPersonId(item.getPersonId());
                     ar.setActivityOfferingId(activityId);
                     this.arMap.put(ar.getId(), ar);
 
@@ -782,12 +786,12 @@ public class CourseRegistrationServiceMockImpl2
                 responseItem.setCourseRegistrationId(cr.getId());
                 response.getRegistrationResponseItems().add(responseItem);
 
-            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
-                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
-                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
-            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY)) {
-                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY);
-                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_SWAP_TYPE_KEY);
+            } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
+                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
+            } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY)) {
+                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY);
+                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY);
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
                 LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY);
                 throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY);
@@ -823,8 +827,7 @@ public class CourseRegistrationServiceMockImpl2
         for (RegistrationRequestItemInfo rri : this.studentMap.get(studentId)) {
             try {
                 for (RegistrationGroup rg : getCourseOfferingService().getRegistrationGroupsForCourseOffering(courseOfferingId, contextInfo)) {
-                    if (rri.getNewRegistrationGroupId().equals(rg.getId()) ||
-                        rri.getExistingRegistrationGroupId().equals(rg.getId())) {
+                    if (rri.getRegistrationGroupId().equals(rg.getId())) {
                         ret.add(rri);
                     }
                 }
@@ -887,10 +890,10 @@ public class CourseRegistrationServiceMockImpl2
         load.setCreditLimit(CREDIT_LIMIT);
 
         for (RegistrationRequestItem item : rr.getRegistrationRequestItems()) {
-            if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_ADD_TYPE_KEY)) {
-                load.setAdditionalCredits((new BigDecimal(item.getCredits())).add(new BigDecimal(load.getAdditionalCredits())).toString());
-            } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY)) {
-                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_DROP_TYPE_KEY);
+            if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
+                load.setAdditionalCredits(item.getCredits().add (load.getAdditionalCredits()));
+            } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
+                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
                 // TODO: figure out credits
             }
         }

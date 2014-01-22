@@ -5,10 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.ap.academicplan.infc.PlanItem;
-import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
 

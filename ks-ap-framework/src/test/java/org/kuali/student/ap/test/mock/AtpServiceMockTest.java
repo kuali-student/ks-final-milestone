@@ -155,8 +155,14 @@ public class AtpServiceMockTest implements AtpService {
     @Override
     public List<AtpInfo> searchForAtps(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpInfo> atps = new ArrayList<AtpInfo>();
+        
+        // AbstractCompositePredicate.toString() uses the platform line.separator property.
+        // That will break the .equals below when run on windows because the left hand key always has only \n as the line separator.
+        // this change allows both to work by standardizing on \n as the line separator.
+        String predicateString = criteria.getPredicate().toString().replaceAll("\r\n", "\n");
+        
         for (Map.Entry<String, AtpInfo> entry : getSearchableAtps().entrySet()) {
-             if (entry.getKey().equals(criteria.getPredicate().toString()))
+             if (entry.getKey().equals(predicateString))
                  atps.add(entry.getValue());
         }
         return atps;

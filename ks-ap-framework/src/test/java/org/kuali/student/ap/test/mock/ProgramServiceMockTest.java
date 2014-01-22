@@ -28,6 +28,7 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 
 import javax.jws.WebParam;
+
 import java.util.Date;
 import java.util.List;
 
@@ -1384,4 +1385,16 @@ public class ProgramServiceMockTest implements ProgramService {
     public List<VersionDisplayInfo> getVersionsInDateRange(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "from") Date from, @WebParam(name = "to") Date to, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+	@Override
+	public List<MinorDisciplineInfo> getMinorDisciplinesByIds(
+			List<String> minorDisciplineIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// intentionally not implemented
+		return null;
+	}
+    
+    
 }

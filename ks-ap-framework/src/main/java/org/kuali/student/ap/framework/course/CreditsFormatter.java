@@ -1,8 +1,12 @@
 package org.kuali.student.ap.framework.course;
 
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.common.util.KSCollectionUtils;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -13,10 +17,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-
-import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Turns credits info into Strings.
