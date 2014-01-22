@@ -45,5 +45,6 @@
   <context:component-scan base-package="org.kuali.student.enrollment" />
   <context:component-scan base-package="org.kuali.student.common.kitchensink" />
   <context:component-scan base-package="org.kuali.student.common.uif" />
+  <context:component-scan base-package="org.kuali.student.cm" />
 
 </beans>

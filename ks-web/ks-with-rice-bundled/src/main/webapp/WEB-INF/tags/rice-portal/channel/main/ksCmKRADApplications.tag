@@ -15,18 +15,12 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-
-<td class="content" valign="top">
-	<mainChannel:ksApplications/>
-	<mainChannel:ksCmKRADApplications/>
-    <mainChannel:coApplications/>
-</td>
-<td class="content" valign="top">
-    <mainChannel:ksMaintenance />
-    <mainChannel:aftApplications />
-</td>
-<td class="content" valign="top">
-	<mainChannel:workflow />
-	<mainChannel:notification />
-    <mainChannel:rules />
-</td>
+<channel:portalChannelTop channelTitle="KS Curriculum Management - KRAD" />
+<div class="body">
+  
+  <ul class="chan">
+    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=curriculumHomeView&methodToCall=start">Create a Course</a></li>
+  </ul>
+  
+</div>
+<channel:portalChannelBottom />
