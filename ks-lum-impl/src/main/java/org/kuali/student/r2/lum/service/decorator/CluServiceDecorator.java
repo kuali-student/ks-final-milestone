@@ -32,6 +32,7 @@ import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 
 import javax.jws.WebParam;
+
 import java.util.Date;
 import java.util.List;
 
@@ -627,4 +628,41 @@ public class CluServiceDecorator implements CluService {
     public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().search(searchRequestInfo, contextInfo);
     }
+
+	@Override
+	public List<CluCluRelationInfo> getCluCluRelationsByIds(
+			List<String> cluCluRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getCluCluRelationsByIds(cluCluRelationIds, contextInfo);
+	}
+
+	@Override
+	public List<CluPublicationInfo> getCluPublicationsByIds(
+			List<String> cluPublicationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getCluPublicationsByIds(cluPublicationIds, contextInfo);
+	}
+
+	@Override
+	public List<CluResultInfo> getCluResultsByIds(List<String> cluResultIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().getCluResultsByIds(cluResultIds, contextInfo);
+	}
+
+	@Override
+	public List<CluLoRelationInfo> getCluLoRelationsByIds(
+			List<String> cluLoRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return getNextDecorator().getCluLoRelationsByIds(cluLoRelationIds, contextInfo);
+	}
+    
+    
 }

@@ -29,13 +29,19 @@ import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-
-
-import javax.xml.namespace.QName;
-import java.util.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 //import org.kuali.rice.kew.api.doctype.DocumentType;
 
@@ -87,7 +93,7 @@ public class KimQualificationHelper {
         }
 
 		int i = 1;
-    	StringBuffer errorMessage = new StringBuffer("Missing Required Attributes from lists - ");
+    	StringBuilder errorMessage = new StringBuilder("Missing Required Attributes from lists - ");
     	for (List<String> missingAttributes : totalMissingAttributes) {
             if(missingAttributes.size()>0) {
             	errorMessage.append("List " + i + ": (");

@@ -137,7 +137,7 @@ public class CourseAdminWithoutVersionController extends CourseAdminController{
      */
 	@Override
 	protected void setHeaderTitle(){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append("Modify: ");
 		sb.append(cluProposalModel.get(cfg.getCourseTitlePath()));
 		sb.append(" (Admin)");

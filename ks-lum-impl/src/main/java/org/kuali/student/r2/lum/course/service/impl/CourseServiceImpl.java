@@ -1,22 +1,16 @@
 package org.kuali.student.r2.lum.course.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebParam;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
+import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
+import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
@@ -37,9 +31,9 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.validator.Validator;
 import org.kuali.student.r2.common.validator.ValidatorFactory;
-import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -48,9 +42,15 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssembler;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
@@ -73,6 +73,7 @@ public class CourseServiceImpl implements CourseService {
 
     private CluService cluService;
     private CourseAssembler courseAssembler;
+    private BOAssembler<ActivityInfo, CluInfo> activityAssembler;
     private BusinessServiceMethodInvoker courseServiceMethodInvoker;
     private DictionaryService dictionaryServiceDelegate;
     private ValidatorFactory validatorFactory;
@@ -168,7 +169,23 @@ public class CourseServiceImpl implements CourseService {
 
     @Transactional(readOnly = true)
     public List<ActivityInfo> getCourseActivities(String formatId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("GetCourseActivities");
+        List<ActivityInfo> activityInfos = new ArrayList<ActivityInfo>();
+        try {
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            List<CluInfo> activities = cluService.getRelatedClusByCluAndRelationType(
+                    formatId,
+                    CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE,
+                    contextInfo);
+            for (CluInfo activity : activities) {
+                ActivityInfo activityInfo = activityAssembler.assemble(
+                        activity, null, false,contextInfo);
+                activityInfos.add(activityInfo);
+            }
+
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("Error getting related activities", e);
+        }
+        return activityInfos;
     }
 
     @Transactional(readOnly = true)
@@ -547,9 +564,17 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public List<CourseInfo> searchForCourses(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM-429
-        throw new UnsupportedOperationException("searchForCourses");
-        // To change body of implemented methods use File | Settings | File Templates.
+        List<CluInfo> clus = cluService.searchForClus(criteria, contextInfo);
+        List<CourseInfo> courses = new ArrayList<CourseInfo>();
+        for (CluInfo clu : clus){
+            try {
+                courses.add(courseAssembler.assemble(clu, null, false, contextInfo));
+            } catch (AssemblyException e) {
+                LOG.error("Error assembling course", e);
+                throw new OperationFailedException("Error assembling course");
+            }
+        }
+       return courses;
     }
 
     // TODO KSCM-429 Service Method Comparison Implementation
@@ -570,4 +595,11 @@ public class CourseServiceImpl implements CourseService {
         return this.getCourseLos(courseId);
     }
 
+    public BOAssembler<ActivityInfo, CluInfo> getActivityAssembler() {
+        return activityAssembler;
+    }
+
+    public void setActivityAssembler(BOAssembler<ActivityInfo, CluInfo> activityAssembler) {
+        this.activityAssembler = activityAssembler;
+    }
 }

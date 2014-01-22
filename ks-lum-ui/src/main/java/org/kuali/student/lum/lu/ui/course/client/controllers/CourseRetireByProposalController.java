@@ -152,7 +152,7 @@ public class CourseRetireByProposalController extends CourseProposalController {
      */
 	@Override
 	protected void setHeaderTitle(){
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		sb.append(cluProposalModel.get(cfg.getCourseTitlePath()));
 		sb.append(" (Proposed Retirement)");
 				

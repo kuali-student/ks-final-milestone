@@ -378,10 +378,8 @@
             <list>
                 <ref bean="currencyAmountInfo.currencyQuantity"/>
                 <ref bean="currencyAmountInfo.currencyTypeKey"/>
-                <ref bean="currencyAmountInfo.id"/>
             </list>
         </property>
-        <property name="hasMetaData" value="true"/>
     </bean>
     <bean id="org.kuali.student.r2.common.dto.CurrencyAmountInfo"
           parent="org.kuali.student.r2.common.dto.CurrencyAmountInfo-parent"/>
@@ -400,12 +398,6 @@
         <property name="name" value="currencyTypeKey"/>
     </bean>
     <bean id="currencyAmountInfo.currencyTypeKey" parent="currencyAmountInfo.currencyTypeKey-parent"/>
-
-    <bean id="currencyAmountInfo.id-parent" abstract="true" parent="baseKualiId">
-        <property name="name" value="id"/>
-    </bean>
-    <bean id="currencyAmountInfo.id" parent="currencyAmountInfo.id-parent"/>
-
 
     <!-- AffiliatedOrgInfo-->
     <bean id="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo-parent"

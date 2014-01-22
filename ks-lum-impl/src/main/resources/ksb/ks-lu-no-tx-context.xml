@@ -367,6 +367,7 @@
         <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="validatorFactory" ref="lumValidatorFactory"/>
         <property name="statementService" ref="statementServiceClient"/>
+        <property name="activityAssembler" ref="activityAssembler"/>
     </bean>
 
     <bean id="ks.exp.courseService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

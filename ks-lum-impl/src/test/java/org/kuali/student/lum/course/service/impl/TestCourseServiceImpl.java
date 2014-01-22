@@ -1213,7 +1213,7 @@ public class TestCourseServiceImpl{
      */
     @Test
     public void testExpectedUnsupported() throws Exception {
-        String[] unsupportedOperations = {"getCourseActivities", "getCourseFormats", "getCourseLos"};
+        String[] unsupportedOperations = {"getCourseFormats", "getCourseLos"};
         
         Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(unsupportedOperations.length);
         for(String s : unsupportedOperations) {

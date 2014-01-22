@@ -49,6 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
+
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -4010,7 +4011,6 @@ public class CluServiceImpl implements CluService {
              ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("not implemented");
     }
 
@@ -4023,9 +4023,44 @@ public class CluServiceImpl implements CluService {
              ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("not implemented");
     }
+
+	@Override
+	public List<CluCluRelationInfo> getCluCluRelationsByIds(
+			List<String> cluCluRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluPublicationInfo> getCluPublicationsByIds(
+			List<String> cluPublicationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluResultInfo> getCluResultsByIds(List<String> cluResultIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluLoRelationInfo> getCluLoRelationsByIds(
+			List<String> cluLoRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
     
     
 }

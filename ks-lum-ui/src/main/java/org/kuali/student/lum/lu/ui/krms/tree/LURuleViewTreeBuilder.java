@@ -32,6 +32,7 @@ public class LURuleViewTreeBuilder extends KSRuleViewTreeBuilder {
 
     private static final long serialVersionUID = 1L;
 
+    @Override
     public List<Object> getListItems(PropositionEditor propositionEditor) {
         if (propositionEditor instanceof LUPropositionEditor) {
             CluSetInformation cluSetInfo = ((LUPropositionEditor) propositionEditor).getCluSet();
