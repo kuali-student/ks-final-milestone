@@ -161,10 +161,10 @@
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="items">
                         <list>
-                             <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
-                             <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="FORMAT"/>
-                             <bean parent="Uif-DataField" p:propertyName="gradeRosterUI" p:label="GRADE ROSTER LEVEL"/>
-                             <bean parent="Uif-DataField" p:propertyName="finalExamUI" p:label="FINAL EXAM DRIVER ACTIVITY"/>
+                             <bean parent="Uif-DataField" p:label="Code" p:propertyName="courseCode"/>
+                             <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="Format"/>
+                             <bean parent="Uif-DataField" p:propertyName="gradeRosterUI" p:label="Grade Roster Level"/>
+                             <bean parent="Uif-DataField" p:propertyName="finalExamUI" p:label="Final Exam Driver Activity"/>
                         </list>
                     </property>
                 </bean>

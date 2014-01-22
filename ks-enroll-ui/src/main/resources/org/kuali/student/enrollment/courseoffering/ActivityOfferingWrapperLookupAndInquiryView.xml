@@ -18,23 +18,23 @@
         <property name="resultFields">
             <list>
                 <bean parent="Uif-DataField"
-                      p:label="CODE"
+                      p:label="Code"
                       p:propertyName="aoInfo.activityCode">
                     <property name="inquiry">
                         <bean parent="Uif-Inquiry" p:dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" p:inquiryParameters="aoInfo.id" />
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
-                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
-                <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName" />
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="typeName"/>
+                <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName"/>
                 <bean parent="KS-Schedule-DisplayField" p:label="TBA" p:messageText="@{#line.tbaDisplayName}"/>
-                <bean parent="KS-Schedule-DisplayField" p:label="DAYS" p:messageText="@{#line.daysDisplayName}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="START TIME" p:messageText="@{#line.startTimeDisplay}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="END TIME" p:messageText="@{#line.endTimeDisplay}" />
-                <bean parent="KS-Schedule-DisplayField" p:label="FACILITY" p:messageText="@{#line.buildingName}"/>
-                <bean parent="KS-Schedule-DisplayField" p:label="ROOM" p:messageText="@{#line.roomName}"/>
-                <bean parent="Uif-DataField" p:label="INSTRUCTOR" p:propertyName="firstInstructorDisplayName"/>
-                <bean parent="Uif-DataField" p:label="MAX ENR" p:propertyName="aoInfo.maximumEnrollment"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="Days" p:messageText="@{#line.daysDisplayName}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="Start Time" p:messageText="@{#line.startTimeDisplay}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="End Time" p:messageText="@{#line.endTimeDisplay}" />
+                <bean parent="KS-Schedule-DisplayField" p:label="Facility" p:messageText="@{#line.buildingName}"/>
+                <bean parent="KS-Schedule-DisplayField" p:label="Room" p:messageText="@{#line.roomName}"/>
+                <bean parent="Uif-DataField" p:label="Instructor" p:propertyName="firstInstructorDisplayName"/>
+                <bean parent="Uif-DataField" p:label="Max Enr" p:propertyName="aoInfo.maximumEnrollment"/>
             </list>
         </property>
         <property name="criteriaGroup.footer.render" value="false"/>
