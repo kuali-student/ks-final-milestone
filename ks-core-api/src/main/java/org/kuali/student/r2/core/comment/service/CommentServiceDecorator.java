@@ -115,4 +115,27 @@ public class CommentServiceDecorator implements CommentService {
 
   
    
+	@Override
+	public CommentInfo createComment_KRAD(String referenceId,
+			String referenceTypeKey, String commentTypeKey,
+			CommentInfo commentInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		return getNextDecorator().createComment_KRAD(referenceId,
+			referenceTypeKey, commentTypeKey,
+			commentInfo, contextInfo);
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateComment_KRAD(
+			String validationTypeKey, CommentInfo commentInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		return getNextDecorator().validateComment_KRAD(validationTypeKey, commentInfo,
+				contextInfo);
+	}
+
 }
