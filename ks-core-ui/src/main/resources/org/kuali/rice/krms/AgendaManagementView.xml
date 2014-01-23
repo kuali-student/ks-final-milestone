@@ -165,7 +165,7 @@ limitations under the License.
                 <bean id="KRSM-RuleEdit-ActionLinks" parent="KRMS-RuleEdit-Links" p:align="right"/>
                 <bean id="KRSM-RuleView-ActionLinks" parent="KRMS-RuleView-Links" p:align="right"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
-                <bean id="KRMS-ViewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode">
+                <bean id="KRMS-ViewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-ViewTree-Section">

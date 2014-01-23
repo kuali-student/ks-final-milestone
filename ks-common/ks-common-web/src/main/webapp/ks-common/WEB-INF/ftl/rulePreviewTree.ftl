@@ -20,7 +20,7 @@
     <#-- keep track of the agenda item that is selected:
     <input type="hidden" name="selected_prop" value=""/>
     -->
-    <@krad.script value="initPreviewTree('${componentId}');"/>
+    <@krad.script value="initPreviewTree('${componentId}', ${widget.templateOptionsJSString});"/>
 
 </#macro>
 

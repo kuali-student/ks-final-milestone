@@ -21,7 +21,6 @@
 
         <div id="${group.id}_tree">
             <ul>
-
                 <#include "ruleTreeNode.ftl" parse=true/>
                 <#list group.treeGroups.rootElement.children as node>
                     <@ruleTreeNode node=node />
@@ -29,9 +28,11 @@
             </ul>
         </div>
 
-        <#-- invoke tree widget -->
-        <#include "rulePreviewTree.ftl" parse=true/>
-        <@krad.template component=group.tree componentId="${group.id}_tree"/>
+        <#-- invoke tree widget only when tree not null. -->
+        <#if group.tree??>
+            <#include "rulePreviewTree.ftl" parse=true/>
+            <@krad.template component=group.tree componentId="${group.id}_tree"/>
+        </#if>
 
     </@krad.groupWrap>
 

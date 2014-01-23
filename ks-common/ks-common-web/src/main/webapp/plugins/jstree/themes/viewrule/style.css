@@ -43,8 +43,6 @@
 .jstree-viewrule .ks-uif-footer { float: left; }
 .jstree-viewrule .ks-uif-footer div { float: left; }
 
-.viewModeNode { background-color: #eee !important; border: 1px solid #999999; }
-
 .jstree-viewrule .ruleBlockSelected { background-color: transparent; border: none; }
 
 .jstree-viewrule .boxLayoutHorizontalItem {padding-bottom: 0em;padding-top: 0em;padding-left: 0em;padding-right: 0em;}

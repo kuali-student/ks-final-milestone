@@ -153,3 +153,14 @@ function resetTSValidSelection(){
     jQuery("#timeSlotTypeSelection_control").find('option').remove();
     jQuery("#timeSlotTypeSelection_control").append(availableTimeSlotTypes);
 }
+
+function toggleTimeSlotShowButton() {
+    var inputVal = jQuery("#timeSlotTypeSelection_control").val();
+    if (inputVal !==null) {
+        jQuery("#timeSlotShowButton").removeAttr("disabled");
+    } else {
+        jQuery("#timeSlotShowButton").attr("disabled", "disabled");
+    }
+}
+
+
