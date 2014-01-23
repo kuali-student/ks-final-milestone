@@ -70,7 +70,9 @@ function removeCheckboxColumns(column, componentId, functionToCall) {
             var isChecked = toggleCheckbox.prop('checked');
             toggleCheckbox.click(function (e) {
                 jQuery('#' + tableId + ' tbody > tr > td:nth-child(' + column + ')').find('[type=checkbox]').each(function () {
+                    //jQuery(this).trigger( "click" );
                     jQuery(this).prop('checked', jQuery(toggleCheckbox).prop('checked'));
+                    jQuery(this).closest('tr').toggleClass('selected-row', jQuery(this).prop('checked') );
                 });
                 if (functionToCall) {
                     var target = jQuery.makeArray(functionToCall);
@@ -830,3 +832,26 @@ function fixActionLinkJumpToIds(actionLinksId, jumpToElementId) {
             actionLink.attr("data-submit_data", JSON.stringify(submitData));
         });
 }
+
+/*
+ Capture click events on rows in datatables
+ */
+jQuery(document).on("click", ".dataTable tbody tr", function (e) {
+    if (jQuery(e.target).is (":checkbox") || jQuery(e.target).is("a")) {
+
+        // stop the bubbling to prevent firing the row's click event
+        e.stopPropagation();
+    } else {
+
+        jQuery(this).closest('tr').toggleClass('selected-row');
+        var $checkbox = jQuery(this).find(':checkbox');
+        // $checkbox.trigger( "click" );
+        $checkbox.attr('checked', !$checkbox.attr('checked'));
+
+        var $table = jQuery(this).closest('table');
+        var $toggleCB = jQuery('input:checkbox[id$="_toggle_control_checkbox"]');
+        var toggleCBId = $toggleCB.attr('id');
+        var subComponentId = toggleCBId.split('_toggle_control_checkbox')[0];
+        controlCheckboxStatus(subComponentId,$checkbox);
+    }
+});
