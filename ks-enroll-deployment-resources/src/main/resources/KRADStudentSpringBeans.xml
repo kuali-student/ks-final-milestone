@@ -197,6 +197,8 @@
                 <value>classpath:org/kuali/student/enrollment/krms/CORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/AORuleMaintenance.xml</value>
                 <value>classpath:org/kuali/student/enrollment/krms/FERuleMaintenance.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CMLUCustomComponents.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseRuleMaintenance.xml</value>
 
                 <!-- Type -->
                 <value>classpath:org/kuali/student/enrollment/type/TypeVerificationView.xml</value>
@@ -272,12 +274,42 @@
                 <value>classpath:org/kuali/student/common/kitchensink/ContextBar.xml</value>
                 <value>classpath:org/kuali/student/enrollment/registration/performance/PerformanceTestView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/registration/CourseRegistrationKradView.xml</value>
+
+                <!-- Curriculum Management Course Info -->
+                <value>classpath:org/kuali/student/cm/main/CourseMaintenanceView.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewCourseInfo.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewGovernance.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewCourseLogistics.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewLearningObjectives.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewCourseRequisites.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewActiveDates.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewFinancials.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewSupportingDocuments.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewReviewProposal.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseViewAuthorsAndCollaborators.xml</value>
+                <value>classpath:org/kuali/student/cm/main/LoCategoryMaintenanceView.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/CluInstructorInfoWrapperLookupView.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/CourseJointInfoWrapperLookupView.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/OrganizationInfoWrapperLookupView.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/CollaboratorWrapperLookupView.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/LoCategoryInfoWrapperView.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/LoDisplayInfoWrapperLookupView.xml</value>
+
+                <value>classpath:ks-CourseInfo-dictionary.xml</value> <!-- KSCM-720  Curriculum Management Course Info -->
+                <value>classpath:ks-ProposalInfo-dictionary.xml</value>
+                <value>classpath:org/kuali/student/cm/UifKsCmDefinitions.xml</value>
+
+                <value>classpath:org/kuali/student/cm/CMFunctionalHomeView.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CurriculumHomeView.xml</value> <!-- KSCM-727 Curriculum Management Course -->
+                <value>classpath:org/kuali/student/cm/main/CourseSelectView.xml</value>
+                <value>classpath:org/kuali/student/cm/main/FindCourseLookupView.xml</value>
             </list>
 		</property>
 		<property name="packagePrefixes">
 			<list>
 				<value>org.kuali.rice.student.</value>
 				<value>org.kuali.student.enrollment.</value>
+                <value>org.kuali.student.cm.</value>
 			</list>
 		</property>
         <property name="externalizableBusinessObjectImplementations">
