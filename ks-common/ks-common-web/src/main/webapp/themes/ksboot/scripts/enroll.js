@@ -842,18 +842,19 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
         // stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
     } else {
-
-        jQuery(this).closest('tr').toggleClass('selected-row');
         var $checkbox = jQuery(this).find(':checkbox');
-        // $checkbox.trigger( "click" );
-        $checkbox.attr('checked', !$checkbox.attr('checked'));
+        if ($checkbox.length > 0) {
+            $checkbox.attr('checked', !$checkbox.attr('checked'));
+            jQuery(this).closest('tr').toggleClass('selected-row', $checkbox.prop('checked'));
+            // $checkbox.trigger( "click" );
 
-        var $table = jQuery(this).closest('table');
-        var $toggleCB = jQuery('input:checkbox[id$="_toggle_control_checkbox"]');
-        if ($toggleCB.length > 0) {
-            var toggleCBId = $toggleCB.attr('id');
-            var subComponentId = toggleCBId.split('_toggle_control_checkbox')[0];
-            controlCheckboxStatus(subComponentId, $checkbox);
+            var $table = jQuery(this).closest('table');
+            var $toggleCB = jQuery('input:checkbox[id$="_toggle_control_checkbox"]');
+            if ($toggleCB.length > 0) {
+                var toggleCBId = $toggleCB.attr('id');
+                var subComponentId = toggleCBId.split('_toggle_control_checkbox')[0];
+                controlCheckboxStatus(subComponentId, $checkbox);
+            }
         }
     }
 });
