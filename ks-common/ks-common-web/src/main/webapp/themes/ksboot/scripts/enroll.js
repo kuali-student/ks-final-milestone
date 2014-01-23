@@ -837,7 +837,7 @@ function fixActionLinkJumpToIds(actionLinksId, jumpToElementId) {
  Capture click events on rows in datatables
  */
 jQuery(document).on("click", ".dataTable tbody tr", function (e) {
-    if (jQuery(e.target).is (":checkbox") || jQuery(e.target).is("a")) {
+    if (jQuery(e.target).is(":checkbox") || jQuery(e.target).is("a")) {
 
         // stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
@@ -850,8 +850,10 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
 
         var $table = jQuery(this).closest('table');
         var $toggleCB = jQuery('input:checkbox[id$="_toggle_control_checkbox"]');
-        var toggleCBId = $toggleCB.attr('id');
-        var subComponentId = toggleCBId.split('_toggle_control_checkbox')[0];
-        controlCheckboxStatus(subComponentId,$checkbox);
+        if ($toggleCB.length > 0) {
+            var toggleCBId = $toggleCB.attr('id');
+            var subComponentId = toggleCBId.split('_toggle_control_checkbox')[0];
+            controlCheckboxStatus(subComponentId, $checkbox);
+        }
     }
 });
