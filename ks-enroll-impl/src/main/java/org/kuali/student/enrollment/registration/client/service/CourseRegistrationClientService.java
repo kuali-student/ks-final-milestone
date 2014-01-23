@@ -72,4 +72,18 @@ public interface CourseRegistrationClientService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/stats/regengine/clear")
     public Response clearRegEngineStats();
+
+    /**
+     * Deletes all LPRs for a person
+     * Returns an empty list(should it return something else?)
+     * @param personId
+     * @return
+     * @throws Exception
+     */
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/clearpersonlprs")
+    public List<StudentScheduleCourseResult> clearLPRsByPerson( @QueryParam("person") String personId) throws Exception;
+
 }

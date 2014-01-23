@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIn
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
@@ -317,6 +318,27 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         return studentScheduleCourseResults;
     }
+
+    /**
+     * Finds all LPRs for a given personId and deletes them
+     * Returns an empty List of StudentScheduleCourseResult
+     * @param personId
+     * @return
+     * @throws Exception
+     */
+
+    public List<StudentScheduleCourseResult> clearLPRsByPerson(String personId) throws Exception{
+        List<LprInfo> lprs;
+        List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
+        for(LprInfo lprInfo: lprs){
+            CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
+        }
+
+        return studentScheduleCourseResults;
+    }
+
 
     /**
     * This method creates a registration request for the add operation of a single registration group.
