@@ -354,31 +354,93 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 	public boolean isCourseOffered(CourseSearchForm form,
 			CourseSearchItem course) {
-		/*
-		 * If the "any" item was chosen in the terms dop-down then continue
-		 * processing. Otherwise, determine if the CourseSearchItem should be
-		 * filtered out of the result set.
-		 */
-		String term = form.getSearchTerm();
-
-		if (CourseSearchForm.SEARCH_TERM_ANY_ITEM.equals(term))
-			return true;
-
-        return course.getScheduledTermsList().contains(term);
-
+		// Unused in Default Implementation
+        return true;
 	}
 
+    /**
+     * Filters the result course ids from the search based on the term filter
+     *
+     * @param courseIds - Full list of course ids found by the search
+     * @param termFilter - Term to filter by
+     * @return A list of course ids with offerings matching the selected filter
+     */
+    private List<String> termfilterCourseIds(List<String> courseIds, String termFilter){
+        LOG.info("Start of method termfilterCourseIds of CourseSearchController:"
+                + System.currentTimeMillis());
+
+        // If any term option is select return list as is, no filtering needed.
+        if(termFilter.equals(CourseSearchForm.SEARCH_TERM_ANY_ITEM)){
+            return courseIds;
+        }
+
+        // Build list of valid terms based on the filter
+        List<Term> terms = new ArrayList<Term>();
+        if(termFilter.equals(CourseSearchForm.SEARCH_TERM_SCHEDULED)){
+            // Any Scheduled term selected
+            List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
+            List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
+            if(currentScheduled!=null) terms.addAll(currentScheduled);
+            if(futureScheduled!=null) terms.addAll(futureScheduled);
+        }else{
+            // Single Term selected
+            terms.add(KsapFrameworkServiceLocator.getTermHelper().getTerm(termFilter));
+        }
+        List<String> filteredIds = new ArrayList<String>();
+        try {
+
+            // Search for all course offerings of search results in terms
+            Predicate termPredicates[] = getTermPredicates(terms);
+            Predicate coursePredicates[] = getCourseIdPredicates(courseIds);
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
+                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+            List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
+                    .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+
+            // Fill filtered id list
+            for(CourseOfferingInfo offering : offerings){
+                for(int i=0;i<courseIds.size();i++){
+                    String courseId = courseIds.get(i);
+                    if(courseId.equals(offering.getCourseId())){
+                        if(!filteredIds.contains(courseId)){
+                            filteredIds.add(courseId);
+                            courseIds.remove(i);
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        }
+        LOG.info("End of method termfilterCourseIds of CourseSearchController:"
+                + System.currentTimeMillis());
+        return filteredIds;
+
+    }
+
+    /**
+     * Load scheduling information for courses based on their course offerings
+     *
+     * @param courses - List of courses to load information for.
+     */
 	private void loadScheduledTerms(List<CourseSearchItemImpl> courses) {
 		LOG.info("Start of method loadScheduledTerms of CourseSearchController:"
 				+ System.currentTimeMillis());
 
-		List<Term> terms;
-		terms = KsapFrameworkServiceLocator.getTermHelper().getOfficialTerms();
+        // Load list of terms to find offerings in
+		List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getOfficialTerms();
 		if (terms == null) {
 			return;
 		}
-		CourseOfferingService offeringService = KsapFrameworkServiceLocator
-				.getCourseOfferingService();
 
         try {
 
@@ -387,7 +449,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             Predicate coursePredicates[] = getCoursePredicates(courses);
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
                     or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
-            List<CourseOfferingInfo> offerings = offeringService
+            List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
                     .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
 
             // Load scheduling data into course results from there course offerings
@@ -414,6 +476,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 	}
 
+    /**
+     * Build an array of equal predicates for a list of terms.
+     * Filters terms by the SOC state of published
+     *
+     * @param terms - List of terms to be in predicate
+     * @return An array of equal predicates of ("atpId',termId)
+     */
     private Predicate[] getTermPredicates(List<Term> terms) {
         // Build predicate based on term id
         Predicate termPredicates[] = new Predicate[terms.size()];
@@ -440,10 +509,31 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // If predicate list can not be created return empty
         return new Predicate[0];
     }
+
+    /**
+     * Build an array of equal predicates for a list of courses
+     *
+     * @param courses - List of courses to be in the predicate
+     * @return An array of equal predicates of ("cluId",courseId)
+     */
     private Predicate[] getCoursePredicates(List<CourseSearchItemImpl> courses) {
         Predicate predicates[] = new Predicate[courses.size()];
         for(int i=0;i<courses.size();i++){
             predicates[i]=equal("cluId", courses.get(i).getCourseId());
+        }
+        return predicates;
+    }
+
+    /**
+     * Build an array of equal predicates for a list of course ids
+     *
+     * @param courses - List of course ids to be in the predicate
+     * @return An array of equal predicates of ("cluId",courseId)
+     */
+    private Predicate[] getCourseIdPredicates(List<String> courses) {
+        Predicate predicates[] = new Predicate[courses.size()];
+        for(int i=0;i<courses.size();i++){
+            predicates[i]=equal("cluId", courses.get(i));
         }
         return predicates;
     }
@@ -697,6 +787,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				.getProperty("ksap.search.results.max");
 		int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
 				.valueOf(maxCountProp) : MAX_HITS;
+
 		List<SearchRequestInfo> requests = queryToRequests(form);
 		List<Hit> hits = processSearchRequests(requests);
 		List<CourseSearchItem> courseList = new ArrayList<CourseSearchItem>();
@@ -707,22 +798,21 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		}
         List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
         if(!courseIDs.isEmpty()){
+            courseIDs = termfilterCourseIds(courseIDs,form.getSearchTerm());
             courses = getCoursesInfo(courseIDs);
             loadScheduledTerms(courses);
             loadTermsOffered(courses, courseIDs);
             loadGenEduReqs(courses, courseIDs);
         }
 		for (CourseSearchItemImpl course : courses) {
-			if (isCourseOffered(form, course)) {
-				String courseId = course.getCourseId();
-				if (courseStatusMap.containsKey(courseId)) {
-					course.setStatus(courseStatusMap.get(courseId));
-				}
-				courseList.add(course);
-				if (courseList.size() >= maxCount) {
-					break;
-				}
-			}
+            String courseId = course.getCourseId();
+            if (courseStatusMap.containsKey(courseId)) {
+                course.setStatus(courseStatusMap.get(courseId));
+            }
+            courseList.add(course);
+            if (courseList.size() >= maxCount) {
+                break;
+            }
 		}
 		populateFacets(form, courseList);
 
