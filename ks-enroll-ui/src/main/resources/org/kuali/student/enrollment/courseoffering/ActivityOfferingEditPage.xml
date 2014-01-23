@@ -55,7 +55,7 @@
     <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>

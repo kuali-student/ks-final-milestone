@@ -42,7 +42,7 @@
           <bean parent="KS-Uif-Page">
               <!-- Set the page header to the current term, but only render if a search has been performed -->
               <property name="headerText" value="@{(termCode eq null)? '' : 'Term ' + termCode}" />
-              <property name="header.render" value="@{renderDetailsSection}"/>
+              <property name="header.render" value="true"/>
               <!-- Prevent the page breadcrumb from being rendered -->
               <property name="breadcrumbItem.render" value="false" />
           </bean>
@@ -146,7 +146,7 @@
    <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection" p:onDocumentReadyScript="toggleButtonOnInput('socTermField', 'socShowButton');">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:10px;margin-bottom:10px;margin-left:15px;">
+                <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                       <list>
                         <bean parent="Uif-InputField" p:id="socTermField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
@@ -171,7 +171,7 @@
 
     <!--p:onClickScript="updateContextBar( null, 'KS-CourseOffering-View-ContextBar-PlaceHolder' );"-->
 
-    <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
+    <bean id="ManageSOCView-DetailsSection" parent="Uif-VerticalBoxSection" p:render="@{renderDetailsSection}">
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
@@ -189,10 +189,11 @@
         </property>
    </bean>
 
-   <bean id="ManageSOCView-StatusHistory-SubSection1" parent="Uif-HorizontalBoxSubSection" p:style="background-color:#C8E4F7; ">
+   <bean id="ManageSOCView-StatusHistory-SubSection1" parent="Uif-VerticalBoxSubSection">
        <property name="items">
            <list>
-            <bean id="socStatus" parent="Uif-MessageField" p:messageText="@{socStatus}" p:label="Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
+               <ref bean="ManageSOCView-SchedulingDetails-ManageCOButton"/>
+               <ref bean="ManageSOCView-SchedulingDetails-SubSection1"/>
            </list>
        </property>
    </bean>
@@ -209,7 +210,7 @@
                  <property name="propertyReplacers">
                       <list>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                              p:condition="#line.highlightUI" p:replacement="background-color:#C8E4F7;font-weight:bold;"/>
+                              p:condition="#line.highlightUI" p:replacement="font-weight:bold;"/>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
                               p:condition="#line.greyText" p:replacement="color:grey;"/>
                       </list>
@@ -219,7 +220,7 @@
                  <property name="propertyReplacers">
                       <list>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                              p:condition="#line.highlightUI" p:replacement="background-color:#C8E4F7;font-weight:bold;"/>
+                              p:condition="#line.highlightUI" p:replacement="font-weight:bold;"/>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
                               p:condition="#line.greyText" p:replacement="color:grey;"/>
                       </list>
@@ -229,93 +230,76 @@
        </property>
    </bean>
 
-    <bean id="ManageSOCView-SchedulingDetails-Section" parent="Uif-VerticalBoxSubSection">
+    <bean id="ManageSOCView-SchedulingDetails-Section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <ref bean="ManageSOCView-SchedulingDetails-SubSection1"/>
                 <ref bean="ManageSOCView-SchedulingDetails-SubSection2"/>
                 <ref bean="ManageSOCView-SchedulingDetails-SubSection3"/>
             </list>
         </property>
-   </bean>
+    </bean>
 
-    <bean id="ManageSOCView-SchedulingDetails-PublishButton" parent="Uif-PrimaryActionButton" p:methodToCall="publishSOC" p:actionLabel="Publish Set" p:disabled="@{!enablePublishButton}" p:render="@{showPublishSetButton}"/>
-
-    <bean id="ManageSOCView-SchedulingDetails-LockSetButton" parent="Uif-PrimaryActionButton" p:methodToCall="lockSOC" p:actionLabel="Lock Set" p:disabled="@{!enableLockButton}" p:render="@{showLockButton}"/>
-
-    <bean id="ManageSOCView-SchedulingDetails-FinalEditButton" parent="Uif-PrimaryActionButton" p:methodToCall="allowFinalEdits" p:actionLabel="Allow Final Edits" p:render="@{showFinalEditButton}" p:disabled="@{!enableFinalEditButton}"/>
-
-    <!-- not to render the close set button for now since the functionality is not in place yet -->
-    <bean id="ManageSOCView-SchedulingDetails-CloseButton" parent="Uif-PrimaryActionButton" p:methodToCall="closeSOC" p:actionLabel="Close Set" p:disabled="true" p:render="false"/>
-
-    <bean id="ManageSOCView-SchedulingDetails-ManageCOButton" parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:5px;"
-            p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
-
-    <bean id="ManageSOCView-SchedulingDetails-SendToSchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}"/>
-
-    <bean id="ManageSOCView-SchedulingDetails-SubSection1" parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
+    <bean id="ManageSOCView-SchedulingDetails-SubSection1" parent="Uif-HorizontalBoxSubSection">
        <property name="items">
            <list>
-               <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:style="margin-top:5px;margin-bottom:3px;margin-left:15px;">
+               <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
                       <list>
                           <ref bean="ManageSOCView-SchedulingDetails-LockSetButton"/>
                           <ref bean="ManageSOCView-SchedulingDetails-FinalEditButton"/>
                           <ref bean="ManageSOCView-SchedulingDetails-PublishButton"/>
                           <ref bean="ManageSOCView-SchedulingDetails-CloseButton"/>
-                          <ref bean="ManageSOCView-SchedulingDetails-ManageCOButton"/>
                       </list>
                     </property>
                </bean>
            </list>
        </property>
-   </bean>
+    </bean>
 
-   <bean id="ManageSOCView-SchedulingDetails-SubSection2" parent="Uif-VerticalBoxSubSection">
-       <property name="headerText" value="Scheduling Details" />
-       <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-borderBottom3</value>
-            </list>
-        </property>
+    <bean id="ManageSOCView-SchedulingDetails-SubSection2" parent="Uif-VerticalBoxSubSection">
+        <property name="headerText" value="Scheduling Details" />
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
-                   <property name="items">
-                       <list>
-                        <bean id="socSchedulingStatus" parent="Uif-MessageField" p:messageText="@{socSchedulingStatus}" p:label="SOC Scheduling Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
-                       </list>
-                   </property>
-               </bean>
-               <bean id="schedule_initiated_date" parent="Uif-MessageField" p:messageText="@{scheduleInitiatedDate}" p:label="Initiated" />
-                <bean id="schedule_completed_date" parent="Uif-MessageField" p:messageText="@{scheduleCompleteDate}" p:label="Completed" />
-                <bean id="schedule_duration" parent="Uif-MessageField" p:messageText="@{scheduleDuration}" p:label="Scheduling Duration" />
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="socSchedulingStatus" p:label="Scheduling Status" p:propertyName="socSchedulingStatus"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="schedule_initiated_date" p:label="Initiated" p:propertyName="scheduleInitiatedDate"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="schedule_completed_date" p:label="Completed" p:propertyName="scheduleCompleteDate"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="schedule_duration" p:label="Scheduling Duration" p:propertyName="scheduleDuration"/>
+                        </list>
+                    </property>
+                </bean>
                 <ref bean="ManageSOCView-SchedulingDetails-SendToSchedulerButton"/>
             </list>
         </property>
-   </bean>
+    </bean>
 
-   <bean id="ManageSOCView-SchedulingDetails-SubSection3" parent="Uif-VerticalBoxSubSection">
-       <property name="headerText" value="Publishing Process Details" />
-       <property name="header.cssClasses">
-            <list merge="true">
-                <value>ks-borderBottom3</value>
-            </list>
-        </property>
+    <bean id="ManageSOCView-SchedulingDetails-SubSection3" parent="Uif-VerticalBoxSubSection">
+        <property name="headerText" value="Publishing Process Details"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxSubSection" p:style="background-color:#E0DEDE; ">
-                   <property name="items">
-                       <list>
-                           <bean id="socPublishingStatus" parent="Uif-MessageField" p:messageText="@{socPublishingStatus}" p:label="SOC Publishing Status" p:style="margin-top:15px;margin-bottom:15px;margin-left:15px;"/>
-                       </list>
-                   </property>
-               </bean>
-                <bean id="publish_initiated_date" parent="Uif-MessageField" p:messageText="@{publishInitiatedDate}" p:label="Initiated" />
-                <bean id="publish_completed_date" parent="Uif-MessageField" p:messageText="@{publishCompleteDate}" p:label="Completed" />
-                <bean id="publish_duration" parent="Uif-MessageField" p:messageText="@{publishDuration}" p:label="Publishing Duration" />
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="socPublishingStatus" p:label="Publishing Status" p:propertyName="socPublishingStatus"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="publish_initiated_date" p:label="Initiated" p:propertyName="publishInitiatedDate"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="publish_completed_date" p:label="Completed" p:propertyName="publishCompleteDate"/>
+                            <bean parent="Uif-DataField" p:colSpan="3" id="publish_duration" p:label="Publishing Duration" p:propertyName="publishDuration"/>
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
-   </bean>
+    </bean>
 
+    <bean id="ManageSOCView-SchedulingDetails-PublishButton" parent="Uif-PrimaryActionButton" p:methodToCall="publishSOC" p:actionLabel="Publish Set" p:disabled="@{!enablePublishButton}" p:render="@{showPublishSetButton}"/>
+    <bean id="ManageSOCView-SchedulingDetails-LockSetButton" parent="Uif-PrimaryActionButton" p:methodToCall="lockSOC" p:actionLabel="Lock Set" p:disabled="@{!enableLockButton}" p:render="@{showLockButton}"/>
+    <bean id="ManageSOCView-SchedulingDetails-FinalEditButton" parent="Uif-PrimaryActionButton" p:methodToCall="allowFinalEdits" p:actionLabel="Allow Final Edits" p:render="@{showFinalEditButton}" p:disabled="@{!enableFinalEditButton}"/>
+
+    <!-- not to render the close set button for now since the functionality is not in place yet -->
+    <bean id="ManageSOCView-SchedulingDetails-CloseButton" parent="Uif-PrimaryActionButton" p:methodToCall="closeSOC" p:actionLabel="Close Set" p:disabled="true" p:render="false"/>
+    <bean id="ManageSOCView-SchedulingDetails-ManageCOButton" parent="Uif-Link" p:linkText="Manage Course Offerings" p:style="margin-top:5px;"
+          p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingManagement?viewId=courseOfferingManagementView&amp;pageId=searchInputPage&amp;methodToCall=start"/>
+    <bean id="ManageSOCView-SchedulingDetails-SendToSchedulerButton" parent="Uif-PrimaryActionButton" p:methodToCall="sendApprovedActivitiesToScheduler" p:actionLabel="Send Approved Activities to Scheduler" p:render="@{enableMSEButton}"/>
 </beans>
