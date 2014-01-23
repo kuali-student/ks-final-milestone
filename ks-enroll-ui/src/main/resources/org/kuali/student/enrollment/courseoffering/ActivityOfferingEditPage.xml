@@ -431,6 +431,11 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-NoWaitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO and !#dp.colocatedAO}">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Waitlists are deactivated for the Course Offering"/>
