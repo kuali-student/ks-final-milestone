@@ -50,17 +50,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseInfo" parent="CourseInfo-parent"/>
 	<bean id="CourseInfo-parent" abstract="true" parent="CourseInfo-generated">
 	    <!-- insert any overrides to the generated object definitions here -->
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
-        </property>
 	</bean>
 
 	<bean id="CourseInfo.id" parent="CourseInfo.id-parent"/>
 	<bean id="CourseInfo.id-parent" abstract="true" parent="CourseInfo.id-generated">
 	    <!-- insert any overrides to the generated attribute definitions here -->
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
-        </property>
 	</bean>
 
 	<bean id="CourseInfo.typeKey" parent="CourseInfo.typeKey-parent"/>
@@ -81,9 +75,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseInfo.descr" parent="CourseInfo.descr-parent"/>
 	<bean id="CourseInfo.descr-parent" abstract="true" parent="CourseInfo.descr-generated">
 	    <!-- insert any overrides to the generated attribute definitions here -->
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="200"/>
-        </property>
 	</bean>
 
 	<bean id="CourseInfo.descr.plain" parent="CourseInfo.descr.plain-parent"/>
@@ -99,9 +90,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseInfo.code" parent="CourseInfo.code-parent"/>
 	<bean id="CourseInfo.code-parent" abstract="true" parent="CourseInfo.code-generated">
 	    <!-- insert any overrides to the generated attribute definitions here -->
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
-        </property>
 	</bean>
 
 	<bean id="CourseInfo.courseNumberSuffix" parent="CourseInfo.courseNumberSuffix-parent"/>
@@ -117,9 +105,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseInfo.courseTitle" parent="CourseInfo.courseTitle-parent"/>
 	<bean id="CourseInfo.courseTitle-parent" abstract="true" parent="CourseInfo.courseTitle-generated">
 	    <!-- insert any overrides to the generated attribute definitions here -->
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="40"/>
-        </property>
 	</bean>
 
 	<bean id="CourseInfo.transcriptTitle" parent="CourseInfo.transcriptTitle-parent"/>
@@ -170,9 +155,6 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<bean id="CourseInfo.subjectArea" parent="CourseInfo.subjectArea-parent"/>
 	<bean id="CourseInfo.subjectArea-parent" abstract="true" parent="CourseInfo.subjectArea-generated">
 	    <!-- insert any overrides to the generated attribute definitions here -->
-        <property name="controlField">
-            <bean parent="Uif-TextControl" p:size="10"/>
-        </property>
 	</bean>
 
 	<bean id="CourseInfo.campusLocations" parent="CourseInfo.campusLocations-parent"/>
