@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.registration.client.service;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 
-import javax.jms.Session;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -23,6 +22,7 @@ public interface CourseRegistrationClientService {
      * This is the "one click" registration method. It will first create a registration request then submit that
      * request to the registration engine.
      *
+     * @param userId user id of the person you want to register in a course. This is for POC testing only and needs to be removed post POC for secuirty
      * @param termCode
      * @param courseCode
      * @param regGroupName
@@ -33,7 +33,8 @@ public interface CourseRegistrationClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/registerreggroup")
-    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(@QueryParam("termCode") String termCode,
+    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(@QueryParam("userId") String userId,
+                                                                                                       @QueryParam("termCode") String termCode,
                                                                                                        @QueryParam("courseCode") String courseCode,
                                                                                                        @QueryParam("regGroupName") String regGroupName) throws Exception;
 

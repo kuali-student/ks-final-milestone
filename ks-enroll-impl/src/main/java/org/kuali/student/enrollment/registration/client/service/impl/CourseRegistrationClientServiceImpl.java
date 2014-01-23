@@ -28,20 +28,11 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
-import javax.jms.Connection;
-import javax.jms.MapMessage;
-import javax.jms.Message;
-import javax.jms.MessageConsumer;
-import javax.jms.MessageProducer;
-import javax.jms.Queue;
-import javax.jms.Session;
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -57,8 +48,13 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     private CourseRegistrationService courseRegistrationService;
 
     @Override
-    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String termCode, String courseCode, String regGroupName) throws Exception {
+    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String userId, String termCode, String courseCode, String regGroupName) throws Exception {
+        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId,termCode,courseCode,regGroupName));
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        if(!StringUtils.isEmpty(userId)){
+            contextInfo.setPrincipalId(userId);
+        }
 
         if(StringUtils.isEmpty(contextInfo.getPrincipalId())){
             throw new LoginException("User must be logged in to access this service");

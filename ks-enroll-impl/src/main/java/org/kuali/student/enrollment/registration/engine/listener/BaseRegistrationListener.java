@@ -85,8 +85,8 @@ public class BaseRegistrationListener implements MessageListener {
 
     }
 
-    protected void beforeProcessHook(String regReqId)throws Exception {LOG.info("EMPTY BEFORE PROCESS HOOK");};
-    protected void afterProcessHook(String regReqId)throws Exception {LOG.info("EMPTY AFTER PROCESS HOOK");};
+    protected void beforeProcessHook(String regReqId)throws Exception {LOG.debug("EMPTY BEFORE PROCESS HOOK");};
+    protected void afterProcessHook(String regReqId)throws Exception {LOG.debug("EMPTY AFTER PROCESS HOOK");};
 
     protected MapMessage buildResponseMessage(String userId, String regReqId) throws JMSException{
         MapMessage mapMessage = new ActiveMQMapMessage(); // we are using map messages so we can send multiple pieces of data
