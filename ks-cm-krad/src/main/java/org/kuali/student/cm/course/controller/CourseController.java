@@ -121,9 +121,12 @@ public class CourseController extends CourseRuleEditorController {
         + ".unitsContentOwner";
     private static final String EXISTING_CURRICULUM_OVERSIGHT_ERROR_KEY = RiceKeyConstants.ERROR_CUSTOM;
         
-    private static final String DECISIONS_DIALOG_KEY = "decisionsDialog";
-    
-    private static final String VIEW_CURRENT_PAGE_ID = "view.currentPageId";
+    private static final String DECISIONS_DIALOG_KEY        = "decisionsDialog";    
+    private static final String VIEW_CURRENT_PAGE_ID        = "view.currentPageId";
+    private static final String COURSE_MODIFY_DOC_TYPE_NAME = "kuali.proposal.type.course.modify";
+    private static final String COURSE_CREATE_DOC_TYPE_NAME = "kuali.proposal.type.course.create";
+    private static final String COURSE_RETIRE_DOC_TYPE_NAME = "kuali.proposal.type.course.retire";
+    private static final String CREDIT_COURSE_CLU_TYPE_KEY  = "kuali.lu.typeKey.CreditCourse";
 
     private CourseService courseService;
     private CommentService commentService;
@@ -162,11 +165,13 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * After the document is loaded calls method to setup the maintenance object
      */
-    @Override
     @RequestMapping(value = "/create")
-    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView initiateCreate(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
         final MaintenanceDocumentForm maintenanceDocForm = (MaintenanceDocumentForm) formBase;
+
+        maintenanceDocForm.setDocTypeName(COURSE_CREATE_DOC_TYPE_NAME);
+        maintenanceDocForm.setDataObjectClassName(CourseInfo.class.getName());
         
         try {
             redrawDecisionTable(maintenanceDocForm);
@@ -199,7 +204,7 @@ public class CourseController extends CourseRuleEditorController {
             maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
             maintainable.getCourse().setEffectiveDate(new java.util.Date());
 
-            maintainable.getCourse().setTypeKey("kuali.lu.typeKey.CreditCourse");
+            maintainable.getCourse().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
 
             // Initialize Curriculum Oversight if it hasn't already been.
             if (maintainable.getCourse().getUnitsContentOwner() == null) {
@@ -326,23 +331,43 @@ public class CourseController extends CourseRuleEditorController {
         return deleteLine(form, result, request, response);
     }
 
+    /**
+     * Modify an existing course
+     *
+     * @param form
+     * @param courseId to modify
+     */
     @RequestMapping(value = "/modify/{courseId}")
     public ModelAndView initiateModify(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
                                        final @PathVariable String courseId, 
                                        final BindingResult result,
                                        final HttpServletRequest request,
                                        final HttpServletResponse response) throws Exception {
+
+        form.setDocTypeName(COURSE_MODIFY_DOC_TYPE_NAME);
+        form.setDataObjectClassName(CourseInfo.class.getName());
         final ModelAndView retval = super.docHandler(form, result, request, response);
+
         return retval;
     }
 
+    /**
+     * Retire an existing course
+     * 
+     * @param form
+     * @param courseId to retire
+     *
+     */
     @RequestMapping(value = "/retire/{courseId}")
     public ModelAndView initiateRetire(final @ModelAttribute("KualiForm") MaintenanceDocumentForm form,
                                        final @PathVariable String courseId, 
                                        final BindingResult result,
                                        final HttpServletRequest request,
                                        final HttpServletResponse response) throws Exception {
+        form.setDocTypeName(COURSE_RETIRE_DOC_TYPE_NAME);
+        form.setDataObjectClassName(CourseInfo.class.getName());
         final ModelAndView retval = super.docHandler(form, result, request, response);
+
         return retval;
     }
 
@@ -506,12 +531,12 @@ public class CourseController extends CourseRuleEditorController {
      * This calculates and sets fields on course object that are derived from other course object fields.
      */
     protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo) {
-        //Course code is not populated in UI, need to derive them from the subject area and suffix fields
+        // Course code is not populated in UI, need to derive them from the subject area and suffix fields
         if (StringUtils.isNotBlank(courseInfo.getCourseNumberSuffix()) && StringUtils.isNotBlank(courseInfo.getSubjectArea())) {
             courseInfo.setCode(calculateCourseCode(courseInfo.getSubjectArea(), courseInfo.getCourseNumberSuffix()));
         }
 
-        //Derive course code for crosslistings
+        // Derive course code for crosslistings
         for (CourseCrossListingInfo crossListing : courseInfo.getCrossListings()) {
             if (StringUtils.isNotBlank(crossListing.getCourseNumberSuffix()) && StringUtils.isNotBlank(crossListing.getSubjectArea())) {
                 crossListing.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));
