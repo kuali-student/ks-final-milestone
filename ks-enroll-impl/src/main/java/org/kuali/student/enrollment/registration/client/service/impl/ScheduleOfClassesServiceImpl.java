@@ -6,19 +6,13 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
-import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
@@ -28,12 +22,8 @@ import org.kuali.student.enrollment.registration.client.service.dto.CourseSearch
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
-import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
-import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -43,32 +33,20 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
-import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.constants.SearchServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -593,7 +571,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     private List<ActivityOfferingSearchResult> searchForRawActivities(String courseOfferingId) throws Exception {
         SearchRequestInfo searchRequestInfo = new SearchRequestInfo(ActivityOfferingSearchServiceImpl.AOS_AND_CLUSTERS_BY_CO_ID_SEARCH_KEY);
 
+        List<String> aoStates = new ArrayList<String>(1);
+        aoStates.add(LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY);
+
         searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.CO_ID, courseOfferingId);
+        searchRequestInfo.addParam(ActivityOfferingSearchServiceImpl.SearchParameters.AO_STATES, aoStates);
         SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequestInfo, ContextUtils.createDefaultContextInfo());
 
         List<ActivityOfferingSearchResult> resultList = new ArrayList<ActivityOfferingSearchResult>();
