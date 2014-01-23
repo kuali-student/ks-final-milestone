@@ -298,7 +298,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.ListOfAOClustersForFOKeyValues" p:addBlankOption="false" />
                     </property>
                 </bean>
-                <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering Id" p:labelPlacement="TOP" p:style="display:none;">
+                <bean p:id="foIdForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFOIDForAOMove" p:label="Format Offering ID" p:labelPlacement="TOP" p:style="display:none;">
                 </bean>
                 <bean p:id="foNameForAOMoveId" parent="Uif-DataField" p:propertyName="selectedFONameForAOMove" p:label="Format Offering" p:labelPlacement="TOP" p:style="display:none; margin-right:15px;">
                 </bean>

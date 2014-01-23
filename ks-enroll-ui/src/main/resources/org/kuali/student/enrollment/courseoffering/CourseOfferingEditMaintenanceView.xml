@@ -769,7 +769,7 @@
                             <bean parent="Uif-InputField"
                                   p:id="personnelPriority"
                                   p:propertyName="offeringInstructorInfo.personId"
-                                  p:label="Id"
+                                  p:label="ID"
                                   p:required="false"
                                   p:additionalCssClasses="id_search_course_offering">
                                 <property name="quickfinder">
@@ -849,7 +849,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField"
-                      p:label="Organization Id"
+                      p:label="Organization ID"
                       p:propertyName="id"
                       p:style="font-weight:bold;white-space:nowrap;"
                       p:additionalCssClasses="organization_id_course_offering">

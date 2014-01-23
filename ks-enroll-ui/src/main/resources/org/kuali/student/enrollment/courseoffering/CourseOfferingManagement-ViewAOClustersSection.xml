@@ -307,7 +307,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField"
-                      p:label="Reg Group Id"
+                      p:label="Reg Group ID"
                       p:propertyName="rgInfo.name" p:valign="middle">
                 </bean>
                 <bean parent="Uif-MessageField"

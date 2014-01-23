@@ -140,7 +140,7 @@
                                         <!--<bean parent="Uif-DataField" p:label="Affiliated Personnel Name" p:propertyName="offeringInstructorInfo.personName" />-->
                                         <!--<bean parent="Uif-DataField" p:label="Affiliated Personnel Affiliation" p:propertyName="typeName" />-->
                                         <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personId"
-                                              p:label="Id" p:required="false" p:cssClasses="col_5"/>
+                                              p:label="ID" p:required="false" p:cssClasses="col_5"/>
                                         <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" />
                                         <bean parent="Uif-DataField" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation" p:required="false">
                                             <!--<property name="control">-->
