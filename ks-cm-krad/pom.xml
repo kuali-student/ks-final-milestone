@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>2.0.2-cm-krad-SNAPSHOT</version>
+	<version>2.1.1-FR2-M1-cm-krad-SNAPSHOT</version>
     </parent>
     <artifactId>ks-cm-krad</artifactId>
     <name>KS CM KRAD</name>
