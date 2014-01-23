@@ -80,7 +80,8 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
      *
      * @param propositionEditor
      */
-    protected void initPropositionEditor(PropositionEditor propositionEditor) {
+    @Override
+    public void initPropositionEditor(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
             if (propositionEditor.getType() == null) {
@@ -97,7 +98,6 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
             for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
                 initPropositionEditor(child);
             }
-
         }
     }
 
@@ -108,7 +108,8 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
      * @param proposition
      * @return
      */
-    protected Map<String, String> getTermParameters(PropositionEditor proposition) {
+    @Override
+    public Map<String, String> getTermParameters(PropositionEditor proposition) {
 
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {

@@ -930,6 +930,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     @Override
+    public void finPropositionEditor(PropositionEditor propositionEditor) {
+        throw new RuntimeException("Implement me");
+    }
+
+    @Override
     public PropositionEditor copyProposition(PropositionEditor proposition) {
         return getRuleViewHelperService().copyProposition(proposition);
     }
