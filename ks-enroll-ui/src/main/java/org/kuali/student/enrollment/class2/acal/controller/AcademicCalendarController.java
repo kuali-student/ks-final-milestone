@@ -801,6 +801,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         academicCalendarForm.getEvents().remove(selectedLineIndex);
+        academicCalendarForm.getAddedCollectionItems().remove(deletedEvent);
 
         return getUIFModelAndView(academicCalendarForm);
 

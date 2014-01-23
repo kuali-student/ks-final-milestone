@@ -34,6 +34,7 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.GrowlMessage;
 import org.kuali.rice.krad.util.KRADConstants;
@@ -47,6 +48,7 @@ import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.TimeSetWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
+import org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
@@ -463,15 +465,29 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     }
 
+    /**
+     * Override default handling of adding blank line to add custom validation and custom functions on added lines
+     *
+     * @param view
+     * @param model
+     * @param collectionPath
+     */
     @Override
     public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
         CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
 
+        //Execute custom funtions on added lines for Academic Calendars
+        if (model instanceof AcademicCalendarForm) {
+            processAddBlankLines(model);
+        }
+
+        //If collection is a KeyDate, check if types are available to add
         if (collectionGroup.getCollectionObjectClass().equals(KeyDateWrapper.class)) {
             AcademicCalendarForm form = (AcademicCalendarForm) model;
             KeyDatesGroupWrapper groupWrapper = ObjectPropertyUtils.getPropertyValue(form,collectionGroup.getBindingInfo().getBindByNamePrefix());
 
             boolean isValid = false;
+            //Loop through types and already added KeyDates to determine if type is available to add
             if (StringUtils.isNotBlank(groupWrapper.getKeyDateGroupType())){
                 try {
                     List<TypeInfo> types = getTypeService().getTypesForGroupType(groupWrapper.getKeyDateGroupType(),createContextInfo());
@@ -485,28 +501,89 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                 }
             }
 
-            for (Object addLine : form.getAddedCollectionItems()) {
-                if (addLine instanceof KeyDateWrapper) {
-                    KeyDateWrapper keydate = (KeyDateWrapper)addLine;
-                    try {
-                        if(StringUtils.isNotEmpty(keydate.getKeyDateType())) {
-                            TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),createContextInfo());
-                            keydate.setKeyDateNameUI(type.getName());
-                            keydate.setTypeInfo(type);
-                        }
-                    } catch (Exception e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-            }
-
+            //If type is available to add, create new line
             if (isValid) {
                 super.processCollectionAddBlankLine(view, model, collectionPath);
-            } else {
-                GlobalVariables.getMessageMap().addGrowlMessage("", CalendarConstants.MessageKeys.ERROR_KEY_DATE_EMPTY, "");
             }
-        } else {
+            //else display growl message stating no more types are available to add
+            else {
+                GlobalVariables.getMessageMap().addGrowlMessage("", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPES_EMPTY, "");
+            }
+        }
+        //If collection is a Event, check if types are available to add
+        else if (collectionGroup.getCollectionObjectClass().equals(AcalEventWrapper.class)) {
+            AcademicCalendarForm form = (AcademicCalendarForm) model;
+
+            //If previous events exist, check if types exist to add new line
+            if (!form.getEvents().isEmpty()) {
+
+                boolean isValid = false;
+                //Loop through types and already added Events to determine if type is available to add
+                for (AcalEventWrapper wrapper : form.getEvents()) {
+                    AcalEventTypeKeyValues acalEventTypeKeyValues = new AcalEventTypeKeyValues();
+                    for (KeyValue keyValue : acalEventTypeKeyValues.getKeyValues(form)) {
+                        if (keyValue.getKey().isEmpty()) {
+                            continue;
+                        } else if (!wrapper.getEventTypeKey().equals(keyValue.getKey())) {
+                            isValid = true;
+                        }
+                    }
+                }
+
+                //If type is available to add, create new line
+                if (isValid) {
+                    super.processCollectionAddBlankLine(view, model, collectionPath);
+                }
+                //else display growl message stating no more types are available to add
+                else {
+                    GlobalVariables.getMessageMap().addGrowlMessage("", CalendarConstants.MessageKeys.ERROR_EVENT_TYPES_EMPTY, "");
+                }
+            }
+            //else add new line
+            else {
+                super.processCollectionAddBlankLine(view, model, collectionPath);
+            }
+        }
+        //else add new line
+        else {
             super.processCollectionAddBlankLine(view, model, collectionPath);
+        }
+    }
+
+    /**
+     * Execute custom functions on added lines
+     *
+     * @param model
+     */
+    private void processAddBlankLines(Object model) {
+        AcademicCalendarForm form = (AcademicCalendarForm) model;
+        //Loop through all added lines on form to execute custom functions for KeyDates and Events
+        for (Object addLine : form.getAddedCollectionItems()) {
+            //If added line is a KeyDate, set name of line for display
+            if (addLine instanceof KeyDateWrapper) {
+                KeyDateWrapper keydate = (KeyDateWrapper)addLine;
+                try {
+                    if(StringUtils.isNotEmpty(keydate.getKeyDateType())) {
+                        TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),createContextInfo());
+                        keydate.setKeyDateNameUI(type.getName());
+                        keydate.setTypeInfo(type);
+                    }
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            //If added line is a Event, set name of line for display
+            if (addLine instanceof AcalEventWrapper) {
+                AcalEventWrapper acalEventWrapper = (AcalEventWrapper)addLine;
+                try {
+                    if (!StringUtils.isBlank(acalEventWrapper.getEventTypeKey())) {
+                        TypeInfo type = getTypeService().getType(acalEventWrapper.getEventTypeKey(), createContextInfo());
+                        acalEventWrapper.setEventTypeName(type.getName());
+                    }
+                }catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
         }
     }
 
@@ -672,6 +749,15 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     public void populateAcademicCalendarDefaults(AcademicCalendarForm acalForm){
 
         for (AcalEventWrapper eventWrapper : acalForm.getEvents()) {
+            try {
+                if (!StringUtils.isBlank(eventWrapper.getEventTypeKey())) {
+                    TypeInfo type = getTypeService().getType(eventWrapper.getEventTypeKey(), createContextInfo());
+                    eventWrapper.setEventTypeName(type.getName());
+                }
+            }catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
             // first setting AllDay, DateRange, etc.
             String keyDatePath = "events[" + acalForm.getEvents().indexOf(eventWrapper) + "]";
             getValidDateTimeErrors(eventWrapper.getEventTypeKey(), eventWrapper, eventWrapper.getEventTypeName(), keyDatePath);
@@ -1110,6 +1196,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
 
+        processAddBlankLines(model);
+
         if (addLine instanceof AcademicTermWrapper){
             AcademicTermWrapper newLine = (AcademicTermWrapper)addLine;
             AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
@@ -1189,27 +1277,6 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     inputLine.setHolidays(holidays);
                 }
             }catch (Exception e){
-                throw new RuntimeException(e);
-            }
-        } else if (addLine instanceof AcalEventWrapper){
-            AcalEventWrapper acalEventWrapper = (AcalEventWrapper)addLine;
-            try {
-                if (!StringUtils.isBlank(acalEventWrapper.getEventTypeKey())) {
-                    TypeInfo type = getTypeService().getType(acalEventWrapper.getEventTypeKey(), createContextInfo());
-                    acalEventWrapper.setEventTypeName(type.getName());
-                }
-            }catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } else if (addLine instanceof KeyDateWrapper){
-            KeyDateWrapper keydate = (KeyDateWrapper)addLine;
-            try {
-                if(StringUtils.isNotEmpty(keydate.getKeyDateType())) {
-                    TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),createContextInfo());
-                    keydate.setKeyDateNameUI(type.getName());
-                    keydate.setTypeInfo(type);
-                }
-            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         } else if (addLine instanceof HolidayWrapper){

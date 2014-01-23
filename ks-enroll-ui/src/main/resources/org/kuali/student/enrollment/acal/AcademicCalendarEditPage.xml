@@ -368,7 +368,7 @@ limitations under the License.
             <list>
                 <!--p:readOnly="@{!#isAddLine}"  -->
                 <bean parent="KS-Uif-InputField" p:id="event_type" p:propertyName="eventTypeKey" p:label="Event Type"
-                      p:style="font-weight:bold;"
+                      p:style="font-weight:bold;" p:readOnly="@{#line.eventTypeKey != null and #line.eventTypeKey != ''}"
                       p:readOnlyDisplayReplacementPropertyName="eventTypeName">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
