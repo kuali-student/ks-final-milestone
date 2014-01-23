@@ -32,7 +32,7 @@ import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.beans.BeanUtils;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class MetadataServiceImpl {
             Integer hits = recursions.get(objectName);
 
             if (hits == null) {
-                hits = new Integer(1);
+                hits = Integer.valueOf(1);
             } else {
                 hits++;
             }
@@ -478,8 +478,9 @@ public class MetadataServiceImpl {
      * @return true if workflowNode is first item in values, otherwise returns false
      */
     private boolean isWorkflowNodeFirstConstraintValue(String workflowNode, List<Object> values){
+        int firstValue = 0;
     	if (values != null && !values.isEmpty()){
-    		return values.get(0).equals(workflowNode);
+    		return values.get(firstValue).equals(workflowNode);
     	} else {
     		return false;
     	}
@@ -637,9 +638,10 @@ public class MetadataServiceImpl {
 
     @SuppressWarnings("unchecked")
     private void init() {
-        ApplicationContext ac = new ClassPathXmlApplicationContext(uiLookupContext);
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(uiLookupContext);
+        Map<String, UILookupConfig> beansOfType = ac.getBeansOfType(UILookupConfig.class);
+        ac.close();
 
-        Map<String, UILookupConfig> beansOfType = (Map<String, UILookupConfig>) ac.getBeansOfType(UILookupConfig.class);
         lookupObjectStructures = new ArrayList<UILookupConfig>();
         for (UILookupConfig objStr : beansOfType.values()) {
             lookupObjectStructures.add(objStr);

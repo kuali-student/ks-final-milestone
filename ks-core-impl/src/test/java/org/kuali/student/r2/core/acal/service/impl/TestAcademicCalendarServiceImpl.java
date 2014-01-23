@@ -10,7 +10,11 @@ import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.dto.*;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -24,6 +28,8 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.AcalEventInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
+import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
@@ -35,7 +41,9 @@ import org.kuali.student.r2.core.class1.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +90,10 @@ public class TestAcademicCalendarServiceImpl {
     @Autowired
     @Qualifier("stateService")
     private StateService stateService;
+
+    @Autowired
+    @Qualifier("typeService")
+    private TypeService typeService;
 
     public static String principalId = "123";
     public ContextInfo callContext = null;
@@ -151,7 +163,7 @@ public class TestAcademicCalendarServiceImpl {
         Date effDate = new Date();
         orig.setEffectiveDate(effDate);
         Calendar cal = Calendar.getInstance();
-        cal.set(2022, 8, 23);
+        cal.set(2022, Calendar.AUGUST, 23);
         orig.setExpirationDate(cal.getTime());
         AttributeInfo attr = new AttributeInfo();
         attr.setKey("attribute.key");
@@ -162,6 +174,30 @@ public class TestAcademicCalendarServiceImpl {
         return stateService.createState(orig.getLifecycleKey(), orig.getKey(), orig, callContext);
     }
 
+    private ExamPeriodInfo populateExamPeriod (){
+        String examPeriodId = null;
+        ExamPeriodInfo examPeriodInfo = new ExamPeriodInfo();
+        examPeriodInfo.setId(examPeriodId);
+        examPeriodInfo.setName("testCreate");
+        
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.YEAR, 2005);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        examPeriodInfo.setStartDate(cal.getTime());
+        cal.set(Calendar.YEAR, 2006);
+        examPeriodInfo.setEndDate(cal.getTime());
+        
+        examPeriodInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        examPeriodInfo.setTypeKey(AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY);
+        RichTextInfo descr = new RichTextInfo();
+        descr.setPlain("Test");
+        examPeriodInfo.setDescr(descr);
+        return examPeriodInfo;
+    }
+    
     private void cleanupStateTestData( String state ) {
         try {
             stateService.deleteState( state, callContext );
@@ -217,7 +253,6 @@ public class TestAcademicCalendarServiceImpl {
 
     // Ignored until KSENROLL-4206 is resolved, since the validator will not work until then
     @Test
-    @Ignore
     public void testValidateAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
         acal.setId("testAcalId1");
@@ -408,12 +443,17 @@ public class TestAcademicCalendarServiceImpl {
     public void testAddTermToAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             AlreadyExistsException {
         try {
-            try {
-                acalService.addTermToAcademicCalendar("testAtpId1", "testTermId1", callContext);
-            } catch (AlreadyExistsException ex) {
-                // expected);
-            }
+            acalService.addTermToAcademicCalendar("testAtpId1", "testTermId1", callContext);
+            fail("AlreadyExistsException should have been thrown");
+        } catch (AlreadyExistsException ex) {
+            // expected);
+        }
+    }
 
+    @Test
+    public void testAddTermToAcademicCalendar2() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            AlreadyExistsException {
+        try {
             StatusInfo status = acalService.addTermToAcademicCalendar("testAtpId1", "testTermId2", callContext);
             assertTrue(status.getIsSuccess());
         } catch (Exception ex) {
@@ -839,7 +879,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testAddTermToTerm() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testAddTermToTerm1() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         StatusInfo status = acalService.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
 
@@ -865,6 +905,28 @@ public class TestAcademicCalendarServiceImpl {
         } catch (AlreadyExistsException e) {
             assertNull(nullStatus);
         }
+    }
+
+    @Test
+    public void testAddTermToTerm2() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        StatusInfo status = acalService.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
+
+        assertNotNull(status);
+        assertTrue(status.getIsSuccess());
+
+        // retrieve the terms for the parent term and make sure it does include
+        // the added term
+        List<TermInfo> results = acalService.getIncludedTermsInTerm("termRelationTestingTerm5", callContext);
+
+        assertNotNull(results);
+        assertEquals(1, results.size());
+
+        TermInfo added = results.iterator().next();
+        assertEquals("termRelationTestingTerm6", added.getId());
+
+        // assert that we can't add the term to the same term twice
+        StatusInfo nullStatus = null;
 
         // assert that adding an invalid term fails
         try {
@@ -874,7 +936,6 @@ public class TestAcademicCalendarServiceImpl {
             assertNull(nullStatus);
         }
     }
-
     @Test
     public void testCreateKeyDate() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DoesNotExistException, ReadOnlyException {
@@ -920,6 +981,78 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
+    public void testCRUDExamPeriod() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException, ReadOnlyException {
+        
+        ExamPeriodInfo examPeriodInfo = populateExamPeriod();
+        String examPeriodId = examPeriodInfo.getId();
+
+        try {
+            //Create
+            ExamPeriodInfo created = acalService.createExamPeriod("termRelationTestingTerm1", examPeriodInfo, callContext);
+            assertNotNull(created);
+            examPeriodId = created.getId();
+            assertNotNull(examPeriodId);
+            assertEquals("testCreate", created.getName());
+
+            //Get
+            ExamPeriodInfo retrieved = acalService.getExamPeriod(examPeriodId, callContext);
+            assertNotNull(retrieved);
+            assertEquals(examPeriodId, retrieved.getId());
+            assertEquals("testCreate", retrieved.getName());
+
+            //Update
+            retrieved.setName("testCreate_updated");
+            ExamPeriodInfo retrievedUpdated = acalService.updateExamPeriod(examPeriodId, retrieved, callContext);
+            assertNotNull(retrievedUpdated);
+            assertEquals(examPeriodId, retrievedUpdated.getId());
+            assertEquals("testCreate_updated", retrievedUpdated.getName());
+
+            //Delete
+            StatusInfo ret = acalService.deleteExamPeriod(examPeriodId, callContext);
+            assertTrue(ret.getIsSuccess());
+      } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }
+    }
+
+    @Test
+    public void testExamPeriodTerm() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
+                PermissionDeniedException, DoesNotExistException, ReadOnlyException {
+
+        ExamPeriodInfo examPeriodInfo = populateExamPeriod();
+
+        try {
+            //Create ExamPeriod
+            ExamPeriodInfo createdExam = acalService.createExamPeriod("termRelationTestingTerm1", examPeriodInfo, callContext);
+            //Create Term
+            TermInfo term = new TermInfo();
+            term.setName("testNewTerm");
+            term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+            term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+            populateRequiredFields(term);
+            term.setStartDate(new Date(term.getStartDate().getTime()));
+            TermInfo createdTerm = acalService.createTerm(AtpServiceConstants.ATP_FALL_TYPE_KEY, term, callContext);
+
+            //Add
+            StatusInfo ret = acalService.addExamPeriodToTerm(createdTerm.getId(), createdExam.getId(), callContext);
+            assertTrue(ret.getIsSuccess());
+
+            //Get
+            List<ExamPeriodInfo> examPeriodInfos = acalService.getExamPeriodsForTerm(createdTerm.getId(),callContext);
+            assertNotNull(examPeriodInfos);
+            assertEquals("Number of examPeriodInfos returned not as expected.", 1, examPeriodInfos.size());
+
+            //Get exam types by term type
+            List<TypeInfo> examTypes = acalService.getExamPeriodTypesForTermType(createdTerm.getTypeKey(),callContext);
+            assertNotNull(examTypes);
+
+        } catch (Exception ex) {
+            fail("exception from service call :" + ex.getMessage());
+        }
+    }
+
+    @Test
     public void testGetAcademicCalendarsByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> calendarKeys = new ArrayList<String>();
         calendarKeys.add("testAtpId1");
@@ -934,7 +1067,7 @@ public class TestAcademicCalendarServiceImpl {
         calendarKeys.clear();
         calendarKeys.add("3B6605D9-9370-441D-89D8-8B747B9AB496"); // Bogus UID
         try {
-            calendars = acalService.getAcademicCalendarsByIds(calendarKeys, callContext);
+            acalService.getAcademicCalendarsByIds(calendarKeys, callContext);
             fail("Expected DoesNotExistException.");
         } catch (DoesNotExistException e) {
         }
@@ -1261,4 +1394,241 @@ public class TestAcademicCalendarServiceImpl {
         richTextInfo.setPlain("");
         term.setDescr(richTextInfo);
     }
+
+    /**
+     * This method tests that instructional days are calculated properly.
+     * It tests standard, overlapping, and edge cases.
+     * @throws Exception
+     */
+    @Test
+    public void testGetInstructionalDaysForTerm() throws Exception{
+        // whole year
+        String hCalStart = "2013-01-01";
+        String hCalEnd = "2013-12-31";
+
+        // Span two months Feb->March
+        String aCalStart = "2013-02-01";
+        String aCalEnd = "2013-03-31";
+
+        // term is 2 wks, across two months
+        String termStart = "2013-02-25";
+        String termEnd = "2013-03-08";
+
+        Date  aCalStartDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(aCalStart);  // Start date
+        Date  aCalEndDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(aCalEnd);  // end date
+
+        Date  termStartDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(termStart);  // Start date
+        Date  termEndDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(termEnd);  // end date
+
+        // create hCal
+        HolidayCalendarInfo hCal = _createHcal(hCalStart,hCalEnd);
+
+
+        AcademicCalendarInfo acal = new AcademicCalendarInfo();
+        acal.setName("KSENROLL-923testGetInstructionalDaysForTerm name");
+        acal.setDescr(new RichTextHelper().toRichTextInfo("description plain KSENROLL-923testGetInstructionalDaysForTerm", "description formatted KSENROLL-923testGetInstructionalDaysForTerm"));
+        acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        acal.setStartDate(aCalStartDate);
+        acal.setEndDate(aCalEndDate);
+        acal.setAdminOrgId("testOrgId1");
+        acal.getHolidayCalendarIds().add(hCal.getId()); // add the holiday calendar to the aCal
+
+        AcademicCalendarInfo acalInfo = acalService.createAcademicCalendar(acal.getTypeKey(), acal, callContext);
+        assertNotNull(acalInfo);
+        assertNotNull(acalInfo.getId());
+        assertEquals(acal.getName(), acalInfo.getName());
+
+        //Term
+        TermInfo term = new TermInfo();
+        term.setName("KSENROLL-923testGetInstructionalDaysForTerm term");
+        term.setDescr(new RichTextHelper().toRichTextInfo("description plain KSENROLL-923testGetInstructionalDaysForTerm term", "description formatted KSENROLL-923testGetInstructionalDaysForTerm term"));
+        term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        term.setStartDate(termStartDate);
+        term.setEndDate(termEndDate);
+        term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        TermInfo termInfo = acalService.createTerm(term.getTypeKey(), term, callContext);
+        assertNotNull(termInfo);
+        assertNotNull(termInfo.getId());
+        assertEquals(term.getName(), termInfo.getName());
+
+        // add term to acal
+
+        acalService.addTermToAcademicCalendar(acalInfo.getId(), termInfo.getId(), callContext);
+
+        //Keydate
+        KeyDateInfo kd = new KeyDateInfo();
+        kd.setName("Jira3470TestKeydate name");
+        kd.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestKeydate", "description formatted Jira3470TestKeydate"));
+        kd.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        kd.setStartDate(termStartDate);
+        kd.setEndDate(termEndDate);
+        kd.setIsAllDay(Boolean.TRUE);
+        kd.setIsDateRange(Boolean.TRUE);
+        kd.setTypeKey(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY);
+        KeyDateInfo kdInfo = acalService.createKeyDate(termInfo.getId(), kd.getTypeKey(), kd, callContext);
+        assertNotNull(kdInfo);
+        assertNotNull(kdInfo.getId());
+        assertEquals(kd.getName(), kdInfo.getName());
+
+        // Holiday before period... shouldn't be counted
+        _createHoliday(hCal.getId(), "2013-02-08");
+        Integer days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(10,days.intValue());
+
+        // Holiday after period... shouldn't be counted
+        _createHoliday(hCal.getId(), "2013-05-08");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(10,days.intValue());
+
+        // No Holidays
+         days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(10,days.intValue());
+
+        // Place Date Range Holiday inside period
+        HolidayInfo holidayInfo = _createHoliday(hCal.getId(), "2013-03-04","2013-03-05");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(8,days.intValue());
+
+        // Overlap period start dates
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-02-24","2013-02-25");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(9,days.intValue());
+
+        // Overlap period end dates
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(9,days.intValue());
+
+        // Overlaping holidays. Make sure we don't count the same day twice
+        HolidayInfo singleDayHoliday = _createHoliday(hCal.getId(), "2013-03-08");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(9,days.intValue());
+
+
+        // Now lets alter the default system config and test. Just remove Friday. This is a two week period so it
+        // removes two Fridays (2 days).
+        TypeInfo termType = typeService.getType(termInfo.getTypeKey(), callContext);
+        List<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
+        AttributeInfo attrInfo = new AttributeInfo();
+        attrInfo.setId("instr_day_for_" + AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        attrInfo.setKey(TypeServiceConstants.ATP_TERM_INSTRUCTIONAL_DAYS_ATTR);
+        attrInfo.setValue("MTWH");
+        attributes.add(attrInfo);
+
+        termType.setAttributes(attributes);
+        typeService.updateType(termType.getKey(), termType, callContext);
+
+        // reset the field by moving the holidays out
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2010-02-24","2010-02-25");
+        singleDayHoliday = _updateHcalDatesDates(singleDayHoliday, "2010-02-24","2010-02-24");
+
+
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(8,days.intValue());
+
+        // Place Date Range Holiday inside period
+        holidayInfo = _createHoliday(hCal.getId(), "2013-03-04","2013-03-05");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(6,days.intValue());
+
+        // Overlap period start dates
+        holidayInfo = _updateHcalDatesDates(holidayInfo, "2013-02-24","2013-02-25");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(7,days.intValue());
+
+        // Overlap period end dates
+        _updateHcalDatesDates(holidayInfo, "2013-03-08","2013-03-09");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(8,days.intValue());
+
+        // Overlaping holidays. Make sure we don't count the same day twice
+        _createHoliday(hCal.getId(), "2013-03-08");
+        days =  acalService.getInstructionalDaysForTerm(termInfo.getId(), callContext);
+        assertEquals(8,days.intValue());
+
+
+
+
+    }
+    public HolidayInfo _updateHcalDatesDates(HolidayInfo hDate, String start, String end) throws Exception{
+        Date  startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(start);  // Start date
+        Date  endDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(end);  // end date
+
+        hDate.setStartDate(startDate);
+        hDate.setEndDate(endDate);
+
+       return acalService.updateHoliday(hDate.getId(), hDate, callContext);
+
+    }
+
+    public HolidayInfo _createHoliday(String holidayCalendarId, String start, String end) throws Exception{
+        Date  startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(start);  // Start date
+        Date  endDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(end);  // end date
+
+        //Holiday
+        HolidayInfo holiday = new HolidayInfo();
+        holiday.setName("Jira3470TestHoliday name");
+        holiday.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestHoliday", "description formatted Jira3470TestHoliday"));
+        holiday.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        holiday.setStartDate(startDate);
+
+        holiday.setEndDate(endDate);
+        holiday.setIsAllDay(Boolean.TRUE);
+        holiday.setIsDateRange(Boolean.TRUE);
+        holiday.setIsInstructionalDay(Boolean.FALSE);
+
+        holiday.setTypeKey(AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY);
+        HolidayInfo holidayInfo = acalService.createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday, callContext);
+
+        return holidayInfo;
+
+    }
+
+    public HolidayInfo _createHoliday(String holidayCalendarId, String start) throws Exception{
+        Date  startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(start);  // Start date
+
+
+        //Holiday
+        HolidayInfo holiday = new HolidayInfo();
+        holiday.setName("Jira3470TestHoliday name");
+        holiday.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestHoliday", "description formatted Jira3470TestHoliday"));
+        holiday.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        holiday.setStartDate(startDate);
+
+
+        holiday.setIsAllDay(Boolean.TRUE);
+        holiday.setIsDateRange(Boolean.FALSE);
+        holiday.setIsInstructionalDay(Boolean.FALSE);
+
+        holiday.setTypeKey(AtpServiceConstants.MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY);
+        HolidayInfo holidayInfo = acalService.createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday, callContext);
+
+        return holidayInfo;
+
+    }
+
+    public HolidayCalendarInfo _createHcal(String start, String end) throws Exception{
+        Date  startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(start);  // Start date
+        Date  endDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse(end);  // end date
+
+        //Hcal
+        HolidayCalendarInfo hcal = new HolidayCalendarInfo();
+        hcal.setName("Jira3470TestHcal name");
+        hcal.setDescr(new RichTextHelper().toRichTextInfo("description plain Jira3470TestHcal", "description formatted Jira3470TestHcal"));
+        hcal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        hcal.setStartDate(startDate);
+        hcal.setEndDate(endDate);
+        hcal.setAdminOrgId("testOrgId1");
+
+        hcal.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
+        HolidayCalendarInfo info = acalService.createHolidayCalendar(hcal.getTypeKey(), hcal, callContext);
+        assertNotNull(info);
+        assertNotNull(info.getId());
+        assertEquals(hcal.getName(), info.getName());
+
+        return info;
+    }
+
+
 }

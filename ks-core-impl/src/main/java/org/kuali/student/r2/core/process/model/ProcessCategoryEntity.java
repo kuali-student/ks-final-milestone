@@ -80,6 +80,8 @@ public class ProcessCategoryEntity extends MetaEntity implements AttributeOwner<
     }
 
     public void fromDTO(ProcessCategory processCategory) {
+        super.fromDTO(processCategory);
+        
         categoryState = processCategory.getStateKey();
         name = processCategory.getName();
         if (processCategory.getDescr() != null) {

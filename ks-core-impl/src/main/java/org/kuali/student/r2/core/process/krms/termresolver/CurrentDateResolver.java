@@ -41,7 +41,7 @@ public class CurrentDateResolver implements TermResolver<Date> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.CURRENT_DATE_TERM_NAME;
+        return RulesExecutionConstants.AS_OF_DATE_TERM.getName();
     }
 
     @Override
@@ -51,7 +51,6 @@ public class CurrentDateResolver implements TermResolver<Date> {
 
     @Override
     public int getCost() {
-        // TODO Analyze, though probably not much to check here
         return 0;
     }
 

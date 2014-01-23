@@ -91,6 +91,9 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     }
 
     public void fromDTO(Check check) {
+        
+        super.fromDTO(check);
+        
         this.setCheckState(check.getStateKey());
         this.setName(check.getName());
         if (check.getDescr() != null) {
@@ -102,9 +105,9 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         }
         this.setIssueId(check.getHoldIssueId());
         this.setMilestoneType(check.getMilestoneTypeKey());
-        this.setAgendaId(check.getAgendaId());
+        this.setAgendaId(check.getRuleId());
         this.setRightAgendaId(check.getRightComparisonValue());
-        this.setLeftAgendaId(check.getLeftComparisonAgendaId());
+        this.setLeftAgendaId(check.getLeftComparisonRuleId());
         this.setChildProcessId(check.getChildProcessKey());
 
         this.attributes.clear();
@@ -127,9 +130,9 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         checkInfo.setDescr(new RichTextHelper().toRichTextInfo(descrPlain, descrFormatted));
         checkInfo.setHoldIssueId(issueId);
         checkInfo.setMilestoneTypeKey(milestoneType);
-        checkInfo.setAgendaId(agendaId);
-        checkInfo.setRightComparisonAgendaId(rightAgendaId);
-        checkInfo.setLeftComparisonAgendaId(leftAgendaId);
+        checkInfo.setRuleId(agendaId);
+        checkInfo.setRightComparisonRuleId(rightAgendaId);
+        checkInfo.setLeftComparisonRuleId(leftAgendaId);
         checkInfo.setChildProcessKey(childProcessId);
         checkInfo.setName(this.getName());
         List<AttributeInfo> dtoAttributes = checkInfo.getAttributes();

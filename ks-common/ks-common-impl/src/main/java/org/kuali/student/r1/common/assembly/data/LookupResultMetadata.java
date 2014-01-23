@@ -27,6 +27,7 @@ public class LookupResultMetadata implements Serializable {
 	private String desc;
 	private Data.DataType dataType;
 	private boolean hidden;
+    private String columnWidth;
 
 	public String getName() {
 		return name;
@@ -67,5 +68,13 @@ public class LookupResultMetadata implements Serializable {
 	public void setHidden(boolean hidden) {
 		this.hidden = hidden;
 	}
+
+    public String getColumnWidth() {
+        return columnWidth;
+    }
+
+    public void setColumnWidth(String columnWidth) {
+        this.columnWidth = columnWidth;
+    }
 
 }

@@ -20,28 +20,25 @@ import org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity;
 
 import javax.persistence.Query;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> {
     public List<ScheduleRequestEntity> getScheduleRequestsByRefObject(String refObjectType, String refObjectId ){
-        return (List<ScheduleRequestEntity>)em.createQuery(
-                "from ScheduleRequestEntity sr where sr.refObjectTypeKey=:refObjectTypeKey and sr.refObjectId = :refObjectId")
+        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByRefIdAndType")
                 .setParameter("refObjectTypeKey", refObjectType)
                 .setParameter("refObjectId", refObjectId)
                 .getResultList();
-
+        return results;
     }
 
-    public List<ScheduleRequestEntity> getScheduleRequestsByRefObjects(String refObjectType, List<String> refObjectIds ){
-        Set<String> refObjectIdSet = new HashSet<String>(refObjectIds.size());
-        // remove duplicates from the key list
-        refObjectIdSet.addAll(refObjectIds);
-
-        Query query = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByRefObjects");
-        query.setParameter("refObjectTypeKey", refObjectType);
-        query.setParameter("refObjectIds", refObjectIdSet);
-        return query.getResultList();
+    public List<ScheduleRequestEntity> getScheduleRequestsByRefObjects(String refObjectType, List<String> refObjectIds ) {
+        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByRefIdAndType")
+                .setParameter("refObjectTypeKey", refObjectType)
+                .setParameter("refObjectId", refObjectIds)
+                .getResultList();
+        return results;
     }
 
     public List<ScheduleRequestEntity> getScheduleRequestsByType(String scheduleRequestTypeKey){
@@ -49,6 +46,35 @@ public class ScheduleRequestDao extends GenericEntityDao<ScheduleRequestEntity> 
                 "from ScheduleRequestEntity sr where sr.schedReqType=:schedReqType")
                 .setParameter("schedReqType", scheduleRequestTypeKey)
                 .getResultList();
+    }
+
+    public List<ScheduleRequestEntity> getScheduleRequestsByScheduleRequestSet(String scheduleRequestSetId ){
+        List<ScheduleRequestEntity> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestsByScheduleRequestSet")
+                .setParameter("scheduleRequestSetId", scheduleRequestSetId)
+                .getResultList();
+        return results;
+    }
+
+    public Boolean isExistsTimeSlot(String timeSlotid) {
+
+        Query query = em.createQuery("select ts from ScheduleRequestEntity sr, IN(sr.scheduleRequestComponents) src, IN(src.timeSlotIds) ts where ts = :tsId");
+        query.setParameter("tsId", timeSlotid);
+        query.setMaxResults(1);
+        List results = query.getResultList();
+        if ((results == null) || results.isEmpty()) {
+            return Boolean.FALSE;
+        }
+        else {
+            return Boolean.TRUE;
+        }
+    }
+
+    public List<String> getScheduleRequestIdsByRefObject(String refObjectType, String refObjectId) {
+        List<String> results = em.createNamedQuery("ScheduleRequest.getScheduleRequestIdsByRefIdAndType")
+                .setParameter("refObjectTypeKey", refObjectType)
+                .setParameter("refObjectId", refObjectId)
+                .getResultList();
+        return results;
     }
 }
 

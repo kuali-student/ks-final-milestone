@@ -45,17 +45,19 @@ public class BeanConstraintDataProvider implements ConstraintDataProvider {
 		
 		Map<String, PropertyDescriptor> beanInfo = getBeanInfo(o.getClass());
 
-		for (String propName : beanInfo.keySet()) {
-			PropertyDescriptor pd = beanInfo.get(propName);
-			Object value = null;
-			try {
-				value = pd.getReadMethod().invoke(o);
-			} catch (Exception e) {
-				// TODO: Should not be ignoring exception
-			}
+        //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+		for(Map.Entry<String, PropertyDescriptor> entry: beanInfo.entrySet()) {
+            String propName = entry.getKey();
+            PropertyDescriptor pd = entry.getValue();
+            Object value = null;
+            try {
+                value = pd.getReadMethod().invoke(o);
+            } catch (Exception e) {
+                // TODO: Should not be ignoring exception
+            }
 
-			dataMap.put(propName, value);
-		}
+            dataMap.put(propName, value);
+        }
 	}
 
 	@Override

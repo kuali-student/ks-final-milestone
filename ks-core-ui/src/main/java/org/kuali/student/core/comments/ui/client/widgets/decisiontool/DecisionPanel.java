@@ -43,7 +43,7 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 
 	private CommentRpcServiceAsync commentServiceAsync = GWT
 			.create(CommentRpcService.class);
-	private OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT
+	protected OrgRpcServiceAsync orgProposalRpcServiceAsync = GWT
 			.create(OrgRpcService.class);
 	private String referenceId;
 	private String referenceTypeKey;
@@ -56,15 +56,15 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 	private VerticalPanel scrollPanel;
 	private SectionTitle title;
 	private SectionTitle proposalNameHeader;
-	private Table table;
+	protected Table table;
 	private Controller controller;
 	private Enum<?> viewEnum;
 	private String viewName; // View name is being used as menu item label
 	private String decisionTypeKey;
-	private ArrayList<String> personIds;
+	protected ArrayList<String> personIds;
 
-	private DefaultTableModel tableModel;
-
+	protected DefaultTableModel tableModel;
+	
 	public DecisionPanel(Enum<?> viewEnum, String viewName,
 			String decisionTypeKey) {
 		this.viewName = viewName;
@@ -139,7 +139,7 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 		}
 	}
 
-	private void getPersonNames(final List<CommentInfo> comments) {
+	protected void getPersonNames(final List<CommentInfo> comments) {
 		personIds = new ArrayList<String>();
 		for (CommentInfo comment : comments) {
 			if(comment.getMeta().getCreateId()!=null){
@@ -164,7 +164,7 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 		// onReadyCallback.exec(true);
 	}
 
-	private void redrawDecisionTable(List<CommentInfo> commentInfos,
+	protected void redrawDecisionTable(List<CommentInfo> commentInfos,
 			Map<String, MembershipInfo> members) {
 		if (commentInfos != null) {
 			int rowIndex = 0;
@@ -244,7 +244,7 @@ public class DecisionPanel implements HasReferenceId, ToolView {
 		}
 	}
 
-	private void initializeDecisionTable() {
+	protected void initializeDecisionTable() {
 		ArrayList<String> tableHeaderList = new ArrayList<String>();
 		tableHeaderList.add("Decision");
 		tableHeaderList.add("Date");

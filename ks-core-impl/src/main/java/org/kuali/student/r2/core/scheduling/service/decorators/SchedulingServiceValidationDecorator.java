@@ -16,12 +16,21 @@
  */
 package org.kuali.student.r2.core.scheduling.service.decorators;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -31,6 +40,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
+import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.List;
 
@@ -287,6 +297,9 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
+
+        validateAOTimeSlotCreateAndUpdate(timeSlotInfo);
+
         return getNextDecorator().createTimeSlot(timeSlotTypeKey, timeSlotInfo, contextInfo);
     }
 
@@ -304,14 +317,79 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         // update
         try {
             List<ValidationResultInfo> errors =
-                    this.validateTimeSlot(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), timeSlotId, timeSlotInfo, contextInfo);
+                    this.validateTimeSlot(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), timeSlotInfo.getTypeKey(), timeSlotInfo, contextInfo);
             if (!errors.isEmpty()) {
                 throw new DataValidationErrorException("Error(s) occurred validating", errors);
             }
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException("Error validating", ex);
         }
+
+        validateAOTimeSlotCreateAndUpdate(timeSlotInfo);
+
+        boolean canUpdate = canUpdateTimeSlot(timeSlotId,contextInfo);
+
+        if (!canUpdate){
+            throw new OperationFailedException("Time slot " + timeSlotInfo.getName() + " is already associated with scheduling information cannot be changed because they are in use.");
+        }
+
         return getNextDecorator().updateTimeSlot(timeSlotId, timeSlotInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteTimeSlot(String timeSlotId, ContextInfo contextInfo) throws DoesNotExistException,
+                                                                                        InvalidParameterException,
+                                                                                        MissingParameterException,
+                                                                                        OperationFailedException,
+                                                                                        PermissionDeniedException {
+
+        boolean canDelete = canUpdateTimeSlot(timeSlotId,contextInfo);
+
+        if (!canDelete){
+            throw new OperationFailedException("The time slot(s) you are attempting to delete are already associated with scheduling information cannot be changed because they are in use.");
+        }
+
+        return getNextDecorator().deleteTimeSlot(timeSlotId, contextInfo);
+    }
+
+    @Override
+    public Boolean canUpdateTimeSlot(String timeSlotId, ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        return getNextDecorator().canUpdateTimeSlot(timeSlotId, contextInfo);
+    }
+
+    /**
+     * Validate the start and end time for standard Activity TimeSlots
+     *
+     * @param timeSlotInfo timeslot to validate
+     * @throws DataValidationErrorException
+     */
+    protected void validateAOTimeSlotCreateAndUpdate(TimeSlotInfo timeSlotInfo) throws DataValidationErrorException{
+
+        if (!StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA)){
+            if (timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getHour() == null){
+                throw new DataValidationErrorException("Start Time should not be empty for standard and ad hoc time slots");
+            }
+
+            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getHour() == null){
+                throw new DataValidationErrorException("End Time should not be empty for standard time slots");
+            }
+
+            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getHour() == null){
+                throw new DataValidationErrorException("End Time should not be empty for standard time slots");
+            }
+
+            if (timeSlotInfo.getStartTime().isAfter(timeSlotInfo.getEndTime())) {
+                throw new DataValidationErrorException("Start time should be less than End time");
+            }
+
+            if (timeSlotInfo.getWeekdays() == null || timeSlotInfo.getWeekdays().isEmpty()){
+                throw new DataValidationErrorException("Days should not be empty for standard and ad hoc time slots");
+            }
+        }
     }
 
     public DataDictionaryValidator getValidator() {

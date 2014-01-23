@@ -32,24 +32,8 @@
         <class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
 
         <!-- Comment -->
-        <class>org.kuali.student.r1.common.entity.Type</class>
-        <class>org.kuali.student.r1.common.entity.Attribute</class>
-        <class>org.kuali.student.r1.common.entity.Meta</class>
-        <class>org.kuali.student.r1.common.entity.MetaEntity</class>
-        <class>org.kuali.student.r1.common.entity.RichText</class>
-        <class>org.kuali.student.r1.common.entity.TimeAmount</class>
-        <class>org.kuali.student.r1.core.comment.entity.Comment</class>
-        <class>org.kuali.student.r1.core.comment.entity.CommentAttribute</class>
-        <class>org.kuali.student.r1.core.comment.entity.CommentRichText</class>
-        <class>org.kuali.student.r1.core.comment.entity.CommentType</class>
-        <class>org.kuali.student.r1.core.comment.entity.CommentTypeAttribute</class>
-        <class>org.kuali.student.r1.core.comment.entity.Tag</class>
-        <class>org.kuali.student.r1.core.comment.entity.TagAttribute</class>
-        <class>org.kuali.student.r1.core.comment.entity.TagType</class>
-        <class>org.kuali.student.r1.core.comment.entity.TagTypeAttribute</class>
-        <class>org.kuali.student.r1.core.comment.entity.Reference</class>
-        <class>org.kuali.student.r1.core.comment.entity.ReferenceType</class>
-        <class>org.kuali.student.r1.core.comment.entity.ReferenceTypeAttribute</class>
+        <class>org.kuali.student.r2.core.comment.model.CommentEntity</class>
+        <class>org.kuali.student.r2.core.comment.model.CommentAttributeEntity</class>
 
         <!-- Document -->
         <class>org.kuali.student.r1.common.entity.Type</class>
@@ -174,6 +158,8 @@
         <!-- Schedule -->
         <class>org.kuali.student.r2.core.scheduling.model.TimeSlotEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.TimeSlotAttributeEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetEntity</class>
+        <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestSetAttributeEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestAttributeEntity</class>
         <class>org.kuali.student.r2.core.scheduling.model.ScheduleRequestComponentEntity</class>

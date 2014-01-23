@@ -48,8 +48,10 @@ public class AssemblerUtils {
 		if (versions == null) {
 			return null;
 		}
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstVersion = 0;
 		if (versions.size() > 0) {
-			Data v = versions.get(0);
+			Data v = versions.get(firstVersion);
 			if (v != null) {
 				result = v.get(VersionProperties.VERSION_INDICATOR.getKey());
 			}
@@ -227,14 +229,16 @@ public class AssemblerUtils {
 
 	 }*/
 	 public static Metadata get(Metadata metadata, QueryPath frame) {
+         //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+         int firstFrame = 0;
 	     if(frame.size() == 1) {
-	         return metadata.getProperties().get(frame.get(0).get());
+	         return metadata.getProperties().get(frame.get(firstFrame).get());
 	     } else {
 	         if (metadata.getDataType() == DataType.LIST){
 	        	 return get(metadata, frame, DataType.LIST);
 	         }
 	         else{
-	        	 return get(metadata.getProperties().get(frame.get(0).get()), frame.subPath(1, frame.size()));
+	        	 return get(metadata.getProperties().get(frame.get(firstFrame).get()), frame.subPath(1, frame.size()));
 	         }
 	     }
 	 }
@@ -244,7 +248,9 @@ public class AssemblerUtils {
 			 return get(metadata.getProperties().get(QueryPath.getWildCard()), frame.subPath(1, frame.size()));
 		 }
 		 else{
-			return get(metadata.getProperties().get(frame.get(0).get()), frame.subPath(1, frame.size()));
+             //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+            int firstFrame = 0;
+			return get(metadata.getProperties().get(frame.get(firstFrame).get()), frame.subPath(1, frame.size()));
 		 }
 	 }
 }

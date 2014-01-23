@@ -1,0 +1,23 @@
+TRUNCATE TABLE KRMS_NL_USAGE_T DROP STORAGE
+/
+INSERT INTO KRMS_NL_USAGE_T (ACTV, DESC_TXT, NL_USAGE_ID, NM, NMSPC_CD, VER_NBR)
+  VALUES ('Y','Kuali Rule Edit','KS-KRMS-NL-USAGE-1000','kuali.krms.edit','KS-SYS',0)
+/
+INSERT INTO KRMS_NL_USAGE_T (ACTV, DESC_TXT, NL_USAGE_ID, NM, NMSPC_CD, VER_NBR)
+  VALUES ('Y','Kuali Rule Composition','KS-KRMS-NL-USAGE-1001','kuali.krms.composition','KS-SYS',0)
+/
+INSERT INTO KRMS_NL_USAGE_T (ACTV, DESC_TXT, NL_USAGE_ID, NM, NMSPC_CD, VER_NBR)
+  VALUES ('Y','Kuali Rule Example','KS-KRMS-NL-USAGE-1002','kuali.krms.example','KS-SYS',0)
+/
+INSERT INTO KRMS_NL_USAGE_T (ACTV, DESC_TXT, NL_USAGE_ID, NM, NMSPC_CD, VER_NBR)
+  VALUES ('Y','Kuali Rule Preview','KS-KRMS-NL-USAGE-1003','kuali.krms.preview','KS-SYS',0)
+/
+INSERT INTO KRMS_NL_USAGE_T (ACTV, DESC_TXT, NL_USAGE_ID, NM, NMSPC_CD, VER_NBR)
+  VALUES ('Y','Kuali Rule Type Description','KS-KRMS-NL-USAGE-1004','kuali.krms.type.description','KS-SYS',0)
+/
+INSERT INTO KRMS_NL_USAGE_T (ACTV, DESC_TXT, NL_USAGE_ID, NM, NMSPC_CD, VER_NBR)
+  VALUES ('Y', 'Kuali Rule Catalog', 'KS-KRMS-NL-USAGE-1005', 'kuali.krms.catalog', 'KS-SYS', 0)
+/
+INSERT INTO KRMS_NL_USAGE_T (NL_USAGE_ID, NM, NMSPC_CD, DESC_TXT, ACTV, VER_NBR)
+  VALUES ('KS-KRMS-NL-USAGE-1006', 'kuali.krms.type.instruction', 'KS-SYS', 'Kuali Rule Type Instructions', 'Y', 0)
+/

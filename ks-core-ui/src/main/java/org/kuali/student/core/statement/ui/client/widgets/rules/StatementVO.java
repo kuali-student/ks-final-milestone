@@ -112,12 +112,13 @@ public class StatementVO extends Token implements Serializable {
         StatementVO result = null;
         List<StatementVO> statementVOs = (statementVO == null)? null : statementVO.getStatementVOs();
         List<ReqComponentVO> reqComponentVOs = (statementVO == null)? null : statementVO.getReqComponentVOs();
+        int firstReqComponent = 0;
 
         if (statementVOs != null && !statementVOs.isEmpty()) {
             for (StatementVO subStatementVO : statementVOs) {
                 List<ReqComponentVO>subStatementReqComponentVOs = subStatementVO.getReqComponentVOs();
                 if (subStatementReqComponentVOs.size() == 1) {
-                    if (subStatementReqComponentVOs.get(0) == reqComponentVO) {
+                    if (subStatementReqComponentVOs.get(firstReqComponent) == reqComponentVO) {
                         result = statementVO;
                         break;
                     }
@@ -299,12 +300,13 @@ public class StatementVO extends Token implements Serializable {
     private void doRemoveReqComponentVO(ReqComponentVO reqComponentVO) {
         if (statementVOs != null && !statementVOs.isEmpty()) {
             List<StatementVO> tempStatementVOs = new ArrayList<StatementVO>(statementVOs);
+            int firstReqComponent = 0;
             for (StatementVO subStatementVO : tempStatementVOs) {
                 List<ReqComponentVO> subStatementReqComponentVOs =
                     (subStatementVO == null)? null : subStatementVO.getReqComponentVOs();
                 if (subStatementReqComponentVOs != null &&
                         subStatementReqComponentVOs.size() == 1 &&
-                        subStatementReqComponentVOs.get(0) == reqComponentVO) {
+                        subStatementReqComponentVOs.get(firstReqComponent) == reqComponentVO) {
                     subStatementVO.removeReqComponentVO(reqComponentVO);
                     // cleans up empty statements with neither statements nor requirement components.
                     statementVOs.remove(subStatementVO);
@@ -345,11 +347,12 @@ public class StatementVO extends Token implements Serializable {
         if (statementVOs != null && !statementVOs.isEmpty()) {
             // the statementVO that wraps the reqComponentVO
             StatementVO reqComponentVOWrap = null;
+            int firstReqComponent = 0;
             for (StatementVO currStatementVO : statementVOs) {
                 List<ReqComponentVO> currReqComponentVOs = (currStatementVO == null)? null :
                         currStatementVO.getReqComponentVOs();
                 if (currReqComponentVOs != null && currReqComponentVOs.size() == 1 &&
-                        currReqComponentVOs.get(0) == reqComponentVO) {
+                        currReqComponentVOs.get(firstReqComponent) == reqComponentVO) {
                     reqComponentVOWrap = currStatementVO;
                 }
             }

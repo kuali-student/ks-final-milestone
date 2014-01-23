@@ -63,8 +63,8 @@ public class BooleanFunctionLexer extends Lexer {
 
             state.type = _type;
             state.channel = _channel;
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "OR"
@@ -83,8 +83,8 @@ public class BooleanFunctionLexer extends Lexer {
 
             state.type = _type;
             state.channel = _channel;
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "AND"
@@ -103,8 +103,8 @@ public class BooleanFunctionLexer extends Lexer {
 
             state.type = _type;
             state.channel = _channel;
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "LP"
@@ -123,8 +123,8 @@ public class BooleanFunctionLexer extends Lexer {
 
             state.type = _type;
             state.channel = _channel;
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "RP"
@@ -179,8 +179,8 @@ public class BooleanFunctionLexer extends Lexer {
             }
             state.type = _type;
             state.channel = _channel;
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "ALPHA"
@@ -228,8 +228,8 @@ public class BooleanFunctionLexer extends Lexer {
 
             state.type = _type;
             state.channel = _channel;
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "NUMBER"
@@ -286,8 +286,8 @@ public class BooleanFunctionLexer extends Lexer {
 
             state.type = _type;
             state.channel = _channel;
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "WHITESPACE"
@@ -306,8 +306,8 @@ public class BooleanFunctionLexer extends Lexer {
 
             state.type = _type;
             state.channel = _channel;
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "LOWERCASE"
@@ -322,8 +322,8 @@ public class BooleanFunctionLexer extends Lexer {
 
             }
 
-        }
-        finally {
+        } catch (RecognitionException regEx) {
+            throw regEx;
         }
     }
     // $ANTLR end "UPPERCASE"

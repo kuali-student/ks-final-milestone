@@ -207,16 +207,18 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
                     continue;
                 }
 
-
                 Map<String,String> idsAndState = relatedObjectHelper.getRelatedObjectsIdAndState(entityId, context);
-
-                for (String id : idsAndState.keySet()) {
-                    String currentStateKey = idsAndState.get(id);
-                    StatusInfo si = new StatusInfo();
-                    if (StringUtils.equals(stateChangeInfo.getFromStateKey(),currentStateKey)){
-                        si = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);
+                if (idsAndState != null && !idsAndState.isEmpty()) {
+                    //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
+                    for(Map.Entry<String,String> entry: idsAndState.entrySet()) {
+                        String id = entry.getKey();
+                        String currentStateKey = entry.getValue();
+                        StatusInfo si = new StatusInfo();
+                        if (StringUtils.equals(stateChangeInfo.getFromStateKey(),currentStateKey)){
+                            si = stateHelper.updateState(id, stateChangeInfo.getToStateKey(), context);
+                        }
+                        resultMap.put(id, si);
                     }
-                    resultMap.put(id, si);
                 }
             }
         }
@@ -271,7 +273,9 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
             statusInfo.setMessage(String.format("State constraint [%s] has no related state keys defined.", constraint.getId()));
             return statusInfo;
         }
-        String relatedObjStateKeyPrefix = findStateKeyPrefix(constraintObjectStateKeys.get(0));
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstConstraintObjectStateKey = 0;
+        String relatedObjStateKeyPrefix = findStateKeyPrefix(constraintObjectStateKeys.get(firstConstraintObjectStateKey));
         StateConstraintOperator operator = constraint.getStateConstraintOperator();
         String roHelperKey =  makeRelatedObjectHelperKey(entityKeyPrefix, relatedObjStateKeyPrefix);
         RelatedObjectHelper relatedObjectHelper = this.relatedObjectHelperMap.get(roHelperKey);

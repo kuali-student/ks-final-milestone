@@ -1,12 +1,11 @@
 package org.kuali.student.r2.core.class1.atp.dao;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.Query;
-
 import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
+
+import javax.persistence.Query;
+import java.util.Date;
+import java.util.List;
 
 public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
     
@@ -54,5 +53,20 @@ public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
         return em.createQuery("from MilestoneEntity m where m.relativeAnchorMilestoneId=:milestoneId").
                 setParameter("milestoneId", milestoneId).
                 getResultList();
+    }
+
+    public List<MilestoneEntity> getByMilestonesByAtp(String atpId) {
+        return em.createQuery("select m from MilestoneEntity m, AtpMilestoneRelationEntity mre where " +
+                "mre.atpId=:mreAtpId and " +
+                "m.id = mre.milestoneId ").
+                setParameter("mreAtpId", atpId).getResultList();
+    }
+
+    public List<MilestoneEntity> getMilestonesByTypeForAtp(String atpId, String milestoneType) {
+        return em.createQuery("select m from MilestoneEntity m, AtpMilestoneRelationEntity mre where m.atpType=:mstoneType and " +
+                "mre.atpId=:mreAtpId and " +
+                "m.id = mre.milestoneId ").
+                setParameter("mstoneType", milestoneType).
+                setParameter("mreAtpId", atpId).getResultList();
     }
 }

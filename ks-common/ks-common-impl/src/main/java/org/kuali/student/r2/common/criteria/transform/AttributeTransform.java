@@ -2,6 +2,7 @@ package org.kuali.student.r2.common.criteria.transform;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -16,7 +17,7 @@ public class AttributeTransform extends BaseTransform {
     private static final String ATTRIBUTE_ALIAS = "attr";
     private static final String ATTRIBUTE_VALUE = "value";
     private static final String ATTRIBUTE_KEY = "key";
-    private static final String ATTRIBUTES_REGEX = "^attributes\\[[0-9a-zA-Z.]+\\]$";
+    private static final String ATTRIBUTES_REGEX = "^attributes\\[[0-9a-zA-Z.\\%]+\\]$";
     private static final Pattern ATTRIBUTES_PATTERN = Pattern.compile(ATTRIBUTES_REGEX);
 
     private AttributeTransform() {
@@ -33,7 +34,7 @@ public class AttributeTransform extends BaseTransform {
                 final String attributeName = pp.substring(pp.indexOf('[') + 1, pp.indexOf(']'));
                 final Predicate attrValue = this.createPredicate(input, getPropertyDesc() + ATTRIBUTE_VALUE);
 
-                return and(equal(getPropertyDesc() + ATTRIBUTE_KEY, attributeName), attrValue);
+                return and(like(getPropertyDesc() + ATTRIBUTE_KEY, attributeName), attrValue);
             }
         }
 

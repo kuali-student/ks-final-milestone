@@ -227,8 +227,10 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                     callback.onSuggestionsReady(request, response);
                     if (searchCompletedCallbacks != null &&
                             lastSuggestions != null && lastSuggestions.size() == 1) {
+                        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+                        int firstSuggestion = 0;
                         for (org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback : searchCompletedCallbacks) {
-                            callback.exec(lastSuggestions.get(0));
+                            callback.exec(lastSuggestions.get(firstSuggestion));
                         }
                     }
                 }

@@ -12,6 +12,7 @@ import org.kuali.student.r2.core.atp.infc.Atp;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -49,7 +50,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     private String atpType;
     @Column(name = "ATP_STATE", nullable = false)
     private String atpState;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private Set<AtpAttributeEntity> attributes = new HashSet<AtpAttributeEntity>();
 
     public AtpEntity() {
@@ -63,6 +64,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     }
     
     public void fromDTO(Atp atp) {
+        super.fromDTO(atp);
         this.setAtpCode(atp.getCode());
         this.setName(atp.getName());
         if (atp.getDescr() != null) {

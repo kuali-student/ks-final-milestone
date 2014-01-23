@@ -486,7 +486,7 @@ public class CollaboratorSectionView extends SectionView {
         });
         numCollabs = 0;
         for (int i = 0; i < newCollaborators.size(); i++) {
-            addPersonRow(newCollaborators.get(i), new Integer(i));
+            addPersonRow(newCollaborators.get(i), Integer.valueOf(i));
             numCollabs++;
         }
 

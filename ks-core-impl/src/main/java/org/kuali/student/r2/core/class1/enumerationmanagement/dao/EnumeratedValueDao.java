@@ -54,7 +54,7 @@ public class EnumeratedValueDao extends GenericEntityDao<EnumeratedValueEntity> 
     
     @SuppressWarnings("unchecked")
     public List<EnumeratedValueEntity> getByEnumerationKey(String enumerationKey) {
-        return em.createQuery("from EnumeratedValueEntity e where e.enumeration.id = :enumerationKey order by lower(e.code) asc")
+        return em.createQuery("from EnumeratedValueEntity e where e.enumeration.id = :enumerationKey order by lower(e.sortKey) asc")
                 .setParameter("enumerationKey", enumerationKey).getResultList();
     }
     

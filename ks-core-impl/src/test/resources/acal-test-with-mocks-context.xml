@@ -16,7 +16,6 @@
     
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl" />
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
-<!-- BJG    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl"/> -->
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
     
     <bean id="acalService" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
@@ -40,7 +39,7 @@
     <bean id="termAssembler" class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler">
         <property name="termCodeGenerator" ref = "termCodeGenerator" />
     </bean>
-    <bean id="termCodeGenerator" class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl"/>
+    <bean id="termCodeGenerator" class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorMockImpl"/>
     <bean id="keyDateAssembler" class="org.kuali.student.r2.core.acal.service.assembler.KeyDateAssembler" />
     <bean id="acalEventAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler" />
 

@@ -26,6 +26,27 @@
 	 ">
 	<import resource="organization-dictionary-config.xml" />
 
+    <search:searchType id="org.search.relatedOrgQuickViewByRelationType" parent="org.search.relatedOrgQuickViewByRelationType-parent"/>
+    <search:searchType id="org.search.relatedOrgQuickViewByRelationType-parent"  abstract="true">
+        <search:name>Related Org Quick View by Relation Type</search:name>
+        <search:desc>Finding child orgs, given the parent relation type</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="org.result.generic"/>  <!--  could be defined as stand alone -->
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="org.criteria.relatedOrgQuickViewByRelationType"/>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchCriteriaTypeInfo id="org.criteria.relatedOrgQuickViewByRelationType" parent="org.criteria.relatedOrgQuickViewByRelationType-parent"/>
+    <search:searchCriteriaTypeInfo id="org.criteria.relatedOrgQuickViewByRelationType-parent"  abstract="true">
+        <search:name>RelatedOrgByRelationType</search:name>
+        <search:desc>parent relation type</search:desc>
+        <search:queryParams>
+            <ref bean="org.queryParam.optionalOrgRelationType" />
+        </search:queryParams>
+    </search:searchCriteriaTypeInfo>
+
 	<!-- definition for finding parent orgs, given the child org ids, parent relation type and parent org type -->
 	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds" parent="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds-parent"/>
 	<search:searchType id="org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgIds-parent"  abstract="true">
@@ -834,7 +855,9 @@
                 <entry key="org.queryParam.optionalOrgRelationType">
                     <value>rel.type.id = :org_queryParam_optionalOrgRelationType</value>
                 </entry>
-
+                <entry key="org.search.relatedOrgQuickViewByRelationType">
+                    <value>SELECT DISTINCT rel.relatedOrg.id, rel.relatedOrg.shortName, rel.relatedOrg.longName, rel.relatedOrg.type.id FROM OrgOrgRelation rel </value>
+                </entry>
                 <entry key="org.search.orgByRelationTypeOrgTypeOrgName">
                     <value>SELECT DISTINCT rel.org.id, rel.org.shortName, rel.org.longName, rel.org.type.id FROM OrgOrgRelation rel </value>
                 </entry>

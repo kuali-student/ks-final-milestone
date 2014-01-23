@@ -91,21 +91,15 @@ public abstract class KRMSEvaluator {
      */
     public EngineResults evaluateAgenda(Agenda agenda, Map<String, Object> executionFacts, Map<String, String> agendaQualifiers) {
 
-        Context context = new BasicContext(Arrays.asList(agenda), termResolvers);
+        Context context = new BasicContext(Arrays.asList(agenda), this.getTermResolvers());
         ContextProvider contextProvider = new ManualContextProvider(context);
 
         ProviderBasedEngine engine = new ProviderBasedEngine();
         engine.setContextProvider(contextProvider);
 
-        if (executionOptions == null) {
-            executionOptions = new ExecutionOptions();
-            executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
-            executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
-        }
-
         SelectionCriteria selectionCriteria = SelectionCriteria.createCriteria(new DateTime(), contextQualifiers, agendaQualifiers);
 
-        return engine.execute(selectionCriteria, executionFacts, executionOptions);
+        return engine.execute(selectionCriteria, executionFacts, this.getExecutionOptions());
     }
 
     public List<ValidationResultInfo> buildValidationResultsFromEngineResults(EngineResults engineResults, Map<Proposition, InstructionInfo> propositionInstructionMap, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -121,7 +115,7 @@ public abstract class KRMSEvaluator {
             ExemptionAwareProposition exemptionProp = null;
 
             if (prop instanceof SubProcessProposition) {
-                List<ValidationResultInfo> subResults = (List<ValidationResultInfo>) e.getResultDetails().get(RulesExecutionConstants.SUBPROCESS_EVALUATION_RESULTS);
+                List<ValidationResultInfo> subResults = (List<ValidationResultInfo>) e.getResultDetails().get(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS);
                 results.addAll(subResults);
             } else {
                 // if the proposition is could have an exemption, check for the exemption and add a suffix to the message
@@ -173,7 +167,20 @@ public abstract class KRMSEvaluator {
         this.termResolvers = termResolvers;
     }
 
+    public List<TermResolver<?>> getTermResolvers(){
+        return termResolvers;
+    }
+
     public void setExecutionOptions(ExecutionOptions executionOptions) {
         this.executionOptions = executionOptions;
+    }
+
+    private ExecutionOptions getExecutionOptions() {
+        if(executionOptions == null) {
+            executionOptions = new ExecutionOptions();
+            executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
+            executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
+        }
+        return executionOptions;
     }
 }

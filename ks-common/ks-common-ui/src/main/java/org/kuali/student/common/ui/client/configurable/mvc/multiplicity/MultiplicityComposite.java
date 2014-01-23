@@ -84,7 +84,7 @@ public abstract class MultiplicityComposite extends Composite {
 	    Widget itemWidget = createItem();
     	
 	    if (item != null){
-		    item.setItemKey(new Integer(itemCount -1));
+		    item.setItemKey(Integer.valueOf(itemCount -1));
 		    item.setItemWidget(itemWidget);
 		    item.setRemoveCallback(removeCallback);
 	    } else if (itemWidget instanceof MultiplicityItem){

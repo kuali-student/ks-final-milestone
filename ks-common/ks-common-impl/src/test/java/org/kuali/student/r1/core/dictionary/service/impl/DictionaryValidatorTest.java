@@ -30,7 +30,7 @@ import org.kuali.student.r1.common.validator.old.Validator;
 // TODO KSCM-428 
 public class DictionaryValidatorTest {
 
-	DictionaryService sampleDict = new DictionaryServiceSpringImpl("classpath:mockaddr-dictionary-config.xml");
+	private static final DictionaryService SAMPLE_DICT = new DictionaryServiceSpringImpl("classpath:mockaddr-dictionary-config.xml");
 
 	Validator val = null;
 	
@@ -44,7 +44,7 @@ public class DictionaryValidatorTest {
     public void testRequiredValidation() {
     	MockDictAddress addr1 = buildAddress1();
 
-    	ObjectStructure o = sampleDict.getObjectStructure("MockAddrInfo");
+    	ObjectStructure o = SAMPLE_DICT.getObjectStructure("MockAddrInfo");
     	    	
     	List<ValidationResultInfo> results = val.validateTypeStateObject(addr1, o);    
     	assertEquals(results.size(), 4);
@@ -63,15 +63,4 @@ public class DictionaryValidatorTest {
     	addr.setPostalCode("wrong");
     	return addr;
     }
-    
-    private MockDictAddress buildAddress2() {
-    	MockDictAddress addr = new MockDictAddress();
-    	addr.setId("addr2");
-    	addr.setType("homeaddr");
-    	addr.setState("submitted");
-    	addr.setLine1("line1");
-    	return addr;
-    }
-    
-    
 }

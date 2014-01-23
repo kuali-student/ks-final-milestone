@@ -32,7 +32,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.core.search.service.SearchManager;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import javax.jws.WebParam;
@@ -61,11 +61,12 @@ public class SearchManagerImpl implements SearchManager {
 
 	@SuppressWarnings("unchecked")
 	private void init() {
-		ApplicationContext ac = new FileSystemXmlApplicationContext(searchContextFile);
+		ConfigurableApplicationContext ac = new FileSystemXmlApplicationContext(searchContextFile);
 		searchInfoTypeMap = ac.getBeansOfType(SearchTypeInfo.class);
 		searchCriteriaTypeMap = ac.getBeansOfType(SearchCriteriaTypeInfo.class);
 		searchResultTypeInfoMap = ac.getBeansOfType(SearchResultTypeInfo.class);
 		queryMap = (Map<String, String>) ac.getBean("queryMap");
+        ac.close();
 	}
 
 	public SearchManagerImpl(String searchContextFile) {

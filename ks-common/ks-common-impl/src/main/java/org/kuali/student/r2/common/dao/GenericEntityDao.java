@@ -16,22 +16,25 @@
 
 package org.kuali.student.r2.common.dao;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.apache.commons.lang.StringUtils;
+import org.kuali.student.common.util.query.QueryUtil;
+import org.kuali.student.r2.common.entity.PersistableEntity;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
+import javax.persistence.OptimisticLockException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import org.apache.commons.lang.StringUtils;
-import org.kuali.student.r2.common.entity.PersistableEntity;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import javax.persistence.TypedQuery;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author Kuali Student Team
@@ -46,6 +49,8 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     @PersistenceContext
     protected EntityManager em;
 
+    protected Integer maxInClauseElements = 100;
+
     public GenericEntityDao() {
         entityClass = getEntityClass();
     }
@@ -57,24 +62,25 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 
     @Override
     public List<T> findByIds(String primaryKeyMemberName, List<String> primaryKeys) throws DoesNotExistException {
-    	
-		// fix for jira KSENROLL-2949
-		if (primaryKeys.isEmpty())
-			return new ArrayList<T>();
-		
-		Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
-		// remove duplicates from the key list
-		primaryKeySet.addAll(primaryKeys);
 
-		String queryString = "from " + entityClass.getSimpleName() + " where "
-				+ primaryKeyMemberName + " in (:ids)";
-		
-		List<T> resultList = em.createQuery(queryString)
-				.setParameter("ids", primaryKeySet).getResultList();
+        // fix for jira KSENROLL-2949
+        if (primaryKeys == null || primaryKeys.isEmpty())
+            return new ArrayList<T>();
 
-		verifyResults(resultList, primaryKeySet);
+        Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
+        // remove duplicates from the key list
+        primaryKeySet.addAll(primaryKeys);
 
-		return resultList;
+        StringBuilder queryStringRef = new StringBuilder();
+        queryStringRef.append("from ").append(entityClass.getSimpleName()).append(" where ");
+
+        TypedQuery<T> query = QueryUtil.buildQuery(em, maxInClauseElements, queryStringRef, null, primaryKeyMemberName, primaryKeys, entityClass);
+
+        List<T> resultList = query.getResultList();
+
+        verifyResults(resultList, primaryKeySet);
+
+        return resultList;
     }
 
     /**
@@ -89,9 +95,8 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         // TODO: see if this can be externalized as a named query.
         Query q = em.createQuery("select id from " + entityClass.getSimpleName() + " where id = :key").setParameter("key", primaryKey);
     
-        Object result;
         try {
-            result = q.getSingleResult();
+            q.getSingleResult();
         }
         catch (NonUniqueResultException e) {
             // more than 1 match (should never happen...)
@@ -106,17 +111,19 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         return true;
         
     }
+
     protected void verifyResults(List<T> resultList, Set<String> primaryKeys) throws DoesNotExistException {
 
-    	 if (resultList.size() == 0)
-         	throw new DoesNotExistException("No data was found for : " + StringUtils.join(primaryKeys, ", "));
-    	 
-         else if (resultList.size() != primaryKeys.size()) {
+    	 if (resultList.size() == 0){
+
+             throw new DoesNotExistException("No data was found for : " + StringUtils.join(primaryKeys, ", "));
+
+         } else if (resultList.size() != primaryKeys.size()) {
         	 // only found some of the keys given.
          	Set<String> unmatchedKeySet = new HashSet<String> ();
          
          	unmatchedKeySet.addAll(primaryKeys);
-         	
+
          	for (T t : resultList) {
  				
          		unmatchedKeySet.remove(t.getId());
@@ -130,49 +137,9 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
 	@Override
     public List<T> findByIds(List<String> primaryKeys) throws DoesNotExistException {
 
-        if(primaryKeys.size() >= 1000){
-            return this.findByIdsMaxKeys(primaryKeys);
-        } else {
-            return this.findByIds("id", primaryKeys); // faster but has a limit of 1000 in oracle 10g
-        }
+        return this.findByIds("id", primaryKeys);
+
     }
-
-    /**
-     * Use this method if the size of primary keys >= 1000. 1000 is the "in" limit for many databases.
-     *
-     * @param primaryKeys
-     * @return
-     * @throws DoesNotExistException
-     */
-    protected List<T> findByIdsMaxKeys(List<String> primaryKeys) throws DoesNotExistException {
-        List<T> resultList = new ArrayList<T>();
-
-     // fix for jira KSENROLL-2949
-        if (primaryKeys.isEmpty())
-         	return new ArrayList<T>();
-        
-        Set<String>primaryKeySet = new HashSet<String>(primaryKeys.size());
-		// remove duplicate keys
-		primaryKeySet.addAll(primaryKeys);
-
-        
-        for (String primaryKey : primaryKeys) {
-
-            T entity = find(primaryKey);
-
-            if (entity == null) {
-
-                throw new DoesNotExistException("No data was found for :" + primaryKey);
-
-            }
-            resultList.add(entity);
-        }
-        
-        verifyResults (resultList, primaryKeySet);
-        
-        return resultList;
-    }
-
 
     @Override
     @SuppressWarnings("unchecked")
@@ -186,22 +153,26 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
     }
 
     @Override
-    public void update(T entity) {
-        em.merge(entity);
-    }
-
-    @Override
     public void remove(T entity) {
         em.remove(entity);
     }
 
     @Override
-    public T merge(T entity) {
+    public T merge(T entity) throws VersionMismatchException {
         
         if (em.contains(entity))
             em.detach(entity);
         
-        return em.merge(entity);
+        T mergedEntity = null;
+        
+        try {
+            mergedEntity = em.merge(entity);
+        } catch (OptimisticLockException e) {
+            throw new VersionMismatchException("Failed for entity.id = " + entity.getId());
+        }
+        
+        return mergedEntity;
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -233,5 +204,7 @@ public class GenericEntityDao<T extends PersistableEntity<String>> implements En
         return em;
     }
 
-
+    public void setMaxInClauseElements(Integer maxInClauseElements) {
+        this.maxInClauseElements = maxInClauseElements;
+    }
 }

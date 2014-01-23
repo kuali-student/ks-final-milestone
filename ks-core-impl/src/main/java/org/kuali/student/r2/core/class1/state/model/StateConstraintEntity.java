@@ -76,6 +76,8 @@ public class StateConstraintEntity extends MetaEntity implements AttributeOwner<
     }
 
     public void fromDto(StateConstraint stateConstraint) {
+        super.fromDTO(stateConstraint);
+        
         this.agendaId = stateConstraint.getAgendaId();
         this.stateConstraintOperator = stateConstraint.getStateConstraintOperator();
         this.stateConstraintTypeKey = stateConstraint.getTypeKey();

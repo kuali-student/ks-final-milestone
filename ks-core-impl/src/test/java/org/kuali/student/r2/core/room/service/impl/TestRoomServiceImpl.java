@@ -1,8 +1,22 @@
 package org.kuali.student.r2.core.room.service.impl;
 
-import org.codehaus.groovy.ast.stmt.TryCatchStatement;
+//import static junit.framework.Assert.assertEquals;
+//import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.junit.Assert;
 import org.junit.BeforeClass;
-import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,39 +25,19 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
-import org.kuali.student.r2.core.room.dto.RoomFixedResourceInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
-import org.kuali.student.r2.core.room.dto.RoomUsageInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-//import static junit.framework.Assert.assertEquals;
-//import static junit.framework.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -58,6 +52,9 @@ import static org.junit.Assert.fail;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestRoomServiceImpl {
+    
+    private static final Logger log = LoggerFactory.getLogger(TestRoomServiceImpl.class);
+    
     @Resource
     private RoomService roomService;
 
@@ -335,6 +332,8 @@ public class TestRoomServiceImpl {
             fail(t.toString());
         }
 
+        assertEquals("0", buildingInfo.getMeta().getVersionInd());
+        
         BuildingInfo originalBuildingInfo = null;
         try {
             originalBuildingInfo = roomService.getBuilding(buildingInfo.getId(), contextInfo);
@@ -342,6 +341,8 @@ public class TestRoomServiceImpl {
             fail(t.toString());
         }
 
+        assertEquals("0", buildingInfo.getMeta().getVersionInd());
+        
         //test missing ContextInfo
         try {
             roomService.updateBuilding(buildingInfo.getId(), buildingInfo, null);
@@ -405,6 +406,9 @@ public class TestRoomServiceImpl {
         } catch (Throwable t) {
             fail(t.toString());
         }
+        
+        assertEquals("1", newBuildingInfo.getMeta().getVersionInd());
+        
         assertEquals(originalBuildingInfo.getId(), newBuildingInfo.getId());
 
         MetaInfo metaInfo = originalBuildingInfo.getMeta();
@@ -431,10 +435,13 @@ public class TestRoomServiceImpl {
         contextInfo.setCurrentDate(new Date());
         BuildingInfo newNewBuildingInfo = null;
         try {
-            newNewBuildingInfo = roomService.updateBuilding(null, newBuildingInfo, contextInfo);
+            newNewBuildingInfo = roomService.updateBuilding(newBuildingInfo.getId(), newBuildingInfo, contextInfo);
         } catch (Throwable t) {
             fail(t.toString());
         }
+        
+        assertEquals("2", newNewBuildingInfo.getMeta().getVersionInd());
+        
         assertFalse(newNewBuildingInfo.getMeta().getUpdateTime().equals(newBuildingInfo.getMeta().getUpdateTime()));
 
         //test ok if Id is blank
@@ -446,7 +453,7 @@ public class TestRoomServiceImpl {
         contextInfo.setCurrentDate(new Date());
         BuildingInfo newNewNewBuildingInfo = null;
         try {
-            newNewNewBuildingInfo = roomService.updateBuilding("", newNewBuildingInfo, contextInfo);
+            newNewNewBuildingInfo = roomService.updateBuilding(newNewBuildingInfo.getId(), newNewBuildingInfo, contextInfo);
         } catch (Throwable t) {
             fail(t.toString());
         }
@@ -1171,18 +1178,25 @@ public class TestRoomServiceImpl {
         assertFalse(m1.getUpdateTime().equals(m2.getUpdateTime()));
 
         //test update with null roomId
+        
+        boolean shouldFail = false;
         try {
             roomService.updateRoom(null, r2, contextInfo);
         } catch (Throwable t) {
-            fail(t.toString());
+            shouldFail = true;
         }
+        
+        assertTrue("update with a null id suceeded", shouldFail);
+        
         //test update with blank roomId
+        shouldFail = false;
         try {
             roomService.updateRoom("", r2, contextInfo);
         } catch (Throwable t) {
-            fail(t.toString());
+            shouldFail = true;
         }
 
+        assertTrue("update with a blank id suceeded", shouldFail);
     }
 
     @Test
@@ -2084,7 +2098,6 @@ public class TestRoomServiceImpl {
         assertFalse(originalInfo.getEffectiveDate().equals(i.getEffectiveDate()));
         assertFalse(originalInfo.getTypeKey().equals(i.getTypeKey()));
 
-        //ok if no Id specified
         //sleep for 1 sec to allow Time to change
         try {
             Thread.sleep(1000);
@@ -2093,13 +2106,12 @@ public class TestRoomServiceImpl {
         contextInfo.setCurrentDate(new Date());
         RoomResponsibleOrgInfo newnewInfo = null;
         try {
-            newnewInfo = roomService.updateRoomResponsibleOrg(null, newInfo, contextInfo);
+            newnewInfo = roomService.updateRoomResponsibleOrg(newInfo.getId(), newInfo, contextInfo);
         } catch (Throwable t) {
             fail(t.toString());
         }
         assertFalse(newnewInfo.getMeta().getUpdateTime().equals(newInfo.getMeta().getUpdateTime()));
 
-        //test ok if Id is blank
         //sleep for 1 sec to allow Time to change
         try {
             Thread.sleep(1000);
@@ -2109,7 +2121,7 @@ public class TestRoomServiceImpl {
 
         RoomResponsibleOrgInfo newnewnewInfo = null;
         try {
-            newnewnewInfo = roomService.updateRoomResponsibleOrg("", newnewInfo, contextInfo);
+            newnewnewInfo = roomService.updateRoomResponsibleOrg(newnewInfo.getId(), newnewInfo, contextInfo);
         } catch (Throwable t) {
             fail(t.toString());
         }

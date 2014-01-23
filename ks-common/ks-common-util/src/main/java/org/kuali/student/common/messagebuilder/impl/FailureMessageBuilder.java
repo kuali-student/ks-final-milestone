@@ -39,10 +39,14 @@ public class FailureMessageBuilder {
 			}
 			buildFailureMessage(node);
 		}
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstBooleanNode = 0;
 		if(rootNodeList.size() > 1) {
 			throw new MessageBuilderException("Node list contains more than one root node: " + rootNodeList);
-		}
-		return rootNodeList.get(0).getNodeMessage();
+		} else if (rootNodeList.isEmpty()) {
+            throw new MessageBuilderException("Node list contains no root node: " + rootNodeList);
+        }
+		return rootNodeList.get(firstBooleanNode).getNodeMessage();
 	}
 
 	/**

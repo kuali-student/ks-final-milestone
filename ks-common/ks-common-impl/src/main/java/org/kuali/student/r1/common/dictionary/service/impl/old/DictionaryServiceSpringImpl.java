@@ -24,7 +24,6 @@ import javax.jws.WebService;
 
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
@@ -57,9 +56,9 @@ public class DictionaryServiceSpringImpl implements DictionaryService {
 
 	@SuppressWarnings("unchecked")
 	public void init() {
-		ApplicationContext ac = new ClassPathXmlApplicationContext(dictionaryContext);
-
-		Map<String, ObjectStructure> beansOfType = (Map<String, ObjectStructure>) ac.getBeansOfType(ObjectStructure.class);
+		ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext(dictionaryContext);
+		Map<String, ObjectStructure> beansOfType = ac.getBeansOfType(ObjectStructure.class);
+        ac.close();
 		objectStructures = new HashMap<String, ObjectStructure>();
 		for (ObjectStructure objStr : beansOfType.values()){
 			//Only add top level structures

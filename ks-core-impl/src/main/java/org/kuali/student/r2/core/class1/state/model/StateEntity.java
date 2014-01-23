@@ -125,6 +125,8 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
     }
 
     public void fromDto(State state) {
+        super.fromDTO(state);
+        
         this.setName(state.getName());
         if (state.getDescr() == null) {
             this.descrPlain = null;

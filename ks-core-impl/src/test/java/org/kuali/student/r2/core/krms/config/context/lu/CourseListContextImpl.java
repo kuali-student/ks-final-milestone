@@ -15,12 +15,10 @@
 
 package org.kuali.student.r2.core.krms.config.context.lu;
 
-import org.kuali.rice.krms.api.repository.term.TermDefinitionContract;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import java.util.Map;
+import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 
 /**
  * This class creates the template context for course list types.
@@ -38,9 +36,14 @@ public class CourseListContextImpl extends AbstractLuContext {
      * @param contextInfo
      * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException If CLU, CluSet or relation does not exist
      */
-    public Map<String, Object> createContextMap(Map<String, Object> parameters, ContextInfo contextInfo) throws OperationFailedException {
-        Map<String, Object> contextMap = super.createContextMap(parameters, contextInfo);
-        contextMap.put(CLU_SET_TOKEN, getCluSet(parameters));
+    @Override
+    public Map<String, Object> createContextMap(Map<String, Object> parameters)  {
+        Map<String, Object> contextMap = super.createContextMap(parameters);
+            try {
+                contextMap.put(CLU_SET_TOKEN, getCluSet(parameters));
+            } catch (OperationFailedException ex) {
+                throw new RiceIllegalStateException (ex);
+            }
         return contextMap;
     }
 }

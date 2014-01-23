@@ -16,6 +16,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
@@ -23,6 +24,7 @@ import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 
+import javax.jws.WebParam;
 import java.util.Date;
 import java.util.List;
 
@@ -1029,4 +1031,243 @@ public class AcademicCalendarServiceAuthorizationDecorator
         }
     }
 
+    @Override
+    public TypeInfo getExamPeriodType(String examPeriodTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodType", null)) {
+            return getNextDecorator().getExamPeriodType(examPeriodTypeKey, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<TypeInfo> getExamPeriodTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodType", null)) {
+            return getNextDecorator().getExamPeriodTypes(contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<TypeInfo> getExamPeriodTypesForTermType(String termTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodType", null)) {
+            return getNextDecorator().getExamPeriodTypesForTermType(termTypeKey, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public StateInfo getExamPeriodState(String examPeriodStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodState", null)) {
+            return getNextDecorator().getExamPeriodState(examPeriodStateKey, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<StateInfo> getExamPeriodStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodStates", null)) {
+            return getNextDecorator().getExamPeriodStates(contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public ExamPeriodInfo getExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriod", null)) {
+            return getNextDecorator().getExamPeriod(examPeriodId, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsByIds(List<String> examPeriodIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodsByIds", null)) {
+            return getNextDecorator().getExamPeriodsByIds(examPeriodIds, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<String> getExamPeriodIdsByType(String examPeriodTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodIdsByType", null)) {
+            return getNextDecorator().getExamPeriodIdsByType(examPeriodTypeKey, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodsByCode", null)) {
+            return getNextDecorator().getExamPeriodsByCode(code, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<String> searchForExamPeriodIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForExamPeriodIds", null)) {
+            return getNextDecorator().searchForExamPeriodIds(criteria, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<ExamPeriodInfo> searchForExamPeriods(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForExamPeriods", null)) {
+            return getNextDecorator().searchForExamPeriods(criteria, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateExamPeriod(String validationTypeKey, String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateExamPeriod", null)) {
+            return getNextDecorator().validateExamPeriod(validationTypeKey, examPeriodTypeKey, examPeriodInfo, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public ExamPeriodInfo createExamPeriod(String examPeriodTypeKey, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createExamPeriod", null)) {
+            return getNextDecorator().createExamPeriod(examPeriodTypeKey, examPeriodInfo, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public ExamPeriodInfo updateExamPeriod(String examPeriodId, ExamPeriodInfo examPeriodInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateExamPeriod", null)) {
+            return getNextDecorator().updateExamPeriod(examPeriodId, examPeriodInfo, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public StatusInfo changeExamPeriodState(String examPeriodId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "changeExamPeriodState", null)) {
+            return getNextDecorator().changeExamPeriodState(examPeriodId, nextStateKey, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public StatusInfo deleteExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteExamPeriod", null)) {
+            return getNextDecorator().deleteExamPeriod(examPeriodId, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public StatusInfo addExamPeriodToTerm(String termId, String examPeriodId, ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "addExamPeriodToTerm", null)) {
+            return getNextDecorator().addExamPeriodToTerm(termId, examPeriodId, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public StatusInfo removeExamPeriodFromTerm(String termId, String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "removeExamPeriodFromTerm", null)) {
+            return getNextDecorator().removeExamPeriodFromTerm(termId, examPeriodId, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<ExamPeriodInfo> getExamPeriodsForTerm(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getExamPeriodsForTerm", null)) {
+            return getNextDecorator().getExamPeriodsForTerm(termId, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
+
+    @Override
+    public List<TermInfo> getTermsForExamPeriod(String examPeriodId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (null == contextInfo) {
+            throw new MissingParameterException();
+        }
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermsForExamPeriod", null)) {
+            return getNextDecorator().getTermsForExamPeriod(examPeriodId, contextInfo);
+        } else {
+            throw new PermissionDeniedException();
+        }
+    }
 }

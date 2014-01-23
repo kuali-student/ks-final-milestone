@@ -12,7 +12,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
@@ -49,13 +49,16 @@ public class TestProposalInfoDictionary {
 	@Test
 	public void testProposalInfoValidation() throws OperationFailedException {
 	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
-		ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-proposalInfo-dictionary-context.xml");
 		System.out.println("h2. Validation Test");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		val.setDateParser(new ServerDateParser());
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		ProposalInfo info = new ProposalInfo();
+
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-proposalInfo-dictionary-context.xml");
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
+        ac.close();
+
 		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank ProposalInfo");
 		// for (ValidationResultInfo vr : validationResults)

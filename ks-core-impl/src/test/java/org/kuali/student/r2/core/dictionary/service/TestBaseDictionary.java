@@ -6,7 +6,7 @@ import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
 
@@ -19,10 +19,11 @@ public class TestBaseDictionary
         ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
         System.out.println ("testing base dictionary");
         String contextFile = "ks-base-dictionary-context.xml";
-        ApplicationContext ac = new ClassPathXmlApplicationContext ("classpath:"
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext ("classpath:"
                 + contextFile);
         Map<String, ValidCharsConstraint> vcs = (Map<String, ValidCharsConstraint>) ac.getBeansOfType (
                 ValidCharsConstraint.class);
+        ac.close();
         for (String id : vcs.keySet ())
         {
             ValidCharsConstraint vc = vcs.get (id);

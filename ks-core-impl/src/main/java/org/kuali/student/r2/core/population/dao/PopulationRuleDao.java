@@ -22,7 +22,7 @@ import org.kuali.student.r2.core.population.model.PopulationRuleEntity;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides data accessor methods for PopulationRuleEntity objects
  *
  * @author Kuali Student Team
  */

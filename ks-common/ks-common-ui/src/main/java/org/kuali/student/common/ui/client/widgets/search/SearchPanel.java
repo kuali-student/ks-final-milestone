@@ -149,40 +149,41 @@ public class SearchPanel extends Composite{
         layout.clear();
         resultsShown = false;
     	hasSearchParams = false;
+        int firstLookUpValue = 0;
 
         //create search panel
-        Widget searchParamPanel;        
-        if (lookups.size() == 1) {
-            searchParamPanel = createSearchParamPanel(lookups.get(0));
-            selectedLookupName = lookups.get(0).getName();
-            activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookupName);
-        } else {
-            LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
-            LinkedHashMap<String, LookupMetadata> searchLookups = new LinkedHashMap<String, LookupMetadata>();
-            for(LookupMetadata lookup: lookups){
-                searches.put(lookup.getName(), createSearchParamPanel(lookup));
-                searchLookups.put(lookup.getName(), lookup);
-            }
-            selectedLookupName = lookups.get(0).getName();
-            // Sets the activeSearchParametersWidget to be the first search
-            activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookupName);
-            String actionLabel = (lookups.get(0) == null)? null : lookups.get(0)
-                    .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
-            setActionLabel(actionLabel);
-            searchParamPanel = new SwappablePanel(searches);
-            ((SwappablePanel)searchParamPanel).setSearchLookups(searchLookups);
-            ((SwappablePanel)searchParamPanel).addLookupChangedCallback(new Callback<LookupMetadata>() {
-                @Override
-                public void exec(LookupMetadata selectedLookup) {
-                    activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookup.getName());
-                    selectedLookupName = selectedLookup.getName();
-                    if (lookupChangedCallbacks != null) {
-                        for (Callback<LookupMetadata> callback : lookupChangedCallbacks) {
-                            callback.exec(selectedLookup);
+        Widget searchParamPanel;
+            if (lookups.size() == 1) {
+                searchParamPanel = createSearchParamPanel(lookups.get(firstLookUpValue));
+                selectedLookupName = lookups.get(firstLookUpValue).getName();
+                activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookupName);
+            } else {
+                LinkedHashMap<String, Widget> searches = new LinkedHashMap<String, Widget>();
+                LinkedHashMap<String, LookupMetadata> searchLookups = new LinkedHashMap<String, LookupMetadata>();
+                for(LookupMetadata lookup: lookups){
+                    searches.put(lookup.getName(), createSearchParamPanel(lookup));
+                    searchLookups.put(lookup.getName(), lookup);
+                }
+                selectedLookupName = lookups.get(firstLookUpValue).getName();
+                // Sets the activeSearchParametersWidget to be the first search
+                activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookupName);
+                String actionLabel = (lookups.get(firstLookUpValue) == null)? null : lookups.get(firstLookUpValue)
+                        .getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
+                setActionLabel(actionLabel);
+                searchParamPanel = new SwappablePanel(searches);
+                ((SwappablePanel)searchParamPanel).setSearchLookups(searchLookups);
+                ((SwappablePanel)searchParamPanel).addLookupChangedCallback(new Callback<LookupMetadata>() {
+                    @Override
+                    public void exec(LookupMetadata selectedLookup) {
+                        activeSearchParametersWidget = searchParameterWidgetMap.get(selectedLookup.getName());
+                        selectedLookupName = selectedLookup.getName();
+                        if (lookupChangedCallbacks != null) {
+                            for (Callback<LookupMetadata> callback : lookupChangedCallbacks) {
+                                callback.exec(selectedLookup);
+                            }
                         }
                     }
-                }
-            });
+                });
         }
         searchSelectorPanel.setWidget(searchParamPanel);
         layout.add(searchSelectorPanel);

@@ -24,15 +24,15 @@ public class OrgCssImpl implements OrgCss{
 
     @Override
     public String getCssString() {
-        String injectString = "";
+        StringBuilder injectString = new StringBuilder("");
         for(ResourcePrototype r: OrgClientBundle.INSTANCE.getResources()){
             if(r instanceof CssResource){
                 if(((CssResource)r).getText() != null){
-                    injectString = injectString + "\n" + (((CssResource)r).getText());
+                    injectString.append("\n").append((((CssResource)r).getText()));
                 }
             }
         }
-        return injectString;
+        return injectString.toString();
     }
 
 }

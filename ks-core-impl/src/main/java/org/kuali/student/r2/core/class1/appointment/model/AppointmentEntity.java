@@ -150,6 +150,8 @@ public class AppointmentEntity extends MetaEntity implements AttributeOwner<Appo
     }
 
     public void fromDto(Appointment appt) {
+        super.fromDTO(appt);
+        
         this.setApptState(appt.getStateKey());
         this.setEffectiveDate(appt.getEffectiveDate());
         this.setExpirationDate(appt.getExpirationDate());

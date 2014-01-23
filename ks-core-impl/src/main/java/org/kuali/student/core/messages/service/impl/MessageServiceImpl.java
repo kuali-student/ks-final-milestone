@@ -172,18 +172,6 @@ public class MessageServiceImpl implements MessageService{
         return status;
     }
 
-    @Override
-    public List<ValidationResultInfo> validateProposal(String validationTypeKey,
-            MessageInfo messageInfo,
-            ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-        throw new OperationFailedException("Not supported yet.");
-    }
-
-    
 
     @Override
     public StatusInfo deleteMessage(LocaleInfo localeInfo, 
@@ -195,8 +183,25 @@ public class MessageServiceImpl implements MessageService{
             MissingParameterException, 
             OperationFailedException, 
             PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        throw new OperationFailedException ("not implemented");
+        throw new UnsupportedOperationException ("not implemented");
     }
+
+	@Override
+	public List<ValidationResultInfo> validateMessage(String validationTypeKey,
+			MessageInfo messageInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		  throw new UnsupportedOperationException ("not implemented");
+	}
+
+	@Override
+	public List<MessageInfo> getMessagesByKeys(List<String> messageKeys,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
+    
     
 }

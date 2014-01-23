@@ -128,6 +128,8 @@ public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttribu
     }
 
     public void fromDto(Type type) {
+        super.fromDTO(type);
+        
         // NOTE: readonly fields are set only in the constructor above
         this.setName(type.getName());
         if (type.getDescr() == null) {

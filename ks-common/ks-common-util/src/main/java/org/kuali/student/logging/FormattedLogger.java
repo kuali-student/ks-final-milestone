@@ -29,11 +29,12 @@ import static org.apache.log4j.Level.*;
  *  
  * To use these just do
  * <code>
- * import edu.corazon.kuali.logging.FormattedLogger.*
+ * import org.kuali.student.logging.FormattedLogger.*
  * </code>
  * 
  * @see java.util.logging.Logger
  * @see java.util.logging.Level
+ * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 public class FormattedLogger {
     

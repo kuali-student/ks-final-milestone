@@ -56,15 +56,16 @@ public class SamlIssuerServiceImpl implements SamlIssuerService {
 
             BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
+            //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
             String line;
-            StringBuffer stringBuffer = new StringBuffer(255);
+            StringBuilder stringBuilder = new StringBuilder(255);
             String response;
 
             while ((line = in.readLine()) != null) {
-                stringBuffer.append(line);
+                stringBuilder.append(line);
             }
             
-            response = stringBuffer.toString();
+            response = stringBuilder.toString();
             String error = XmlUtils.getTextForElement(response, "authenticationFailure");
 
             if (CommonUtils.isNotEmpty(error)) {

@@ -14,7 +14,6 @@ public class TestSearchConfigs
   configs.put ("em", "ks-core/ks-core-impl");
   configs.put ("proposal", "ks-core/ks-core-impl");
   configs.put ("atp", "ks-core/ks-core-impl");
-  configs.put ("comment", "ks-core/ks-core-impl");
   configs.put ("organization", "ks-core/ks-core-impl");
   for (String key : configs.keySet ())
   {

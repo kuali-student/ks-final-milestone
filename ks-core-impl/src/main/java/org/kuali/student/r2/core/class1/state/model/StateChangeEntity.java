@@ -46,10 +46,10 @@ public class StateChangeEntity extends MetaEntity implements AttributeOwner<Stat
     @Column(name = "TO_STATE_ID")
     private String toStateKey;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EFF_DT", nullable = false)
+    @Column(name = "EFF_DT")
     private Date effectiveDate;
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "EXPIR_DT", nullable = false)
+    @Column(name = "EXPIR_DT")
     private Date expirationDate;
     @Column(name = "STATE_CHG_TYPE", nullable = false)
     private String typeKey;
@@ -82,6 +82,9 @@ public class StateChangeEntity extends MetaEntity implements AttributeOwner<Stat
     }
 
     public void fromDTO(StateChange stateChange){
+
+        super.fromDTO(stateChange);
+
         List<Object> orphansToDelete = new ArrayList<Object>();
         setEffectiveDate(stateChange.getEffectiveDate());
         setExpirationDate(stateChange.getExpirationDate());

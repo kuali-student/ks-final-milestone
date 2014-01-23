@@ -70,6 +70,8 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
 	}
 
     public void fromDTO(Process process) {
+        super.fromDTO(process);
+        
         this.setProcessState(process.getStateKey());
         this.setName(process.getName());
         if (process.getDescr() != null) {

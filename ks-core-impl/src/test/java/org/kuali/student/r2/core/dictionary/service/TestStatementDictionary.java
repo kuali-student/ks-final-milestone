@@ -19,7 +19,7 @@ import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class TestStatementDictionary {
@@ -61,13 +61,16 @@ public class TestStatementDictionary {
 
 	@Test
 	public void testStatementInfoValidation() throws OperationFailedException {
-		ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-statement-dictionary-context.xml");
 		System.out.println("h2. Validation Test");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		val.setDateParser(new ServerDateParser());
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		StatementInfo info = new StatementInfo();
+
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-statement-dictionary-context.xml");
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
+        ac.close();
+
 		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, null);
 		System.out.println("h3. With just a blank StatementInfo");
 		for (ValidationResultInfo vr : validationResults)
@@ -79,13 +82,16 @@ public class TestStatementDictionary {
 
  @Test
 	public void testRequirementComponentInfoValidation() throws OperationFailedException {
-		ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-statement-dictionary-context.xml");
 		System.out.println("h2. Validation Test");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		val.setDateParser(new ServerDateParser());
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		ReqComponentInfo info = new ReqComponentInfo();
+
+        ConfigurableApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-statement-dictionary-context.xml");
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
+        ac.close();
+
 		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, null);
 		System.out.println("h3. With just a blank ReqComponentInfo");
 		for (ValidationResultInfo vr : validationResults)

@@ -130,6 +130,7 @@ public class TempSearchBackedTable extends Composite{
         builder.tablePixelSize(400, 300);
 
         columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
+        int firstValue = 0;
         for (LookupResultMetadata r: listResultMetadata){
             String header = Application.getApplicationContext().getUILabel("", null, null, r.getName());
             String key = r.getKey();
@@ -139,7 +140,7 @@ public class TempSearchBackedTable extends Composite{
         }
         if(columnDefs.size() == 1){
             //FIXME auto adjusting width to fill table does not work with 1 column bug in incubator???
-            columnDefs.get(0).setMinimumColumnWidth(370);
+            columnDefs.get(firstValue).setMinimumColumnWidth(370);
         }
         builder.columnDefinitions(columnDefs);
         tableModel.setColumnDefs(columnDefs);

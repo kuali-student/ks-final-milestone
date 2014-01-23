@@ -46,7 +46,7 @@ public class RegistrationHoldProposition extends AbstractLeafProposition {
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
-        Term studentRegistrationHoldsTerm = new Term(RulesExecutionConstants.STUDENT_REGISTRATION_HOLDS_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY, issueId));
+        Term studentRegistrationHoldsTerm = new Term(RulesExecutionConstants.STUDENT_REGISTRATION_HOLDS_TERM.getName(), Collections.singletonMap(RulesExecutionConstants.ISSUE_KEY_TERM.getName(), issueId));
         List<AppliedHoldInfo> studentRegistrationHolds = environment.resolveTerm(studentRegistrationHoldsTerm, this);
 
         PropositionResult result = null;

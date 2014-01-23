@@ -92,7 +92,9 @@ public class DynamicAttributeListBinding extends ModelWidgetBindingSupport<HasDa
 	 * @return the list converted to a comma delimited StringValue
 	 */
 	private StringValue convertDataValueToStringValue(DataValue dataValue) {
-		StringBuffer sbValue = new StringBuffer();
+
+        //JIRA FIX : KSENROLL-8731 - Replaced StringBuffer with StringBuilder
+        StringBuilder sbValue = new StringBuilder();
 		
 		Data data = dataValue.get();
 		Iterator<Property> propertyIterator = data.realPropertyIterator();

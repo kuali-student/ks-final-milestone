@@ -34,6 +34,8 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -42,7 +44,10 @@ import java.util.List;
  * @author andrewlubbers
  * @author Mezba Mahtab
  */
-public class SchedulingServiceUtil {
+public final class SchedulingServiceUtil {
+
+    //  Since this is a utility class (all static methods) hide the constructor.
+    private SchedulingServiceUtil() {}
 
     /**
      * Converts a list of Calendar constants (i.e. Calendar.MONDAY, Calendar.FRIDAY) into a string of characters representing those days
@@ -105,9 +110,18 @@ public class SchedulingServiceUtil {
     }
 
     private static void checkStringForDayCode(String codeInString, Integer integerDayCode, List<Integer> result, String testString) {
-        if (testString.contains(codeInString)) {
+        if (StringUtils.containsIgnoreCase(testString, codeInString)) {
             result.add(integerDayCode);
         }
+    }
+
+    public static boolean isValidDays(String days){
+        if (StringUtils.isNotBlank(days)){
+            days = StringUtils.upperCase(days);
+            String validDays = "MTWHFSU";
+            return StringUtils.containsOnly(days,validDays);
+        }
+        return false;
     }
 
     /**
@@ -129,12 +143,14 @@ public class SchedulingServiceUtil {
                 break;
             }
         }
-        if (!hasCommonWeekday) return false;
+        if (!hasCommonWeekday) {
+            return false;
+        }
 
-        if (timeSlotInfo1.getStartTime().getMilliSeconds() == null ||
-                timeSlotInfo1.getEndTime().getMilliSeconds() == null ||
-                timeSlotInfo2.getStartTime().getMilliSeconds() == null ||
-                timeSlotInfo2.getEndTime().getMilliSeconds() == null ) {
+        if (timeSlotInfo1.getStartTime() == null ||
+                timeSlotInfo1.getEndTime() == null ||
+                timeSlotInfo2.getStartTime() == null ||
+                timeSlotInfo2.getEndTime() == null) {
             // If there are null values in any of these spots, assume no conflict can occur.
             return false;
         }
@@ -152,29 +168,69 @@ public class SchedulingServiceUtil {
 
     /**
      * Convenience method for the short-cut process of translating a ScheduleRequest directly into a Schedule
-     * Assumes that the room to be used for the actual schedule is the first room in the list from the request
+     * Assumes that the room to be used for the actual schedule is the first room in the list from the request.
+     * <p/>
+     * If the request isn't TBA then fill in a value for room id as if the scheduler had looked for and found a
+     * room.
      *
-     * @param request
+     * @param request The schedule request and components to process.
+     * @param result The schedule for the newly created schedule components.
+     * @param callContext The context.
+     * @param roomService A RoomService implementation.
      * @return
      */
-    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request,ScheduleInfo result) {
+    public static ScheduleInfo requestToSchedule(ScheduleRequestInfo request, ScheduleInfo result, RoomService roomService, ContextInfo callContext) {
         result.setStateKey(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
         result.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
         result.setScheduleComponents(new ArrayList<ScheduleComponentInfo>(request.getScheduleRequestComponents().size()));
 
         for (ScheduleRequestComponentInfo reqComp : request.getScheduleRequestComponents()) {
+            boolean isTBA =  reqComp.getIsTBA();
+            boolean hasBuildingIds = ! reqComp.getBuildingIds().isEmpty();
+            boolean hasRoomIds =  ! reqComp.getRoomIds().isEmpty();
+
             ScheduleComponentInfo compInfo = new ScheduleComponentInfo();
-            compInfo.setIsTBA(reqComp.getIsTBA());
+            compInfo.setIsTBA(isTBA);
 
-            // grabbing the first room in the list
-            if(!reqComp.getRoomIds().isEmpty()){
-                compInfo.setRoomId(reqComp.getRoomIds().get(0));
+            if (! isTBA) {
+                String defaultRoomId = "d08416cf-c7e5-48c4-b6f9-8e0c9d3dddd1";
+                //  No building, no room ... Just use the default room id for the schedule component.
+                if ( ! hasBuildingIds && ! hasRoomIds) {
+                     compInfo.setRoomId(defaultRoomId);
+                } else {
+                    //  Has a building but no room, look for a room in the building.
+                    if (hasBuildingIds && ! hasRoomIds) {
+                        String buildingId = reqComp.getBuildingIds().get(0);
+                        List<String> rooms = Collections.emptyList();
+                        try {
+                            rooms = roomService.getRoomIdsByBuilding(buildingId, callContext);
+                        } catch (Exception e) {
+                            throw new RuntimeException("Query to room service failed.", e);
+                        }
+                        //  Grab the first room.
+                        if ( ! rooms.isEmpty()) {
+                            compInfo.setRoomId(rooms.get(0));
+                        } else {
+                            // If no rooms are defined then just use the default.
+                            compInfo.setRoomId(defaultRoomId);
+                        }
+                    } else {
+                        //  No building Ids, but room Ids exist. For RDLs that were created within the app this shouldn't
+                        //  happen, but some ref data RDLs only provide a room id. Strictly speaking the data isn't correct,
+                        //  but since it is sufficient to create the ADL just continue.
+                        compInfo.setRoomId(reqComp.getRoomIds().get(0));
+                    }
+                }
+            } else {
+                //  If this is a TBA request then just copy the RDL params to the ADL.
+                if (hasRoomIds) {
+                    compInfo.setRoomId(reqComp.getRoomIds().get(0));
+                }
             }
+            //  Timeslot is currently required so assume present.
             compInfo.setTimeSlotIds(reqComp.getTimeSlotIds());
-
             result.getScheduleComponents().add(compInfo);
         }
-
         return result;
     }
 
@@ -202,10 +258,10 @@ public class SchedulingServiceUtil {
             ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
             requestComponentInfo.setIsTBA(schedComp.getIsTBA());
             requestComponentInfo.setTimeSlotIds(schedComp.getTimeSlotIds());
-            requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
 
             // retrieve the room to find the building id
-            if(schedComp.getRoomId() != null) {
+            if (schedComp.getRoomId() != null) {
+                requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
                 RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
                 requestComponentInfo.getBuildingIds().add(room.getBuildingId());
 
@@ -227,42 +283,61 @@ public class SchedulingServiceUtil {
     }
 
     /**
-     * Convenience method to translate an request Schedule into a ScheduleReqeust
-     * Used during CO/AO copy to make requests in the target that are copies from the request schedule of the source
-     *
-     * @param sourceRequest
-     * @param callContext
-     * @return
+     * Copies the original request into a new one, but nulls out IDs, and replaces the SRS id with the
+     * one passed in
+     * @param origRequest The request to be copied
+     * @param srsId The new srs ID to set this to
+     * @return A copy of the SRI minus the IDs
      */
-    public static ScheduleRequestInfo scheduleRequestToScheduleRequest(ScheduleRequestInfo sourceRequest, ContextInfo callContext)  {
-        ScheduleRequestInfo result = new ScheduleRequestInfo();
-        result.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        result.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-
-        for (ScheduleRequestComponentInfo  sourceSchedComp : sourceRequest.getScheduleRequestComponents()) {
-            ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
-            requestComponentInfo.setIsTBA(sourceSchedComp.getIsTBA());
-            requestComponentInfo.setTimeSlotIds(sourceSchedComp.getTimeSlotIds());
-
-            for(String id : sourceSchedComp.getRoomIds()) {
-                requestComponentInfo.getRoomIds().add(id);
+    public static ScheduleRequestInfo copyScheduleRequest(ScheduleRequestInfo origRequest, String srsId) {
+        ScheduleRequestInfo copy = new ScheduleRequestInfo(origRequest);
+        copy.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED); // Reset the state
+        copy.setScheduleRequestSetId(srsId);
+        copy.setId(null); // Null out the IDs
+        if (copy.getScheduleRequestComponents() != null) {
+            for (ScheduleRequestComponentInfo comp: copy.getScheduleRequestComponents()) {
+                comp.setId(null); // Null these out too
             }
-            // retrieve the room to find the building id
-            for(String id : sourceSchedComp.getBuildingIds()) {
-                requestComponentInfo.getBuildingIds().add(id);
-            }
-
-            for(String id : sourceSchedComp.getCampusIds()) {
-                requestComponentInfo.getCampusIds().add(id);
-            }
-
-            for(String id : sourceSchedComp.getOrgIds()) {
-                requestComponentInfo.getOrgIds().add(id);
-            }
-
-            result.getScheduleRequestComponents().add(requestComponentInfo);
         }
-
-        return result;
+        return copy;
     }
+
+    /**
+     * Makes a new Comparator<TimeSlotInfo> which can be use to sort a collection of TimeSlotInfo.
+     * @return A new Comparator<TimeSlotInfo>.
+     */
+    public static Comparator<TimeSlotInfo> makeTimeSlotComparator() {
+        return new Comparator<TimeSlotInfo>() {
+            @Override
+            public int compare(TimeSlotInfo o1, TimeSlotInfo o2) {
+                //  Compare type key
+                if ( ! StringUtils.equals(o1.getTypeKey(), o2.getTypeKey())) {
+                    return o1.getTypeKey().compareTo(o2.getTypeKey());
+                }
+
+                //  Compare days. Make a copy of the List, sort it, and then just compare the strings.
+                List<Integer> o1Days = new ArrayList<Integer>(o1.getWeekdays());
+                Collections.sort(o1Days);
+                List<Integer> o2Days = new ArrayList<Integer>(o2.getWeekdays());
+                Collections.sort(o2Days);
+
+                if (! StringUtils.equals(o1Days.toString(), o2Days.toString())) {
+                    return o1Days.toString().compareTo(o2Days.toString());
+                }
+
+                //  Compare start time
+                if (! o1.getStartTime().equals(o2.getStartTime())) {
+                    return o1.getStartTime().compareTo(o2.getStartTime());
+                }
+
+                //  Compare end time
+                if (! o1.getEndTime().equals(o2.getEndTime())) {
+                    return o1.getEndTime().compareTo(o2.getEndTime());
+                }
+                //  They match.
+                return 0;
+            }
+        };
+    }
+
 }

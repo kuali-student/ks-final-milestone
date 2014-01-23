@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequestType;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.ReturnPoint;
@@ -93,7 +94,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 if(docDetail==null){
                     throw new OperationFailedException("Error found getting document. " );
                 }
-                DocumentContent docContent = workflowDocumentService.getDocumentContent(workflowId);
+                DocumentContent docContent = getWorkflowDocumentService().getDocumentContent(workflowId);
                 DocumentUpdate docUpdate = DocumentUpdate.Builder.create(docDetail.getDocument()).build();
                 dapBuilder.setDocumentUpdate(docUpdate);
                 DocumentContentUpdate docContentUpdate = DocumentContentUpdate.Builder.create(docContent).build();
@@ -300,7 +301,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			throws OperationFailedException {
 		if (workflowId != null && !workflowId.isEmpty()){
 			try {
-				return workflowDocumentService.getDocumentStatus(workflowId).getCode();
+				return getWorkflowDocumentService().getDocumentStatus(workflowId).getCode();
 			} catch (Exception e) {
 				throw new OperationFailedException("Error getting document status. " + e.getMessage());
 			}
@@ -314,13 +315,11 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	 * NOTE: This method may no longer be required if workflow id is stored in the proposal.
 	 */
 	public String getWorkflowIdFromDataId(String workflowDocType, String dataId) throws OperationFailedException {
-		if(null== workflowDocumentActionsService){
-        	throw new OperationFailedException("Workflow Service is unavailable");
-        }
+		
 
         DocumentDetail docDetail;
 		try {
-			docDetail = workflowDocumentService.getDocumentDetailByAppId(workflowDocType, dataId);
+			docDetail = getWorkflowDocumentService().getDocumentDetailByAppId(workflowDocType, dataId);
 	        if(null==docDetail){
 	        	LOG.error("Nothing found for id: "+dataId);
 	        	return null;
@@ -354,7 +353,7 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		List<String> routeNodeNames = new ArrayList<String>();
 
 		try{
-			List<RouteNodeInstance> routeNodes = workflowDocumentService.getActiveRouteNodeInstances(workflowId);
+			List<RouteNodeInstance> routeNodes = getWorkflowDocumentService().getActiveRouteNodeInstances(workflowId);
 			if (routeNodes != null){
 				for (RouteNodeInstance routeNodeInstance : routeNodes) {
 					routeNodeNames.add(routeNodeInstance.getName());
@@ -416,8 +415,12 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	
 	public WorkflowDocumentActionsService getWorkflowDocumentActionsService() throws OperationFailedException{
 		if(workflowDocumentActionsService ==null){
-        	throw new OperationFailedException("Workflow Simple Document Service is unavailable");
-        }
+		    workflowDocumentActionsService = KewApiServiceLocator.getWorkflowDocumentActionsService();
+		    
+		    if(null== workflowDocumentActionsService){
+                throw new OperationFailedException("Workflow Document Actions Service is unavailable");
+            }
+		}
 		
 		return workflowDocumentActionsService;
 	}
@@ -428,7 +431,11 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
 	public WorkflowDocumentService getWorkflowDocumentService() throws OperationFailedException {
 		if(workflowDocumentService ==null){
-        	throw new OperationFailedException("Workflow Document Service is unavailable");
+		    workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();
+		    
+		    if(null== workflowDocumentService){
+	            throw new OperationFailedException("Workflow Document Service is unavailable");
+	        }
         }
 		
 		return workflowDocumentService;

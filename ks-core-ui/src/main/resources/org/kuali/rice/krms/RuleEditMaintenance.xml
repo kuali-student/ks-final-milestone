@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+    <bean id="RuleMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.RuleEditor"/>
+        <property name="maintainableClass" value="org.kuali.rice.krms.service.impl.RuleEditorMaintainableImpl"/>
+        <property name="documentTypeName" value="RuleMaintenanceDocument"/>
+        <property name="businessRulesClass" value="org.kuali.rice.krms.util.RuleEditorBusRule"/>
+        <property name="lockingKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="AgendaEditor" parent="AgendaEditor-parentBean"/>
+    <bean id="AgendaEditor-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.AgendaEditor"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Agenda"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="RuleEditor" parent="RuleEditor-parentBean"/>
+    <bean id="RuleEditor-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="dataObjectClass" value="org.kuali.rice.krms.dto.RuleEditor"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+            </list>
+        </property>
+        <property name="objectLabel" value="Rule"/>
+        <property name="primaryKeys">
+            <list>
+                <value>id</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-EditWithLogic-EditGroup" parent="Uif-VerticalBoxGroup"
+          p:style="padding: 5px; margin: 5px; background: white; margin-top:null" p:forceSessionPersistence="true">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-EditWithLogic-TreeGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-EditWithLogic-TreeGroup" parent="Uif-VerticalBoxGroup"
+          p:style="margin-bottom: 5pt; margin-top: 0em;" p:refreshWhenChangedPropertyNames="this.is.a.hack">
+        <property name="layoutManager.orientation" value="VERTICAL"/>
+        <property name="items">
+            <list>
+                <ref bean="KRMS-LogicArea-InputField"/>
+                <ref bean="KRMS-LogicPreview-Button"/>
+                <ref bean="KRMS-LogicPreview-Tree"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+    <bean id="KRMS-LogicArea-InputField" parent="Uif-InputField" p:propertyName="logicArea" p:id="logicArea"
+          p:style="margin-left: 5px; margin-top: 5px">
+        <property name="control">
+            <bean parent="Uif-MediumTextAreaControl" p:style="width:612px"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-LogicPreview-Button" parent="Uif-SecondaryActionButton-Small" p:style="margin-left: 5px"
+          p:methodToCall="updatePreview">
+        <property name="actionLabel" value="Preview Change"/>
+    </bean>
+
+    <bean id="KRMS-LogicPreview-Tree" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode"
+          p:width="50%" p:style="border: 1px solid #999999">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-PreviewTree-Section"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-EditWithObject-EditGroup" parent="Uif-VerticalBoxGroup"
+          p:style="padding: 5px; margin: 5px; background: white; margin-top:null ">
+        <property name="headerText" value="Proposition Tree"/>
+        <property name="items">
+            <list>
+                <ref bean="KRMS-EditRule-ToolbarSection"/>
+                <ref bean="KRMS-RuleEditor-TreeExpandCollapse"/>
+                <ref bean="KRMS-RuleEditor-TreeGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+    <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
+        is needed for the javascript hack that is refreshing -->
+    <bean id="KRMS-RuleEditor-TreeGroup" parent="Uif-VerticalBoxGroup"
+          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true">
+        <property name="layoutManager.orientation" value="VERTICAL"/>
+        <property name="items">
+            <list>
+                <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
+                      p:style="font-weight:bold;margin-left: 2em;"/>
+                <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+                <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"/>
+                <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
+                      p:propertyName="selectedKey"/>
+                <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
+                <bean id="proposition_cut" parent="KRMS-Rules-HiddenField" p:propertyName="cutKey"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Rules-HiddenField" parent="Uif-InputField" p:showLabel="false">
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-PropKey-HiddenField" parent="KRMS-Rules-HiddenField" p:id="prop_key" p:propertyName="proposition.key"
+          p:showLabel="false" p:label="id" p:maxLength="255">
+        <property name="control">
+            <!-- NOTE: additionalCssClasses property does not work here. -->
+            <bean parent="Uif-HiddenControl" p:cssClasses="hiddenId"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditor-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');"
+                      p:actionLabel="[+] expand all" p:style="margin-left: 2em;">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean parent="Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');"
+                      p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;margin-left:1em">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-EditRule-ToolbarSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-RuleEditorView-AddButton"/>
+                <ref bean="KRMS-RuleEditorView-EditButton"/>
+                <ref bean="KRMS-RuleEditorView-GroupButton"/>
+                <ref bean="KRMS-RuleEditorView-LeftButton"/>
+                <ref bean="KRMS-RuleEditorView-RightButton"/>
+                <ref bean="KRMS-RuleEditorView-UpButton"/>
+                <ref bean="KRMS-RuleEditorView-DownButton"/>
+                <ref bean="KRMS-RuleEditorView-CopyButton"/>
+                <ref bean="KRMS-RuleEditorView-CutButton"/>
+                <ref bean="KRMS-RuleEditorView-PasteButton"/>
+                <ref bean="KRMS-RuleEditorView-DeleteButton"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-Button" parent="Uif-SecondaryActionButton" abstract="true">
+        <property name="onMouseDownScript" value="jq(this).addClass('tree-bar-button-selected');"/>
+        <property name="onMouseUpScript" value="jq(this).removeClass('tree-bar-button-selected');"/>
+        <property name="actionImagePlacement" value="TOP"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>tree-bar-button</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Add Statement" p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-add-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-plus-1');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-plus-1"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-EditButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Edit" p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'KRMS-RuleEditor-TreeGroup');">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-pencil');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-pencil"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-GroupButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Create Group" p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','KRMS-RuleEditor-TreeGroup');">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-fork');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-fork"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-LeftButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Move Out" p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-move-button,kr-left-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-left');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-left"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-RightButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Move In" p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-move-button,kr-right-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-right');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-right"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-UpButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Move Up" p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-move-button,kr-up-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-up');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-up"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-DownButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Move Down" p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-move-button,kr-down-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-down');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-down"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-CopyButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Copy" p:actionScript="ajaxCopyPropositionTree();"
+          p:additionalCssClasses="kr-cut-button,kr-copy-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-docs');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-docs"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-CutButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Cut" p:actionScript="ajaxCutPropositionTree();"
+          p:additionalCssClasses="kr-cut-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-scissors');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-scissors"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-PasteButton" parent="KRMS-RuleEditorView-Button"
+          p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');" p:actionLabel="Paste"
+          p:additionalCssClasses="kr-paste-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-paste');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-paste"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditorView-DeleteButton" parent="KRMS-RuleEditorView-Button"
+          p:actionLabel="Delete" p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');"
+          p:additionalCssClasses="kr-delete-button">
+        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-cancel');"/>
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-cancel"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RulerEditor-TreeSection-parent" parent="Uif-TreeSection" p:disclosure.render="false"
+          p:header.render="false" p:id="editWithObjectTree" class="org.kuali.rice.krms.util.EditTreeGroup"
+          p:style="float:left; margin-left: 2em;" p:forceSessionPersistence="true">
+        <property name="template" value="/ks-common/WEB-INF/ftl/ruleTreeGroup.ftl"/>
+        <property name="templateName" value="uif_ruleTreeGroup"/>
+        <property name="propertyName" value="editTree"/>
+        <property name="validationMessages.displayMessages" value="true"/>
+        <!--property name="validationMessages.displayFieldLabelWithMessages" value="false"/-->
+        <property name="tree">
+            <bean parent="RuleTreeWidget">
+                <property name="templateOptions">
+                    <map>
+                        <entry key="'plugins'"
+                               value="['themes','html_data', 'ui', 'crrm', 'dnd']"/>
+                        <entry key="'themes'"
+                               value="{'theme':'editrule','dots':'false','icons':'false'}"/>
+                        <entry key="'ui'" value="{ 'select_limit' : 1 }"/>
+                        <entry key="'dnd'" value="{ 'drag_target' : false, 'drop_target' : false }"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="nodePrototypeMap">
+            <map key-type="java.lang.Class">
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.RuleEditorTreeNode) }">
+                    <bean parent="KRMS-RuleTreeNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionNode) }">
+                    <bean parent="KRMS-SimplePropositionNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionEditNode) }">
+                    <bean parent="KRMS-SimplePropositionEditNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.CompoundOpCodeNode) }">
+                    <bean parent="KRMS-CompoundOpCodeNodePrototype"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleTreeNodePrototype" class="org.kuali.rice.krad.uif.container.NodePrototype">
+        <property name="labelPrototype">
+            <bean parent="Uif-Message"/>
+        </property>
+        <property name="dataGroupPrototype">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="KRMS-PropKey-HiddenField"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KRMS-SimplePropositionNodePrototype" parent="KRMS-RuleTreeNodePrototype"/>
+
+    <bean id="KRMS-SimplePropositionEditNodePrototype" parent="KRMS-SimplePropositionNodePrototype">
+        <property name="labelPrototype">
+            <bean id="RuleMessage" parent="Uif-Message" p:additionalCssClasses="rule-message">
+            </bean>
+        </property>
+
+        <property name="dataGroupPrototype">
+            <bean id="KRMS-PropositionEdit-BoxSection" parent="PropositionBo-MaintenanceView-Custom-parentBean" p:cssClasses="editModeNode">
+                <property name="layoutManager.orientation" value="VERTICAL"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CompoundOpCodeNodePrototype" parent="KRMS-RuleTreeNodePrototype">
+        <property name="dataGroupPrototype">
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+
+                        <bean parent="KRMS-PropKey-HiddenField"/>
+
+                        <bean parent="Uif-InputField" p:propertyName="proposition.compoundOpCode" p:id="prop_compoundOpCode"
+                              p:style="margin-left: 12pt;" p:showLabel="false" p:label="operator" p:maxLength="20">
+                            <property name="control">
+                                <bean parent="Uif-DropdownControl"
+                                      p:onChangeScript="handleOperatorChange(jQuery(this), 'updateCompoundOperator', 'KRMS-RuleEditor-TreeGroup');"/>
+                            </property>
+                            <property name="optionsFinder">
+                                <bean class="org.kuali.rice.krms.impl.ui.CompoundOpCodeValuesFinder"/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KRMS-ruleOpLockErrorDialog" parent="Uif-DialogGroup">
+        <property name="header.render" value="false"/>
+        <property name="promptText" value="This rule has been edited by another user. Do you want to reload it or cancel editing?"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Reload rule"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel editing"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

@@ -23,7 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * This class //TODO ...
+ * This class defines the entity for attributes of AppointmentWindows
  *
  * @author Kuali Student Team
  */

@@ -75,4 +75,12 @@
 
     <bean id="ruleTypeService" class="org.kuali.rice.krms.impl.type.RuleTypeServiceBase"/>
 
+    <!--bean id="roomService" class="org.kuali.student.r2.core.room.service.impl.RoomServiceMockImplM5"/>
+    <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceMockImpl"/>
+    <bean id="schedulingService" class="org.kuali.student.r2.core.scheduling.service.impl.SchedulingServiceMockImpl"/-->
+
+    <bean id="actionTypeService" class="org.kuali.student.krms.service.impl.ActionTypeServiceBase">
+        <!--property name="schedulingService"  ref="schedulingService"  /-->
+    </bean>
+
 </beans>

@@ -73,6 +73,7 @@
                 <entry key="hibernate.transaction.manager_lookup_class" value="${ks.core.jpa.JpaProperties.hibernate.transaction.manager_lookup_class}"/>
                 <entry key="hibernate.hbm2ddl.auto" value="${ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto}"/>
                 <entry key="hibernate.connection.release_mode" value="${ks.core.jpa.JpaProperties.hibernate.connection.release_mode}"/>
+                <entry key="hibernate.default_batch_fetch_size" value="${ks.core.jpa.JpaProperties.hibernate.default_batch_fetch_size}"/>
                 <!--<entry key="hibernate.connection.autocommit" value="${ks.core.jpa.JpaProperties.hibernate.connection.autocommit}"/>-->
             </map>
         </property>
@@ -247,8 +248,13 @@
     </bean>
 
     <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-        <property name="nextDecorator" ref="atpServiceImpl" />
+        <property name="nextDecorator" ref="atpServiceCache" />
         <property name="validator" ref="validator" />
+    </bean>
+
+    <bean id="atpServiceCache" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceCacheDecorator">
+        <property name="nextDecorator" ref="atpServiceImpl" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <alias name="atpServiceValidation" alias="AtpService" />
@@ -618,7 +624,7 @@
 
     <!-- Comment Service Config -->
     <bean id="commentDao"
-          class="org.kuali.student.r1.core.comment.dao.impl.CommentDaoImpl">
+          class="org.kuali.student.r2.core.comment.dao.CommentDao">
         <property name="em" ref="coreEntityManager" />
     </bean>
 
@@ -627,23 +633,10 @@
         <constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />
     </bean>
 
-    <bean id="commentSearchableDao"
-          class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
-        <property name="em" ref="coreEntityManager"/>
-    </bean>
-
-    <bean id="commentSearchManager"
-          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
-        <constructor-arg index="0" value="classpath:comment-search-config.xml" />
-        <property name="dao" ref="commentSearchableDao"/>
-    </bean>
-
     <bean id="commentServiceImpl"
-          class="org.kuali.student.r1.core.comment.service.impl.CommentServiceImpl">
+          class="org.kuali.student.r2.core.comment.service.impl.CommentServiceImpl">
         <property name="commentDao" ref="commentDao" />
-        <property name="searchManager" ref="commentSearchManager" />
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryService" />
-        <property name="validatorFactory" ref="coreValidatorFactory"/>
+        <property name="commentCriteriaLookupService"  ref="coreCriteriaLookupService" />
     </bean>
 
     <bean id="ks.exp.commentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -912,7 +905,7 @@
                     pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
                     method="afterThrowing" throwing="ex" />
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.r2.core.proposal.service.*.*(..))"
+                    pointcut="execution(* org.kuali.student.r1.core.proposal.service.*.*(..))"
                     method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>
@@ -951,7 +944,6 @@
         <property name="atpService" ref="atpServiceClient" />
         <property name="nextDecorator" ref="acalServiceImpl" />
     </bean>
-    <!-- -->
 
     <!-- change id to "acalServiceImpl" if the above bean is used -->
     <bean id="acalServiceImpl" class="org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl">
@@ -965,6 +957,7 @@
         <property name="keyDateAssembler" ref="keyDateAssembler" />
         <property name="acalEventAssembler" ref = "acalEventAssembler" />
         <property name="stateTransitionsHelper" ref="calStateTransitionsHelper"/>
+        <property name="examPeriodTransformer" ref="examPeriodTransformer" />
     </bean>
 
     <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -998,8 +991,12 @@
 
     <bean id="acalEventAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler"/>
 
+    <!-- KSENROLL-9340 Overriding this bean in ks-enroll-context.xml so it uses the same entity manager as the service impl-->
     <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
         <property name="entityManager" ref="coreEntityManager"/>
+    </bean>
+
+    <bean id="examPeriodTransformer" class="org.kuali.student.r2.core.acal.service.transformer.ExamPeriodTransformer">
     </bean>
 
 </beans>

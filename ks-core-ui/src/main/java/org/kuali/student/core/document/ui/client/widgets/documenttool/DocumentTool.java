@@ -80,23 +80,23 @@ import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
  */
 public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private static final String MSG_GROUP = "common";
-    private String referenceId;
+    protected String referenceId;
     private String referenceTypeKey;
     private String referenceType;
     private String referenceState;
-    private String refObjectTypeKey;
+    protected String refObjectTypeKey;
     private final String refDocRelationTypeKey = "kuali.org.DocRelation.allObjectTypes";
     
     private static final int POLL_INTERVAL = 2000;
 
     protected DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
     private VerticalFlowPanel layout = new VerticalFlowPanel();
-    private VerticalFlowPanel documentList = new VerticalFlowPanel();
+    protected VerticalFlowPanel documentList = new VerticalFlowPanel();
     private VerticalFlowPanel uploadList = new VerticalFlowPanel();
 //    private KSButton addMore = new KSButton("Add Another");
-    private KSLabel loadingDocuments = new KSLabel("Loading Documents...");
+    protected KSLabel loadingDocuments = new KSLabel("Loading Documents...");
     private FormPanel form = new FormPanel();
-    private Callback<String> deleteCallback = new Callback<String>(){
+    protected Callback<String> deleteCallback = new Callback<String>() {
 
         @Override
         public void exec(String result) {
@@ -269,8 +269,15 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         }
     });
 
+    public DocumentTool() {}
+
     public DocumentTool(String refObjectTypeKey, Enum<?> viewEnum, String viewName) {
         super(viewEnum, viewName);
+        this.refObjectTypeKey = refObjectTypeKey;
+    }
+
+    public void init(String refObjectTypeKey, Enum<?> viewEnum, String viewName) {
+        super.init(viewEnum, viewName);
         this.refObjectTypeKey = refObjectTypeKey;
     }
 
@@ -308,7 +315,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
        refreshDocuments();
     }
 
-    private Metadata getMetaData(String fieldKey) {
+    protected Metadata getMetaData(String fieldKey) {
         return modelDefinition.getMetadata(QueryPath.concat(fieldKey));
     }
 
@@ -375,14 +382,15 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         return config;
     }
 
-    private FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey, String parentPath) {
+    protected FieldDescriptor buildMuliplicityParentFieldDescriptor(String fieldKey, String messageKey,
+            String parentPath) {
         QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
         FieldDescriptor fd = new FieldDescriptor(path.toString(), generateMessageInfo(messageKey), meta);
         return fd;
     }
 
-    private MultiplicityFieldConfiguration buildMultiplicityFD(
+    protected MultiplicityFieldConfiguration buildMultiplicityFD(
             String fieldKey, String labelKey, String parentPath) {
 
         QueryPath fieldPath = QueryPath.concat(parentPath, QueryPath.getWildCard(), fieldKey);
@@ -422,20 +430,22 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                 
                 @Override
                 public void onSuccess(List<TypeInfo> supportedDocumentTypeInfoResults){
-                    String acceptableDocumentTypesString;
+                    StringBuilder acceptableDocumentTypesString = new StringBuilder();
                     String maxFileSizeString= "10000000";   //from ks-document-dictionary-context.xml, inaccessible here (in a different service-loaded module?)
                     int maxFileSizeInt= Integer.parseInt(maxFileSizeString)/1048576;
                     
                     if(supportedDocumentTypeInfoResults.isEmpty()){
-                        
-                        acceptableDocumentTypesString= "Sorry, no documents supported for upload now!";       
+
+                        acceptableDocumentTypesString.append("Sorry, no documents supported for upload now!");
                         
                     }else{
-                        
-                        acceptableDocumentTypesString= "." + supportedDocumentTypeInfoResults.get(0).getName();
+                        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+                        int firstTypeInfo = 0;
+                        acceptableDocumentTypesString.append(".").append(supportedDocumentTypeInfoResults.get(firstTypeInfo).getName());
+
                         for(int i= 1; i < supportedDocumentTypeInfoResults.size(); i++){
-                            
-                            acceptableDocumentTypesString+= ", ." + supportedDocumentTypeInfoResults.get(i).getName();
+
+                            acceptableDocumentTypesString.append(", .").append(supportedDocumentTypeInfoResults.get(i).getName());
                         }                 
                     }
                     
@@ -448,8 +458,8 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                         if (documentToolInstructions.equals("documentToolInstructions")){
                             documentToolInstructions = "Multiple supporting documents associated with this course can be uploaded.<br>";
                         }
-                        ((SectionView) verticalSectionView).setInstructions( documentToolInstructions   
-                                                                            + "&nbsp;&nbsp;&nbsp;<b>Acceptable file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString + "</i><br>"
+                        ((SectionView) verticalSectionView).setInstructions( documentToolInstructions
+                                + "&nbsp;&nbsp;&nbsp;<b>Acceptable file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString.toString() + "</i><br>"
                                                                             + "&nbsp;&nbsp;&nbsp;<b>Max file size:</b>&nbsp;&nbsp;" + "<i>~" + maxFileSizeInt + "MB </i>");
                     }
                }
@@ -604,7 +614,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         }
     }
 
-    private void refreshDocuments(){
+    protected void refreshDocuments() {
         documentList.clear();
         if(referenceId != null && !(referenceId.isEmpty())){
             documentList.add(loadingDocuments);

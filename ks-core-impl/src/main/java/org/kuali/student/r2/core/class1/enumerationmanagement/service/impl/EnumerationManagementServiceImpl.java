@@ -177,13 +177,16 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
             throw new DoesNotExistException(enumerationKey + code);
         }
 
-        enumValueDao.merge(modifiedEntity);
+        modifiedEntity = enumValueDao.merge(modifiedEntity);
+        
+        enumValueDao.getEm().flush();
 
-        return enumValueDao.find(modifiedEntity.getId()).toDto();
+        return modifiedEntity.toDto();
 
     }
 
     @Override
+    @Transactional(readOnly = false)
     public StatusInfo deleteEnumeratedValue(String enumerationKey, String code, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -258,9 +261,6 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
                     for(EnumeratedValueEntity enumValue : enumvalues){
                         for(String code : enumCodes){
                             if (enumValue.getCode().equals(code)){
-                                returnvalues.add(enumValue);
-                                break;
-                            } else if (enumValue.getCode().startsWith(code)){
                                 returnvalues.add(enumValue);
                                 break;
                             }

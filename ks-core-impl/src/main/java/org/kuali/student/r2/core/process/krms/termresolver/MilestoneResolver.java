@@ -43,30 +43,29 @@ public class MilestoneResolver implements TermResolver<MilestoneInfo> {
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
     }
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.MILESTONE_TERM_NAME;
+        return RulesExecutionConstants.MILESTONE_TERM.getName();
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(RulesExecutionConstants.MILESTONE_ID_TERM_PROPERTY);
+        return Collections.singleton(RulesExecutionConstants.MILESTONE_ID_TERM.getName());
     }
 
     @Override
     public int getCost() {
-        // TODO Analyze
         return 0;
     }
 
     @Override
     public MilestoneInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String milestoneId = parameters.get(RulesExecutionConstants.MILESTONE_ID_TERM_PROPERTY);
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String milestoneId = parameters.get(RulesExecutionConstants.MILESTONE_ID_TERM.getName());
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
 
         MilestoneInfo result = null;
         try {

@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.FlushModeType;
 import javax.persistence.OptimisticLockException;
 
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
@@ -39,11 +40,14 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class})
 public class AtpServiceImpl implements AtpService {
 
+    private static final Logger log = LoggerFactory.getLogger(AtpServiceImpl.class);
+    
     private AtpDao atpDao;
     private AtpAtpRelationDao atpRelDao;
     private MilestoneDao milestoneDao;
@@ -124,6 +128,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public TypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
@@ -132,6 +137,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<TypeInfo> getSearchTypes(ContextInfo contextInfo)
             throws OperationFailedException, InvalidParameterException, MissingParameterException {
         return getSearchManager().getSearchTypes(contextInfo);
@@ -146,6 +152,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public SearchResultInfo search(SearchRequestInfo searchRequest, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
         SearchResultInfo searchResult = this.searchManager.search(searchRequest, contextInfo);
 //        if (searchRequest.getSearchKey().equals("atp.search.advancedAtpSearch")){
@@ -158,6 +165,7 @@ public class AtpServiceImpl implements AtpService {
 
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpEntity atp = atpDao.find(atpId);
@@ -168,6 +176,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> getAtpsByDate(Date searchDate, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpEntity> atps = atpDao.getByDate(searchDate);
@@ -182,6 +191,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> getAtpsByDates(Date startDate, Date endDate, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -197,7 +207,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -213,6 +223,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> getAtpsByDatesAndType(Date startDate, Date endDate, String searchTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -220,6 +231,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> getAtpsByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -235,6 +247,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd,
                                                         String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -253,6 +266,7 @@ public class AtpServiceImpl implements AtpService {
 
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpEntity> atpEntities = atpDao.getByCode(code);
@@ -264,6 +278,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> getAtpsByIds(List<String> atpIds,
                                       ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -293,6 +308,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getAtpIdsByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -308,6 +324,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public MilestoneInfo getMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         MilestoneEntity entity = milestoneDao.find(milestoneId);
@@ -321,6 +338,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -349,6 +367,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getMilestoneIdsByType(String milestoneTypeKey,
                                               ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -361,32 +380,38 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<MilestoneInfo> getMilestonesForAtp(String atpId,
                                                    ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        AtpEntity atp = atpDao.find(atpId);
-        if (atp == null) {
+
+        if (!atpDao.entityExists(atpId)) {
             throw new InvalidParameterException(atpId);
         }
-        List<String> ids = milestoneDao.getIdsByAtp(atpId);
-        
-        if (ids.size() == 0) // if there are no associated ids there are no milestones for this atp
-        	return new ArrayList<MilestoneInfo>();
-        
-        
-        try {
-            return this.getMilestonesByIds(ids, contextInfo);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Atp to Milestone relation exists to a milestone that has been deleted", ex);
+
+        List<MilestoneInfo> result = new ArrayList<MilestoneInfo>();
+        List<MilestoneEntity> milestones = milestoneDao.getByMilestonesByAtp(atpId);
+
+        for (MilestoneEntity entity : milestones) {
+            if (entity == null) {
+                // if one of the entities from "findByIds" is returned as null,
+                // then one of the keys in the list was not found
+                throw new OperationFailedException("Atp to Milestone relation exists to a milestone that has been deleted");
+            }
+            result.add(entity.toDto());
         }
+
+        return result;
     }
 
     @Override
-    public List<AtpInfo> getATPsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getATPsForMilestone");
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+    public List<AtpInfo> getAtpsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getAtpsForMilestone");
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<MilestoneInfo> getMilestonesByDates(Date startDate, Date endDate, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -399,6 +424,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<MilestoneInfo> getMilestonesByDatesForAtp(String atpId, Date startDate, Date endDate,
                                                           ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<MilestoneEntity> entities = milestoneDao.getByDatesForAtp(atpId, startDate, endDate);
@@ -410,21 +436,22 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<MilestoneInfo> getMilestonesByTypeForAtp(String atpId,
                                                          String milestoneTypeKey,
                                                          ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<MilestoneInfo> list = this.getMilestonesForAtp(atpId, contextInfo);
-        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(list.size());
-        for (MilestoneInfo info : list) {
-            if (info.getTypeKey().equals(milestoneTypeKey))
-                results.add(info);
+
+        List<MilestoneEntity> entities = milestoneDao.getMilestonesByTypeForAtp(atpId,milestoneTypeKey);
+        List<MilestoneInfo> results = new ArrayList<MilestoneInfo>(entities.size());
+        for (MilestoneEntity entity : entities) {
+            results.add(entity.toDto());
         }
         return results;
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> searchForAtpIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {      
@@ -437,7 +464,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpInfo> searchForAtps(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -455,6 +482,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ValidationResultInfo> validateAtp(String validationTypeKey, String atpTypeKey,
                                                   AtpInfo atpInfo, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -462,7 +490,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AtpInfo createAtp(String atpTypeKey, AtpInfo atpInfo, ContextInfo contextInfo) throws
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -470,16 +498,15 @@ public class AtpServiceImpl implements AtpService {
         AtpEntity entity = new AtpEntity(atpInfo);
         entity.setId(atpInfo.getId());
         entity.setAtpType(atpTypeKey);
-        entity.setCreateId(contextInfo.getPrincipalId());
-        entity.setCreateTime(contextInfo.getCurrentDate());
-        entity.setUpdateId(contextInfo.getPrincipalId());
-        entity.setUpdateTime(contextInfo.getCurrentDate());
+        entity.setEntityCreated(contextInfo);
+        
 //        System.out.println ("AtpEntity: before persist ATP " + entity.getId());
         atpDao.persist(entity);
 //        System.out.println ("AtpEntity: after persist ATP " + entity.getId());
 //        System.out.println ("AtpEntity: flushmode=" + atpDao.getEm().getFlushMode());
         atpDao.getEm().flush ();
 //        System.out.println ("AtpEntity: after flush ATP " + entity.getId());
+        
         return entity.toDto();
     }
 
@@ -496,26 +523,18 @@ public class AtpServiceImpl implements AtpService {
         }
         
         atpEntity.fromDTO(atpInfo);
-        atpEntity.setUpdateId(context.getPrincipalId());
-        atpEntity.setUpdateTime(context.getCurrentDate());
         
-        // this line can be removed once KSENROLL-4605 is resolved
-        if (atpInfo.getMeta() != null)
-            atpEntity.setVersionNumber(new Long (atpInfo.getMeta().getVersionInd()));
-        
-        try {
-            atpEntity = atpDao.merge(atpEntity);
-        } catch (OptimisticLockException e) {
-            // this catch can be removed once KSENROLL-4253 is resolved
-            throw new VersionMismatchException();
-        }
+        atpEntity.setEntityUpdated(context);
+            
+        atpEntity = atpDao.merge(atpEntity);
         
         atpDao.getEm().flush();
+
         return atpEntity.toDto();
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteAtp(String atpId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpEntity entity = atpDao.find(atpId);
@@ -543,6 +562,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<MilestoneInfo> getImpactedMilestones(String milestoneId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -554,7 +574,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> searchForMilestoneIds(QueryByCriteria criteria, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {        
@@ -567,6 +587,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<MilestoneInfo> searchForMilestones(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -588,11 +609,11 @@ public class AtpServiceImpl implements AtpService {
                                                         ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
 
-        return null;
+        return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public MilestoneInfo createMilestone(String milestoneTypeKey, MilestoneInfo milestoneInfo, ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -613,7 +634,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public MilestoneInfo updateMilestone(String milestoneId, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
@@ -624,13 +645,13 @@ public class AtpServiceImpl implements AtpService {
         entity.fromDto(milestoneInfo);
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
-        milestoneDao.merge(entity);
+        entity = milestoneDao.merge(entity);
         milestoneDao.getEm().flush();
         return entity.toDto();
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteMilestone(String milestoneId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException,
@@ -656,14 +677,13 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = false)
     public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method implemented in calculation decorator.");
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class, AlreadyExistsException.class}, rollbackFor = {Throwable.class})
     public StatusInfo addMilestoneToAtp(String milestoneId,String atpId, ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -682,12 +702,11 @@ public class AtpServiceImpl implements AtpService {
         }
 
         AtpMilestoneRelationEntity entity = new AtpMilestoneRelationEntity();
+        
         entity.setAtpId(atpId);
         entity.setMilestoneId(milestoneId);
-        entity.setCreateId(contextInfo.getPrincipalId());
-        entity.setCreateTime(contextInfo.getCurrentDate());
-        entity.setUpdateId(contextInfo.getPrincipalId());
-        entity.setUpdateTime(contextInfo.getCurrentDate());
+        
+        entity.setEntityCreated(contextInfo);
 
         atpMilestoneRelationDao.persist(entity);
         StatusInfo info = new StatusInfo();
@@ -697,17 +716,18 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo removeMilestoneFromAtp(String milestoneId, String atpId, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> ids = atpMilestoneRelationDao.getIdsByAtpAndMilestone(atpId, milestoneId);
-        if (ids.isEmpty()) {
+        if (ids == null || ids.isEmpty()) {
             throw new DoesNotExistException("No relationship exists between the atp " + atpId + " and milestone " + milestoneId);
         }
         if (ids.size() > 1) {
             throw new OperationFailedException("Database error there should only be one relationship record found " + ids.size());
         }
-        AtpMilestoneRelationEntity entity = atpMilestoneRelationDao.find(ids.get(0));
+        int firstId = 0;
+        AtpMilestoneRelationEntity entity = atpMilestoneRelationDao.find(ids.get(firstId));
         if (entity == null) {
             throw new OperationFailedException("rror there should only be one relationship record found " + ids.size());
         }
@@ -719,6 +739,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AtpAtpRelationInfo getAtpAtpRelation(String atpAtpRelationId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -730,6 +751,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(List<String> atpAtpRelationIds,
                                                             ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -759,6 +781,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -766,6 +789,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -781,6 +805,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(String atpId, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AtpAtpRelationEntity> relations = atpRelDao.getAtpAtpRelationsByAtp(atpId);
@@ -792,6 +817,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(String atpId, String atpRelationTypeKey,
                                                                    ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -804,7 +830,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {    
@@ -817,7 +843,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo context)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {  
@@ -855,7 +881,7 @@ public class AtpServiceImpl implements AtpService {
 //    }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AtpAtpRelationInfo createAtpAtpRelation(String atpId,
                                                    String relatedAtpId,
                                                    String atpAtpRelationTypeKey,
@@ -903,7 +929,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public AtpAtpRelationInfo updateAtpAtpRelation(String atpAtpRelationId,
                                                    AtpAtpRelationInfo atpAtpRelationInfo,
                                                    ContextInfo context)
@@ -917,14 +943,14 @@ public class AtpServiceImpl implements AtpService {
         entity.fromDTO(atpAtpRelationInfo);
         entity.setUpdateId(context.getPrincipalId());
         entity.setUpdateTime(context.getCurrentDate());
-        atpRelDao.merge(entity);
+        entity = atpRelDao.merge(entity);
         
         atpRelDao.getEm().flush();
         return entity.toDto();
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo deleteAtpAtpRelation(String atpAtpRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         AtpAtpRelationEntity atpRel = atpRelDao.find(atpAtpRelationId);

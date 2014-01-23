@@ -33,9 +33,9 @@ import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.HasInputWidget;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.ValidationProcessable;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
@@ -51,6 +51,7 @@ import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -110,7 +111,8 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             pickerPanel.addStyleName("ks-selected-list-picker");
             addItemButton = new KSButton("Add to list", ButtonStyle.SECONDARY_SMALL);
             addItemButton.setEnabled(false);
-            picker = new KSPicker(config);
+            picker = GWT.create(KSPicker.class);
+            picker.init(config);
             picker.setAdvancedSearchCallback(createAdvancedSearchCallback());
             addSelectionChangeHandler();
 
@@ -316,7 +318,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
         for (KSItemLabel item : selectedItems) {
             data.add(item.getKey());
         }
-        if (picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+        if (null != picker && picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
             data.add(UtilConstants.IMPOSSIBLE_CHARACTERS);
         }
         DataValue result = new DataValue(data);
@@ -342,7 +344,7 @@ public class KSSelectedList extends Composite implements HasDataValue, HasName, 
             displayData.set("id-translation", item.getDisplayText());
             _runtimeData.add(displayData);
         }
-        if (picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
+        if (null != picker && picker.getDisplayValue().equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
             data.add(UtilConstants.IMPOSSIBLE_CHARACTERS);
             Data displayData = new Data();
             displayData.set("id-translation", UtilConstants.IMPOSSIBLE_CHARACTERS);

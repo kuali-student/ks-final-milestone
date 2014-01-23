@@ -235,8 +235,8 @@ public class AtpServiceMockImpl implements AtpService, MockService {
     }
 
     @Override
-    public List<AtpInfo> getATPsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getATPsForMilestone");
+    public List<AtpInfo> getAtpsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getAtpsForMilestone");
     }
 
     @Override

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.core</groupId>
         <artifactId>ks-core</artifactId>
-        <version>2.0.1-cm-krad-SNAPSHOT</version>
+        <version>2.1.1-FR2-M1-cm-krad-SNAPSHOT</version>
     </parent>
     <artifactId>ks-common</artifactId>
     <name>KS Common</name>
@@ -26,6 +26,24 @@
                 <module>ks-common-test</module>
                 <module>ks-common-impl</module>
                 <module>ks-common-ui</module>
+                <module>ks-common-ksink</module>
+                <module>ks-common-web</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-all-wars</id>
+            <modules>
+                <module>ks-cxf</module>
+                <module>ks-metro</module>
+                <module>ks-eclipselink</module>
+                <module>ks-hibernate</module>
+                <module>ks-jta</module>
+                <module>ks-rice-lessdep</module>
+                <module>ks-common-util</module>
+                <module>ks-common-test</module>
+                <module>ks-common-impl</module>
+                <module>ks-common-ui</module>
+                <module>ks-common-ksink</module>
             </modules>
         </profile>
         <profile>
@@ -40,6 +58,37 @@
                 <module>ks-common-util</module>
                 <module>ks-common-test</module>
                 <module>ks-common-impl</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-surefire-tests</id>
+            <activation>
+                <property>
+                    <name>skip.core.tests</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <!-- include all the modules from the default profile (except ksink, web modules) -->
+            <modules>
+                <module>ks-cxf</module>
+                <module>ks-metro</module>
+                <module>ks-eclipselink</module>
+                <module>ks-hibernate</module>
+                <module>ks-jta</module>
+                <module>ks-rice-lessdep</module>
+                <module>ks-common-util</module>
+                <module>ks-common-test</module>
+                <module>ks-common-impl</module>
+                <module>ks-common-ui</module>
             </modules>
         </profile>
     </profiles>

@@ -52,12 +52,13 @@ c
     <param name="ks.core.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
     <param name="ks.core.jpa.JpaProperties.hibernate.connection.release_mode">after_statement</param>
     <param name="ks.core.jpa.JpaProperties.hibernate.connection.autocommit">false</param>
+    <param name="ks.core.jpa.JpaProperties.hibernate.default_batch_fetch_size">64</param>
 
     <param name="ks.core.bus.security">false</param>
 
 	<param name="ks.core.doDataLoad">false</param>
 
-	<param name="ks.core.dictionary.serviceContextLocations">classpath:ks-proposalInfo-dictionary-context.xml, classpath:ks-workflow-dictionary-context.xml, classpath:ks-document-dictionary-context.xml, classpath:ks-comment-dictionary-context.xml, classpath:ks-atp-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml</param>
+	<param name="ks.core.dictionary.serviceContextLocations">classpath:ks-proposalInfo-dictionary-context.xml, classpath:ks-workflow-dictionary-context.xml, classpath:ks-document-dictionary-context.xml, classpath:ks-atp-dictionary-context.xml, classpath:ks-lrc-dictionary-context.xml</param>
 	<param name="ks.core.dictionary.old.serviceContextLocations">classpath:organization-dictionary-config.xml,classpath:statement-dictionary-config.xml</param>
 	<param name="ks.core.orchestration.dictionaryContextLocations">classpath:org-orchestration-dictionary.xml</param>
 

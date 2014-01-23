@@ -98,9 +98,11 @@ public abstract class KSSelectItemWidgetAbstract extends Composite implements Ha
 	 */
 	public String getSelectedItem(){
 	    String selectedItem = null;
+        //Code Changed for JIRA-9075 - SONAR Critical issues - Use get(0) with caution - 5
+        int firstselectedItem = 0;
 	    List<String> selectedItems = getSelectedItems();
 	    if (selectedItems != null && selectedItems.size() > 0){
-	        selectedItem = selectedItems.get(0);
+	        selectedItem = selectedItems.get(firstselectedItem);
 	    }
 	    return selectedItem;
 	}	

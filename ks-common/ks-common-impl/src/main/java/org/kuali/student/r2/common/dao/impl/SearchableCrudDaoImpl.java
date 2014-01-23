@@ -154,8 +154,13 @@ public class SearchableCrudDaoImpl {
 			int i = 0;
 			
 			//Get an array of the jpql results
-			int selectIndex = queryString.toLowerCase().indexOf("select")+"select".length();
-			int fromIndex = queryString.toLowerCase().indexOf(" from ");
+            String lowercaseQueryString = queryString.toLowerCase();
+			int selectIndex = lowercaseQueryString.indexOf("select")+"select".length();
+            int distinctIndex = lowercaseQueryString.indexOf("distinct")+"distinct".length();//Filter out the "distinct"
+			int fromIndex = lowercaseQueryString.indexOf(" from ");
+            if(selectIndex < distinctIndex && distinctIndex < fromIndex){
+                selectIndex = distinctIndex;
+            }
 			
 			if (selectIndex >= 0 && fromIndex > selectIndex){
 				String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
@@ -225,7 +230,7 @@ public class SearchableCrudDaoImpl {
                     } catch (ParseException e) {
                         throw new RuntimeException("Failed to parse date value " + searchParam.getValues().get(0),e);
                     }
-			    } if ("long".equals(paramDataType)){
+			    } else if ("long".equals(paramDataType)){
 			    	try{
 			    		List<Long> longList = new ArrayList<Long>();
 			    		if(searchParam.getValues()!=null){
@@ -235,10 +240,23 @@ public class SearchableCrudDaoImpl {
 			    		}
 				      	queryParamValue = longList;
 		            } catch (NumberFormatException e) {
-		                throw new RuntimeException("Failed to parse date value " + searchParam.getValues(),e);
+		                throw new RuntimeException("Failed to parse long value " + searchParam.getValues(),e);
 		            }
 
-			    } else {
+			    } else if ("int".equals(paramDataType)){
+                    try{
+                        List<Integer> intList = new ArrayList<Integer>();
+                        if(searchParam.getValues()!=null){
+                            for(String value:searchParam.getValues()){
+                                intList.add(Integer.parseInt(value));
+                            }
+                        }
+                        queryParamValue = intList;
+                    } catch (NumberFormatException e) {
+                        throw new RuntimeException("Failed to parse int value " + searchParam.getValues(),e);
+                    }
+
+                }  else {
 			        queryParamValue = searchParam.getValues();
 			    }
 			    //Needed to get around Hibernate not supporting IN(:var) where var is null or an empty collection
@@ -272,7 +290,21 @@ public class SearchableCrudDaoImpl {
 				countQuery = em.createQuery(countQueryString);
 			}
 			for (SearchParamInfo searchParam : internalQueryParms) {
-				countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValues().get(0));
+			    // There is a bug here that happens with you pass a list of states in for lu_queryParam_luOptionalState
+			    // When you pass in ('Approved' , 'Active' , 'Retired') the code below only grabbed the first value (it was
+			    // hard coded with get(0). Thus, it would only count 'Approved' courses.  However, at UMD, there aren't even
+			    // approved courses in the KSLU_CLU table (only 'Active') so we were getting an empty list back.
+			    // Printout of searchParam.getValues():  [Approved, Active, Retired, null, null, null, null, null, null, null]
+			    // You can see broken code only grabs the first value in the array using searchParam.getValues().get(0).
+			    // select * from kslu_clu where st  IN ( 'Approved','Active', 'Retired' )
+			    // Fix was to pass in the entire list of values when getValues() > 1
+			  
+			    if ( searchParam.getValues().size() == 1){
+			        countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValues().get(0));
+			    }
+			    else {
+			        countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValues());  
+			    } 		
 			}
             Integer totalRecords = 0;
             Object resultObject = countQuery.getSingleResult();

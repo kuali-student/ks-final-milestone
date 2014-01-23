@@ -83,6 +83,9 @@ public class PopulationCategoryEntity extends MetaEntity implements AttributeOwn
     }
 
     public void fromDTO(PopulationCategory infc) {
+        
+        super.fromDTO(infc);
+        
         this.setPopulationCategoryState(infc.getStateKey());
         this.setName(infc.getName());
         if (infc.getDescr() != null) {

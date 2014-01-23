@@ -15,9 +15,14 @@
     <bean id="atpAtpRelationInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-AtpAtpRelationInfo-dictionary.xml" />
     </bean>
+
+    <bean id="ksBaseDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-base-dictionary.xml" />
+    </bean>
     <bean name="atpServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="atpInfoDictionaryLocation" />
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpAtpRelationInfoDictionaryLocation" />
@@ -44,6 +49,7 @@
     <bean name="acalServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="acalInfoDictionaryLocation" />
                 <bean parent="holidayCalendarInfoDictionaryLocation" />
                 <bean parent="termInfoDictionaryLocation" />
@@ -166,6 +172,7 @@
     <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="atpInfoDictionaryLocation" />
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpAtpRelationInfoDictionaryLocation" />
@@ -174,11 +181,6 @@
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
                 <bean parent="keyDateInfoDictionaryLocation" />
-                <!--<bean parent="appliedHoldInfoDictionaryLocation" />-->
-                <!--<bean parent="holdIssueInfoDictionaryLocation" />-->
-                <!--<bean parent="processInfoDictionaryLocation" />-->
-                <!--<bean parent="checkInfoDictionaryLocation" />-->
-                <!--<bean parent="instructionInfoDictionaryLocation" />-->
                 <bean parent="scheduleInfoDictionaryLocation" />
                 <bean parent="scheduleRequestInfoDictionaryLocation" />
                 <bean parent="scheduleRequestComponentInfoDictionaryLocation"/>

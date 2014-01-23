@@ -1,5 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this template, choose Toolsno | Templates
  * and open the template in the editor.
  */
 package org.kuali.student.r2.core.class1.appointment.service.impl;
@@ -646,4 +646,45 @@ public class AppointmentServiceMockImpl implements AppointmentService, MockServi
             PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+	@Override
+	public StatusInfo changeAppointmentState(String appointmentId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO KSENROLL-8703
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo changeAppointmentWindowState(String appointmentWindowId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO KSENROLL-8703
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo changeAppointmentSlotState(String appointmentSlotId,
+			String nextStateKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO KSENROLL-8703
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo deleteAppointmentWindow(String appointmentWindowId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new OperationFailedException("not implemented");
+	}
+	
+	
+    
 }

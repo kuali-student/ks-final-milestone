@@ -15,6 +15,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.DocumentActionResult;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
@@ -22,6 +23,8 @@ import org.kuali.rice.kew.api.document.DocumentContentUpdate;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.DocumentUpdate;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Data.StringKey;
@@ -70,9 +73,9 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
     //Services used by this filter
     private WorkflowDocumentService workflowDocumentService;
     private WorkflowDocumentActionsService workflowDocumentActionsService;
-    private ProposalService proposalService;
+    protected ProposalService proposalService;
     private MetadataServiceImpl metadataService;
-    private final DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
+    protected final DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
         
     private Metadata proposalMetadata = null;
     private String proposalReferenceType;
@@ -205,9 +208,6 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
      * the workflow document for the object. 
      */
     public ProposalInfo updateWorkflow(ProposalInfo proposalInfo, Data data, Map<String, Object> properties) throws Exception {
-        if(workflowDocumentActionsService==null){
-            throw new Exception("Workflow Service is unavailable");
-        }
         
         //Get the doc type & config info for doc type
         String docType = proposalInfo.getType();       
@@ -231,7 +231,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         //Get the workflow document or create one if workflow document doesn't exist
         DocumentDetail docDetail;
         if (workflowId != null){
-            docDetail = workflowDocumentService.getDocumentDetail(workflowId);
+            docDetail = getWorkflowDocumentService().getDocumentDetail(workflowId);
         } else  {
             LOG.info("Creating Workflow Document.");
             DocumentUpdate.Builder builder = DocumentUpdate.Builder.create();
@@ -241,7 +241,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 
             // TODO: RICE-R2.0 UPGRADE we can now supply the proposal status to the document here and we should be
             //          This will allow implementors to define workflow based on proposal state
-            org.kuali.rice.kew.api.document.Document docResponse = workflowDocumentActionsService.create(docType, username, docHeader, null);
+            org.kuali.rice.kew.api.document.Document docResponse = getWorkflowDocumentActionsService().create(docType, username, docHeader, null);
             
             workflowId = docResponse.getDocumentId();
             proposalInfo.setWorkflowId(workflowId);
@@ -251,7 +251,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             
             //Lookup the workflow document detail to see if create was successful
             try {
-                docDetail = workflowDocumentService.getDocumentDetail(workflowId);
+                docDetail = getWorkflowDocumentService().getDocumentDetail(workflowId);
             } catch (Exception e) {
                 throw new RuntimeException("Error found gettting document for newly created object with id " + appId, e);
             }           
@@ -276,10 +276,10 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             if ( (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus().getCode())) ||
             	 (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus().getCode())) ) {
             	//if the route status is initial, then save initial
-                stdResp = workflowDocumentActionsService.save(docActionParams);
+                stdResp = getWorkflowDocumentActionsService().save(docActionParams);
             } else {
             	//Otherwise just update the doc content
-            	stdResp = workflowDocumentActionsService.saveDocumentData(docActionParams);
+            	stdResp = getWorkflowDocumentActionsService().saveDocumentData(docActionParams);
             }
             if (stdResp==null){
                 throw new RuntimeException("Error found updating document");
@@ -287,7 +287,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             
         } catch (RuntimeException e) {
             //Check if there were errors saving
-            throw new RuntimeException("Error found updating document: " + e.getMessage().trim());
+            throw new RuntimeException("Error found updating document: " + e.getMessage().trim(), e);
         }
         return proposalInfo;
     }
@@ -372,7 +372,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
      * 
      * @return
      */
-    private Metadata getProposalMetadata(){
+    protected Metadata getProposalMetadata() {
         if (proposalMetadata == null){
             proposalMetadata = metadataService.getMetadata(getProposalObjectType());
         }
@@ -460,6 +460,39 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
 		this.workflowDocumentActionsService = workflowDocumentActionsService;
 	}
+
+	
+    /**
+     * @return the workflowDocumentService
+     * @throws OperationFailedException 
+     */
+    protected WorkflowDocumentService getWorkflowDocumentService() throws OperationFailedException {
+        
+        if (workflowDocumentService == null) {
+            workflowDocumentService = KewApiServiceLocator.getWorkflowDocumentService();
+            
+            if (workflowDocumentService == null) 
+                throw new OperationFailedException("Failed to load Workflow Document Service");
+        }
+        
+        return workflowDocumentService;
+    }
+
+
+    /**
+     * @return the workflowDocumentActionsService
+     * @throws OperationFailedException 
+     */
+    protected WorkflowDocumentActionsService getWorkflowDocumentActionsService() throws OperationFailedException {
+        if (workflowDocumentActionsService == null) {
+            workflowDocumentActionsService = KewApiServiceLocator.getWorkflowDocumentActionsService();
+            
+            if (workflowDocumentActionsService == null) 
+                throw new OperationFailedException("Failed to find Workflow Document Actions Service");
+        }
+        return workflowDocumentActionsService;
+    }
+
 
     public void setProposalService(ProposalService proposalService) {
         this.proposalService = proposalService;

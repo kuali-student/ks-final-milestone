@@ -15,6 +15,14 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml" />
     <import resource="classpath:search-test-context.xml"/>
 
+    <bean id="configContext" class="org.kuali.student.common.test.KSTestConfigContextLoader">
+        <constructor-arg index="0">
+            <list>
+                <value>classpath:META-INF/acal-test-config.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
     <bean id="systemPropertyConfigurer" class="org.kuali.student.common.util.SystemPropertyConfigurer">
         <property name="properties" value="${propertiesPrefix.systemProperties}" />
     </bean>
@@ -23,7 +31,7 @@
     destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
         <property name="forceShutdown" value="true" />
         <property name="startupTransactionService" value="true" />
-        <property name="transactionTimeout" value="60" />
+        <property name="transactionTimeout" value="300" />
     </bean>
 
     <bean id="AtomikosUsrTx" class="com.atomikos.icatch.jta.UserTransactionImp" depends-on="systemPropertyConfigurer"></bean>
@@ -90,6 +98,7 @@
         <property name="termAssembler" ref="termAssembler" />
         <property name="keyDateAssembler" ref="keyDateAssembler" />
         <property name="acalEventAssembler" ref="acalEventAssembler" />
+        <property name="searchService" ref="coreSearchService" />
     </bean>
 
     <bean id="acalAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcademicCalendarAssembler">
@@ -101,19 +110,28 @@
     <bean id="termAssembler" class="org.kuali.student.r2.core.acal.service.assembler.TermAssembler">
         <property name="termCodeGenerator" ref = "termCodeGenerator" />
     </bean>
-    <bean id="termCodeGenerator" class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorImpl"/>
+    <bean id="termCodeGenerator" class="org.kuali.student.r2.core.acal.service.impl.TermCodeGeneratorMockImpl"/>
     <bean id="keyDateAssembler" class="org.kuali.student.r2.core.acal.service.assembler.KeyDateAssembler" />
     <bean id="acalEventAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler" />
 
     <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
     <bean id="typeService" class="org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl"/>
-<!-- BJG    <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceMockDataImpl"/> -->
     <bean id="stateService" class="org.kuali.student.r2.core.class1.state.mock.StateServiceMockImpl" />
 
     <bean id="atpServiceAuthorization" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceAuthorizationDecorator">
         <property name="nextDecorator" ref="atpServiceCalculationDecorator" />
         <property name="permissionService" ref="permissionService" />
+    </bean>
+
+    <bean id="coreSearchService" class="org.kuali.student.r2.common.class1.search.SearchServiceDispatcherImpl">
+        <property name="searchServices">
+            <list>
+                <bean id="CoreSearchServiceImpl" class="org.kuali.student.r2.core.class1.search.CoreSearchServiceImpl">
+                    <property name="entityManager" ref="entityManager"/>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <!--

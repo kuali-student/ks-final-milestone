@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class provides the validation layer for the PopulationService
  *
  * @author Kuali Student Team
  */

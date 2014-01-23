@@ -54,7 +54,8 @@ public abstract class DelayedToolView extends LazyPanel implements ToolView{
             }
     };
     
-    
+    public DelayedToolView() {}
+
     /**
      * @param controller
      * @param name
@@ -72,6 +73,12 @@ public abstract class DelayedToolView extends LazyPanel implements ToolView{
         this.viewName = viewName;
     }
    
+    public void init(Enum<?> viewEnum, String viewName) {
+        this.controller = null;
+        this.viewEnum = viewEnum;
+        this.viewName = viewName;
+    }
+
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback){
         if (getWidget() instanceof HasReferenceId){

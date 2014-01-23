@@ -85,7 +85,7 @@ public class PopulationServiceImpl implements PopulationService {
             popEntity.fromDTO(populationInfo);
             popEntity.setUpdateId(contextInfo.getPrincipalId());
             popEntity.setUpdateTime(contextInfo.getCurrentDate());
-            populationDao.merge(popEntity);
+            popEntity = populationDao.merge(popEntity);
             populationDao.getEm().flush();
             return popEntity.toDto();
         } else {
@@ -189,7 +189,7 @@ public class PopulationServiceImpl implements PopulationService {
                 }
             }
             popRuleEntity.setChildPopulations(childPops);
-            populationRuleDao.merge(popRuleEntity);
+            popRuleEntity = populationRuleDao.merge(popRuleEntity);
             populationRuleDao.getEm().flush();
             return popRuleEntity.toDto();
         } else {
@@ -319,7 +319,15 @@ public class PopulationServiceImpl implements PopulationService {
         // Strictly not needed, but is a good check to make sure the populationRule is valid (exception thrown if not valid)
         PopulationRuleEntity popRuleEntity = populationRuleDao.find(populationRuleId);
         popEntity.setPopulationRuleId(populationRuleId);
-        populationDao.merge(popEntity);
+        try {
+            popEntity = populationDao.merge(popEntity);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("failed to apply population rule(id="+populationRuleId+") to population (id=" + populationId + ")" , e);
+
+        }
+        
+        populationDao.getEm().flush();
+        
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(Boolean.TRUE);
         return statusInfo;
@@ -334,7 +342,14 @@ public class PopulationServiceImpl implements PopulationService {
             throw new InvalidParameterException("Passed population rule ID, " + populationRuleId + ", does not match population's pop rule ID: " + popRuleId);
         }
         popEntity.setPopulationRuleId(null); // Presumably, setting to null does the trick.
-        populationDao.merge(popEntity);
+        try {
+            popEntity = populationDao.merge(popEntity);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("failed to remove population rule(id="+populationRuleId+") from population (id=" + populationId + ")" , e);
+        }
+        
+        populationDao.getEm().flush();
+        
         StatusInfo statusInfo = new StatusInfo();
         statusInfo.setSuccess(Boolean.TRUE);
         return statusInfo;

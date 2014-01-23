@@ -35,6 +35,7 @@ import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
 import org.kuali.student.r1.common.assembly.data.MetadataInterrogator.ConstraintIds;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -119,7 +120,8 @@ public class DefaultWidgetFactoryImpl extends DefaultWidgetFactory {
                 if (config.metadata != null && MetadataInterrogator.isRepeating(config.metadata) && !LookupMetadata.Widget.CHECKBOX_LIST.equals(config.lookupMeta.getWidget())) {
                     result = new KSSelectedList(config);
                 } else {
-                    result = new KSPicker(config);
+                    result = GWT.create(KSPicker.class);
+                    ((KSPicker) result).init(config);
                 }
             } else {
                 switch (config.type) {

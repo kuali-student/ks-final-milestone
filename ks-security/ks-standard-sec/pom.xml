@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.core</groupId>
         <artifactId>ks-security</artifactId>
-        <version>2.0.1-cm-krad-SNAPSHOT</version>
+        <version>2.1.1-FR2-M1-cm-krad-SNAPSHOT</version>
     </parent>
     <artifactId>ks-standard-sec</artifactId>
     <name>KS Standard Security</name>
@@ -29,6 +29,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -70,6 +74,12 @@
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-common-api</artifactId>
             <version>${ks.api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.core</groupId>
+            <artifactId>ks-common-test</artifactId>
+            <version>${ks.core.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>

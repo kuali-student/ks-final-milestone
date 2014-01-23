@@ -99,8 +99,8 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public List<AtpInfo> getATPsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getATPsForMilestone(milestoneId, contextInfo);
+    public List<AtpInfo> getAtpsForMilestone(String milestoneId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAtpsForMilestone(milestoneId, contextInfo);
     }
 
     @Override

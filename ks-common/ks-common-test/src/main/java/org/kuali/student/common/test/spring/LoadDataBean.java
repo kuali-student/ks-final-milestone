@@ -30,6 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,9 +67,11 @@ public class LoadDataBean implements ApplicationContextAware{
                 if (split.length > 1&& !split[1].isEmpty()) {
 				    String testDataFile = split[1];
 
-					ApplicationContext ac = new FileSystemXmlApplicationContext(
+					ConfigurableApplicationContext ac = new FileSystemXmlApplicationContext(
 							testDataFile);
-					for (Object bean : (List<?>) ac.getBean("persistList")) {
+                    List<?> persistList = (List<?>) ac.getBean("persistList");
+                    ac.close();
+                    for (Object bean : persistList) {
 						if(!em.contains(bean)){
 							em.persist(bean);
 						}

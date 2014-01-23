@@ -112,7 +112,11 @@ public class KSLabelListImpl extends KSSelectItemWidgetAbstract {
 
         int itemCount = 0;
         if (super.getListItems() != null){
-        	itemCount = super.getListItems().getItemCount();
+            itemCount = super.getListItems().getItemCount();
+            if (itemCount == 0){
+                // Fix for divide by zero error by getting the proper count back from the select items box.
+                itemCount = selectedItems.size();
+            }
         } else {
         	itemCount = selectedItems.size();
         }

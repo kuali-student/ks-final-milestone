@@ -82,6 +82,8 @@ public class LifecycleEntity extends MetaEntity implements AttributeOwner<Lifecy
     }
 
     public void fromDto(Lifecycle lifecycle) {
+        super.fromDTO(lifecycle);
+        
         this.setName(lifecycle.getName());
         this.refObjectUri = lifecycle.getRefObjectUri();
         if (lifecycle.getDescr() == null) {
