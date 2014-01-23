@@ -20,7 +20,14 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.statis
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -29,6 +36,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
+import javax.jms.JMSException;
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
@@ -49,15 +57,15 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     private CourseRegistrationService courseRegistrationService;
 
     @Override
-    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String userId, String termCode, String courseCode, String regGroupName, String regGroupId) throws Exception {
+    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String userId, String termCode, String courseCode, String regGroupName, String regGroupId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
         LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupName));
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        if(!StringUtils.isEmpty(userId)){
+        if (!StringUtils.isEmpty(userId)) {
             contextInfo.setPrincipalId(userId);
         }
 
-        if(StringUtils.isEmpty(contextInfo.getPrincipalId())){
+        if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
             throw new LoginException("User must be logged in to access this service");
         }
 
@@ -66,7 +74,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         //Create the request object
         RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(),
-                getScheduleOfClassesService().getTermIdByTermCode(termCode),rgId );
+                getScheduleOfClassesService().getTermIdByTermCode(termCode), rgId);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
@@ -75,27 +83,31 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegistrationResponseInfo registrationResponseInfo = getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
 
         return registrationResponseInfo;
-      
+
     }
 
     /**
      * Based on the input, get the regGroupId. if it's passed in, return it, if not, use the other input params to find it.
-     * @param termCode
-     * @param courseCode
-     * @param regGroupName
-     * @param regGroupId
-     * @return
-     * @throws Exception
+     *
+     * @param termCode     term code
+     * @param courseCode   course code
+     * @param regGroupName registration group name
+     * @param regGroupId   registration group internal id
+     * @return id of registraion group for a given course code and reg group name
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
      */
-    private String getRegGroupId(String termCode, String courseCode, String regGroupName, String regGroupId) throws Exception{
+    private String getRegGroupId(String termCode, String courseCode, String regGroupName, String regGroupId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
         String rgId = "";
 
-        if(!StringUtils.isEmpty(regGroupId)){
+        if (!StringUtils.isEmpty(regGroupId)) {
             rgId = regGroupId;
         } else {
             // get the registration group
             RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
-            if(regGroupSearchResult != null){
+            if (regGroupSearchResult != null) {
                 rgId = regGroupSearchResult.getRegGroupId();
             }
         }
@@ -110,7 +122,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         try {
             Map<String, List> stats = getStatsFromRegEngine();
             response = Response.ok(stats);
-        } catch( Throwable t ) {
+        } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
         }
@@ -130,7 +142,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             MQPerformanceCounter.INSTANCE.clearPerformanceStats();
 
             response = Response.fromResponse(getRegEngineStats());
-        } catch( Throwable t ) {
+        } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
         }
@@ -138,30 +150,32 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    private Map<String, List> getStatsFromRegEngine() throws Exception {
+    private Map<String, List> getStatsFromRegEngine() throws JMSException {
 
         // define types of stats to collect
         List<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType> statTypesToRequest = new LinkedList<RegEngineMqStatisticsGenerator.RegistrationEngineStatsType>();
-        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER );
-        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE );
-        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE );
-        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.SEAT_CHECK_QUEUE );
-        statTypesToRequest.add( RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS );
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.BROKER);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.INITIALIZATION_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.VERIFICATION_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.SEAT_CHECK_QUEUE);
+        statTypesToRequest.add(RegEngineMqStatisticsGenerator.RegistrationEngineStatsType.REGISTRATION_ENGINE_STATS);
 
         // collect the stats
         RegEngineMqStatisticsGenerator generator = new RegEngineMqStatisticsGenerator();
-        generator.initiateRequestForStats( statTypesToRequest );
+        generator.initiateRequestForStats(statTypesToRequest);
 
         return generator.getStats();
     }
 
-    /** SEARCH for STUDENT REGISTRATION INFO based on person and termCode **/
+    /**
+     * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
+     */
     @Override
-    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(String personId, String termCode) throws Exception {
+    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(String personId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        if(StringUtils.isEmpty(contextInfo.getPrincipalId())){
+        if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
             throw new LoginException("User must be logged in to access this service");
         }
 
@@ -175,11 +189,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     /**
      * This method call search service to retrieve registration schedule data for the person
-     * @param personId
-     * @param termId
+     *
+     * @param personId principal id
+     * @param termId   term id
      * @return StudentScheduleCourseResults
-     **/
-    private List<StudentScheduleCourseResult> getRegistrationScheduleByPersonAndTerm(String personId, String termId, ContextInfo contextInfo) throws Exception {
+     * @throws OperationFailedException
+     * @throws InvalidParameterException
+     */
+    private List<StudentScheduleCourseResult> getRegistrationScheduleByPersonAndTerm(String personId, String termId, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
         List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
         HashMap<String, StudentScheduleCourseResult> hm = new HashMap<String, StudentScheduleCourseResult>();
 
@@ -187,7 +204,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, personId);
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
 
-        SearchResultInfo searchResult = null;
+        SearchResultInfo searchResult;
         try {
             searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
         } catch (Exception e) {
@@ -198,7 +215,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             String luiId = "", masterLuiId = "", personLuiType = "", credits = "",
                     luiCode = "", luiName = "", luiDesc = "", luiType = "",
                     roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
-            for (SearchResultCellInfo cellInfo : row.getCells()){
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
                 if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID.equals(cellInfo.getKey())) {
                     luiId = cellInfo.getValue();
                 } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LUI_ID.equals(cellInfo.getKey())) {
@@ -322,17 +339,21 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     /**
      * Finds all LPRs for a given personId and deletes them
      * Returns an empty List of StudentScheduleCourseResult
-     * @param personId
-     * @return
-     * @throws Exception
+     *
+     * @param personId Principal ID
+     * @return list of student schedule
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
      */
-
-    public List<StudentScheduleCourseResult> clearLPRsByPerson(String personId) throws Exception{
+    public List<StudentScheduleCourseResult> clearLPRsByPerson(String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         List<LprInfo> lprs;
         List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
-        for(LprInfo lprInfo: lprs){
+        for (LprInfo lprInfo : lprs) {
             CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
         }
 
@@ -341,13 +362,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
 
     /**
-    * This method creates a registration request for the add operation of a single registration group.
-    * @param principalId
-    * @param termId
-    * @param regGroupid
-    * @return
-    **/
-    private RegistrationRequestInfo createAddRegistrationRequest(String principalId, String termId, String regGroupid){
+     * This method creates a registration request for the add operation of a single registration group.
+     *
+     * @param principalId principal id
+     * @param termId      term id
+     * @param regGroupid  Registration Group id
+     * @return registration request
+     */
+    private RegistrationRequestInfo createAddRegistrationRequest(String principalId, String termId, String regGroupid) {
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
         regReqInfo.setRequestorId(principalId);
         regReqInfo.setTermId(termId); // bad bc we have it from the load call above
@@ -367,7 +389,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     public ScheduleOfClassesService getScheduleOfClassesService() {
 
-        if (scheduleOfClassesService == null){
+        if (scheduleOfClassesService == null) {
             scheduleOfClassesService = (ScheduleOfClassesService) GlobalResourceLoader.getService(new QName(ScheduleOfClassesServiceConstants.NAMESPACE, ScheduleOfClassesServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return scheduleOfClassesService;
@@ -378,7 +400,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegistrationService == null){
+        if (courseRegistrationService == null) {
             courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
 

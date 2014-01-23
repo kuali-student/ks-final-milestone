@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.registration.client.service.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -39,6 +40,9 @@ public class StudentScheduleActivityOfferingResult {
     }
 
     public List<ActivityOfferingScheduleComponentResult> getScheduleComponents() {
+        if (scheduleComponents == null) {
+            scheduleComponents = new ArrayList<ActivityOfferingScheduleComponentResult>();
+        }
         return scheduleComponents;
     }
 

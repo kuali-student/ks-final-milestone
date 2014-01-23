@@ -11,5 +11,4 @@ public class CourseRegistrationConstants {
     public static final String REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID = "regReqId";
 
 
-
 }

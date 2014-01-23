@@ -56,7 +56,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
                 return makeErrorResponse(registrationRequestId);
             }
 
-        } catch (Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException("Error initializing request", ex);
         }
         return makeErrorResponse(registrationRequestId);
@@ -73,7 +73,6 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     private List<LprInfo> makeLprsFromRegRequest(RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        RegistrationRequestInfo fetched = null;
         if (!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(registrationRequestInfo.getStateKey())) {
             // If this state is not new, then it's been processed, so skip.
             LOGGER.info("Request item already processed");
@@ -82,13 +81,13 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             // By changing to processing, we avoid reprocessing the request
             getCourseRegistrationService().changeRegistrationRequestState(registrationRequestInfo.getId(),
                     LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY, contextInfo);
-            fetched =
-                getCourseRegistrationService().getRegistrationRequest(registrationRequestInfo.getId(), contextInfo);
+            registrationRequestInfo =
+                    getCourseRegistrationService().getRegistrationRequest(registrationRequestInfo.getId(), contextInfo);
         }
         List<LprInfo> lprInfos = new ArrayList<LprInfo>();
 
-        for (RegistrationRequestItem registrationRequestItem : registrationRequestInfo.getRegistrationRequestItems()){
-            if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)){
+        for (RegistrationRequestItem registrationRequestItem : registrationRequestInfo.getRegistrationRequestItems()) {
+            if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
                 lprInfos.addAll(buildLprItems(registrationRequestItem.getRegistrationGroupId(), registrationRequestInfo.getTermId(), contextInfo));
             }
         }
@@ -98,10 +97,10 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     /**
      * This method will build a LprTransactionInfo object from a regGroup
      *
-     * @param regGroupId
-     * @return
+     * @param regGroupId Registration Group Id
+     * @return List of Learning Person Relationships corresponding to the Reg Group, Course, and Activities
      */
-    protected List<LprInfo> buildLprItems(String regGroupId, String termId, ContextInfo context){
+    protected List<LprInfo> buildLprItems(String regGroupId, String termId, ContextInfo context) {
         List<LprInfo> result = new ArrayList<LprInfo>();
         // Get AO Lui's by reg grup
         //List<LuiInfo> ao1List = getLuiService().getLuisByRelatedLuiAndRelationType(registrationRequestInfo.get);
@@ -122,7 +121,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             // Create AO LPRs
             List<String> aoIds = luiServiceLocal.getLuiIdsByLuiAndRelationType(regGroupId,
                     LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
-            for (String aoId: aoIds) {
+            for (String aoId : aoIds) {
                 LprInfo aoLprCreated = makeLpr(LprServiceConstants.REGISTRANT_AO_TYPE_KEY, aoId, coId, effDate, termId, context);
                 result.add(aoLprCreated);
             }
@@ -155,7 +154,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegistrationService == null){
+        if (courseRegistrationService == null) {
             courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
         }
 
@@ -167,7 +166,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     }
 
     public LuiService getLuiService() {
-        if (luiService == null){
+        if (luiService == null) {
             luiService = (LuiService)
                     GlobalResourceLoader.getService(new QName(LuiServiceConstants.NAMESPACE, LuiServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
@@ -179,7 +178,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     }
 
     public LprService getLprService() {
-        if (lprService == null){
+        if (lprService == null) {
             lprService = (LprService)
                     GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
         }

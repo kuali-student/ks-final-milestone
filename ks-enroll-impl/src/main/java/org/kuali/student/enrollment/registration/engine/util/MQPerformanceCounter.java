@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.registration.engine.util;
 import org.apache.activemq.command.ActiveMQMapMessage;
 import org.apache.log4j.Logger;
 
+import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import java.util.HashMap;
 import java.util.Map;
@@ -33,18 +34,18 @@ public class MQPerformanceCounter {
      * on the first pass through, the reqId and start time are added to the map
      * on the second time through the reqId is used to remove the start time from the map, and calculate the averages
      * with the passed in endTime.
-     *
+     * <p/>
      * needs to be synchronized for thread safety
      *
      * @param regReqId  always required. used as map key
      * @param startTime required on first pass
      * @param endTime   requred on second pass
      */
-    public synchronized void updateCounts(String regReqId, long startTime, long endTime){
-        if(!performanceMap.containsKey(regReqId)){ // first pass
+    public synchronized void updateCounts(String regReqId, long startTime, long endTime) {
+        if (!performanceMap.containsKey(regReqId)) { // first pass
             LOG.debug(String.format("START [%s]:[%s]", regReqId, startTime));
             performanceMap.put(regReqId, startTime);
-        }   else{ // second pass
+        } else { // second pass
             LOG.debug(String.format("END   [%s]:[%s]", regReqId, endTime));
             long storedStart = performanceMap.remove(regReqId);
             long delta = endTime - storedStart;   // calculation
@@ -57,13 +58,13 @@ public class MQPerformanceCounter {
 
     /**
      * this method returns the current counts and stats
-     *
+     * <p/>
      * needs to be synchronized for thread safety
      *
      * @return Returns a MQ MapMessage.
-     * @throws Exception
+     * @throws JMSException
      */
-    public synchronized MapMessage getPerformanceStats() throws Exception{
+    public synchronized MapMessage getPerformanceStats() throws JMSException {
         MapMessage perfMap = new ActiveMQMapMessage();
 
         perfMap.setString("requestCount", Long.toString(requestCount));
@@ -74,10 +75,10 @@ public class MQPerformanceCounter {
 
     }
 
-    public synchronized void clearPerformanceStats(){
-        requestCount =0;
-        totalRequestTime =0;
-        averageRequestTime=0;
+    public synchronized void clearPerformanceStats() {
+        requestCount = 0;
+        totalRequestTime = 0;
+        averageRequestTime = 0;
     }
 
 }

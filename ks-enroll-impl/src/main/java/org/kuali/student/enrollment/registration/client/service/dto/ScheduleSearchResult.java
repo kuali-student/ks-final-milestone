@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseSearchResult", propOrder = {
-        "scheduleId", "startTimeDisplay", "startTimeMili",  "endTimeDisplay", "endTimeMili", "buildingName",
+        "scheduleId", "startTimeDisplay", "startTimeMili", "endTimeDisplay", "endTimeMili", "buildingName",
         "buildingCode", "roomName", "days", "tba"})
 public class ScheduleSearchResult {
     private String scheduleId;

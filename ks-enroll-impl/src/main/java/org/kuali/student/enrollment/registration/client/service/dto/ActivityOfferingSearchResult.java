@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement
@@ -144,6 +145,9 @@ public class ActivityOfferingSearchResult {
     }
 
     public List<InstructorSearchResult> getInstructors() {
+        if (instructors == null) {
+            instructors = new ArrayList<InstructorSearchResult>();
+        }
         return instructors;
     }
 

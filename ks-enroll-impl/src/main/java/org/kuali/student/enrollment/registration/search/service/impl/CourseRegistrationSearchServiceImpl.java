@@ -50,8 +50,6 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     @Resource
     private EntityManager entityManager;
 
-    private int maxInClauseElements = 100;
-
     public static final String REG_INFO_BY_PERSON_TERM_SEARCH_KEY = "kuali.search.type.lui.searchForCourseRegistrationByStudentAndTerm ";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
@@ -124,14 +122,14 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         if (REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
             return searchForCourseRegistrationByPersonAndTerm(searchRequestInfo);
-        }
-        else {
+        } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
     }
 
     /**
      * Returns list of Registration Info for the person: CO, AO, Schedules, etc.
+     *
      * @throws OperationFailedException
      */
     private SearchResultInfo searchForCourseRegistrationByPersonAndTerm(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
@@ -171,20 +169,20 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         query.setParameter(SearchParameters.PERSON_ID, personId);
         List<Object[]> results = query.getResultList();
 
-        for(Object[] resultRow : results){
+        for (Object[] resultRow : results) {
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.LUI_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.MASTER_LUI_ID, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.PERSON_LUI_TYPE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.CREDITS, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.LUI_CODE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.LUI_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.LUI_DESC, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.LUI_TYPE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.ROOM_CODE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.BUILDING_CODE, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.WEEKDAYS, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.MASTER_LUI_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.PERSON_LUI_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);
             BigDecimal startTimeMs = (BigDecimal) resultRow[i++];
             row.addCell(SearchResultColumns.START_TIME_MS, (startTimeMs == null) ? "" : startTimeMs.toString());
             BigDecimal endTimeMs = (BigDecimal) resultRow[i];

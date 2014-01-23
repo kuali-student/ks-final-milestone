@@ -30,26 +30,26 @@ public class SimplePerformanceListener implements MessageListener {
         long endTime = 0;
         String regReqId = "";
 
-        try{
-            if(message.getJMSReplyTo() != null){ // this is used for getting current stats
+        try {
+            if (message.getJMSReplyTo() != null) { // this is used for getting current stats
                 // send mq message. use singlton perf counter
-               jmsTemplate.convertAndSend(message.getJMSReplyTo(), MQPerformanceCounter.INSTANCE.getPerformanceStats());
-            } else{ // we're part of the standard stat calculation
+                jmsTemplate.convertAndSend(message.getJMSReplyTo(), MQPerformanceCounter.INSTANCE.getPerformanceStats());
+
+            } else { // we're part of the standard stat calculation
+
                 //Pull the User ID and the Registration Request ID from the message.
                 if (message instanceof MapMessage) {
-                    try {
-                        startTime = ((MapMessage) message).getLong("startTime");
-                        endTime = ((MapMessage) message).getLong("endTime");
-                        regReqId = ((MapMessage) message).getString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID);
-                    } catch (JMSException e) {
-                        LOG.error("Error getting message content", e);
-                    }
+                    startTime = ((MapMessage) message).getLong("startTime");
+                    endTime = ((MapMessage) message).getLong("endTime");
+                    regReqId = ((MapMessage) message).getString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID);
                 }
+
                 // use singleton perf counter to store / update stats
                 MQPerformanceCounter.INSTANCE.updateCounts(regReqId, startTime, endTime);
             }
-        }catch (Exception ex){
-            LOG.error(ex);
+
+        } catch (JMSException ex) {
+            throw new RuntimeException("Error processing Message", ex);
         }
     }
 
@@ -60,8 +60,6 @@ public class SimplePerformanceListener implements MessageListener {
     public void setJmsTemplate(JmsTemplate jmsTemplate) {
         this.jmsTemplate = jmsTemplate;
     }
-
-
 
 
 }
