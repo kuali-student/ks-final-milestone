@@ -48,8 +48,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     private CourseRegistrationService courseRegistrationService;
 
     @Override
-    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String userId, String termCode, String courseCode, String regGroupName) throws Exception {
-        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId,termCode,courseCode,regGroupName));
+    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String userId, String termCode, String courseCode, String regGroupName, String regGroupId) throws Exception {
+        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupName));
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         if(!StringUtils.isEmpty(userId)){
@@ -60,12 +60,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             throw new LoginException("User must be logged in to access this service");
         }
 
-        // get the registration group
-        RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
+        // get the regGroup id
+        String rgId = getRegGroupId(termCode, courseCode, regGroupName, regGroupId);
 
         //Create the request object
         RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(),
-                getScheduleOfClassesService().getTermIdByTermCode(termCode),regGroupSearchResult.getRegGroupId()  );
+                getScheduleOfClassesService().getTermIdByTermCode(termCode),rgId );
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
@@ -74,6 +74,31 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegistrationResponseInfo registrationResponseInfo = getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
 
         return registrationResponseInfo;
+      
+    }
+
+    /**
+     * Based on the input, get the regGroupId. if it's passed in, return it, if not, use the other input params to find it.
+     * @param termCode
+     * @param courseCode
+     * @param regGroupName
+     * @param regGroupId
+     * @return
+     * @throws Exception
+     */
+    private String getRegGroupId(String termCode, String courseCode, String regGroupName, String regGroupId) throws Exception{
+        String rgId = "";
+
+        if(!StringUtils.isEmpty(regGroupId)){
+            rgId = regGroupId;
+        } else {
+            // get the registration group
+            RegGroupSearchResult regGroupSearchResult = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
+            if(regGroupSearchResult != null){
+                rgId = regGroupSearchResult.getRegGroupId();
+            }
+        }
+        return rgId;
     }
 
 

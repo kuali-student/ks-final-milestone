@@ -26,6 +26,7 @@ public interface CourseRegistrationClientService {
      * @param termCode
      * @param courseCode
      * @param regGroupName
+     * @param regGroupId  optional, but the term, course, and reg group name are not checked if you supply the id
      * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
      * ansynchonous so the client will need to poll the system for status updates.
      * @throws Exception
@@ -36,7 +37,8 @@ public interface CourseRegistrationClientService {
     public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(@QueryParam("userId") String userId,
                                                                                                        @QueryParam("termCode") String termCode,
                                                                                                        @QueryParam("courseCode") String courseCode,
-                                                                                                       @QueryParam("regGroupName") String regGroupName) throws Exception;
+                                                                                                       @QueryParam("regGroupName") String regGroupName,
+                                                                                                       @QueryParam("regGroupId") String regGroupId) throws Exception;
 
     /**
      * Returns statistics for the registration engine.
