@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseregistration.service.transformer;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -159,9 +160,9 @@ public class RegistrationRequestTransformer {
 
         for (LprTransactionItemRequestOptionInfo option : item.getRequestOptions()) {
             if (option.getOptionKey().equals(OK_TO_WAITLIST)) {
-                requestItem.setOkToWaitlist(convertStringToBoolean(option.getOptionValue()));
+                requestItem.setOkToWaitlist(BooleanUtils.toBoolean(option.getOptionValue()));
             } else if (option.getOptionKey().equals(OK_TO_HOLD_UNTIL_LIST)) {
-                requestItem.setOkToHoldUntilList(convertStringToBoolean(option.getOptionValue()));
+                requestItem.setOkToHoldUntilList(BooleanUtils.toBoolean(option.getOptionValue()));
             }
         }
         return requestItem;
@@ -177,25 +178,7 @@ public class RegistrationRequestTransformer {
         return null;
     }
 
-    protected static Boolean convertStringToBoolean(String value) {
-        if (value == null) {
-            return null;
-        } else if (value.equals(Boolean.TRUE.toString())) {
-            return true;
-        } else if (value.equals(Boolean.FALSE.toString())) {
-            return true;
-        }
-        return null; // May not be the best thing to do, perhaps throw exception?
-    }
-
     protected static String convertBooleanToString(Boolean value) {
-        // This should eventually be moved elsewhere
-        if (value == null) {
-            return "null";
-        } else if (value) {
-            return Boolean.TRUE.toString();
-        } else {
-            return Boolean.FALSE.toString();
-        }
+        return BooleanUtils.toString(value, Boolean.TRUE.toString(), Boolean.FALSE.toString(), "null");
     }
 }
