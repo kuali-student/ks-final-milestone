@@ -61,7 +61,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     public static final Logger LOGGER = Logger.getLogger(ScheduleOfClassesServiceImpl.class);
 
-    Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
+    private static final Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
 
     /**
      * COURSE OFFERINGS *
