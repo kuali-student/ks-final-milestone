@@ -47,7 +47,7 @@ import org.springframework.web.servlet.ModelAndView;
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
 @Controller
-@RequestMapping(value = "/courseOfferingRules")
+@RequestMapping(value = "/courseRules")
 public class CourseRuleEditorController extends RuleEditorController {
     
     private static final String KSKRMS_RULE_CO_TABS_ID = "KS-TabsWidget";
