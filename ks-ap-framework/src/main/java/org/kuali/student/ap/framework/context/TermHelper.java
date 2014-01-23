@@ -47,7 +47,7 @@ public interface TermHelper {
 	 * Query the Academic Calendar Service, determine the current ATP, and
 	 * return the ID.
 	 * 
-	 * @return The ID of the current ATP.
+	 * @return The list of the current ATP.
 	 */
 	List<Term> getCurrentTerms();
 
@@ -213,8 +213,17 @@ public interface TermHelper {
     public List<Term> sortTermsByEndDate(List<Term> terms, boolean ascending);
 
     /**
-     * Get a list of the current Academic Terms and make sure the SOC state associated
-     * with the term is published, and return the list of the terms.
+     * Query the Academic Calendar Service, determine the current ATP based on a
+     * specified key date, and return the list of the current terms.
+     *
+     * @return The list of the current ATP.
+     */
+    public List<Term>getCurrentTermsBasedOnKeyDate();
+
+    /**
+     * Get a list of the current Academic Terms based on specified Key Date and
+     * make sure the SOC state associated with the term is published, and return
+     * the list of the terms.
      * @return - A list of current terms
      */
     public List<Term> getCurrentTermsWithPublishedSOC ();

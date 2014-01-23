@@ -280,6 +280,16 @@ public class TermHelperMockTest implements TermHelper {
     }
 
     /**
+     * Query the Academic Calendar Service, determine the current ATP based on a
+     * specified key date, and return the list of the current terms.
+     *
+     * @return The list of the current ATP.
+     */
+    public List<Term>getCurrentTermsBasedOnKeyDate(){
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
      * Get a list of the current Academic Terms and make sure the SOC state associated
      * with the term is published, and return the list of the terms.
      * @return - A list of current terms
