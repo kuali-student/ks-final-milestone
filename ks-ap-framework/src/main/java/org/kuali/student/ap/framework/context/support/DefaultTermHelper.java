@@ -256,15 +256,8 @@ public class DefaultTermHelper implements TermHelper {
                         or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
                 List<TermInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
                         KsapFrameworkServiceLocator.getContext().getContextInfo());
-                if (rv == null){
-                    // If no current terms are found return first planning term
-                    rv = new ArrayList<TermInfo>();
-                    rv.add((TermInfo)getFirstPlanningTerm());
-                }
-                if(rv.isEmpty()){
-                    rv.add((TermInfo) getFirstPlanningTerm());
-                }
-
+                if (rv == null)
+                    rv = Collections.emptyList();
                 getTermMarker().currentTerms = getTermMarker().cache(rv);
             } catch (InvalidParameterException e) {
                 throw new IllegalArgumentException("Acal lookup failure", e);
@@ -520,7 +513,8 @@ public class DefaultTermHelper implements TermHelper {
                 throw new IllegalArgumentException("Acal lookup failure, no current term found");
             }
         }
-        throw new IllegalArgumentException("Acal lookup failure, no current term found");
+        LOG.warn("No Current Term Found using first term of planning");
+        return getFirstPlanningTerm();
     }
 
     /**
