@@ -67,7 +67,7 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<modules>
-		                <module>ks-ap-sql</module>
+                <module>ks-ap-sql</module>
 				<module>ks-ap-framework</module>
 				<module>ks-ap-impl</module>
 				<module>ks-ap-ui</module>
@@ -100,6 +100,31 @@
 				<module>ks-ap-deployment-resources</module>
 			</modules>
 		</profile>
-	</profiles>
+        <profile>
+            <id>skip-surefire-tests</id>
+            <activation>
+                <property>
+                    <name>skip.ap.tests</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+            <!-- include all the modules from the default profile (except SQL modules and Web modules) -->
+            <modules>
+                <module>ks-ap-framework</module>
+                <module>ks-ap-impl</module>
+                <module>ks-ap-ui</module>
+                <module>ks-ap-deployment-resources</module>
+            </modules>
+        </profile>
+    </profiles>
 
 </project>
