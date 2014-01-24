@@ -17,12 +17,12 @@
 
 <channel:portalChannelTop channelTitle="Kuali Student" />
 <div class="body">
-
-    <ul class="chan">
-        <li><a class="portal_link" title="Home" href="${ConfigProperties.lum.application.url}/kr-krad/launch?methodToCall=start&viewId=ksFunctionalHomeView">Home</a></li>
-        <li><a class="portal_link" title="Curriculum Management" href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
-        <li><a class="portal_link" title="Enrollment" href="${ConfigProperties.lum.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment</a></li>
-    </ul>
+  
+  <ul class="chan">
+    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?methodToCall=start&viewId=ksFunctionalHomeView">Home</a></li>
+    <li><a href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
+    <li><a href="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment</a></li>
+  </ul>
 
 </div>
 <channel:portalChannelBottom />

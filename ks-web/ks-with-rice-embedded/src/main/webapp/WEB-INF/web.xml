@@ -37,6 +37,12 @@
         <param-value>classpath:ks-spring-security.xml</param-value>
     </context-param>
 
+	<!-- By default activate all modules -->
+ 	<context-param>
+        <param-name>spring.profiles.default</param-name>
+        <param-value>ks-core,ks-lum,ks-enroll,ks-ap,ks-web</param-value>
+    </context-param>
+    
     <filter>
         <filter-name>HideWebInfFilter</filter-name>
         <filter-class>org.kuali.rice.krad.web.filter.HideWebInfFilter</filter-class>

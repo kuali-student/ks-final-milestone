@@ -23,6 +23,7 @@
     <param name="config.location">classpath:META-INF/ks-core-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-lum-config.xml</param>
     <param name="config.location">classpath:META-INF/ks-enroll-config.xml</param>
+    <param name="config.location">classpath:META-INF/ks-ap/ks-ap-config.xml</param>
     <param name="config.location">classpath:ks-security-config.xml</param>
 
     <param name="version">${project.name} :: ${project.version} :: ${project.build.timestamp}</param>
