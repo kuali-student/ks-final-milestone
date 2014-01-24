@@ -1,15 +1,14 @@
 package org.kuali.student.enrollment.registration.client.service;
 
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.GET;
@@ -53,13 +52,13 @@ public interface CourseRegistrationClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/registerreggroup")
-    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(@QueryParam("userId") String userId,
+    public Response registerForRegistrationGroup(@QueryParam("userId") String userId,
                                                                                                        @QueryParam("termCode") String termCode,
                                                                                                        @QueryParam("courseCode") String courseCode,
                                                                                                        @QueryParam("regGroupName") String regGroupName,
                                                                                                        @QueryParam("regGroupId") String regGroupId,
                                                                                                        @QueryParam("credits") String credits,
-                                                                                                       @QueryParam("gradingOption") String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException;
+                                                                                                       @QueryParam("gradingOption") String gradingOptionId);
 
     /**
      * Returns statistics for the registration engine.
