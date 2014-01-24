@@ -8,7 +8,7 @@ insert into KSEN_SOC_ROR_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) value
 /
 insert into KSEN_SOC_ROR_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('e729a305-7459-483c-9d8c-e1f31d60029e', 'kuali.soc.rollover.result.dynattr.activity.offerings.created', '5b88a612-d027-429f-a9f3-b4241ed736c7', '0', 'adbeabec-721f-44c5-b814-d94179ba6da9')
 /
-insert into KSEN_SOC_ROR_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('9fb88ec8-bcb0-4670-ad8c-3df5cd54f001', 'kuali.soc.rollover.result.dynattr.activity.offerings.skipped', '5b88a612-d027-429f-a9f3-b4241ed736c7', '0', '75a2daf2-4894-469a-b1e4-f3833afafcc2')
+insert into KSEN_SOC_ROR_ATTR ( OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('9fb88ec8-bcb0-4670-ad8c-3df5cd54f001', 'kuali.soc.rollover.result.dynattr.activity.offerings.skipped', '5b88a612-d027-429f-a9f3-b4241ed736c7', '0', '75a2daf2-4894-469a-b1e4-f3833afafcc2')
 /
 insert into KSEN_SOC_ROR_ATTR (OBJ_ID, ATTR_KEY, OWNER_ID, ATTR_VALUE, ID) values ('e2dae705-59ea-4cea-a1b8-97963890ed4e', 'kuali.soc.rollover.result.dynattr.date.completed', '5b88a612-d027-429f-a9f3-b4241ed736c7', '2014 Jan 23 20:00:31 America/New_York', '289b7901-b122-4239-94fd-e4dd1e0066cf')
 /
