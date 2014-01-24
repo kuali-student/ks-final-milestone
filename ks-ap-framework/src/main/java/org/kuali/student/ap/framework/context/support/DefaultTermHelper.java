@@ -726,7 +726,7 @@ public class DefaultTermHelper implements TermHelper {
                 continue;
             }
 
-            if (socIds.isEmpty()){
+            if (socIds == null || socIds.isEmpty()){
                 continue;
             }
 

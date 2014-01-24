@@ -67,4 +67,25 @@ public class TestTermHelperWithNoData {
         assertNotNull(terms);
         assertTrue(terms.size() == 0);
     }
+
+    @Test
+    public void testGetCurrentTermsBasedOnKeyDate() throws Exception {
+        List<Term> terms = th.getCurrentTermsBasedOnKeyDate();
+        assertNotNull(terms);
+        assertTrue(terms.size() == 0);
+    }
+
+    @Test
+    public void testGetCurrentTermsWithPublishedSOC() throws Exception {
+        List<Term> terms = th.getCurrentTermsWithPublishedSOC();
+        assertNotNull(terms);
+        assertTrue(terms.size() == 0);
+    }
+
+    @Test
+    public void testGetFutureTermsWithPublishedSOC() throws Exception {
+        List<Term> terms = th.getFutureTermsWithPublishedSOC();
+        assertNotNull(terms);
+        assertTrue(terms.size() == 0);
+    }
 }

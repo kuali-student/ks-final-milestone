@@ -111,12 +111,22 @@
     <bean id="keyDateAssembler" class="org.kuali.student.r2.core.acal.service.assembler.KeyDateAssembler" />
     <bean id="acalEventAssembler" class="org.kuali.student.r2.core.acal.service.assembler.AcalEventAssembler" />
 
+    <bean id="atpSearchManager"
+          class="org.kuali.student.r2.common.class1.search.SearchManagerImpl">
+        <constructor-arg index="0" value="classpath:atp-search-config.xml" />
+        <property name="dao" ref="atpSearchableDao"/>
+    </bean>
+
+    <bean id="atpSearchableDao" class="org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl">
+        <property name="em" ref="entityManager"/>
+    </bean>
 
     <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao"/>
         <property name="atpRelDao" ref="atpAtpRelationDao"/>
         <property name="milestoneDao" ref="milestoneDao"/>
         <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
+        <property name="searchManager" ref="atpSearchManager"/>
         <property name="atpCriteriaLookupService" >
             <bean parent="defaultCriteriaLookupService">
                 <property name="predicateTransforms">

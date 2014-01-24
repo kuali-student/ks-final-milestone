@@ -14,10 +14,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -50,7 +48,7 @@ public class TestTermHelper {
 
     private void loadData() throws Exception {
         TermAndCalDataLoader loader = new TermAndCalDataLoader(KsapFrameworkServiceLocator.getAtpService(),
-                KsapFrameworkServiceLocator.getAcademicCalendarService());
+                KsapFrameworkServiceLocator.getAcademicCalendarService(), KsapFrameworkServiceLocator.getCourseOfferingSetService());
         loader.loadData();
     }
 
@@ -98,6 +96,27 @@ public class TestTermHelper {
     @Test
     public void testGetCurrentTerms() throws Exception {
         List<Term> terms = th.getCurrentTerms();
+        assertNotNull(terms);
+        assertTrue(terms.size() > 0);
+    }
+
+    @Test
+    public void testGetCurrentTermsBasedOnKeyDate() throws Exception {
+        List<Term> terms = th.getCurrentTermsBasedOnKeyDate();
+        assertNotNull(terms);
+        assertTrue(terms.size() > 0);
+    }
+
+    @Test
+    public void testGetCurrentTermsWithPublishedSOC() throws Exception {
+        List<Term> terms = th.getCurrentTermsWithPublishedSOC();
+        assertNotNull(terms);
+        assertTrue(terms.size() > 0);
+    }
+
+    @Test
+    public void testGetFutureTermsWithPublishedSOC() throws Exception {
+        List<Term> terms = th.getFutureTermsWithPublishedSOC();
         assertNotNull(terms);
         assertTrue(terms.size() > 0);
     }

@@ -17,9 +17,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 
 import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,6 +33,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class CourseOfferingSetServiceMockTest implements CourseOfferingSetService {
+
+    Map<String, SocInfo> socs = new HashMap<String, SocInfo>();
+
     /**
      * Retrieve information about a Soc
      *
@@ -48,7 +55,7 @@ public class CourseOfferingSetServiceMockTest implements CourseOfferingSetServic
      */
     @Override
     public SocInfo getSoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return socs.get(socId);
     }
 
     /**
@@ -95,7 +102,15 @@ public class CourseOfferingSetServiceMockTest implements CourseOfferingSetServic
      */
     @Override
     public List<String> getSocIdsByTerm(@WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //socs.get(termId);
+        List<String> ids = new ArrayList<String>();
+        for (Map.Entry<String, SocInfo> e : socs.entrySet()) {
+            SocInfo socInfo = e.getValue();
+            if (socInfo.getTermId().equals(termId)) {
+                ids.add(socInfo.getId());
+            }
+        }
+        return ids;
     }
 
     /**
@@ -245,7 +260,8 @@ public class CourseOfferingSetServiceMockTest implements CourseOfferingSetServic
      */
     @Override
     public SocInfo createSoc(@WebParam(name = "termId") String termId, @WebParam(name = "socTypeKey") String socTypeKey, @WebParam(name = "socInfo") SocInfo socInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        socs.put(termId, socInfo);
+        return socInfo;
     }
 
     /**
