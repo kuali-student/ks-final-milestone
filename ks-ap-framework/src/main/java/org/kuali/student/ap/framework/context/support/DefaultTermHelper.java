@@ -514,7 +514,12 @@ public class DefaultTermHelper implements TermHelper {
             }
         }
         LOG.warn("No Current Term Found using first term of planning");
-        return getFirstPlanningTerm();
+        try{
+            return getFirstPlanningTerm();
+        }catch (IllegalStateException e){
+            throw new IllegalArgumentException("Acal lookup failure, no current term found");
+        }
+
     }
 
     /**
