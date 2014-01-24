@@ -276,12 +276,12 @@ Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'c
 /
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values (null,'047810be-0dea-425a-bacc-e38d9921561c','b79dfcef-71ec-4f38-986a-2f62e8e2d2f4','    f.  expecting students to write convincing arguments to support a position.',0)
 /
-Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values ('<p>Learning objectives defined by faculty that are specific to a course<p>','RICHTEXT-10','9B03E004EFC64F3C9F89706A08787365','Learning objectives defined by faculty that are specific to a course',0)
-/
-Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values ('<p>Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs<p>','RICHTEXT-18','91102394F6A94C6CB785EBF5D8B11059','Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs',0)
-/
-Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values ('<p>Learning objectives mandated by the state<p>','RICHTEXT-22','E741E22AD46E4A8DB29C8E4BCD8FB75D','Learning objectives mandated by the state',0)
-/
+--  Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values ('<p>Learning objectives defined by faculty that are specific to a course<p>','RICHTEXT-10','9B03E004EFC64F3C9F89706A08787365','Learning objectives defined by faculty that are specific to a course',0)
+--  /
+--  Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values ('<p>Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs<p>','RICHTEXT-18','91102394F6A94C6CB785EBF5D8B11059','Learning objectives mandated by the Institution. They represent learning objectives of the institutions general education and are inherited by all programs',0)
+--  /
+--  Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values ('<p>Learning objectives mandated by the state<p>','RICHTEXT-22','E741E22AD46E4A8DB29C8E4BCD8FB75D','Learning objectives mandated by the state',0)
+--  /
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values ('Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.','c0d37b53-ed67-4db0-8aa9-6430ee0a08f4','818cbabd-5118-4cbf-a0d5-c9738a59ac1a','Undergraduates will learn and develop information literacy skills that they can successfully apply within a wide range and intersection of disciplines inside and outside academia.',0)
 /
 Insert into KSLO_RICH_TEXT_T (FORMATTED,ID,OBJ_ID,PLAIN,VER_NBR) values ('Undergraduates will be able to understand basic technologies and how these relate to their specific disciplines, and will be able to apply these technologies to their research and academic efforts.','1cde7b48-a2d2-4c0e-9c98-e58c6bf5fbdc','bc5e811a-da3f-4d6e-9ceb-0447ae2bbd42','Undergraduates will be able to understand basic technologies and how these relate to their specific disciplines, and will be able to apply these technologies to their research and academic efforts.',0)
