@@ -80,7 +80,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode);
 
         // verify passed credits (must be non-empty unless fixed) and grading option (can be null)
-        verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
+        credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
 
         //Create the request object
         RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), credits, gradingOptionId);
@@ -399,14 +399,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         registrationRequestItem.setRegistrationGroupId(regGroupid);
         registrationRequestItem.setPersonId(principalId);
 //        registrationRequestItem.setCredits(new KualiDecimal(credits));
-        registrationRequestItem.setGradingOptionId(gradingOptionId);
+//        registrationRequestItem.setGradingOptionId(gradingOptionId);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
         return regReqInfo;
     }
 
-    private void verifyRegistrationRequestCreditsGradingOption(CourseOfferingInfo courseOfferingInfo, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,  DoesNotExistException {
+    private String verifyRegistrationRequestCreditsGradingOption(CourseOfferingInfo courseOfferingInfo, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,  DoesNotExistException {
         int firstValue = 0;
 
         // checking grading option. If null - just keep it that way
@@ -443,6 +443,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 }
             }
         }
+
+        return credits;
     }
 
     public ScheduleOfClassesService getScheduleOfClassesService() {
