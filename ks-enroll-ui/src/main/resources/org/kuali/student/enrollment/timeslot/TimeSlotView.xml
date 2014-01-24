@@ -130,7 +130,7 @@
         </property>
     </bean>
 
-    <bean id="TimeSlotToolBar-Section" parent="KS-Uif-HorizontalBoxSection-ToolbarSection">
+    <bean id="TimeSlotToolBar-Section" parent="KS-Uif-HorizontalBoxSection-ToolbarSection" p:hidden="@{!enableAddButton}">
         <property name="items">
             <list>
                 <bean parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup" p:noLeftBorder="true">
