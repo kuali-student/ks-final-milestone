@@ -16,11 +16,14 @@
  */
 package org.kuali.student.enrollment.registration.client.service.impl.util;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -43,15 +46,22 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.infc.TypeTypeRelation;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.SearchServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -68,14 +78,15 @@ import java.util.Map;
  */
 public class CourseRegistrationAndScheduleOfClassesUtil {
 
-    private static volatile SearchService searchService;
-    private static volatile LprService lprService;
-    private static volatile IdentityService identityService;
-    private static volatile AtpService atpService;
-    private static volatile CourseService courseService;
-    private static volatile CourseOfferingService courseOfferingService;
-    private static volatile TypeService typeService;
-    private static volatile CourseOfferingSetService courseOfferingSetService;
+    private static SearchService searchService;
+    private static LprService lprService;
+    private static IdentityService identityService;
+    private static AtpService atpService;
+    private static CourseService courseService;
+    private static CourseOfferingService courseOfferingService;
+    private static TypeService typeService;
+    private static CourseOfferingSetService courseOfferingSetService;
+    private static LRCService lrcService;
 
     private static Map<String, Integer> activityPriorityMap = null;
 
@@ -232,6 +243,96 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         }
     }
 
+    public static CourseOfferingInfo getCourseOfferingIdCreditGrading(String courseOfferingId, String courseCode, String termId, String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        if( !StringUtils.isEmpty(courseOfferingId) ) {
+            return searchForCreditsGradingByCourseOfferingId(courseOfferingId);
+        }
+
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        List<CourseOfferingInfo> courseOfferingInfos = searchForCourseOfferingIdCreditsGradingByCourseCodeAndTerm(courseCode, termId);
+
+        return KSCollectionUtils.getRequiredZeroElement(courseOfferingInfos);
+    }
+
+    private static CourseOfferingInfo searchForCreditsGradingByCourseOfferingId(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CREDIT_REGGRADING_BY_COID_SEARCH_KEY);
+
+        searchRequestInfo.addParam(CourseOfferingManagementSearchImpl.SearchParameters.CO_ID, courseOfferingId);
+
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequestInfo, ContextUtils.createDefaultContextInfo());
+
+        CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
+        courseOfferingInfo.setId(courseOfferingId);
+        courseOfferingInfo.setStudentRegistrationGradingOptions(new ArrayList<String>());
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
+                String value = StringUtils.EMPTY;
+                if (cellInfo.getValue() != null) {
+                    value = cellInfo.getValue();
+                }
+                if (CourseOfferingManagementSearchImpl.SearchResultColumns.RES_VAL_GROUP_KEY.equals(cellInfo.getKey())) {
+                    if (value != null && value.startsWith("kuali.creditType.credit")) {
+                        courseOfferingInfo.setCreditOptionId(value);
+                    } else if (value != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, value)) {
+                        courseOfferingInfo.getStudentRegistrationGradingOptions().add(value);
+                    }
+                }
+            }
+        }
+
+        return courseOfferingInfo;
+    }
+
+    private static List<CourseOfferingInfo> searchForCourseOfferingIdCreditsGradingByCourseCodeAndTerm(String courseCode, String atpId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<CourseOfferingInfo> resultList = new ArrayList<CourseOfferingInfo>();
+        HashMap<String, CourseOfferingInfo> hm = new HashMap<String, CourseOfferingInfo>();
+
+        SearchRequestInfo searchRequestInfo = new SearchRequestInfo(CourseOfferingManagementSearchImpl.CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH_KEY);
+
+        searchRequestInfo.addParam(CourseOfferingManagementSearchImpl.SearchParameters.COURSE_CODE, courseCode);
+        searchRequestInfo.addParam(CourseOfferingManagementSearchImpl.SearchParameters.ATP_ID, atpId);
+
+        SearchResultInfo searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequestInfo, ContextUtils.createDefaultContextInfo());
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            String courseOfferingId = "", resValGroupKey = "";
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
+                String value = StringUtils.EMPTY;
+                if (cellInfo.getValue() != null) {
+                    value = cellInfo.getValue();
+                }
+                if (CourseOfferingManagementSearchImpl.SearchResultColumns.CO_ID.equals(cellInfo.getKey())) {
+                    courseOfferingId = value;
+                } else if (CourseOfferingManagementSearchImpl.SearchResultColumns.RES_VAL_GROUP_KEY.equals(cellInfo.getKey())) {
+                    resValGroupKey = value;
+                }
+            }
+            CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
+            if (!hm.containsKey(courseOfferingId)) {
+                courseOfferingInfo.setId(courseOfferingId);
+                courseOfferingInfo.setStudentRegistrationGradingOptions(new ArrayList<String>());
+            } else {
+                courseOfferingInfo = hm.get(courseOfferingId);
+            }
+            if (resValGroupKey != null && resValGroupKey.startsWith("kuali.creditType.credit")) {
+                courseOfferingInfo.setCreditOptionId(resValGroupKey);
+            } else if (resValGroupKey != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resValGroupKey)) {
+                courseOfferingInfo.getStudentRegistrationGradingOptions().add(resValGroupKey);
+            }
+            hm.put(courseOfferingId, courseOfferingInfo);
+        }
+
+        if (!hm.isEmpty()) {
+            for (Map.Entry<String, CourseOfferingInfo> pair : hm.entrySet()) {
+                CourseOfferingInfo courseOfferingInfo = pair.getValue();
+                resultList.add(courseOfferingInfo);
+            }
+        }
+
+        return resultList;
+    }
+
     /**
      * SERVICES *
      */
@@ -277,9 +378,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     public static CourseService getCourseService() {
         if (courseService == null) {
-            QName qname = new QName(CourseServiceConstants.NAMESPACE,
-                    CourseServiceConstants.SERVICE_NAME_LOCAL_PART);
-            courseService = GlobalResourceLoader.getService(qname);
+            courseService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE, CourseServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseService;
     }
@@ -301,9 +400,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     public static TypeService getTypeService() {
-        if (typeService == null) {
-            typeService = GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE,
-                    TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(typeService == null) {
+            typeService =  GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return typeService;
     }
@@ -320,7 +418,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         return courseOfferingSetService;
     }
 
-    public static void setCourseOfferingSetService(CourseOfferingSetService courseOfferingSetService) {
-        CourseRegistrationAndScheduleOfClassesUtil.courseOfferingSetService = courseOfferingSetService;
+    public static LRCService getLrcService() {
+        if (lrcService == null){
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return lrcService;
+    }
+
+    public void setLrcService(LRCService lrcService) {
+        this.lrcService = lrcService;
     }
 }

@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -35,6 +36,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -54,13 +56,12 @@ import java.util.Map;
  */
 public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHardwiredImpl {
 
-
-
     private static final String OWNER_UI_SUFFIX = " (Owner)";
 
     private static final Logger LOGGER = Logger.getLogger(CourseOfferingManagementSearchImpl.class);
 
     public static final class SearchParameters {
+        public static final String CO_ID = "courseOfferingId";
         public static final String COURSE_CODE = "courseCode";
         public static final String SUBJECT_AREA = "subjectArea";
         public static final String ATP_ID = "atpId";
@@ -78,6 +79,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
     }
 
     public static final class SearchResultColumns {
+        public static final String RES_VAL_GROUP_KEY = "resultValuesGroupKey";
         public static final String CODE = "courseOfferingCode";
         public static final String DESC = "courseOfferingDesc";
         public static final String LONG_NAME = "courseOfferingLongName";
@@ -104,9 +106,13 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
     public static final TypeInfo CO_MANAGEMENT_SEARCH;
     public static final TypeInfo COID_BY_TERM_AND_COURSE_CODE_SEARCH;
+    public static final TypeInfo CREDIT_REGGRADING_BY_COID_SEARCH;
+    public static final TypeInfo CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH;
 
     public static final String CO_MANAGEMENT_SEARCH_KEY = "kuali.search.type.lui.courseOfferingManagementDisplay";
     public static final String COID_BY_TERM_AND_COURSE_CODE_SEARCH_SEARCH_KEY = "kuali.search.type.lui.courseOfferingIdByTermAndCourseCode";
+    public static final String CREDIT_REGGRADING_BY_COID_SEARCH_KEY = "kuali.search.type.lui.creditsAndRegGradingOptionsByCourseOfferingId";
+    public static final String CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH_KEY = "kuali.search.type.lui.creditsAndRegGradingOptionsAndCourseOfferingIdByTermAndCourseCode";
 
     static {
         TypeInfo info = new TypeInfo();
@@ -128,6 +134,22 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         COID_BY_TERM_AND_COURSE_CODE_SEARCH = info;
+
+        info = new TypeInfo();
+        info.setKey(CREDIT_REGGRADING_BY_COID_SEARCH_KEY);
+        info.setName("Course Offering Id Search By Term and course Code");
+        info.setDescr(new RichTextHelper().fromPlain("User friendly search that uses the term and course code"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        CREDIT_REGGRADING_BY_COID_SEARCH = info;
+
+        info = new TypeInfo();
+        info.setKey(CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH_KEY);
+        info.setName("Course Offering Id Search By Term and course Code");
+        info.setDescr(new RichTextHelper().fromPlain("User friendly search that uses the term and course code"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH = info;
     }
 
     @Override
@@ -144,8 +166,14 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         if (CO_MANAGEMENT_SEARCH_KEY.equals(searchTypeKey)) {
             return CO_MANAGEMENT_SEARCH;
         }
-        if (COID_BY_TERM_AND_COURSE_CODE_SEARCH_SEARCH_KEY.equals(searchTypeKey)) {
+        else if (COID_BY_TERM_AND_COURSE_CODE_SEARCH_SEARCH_KEY.equals(searchTypeKey)) {
             return COID_BY_TERM_AND_COURSE_CODE_SEARCH;
+        }
+        else if (CREDIT_REGGRADING_BY_COID_SEARCH_KEY.equals(searchTypeKey)) {
+            return CREDIT_REGGRADING_BY_COID_SEARCH;
+        }
+        else if (CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH_KEY.equals(searchTypeKey)) {
+            return CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH;
         }
         throw new DoesNotExistException("No Search Type Found for key:"+searchTypeKey);
     }
@@ -178,7 +206,14 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         }
         else if (StringUtils.equals(searchRequestInfo.getSearchKey(), COID_BY_TERM_AND_COURSE_CODE_SEARCH.getKey())) {
             resultInfo = searchForCourseOfferingIdByCourseCodeAndTerm(searchRequestInfo, contextInfo);
-        }  else {
+        }
+        else if (StringUtils.equals(searchRequestInfo.getSearchKey(), CREDIT_REGGRADING_BY_COID_SEARCH.getKey())) {
+            resultInfo = searchForCreditsAndRegGradingOptionsByCourseOfferingId(searchRequestInfo);
+        }
+        else if (StringUtils.equals(searchRequestInfo.getSearchKey(), CREDIT_REGGRADING_COID_BY_TERM_AND_COURSE_CODE_SEARCH.getKey())) {
+            resultInfo = searchForCreditsAndRegGradingOptionsAndCourseOfferingIdByTermAndCourseCode(searchRequestInfo);
+        }
+        else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
 
@@ -227,6 +262,72 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
             row.addCell(SearchResultColumns.LONG_NAME, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.STATE, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    protected SearchResultInfo searchForCreditsAndRegGradingOptionsByCourseOfferingId(SearchRequestInfo searchRequestInfo)
+            throws MissingParameterException, OperationFailedException
+    {
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+
+        String searchCOID = requestHelper.getParamAsString(SearchParameters.CO_ID);
+
+        SearchResultInfo resultInfo = new SearchResultInfo();
+
+        String queryStr =
+                "SELECT luiRes.LUI_ID, luiRes.RESULT_VAL_GRP_ID " +
+                        "FROM KSEN_LUI_RESULT_VAL_GRP luiRes " +
+                        "WHERE luiRes.LUI_ID = :courseOfferingId " +
+                        "  AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
+                        "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%')";
+
+        Query query = getEntityManager().createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.CO_ID, searchCOID);
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String)resultRow[i]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    private SearchResultInfo searchForCreditsAndRegGradingOptionsAndCourseOfferingIdByTermAndCourseCode(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String searchCourseCode = requestHelper.getParamAsString(SearchParameters.COURSE_CODE);
+        String searchAtpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
+
+        String queryStr =
+                "SELECT lui.ID, luiRes.RESULT_VAL_GRP_ID " +
+                        "FROM KSEN_LUI lui, " +
+                        "     KSEN_LUI_IDENT luiId " +
+                        "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP luiRes " +
+                        "ON luiRes.LUI_ID = luiId.LUI_ID " +
+                        "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
+                        "     OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
+                        "WHERE lui.ID = luiId.LUI_ID " +
+                        "  AND lui.LUI_TYPE = 'kuali.lui.type.course.offering' " +
+                        "    AND lui.ATP_ID = :atpId " +
+                        "    AND luiId.LUI_CD = :courseCode ";
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.COURSE_CODE, searchCourseCode);
+        query.setParameter(SearchParameters.ATP_ID, searchAtpId);
+        List<Object[]> results = query.getResultList();
+
+        for(Object[] resultRow : results){
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.CO_ID, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String)resultRow[i]);
             resultInfo.getRows().add(row);
         }
 
@@ -773,7 +874,16 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         }
     }
 
-
-
-
+    // getting all possible student registration grading options
+    private String getStudentRegGradingOptionsStr() {
+        String[] studentRegGradingOptions = CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS;
+        String studentRegGradingOptionsStr = "";
+        for (String studentRegGradingOption : studentRegGradingOptions) {
+            if (!StringUtils.isEmpty(studentRegGradingOptionsStr)) {
+                studentRegGradingOptionsStr = studentRegGradingOptionsStr + ",";
+            }
+            studentRegGradingOptionsStr = studentRegGradingOptionsStr + "'" + studentRegGradingOption + "'";
+        }
+        return studentRegGradingOptionsStr;
+    }
 }

@@ -4,7 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
@@ -38,6 +39,9 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.jms.JMSException;
 import javax.security.auth.login.LoginException;
@@ -55,10 +59,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     private ScheduleOfClassesService scheduleOfClassesService;
     private CourseRegistrationService courseRegistrationService;
-    private CourseOfferingService courseOfferingService;
 
     @Override
-    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String userId, String termCode, String courseCode, String regGroupName, String regGroupId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+    public RegistrationResponseInfo registerForRegistrationGroupByTermCodeAndCourseCodeAndRegGroupName(String userId, String termCode, String courseCode, String regGroupName, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
         LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupName));
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -73,9 +76,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         // get the regGroup
         RegGroupSearchResult rg = getRegGroup(termCode, courseCode, regGroupName, regGroupId, contextInfo);
 
+        // get the registration group, returns default (from Course Offering) credits (as creditId) and grading options (as a string of options)
+        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode);
+
+        // verify passed credits (must be non-empty unless fixed) and grading option (can be null)
+        verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
+
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(),
-                rg.getTermId(),rg.getRegGroupId() );
+        RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), credits, gradingOptionId);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
@@ -84,7 +92,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegistrationResponseInfo registrationResponseInfo = getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
 
         return registrationResponseInfo;
-
+      
     }
 
     /**
@@ -107,9 +115,10 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegGroupSearchResult rg = null;
 
         if(!StringUtils.isEmpty(regGroupId)){
-            RegistrationGroupInfo rgInfo = getCourseOfferingService().getRegistrationGroup(regGroupId, contextInfo);
+            RegistrationGroupInfo rgInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getRegistrationGroup(regGroupId, contextInfo);
             if(rgInfo != null){
                 rg = new RegGroupSearchResult();
+                rg.setCourseOfferingId(rgInfo.getCourseOfferingId());
                 rg.setTermId(rgInfo.getTermId());
                 rg.setRegGroupState(rgInfo.getStateKey());
                 rg.setRegGroupName(rgInfo.getName());
@@ -119,7 +128,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         } else {
             // get the registration group
             rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
-
         }
         return rg;
     }
@@ -181,44 +189,43 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
      */
     @Override
-    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(String personId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(String userId, String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
+        if(StringUtils.isEmpty(contextInfo.getPrincipalId())){
             throw new LoginException("User must be logged in to access this service");
         }
 
-        if (StringUtils.isEmpty(personId)) {
-            personId = contextInfo.getPrincipalId();
+        if (StringUtils.isEmpty(userId)) {
+            userId = contextInfo.getPrincipalId();
         }
 
-        String termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(null, termCode);
-        return getRegistrationScheduleByPersonAndTerm(personId, termId, contextInfo);
+        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        return getRegistrationScheduleByPersonAndTerm(userId, termId, contextInfo);
     }
 
     /**
      * This method call search service to retrieve registration schedule data for the person
-     *
-     * @param personId principal id
-     * @param termId   term id
+     * @param userId
+     * @param termId
      * @return StudentScheduleCourseResults
      * @throws OperationFailedException
      * @throws InvalidParameterException
-     */
-    private List<StudentScheduleCourseResult> getRegistrationScheduleByPersonAndTerm(String personId, String termId, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
+     **/
+    private List<StudentScheduleCourseResult> getRegistrationScheduleByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
         HashMap<String, StudentScheduleCourseResult> hm = new HashMap<String, StudentScheduleCourseResult>();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, personId);
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
 
         SearchResultInfo searchResult;
         try {
             searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
         } catch (Exception e) {
-            throw new OperationFailedException("Search of registration schedule for person " + personId + " and term " + termId + " failed: ", e);
+            throw new OperationFailedException("Search of registration schedule for person " + userId + " and term " + termId + " failed: ", e);
         }
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
@@ -379,7 +386,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @param regGroupid  Registration Group id
      * @return registration request
      */
-    private RegistrationRequestInfo createAddRegistrationRequest(String principalId, String termId, String regGroupid) {
+    private RegistrationRequestInfo createAddRegistrationRequest(String principalId, String termId, String regGroupid, String credits, String gradingOptionId) {
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
         regReqInfo.setRequestorId(principalId);
         regReqInfo.setTermId(termId); // bad bc we have it from the load call above
@@ -391,14 +398,54 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         registrationRequestItem.setRegistrationGroupId(regGroupid);
         registrationRequestItem.setPersonId(principalId);
+//        registrationRequestItem.setCredits(new KualiDecimal(credits));
+        registrationRequestItem.setGradingOptionId(gradingOptionId);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
         return regReqInfo;
     }
 
-    public ScheduleOfClassesService getScheduleOfClassesService() {
+    private void verifyRegistrationRequestCreditsGradingOption(CourseOfferingInfo courseOfferingInfo, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,  DoesNotExistException {
+        int firstValue = 0;
 
+        // checking grading option. If null - just keep it that way
+        if (!StringUtils.isEmpty(gradingOptionId) && (courseOfferingInfo.getStudentRegistrationGradingOptions().isEmpty() ||
+                    !courseOfferingInfo.getStudentRegistrationGradingOptions().contains(gradingOptionId))) {
+                throw new InvalidParameterException("Grading option doesn't match");
+        }
+
+        //Lookup the selected credit option and set from persisted values
+        if (!courseOfferingInfo.getCreditOptionId().isEmpty()) {
+            //Lookup the resultValueGroup Information
+            ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(courseOfferingInfo.getCreditOptionId(), contextInfo);
+            String typeKey = resultValuesGroupInfo.getTypeKey();
+
+            //Get the actual values
+            List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+
+            if (!resultValueInfos.isEmpty()) {
+                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    credits = resultValueInfos.get(firstValue).getValue(); // fixed credits
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // range
+                    if (credits.isEmpty() || (Float.valueOf(credits).floatValue() < Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMinValue()).floatValue()) ||
+                            (Float.valueOf(credits).floatValue() > Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMaxValue()).floatValue())) {
+                        throw new InvalidParameterException("Credits are incorrect");
+                    }
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {  // multiple
+                    List<String> creditOptions = new ArrayList<String>();
+                    for (ResultValueInfo resultValueInfo : resultValueInfos) {
+                        creditOptions.add(resultValueInfo.getValue());
+                    }
+                    if (credits.isEmpty() || !creditOptions.contains(credits)) {
+                        throw new InvalidParameterException("Credits are incorrect");
+                    }
+                }
+            }
+        }
+    }
+
+    public ScheduleOfClassesService getScheduleOfClassesService() {
         if (scheduleOfClassesService == null) {
             scheduleOfClassesService = (ScheduleOfClassesService) GlobalResourceLoader.getService(new QName(ScheduleOfClassesServiceConstants.NAMESPACE, ScheduleOfClassesServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
@@ -413,24 +460,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         if (courseRegistrationService == null) {
             courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
-
         return courseRegistrationService;
     }
 
     public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
         this.courseRegistrationService = courseRegistrationService;
-    }
-
-    public CourseOfferingService getCourseOfferingService() {
-        if(courseOfferingService == null) {
-            courseOfferingService =  GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE,
-                    CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return courseOfferingService;
-    }
-
-    public void setCourseOfferingService(CourseOfferingService courseOfferingService) {
-        this.courseOfferingService = courseOfferingService;
     }
 
 }
