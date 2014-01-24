@@ -256,8 +256,15 @@ public class DefaultTermHelper implements TermHelper {
                         or(KsapHelperUtil.getTermPredicates()), lessThanOrEqual("startDate", new Date()),greaterThanOrEqual("endDate",new Date()));
                 List<TermInfo> rv = KsapFrameworkServiceLocator.getAcademicCalendarService().searchForTerms(query,
                         KsapFrameworkServiceLocator.getContext().getContextInfo());
-                if (rv == null)
-                    rv = Collections.emptyList();
+                if (rv == null){
+                    // If no current terms are found return first planning term
+                    rv = new ArrayList<TermInfo>();
+                    rv.add((TermInfo)getFirstPlanningTerm());
+                }
+                if(rv.isEmpty()){
+                    rv.add((TermInfo) getFirstPlanningTerm());
+                }
+
                 getTermMarker().currentTerms = getTermMarker().cache(rv);
             } catch (InvalidParameterException e) {
                 throw new IllegalArgumentException("Acal lookup failure", e);
