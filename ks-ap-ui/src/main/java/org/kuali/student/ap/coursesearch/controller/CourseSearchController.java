@@ -956,8 +956,7 @@ public class CourseSearchController extends UifControllerBase {
 							results = Collections
 									.synchronizedMap(new java.util.LinkedHashMap<FormKey, SessionSearchInfo>()));
 		SessionSearchInfo table = null;
-		// Synchronize on the result table to constrain sessions to
-		// one back-end search at a time
+		// Synchronize on the result table to constrain sessions to one back-end search at a time
 		synchronized (results) {
 			// dump search results in excess of 3
 			while (results.size() > 3) {
@@ -1086,6 +1085,14 @@ public class CourseSearchController extends UifControllerBase {
 		return getUIFModelAndView(form);
 	}
 
+    /**
+     * Execute a search on information supplied by the user
+     *
+     * @param form
+     * @param response
+     * @param request
+     * @throws IOException
+     */
 	@RequestMapping(value = "/course/search")
 	public void getJsonResponse(
 			@ModelAttribute("KualiForm") final CourseSearchForm form,
@@ -1100,6 +1107,7 @@ public class CourseSearchController extends UifControllerBase {
 		if (LOG.isDebugEnabled())
 			LOG.debug("Search form : " + form);
 
+        // Run search and retrieve results in the table
 		SessionSearchInfo table = getSearchResults(new FormKey(form),
 				new Callable<SessionSearchInfo>() {
 					@Override
@@ -1111,6 +1119,7 @@ public class CourseSearchController extends UifControllerBase {
 			return;
 		}
 
+        // Validate search results
 		if (table.searchResults != null && !table.searchResults.isEmpty()) {
 			SearchInfo firstRow = table.searchResults.iterator().next();
 			// Validate incoming jQuery datatables inputs
@@ -1140,8 +1149,8 @@ public class CourseSearchController extends UifControllerBase {
 					+ dataTablesInputs.iColumns;
 		}
 
-		// DataTables search filter is tied to facet click state on the front
-		// end, but is only loosely coupled on the server side.
+		/*DataTables search filter is tied to facet click state on the front end,
+		 but is only loosely coupled on the server side.*/
 		List<SearchInfo> filteredResults = table
 				.getFilteredResults(dataTablesInputs);
 
@@ -1169,7 +1178,9 @@ public class CourseSearchController extends UifControllerBase {
 			aaData.add(cs);
 		}
 		json.put("aaData", aaData);
-		String jsonString = mapper.writeValueAsString(json);
+
+        // Write Json string
+        String jsonString = mapper.writeValueAsString(json);
 		if (LOG.isDebugEnabled())
 			LOG.debug("JSON output : "
 					+ (jsonString.length() < 8192 ? jsonString : jsonString
@@ -1182,6 +1193,14 @@ public class CourseSearchController extends UifControllerBase {
 		response.getWriter().println(jsonString);
 	}
 
+    /**
+     * Load the facets values of the search
+     * This also executes the search but only returns facet information.
+     * @param response
+     * @param form
+     * @param request
+     * @throws IOException
+     */
 	@RequestMapping(value = "/course/facetValues")
 	public void getFacetValues(HttpServletResponse response,
 			@ModelAttribute("KualiForm") final CourseSearchForm form,
@@ -1190,6 +1209,7 @@ public class CourseSearchController extends UifControllerBase {
 		if (LOG.isDebugEnabled())
 			LOG.debug("Search form : " + form);
 
+        // Run search and retrieve results in the table
 		SessionSearchInfo table = getSearchResults(new FormKey(form),
 				new Callable<SessionSearchInfo>() {
 					@Override
@@ -1230,6 +1250,8 @@ public class CourseSearchController extends UifControllerBase {
 				ofs.put("count", fse.getValue().count);
 			}
 		}
+
+        // Write json string
 		String jsonString = mapper.writeValueAsString(oFacets);
 		if (LOG.isDebugEnabled())
 			LOG.debug("JSON output : "
@@ -1243,6 +1265,14 @@ public class CourseSearchController extends UifControllerBase {
 		response.getWriter().println(jsonString);
 	}
 
+    /**
+     * Redirects to the course search results page.
+     * @param form
+     * @param result
+     * @param httprequest
+     * @param httpresponse
+     * @return
+     */
 	@RequestMapping(params = "methodToCall=searchForCourses")
 	public ModelAndView searchForCourses(
 			@ModelAttribute("KualiForm") CourseSearchFormImpl form,

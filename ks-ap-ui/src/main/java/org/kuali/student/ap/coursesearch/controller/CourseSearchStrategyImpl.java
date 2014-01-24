@@ -538,15 +538,23 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         return predicates;
     }
 
+    // This needs rewrote.  Looks like an incomplete translation of a single course entry into a list of courses
+    /**
+     * Loads projected term information for the courses.
+     * This information is found in the KSLU_CLU_ATP_TYPE_KEY table
+     *
+     * @param courses - The list of course information for the courses
+     * @param courseIDs - The list of course ids for the courses.
+     */
 	private void loadTermsOffered(List<CourseSearchItemImpl> courses,
 			final List<String> courseIDs) {
 		LOG.info("Start of method loadTermsOffered of CourseSearchController:"
 				+ System.currentTimeMillis());
-		// String courseId = course.getCourseId();
+
+        // Search for projected offered terms for the courses
 		SearchRequestInfo request = new SearchRequestInfo(
 				"ksap.course.info.atp");
 		request.addParam("courseIDs", courseIDs);
-
 		SearchResult result;
 		try {
 			result = KsapFrameworkServiceLocator.getCluService().search(
@@ -563,6 +571,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalArgumentException("CLU lookup error", e);
 		}
+
+        // Process the found term information
 		if (result == null) {
 			return;
 		}
@@ -573,7 +583,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			for (SearchResultRow row : result.getRows()) {
 				courseId = getCellValue(row, "course.key");
 				String id = getCellValue(row, "atp.id");
-				// Don't add the terms that are not found
+				// Don't add the terms invalid term information
 				AtpInfo atp;
 				try {
 					atp = KsapFrameworkServiceLocator.getAtpService().getAtp(
@@ -594,6 +604,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				} catch (PermissionDeniedException e) {
 					throw new IllegalArgumentException("ATP lookup error", e);
 				}
+
+                // If valid atp returned add its type to the terms offered list.
 				if (null != atp) {
 					termsOffered.add(atp.getTypeKey());
 				}
@@ -610,6 +622,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 	}
 
+    /**
+     * Format a list of gen ed requirements into a comma seperated string
+     *
+     * @param genEduRequirements - The list of gen ed requirements
+     * @return A comma seperated string
+     */
 	private String formatGenEduReq(List<String> genEduRequirements) {
 		// Make the order predictable.
 		Collections.sort(genEduRequirements);
@@ -629,11 +647,20 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		return genEdsOut.toString();
 	}
 
+    // This needs rewrote.  Looks like an incomplete translation of a single course entry into a list of courses
+    /**
+     * Loads the gen ed information for the courses.
+     * Gen ed information is stored as attributes of the course's clu entry.
+     *
+     * @param courses - The list of course inforamtion for the courses
+     * @param courseIDs - The list of course ids for the courses
+     */
 	private void loadGenEduReqs(List<CourseSearchItemImpl> courses,
 			final List<String> courseIDs) {
 		LOG.info("Start of method loadGenEduReqs of CourseSearchController:"
 				+ System.currentTimeMillis());
-		// String courseId = course.getCourseId();
+
+        // Search for gen ed requirements
 		SearchRequestInfo request = new SearchRequestInfo(
 				"ksap.course.info.gened");
 		request.addParam("courseIDs", courseIDs);
@@ -676,6 +703,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 	}
 
+    /**
+     * Creates a map relating the course to its status in the plan.
+     * @param studentID - Id of the user running the search
+     * @return A map of the plan state for a course.
+     */
 	private Map<String, CourseSearchItem.PlanState> getCourseStatusMap(
 			String studentID) {
 		LOG.info("Start of method getCourseStatusMap of CourseSearchController:"
@@ -692,6 +724,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		/*
 		 * For each plan item in each plan set the state based on the type.
 		 */
+        // Find list of learning plans
 		List<LearningPlanInfo> learningPlanList;
 		try {
 			learningPlanList = academicPlanService
@@ -707,6 +740,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		} catch (OperationFailedException e) {
 			throw new IllegalStateException("LP lookup error", e);
 		}
+
+        // Process list of learning plan's entries
 		for (LearningPlan learningPlan : learningPlanList) {
 			String learningPlanID = learningPlan.getId();
 			List<PlanItemInfo> planItemList;
@@ -723,6 +758,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			} catch (OperationFailedException e) {
 				throw new IllegalStateException("LP lookup error", e);
 			}
+
+            // Process plan items in learning plan
 			for (PlanItem planItem : planItemList) {
 				String courseID = planItem.getRefObjectId();
 				CourseSearchItem.PlanState state;
@@ -739,6 +776,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				} else {
 					throw new RuntimeException("Unknown plan item type.");
 				}
+
+                // Add entry to map
 				savedCourseSet.put(courseID, state);
 			}
 		}
@@ -993,11 +1032,23 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		return query;
 	}
 
+    /**
+     * Add the division type searches to the search requests
+     *
+     * @param divisions - The list of divisions found in the query string
+     * @param codes - The list of course codes found in the query string
+     * @param levels - The list of course levels found in the query string
+     * @param incompleteCodes - The list of possible incomplete course codes found in the query string
+     * @param requests - The list of search requests to be ran
+     */
 	public void addDivisionSearches(List<String> divisions, List<String> codes,
 			List<String> levels, List<String> incompleteCodes, List<SearchRequestInfo> requests) {
+
+        // for each division found determine the search types needed
 		for (String division : divisions) {
 			boolean needDivisionQuery = true;
 
+            // Create code searches for that division
 			for (String code : codes) {
 				needDivisionQuery = false;
 				SearchRequestInfo request = new SearchRequestInfo(
@@ -1007,6 +1058,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				requests.add(request);
 			}
 
+            // Create level searchs for that division
 			for (String level : levels) {
 				needDivisionQuery = false;
 
@@ -1020,6 +1072,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				requests.add(request);
 			}
 
+            // Create course code only search
             for (String incompleteCode : incompleteCodes) {
                 needDivisionQuery = false;
 
@@ -1029,6 +1082,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 requests.add(request);
             }
 
+            // If no other searches are created create a general division search.
 			if (needDivisionQuery) {
 				SearchRequestInfo request = new SearchRequestInfo(
 						"ksap.lu.search.division");
@@ -1038,11 +1092,20 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		}
 	}
 
+    /**
+     * Add the full text searches to the search requests
+     *
+     * @param query - The query string
+     * @param requests - The list of search requests to be ran
+     */
 	public void addFullTextSearches(String query,
 			List<SearchRequestInfo> requests) {
+        //find all tokens in the query string
 		List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
 
+        // Create a search for each token found
 		for (QueryTokenizer.Token token : tokens) {
+            // Convert token to its correct text
 			String queryText = null;
 			switch (token.rule) {
 			case WORD:
@@ -1055,6 +1118,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			default:
 				break;
 			}
+
+            // Add requests for full text
 			SearchRequestInfo request = new SearchRequestInfo(
 					"ksap.lu.search.fulltext");
 			request.addParam("queryText", queryText);
@@ -1062,30 +1127,43 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		}
 	}
 
+    /**
+     * Creates a list of search requests from the search information supplied by the user
+     *
+     * @param form - Page form with search information
+     * @return The list of search requests to be ran.
+     */
 	public List<SearchRequestInfo> queryToRequests(CourseSearchForm form) {
 		LOG.info("Start Of Method queryToRequests in CourseSearchStrategy:"
 				+ System.currentTimeMillis());
+
+        // To keep search from being case specific all text is uppercased
 		String query = form.getSearchQuery().toUpperCase();
 
         // Unchanging query for full text search
         String pureQuery = query;
 
+        // Extract possible levels from the query text
 		List<String> levels = QueryTokenizer.extractCourseLevels(query);
 		for (String level : levels) {
 			query = query.replace(level, "");
 		}
+
+        // Extract Possible course codes from the query text
 		List<String> codes = QueryTokenizer.extractCourseCodes(query);
 		for (String code : codes) {
 			query = query.replace(code, "");
 		}
 
+        // Extract possible division from the query text
 		Map<String, String> divisionMap = fetchCourseDivisions();
-
 		List<String> divisions = new ArrayList<String>();
 		extractDivisions(divisionMap, query, divisions, true);
 
+        // Extract possible partial course codes from the query text
         List<String> incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query,divisions);
 
+        // Create list of search requests
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 
 		LOG.info("Start of method addDivisionSearches of CourseSearchStrategy:"
@@ -1101,12 +1179,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		LOG.info("End of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
+        // Add additional params to the search requests
 		LOG.info("Start of method addCampusParams of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 		//addCampusParams(requests, form);
 		LOG.info("Start of method addCampusParams of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
+        // Process Current list of Requests into direct search queries
 		LOG.info("Count of No of Query Tokens:" + requests.size());
 		processRequests(requests, form);
 		LOG.info("No of Requests after processRequest method:"
@@ -1124,10 +1204,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	/**
 	 * Process the Request with search key as division or full Text
 	 * 
-	 * @param requests
-	 *            The list of requests.
-	 * @param form
-	 *            The search form.
+	 * @param requests - The list of requests.
+	 * @param form - The search form.
 	 */
 	public void processRequests(List<SearchRequestInfo> requests,
 			CourseSearchForm form) {
@@ -1135,6 +1213,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 		Map<String, String> subjects = null;
 		int size = requests.size();
+        // Process search requests
 		for (int i = 0; i < size; i++) {
 			if (requests.get(i).getSearchKey() != null) {
 
@@ -1297,6 +1376,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		}
 	}
 
+    /**
+     * Extracts the possible divisions in the query string
+     *
+     * @param divisionMap - Map of possible divisions
+     * @param query - The query string
+     * @param divisions - List of extracted divisions
+     * @param isSpaceAllowed - If spaces are allowed in the divisions
+     * @return query string, minus matches found
+     */
 	@Override
 	public String extractDivisions(Map<String, String> divisionMap,
 			String query, List<String> divisions, boolean isSpaceAllowed) {

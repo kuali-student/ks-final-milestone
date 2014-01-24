@@ -100,17 +100,6 @@ function fnSelectAllCampuses() {
 	});
 }
 
-function fnClearSearch() {
-	window.location = "?";
-}
-
-function doCourseSearch(crit) {
-	jQuery("input#text_searchQuery_control").each(function() {
-		jQuery(this).val(crit);
-	    jQuery('button.course-search-submit').click();
-	});
-}
-
 /**
  * Perform a course search.
  * 
@@ -124,8 +113,13 @@ function searchForCourses(id, parentId) {
 	var results = jQuery("#" + parentId); // course_search_results_panel
 	results.fadeOut("fast");
     setupImages();
+
+    // Display Loading message while waiting on results
 	showLoading("Loading...");
+    // Load Search Facets
 	fnLoadFacets();
+
+    // Load Search Results
 	oTable = jQuery("#" + id)
 			.dataTable(
 					{
@@ -217,13 +211,6 @@ function searchForCourses(id, parentId) {
 
 /**
  * Load initial facet state from the server based on new search criteria.
- * 
- * @param sQuery
- *            Search criteria.
- * @param sTerm
- *            Term selection.
- * @param aCampus
- *            Campus selections.
  */
 function fnLoadFacets() {
 	showLoading("Loading", jQuery("#course_search_results_facets"));
