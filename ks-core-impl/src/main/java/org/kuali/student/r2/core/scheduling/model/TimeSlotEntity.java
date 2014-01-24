@@ -93,6 +93,8 @@ public class TimeSlotEntity extends MetaEntity implements AttributeOwner<TimeSlo
     }
 
     public void fromDto(TimeSlot timeSlot) {
+        super.fromDTO(timeSlot);
+
         setTimeSlotState(timeSlot.getStateKey());
         setTimeSlotType(timeSlot.getTypeKey());
         setName(timeSlot.getName());
