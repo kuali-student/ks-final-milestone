@@ -17,10 +17,6 @@
 	<name>KSAP</name>
 	<description>Kuali Student Academic Planning Module</description>
 
-	<properties>
-		<jdk.min.version>1.6</jdk.min.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>javax</groupId>
@@ -46,19 +42,6 @@
             <scope>runtime</scope>
         </dependency>
 	</dependencies>
-
-
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 
 	<profiles>
 		<profile>
