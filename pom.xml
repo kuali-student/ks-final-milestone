@@ -39,6 +39,7 @@
         <ks.enroll.version>0.2.0-FR2-M1-SNAPSHOT</ks.enroll.version>
         <ks.lum.version>2.1.1-FR2-M1-SNAPSHOT</ks.lum.version>
         <ks.deployments.version>2.1.1-FR2-M1-SNAPSHOT</ks.deployments.version>
+        <ks.ap.version>0.8.0-FR2-M1-SNAPSHOT</ks.ap.version>
         <!-- 3rd party library/plugin version definitions -->
         <antlr.runtime.version>3.1.1</antlr.runtime.version>
         <antlr.legacy.version>2.7.7</antlr.legacy.version>
@@ -143,6 +144,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
+	    	<module>ks-ap</module>
                 <module>ks-deployments</module>
                 <module>ks-core</module>
                 <module>ks-lum</module>
@@ -163,6 +165,7 @@
                 <module>ks-core</module>
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
+        	<module>ks-ap</module>
             </modules>
         </profile>
         <profile>
@@ -173,6 +176,7 @@
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
                 <module>ks-api</module>
+	    	<module>ks-ap</module>
             </modules>
             <build>
                 <plugins>
@@ -240,6 +244,7 @@
                 <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
             </properties>
             <modules>
+	    	<module>ks-ap</module>
                 <module>ks-core</module>
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
@@ -304,6 +309,10 @@
                     <configuration>
                         <commitMessage>[externals-maven-plugin] Automated pom formatting</commitMessage>
                         <mappings>
+                            <mapping>
+                                <module>ks-ap</module>
+                                <versionProperty>ks.ap.version</versionProperty>
+                            </mapping>
                             <mapping>
                                 <module>ks-api</module>
                                 <versionProperty>ks.api.version</versionProperty>
