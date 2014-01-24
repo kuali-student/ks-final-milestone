@@ -536,6 +536,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             String regGroupId = null;
             String regGroupName = null;
             String regGroupState = null;
+            String termId = null;
 
             for (SearchResultCellInfo cellInfo : row.getCells()) {
 
@@ -552,6 +553,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     regGroupName = value;
                 } else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.RG_STATE.equals(cellInfo.getKey())) {
                     regGroupState = value;
+                }else if (ActivityOfferingSearchServiceImpl.SearchResultColumns.ATP_ID.equals(cellInfo.getKey())) {
+                    termId = value;
                 }
 
             }
@@ -564,6 +567,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 regGroupSearchResult.setRegGroupId(regGroupId);
                 regGroupSearchResult.setRegGroupName(regGroupName);
                 regGroupSearchResult.setRegGroupState(regGroupState);
+                regGroupSearchResult.setTermId(termId);
                 regGroupSearchResult.getActivityOfferingIds().add(activityOfferingId);
                 regGroupResultMap.put(regGroupId, regGroupSearchResult);
 
