@@ -207,7 +207,7 @@
         </property>
     </bean>
 
-    <bean id="SchOfClasses-aoSearchResults" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false" p:style="margin-left:36px;width:80%;">
+    <bean id="SchOfClasses-aoSearchResults" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:renderLineActions="false" p:additionalCssClasses="ks-innerTableCollectionSection">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
         <property name="propertyName" value="aoWrapperList" />
         <property name="layoutManager">
@@ -272,7 +272,7 @@
     <bean id="SchOfClasses-aoFlatDisplay" parent="SchOfClasses-aoSearchResults" p:render="@{aoDisplayFormat == AoDisplayFormat.FLAT}">
         <property name="headerText" value="Activities" />
         <property name="propertyName" value="activityWrapperList" />
-        <property name="align" value="left" />
+        <!--<property name="align" value="left" />-->
         <property name="header.upperGroup">
           <bean parent="Uif-VerticalBoxGroup" p:align="left">
             <property name="items">
