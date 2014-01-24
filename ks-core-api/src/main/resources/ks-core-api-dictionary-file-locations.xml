@@ -239,10 +239,8 @@
         </constructor-arg>
     </bean>
 
-    <!--THIS IS USED BY RICE DATA DICTIONARY SERVICE
-     and the Global Student Dictionary Service, dataDictionaryServiceForAllUsedByRice
-     that is used in the rice dictionary validation service impl -->
-    <bean name="allDictionaryFileLocations" class="java.util.ArrayList">
+	<!-- TODO KSENROLL-11535 split enrollment locations out into a seperate ks-enroll-api file -->
+    <bean name="ks-core-dictionary-file-locations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <bean parent="ksBaseDictionaryLocation" />
