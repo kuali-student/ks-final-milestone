@@ -1225,7 +1225,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 .ksap-course-search-panel select {
     background: #fff;
     overflow: hidden;
-    width: 205px;
+    width: 200px;
     height: 30px;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1258,7 +1258,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 #text_searchQuery,
 #select_searchTerm { margin-right: 10px; }
 #course_search_panel { padding-left:0; }
-
+.course-search-submit {float:right;}
 /* Styles for Facet Panel ################################################################################## */
 .ksap-facets-panel {
     border: solid 1px #ddd;
