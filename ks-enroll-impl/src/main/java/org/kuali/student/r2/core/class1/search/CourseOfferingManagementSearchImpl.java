@@ -877,13 +877,10 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
     // getting all possible student registration grading options
     private String getStudentRegGradingOptionsStr() {
         String[] studentRegGradingOptions = CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS;
-        String studentRegGradingOptionsStr = "";
+        StringBuffer buf = new StringBuffer();
         for (String studentRegGradingOption : studentRegGradingOptions) {
-            if (!StringUtils.isEmpty(studentRegGradingOptionsStr)) {
-                studentRegGradingOptionsStr = studentRegGradingOptionsStr + ",";
-            }
-            studentRegGradingOptionsStr = studentRegGradingOptionsStr + "'" + studentRegGradingOption + "'";
+            buf.append(",'" + studentRegGradingOption + "'");
         }
-        return studentRegGradingOptionsStr;
+        return buf.toString().substring(1);
     }
 }
