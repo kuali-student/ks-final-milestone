@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
 import org.apache.activemq.command.ActiveMQMapMessage;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseregistration.service.transformer.RegistrationRequestTransformer;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -30,11 +29,7 @@ import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.xml.namespace.QName;
 
-public class CourseRegistrationServiceImpl 
-    extends AbstractCourseRegistrationService
-    implements CourseRegistrationService {
-
-    private static final Logger LOG = Logger.getLogger(CourseRegistrationServiceImpl.class);
+public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationService implements CourseRegistrationService {
 
     private LprService lprService;
     private CourseOfferingService courseOfferingService;
@@ -46,12 +41,11 @@ public class CourseRegistrationServiceImpl
      * So, all this method does is send a message to the first node in the
      * registration engine, kicking off the process.
      *
-     *
      * @param registrationRequestId an identifier for a RegistrationRequest
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of the service
-     *        operation
-     * @return
+     * @param contextInfo           information containing the principalId and
+     *                              locale information about the caller of the service
+     *                              operation
+     * @return Registration Response
      * @throws AlreadyExistsException
      * @throws DoesNotExistException
      * @throws InvalidParameterException
@@ -63,14 +57,13 @@ public class CourseRegistrationServiceImpl
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-
-        try{
+        try {
             MapMessage mapMessage = new ActiveMQMapMessage();
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, contextInfo.getPrincipalId());
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, registrationRequestId);
             jmsTemplate.convertAndSend(CourseRegistrationConstants.REGISTRATION_INITILIZATION_QUEUE, mapMessage);
-        }catch (JMSException jmsEx){
-            throw new RuntimeException(jmsEx);
+        } catch (JMSException jmsEx) {
+            throw new RuntimeException("Error submitting registration request.", jmsEx);
         }
 
         RegistrationResponseInfo regResp = new RegistrationResponseInfo();
@@ -125,7 +118,7 @@ public class CourseRegistrationServiceImpl
     }
 
     public LprService getLprService() {
-        if (lprService == null){
+        if (lprService == null) {
             lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lprService;
@@ -136,7 +129,7 @@ public class CourseRegistrationServiceImpl
     }
 
     public CourseOfferingService getCourseOfferingService() {
-        if (courseOfferingService == null){
+        if (courseOfferingService == null) {
             courseOfferingService = (CourseOfferingService) GlobalResourceLoader.getService(new QName(CourseOfferingServiceConstants.NAMESPACE, CourseOfferingServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return courseOfferingService;
