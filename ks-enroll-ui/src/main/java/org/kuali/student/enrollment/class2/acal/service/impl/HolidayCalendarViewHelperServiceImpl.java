@@ -252,12 +252,6 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
      */
     @SuppressWarnings("unused")
     public void populateHolidayTypes(InputField field, HolidayCalendarForm hcForm){
-
-        boolean isAddLine = BooleanUtils.toBoolean((Boolean) field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
-        if (!isAddLine) {
-            return;
-        }
-
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         List<String> alreadyAddedTypes = new ArrayList<String>();
 
@@ -391,9 +385,16 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         }
 
         //Validate Events
-        int index = -1;
+        int index = 0;
         for (HolidayWrapper holiday : hcForm.getHolidays()) {
-            ++index;
+
+            try {
+                if (holiday.getTypeKey() != null && !StringUtils.isBlank(holiday.getTypeKey())) {
+                    holiday.setTypeName(getHolidayTypeName(holiday.getTypeKey()));
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             if (!AcalCommonUtils.isDateWithinRange(hcInfo.getStartDate(), hcInfo.getEndDate(), holiday.getStartDate()) ||
                     !AcalCommonUtils.isDateWithinRange(hcInfo.getStartDate(), hcInfo.getEndDate(), holiday.getEndDate())){
@@ -401,7 +402,9 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
                         "error.enroll.holiday.dateNotInHcal", holiday.getTypeName());
             }
 
-            isValidTimeSetWrapper("KS-HolidayCalendar-HolidaySection", holiday.getTypeKey(), holiday, holiday.getTypeName());
+            String keyDatePath = "holidays[" + index + "]";
+            isValidTimeSetWrapper(keyDatePath, holiday.getTypeKey(), holiday, holiday.getTypeName());
+            index++;
         }
 
     }
@@ -505,25 +508,12 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         }
     }
 
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (model instanceof HolidayCalendarForm) {
-            if (addLine instanceof HolidayWrapper) {
-                HolidayWrapper holidayWrapper = (HolidayWrapper)addLine;
-                if (!isValidTimeSetWrapper(collectionGroup.getId(), holidayWrapper.getTypeKey(), holidayWrapper, holidayWrapper.getTypeName())) {
-                    return false;
-                }
-            }
-        }
-
-        return super.performAddLineValidation(view, collectionGroup, model, addLine);
-    }
-
     // NOTE: edits here should not be needed if KRAD validation is working properly...
-    private boolean isValidTimeSetWrapper(String collectionGroupId, String KeyDateType, TimeSetWrapper wrapper, String wrapperName) {
+    private boolean isValidTimeSetWrapper(String keyDatePath, String KeyDateType, TimeSetWrapper wrapper, String wrapperName) {
         boolean isValid = true;
 
         if(StringUtils.isEmpty(KeyDateType)) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
+            GlobalVariables.getMessageMap().putError(keyDatePath + ".typeKey", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
 //            GlobalVariables.getMessageMap().putErrorForSectionId(lineName+".typeKey", CalendarConstants.MessageKeys.ERROR_KEY_DATE_TYPE_REQUIRED);
             return false;
         }
@@ -531,25 +521,25 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         // Start Date not null, Start Time null, End Date null, End Time not null - illegal
         if (wrapper.getStartDate()!=null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
                 wrapper.getEndDate()==null && (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))){
-            GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
+            GlobalVariables.getMessageMap().putError(keyDatePath + ".startDate", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
             return false;
         }
         // Start Date null, Start Time not null, different combinations of End Date and End Time - illegal
         else if (wrapper.getStartDate()==null && (wrapper.getStartTime()!=null && !StringUtils.isBlank(wrapper.getStartTime()))){
-            GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
+            GlobalVariables.getMessageMap().putError(keyDatePath + ".startDate", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
             return false;
         }
         // Start Date null, Start Time null, End Date null, End Time not null - illegal
         else if (wrapper.getStartDate()==null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
                 wrapper.getEndDate()==null && (wrapper.getEndTime()!=null && !StringUtils.isBlank(wrapper.getEndTime()))){
-            GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
+            GlobalVariables.getMessageMap().putError(keyDatePath + ".startDate", CalendarConstants.MessageKeys.ERROR_INVALID_DATE_TIME, wrapperName);
             return false;
         }
 
         // Start Date and End Date could be null but put a warning
         if (wrapper.getStartDate()==null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
                 wrapper.getEndDate()==null && (wrapper.getEndTime()==null || StringUtils.isBlank(wrapper.getEndTime()))){
-            GlobalVariables.getMessageMap().putWarningForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, wrapperName);
+            GlobalVariables.getMessageMap().putWarning(keyDatePath + ".startDate", CalendarConstants.MessageKeys.ERROR_KEY_DATE_START_DATE_REQUIRED, wrapperName);
         }
 
         if (wrapper.getStartDate()!=null && (wrapper.getStartTime()==null || StringUtils.isBlank(wrapper.getStartTime())) &&
@@ -606,12 +596,12 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
                 Date startDate = getStartDateWithUpdatedTime(wrapper, false);
                 Date endDate =  timeSetWrapperEndDate(wrapper);
                 if (!AcalCommonUtils.isValidDateRange(startDate, endDate)) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_HOLIDAY_END_DATE_BEFORE_START, wrapperName);
+                    GlobalVariables.getMessageMap().putError(keyDatePath + ".startDate", CalendarConstants.MessageKeys.ERROR_HOLIDAY_END_DATE_BEFORE_START, wrapperName);
                     return false;
                 }
             } else {
                 if (!AcalCommonUtils.isValidDateRange(wrapper.getStartDate(), wrapper.getEndDate())) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroupId, CalendarConstants.MessageKeys.ERROR_HOLIDAY_END_DATE_BEFORE_START, wrapperName);
+                    GlobalVariables.getMessageMap().putError(keyDatePath + ".startDate", CalendarConstants.MessageKeys.ERROR_HOLIDAY_END_DATE_BEFORE_START, wrapperName);
                     return false;
                 }
             }

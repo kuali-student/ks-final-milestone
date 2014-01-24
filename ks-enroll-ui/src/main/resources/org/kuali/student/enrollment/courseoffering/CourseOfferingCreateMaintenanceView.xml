@@ -54,6 +54,7 @@
         <property name="entryPageId" value="courseOfferingCreatePage"/>
 
         <property name="headerText" value="@{document.newMaintainableObject.dataObject.catalogCourseCode ne null ? document.newMaintainableObject.dataObject.catalogCourseCode : 'Create Course Offering'}"/>   <!-- This gets updated dynamically by JS via 'viewHeaderUpdater'-div -->
+        <property name="header.style" value="padding-bottom:20px"/>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -161,10 +162,10 @@
                     <property name="layoutManager.richTable.render" value="false" />
                     <property name="items">
                         <list>
-                             <bean parent="Uif-DataField" p:label="CODE" p:propertyName="courseCode"/>
-                             <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="FORMAT"/>
-                             <bean parent="Uif-DataField" p:propertyName="gradeRosterUI" p:label="GRADE ROSTER LEVEL"/>
-                             <bean parent="Uif-DataField" p:propertyName="finalExamUI" p:label="FINAL EXAM DRIVER ACTIVITY"/>
+                             <bean parent="Uif-DataField" p:label="Code" p:propertyName="courseCode"/>
+                             <bean parent="Uif-DataField" p:propertyName="activitesUI" p:label="Format"/>
+                             <bean parent="Uif-DataField" p:propertyName="gradeRosterUI" p:label="Grade Roster Level"/>
+                             <bean parent="Uif-DataField" p:propertyName="finalExamUI" p:label="Final Exam Driver Activity"/>
                         </list>
                     </property>
                 </bean>
@@ -361,7 +362,7 @@
 
     <!-- Create Course Offering Start -->
 
-    <bean id="KS-CourseOffering-CreatePage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}" p:style="overflow:hidden;">
+    <bean id="KS-CourseOffering-CreatePage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}" p:style="overflow:hidden;padding-top:10px;">
         <property name="id" value="courseOfferingCreatePage"/>
         <property name="headerText" value=""/>
         <property name="pageSourceFile" value="CourseOfferingCreateMaintenanceView.xml" />
@@ -461,7 +462,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOffering-CreateChoiceSection" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseOffering-CreateChoiceSection" parent="Uif-VerticalBoxSection" p:style="padding-top:10px;">
         <property name="headerText" value="Create From:"/>
         <property name="items">
             <list>
@@ -484,7 +485,7 @@
 
     <!-- Copy Course Offerings Start -->
 
-    <bean id="KS-CourseOffering-CopyPage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}">
+    <bean id="KS-CourseOffering-CopyPage" parent="KS-Uif-Page" p:disclosure.render="false" p:readOnly="@{#view.readOnly}" p:style="padding-top: 10px">
         <property name="id" value="courseOfferingCopyPage"/>
          <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
         <!--<property name="onDocumentReadyScript" value="updateContextBar( 'KS-CourseOffering-ContextBar', 'KS-CourseOffering-View-ContextBar-PlaceHolder', @{#dp.contextBar.termDayOfYear}, '@{#ConfigProperties['application.url']}' );" />-->
@@ -558,7 +559,8 @@
     <!-- Displays a list of COs from current and previous terms-->
     <bean id="KS-ExistingOffering-ListCOs" parent="Uif-TableCollectionSection" p:renderAddLine="false" p:additionalCssClasses="co_copy_tables">
         <property name="headerText" value="@{document.newMaintainableObject.dataObject.existingTermOfferings.size()>1 ? 'Course Offerings Available for Copying' : 'Course Offering Available for Copying' }" />
-		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
+		<property name="header.style" value="padding-bottom:10px"/>
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper" />
 		<property name="propertyName" value="existingTermOfferings" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />

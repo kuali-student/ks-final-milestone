@@ -15,15 +15,14 @@ import javax.jms.MessageListener;
 import java.util.List;
 
 /**
- *   Generic listener that will be used for most nodes in our registration system.
- *
- *   Each listener will be passed a RegistrationProcessService an during the onMessage() call
- *   the   RegistrationProcessService.process() method will be called.
- *
- *   Any messages from the process() call will be sent to the user queue.
- *
- *   Finally, we pass the standard MapMessage object to the optional list of destinations.
- *
+ * Generic listener that will be used for most nodes in our registration system.
+ * <p/>
+ * Each listener will be passed a RegistrationProcessService an during the onMessage() call
+ * the   RegistrationProcessService.process() method will be called.
+ * <p/>
+ * Any messages from the process() call will be sent to the user queue.
+ * <p/>
+ * Finally, we pass the standard MapMessage object to the optional list of destinations.
  */
 public class BaseRegistrationListener implements MessageListener {
 
@@ -33,55 +32,82 @@ public class BaseRegistrationListener implements MessageListener {
     /**
      * MQ Destinations that will be called after the registrationProcessService.process is called
      */
-    private List<String> destinations;
+    protected List<String> destinations;
 
     /**
      * The RegistrationProcessService has one method, process and a standard result. This is where we expect the
      * "work" to be done.
      */
-    private RegistrationProcessService registrationProcessService;
-    private JmsTemplate jmsTemplate;
+    protected RegistrationProcessService registrationProcessService;
+    protected JmsTemplate jmsTemplate;
 
     @Override
     public void onMessage(Message message) {
 
-        String userId="";
+        String userId = "";
         String regReqId = "";
-        MapMessage mapMessage = new ActiveMQMapMessage(); // we are using map messages so we can send multiple pieces of data
+
 
         //Pull the User ID and the Registration Request ID from the message.
-        if(message instanceof MapMessage){
+        if (message instanceof MapMessage) {
             try {
                 userId = ((MapMessage) message).getString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID);
                 regReqId = ((MapMessage) message).getString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID);
             } catch (JMSException e) {
-                LOG.error("Error getting message content", e);
+                throw new RuntimeException("Error getting message content", e);
             }
         }
-        LOG.info("Received Message from user id: " + userId);
 
-        // Process whatever the registrationProcessService was designed to process.
-        RegistrationResponseInfo regInfo = registrationProcessService.process(regReqId);
+        LOG.debug("Received Message from user id: " + userId);
+        try {
 
-        try{
-            mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, userId); // put the user id into the map
-            mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regInfo.getRegistrationRequestId()); // put the reg request id into map
-        }catch (JMSException jmsEx){
-            System.err.println(jmsEx.getMessage());
+            // hook point before the process call
+            beforeProcessHook(regReqId);
+            // Process whatever the registrationProcessService was designed to process.
+            RegistrationResponseInfo regInfo = registrationProcessService.process(regReqId);
+
+            // hook point after the process call
+            afterProcessHook(regInfo.getRegistrationRequestId());
+
+            // notify user queue
+            notifyUserQueue(userId, regInfo);
+
+            // We can configure standard destinations via spring.
+            notifyDestinations(buildResponseMessage(userId, regInfo.getRegistrationRequestId()));
+
+
+        } catch (JMSException jmsEx) {
+            throw new RuntimeException("Error with Processing Message", jmsEx);
         }
 
+    }
+
+    protected void beforeProcessHook(String regReqId) throws JMSException {
+        LOG.info("EMPTY BEFORE PROCESS HOOK");
+    }
+
+    ;
+
+    protected void afterProcessHook(String regReqId) throws JMSException {
+        LOG.info("EMPTY AFTER PROCESS HOOK");
+    }
+
+    ;
+
+    protected MapMessage buildResponseMessage(String userId, String regReqId) throws JMSException {
+        MapMessage mapMessage = new ActiveMQMapMessage(); // we are using map messages so we can send multiple pieces of data
+        mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, userId); // put the user id into the map
+        mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_REG_REQ_ID, regReqId); // put the reg request id into map
+        return mapMessage;
+    }
+
+    protected void notifyUserQueue(String userId, RegistrationResponseInfo regInfo) {
         // Processing can generate n messages. iterate through the messages, sending them to the user's queue
-        for(String regMessage : regInfo.getMessages()){
+        for (String regMessage : regInfo.getMessages()) {
             final String destination = CourseRegistrationConstants.USER_MESSAGE_QUEUE_PREFIX + userId;
-            LOG.info("Reg Request Message" + regMessage);  // debugging message
-            jmsTemplate.convertAndSend(destination, regMessage);   // sends message to user queue
+            LOG.debug("Reg Request Message" + regMessage);  // debugging message
+            getJmsTemplate().convertAndSend(destination, regMessage);   // sends message to user queue
         }
-
-
-        // We can configure standard destinations via spring.
-        notifyDestinations(mapMessage);
-
-
     }
 
     /**
@@ -90,13 +116,13 @@ public class BaseRegistrationListener implements MessageListener {
      *
      * @param message This can be any object, but for we will generally pass the MapMessage for most communication.
      */
-    protected void notifyDestinations(Object message){
+    protected void notifyDestinations(Object message) {
 
-         if(destinations != null){
-             for(String destination : getDestinations()){
-                 jmsTemplate.convertAndSend(destination, message);
-             }
-         }
+        if (destinations != null) {
+            for (String destination : getDestinations()) {
+                getJmsTemplate().convertAndSend(destination, message);
+            }
+        }
     }
 
 
@@ -105,26 +131,24 @@ public class BaseRegistrationListener implements MessageListener {
     }
 
     /**
-     *
-     * @param destinations  List of destinations that will be triggered after listener has processed.
+     * @param destinations List of destinations that will be triggered after listener has processed.
      */
     public void setDestinations(List<String> destinations) {
         this.destinations = destinations;
     }
 
-    public RegistrationProcessService getRegistrationProcessService() {
+    protected RegistrationProcessService getRegistrationProcessService() {
         return registrationProcessService;
     }
 
     /**
-     *
      * @param registrationProcessService
      */
     public void setRegistrationProcessService(RegistrationProcessService registrationProcessService) {
         this.registrationProcessService = registrationProcessService;
     }
 
-    public JmsTemplate getJmsTemplate() {
+    protected JmsTemplate getJmsTemplate() {
         return jmsTemplate;
     }
 

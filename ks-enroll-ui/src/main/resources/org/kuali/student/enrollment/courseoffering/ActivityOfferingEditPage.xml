@@ -55,19 +55,19 @@
     <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" >
         <property name="items">
             <list>
-                <bean parent="Uif-GridGroup"  p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
+                <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:colSpan="3" id="status" p:label="Status" p:fieldLabel.renderColon ="false" p:propertyName="stateName"/>
                             <bean parent="Uif-DataField" p:colSpan="3" id="term" p:label="Term" p:fieldLabel.renderColon="false" p:propertyName="termName"/>
                             <bean parent="Uif-DataField" id="subterm_name" p:label="Sub Term" p:fieldLabel.renderColon="false" p:propertyName="subTermName"/>
-                            <bean parent="Uif-HorizontalBoxSection" p:colSpan="2">
+                            <bean parent="Uif-HorizontalBoxSection" id="aoEdit_subTerm_change"  p:colSpan="2">
                                 <property name="header.render" value="false"/>
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-NavigationActionLink" id="change_link" p:actionLabel="Change" p:render="@{#dp.hasSubTerms and !#parent.readOnly}"
-                                              p:performDirtyValidation="false" p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"
-                                              p:componentSecurity.performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
+                                            p:performDirtyValidation="false" p:actionScript="openPopupContent(e,'KS-ActivityOfferingEdit-SubtermsPopupForm');"
+                                            p:componentSecurity.performActionAuthz="true" p:actionEvent="changeSubtermAO"/>
                                     </list>
                                 </property>
                             </bean>
@@ -368,21 +368,15 @@
                     <property name="propertyName" value="instructors" />
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
                     <property name="addBlankLineAction.id" value="ao-personnelgroup-addline"/>
-                    <property name="addBlankLineAction.style" value="margin-top:30px; display:block;"/>
                     <property name="addBlankLineAction.onDocumentReadyScript" value="reDisplayPersonnelSection();"/>
                     <property name="addBlankLineAction.dirtyOnAction" value="true" />
                     <property name="validationMessages.displayMessages" value="false"/>
-                    <property name="layoutManager.richTable">
-                        <!-- see http://datatables.net/ref for all options -->
-                        <bean parent="KS-Uif-RichTable">
-                            <property name="templateOptions">
-                                <map merge="true">
-                                    <entry key="aaSorting" value="[[1,'desc']]"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
-
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
@@ -437,6 +431,11 @@
     </bean>
 
     <bean id="ActivityOfferingEdit-NoWaitlist" parent="Uif-VerticalBoxSection" p:headerText="Waitlist" p:render="@{!#dp.hasWaitlistCO and !#dp.colocatedAO}">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-Message" p:messageText="Waitlists are deactivated for the Course Offering"/>
@@ -493,7 +492,7 @@
                             <bean parent="Uif-VerticalBoxSection">
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-InputField" p:propertyName="waitListType" p:label="Waitlist Type"
+                                        <bean parent="Uif-InputField" p:id="wait_list_type" p:propertyName="waitListType" p:label="Waitlist Type"
                                               p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                                             <property name="control">
                                                 <bean parent="Uif-VerticalRadioControl"/>
@@ -526,7 +525,7 @@
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="Uif-InputField-LabelRight" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
+                                        <bean parent="Uif-InputField-LabelRight" p:id="allow-hold-list-checkbox" p:propertyName="courseWaitListInfo.allowHoldUntilEntries" p:label="Allow Hold List">
                                             <property name="control">
                                                 <bean parent="Uif-CheckboxControl" />
                                             </property>
@@ -569,6 +568,10 @@
         <property name="componentSecurity.editAuthz" value="true"/>
         <property name="items">
             <list>
+                <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount">
+                </bean>
+                <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining">
+                </bean>
                 <bean id="ActivityOffering-SeatpoolsSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:id="ao-seatpoolgroupZ"
                       p:layoutManager.id="ao-seatpoolgroup-table" p:additionalCssClasses="ks-subSection" p:render="@{!(!#dp.hasSeatpools and #parent.readOnly)}">
@@ -642,10 +645,6 @@
                             <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete" p:onDocumentReadyScript="calculatePercent()" p:dirtyOnAction="true"/>
                         </list>
                     </property>
-                </bean>
-                <bean parent="Uif-MessageField" p:label="Seat Pools" p:messageText="0" p:id="seatpoolCount">
-                </bean>
-                <bean parent="Uif-MessageField" p:label="Seats Remaining" p:messageText="N/A" p:id="seatsRemaining">
                 </bean>
             </list>
         </property>

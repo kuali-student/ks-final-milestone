@@ -117,7 +117,7 @@
                         <bean parent="Uif-CheckboxControl" p:disabled="false"/>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Code">
                     <property name="label" value="Label"/>
                     <property name="items">
                         <list>
@@ -145,16 +145,16 @@
                     </property>
                 </bean>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="STATUS"
+                      p:label="Status"
                       p:propertyName="courseOfferingStateDisplay"/>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="TITLE"
+                      p:label="Title"
                       p:propertyName="courseOfferingDesc"/>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="CREDITS"
+                      p:label="Credits"
                       p:propertyName="courseOfferingCreditOptionDisplay"/>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="GRADING"
+                      p:label="Grading"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
                 <bean name="enableApproveButton" parent="KS-Uif-DataField-Simple" p:label="enableApproveButton" p:propertyName="enableApproveButton"/>
                 <bean name="enableSuspendButton" parent="KS-Uif-DataField-Simple" p:label="enableSuspendButton" p:propertyName="enableSuspendButton"/>
@@ -177,7 +177,7 @@
             </set>
         </property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="ACTIONS"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:align="left" p:required="false" p:label="Actions"/>
         </property>
         <property name="lineActions">
             <list>

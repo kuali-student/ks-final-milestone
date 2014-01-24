@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.kuali.student.enroll</groupId>
         <artifactId>ks-enroll</artifactId>
-        <version>0.2.0-KSAP-FR2-M1-SNAPSHOT</version>
+        <version>0.2.0-FR2-M1-SNAPSHOT</version>
     </parent>
     <artifactId>ks-enroll-impl</artifactId>
     <name>KS Enroll Impl</name>
@@ -190,7 +190,7 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-all</artifactId>
-            <version>5.8.0</version>
+            <version>5.9.0</version>
         </dependency>
         <!-- end -->
     </dependencies>

@@ -627,7 +627,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
                 "SELECT rg2ao.relatedLui.id," +
                 "       rg2ao.lui.id," +
                 "       rg2ao.lui.name," +
-                "       rg2ao.lui.luiState " +
+                "       rg2ao.lui.luiState, " +
+                "       rg2ao.lui.atpId " +
                 "FROM LuiLuiRelationEntity co2fo," +
                 "     LuiLuiRelationEntity fo2ao," +
                 "     LuiLuiRelationEntity rg2ao " +
@@ -655,7 +656,8 @@ public class ActivityOfferingSearchServiceImpl extends SearchServiceAbstractHard
             row.addCell(SearchResultColumns.AO_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_ID, (String)resultRow[i++]);
             row.addCell(SearchResultColumns.RG_NAME, (String)resultRow[i++]);
-            row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i]);
+            row.addCell(SearchResultColumns.RG_STATE, (String)resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_ID, (String)resultRow[i++]);
             resultInfo.getRows().add(row);
         }
 

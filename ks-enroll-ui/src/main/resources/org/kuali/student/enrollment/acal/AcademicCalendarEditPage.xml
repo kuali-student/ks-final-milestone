@@ -320,12 +320,19 @@ limitations under the License.
             </list>
         </property>
     </bean>
-
-    <bean id="KS-AcademicCalendar-EventSubSection" parent="Uif-Disclosure-TableCollectionSubSection"
+    <!--p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}"-->
+    <bean id="KS-AcademicCalendar-EventSubSection" parent="KS-TableCollectionSubSection-BottomAddLine"
           p:layoutManager.numberOfColumns="@{#view.readOnly ? 3 : 7}" p:id="acal-info-event"
-          p:render="@{!#view.readOnly ? 'true' : !#form.events.empty ?  'true' : 'false'}">
+          p:layoutManager.id="acal-events-table"
+          >
         <property name="headerText" value="Events"/>
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-disclosure</value>
+            </list>
+        </property>
+        <property name="disclosure.render" value="true"/>
         <property name="instructionalText" value="@{!#view.readOnly ? 'Adding events is optional.' : ''}"/>
         <property name="instructionalMessage">
             <bean parent="Uif-InstructionalMessage"/>
@@ -336,29 +343,32 @@ limitations under the License.
         <property name="layoutManager.sequencePropertyName" value="name"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
-        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.separateAddLine" value="true"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="addLineLabel.messageText" value=""/>
         <property name="layoutManager.richTable.render" value="false"/>
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
-        <property name="addLineActions">
+        <property name="addBlankLineAction.actionLabel" value="Add Event"/>
+        <property name="addBlankLineAction.id" value="event-addline"/>
+
+        <!--<property name="addLineActions">
             <list>
                 <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
             </list>
-        </property>
-        <property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>
+        </property>-->
+        <!--<property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>-->
         <property name="lineActions">
             <list>
-                <bean parent="Uif-DeleteLineAction" p:methodToCall="deleteAcalEvent"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
+                <bean id="acal_event_delete" parent="Uif-ActionLink" p:methodToCall="deleteAcalEvent"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:actionLabel="Delete"/>
             </list>
         </property>
         <property name="items">
             <list>
-                <bean parent="KS-Uif-InputField" p:propertyName="eventTypeKey" p:label="Event Type"
-                      p:required="true"
-                      p:readOnly="@{!#isAddLine}" p:style="font-weight:bold;"
+                <!--p:readOnly="@{!#isAddLine}"  -->
+                <bean parent="KS-Uif-InputField" p:id="event_type" p:propertyName="eventTypeKey" p:label="Event Type"
+                      p:style="font-weight:bold;" p:readOnly="@{#line.eventTypeKey != null and #line.eventTypeKey != ''}"
                       p:readOnlyDisplayReplacementPropertyName="eventTypeName">
                     <property name="control">
                         <bean parent="KS-Uif-DropdownControl"/>
@@ -368,7 +378,7 @@ limitations under the License.
                               p:addBlankOption="false"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="startDate" p:label="Start Date"
+                <bean parent="KS-Uif-InputField" p:id="event_start_date" p:propertyName="startDate" p:label="Start Date"
                       p:style="font-weight:normal;" p:readOnlyDisplayReplacementPropertyName="startDateUI">
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl"/>
@@ -377,7 +387,7 @@ limitations under the License.
                         <bean parent="KS-BasicDatePatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="startTime" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:id="event_start_time" p:propertyName="startTime" p:render="@{!#view.readOnly}"
                       p:label="Start Time">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
@@ -386,7 +396,7 @@ limitations under the License.
                         <bean parent="TimePatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:id="event_start_time_ampm" p:propertyName="startTimeAmPm" p:render="@{!#view.readOnly}"
                       p:defaultValue="AM"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
@@ -396,7 +406,7 @@ limitations under the License.
                         </bean>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="endDate" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:id="event_end_date" p:propertyName="endDate" p:render="@{!#view.readOnly}"
                       p:label="End Date">
                     <property name="control">
                         <bean parent="KS-Uif-Default-DateControl"/>
@@ -407,7 +417,7 @@ limitations under the License.
                 </bean>
                 <bean parent="Uif-DataField" p:propertyName="endDateUI" p:render="@{#view.readOnly}"
                       p:label="End Date"/>
-                <bean parent="KS-Uif-InputField" p:propertyName="endTime" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:id="event_end_time" p:propertyName="endTime" p:render="@{!#view.readOnly}"
                       p:label="End Time">
                     <property name="control">
                         <bean parent="KS-Uif-TextControl" p:size="4" p:watermarkText="hh:mm"/>
@@ -416,7 +426,7 @@ limitations under the License.
                         <bean parent="TimePatternConstraint"/>
                     </property>
                 </bean>
-                <bean parent="KS-Uif-InputField" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
+                <bean parent="KS-Uif-InputField" p:id="event_end_time_ampm" p:propertyName="endTimeAmPm" p:render="@{!#view.readOnly}"
                       p:defaultValue="AM"
                       p:additionalCssClasses="acal_keydate_radiobutton">
                     <property name="control">
@@ -539,7 +549,9 @@ limitations under the License.
             <list>
                 <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Holiday Calendar"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"
-                      p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}"/>
+                      p:disabled="@{(#lp.id == null) or (#lp.id == '')}" p:refreshWhenChangedPropertyNames="@{#lp.id}">
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+                </bean>
             </list>
         </property>
         <property name="items">
@@ -588,7 +600,7 @@ limitations under the License.
 
     <bean id="KS-Holidays-SubSection" parent="Uif-TableSubCollection-WithinSection" p:readOnly="true"
           p:id="acal-hc-holidays" p:layoutManager.numberOfColumns="4"
-          p:layoutManager.cssClasses="acal-layout-style,acal-layout">
+          p:layoutManager.additionalCssClasses="acal-layout-style">
         <property name="headerText" value="Holidays"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper"/>
         <property name="layoutManager.applyDefaultCellWidths" value="false"/>

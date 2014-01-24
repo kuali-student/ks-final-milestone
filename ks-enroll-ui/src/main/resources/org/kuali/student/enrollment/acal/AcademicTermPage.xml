@@ -127,8 +127,10 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                  since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF" p:actionLabel="Add Term"
+                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');">
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+                </bean>
             </list>
         </property>
         <property name="lineActions">
@@ -373,7 +375,11 @@
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                 since the first field is a validated dropdown -->
                 <!--p:onClickScript="addBootstrapImageToLink('acal-term');"-->
-                <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF" p:onDocumentReadyScript="addBootstrapImageToLink('acal-term');"/>
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Key Date Group" p:focusOnIdAfterSubmit="SELF" p:onDocumentReadyScript="addBootstrapImageToLink('acal-term');">
+                    <property name="disabled" value="@{(#lp.keyDateGroupType == null) or (#lp.keyDateGroupType == '')}"/>
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+                    <property name="refreshWhenChangedPropertyNames" value="@{#lp.keyDateGroupType}"/>
+                </bean>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.header.rightGroup">
@@ -447,31 +453,22 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
         <!--<property name="validationMessages.displayMessages" value="false"/>-->
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
-        <property name="layoutManager.cssClasses">
-            <list merge="true">
-                <value>ks-tablecollection-table</value>
-                <value>ks-section</value>
-            </list>
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine"/>
         </property>
+        <property name="addBlankLineAction.actionLabel" value="Add Key Date"/>
+        <property name="renderAddBlankLineButton" value="true"/>
+        <property name="addLinePlacement" value="BOTTOM"/>
         <property name="layoutManager.renderSequenceField" value="false"/>
         <property name="layoutManager.generateAutoSequence" value="false"/>
         <property name="layoutManager.separateAddLine" value="false"/>
         <property name="layoutManager.richTable.disableTableSort" value="true"/>
         <property name="layoutManager.richTable.render" value="false"/>
-
-        <property name="addLineActions">
-            <list>
-                <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
-                since the first field is a validated dropdown -->
-                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF"
-                      p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');"/>
-            </list>
-        </property>
         <property name="items">
             <list>
                 <bean id="key_date_type" parent="KS-Uif-InputField" p:propertyName="keyDateType"
-                      p:readOnly="@{!#isAddLine}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
-                      p:label="Key Date Type *"
+                      p:readOnly="@{#line.keyDateType != null and #line.keyDateType != ''}" p:readOnlyDisplayReplacementPropertyName="keyDateNameUI"
+                      p:label="Key Date Type *" p:required="true"
                       p:finalizeMethodToCall="populateKeyDateTypes" p:style="font-weight:bold;" p:additionalCssClasses="ks-subSection">
                     <property name="onDocumentReadyScript"
                               value="window.setTimeout(removeNewItemHighlights(),5000); resetDirtyFields('AcalEdit-DirtyFields');"/>
@@ -480,6 +477,9 @@
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DummyKeyValue"/>
+                    </property>
+                    <property name="bindingInfo">
+                        <bean parent="Uif-BindingInfo"/>
                     </property>
                 </bean>
                 <bean id="key_date_start_date" parent="KS-Uif-InputField" p:propertyName="startDate"
@@ -559,18 +559,12 @@
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper"/>
         <property name="headerText" value="Final Exam Period"/>
         <property name="disclosure.render" value="false"/>
-        <property name="layoutManager.style" value="width:60%;"/>
+        <property name="layoutManager.style" value="width:70%;"/>
         <property name="layoutManager.addLineGroup.layoutManager.applyDefaultCellWidths" value="false"/>
         <property name="addBlankLineAction.actionLabel" value="Add Final Exam Period"/>
         <property name="addBlankLineAction.onDocumentReadyScript"
                   value="hideAddExamPeriodButton('@{#collectionGroup.id}', 'exam_date_type', 'acal-term-examdates-add');"/>
         <property name="addBlankLineAction.id" value="acal-term-examdates-add"/>
-
-        <property name="layoutManager.cssClasses">
-            <list merge="true">
-                <value>ks-tablecollection-table</value>
-            </list>
-        </property>
 
         <property name="items">
             <list>

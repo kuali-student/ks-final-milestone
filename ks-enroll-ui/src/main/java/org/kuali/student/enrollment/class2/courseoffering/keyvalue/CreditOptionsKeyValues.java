@@ -70,8 +70,8 @@ public class CreditOptionsKeyValues extends UifKeyValuesFinderBase implements Se
                     keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
                 } else if (typeKey.equals(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_RANGE) || typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {
                     keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
-                    keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE, "Variable"));
                     keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, "Multiple"));
+                    keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE, "Variable"));
                 } else if (typeKey.equals(LrcServiceConstants.R1_RESULT_COMPONENT_TYPE_KEY_MULTIPLE) || typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {
                     keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, "Fixed"));
                     keyValues.add(new ConcreteKeyValue(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, "Multiple"));

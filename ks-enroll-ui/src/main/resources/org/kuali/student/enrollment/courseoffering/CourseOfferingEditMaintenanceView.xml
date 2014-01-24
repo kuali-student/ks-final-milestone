@@ -331,7 +331,7 @@
                                 <property name="items">
                                     <list>
                                         <bean parent="Uif-Label" p:labelText="Suffix" p:renderColon="false" />
-                                        <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:additionalCssClasses="co_suffix" >
+                                        <bean parent="Uif-InputField" p:id="courseNumberSuffix" p:propertyName="courseOfferingInfo.courseNumberSuffix" p:showLabel="false" p:additionalCssClasses="co_suffix" >
                                             <property name="control">
                                                 <bean parent="Uif-TextControl" p:size="10" />
                                             </property>
@@ -372,7 +372,7 @@
     <bean id="KS-CourseOfferingEdit-GradingOptions" parent="Uif-HorizontalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Options" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
+                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.gradingOptionId" p:id="gradingOptionId" p:label="Grading Option" p:fieldLabel.renderColon="false" p:componentSecurity.editAuthz="true"
                       p:onChangeScript="jQuery('#dirtyForm').val(true);" >
                     <property name="control">
                         <bean parent="Uif-HorizontalRadioControl"/>
@@ -403,11 +403,11 @@
                       p:labelPlacement="TOP" p:fieldLabel.renderColon="false"
                       p:render="true"  />
                 <!-- List of checkboxes seem to break in KRAD 2.2M3 so had to replace with individual checkboxes -->
-                <bean parent="Uif-CheckboxInputField" p:label="Pass/Fail"
+                <bean parent="Uif-CheckboxInputField" p:id="is_pass_fail" p:label="Pass/Fail"
                       p:propertyName="passFailStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.passFail')}"/>
-                <bean parent="Uif-CheckboxInputField" p:label="Audit"
+                <bean parent="Uif-CheckboxInputField" p:id="is_audit" p:label="Audit"
                       p:propertyName="auditStudentRegOpts"
                       p:labelPlacement="RIGHT" p:fieldLabel.renderColon="false"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #dp.studentRegOptions.contains('kuali.resultComponent.grade.audit')}"/>
@@ -613,7 +613,8 @@
                       p:onClickScript="writeCurrentPageToSession(this);"
                       p:loadingMessageText="Deleting Line..."
                       p:id="@{#collectionGroup.id}_del@{#lineSuffix}"
-                      p:additionalCssClasses="delete_course_offering">
+                      p:additionalCssClasses="delete_course_offering"
+                      p:style="float:none;display:inline-block;padding:0;margin-top:0.18em;">
                     <property name="render" value="@{#lp.formatOfferingInfo.stateKey ne 'kuali.lui.format.offering.state.offered'}"/>
                 </bean>
             </list>
@@ -750,27 +751,25 @@
                 <bean id="KS-CourseOfferingEdit-PersonnelTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
                       p:layoutManager.id="ao-personnelgroup-table"
                       p:layoutManager.style="width: 60em;">
-                    <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper" />
-                    <property name="propertyName" value="instructors" />
+                    <property name="collectionObjectClass"
+                              value="org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper"/>
+                    <property name="propertyName" value="instructors"/>
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="addBlankLineAction.actionLabel" value="Add Personnel"/>
-                    <property name="addBlankLineAction.style" value="margin-top:30px; display:block;"/>
-                    <property name="layoutManager.richTable">
-                        <!-- see http://datatables.net/ref for all options -->
-                        <bean parent="KS-Uif-RichTable">
-                            <property name="templateOptions">
-                                <map merge="true">
-                                    <entry key="aaSorting" value="[[1,'desc']]"/>
-                                </map>
-                            </property>
-                        </bean>
-                    </property>
+                    <property name="addBlankLineAction.id" value="KS-CourseOfferingEdit-PersonnelSection_add"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="Items">
                         <list>
                             <bean parent="Uif-InputField"
                                   p:id="personnelPriority"
                                   p:propertyName="offeringInstructorInfo.personId"
-                                  p:label="Id"
+                                  p:label="ID"
                                   p:required="false"
                                   p:additionalCssClasses="id_search_course_offering">
                                 <property name="quickfinder">
@@ -815,6 +814,11 @@
 
     <bean id="KS-CourseOfferingEdit-OrganizationSectionHeader" parent="Uif-VerticalBoxSection" p:style="margin-top: 2em;">
         <property name="validationMessages.displayMessages" value="false"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <ref bean="KS-CourseOfferingEdit-OrganizationSection"/>
@@ -850,7 +854,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField"
-                      p:label="Organization Id"
+                      p:label="Organization ID"
                       p:propertyName="id"
                       p:style="font-weight:bold;white-space:nowrap;"
                       p:additionalCssClasses="organization_id_course_offering">
@@ -891,7 +895,7 @@
     <bean id="KS-CourseOfferingEdit-HonorsOffering" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
+                <bean parent="Uif-InputField" p:id="isHonoursOffering" p:propertyName="courseOfferingInfo.isHonorsOffering" p:label="Honors Flag" p:fieldLabel.renderColon="false" p:labelPlacement="TOP">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl">
                             <property name="checkboxLabel" value="This is an Honors Course"/>

@@ -161,16 +161,17 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
-        <property name="addLineActions">
-            <list>
-                <bean parent="Uif-AddLineAction-Link" p:focusOnIdAfterSubmit="SELF" />
-            </list>
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine"/>
         </property>
+        <property name="addBlankLineAction.actionLabel" value="Add Holiday"/>
+        <property name="renderAddBlankLineButton" value="true"/>
+        <property name="addLinePlacement" value="BOTTOM"/>
 
         <property name="items">
 			<list>
                 <bean parent="Uif-InputField" p:propertyName="typeKey"  p:readOnlyDisplayReplacementPropertyName="typeName"
-                      p:label="Name" p:required="true" p:readOnly="@{!#isAddLine}"
+                      p:label="Name" p:readOnly="@{#line.typeKey != null and #line.typeKey != ''}"
                       p:finalizeMethodToCall="populateHolidayTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />

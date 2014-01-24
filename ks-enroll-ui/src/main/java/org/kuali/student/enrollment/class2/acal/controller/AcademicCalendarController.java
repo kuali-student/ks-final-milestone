@@ -681,6 +681,8 @@ public class AcademicCalendarController extends UifControllerBase {
 
         keydateGroup.getKeydates().remove(selectedLineIndex);
 
+        academicCalendarForm.getAddedCollectionItems().remove(keyDateWrapper);
+
         return getUIFModelAndView(academicCalendarForm);
 
     }
@@ -799,6 +801,7 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         academicCalendarForm.getEvents().remove(selectedLineIndex);
+        academicCalendarForm.getAddedCollectionItems().remove(deletedEvent);
 
         return getUIFModelAndView(academicCalendarForm);
 

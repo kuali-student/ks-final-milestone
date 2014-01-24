@@ -1,5 +1,8 @@
 package org.kuali.student.enrollment.registration.client.service.dto;
 
+
+import org.apache.commons.lang.StringUtils;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlType;
@@ -108,23 +111,15 @@ public class ActivityOfferingScheduleComponentResult {
         this.wed = wed;
     }
 
-    public void setBooleanSchedules(String daysOfTheWeek){
-        if(daysOfTheWeek != null && !daysOfTheWeek.isEmpty()){
-            if(daysOfTheWeek.contains("M")){
-                 setMon(true);
-            } else if(daysOfTheWeek.contains("T")){
-                setTue(true);
-            } else if(daysOfTheWeek.contains("W")){
-                setWed(true);
-            }else if(daysOfTheWeek.contains("H")){
-                setThu(true);
-            }else if(daysOfTheWeek.contains("F")){
-                setFri(true);
-            }else if(daysOfTheWeek.contains("S")){
-                setSat(true);
-            }else if(daysOfTheWeek.contains("U")){
-                setSun(true);
-            }
+    public void setBooleanSchedules(String daysOfTheWeek) {
+        if (!StringUtils.isEmpty(daysOfTheWeek)) {
+            setMon(daysOfTheWeek.contains("M"));
+            setTue(daysOfTheWeek.contains("T"));
+            setWed(daysOfTheWeek.contains("W"));
+            setThu(daysOfTheWeek.contains("H"));
+            setFri(daysOfTheWeek.contains("F"));
+            setSat(daysOfTheWeek.contains("S"));
+            setSun(daysOfTheWeek.contains("U"));
         }
     }
 }

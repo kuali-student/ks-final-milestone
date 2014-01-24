@@ -6,9 +6,9 @@ import org.kuali.student.enrollment.registration.engine.service.RegistrationProc
 /**
  * Created by swedev on 12/20/13.
  */
-public class CourseRegistrationSeatCheckServiceImpl  implements RegistrationProcessService {
+public class CourseRegistrationSeatCheckServiceImpl implements RegistrationProcessService {
 
-    public RegistrationResponseInfo process(String courseRegistrationRequestId){
+    public RegistrationResponseInfo process(String courseRegistrationRequestId) {
         RegistrationResponseInfo responseInfo = new RegistrationResponseInfo();
 
         responseInfo.setRegistrationRequestId(courseRegistrationRequestId);

@@ -112,8 +112,8 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="STATUS" p:propertyName="stateName" />
-                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="CODE">
+                <bean parent="Uif-DataField" p:label="Status" p:propertyName="stateName" />
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.labelText="Code">
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"  p:propertyName="aoInfo.activityCode" p:fieldLabel.render="false" />
@@ -130,8 +130,8 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="TYPE" p:propertyName="typeName"/>
-                <bean parent="Uif-DataField" p:label="FORMAT" p:propertyName="aoInfo.formatOfferingName"/>
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="typeName"/>
+                <bean parent="Uif-DataField" p:label="Format" p:propertyName="aoInfo.formatOfferingName"/>
             </list>
         </property>
     </bean>

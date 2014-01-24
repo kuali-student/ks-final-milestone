@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.List;
 
 @XmlRootElement
@@ -17,6 +18,9 @@ public class StudentScheduleCourseResult {
     private List<StudentScheduleActivityOfferingResult> activityOfferings;
 
     public List<StudentScheduleActivityOfferingResult> getActivityOfferings() {
+        if (activityOfferings == null) {
+            activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
+        }
         return activityOfferings;
     }
 

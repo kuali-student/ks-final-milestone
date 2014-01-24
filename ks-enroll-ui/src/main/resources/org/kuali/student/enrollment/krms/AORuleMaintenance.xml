@@ -211,7 +211,7 @@ limitations under the License.
                 <!--<bean id="KSAO-RuleView-ActionLinks" parent="KSAO-RuleView-Links" p:align="right"/>-->
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
                 <bean id="KSAO-ViewTree-Group" parent="Uif-VerticalBoxGroup"
-                      p:cssClasses="viewModeNode">
+                      p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>
                             <ref bean="KSAO-ViewTree-Section"/>
@@ -676,7 +676,9 @@ limitations under the License.
     </bean>
     <bean id="KRMS-AoCompareRule" parent="KRMS-AoCompareRule-parent"/>
 
-    <bean id="KRMS-AoCompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 1200px;">
+    <bean id="KRMS-AoCompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 1200px;"
+          p:additionalCssClasses="compareTree">
+        <property name="tree"><null/></property>
         <property name="propertyName" value="compareTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">

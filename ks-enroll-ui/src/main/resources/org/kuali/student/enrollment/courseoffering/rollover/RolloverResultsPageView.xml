@@ -146,7 +146,7 @@
                             <bean parent="Uif-TableCollectionSection" p:headerText="Exceptions" p:style="padding-top:30px"
                                   p:layoutManager.numberOfColumns="3" p:renderAddLine="false" p:id="rollover_exceptions_section"
                                   p:renderLineActions="false" p:render="@{socRolloverResultItems.size() ge 1}">
-                                <property name="header.headerTagStyle" value="font-family:Arial;font-size:15px;font-weight:bold;font-style:normal;text-decoration:none;color:#000000;background-image:url('../themes/ksboot/images/exclamation_diamond_frame.png');background-repeat: no-repeat;background-position: left;padding-left:20px;"/>
+                                <property name="header.additionalCssClasses" value="ks-rollover-result-exception-header"/>
                                 <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.SocRolloverResultItemWrapper"/>
                                 <property name="propertyName" value="socRolloverResultItems"/>
                                 <property name="collectionLookup">
