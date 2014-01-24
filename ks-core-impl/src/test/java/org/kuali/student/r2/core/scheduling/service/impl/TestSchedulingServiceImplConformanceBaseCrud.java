@@ -801,7 +801,7 @@ public abstract class TestSchedulingServiceImplConformanceBaseCrud {
 			} catch (VersionMismatchException e) { 
    			exception = true;			}
 			
-//			Assert.assertTrue("VersionMismatchException was not detected!", exception);
+			Assert.assertTrue("VersionMismatchException was not detected!", exception);
 			
 			// -------------------------------------
 			// test read after update
