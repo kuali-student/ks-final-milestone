@@ -149,7 +149,7 @@
                         <bean parent="Uif-HorizontalBoxGroup">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                                    <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
                                     <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
                                           p:render="@{#form.renderedInLightBox}"
                                           p:onClickScript="e.preventDefault();closeLightbox();return false;"
