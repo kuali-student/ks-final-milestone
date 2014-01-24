@@ -110,6 +110,16 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <load-on-startup>3</load-on-startup>
     </servlet>
+    
+    <filter>
+        <filter-name>DefaultContext</filter-name>
+        <filter-class>org.kuali.student.ap.framework.context.support.DefaultKsapContext$Filter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>DefaultContext</filter-name>
+        <servlet-name>ks-krad</servlet-name>
+    </filter-mapping>
     <!--  FTL test -->
     <servlet>
         <servlet-name>cr-performance-test</servlet-name>
