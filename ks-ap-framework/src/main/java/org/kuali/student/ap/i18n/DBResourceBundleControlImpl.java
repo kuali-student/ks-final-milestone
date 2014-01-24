@@ -1,8 +1,7 @@
-package org.kuali.i18n;
+package org.kuali.student.ap.i18n;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
@@ -16,11 +15,8 @@ import java.util.Properties;
 import java.util.ResourceBundle;
 
 /**
- * Created with IntelliJ IDEA.
- * User: chmaurer
- * Date: 1/17/14
- * Time: 1:27 PM
- * To change this template use File | Settings | File Templates.
+ * This class provides a ResourceBundle.Control implementation that uses the {@link MessageService} and the Locale from a {@link ContextInfo}
+ * @author Chris Maurer <chmaurer@iu.edu>
  */
 public class DBResourceBundleControlImpl extends ResourceBundle.Control {
 
@@ -29,15 +25,13 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
     private static final String FORMAT_DB = "DB";
 
     private String messageGroup;
-    private KualiResourceBundle parent;
+    private PropertiesResourceBundleImpl parent;
+    private ContextInfo contextInfo;
 
-    public void setMessageGroup(String messageGroup) {
-        this.messageGroup = messageGroup;
-    }
-
-    public DBResourceBundleControlImpl(String messageGroup, KualiResourceBundle parent) {
+    public DBResourceBundleControlImpl(String messageGroup, ContextInfo contextInfo, PropertiesResourceBundleImpl parent) {
         this.messageGroup = messageGroup;
         this.parent = parent;
+        this.contextInfo = contextInfo;
     }
 
     @Override
@@ -53,19 +47,17 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
         if (!format.equals(FORMAT_DB)) {
             return null;
         }
-        Properties p   = new Properties();
+        Properties p = new Properties();
 
         MessageService msg = KsapFrameworkServiceLocator.getMessageService();
-        KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
-        ContextInfo ctx = ksapCtx.getContextInfo();
-        if(ctx == null){
-            ctx = new ContextInfo();
+        if(contextInfo == null){
+            contextInfo = new ContextInfo();
         }
         LocaleInfo localeInfo = LocaleHelper.locale2LocaleInfo(locale);
         List<MessageInfo> messages = null;
 
         try {
-            messages = msg.getMessagesByGroup(localeInfo, messageGroup, ctx);
+            messages = msg.getMessagesByGroup(localeInfo, messageGroup, contextInfo);
         } catch (Exception e) {
             LOG.error("Unable to load messages with the group: " + messageGroup);
         }
@@ -74,7 +66,6 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
             LOG.debug(mi.getLocale().toString() + "-" + mi.getMessageKey() + "->" + mi.getValue());
             p.setProperty(mi.getMessageKey(), mi.getValue());
         }
-
 
         return new DBResourceBundleImpl(p, locale, parent);
     }

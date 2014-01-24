@@ -12,7 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 
-import org.kuali.i18n.LocaleHelper;
+import org.kuali.student.ap.i18n.LocaleHelper;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.r2.common.dto.ContextInfo;

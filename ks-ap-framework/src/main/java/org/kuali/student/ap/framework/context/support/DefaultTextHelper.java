@@ -2,38 +2,33 @@ package org.kuali.student.ap.framework.context.support;
 
 import java.io.Serializable;
 import java.text.MessageFormat;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.apache.commons.lang.StringUtils;
-import org.kuali.i18n.DBResourceBundleControlImpl;
-import org.kuali.i18n.KualiResourceBundle;
-import org.kuali.i18n.KualiResourceBundleImpl;
-import org.kuali.i18n.LocaleHelper;
+import org.apache.log4j.Logger;
+import org.kuali.student.ap.i18n.DBResourceBundleControlImpl;
+import org.kuali.student.ap.i18n.DBResourceBundleImpl;
+import org.kuali.student.ap.i18n.PropertiesResourceBundleImpl;
+import org.kuali.student.ap.i18n.LocaleHelper;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.TextHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.messages.dto.MessageInfo;
-import org.kuali.student.r2.common.messages.service.MessageService;
 
 public class DefaultTextHelper implements TextHelper, Serializable {
 
 	private static final long serialVersionUID = -616654137052936870L;
 
+    private static final Logger LOG = Logger.getLogger(DefaultTextHelper.class);
+
 	private String messageGroup;
     private String baseName;
+    private Map<String, PropertiesResourceBundleImpl> resourceBundles = new HashMap<String, PropertiesResourceBundleImpl>();
 
-    private KualiResourceBundle krb = null;
-
-	public String getMessageGroup() {
+    public String getMessageGroup() {
         if (messageGroup == null)
             throw new IllegalArgumentException("messageGroup must be set");
         return messageGroup;
@@ -66,23 +61,58 @@ public class DefaultTextHelper implements TextHelper, Serializable {
 
     @Override
     public String getText(String messageCode, String defaultValue) {
-        return getBundle().getString(messageCode, defaultValue);
+        String value;
+        try {
+            value = getBundle().getString(messageCode);
+        } catch (Exception e) {
+            value = defaultValue;
+        }
+        return value;
     }
 
     @Override
     public String getFormattedMessage(String key, Object... args) {
-        return getBundle().getFormattedMessage(key, args);
+        String pattern = getBundle().getString(key);
+        return (new MessageFormat(pattern, getLocale())).format(args, new StringBuffer(), null).toString();
     }
 
-    private KualiResourceBundle getBundle() {
+    private Locale getLocale() {
         KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
-        LocaleInfo locale = ksapCtx.getContextInfo().getLocale();
-        if (krb == null)
-            krb = new KualiResourceBundleImpl(getBaseName());
+        ContextInfo contextInfo = ksapCtx.getContextInfo();
+        Locale locale = LocaleHelper.localeInfo2Locale(contextInfo.getLocale());
+        return locale;
+    }
 
-        KualiResourceBundle drb = (KualiResourceBundle) ResourceBundle.getBundle("org.kuali.i18n.DBResourceBundleImpl", LocaleHelper.localeInfo2Locale(locale), new DBResourceBundleControlImpl(getMessageGroup(), krb));
+    /**
+     * Get the appropriate DBResourceBundleImpl to use for text lookups.
+     * @return
+     */
+    private DBResourceBundleImpl getBundle() {
+        KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
+        ContextInfo contextInfo = ksapCtx.getContextInfo();
+        Locale locale = LocaleHelper.localeInfo2Locale(contextInfo.getLocale());
+        PropertiesResourceBundleImpl krb = getRBFromMap(locale, contextInfo);
+
+        DBResourceBundleImpl drb = (DBResourceBundleImpl) ResourceBundle.getBundle(DBResourceBundleControlImpl.class.getName(), locale,
+                new DBResourceBundleControlImpl(getMessageGroup(), contextInfo, krb));
 
         return drb;
+    }
+
+    /**
+     * Look up (or store if not found) a PropertiesResourceBundleImpl using a locale string
+     * @param locale The locale to use as the key in the map
+     * @param contextInfo Used to create the PropertiesResourceBundleImpl
+     * @return The found (or newly created) PropertiesResourceBundleImpl from the map
+     */
+    private PropertiesResourceBundleImpl getRBFromMap(Locale locale, ContextInfo contextInfo) {
+        PropertiesResourceBundleImpl krb = resourceBundles.get(locale.toString());
+        if (krb == null) {
+            LOG.debug("new PropertiesResourceBundleImpl(" + getBaseName() + ", " + locale.toString() + ")");
+            krb =  new PropertiesResourceBundleImpl(getBaseName(), contextInfo);
+            resourceBundles.put(locale.toString(), krb);
+        }
+        return krb;
     }
 
 }

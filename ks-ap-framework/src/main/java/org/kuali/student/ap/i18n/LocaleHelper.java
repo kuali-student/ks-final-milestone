@@ -1,4 +1,4 @@
-package org.kuali.i18n;
+package org.kuali.student.ap.i18n;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -6,11 +6,8 @@ import org.kuali.student.r2.common.dto.LocaleInfo;
 import java.util.Locale;
 
 /**
- * Created with IntelliJ IDEA.
- * User: chmaurer
- * Date: 1/17/14
- * Time: 9:30 AM
- * To change this template use File | Settings | File Templates.
+ * This class allows for easy conversion between {@link Locale} and {@link LocaleInfo}
+ * @author Chris Maurer <chmaurer@iu.edu>
  */
 public class LocaleHelper {
 

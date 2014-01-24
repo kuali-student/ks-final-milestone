@@ -3,9 +3,12 @@ package org.kuali.student.ap.test.resourceBundles;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.i18n.KualiResourceBundleImpl;
+import org.kuali.student.ap.i18n.PropertiesResourceBundleImpl;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.r2.common.dto.LocaleInfo;
+
+import java.util.MissingResourceException;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -19,12 +22,12 @@ import static org.junit.Assert.assertNotNull;
  */
 public abstract class ResourceBundlesTestBase {
 
-    KualiResourceBundleImpl rb = null;
+    PropertiesResourceBundleImpl rb = null;
 
     @Before
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1", getLocaleInfo());
-        rb = new KualiResourceBundleImpl("META-INF/ks-ap/bundles/test");
+        rb = new PropertiesResourceBundleImpl("META-INF/ks-ap/bundles/test", KsapFrameworkServiceLocator.getContext().getContextInfo());
     }
 
     @After
@@ -44,27 +47,6 @@ public abstract class ResourceBundlesTestBase {
     }
 
     @Test
-    public void testDefault() {
-        String value = rb.getString("doesnt.exist", "default value");
-        assertEquals("default value", value);
-    }
-
-    @Test
-    public void testSubstitution() {
-        String value = rb.getFormattedMessage("testSubstitution", "on");
-        assertEquals(getPrefix() + "Is this thing on?", value);
-    }
-
-    @Test
-    public void testMultipleSubstitutions() {
-        String value = rb.getFormattedMessage("testMultiple", "Apples", "Bananas");
-        assertEquals(getPrefix() + "Apples and Bananas", value);
-    }
-
-    /**
-     * If
-     */
-    @Test
     public void testOnlyExistsInDefaultLocale() {
         String value = rb.getString("testDefaultOnly");
         assertEquals("In Default Locale Only.", value);
@@ -74,6 +56,11 @@ public abstract class ResourceBundlesTestBase {
     public void testRegionOverride() {
         String value = rb.getString("testRegionOverride");
         assertEquals(getPrefix() + "This will get overridden by a different local", value);
+    }
+
+    @Test(expected = MissingResourceException.class)
+    public void testDoesntExist() {
+        String value = rb.getString("testDoesntExist");
     }
 
     /**
