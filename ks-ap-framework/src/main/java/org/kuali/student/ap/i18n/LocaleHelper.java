@@ -20,7 +20,6 @@ public class LocaleHelper {
         LocaleInfo localeInfo = new LocaleInfo();
         localeInfo.setLocaleLanguage(locale.getLanguage());
         localeInfo.setLocaleRegion(locale.getCountry());
-        localeInfo.setLocaleScript(locale.getScript());
         localeInfo.setLocaleVariant(locale.getVariant());
         return localeInfo;
     }
