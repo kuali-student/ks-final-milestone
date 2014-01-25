@@ -48,7 +48,7 @@
                     <webAppConfig>
                         <contextPath>/ks-with-rice-bundled-dev</contextPath>
                         <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
-                         <!-- Remove after KULRICE-11157 is fixed -->
+                        <!-- Remove after KULRICE-11157 is fixed -->
                         <maxFormContentSize>-1</maxFormContentSize>
                     </webAppConfig>
                     <stopKey>foo</stopKey>
@@ -266,7 +266,7 @@
             <artifactId>ks-ap-deployment-resources</artifactId>
             <version>${ks.ap.version}</version>
         </dependency>
-         <dependency>
+        <dependency>
             <groupId>org.kuali.student.enroll</groupId>
             <artifactId>ks-enroll-deployment-resources</artifactId>
             <version>${ks.enroll.version}</version>
@@ -347,8 +347,7 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
-
-<dependency>
+        <dependency>
             <groupId>org.kuali.student.ap</groupId>
             <artifactId>ks-ap</artifactId>
             <version>${ks.ap.version}</version>
@@ -374,7 +373,7 @@
             <artifactId>ks-ap-web</artifactId>
             <version>${ks.ap.version}</version>
             <type>war</type>
-        </dependency>	
+        </dependency>
         <dependency>
             <groupId>backport-util-concurrent</groupId>
             <artifactId>backport-util-concurrent</artifactId>
