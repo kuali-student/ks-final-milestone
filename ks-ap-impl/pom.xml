@@ -1,5 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-ap-impl</artifactId>
     <name>KSAP IMPL</name>
@@ -9,7 +9,6 @@
         <artifactId>ks-ap</artifactId>
         <version>0.8.0-FR2-M1-SNAPSHOT</version>
     </parent>
-
     <!-- For Restlet dependency
     <repositories>
         <repository>
@@ -19,7 +18,6 @@
         </repository>
     </repositories>
 -->
-
     <dependencies>
         <dependency>
             <groupId>org.kuali.student.api</groupId>
@@ -57,58 +55,58 @@
             <version>${ks.ap.version}</version>
         </dependency>
         <dependency>
-        		<groupId>org.kuali.rice</groupId>
-        		<artifactId>rice-krad-app-framework</artifactId>
-        		<version>${kuali.rice.version}</version>
-       	</dependency>
-				<!-- test dependencies -->
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-krad-app-framework</artifactId>
+            <version>${kuali.rice.version}</version>
+        </dependency>
+        <!-- test dependencies -->
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-test</artifactId>
             <version>${ks.core.version}</version>
-						<scope>test</scope>
+            <scope>test</scope>
             <exclusions>
-              <exclusion>
-                <groupId>org.apache.geronimo.specs</groupId>
-                <artifactId>geronimo-jpa_3.0_spec</artifactId>
-              </exclusion>
+                <exclusion>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>geronimo-jpa_3.0_spec</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-ui</artifactId>
             <version>${ks.core.version}</version>
-						<scope>test</scope>
+            <scope>test</scope>
             <exclusions>
-              <exclusion>
-                <groupId>com.google.gwt</groupId>
-                <artifactId>gwt-dev</artifactId>
-              </exclusion>
+                <exclusion>
+                    <groupId>com.google.gwt</groupId>
+                    <artifactId>gwt-dev</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>
-						<scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-ui</artifactId>
             <version>${ks.core.version}</version>
-						<scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-impl</artifactId>
             <version>${ks.lum.version}</version>
-						<scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-ui</artifactId>
             <version>${ks.lum.version}</version>
-						<scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>
@@ -119,26 +117,25 @@
             <groupId>org.kuali.student.enroll</groupId>
             <artifactId>ks-enroll-ui</artifactId>
             <version>${ks.enroll.version}</version>
-						<scope>test</scope>
+            <scope>test</scope>
         </dependency>
         <dependency>
-        		<groupId>org.kuali.rice</groupId>
-        		<artifactId>rice-impl</artifactId>
-        		<version>${kuali.rice.version}</version>
-						<scope>test</scope>
-       	</dependency>
+            <groupId>org.kuali.rice</groupId>
+            <artifactId>rice-impl</artifactId>
+            <version>${kuali.rice.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>${oracle.artifactId}</artifactId>
             <version>${oracle.version}</version>
-						<scope>test</scope>
-       	</dependency>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
@@ -168,7 +165,6 @@
             <type>test-jar</type>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -240,6 +236,4 @@
             </dependencies>
         </profile>
     </profiles>
-
-
 </project>
