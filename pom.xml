@@ -144,7 +144,7 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-	    	<module>ks-ap</module>
+                <module>ks-ap</module>
                 <module>ks-deployments</module>
                 <module>ks-core</module>
                 <module>ks-lum</module>
@@ -165,7 +165,7 @@
                 <module>ks-core</module>
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
-        	<module>ks-ap</module>
+                <module>ks-ap</module>
             </modules>
         </profile>
         <profile>
@@ -176,7 +176,7 @@
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
                 <module>ks-api</module>
-	    	<module>ks-ap</module>
+                <module>ks-ap</module>
             </modules>
             <build>
                 <plugins>
@@ -244,7 +244,7 @@
                 <oracle.dba.url>jdbc:oracle:thin:@oracle.ks.kuali.org:1521:ORACLE</oracle.dba.url>
             </properties>
             <modules>
-	    	<module>ks-ap</module>
+                <module>ks-ap</module>
                 <module>ks-core</module>
                 <module>ks-lum</module>
                 <module>ks-enroll</module>
