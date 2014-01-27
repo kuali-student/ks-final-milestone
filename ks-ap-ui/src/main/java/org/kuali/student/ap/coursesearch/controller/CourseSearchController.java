@@ -429,112 +429,8 @@ public class CourseSearchController extends UifControllerBase {
 			if (searchResults.isEmpty())
 				facetState = Collections.emptyMap();
 			else {
-                Map<String, List<String>> facetColumns = searchResults.get(0).facetColumns;
-				assert facetColumns.size() == searcher.getFacetSort().size() : facetColumns
-						.size()
-						+ " != "
-						+ searcher.getFacetSort().size()
-						+ " ... " + searchResults.get(0);
-				Map<String, Map<String, FacetState>> facetStateMap = new java.util.HashMap<String, Map<String, FacetState>>(
-						facetColumns.size());
-				for (String fk : facetColumns.keySet())
-					facetStateMap.put(fk,
-							new java.util.HashMap<String, FacetState>());
-				final Map<String, Integer> kwc = new java.util.HashMap<String, Integer>();
-				// Generate initial counts, unabridged and unordered
-				for (SearchInfo row : searchResults) {
-					// Validate that the number of facet columns is uniform
-					// across all search rows
-					assert row.facetColumns != null
-							|| row.facetColumns.size() == facetColumns.size() : row.facetColumns == null ? "null"
-							: row.facetColumns.size() + " != "
-									+ facetColumns.size();
-					// Update facet counts for all columns, creating pre-checked
-					// state nodes as needed
-					for (Entry<String, Map<String, FacetState>> fce : facetStateMap
-							.entrySet()) {
-						Map<String, FacetState> fm = fce.getValue();
-						Map<String, Map<String, KeyValue>> fcr;
-						if (row.item != null
-								&& (fcr = row.item.getFacetColumns().get(
-										fce.getKey())) != null)
-							for (Entry<String, Map<String, KeyValue>> group : fcr
-									.entrySet())
-								for (Entry<String, KeyValue> fe : group
-										.getValue().entrySet()) {
-									KeyValue fv = fe.getValue();
-									assert fv.getKey().length() >= 1 : fv
-											.getKey();
-									String facetKey = fe.getKey();
-									FacetState fs = fm.get(facetKey);
-									if (fs == null)
-										fm.put(facetKey,
-												fs = new FacetState(fv));
-									fs.count++;
-								}
-					}
-					for (String kw : row.item.getKeywords()) {
-						Integer kwi = kwc.get(kw);
-						if (kwi == null)
-							kwc.put(kw, 1);
-						else
-							kwc.put(kw, kwi + 1);
-					}
-				}
-				// Post-process based on calculated totals and per-column rules
-				for (String fk : facetColumns.keySet()) {
-					final Map<String, FacetState> fm = facetStateMap.get(fk);
-					Map<String, FacetState> nfm;
-					if (fm.isEmpty())
-						// Discard superfluous empty map references
-						facetStateMap.put(fk, nfm = Collections.emptyMap());
-					else {
-						// Establish facet key order
-						String[] sk = fm.keySet()
-								.toArray(new String[fm.size()]);
-						// Sort by relevance for trending
-						Arrays.sort(sk, new Comparator<String>() {
-							@Override
-							public int compare(String o1, String o2) {
-								FacetState fs1 = fm.get(o1);
-								FacetState fs2 = fm.get(o2);
-								return fs1.count == fs2.count ? 0
-										: fs1.count < fs2.count ? 1 : -1;
-							}
-						});
-						// Truncate results to show only the 50 most relevant
-						// words in the facet
-						sk = Arrays.copyOf(sk, Math.min(sk.length, 50));
-						Map<String, List<String>> vtk = new java.util.HashMap<String, List<String>>();
-						for (String k : sk) {
-							assert k != null : fk;
-							String fvk = fm.get(k).value.getKey();
-							assert fvk.length() >= 1 : fk + " " + fvk;
-							List<String> l = vtk.get(fvk);
-							if (l == null)
-								vtk.put(fvk,
-										l = new java.util.LinkedList<String>());
-							l.add(k);
-						}
-						String[] sv = vtk.keySet().toArray(
-								new String[vtk.size()]);
-						// Sort according to strategy definitions
-						Arrays.sort(sv, searcher.getFacetSort().get(fk));
-						nfm = new java.util.LinkedHashMap<String, FacetState>(
-								sk.length);
-						for (String v : sv)
-							for (String k : vtk.get(v))
-								// Insert truncated facet keys in order
-								nfm.put(k, fm.get(k));
-
-						// Seal the map for synchronized use
-						facetStateMap.put(fk, Collections
-								.synchronizedMap(Collections
-										.unmodifiableMap(nfm)));
-					}
-				}
-				facetState = Collections.synchronizedMap(Collections
-						.unmodifiableMap(facetStateMap));
+                facetState = Collections.synchronizedMap(Collections
+						.unmodifiableMap(createFacetStateMap(searcher)));
 			}
 			// Tread pruned facets as not checked unless all
 			// visible facet values in the same group are checked
@@ -542,7 +438,115 @@ public class CourseSearchController extends UifControllerBase {
 			pruned.checked = false;
 		}
 
-		/**
+        private Map<String, Map<String, FacetState>> createFacetStateMap(CourseSearchStrategy searcher) {
+            Map<String, List<String>> facetColumns = searchResults.get(0).facetColumns;
+            assert facetColumns.size() == searcher.getFacetSort().size() : facetColumns
+                    .size()
+                    + " != "
+                    + searcher.getFacetSort().size()
+                    + " ... " + searchResults.get(0);
+            Map<String, Map<String, FacetState>> facetStateMap = new java.util.HashMap<String, Map<String, FacetState>>(
+                    facetColumns.size());
+            for (String fk : facetColumns.keySet())
+                facetStateMap.put(fk,
+                        new java.util.HashMap<String, FacetState>());
+            final Map<String, Integer> kwc = new java.util.HashMap<String, Integer>();
+            // Generate initial counts, unabridged and unordered
+            for (SearchInfo row : searchResults) {
+                // Validate that the number of facet columns is uniform
+                // across all search rows
+                assert row.facetColumns != null
+                        || row.facetColumns.size() == facetColumns.size() : row.facetColumns == null ? "null"
+                        : row.facetColumns.size() + " != "
+                                + facetColumns.size();
+                // Update facet counts for all columns, creating pre-checked
+                // state nodes as needed
+                for (Entry<String, Map<String, FacetState>> fce : facetStateMap
+                        .entrySet()) {
+                    Map<String, FacetState> fm = fce.getValue();
+                    Map<String, Map<String, KeyValue>> fcr;
+                    if (row.item != null
+                            && (fcr = row.item.getFacetColumns().get(
+                                    fce.getKey())) != null)
+                        for (Entry<String, Map<String, KeyValue>> group : fcr
+                                .entrySet())
+                            for (Entry<String, KeyValue> fe : group
+                                    .getValue().entrySet()) {
+                                KeyValue fv = fe.getValue();
+                                assert fv.getKey().length() >= 1 : fv
+                                        .getKey();
+                                String facetKey = fe.getKey();
+                                FacetState fs = fm.get(facetKey);
+                                if (fs == null)
+                                    fm.put(facetKey,
+                                            fs = new FacetState(fv));
+                                fs.count++;
+                            }
+                }
+                for (String kw : row.item.getKeywords()) {
+                    Integer kwi = kwc.get(kw);
+                    if (kwi == null)
+                        kwc.put(kw, 1);
+                    else
+                        kwc.put(kw, kwi + 1);
+                }
+            }
+            // Post-process based on calculated totals and per-column rules
+            for (String fk : facetColumns.keySet()) {
+                final Map<String, FacetState> fm = facetStateMap.get(fk);
+                Map<String, FacetState> nfm;
+                if (fm.isEmpty())
+                    // Discard superfluous empty map references
+                    facetStateMap.put(fk, nfm = Collections.emptyMap());
+                else {
+                    // Establish facet key order
+                    String[] sk = fm.keySet()
+                            .toArray(new String[fm.size()]);
+                    // Sort by relevance for trending
+                    Arrays.sort(sk, new Comparator<String>() {
+                        @Override
+                        public int compare(String o1, String o2) {
+                            FacetState fs1 = fm.get(o1);
+                            FacetState fs2 = fm.get(o2);
+                            return fs1.count == fs2.count ? 0
+                                    : fs1.count < fs2.count ? 1 : -1;
+                        }
+                    });
+                    // Truncate results to show only the 50 most relevant
+                    // words in the facet
+                    sk = Arrays.copyOf(sk, Math.min(sk.length, 50));
+                    Map<String, List<String>> vtk = new java.util.HashMap<String, List<String>>();
+                    for (String k : sk) {
+                        assert k != null : fk;
+                        String fvk = fm.get(k).value.getKey();
+                        assert fvk.length() >= 1 : fk + " " + fvk;
+                        List<String> l = vtk.get(fvk);
+                        if (l == null)
+                            vtk.put(fvk,
+                                    l = new java.util.LinkedList<String>());
+                        l.add(k);
+                    }
+                    String[] sv = vtk.keySet().toArray(
+                            new String[vtk.size()]);
+                    // Sort according to strategy definitions
+                    Arrays.sort(sv, searcher.getFacetSort().get(fk));
+                    nfm = new java.util.LinkedHashMap<String, FacetState>(
+                            sk.length);
+                    for (String v : sv)
+                        for (String k : vtk.get(v))
+                            // Insert truncated facet keys in order
+                            nfm.put(k, fm.get(k));
+
+                    // Seal the map for synchronized use
+                    facetStateMap.put(fk, Collections
+                            .synchronizedMap(Collections
+                                    .unmodifiableMap(nfm)));
+                }
+            }
+            return facetStateMap;
+        }
+
+        /**
 		 * Get the facet state associated with a specific facet column value.
 		 * 
 		 * @param key
