@@ -12,45 +12,6 @@
     <packaging>pom</packaging>
     <name>KSAP</name>
     <description>Kuali Student Academic Planning Module</description>
-    <properties>
-        <jdk.min.version>1.6</jdk.min.version>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.openejb</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>6.0-5</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>4.3.1.Final</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <version>1.0.2</version>
-            <scope>runtime</scope>
-        </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
     <profiles>
         <profile>
             <id>default</id>
@@ -73,22 +34,12 @@
             </modules>
         </profile>
         <profile>
-            <id>skip-deployment-wars</id>
-            <modules>
-                <module>ks-ap-impl</module>
-                <module>ks-ap-framework</module>
-                <module>ks-ap-ui</module>
-                <module>ks-ap-web</module>
-                <module>ks-ap-deployment-resources</module>
-            </modules>
-        </profile>
-        <profile>
             <id>skip-all-wars</id>
             <modules>
+                <module>ks-ap-sql</module>
                 <module>ks-ap-impl</module>
                 <module>ks-ap-framework</module>
                 <module>ks-ap-ui</module>
-                <module>ks-ap-deployment-resources</module>
             </modules>
         </profile>
         <profile>

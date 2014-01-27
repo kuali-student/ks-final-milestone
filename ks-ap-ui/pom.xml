@@ -11,48 +11,9 @@
     </parent>
     <dependencies>
         <dependency>
-            <groupId>org.kuali.student.api</groupId>
-            <artifactId>ks-core-api</artifactId>
-            <version>${ks.api.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.kuali.student.api</groupId>
-                    <artifactId>ks-common-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.api</groupId>
-            <artifactId>ks-common-api</artifactId>
-            <version>${ks.api.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>ks-common-api</artifactId>
-                    <groupId>org.kuali.student.api</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.api</groupId>
-            <artifactId>ks-ap-api</artifactId>
-            <version>${ks.api.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.kuali.student.core</groupId>
-                    <artifactId>ks-core-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
             <groupId>org.kuali.student.ap</groupId>
             <artifactId>ks-ap-framework</artifactId>
             <version>${ks.ap.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.kuali.student.api</groupId>
-                    <artifactId>ks-ap-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
@@ -60,58 +21,20 @@
             <version>${ks.core.version}</version>
         </dependency>
         <dependency>
-            <groupId>commons-logging</groupId>
-            <artifactId>commons-logging</artifactId>
-            <version>1.1.1</version>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
-            <artifactId>spring-web</artifactId>
-            <version>${spring.version}</version>
+            <artifactId>spring-test</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-core-api</artifactId>
-            <version>${kuali.rice.version}</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-kim-api</artifactId>
-            <version>${kuali.rice.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-krad-app-framework</artifactId>
-            <version>${kuali.rice.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.rice</groupId>
-            <artifactId>rice-krad-web-framework</artifactId>
-            <version>${kuali.rice.version}</version>
-        </dependency>
-        <dependency>
-            <artifactId>servlet-api</artifactId>
-            <groupId>javax.servlet</groupId>
-            <version>2.5</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- test dependencies -->
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-common-test</artifactId>
-            <version>${ks.core.version}</version>
-            <scope>test</scope>
-            <exclusions>
-                <!-- geronimo-jpa conflicts with Hibernate -->
-                <exclusion>
-                    <groupId>org.apache.geronimo.specs</groupId>
-                    <artifactId>geronimo-jpa_3.0_spec</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-common-impl</artifactId>
             <version>${ks.core.version}</version>
             <scope>test</scope>
         </dependency>
@@ -122,20 +45,8 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-ui</artifactId>
-            <version>${ks.core.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-impl</artifactId>
-            <version>${ks.lum.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-ui</artifactId>
             <version>${ks.lum.version}</version>
             <scope>test</scope>
         </dependency>
@@ -147,35 +58,6 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.ap</groupId>
-            <artifactId>ks-ap-impl</artifactId>
-            <version>${ks.ap.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.kuali.student.api</groupId>
-                    <artifactId>ks-ap-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.kuali.student.ap</groupId>
-                    <artifactId>ks-ap-framework</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.kuali.student.api</groupId>
-                    <artifactId>ks-enroll-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.kuali.student.core</groupId>
-                    <artifactId>ks-core-api</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.oracle</groupId>
-            <artifactId>${oracle.artifactId}</artifactId>
-            <version>${oracle.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.ap</groupId>
             <artifactId>ks-ap-framework</artifactId>
             <version>${ks.ap.version}</version>
             <type>test-jar</type>
@@ -185,8 +67,8 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>
-            <scope>test</scope>
             <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
