@@ -69,6 +69,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String MASTER_LUI_ID = "masterLuiId";
         public static final String PERSON_LUI_TYPE = "personLuiType";
         public static final String LUI_NAME = "luiName";
+        public static final String LUI_LONG_NAME = "luiLongName";
         public static final String LUI_CODE = "luiCode";
         public static final String LUI_TYPE = "luiType";
         public static final String LUI_DESC = "luiDesc";
@@ -140,7 +141,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         String queryStr =
                 "SELECT lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, " +
-                        "luiId.LUI_CD, lui.NAME, lui.DESCR_FORMATTED, lui.LUI_TYPE, " +
+                        "luiId.LUI_CD, lui.NAME, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
                         "FROM KSEN_LPR lpr, " +
@@ -180,6 +181,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.LUI_NAME, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);

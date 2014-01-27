@@ -8,35 +8,36 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleActivityOfferingResult", propOrder = {
-        "activiyOfferingId", "activiyOfferingTypeShortName", "activiyOfferingType", "scheduleComponents"})
+        "activityOfferingId", "activityOfferingTypeShortName", "activityOfferingType", "scheduleComponents"})
 public class StudentScheduleActivityOfferingResult {
-    private String activiyOfferingId;
-    private String activiyOfferingTypeShortName;
-    private String activiyOfferingType;
+    private String activityOfferingId;
+    private String activityOfferingTypeShortName;
+    private String activityOfferingType;
     private List<ActivityOfferingScheduleComponentResult> scheduleComponents;
+    private List<InstructorSearchResult> instructors;
 
-    public String getActiviyOfferingId() {
-        return activiyOfferingId;
+    public String getActivityOfferingId() {
+        return activityOfferingId;
     }
 
-    public void setActiviyOfferingId(String activiyOfferingId) {
-        this.activiyOfferingId = activiyOfferingId;
+    public void setActivityOfferingId(String activityOfferingId) {
+        this.activityOfferingId = activityOfferingId;
     }
 
-    public String getActiviyOfferingTypeShortName() {
-        return activiyOfferingTypeShortName;
+    public String getActivityOfferingTypeShortName() {
+        return activityOfferingTypeShortName;
     }
 
-    public void setActiviyOfferingTypeShortName(String activiyOfferingTypeShortName) {
-        this.activiyOfferingTypeShortName = activiyOfferingTypeShortName;
+    public void setActivityOfferingTypeShortName(String activityOfferingTypeShortName) {
+        this.activityOfferingTypeShortName = activityOfferingTypeShortName;
     }
 
-    public String getActiviyOfferingType() {
-        return activiyOfferingType;
+    public String getActivityOfferingType() {
+        return activityOfferingType;
     }
 
-    public void setActiviyOfferingType(String activiyOfferingType) {
-        this.activiyOfferingType = activiyOfferingType;
+    public void setActivityOfferingType(String activityOfferingType) {
+        this.activityOfferingType = activityOfferingType;
     }
 
     public List<ActivityOfferingScheduleComponentResult> getScheduleComponents() {
@@ -49,4 +50,16 @@ public class StudentScheduleActivityOfferingResult {
     public void setScheduleComponents(List<ActivityOfferingScheduleComponentResult> scheduleComponents) {
         this.scheduleComponents = scheduleComponents;
     }
+
+    public List<InstructorSearchResult> getInstructors() {
+        if (instructors == null) {
+            instructors = new ArrayList<InstructorSearchResult>();
+        }
+        return instructors;
+    }
+
+    public void setInstructors(List<InstructorSearchResult> instructors) {
+        this.instructors = instructors;
+    }
+
 }

@@ -784,7 +784,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
     private List<InstructorSearchResult> getInstructorListByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
         List<InstructorSearchResult> resultList = new ArrayList<InstructorSearchResult>();
-        Map<String, List<InstructorSearchResult>> resultMap = searchForInstructorsByAoIds(aoIds, contextInfo);
+        Map<String, List<InstructorSearchResult>> resultMap = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(aoIds, contextInfo);
 
         if (resultMap != null && !resultMap.isEmpty()) {
             for (List<InstructorSearchResult> insrList : resultMap.values()) {
@@ -865,7 +865,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
             }
         }
 
-        Map<String, List<InstructorSearchResult>> instMap = searchForInstructorsByAoIds(aoIds, contextInfo);
+        Map<String, List<InstructorSearchResult>> instMap = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(aoIds, contextInfo);
 
         if (instMap != null && !instMap.isEmpty()) {
             for (ActivityOfferingSearchResult ao : aoList) {
@@ -903,103 +903,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     }
 
-    /**
-     * This is an internal method that will return a map of aoId, InstructorSearchResult. We are using a map object
-     * so it is easier to build up complex objects in a more performant way
-     *
-     * @param aoIds       list of activity offering ids
-     * @param contextInfo context of the call
-     * @return mapping of activity id to list of instructors related to that id
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws DoesNotExistException
-     * @throws PermissionDeniedException
-     * @throws OperationFailedException
-     */
-    protected Map<String, List<InstructorSearchResult>> searchForInstructorsByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-
-        Map<String, List<InstructorSearchResult>> resultList = new HashMap<String, List<InstructorSearchResult>>();
-        Map<String, InstructorSearchResult> principalId2aoIdMap = new HashMap<String, InstructorSearchResult>();
-
-        List<LprInfo> lprInfos = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByLuis(aoIds, contextInfo);
-        if (lprInfos != null) {
-
-            for (LprInfo lprInfo : lprInfos) {
-                InstructorSearchResult result = new InstructorSearchResult();
-
-                String aoId = lprInfo.getLuiId();
-                //  Only include the main instructor.
-                if (!StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
-                    result.setPrimary(false);
-                } else {
-                    result.setPrimary(true);
-                }
-                result.setPrincipalId(lprInfo.getPersonId());
-                principalId2aoIdMap.put(lprInfo.getPersonId(), result);
-                result.setActivityOfferingId(aoId);
-
-                if (resultList.containsKey(aoId)) {
-                    resultList.get(aoId).add(result);
-                } else {
-                    List<InstructorSearchResult> newList = new ArrayList<InstructorSearchResult>();
-                    newList.add(result);
-                    resultList.put(aoId, newList);
-                }
-            }
-
-            // if we have a list of instructors
-            if (!resultList.isEmpty()) {
-                // get the instructor entities from KIM.
-                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()));
-
-                for (EntityDefault entity : results.getResults()) {
-                    // Each KIM entity can have multiple principals. So we need to loop through the principals
-                    for (Principal principal : entity.getPrincipals()) {
-                        if (principalId2aoIdMap.containsKey(principal.getPrincipalId())) {  // does this principal match the ks instructor
-                            InstructorSearchResult instructor = principalId2aoIdMap.get(principal.getPrincipalId());
-                            populateInstructorWithEntityInfo(instructor, entity);  // populate the instructor with KIM information
-                        }
-                    }
-                }
-
-            }
-        }
-        return resultList;
-    }
-
-    /**
-     * This method populates the InstructorSearchResult object with infor from the Kim entity
-     *
-     * @param instructor Kuali Student Instructor
-     * @param entity     Kim Entity object
-     */
-    private void populateInstructorWithEntityInfo(InstructorSearchResult instructor, EntityDefault entity) {
-        if (entity.getName() != null) {
-            instructor.setDisplayName(StringUtils.trim(entity.getName().getCompositeName()));
-            instructor.setFirstName(StringUtils.trim(entity.getName().getFirstName()));
-            instructor.setLastName(StringUtils.trim(entity.getName().getLastName()));
-        }
-    }
-
     private static class RegResultComparator implements Comparator<RegGroupSearchResult>, Serializable {
         // Note: this comparator imposes orderings that are inconsistent with equals.
         @Override
         public int compare(RegGroupSearchResult a, RegGroupSearchResult b) {
             return a.getRegGroupName().compareToIgnoreCase(b.getRegGroupName());
         }
-    }
-
-    protected EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> principalIds) {
-        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(
-                PredicateFactory.in("principals.principalId", principalIds.toArray())
-        );
-
-        QueryByCriteria criteria = qbcBuilder.build();
-
-        EntityDefaultQueryResults entityResults = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().findEntityDefaults(criteria);
-
-        return entityResults;
     }
 
     private SearchRequestInfo createRegGroupSearchRequest(String courseOfferingId) {

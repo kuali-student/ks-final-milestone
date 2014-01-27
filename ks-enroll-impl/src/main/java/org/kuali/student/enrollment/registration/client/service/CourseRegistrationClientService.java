@@ -89,7 +89,7 @@ public interface CourseRegistrationClientService {
     @Path("/personschedule")
     public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(@QueryParam("userId") String userId,
                                                                               @QueryParam("termId") String termId,
-                                                                              @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+                                                                              @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
     /**
      * Clears the overall registration engine stats.

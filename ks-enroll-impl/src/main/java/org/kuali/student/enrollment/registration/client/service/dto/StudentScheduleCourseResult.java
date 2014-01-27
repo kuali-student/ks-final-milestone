@@ -15,6 +15,7 @@ public class StudentScheduleCourseResult {
     private String courseCode;
     private String description;
     private String credits;
+    private String longName;
     private List<StudentScheduleActivityOfferingResult> activityOfferings;
 
     public List<StudentScheduleActivityOfferingResult> getActivityOfferings() {
@@ -50,5 +51,13 @@ public class StudentScheduleCourseResult {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getLongName() {
+        return longName;
+    }
+
+    public void setLongName(String longName) {
+        this.longName = longName;
     }
 }

@@ -18,16 +18,22 @@ package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
+import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
+import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -152,8 +158,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             @Override
             public int compare(StudentScheduleActivityOfferingResult o1, StudentScheduleActivityOfferingResult o2) {
                 try {
-                    int val1 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o1.getActiviyOfferingType()).intValue();
-                    int val2 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o2.getActiviyOfferingType()).intValue();
+                    int val1 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o1.getActivityOfferingType()).intValue();
+                    int val2 = CourseRegistrationAndScheduleOfClassesUtil.getActivityPriorityMap(contextInfo).get(o2.getActivityOfferingType()).intValue();
                     return (val1 < val2 ? -1 : (val1 == val2 ? 0 : 1));
                 } catch (Exception ex) {
                     // I'm not sure if this is the correct thing to do here.
@@ -224,6 +230,70 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         }
 
         return activityPriorityMap;
+    }
+
+    /**
+     * This is an internal method that will return a map of aoId, InstructorSearchResult. We are using a map object
+     * so it is easier to build up complex objects in a more performant way
+     *
+     * @param aoIds       list of activity offering ids
+     * @param contextInfo context of the call
+     * @return mapping of activity id to list of instructors related to that id
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     * @throws PermissionDeniedException
+     * @throws OperationFailedException
+     */
+    public static Map<String, List<InstructorSearchResult>> searchForInstructorsByAoIds(List<String> aoIds, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+
+        Map<String, List<InstructorSearchResult>> resultList = new HashMap<String, List<InstructorSearchResult>>();
+        Map<String, InstructorSearchResult> principalId2aoIdMap = new HashMap<String, InstructorSearchResult>();
+
+        List<LprInfo> lprInfos = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByLuis(aoIds, contextInfo);
+        if (lprInfos != null) {
+
+            for (LprInfo lprInfo : lprInfos) {
+                InstructorSearchResult result = new InstructorSearchResult();
+
+                String aoId = lprInfo.getLuiId();
+                //  Only include the main instructor.
+                if (!StringUtils.equals(lprInfo.getTypeKey(), LprServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY)) {
+                    result.setPrimary(false);
+                } else {
+                    result.setPrimary(true);
+                }
+                result.setPrincipalId(lprInfo.getPersonId());
+                principalId2aoIdMap.put(lprInfo.getPersonId(), result);
+                result.setActivityOfferingId(aoId);
+
+                if (resultList.containsKey(aoId)) {
+                    resultList.get(aoId).add(result);
+                } else {
+                    List<InstructorSearchResult> newList = new ArrayList<InstructorSearchResult>();
+                    newList.add(result);
+                    resultList.put(aoId, newList);
+                }
+            }
+
+            // if we have a list of instructors
+            if (!resultList.isEmpty()) {
+                // get the instructor entities from KIM.
+                EntityDefaultQueryResults results = getInstructorsInfoFromKim(new ArrayList<String>(principalId2aoIdMap.keySet()));
+
+                for (EntityDefault entity : results.getResults()) {
+                    // Each KIM entity can have multiple principals. So we need to loop through the principals
+                    for (Principal principal : entity.getPrincipals()) {
+                        if (principalId2aoIdMap.containsKey(principal.getPrincipalId())) {  // does this principal match the ks instructor
+                            InstructorSearchResult instructor = principalId2aoIdMap.get(principal.getPrincipalId());
+                            populateInstructorWithEntityInfo(instructor, entity);  // populate the instructor with KIM information
+                        }
+                    }
+                }
+
+            }
+        }
+        return resultList;
     }
 
     private synchronized static void initActivityPriorityMap(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -332,6 +402,34 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
         return resultList;
     }
+
+    private static EntityDefaultQueryResults getInstructorsInfoFromKim(List<String> principalIds) {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(
+                PredicateFactory.in("principals.principalId", principalIds.toArray())
+        );
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        EntityDefaultQueryResults entityResults = CourseRegistrationAndScheduleOfClassesUtil.getIdentityService().findEntityDefaults(criteria);
+
+        return entityResults;
+    }
+
+    /**
+     * This method populates the InstructorSearchResult object with infor from the Kim entity
+     *
+     * @param instructor Kuali Student Instructor
+     * @param entity     Kim Entity object
+     */
+    private static void populateInstructorWithEntityInfo(InstructorSearchResult instructor, EntityDefault entity) {
+        if (entity.getName() != null) {
+            instructor.setDisplayName(StringUtils.trim(entity.getName().getCompositeName()));
+            instructor.setFirstName(StringUtils.trim(entity.getName().getFirstName()));
+            instructor.setLastName(StringUtils.trim(entity.getName().getLastName()));
+        }
+    }
+
 
     /**
      * SERVICES *
