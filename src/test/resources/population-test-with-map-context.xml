@@ -7,12 +7,12 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-    <bean id="populationServiceImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
+    <bean id="populationServiceImpl" class="org.kuali.student.core.population.service.impl.PopulationServiceMapImpl" />
 
-    <bean id="populationService" class="org.kuali.student.r2.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
+    <bean id="populationService" class="org.kuali.student.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator" ref="populationServiceImpl" />
     </bean>
 
-    <bean id="populationServiceDataLoader" class="org.kuali.student.enrollment.class2.population.PopulationServiceDataLoader" />
+    <bean id="populationServiceDataLoader" class="org.kuali.student.core.population.service.impl.PopulationServiceDataLoader" />
 
 </beans>

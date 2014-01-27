@@ -12,25 +12,25 @@
 
 
     <!-- Population Service -->
-    <bean id="popServiceImpl" class="org.kuali.student.r2.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
+    <bean id="popServiceImpl" class="org.kuali.student.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator">
-            <bean id="populationServiceMapImpl" class="org.kuali.student.poc.rules.population.PopulationServiceMapImpl" />
+            <bean id="populationServiceMapImpl" class="org.kuali.student.core.population.service.impl.PopulationServiceMapImpl" />
         </property>
     </bean>
 
-    <bean id="popDataLoader" class="org.kuali.student.enrollment.class2.population.PopulationServiceDataLoader"/>
+    <bean id="popDataLoader" class="org.kuali.student.core.population.service.impl.PopulationServiceDataLoader"/>
 
 
     <!-- GES service -->
 
-    <bean id="gesBaseImpl" class="org.kuali.student.enrollment.class2.ges.service.impl.GesServiceMapImpl" />
+    <bean id="gesBaseImpl" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" />
 
-    <bean id="gesServiceImpl" class="org.kuali.student.enrollment.class2.ges.service.decorator.GesServiceEvaluationDecorator">
+    <bean id="gesServiceImpl" class="org.kuali.student.core.ges.service.decorators.GesServiceEvaluationDecorator">
         <property name="populationService" ref="popServiceImpl"/>
         <property name="atpService" ref="atpServiceImpl"/>
         <property name="nextDecorator" ref="gesBaseImpl" />
     </bean>
 
-    <bean id="gesDataLoader" class="org.kuali.student.enrollment.class2.ges.service.GesServiceDataLoader" />
+    <bean id="gesDataLoader" class="org.kuali.student.core.ges.service.impl.GesServiceDataLoader" />
 
 </beans>

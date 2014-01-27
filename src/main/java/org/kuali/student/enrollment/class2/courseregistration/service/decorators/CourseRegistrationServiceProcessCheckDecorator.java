@@ -21,8 +21,8 @@ import java.util.Map;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.r2.core.process.evaluator.KRMSEvaluator;
-import org.kuali.student.r2.core.process.krms.proposition.ProcessProposition;
+import org.kuali.student.core.process.evaluator.KRMSEvaluator;
+import org.kuali.student.core.process.krms.proposition.ProcessProposition;
 
 /**
  *

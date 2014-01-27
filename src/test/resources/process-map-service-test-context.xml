@@ -13,5 +13,5 @@
         <constructor-arg value="false" />
     </bean>
     
-    <bean id="processService" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceMapImpl" />
+    <bean id="processService" class="org.kuali.student.core.process.service.impl.ProcessServiceMapImpl" />
 </beans>

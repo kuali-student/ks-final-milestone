@@ -30,11 +30,11 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import java.util.*;
 import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import static org.kuali.student.poc.rules.credit.limit.ActionEnum.CREATE;
-import static org.kuali.student.poc.rules.credit.limit.ActionEnum.UPDATE;
-import org.kuali.student.poc.rules.credit.limit.ActivityRegistrationTransaction;
-import org.kuali.student.poc.rules.credit.limit.CourseRegistrationTransaction;
-import org.kuali.student.poc.rules.credit.limit.RegistrationRequestMerger;
+import static org.kuali.student.enrollment.rules.credit.limit.ActionEnum.CREATE;
+import static org.kuali.student.enrollment.rules.credit.limit.ActionEnum.UPDATE;
+import org.kuali.student.enrollment.rules.credit.limit.ActivityRegistrationTransaction;
+import org.kuali.student.enrollment.rules.credit.limit.CourseRegistrationTransaction;
+import org.kuali.student.enrollment.rules.credit.limit.RegistrationRequestMerger;
 
 public class CourseRegistrationServiceMapImpl
         implements CourseRegistrationService, MockService {
