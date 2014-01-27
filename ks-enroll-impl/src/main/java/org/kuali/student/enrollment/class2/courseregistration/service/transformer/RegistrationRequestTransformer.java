@@ -16,16 +16,25 @@
  */
 package org.kuali.student.enrollment.class2.courseregistration.service.transformer;
 
-import org.apache.commons.lang.BooleanUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +44,13 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class RegistrationRequestTransformer {
+    private static LRCService lrcService;
+
     public static final String OK_TO_WAITLIST = "kuali.lpr.trans.item.option.oktowaitlist";
     public static final String OK_TO_HOLD_UNTIL_LIST = "kuali.lpr.trans.item.option.oktoholduntillist";
 
-    public static LprTransactionInfo regRequest2LprTransaction(RegistrationRequestInfo request)
-            throws OperationFailedException {
+    public static LprTransactionInfo regRequest2LprTransaction(RegistrationRequestInfo request, ContextInfo context)
+            throws OperationFailedException, MissingParameterException, PermissionDeniedException, InvalidParameterException, DoesNotExistException {
         LprTransactionInfo lprTransaction = new LprTransactionInfo();
         lprTransaction.setTypeKey(request.getTypeKey());
         lprTransaction.setStateKey(request.getStateKey());
@@ -50,13 +61,14 @@ public class RegistrationRequestTransformer {
 
         lprTransaction.setLprTransactionItems(new ArrayList<LprTransactionItemInfo>());
         for (RegistrationRequestItemInfo requestItem : request.getRegistrationRequestItems()) {
-            LprTransactionItemInfo lprItem = regRequestItem2LprTransactionItem(requestItem);
+            LprTransactionItemInfo lprItem = regRequestItem2LprTransactionItem(requestItem, context);
             lprTransaction.getLprTransactionItems().add(lprItem);
         }
         return lprTransaction;
     }
 
-    public static LprTransactionItemInfo regRequestItem2LprTransactionItem(RegistrationRequestItemInfo requestItem) {
+    public static LprTransactionItemInfo regRequestItem2LprTransactionItem(RegistrationRequestItemInfo requestItem,
+                                                                           ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         // Currently, attributes not saved.
         LprTransactionItemInfo item = new LprTransactionItemInfo();
         // Inherited fields
@@ -76,8 +88,28 @@ public class RegistrationRequestTransformer {
 
         KualiDecimal credits = requestItem.getCredits(); // For now, assume it's an RVG option with a single credit
         if (credits != null) {
+            String creditStr = String.valueOf(credits.bigDecimalValue());
+            int dotIndex = creditStr.indexOf('.');
+            if (dotIndex == -1) {
+                // Implies the string is an integer and doesn't end in .0
+                creditStr +=  ".0";
+            } else {
+                // Remove trailing zeroes as needed
+                do {
+                    String fraction = creditStr.substring(dotIndex + 1);
+                    if (fraction.endsWith("0") && fraction.length() > 1) {
+                        // Trim off trailing zero, but only if the fraction is two digits or more
+                        creditStr = creditStr.substring(0, creditStr.length() - 1);
+                    } else {
+                        break;
+                    }
+                } while (true);
+            }
+            ResultValueInfo resultValueInfo =
+                    getLrcService().getResultValueForScaleAndValue(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE,
+                            creditStr, context);
             // This gets more complex if it's actual credits
-            item.getResultValuesGroupKeys().add(String.valueOf(credits.bigDecimalValue()));
+            item.getResultValuesGroupKeys().add(resultValueInfo.getKey());
         }
         String gradingOptionId = requestItem.getGradingOptionId();
         if (gradingOptionId != null) {
@@ -105,8 +137,10 @@ public class RegistrationRequestTransformer {
         return item;
     }
 
-    public static RegistrationRequestInfo  lprTransaction2RegRequest(LprTransactionInfo lprTransaction)
-            throws OperationFailedException {
+    public static RegistrationRequestInfo  lprTransaction2RegRequest(LprTransactionInfo lprTransaction,
+                                                                     ContextInfo context)
+            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
+            InvalidParameterException, DoesNotExistException {
         // Currently, saving of attributes not yet implemented.
         RegistrationRequestInfo request = new RegistrationRequestInfo();
         request.setId(lprTransaction.getId());
@@ -120,13 +154,16 @@ public class RegistrationRequestTransformer {
 
         request.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
         for (LprTransactionItemInfo transactionItem : lprTransaction.getLprTransactionItems()) {
-            RegistrationRequestItemInfo reqItem = lprTransactionItem2regRequestItem(transactionItem);
+            RegistrationRequestItemInfo reqItem = lprTransactionItem2regRequestItem(transactionItem, context);
             request.getRegistrationRequestItems().add(reqItem);
         }
         return request;
     }
 
-    public static RegistrationRequestItemInfo lprTransactionItem2regRequestItem(LprTransactionItemInfo item) {
+    public static RegistrationRequestItemInfo lprTransactionItem2regRequestItem(LprTransactionItemInfo item,
+                                                                                ContextInfo context)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException {
 
         RegistrationRequestItemInfo requestItem = new RegistrationRequestItemInfo();
         // Inherited fields
@@ -150,6 +187,10 @@ public class RegistrationRequestTransformer {
             } else if (s.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) { // "kuali.creditType.credit.degree"
             	// FIXME KSENROLL-11466
                 // requestItem.setCredits(s);
+                ResultValueInfo resultValueInfo = getLrcService().getResultValue(s, context);
+                String creditStr = resultValueInfo.getNumericValue();
+                KualiDecimal credit = new KualiDecimal(creditStr);
+                requestItem.setCredits(credit);
             }
             else {
             	// added as a place holder until KSENROLL-11466 is worked on.
@@ -160,9 +201,9 @@ public class RegistrationRequestTransformer {
 
         for (LprTransactionItemRequestOptionInfo option : item.getRequestOptions()) {
             if (option.getOptionKey().equals(OK_TO_WAITLIST)) {
-                requestItem.setOkToWaitlist(BooleanUtils.toBoolean(option.getOptionValue()));
+                requestItem.setOkToWaitlist(convertStringToBoolean(option.getOptionValue()));
             } else if (option.getOptionKey().equals(OK_TO_HOLD_UNTIL_LIST)) {
-                requestItem.setOkToHoldUntilList(BooleanUtils.toBoolean(option.getOptionValue()));
+                requestItem.setOkToHoldUntilList(convertStringToBoolean(option.getOptionValue()));
             }
         }
         return requestItem;
@@ -178,7 +219,34 @@ public class RegistrationRequestTransformer {
         return null;
     }
 
+    protected static Boolean convertStringToBoolean(String value) {
+        if (value == null) {
+            return null;
+        } else if (value.equals(Boolean.TRUE.toString())) {
+            return true;
+        } else if (value.equals(Boolean.FALSE.toString())) {
+            return true;
+        }
+        return null; // May not be the best thing to do, perhaps throw exception?
+    }
+
     protected static String convertBooleanToString(Boolean value) {
-        return BooleanUtils.toString(value, Boolean.TRUE.toString(), Boolean.FALSE.toString(), "null");
+        // This should eventually be moved elsewhere
+        if (value == null) {
+            return "null";
+        } else if (value) {
+            return Boolean.TRUE.toString();
+        } else {
+            return Boolean.FALSE.toString();
+        }
+    }
+
+
+    protected static LRCService getLrcService() {
+        if (lrcService == null) {
+            lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE,
+                    LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return lrcService;
     }
 }

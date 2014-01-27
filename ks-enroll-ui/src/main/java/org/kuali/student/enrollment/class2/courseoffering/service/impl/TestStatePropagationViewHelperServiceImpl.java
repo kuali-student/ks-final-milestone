@@ -20,6 +20,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper;
@@ -43,6 +44,9 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
@@ -62,6 +66,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
@@ -495,8 +500,40 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
 //        LOGGER.info("Total time 2: " + overall);
     }
 
+    private void testRegRequest() throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
+        RegistrationRequestItemInfo itemInfo = new RegistrationRequestItemInfo();
+        itemInfo.setPersonId("admin");
+        itemInfo.setRegistrationGroupId("647a2b36-af91-456a-8ff2-a4cd51fcdcb5");
+        itemInfo.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
+        itemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        itemInfo.setCredits(new KualiDecimal("3.0"));
+        itemInfo.setGradingOptionId("kuali.resultComponent.grade.letter"); // Fill in
+
+        RegistrationRequestInfo request = new RegistrationRequestInfo();
+        request.setTermId("kuali.atp.2012Spring");
+        request.setRequestorId("admin");
+        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        request.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+
+        // Add the item
+        request.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
+        request.getRegistrationRequestItems().add(itemInfo);
+
+        // Now create and test
+        CourseRegistrationService courseRegistrationService =
+                CourseOfferingManagementUtil.getCourseRegistrationService();
+        RegistrationRequestInfo requestResult =
+                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
+                request, CONTEXT);
+        LOGGER.info("Done");
+    }
+
     @Override
     public void runTests(TestStatePropagationForm form) throws Exception {
+//        testRegRequest();
+//        if (1 == 1){
+//            return;
+//        }
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);

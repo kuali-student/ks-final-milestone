@@ -78,11 +78,11 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
     public RegistrationRequestInfo createRegistrationRequest(String registrationRequestTypeKey, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // There is no Reg Request table. the reg request is converted to an LPR and stored.
 
-        LprTransactionInfo lprTransactionInfo = RegistrationRequestTransformer.regRequest2LprTransaction(registrationRequestInfo);
+        LprTransactionInfo lprTransactionInfo = RegistrationRequestTransformer.regRequest2LprTransaction(registrationRequestInfo, contextInfo);
 
         LprTransactionInfo newLprTransaction = getLprService().createLprTransaction(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, lprTransactionInfo, contextInfo);
 
-        return RegistrationRequestTransformer.lprTransaction2RegRequest(newLprTransaction);
+        return RegistrationRequestTransformer.lprTransaction2RegRequest(newLprTransaction, contextInfo);
 
     }
 
@@ -92,7 +92,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         LprTransactionInfo lprTransaction = getLprService().getLprTransaction(registrationRequestId, contextInfo);
-        RegistrationRequestInfo result = RegistrationRequestTransformer.lprTransaction2RegRequest(lprTransaction);
+        RegistrationRequestInfo result = RegistrationRequestTransformer.lprTransaction2RegRequest(lprTransaction, contextInfo);
         return result;
     }
 
