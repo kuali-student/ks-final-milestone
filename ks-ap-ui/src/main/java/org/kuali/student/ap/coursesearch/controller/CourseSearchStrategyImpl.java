@@ -52,6 +52,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -437,10 +438,11 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 
         // Load list of terms to find offerings in
-		List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getOfficialTerms();
-		if (terms == null) {
-			return;
-		}
+		List<Term> terms = new ArrayList<Term>();
+        List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
+        List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
+        if(currentScheduled!=null) terms.addAll(currentScheduled);
+        if(futureScheduled!=null) terms.addAll(futureScheduled);
 
         try {
 
@@ -576,47 +578,27 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		if (result == null) {
 			return;
 		}
-		List<String> termsOffered = new java.util.ArrayList<String>(result
-				.getRows().size());
-		String courseId = null;
-		for (CourseSearchItemImpl course : courses) {
-			for (SearchResultRow row : result.getRows()) {
-				courseId = getCellValue(row, "course.key");
-				String id = getCellValue(row, "atp.id");
-				// Don't add the terms invalid term information
-				AtpInfo atp;
-				try {
-					atp = KsapFrameworkServiceLocator.getAtpService().getAtp(
-							id,
-							KsapFrameworkServiceLocator.getContext()
-									.getContextInfo());
-				} catch (DoesNotExistException e) {
-					throw new IllegalArgumentException("Invalid ATP ID " + id,
-							e);
-				} catch (MissingParameterException e) {
-					throw new IllegalArgumentException(
-							"Invalid course ID or CLU lookup error", e);
-				} catch (InvalidParameterException e) {
-					throw new IllegalArgumentException(
-							"Invalid ATP ID or ATP lookup error", e);
-				} catch (OperationFailedException e) {
-					throw new IllegalStateException("ATP lookup error", e);
-				} catch (PermissionDeniedException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				}
 
-                // If valid atp returned add its type to the terms offered list.
-				if (null != atp) {
-					termsOffered.add(atp.getTypeKey());
-				}
-			}
+        Map<String, List<String>> offeredMap = new HashMap<String,List<String>>();
 
-			// Collections.sort(termsOffered, getAtpTypeComparator());
+        for (SearchResultRow row : result.getRows()) {
+            String courseId = getCellValue(row, "course.key");
+            String type = getCellValue(row, "atp.id");
+            if(offeredMap.containsKey(courseId)){
+                offeredMap.get(courseId).add(type);
+            }else{
+                offeredMap.put(courseId,new ArrayList<String>());
+                offeredMap.get(courseId).add(type);
+            }
+        }
 
-			if (course.getCourseId().equals(courseId)) {
-				course.setTermInfoList(termsOffered);
-			}
-		}
+        for(CourseSearchItemImpl course : courses){
+            if(offeredMap.containsKey(course.getCourseId())){
+                List<String> termsOffered = offeredMap.get(course.getCourseId());
+                Collections.sort(termsOffered);
+                course.setTermInfoList(termsOffered);
+            }
+        }
 
 		LOG.info("End of method loadTermsOffered of CourseSearchController:"
 				+ System.currentTimeMillis());
