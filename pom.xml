@@ -62,9 +62,11 @@
         <gwt.incubator.version>2.3.0</gwt.incubator.version>
         <gwt.version>2.3.0</gwt.version>
         <hibernate.jpa.version>1.0.1.Final</hibernate.jpa.version>
+        <hibernate.validator.version>4.3.1.Final</hibernate.validator.version>
         <hibernate.version>3.6.9.Final</hibernate.version>
         <jaxb.api.version>2.1</jaxb.api.version>
         <jaxws.spring.version>1.9</jaxws.spring.version>
+        <javaee.api.version>6.0-5</javaee.api.version>
         <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
         <jetty.version>6.1.6</jetty.version>
         <jsr107cache.version>1.0</jsr107cache.version>
@@ -826,6 +828,12 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
+                <groupId>org.apache.openejb</groupId>
+                <artifactId>javaee-api</artifactId>
+                <version>${javaee.api.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
                 <groupId>javax.transaction</groupId>
                 <artifactId>jta</artifactId>
                 <version>${jta.version}</version>
@@ -1062,6 +1070,12 @@
                         <artifactId>slf4j-api</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate.validator.version}</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>cglib</groupId>
