@@ -3156,22 +3156,15 @@
         </index>
     </table>
     <table name="KSEN_LPR_RESULT_VAL_GRP">
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+        <column name="LPR_ID" nullable="false" primaryKey="true" type="STRING">
             <size value="255"/>
         </column>
-        <column name="LPR_ID" nullable="false" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="RESULT_VAL_GRP_ID" nullable="false" type="STRING">
+        <column name="RESULT_VAL_GRP_ID" nullable="false" primaryKey="true" type="STRING">
             <size value="255"/>
         </column>
         <index name="KSEN_LPR_RESULT_VAL_GRP_IF1">
             <column>LPR_ID</column>
         </index>
-        <uniqueConstraint name="KSEN_LPR_RESULT_VAL_GRP_I1">
-            <column>LPR_ID</column>
-            <column>RESULT_VAL_GRP_ID</column>
-        </uniqueConstraint>
     </table>
     <table name="KSEN_LPR_ROSTER">
         <column name="CHECK_IN_FREQ_DUR_TYPE" type="STRING">
@@ -3526,22 +3519,15 @@
         </index>
     </table>
     <table name="KSEN_LPR_TRANS_ITEM_RVG">
-        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+        <column name="LPR_TRANS_ITEM_ID" nullable="false" primaryKey="true" type="STRING">
             <size value="255"/>
         </column>
-        <column name="LPR_TRANS_ITEM_ID" nullable="false" type="STRING">
-            <size value="255"/>
-        </column>
-        <column name="RESULT_VAL_GRP_ID" nullable="false" type="STRING">
+        <column name="RESULT_VAL_GRP_ID" nullable="false" primaryKey="true" type="STRING">
             <size value="255"/>
         </column>
         <index name="KSEN_LPR_LTI_RVG_IF1">
             <column>LPR_TRANS_ITEM_ID</column>
         </index>
-        <uniqueConstraint name="KSEN_LPR_LTI_RVG_I1">
-            <column>LPR_TRANS_ITEM_ID</column>
-            <column>RESULT_VAL_GRP_ID</column>
-        </uniqueConstraint>
     </table>
     <table name="KSEN_LRC_RESULT_SCALE">
         <column name="CREATEID" nullable="false" type="STRING">
