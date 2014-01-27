@@ -127,7 +127,12 @@
     <param name="ks.enroll.datasource.minSize">3</param>
     <param name="ks.enroll.datasource.maxOpenPreparedStatements">500</param>
 
-	
+    <param name="ks.ap.datasource.url">${ks.core.datasource.url}</param>
+    <param name="ks.ap.datasource.username">${ks.core.datasource.username}</param>
+    <param name="ks.ap.datasource.password">${ks.core.datasource.password}</param>
+    <param name="ks.ap.datasource.minSize">3</param>
+    <param name="ks.ap.datasource.maxOpenPreparedStatements">500</param>
+
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
