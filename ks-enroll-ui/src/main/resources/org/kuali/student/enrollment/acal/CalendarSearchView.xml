@@ -282,7 +282,7 @@
 	</bean>
 
     <bean id="KS-CalendarSearch-TermResultSection" parent="Uif-TableCollectionSection"
-		p:layoutManager.numberOfColumns="1" p:progressiveRender="@{(calendarType eq 'AcademicTerm') or (calendarType eq 'SubTerm')}" p:renderAddLine="false">
+		p:layoutManager.numberOfColumns="1" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
         <property name="collectionLookup">
