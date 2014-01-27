@@ -91,7 +91,6 @@
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
-        <class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
 
         <!-- commented out until roster service is implemented.
           <class>org.kuali.student.enrollment.class1.roster.model.LprRosterEntity</class>

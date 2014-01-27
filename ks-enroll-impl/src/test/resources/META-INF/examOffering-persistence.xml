@@ -23,8 +23,7 @@
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemEntity</class>
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemAttributeEntity</class>
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemRequestOptionEntity</class>
-		<class>org.kuali.student.enrollment.class1.lpr.model.LprTransactionItemResultValueGroupEntity</class>
-		
+
         <class>org.kuali.student.r2.core.class1.atp.model.AtpEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity</class>
