@@ -16,18 +16,19 @@
 
 package org.kuali.student.enrollment.courseregistration.dto;
 
-import java.io.Serializable;
-import java.util.List;
+import org.kuali.rice.core.api.util.jaxb.KualiDecimalAdapter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.enrollment.courseregistration.infc.CreditLoad;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-
-import org.kuali.student.enrollment.courseregistration.infc.CreditLoad;
-import org.w3c.dom.Element;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.util.List;
  
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CreditLoadInfo", propOrder = {
@@ -43,12 +44,15 @@ public class CreditLoadInfo
     private String studentId;
 
     @XmlElement
+    @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
     private KualiDecimal creditLoad;
 
     @XmlElement
+    @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
     private KualiDecimal creditLimit;
 
     @XmlElement
+    @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
     private KualiDecimal additionalCredits;
 
     @XmlAnyElement

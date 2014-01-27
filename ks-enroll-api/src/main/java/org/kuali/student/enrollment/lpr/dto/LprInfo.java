@@ -16,22 +16,21 @@
 
 package org.kuali.student.enrollment.lpr.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.rice.core.api.util.jaxb.KualiDecimalAdapter;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.enrollment.lpr.infc.Lpr;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-
-import org.kuali.student.enrollment.lpr.infc.Lpr;
-import org.kuali.student.r2.common.dto.RelationshipInfo;
-
-import org.w3c.dom.Element;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LprInfo", propOrder = {
@@ -72,6 +71,7 @@ public class LprInfo
     private List<String> resultValuesGroupKeys;
 
     @XmlElement
+    @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
     private KualiDecimal commitmentPercent;
 
     @XmlAnyElement
