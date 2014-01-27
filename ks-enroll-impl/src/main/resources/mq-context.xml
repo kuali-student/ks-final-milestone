@@ -16,15 +16,28 @@
         </amq:plugins>
     </amq:broker>
 
-    <amq:connectionFactory id="connectionFactory" brokerURL="vm://localhost"/>
+    <!-- Basic AMQ connection factory -->
+    <amq:connectionFactory id="amqConnectionFactory" brokerURL="vm://localhost" />
 
-    <!-- Spring JMS Template -->
-    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
-        <property name="connectionFactory">
-            <ref local="connectionFactory"/>
-        </property>
+    <!-- Wraps the AMQ connection factory in Spring's caching (ie: pooled) factory
+         From the AMQ "Spring Support"-page: "You can use the PooledConnectionFactory for efficient pooling... or you
+         can use the Spring JMS CachingConnectionFactory to achieve the same effect."
+         See "Consuming JMS from inside Spring" at http://activemq.apache.org/spring-support.html
+         Also see http://codedependents.com/2010/07/14/connectionfactories-and-caching-with-spring-and-activemq/
+
+         Note: there are pros/cons to using Spring's caching factory vs Apache's PooledConnectionFactory; but, until
+         we have more explicit reasons to favor one over the other, Spring's is less tightly-coupled to a specific
+         AMQP-implementation.
+         See http://stackoverflow.com/a/19594974
+    -->
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactory"/>
+        <property name="sessionCacheSize" value="1"/>
     </bean>
 
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <constructor-arg ref="connectionFactory" />
+    </bean>
 
     <jms:listener-container concurrency="10" >
         <jms:listener id="regPerfListener" destination="org.kuali.student.enrollment.registration.performanceStatsQueue" ref="performanceStatsListener" />
