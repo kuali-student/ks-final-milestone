@@ -31,8 +31,8 @@
         <property name="items">
             <list>
                 <!-- This adds the file names to the page HTML -->
-               <ref bean="KS-SourceFile-Comment-Group"/>
-               <ref bean="KS-CourseOfferingManagement-ClusterDeleteConfirmationResultSection"/>
+                <ref bean="KS-SourceFile-Comment-Group"/>
+                <ref bean="KS-CourseOfferingManagement-ClusterDeleteConfirmationResultSection"/>
             </list>
         </property>
         <property name="footer">
@@ -75,19 +75,19 @@
                 </bean>
                 <bean id="KS-ClusterDeleteConfirmation-WarningMessage" parent="Uif-VerticalBoxSubSection">
                     <property name="headerText" value=""/>
-                    <property name="style" value="background-color:#FFEE99"/>
                     <property name="disclosure.render" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Warning"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" />
-                            <bean parent="Uif-Message"
-                                  p:messageText="Warning: You are about to permanently delete a cluster, which will delete the following activity offering(s) from this course offering. If you want to move the activities into another cluster, cancel this action."
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" />
-                            <bean parent="Uif-Message"
-                                  p:messageText="Activity Offerings to be deleted: @{totalAOsToBeDeleted}"
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                            <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="You are about to permanently delete a cluster, which will delete the following activity offering(s) from this course offering. If you want to move the activities into another cluster, cancel this action." />
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Activity Offerings to be deleted: @{totalAOsToBeDeleted}"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

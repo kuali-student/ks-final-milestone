@@ -80,78 +80,50 @@
                 </bean>
                 <bean id="KS-CoDeleteConfirmation-WarningMessage" parent="Uif-VerticalBoxSection">
                     <property name="headerText" value=""/>
-                    <property name="style" value="background-color:#FFEE99"/>
                     <property name="disclosure.render" value="false"/>
                     <property name="items">
                         <list>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Crosslisted Course Warning"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{crossListedCO}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="This is a crosslisted course. You are about to permanently delete the following activity offering(s) from this course offering. [br/]
-                                  Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
-                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2"
-                                  p:render="@{crossListedCO and numOfCrossListedCosToDelete le 1}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="One or more of the selected courses is crosslisted. You are about to permanently delete the course(s) and the following activity offering(s). [br/]
-                                  Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
-                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-size: 110%" p:colSpan="2"
-                                  p:render="@{crossListedCO and numOfCrossListedCosToDelete ge 2}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]
-                                  Colocated Activities Warning"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
-                                  p:render="@{colocatedCO and !crossListedCO}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Colocated Activities Warning"
-                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"
-                                  p:render="@{colocatedCO and crossListedCO}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="Components of one or more of the listed activities are co-located."
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
-                                  p:render="@{colocatedCO}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Deleting will remove this course offering and all of its contained activity offerings. This will break the relationship with the colocated activities. [br/]
-                                  Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png&quot;] icon(s) in the table below for more information."
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
-                                  p:render="@{colocatedCO}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]
-                                  Joint-Defined Course Warning"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2"
-                                  p:render="@{jointDefinedCo and !colocatedCO and !crossListedCO}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Joint-Defined Course Warning"
-                                  p:style="background-color:#FFEE99;  margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"
-                                  p:render="@{jointDefinedCo and (colocatedCO or crossListedCO)}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="This is a joint-defined course. You are about to permanently delete the course and the following activity [br/]
-                                  offering(s). Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/JointIcon6px.png&quot;] icon in the table below for more information."
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
-                                  p:render="@{jointDefinedCo and numOfJointDefinedCosToDelete le 1}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="One or more of the selected course offerings is joint-defined. You are about to permanently delete the  [br/]
-                                  course and the following activity offering(s). Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/JointIcon6px.png&quot;] icon(s) in the table below for more information."
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2"
-                                  p:render="@{jointDefinedCo and numOfJointDefinedCosToDelete ge 2}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/exclamation_diamond_frame.png&quot;]  Warning"
-                                  p:style="background-color:#FFEE99; font-weight: bold; font-size: 110%" p:colSpan="2" p:render="@{!crossListedCO and !colocatedCO and !jointDefinedCo}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="You are about to permanently delete the following course offering(s) and activity offering(s)."
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-size: 110%" p:colSpan="2" p:render="@{!crossListedCO and !colocatedCO and !jointDefinedCo}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="Affected Activities: @{totalAOsToBeDeleted}"
-                                  p:style="background-color:#FFEE99; margin-left: 20px; font-weight: bold; font-size: 110%" p:colSpan="2"/>
+                            <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="[b]Crosslisted Course Warning[/b]"
+                                              p:render="@{crossListedCO}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="This is a crosslisted course. You are about to permanently delete the following activity offering(s) from this course offering. [br/] Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
+                                              p:render="@{crossListedCO and numOfCrossListedCosToDelete le 1}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="One or more of the selected courses is crosslisted. You are about to permanently delete the course(s) and the following activity offering(s). [br/] Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/cross-listed.png&quot;] icon(s) in the table below for details."
+                                              p:render="@{crossListedCO and numOfCrossListedCosToDelete ge 2}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="[b]Colocated Activity Warning[/b]"
+                                              p:render="@{colocatedCO and !crossListedCO}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Colocated Activity Warning"
+                                              p:render="@{colocatedCO and crossListedCO}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Components of one or more of the listed activities are co-located. Deleting will remove this course offering and all of its contained activity offerings. This will break the relationship with the colocated activities. Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png&quot;] icon(s) in the table below for more information."
+                                              p:render="@{colocatedCO}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="[b]Joint-Defined Course Warning[/b]"
+                                              p:render="@{jointDefinedCo and !colocatedCO and !crossListedCO}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Joint-Defined Course Warning"
+                                              p:render="@{jointDefinedCo and (colocatedCO or crossListedCO)}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="This is a joint-defined course. You are about to permanently delete the course and the following activity offering(s). Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/JointIcon6px.png&quot;] icon in the table below for more information."
+                                              p:render="@{jointDefinedCo and numOfJointDefinedCosToDelete le 1}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="One or more of the selected course offerings is joint-defined. You are about to permanently delete the course and the following activity offering(s). Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/JointIcon6px.png&quot;] icon(s) in the table below for more information."
+                                              p:render="@{jointDefinedCo and numOfJointDefinedCosToDelete ge 2}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="You are about to permanently delete the following course offering(s) and activity offering(s)."
+                                              p:render="@{!crossListedCO and !colocatedCO and !jointDefinedCo}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Affected Activities: @{totalAOsToBeDeleted}"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

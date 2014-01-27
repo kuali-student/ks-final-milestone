@@ -337,10 +337,13 @@
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message"
-                      p:messageText="[image class=&quot;uif-validationImage&quot; src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;] This action affects maximum enrollment and scheduling information for all colocated activities."
-                      p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
-                    <property name="style" value="display: inline-block;" />
+                <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="This action affects maximum enrollment and scheduling information for all colocated activities." />
+                        </list>
+                    </property>
                 </bean>
 
                 <bean parent="Uif-Message" p:messageText="[b]Scheduling Information[/b]"/>
@@ -376,10 +379,14 @@
         <property name="forceSessionPersistence" value="true" />
         <property name="items">
             <list>
-                <bean parent="Uif-Message"
-                      p:messageText="[image src=&quot;@{#ConfigProperties['krad.externalizable.images.url']}/validation/warning.png&quot;]  Removing all scheduling information from this activity offering will cause it to become unscheduled."
-                      p:style="background-color:#F4E271; padding-top:4px; padding-bottom: 4px; font-size: 100%; margin-bottom:20px;"
-                      p:colSpan="2" />
+                <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Removing all scheduling information from this activity offering will cause it to become unscheduled." />
+                        </list>
+                    </property>
+                </bean>
 
                 <bean id="ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_ActivityState"
                       parent="Uif-InputField"

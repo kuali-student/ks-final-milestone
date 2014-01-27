@@ -92,54 +92,37 @@
                     </property>
                 </bean>
 
-                <bean id="KS-SelectedAoDeleteConfirmation-WarningMessage" parent="Uif-VerticalBoxSection"
-                      p:cssClasses="uif-validationMessages uif-groupValidationMessages uif-pageValidationMessages-warning ks-subSection">
+                <bean id="KS-SelectedAoDeleteConfirmation-WarningMessage" parent="Uif-VerticalBoxSection" >
                     <property name="headerText"
                               value=""/>
 
                     <property name="disclosure.render" value="false"/>
                     <property name="items" >
                         <list>
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/validation/warning.png&quot;]  Colocated Activity Warning"
-                                   p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Components of one or more of the listed activities are co-located."
-                                   p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Deleting will remove the activity offering(s) and break the relationship with the co-located activities and courses."
-                                   p:colSpan="2" p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png&quot;] icon(s) in the table below for more information."
-                                   p:colSpan="2"  p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
+                            <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="[b]Colocated Activity Warning[/b] Components of one or more of the listed activities are co-located. Deleting will remove the activity offering(s) and break the relationship with the co-located activities and courses. Click on the [image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png&quot;] icon(s) in the table below for more information."
+                                              p:render="@{currentCourseOfferingWrapper.colocatedAoToDelete}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="[b]Crosslisted Course Warning[/b]"
+                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and !currentCourseOfferingWrapper.colocatedAoToDelete}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="This is a crosslisted course."
+                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="You are about to permanently delete the following activity offering(s) from this course offering."
+                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="You are about to permanently delete the following activity offering(s) from this course offering."
+                                              p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToDelete }"/>
+                                        <bean parent="Uif-Message"
+                                              p:messageText="Affected Activities:  @{selectedToDeleteList.size()}"/>
 
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/validation/warning.png&quot;]  Crosslisted Course Warning"
-                                   p:colSpan="2"
-                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and !currentCourseOfferingWrapper.colocatedAoToDelete}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="Crosslisted Course Warning"
-                                   p:colSpan="2"
-                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != '' and currentCourseOfferingWrapper.colocatedAoToDelete}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="This is a crosslisted course."
-                                   p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
-                            <bean parent="Uif-Message"
-                                  p:messageText="You are about to permanently delete the following activity offering(s) from this course offering."
-                                   p:colSpan="2" p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip != ''}"/>
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="[image src=&quot;@{#ConfigProperties['ks.externalizable.images.url']}/validation/warning.png&quot;] Warning"
-                                   p:colSpan="2"
-                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToDelete }" />
-                            <bean parent="Uif-Message"
-                                  p:messageText="You are about to permanently delete the following activity offering(s) from this course offering."
-                                   p:colSpan="2"
-                                  p:render="@{currentCourseOfferingWrapper.alternateCOCodesUITooltip == '' and !currentCourseOfferingWrapper.colocatedAoToDelete }" />
-
-                            <bean parent="Uif-Message"
-                                  p:messageText="Affected Activities:  @{selectedToDeleteList.size()}"
-                                   p:colSpan="2"/>
+                                    </list>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
