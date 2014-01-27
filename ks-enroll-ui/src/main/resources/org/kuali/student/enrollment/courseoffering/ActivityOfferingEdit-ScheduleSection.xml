@@ -134,7 +134,7 @@
         </property>
         <property name="header">
             <bean parent="Uif-HeaderFour">
-                <property name="headerText" value="Add New Scheduling Information" />
+                <property name="headerText" value="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'Add  New' : 'Edit'} Scheduling Information" />
                 <property name="rightGroup">
                     <bean id="ActivityOffering-DeliveryLogistic-New-RightGroup" parent="Uif-ActionsGroup">
                         <!-- Whether or not this widget is active depends on it's related institutional-configuration
