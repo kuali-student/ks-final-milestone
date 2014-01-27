@@ -323,5 +323,15 @@
             <groupId>antlr</groupId>
             <artifactId>antlr</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-krad</artifactId>
+            <version>${ks.lum.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-enroll-api</artifactId>
+            <version>${ks.api.version}</version>
+        </dependency>
     </dependencies>
 </project>
