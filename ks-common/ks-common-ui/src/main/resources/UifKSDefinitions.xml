@@ -837,6 +837,14 @@
           p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
           p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}"/>
 
+
+
+    <bean id="KS-Uif-Inline-WarningMessageGroup" parent="Uif-VerticalBoxSection"
+          p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
+        <property name="style" value="display: inline-block;" />
+    </bean>
+
+
     <bean id="KS-OptimisticLock-Page" parent="KS-Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
