@@ -312,7 +312,7 @@
 			</bean>
 		</property>
 	</bean>
-	<bean id="facet_genedureq" parent="facet-parent" p:headerText="Gen. Edu. Req." />
+	<bean id="facet_genedureq" parent="facet-parent" p:headerText="Gen Ed" />
 	<bean id="facet_credits" parent="facet-parent" p:headerText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
 	<bean id="facet_level" parent="facet-parent" p:headerText="Course Level" />
 	<bean id="facet_curriculum" parent="facet-parent" p:headerText="Course Prefix" />

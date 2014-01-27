@@ -46,7 +46,7 @@ function ksapCourseSearchColumns() {
 	}, {
 		'bSortable' : false,
 		'bSearchable' : true,
-		'sTitle' : 'Gen Edu Req',
+		'sTitle' : 'Gen Ed',
 		'sWidth' : '66px'
 	}, {
 		'bSortable' : false,
