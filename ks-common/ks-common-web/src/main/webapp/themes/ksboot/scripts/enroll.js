@@ -846,7 +846,7 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
         if ($checkbox.length > 0) {
             $checkbox.attr('checked', !$checkbox.attr('checked'));
             jQuery(this).closest('tr').toggleClass('selected-row', $checkbox.prop('checked'));
-            // $checkbox.trigger( "click" );
+            $checkbox.trigger("change");
 
             var $table = jQuery(this).closest('table');
             var $toggleCB = jQuery('input:checkbox[id$="_toggle_control_checkbox"]');
