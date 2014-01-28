@@ -88,23 +88,8 @@ public class RegistrationRequestTransformer {
 
         KualiDecimal credits = requestItem.getCredits(); // For now, assume it's an RVG option with a single credit
         if (credits != null) {
-            String creditStr = String.valueOf(credits.bigDecimalValue());
-            int dotIndex = creditStr.indexOf('.');
-            if (dotIndex == -1) {
-                // Implies the string is an integer and doesn't end in .0
-                creditStr +=  ".0";
-            } else {
-                // Remove trailing zeroes as needed
-                do {
-                    String fraction = creditStr.substring(dotIndex + 1);
-                    if (fraction.endsWith("0") && fraction.length() > 1) {
-                        // Trim off trailing zero, but only if the fraction is two digits or more
-                        creditStr = creditStr.substring(0, creditStr.length() - 1);
-                    } else {
-                        break;
-                    }
-                } while (true);
-            }
+            String creditStr = credits.bigDecimalValue().setScale(1).toPlainString();
+
             ResultValueInfo resultValueInfo =
                     getLrcService().getResultValueForScaleAndValue(LrcServiceConstants.RESULT_SCALE_KEY_CREDIT_DEGREE,
                             creditStr, context);
@@ -184,15 +169,14 @@ public class RegistrationRequestTransformer {
         for (String s : item.getResultValuesGroupKeys()) {
             if (s.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)) { // "kuali.resultComponent.grade"
                 requestItem.setGradingOptionId(s);
-            } else if (s.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) { // "kuali.creditType.credit.degree"
+            } else if (s.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) { // "kuali.result.value.credit.degree"
             	// FIXME KSENROLL-11466
                 // requestItem.setCredits(s);
                 ResultValueInfo resultValueInfo = getLrcService().getResultValue(s, context);
                 String creditStr = resultValueInfo.getNumericValue();
                 KualiDecimal credit = new KualiDecimal(creditStr);
                 requestItem.setCredits(credit);
-            }
-            else {
+            } else {
             	// added as a place holder until KSENROLL-11466 is worked on.
             	// the inverse will write just the decimal value into the rvg so unpack it here.
             	requestItem.setCredits(new KualiDecimal(s));

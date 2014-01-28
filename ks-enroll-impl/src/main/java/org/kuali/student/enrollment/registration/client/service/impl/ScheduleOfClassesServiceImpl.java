@@ -4,15 +4,10 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.api.identity.entity.EntityDefault;
-import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
-import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
-import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingSearchResult;
@@ -34,7 +29,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.class1.search.ActivityOfferingSearchServiceImpl;
@@ -438,8 +432,6 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 }
                 // Use AtpService to get Term name by Id
                 atps = CourseRegistrationAndScheduleOfClassesUtil.getAtpService().getAtpsByIds(termIds, contextInfo);
-            } else {
-                return atps;
             }
         } catch (Exception e) {
             throw new RuntimeException("Error getting Valid SOC Terms", e);

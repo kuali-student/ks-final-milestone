@@ -7,6 +7,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -107,6 +108,15 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationStateId(dto.getStateKey());
+
+        //Set these fields on the LPR (makes access easier).
+        for(String rvgKey:dto.getResultValuesGroupKeys()){
+            if(rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)){
+                this.setGradingOptionId(rvgKey);
+            }else if(rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)){
+                this.setCredits(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length()+1));
+            }
+        }
 
         this.attributes.clear();
 

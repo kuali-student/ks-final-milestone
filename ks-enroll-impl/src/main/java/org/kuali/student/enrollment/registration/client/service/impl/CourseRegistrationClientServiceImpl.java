@@ -207,12 +207,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
-        if(StringUtils.isEmpty(contextInfo.getPrincipalId())){
-            throw new LoginException("User must be logged in to access this service");
-        }
-
         if (StringUtils.isEmpty(userId)) {
             userId = contextInfo.getPrincipalId();
+        }
+
+        if(StringUtils.isEmpty(userId)){
+            throw new LoginException("User must be logged in to access this service");
         }
 
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);

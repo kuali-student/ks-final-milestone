@@ -88,7 +88,8 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
 
         for (RegistrationRequestItem registrationRequestItem : registrationRequestInfo.getRegistrationRequestItems()) {
             if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
-                lprInfos.addAll(buildLprItems(registrationRequestItem.getRegistrationGroupId(), registrationRequestInfo.getTermId(), contextInfo));
+                String creditStr = registrationRequestItem.getCredits()==null?"":registrationRequestItem.getCredits().bigDecimalValue().setScale(1).toPlainString();
+                lprInfos.addAll(buildLprItems(registrationRequestItem.getRegistrationGroupId(), registrationRequestInfo.getTermId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo));
             }
         }
         return lprInfos;
@@ -100,7 +101,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
      * @param regGroupId Registration Group Id
      * @return List of Learning Person Relationships corresponding to the Reg Group, Course, and Activities
      */
-    protected List<LprInfo> buildLprItems(String regGroupId, String termId, ContextInfo context) {
+    protected List<LprInfo> buildLprItems(String regGroupId, String termId, String credits, String gradingOptionKey, ContextInfo context) {
         List<LprInfo> result = new ArrayList<LprInfo>();
         // Get AO Lui's by reg grup
         //List<LuiInfo> ao1List = getLuiService().getLuisByRelatedLuiAndRelationType(registrationRequestInfo.get);
@@ -115,18 +116,18 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
                     LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
             String coId = KSCollectionUtils.getRequiredZeroElement(coIds);
             // Create CO LPR
-            LprInfo coLprCreated = makeLpr(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, coId, coId, effDate, termId, context);
+            LprInfo coLprCreated = makeLpr(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, coId, coId, effDate, termId, credits, gradingOptionKey, context);
             result.add(coLprCreated);
 
             // Create AO LPRs
             List<String> aoIds = luiServiceLocal.getLuiIdsByLuiAndRelationType(regGroupId,
                     LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
             for (String aoId : aoIds) {
-                LprInfo aoLprCreated = makeLpr(LprServiceConstants.REGISTRANT_AO_TYPE_KEY, aoId, coId, effDate, termId, context);
+                LprInfo aoLprCreated = makeLpr(LprServiceConstants.REGISTRANT_AO_TYPE_KEY, aoId, coId, effDate, termId, credits, gradingOptionKey, context);
                 result.add(aoLprCreated);
             }
             // Create RG LPR
-            LprInfo rgLprCreated = makeLpr(LprServiceConstants.REGISTRANT_RG_TYPE_KEY, regGroupId, coId, effDate, termId, context);
+            LprInfo rgLprCreated = makeLpr(LprServiceConstants.REGISTRANT_RG_TYPE_KEY, regGroupId, coId, effDate, termId, credits, gradingOptionKey, context);
             result.add(rgLprCreated);
 
         } catch (Exception ex) {
@@ -136,7 +137,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         return result;
     }
 
-    private LprInfo makeLpr(String lprType, String luiId, String masterLuiId, Date effDate, String atpId, ContextInfo context)
+    private LprInfo makeLpr(String lprType, String luiId, String masterLuiId, Date effDate, String atpId, String credits, String gradingOptionKey, ContextInfo context)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException,
             DataValidationErrorException {
@@ -148,6 +149,8 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         lpr.setMasterLprId(masterLuiId);
         lpr.setEffectiveDate(effDate);
         lpr.setAtpId(atpId);
+        lpr.getResultValuesGroupKeys().add("kuali.result.value.credit.degree." + credits);
+        lpr.getResultValuesGroupKeys().add(gradingOptionKey);
         LprInfo lprCreated = getLprService().createLpr(lpr.getPersonId(), lpr.getLuiId(),
                 lpr.getTypeKey(), lpr, context);
         return lprCreated;

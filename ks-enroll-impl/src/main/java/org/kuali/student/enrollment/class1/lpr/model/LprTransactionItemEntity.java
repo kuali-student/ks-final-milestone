@@ -210,10 +210,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 			lprTransItemInfo.setRequestOptions(new ArrayList<LprTransactionItemRequestOptionInfo>());
 		}
 		
-
-		List<String> resultValueGroupKeys = new ArrayList<String> (getResultValueGroupIds().size());
-		
-		lprTransItemInfo.setResultValuesGroupKeys(resultValueGroupKeys);
+		lprTransItemInfo.getResultValuesGroupKeys().addAll(getResultValueGroupIds());
 		
 		if (this.getResultingLprId() != null && this.getStatus() != null) {
 			// only record the details if the values are not null
