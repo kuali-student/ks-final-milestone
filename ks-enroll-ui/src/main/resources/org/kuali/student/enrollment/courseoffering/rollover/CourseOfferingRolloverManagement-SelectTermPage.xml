@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
     <!--
      Copyright 2007-2012 The Kuali Foundation
 
@@ -44,8 +44,10 @@
         </property> <!-- End of footer -->
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="&lt;br&gt;Select Source and Target Terms" p:style="font-size:135%;"/>
-                <bean parent="Uif-Message" p:messageText="Both fields are required. Enter terms as codes, eg 201201." p:style="font-size:110%;"/>
+                <bean parent="Uif-Message" p:messageText="&lt;br&gt;Select Source and Target Terms"
+                      p:style="font-size:135%;"/>
+                <bean parent="Uif-Message" p:messageText="Both fields are required. Enter terms as codes, eg 201201."
+                      p:style="font-size:110%;"/>
                 <bean parent="Uif-VerticalBoxGroup" p:style="min-width:17cm">
                     <property name="items">
                         <list>
@@ -57,34 +59,43 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1"  p:style="margin-top:20px;">
+                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1"
+                                              p:style="margin-top:20px;">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-VerticalFieldGroup" p:label="Source Term" p:align="TOP" p:fieldLabel.renderColon="false">
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="Uif-InputField" p:propertyName="sourceTermCode" p:required="true">
-                                                                    <property name="control">
-                                                                        <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201201" p:minLength="5" p:maxLength="6"/>
-                                                                    </property>
-                                                                </bean>
-                                                                <bean parent="Uif-Message" p:messageText="@{sourceTermInfoDisplay}" p:render="@{sourceTermInfoDisplay!=''}"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                    <!--p:source="@{#ConfigProperties['ks.externalizable.images.url']}/help_gray_14px.png"-->
-                                                    <bean parent="Uif-ImageField" p:image.style="ks-fontello-icon-help-circled" p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
+                                                    <bean parent="Uif-Message" p:messageText="Source Term"
+                                                          p:style="font-size:1em;font-weight:bold;"/>
+                                                    <bean parent="Uif-ImageField"
+                                                          p:image.style="ks-fontello-icon-help-circled"
+                                                          p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
                                                         <property name="toolTip">
-                                                            <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Select the term you want to copy from \- the older term."/>
+                                                            <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
+                                                                  p:tooltipContent="Select the term you want to copy from \- the older term."/>
                                                         </property>
                                                     </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-VerticalFieldGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-InputField" p:propertyName="sourceTermCode"
+                                                          p:required="true">
+                                                        <property name="control">
+                                                            <bean parent="Uif-TextControl" p:size="6"
+                                                                  p:watermarkText="201201" p:minLength="5"
+                                                                  p:maxLength="6"/>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-Message" p:messageText="@{sourceTermInfoDisplay}"
+                                                          p:render="@{sourceTermInfoDisplay!=''}"/>
                                                 </list>
                                             </property>
                                         </bean>
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-VerticalBoxSubSection" >
+                            <bean parent="Uif-VerticalBoxSubSection">
                                 <property name="validationMessages">
                                     <bean parent="Uif-GroupValidationMessages">
                                         <property name="displayFieldLabelWithMessages" value="false"/>
@@ -92,28 +103,36 @@
                                 </property>
                                 <property name="items">
                                     <list>
-                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1">
+                                        <bean parent="Uif-HorizontalBoxSubSection" p:colSpan="1"
+                                              p:style="margin-top:20px;">
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-VerticalFieldGroup"  p:label="Target Term" p:align="TOP" p:fieldLabel.renderColon="false">
-                                                        <property name="items">
-                                                            <list>
-                                                                <bean parent="Uif-InputField" p:propertyName="targetTermCode"
-                                                                      p:required="true">
-                                                                    <property name="control">
-                                                                        <bean parent="Uif-TextControl" p:size="6" p:watermarkText="201301" p:minLength="5" p:maxLength="6"/>
-                                                                    </property>
-                                                                </bean>
-                                                                <bean parent="Uif-Message" p:messageText="@{targetTermInfoDisplay}" p:render="@{targetTermInfoDisplay!=''}"/>
-                                                            </list>
-                                                        </property>
-                                                    </bean>
-                                                    <!--p:source="@{#ConfigProperties['ks.externalizable.images.url']}/help_gray_14px.png"-->
-                                                    <bean parent="Uif-ImageField" p:image.style="ks-fontello-icon-help-circled" p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
+                                                    <bean parent="Uif-Message" p:messageText="Target Term"
+                                                          p:style="font-size:1em;font-weight:bold;"/>
+                                                    <bean parent="Uif-ImageField"
+                                                          p:image.style="ks-fontello-icon-help-circled"
+                                                          p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
                                                         <property name="toolTip">
-                                                            <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="Select the term you want to copy to \- the new term."/>
+                                                            <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
+                                                                  p:tooltipContent="Select the term you want to copy to \- the new term."/>
                                                         </property>
                                                     </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-VerticalFieldGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-InputField" p:propertyName="targetTermCode"
+                                                          p:required="true">
+                                                        <property name="control">
+                                                            <bean parent="Uif-TextControl" p:size="6"
+                                                                  p:watermarkText="201301" p:minLength="5"
+                                                                  p:maxLength="6"/>
+                                                        </property>
+                                                    </bean>
+                                                    <bean parent="Uif-Message" p:messageText="@{targetTermInfoDisplay}"
+                                                          p:render="@{targetTermInfoDisplay!=''}"/>
                                                 </list>
                                             </property>
                                         </bean>
