@@ -44,7 +44,7 @@
 	<bean id="course_search_page" parent="course_search_page-parent" />
 	<bean abstract="true" id="course_search_page-parent" parent="Uif-Page" p:id="course_search">
 		<property name="instructionalText"
-			value="Enter a course code, title, or a keyword to search the Course Catalog and Time Schedule if applicable." />
+			value="Enter a department, course code, title, or a keyword to search the Course Catalog and Schedule of Classes." />
 		<property name="layoutManager">
 			<bean parent="Uif-HorizontalBoxLayout" />
 		</property>
