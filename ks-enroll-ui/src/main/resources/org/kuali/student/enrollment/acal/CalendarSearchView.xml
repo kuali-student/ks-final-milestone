@@ -180,7 +180,7 @@
     </bean>
 
     <bean id="KS-CalendarSearch-HcResultSection" parent="Uif-TableCollectionSection"
-		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'HolidayCalendar'" p:renderAddLine="false">
+		p:layoutManager.numberOfColumns="4" p:render="@{calendarType eq 'HolidayCalendar'}" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
         <property name="collectionLookup">
@@ -231,7 +231,7 @@
 	</bean>
 
     <bean id="KS-CalendarSearch-AcalResultSection" parent="Uif-TableCollectionSection"
-		p:layoutManager.numberOfColumns="4" p:progressiveRender="calendarType eq 'AcademicCalendar'" p:renderAddLine="false">
+		p:layoutManager.numberOfColumns="4" p:render="@{calendarType eq 'AcademicCalendar'}" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
         <property name="collectionLookup">
@@ -282,7 +282,7 @@
 	</bean>
 
     <bean id="KS-CalendarSearch-TermResultSection" parent="Uif-TableCollectionSection"
-		p:layoutManager.numberOfColumns="1" p:renderAddLine="false">
+		p:layoutManager.numberOfColumns="1" p:render="@{(calendarType eq 'AcademicTerm') or (calendarType eq 'SubTerm')}" p:renderAddLine="false">
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalSearchResult" />
 		<property name="propertyName" value="searchResults" />
         <property name="collectionLookup">
