@@ -111,6 +111,10 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
         = "<input type='hidden' data-role='script' data-for='$ID' value=\"createTooltip('$ID', '$TEXT', " +
             "{position:'top',alwaysVisible:false,themeName:'all-black',themePath:'$APPLICATION_URL/plugins/tooltip/jquerybubblepopup-theme/',selectable:true,align:'left',distance:'0px',openingSpeed:'250', tail:{ align:'left', hidden: false },tableStyle:{ margin:'0px 0px 5px -8px'}},true, false);\" script='soc_run'>";
 
+    private final static String TOOLTIP_CREATE_SCRIPT_STUREG_PASSFAIL
+            = "<input type='hidden' data-role='script' data-for='$ID' value=\"createTooltip('$ID', '$TEXT', " +
+            "{position:'top',alwaysVisible:false,themeName:'all-black',themePath:'$APPLICATION_URL/plugins/tooltip/jquerybubblepopup-theme/',selectable:true,align:'left',distance:'0px',openingSpeed:'250', tail:{ align:'left', hidden: false },tableStyle:{ margin:'0px 0px 22px -8px'}},true, false);\" script='soc_run'>";
+
     private final static String TOOLTIP_ADD_ATTRIBUTE
         = "<input type='hidden' data-role='script' data-for='$ID' " +
             "value=\"addAttribute('$ID', 'class', 'uif-tooltip', true);\" script='soc_run'>";
@@ -343,7 +347,13 @@ public class ScheduleOfClassesViewHelperServiceImpl extends CourseOfferingManage
      */
     private String makeInfoIconWithTooltip(String src, String text) {
         String id = UUIDHelper.genStringUUID();
-        String tt = IMG + TOOLTIP_CREATE_SCRIPT + TOOLTIP_ADD_ATTRIBUTE;
+        String tt;
+        //customize the tooltip position
+        if (StringUtils.equals(ScheduleOfClassesConstants.SOC_RESULT_PAGE_HELP_STUREG_PASSFAIL, text)) {
+            tt = IMG + TOOLTIP_CREATE_SCRIPT_STUREG_PASSFAIL + TOOLTIP_ADD_ATTRIBUTE;
+        } else {
+            tt = IMG + TOOLTIP_CREATE_SCRIPT + TOOLTIP_ADD_ATTRIBUTE;
+        }
         tt = tt.replace("$APPLICATION_URL", ConfigContext.getCurrentContextConfig().getProperty(KRADConstants.ConfigParameters.APPLICATION_URL));
         tt = tt.replace("$ID", id);
         tt = tt.replace("$SRC", src);
