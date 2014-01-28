@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.registration.engine.service.impl;
 
+import org.apache.cxf.common.util.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -149,8 +150,12 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         lpr.setMasterLprId(masterLuiId);
         lpr.setEffectiveDate(effDate);
         lpr.setAtpId(atpId);
-        lpr.getResultValuesGroupKeys().add("kuali.result.value.credit.degree." + credits);
-        lpr.getResultValuesGroupKeys().add(gradingOptionKey);
+        if (!StringUtils.isEmpty(credits)) {
+            lpr.getResultValuesGroupKeys().add("kuali.result.value.credit.degree." + credits);
+        }
+        if (!StringUtils.isEmpty(gradingOptionKey)) {
+            lpr.getResultValuesGroupKeys().add(gradingOptionKey);
+        }
         LprInfo lprCreated = getLprService().createLpr(lpr.getPersonId(), lpr.getLuiId(),
                 lpr.getTypeKey(), lpr, context);
         return lprCreated;
