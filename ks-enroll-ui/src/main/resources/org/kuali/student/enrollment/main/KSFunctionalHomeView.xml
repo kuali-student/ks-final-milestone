@@ -51,6 +51,17 @@
                         </list>
                     </property>
                 </bean>
+                <bean id="KS-StudentHome-CurriculumManagementKrad" parent="KS-Uif-Student-Home-Area" p:onClickScript="window.location.href='@{#ConfigProperties['application.url']}/kr-krad/cmHome?methodToCall=start&amp;viewId=curriculumHomeView';">
+                    <property name="items">
+                        <list>
+                            <bean parent="KS-Uif-Student-Home-Area-Image">
+                                <property name="source" value="@{#ConfigProperties['ks.externalizable.images.url']}/homepage/cm.png"/>
+                            </bean>
+                            <bean parent="KS-Uif-Student-Home-Area-App-Name" p:headerText="Curriculum Management KRAD" />
+                            <bean parent="Uif-Label" p:labelText="Create and Manage Catalog Courses and Programs" p:renderColon="false" />
+                        </list>
+                    </property>
+                </bean>
                 <bean id="KS-StudentHome-KSMaintenance" parent="KS-Uif-Student-Home-Area" p:onClickScript="window.location.href='@{#ConfigProperties['ks.rice.url']}/portal.do';">
                     <property name="items">
                         <list>
