@@ -109,14 +109,6 @@ limitations under the License.
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
             </list>
         </property>
-        <property name="criteriaGroup.footer.items">
-            <list>
-                <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
-                      p:onClickScript="e.preventDefault();closeLightbox();return false;"/>
-            </list>
-        </property>
-
     </bean>
 
 </beans>

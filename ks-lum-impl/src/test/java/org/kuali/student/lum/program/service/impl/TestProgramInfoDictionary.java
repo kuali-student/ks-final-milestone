@@ -85,9 +85,9 @@ public class TestProgramInfoDictionary {
         message.setGroupName("validation");
         LocaleInfo l = new LocaleInfo();
         l.setLocaleLanguage("en");
-        l.setLocaleRegion("en");
-        l.setLocaleScript("en");
-        l.setLocaleVariant("en");
+        l.setLocaleRegion("US");
+        l.setLocaleScript("Latn");
+        l.setLocaleVariant("POSIX");
         
         message.setLocale(l);
         message.setMessageKey("validation.programManagingBodiesMatch");
