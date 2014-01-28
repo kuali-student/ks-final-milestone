@@ -145,60 +145,6 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	}
 	
 	@Override
-    public CommentInfo createComment_KRAD(String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException {
-        /*
-        commentInfo.setReferenceTypeKey(referenceTypeKey);
-        commentInfo.setReferenceId(referenceId);
-
-        // Validate Comment
-        List<ValidationResultInfo> validationResults = null;
-        try {
-            validationResults = validateComment_KRAD("OBJECT", commentInfo, contextInfo);
-        } catch (DoesNotExistException e1) {
-            throw new OperationFailedException("Validation call failed." + e1.getMessage());
-        }
-        if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
-        }
-
-        Reference reference=null;
-        reference = commentDao.getReference(referenceId, referenceTypeKey);
-        if(reference==null){
-            reference = new Reference();
-            reference.setReferenceId(referenceId);
-            try {
-                ReferenceType referenceType = commentDao.fetch(ReferenceType.class, referenceTypeKey);
-                reference.setReferenceType(referenceType);
-                commentDao.create(reference);
-            } catch (DoesNotExistException e) {
-                throw new InvalidParameterException(e.getMessage());
-            }
-        }
-
-        Comment comment = null;
-
-        try {
-            comment = CommentServiceAssembler.toComment(false, commentInfo, commentDao);
-        } catch (DoesNotExistException e) {
-            throw new InvalidParameterException(e.getMessage());
-        }
-
-        Comment createdComment = commentDao.create(comment);
-
-        CommentInfo createdCommentInfo = CommentServiceAssembler.toCommentInfo(createdComment);
-        */
-        // TODO: Re-implement create comment for krad
-        return null;
-    }
-
-	@Override
 	public CommentInfo createComment(String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo)
 		throws DataValidationErrorException
 		      ,DoesNotExistException
@@ -334,22 +280,5 @@ public class CommentServiceMapImpl implements MockService, CommentService
 	     return meta;
 	}
 	
-	@Override
-    public List<ValidationResultInfo> validateComment_KRAD(String validationType,
-                                                      CommentInfo commentInfo,
-                                                      ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException {
-		// checkForMissingParameter(validationType, "validationType");
-		// checkForMissingParameter(commentInfo, "commentInfo");
-
-        //ObjectStructureDefinition objStructure = this.getObjectStructure(CommentInfo.class.getName());
-        //Validator defaultValidator = validatorFactory.getValidator();
-        //List<ValidationResultInfo> validationResults = defaultValidator.validateObject(commentInfo, objStructure, null);
-        //return validationResults;      
-		return null;
-    }
 }
 
