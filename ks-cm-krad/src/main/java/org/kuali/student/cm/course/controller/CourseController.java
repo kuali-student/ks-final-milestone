@@ -652,7 +652,7 @@ public class CourseController extends CourseRuleEditorController {
             commentInfo.setStateKey(DtoState.ACTIVE.toString());
             CommentInfo newComment = null;
             try {
-                newComment = getCommentService().createComment_KRAD(commentInfo.getReferenceId(),
+                newComment = getCommentService().createComment(commentInfo.getReferenceId(),
                         commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
                         ContextUtils.getContextInfo());
             } catch (Exception e) {
