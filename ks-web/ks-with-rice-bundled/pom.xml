@@ -114,6 +114,7 @@
                             <artifactId>rice-web</artifactId>
                             <excludes>
                                 <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/**</exclude>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-ss/**</exclude>
                                 <!-- entries from dependentWarExcludes are repeated below -->
                                 <exclude>**/web.xml</exclude>
                                 <exclude>WEB-INF/lib/**</exclude>
@@ -127,6 +128,7 @@
                             <artifactId>rice-krad-web</artifactId>
                             <excludes>
                                 <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/**</exclude>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-ss/**</exclude>
                                 <!-- entries from dependentWarExcludes are repeated below -->
                                 <exclude>**/web.xml</exclude>
                                 <exclude>WEB-INF/lib/**</exclude>
