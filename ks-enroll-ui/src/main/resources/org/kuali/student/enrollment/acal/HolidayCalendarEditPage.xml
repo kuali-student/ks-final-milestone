@@ -244,7 +244,7 @@
 		</property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="deleteHoliday" p:actionLabel="Delete"/>
+                <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteHoliday" p:actionLabel="Delete"/>
             </list>
         </property>
 	</bean>

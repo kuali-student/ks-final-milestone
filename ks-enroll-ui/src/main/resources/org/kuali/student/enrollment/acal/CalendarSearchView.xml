@@ -222,10 +222,10 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="editHolidayCalendar" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyHolidayCalendar" />
-                  <bean parent="Uif-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteHolidayCalendar" />
+                  <bean parent="KS-Uif-View-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="editHolidayCalendar" />
+                  <bean parent="KS-Uif-Copy-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyHolidayCalendar" />
+                  <bean parent="KS-Uif-Delete-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteHolidayCalendar" />
               </list>
         </property>
 	</bean>
@@ -273,10 +273,10 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="editAcademicCalendar" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyAcademicCalendar" />
-                  <bean parent="Uif-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteAcademicCalendar" />
+                  <bean parent="KS-Uif-View-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="editAcademicCalendar" />
+                  <bean parent="KS-Uif-Copy-NavigationActionLink" p:methodToCall="copy" p:actionLabel="Copy" p:componentSecurity.performActionAuthz="true" p:actionEvent="copyAcademicCalendar" />
+                  <bean parent="KS-Uif-Delete-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteAcademicCalendar" />
               </list>
         </property>
 	</bean>
@@ -319,9 +319,9 @@
         </property>
         <property name="lineActions">
               <list>
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
-                  <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="editAcademicTerm" />
-                  <bean parent="Uif-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteAcademicTerm" />
+                  <bean parent="KS-Uif-View-NavigationActionLink" p:methodToCall="view" p:actionLabel="View" />
+                  <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" p:componentSecurity.performActionAuthz="true" p:actionEvent="editAcademicTerm" />
+                  <bean parent="KS-Uif-Delete-NavigationActionLink" p:render="@{#line.stateKey ne 'kuali.atp.state.Official'}" p:methodToCall="delete" p:actionLabel="Delete" p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteAcademicTerm" />
               </list>
         </property>
 	</bean>

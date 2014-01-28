@@ -233,7 +233,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink"
+                <bean parent="KS-Uif-Edit-NavigationActionLink"
                     p:methodToCall="edit"
                     p:actionLabel="Edit"
                     p:actionEvent="editCOonManageCOsPage">

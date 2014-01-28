@@ -110,10 +110,10 @@
         <property name="lineActions">
               <list>
                   <!-- TODO: KSENROLL-11002. See the onDocumentReadyScript comment in ActivityOffering-ManageSchedulingInformationSection. -->
-                  <bean id="edit_schedule_request_action_link" parent="KS-Uif-NavigationActionLink"
+                  <bean id="edit_schedule_request_action_link" parent="KS-Uif-Edit-NavigationActionLink"
                         p:methodToCall="editScheduleComponent" p:actionLabel="Edit"
                         p:preSubmitCall="return checkAOEditWIP();" p:performDirtyValidation="false" />
-                  <bean parent="KS-Uif-ActionLink"  p:style="padding-top: 2px"
+                  <bean parent="KS-Uif-Delete-ActionLink"  p:style="padding-top: 2px"
                         p:methodToCall="deleteScheduleComponent"
                         p:actionLabel="Delete"
                         p:successCallback="reDisplayRDLSection(); refreshRemoveAllOfferingsFromSchedulerConfirmation();"/>

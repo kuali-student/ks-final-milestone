@@ -205,7 +205,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete" p:successCallback="addColocatedAOSuccessCallBack();"
+                <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete" p:successCallback="addColocatedAOSuccessCallBack();"
                       p:render="@{#dp.requestedScheduleComponents.isEmpty()}" p:dirtyOnAction="true"/>
             </list>
         </property>
@@ -421,7 +421,7 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
@@ -642,7 +642,7 @@
 
                     <property name="lineActions">
                         <list>
-                            <bean parent="Uif-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete" p:onDocumentReadyScript="calculatePercent()" p:dirtyOnAction="true"/>
+                            <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine" p:actionLabel="delete" p:onDocumentReadyScript="calculatePercent()" p:dirtyOnAction="true"/>
                         </list>
                     </property>
                 </bean>

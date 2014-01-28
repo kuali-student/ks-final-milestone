@@ -443,7 +443,7 @@
 
     <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
           p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}"
-          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');">
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');addBootstrapImageToLink('@{#component.id}');">
         <property name="propertyName" value="keydates"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper"/>
         <property name="header.render" value="false"/>
@@ -545,7 +545,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="key_date_delete_button" parent="Uif-ActionLink" p:methodToCall="deleteKeyDate"
+                <bean id="key_date_delete_button" parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteKeyDate"
                       p:actionLabel="Delete"/>
             </list>
         </property>
@@ -555,6 +555,7 @@
     <bean id="KS-ExamDates-EditSubSection"
           parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod" p:additionalCssClasses="ks-subSection"
           p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}">
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}');"/>
         <property name="propertyName" value="examdates"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper"/>
         <property name="headerText" value="Final Exam Period"/>
@@ -608,7 +609,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean id="exam_period_delete_link" parent="Uif-ActionLink" p:methodToCall="markExamPeriodtoDelete"
+                <bean id="exam_period_delete_link" parent="KS-Uif-Delete-ActionLink" p:methodToCall="markExamPeriodtoDelete"
                       p:actionLabel="Delete" p:render="@{!#view.readOnly}"/>
             </list>
         </property>

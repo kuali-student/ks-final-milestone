@@ -111,7 +111,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" parent="KS-Uif-TableCollectionSubSection-WithActionSeperator"  p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
-          p:onDocumentReadyScript="resetCheckboxes('activityOfferingsPerCluster');"
+          p:onDocumentReadyScript="resetCheckboxes('activityOfferingsPerCluster');addBootstrapImageToLink('@{#component.id}');"
           p:renderAddLine="false"  p:renderLineActions="true" p:readOnly="false">
         <property name="id" value="activityOfferingsPerCluster" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />
@@ -266,12 +266,12 @@
                 <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
                     <!--<property name="seperatedActions">-->
                         <!--<list>-->
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
+                <bean parent="KS-Uif-Copy-NavigationActionLink" p:methodToCall="copyAO" p:actionLabel="Copy"
                       p:render="@{#line.isEnableCopyAOActionLink()}" p:actionEvent="copyAOonManageAOsPage"/>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
+                <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit"
                       p:render="@{#line.isEnableEditAOActionLink()}" p:actionEvent="editAOonManageAOsPage">
                 </bean>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Requisites"/>
+                <bean parent="KS-Uif-Requisite-NavigationActionLink" p:methodToCall="manageAORules" p:actionLabel="Requisites"/>
                 <!--</list>-->
                     <!--</property>-->
                 <!--</bean>-->
@@ -363,7 +363,7 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
             </list>
         </property>
     </bean>

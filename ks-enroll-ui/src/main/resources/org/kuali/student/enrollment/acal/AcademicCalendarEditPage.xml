@@ -360,7 +360,7 @@ limitations under the License.
         <!--<property name="onDocumentReadyScript" value="resetDirtyFields('AcalEdit-DirtyFields');"/>-->
         <property name="lineActions">
             <list>
-                <bean id="acal_event_delete" parent="Uif-ActionLink" p:methodToCall="deleteAcalEvent"
+                <bean id="acal_event_delete" parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteAcalEvent"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');" p:actionLabel="Delete"/>
             </list>
         </property>

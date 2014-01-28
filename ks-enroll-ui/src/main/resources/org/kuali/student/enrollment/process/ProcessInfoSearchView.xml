@@ -199,8 +199,8 @@
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                <bean parent="Uif-NavigationActionLink" p:methodToCall="delete" p:actionLabel="Delete" p:render="@{#line.state eq 'kuali.process.process.state.active'}"/>
+                <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
+                <bean parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="delete" p:actionLabel="Delete" p:render="@{#line.state eq 'kuali.process.process.state.active'}"/>
             </list>
         </property>
     </bean>
