@@ -28,7 +28,6 @@
   <param name="datasource.pool.maxSize">200</param>
   <param name="datasource.pool.maxWait">600000</param>
   <param name="datasource.pool.validationQuery">select 1 from dual</param>
-  <param name="datasource.connectionProperties">implicitCachingEnabled=true;maxStatements=100</param>
   <param name="ks.core.datasource.username">${ks.app.jdbc.username}</param>
   <param name="ks.core.datasource.password">${ks.app.jdbc.password}</param>
   <param name="ks.core.datasource.minSize">15</param>
