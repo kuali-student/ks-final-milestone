@@ -1,0 +1,21 @@
+$ns: '.kscr-Search';
+
+#{$ns} {
+  border-bottom: 1px solid #ccc;
+}
+
+#{$ns}-item {
+  margin: 0.5rem;
+}
+
+/*
+#{$ns} {
+  background-color: #fff;
+  border: 1px solid gray;
+  padding: 0 0.5em 0.5em;
+  position: absolute;
+  right: 0;
+  width: 20em;
+  z-index: 2;
+}
+*/

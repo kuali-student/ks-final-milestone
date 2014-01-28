@@ -1,0 +1,29 @@
+$ns: '.kscr-Register';
+
+#{$ns} {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-size: rem-calc(14);
+  padding: 0.5em;
+  text-align: center;
+}
+
+#{$ns}-activities {
+  text-align: left;
+}
+
+#{$ns}-activity {
+  border: 1px solid transparent;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem;
+}
+
+#{$ns}-activity--unselected {
+  border: 1px dotted #ccc;
+  font-style: italic;
+  text-align: center;
+}
+
+#{$ns}-button {
+  padding: 0.25rem 0.5rem;
+}

@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title ng-bind="pageTitle"></title>
+    <title ng-bind-html="pageTitle"></title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
@@ -39,44 +39,39 @@
        ga('send', 'pageview');
     </script>
 
-        <!-- build:js scripts/modules.js -->
+        <!-- build:js scripts/vendor.js -->
         <script src="bower_components/angular/angular.min.js"></script>
         <script src="bower_components/angular-animate/angular-animate.min.js"></script>
         <script src="bower_components/angular-resource/angular-resource.min.js"></script>
         <script src="bower_components/angular-cookies/angular-cookies.min.js"></script>
         <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
         <script src="bower_components/angular-touch/angular-touch.min.js"></script>
+        <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+        <script src="bower_components/angular-cache/dist/angular-cache.min.js"></script>
         <!-- endbuild -->
 
-        <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
-        <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/main.js"></script>
-        <script src="scripts/filters/credits.js"></script>
-        <script src="scripts/filters/days.js"></script>
-        <script src="scripts/filters/timeRange.js"></script>
-        <script src="scripts/filters/meetingTimes.js"></script>
-        <script src="scripts/filters/instructors.js"></script>
-        <script src="scripts/services/SearchResultsService.js"></script>
-        <script src="scripts/services/ScheduleService.js"></script>
-        <script src="scripts/services/CourseOfferingService.js"></script>
-        <script src="scripts/services/primary-activity-offering-service.js"></script>
-        <script src="scripts/services/config.js"></script>
-        <script src="scripts/services/terms-service.js"></script>
-        <script src="scripts/filters/namecase.js"></script>
-        <script src="scripts/services/paging-service.js"></script>
-        <script src="scripts/services/reg-group-service.js"></script>
+        <!-- build:js({.tmp,app}) scripts/modules.js -->
+        <script src="modules/main.js"></script>
+        <script src="modules/shared/filters/credits.js"></script>
+        <script src="modules/shared/filters/days.js"></script>
+        <script src="modules/shared/filters/instructors.js"></script>
+        <script src="modules/shared/filters/meetingTimes.js"></script>
+        <script src="modules/shared/filters/namecase.js"></script>
+        <script src="modules/shared/filters/pluralize.js"></script>
+        <script src="modules/shared/filters/timeRange.js"></script>
+        <script src="modules/shared/services/api-service.js"></script>
+        <script src="modules/shared/services/config.js"></script>
+        <script src="modules/shared/services/config-app.js"></script>
+        <script src="modules/shared/services/paging-service.js"></script>
+        <script src="modules/shared/services/primary-activity-offering-service.js"></script>
+        <script src="modules/shared/services/reg-group-service.js"></script>
+        <script src="modules/shared/services/schedule-service.js"></script>
+        <script src="modules/shared/services/terms-service.js"></script>
+        <script src="modules/app.js"></script>
+        <script src="modules/app/schedule.js"></script>
+        <script src="modules/app/search/results.js"></script>
+        <script src="modules/app/search/results/list.js"></script>
+        <script src="modules/app/search/results/list/details.js"></script>
         <!-- endbuild -->
-
-        <!-- runtime variables -->
-        <script>
-            'use strict';
-            angular.module('kscrPocApp')
-                    .constant('server.config', {
-                        apiBase: '${applicationURL}/services/ScheduleOfClassesService/' //http://env2.ks.kuali.org
-                    });
-        </script>
-        <!-- end runtime variables -->
 </body>
 </html>

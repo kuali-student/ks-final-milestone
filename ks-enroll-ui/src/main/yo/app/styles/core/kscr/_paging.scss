@@ -1,0 +1,21 @@
+$ns: '.kscr-Paging';
+
+#{$ns} {
+  border-bottom: 1px solid #ccc;
+  padding: 1rem 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#{$ns}-navItem {
+  //padding: 0.5rem;
+  text-decoration: underline;
+
+  & + #{$ns}-navItem {
+    margin-left: 1rem;
+  }
+}
+
+#{$ns}-navItem--disabled {
+  color: #ccc;
+  text-decoration: none;
+}

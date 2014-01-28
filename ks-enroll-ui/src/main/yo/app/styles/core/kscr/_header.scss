@@ -1,0 +1,13 @@
+$ns: '.kscr-Header';
+
+#{$ns} {
+  border-bottom: 2px solid #ccc;
+  padding: 0.5em;
+}
+
+#{$ns}-title {
+  font-size: rem-calc(20);
+}
+
+#{$ns}-nav {
+}

@@ -22,13 +22,14 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       app: require('./bower.json').appPath || 'app',
-      dist: 'dist'
+      dist: 'dist',
+      module: 'kscrPocApp'
     },
 
     // Watches files for changes and runs tasks based on the changed files
     watch: {
       js: {
-        files: ['{.tmp,<%= yeoman.app %>}/scripts/{,*/}*.js'],
+        files: ['{.tmp,<%= yeoman.app %>}/modules/{,*/}*.js'],
         tasks: ['newer:jshint:all']
       },
       jsTest: {
@@ -101,7 +102,7 @@ module.exports = function (grunt) {
       },
       all: [
         'Gruntfile.js',
-        '<%= yeoman.app %>/scripts/{,*/}*.js'
+        '<%= yeoman.app %>/modules/{,*/}*.js'
       ],
       test: {
         options: {
@@ -151,7 +152,7 @@ module.exports = function (grunt) {
         cssDir: '.tmp/styles',
         generatedImagesDir: '.tmp/images/generated',
         imagesDir: '<%= yeoman.app %>/images',
-        javascriptsDir: '<%= yeoman.app %>/scripts',
+        javascriptsDir: '<%= yeoman.app %>/modules',
         fontsDir: '<%= yeoman.app %>/styles/fonts',
         importPath: '<%= yeoman.app %>/bower_components',
         httpImagesPath: '/images',
@@ -241,7 +242,7 @@ module.exports = function (grunt) {
         files: [{
           expand: true,
           cwd: '<%= yeoman.app %>',
-          src: ['*.html', 'partials/*.html'],
+          src: ['*.html'],
           dest: '<%= yeoman.dist %>'
         }]
       }
@@ -278,11 +279,6 @@ module.exports = function (grunt) {
           src: [
             '*.{ico,png,txt}',
             '.htaccess',
-            // Manually copy `angular-ui-router` and use the non-minified release
-            // until a new version is released that fixes the faulty 0.2.7 production build.
-            // https://github.com/angular-ui/ui-router/issues/692
-            // https://github.com/angular-ui/ui-router/pull/671
-            'bower_components/angular-ui-router/release/*.js',
             'images/{,*/}*.{webp}',
             'fonts/*'
           ]
@@ -336,6 +332,9 @@ module.exports = function (grunt) {
     //   }
     // },
     // uglify: {
+    //   options: {
+    //     report: 'gzip'
+    //   },
     //   dist: {
     //     files: {
     //       '<%= yeoman.dist %>/scripts/scripts.js': [
@@ -353,6 +352,38 @@ module.exports = function (grunt) {
       unit: {
         configFile: 'karma.conf.js',
         singleRun: true
+      }
+    },
+
+    // `grunt-angular-templates`
+    // Automatically minify, concat, and cache HTML partials into $templateCache.
+    // https://github.com/ericclemmons/grunt-angular-templates
+    ngtemplates: {
+      dist: {
+        options: {
+          // Minify HTML when converting it to JS string.
+          htmlmin: {
+            collapseBooleanAttributes: true,
+            collapseWhitespace: true,
+            removeAttributeQuotes: true,
+            removeComments: true, // Only if you don't use comment directives!
+            removeEmptyAttributes: true,
+            removeRedundantAttributes: true,
+            removeScriptTypeAttributes: true,
+            removeStyleLinkTypeAttributes: true
+          },
+          // Load templates into the appropriate Angular module.
+          module: '<%= yeoman.module %>',
+          // Attach the temp file to the `usemin` process.
+          usemin: '<%= yeoman.dist %>/scripts/modules.js'
+        },
+        // Set current working directory.
+        cwd: '<%= yeoman.app %>',
+        // Template all the module html files.
+        src: 'modules/**/*.html',
+        // Send the output of this process to `.tmp`,
+        // before it's picked up by the `usemin` process.
+        dest: '.tmp/scripts/templateCache.js'
       }
     }
   });
@@ -390,6 +421,7 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
+    'ngtemplates:dist',
     'concat',
     'ngmin',
     'copy:dist',

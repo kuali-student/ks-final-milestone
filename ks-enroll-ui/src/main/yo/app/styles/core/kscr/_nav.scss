@@ -1,0 +1,16 @@
+$ns: '.kscr-Nav';
+
+#{$ns} {
+  display: flex;
+  margin-left: 0.5em;
+}
+
+#{$ns}-item {
+  flex: auto;
+  padding: 0.5em;
+}
+
+#{$ns}-item--active {
+  background-color: tint(yellow, 70%);
+  color: darken($primary-color, 20%);
+}

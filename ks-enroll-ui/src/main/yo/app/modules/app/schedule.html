@@ -1,0 +1,11 @@
+<h1>{{selectedTerm.termName}} Schedule</h1>
+<div ng-repeat="course in schedule">
+  <h2>{{course.courseCode}}</h2>
+  <ul>
+    <li ng-repeat="ao in course.activityOfferings" class="util-Grid">
+      <div class="util-Grid-cell">{{ao.activiyOfferingTypeShortName}}</div>
+      <div class="util-Grid-cell" ng-bind-html="ao.schedule | meetingTimes"></div>
+      <div class="util-Grid-cell">{{ao.schedule.buildingCode}} {{ao.schedule.roomCode}}<div>
+    </li>
+  </ul>
+</div>

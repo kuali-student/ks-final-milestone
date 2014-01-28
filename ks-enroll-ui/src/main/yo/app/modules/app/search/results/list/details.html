@@ -1,0 +1,71 @@
+<nav class="util-Grid kscr-Paging">
+  <div class="util-Grid-cell util-Grid">
+    <span class="show-for-small-only">
+      {{item.index}}/{{results.itemCount}} &bull;&nbsp;<a ui-sref="app.search.results.list">Back to results</a>
+    </span>
+    <span class="hide-for-small-only">
+      {{item.index}} of {{results.itemCount}} results
+    </span>
+  </div>
+  <div class="util-Grid">
+
+    <span ng-if="!hasPreviousItem" class="kscr-Paging-navItem kscr-Paging-navItem--disabled">Previous</span>
+    <a ng-if="hasPreviousItem" class="kscr-Paging-navItem" ui-sref="app.search.results.list.details({ index: previousItem.index })">Previous</a>
+
+    <span ng-if="!hasNextItem" class="kscr-Paging-navItem kscr-Paging-navItem--disabled">Next</span>
+    <a ng-if="hasNextItem" class="kscr-Paging-navItem" ui-sref="app.search.results.list.details({ index: nextItem.index })">Next</a>
+    
+  </div>
+</nav>
+
+<section class="kscr-Article">
+  <h1>{{item.courseOfferingCode}} <strong>{{item.courseOfferingDesc}}</strong></h1>
+
+  <form class="kscr-Register" ng-submit="register()">
+    <div class="kscr-Register-activities"
+      ng-repeat="selection in selectionSummary">
+      <div ng-if="!selection.hasSelected" class="kscr-Register-activity kscr-Register-activity--unselected">Select a {{selection.typeName}}.</div>
+      <div ng-if="selection.hasSelected" class="kscr-Register-activity util-Grid">
+        <div class="util-Grid-cell">{{selection.typeName}}</div>
+        <div class="util-Grid-cell" ng-bind-html="selection.ao.schedule | meetingTimes"></div>
+        <div class="util-Grid-cell">
+          <div ng-repeat="instructor in selection.ao.instructors">
+            {{instructor.firstName | namecase}} {{instructor.lastName | namecase}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="kscr-Register-button" type="submit" ng-disabled="!hasSelectedRegGroupId">Register</button>
+  </form>
+
+  <h2>Alternate grading options</h2>
+  <div ng-switch on="hasAdditionalGradingOptions">
+    <p ng-switch-when="true">{{additionalGradingOptions.join(', ')}}</p>
+    <p ng-switch-when="false">No other grading options are available.</p>
+  </div>
+
+  <div ng-repeat="aoType in regGroups">
+    <h2 title="{{aoType.description}}">{{aoType.name}}</h2>
+    <ul>
+      <li ng-repeat="ao in aoType.activityOfferings">
+        <label class="util-Grid util-Grid--center kscr-ActivityOffering" ng-class="{ 'kscr-ActivityOffering--selected': (selectedAOsByActivityType[aoType.name] === ao) }">
+          <input type="radio" class="kscr-ActivityOffering-item"
+            ng-model="selectedAOsByActivityType[aoType.name]"
+            ng-value="ao"
+            ng-change="updateSelections()"/>
+          <div class="util-Grid-cell kscr-ActivityOffering-item">
+            <div ng-bind-html="ao.schedule | meetingTimes"></div>
+            <div ng-repeat="instructor in ao.instructors">
+              {{instructor.firstName | namecase}} {{instructor.lastName | namecase}}
+            </div>
+          </div>
+          <div class="kscr-ActivityOffering-item">
+            <div>{{ao.activityOfferingMaxSeats}} seats</div>
+            <div>{{ao.schedule.buildingCode}} {{ao.schedule.roomCode}}</div>
+          </div>
+        </label>
+      </li>
+    </ul>
+  </div>
+
+</section>
