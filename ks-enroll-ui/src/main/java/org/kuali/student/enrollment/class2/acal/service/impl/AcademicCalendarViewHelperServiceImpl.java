@@ -1236,6 +1236,9 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     TypeInfo termType = getTypeInfo(group.getKeyDateGroupType());
                     group.setKeyDateGroupNameUI(termType.getName());
                     group.setTypeInfo(termType);
+                    KeyDateWrapper keyDate = new KeyDateWrapper();
+                    group.getKeydates().add(keyDate);
+                    ((AcademicCalendarForm) model).getAddedCollectionItems().add(keyDate);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
