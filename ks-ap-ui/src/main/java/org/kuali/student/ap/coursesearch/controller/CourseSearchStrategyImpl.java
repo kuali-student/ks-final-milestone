@@ -820,10 +820,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
         if(!courseIDs.isEmpty()){
             courseIDs = termfilterCourseIds(courseIDs,form.getSearchTerm());
-            courses = getCoursesInfo(courseIDs);
-            loadScheduledTerms(courses);
-            loadTermsOffered(courses, courseIDs);
-            loadGenEduReqs(courses, courseIDs);
+            if (!courseIDs.isEmpty()) {
+                courses = getCoursesInfo(courseIDs);
+                loadScheduledTerms(courses);
+                loadTermsOffered(courses, courseIDs);
+                loadGenEduReqs(courses, courseIDs);
+            }
         }
 		for (CourseSearchItemImpl course : courses) {
             String courseId = course.getCourseId();
