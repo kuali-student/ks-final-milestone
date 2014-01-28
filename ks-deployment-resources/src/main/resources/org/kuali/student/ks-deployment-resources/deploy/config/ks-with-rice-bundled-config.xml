@@ -16,10 +16,8 @@
 
 -->
 <config>
-  <param name="appserver.url">${public.url}</param>
+  <param name="application.url">${public.url}</param>
   <param name="app.context.name" />
-  <param name="app.code" />
-  <param name="application.url">${appserver.url}</param>
   <param name="externalizable.help.url">/kr/static/help/</param>
   <param name="externalizable.images.url">/kr/static/images/</param>
   <param name="kr.externalizable.images.url">${externalizable.images.url}</param>
