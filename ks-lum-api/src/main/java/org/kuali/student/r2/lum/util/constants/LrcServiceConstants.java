@@ -832,7 +832,8 @@ public class LrcServiceConstants {
     public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_1 = RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE + "1";
     public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_2 = RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE + "2";
     public static final String RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_3 = RESULT_GROUP_KEY_CREDIT_REMEDIAL_FIXED_BASE + "3";
-    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE = "kuali.creditType.credit.degree.";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE = "kuali.result.value.credit.degree";
+    public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD = "kuali.creditType.credit.degree.";
     public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_0 = "kuali.creditType.credit.degree.1.0";
     public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0 = "kuali.creditType.credit.degree.2.0";
     public static final String RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_3_0 = "kuali.creditType.credit.degree.3.0";
