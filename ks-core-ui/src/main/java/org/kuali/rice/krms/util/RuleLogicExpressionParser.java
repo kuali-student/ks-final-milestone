@@ -329,6 +329,11 @@ public class RuleLogicExpressionParser {
             tokenStack.push(token);
             index++;
         }
+        
+        //Return null if stack is empty, all propositions deleted from logic expression.
+        if (tokenStack.isEmpty()) {
+            return null;
+        }
 
         //Return null if stack is empty, all propositions deleted from logic expression.
         if(tokenStack.isEmpty()){
@@ -397,6 +402,12 @@ public class RuleLogicExpressionParser {
      */
     public PropositionEditor ruleFromStack(Stack<ExpressionToken> tokenStack, Map<String, PropositionEditor> simplePropositions,
                                            Queue<PropositionEditor> compoundPropositions, RuleEditor rule, RuleViewHelperService viewHelper) {
+        
+        //Check for single statement.
+        if (tokenStack.size() == 1) {
+            ExpressionToken token = tokenStack.pop();
+            return simplePropositions.remove(token.getValue().toUpperCase());
+        }
 
         //Check for single statement.
         if(tokenStack.size()==1){

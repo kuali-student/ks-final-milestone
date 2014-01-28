@@ -136,6 +136,84 @@ limitations under the License.
         <property name="renderSequenceField" value="false"/>
     </bean>
 
+    <bean id="KS-ListItems-DataGroup-parent" parent="KRMS-ListItems-DataGroup-parent" p:renderAddLine="false">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" class="org.kuali.student.core.krms.HorizontalActionsStackedLayoutManager"
+                  p:additionalCssClasses="krms-stackedCollectionLayout">
+                <property name="actionsInLineGroup" value="true"/>
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
+                        <property name="renderFooter" value="true"/>
+                    </bean>
+                </property>
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-VerticalFieldGroup" p:fieldLabel.render="false"
+                          p:cssClasses="uif-subCollection"/>
+                </property>
+            </bean>
+        </property>
+        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluGroup" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.title}" p:render="@{#line.showTitle}"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-ActionLink" p:actionScript="show(e);" p:render="@{#line.showTitle}"
+                      p:actionLabel="Show Courses" p:additionalCssClasses="showActionLink">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:actionScript="hide(e);" p:render="@{#line.showTitle}"
+                      p:actionLabel="Hide Courses" p:additionalCssClasses="hideActionLink">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="subCollections">
+            <list>
+                <bean parent="KS-ListItems-SubGroup" p:render="@{!#line.showTitle}"/>
+                <bean parent="KS-ListItems-SubGroup" p:render="@{#line.showTitle}" p:additionalCssClasses="subGroup">
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-ListItems-DataGroup" parent="KSAO-ListItems-DataGroup-parent">
+        <property name="subCollections">
+            <list merge="true">
+                <bean parent="KS-ListItems-DataGroup-parent">
+                    <property name="propertyName" value="cluGroups"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-ListItems-SubGroup" parent="Uif-TableCollectionGroup" p:style="width: 550px; padding: 0;" p:renderAddLine="false">
+        <property name="collectionObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluCore" />
+        <property name="propertyName" value="clus" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:quickfinderAction.render="false" />
+        </property>
+        <property name="layoutManager">
+            <ref bean="KS-SimpleTableCollectionLayout"/>
+        </property>
+        <property name="renderLineActions" value="false"/>
+        <property name="lineActions">
+            <list></list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="code"/>
+                <bean parent="Uif-DataField" p:propertyName="shortName"/>
+                <bean parent="Uif-DataField" p:propertyName="credits"/>
+            </list>
+        </property>
+    </bean>
+
 </beans>
 
 

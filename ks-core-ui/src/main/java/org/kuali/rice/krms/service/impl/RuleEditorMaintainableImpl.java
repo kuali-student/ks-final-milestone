@@ -561,7 +561,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
     }
 
-    protected Map<String, String> getTermParameters(PropositionEditor proposition) {
+    public Map<String, String> getTermParameters(PropositionEditor proposition) {
 
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {
