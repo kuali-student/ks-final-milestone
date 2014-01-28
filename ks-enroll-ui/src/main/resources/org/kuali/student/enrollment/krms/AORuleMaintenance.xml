@@ -207,7 +207,7 @@ limitations under the License.
     <bean id="KSAO-AgendaManage-EditRule" parent="KRMS-AgendaManage-EditRule">
         <property name="items">
             <list>
-                <bean id="KSAO-RuleEdit-ActionLinks" parent="KSAO-RuleEdit-Links" p:align="left"/>
+                <bean id="KSAO-RuleEdit-ActionLinks" parent="KSAO-RuleEdit-Links" p:style="margin-left:-12px;"/>
                 <!--<bean id="KSAO-RuleView-ActionLinks" parent="KSAO-RuleView-Links" p:align="right"/>-->
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
                 <bean id="KSAO-ViewTree-Group" parent="Uif-VerticalBoxGroup"
@@ -256,7 +256,7 @@ limitations under the License.
     <bean id="KSAO-AgendaManage-AddRule" parent="KRMS-AgendaManage-AddRule">
         <property name="items">
             <list>
-                <bean id="KSAO-RuleAdd-ActionLink" parent="KSAO-RuleAdd-Links" p:align="left"/>
+                <bean id="KSAO-RuleAdd-ActionLink" parent="KSAO-RuleAdd-Links" p:style="margin-left:-12px;"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
             </list>
         </property>
