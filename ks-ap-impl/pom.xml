@@ -58,7 +58,6 @@
             <type>test-jar</type>
         </dependency>
     </dependencies>
-
     <profiles>
         <profile>
             <id>ks-hibernate</id>
