@@ -607,6 +607,54 @@
     <bean id="KS-Uif-SecondaryActionButton" abstract="true" parent="KS-Uif-SecondaryActionButton-parentBean"/>
     <bean id="KS-Uif-SecondaryActionButton-parentBean" parent="Uif-SecondaryActionButton"/>
 
+    <bean id="KS-Uif-View-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-eye"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Edit-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-pencil"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Copy-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-docs"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Delete-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Manage-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-wrench"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Requisite-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-clipboard"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Delete-ActionLink" parent="KS-Uif-ActionLink">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
     <!-- This is used to display the view and page files names in the HTML so devs can find them -->
     <bean id="KS-SourceFile-Comment-Group" parent="Uif-HorizontalBoxGroup">
         <property name="items">
