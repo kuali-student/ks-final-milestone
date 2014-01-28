@@ -305,4 +305,33 @@ public class CommentServiceMockTest implements CommentService {
     public List<ValidationResultInfo> validateComment(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "referenceId") String referenceId, @WebParam(name = "referenceTypeKey") String referenceTypeKey, @WebParam(name = "commentTypeKey") String commentTypeKey, @WebParam(name = "commentInfo") CommentInfo commentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    /**   REMOVE: These _KRAD methods are slated to go away per CM3.0. Pre-merge work, for merge to go through **/
+    @Override
+    public List<ValidationResultInfo> validateComment_KRAD(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                      @WebParam(name = "commentInfo") CommentInfo commentInfo,
+                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException {
+	return null;
+   }
+
+   /**   REMOVE: These _KRAD methods are slated to go away per CM3.0. Pre-merge work, for merge to go through **/
+   public CommentInfo createComment_KRAD(@WebParam(name = "referenceId") String referenceId,
+                                     @WebParam(name = "referenceTypeKey") String referenceTypeKey,
+                                     @WebParam(name = "commentTypeKey") String commentTypeKey,
+                                     @WebParam(name = "commentInfo") CommentInfo commentInfo,
+                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
+	return null;
+   }
+
 }
