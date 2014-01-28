@@ -29,14 +29,11 @@
   <param name="datasource.pool.maxWait">600000</param>
   <param name="datasource.pool.validationQuery">select 1 from dual</param>
   <param name="datasource.connectionProperties">implicitCachingEnabled=true;maxStatements=100</param>
-  <param name="datasource.pool.poolPreparedStatements">true</param>
-  <param name="datasource.pool.maxOpenPreparedStatements">500</param>
   <param name="ks.core.datasource.username">${ks.app.jdbc.username}</param>
   <param name="ks.core.datasource.password">${ks.app.jdbc.password}</param>
   <param name="ks.core.datasource.minSize">15</param>
   <param name="ks.core.datasource.maxSize">200</param>
   <param name="ks.core.datasource.maxWait">600000</param>
-  <param name="ks.core.datasource.maxOpenPreparedStatements">500</param>
   <param name="keystore.file">${keystore.file.default}</param>
   <param name="keystore.alias">rice</param>
   <param name="keystore.password">r1c3pw</param>

@@ -26,8 +26,6 @@
   <param name="datasource.pool.maxSize">100</param>
   <param name="datasource.pool.maxWait">600000</param>
   <param name="datasource.connectionProperties">implicitCachingEnabled=true;maxStatements=100</param>
-  <param name="datasource.pool.poolPreparedStatements">true</param>
-  <param name="datasource.pool.maxOpenPreparedStatements">500</param>
   <param name="ks.lum.datasource.url">${datasource.url}</param>
   <param name="ks.lum.datasource.username">${jdbc.username}</param>
   <param name="ks.lum.datasource.password">${jdbc.password}</param>
@@ -35,8 +33,6 @@
   <param name="ks.lum.datasource.maxSize">100</param>
   <param name="ks.lum.datasource.maxWait">600000</param>
   <param name="ks.lum.datasource.connectionProperties">implicitCachingEnabled=true;maxStatements=100</param>
-  <param name="ks.lum.datasource.poolPreparedStatements">true</param>
-  <param name="ks.lum.datasource.maxOpenPreparedStatements">500</param>
   <param name="ks.core.datasource.url">${datasource.url}</param>
   <param name="ks.core.datasource.username">${jdbc.username}</param>
   <param name="ks.core.datasource.password">${jdbc.password}</param>
@@ -44,8 +40,6 @@
   <param name="ks.core.datasource.maxSize">100</param>
   <param name="ks.core.datasource.maxWait">600000</param>
   <param name="ks.core.datasource.connectionProperties">implicitCachingEnabled=true;maxStatements=100</param>
-  <param name="ks.core.datasource.poolPreparedStatements">true</param>
-  <param name="ks.core.datasource.maxOpenPreparedStatements">500</param>
   <param name="keystore.file">${keystore.file.default}</param>
   <param name="keystore.alias">rice</param>
   <param name="keystore.password">r1c3pw</param>

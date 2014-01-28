@@ -94,8 +94,7 @@
 	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>  
 	
 	<param name="datasource.pool.minSize">3</param>
-    <param name="datasource.pool.maxOpenPreparedStatements">500</param>
-	
+
 	<param name="rice.jpa.DatabasePlatform">${rice.jpa.DatabasePlatform.${db.vendor}}</param>
     <param name="rice.ksb.jpa.enabled">${rice.ksb.jpa.enabled.${db.vendor}}</param>
 	<param name="datasource.driver.name">${datasource.driver.name.${db.vendor}}</param>
@@ -113,25 +112,21 @@
 	<param name="ks.core.datasource.username">KSAPP</param>
 	<param name="ks.core.datasource.password">KSAPP</param>
 	<param name="ks.core.datasource.minSize">3</param>
-    <param name="ks.core.datasource.maxOpenPreparedStatements">500</param>
-	
+
 	<param name="ks.lum.datasource.url">${ks.core.datasource.url}</param>
     <param name="ks.lum.datasource.username">${ks.core.datasource.username}</param>
     <param name="ks.lum.datasource.password">${ks.core.datasource.password}</param>
     <param name="ks.lum.datasource.minSize">3</param>
-    <param name="ks.lum.datasource.maxOpenPreparedStatements">500</param>
-	
+
     <param name="ks.enroll.datasource.url">${ks.core.datasource.url}</param>
     <param name="ks.enroll.datasource.username">${ks.core.datasource.username}</param>
     <param name="ks.enroll.datasource.password">${ks.core.datasource.password}</param>
     <param name="ks.enroll.datasource.minSize">3</param>
-    <param name="ks.enroll.datasource.maxOpenPreparedStatements">500</param>
 
     <param name="ks.ap.datasource.url">${ks.core.datasource.url}</param>
     <param name="ks.ap.datasource.username">${ks.core.datasource.username}</param>
     <param name="ks.ap.datasource.password">${ks.core.datasource.password}</param>
     <param name="ks.ap.datasource.minSize">3</param>
-    <param name="ks.ap.datasource.maxOpenPreparedStatements">500</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>
