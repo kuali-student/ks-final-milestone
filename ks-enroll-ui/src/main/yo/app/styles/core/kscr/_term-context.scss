@@ -7,6 +7,14 @@ $ns: '.kscr-TermContext';
 #{$ns}-label {
 }
 
+#{$ns}-currentLabel {
+  flex: 1;
+}
+
+#{$ns}-currentChange {
+color: #0088CC;
+}
+
 #{$ns}-change {
   font-size: rem-calc(14);
 }

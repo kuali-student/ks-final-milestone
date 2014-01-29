@@ -8,7 +8,8 @@ $ns: '.kscr-Paging';
 
 #{$ns}-navItem {
   //padding: 0.5rem;
-  text-decoration: underline;
+  text-decoration: none;
+  color: #0088CC;
 
   & + #{$ns}-navItem {
     margin-left: 1rem;
@@ -17,5 +18,4 @@ $ns: '.kscr-Paging';
 
 #{$ns}-navItem--disabled {
   color: #ccc;
-  text-decoration: none;
 }

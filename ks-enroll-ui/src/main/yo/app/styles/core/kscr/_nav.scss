@@ -2,15 +2,18 @@ $ns: '.kscr-Nav';
 
 #{$ns} {
   display: flex;
+  font-size: rem-calc(15);
   margin-left: 0.5em;
 }
 
 #{$ns}-item {
   flex: auto;
-  padding: 0.5em;
+  padding: 0.3em;
+  color: $link-color;
 }
 
 #{$ns}-item--active {
-  background-color: tint(yellow, 70%);
-  color: darken($primary-color, 20%);
+  //background-color: tint($accent-color, 50%);
+  background-color:  darken($body-bg, 5%);
+  color: $link-color;
 }

@@ -1,12 +1,19 @@
 $ns: '.kscr-Header';
 
 #{$ns} {
-  border-bottom: 2px solid #ccc;
+
+  background-color: $header-color;
+  background-image: url("http://env2.ks.kuali.org/rice-portal/images/os-guy.gif");
+  background-repeat: no-repeat;
+  border-bottom: 2px solid $border-color-normal;
   padding: 0.5em;
+  font-weight: bold;
+  color: $header-font-color;
 }
 
 #{$ns}-title {
   font-size: rem-calc(20);
+  padding: 0.5em 0 0 2em; 
 }
 
 #{$ns}-nav {

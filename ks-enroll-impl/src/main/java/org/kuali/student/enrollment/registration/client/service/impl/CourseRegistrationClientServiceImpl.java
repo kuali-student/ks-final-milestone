@@ -17,6 +17,7 @@ import org.kuali.student.enrollment.registration.client.service.ScheduleOfClasse
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
@@ -50,6 +51,8 @@ import javax.security.auth.login.LoginException;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -223,6 +226,103 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
         }
         return getRegistrationScheduleByPersonAndTerm(userId, termId, contextInfo);
+    }
+
+    @Override
+    public List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTerm(String userId, String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        //Colours this is just a poc!
+        String[] colours = new String[]{"#BDF", "#DFB", "#FBD", "#FDB", "#DBF", "#BFD",
+                "#DDF", "#DFD", "#FDD",
+                "#DDB", "#DBD", "#BDD",
+                "#FBB", "#BBF", "#BFB",
+                "#DBB", "#BBD", "#BDB",
+                "#FFB", "#FBF", "#BFF",
+                "#FFD", "#FDF", "#DFF"};
+        int colourIndex = 0;
+
+        //Use existing services to get the schedule
+        List<StudentScheduleTermResult> schedule = searchForScheduleByPersonAndTerm(userId, termId, termCode);
+
+        //Initialize a map with lists for each day of the week
+        Map<String, List<ScheduleCalendarEventResult>> dayToEventListMap = new HashMap<String, List<ScheduleCalendarEventResult>>();
+        dayToEventListMap.put("M", new ArrayList<ScheduleCalendarEventResult>());
+        dayToEventListMap.put("T", new ArrayList<ScheduleCalendarEventResult>());
+        dayToEventListMap.put("W", new ArrayList<ScheduleCalendarEventResult>());
+        dayToEventListMap.put("H", new ArrayList<ScheduleCalendarEventResult>());
+        dayToEventListMap.put("F", new ArrayList<ScheduleCalendarEventResult>());
+        dayToEventListMap.put("S", new ArrayList<ScheduleCalendarEventResult>());
+        dayToEventListMap.put("U", new ArrayList<ScheduleCalendarEventResult>());
+
+        //Create events per day from the schedule
+        for(StudentScheduleTermResult scheduleItem : schedule){
+            for(StudentScheduleCourseResult course:scheduleItem.getCourseOfferings()){
+                String colour = colours[colourIndex++];
+                for(StudentScheduleActivityOfferingResult ao : course.getActivityOfferings()){
+                    for(ActivityOfferingScheduleComponentResult component : ao.getScheduleComponents()){
+                        if(component.getStartTime() != null){
+                            //Calculate the text and start time/end time in minutes
+                            String text = course.getCourseCode() + " " + ao.getActivityOfferingTypeShortName();
+                            int startTimeMin = toMins(component.getStartTime());
+                            int duration = toMins(component.getEndTime()) - startTimeMin ;
+                            if(component.isMon()){dayToEventListMap.get("M").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
+                            if(component.isTue()){dayToEventListMap.get("T").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
+                            if(component.isWed()){dayToEventListMap.get("W").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
+                            if(component.isThu()){dayToEventListMap.get("H").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
+                            if(component.isFri()){dayToEventListMap.get("F").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
+                            if(component.isSat()){dayToEventListMap.get("S").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
+                            if(component.isSun()){dayToEventListMap.get("U").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
+                        }
+                    }
+                }
+            }
+        }
+
+        //Sort each day's list by start time
+        Comparator<ScheduleCalendarEventResult> comparator = new Comparator<ScheduleCalendarEventResult>(){
+            @Override
+            public int compare(ScheduleCalendarEventResult event1, ScheduleCalendarEventResult event2) {
+                return Integer.compare(event1.getStartTimeMin(), event2.getStartTimeMin());
+            }
+        };
+        Collections.sort(dayToEventListMap.get("M"), comparator);
+        Collections.sort(dayToEventListMap.get("T"), comparator);
+        Collections.sort(dayToEventListMap.get("W"), comparator);
+        Collections.sort(dayToEventListMap.get("H"), comparator);
+        Collections.sort(dayToEventListMap.get("F"), comparator);
+        Collections.sort(dayToEventListMap.get("S"), comparator);
+        Collections.sort(dayToEventListMap.get("U"), comparator);
+
+        //Sum up the offset (setSumPrecedingDurations) (and calculate time conflicts in the future)
+        for(List<ScheduleCalendarEventResult> events : dayToEventListMap.values()){
+            int offset = 0;
+            for(ScheduleCalendarEventResult event : events){
+                event.setSumPrecedingDurations(offset);
+                offset += event.getDurationMin();
+            }
+        }
+
+        //Convert Map to list of lists
+        List<List<ScheduleCalendarEventResult>> results = new ArrayList<List<ScheduleCalendarEventResult>>();
+        results.add(dayToEventListMap.get("M"));
+        results.add(dayToEventListMap.get("T"));
+        results.add(dayToEventListMap.get("W"));
+        results.add(dayToEventListMap.get("H"));
+        results.add(dayToEventListMap.get("F"));
+        results.add(dayToEventListMap.get("S"));
+        results.add(dayToEventListMap.get("U"));
+
+        return results;
+    }
+
+    private static int toMins(String s) {
+        String[] hourMin = s.split(":");
+        if(hourMin.length == 2){
+            int hour = Integer.parseInt(hourMin[0]);
+            int mins = Integer.parseInt(hourMin[1]);
+            int hoursInMins = hour * 60;
+            return hoursInMins + mins;
+        }
+        return -1;
     }
 
     /**

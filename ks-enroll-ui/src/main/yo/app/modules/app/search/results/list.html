@@ -1,6 +1,6 @@
 <section
   class="kscr-Results medium-5 column"
-  ng-class="{ 'hide-for-small-only': $state.includes('app.search.results.details') }">
+  ng-class="{ 'hide-for-small-only': $state.includes('app.search.results.list.details') }">
   <h1 class="util-Visibility--screenReadersOnly">Search Results</h1>
 
   <p class="kscr-Results-count"
@@ -45,6 +45,6 @@
 
 <div
   class="medium-7 column"
-  ng-class="{ 'hide-for-small-only': !$state.includes('app.search.results.details') }">
+  ng-class="{ 'hide-for-small-only': !$state.includes('app.search.results.list.details') }">
   <div ui-view></div>
 </div>

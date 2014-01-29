@@ -1,18 +1,33 @@
 $ns: '.kscr-COItem';
 
 #{$ns} {
-  border-bottom: 1px solid #ccc;
+  background-color: darken($body-bg, 5%);
+  //border-bottom: 1px solid #ccc;
+  border-width: 2px 2px 1px 12px;
+  border-style: solid;
+  border-color: $border-color-normal;
+  border-radius: $border-radius;
   line-height: 1;
   padding: 0.5rem;
+ margin: 5px 5px;
+
 }
 
 #{$ns}--active {
-  background-color: tint(yellow, 70%);
+  //background-color: tint(yellow, 70%);
+  border-width: 2px 2px 1px 12px;
+  border-style: solid;
+  border-color: $border-color-active;
+
 }
 
 #{$ns}-header {
+  background-color: $header-secondary-color;
+  border-top-right-radius: ($border-radius - 2px);
   display: flex;
   padding-bottom: 0.5rem;
+  margin: -0.5em -0.5em 0;
+  color: $secondary-font-color;
   //position: relative;
 }
 
@@ -20,17 +35,20 @@ $ns: '.kscr-COItem';
     flex: 1;
     font-size: 1em;
     line-height: 1;
-    margin: 0;
+   margin: 5px 0 0 5px;
   }
 
     #{$ns}-code {
       font-size: 1em;
       font-weight: bold;
+      color: $secondary-font-color;
       margin: 0;
     }
 
     #{$ns}-title {
       display: block;
+      font-weight: normal;
+      
       //line-height: 1.2;
     }
 
@@ -39,6 +57,7 @@ $ns: '.kscr-COItem';
     //position: absolute;
     //right: 0;
     //top: 0;
+    margin:10px;
   }
 
 #{$ns}-body {

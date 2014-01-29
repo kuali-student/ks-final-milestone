@@ -1,11 +1,15 @@
 'use strict';
 
 angular.module('kscrPocApp')
-  .factory('scheduleService', function ($resource, apiService) {
+  .factory('scheduleService', function ($resource, apiService, $angularCacheFactory) {
+
+    // Use a custom cache, so manipulations can be more targeted.
+    var cache = $angularCacheFactory('scheduleService');
+
     return $resource(apiService.get('personschedule'), {}, {
       query: {
         method: 'GET',
-        cache: true,
+        cache: false,
         isArray: true,
         transformResponse: function(data) {
           // Convert the raw data string to native objects.

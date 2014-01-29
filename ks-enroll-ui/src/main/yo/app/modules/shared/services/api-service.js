@@ -8,6 +8,7 @@ angular.module('kscrPocApp')
         // Set the appropriate namespace.
         switch(endpoint) {
           case 'personschedule':
+          case 'personschedulecalendar':
           case 'registerreggroup':
             url += config.apiCourseRegistrationBase;
             break;

@@ -22,3 +22,74 @@
 @import 'core/kscr/results';
 @import 'core/kscr/search';
 @import 'core/kscr/term-context';
+@import 'core/kscr/course-details';
+@import 'core/kscr/schedule';
+
+
+    h1{
+     font-size: 100%;
+     font-weight: bold;
+     color: $header-font-color;
+    }
+
+    h2, h3{
+      font-size: 90%;
+      color: $body-font-color;
+    }
+
+    h4, h5, h6{
+        font-size: 80%;
+        color: $body-font-color;
+    }
+
+    a{
+      color: $link-color;
+      list-style-type: none;
+    }
+
+    a:hover, a:focus{
+      color: #005580;
+    }
+
+    .section-divider{
+    border-bottom: 1px dotted $border-color-normal;
+    }
+
+    .logo{
+      background-image: url("http://env2.ks.kuali.org/rice-portal/images/os-guy.gif");
+      background-repeat: no-repeat;
+    }
+
+  	button{
+	    //border-radius: $border-radius;
+	    //height: 80%;
+    //border-image: none;
+    //border-radius: 4px;
+    //border-style: solid;
+    //border-width: 1px;
+    //box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+	 //margin: 5px;
+	 //padding: 5px;
+    }
+
+      .primary-button{
+          background-color: $primary-button-color; 
+          background-image: $primary-button-background-image;
+          border-color: $primary-button-border-color;
+          color: $primary-button-font-color;
+          text-shadow: $primary-button-text-shadow;
+      }
+
+    .secondary-button{
+      background-color: #F5F5F5;
+      background-image: linear-gradient(to bottom, #FFFFFF, #E6E6E6);
+      background-repeat: repeat-x;
+      border-color: #CCCCCC #CCCCCC #B3B3B3;
+      border-image: none;
+      border-radius: 4px;
+      border-style: solid;
+      border-width: 1px;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05);
+      color: #333333;
+      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+      }

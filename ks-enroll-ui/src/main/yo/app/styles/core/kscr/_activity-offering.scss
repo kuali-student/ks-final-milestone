@@ -6,14 +6,16 @@ $ns: '.kscr-ActivityOffering';
   //margin-right: 0.5em;
 
   &:hover {
-    background-color: tint(yellow, 80%);
-  }
+    background-color: tint($accent-color, 80%);
+}
 }
 
 #{$ns}--selected {
+  //background-color: tint(yellow, 70%);
+  background-color: tint($accent-color, 70%);
 
   &, &:hover {
-    background-color: tint(yellow, 70%);
+    background-color: tint($accent-color, 70%);
   }
 }
 

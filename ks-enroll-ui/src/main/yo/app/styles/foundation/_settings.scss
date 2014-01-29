@@ -28,6 +28,13 @@ $include-open-sans: false;
 // $include-print-styles: true;
 // $include-html-global-classes: $include-html-classes;
 
+//Button Colors
+	$primary-button-color: #006DCC;
+	$primary-button-background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+    $primary-button-border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    $primary-button-font-color: #FFFFFF;
+    $primary-button-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+
 // Grid
 
 // $include-html-grid-classes: $include-html-classes;
@@ -38,14 +45,18 @@ $column-gutter: 0;
 // $total-columns: 12;
 
 // We use these to control various global styles
-// $body-bg: #fff;
-// $body-font-color: #222;
-// $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
-// $body-font-weight: normal;
-// $body-font-style: normal;
+ $body-bg: #fff;
+ //$body-font-color: #222;
+ $header-font-color: #fff;
+ $secondary-font-color: #fff;
+ $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+ $body-font-weight: normal;
+ $body-font-style: normal;
 
 // We use this to control font-smoothing
 // $font-smoothing: antialiased;
+
+$header-padding: 10px;
 
 // We use these to control text direction settings
 // $text-direction: ltr;
@@ -53,8 +64,17 @@ $column-gutter: 0;
 // $default-float: left;
 
 // We use these as default colors throughout
-// $primary-color: #008CBA;
-// $secondary-color: #e7e7e7;
+ //$primary-color: #008CBA;
+ $primary-color: #BE2525;
+ $secondary-color: #fff;
+ //$accent-color: #FFA500;
+ $accent-color: #FFFDD8;
+ $link-color: #0088CC;
+ $header-color: #A02919;
+ $header-secondary-color: darken($body-bg, 40%);
+ $border-color-normal: darken($primary-color, 20%);
+ $border-color-active: #FFA500;
+ $border-radius: 8px;
 // $alert-color: #f04124;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;

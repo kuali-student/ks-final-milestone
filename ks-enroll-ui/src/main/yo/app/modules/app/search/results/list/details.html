@@ -19,8 +19,8 @@
 </nav>
 
 <section class="kscr-Article">
-  <h1>{{item.courseOfferingCode}} <strong>{{item.courseOfferingDesc}}</strong></h1>
-
+  <h1 class="kscr-Article-header">{{item.courseOfferingCode}} <strong>{{item.courseOfferingDesc}}</strong></h1>
+<div class="kscr-Article-content">
   <form class="kscr-Register" ng-submit="register()">
     <div class="kscr-Register-activities"
       ng-repeat="selection in selectionSummary">
@@ -35,7 +35,7 @@
         </div>
       </div>
     </div>
-    <button class="kscr-Register-button" type="submit" ng-disabled="!hasSelectedRegGroupId">Register</button>
+    <button class="kscr-Register-button primary-button" type="submit" ng-disabled="!hasSelectedRegGroupId">Register</button>
   </form>
 
   <h2>Alternate grading options</h2>
@@ -67,5 +67,5 @@
       </li>
     </ul>
   </div>
-
+</div>
 </section>

@@ -1,23 +1,26 @@
 'use strict';
 
 angular.module('kscrPocApp', [
-  'ngAnimate',
-  //'ngCookies',
   'ngResource',
   'ngSanitize',
-  //'ngRoute',
   'ngTouch',
   'ui.router',
   'jmdobry.angular-cache'
 ])
-  .config(function ($httpProvider, $stateProvider, $urlRouterProvider) {
+  .config(function ($httpProvider, $stateProvider, $urlRouterProvider, $angularCacheFactoryProvider) {
     
+    //
+    // API
+    //
+
     // Enable cross-domain resource sharing (CORS)
     // http://thibaultdenizet.com/tutorial/cors-with-angular-js-and-sinatra/
     $httpProvider.defaults.useXDomain = true;
-    //delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
+    //
     // States
+    //
+
     $stateProvider
       .state('app', {
         abstract: true,
@@ -76,8 +79,34 @@ angular.module('kscrPocApp', [
         }
       });
 
+    //
+    // Routing
+    //
+
     // For any unmatched url, send to a default route
     $urlRouterProvider.otherwise('/search');
+
+    //
+    // Cache
+    //
+
+    // Configuration
+    // http://jmdobry.github.io/angular-cache/configuration.html
+    $angularCacheFactoryProvider.setCacheDefaults({
+      // Hold 1000 items.
+      cache: 1000,
+      // Items expire after 15 minutes.
+      maxAge: 15 * 60 * 1000,
+      // Cache clears after 60 minutes.
+      cacheFlushInterval: 60 * 60 * 1000,
+      // Items will be swiftly deleted.
+      deleteOnExpire: 'aggressive',
+      // Store cache.
+      storageMode: 'localStorage',
+      // Sync with localStorage on every operation.
+      verifyIntegrity: true
+    });
+
   })
   .run(function ($rootScope, $state, $angularCacheFactory, $http) {
     $rootScope.$state = $state;
@@ -134,24 +163,8 @@ angular.module('kscrPocApp', [
     // Caching
     //
 
-    // Configuration
-    // http://jmdobry.github.io/angular-cache/configuration.html
-    var defaultCache = $angularCacheFactory('defaultCache', {
-      // Hold 1000 items.
-      cache: 1000,
-      // Items expire after 15 minutes.
-      maxAge: 15 * 60 * 1000,
-      // Cache clears after 60 minutes.
-      cacheFlushInterval: 60 * 60 * 1000,
-      // Items will be swiftly deleted.
-      deleteOnExpire: 'aggressive',
-      // Store cache.
-      storageMode: 'localStorage',
-      // Sync with localStorage on every operation.
-      verifyIntegrity: true
-    });
-
-    // Override the default cache.
-    //$http.defaults.cache = defaultCache;
+    // Override the default cache with an `angular-cache`,
+    // with the default cache options.
+    $http.defaults.cache = $angularCacheFactory('defaultCache');
 
   });

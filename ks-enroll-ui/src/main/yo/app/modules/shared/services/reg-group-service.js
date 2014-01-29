@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kscrPocApp')
-  .factory('regGroupService', function ($http, apiService, $q, orderByFilter) {
+  .factory('regGroupService', function ($http, apiService, $q, orderByFilter, $angularCacheFactory) {
 
     // Indicate if all items in one array is found in another.
     function arrayHasValues(arr, items) {
@@ -178,7 +178,11 @@ angular.module('kscrPocApp')
       };
       var httpConfig = configHttp(params);
       // Call the service.
-      return $http.get(apiService.get('registerreggroup'), httpConfig);
+      return $http.get(apiService.get('registerreggroup'), httpConfig).success(function() {
+        // Clear the cache for the schedule service,
+        // so it'll automatically call the API again to get an updated schedule.
+        $angularCacheFactory.get('scheduleService').removeAll();
+      });
     }
 
     return {

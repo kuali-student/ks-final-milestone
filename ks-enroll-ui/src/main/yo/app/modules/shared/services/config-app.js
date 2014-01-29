@@ -2,7 +2,7 @@
 
 angular.module('kscrPocApp')
   .value('configApp', {
-    apiBase: 'http://env2.ks.kuali.org/services/',
+    apiBase: 'http://localhost:8081/ks-with-rice-embedded-dev/services/',
     apiScheduleOfClassesBase: 'ScheduleOfClassesService/',
     apiCourseRegistrationBase: 'CourseRegistrationClientService/',
     userId: 'admin',
