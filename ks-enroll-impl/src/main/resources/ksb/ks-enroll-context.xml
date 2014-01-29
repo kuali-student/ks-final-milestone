@@ -1029,7 +1029,7 @@
 
 
     <!--- Population Service -->
-    <bean id="populationServiceValidation" class="org.kuali.student.r2.core.population.service.decorators.PopulationServiceValidatorDecorator">
+    <bean id="populationServiceValidation" class="org.kuali.student.core.population.service.decorators.PopulationServiceValidatorDecorator">
         <property name="nextDecorator" ref="populationService" />
         <property name="validator" ref="validator" />
     </bean>

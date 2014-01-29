@@ -500,9 +500,9 @@ public class TestCourseOfferingServiceImplM4 {
         before();
         List<PopulationInfo> popList = _constructPopulationList();
         try {
-            PopulationInfo refCreated = populationService.createPopulation(popList.get(0), contextInfo);
-            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1), contextInfo);
-            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2), contextInfo);
+            PopulationInfo refCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
+            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1).getTypeKey(), popList.get(1), contextInfo);
+            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2).getTypeKey(), popList.get(2), contextInfo);
             // Now the pop rule
             PopulationRuleInfo ruleInfo = _constructExclusionPopulationRuleInfo();
             ruleInfo.setReferencePopulationId(refCreated.getId());
@@ -511,10 +511,10 @@ public class TestCourseOfferingServiceImplM4 {
             childIds.add(fourCreated.getId());
             ruleInfo.setChildPopulationIds(childIds);
             // Create the rule info
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo, contextInfo);
+            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
             // Fetch it
             PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
-            PopulationInfo combined = populationService.createPopulation(popList.get(3), contextInfo);
+            PopulationInfo combined = populationService.createPopulation(popList.get(3).getTypeKey(), popList.get(3), contextInfo);
             populationService.applyPopulationRuleToPopulation(ruleInfoFetched.getId(), combined.getId(), contextInfo);
             SeatPoolDefinitionInfo info = _constructSeatPoolDefinitionInfoById(null);
             info.setPopulationId(combined.getId());

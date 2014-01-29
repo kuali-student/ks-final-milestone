@@ -29,7 +29,6 @@ import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -61,16 +60,16 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService, M
 		
 	}
 
+        public static final String ALL_STUDENTS = PopulationServiceConstants.EVERYONE_POPULATION_KEY;
+        public static final String SUMMER_ONLY_STUDENTS = "kuali.population.summer.only.student";
+        public static final String SENIOR_ONLY_STUDENTS = "kuali.population.senior.only.student";
+        public static final String ATHLETES_ONLY_STUDENTS = "kuali.population.athletes.only.student";
 
 	private void initialize() {
         try {
             populations = new HashMap<String, PopulationInfo>();
             caches = new HashMap<String, Set<String>>();
 
-            final String ALL_STUDENTS = PopulationServiceConstants.EVERYONE_POPULATION_KEY;
-            final String SUMMER_ONLY_STUDENTS = PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY;
-            final String SENIOR_ONLY_STUDENTS = "kuali.population.senior.only.student";
-            final String ATHLETES_ONLY_STUDENTS = "kuali.population.athletes.only.student";
 
             PopulationInfo allStudentsPopulation = new PopulationInfo();
             allStudentsPopulation.setId(ALL_STUDENTS);
@@ -78,7 +77,7 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService, M
             RichTextInfo allStudDesc = new RichTextInfo();
             allStudDesc.setPlain("All students population");
             allStudentsPopulation.setDescr(allStudDesc);
-            createPopulation(allStudentsPopulation, new ContextInfo());
+            createPopulation(allStudentsPopulation.getTypeKey(), allStudentsPopulation, new ContextInfo());
 
             PopulationInfo summerOnlyStudentsPopulation = new PopulationInfo();
             summerOnlyStudentsPopulation.setId(SUMMER_ONLY_STUDENTS);
@@ -86,7 +85,7 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService, M
             RichTextInfo summerDesc = new RichTextInfo();
             summerDesc.setPlain("Summer only students population");
             summerOnlyStudentsPopulation.setDescr(summerDesc);
-            createPopulation(summerOnlyStudentsPopulation, new ContextInfo());
+            createPopulation(summerOnlyStudentsPopulation.getTypeKey(), summerOnlyStudentsPopulation, new ContextInfo());
 
             PopulationInfo seniorsOnlyStudentsPopulation = new PopulationInfo();
             seniorsOnlyStudentsPopulation.setId(SENIOR_ONLY_STUDENTS);
@@ -94,7 +93,7 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService, M
             RichTextInfo seniorsDesc = new RichTextInfo();
             seniorsDesc.setPlain("Senior only students");
             seniorsOnlyStudentsPopulation.setDescr(seniorsDesc);
-            createPopulation(seniorsOnlyStudentsPopulation, new ContextInfo());
+            createPopulation(seniorsOnlyStudentsPopulation.getTypeKey(), seniorsOnlyStudentsPopulation, new ContextInfo());
 
             PopulationInfo athletesOnlyStudentsPopulation = new PopulationInfo();
             athletesOnlyStudentsPopulation.setId(ATHLETES_ONLY_STUDENTS);
@@ -102,7 +101,7 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService, M
             RichTextInfo athletesDesc = new RichTextInfo();
             athletesDesc.setPlain("Athletes students population");
             athletesOnlyStudentsPopulation.setDescr(athletesDesc);
-            createPopulation(athletesOnlyStudentsPopulation, new ContextInfo());
+            createPopulation(athletesOnlyStudentsPopulation.getTypeKey(), athletesOnlyStudentsPopulation, new ContextInfo());
 
 
             generateStudentPopulations(SUMMER_ONLY_STUDENTS, "SUMMER_ONLY_STUDENTS", 5000);
@@ -243,12 +242,24 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService, M
     }
 
     @Override
-    public List<ValidationResultInfo> validatePopulation(String validationTypeId, PopulationInfo populationInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validatePopulation(String validationTypeKey, String populationTypeKey,
+            PopulationInfo populationInfo, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
         throw new OperationFailedException("Method not implemented.");
     }
 
     @Override
-    public PopulationInfo createPopulation(PopulationInfo populationInfo,  ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public PopulationInfo createPopulation(String populationTypeKey, PopulationInfo populationInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
         populations.put(populationInfo.getId(), populationInfo);
         caches.put(populationInfo.getId(), new HashSet<String>());
         return populationInfo;
@@ -310,7 +321,14 @@ public class ProcessPocPopulationServiceMockImpl implements PopulationService, M
     }
 
     @Override
-    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationInfo,  ContextInfo contextInfo) throws  DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public PopulationRuleInfo createPopulationRule(String populationRuleTypeKey, PopulationRuleInfo populationRuleInfo,
+            ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException {
         throw new OperationFailedException("Method not implemented.");
     }
 

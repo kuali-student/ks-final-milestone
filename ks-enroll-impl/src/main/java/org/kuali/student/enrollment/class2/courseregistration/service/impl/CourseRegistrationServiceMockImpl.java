@@ -866,4 +866,6 @@ public class CourseRegistrationServiceMockImpl
         vr.setMessage(message);
         return vr;
     }
+    
+    
 }

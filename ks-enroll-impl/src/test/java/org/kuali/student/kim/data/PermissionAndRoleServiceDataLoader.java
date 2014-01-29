@@ -33,10 +33,9 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMember;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.student.common.mock.MockService;
 import org.kuali.student.common.test.mock.data.AbstractMockServicesAwareDataLoader;
-import org.kuali.student.kim.permission.mock.KimPermissionConstants;
-import org.kuali.student.kim.permission.mock.RoleAndPermissionServiceMockImpl;
+import org.kuali.student.kim.permission.map.KimPermissionConstants;
+import org.kuali.student.kim.permission.map.RoleAndPermissionServiceMapImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +79,7 @@ public class PermissionAndRoleServiceDataLoader extends AbstractMockServicesAwar
 
     private Template createTemplate(String namespaceCode, String name, String description, String kimTypeId) {
         // TODO: refactor if RICE adds Create/update methods for templates
-        RoleAndPermissionServiceMockImpl impl = (RoleAndPermissionServiceMockImpl) this.roleService;
+        RoleAndPermissionServiceMapImpl impl = (RoleAndPermissionServiceMapImpl) this.roleService;
         Template.Builder bldr = Template.Builder.create(namespaceCode, name, kimTypeId);
         bldr.setDescription(description);
         bldr.setActive(true);

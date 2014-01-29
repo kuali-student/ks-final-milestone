@@ -10,7 +10,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -51,19 +50,19 @@ public class ProcessPocPopulationServiceMockImplTest {
         context.setPrincipalId("POC-tester");
 
         ProcessPocPopulationServiceMockImpl instance = new ProcessPocPopulationServiceMockImpl();
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_AMBER_HOPKINS_2155, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BARBARA_HARRIS_2016, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_CLIFFORD_RIDDLE_2397, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_EDDIE_PITTMAN_2406, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_JOHNNY_MANNING_2374, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_KARA_STONE_2272, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_TRACY_BURTON_2132, PopulationServiceConstants.EVERYONE_POPULATION_KEY, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2155", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2016", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2005", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2397", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2406", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2374", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2272", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2166", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2132", ProcessPocPopulationServiceMockImpl.ALL_STUDENTS, context.getCurrentDate(), context));
 
-        assertTrue(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_AMBER_HOPKINS_2155, PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY, context.getCurrentDate(), context));
-        assertFalse(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BARBARA_HARRIS_2016, PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY, context.getCurrentDate(), context));
-        assertFalse(instance.isMemberAsOfDate(ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005, PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY, context.getCurrentDate(), context));
+        assertTrue(instance.isMemberAsOfDate("2155", ProcessPocPopulationServiceMockImpl.SUMMER_ONLY_STUDENTS, context.getCurrentDate(), context));
+        assertFalse(instance.isMemberAsOfDate("2016", ProcessPocPopulationServiceMockImpl.SUMMER_ONLY_STUDENTS, context.getCurrentDate(), context));
+        assertFalse(instance.isMemberAsOfDate("2005", ProcessPocPopulationServiceMockImpl.SUMMER_ONLY_STUDENTS, context.getCurrentDate(), context));
 
     }
 }

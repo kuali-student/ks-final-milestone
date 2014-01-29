@@ -91,7 +91,7 @@
 
     <bean id="kimDataLoader" class="org.kuali.student.kim.data.PermissionAndRoleServiceDataLoader" />
     
-	<bean id="roleAndPermissionService" class="org.kuali.student.kim.permission.mock.RoleAndPermissionServiceMockImpl"/>
+	<bean id="roleAndPermissionService" class="org.kuali.student.kim.permission.map.RoleAndPermissionServiceMapImpl"/>
 	
 	<bean id="groupService" class="org.kuali.student.kim.permission.mock.GroupServiceMockImpl"/>
 

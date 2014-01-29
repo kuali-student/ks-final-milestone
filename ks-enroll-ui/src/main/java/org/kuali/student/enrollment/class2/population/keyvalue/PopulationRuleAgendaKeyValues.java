@@ -62,8 +62,8 @@ public class PopulationRuleAgendaKeyValues extends UifKeyValuesFinderBase implem
                 ArrayList<String> populationRules = (ArrayList<String>) getPopulationService().getPopulationRuleIdsByType(ruleTypes[j], ContextUtils.createDefaultContextInfo());
                 for (int i = 0; i < populationRules.size(); i++) {
                     PopulationRuleInfo ruleInfo = getPopulationService().getPopulationRule(populationRules.get(i), ContextUtils.createDefaultContextInfo());
-                    if (ruleInfo.getAgendaIds() != null && ruleInfo.getAgendaIds().size() > 0)
-                        keyValues.add(new ConcreteKeyValue(ruleInfo.getAgendaIds().get(0), ruleInfo.getName()));
+                    if (ruleInfo.getRuleId() != null )
+                        keyValues.add(new ConcreteKeyValue(ruleInfo.getRuleId (), ruleInfo.getName()));
                 }
 
             } catch (Exception e) {
