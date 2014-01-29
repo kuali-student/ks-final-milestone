@@ -14,8 +14,9 @@
  */
 package org.kuali.student.core.ges.dto;
 
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.core.ges.infc.Parameter;
+import org.kuali.student.core.ges.service.ValueType;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,14 +26,12 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ParameterInfo", propOrder = {"id", "typeKey", "stateKey",
-        "key", "valueTypeKey","requireUniquePriorities", "meta", "attributes", "_futureElements" })
-public class ParameterInfo extends IdNamelessEntityInfo implements Parameter {
+@XmlType(name = "ParameterInfo", propOrder = {"key", "typeKey", "stateKey","name","descr",
+        "gesValueType","requireUniquePriorities", "meta", "attributes", "_futureElements" })
+public class ParameterInfo extends KeyEntityInfo implements Parameter {
 
     @XmlElement
-    private String key;
-    @XmlElement
-    private String valueTypeKey;
+    private ValueType gesValueType;
     @XmlElement
     private Boolean requireUniquePriorities;
     @XmlAnyElement
@@ -45,28 +44,17 @@ public class ParameterInfo extends IdNamelessEntityInfo implements Parameter {
         super(parameter);
 
         if(parameter != null) {
-            key = parameter.getKey();
-            valueTypeKey = parameter.getValueTypeKey();
+            gesValueType = parameter.getGesValueType();
             requireUniquePriorities = parameter.getRequireUniquePriorities();
         }
     }
 
-    @Override
-    public String getKey() {
-        return key;
+    public ValueType getGesValueType() {
+        return gesValueType;
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    @Override
-    public String getValueTypeKey() {
-        return valueTypeKey;
-    }
-
-    public void setValueTypeKey(String valueTypeKey) {
-        this.valueTypeKey = valueTypeKey;
+    public void setGesValueType(ValueType gesValueType) {
+        this.gesValueType = gesValueType;
     }
 
     @Override

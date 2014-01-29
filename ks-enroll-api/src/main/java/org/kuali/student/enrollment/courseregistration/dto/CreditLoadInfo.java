@@ -32,7 +32,11 @@ import java.util.List;
  
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CreditLoadInfo", propOrder = {
-                "studentId", "creditLoad", "creditLimit", "additionalCredits",
+                "studentId", 
+                "creditLoad",
+                "creditLimit", 
+                "creditMinimum", 
+                "additionalCredits",
                 "_futureElements"})
 
 public class CreditLoadInfo 
@@ -50,6 +54,9 @@ public class CreditLoadInfo
     @XmlElement
     @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
     private KualiDecimal creditLimit;
+    
+    @XmlElement
+    private KualiDecimal creditMinimum;
 
     @XmlElement
     @XmlJavaTypeAdapter(KualiDecimalAdapter.class)
@@ -76,6 +83,7 @@ public class CreditLoadInfo
             this.studentId = creditLoad.getStudentId();
             this.creditLoad = creditLoad.getCreditLoad();
             this.creditLimit = creditLoad.getCreditLimit();
+            this.creditMinimum = creditLoad.getCreditMinimum();
             this.additionalCredits = creditLoad.getAdditionalCredits();
         }
     }
@@ -108,6 +116,15 @@ public class CreditLoadInfo
     }
 
     @Override
+    public KualiDecimal getCreditMinimum() {
+        return creditMinimum;
+    }
+
+    public void setCreditMinimum(KualiDecimal creditMinimum) {
+        this.creditMinimum = creditMinimum;
+    }
+    
+    @Override
     public KualiDecimal getAdditionalCredits() {
         return additionalCredits;
     }
@@ -115,4 +132,11 @@ public class CreditLoadInfo
     public void setAdditionalCredits(KualiDecimal additionalCredits) {
         this.additionalCredits = additionalCredits;
     }
+
+    @Override
+    public String toString() {
+        return "CreditLoadInfo{" + "studentId=" + studentId + ", creditLoad=" + creditLoad + ", creditLimit=" + creditLimit + ", creditMinimum=" + creditMinimum + ", additionalCredits=" + additionalCredits + '}';
+    }
+    
+    
 }

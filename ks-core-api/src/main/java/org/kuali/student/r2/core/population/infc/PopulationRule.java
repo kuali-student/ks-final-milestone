@@ -46,12 +46,12 @@ public interface PopulationRule
     public QueryByCriteria getSearchCriteria();
 
     /**
-     * Agenda Ids to be used in building this population.
+     * Rule Id to be used in building this population.
      *
-     * @name Agenda Ids
-     * @required when the rule type indicates this is based on a KRMS rule
+     * @name Rule Id
+     * @required when the rule type indicates this is based on a rule
      */
-    public List<String> getAgendaIds();
+    public String getRuleId();
 
     /**
      * A list of Group Ids to be used in building this population.

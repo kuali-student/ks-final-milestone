@@ -1,6 +1,7 @@
 package org.kuali.student.core.ges.dto;
 
 import org.kuali.student.core.ges.infc.GesCriteria;
+import org.kuali.student.r2.common.dto.HasAttributesInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -12,14 +13,14 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ParameterInfo", propOrder = {"personId",
-        "atpTypeKey", "_futureElements" })
-public class GesCriteriaInfo implements GesCriteria {
+        "atpId", "attributes","_futureElements" })
+public class GesCriteriaInfo extends HasAttributesInfo implements GesCriteria {
 
     @XmlElement
     private String personId;
 
     @XmlElement
-    private String atpTypeKey;
+    private String atpId;
 
     @XmlAnyElement
     private List<Object> _futureElements;
@@ -36,12 +37,12 @@ public class GesCriteriaInfo implements GesCriteria {
     }
 
     @Override
-    public String getAtpTypeKey() {
-        return atpTypeKey;
+    public String getAtpId() {
+        return atpId;
     }
 
-    public void setAtpTypeKey(String atpTypeKey) {
-        this.atpTypeKey = atpTypeKey;
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
     }
 
 

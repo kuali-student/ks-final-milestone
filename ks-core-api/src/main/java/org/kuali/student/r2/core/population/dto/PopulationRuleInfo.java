@@ -31,7 +31,7 @@ import java.util.List;
     "name",
     "descr",
     "searchCriteria",
-    "agendaIds",
+    "ruleId",
     "groupIds",
     "personIds",
     "childPopulationIds",
@@ -49,7 +49,7 @@ public class PopulationRuleInfo
     @XmlElement
     private QueryByCriteria searchCriteria;
     @XmlElement
-    private List<String> agendaIds;
+    private String ruleId;
     @XmlElement
     private List<String> groupIds;
     @XmlElement
@@ -85,9 +85,7 @@ public class PopulationRuleInfo
 
         if (populationRule != null) {
             this.searchCriteria = populationRule.getSearchCriteria(); /* fix */
-            if (populationRule.getAgendaIds() != null) {
-                this.agendaIds = new ArrayList<String>(populationRule.getAgendaIds());
-            }
+            this.ruleId = populationRule.getRuleId();
 
             if (populationRule.getGroupIds() != null) {
                 this.groupIds = new ArrayList<String>(populationRule.getGroupIds());
@@ -122,16 +120,12 @@ public class PopulationRuleInfo
     }
 
     @Override
-    public List<String> getAgendaIds() {
-        if (this.agendaIds == null) {
-            this.agendaIds = new ArrayList<String>();
-        }
-
-        return this.agendaIds;
+    public String getRuleId() {
+        return this.ruleId;
     }
 
-    public void setAgendaIds(List<String> agendaIds) {
-        this.agendaIds = agendaIds;
+    public void setRuleId(String ruleId) {
+        this.ruleId = ruleId;
     }
 
     @Override
@@ -216,8 +210,11 @@ public class PopulationRuleInfo
     @Override
     public String toString() {
         return "PopulationRuleInfo{" +
-                "searchCriteria=" + searchCriteria +
-                ", agendaIds=" + agendaIds +
+                "id=" + getId() +
+                ", typeKey=" + getTypeKey() +
+                ", state=" + getStateKey() +
+                ", searchCriteria=" + searchCriteria +
+                ", ruleId=" + ruleId +
                 ", groupIds=" + groupIds +
                 ", personIds=" + personIds +
                 ", childPopulationIds=" + childPopulationIds +

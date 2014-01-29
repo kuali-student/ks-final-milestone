@@ -35,29 +35,32 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValueInfo", propOrder = {"id", "typeKey", "stateKey", "effectiveDate", "expirationDate",
-        "parameterId","priority","atpTypeKey","populationId","ruleId", "value", "meta", "attributes", "_futureElements" })
+        "parameterKey","priority","atpTypeKeys","populationId","ruleId", "value", "meta", "attributes", "_futureElements" })
 public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffectiveDates {
     @XmlElement
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
     @XmlElement
-    private String parameterId;
+    private String parameterKey;
     @XmlElement
     private Integer priority;
     @XmlElement
-    private String atpTypeKey;
+    private List<String> atpTypeKeys;
     @XmlElement
     private String populationId;
     @XmlElement
     private String ruleId;
     @XmlElement
     private String value;
+    @XmlElement
+    private GesCustomValueInfo customValue;
     @XmlAnyElement
     private List<Object> _futureElements;
 
@@ -67,9 +70,11 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     public ValueInfo(Value value) throws OperationFailedException {
         super(value);
         if(value != null) {
-            parameterId = value.getParameterId();
+            parameterKey = value.getParameterKey();
             priority = value.getPriority();
-            atpTypeKey = value.getAtpTypeKey();
+            if (value.getAtpTypeKeys().size() > 0){
+                atpTypeKeys = new ArrayList<String>(value.getAtpTypeKeys());
+            }
             populationId = value.getPopulationId();
             ruleId = value.getRuleId();
             if(value.getEffectiveDate() != null) {
@@ -79,6 +84,9 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
                 expirationDate = new Date(value.getExpirationDate().getTime());
             }
             this.value = value.getStringValue();
+            if(value.getCustomValue() != null) {
+                customValue = new GesCustomValueInfo(value.getCustomValue());
+            }
         }
     }
 
@@ -101,12 +109,12 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     }
 
     @Override
-    public String getParameterId() {
-        return parameterId;
+    public String getParameterKey() {
+        return parameterKey;
     }
 
-    public void setParameterId(String parameterId) {
-        this.parameterId = parameterId;
+    public void setParameterKey(String parameterKey) {
+        this.parameterKey = parameterKey;
     }
     @Override
     public Integer getPriority() {
@@ -118,12 +126,15 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
     }
 
     @Override
-    public String getAtpTypeKey() {
-        return atpTypeKey;
+    public List<String> getAtpTypeKeys() {
+        if (atpTypeKeys == null){
+            atpTypeKeys = new ArrayList<String>();
+        }
+        return atpTypeKeys;
     }
 
-    public void setAtpTypeKey(String atpTypeKey) {
-        this.atpTypeKey = atpTypeKey;
+    public void setAtpTypeKeys(List<String> atpTypeKey) {
+        this.atpTypeKeys = atpTypeKey;
     }
 
     @Override
@@ -158,6 +169,15 @@ public class ValueInfo extends IdNamelessEntityInfo implements Value, HasEffecti
         } else {
             value = null;
         }
+    }
+
+    @Override
+    public GesCustomValueInfo getCustomValue() {
+        return customValue;
+    }
+
+    public void setCustomValue(GesCustomValueInfo customValue) {
+        this.customValue = customValue;
     }
 
     @Override
