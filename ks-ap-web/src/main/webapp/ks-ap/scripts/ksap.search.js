@@ -1,4 +1,3 @@
-
 var oTable;
 var oFacets = new Object();
 
@@ -19,42 +18,48 @@ function ksapCourseSearchTableWidth() {
  * @returns aoColumns Value for DataTables.
  */
 function ksapCourseSearchColumns() {
-	return [ {
-		'bSortable' : true,
-		'bSearchable' : true,
-		'sTitle' : 'Code',
-		'sClass' : 'ksap-text-nowrap sortable',
-		'sWidth' : '73px',
-		'sType' : 'string'
-	}, {
-		'bSortable' : true,
-		'bSearchable' : true,
-		'sTitle' : 'Course Name',
-		'sClass' : 'sortable',
-		'sWidth' : '170px'
-	}, {
-		'bSortable' : false,
-		'bSearchable' : true,
-		'sTitle' : 'Credits',
-		'sWidth' : '34px'
-	}, {
-		'bSortable' : false,
-		'bSearchable' : true,
-		'sTitle' : 'Terms Offered',
-		'sClass' : 'ksap-data-list',
-		'sWidth' : '76px'
-	}, {
-		'bSortable' : false,
-		'bSearchable' : true,
-		'sTitle' : 'Gen Ed',
-		'sWidth' : '66px'
-	}, {
-		'bSortable' : false,
-		'bSearchable' : true,
-		'sTitle' : '',
-		'sClass' : 'ksap-status-column',
-		'sWidth' : '69px'
-	} ];
+    return [ {
+        'bSortable' : true,
+        'bSearchable' : true,
+        'sTitle' : 'Code',
+        'sClass' : 'ksap-text-nowrap sortable',
+        'sWidth' : '73px',
+        'sType' : 'string'
+    }, {
+        'bSortable' : true,
+        'bSearchable' : true,
+        'sTitle' : 'Course Name',
+        'sClass' : 'sortable',
+        'sWidth' : '100px'
+    }, {
+        'bSortable' : false,
+        'bSearchable' : true,
+        'sTitle' : 'Credits',
+        'sWidth' : '34px'
+    }, {
+        'bSortable' : false,
+        'bSearchable' : true,
+        'sTitle' : 'Terms Scheduled',
+        'sClass' : 'ksap-data-list',
+        'sWidth' : '130px'
+    },{
+        'bSortable' : false,
+        'bSearchable' : true,
+        'sTitle' : 'Terms Offered',
+        'sClass' : 'ksap-data-list',
+        'sWidth' : '100px'
+    }, {
+        'bSortable' : false,
+        'bSearchable' : true,
+        'sTitle' : 'Gen Ed',
+        'sWidth' : '100px'
+    }, {
+        'bSortable' : false,
+        'bSearchable' : true,
+        'sTitle' : '',
+        'sClass' : 'ksap-status-column',
+        'sWidth' : '69px'
+    } ];
 }
 
 function ksapEmptyTable() {

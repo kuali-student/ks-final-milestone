@@ -229,6 +229,9 @@
 					},{
 						'bSortable' : false,
 						'bSearchable' : false,
+					},{
+					    'bSortable' : false,
+						'bSearchable' : false,
 					}]" />
 				<entry key="fnDrawCallback"
 					value="function() {

@@ -160,83 +160,92 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		this.creditType = creditType;
 	}
 
-	public String getScheduledAndOfferedTerms() {
+    public String getScheduledTerms() {
+        //Return only the scheduled terms
+        CollectionListPropertyEditorHtmlListType listType = CollectionListPropertyEditorHtmlListType.DL;
 
-		CollectionListPropertyEditorHtmlListType listType = CollectionListPropertyEditorHtmlListType.DL;
+        Element termsList = DocumentHelper.createElement(listType
+                .getListElementName()); // dl
 
-		Element termsList = DocumentHelper.createElement(listType
-				.getListElementName()); // dl
+        if (scheduledTermsList != null && scheduledTermsList.size() > 0) {
+            Element termsListItem = termsList.addElement(listType
+                    .getListItemElementName()); // dd
+            termsListItem.addAttribute("class", "scheduled");
+            Element scheduledListElement = termsListItem.addElement(listType
+                    .getListElementName()); // dl
+            for (String scheduledTermId : scheduledTermsList) {
+                Element scheduledListItem = scheduledListElement
+                        .addElement(listType.getListItemElementName()); // dd
+                String scheduledTerm;
+                try {
+                    scheduledTerm = KsapFrameworkServiceLocator
+                            .getAtpService()
+                            .getAtp(scheduledTermId,
+                                    KsapFrameworkServiceLocator.getContext()
+                                            .getContextInfo()).getName();
+                } catch (DoesNotExistException e) {
+                    throw new IllegalArgumentException("ATP lookup error", e);
+                } catch (InvalidParameterException e) {
+                    throw new IllegalArgumentException("ATP lookup error", e);
+                } catch (MissingParameterException e) {
+                    throw new IllegalArgumentException("ATP lookup error", e);
+                } catch (OperationFailedException e) {
+                    throw new IllegalStateException("ATP lookup error", e);
+                } catch (PermissionDeniedException e) {
+                    throw new IllegalStateException("ATP lookup error", e);
+                }
+                String termAbbreviation = scheduledTerm.substring(0, 2)
+                        .toUpperCase();
+                scheduledListItem.addAttribute("class", termAbbreviation);
+                String year = scheduledTerm
+                        .substring(scheduledTerm.length() - 2);
+                scheduledListItem.setText(String.format("%s %s",
+                        termAbbreviation, year));
+            }
+        }
+        return termsList.asXML();
+    }
 
-		if (scheduledTermsList != null && scheduledTermsList.size() > 0) {
-			Element termsListItem = termsList.addElement(listType
-					.getListItemElementName()); // dd
-			termsListItem.addAttribute("class", "scheduled");
-			Element scheduledListElement = termsListItem.addElement(listType
-					.getListElementName()); // dl
-			for (String scheduledTermId : scheduledTermsList) {
-				Element scheduledListItem = scheduledListElement
-						.addElement(listType.getListItemElementName()); // dd
-				String scheduledTerm;
-				try {
-					scheduledTerm = KsapFrameworkServiceLocator
-							.getAtpService()
-							.getAtp(scheduledTermId,
-									KsapFrameworkServiceLocator.getContext()
-											.getContextInfo()).getName();
-				} catch (DoesNotExistException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (InvalidParameterException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (MissingParameterException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (OperationFailedException e) {
-					throw new IllegalStateException("ATP lookup error", e);
-				} catch (PermissionDeniedException e) {
-					throw new IllegalStateException("ATP lookup error", e);
-				}
-				String termAbbreviation = scheduledTerm.substring(0, 2)
-						.toUpperCase();
-				scheduledListItem.addAttribute("class", termAbbreviation);
-				String year = scheduledTerm
-						.substring(scheduledTerm.length() - 2);
-				scheduledListItem.setText(String.format("%s %s",
-						termAbbreviation, year));
-			}
-		}
+    public String getOfferedTerms() {
+        //Return only the offered terms
+        CollectionListPropertyEditorHtmlListType listType = CollectionListPropertyEditorHtmlListType.DL;
 
-		if (termInfoList != null && termInfoList.size() > 0) {
-			Element termsListItem = termsList.addElement(listType
-					.getListItemElementName()); // dd
-			termsListItem.addAttribute("class", "projected");
-			Element termListElement = termsListItem.addElement(listType
-					.getListElementName()); // dl
-			for (String atpTypeKey : termInfoList) {
-				Element scheduledListItem = termListElement.addElement(listType
-						.getListItemElementName()); // dd
-				String term;
-				try {
-					term = KsapFrameworkServiceLocator
-							.getTypeService()
-							.getType(
-									atpTypeKey,
-									KsapFrameworkServiceLocator.getContext()
-											.getContextInfo()).getName();
-				} catch (DoesNotExistException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (InvalidParameterException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (MissingParameterException e) {
-					throw new IllegalArgumentException("ATP lookup error", e);
-				} catch (OperationFailedException e) {
-					throw new IllegalStateException("ATP lookup error", e);
-				} catch (PermissionDeniedException e) {
-					throw new IllegalStateException("ATP lookup error", e);
-				}
-				scheduledListItem.setText(term.substring(0, 2).toUpperCase());
-			}
-		}
-		return termsList.asXML();
-	}
+        Element termsList = DocumentHelper.createElement(listType
+                .getListElementName()); // dl
+
+        if (termInfoList != null && termInfoList.size() > 0) {
+            Element termsListItem = termsList.addElement(listType
+                    .getListItemElementName()); // dd
+            termsListItem.addAttribute("class", "projected");
+            Element termListElement = termsListItem.addElement(listType
+                    .getListElementName()); // dl
+            for (String atpTypeKey : termInfoList) {
+                Element scheduledListItem = termListElement.addElement(listType
+                        .getListItemElementName()); // dd
+                String term;
+                try {
+                    term = KsapFrameworkServiceLocator
+                            .getTypeService()
+                            .getType(
+                                    atpTypeKey,
+                                    KsapFrameworkServiceLocator.getContext()
+                                            .getContextInfo()).getName();
+                } catch (DoesNotExistException e) {
+                    throw new IllegalArgumentException("ATP lookup error", e);
+                } catch (InvalidParameterException e) {
+                    throw new IllegalArgumentException("ATP lookup error", e);
+                } catch (MissingParameterException e) {
+                    throw new IllegalArgumentException("ATP lookup error", e);
+                } catch (OperationFailedException e) {
+                    throw new IllegalStateException("ATP lookup error", e);
+                } catch (PermissionDeniedException e) {
+                    throw new IllegalStateException("ATP lookup error", e);
+                }
+                scheduledListItem.setText(term.substring(0, 2).toUpperCase());
+            }
+        }
+        return termsList.asXML();
+    }
 
 	public String getGenEduReq() {
 		return genEduReq;
@@ -533,7 +542,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	public String[] getSearchColumns() {
 		return searchColumns == null ? searchColumns = new String[] {
 				getCode(), getInquiryLink(), getCredit(),
-				getScheduledAndOfferedTerms(), getGenEduReq(),
+				getScheduledTerms(), getOfferedTerms(), getGenEduReq(),
 				getStatusColumn(), } : searchColumns;
 	}
 

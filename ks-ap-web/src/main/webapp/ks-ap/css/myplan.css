@@ -601,6 +601,9 @@ input.ksap-delete,
     margin: 0;
     padding: 0;
     display: inline;
+    /* display: block; */
+    /* float: left; */
+    /* border: 1px solid black; */
 }
 
 .ksap-data-list dd.scheduled,
@@ -620,7 +623,7 @@ input.ksap-delete,
     font-size: 80%;
     padding: 0 4px;
     clear: none;
-    margin-right: 0.33em;
+    /* margin-right: 0.33em; */
     line-height: 1.8em;
     display: inline-block;
 }
@@ -1549,11 +1552,33 @@ table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
-    width: 170px;
+    width: 125px;
+}
+
+table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.scheduled {
+    width: 100px;
 }
 
 table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.projected {
     margin-top: 3px;
+    width: 85px;
+    font-size: 9px;
+    font-family: Helvetica, Arial, Verdana, sans-serif;
+    font-weight: bold;
+}
+
+.ksap-data-list dl dd.projected dl dd:before {
+    content: '' !important;
+    display: none;
+}
+.ksap-data-list dl dd.projected dl dd {
+    border: 1px solid black;
+    padding: 1px 3px;
+    background: #DDDDDD;
+    border-right: none;
+}
+.ksap-data-list dl dd.projected dl dd:last-child {
+    border-right: 1px solid black;
 }
 
 table.ksap-course-search-results-datatable tbody tr td.ksap-status-column {
