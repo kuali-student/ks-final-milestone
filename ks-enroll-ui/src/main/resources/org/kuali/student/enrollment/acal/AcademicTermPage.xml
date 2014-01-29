@@ -401,7 +401,8 @@
                       p:onClickScript="writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
                       p:actionScript="actionInvokeHandler(this);"
                       p:actionImagePlacement="LEFT"
-                      p:additionalCssClasses="right-aligned">
+                      p:additionalCssClasses="right-aligned"
+                      p:render="@{!#view.readOnly}">
                     <property name="actionImage">
                         <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="ks-fontello-icon-cancel"/>
                     </property>
