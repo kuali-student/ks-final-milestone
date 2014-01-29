@@ -537,23 +537,28 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * Returns an empty List of StudentScheduleCourseResult
      *
      * @param personId Principal ID
-     * @return list of student schedule
+     * @return Empty Response Object or Response object with Error text
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      * @throws DoesNotExistException
      */
-    public List<StudentScheduleCourseResult> clearLPRsByPerson(String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        List<LprInfo> lprs;
-        List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
-        for (LprInfo lprInfo : lprs) {
-            CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
+    public Response clearLPRsByPerson(String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        Response.ResponseBuilder response;
+        try {
+            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            List<LprInfo> lprs = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByPerson(personId, contextInfo);
+            for (LprInfo lprInfo : lprs) {
+                CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
+            }
+            response = Response.noContent();
+        } catch (Throwable t) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t.getMessage());
         }
 
-        return studentScheduleCourseResults;
+        return response.build();
     }
 
 

@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
-import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -113,17 +112,21 @@ public interface CourseRegistrationClientService {
     public Response clearRegEngineStats();
 
     /**
-     * Deletes all LPRs for a person
-     * Returns an empty list(should it return something else?)
+     * Finds all LPRs for a given personId and deletes them
+     * Returns an empty List of StudentScheduleCourseResult
      *
-     * @param personId
-     * @return
-     * @throws Exception
+     * @param personId Principal ID
+     * @return Empty Response Object or Response object with Error text
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
      */
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/clearpersonlprs")
-    public List<StudentScheduleCourseResult> clearLPRsByPerson(@QueryParam("person") String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+    public Response clearLPRsByPerson(@QueryParam("person") String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
 }
