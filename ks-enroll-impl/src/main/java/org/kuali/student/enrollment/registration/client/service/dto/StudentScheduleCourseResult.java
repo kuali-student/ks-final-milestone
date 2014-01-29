@@ -10,7 +10,7 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentScheduleCourseResult", propOrder = {
-        "courseCode", "description", "credits", "activityOfferings"})
+        "courseCode", "description", "credits", "longName", "activityOfferings"})
 public class StudentScheduleCourseResult {
     private String courseCode;
     private String description;

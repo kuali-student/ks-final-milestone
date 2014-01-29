@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -87,7 +88,7 @@ public interface CourseRegistrationClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/personschedule")
-    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(@QueryParam("userId") String userId,
+    public List<StudentScheduleTermResult> searchForScheduleByPersonAndTerm(@QueryParam("userId") String userId,
                                                                               @QueryParam("termId") String termId,
                                                                               @QueryParam("termCode") String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 

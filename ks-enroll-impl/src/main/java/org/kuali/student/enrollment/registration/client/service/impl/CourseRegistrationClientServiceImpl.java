@@ -19,6 +19,8 @@ import org.kuali.student.enrollment.registration.client.service.dto.InstructorSe
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
+import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
+import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
@@ -203,7 +205,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
      */
     @Override
-    public List<StudentScheduleCourseResult> searchForScheduleByPersonAndTerm(String userId, String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public List<StudentScheduleTermResult> searchForScheduleByPersonAndTerm(String userId, String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -215,7 +217,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             throw new LoginException("User must be logged in to access this service");
         }
 
-        termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
+            termId = "";
+        } else {
+            termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
+        }
         return getRegistrationScheduleByPersonAndTerm(userId, termId, contextInfo);
     }
 
@@ -227,10 +233,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @throws OperationFailedException
      * @throws InvalidParameterException
      **/
-    private List<StudentScheduleCourseResult> getRegistrationScheduleByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
+    private List<StudentScheduleTermResult> getRegistrationScheduleByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        List<StudentScheduleTermResult> studentScheduleTermResults = new ArrayList<StudentScheduleTermResult>();
         List<String> activityOfferingList = new ArrayList<String>();
-        HashMap<String, StudentScheduleCourseResult> hm = new HashMap<String, StudentScheduleCourseResult>();
+        HashMap<String, StudentScheduleCourseResult> hmCourseOffering = new HashMap<String, StudentScheduleCourseResult>();
+        HashMap<String, TermSearchResult> hmTermInfo = new HashMap<String, TermSearchResult>();
+        HashMap<String, List<String>> hmTerm = new HashMap<String, List<String>>();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
@@ -244,11 +252,18 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
-            String luiId = "", masterLuiId = "", personLuiType = "", credits = "",
-                    luiCode = "", luiName = "", luiDesc = "", luiType = "", luiLongName = "",
-                    roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
+            String atpId = "", atpCode = "", atpName = "",
+                   luiId = "", masterLuiId = "", personLuiType = "", credits = "",
+                   luiCode = "", luiName = "", luiDesc = "", luiType = "", luiLongName = "",
+                   roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
             for (SearchResultCellInfo cellInfo : row.getCells()) {
-                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID.equals(cellInfo.getKey())) {
+                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID.equals(cellInfo.getKey())) {
+                    atpId = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_CD.equals(cellInfo.getKey())) {
+                    atpCode = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_NAME.equals(cellInfo.getKey())) {
+                    atpName = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID.equals(cellInfo.getKey())) {
                     luiId = cellInfo.getValue();
                 } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LUI_ID.equals(cellInfo.getKey())) {
                     masterLuiId = cellInfo.getValue();
@@ -280,14 +295,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             }
 
             // running over the list of results returned. One CO can have multiple AOs
-            if (hm.containsKey(masterLuiId)) {
-                StudentScheduleCourseResult studentScheduleCourseResult = hm.get(masterLuiId);
+            if (hmCourseOffering.containsKey(masterLuiId)) {
+                StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(masterLuiId);
                 if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_CO_TYPE_KEY)) {
                     studentScheduleCourseResult.setCourseCode(luiCode);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setLongName(luiLongName);
-                    hm.put(masterLuiId, studentScheduleCourseResult);
+                    hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     // Scheduling info
                     ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(roomCode, buildingCode,
@@ -326,7 +341,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         studentScheduleCourseResult.getActivityOfferings().add(activityOffering);
                     }
 
-                    hm.put(masterLuiId, studentScheduleCourseResult);
+                    hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
 
                     // adding AOID to the list to search for instructors
                     if (!activityOfferingList.contains(luiId)) {
@@ -340,7 +355,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setLongName(luiLongName);
-                    hm.put(masterLuiId, studentScheduleCourseResult);
+                    hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
                     StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
@@ -359,12 +374,28 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
                     activityOfferings.add(activityOffering);
                     studentScheduleCourseResult.setActivityOfferings(activityOfferings);
-                    hm.put(masterLuiId, studentScheduleCourseResult);
+                    hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
 
                     // adding AOID to the list to search for instructors
                     if (!activityOfferingList.contains(luiId)) {
                         activityOfferingList.add(luiId);
                     }
+                }
+            }
+
+            // Adding all course offerings for the particular term
+            if (!hmTerm.containsKey(termId)) {
+                List<String> courseOfferingIds = new ArrayList<String>();
+                courseOfferingIds.add(masterLuiId);
+                hmTerm.put(termId, courseOfferingIds);
+                TermSearchResult termInfo = new TermSearchResult();
+                termInfo.setTermId(atpId);
+                termInfo.setTermCode(atpCode);
+                termInfo.setTermName(atpName);
+                hmTermInfo.put(termId, termInfo);
+            } else {
+                if (!hmTerm.get(termId).contains(masterLuiId)) {
+                    hmTerm.get(termId).add(masterLuiId);
                 }
             }
         }
@@ -375,9 +406,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             hmAOInstructors = CourseRegistrationAndScheduleOfClassesUtil.searchForInstructorsByAoIds(activityOfferingList, contextInfo);
         }
 
-        if (!hm.isEmpty()) {
-            for (Map.Entry<String, StudentScheduleCourseResult> pair : hm.entrySet()) {
-                StudentScheduleCourseResult studentScheduleCourseResult = pair.getValue();
+        for (Map.Entry<String, List<String>> pair : hmTerm.entrySet()) {
+            List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
+            TermSearchResult termInfo = hmTermInfo.get(pair.getKey());
+            List<String> courseOfferingIds = pair.getValue();
+            for (String courseOfferingId : courseOfferingIds) {
+                StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(courseOfferingId);
                 if (studentScheduleCourseResult.getActivityOfferings().size() > 1) {
                     CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingReslutList(studentScheduleCourseResult.getActivityOfferings(), contextInfo);
                 }
@@ -388,9 +422,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 }
                 studentScheduleCourseResults.add(studentScheduleCourseResult);
             }
+            StudentScheduleTermResult studentScheduleTermResult = new StudentScheduleTermResult();
+            studentScheduleTermResult.setTerm(termInfo);
+            studentScheduleTermResult.setCourseOfferings(studentScheduleCourseResults);
+
+            studentScheduleTermResults.add(studentScheduleTermResult);
         }
 
-        return studentScheduleCourseResults;
+        return studentScheduleTermResults;
     }
 
     /**

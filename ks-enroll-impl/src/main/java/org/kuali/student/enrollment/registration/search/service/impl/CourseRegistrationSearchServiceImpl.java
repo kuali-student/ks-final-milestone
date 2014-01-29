@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.registration.search.service.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -79,6 +80,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String WEEKDAYS = "weekdays";
         public static final String START_TIME_MS = "startTimeMs";
         public static final String END_TIME_MS = "endTimeMs";
+        public static final String ATP_ID = "atpId";
+        public static final String ATP_CD = "atpCd";
+        public static final String ATP_NAME = "atpName";
     }
 
     static {
@@ -140,11 +144,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
 
         String queryStr =
-                "SELECT lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, " +
+                "SELECT atp.ID, atp.ATP_CD, atp.NAME, lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, " +
                         "luiId.LUI_CD, lui.NAME, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
-                        "FROM KSEN_LPR lpr, " +
+                        "FROM KSEN_ATP atp, " +
+                        "     KSEN_LPR lpr, " +
                         "     KSEN_LUI lui, " +
                         "     KSEN_LUI_IDENT luiId " +
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
@@ -160,19 +165,28 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "LEFT OUTER JOIN KSEN_SCHED_TMSLOT schedTmslt " +
                         "ON schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
                         "WHERE lpr.PERS_ID = :personId " +
-                        "  AND lpr.ATP_ID = :atpId " +
+                        "  AND atp.ID = lpr.ATP_ID " +
                         "  AND lui.ID = lpr.LUI_ID " +
-                        "  AND lui.ATP_ID = :atpId " +
-                        "  AND luiId.LUI_ID = lui.ID";
+                        "  AND lui.ATP_ID = lpr.ATP_ID " +
+                        "  AND luiId.LUI_ID = lui.ID ";
+
+        if (!StringUtils.isEmpty(atpId)) {
+            queryStr = queryStr + " AND lpr.ATP_ID = :atpId ";
+        }
 
         Query query = entityManager.createNativeQuery(queryStr);
-        query.setParameter(SearchParameters.ATP_ID, atpId);
         query.setParameter(SearchParameters.PERSON_ID, personId);
+        if (!StringUtils.isEmpty(atpId)) {
+            query.setParameter(SearchParameters.ATP_ID, atpId);
+        }
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
             int i = 0;
             SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.ATP_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_CD, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ATP_NAME, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.MASTER_LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.PERSON_LUI_TYPE, (String) resultRow[i++]);
