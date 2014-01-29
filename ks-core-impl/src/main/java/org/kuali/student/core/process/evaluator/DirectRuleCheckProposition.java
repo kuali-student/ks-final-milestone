@@ -20,7 +20,6 @@ import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.core.krms.proposition.PropositionFactory;
 
 /**

@@ -22,7 +22,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 
 /**
  * This class represents a proposition to evaluate if a student has a Hold

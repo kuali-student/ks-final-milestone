@@ -29,7 +29,6 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.r2.core.process.service.ProcessService;
 
 /**

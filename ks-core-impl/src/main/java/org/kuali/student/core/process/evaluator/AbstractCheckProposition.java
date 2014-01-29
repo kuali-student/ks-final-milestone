@@ -48,7 +48,7 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
     }
 
     public PropositionResult recordSuccessResult(ExecutionEnvironment environment) {
-        boolean recordSuccesses = environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
+        boolean recordSuccesses = (Boolean) environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
         if (recordSuccesses) {
             ValidationResultInfo vr = new ValidationResultInfo();
             vr.setElement(instruction.getId());
@@ -81,7 +81,7 @@ public abstract class AbstractCheckProposition extends AbstractLeafProposition {
         // exempted so record that exemption instead of the failure
         PropositionResult result = null;
         BasicResult br = null;
-        boolean recordSuccesses = environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
+        Boolean recordSuccesses = environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
         if (recordSuccesses) {
             Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
             ValidationResultInfo vr = new ValidationResultInfo();

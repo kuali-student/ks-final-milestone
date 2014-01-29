@@ -35,7 +35,6 @@ import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 
 /**
  * This class represents a proposition to evaluate if a student has a Hold
@@ -53,7 +52,7 @@ public abstract class AbstractMilestoneDateCheckProposition extends AbstractChec
     public PropositionResult evaluate(ExecutionEnvironment environment) {
         ContextInfo contextInfo = environment.resolveTerm(RulesExecutionConstants.CONTEXT_INFO_TERM, this);
         String atpId = environment.resolveTerm(RulesExecutionConstants.ATP_ID_TERM, this);
-        boolean recordSuccesses = environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
+        Boolean recordSuccesses =  environment.resolveTerm(RulesExecutionConstants.RECORD_INSTRUCTION_SUCCESSES_TERM, this);
         AtpService atpService = environment.resolveTerm(RulesExecutionConstants.ATP_SERVICE_TERM, this);
         Date asOfDate = environment.resolveTerm(RulesExecutionConstants.AS_OF_DATE_TERM, this);
 

@@ -10,7 +10,6 @@
  */
 package org.kuali.student.core.process.evaluator;
 
-import java.util.Date;
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
@@ -22,7 +21,6 @@ import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.core.process.evaluator.KRMSEvaluator;
 import org.kuali.student.r2.core.process.service.ProcessService;
 
 /**
