@@ -125,6 +125,7 @@ angular.module('kscrPocApp')
       regGroupService.register($scope.selectedRegGroupId, config.userId).success(function(data) {
         // Registration request successfully submitted.
         console.log('submitted registration for', $scope.selectedRegGroupId);
+        $scope.registrationSuccessful = true;
       });
     };
 

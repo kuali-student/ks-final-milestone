@@ -261,7 +261,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     for(ActivityOfferingScheduleComponentResult component : ao.getScheduleComponents()){
                         if(component.getStartTime() != null){
                             //Calculate the text and start time/end time in minutes
-                            String text = course.getCourseCode() + " " + ao.getActivityOfferingTypeShortName()!=null&&ao.getActivityOfferingTypeShortName().length()>=3?ao.getActivityOfferingTypeShortName().substring(0,3).toUpperCase():"";
+                            String text = course.getCourseCode() + " " + (ao.getActivityOfferingTypeShortName()!=null&&ao.getActivityOfferingTypeShortName().length()>=3?ao.getActivityOfferingTypeShortName().substring(0,3).toUpperCase():"");
                             int startTimeMin = toMins(component.getStartTime());
                             int duration = toMins(component.getEndTime()) - startTimeMin ;
                             if(component.isMon()){dayToEventListMap.get("M").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}

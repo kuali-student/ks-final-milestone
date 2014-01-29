@@ -1,11 +1,14 @@
-<form class="kscr-Search" ng-submit="query()">
+<form class="kscr-Search"
+  ng-submit="query()"
+  ui-gauge="searchWidth"
+  ng-class="{ 'util-Grid util-Grid--center': searchWidth > 500 }">
 
   <div class="kscr-Search-item util-Grid">
     <label for="searchTerm" class="util-Visibility--screenReadersOnly">Term</label>
     <select id="searchTerm" ng-model="searchCriteria.termId" ng-options="t.termId as t.termName for t in terms"></select>
   </div>
 
-  <div class="kscr-Search-item kscr-Query util-Grid">
+  <div class="kscr-Search-item kscr-Query util-Grid util-Grid-cell">
     <label for="searchInput" class="kscr-Query-label util-Visibility--screenReadersOnly">Courses</label>
     <input id="searchInput" type="text" class="kscr-Query-input util-Grid-cell" placeholder="ENGL, ENGL2, ENGL200" ng-model="searchCriteria.query"/>
     <button type="submit" class="kscr-Query-button">Go</button>

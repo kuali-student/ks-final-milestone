@@ -809,17 +809,18 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 scheduleIds.add(scheduleId);
             }
         }
+        if(scheduleIds!=null && !scheduleIds.isEmpty()){
+                Map<String, ScheduleSearchResult> schedMap = searchForScheduleByScheduleIds(scheduleIds, contextInfo);
 
-        Map<String, ScheduleSearchResult> schedMap = searchForScheduleByScheduleIds(scheduleIds, contextInfo);
+                if (schedMap != null && !schedMap.isEmpty()) {
+                    for (ActivityOfferingSearchResult ao : aoList) {
+                        String scheduleId = ao.getScheduleId();
+                        if (!StringUtils.isEmpty(scheduleId) && schedMap.containsKey(scheduleId)) {
+                            ao.setSchedule(convertScheduleSearchResultToAOSchedComponent(schedMap.get(scheduleId)));
+                        }
+                    }
 
-        if (schedMap != null && !schedMap.isEmpty()) {
-            for (ActivityOfferingSearchResult ao : aoList) {
-                String scheduleId = ao.getScheduleId();
-                if (!StringUtils.isEmpty(scheduleId) && schedMap.containsKey(scheduleId)) {
-                    ao.setSchedule(convertScheduleSearchResultToAOSchedComponent(schedMap.get(scheduleId)));
                 }
-            }
-
         }
     }
 

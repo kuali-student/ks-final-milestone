@@ -2,19 +2,19 @@ $ns: '.kscr-Article';
 
 #{$ns} {
 
-  border-width: 2px;
+  border-width: 1px;
   border-style: solid;
-  border-color: $border-color-active;
-  border-radius: $border-radius;
+  border-color: $border-color-normal;
+  border-radius: 8px 8px 0 0;
   list-style-type: none;
   //margin: -10px;
   //width: 20em;
-  background-color: darken($body-bg, 5%);
+  background-color: $secondary-color;
   font-size: 1.1em;
   
-  h1, h2, p {
-    //margin-left: 0.5rem;
-    //margin-right: 0.5rem;
+  h2, p {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 
   h1 {
@@ -42,15 +42,16 @@ $ns: '.kscr-Article';
 }
 
 #{$ns}-header {
-    background-color: $header-secondary-color;
+  background-color: $header-secondary-color;
   border-top-right-radius: ($border-radius - 2px);
   border-top-left-radius: ($border-radius - 2px);
   width: 100%;
   padding-left: 0.5em;
    margin-top: 0;
+   color: $secondary-font-color;
 }
 
 #{$ns}-content {
-  padding-left: 1em;
+  padding-left: 0.1em;
   
 }

@@ -3,17 +3,18 @@ $ns: '.kscr-Header';
 #{$ns} {
 
   background-color: $header-color;
-  background-image: url("http://env2.ks.kuali.org/rice-portal/images/os-guy.gif");
-  background-repeat: no-repeat;
+  //background-image: url("http://env2.ks.kuali.org/rice-portal/images/os-guy.gif");
   border-bottom: 2px solid $border-color-normal;
-  padding: 0.5em;
-  font-weight: bold;
+  padding: 0.2em;
+  
   color: $header-font-color;
 }
 
 #{$ns}-title {
-  font-size: rem-calc(20);
-  padding: 0.5em 0 0 2em; 
+  //font-weight: bold;
+  font-size: rem-calc(16);
+  //padding: 0.5em 0 0 1.5em; 
+ padding: 0.5em 0 0 6em;
 }
 
 #{$ns}-nav {

@@ -1,9 +1,9 @@
 $ns: '.kscr-Paging';
 
 #{$ns} {
-  border-bottom: 1px solid #ccc;
+ // border-bottom: 1px solid #ccc;
   padding: 1rem 0.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.3rem;
 }
 
 #{$ns}-navItem {
@@ -13,6 +13,9 @@ $ns: '.kscr-Paging';
 
   & + #{$ns}-navItem {
     margin-left: 1rem;
+  }
+  a:hover{
+    color: #005580;
   }
 }
 

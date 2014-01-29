@@ -4,16 +4,23 @@ $ns: '.kscr-Nav';
   display: flex;
   font-size: rem-calc(15);
   margin-left: 0.5em;
+   a:hover, a:focus{
+    color: white;
+    outline: none;
+   }
 }
+
+
 
 #{$ns}-item {
   flex: auto;
   padding: 0.3em;
-  color: $link-color;
+  color: #999999;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+
 }
 
 #{$ns}-item--active {
-  //background-color: tint($accent-color, 50%);
-  background-color:  darken($body-bg, 5%);
-  color: $link-color;
+  //background-color:  darken($body-bg, 5%);
+  color: white;
 }

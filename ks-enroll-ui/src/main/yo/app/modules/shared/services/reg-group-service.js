@@ -181,7 +181,10 @@ angular.module('kscrPocApp')
       return $http.get(apiService.get('registerreggroup'), httpConfig).success(function() {
         // Clear the cache for the schedule service,
         // so it'll automatically call the API again to get an updated schedule.
-        $angularCacheFactory.get('scheduleService').removeAll();
+        var scheduleServiceCache = $angularCacheFactory.get('scheduleService');
+        if( angular.isDefined(scheduleServiceCache) ) {
+          scheduleServiceCache.removeAll();
+        }
       });
     }
 

@@ -5,7 +5,8 @@ angular.module('kscrPocApp', [
   'ngSanitize',
   'ngTouch',
   'ui.router',
-  'jmdobry.angular-cache'
+  'jmdobry.angular-cache',
+  'uiGuage'
 ])
   .config(function ($httpProvider, $stateProvider, $urlRouterProvider, $angularCacheFactoryProvider) {
     
