@@ -3,6 +3,7 @@ package org.kuali.student.ap.framework.context.support;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -107,9 +108,16 @@ public class DefaultPlanHelper implements PlanHelper {
     @Override
     public List<Term> getCalendarTerms(Term startTerm) {
         Calendar c = Calendar.getInstance();
+        Date startDate = startTerm.getStartDate();
+
+        // Check that start term is before the current date, in not use current date as start term
+        if(c.getTime().before(startTerm.getStartDate())){
+            startDate=c.getTime();
+        }
+
         int futureYears = Integer.parseInt(ConfigContext.getCurrentContextConfig().getProperty( "ks.ap.planner.future.years"));
         c.add(Calendar.YEAR, futureYears);
-        List<Term> calendarTerms = KsapFrameworkServiceLocator.getTermHelper().getTermsByDateRange(startTerm.getStartDate(),c.getTime());
+        List<Term> calendarTerms = KsapFrameworkServiceLocator.getTermHelper().getTermsByDateRange(startDate,c.getTime());
         calendarTerms = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(calendarTerms,true);
         Term start = calendarTerms.get(0);
         Term end = calendarTerms.get(calendarTerms.size()-1);
