@@ -430,7 +430,7 @@
                       p:onChangeScript="jQuery('#dirtyForm').val(true); ">
                     <property name="id" value="KS-CourseOfferingEdit-CreditType_OptionTypeSelector" />
                     <property name="control" >
-                        <bean parent="Uif-HorizontalRadioControl" p:disabled="@{#dp.creditOptionFixed}" />
+                        <bean parent="Uif-HorizontalRadioControl" />
                     </property>
                     <property name="optionsFinder" >
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.CreditOptionsKeyValues" p:addBlankOption="false" />
