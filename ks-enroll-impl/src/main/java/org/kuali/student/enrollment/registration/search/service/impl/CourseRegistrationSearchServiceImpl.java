@@ -144,8 +144,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
 
         String queryStr =
-                "SELECT atp.ID, atp.ATP_CD, atp.NAME, lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, " +
-                        "luiId.LUI_CD, lui.NAME, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
+                "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, " +
+                        "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
                         "FROM KSEN_ATP atp, " +
