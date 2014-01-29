@@ -1,0 +1,318 @@
+type_key, name, ref_object_uri, service_uri
+kuali.appointment.slot.type.closed,Closed slot,http://student.kuali.org/wsdl/appointment/AppointmentWindowInfo,http://student.kuali.org/wsdl/appointment/AppointmentService
+kuali.appointment.type.registration,Registration appointment,http://student.kuali.org/wsdl/appointment/AppointmentWindowInfo,http://student.kuali.org/wsdl/appointment/AppointmentService
+kuali.appointment.window.type.one.slot,One Slot per Window,http://student.kuali.org/wsdl/appointment/AppointmentWindowInfo,http://student.kuali.org/wsdl/appointment/AppointmentService
+kuali.appointment.window.type.slotted.max,Max Slotted Window,http://student.kuali.org/wsdl/appointment/AppointmentWindowInfo,http://student.kuali.org/wsdl/appointment/AppointmentService
+kuali.appointment.window.type.slotted.uniform,Uniform Slotted Window,http://student.kuali.org/wsdl/appointment/AppointmentWindowInfo,http://student.kuali.org/wsdl/appointment/AppointmentService
+kuali.atp.DateRange.AdvanceRegistrationPeriod,Advance Registration Period,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.DateRange.FallBreak,Fall Break,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.DateRange.FamilyWeekend,Family Weekend,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.DateRange.FinalExamPeriod,Final Exam Period,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.DateRange.NewStudentOrientation,New Student Orientation,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.DateRange.ProposalPeriod,Proposal Period,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.DateRange.ReadingPeriod,Reading Period,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.DateRange.ReviewPeriod,Review Period,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.AdmissionsApplicationDueEarlyCycle,Admissions Application Due Early Cycle,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.AlumniDay,Alumni Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Baccalaureate,Baccalaureate,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.BeginPackaging,Begin Packaging,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.ClassesBegin,Classes Begin,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.ClassesEnd,Classes End,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Commencement,Commencement,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.CoordinatorsKickoffMeeting,Coordinators Kickoff Meeting,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.CourseSelectionPeriodEnd,Course Selection Period End,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.CurriculumCommitteeMeeting,Curriculum Committee Meeting,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.DisburseFunds,Disburse Funds,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.DropDate,Drop Date,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.DropDeadlineWithoutRecord,Drop Deadline Without Record,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.FinancialAidCensus,Financial Aid Census,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.GenerateBills,Generate Bills,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.GradesDue,Grades Due,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.GraduationApplicationDeadline,Graduation Application Deadline,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Homecoming,Homecoming,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.IndependenceDayObserved,Independence Day Observed,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.LaborDay,Labor Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.LastMinuteProposalsDeadline,Last Minute Proposals Deadline,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.LeaveofAbsenseBegin,Leave of Absense Begin,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.MLKDayObserved,MLK Day Observed,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.MailProgressReports,Mail Progress Reports,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.MajorChangesDeadline,Major Changes Deadline,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.MemorialDayObserved,Memorial Day Observed,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.MinorChangesDeadline,Minor Changes Deadline,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Move-inDate,Move-in Date,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.NewStudentConvocation,New Student Convocation,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.PaymentDue,Payment Due,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.PostGrades,Post Grades,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.PostGradesMidterm,Post Grades Midterm,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.ProcessRefunds,Process Refunds,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.PublishChangesOnLine,Publish Changes On Line,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Refund100,Refund 100,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Refund20,Refund 20,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Refund40,Refund 40,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.AddDropPeriod2,Last day to Drop with Clear Transcript,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.AddDropPeriod3,Last day to Drop with Annual Pass,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.Christmas,Christmas,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.ChristmasObserved,Christmas observed,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.ColumbusDay,Columbus Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.Commencement,Commencement - Seattle Campus,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.FinalExamPeriod,Final Examination Period,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.GradingPeriod,Grading Period,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.Homecoming,Homecoming Week,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.IndependenceDay,Independence Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.IndependenceDayObserved,Independence Day observed,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.InstructionalPeriod,Instructional period,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.LaborDay,Labor Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.MLKDayObserved,Martin Luther King Day observed,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.MemorialDay,Memorial Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.NewStudentConvocation,Freshmen Convocation,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.NewYearsDay,New Year's Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.NewYearsDayObserved,New Year's Day observed,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.PresidentsDay,President's Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.RegistrationOpen,Registration Services Open,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.RegistrationPeriod1,Registration Period 1,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.RegistrationPeriod2,Registration Period 2,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.RegistrationPeriod3,Registration Period 3,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.RegistrationPeriod4,Registration Period 4,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.RegistrationPeriod5,Late Registration Period 1,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.RegistrationPeriod6,Late Registration Period 2,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.RegistrationPeriod7,Late Schedule Changes,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.ThanksgivingBreak,Thanksgiving Break,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.VeteransDay,Veterans Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.VeteransDayObserved,Veterans Day observed,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.electionday,Election Day,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.endoffirstweekofclasses,End of First Week of Classes,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.firstdayofclasses,First Day of Classes,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.lastdayofregistration,Last Day of Registration,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.monthpriortostartofclasses,Month Prior to Start of Classes,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.roshhashana,Rosh Hashanah,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.AY,AY,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.AlternateYearsCycle,Alternate Years Cycle,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Any,Any,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.EvenYears,Even Years,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.FY,FY,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Fall,Fall,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Fall-Spring,Fall-Spring,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Fall1,Fall 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Fall2,Fall 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.FourYearCycle,Four Year Cycle,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.OddYears,Odd Years,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Spring,Spring,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Spring1,Spring 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Spring2,Spring 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.SpringBreak,Spring Break,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Summer,Summer,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Summer1,Summer 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Summer1A,Summer 1A,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Summer1B,Summer 1B,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Summer2,Summer 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Summer2C,Summer 2C,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Summer2D,Summer 2D,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Refund50,Refund 50,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Refund60,Refund 60,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.Refund80,Refund 80,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.RegistrationBegins,Registration Begins,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.RegistrationBeginsNonDegree,Registration Begins Non Degree,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.RegistrationBeginsTransfer,Registration Begins Transfer,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.RegistrationBeginsforMBA,Registration Begins for MBA,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.RoomSchedulingBegin,Room Scheduling Begin,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.SpringBreakBegins,Spring Break Begins,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.SpringBreakEnds,Spring Break Ends,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.ThanksgivingBreakBegin,Thanksgiving Break Begin,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.Milestone.ThanksgivingBreakEnd,Thanksgiving Break End,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Day,Day,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.FourYears,Four Years,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.HalfSemester,Half Semester,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Hours,Hours,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Mini-mester,Mini-mester,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Minutes,Minutes,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Month,Month,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Period,Period,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Quarter,Quarter,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Semester,Semester,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Session,Session,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.TBD,TBD,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Term,Term,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.TwoYears,Two Years,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Week,Week,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.duration.Year,Year,http://student.kuali.org/wsdl/atp/TimeAmountInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.milestone.AddDropPeriod1,Last Day to Add Classes,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.lui.type.activity.offering.discussion,Discussion,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.field,Field,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.homework,Homework,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.independ,Independ,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.internship,Internship,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.lab,Lab,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.lecture,Lecture,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.practicum,Practicum,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.private,Private,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.quiz,Quiz,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.recitation,Recitation,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.research,Research,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.selfpaced,Self Paced,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.seminar,Seminar,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.studio,Studio,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.tutorial,Tutorial,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.videoconf,Video Conf,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.webdiscussion,Web Discuss,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.weblecture,Web Lecture,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.course.bundle,Course Bundle,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.course.format.offering,Course Format Offering,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.course.offering,Course Offering,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.grouping.activity,All Activity Offering Types,http://student.kuali.org/wsdl/courseOffering/ActivityOfferingInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.registration.group,Registration Group,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.milestone.type.group.appt.regperiods,Registration Periods for Registration Appointments,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.milestone.type.group.event,Event Group,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.milestone.type.group.holiday,Holiday Group,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.milestone.type.group.instructional,Instructional,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.milestone.type.group.registration,Registration,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.milestone.type.group.seatpool,Grouping type for seatpool milestone types,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.population.rule.type.exclusion,Exclusion,http://student.kuali.org/wsdl/population/PopulationRuleInfo,http://student.kuali.org/wsdl/population/PopulationService
+kuali.population.rule.type.intersection,Intersection,http://student.kuali.org/wsdl/population/PopulationRuleInfo,http://student.kuali.org/wsdl/population/PopulationService
+kuali.population.rule.type.person,Explicitly defined,http://student.kuali.org/wsdl/population/PopulationRuleInfo,http://student.kuali.org/wsdl/population/PopulationService
+kuali.population.rule.type.rule,Rule-based,http://student.kuali.org/wsdl/population/PopulationRuleInfo,http://student.kuali.org/wsdl/population/PopulationService
+kuali.population.rule.type.search,Search-based,http://student.kuali.org/wsdl/population/PopulationRuleInfo,http://student.kuali.org/wsdl/population/PopulationService
+kuali.population.rule.type.union,Union,http://student.kuali.org/wsdl/population/PopulationRuleInfo,http://student.kuali.org/wsdl/population/PopulationService
+kuali.population.type.student,Student,http://student.kuali.org/wsdl/population/PopulationInfo,http://student.kuali.org/wsdl/population/PopulationService
+kuali.result.scale.type.certificate,Certificate,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.certification,Certification,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.credit,Credit,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.degree,Degree,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.gpa,GPA,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.grade,Grade,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.grade.admin,Admin Grade,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.honor,Honor,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.minor,Minor,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.requirement.completion,Completion,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.scale.type.student.year,Student Year,http://student.kuali.org/wsdl/lrc/ResultScaleInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.value.type.value,Value,http://student.kuali.org/wsdl/lrc/ResultValueInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.values.group.type.fixed,Fixed,http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.values.group.type.multiple,Multiple,http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.result.values.group.type.range,Range,http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.resultComponentType.certificate,Certificate,http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.resultComponentType.degree,Degree,http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.resultComponentType.gpa,Overall GPA ,http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.resultComponentType.grade.finalGrade,Final Grade,http://student.kuali.org/wsdl/lrc/ResultValuesGroupInfo,http://student.kuali.org/wsdl/lrc/LrcService
+kuali.scheduling.schedule.request.type.schedule.request,Schedule Request,http://student.kuali.org/wsdl/scheduling/ScheduleRequestInfo,http://student.kuali.org/wsdl/scheduling/SchedulingService
+kuali.scheduling.time.slot.type.activityoffering,Activity Offering,http://student.kuali.org/wsdl/scheduling/TimeSlotInfo,http://student.kuali.org/wsdl/scheduling/SchedulingService
+kuali.scheduling.time.slot.type.activityoffering.tba,Activity Offering TBA,http://student.kuali.org/wsdl/scheduling/TimeSlotInfo,http://student.kuali.org/wsdl/scheduling/SchedulingService
+kuali.scheduling.schedule.type.schedule,Schedule,http://student.kuali.org/wsdl/scheduling/ScheduleInfo,http://student.kuali.org/wsdl/scheduling/SchedulingService
+kuali.soc.rollover.results.type.reverse,Reverse of a Rollover,http://student.kuali.org/wsdl/courseOfferingSet/SocRolloverResultInfo,http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService
+kuali.soc.rollover.results.type.rollover,Rollover Results,http://student.kuali.org/wsdl/courseOfferingSet/SocRolloverResultInfo,http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService
+kuali.soc.type.departmental,Departmental,http://student.kuali.org/wsdl/courseOfferingSet/SocInfo,http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService
+kuali.soc.type.main,Main,http://student.kuali.org/wsdl/courseOfferingSet/SocInfo,http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService
+kuali.soc.type.subject.area,Subject Area,http://student.kuali.org/wsdl/courseOfferingSet/SocInfo,http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService
+kuali.soc.type.units.content.owner,Units Content Owner,http://student.kuali.org/wsdl/courseOfferingSet/SocInfo,http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService
+kuali.soc.type.units.deployment.owner,Units Deployment Owner,http://student.kuali.org/wsdl/courseOfferingSet/SocInfo,http://student.kuali.org/wsdl/courseOfferingSet/CourseOfferingSetService
+kuali.type.type.relation.type.allowed,Allowed Type Type Relation,http://student.kuali.org/wsdl/type/TypeTypeRelationInfo,http://student.kuali.org/wsdl/type/TypeService
+kuali.type.type.relation.type.group,Group Type Type Relation,http://student.kuali.org/wsdl/type/TypeTypeRelationInfo,http://student.kuali.org/wsdl/type/TypeService
+kuali.atp.season.Term1,Term 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Term2,Term 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Winter,Winter,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Year1,Year 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Year2,Year 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Year3,Year 3,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.season.Year4,Year 4,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.AY,AY,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.AcademicCalendar,Academic Calendar,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Adhoc,Adhoc,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.EvenYears,Even Years,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.FY,FY,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Fall,Fall Term,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.FallEvenYears,Fall Even Years,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.FallOddYears,Fall Odd Years,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.FreshmanYear,Freshman Year,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.FreshmanYearTerm1,Freshman Year Term 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.FreshmanYearTerm2,Freshman Year Term 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.HalfFall1,Half Fall 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.HalfFall2,Half Fall 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.HalfSpring1,Half Spring 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.HalfSpring2,Half Spring 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.HolidayCalendar,Holiday Calendar,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.JuniorYear,Junior Year,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.JuniorYearTerm1,Junior Year Term 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.JuniorYearTerm2,Junior Year Term 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Mini-mester1A,Mini-mester 1A,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Mini-mester1B,Mini-mester 1B,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Mini-mester2C,Mini-mester 2C,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Mini-mester2D,Mini-mester 2D,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.OddYears,Odd Years,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SeniorYear,Senior Year,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SeniorYearTerm1,Senior Year Term 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SeniorYearTerm2,Senior Year Term 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Session1,Session 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Session2,Session 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SessionG1,Session G1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SessionG2,Session G2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SophomoreYear,Sophomore Year,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SophomoreYearTerm1,Sophomore Year Term 1,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SophomoreYearTerm2,Sophomore Year Term 2,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Spring,Spring Term,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SpringBreak,Spring Break,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SpringEvenYears,Spring Even Years,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SpringOddYears,Spring Odd Years,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Summer,Summer Term,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.SummerEve,Summer Eve,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.UndergradProgram,Undergrad Program,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.Winter,Winter Term,http://student.kuali.org/wsdl/atp/MilestoneInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.atp.type.group.term,Term Group,http://student.kuali.org/wsdl/atp/AtpInfo,http://student.kuali.org/wsdl/atp/AtpService
+kuali.attribute.course.evaluation.indicator,Course Evaluation Indicator,http://student.kuali.org/wsdl/common/AttributeInfo,
+kuali.attribute.final.exam.indicator,Final Exam Indicator,http://student.kuali.org/wsdl/common/AttributeInfo,
+kuali.attribute.finding.source,Funding Source,http://student.kuali.org/wsdl/common/AttributeInfo,
+kuali.attribute.grade.roster.level.type.key,Grade Roster Level Type,http://student.kuali.org/wsdl/common/AttributeInfo,
+kuali.attribute.max.enrollment.is.estimate,Max Enrollment i Estimate,http://student.kuali.org/wsdl/common/AttributeInfo,
+kuali.attribute.wait.list.level.type.key,Wait List Level Type Key,http://student.kuali.org/wsdl/common/AttributeInfo,
+kuali.attribute.where.fees.attached.flag,Where Fees Attached Flag,http://student.kuali.org/wsdl/common/AttributeInfo,
+kuali.hold.issue.type.academic.progress,Academic Progress Issue,http://student.kuali.org/wsdl/type/HoldIssueInfo,http://student.kuali.org/wsdl/hold/HoldService
+kuali.hold.issue.type.advising,Academic Advising Issue,http://student.kuali.org/wsdl/type/HoldIssueInfo,http://student.kuali.org/wsdl/hold/HoldService
+kuali.hold.issue.type.discipline,Disciplinary Issue,http://student.kuali.org/wsdl/type/HoldIssueInfo,http://student.kuali.org/wsdl/hold/HoldService
+kuali.hold.issue.type.financial,Financial Issue,http://student.kuali.org/wsdl/type/HoldIssueInfo,http://student.kuali.org/wsdl/hold/HoldService
+kuali.hold.issue.type.library,Library Issue,http://student.kuali.org/wsdl/type/HoldIssueInfo,http://student.kuali.org/wsdl/hold/HoldService
+kuali.hold.type.student,Student Hold,http://student.kuali.org/wsdl/type/HoldInfo,http://student.kuali.org/wsdl/hold/HoldService
+kuali.lpr.advisor,Advisor,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.enrollee,Enrollee,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.exam.proctor,Proctor,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.instructor.supervisor,Supervisor,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.roster.entry.type.automatic,kuali.lpr.roster.entry.type.automatic,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.roster.type.course.grade.final,kuali.lpr.roster.type.course.grade.final,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.trans.item.type.add,kuali.lpr.trans.item.type.add,http://student.kuali.org/wsdl/lpr/LprTransactionItemInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.trans.item.type.drop,kuali.lpr.trans.item.type.drop,http://student.kuali.org/wsdl/lpr/LprTransactionItemInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.trans.registrant,kuali.lpr.trans.registrant,http://student.kuali.org/wsdl/lpr/LprTransactionInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.trans.type.register,kuali.lpr.trans.type.register,http://student.kuali.org/wsdl/lpr/LprTransactionInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.type.instructor.assistant,Assistant Instructor,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.type.instructor.main,Main Instructor,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.type.instructor.support,Support instructor,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.type.registrant,Registrant,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lpr.type.roster.grade.final,kuali.lpr.type.roster.grade.final,http://student.kuali.org/wsdl/lpr/LprInfo,http://student.kuali.org/wsdl/lpr/LprService
+kuali.lu.type.CreditCourse,Credit Course,http://student.kuali.org/wsdl/course/CourseInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.CreditCourseFormatShell,Credit Course Format,http://student.kuali.org/wsdl/course/FormatInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.Directed,Directed,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.Discussion,Discussion,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.Homework,Homework,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.Lab,Lab,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.Lecture,Lecture,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.Tutorial,Tutorial,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.WebDiscussion,Web Discuss,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.WebLecture,Web Lecture,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.clerkship,Clerkship,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.clinic,Clinic,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.conference,Conference,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.independentstudy,Independent Study,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.practicum,Practicum,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.quiz,Quiz,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.seminar,Seminar,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.activity.studio,Studio,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lu.type.grouping.activity,All Activity Types,http://student.kuali.org/wsdl/course/ActivityInfo,http://student.kuali.org/wsdl/clu/CluService
+kuali.lui.lui.relation.type.deliveredvia.co2fo,CO-to-FO relation,http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.lui.relation.type.deliveredvia.fo2ao,FO-to-AO relation,http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.lui.relation.type.deliveredvia.fo2rg,FO-to-RG relation,http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.lui.relation.type.registeredforvia.rg2ao,RG-to-AO relation,http://student.kuali.org/wsdl/lui/LuiLuiRelationInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.activity,Activity,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.clerkship,Clerkship,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.clinic,Clinic,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.colloquium,Colloquium,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.compbased,Comp Based,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.conference,Conference,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.correspond,Correspond,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.demonstration,Demonstration,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.lui.type.activity.offering.directed,Directed,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService
+kuali.luiset.type.colocated.offering.set,Co-located Set,http://student.kuali.org/wsdl/lui/LuiInfo,http://student.kuali.org/wsdl/lui/LuiService

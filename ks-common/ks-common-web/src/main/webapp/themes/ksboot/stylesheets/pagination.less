@@ -1,0 +1,133 @@
+@import "variables";
+@import "mixins";
+
+@import url(http://fonts.googleapis.com/css?family=Raleway:300,600);
+
+/*-- Custom pagination concept for kitchen sink demo --*/
+.dataTables_paginate {
+  a {
+    color:#08c;
+    display:block;
+    float:left;
+    box-sizing:border-box;
+    border-top:1px solid #ccc;
+    border-right:none;
+    border-bottom:1px solid #ccc;
+    border-left:1px solid #ccc;
+    vertical-align:bottom;
+    text-align:center;
+    font-size: 1em;
+    font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-weight:normal;
+    font-style:normal;
+    line-height:2.5384em;
+    min-width:31px;
+    height:33px;
+    padding:0 5px;
+    margin-left:0;
+    margin-right:0;
+    &:hover {
+      background-color:#eff7fd;
+      color:#005580;
+      cursor:default;
+      text-decoration: none;
+    }
+    /*-- Link states --*/
+    &:focus{
+      outline:none;
+    }
+    &.paginate_button_disabled,
+    &.paginate_disabled_previous,
+    &.paginate_disabled_next {
+      color:#ccc;
+      &:hover {
+        background-color:#fff;
+        color:#ccc;
+        cursor:text;
+      }
+    }
+    i.visually-hidden {
+      position:absolute;
+      text-indent: -999em;
+    }
+    /*Custom font for nav arrows*/
+    &.first,
+    &.previous,
+    &.next,
+    &.last {
+      font-family: 'Raleway', sans-serif;
+      font-weight:300;
+      font-size: 1.53846153846154em;
+      line-height:1.45em;
+    }
+    &.first.paginate_button,
+    &.last.paginate_button {
+      .border-radius-individual(0, 0, 0, 0);
+      position:relative;
+    }
+    &.first.paginate_button:before,
+    &.last.paginate_button:after {
+      content: '|';
+      position:absolute;
+      top:1px;
+      font-weight:600;
+      font-size:0.5em;
+    }
+    &.first.paginate_button:before {
+      left: 9px;
+    }
+    &.last.paginate_button:after {
+      right:9px;
+    }
+    &.paginate_active {
+      color:#000;
+      background-color:#fff;
+      &:hover {
+        color:#000;
+        background-color:#fff;
+        cursor:text;
+        text-decoration: none;
+      }
+    }
+  }
+  span a:not(.paginate_active) {
+    display:none;
+  }
+  /* TWO BUTTON PAGING OPTION */
+  /*-- Will be removed after KS-wide pagination override is complete --*/
+  &.paging_two_button {
+    margin-top:0;
+    .paginate_disabled_previous,
+    .paginate_enabled_previous,
+    .paginate_disabled_next,
+    .paginate_enabled_next {
+      margin-left: 0;
+      width:auto;
+      min-width: 40px;
+      text-align: center;
+      float: left;
+    }
+    a.paginate_disabled_previous,
+    a.paginate_disabled_next {
+      color: #ccc;
+      &:hover {
+        text-decoration: none;
+        cursor:auto;
+      }
+    }
+    .paginate_disabled_next,
+    .paginate_enabled_next {
+      border:1px solid #ccc;
+    }
+  }
+} /*-- END .dataTables_paginate--*/
+.pagination-hide-first-last {
+  .dataTables_paginate span a:not(.paginate_active),
+  .dataTables_paginate a.first,
+  .dataTables_paginate a.last {
+    display:none;
+  }
+  .dataTables_paginate a.next {
+    border-right:1px solid #ccc;
+  }
+}

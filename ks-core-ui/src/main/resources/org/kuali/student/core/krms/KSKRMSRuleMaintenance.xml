@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+    <bean id="PropositionBo-MaintenanceView-Custom-parentBean" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+
+                <ref bean="KRMS-PropositionEdit-DefineSection"/>
+                <ref bean="KRMS-PropositionEdit-DetailSection"/>
+
+            </list>
+        </property>
+        <property name="footer">
+            <!--Add button to update the preview-->
+            <bean id="PropEditButtonPanel" parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean id="KS-RulePreview-Button" parent="Uif-SecondaryActionButton" p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Preview Change"/>
+                            <property name="actionScript" value="updateProposition('updateProposition', 'KRMS-RuleEditor-TreeGroup');"/>
+                        </bean>
+                        <bean id="KS-CancelProp-Button" parent="KS-Uif-ActionLink"
+                              p:style="margin-left: 0.5em;margin-top: 0.3em;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="actionScript" value="updateProposition('cancelEditProposition', 'KRMS-RuleEditor-TreeGroup');"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KRMS-PropositionEdit-DefineSection-parentBean" abstract="true" parent="KRMS-VerticalBoxSubSection">
+        <property name="headerText" value="Define Rule Statement"/>
+        <property name="items">
+            <list>
+
+                <!-- Hidden ID field -->
+                <bean parent="KRMS-PropKey-HiddenField"/>
+
+                <!--Add the type droplist-->
+                <bean id="KRMS-PropositionType-Dropdown" parent="Uif-InputField-LabelTop" p:propertyName="proposition.typeId"
+                      p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
+                              p:onChangeScript="ajaxCallPropositionTypeUpdate(jQuery(this), 'updatePropositionType', 'KRMS-PropositionEdit-DetailSection');"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.core.krms.keyvalues.KSPropositionTypeValuesFinder"/>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleEditor-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup" p:showLabel="false">
+        <property name="items">
+            <list>
+                <bean parent="KS-Uif-ActionLink" p:actionScript="jq('.jstree').jstree('open_all');"
+                      p:actionLabel="[+] expand all" p:style="margin-left: 2em;">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:actionScript="jq('.jstree').jstree('close_all');"
+                      p:actionLabel="[-] collapse all" p:style="margin-right: 15pt;margin-left:1em">
+                    <property name="actionImage">
+                        <null/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-CompareRule" parent="Uif-VerticalBoxSection" p:style="width: 850px;">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="KRMS-VerticalBoxSection">
+                    <property name="headerText" value="@{#dp.compareLightBoxHeader}"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="KRMS-CompareTree-Section"/>
+                        </list>
+                    </property>
+
+                    <property name="footer">
+                        <bean parent="Uif-FooterBase">
+                            <property name="items">
+                                <list>
+                                    <bean parent="KS-Uif-PrimaryActionButton" p:actionLabel="Close"
+                                          p:actionScript="jQuery.fancybox.close();"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-SimpleTableCollectionLayout" parent="Uif-TableCollectionLayout"
+          class="org.kuali.student.core.krms.SimpleTableLayoutManager" p:style="margin: 0px;">
+        <property name="cssClasses">
+            <list>
+                <value>uif-simpleTableCollectionLayout</value>
+            </list>
+        </property>
+        <property name="applyAlternatingRowStyles" value="false"/>
+        <property name="renderAlternatingHeaderColumns" value="false"/>
+        <property name="generateAutoSequence" value="true"/>
+        <property name="richTable">
+            <bean parent="KS-Uif-PagedRichTable">
+                <property name="render" value="false"/>
+            </bean>
+        </property>
+        <property name="renderSequenceField" value="false"/>
+    </bean>
+
+</beans>
+
+

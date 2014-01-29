@@ -1,0 +1,141 @@
+@import "variables";
+@import "mixins";
+
+/* override theme-krad.css style; padding-right matches base.css */
+td.col2, td.col4, th.col1, th.col3 { padding-bottom:0; padding-left:0; padding-right:1em; }
+
+/* overrides theme-krad.css */
+.uif-primaryActionButton, .uif-secondaryActionButton { font-size:1em; padding:0.1em 2em; }
+
+.ks-cell-align-center { text-align:center; }
+
+.ks-header .uif-headerText { border-bottom:solid 2px #000; margin-bottom:5px; }
+
+/*-- Create New Calendar ----------------------------------------------------------------*/
+.ks-calendar-copy-from, .ks-calendar-copy-to {
+  box-sizing: border-box;
+  background-color:#fff;
+  width: 427px;
+  height: 229px;
+  .ks-border-style();
+  padding-top: 27px;
+  padding-bottom: 27px;
+}
+.ks-calendar-copy-from .uif-field {
+  margin-bottom:10px;
+}
+// Copy from styles
+.ks-calendar-copy-from-date-labels {
+  font-weight: bold;
+}
+.ks-calendar-copy-from-date-labels, .ks-calendar-copy-from-date-values, .ks-calendar-copy-from-date-labels .uif-field, .ks-calendar-copy-from-date-values .uif-field {
+  margin-bottom:0;
+}
+#newCalendarEndDate {
+  padding-bottom: 0;
+}
+#newCalendarEndDate_control {
+  margin-bottom:0;
+}
+
+.ks-calendar-copy-from-heading {
+  font-size: 1.23076923076923em;
+  text-align: center;
+}
+.ks-calendar-copy-from table {
+  margin: 0 auto;
+}
+.ks-calendar-copy-content {
+  width: 150px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+//ACAL EDIT
+
+.acal-header {
+  margin-bottom:5px;
+  padding-bottom:0;
+}
+
+
+.acal-layout-style {
+  width: 70%;
+}
+
+.acal-hcal-header {
+  margin-top:1em;
+}
+
+.acal-field {
+  font-weight:normal;
+}
+
+// Copy to (in hcal) styles
+.ks-calendar-copy-to {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+.ks-calendar-copy-to #newCalendarName_control {
+  width: 291px;
+}
+/*-- End of Create New Calendar ---------------------------------------------------------*/
+/*
+  POST RICE 2.3 UPGRADE OVERRIDES
+  Most of these need refactored out when RICE
+  theme-builder is usable in the ks-enroll project
+  @TODO: KSENROLL-9114 - Refactor rice upgrade hacks from enroll.less
+*/
+#KS-CalendarSearch-CriteriaSection .table,
+#KS-CalendarSearch-CriteriaSection .table-condensed .uif-gridLayoutCell,
+#KS-CalendarSearch-CriteriaSection .table-condensed th,
+#KS-CalendarSearch-CreateNewLinks .table,
+#KS-CalendarSearch-CreateNewLinks .table tr,
+#KS-CalendarSearch-CreateNewLinks .table th,
+#KS-CalendarSearch-CreateNewLinks .table td {
+  border:0;
+}
+
+#KS-CalendarSearch-CriteriaSection .table-condensed .uif-gridLayoutCell {
+  margin-top:15px;
+}
+#KS-CalendarSearch-CriteriaSection .table-condensed .uif-gridLayoutCell > .uif-horizontalFieldGroup {
+  margin-left:-15px !important;
+}
+#KS-CalendarSearch-CriteriaSection .table-condensed .uif-gridLayoutCell  .uif-boxLayoutHorizontalItem.uif-horizontalBoxGroup {
+  margin-top: 25px;
+}
+
+#KS-CalendarSearch-CriteriaSection .table-condensed th,
+#KS-CalendarSearch-CreateNewLinks .table th {
+  background:none;
+
+}
+#KS-CalendarSearch-CreateNewLinks .table {
+  table-layout:fixed;
+  width:460px;
+}
+#KS-CalendarSearch-CreateNewLinks .table th {
+  text-align: left;
+  font-weight: normal;
+}
+
+/*
+  jQuery UI Overrides
+*/
+/* -- Edit Calendar, remove gray background and tab gradient from Terms tab --*/
+.ui-tabs .ui-tabs-nav {
+  background:none;
+}
+.ui-tabs .ui-tabs-nav .ui-state-default .ui-tabs-anchor {
+  background-color: @inactiveTabBackground;
+  .border-radius-individual(5px, 5px, 0, 0);
+}
+.ui-tabs .ui-tabs-nav .ui-tabs-active .ui-tabs-anchor {
+  background-color:#fff;
+}
+/*
+  END POST RICE 2.3 UPGRADE OVERRIDES
+*/
+@import "hcal.less";
+@import "acal.less";

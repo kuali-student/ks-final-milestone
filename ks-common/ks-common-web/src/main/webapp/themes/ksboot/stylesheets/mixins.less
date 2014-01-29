@@ -1,0 +1,57 @@
+//
+// Mixins
+// KSBOOT-CUSTOMIZED
+// --------------------------------------------------
+@import "../../kboot/stylesheets/mixins.less";
+
+/*-- Custom border-radius convenience overrides --*/
+
+.border-radius-individual(@top-left, @top-right, @bottom-right, @bottom-left) {
+  .border-top-left-radius(@top-left);
+  .border-top-right-radius(@top-right);
+  .border-bottom-right-radius(@bottom-right);
+  .border-bottom-left-radius(@bottom-left);
+}
+
+/*-- Border Style mixins --*/
+.ks-border-style(@size: 1px, @style: solid, @color: @border-color) {
+  border-width: @size;
+  border-style: @style;
+  border-color: @color;
+}
+
+/*-- Object State Identifiers --*/
+.state-lozenge-base() {
+  display: block;
+  color: @stateTextColor;
+  font-size: 0.84615384615385em;
+  padding: 2px 8px;
+  margin-left: 1em;
+  td &{
+    margin-left: 0px;
+  }
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-weight:bold;
+  .border-radius(6px);
+}
+.state-lozenge-draft() {
+  .state-lozenge-base();
+  background-color: @draftStateBackground;
+}
+.state-lozenge-ready() {
+  .state-lozenge-base();
+  background-color: @readyStateBackground;
+}
+.state-lozenge-completed() {
+  .state-lozenge-base();
+  background-color: @completedStateBackground;
+}
+.state-lozenge-canceled() {
+  .state-lozenge-base();
+  background-color: @canceledStateBackground;
+}
+.state-lozenge-suspended() {
+  .state-lozenge-base();
+  background-color: @suspendedStateBackground;
+}

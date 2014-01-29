@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <import resource="classpath:ks-core-api-dictionary-file-locations_test.xml"/>
+
+    <!--Population Service -->
+    <bean id="dataDictionaryServiceForPopulation" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="population" />
+        <property name="dictionaryLocations" ref="populationServiceDictionaryLocations" />
+    </bean>
+
+    <!--All Objects Data Dictionary Service used by Rice-->
+    <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
+        <property name="dictionaryLocations" ref="allDictionaryFileLocations" />
+    </bean>
+
+</beans>

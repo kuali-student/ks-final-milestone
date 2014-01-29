@@ -1,0 +1,169 @@
+@import "variables";
+@import "mixins";
+
+.tree-bar-button-selected {
+    background-image: url('images/buttonDisabled.png');
+    background-repeat: no-repeat;
+    background-size: 110px;
+    border: 1px solid #808080;
+    min-width: 98px;
+    height: 48px;
+    background-position: -10px -10px;
+    cursor: pointer;
+    white-space: normal;
+    text-align: center;
+    padding-right: 0em ;
+    padding-left: 0em;
+}
+
+.kr-button-primary-disabled {
+    background-image: url('images/buttonDisabled.png');
+    background-repeat: no-repeat;
+    border: 1px solid #808080;
+    font-weight: normal;
+    text-transform: none;
+    .border-radius(0);
+    background: linear-gradient(none);
+    color: #bfbfbf;
+    padding-top: 0em;
+
+}
+
+.rootNode {
+    border-bottom: #000000 solid 2px;
+}
+
+/* trying to make the tree not so cramped: */
+
+.jstree-default li.jstree-last {
+    margin-bottom: 5pt;
+}
+
+.jstree li {
+    margin-top: 3pt;
+    /*line-height:18px;*/
+}
+
+.subruleHeader {
+    font-weight: normal;
+}
+
+.subruleElement {
+    white-space: normal !important;
+    word-wrap: break-word;
+}
+
+.compareElement {
+    background-color: #FFF8C6;
+}
+
+.compareTree li {
+    margin-left: 18px;
+}
+
+.viewElement {
+    max-width: 600px;
+}
+
+.rule-message {
+
+}
+
+.krms-rulesection {
+    border-bottom:solid 2px #000;
+    margin-bottom:5px;
+    margin-top:15px;
+    font-weight: bold;
+}
+
+.krms-rulesubsection {
+    border-bottom:solid 1px #000;
+    margin-bottom:5px;
+    margin-top:5px;
+    font-weight: bold;
+    max-width: 54em;
+}
+
+.krms-ruleViewSection {
+    margin-bottom: 10px;
+    width: 800px;
+}
+
+.krms-agendaHeader {
+    margin-bottom: 5px;
+    margin-top:15px;
+}
+
+.krms-stackedCollectionLayout {
+    background: none;
+    padding: 0px;
+    background-image: none;
+}
+.krms-stackedCollectionLayout .krms-stackedCollectionLayout {
+    background: none;
+    padding: 0px;
+    background-image: none;
+}
+
+.krms-stackedCollectionItem {
+    border: 1px solid #B2B2B2;
+    margin-bottom: 5px !important;
+    padding: 5px !important;
+    background-color: transparent !important;
+}
+
+.krms-stackedPreviewItem {
+    margin-bottom: 0px !important;
+    padding: 0px !important;
+    margin-left: 20px;
+    background-color: transparent !important;
+}
+
+.krms-stackedActionItem {
+    margin: 0px !important;
+}
+
+.ks-collectionAddItem {
+    border: none !important;
+}
+
+.ruleCopySelected {
+    background-color:#F4E271 !important; border: 1px dashed goldenrod;
+}
+
+.krms-editVerticalBox {
+    padding: 0px !important;
+    line-height:16px !important;
+    margin-bottom: 0px!important;
+}
+
+div.ks-multiSelectItem {
+    margin-top: 0 !important;
+}
+
+/* Table Collections *************************************************************************************/
+table.uif-simpleTableCollectionLayout {
+    border: none;
+}
+
+table.uif-simpleTableCollectionLayout thead tr{
+    background: transparent;
+}
+
+.dataTables_scrollBody table.uif-simpleTableCollectionLayout thead tr{
+    border: none;
+}
+
+.dataTables_scrollBody table.uif-simpleTableCollectionLayout{
+    border: none;
+}
+
+table.uif-simpleTableCollectionLayout tbody tr {
+    border: none;
+}
+
+table.uif-simpleTableCollectionLayout td {
+    background: transparent;
+    border: none;
+    border-collapse: collapse;
+}
