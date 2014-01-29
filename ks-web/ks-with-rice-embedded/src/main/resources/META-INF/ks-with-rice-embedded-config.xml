@@ -104,7 +104,6 @@
 	<param name="datasource.pool.validationQuery">${datasource.pool.validationQuery.${db.vendor}}</param>
     
     <param name="datasource.pool.maxWait">600</param>
-    <param name="datasource.pool.size">5</param>
     <param name="datasource.pool.maxSize">10</param>
     <param name="datasource.pool.minSize">10</param> 
 
