@@ -43,6 +43,7 @@
                 <value>classpath:org/kuali/student/cm/lookup/CollaboratorWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/LoCategoryInfoWrapperView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/LoDisplayInfoWrapperLookupView.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseRuleMaintenance.xml</value>
 
                 <value>classpath:ks-CourseInfo-dictionary.xml</value> <!-- KSCM-720  Curriculum Management Course Info -->
                 <value>classpath:ks-ProposalInfo-dictionary.xml</value>
