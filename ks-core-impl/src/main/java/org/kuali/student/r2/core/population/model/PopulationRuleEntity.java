@@ -125,8 +125,8 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         this.setVariesByTimeIndicator(infc.getVariesByTime());
         this.setSupportsGetMembersIndicator(infc.getSupportsGetMembers());
 
-        this.agendaIds = new HashSet<String>(infc.getAgendaIds().size());
-        this.agendaIds.addAll(infc.getAgendaIds());
+        this.agendaIds = new HashSet<String>(1);
+        this.agendaIds.add(infc.getRuleId());
 
         this.attributes.clear();
         for (Attribute att : infc.getAttributes()) {
@@ -148,9 +148,12 @@ public class PopulationRuleEntity extends MetaEntity implements AttributeOwner<P
         populationRuleInfo.setReferencePopulationId(refPopulationId);
         populationRuleInfo.setVariesByTime(variesByTimeIndicator);
         populationRuleInfo.setSupportsGetMembers(supportsGetMembersIndicator);
-        populationRuleInfo.getAgendaIds().clear();
+        // this has to be changed when we redo the underlying data model so there is just one rule ID            
         if(agendaIds!=null){
-            populationRuleInfo.getAgendaIds().addAll(agendaIds);
+            for (String agendaId : agendaIds) {
+                populationRuleInfo.setRuleId(agendaId);
+                break;
+            }
         }
         List<AttributeInfo> dtoAttributes = populationRuleInfo.getAttributes();
         dtoAttributes.clear();

@@ -19,7 +19,7 @@ import java.util.Date;
 
 import java.util.List;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.infc.Context;
@@ -38,7 +38,7 @@ public class MockHelper {
      * @return
      */
     public MetaInfo createMeta(Context context) {
-        MetaInfo mInfo = MetaInfo.newInstance();
+        MetaInfo mInfo = new MetaInfo();
         Date now = new Date();
         mInfo.setCreateId(context.getPrincipalId());
         mInfo.setCreateTime(now);

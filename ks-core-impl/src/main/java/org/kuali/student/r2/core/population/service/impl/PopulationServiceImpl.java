@@ -62,10 +62,11 @@ public class PopulationServiceImpl implements PopulationService {
     // ============================= Population start =============================
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public PopulationInfo createPopulation(PopulationInfo populationInfo, ContextInfo contextInfo)
+    public PopulationInfo createPopulation(String populationTypeKey, PopulationInfo populationInfo, ContextInfo contextInfo)
             throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ReadOnlyException {
+        populationInfo.setTypeKey(populationTypeKey);
         PopulationEntity popEntity = new PopulationEntity(populationInfo);
         popEntity.setCreateId(contextInfo.getPrincipalId());
         popEntity.setCreateTime(contextInfo.getCurrentDate());
@@ -151,7 +152,11 @@ public class PopulationServiceImpl implements PopulationService {
     // ============================= PopulationRule start =============================
     @Override
     @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public PopulationRuleInfo createPopulationRule(String populationRuleTypeKey, 
+    PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) 
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, 
+            PermissionDeniedException, ReadOnlyException {
+        populationRuleInfo.setTypeKey(populationRuleTypeKey);
         PopulationRuleEntity popRuleEntity = new PopulationRuleEntity(populationRuleInfo);
         popRuleEntity.setCreateId(contextInfo.getPrincipalId());
         popRuleEntity.setCreateTime(contextInfo.getCurrentDate());
@@ -280,7 +285,9 @@ public class PopulationServiceImpl implements PopulationService {
     }
 
     @Override
-    public List<ValidationResultInfo> validatePopulation(String validationTypeKey, PopulationInfo populationInfo,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validatePopulation(String validationTypeKey, String populationTypeKey, 
+    PopulationInfo populationInfo,  ContextInfo contextInfo) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         //throw new UnsupportedOperationException("validatePopulation");
         return new ArrayList<ValidationResultInfo>();
     }

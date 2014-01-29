@@ -88,7 +88,7 @@
 
     <alias name="populationService" alias="PopulationService" />
 
-    <bean id="populationService" class="org.kuali.student.r2.core.population.service.decorators.PopulationServiceValidatorDecorator">
+    <bean id="populationService" class="org.kuali.student.core.population.service.decorators.PopulationServiceValidatorDecorator">
         <property name="nextDecorator" ref="populationServiceImpl" />
         <property name="validator" ref="validator" />
         <property name="typeService" ref="typeService" />
