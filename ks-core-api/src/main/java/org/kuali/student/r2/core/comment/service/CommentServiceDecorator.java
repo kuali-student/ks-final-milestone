@@ -113,6 +113,5 @@ public class CommentServiceDecorator implements CommentService {
 		return getNextDecorator().validateComment(validationTypeKey, referenceId, referenceTypeKey, commentTypeKey, commentInfo, contextInfo);
 	}
 
-  
-   
+
 }
