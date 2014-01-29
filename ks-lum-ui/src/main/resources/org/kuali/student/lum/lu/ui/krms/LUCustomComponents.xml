@@ -409,14 +409,14 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-CourseRangeResult-Lookup" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+    <bean id="KRMS-CourseRangeResult-Lookup" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL" p:fieldBindingObjectPath="document.newMaintainableObject.courseRuleManagementWrapper">
         <property name="hidden" value="true"/>
         <property name="headerText" value="Course Range"/>
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="No courses match the current search criteria."
-                    p:style="width: 450px; margin: 0px;" p:render="@{#dp.clusInRangeSize eq 0}"/>
+                    p:style="width: 450px; margin: 0px;" p:render="@{#dp.courseRuleManagementWrapper.clusInRangeSize eq 0}"/>
                 <ref bean="KRMS-CourseRangeResult"/>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
                       p:align="right"/>

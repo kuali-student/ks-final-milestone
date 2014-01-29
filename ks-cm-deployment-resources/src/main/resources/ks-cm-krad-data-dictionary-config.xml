@@ -23,13 +23,14 @@
 		<bean id="ks-cm-krad-data-dictionary-config"  class="java.util.ArrayList">
 		<constructor-arg index="0">	
 			<list>
-                <!-- KSCM Application Bean Files -->
-                <!-- Curriculum Management Course Info -->
-                <value>classpath:org/kuali/student/cm/main/CourseMaintenanceView.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewCourseInfo.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewGovernance.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewCourseLogistics.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseViewLearningObjectives.xml</value>
+				<!-- KSCM Application Bean Files -->
+				<!-- Curriculum Management Course Info -->
+				<value>classpath:org/kuali/student/cm/main/CourseMaintenanceView.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CourseRuleMaintenance.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewCourseInfo.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewGovernance.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewCourseLogistics.xml</value>
+				<value>classpath:org/kuali/student/cm/main/CourseViewLearningObjectives.xml</value>
                 <value>classpath:org/kuali/student/cm/main/CourseViewCourseRequisites.xml</value>
                 <value>classpath:org/kuali/student/cm/main/CourseViewActiveDates.xml</value>
                 <value>classpath:org/kuali/student/cm/main/CourseViewFinancials.xml</value>
@@ -43,7 +44,6 @@
                 <value>classpath:org/kuali/student/cm/lookup/CollaboratorWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/LoCategoryInfoWrapperView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/LoDisplayInfoWrapperLookupView.xml</value>
-                <value>classpath:org/kuali/student/cm/main/CourseRuleMaintenance.xml</value>
 
                 <value>classpath:ks-CourseInfo-dictionary.xml</value> <!-- KSCM-720  Curriculum Management Course Info -->
                 <value>classpath:ks-ProposalInfo-dictionary.xml</value>
@@ -53,6 +53,8 @@
                 <value>classpath:org/kuali/student/cm/main/CurriculumHomeView.xml</value> <!-- KSCM-727 Curriculum Management Course -->
                 <value>classpath:org/kuali/student/cm/main/CourseSelectView.xml</value>
                 <value>classpath:org/kuali/student/cm/main/FindCourseLookupView.xml</value>
+		
+
 			</list>
 			</constructor-arg>
 		</bean>  
