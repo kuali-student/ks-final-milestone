@@ -733,6 +733,12 @@
                 <groupId>org.kuali.rice</groupId>
                 <artifactId>rice-krad-web-framework</artifactId>
                 <version>${kuali.rice.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.codehaus.jackson</groupId>
+                        <artifactId>jackson-core-asl</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.kuali.rice</groupId>
