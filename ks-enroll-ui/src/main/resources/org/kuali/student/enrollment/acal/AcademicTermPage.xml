@@ -559,6 +559,9 @@
         <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}');"/>
         <property name="propertyName" value="examdates"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper"/>
+        <property name="header">
+            <bean parent="Uif-HeaderFive"/>
+        </property>
         <property name="headerText" value="Final Exam Period"/>
         <property name="disclosure.render" value="false"/>
         <property name="layoutManager.style" value="width:70%;"/>
