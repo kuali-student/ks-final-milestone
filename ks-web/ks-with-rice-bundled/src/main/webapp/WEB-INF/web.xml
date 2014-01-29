@@ -29,7 +29,7 @@
 	<!-- By default activate all modules -->
  	<context-param>
         <param-name>spring.profiles.default</param-name>
-        <param-value>ks-core,ks-lum,ks-enroll,ks-ap,ks-web</param-value>
+        <param-value>ks-core,ks-cm,ks-enroll,ks-ap,ks-web</param-value>
     </context-param>
     
 	<listener>

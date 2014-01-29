@@ -16,7 +16,8 @@
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
 <td class="content" valign="top">
-	<mainChannel:ksApplications/>
+    <mainChannel:ksApplications/>
+    <mainChannel:ksCmKRADApplications/>
     <mainChannel:KSAP/>
     <mainChannel:coApplications/>
 </td>

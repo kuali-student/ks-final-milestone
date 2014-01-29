@@ -59,7 +59,7 @@
 			<list>
 				<value>ks-core-dictionary-file-locations</value>
 				<value>ks-enroll-dictionary-file-locations</value>
-				<value>ks-lum-dictionary-file-locations</value>
+				<value>ks-cm-dictionary-file-locations</value>
 				<value>ks-ap-dictionary-file-locations</value>				
 			</list>
 		</property>
@@ -76,10 +76,9 @@
 		<import resource="classpath:ks-core-krad-data-dictionary-config.xml"/>
 	</beans>
 
-	<beans profile="ks-lum">
-
+	<beans profile="ks-cm">
    		<import resource="classpath:ksb/ks-lu-no-tx-context.xml"/>
-    
+    		<import resource="classpath:ks-cm-krad-data-dictionary-config.xml"/>
 	</beans>
 
 
@@ -120,6 +119,7 @@
                 		<value>ks-core-krad-data-dictionary-config</value>
                 		<value>ks-enroll-krad-data-dictionary-config</value>
                 		<value>ks-ap-krad-data-dictionary-config</value>
+                		<value>ks-cm-krad-data-dictionary-config</value>
                 	</list>
                 </property>
 			</bean>

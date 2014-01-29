@@ -60,5 +60,9 @@
  	 <context:component-scan base-package="org.kuali.student.ap" />
  	 
   </beans>
+
+  <beans profile="ks-cm">
+ 	 <context:component-scan base-package="org.kuali.student.cm" />
+  </beans>
   
 </beans>
