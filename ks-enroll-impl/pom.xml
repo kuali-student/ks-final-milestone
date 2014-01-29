@@ -14,6 +14,7 @@
         <gmaven.stubs.phase>generate-resources</gmaven.stubs.phase>
         <gmaven.compile.phase>compile</gmaven.compile.phase>
         <gmaven.test.compile.phase>test-compile</gmaven.test.compile.phase>
+        <activemq.version>5.9.0</activemq.version>
     </properties>
     <build>
         <plugins>
@@ -187,11 +188,21 @@
             <artifactId>xbean-spring</artifactId>
             <version>3.16</version>
         </dependency>
+        <!-- end -->
+
+        <!-- ActiveMQ -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-all</artifactId>
-            <version>5.9.0</version>
+            <version>${activemq.version}</version>
+            <exclusions>
+                <!-- Prevents "Class path contains multiple SLF4J bindings"-warning -->
+                <exclusion>
+                    <groupId>slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
-        <!-- end -->
+
     </dependencies>
 </project>
