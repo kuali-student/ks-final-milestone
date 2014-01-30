@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ReservedTimeInfo", propOrder = { "id", "uniqueId", "selected", })
+@XmlType(name = "ReservedTimeInfo", propOrder = { "id", "uniqueId", "selected" })
 public class ReservedTimeInfo extends ScheduleBuildEventInfo implements
 		ReservedTime, Serializable {
 
