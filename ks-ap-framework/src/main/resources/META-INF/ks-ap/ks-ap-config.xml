@@ -55,7 +55,7 @@
 
     <param name="ks.ap.datasource.maxSize" override="false">10</param>
     <param name="ks.ap.datasource.minSize" override="false">2</param>
-    <param name="ks.ap.datasource.maxWait" override="false">600</param>
+    <param name="ks.ap.datasource.maxWait" override="false">60000</param>
 
     <param name="ks.ap.jpa.showSql">false</param>
     <param name="ks.ap.jpa.generateDdl">false</param>
