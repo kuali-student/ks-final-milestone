@@ -231,7 +231,7 @@ limitations under the License.
 
     <bean id="KSFE-RuleTable-Parent" parent="Uif-TableCollectionSection" p:renderAddLine="false"
           p:renderLineActions="true"
-          p:readOnly="@{#dp.termToUse ne 'na'}" p:width="75%" p:style="padding-top:25px">
+          p:readOnly="@{#dp.termToUse ne 'na'}" p:width="80%" p:style="padding-top:25px">
         <property name="id" value="ruledefinitions"/>
         <property name="collectionObjectClass"
                   value="org.kuali.rice.krms.dto.RuleEditor"/>
