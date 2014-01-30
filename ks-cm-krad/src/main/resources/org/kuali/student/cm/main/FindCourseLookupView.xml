@@ -22,10 +22,24 @@ limitations under the License.
 
     <bean id="KS-Course-FindACourse" parent="KS-Uif-LookupView" p:instructionalText="Enter One or more fields">
         <property name="viewName" value="CoursesOnlyLookup"/>
-        <property name="headerText" value="Course" />
+        <property name="headerText" value="Find a Course" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
         <property name="viewHelperServiceClass" value="org.kuali.student.lum.lu.ui.krms.service.impl.CourseInfoLookupableImpl" />
-        <property name="criteriaFields">
+
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+            </list>
+        </property>
+
+    <property name="criteriaFields">
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code(Subject/Number)"/>
@@ -81,7 +95,7 @@ limitations under the License.
                           p:render="@{#view.multipleValuesSelect and (lookupResults != null) and !lookupResults.empty}"/>
                 </property>
                <!--
-   
+
         <property name="resultsGroup.lineActions">
             <list merge="true">
                 <bean parent="Uif-ActionLink">
@@ -89,7 +103,7 @@ limitations under the License.
                     <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
                     <property name="render" value="true"/>
                 </bean>
-  
+
                 <bean parent="Uif-ActionLink">
                     <property name="actionLabel" value="Select"/>
                     <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
