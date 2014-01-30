@@ -92,8 +92,6 @@
 	<param name="datasource.username.oracle">KSRICE</param>
 	<param name="datasource.password.oracle">KSRICE</param>
 	<param name="datasource.pool.validationQuery.oracle">select 1 from dual</param>  
-	
-	<param name="datasource.pool.minSize">3</param>
 
 	<param name="rice.jpa.DatabasePlatform">${rice.jpa.DatabasePlatform.${db.vendor}}</param>
     <param name="rice.ksb.jpa.enabled">${rice.ksb.jpa.enabled.${db.vendor}}</param>
@@ -105,7 +103,7 @@
     
     <param name="datasource.pool.maxWait">60000</param>
     <param name="datasource.pool.maxSize">10</param>
-    <param name="datasource.pool.minSize">10</param> 
+    <param name="datasource.pool.minSize">3</param>
 
 	<param name="ks.core.datasource.url">${datasource.url}</param>
 	<param name="ks.core.datasource.username">KSAPP</param>
