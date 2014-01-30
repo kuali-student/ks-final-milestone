@@ -791,8 +791,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public StudentProgramRecordInfo createStudentProgramRecord(String personId, StudentProgramRecordInfo studentProgramRecord,
-                                                               ContextInfo contextInfo) throws
+    public StudentProgramRecordInfo createStudentProgramRecord(@WebParam(name = "personId") String personId,
+                                                               @WebParam(name = "studentProgramRecord") StudentProgramRecordInfo studentProgramRecord,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -817,9 +818,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    public StudentProgramRecordInfo updateStudentProgramRecord(String studentProgramRecordId,
-                                                               StudentProgramRecordInfo studentProgramRecord,
-                                                               ContextInfo contextInfo) throws
+    public StudentProgramRecordInfo updateStudentProgramRecord(@WebParam(name = "studentProgramRecordId") String studentProgramRecordId,
+                                                               @WebParam(name = "studentProgramRecord") StudentProgramRecordInfo studentProgramRecord,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -842,7 +843,8 @@ public interface AcademicRecordService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StatusInfo deleteStudentProgramRecord(String studentProgramRecordId, ContextInfo contextInfo) throws
+    public StatusInfo deleteStudentProgramRecord(@WebParam(name = "studentProgramRecordId") String studentProgramRecordId,
+                                                 @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -868,9 +870,10 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public StudentCourseRecordInfo createStudentCourseRecord(String personId, String courseRegistrationId,
-                                                             StudentCourseRecordInfo studentCourseRecord,
-                                                             ContextInfo contextInfo) throws
+    public StudentCourseRecordInfo createStudentCourseRecord(@WebParam(name = "personId") String personId,
+                                                             @WebParam(name = "courseRegistrationId") String courseRegistrationId,
+                                                             @WebParam(name = "studentCourseRecord") StudentCourseRecordInfo studentCourseRecord,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -895,9 +898,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    public StudentCourseRecordInfo updateStudentCourseRecord(String studentCourseRecordId,
-                                                             StudentCourseRecordInfo studentCourseRecord,
-                                                             ContextInfo contextInfo) throws
+    public StudentCourseRecordInfo updateStudentCourseRecord(@WebParam(name = "studentCourseRecordId") String studentCourseRecordId,
+                                                             @WebParam(name = "studentCourseRecord") StudentCourseRecordInfo studentCourseRecord,
+                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -920,7 +923,8 @@ public interface AcademicRecordService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StatusInfo deleteStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo) throws
+    public StatusInfo deleteStudentCourseRecord(@WebParam(name = "studentCourseRecordId") String studentCourseRecordId,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -945,9 +949,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public StudentCredentialRecordInfo createStudentCredentialRecord(String personId,
-                                                                     StudentCredentialRecordInfo studentCredentialRecord,
-                                                                     ContextInfo contextInfo) throws
+    public StudentCredentialRecordInfo createStudentCredentialRecord(@WebParam(name = "personId") String personId,
+                                                                     @WebParam(name = "studentCredentialRecord") StudentCredentialRecordInfo studentCredentialRecord,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -972,9 +976,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    public StudentCredentialRecordInfo updateStudentCredentialRecord(String studentCredentialRecordId,
-                                                                     StudentCredentialRecordInfo studentCredentialRecord,
-                                                                     ContextInfo contextInfo) throws
+    public StudentCredentialRecordInfo updateStudentCredentialRecord(@WebParam(name = "studentCredentialRecordId") String studentCredentialRecordId,
+                                                                     @WebParam(name = "studentCredentialRecord") StudentCredentialRecordInfo studentCredentialRecord,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -997,7 +1001,8 @@ public interface AcademicRecordService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StatusInfo deleteStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo) throws
+    public StatusInfo deleteStudentCredentialRecord(@WebParam(name = "studentCredentialRecordId") String studentCredentialRecordId,
+                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1022,8 +1027,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public StudentTestScoreRecordInfo createStudentTestScoreRecord(String personId, StudentTestScoreRecordInfo studentTestScoreRecord,
-                                                                   ContextInfo contextInfo) throws
+    public StudentTestScoreRecordInfo createStudentTestScoreRecord(@WebParam(name = "personId") String personId,
+                                                                   @WebParam(name = "studentTestScoreRecord") StudentTestScoreRecordInfo studentTestScoreRecord,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1048,9 +1054,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    public StudentTestScoreRecordInfo updateStudentTestScoreRecord(String studentTestScoreRecordId,
-                                                                   StudentTestScoreRecordInfo studentTestScoreRecord,
-                                                                   ContextInfo contextInfo) throws
+    public StudentTestScoreRecordInfo updateStudentTestScoreRecord(@WebParam(name = "studentTestScoreRecordId") String studentTestScoreRecordId,
+                                                                   @WebParam(name = "studentTestScoreRecord") StudentTestScoreRecordInfo studentTestScoreRecord,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1073,7 +1079,8 @@ public interface AcademicRecordService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StatusInfo deleteStudentTestScoreRecord(String studentTestScoreRecordId, ContextInfo contextInfo) throws
+    public StatusInfo deleteStudentTestScoreRecord(@WebParam(name = "studentTestScoreRecordId") String studentTestScoreRecordId,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1101,8 +1108,12 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public GPAInfo createGPA(String personId, String programId, String resultScaleId, String atpId, GPAInfo gpa,
-                             ContextInfo contextInfo) throws
+    public GPAInfo createGPA(@WebParam(name = "personId") String personId,
+                             @WebParam(name = "programId") String programId,
+                             @WebParam(name = "resultScaleId") String resultScaleId,
+                             @WebParam(name = "atpId") String atpId,
+                             @WebParam(name = "gpa") GPAInfo gpa,
+                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1127,8 +1138,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    public GPAInfo updateGPA(String gpaId, GPAInfo gpa,
-                             ContextInfo contextInfo) throws
+    public GPAInfo updateGPA(@WebParam(name = "gpaId") String gpaId,
+                             @WebParam(name = "gpa") GPAInfo gpa,
+                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1151,7 +1163,8 @@ public interface AcademicRecordService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StatusInfo deleteGPA(String gpaId, ContextInfo contextInfo) throws
+    public StatusInfo deleteGPA(@WebParam(name = "gpaId") String gpaId,
+                                @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1176,8 +1189,10 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public LoadInfo createLoad(String personId, String atpId, LoadInfo load,
-                               ContextInfo contextInfo) throws
+    public LoadInfo createLoad(@WebParam(name = "personId") String personId,
+                               @WebParam(name = "atpId") String atpId,
+                               @WebParam(name = "load") LoadInfo load,
+                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1202,8 +1217,9 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException
      * @throws ReadOnlyException
      */
-    public LoadInfo updateLoad(String loadId, LoadInfo load,
-                               ContextInfo contextInfo) throws
+    public LoadInfo updateLoad(@WebParam(name = "loadId") String loadId,
+                               @WebParam(name = "load") LoadInfo load,
+                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
@@ -1226,7 +1242,8 @@ public interface AcademicRecordService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public StatusInfo deleteLoad(String loadId, ContextInfo contextInfo) throws
+    public StatusInfo deleteLoad(@WebParam(name = "loadId") String loadId,
+                                 @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
             InvalidParameterException,
