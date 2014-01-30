@@ -70,8 +70,8 @@
     <!-- Datasource Configuration -->
     <param name="datasource.ojb.platform">Oracle9i</param>
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
-    <param name="datasource.username">ksbundled</param>
-    <param name="datasource.password">ksbundled</param>
+    <param name="datasource.username">KSBUNDLED</param>
+    <param name="datasource.password">KSBUNDLED</param>
 
     <param name="datasource.pool.maxWait">60000</param>
     <param name="datasource.pool.maxSize">10</param>
