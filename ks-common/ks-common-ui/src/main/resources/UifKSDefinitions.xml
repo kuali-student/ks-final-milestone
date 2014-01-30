@@ -416,22 +416,6 @@
         <property name="actionImagePlacement" value="TOP"/>
     </bean>
 
-    <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator"
-          parent="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent"/>
-    <bean id="KS-Uif-TableCollectionSubSection-WithActionSeperator-parent" parent="Uif-TableCollectionSubSection"
-          class="org.kuali.student.common.uif.container.KSTableCollectionWithLineActionLinkSeperator" abstract="true"
-          scope="prototype">
-        <property name="lineActionSeparator" value="&#160;&#160;|&#160;&#160;"/>
-    </bean>
-
-    <bean id="KS-Uif-TableCollectionSection-WithActionSeperator"
-          parent="KS-Uif-TableCollectionSection-WithActionSeperator-parent"/>
-    <bean id="KS-Uif-TableCollectionSection-WithActionSeperator-parent" parent="Uif-TableCollectionSection"
-          class="org.kuali.student.common.uif.container.KSTableCollectionWithLineActionLinkSeperator" abstract="true"
-          scope="prototype">
-        <property name="lineActionSeparator" value="&#160;&#160;|&#160;&#160;"/>
-    </bean>
-
     <bean id="KS-Uif-Suggest" parent="KS-Uif-Suggest-parentBean"/>
     <bean id="KS-Uif-Suggest-parentBean" abstract="true" scope="prototype"
           class="org.kuali.rice.krad.uif.widget.Suggest2" parent="Uif-WidgetBase">

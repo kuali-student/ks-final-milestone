@@ -47,6 +47,12 @@
        <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}');"/>
    </bean>
 
+    <bean id="Uif-TableCollectionLayout" parent="Uif-TableCollectionLayout-parentBean">
+        <property name="actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="" p:shortLabel="Actions"/>
+        </property>
+    </bean>
+
     <bean id="Uif-Page" parent="Uif-Page-parentBean">
         <property name="footer">
             <bean parent="KS-Uif-EmptyFooter"/>
