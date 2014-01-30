@@ -43,8 +43,8 @@
 	<param name="ks.enroll.datasource.validationQuery.mysql">select 1</param>
 	<param name="ks.enroll.datasource.validationQuery">${ks.enroll.datasource.validationQuery.${db.vendor}}</param>
 	
-	<param name="ks.enroll.datasource.username">ksenroll</param>
-	<param name="ks.enroll.datasource.password">ksenroll</param>
+	<param name="ks.enroll.datasource.username">KSENROLL</param>
+	<param name="ks.enroll.datasource.password">KSENROLL</param>
     
     <param name="ks.enroll.datasource.maxSize" override="false">10</param>
     <param name="ks.enroll.datasource.minSize" override="false">2</param>
