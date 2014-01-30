@@ -19,7 +19,7 @@ import java.util.Collections;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PossibleScheduleOptionInfo", propOrder = { "id", "description", "activityOptions", })
+@XmlType(name = "PossibleScheduleOptionInfo", propOrder = { "id", "description", "activityOptions"})
 public class PossibleScheduleOptionInfo extends ScheduleBuildOptionInfo
 		implements PossibleScheduleOption {
 
