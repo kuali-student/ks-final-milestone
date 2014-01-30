@@ -25,13 +25,19 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
-public class AcademicRecordServiceDecorator 
+/**
+ * @author Kuali Student Team
+ */
+public class AcademicRecordServiceDecorator
     implements AcademicRecordService {
 
     private AcademicRecordService nextDecorator;
@@ -215,7 +221,100 @@ public class AcademicRecordServiceDecorator
                 contextInfo);
     }
 
-    
+
+    @Override
+    public StudentProgramRecordInfo createStudentProgramRecord(String studentId,
+                                                               StudentProgramRecordInfo studentProgramRecord, ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createStudentProgramRecord(studentId, studentProgramRecord, contextInfo);
+    }
+
+    @Override
+    public StudentProgramRecordInfo updateStudentProgramRecord(String studentProgramRecordId, StudentProgramRecordInfo studentProgramRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.updateStudentProgramRecord(studentProgramRecordId, studentProgramRecord, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteStudentProgramRecord(String studentProgramRecordId, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.deleteStudentProgramRecord(studentProgramRecordId, contextInfo);
+    }
+
+    @Override
+    public StudentCourseRecordInfo createStudentCourseRecord(String studentId, String courseRegistrationId, StudentCourseRecordInfo studentCourseRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createStudentCourseRecord(studentId, courseRegistrationId, studentCourseRecord, contextInfo);
+    }
+
+    @Override
+    public StudentCourseRecordInfo updateStudentCourseRecord(String studentCourseRecordId, StudentCourseRecordInfo studentCourseRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.updateStudentCourseRecord(studentCourseRecordId, studentCourseRecord, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.deleteStudentCourseRecord(studentCourseRecordId, contextInfo);
+    }
+
+    @Override
+    public StudentCredentialRecordInfo createStudentCredentialRecord(String studentId, StudentCredentialRecordInfo studentCredentialRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createStudentCredentialRecord(studentId, studentCredentialRecord, contextInfo);
+    }
+
+    @Override
+    public StudentCredentialRecordInfo updateStudentCredentialRecord(String studentCredentialRecordId, StudentCredentialRecordInfo studentCredentialRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.updateStudentCredentialRecord(studentCredentialRecordId, studentCredentialRecord, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.deleteStudentCredentialRecord(studentCredentialRecordId, contextInfo);
+    }
+
+    @Override
+    public StudentTestScoreRecordInfo createStudentTestScoreRecord(String studentId, StudentTestScoreRecordInfo studentTestScoreRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createStudentTestScoreRecord(studentId, studentTestScoreRecord, contextInfo);
+    }
+
+    @Override
+    public StudentTestScoreRecordInfo updateStudentTestScoreRecord(String studentTestScoreRecordId, StudentTestScoreRecordInfo studentTestScoreRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.updateStudentTestScoreRecord(studentTestScoreRecordId, studentTestScoreRecord, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteStudentTestScoreRecord(String studentTestScoreRecordId, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.deleteStudentTestScoreRecord(studentTestScoreRecordId, contextInfo);
+    }
+
+    @Override
+    public GPAInfo createGPA(String studentId, String programId, String resultScaleId, String atpId, GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createGPA(studentId, programId, resultScaleId, atpId, gpa, contextInfo);
+    }
+
+    @Override
+    public GPAInfo updateGPA(String gpaId, GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.updateGPA(gpaId, gpa, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteGPA(String gpaId, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.deleteGPA(gpaId, contextInfo);
+    }
+
+    @Override
+    public LoadInfo createLoad(String studentId, String atpId, LoadInfo load, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createLoad(studentId, atpId, load, contextInfo);
+    }
+
+    @Override
+    public LoadInfo updateLoad(String loadId, LoadInfo load, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.updateLoad(loadId, load, contextInfo);
+    }
+
+    @Override
+    public StatusInfo deleteLoad(String loadId, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.deleteLoad(loadId, contextInfo);
+    }
+
     
     
 }

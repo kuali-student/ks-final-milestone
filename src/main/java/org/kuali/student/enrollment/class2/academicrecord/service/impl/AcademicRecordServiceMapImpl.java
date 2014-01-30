@@ -451,7 +451,8 @@ public class AcademicRecordServiceMapImpl implements
         return String.valueOf(credits);
     }
 
-    public StudentProgramRecordInfo createStudentProgramRecord(String studentId,
+    @Override
+    public StudentProgramRecordInfo createStudentProgramRecord(String personId,
                                                                StudentProgramRecordInfo studentProgramRecord,
                                                                ContextInfo contextInfo) throws
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -460,10 +461,11 @@ public class AcademicRecordServiceMapImpl implements
         studentProgramRecord.setProgramId(programId);
         String classStanding = calculateClassStanding(studentProgramRecord);
         studentProgramRecord.setClassStanding(classStanding);
-        storeStudentProgramRecord(studentId, programId, studentProgramRecord);
+        storeStudentProgramRecord(personId, programId, studentProgramRecord);
         return studentProgramRecord;
     }
 
+    @Override
     public StudentProgramRecordInfo updateStudentProgramRecord(String studentProgramRecordId,
                                                                StudentProgramRecordInfo studentProgramRecord,
                                                                ContextInfo contextInfo)
@@ -471,29 +473,32 @@ public class AcademicRecordServiceMapImpl implements
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String classStanding = calculateClassStanding(studentProgramRecord);
         studentProgramRecord.setClassStanding(classStanding);
-        String studentId = null;
+        String personId = null;
         String programId = studentProgramRecord.getProgramId();
-        storeStudentProgramRecord(studentId, programId, studentProgramRecord);
+        storeStudentProgramRecord(personId, programId, studentProgramRecord);
         return studentProgramRecord;
     }
 
+    @Override
     public StatusInfo deleteStudentProgramRecord(String studentProgramRecordId, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
-    public StudentCourseRecordInfo createStudentCourseRecord(String studentId, String courseRegistrationId,
+    @Override
+    public StudentCourseRecordInfo createStudentCourseRecord(String personId, String courseRegistrationId,
                                                              StudentCourseRecordInfo studentCourseRecord,
                                                              ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String termId = studentCourseRecord.getTermId();
         String courseOfferingId = studentCourseRecord.getCourseOfferingId();
-        storeStudentCourseRecord(studentId, termId, courseRegistrationId, studentCourseRecord);
+        storeStudentCourseRecord(personId, termId, courseRegistrationId, studentCourseRecord);
         return studentCourseRecord;
     }
 
+    @Override
     public StudentCourseRecordInfo updateStudentCourseRecord(String studentCourseRecordId,
                                                              StudentCourseRecordInfo studentCourseRecord,
                                                              ContextInfo contextInfo) throws
@@ -502,21 +507,24 @@ public class AcademicRecordServiceMapImpl implements
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
+    @Override
     public StatusInfo deleteStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
-    public StudentCredentialRecordInfo createStudentCredentialRecord(String studentId,
+    @Override
+    public StudentCredentialRecordInfo createStudentCredentialRecord(String personId,
                                                                     StudentCredentialRecordInfo studentCredentialRecord,
                                                                     ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        studentCredentialRecordsMap.put(studentId, studentCredentialRecord);
+        studentCredentialRecordsMap.put(personId, studentCredentialRecord);
         return studentCredentialRecord;
     }
 
+    @Override
     public StudentCredentialRecordInfo updateStudentCredentialRecord(String studentCredentialRecordId,
                                                                     StudentCredentialRecordInfo studentCredentialRecord,
                                                                     ContextInfo contextInfo)
@@ -525,21 +533,24 @@ public class AcademicRecordServiceMapImpl implements
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
+    @Override
     public StatusInfo deleteStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
-    public StudentTestScoreRecordInfo createStudentTestScoreRecord(String studentId,
+    @Override
+    public StudentTestScoreRecordInfo createStudentTestScoreRecord(String personId,
                                                                    StudentTestScoreRecordInfo studentTestScoreRecord,
                                                                    ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        studentTestScoreRecordsMap.put(studentId, studentTestScoreRecord);
+        studentTestScoreRecordsMap.put(personId, studentTestScoreRecord);
         return studentTestScoreRecord;
     }
 
+    @Override
     public StudentTestScoreRecordInfo updateStudentTestScoreRecord(String studentTestScoreRecordId,
                                                                    StudentTestScoreRecordInfo studentTestScoreRecord,
                                                                    ContextInfo contextInfo)
@@ -548,45 +559,52 @@ public class AcademicRecordServiceMapImpl implements
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
+    @Override
     public StatusInfo deleteStudentTestScoreRecord(String studentTestScoreRecordId, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
-    public GPAInfo createGPA(String studentId, String programId, String resultScaleId, String atpId,
+    @Override
+    public GPAInfo createGPA(String personId, String programId, String resultScaleId, String atpId,
                              GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        gpasMap.put(studentId, gpa);
+        gpasMap.put(personId, gpa);
         return gpa;
     }
 
+    @Override
     public GPAInfo updateGPA(String gpaId, GPAInfo gpa, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
+    @Override
     public StatusInfo deleteGPA(String gpaId, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
-    public LoadInfo createLoad(String studentId, String atpId, LoadInfo load, ContextInfo contextInfo)
+    @Override
+    public LoadInfo createLoad(String personId, String atpId, LoadInfo load, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        loadsMap.put(studentId, load);
+        loadsMap.put(personId, load);
         return load;
     }
 
+    @Override
     public LoadInfo updateLoad(String loadId, LoadInfo load, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
+    @Override
     public StatusInfo deleteLoad(String loadId, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {

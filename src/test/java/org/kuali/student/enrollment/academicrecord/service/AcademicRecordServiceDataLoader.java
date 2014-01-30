@@ -24,19 +24,22 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordIn
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 
+import javax.annotation.Resource;
 import java.util.Calendar;
 
+/**
+ * @author Kuali Student Team
+ */
 public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDataLoader {
 
     private int countStudentId;
     private int countProgramId;
 
-// after an initial review will change this to the AR interface and promote the map impl methods to the AR interface
-//    @Resource
-    private AcademicRecordServiceMapImpl academicRecordService = getAcademicRecordService();
+    @Resource
+    private AcademicRecordService academicRecordService;
 
-    public AcademicRecordServiceMapImpl getAcademicRecordService() {
-        return new AcademicRecordServiceMapImpl();
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
     }
 
     // convenience method for generating dto

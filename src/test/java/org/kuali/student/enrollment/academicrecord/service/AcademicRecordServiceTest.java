@@ -25,6 +25,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 
+/**
+ * @author Kuali Student Team
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:acad-test-with-map-context.xml"})
 public class AcademicRecordServiceTest {

@@ -15,6 +15,9 @@
  */
 package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
+/**
+ * @author Kuali Student Team
+ */
 public class AcademicRecordServiceConstants {
     public static final int FRESHMAN_THRESHOLD = 25;
     public static final int SOPHOMORE_THRESHOLD = 55;

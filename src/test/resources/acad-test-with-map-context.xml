@@ -7,7 +7,7 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-    <bean id="academicRecordServiceImpl" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl" />
+    <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl" />
 <!--
     <bean id="academicRecordService" class="org.kuali.student.r2.core.academicrecord.service.decorators.AcademicRecordServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator" ref="academicRecordServiceImpl" />
