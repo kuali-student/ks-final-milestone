@@ -49,7 +49,7 @@ public class AgendaBuilder {
         Group group = ComponentUtils.copy(agendaSection.getAgendaPrototype(), agendaSuffix);
         group.setHeaderText(agenda.getAgendaTypeInfo().getDescription());
 
-        String bindingPrefix = "agendas[" + index + "].";
+        String bindingPrefix = agendaSection.getPropertyName() + "[" + index + "].";
         List<Component> components = new ArrayList<Component>();
         for (RuleEditor rule : agenda.getRuleEditors().values()) {
             components.add(buildRule(rule, bindingPrefix, agendaSection));
