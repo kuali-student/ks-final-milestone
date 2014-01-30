@@ -36,8 +36,8 @@
 	<param name="ks.lum.datasource.validationQuery.oracle">select 1 from dual</param>
 	<param name="ks.lum.datasource.validationQuery.derby">values(1)</param>
 	<param name="ks.lum.datasource.validationQuery">${ks.lum.datasource.validationQuery.${db.vendor}}</param>
-	<param name="ks.lum.datasource.username">kslum</param>
-    <param name="ks.lum.datasource.password">kslum</param>
+	<param name="ks.lum.datasource.username">KSLUM</param>
+    <param name="ks.lum.datasource.password">KSLUM</param>
     
     <param name="ks.lum.datasource.maxSize" override="false">10</param>
     <param name="ks.lum.datasource.minSize" override="false">2</param>
