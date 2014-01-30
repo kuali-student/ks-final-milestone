@@ -44,7 +44,7 @@ c
 
     <param name="ks.core.datasource.maxSize" override="false">10</param>
     <param name="ks.core.datasource.minSize" override="false">2</param>
-    <param name="ks.core.datasource.maxWait" override="false">600</param>
+    <param name="ks.core.datasource.maxWait" override="false">60000</param>
 
     <param name="ks.core.jpa.showSql">false</param>
     <param name="ks.core.jpa.generateDdl">false</param>
