@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInf
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -231,6 +232,11 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
+    public List<ValidationResultInfo> validateStudentProgramRecord(String validationTypeKey, String objectTypeKey, StudentProgramRecordInfo studentProgramRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateStudentProgramRecord(validationTypeKey, objectTypeKey, studentProgramRecordInfo, contextInfo);
+    }
+
+    @Override
     public StudentProgramRecordInfo updateStudentProgramRecord(String studentProgramRecordId, StudentProgramRecordInfo studentProgramRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return nextDecorator.updateStudentProgramRecord(studentProgramRecordId, studentProgramRecord, contextInfo);
     }
@@ -243,6 +249,11 @@ public class AcademicRecordServiceDecorator
     @Override
     public StudentCourseRecordInfo createStudentCourseRecord(String studentId, String courseRegistrationId, StudentCourseRecordInfo studentCourseRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return nextDecorator.createStudentCourseRecord(studentId, courseRegistrationId, studentCourseRecord, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateStudentCourseRecord(String validationTypeKey, String objectTypeKey, StudentCourseRecordInfo studentCourseRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateStudentCourseRecord(validationTypeKey, objectTypeKey, studentCourseRecordInfo, contextInfo);
     }
 
     @Override
@@ -261,6 +272,11 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
+    public List<ValidationResultInfo> validateStudentCredentialRecord(String validationTypeKey, String objectTypeKey, StudentCredentialRecordInfo studentCredentialRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateStudentCredentialRecord(validationTypeKey, objectTypeKey, studentCredentialRecordInfo, contextInfo);
+    }
+
+    @Override
     public StudentCredentialRecordInfo updateStudentCredentialRecord(String studentCredentialRecordId, StudentCredentialRecordInfo studentCredentialRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return nextDecorator.updateStudentCredentialRecord(studentCredentialRecordId, studentCredentialRecord, contextInfo);
     }
@@ -273,6 +289,11 @@ public class AcademicRecordServiceDecorator
     @Override
     public StudentTestScoreRecordInfo createStudentTestScoreRecord(String studentId, StudentTestScoreRecordInfo studentTestScoreRecord, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return nextDecorator.createStudentTestScoreRecord(studentId, studentTestScoreRecord, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateStudentTestScoreRecord(String validationTypeKey, String objectTypeKey, StudentTestScoreRecordInfo studentTestScoreRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateStudentTestScoreRecord(validationTypeKey, objectTypeKey, studentTestScoreRecordInfo, contextInfo);
     }
 
     @Override
@@ -291,6 +312,11 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
+    public List<ValidationResultInfo> validateGPA(String validationTypeKey, String objectTypeKey, GPAInfo gpaInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateGPA(validationTypeKey, objectTypeKey, gpaInfo, contextInfo);
+    }
+
+    @Override
     public GPAInfo updateGPA(String gpaId, GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return nextDecorator.updateGPA(gpaId, gpa, contextInfo);
     }
@@ -303,6 +329,11 @@ public class AcademicRecordServiceDecorator
     @Override
     public LoadInfo createLoad(String studentId, String atpId, LoadInfo load, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return nextDecorator.createLoad(studentId, atpId, load, contextInfo);
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLoad(String validationTypeKey, String objectTypeKey, LoadInfo loadInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.validateLoad(validationTypeKey, objectTypeKey, loadInfo, contextInfo);
     }
 
     @Override

@@ -34,6 +34,7 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInf
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -466,6 +467,11 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
+    public List<ValidationResultInfo> validateStudentProgramRecord(String validationTypeKey, String objectTypeKey, StudentProgramRecordInfo studentProgramRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("This method is not yet supported.");
+    }
+
+    @Override
     public StudentProgramRecordInfo updateStudentProgramRecord(String studentProgramRecordId,
                                                                StudentProgramRecordInfo studentProgramRecord,
                                                                ContextInfo contextInfo)
@@ -499,6 +505,11 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
+    public List<ValidationResultInfo> validateStudentCourseRecord(String validationTypeKey, String objectTypeKey, StudentCourseRecordInfo studentCourseRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("This method is not yet supported.");
+    }
+
+    @Override
     public StudentCourseRecordInfo updateStudentCourseRecord(String studentCourseRecordId,
                                                              StudentCourseRecordInfo studentCourseRecord,
                                                              ContextInfo contextInfo) throws
@@ -522,6 +533,11 @@ public class AcademicRecordServiceMapImpl implements
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         studentCredentialRecordsMap.put(personId, studentCredentialRecord);
         return studentCredentialRecord;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateStudentCredentialRecord(String validationTypeKey, String objectTypeKey, StudentCredentialRecordInfo studentCredentialRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
     @Override
@@ -551,6 +567,11 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
+    public List<ValidationResultInfo> validateStudentTestScoreRecord(String validationTypeKey, String objectTypeKey, StudentTestScoreRecordInfo studentTestScoreRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("This method is not yet supported.");
+    }
+
+    @Override
     public StudentTestScoreRecordInfo updateStudentTestScoreRecord(String studentTestScoreRecordId,
                                                                    StudentTestScoreRecordInfo studentTestScoreRecord,
                                                                    ContextInfo contextInfo)
@@ -576,6 +597,11 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
+    public List<ValidationResultInfo> validateGPA(String validationTypeKey, String objectTypeKey, GPAInfo gpaInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("This method is not yet supported.");
+    }
+
+    @Override
     public GPAInfo updateGPA(String gpaId, GPAInfo gpa, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -595,6 +621,11 @@ public class AcademicRecordServiceMapImpl implements
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         loadsMap.put(personId, load);
         return load;
+    }
+
+    @Override
+    public List<ValidationResultInfo> validateLoad(String validationTypeKey, String objectTypeKey, LoadInfo loadInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
     @Override
