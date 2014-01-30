@@ -189,7 +189,6 @@
             <version>3.16</version>
         </dependency>
         <!-- end -->
-
         <!-- ActiveMQ -->
         <dependency>
             <groupId>org.apache.activemq</groupId>
@@ -203,6 +202,5 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
 </project>
