@@ -18,7 +18,6 @@
 <config>
   <param name="application.url">${public.url}</param>
   <param name="ks.rice.url">${ks.rice.url}</param>
-  <param name="serviceServletUrl">${application.url}/services/</param>
   <param name="app.context.name" />
   <param name="datasource.driver.name">${jdbc.driver}</param>
   <param name="datasource.url">${jdbc.url}</param>
@@ -39,8 +38,5 @@
   <param name="keystore.file">${keystore.file.default}</param>
   <param name="keystore.alias">rice</param>
   <param name="keystore.password">r1c3pw</param>
-  <param name="ks.rice.personLookup.serviceAddress">${ks.rice.url}/kr/lookup.do</param>
-  <param name="ks.rice.actionList.serviceAddress">${ks.rice.url}/kew/ActionList.do</param>
-  <param name="ks.rice.docSearch.serviceAddress">${ks.rice.url}/kew/DocumentSearch.do</param>
   <param name="ks.ignore.rice.login">true</param>
 </config>
