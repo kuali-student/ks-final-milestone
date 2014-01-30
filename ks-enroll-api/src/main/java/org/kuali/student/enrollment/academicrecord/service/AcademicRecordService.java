@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -803,6 +804,30 @@ public interface AcademicRecordService {
             ReadOnlyException;
 
     /**
+     * Validates a StudentProgramRecord. If an identifier is present for the StudentProgramRecord and a
+     * record is found for that identifier, the validation checks if the
+     * StudentProgramRecord can be updated to the new values. If an identifier is not
+     * present or a record does not exist, the validation checks if
+     * the StudentProgramRecord with the given data can be created.
+     * @param validationTypeKey the identifier for the validation Type
+     * @param objectTypeKey the identifier for the Object Type to be validated
+     * @param studentProgramRecordInfo the studentProgramRecord to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException studentProgramRecordInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentProgramRecordInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateStudentProgramRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                   @WebParam(name = "objectTypeKey") String objectTypeKey,
+                                                                   @WebParam(name = "studentProgramRecordInfo") StudentProgramRecordInfo studentProgramRecordInfo,
+                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      *
      * @param studentProgramRecordId
      * @param studentProgramRecord
@@ -883,6 +908,30 @@ public interface AcademicRecordService {
             ReadOnlyException;
 
     /**
+     * Validates a StudentCourseRecord. If an identifier is present for the
+     * StudentCourseRecord and a record is found for that identifier, the validation
+     * checks if the StudentCourseRecord can be updated to the new values.
+     * If an identifier is not present or a record does not exist, the validation
+     * checks if the StudentCourseRecord with the given data can be created.
+     * @param validationTypeKey the identifier for the validation Type
+     * @param objectTypeKey the identifier for the Object Type to be validated
+     * @param studentCourseRecordInfo the studentCourseRecord to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException studentCourseRecordInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentCourseRecordInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateStudentCourseRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                  @WebParam(name = "objectTypeKey") String objectTypeKey,
+                                                                  @WebParam(name = "studentCourseRecordInfo") StudentCourseRecordInfo studentCourseRecordInfo,
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      *
      * @param studentCourseRecordId
      * @param studentCourseRecord
@@ -961,6 +1010,31 @@ public interface AcademicRecordService {
             ReadOnlyException;
 
     /**
+     * Validates a StudentCredentialRecord. If an identifier is present for the
+     * StudentCredentialRecord and a record is found for that identifier, the validation
+     * checks if the StudentCredentialRecord can be updated to the new values.
+     * If an identifier is not present or a record does not exist, the validation
+     * checks if the StudentCredentialRecord with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param objectTypeKey the identifier for the Object Type to be validated
+     * @param studentCredentialRecordInfo the studentCredentialRecord to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException studentCredentialRecordInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentCredentialRecordInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateStudentCredentialRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                      @WebParam(name = "objectTypeKey") String objectTypeKey,
+                                                                      @WebParam(name = "studentCredentialRecordInfo") StudentCredentialRecordInfo studentCredentialRecordInfo,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      *
      * @param studentCredentialRecordId
      * @param studentCredentialRecord
@@ -1037,6 +1111,32 @@ public interface AcademicRecordService {
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException;
+
+    /**
+     *
+     * Validates a StudentTestScoreRecord. If an identifier is present for the
+     * StudentTestScoreRecord and a record is found for that identifier, the validation
+     * checks if the StudentTestScoreRecord can be updated to the new values.
+     * If an identifier is not present or a record does not exist, the validation
+     * checks if the StudentTestScoreRecord with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param objectTypeKey the identifier for the Object Type to be validated
+     * @param studentTestScoreRecordInfo the studentTestScoreRecord to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException studentTestScoreRecordInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentTestScoreRecordInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateStudentTestScoreRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                     @WebParam(name = "objectTypeKey") String objectTypeKey,
+                                                                     @WebParam(name = "studentTestScoreRecordInfo") StudentTestScoreRecordInfo studentTestScoreRecordInfo,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
 
     /**
      *
@@ -1123,6 +1223,31 @@ public interface AcademicRecordService {
             ReadOnlyException;
 
     /**
+     * Validates a GPA. If an identifier is present for the
+     * GPA and a record is found for that identifier, the validation
+     * checks if the GPA can be updated to the new values.
+     * If an identifier is not present or a record does not exist, the validation
+     * checks if the GPA with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param objectTypeKey the identifier for the Object Type to be validated
+     * @param gpaInfo the gpa to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException gpaInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, gpaInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateGPA(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                  @WebParam(name = "objectTypeKey") String objectTypeKey,
+                                                  @WebParam(name = "gpaInfo") GPAInfo gpaInfo,
+                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      *
      * @param gpaId
      * @param gpa
@@ -1200,6 +1325,32 @@ public interface AcademicRecordService {
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException;
+
+    /**
+     *
+     * Validates a Load. If an identifier is present for the
+     * Load and a record is found for that identifier, the validation
+     * checks if the Load can be updated to the new values.
+     * If an identifier is not present or a record does not exist, the validation
+     * checks if the Load with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param objectTypeKey the identifier for the Object Type to be validated
+     * @param loadInfo the load to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException loadInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, loadInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateLoad(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                   @WebParam(name = "objectTypeKey") String objectTypeKey,
+                                                   @WebParam(name = "loadInfo") LoadInfo loadInfo,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
 
     /**
      *
