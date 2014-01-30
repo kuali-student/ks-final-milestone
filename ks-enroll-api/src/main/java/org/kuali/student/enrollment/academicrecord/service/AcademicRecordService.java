@@ -22,11 +22,14 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordIn
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 
 import javax.jws.WebParam;
@@ -770,6 +773,466 @@ public interface AcademicRecordService {
      OperationFailedException,
      PermissionDeniedException;
      */
+
+    /**
+     * Creates a new StudentProgramRecord
+     *
+     * @param personId
+     * @param studentProgramRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created StudentProgramRecordInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException StudentProgramRecord or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, studentProgramRecord, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public StudentProgramRecordInfo createStudentProgramRecord(String personId, StudentProgramRecordInfo studentProgramRecord,
+                                                               ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param studentProgramRecordId
+     * @param studentProgramRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    public StudentProgramRecordInfo updateStudentProgramRecord(String studentProgramRecordId,
+                                                               StudentProgramRecordInfo studentProgramRecord,
+                                                               ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param studentProgramRecordId  the identifier for the Object to be deleted
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo deleteStudentProgramRecord(String studentProgramRecordId, ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new StudentCourseRecord
+     *
+     * @param personId
+     * @param courseRegistrationId
+     * @param studentCourseRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created StudentCourseRecordInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException StudentCourseRecord or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, studentCourseRecord, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public StudentCourseRecordInfo createStudentCourseRecord(String personId, String courseRegistrationId,
+                                                             StudentCourseRecordInfo studentCourseRecord,
+                                                             ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param studentCourseRecordId
+     * @param studentCourseRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the updated StudentCourseRecord
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    public StudentCourseRecordInfo updateStudentCourseRecord(String studentCourseRecordId,
+                                                             StudentCourseRecordInfo studentCourseRecord,
+                                                             ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param studentCourseRecordId  the identifier for the Object to be deleted
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo deleteStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new StudentCredentialRecord
+     *
+     * @param personId
+     * @param studentCredentialRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created StudentCredentialRecordInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException StudentCredentialRecord or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, studentCredentialRecord, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public StudentCredentialRecordInfo createStudentCredentialRecord(String personId,
+                                                                     StudentCredentialRecordInfo studentCredentialRecord,
+                                                                     ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param studentCredentialRecordId
+     * @param studentCredentialRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the updated StudentCredentialRecordInfo
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    public StudentCredentialRecordInfo updateStudentCredentialRecord(String studentCredentialRecordId,
+                                                                     StudentCredentialRecordInfo studentCredentialRecord,
+                                                                     ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param studentCredentialRecordId  the identifier for the Object to be deleted
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo deleteStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new StudentTestScoreRecord
+     *
+     * @param personId
+     * @param studentTestScoreRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created StudentTestScoreRecordInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException StudentTestScoreRecord or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, studentTestScoreRecord, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public StudentTestScoreRecordInfo createStudentTestScoreRecord(String personId, StudentTestScoreRecordInfo studentTestScoreRecord,
+                                                                   ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param studentTestScoreRecordId
+     * @param studentTestScoreRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the updated StudentTestScoreRecordInfo
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    public StudentTestScoreRecordInfo updateStudentTestScoreRecord(String studentTestScoreRecordId,
+                                                                   StudentTestScoreRecordInfo studentTestScoreRecord,
+                                                                   ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param studentTestScoreRecordId  the identifier for the Object to be deleted
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo deleteStudentTestScoreRecord(String studentTestScoreRecordId, ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new GPA
+     *
+     * @param personId
+     * @param programId
+     * @param resultScaleId
+     * @param atpId
+     * @param gpa
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created GPAInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException gpa or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, gpa, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public GPAInfo createGPA(String personId, String programId, String resultScaleId, String atpId, GPAInfo gpa,
+                             ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param gpaId
+     * @param gpa
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the updated GPAInfo
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    public GPAInfo updateGPA(String gpaId, GPAInfo gpa,
+                             ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param gpaId  the identifier for the Object to be deleted
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo deleteGPA(String gpaId, ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Creates a new Load
+     *
+     * @param personId
+     * @param load
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created LoadInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException load or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, load, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public LoadInfo createLoad(String personId, String atpId, LoadInfo load,
+                               ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param loadId
+     * @param load
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the updated LoadInfo
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws ReadOnlyException
+     */
+    public LoadInfo updateLoad(String loadId, LoadInfo load,
+                               ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
+
+    /**
+     *
+     * @param loadId  the identifier for the Object to be deleted
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public StatusInfo deleteLoad(String loadId, ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
 }
 
