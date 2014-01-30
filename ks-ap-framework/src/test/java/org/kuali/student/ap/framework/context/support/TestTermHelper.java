@@ -2,7 +2,6 @@ package org.kuali.student.ap.framework.context.support;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -18,7 +17,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Created with IntelliJ IDEA.
@@ -66,22 +64,6 @@ public class TestTermHelper {
     }
 
     @Test
-    @Ignore
-    public void testFrontLoadForPlanner() throws Exception {
-        //TODO What is this doing?  Do we really need it?
-        //th.frontLoadForPlanner();
-        fail("Not implemented yet");
-    }
-
-    @Test
-    @Ignore
-    public void testGetCalendarTerms() throws Exception {
-        //TODO Need data
-        //List<Term> terms = th.getCalendarTerms(term);
-        fail("Not implemented yet");
-    }
-
-    @Test
     public void testGetCurrentAcademicCalendar() throws Exception {
         AcademicCalendar acal = th.getCurrentAcademicCalendar();
         assertNotNull(acal);
@@ -119,78 +101,6 @@ public class TestTermHelper {
         List<Term> terms = th.getFutureTermsWithPublishedSOC();
         assertNotNull(terms);
         assertTrue(terms.size() > 0);
-    }
-
-    @Test
-    @Ignore
-    public void testGetFirstTermOfAcademicYear() throws Exception {
-        fail("Not implemented yet");
-    }
-
-    @Test
-    @Ignore
-    public void testGetNumberOfTermsInAcademicYear() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testGetTermsInAcademicYear() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testGetTermNameInAcadmicYear() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testIsPlanning() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testIsPublished() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testIsCompleted() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testIsCourseOffered() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testGetPublishedTerms() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testGetPlanningTerms() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testGetTermsByDateRange() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testGetTerm() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testGetYearTerm() throws Exception {
-        fail("Not implemented yet");
-    }
-    @Test
-    @Ignore
-    public void testGetStartTermId() throws Exception {
-        fail("Not implemented yet");
     }
 
 }
