@@ -16,11 +16,17 @@
 package org.kuali.student.core.ges.service.decorators;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.ResultEvent;
+import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.GesCriteriaInfo;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesServiceDecorator;
+import org.kuali.student.core.process.evaluator.KRMSEvaluator;
+import org.kuali.student.core.process.evaluator.PropositionFactory;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -35,12 +41,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GesServiceEvaluationDecorator extends GesServiceDecorator {
 
+    //////////////////////////////
+    // DATA VARIABLES
+    //////////////////////////////
+
     private PopulationService populationService;
     private AtpService atpService;
+    private PropositionFactory propositionFactory;
+    private KRMSEvaluator krmsEvaluator;
+
+    //////////////////////////////
+    // GETTERS & SETTERS
+    //////////////////////////////
+
 
     public PopulationService getPopulationService() {
         return populationService;
@@ -57,6 +76,26 @@ public class GesServiceEvaluationDecorator extends GesServiceDecorator {
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
     }
+
+    public PropositionFactory getPropositionFactory() {
+        return propositionFactory;
+    }
+
+    public void setPropositionFactory(PropositionFactory propositionFactory) {
+        this.propositionFactory = propositionFactory;
+    }
+
+    public KRMSEvaluator getKrmsEvaluator() {
+        return krmsEvaluator;
+    }
+
+    public void setKrmsEvaluator(KRMSEvaluator krmsEvaluator) {
+        this.krmsEvaluator = krmsEvaluator;
+    }
+
+    //////////////////////////
+    // FUNCTIONALS
+    //////////////////////////
 
     @Override
     public List<ValueInfo> evaluateValues(String parameterKey, GesCriteriaInfo criteria, ContextInfo contextInfo)
@@ -175,9 +214,31 @@ public class GesServiceEvaluationDecorator extends GesServiceDecorator {
         }
     }
 
-    private boolean evaluateRule(String ruleId, GesCriteriaInfo criteria, Date date, ContextInfo contextInfo) {
-
-        return true;
+    private boolean evaluateRule(String ruleId, GesCriteriaInfo criteria, Date date, ContextInfo contextInfo) throws OperationFailedException {
+        if (ruleId==null) return true; // if there is no rule id then there is nothing to be evaluated, and it's true.
+        Proposition prop = null;
+        try {
+            propositionFactory.getProposition(ruleId, contextInfo);
+        }
+        catch (DoesNotExistException e) {
+            throw new OperationFailedException("Proposition not found for rule with rule id " + ruleId, e);
+        }
+        Map<String, Object> executionFacts = new LinkedHashMap<String, Object>();
+        executionFacts.put(RulesExecutionConstants.GES_CRITERIA_TERM.getName(), criteria);
+        executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
+        EngineResults engineResults = krmsEvaluator.evaluateProposition(prop, executionFacts);
+        Exception ex = KRMSEvaluator.checkForExceptionDuringExecution(engineResults);
+        boolean result;
+        if (ex != null) {
+            throw new OperationFailedException ("Unexpected exception while executing rules", ex);
+        }
+        List<ResultEvent> resultEvents = engineResults.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
+        if(resultEvents.size() == 1) {
+            result = resultEvents.get(0).getResult();
+        } else {
+            throw new OperationFailedException("Unexpected result size for rule results");
+        }
+        return result;
     }
 
     private boolean isAtpActive(List<String> atpTypeKeys, String atpTypeKey, Date date, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException {

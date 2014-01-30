@@ -24,10 +24,14 @@
     <!-- GES service -->
 
     <bean id="gesBaseImpl" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" />
+    <bean id="propositionFactory" class="org.kuali.student.core.process.evaluator.PropositionFactoryHardwiredImpl" />
+    <bean id="krmsEvaluator" class="org.kuali.student.core.process.evaluator.KRMSEvaluator" />
 
     <bean id="gesServiceImpl" class="org.kuali.student.core.ges.service.decorators.GesServiceEvaluationDecorator">
         <property name="populationService" ref="popServiceImpl"/>
         <property name="atpService" ref="atpServiceImpl"/>
+        <property name="propositionFactory" ref="propositionFactory"/>
+        <property name="krmsEvaluator" ref="krmsEvaluator"/>
         <property name="nextDecorator" ref="gesBaseImpl" />
     </bean>
 
