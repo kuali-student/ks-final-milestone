@@ -41,7 +41,7 @@
     
     <param name="ks.lum.datasource.maxSize" override="false">10</param>
     <param name="ks.lum.datasource.minSize" override="false">2</param>
-    <param name="ks.lum.datasource.maxWait" override="false">600</param>
+    <param name="ks.lum.datasource.maxWait" override="false">60000</param>
     
     <param name="ks.lum.jpa.showSql">false</param>
     <param name="ks.lum.jpa.generateDdl">false</param>
