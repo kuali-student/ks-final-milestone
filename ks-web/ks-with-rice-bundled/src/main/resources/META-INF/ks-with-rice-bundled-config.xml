@@ -75,7 +75,7 @@
 
     <param name="datasource.pool.maxWait">60000</param>
     <param name="datasource.pool.maxSize">10</param>
-    <param name="datasource.pool.minSize">3</param>
+    <param name="datasource.pool.minSize">2</param>
 
     <param name="ks.lum.datasource.url">${datasource.url}</param>
     <param name="ks.lum.datasource.username">${datasource.username}</param>
