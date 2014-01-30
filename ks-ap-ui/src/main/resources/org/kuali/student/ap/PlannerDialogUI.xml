@@ -506,7 +506,7 @@
     <bean id="course_add_course_page-parent" abstract="true" parent="KSAP-PopoverPage">
         <property name="id" value="course_add_course_page" />
         <property name="innerViewWrapperId" value="course_add_course_inner" />
-        <property name="headerText" value="Add Bookmark Course" />
+        <property name="headerText" value="Add to Plan" />
         <property name="items">
             <list merge="true">
                 <ref bean="planner_course_summary_link" />
