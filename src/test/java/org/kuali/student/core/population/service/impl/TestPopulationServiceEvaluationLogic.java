@@ -17,14 +17,12 @@
 package org.kuali.student.core.population.service.impl;
 
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
-import org.kuali.student.r2.core.population.infc.PopulationRule;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -292,6 +290,15 @@ public class TestPopulationServiceEvaluationLogic {
         assertTrue(populationService.isMemberAsOfDate(PopulationTestPersonEnum.INSTRUCTOR2.getPersonId(), instructorsPop.getId(), date, contextInfo));
         assertFalse(populationService.isMemberAsOfDate(PopulationTestPersonEnum.INSTRUCTOR3.getPersonId(), instructorsPop.getId(), date, contextInfo));
         assertFalse(populationService.isMemberAsOfDate(PopulationTestPersonEnum.INSTRUCTOR4.getPersonId(), instructorsPop.getId(), date, contextInfo));
+
+    }
+    @Test
+    public void testPopulationUsingRule() throws Exception {
+        dataLoader.beforeTest();
+
+
+
+
 
     }
 

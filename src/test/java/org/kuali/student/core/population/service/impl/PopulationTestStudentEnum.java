@@ -21,7 +21,16 @@ public enum PopulationTestStudentEnum implements hasPersonId {
     STUDENT9("2009", "888020009", "English", PopulationTestConstants.PROGRAM_MASTER_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_GRADUATE, "2", "5"),
     STUDENT10("2010", "888020010", "Biology", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "1", "0"),
     STUDENT11("2011", "888020011", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "2", "5"),
-    STUDENT12("2012", "888020012", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "3", "10");
+    STUDENT12("2012", "888020012", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "3", "10"),
+    STUDENT13("2013", "888020013", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "freshman", "0"),
+    STUDENT14("2014", "888020014", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "freshman", "0"),
+    STUDENT15("2015", "888020015", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "sophomore", "0"),
+    STUDENT16("2016", "888020016", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "sophomore", "0"),
+    STUDENT17("2017", "888020017", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "junior", "0"),
+    STUDENT18("2018", "888020018", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "junior", "0"),
+    STUDENT19("2019", "888020019", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "senior", "0"),
+    STUDENT20("2020", "888020020", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "senior", "0");
+
 
     //////////////////////
     // PROPERTIES

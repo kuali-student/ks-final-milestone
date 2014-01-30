@@ -2,6 +2,8 @@ package org.kuali.student.core.process.evaluator;
 
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.core.ges.service.proposition.IsGesValueApplicableProposition;
+import org.kuali.student.core.population.service.proposition.ClassStandingProposition;
+import org.kuali.student.enrollment.class2.academicrecord.service.impl.ClassStanding;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -19,6 +21,11 @@ public class PropositionFactoryHardwiredImpl implements PropositionFactory {
     public static final String RULE_ID_CREDIT_LIMIT = "kuali.rule.credit.limit";
     public static final String RULE_ID_CREDIT_MINIMUM = "kuali.rule.credit.minimum";
     public static final String RULE_ID_IS_GES_VALUE_APPLICABLE = "kuali.ges.rule.is.applicable";
+    // class standings
+    public static final String RULE_ID_IS_FRESHMAN = "kuali.rule.freshman";
+    public static final String RULE_ID_SOPHOMORE = "kuali.rule.sophomore";
+    public static final String RULE_ID_JUNIOR = "kuali.rule.junior";
+    public static final String RULE_ID_SENIOR = "kuali.rule.senior";
     public Proposition getProposition(String ruleId, ContextInfo contextInfo) throws DoesNotExistException,
             OperationFailedException {
         if (ruleId.equals(RULE_ID_IS_ALIVE)) {
@@ -40,6 +47,23 @@ public class PropositionFactoryHardwiredImpl implements PropositionFactory {
         // GES Service
         if (ruleId.equals(RULE_ID_IS_GES_VALUE_APPLICABLE)) {
             Proposition prop = new IsGesValueApplicableProposition();
+            return prop;
+        }
+        //Population Service
+        if (ruleId.equals(RULE_ID_IS_FRESHMAN)) {
+            Proposition prop = new ClassStandingProposition(ClassStanding.FRESHMAN.name());
+            return prop;
+        }
+        if (ruleId.equals(RULE_ID_SOPHOMORE)) {
+            Proposition prop = new ClassStandingProposition(ClassStanding.SOPHOMORE.name());
+            return prop;
+        }
+        if (ruleId.equals(RULE_ID_JUNIOR)) {
+            Proposition prop = new ClassStandingProposition(ClassStanding.JUNIOR.name());
+            return prop;
+        }
+        if (ruleId.equals(RULE_ID_SENIOR)) {
+            Proposition prop = new ClassStandingProposition(ClassStanding.SENIOR.name());
             return prop;
         }
         throw new DoesNotExistException("unknown/unsupported proposition " + ruleId);
