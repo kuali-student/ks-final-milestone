@@ -25,6 +25,7 @@
 -->
 <config>
 
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:org/kuali/rice/standalone/config/standalone-config-defaults.xml</param>
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
@@ -95,10 +96,10 @@
     <param name="ks.core.bus.security">false</param>
     
     <!-- default config files -->
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
-    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-		
+
 	<!-- Set all services to /services instead of /remoting -->
 	<param name="serviceServletUrl">${application.url}/services/</param>
 
