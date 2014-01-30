@@ -20,7 +20,7 @@ limitations under the License.
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-Course-FindACourse" parent="KS-Uif-LookupView" p:instructionalText="Enter One or more fields">
+    <bean id="KS-Course-FindACourse" parent="KS-Uif-LookupView" p:instructionalText="Enter  search terms in one or more fields">
         <property name="viewName" value="CoursesOnlyLookup"/>
         <property name="headerText" value="Find a Course" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
@@ -41,16 +41,16 @@ limitations under the License.
 
     <property name="criteriaFields">
             <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code(Subject/Number)"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" p:label="Phrase in Description"/>
 
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Course Title"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Course Code"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Course Title"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="state" p:label="State"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
             </list>
