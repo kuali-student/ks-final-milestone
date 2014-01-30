@@ -35,11 +35,6 @@
 	<param name="ks.ap.datasource.driver.name.mysql">com.mysql.jdbc.Driver</param>
 	<param name="ks.ap.datasource.driver.name">${ks.ap.datasource.driver.name.${db.vendor}}</param>
 
-	<param name="ks.ap.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="ks.ap.datasource.url.derby">jdbc:derby://localhost:1527/derby/enroll;create=true</param>
-	<param name="ks.ap.datasource.url.mysql">jdbc:mysql://localhost/KSEMBEDDED</param>
-    <param name="ks.ap.datasource.url">${ks.ap.datasource.url.${db.vendor}}</param>
-
 	<param name="ks.ap.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="ks.ap.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
 	<param name="ks.ap.jpa.DatabasePlatform.mysql">org.hibernate.dialect.MySQLDialect</param>
@@ -49,9 +44,6 @@
 	<param name="ks.ap.datasource.validationQuery.derby">values(1)</param>
 	<param name="ks.ap.datasource.validationQuery.mysql">select 1</param>
 	<param name="ks.ap.datasource.validationQuery">${ks.ap.datasource.validationQuery.${db.vendor}}</param>
-
-	<param name="ks.ap.datasource.username">KSBUNDLED</param>
-	<param name="ks.ap.datasource.password">KSBUNDLED</param>
 
     <param name="ks.ap.datasource.maxSize" override="false">10</param>
     <param name="ks.ap.datasource.minSize" override="false">2</param>
