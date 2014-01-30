@@ -7,6 +7,9 @@
   http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
   http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd">
 
+    <!-- NOTE: these declarations must be maintained in ALPHABETICAL-order or they will break the build
+         http://stackoverflow.com/a/2785026
+    -->
     <amq:broker useJmx="false" persistent="false">
         <amq:plugins>
             <amq:statisticsBrokerPlugin />
