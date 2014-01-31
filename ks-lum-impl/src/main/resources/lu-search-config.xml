@@ -3040,6 +3040,7 @@
                         trim( id.SUFX_CD ) = :number
                         AND
                         trim( id.DIVISION ) = :subject
+                        AND clu.ST = 'Active'
                     </value>
                 </entry>
 
