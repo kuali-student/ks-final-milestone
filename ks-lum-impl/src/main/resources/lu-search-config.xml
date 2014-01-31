@@ -2440,6 +2440,20 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
+    <search:searchType id="ksap.lu.search.offering.title">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
     <search:searchType id="ksap.lu.search.description">
         <search:searchResultTypeInfo>
             <search:name/>
@@ -2663,6 +2677,24 @@
                         ORDER BY ident.code
                     </value>
                 </entry>
+
+                <entry key="ksap.lu.search.offering.title">
+                    <value>NATIVE:
+                        SELECT
+                        clu.ID
+                        FROM KSEN_LUI_IDENT ident,
+                        KSEN_LUI lui,
+                        KSLU_CLU clu
+                        WHERE
+                        UPPER( ' ' || ident.LNG_NAME || ' ' ) LIKE '% ' || :queryText || '%'
+                        AND lui.ID = ident.LUI_ID
+                        AND lui.CLU_ID = clu.ID
+                        AND clu.ST = 'Active'
+                        AND lui.ATP_ID IN :termList
+                        ORDER BY ident.LUI_CD
+                    </value>
+                </entry>
+
                 <entry key="ksap.lu.search.description">
                     <value>
                         SELECT
