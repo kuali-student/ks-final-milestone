@@ -105,30 +105,6 @@
     <!--    <param name="filter.login.class">org.kuali.rice.krad.web.filter.DummyLoginFilter</param>-->
     <!--    <param name="filtermapping.login.1">/*</param>-->
 
-
-    <!-- additional config files -->
-    <!--
-        Setting this property allows selective loading lum or core project or both
-    -->
-    <!-- 
-    <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
-        classpath:ks-spring-security-saml.xml,classpath:ks-spring-security-sts.xml
-	</param>
-	 -->
-  
-    <!--
-      this property allows switching between the ks-with-rice-bundled-admin-context which loads
-      the ks admin app into rice the old ks-with-rice-bundled-context.xml which skips ks admin
-      and loads a mock messageservice impl
-    -->
-    <!-- <param name="ks.bundled.context">classpath:ks-with-rice-bundled-admin-context.xml</param> -->
-
-    <!-- additional context files -->
-    <!-- 
-    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.KS-SYS.additionalSpringFiles">${ks.projects},${ks.bundled.context},${ks.authentication.context},${ks.institutional.context}</param>
-	-->
-	
 	<param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
     <param name="rice.krms.additionalSpringFiles">classpath:ks-krms-context.xml</param>
 

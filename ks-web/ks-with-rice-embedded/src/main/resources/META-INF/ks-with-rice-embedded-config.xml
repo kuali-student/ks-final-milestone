@@ -114,22 +114,9 @@
     <param name="kim.mode">EMBEDDED</param>
     <param name="kew.mode">EMBEDDED</param>
 
-    <!-- additional config files -->
-    <!--
-        Setting this property allows selective loading lum or core project or both
-    -->
-    <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
-        classpath:ks-spring-security-saml.xml,classpath:ksb/ks-with-rice-embedded-admin-context.xml
-	</param>
-
     <!-- additional context files -->
     <param name="rice.kim.additionalSpringFiles">classpath:ks-kim-context.xml</param>
     <param name="rice.krms.additionalSpringFiles">classpath:ks-krms-context.xml</param>
-    
-    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.projects},${ks.authentication.context},${ks.institutional.context}</param>
-    
-    
     
     <param name="ks.rice.label">RICE</param>
     <param name="ks.rice.url">http://localhost:8080/ks-rice-standalone-${environment}</param>

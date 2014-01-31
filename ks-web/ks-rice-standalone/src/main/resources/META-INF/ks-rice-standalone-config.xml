@@ -91,14 +91,11 @@
     <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
 -->
-    <!-- additional config files -->
-    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml</param>
-    
+
     <!-- Bus security -->
     <param name="ks.core.bus.security">false</param>
     
-    <!-- default config files -->
+    <!-- additional config files -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
