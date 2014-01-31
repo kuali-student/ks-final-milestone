@@ -375,8 +375,8 @@ public class CourseLinkBuilder {
 		// TODO: Fix when version issue for course is addressed
 		// searchRequest.addParam("currentTerm",
 		// DegreeAuditAtpHelper.getCurrentAtpId());
-		searchRequest.addParam("lastScheduledTerm", KsapFrameworkServiceLocator
-				.getTermHelper().getLastScheduledTerm().getId());
+//		searchRequest.addParam("lastScheduledTerm", KsapFrameworkServiceLocator
+//				.getTermHelper().getLastScheduledTerm().getId());
 
 		SearchResult searchResult = null;
 		try {
