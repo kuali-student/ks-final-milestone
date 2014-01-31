@@ -24,8 +24,7 @@
   <param name="datasource.username">${jdbc.username}</param>
   <param name="datasource.password">${jdbc.password}</param>
   <param name="datasource.driver.name">${jdbc.driver}</param>
-  <param name="datasource.pool.minSize">15</param>
-  <param name="datasource.pool.maxSize">200</param>
+  <param name="datasource.pool.maxSize">40</param>
   <param name="datasource.pool.validationQuery">select 1 from dual</param>
   <param name="keystore.file">${keystore.file.default}</param>
   <param name="keystore.alias">rice</param>
