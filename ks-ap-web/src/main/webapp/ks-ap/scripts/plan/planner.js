@@ -273,8 +273,8 @@ function ksapPlannerAddPlanItem (data) {
                 .animate({backgroundColor:"#ffffff"}, 1500, function() {
                     runHiddenScripts(data.uid);
                 });
-        //KSAP-543 - Set static id on course code element for AFTs
-        ksapSetStaticCourseCodeID( data.uid + "_code" );
+        //Set static ids on some element for AFTs
+        ksapSetStaticCourseIDs(data.uid + "_code", data.uid + "_courseNote");
     }
 
     // Change status on the course search page
@@ -433,20 +433,25 @@ function ksapBookmarkUpdateTotal (data) {
 /**
  * Constructs a static ID for the course code element and replaces the existing one
  *
- * From KSAP-543 - Set static IDs on course code elements for AFTs
+ * Set static IDs on course code elements in the planner for AFTs to run
  *
- * @param courseCodeUniqueId - Course code Uif-message div element ID
+ * @param - variable number of IDs of elements to reset to static IDs
  */
-function ksapSetStaticCourseCodeID(courseCodeUniqueId){
-    var courseCodeJqObj = jQuery("#" + courseCodeUniqueId);
-    var termIdFormatted = courseCodeJqObj.data('termid').replace(/\./g,'-').replace(' ', '-');
-    var courseCode = courseCodeJqObj.data('coursecode');
+function ksapSetStaticCourseIDs(){
+    //Set up a loop in case we have more than one thing to set a static ID on
+    for ( var i = 0; i < arguments.length; i++ ) {
+        var courseCodeJqObj = jQuery("#" + arguments[i]);
+        var elementType = arguments[i].split("_")[1]; //XX_code, XX_courseNote, XX_label, etc.
+        var termIdFormatted = courseCodeJqObj.data('termid').replace(/\./g,'-').replace(' ', '-');
+        var courseCode = courseCodeJqObj.data('coursecode');
 
-    //find the parent container
-    //examples: planner_planned... | planner_backup... | planner_completed...
-    var collectionType = courseCodeJqObj.closest("div[id^='planner_']").attr('id').split("_")[1];
-    var newCourseId = termIdFormatted + "_" + collectionType + "_" + courseCode + "_code";
-    courseCodeJqObj.attr('id', newCourseId);
+        //planner section information from the parent container for unique identification
+        //examples: planner_planned... | planner_backup... | planner_completed...
+        var collectionType = courseCodeJqObj.closest("div[id^='planner_']").attr('id').split("_")[1];
+        var newCourseId = termIdFormatted + "_" + collectionType + "_" + courseCode + "_" + elementType;
+
+        courseCodeJqObj.attr('id', newCourseId);
+    }
 }
 
 /**

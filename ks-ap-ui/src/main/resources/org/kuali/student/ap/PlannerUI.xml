@@ -378,6 +378,7 @@
                                         <entry key="learningplanid" value="__KSAP__LEARNINGPLANID__" />
                                         <entry key="planitemid" value="__KSAP__PLANITEMID__" />
                                         <entry key="uniqueid" value="__KSAP__UID__" />
+                                        <entry key="coursecode" value="__KSAP__CODE__" />
                                     </map>
                                 </property>
                                 <property name="onClickScript"
@@ -442,6 +443,7 @@
                 <bean p:id="@{#line.uniqueId}" parent="Uif-HorizontalFieldGroup"
                       p:title="@{#line.courseTitle}">
                     <property name="group.validationMessages.render" value="false" />
+                    <property name="onDocumentReadyScript" value='ksapSetStaticCourseIDs("@{#line.uniqueId}_code", "@{#line.uniqueId}_courseNote")' />
                     <property name="onClickScript"
                               value="openMenu('@{#line.uniqueId}','planner_menu_@{#line.categoryString != null ? #line.categoryString : 'completed' }@{#line.menuSuffix}', null, e,
 									'.uif-collectionItem', 'uif-boxLayoutHorizontalItem test4', {tail: {align:'top'}, align:'top', position:'right'}, false);" />
@@ -452,6 +454,7 @@
                             <entry key="learningplanid" value="@{#line.learningPlanId}" />
                             <entry key="planitemid" value="@{#line.planItemId}" />
                             <entry key="uniqueid" value="@{#line.uniqueId}" />
+                            <entry key="coursecode" value="@{#line.courseCode}" />
                         </map>
                     </property>
                     <property name="cssClasses">
@@ -482,7 +485,6 @@
                                         <entry key="coursecode" value="@{#line.courseCode}" />
                                     </map>
                                 </property>
-                                <property name="onDocumentReadyScript" value='ksapSetStaticCourseCodeID("@{#line.uniqueId}_code")' />
                             </bean>
                             <bean p:id="@{#line.uniqueId}_courseNote" parent="course_note_icon">
                                 <property name="render" value="@{!#empty(#line.courseNote)}"/>
@@ -496,6 +498,7 @@
                                         <entry key="learningplanid" value="@{#line.learningPlanId}" />
                                         <entry key="planitemid" value="@{#line.planItemId}" />
                                         <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                        <entry key="coursecode" value="@{#line.courseCode}" />
                                     </map>
                                 </property>
                             </bean>
@@ -515,6 +518,7 @@
                                         <entry key="learningplanid" value="@{#line.learningPlanId}" />
                                         <entry key="planitemid" value="@{#line.planItemId}" />
                                         <entry key="uniqueid" value="@{#line.uniqueId}" />
+                                        <entry key="coursecode" value="@{#line.courseCode}" />
                                     </map>
                                 </property>
                             </bean>
