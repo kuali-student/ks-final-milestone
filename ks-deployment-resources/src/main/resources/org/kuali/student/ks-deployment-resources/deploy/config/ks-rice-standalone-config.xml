@@ -27,10 +27,6 @@
   <param name="datasource.pool.minSize">15</param>
   <param name="datasource.pool.maxSize">200</param>
   <param name="datasource.pool.validationQuery">select 1 from dual</param>
-  <param name="ks.core.datasource.username">${ks.app.jdbc.username}</param>
-  <param name="ks.core.datasource.password">${ks.app.jdbc.password}</param>
-  <param name="ks.core.datasource.minSize">15</param>
-  <param name="ks.core.datasource.maxSize">200</param>
   <param name="keystore.file">${keystore.file.default}</param>
   <param name="keystore.alias">rice</param>
   <param name="keystore.password">r1c3pw</param>
