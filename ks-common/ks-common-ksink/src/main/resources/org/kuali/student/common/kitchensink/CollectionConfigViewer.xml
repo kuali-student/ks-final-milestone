@@ -24,7 +24,7 @@
         <property name="headerText" value="Collections"/>
         <property name="items">
             <list>
-                <bean parent="KS-KitchenSink-Page" p:headerText="Config Viewer">
+                <bean parent="KS-KitchenSink-Page" p:headerText="Configuration Viewer">
                     <property name="items">
                         <list>
                             <bean parent="KS-KitchenSink-Page-Summary"
