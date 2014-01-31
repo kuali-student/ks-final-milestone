@@ -282,9 +282,9 @@ limitations under the License.
         </property>
         <property name="lineActions">
             <list>
-                <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="goToRuleView" p:actionLabel="Edit"
+                <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="edit_rule" p:methodToCall="goToRuleView" p:actionLabel="Edit"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
-                <bean parent="KS-Uif-Delete-NavigationActionLink" p:methodToCall="deleteRule" p:actionLabel="Delete"
+                <bean parent="KS-Uif-Delete-NavigationActionLink" p:id="delete_rule" p:methodToCall="deleteRule" p:actionLabel="Delete"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="useActions"/>
             </list>
         </property>
