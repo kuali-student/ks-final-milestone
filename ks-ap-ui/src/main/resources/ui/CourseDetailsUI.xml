@@ -306,7 +306,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-MessageField" p:messageText=
+                                                    <bean p:id="@{dataObject.courseSummaryDetails.code}_description" parent="Uif-MessageField" p:messageText=
                                                             "@{dataObject.courseSummaryDetails.courseDescription ne null
                                                                and dataObject.courseSummaryDetails.courseDescription.length() gt 0
                                                                     ? dataObject.courseSummaryDetails.courseDescription
