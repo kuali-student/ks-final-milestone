@@ -56,7 +56,6 @@ public class CreditMinimumProposition extends AbstractLeafProposition {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
 
-        // TODO: wire in the actual credit limit calculation
         return this.recordSuccessWithDecimalValueDetail(environment, values.get(0).getDecimalValue());
     }
 }

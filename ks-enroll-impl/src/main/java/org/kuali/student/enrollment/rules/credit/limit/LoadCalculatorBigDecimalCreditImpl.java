@@ -10,7 +10,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 /**
  * This calculates credits using big decimal 
- * TODO: explicitly manage rounding to ??? decimals
+ * Might want to explicitly manage rounding to some specified decimals
  *
  */
 public class LoadCalculatorBigDecimalCreditImpl extends LoadCalculatorAbstractImpl implements LoadCalculator {

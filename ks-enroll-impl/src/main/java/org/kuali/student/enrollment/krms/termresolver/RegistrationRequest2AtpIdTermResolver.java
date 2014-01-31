@@ -58,7 +58,6 @@ public class RegistrationRequest2AtpIdTermResolver implements TermResolver<Strin
 
         RegistrationRequestInfo request = (RegistrationRequestInfo) resolvedPrereqs.get(
                 RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName());
-        // TODO: modify this to be the person id once it is added to the request
         return request.getTermId();
 
     }

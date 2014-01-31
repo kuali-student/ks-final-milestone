@@ -281,7 +281,7 @@ public class CourseOfferingServiceMapImpl implements CourseOfferingService,
             if (termId.equals(info.getTermId())) {
                 list.add(info.getId());
             }
-            // TODO: check included terms
+            // Perhaps we should check for included terms
         }
         return list;
     }
@@ -301,18 +301,16 @@ public class CourseOfferingServiceMapImpl implements CourseOfferingService,
         if (!courseOfferingTypeKey.equals(courseOfferingInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
+        // Might want to check the rest of the readonly fields that are specified on the create to make sure they match the info object
         CourseOfferingInfo copy = new CourseOfferingInfo(courseOfferingInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
         }
-        // TODO: move this logic to the calculation decorator do the persistence layer doesn't have this logic mixed in with it
-        // copy from cannonical
         copy.setMeta(newMeta(context));
         copy.setHasWaitlist(true);
         courseOfferingMap.put(copy.getId(), copy);
         log.info(
-                "CourseOfferingMockImpl: created course offering: " + copy.getId() + "term=" + copy.getTermId() + " for course =" + copy.
+                "CourseOfferingMakImpl: created course offering: " + copy.getId() + "term=" + copy.getTermId() + " for course =" + copy.
                 getCourseId());
         return new CourseOfferingInfo(copy);
     }
@@ -529,7 +527,7 @@ public class CourseOfferingServiceMapImpl implements CourseOfferingService,
             throw new InvalidParameterException(
                     "The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the
+        // Might want to check the rest of the readonly fields that are specified on the
         // create to make sure they match the info object
         FormatOfferingInfo copy = new FormatOfferingInfo(formatOfferingInfo);
         if (copy.getId() == null) {
@@ -821,7 +819,7 @@ public class CourseOfferingServiceMapImpl implements CourseOfferingService,
             throw new InvalidParameterException(
                     "The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the
+        // Might want to check the rest of the readonly fields that are specified on the
         // create to make sure they match the info object
         ActivityOfferingInfo copy = new ActivityOfferingInfo(
                 activityOfferingInfo);
@@ -1482,7 +1480,7 @@ public class CourseOfferingServiceMapImpl implements CourseOfferingService,
             OperationFailedException,
             PermissionDeniedException {
         // This is the same implementation as the CourseOfferingServiceImpl.  (It had been unimplemented).
-        // TODO: Find some way to resuse the COSI impl.
+        // Might want Find some way to resuse the COSI impl.
         AOClusterVerifyResultsInfo aoClusterVerifyResultsInfo = new AOClusterVerifyResultsInfo();
         List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
         ValidationResultInfo validationResultInfo = new ValidationResultInfo();

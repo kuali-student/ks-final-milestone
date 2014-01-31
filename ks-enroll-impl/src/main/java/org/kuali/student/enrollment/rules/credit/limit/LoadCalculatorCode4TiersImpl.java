@@ -30,8 +30,8 @@ public class LoadCalculatorCode4TiersImpl extends LoadCalculatorAbstractImpl imp
         LoadInfo load = new LoadInfo(creditLoad);
         load.setTypeKey(AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CODE_4_TIER);
         int credits = creditLoad.getTotalCredits().intValue();
-//      TODO: get the cutoff points from the GES
-//      TODO: store the level code in a string field instead of as a number.
+//      TODO: KSENROLL-11719 get the cutoff points from the GES
+//      Might want to add a string field so we can store the level code in a string field instead of as a number.
         if (credits == 0) {
             load.setTotalCredits(new KualiDecimal (1));
 //            load.setTotalCredits(AcademicRecordServiceTypeStateConstants.LOAD_CODE_4_TIER_1_NO_LOAD);
