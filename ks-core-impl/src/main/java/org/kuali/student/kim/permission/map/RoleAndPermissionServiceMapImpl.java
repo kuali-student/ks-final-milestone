@@ -613,13 +613,14 @@ public class RoleAndPermissionServiceMapImpl implements RoleService, PermissionS
 
     @Override
     public boolean isDerivedRole(String roleId) throws RiceIllegalArgumentException {
-        // TODO: support derived roles
+        // eventually might want to support derived roles in this map impl
         return false;
     }
 
     @Override
     public boolean isDynamicRoleMembership(String roleId) throws RiceIllegalArgumentException {
-        // TODO: figure out what dynamic means does it mean via membership via group membership?
+        // eventually might want to support dynamic role members 
+        // figure out what dynamic means does it mean via membership via group membership?
         return false;
     }
 
@@ -983,7 +984,7 @@ public class RoleAndPermissionServiceMapImpl implements RoleService, PermissionS
                         principals.add(roleMember.getMemberId());
                     } else if (roleMember.getType().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                         principals.addAll(groupService.getMemberPrincipalIds(roleMember.getMemberId()));
-                        // TODO: find out if ROLE members can still be other roles or are they being phased out?
+                        // Not sure if ROLE members can still be other roles or are they being phased out?
 //                    } else if (info.getType().equals(KimConstants.KimGroupMemberTypes.ROLE_MEMBER_TYPE)) {
 //                        principals.addAll(this.getAllRoleMemberPrincipalIds(info.getMemberId(), qualification));
                     }
@@ -1031,7 +1032,7 @@ public class RoleAndPermissionServiceMapImpl implements RoleService, PermissionS
         // convert them into assignee
         List<Assignee> list = new ArrayList<Assignee>(principalIds.size());
         for (String principalId : principalIds) {
-            // TODO: deal with groups and delegates
+            // might want to deal with groups and delegates at some point but not now
             String groupId = null;
             List<DelegateType.Builder> delegates = new ArrayList<DelegateType.Builder>();
             Assignee.Builder bldr = Assignee.Builder.create(principalId, groupId, delegates);

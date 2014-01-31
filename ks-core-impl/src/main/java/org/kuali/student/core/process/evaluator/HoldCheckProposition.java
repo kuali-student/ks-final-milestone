@@ -40,8 +40,8 @@ public class HoldCheckProposition extends AbstractCheckProposition {
         String personId = environment.resolveTerm(RulesExecutionConstants.PERSON_ID_TERM, this);
         HoldService holdService = environment.resolveTerm(RulesExecutionConstants.HOLD_SERVICE_TERM, this);
 
-        // TODO: decide if this method should take an as of date and if so what that date should be
-        // Keep these as we may want to evaluate the as of date as of the start of the term if the term is available
+        // Business may decide this method should take an as of date and if so what that date should be
+        // if so these lines are how we may want to evaluate the as of date as of the start of the term if the term is available
 //        String atpId = environment.resolveTerm(RulesExecutionConstants.ATP_ID_TERM, this);
 //        Date asOfDate = environment.resolveTerm(RulesExecutionConstants.AS_OF_DATE_TERM, this);
         List<AppliedHoldInfo> appliedHolds;

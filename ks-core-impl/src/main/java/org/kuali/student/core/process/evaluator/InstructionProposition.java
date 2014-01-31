@@ -74,7 +74,7 @@ public class InstructionProposition extends AbstractLeafProposition {
 
     private Proposition constructProposition(CheckInfo check) throws Exception {
 
-        // TODO: when we can use java7 change to a switch  statement based on the type
+        // when we can use java7 this should be changed to a switch  statement based on the type
         // if a sub-process is found,
         if (check.getTypeKey().equals(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY)) {
             Proposition prop = new ChildProcessCheckProposition(instruction, check);

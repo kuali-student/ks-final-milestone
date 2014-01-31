@@ -70,7 +70,7 @@ public class ExemptionServiceMapImpl implements ExemptionService, MockService {
         if (!exemptionRequestTypeKey.equals(exemptionRequestInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
+        // Might want to check the rest of the readonly fields that are specified on the create to make sure they match the info object
         ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());
@@ -217,7 +217,7 @@ public class ExemptionServiceMapImpl implements ExemptionService, MockService {
         if (!exemptionTypeKey.equals(exemptionInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
+        // Might want to check the rest of the readonly fields that are specified on the create to make sure they match the info object
         ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
         if (copy.getId() == null) {
             copy.setId(UUIDHelper.genStringUUID());

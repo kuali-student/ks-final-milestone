@@ -549,9 +549,7 @@ public class AtpServiceMapImpl implements AtpService, MockService {
             OperationFailedException,
             PermissionDeniedException {
 
-        // Check to see if Milestone exists in a relationship
-        // TODO: Put the check once methods to access milestons/atp using
-        // relations are added to the service
+        // Perhaps we should check to see if Milestone exists in a relationship before deleting it
         if (this.milestones.remove(milestoneId) == null) {
             throw new DoesNotExistException(milestoneId);
         }

@@ -238,7 +238,7 @@ public class HoldServiceMapImpl
         if (!holdTypeKey.equals(holdInfo.getTypeKey())) {
             throw new InvalidParameterException("The type parameter does not match the type on the info object");
         }
-        // TODO: check the rest of the readonly fields that are specified on the create to make sure they match the info object
+        // Might want check the rest of the readonly fields that are specified on the create to make sure they match the info object
         AppliedHoldInfo copy = new AppliedHoldInfo(holdInfo);
         if (copy.getId() == null) {
             copy.setId(String.valueOf(nextId++));
