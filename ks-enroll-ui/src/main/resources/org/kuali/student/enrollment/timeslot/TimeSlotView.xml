@@ -154,7 +154,7 @@
         </property>
     </bean>
 
-    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="KS-Uif-TableCollectionSection-WithActionSeperator" p:renderAddLine="false" p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
+    <bean id="TimeSlotSearchResults-TableCollectionSection" parent="Uif-TableCollectionSection" p:renderAddLine="false"
         p:onDocumentReadyScript="removeCheckboxColumns(1, 'TimeSlotSearchResultsDisplayTable',&quot;handleToolbar('TimeSlotSearchResultsDisplayTable',['enableDeleteButton'], ['TimeSlot-ToolBar-Delete-TimeSlot'])&quot;), addActionColumn(@{#parent.readOnly}, 'TimeSlotSearchResultsDisplayTable');"
             p:style="width:800px;">
 
@@ -228,7 +228,7 @@
             <bean parent="Uif-HorizontalFieldGroup"
                   p:align="left"
                   p:required="false"
-                  p:label="Actions"
+                  p:label=""
                   p:cssClasses="actions_timeSlot"/>
         </property>
         <property name="lineActions">

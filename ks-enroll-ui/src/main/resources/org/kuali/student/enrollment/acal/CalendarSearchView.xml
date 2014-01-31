@@ -218,7 +218,7 @@
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="Actions" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
               <list>
@@ -269,7 +269,7 @@
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="Actions" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
               <list>
@@ -315,7 +315,7 @@
             </list>
 		</property>
         <property name="layoutManager.actionFieldPrototype">
-            <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="Actions" p:style="display:inline;"/>
+            <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="" p:style="display:inline;"/>
         </property>
         <property name="lineActions">
               <list>

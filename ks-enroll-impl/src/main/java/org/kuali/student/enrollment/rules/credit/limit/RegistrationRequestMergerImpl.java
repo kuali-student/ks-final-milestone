@@ -88,7 +88,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
 
         // now process each request item
         for (RegistrationRequestItemInfo item : request.getRegistrationRequestItems()) {
-            // TODO: change these if statemens to a SWITCH statement once we move to java 7
+            // Should change these if statemens to a SWITCH statement once we move to java 7
             // Adds
             if (item.getTypeKey().equals(CourseRegistrationServiceTypeStateConstants.REQ_ITEM_ADD_TYPE_KEY)) {
                 CourseRegistrationTransaction rt = this.createNewCourseRegistrationTransaction(item, skipActivities, contextInfo);
@@ -125,7 +125,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
                 }
                 // if swapping sections they could also be changing the data bits on the CR
                 updateCourseRegistrationTransaction(rt1, item, contextInfo);
-                // TODO: actually swap the sections (activity offerings)
+                // TODO: KSENROLL-11720 actually swap the sections (activity offerings)
             }
         }
         return list;
@@ -136,7 +136,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             throws OperationFailedException {
         RegistrationGroupInfo rg1 = this.getRegGroup(item.getRegistrationGroupId(), contextInfo);
         RegistrationGroupInfo rg2 = this.getRegGroup(rt.getRegistration().getRegistrationGroupId(), contextInfo);
-        //TODO: decide if swap should be ok between format offerings but just not course offerings 
+        // Note: business may decide that it is ok to swap between format offerings but just not course offerings 
         if (rg1.getFormatOfferingId().equals(rg2.getFormatOfferingId())) {
             return true;
         }
@@ -251,7 +251,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
         reg.setGradingOptionId(item.getGradingOptionId());
         reg.setEffectiveDate(contextInfo.getCurrentDate());
         reg.setExpirationDate(null);
-        // TODO: how do we know which attributes on item should be mapped to the Activity and which to the Course registration?
+        // Adding all but we might want to split and store some attributes on the Activity and others on Course registration
         reg.getAttributes().addAll(item.getAttributes());
         return reg;
     }
@@ -267,7 +267,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
         reg.setActivityOfferingId(activityOfferingId);
         reg.setEffectiveDate(contextInfo.getCurrentDate());
         reg.setExpirationDate(null);
-        // TODO: how do we know which attributes on item should be mapped to the Activity and which to the Course registration?
+        // Adding all but we might want to split and store some attributes on the Activity and others on Course registration
         reg.getAttributes().addAll(item.getAttributes());
         return reg;
     }
@@ -403,7 +403,8 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
             reg.setCredits(item.getCredits());
             reg.setGradingOptionId(item.getGradingOptionId());
         }
-        // TODO: deal with dynamic attributes
+        // updating all but we might want to split and store some attributes on the Activity and others on Course registration
+        reg.setAttributes(item.getAttributes());
         return changed;
     }
 
@@ -467,7 +468,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
     private Date calculateLateDropDateForCourse(CourseRegistrationInfo reg, RegistrationRequestItemInfo item,
             ContextInfo contextInfo)
             throws OperationFailedException {
-//     TODO: get the term from the co and get the late drop date from ATP and return that date.
+        // TODO: KSENROLL-11721 get the term from the co and get the late drop date from ATP and return that date.
         return new Date();
     }
 
@@ -483,7 +484,7 @@ public class RegistrationRequestMergerImpl implements RegistrationRequestMerger 
     protected Date calculateLateDropDateForActivity(ActivityRegistrationInfo reg, RegistrationRequestItemInfo item,
             ContextInfo contextInfo)
             throws OperationFailedException {
-//     TODO: get the term from the co and get the late drop date from ATP and return that date.
+       // TODO: KSENROLL-11721 get the term from the co and get the late drop date from ATP and return that date.
         return new Date();
     }
 

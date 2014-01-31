@@ -56,15 +56,15 @@ public class CreditLoadProposition extends AbstractLeafProposition {
         GesCriteriaInfo criteria = new GesCriteriaInfo();
         criteria.setPersonId(personId);
         criteria.setAtpId(atpId);
-        List<ValueInfo> values;
+        ValueInfo value;
         try {
-            values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS,
+            value = gesService.evaluateValueOnDate(GesServiceConstants.PARAMETER_KEY_LOAD_CALCULATION_FOR_CREDIT_CHECKS,
                     criteria, asOfDate, contextInfo);
         } catch (Exception ex) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
 
-        String loadCalcRuleId = values.get(0).getStringValue();
+        String loadCalcRuleId = value.getStringValue();
         // get the actual executable rule we are using to do the calcualtion
         LoadCalculator calculator;
         try {

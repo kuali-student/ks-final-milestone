@@ -73,7 +73,7 @@ public class CourseRegistrationServiceProcessCheckDecorator
 
     @Override
     public List<ValidationResultInfo> checkStudentEligibiltyForCourseOffering(String studentId, String courseOfferingId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO: implement in phase II
+        // this needs to be implemented in phase II
         return new ArrayList();
     }
 }

@@ -44,9 +44,9 @@ public class CreditLimitProposition extends AbstractLeafProposition {
         GesCriteriaInfo criteria = new GesCriteriaInfo();
         criteria.setPersonId(personId);
         criteria.setAtpId(atpId);
-        List<ValueInfo> values;
+        ValueInfo value;
         try {
-            values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 
+            value = gesService.evaluateValueOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT, 
                     criteria, 
                     asOfDate,
                     contextInfo);
@@ -54,7 +54,6 @@ public class CreditLimitProposition extends AbstractLeafProposition {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
 
-        // TODO: wire in the actual credit limit calculation
-        return this.recordSuccessWithDecimalValueDetail(environment, values.get(0).getDecimalValue());
+        return this.recordSuccessWithDecimalValueDetail(environment, value.getDecimalValue());
     }
 }

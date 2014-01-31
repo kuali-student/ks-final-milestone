@@ -29,10 +29,6 @@
 	<param name="ks.enroll.datasource.driver.name.mysql">com.mysql.jdbc.Driver</param>
 	<param name="ks.enroll.datasource.driver.name">${ks.enroll.datasource.driver.name.${db.vendor}}</param>
 	
-	<param name="ks.enroll.datasource.url.oracle">jdbc:oracle:thin:@localhost:1521:XE</param>
-	<param name="ks.enroll.datasource.url.derby">jdbc:derby://localhost:1527/derby/enroll;create=true</param>
-	<param name="ks.enroll.datasource.url.mysql">jdbc:mysql://localhost/KSBUNDLED</param>
-	
 	<param name="ks.enroll.jpa.DatabasePlatform.oracle">org.hibernate.dialect.Oracle10gDialect</param>
 	<param name="ks.enroll.jpa.DatabasePlatform.derby">org.hibernate.dialect.DerbyDialect</param>
 	<param name="ks.enroll.jpa.DatabasePlatform.mysql">org.hibernate.dialect.MySQLDialect</param>
@@ -43,12 +39,9 @@
 	<param name="ks.enroll.datasource.validationQuery.mysql">select 1</param>
 	<param name="ks.enroll.datasource.validationQuery">${ks.enroll.datasource.validationQuery.${db.vendor}}</param>
 	
-	<param name="ks.enroll.datasource.username">ksenroll</param>
-	<param name="ks.enroll.datasource.password">ksenroll</param>
-    
     <param name="ks.enroll.datasource.maxSize" override="false">10</param>
     <param name="ks.enroll.datasource.minSize" override="false">2</param>
-    <param name="ks.enroll.datasource.maxWait" override="false">600</param>
+    <param name="ks.enroll.datasource.maxWait" override="false">60000</param>
     
     <param name="ks.enroll.jpa.showSql">false</param>
     <param name="ks.enroll.jpa.generateDdl">false</param>

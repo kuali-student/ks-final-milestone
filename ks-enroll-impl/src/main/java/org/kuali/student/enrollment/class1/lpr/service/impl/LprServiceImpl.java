@@ -319,7 +319,16 @@ public class LprServiceImpl implements LprService {
     @Override
     public List<LprInfo> searchForLprs(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException();
+        List<LprInfo> resultList = new ArrayList<LprInfo>();
+        GenericQueryResults<LprEntity> results = criteriaLookupService.lookup(LprEntity.class, criteria);
+
+        if(results != null){
+            for(LprEntity lprEntity : results.getResults()){
+                resultList.add(lprEntity.toDto());
+            }
+        }
+
+        return resultList;
     }
 
 

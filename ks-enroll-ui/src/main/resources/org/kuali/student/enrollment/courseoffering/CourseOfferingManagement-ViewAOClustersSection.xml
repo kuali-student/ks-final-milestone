@@ -110,7 +110,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" parent="KS-Uif-TableCollectionSubSection-WithActionSeperator"  p:lineActionSeparator="&#160;&#160;|&#160;&#160;"
+    <bean id="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" parent="Uif-TableCollectionSubSection"
           p:onDocumentReadyScript="resetCheckboxes('activityOfferingsPerCluster');addBootstrapImageToLink('@{#component.id}');"
           p:renderAddLine="false"  p:renderLineActions="true" p:readOnly="false">
         <property name="id" value="activityOfferingsPerCluster" />

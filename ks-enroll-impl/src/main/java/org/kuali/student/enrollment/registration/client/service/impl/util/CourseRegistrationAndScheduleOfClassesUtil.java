@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.registration.client.service.impl.util;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -250,7 +251,17 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         Map<String, List<InstructorSearchResult>> resultList = new HashMap<String, List<InstructorSearchResult>>();
         Map<String, InstructorSearchResult> principalId2aoIdMap = new HashMap<String, InstructorSearchResult>();
 
-        List<LprInfo> lprInfos = CourseRegistrationAndScheduleOfClassesUtil.getLprService().getLprsByLuis(aoIds, contextInfo);
+        // We want to pull only active instructors for the passed in AO's
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        predicates.add(PredicateFactory.in("luiId", aoIds.toArray()));
+        predicates.add(PredicateFactory.in("personRelationTypeId", LprServiceConstants.COURSE_INSTRUCTOR_TYPE_KEYS));  // allow all instructor types
+        predicates.add(PredicateFactory.equal("personRelationStateId", LprServiceConstants.ACTIVE_STATE_KEY));
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        List<LprInfo> lprInfos = CourseRegistrationAndScheduleOfClassesUtil.getLprService().searchForLprs(criteria, contextInfo);
         if (lprInfos != null) {
 
             for (LprInfo lprInfo : lprInfos) {

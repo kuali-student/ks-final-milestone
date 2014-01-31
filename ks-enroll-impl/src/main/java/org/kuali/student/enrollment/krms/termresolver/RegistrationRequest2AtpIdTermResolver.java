@@ -8,7 +8,7 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.core.krms.termresolver;
+package org.kuali.student.enrollment.krms.termresolver;
 
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
@@ -58,7 +58,6 @@ public class RegistrationRequest2AtpIdTermResolver implements TermResolver<Strin
 
         RegistrationRequestInfo request = (RegistrationRequestInfo) resolvedPrereqs.get(
                 RulesExecutionConstants.REGISTRATION_REQUEST_TERM.getName());
-        // TODO: modify this to be the person id once it is added to the request
         return request.getTermId();
 
     }
