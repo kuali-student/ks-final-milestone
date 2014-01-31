@@ -46,9 +46,9 @@ public class CreditMinimumProposition extends AbstractLeafProposition {
         GesCriteriaInfo criteria = new GesCriteriaInfo();
         criteria.setPersonId(personId);
         criteria.setAtpId(atpId);
-        List<ValueInfo> values;
+        ValueInfo value;
         try {
-            values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 
+            value = gesService.evaluateValueOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM, 
                     criteria, 
                     asOfDate,
                     contextInfo);
@@ -56,6 +56,6 @@ public class CreditMinimumProposition extends AbstractLeafProposition {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, ex, this);
         }
 
-        return this.recordSuccessWithDecimalValueDetail(environment, values.get(0).getDecimalValue());
+        return this.recordSuccessWithDecimalValueDetail(environment, value.getDecimalValue());
     }
 }

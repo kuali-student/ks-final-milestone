@@ -136,9 +136,9 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
         GesCriteriaInfo criteria = new GesCriteriaInfo();
         criteria.setPersonId(personId);
         criteria.setAtpId(atpId);
-        List<ValueInfo> values;
+        ValueInfo value;
         try {
-            values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT,
+            value = gesService.evaluateValueOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_LIMIT,
                     criteria,
                     asOfDate,
                     contextInfo);
@@ -147,7 +147,7 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
         } catch (Exception ex) {
             throw new OperationFailedException("Unexpected", ex);
         }
-        return values.get(0).getDecimalValue();
+        return value.getDecimalValue();
     }
 
     private KualiDecimal calcStudentCreditMinimum(String personId, String atpId, Date asOfDate, ContextInfo contextInfo)
@@ -155,9 +155,9 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
         GesCriteriaInfo criteria = new GesCriteriaInfo();
         criteria.setPersonId(personId);
         criteria.setAtpId(atpId);
-        List<ValueInfo> values;
+        ValueInfo value;
         try {
-            values = gesService.evaluateValuesOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM,
+            value = gesService.evaluateValueOnDate(GesServiceConstants.PARAMETER_KEY_CREDIT_MINIMUM,
                     criteria,
                     asOfDate,
                     contextInfo);
@@ -166,7 +166,7 @@ public class CourseRegistrationLoadCalculationDecorator extends CourseRegistrati
         } catch (Exception ex) {
             throw new OperationFailedException("Unexpected", ex);
         }
-        return values.get(0).getDecimalValue();
+        return value.getDecimalValue();
     }
 
     private LoadCalculator getCalculatorForRuleType(String loadLevelTypeKey, ContextInfo contextInfo)
