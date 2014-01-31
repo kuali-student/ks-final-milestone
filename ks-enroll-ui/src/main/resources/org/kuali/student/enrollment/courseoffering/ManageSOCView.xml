@@ -31,139 +31,139 @@
     -->
 
     <bean id="ManageSOCView" parent="KS-CourseOffering-FormViewWithTermContextBarPlaceholder">
-   	  <property name="id" value="ManageSOCView"/>
+        <property name="id" value="ManageSOCView"/>
 
-      <property name="headerText" value="Set of Courses" />
-      <property name="page.headerText" value="@{(termCode eq null)? 'EMPTY' : termCode}" />
-	  <property name="singlePageView" value="true"/>
-      <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl"/>
+        <property name="headerText" value="Set of Courses" />
+        <property name="page.headerText" value="@{(termCode eq null)? 'EMPTY' : termCode}" />
+        <property name="singlePageView" value="true"/>
+        <property name="viewHelperServiceClass" value="org.kuali.student.enrollment.class2.courseoffering.service.impl.ManageSOCViewHelperServiceImpl"/>
 
-      <property name="page">
-          <bean parent="KS-Uif-Page">
-              <!-- Set the page header to the current term, but only render if a search has been performed -->
-              <property name="headerText" value="@{(termCode eq null)? '' : 'Term ' + termCode}" />
-              <property name="header.render" value="true"/>
-              <!-- Prevent the page breadcrumb from being rendered -->
-              <property name="breadcrumbItem.render" value="false" />
-          </bean>
-      </property>
+        <property name="page">
+            <bean parent="KS-Uif-Page">
+                <!-- Set the page header to the current term, but only render if a search has been performed -->
+                <property name="headerText" value="@{(termCode eq null)? '' : 'Term ' + termCode}" />
+                <property name="header.render" value="true"/>
+                <!-- Prevent the page breadcrumb from being rendered -->
+                <property name="breadcrumbItem.render" value="false" />
+            </bean>
+        </property>
 
-      <property name="breadcrumbOptions.homewardPathBreadcrumbs">
-          <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
-      </property>
-      <property name="items">
-        <list>
-            <ref bean="ManageSOCView-termSelection-Section"/>
-            <ref bean="ManageSOCView-DetailsSection"/>
-        </list>
-      </property>
-      <property name="additionalCssFiles">
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <ref bean="KS-Enrollment-HomewardPathBreadcrumbs"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="ManageSOCView-termSelection-Section"/>
+                <ref bean="ManageSOCView-DetailsSection"/>
+            </list>
+        </property>
+        <property name="additionalCssFiles">
             <list merge="true">
                 <value>themes/ksboot/stylesheets/calendar.css</value>
             </list>
-      </property>
+        </property>
         <property name="topGroup">
             <bean id="ManageSoc-ContextBar" parent="KS-CourseOffering-ContextBar" p:style="@{(termCode eq null)? 'display:none;' : 'display:block;'}">
                 <property name="onDocumentReadyScript" value="setSeasonalColor('ManageSoc-ContextBar', '@{#dp.contextBar.termDayOfYear}', '@{#ConfigProperties['application.url']}');"/>
             </bean>
         </property>
-      <property name="dialogs">
-          <list>
-            <ref bean="lockConfirmDialog"/>
-            <ref bean="finalEditConfirmDialog"/>
-            <ref bean="closeConfirmDialog"/>
-            <ref bean="massScheduleConfirmDialog"/>
-            <ref bean="massPublishConfirmDialog"/>
-          </list>
-      </property>
-      <property name="viewHelperService.helperClasses">
-          <map>
-			<entry key="publishHelper">
-                <bean class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper"/>
-            </entry>
-		</map>
-      </property>
-      <property name="authorizer">
-          <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
-      </property>
-   </bean>
+        <property name="dialogs">
+            <list>
+                <ref bean="lockConfirmDialog"/>
+                <ref bean="finalEditConfirmDialog"/>
+                <ref bean="closeConfirmDialog"/>
+                <ref bean="massScheduleConfirmDialog"/>
+                <ref bean="massPublishConfirmDialog"/>
+            </list>
+        </property>
+        <property name="viewHelperService.helperClasses">
+            <map>
+                <entry key="publishHelper">
+                    <bean class="org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper"/>
+                </entry>
+            </map>
+        </property>
+        <property name="authorizer">
+            <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
+        </property>
+    </bean>
 
     <bean id="lockConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
           p:promptText="When Set of Courses is in Locked state, Departmental users will be unable to make changes." >
         <property name="headerText" value="Lock Set of Courses"/>
         <property name="availableResponses">
-          <list>
-            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Lock set"/>
-            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
-          </list>
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Lock set"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+            </list>
         </property>
     </bean>
 
     <bean id="finalEditConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
-                  p:promptText="Departmental Users will be able to view and edit Courses and Activities, and schedule activities independently." >
+          p:promptText="Departmental Users will be able to view and edit Courses and Activities, and schedule activities independently." >
         <property name="headerText" value="Allow Final Edits"/>
         <property name="availableResponses">
-          <list>
-            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Allow Final Edits"/>
-            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
-          </list>
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Allow Final Edits"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+            </list>
         </property>
     </bean>
 
     <bean id="closeConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
-                  p:promptText="Close Set" >
+          p:promptText="Close Set" >
         <property name="headerText" value="Close Set"/>
         <property name="availableResponses">
-          <list>
-            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Close Set"/>
-            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
-          </list>
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Close Set"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+            </list>
         </property>
     </bean>
 
     <bean id="massScheduleConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
-                  p:promptText="Send all approved activities for scheduling to the external scheduler." >
+          p:promptText="Send all approved activities for scheduling to the external scheduler." >
         <property name="headerText" value="Send Activities to Scheduler"/>
         <property name="availableResponses">
-          <list>
-            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Send Activities"/>
-            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
-          </list>
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Send Activities"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+            </list>
         </property>
     </bean>
 
     <bean id="massPublishConfirmDialog" parent="Uif-OK-Cancel-DialogGroup"
-                  p:promptText="When Set of Courses is in Published state, Scheduled courses and activity offerings will set to offered and will be consumable by the wider community.">
+          p:promptText="When Set of Courses is in Published state, Scheduled courses and activity offerings will set to offered and will be consumable by the wider community.">
         <property name="headerText" value="Publish Set of Courses"/>
         <property name="availableResponses">
-          <list>
-            <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Publish Set"/>
-            <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
-          </list>
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Publish Set"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel"/>
+            </list>
         </property>
     </bean>
 
-   <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection" p:onDocumentReadyScript="toggleButtonOnInput('socTermField', 'socShowButton');">
+    <bean id="ManageSOCView-termSelection-Section" parent="Uif-HorizontalBoxSection" p:onDocumentReadyScript="toggleButtonOnInput('socTermField', 'socShowButton');">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
-                      <list>
-                        <bean parent="Uif-InputField" p:id="socTermField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
-                              p:onKeyUpScript="toggleButtonOnInput('socTermField', 'socShowButton');"
-                              p:onMouseOutScript="toggleButtonOnInput('socTermField', 'socShowButton');">
+                        <list>
+                            <bean parent="Uif-InputField" p:id="socTermField" p:propertyName="termCode" p:label="Term" p:labelPlacement="LEFT" p:required="true"
+                                  p:onKeyUpScript="toggleButtonOnInput('socTermField', 'socShowButton');"
+                                  p:onMouseOutScript="toggleButtonOnInput('socTermField', 'socShowButton');">
 
-                            <property name="control">
-                                <bean parent="Uif-TextControl" p:size="6" p:minLength="5" p:maxLength="6"/>
-                            </property>
-                        </bean>
-                        <ref bean="ManageSOCView-GoButton"/>
-                      </list>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="6" p:minLength="5" p:maxLength="6"/>
+                                </property>
+                            </bean>
+                            <ref bean="ManageSOCView-GoButton"/>
+                        </list>
                     </property>
                 </bean>
             </list>
         </property>
-   </bean>
+    </bean>
 
 
     <bean id="ManageSOCView-GoButton" parent="Uif-SecondaryActionButton"
@@ -171,7 +171,7 @@
 
     <!--p:onClickScript="updateContextBar( null, 'KS-CourseOffering-View-ContextBar-PlaceHolder' );"-->
 
-    <bean id="ManageSOCView-DetailsSection" parent="Uif-VerticalBoxSection" p:render="@{renderDetailsSection}">
+    <bean id="ManageSOCView-DetailsSection" parent="Uif-HorizontalBoxSection" p:render="@{renderDetailsSection}">
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-StatusHistory-Section"/>
@@ -180,59 +180,59 @@
         </property>
     </bean>
 
-   <bean id="ManageSOCView-StatusHistory-Section" parent="Uif-VerticalBoxSection">
+    <bean id="ManageSOCView-StatusHistory-Section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <ref bean="ManageSOCView-StatusHistory-SubSection1"/>
                 <ref bean="ManageSOCView-StatusHistory-SubSection2"/>
             </list>
         </property>
-   </bean>
+    </bean>
 
-   <bean id="ManageSOCView-StatusHistory-SubSection1" parent="Uif-VerticalBoxSubSection">
-       <property name="items">
-           <list>
-               <ref bean="ManageSOCView-SchedulingDetails-ManageCOButton"/>
-               <ref bean="ManageSOCView-SchedulingDetails-SubSection1"/>
-           </list>
-       </property>
-   </bean>
+    <bean id="ManageSOCView-StatusHistory-SubSection1" parent="Uif-VerticalBoxSubSection">
+        <property name="items">
+            <list>
+                <ref bean="ManageSOCView-SchedulingDetails-ManageCOButton"/>
+            </list>
+        </property>
+    </bean>
 
-   <bean id="ManageSOCView-StatusHistory-SubSection2" parent="Uif-TableCollectionSubSection" p:readOnly="true">
+    <bean id="ManageSOCView-StatusHistory-SubSection2" parent="Uif-TableCollectionSubSection" p:readOnly="true">
         <property name="propertyName" value="statusHistory" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ManageSOCStatusHistory" />
         <property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
-           <list>
-             <bean parent="Uif-DataField" p:propertyName="state" p:label="State">
-                 <property name="propertyReplacers">
-                      <list>
-                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                              p:condition="#line.highlightUI" p:replacement="font-weight:bold;"/>
-                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                              p:condition="#line.greyText" p:replacement="color:grey;"/>
-                      </list>
-                 </property>
-             </bean>
-             <bean parent="Uif-DataField" p:propertyName="date" p:label="Effective Date">
-                 <property name="propertyReplacers">
-                      <list>
-                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                              p:condition="#line.highlightUI" p:replacement="font-weight:bold;"/>
-                        <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
-                              p:condition="#line.greyText" p:replacement="color:grey;"/>
-                      </list>
-                 </property>
-             </bean>
-           </list>
-       </property>
-   </bean>
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="state" p:label="State">
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                  p:condition="#line.highlightUI" p:replacement="font-weight:bold;"/>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                  p:condition="#line.greyText" p:replacement="color:grey;"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="date" p:label="Effective Date">
+                    <property name="propertyReplacers">
+                        <list>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                  p:condition="#line.highlightUI" p:replacement="font-weight:bold;"/>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                                  p:condition="#line.greyText" p:replacement="color:grey;"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
     <bean id="ManageSOCView-SchedulingDetails-Section" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <ref bean="ManageSOCView-SchedulingDetails-SubSection1"/>
                 <ref bean="ManageSOCView-SchedulingDetails-SubSection2"/>
                 <ref bean="ManageSOCView-SchedulingDetails-SubSection3"/>
             </list>
@@ -240,20 +240,20 @@
     </bean>
 
     <bean id="ManageSOCView-SchedulingDetails-SubSection1" parent="Uif-HorizontalBoxSubSection">
-       <property name="items">
-           <list>
-               <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
                     <property name="items">
-                      <list>
-                          <ref bean="ManageSOCView-SchedulingDetails-LockSetButton"/>
-                          <ref bean="ManageSOCView-SchedulingDetails-FinalEditButton"/>
-                          <ref bean="ManageSOCView-SchedulingDetails-PublishButton"/>
-                          <ref bean="ManageSOCView-SchedulingDetails-CloseButton"/>
-                      </list>
+                        <list>
+                            <ref bean="ManageSOCView-SchedulingDetails-LockSetButton"/>
+                            <ref bean="ManageSOCView-SchedulingDetails-FinalEditButton"/>
+                            <ref bean="ManageSOCView-SchedulingDetails-PublishButton"/>
+                            <ref bean="ManageSOCView-SchedulingDetails-CloseButton"/>
+                        </list>
                     </property>
-               </bean>
-           </list>
-       </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 
     <bean id="ManageSOCView-SchedulingDetails-SubSection2" parent="Uif-VerticalBoxSubSection">
