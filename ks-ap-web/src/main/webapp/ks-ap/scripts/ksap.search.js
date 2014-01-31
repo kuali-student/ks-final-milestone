@@ -29,7 +29,7 @@ function ksapCourseSearchColumns() {
         'bSortable' : true,
         'bSearchable' : true,
         'sTitle' : 'Course Name',
-        'sClass' : 'sortable',
+        'sClass' : 'sortable details_link',
         'sWidth' : '100px'
     }, {
         'bSortable' : false,
@@ -142,6 +142,10 @@ function searchForCourses(id, parentId) {
 						bStateSave : false,
 						iCookieDuration : 600,
 						iDisplayLength : 20,
+                        fnRowCallback : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                            jQuery(nRow).attr("id", aData[0]);
+                            return nRow;
+                        },
 						fnDrawCallback : function() {
 							if (Math
 									.ceil((this.fnSettings().fnRecordsDisplay())
