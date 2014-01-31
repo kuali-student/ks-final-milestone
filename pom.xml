@@ -54,7 +54,6 @@
                 <module>ks-lum-sql</module>
                 <module>ks-lum-impl</module>
                 <module>ks-lum-rice</module>
-                <module>ks-cm-krad</module>
             </modules>
         </profile>
         <profile>

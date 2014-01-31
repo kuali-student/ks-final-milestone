@@ -57,10 +57,5 @@
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>
         </dependency>
-        <!--         <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-ui</artifactId>
-            <version>${ks.enroll.version}</version>
-        </dependency> -->
     </dependencies>
 </project>
