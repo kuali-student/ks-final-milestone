@@ -38,8 +38,6 @@
 -->
 
 	<!-- additional config files -->
-	<param name="rice.additionalSpringFiles">classpath:StudentStandaloneSpringBeans.xml</param>
-
     <param name="config.location">classpath:META-INF/common-config-test-locations.xml</param>
     <param name="config.location">${alt.config.location}</param>
 </config>
