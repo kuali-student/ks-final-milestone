@@ -1,0 +1,40 @@
+$ns: '.base_colors';
+
+#{$ns} {
+}
+
+#{$ns}-Accent {
+ $accent-color: #FFFDD8;
+}
+
+
+  // various global styles
+ $body-bg: #fff;
+ $body-font-color: black;
+ $body-font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+ $body-font-weight: normal;
+ $body-font-style: normal;
+
+ $primary-color: #BE2525;
+ $secondary-color: #F2F2F2;
+ $secondary-font-color: black;
+ $accent-color: #FFFDD8;
+
+ $link-color: #0088CC;
+
+ $header-font-color: #fff;
+ $header-color: #000000;
+ $header-secondary-color: lightgrey;
+
+ $border-color-normal: #ccc;
+ $border-color-active: black;
+ $border-radius: 8px;
+
+
+
+  //Button Colors
+	$primary-button-color: #006DCC;
+	$primary-button-background-image: linear-gradient(to bottom, #0088CC, #0044CC);
+    $primary-button-border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+    $primary-button-font-color: #FFFFFF;
+    $primary-button-text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);

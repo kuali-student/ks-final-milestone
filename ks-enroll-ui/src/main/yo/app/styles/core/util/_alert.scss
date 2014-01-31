@@ -1,0 +1,15 @@
+$ns: '.util-Alert';
+
+#{$ns} {
+  border: 1px solid;
+  border-radius: 2px;
+  margin: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+#{$ns}--success {
+  background-color: tint(green, 80%);
+  border-color: tint(green, 60%);
+  color: shade(green, 40%);
+  text-shadow: 0 1px #fff;
+}
