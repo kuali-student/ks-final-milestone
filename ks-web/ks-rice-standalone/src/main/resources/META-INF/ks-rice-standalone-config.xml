@@ -25,6 +25,7 @@
 -->
 <config>
 
+    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
     <param name="config.location">classpath:org/kuali/rice/standalone/config/standalone-config-defaults.xml</param>
 
     <!-- BEGIN KUALI STUDENT SETTINGS -->
@@ -76,6 +77,9 @@
     <param name="datasource.url">jdbc:oracle:thin:@localhost:1521:XE</param>
     <param name="datasource.username">KSRICE</param>
     <param name="datasource.password">KSRICE</param>
+    <param name="datasource.pool.maxWait">60000</param>
+    <param name="datasource.pool.maxSize">10</param>
+    <param name="datasource.pool.minSize">2</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>
@@ -87,18 +91,15 @@
     <param name="filter.login.class">org.kuali.rice.kew.web.DummyLoginFilter</param>
     <param name="filtermapping.login.1">/*</param>
 -->
-    <!-- additional config files -->
-    <param name="ks.authentication.context">classpath:ks-spring-security.xml</param>
-    <param name="rice.additionalSpringFiles">${ks.authentication.context},ks-spring-security-saml.xml,classpath:StudentStandaloneSpringBeans.xml</param>
-    
+
     <!-- Bus security -->
     <param name="ks.core.bus.security">false</param>
     
-    <!-- default config files -->
+    <!-- additional config files -->
+    <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-rice-standalone-config.xml</param>
     <param name="config.location">${additional.config.locations}</param>
-    <param name="config.location">classpath:META-INF/common-config-defaults.xml</param>
-		
+
 	<!-- Set all services to /services instead of /remoting -->
 	<param name="serviceServletUrl">${application.url}/services/</param>
 

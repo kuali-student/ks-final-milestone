@@ -75,7 +75,7 @@
                                url="${ConfigProperties.lum.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-NestedTable-View&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Stacked collection"
                                url="${ConfigProperties.lum.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionStacked-View&methodToCall=collectionOne" /></li>
-        <li><portal:portalLink displayTitle="true" title="Config Viewer"
+        <li><portal:portalLink displayTitle="true" title="Configuration Viewer"
                                url="${ConfigProperties.lum.application.url}/kr-krad/kitchensink?viewId=KS-KitchenSink-CollectionConfigViewer-View&methodToCall=configProperties" /></li>
     </ul>
 
