@@ -24,9 +24,6 @@
   <param name="datasource.username">${ks.rice.jdbc.username}</param>
   <param name="datasource.password">${ks.rice.jdbc.password}</param>
   <param name="datasource.pool.maxSize">40</param>
-  <param name="ks.lum.datasource.maxSize">20</param>
-  <param name="ks.enroll.datasource.maxSize">20</param>
-  <param name="ks.ap.datasource.maxSize">20</param>
   <param name="ks.core.datasource.url">${datasource.url}</param>
   <param name="ks.core.datasource.username">${jdbc.username}</param>
   <param name="ks.core.datasource.password">${jdbc.password}</param>

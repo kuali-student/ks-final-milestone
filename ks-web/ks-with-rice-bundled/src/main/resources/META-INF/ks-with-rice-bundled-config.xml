@@ -80,10 +80,12 @@
     <param name="ks.lum.datasource.url">${datasource.url}</param>
     <param name="ks.lum.datasource.username">${datasource.username}</param>
     <param name="ks.lum.datasource.password">${datasource.password}</param>
+    <param name="ks.lum.datasource.maxSize">${ks.core.datasource.maxSize}</param>
     
     <param name="ks.enroll.datasource.url">${datasource.url}</param>
     <param name="ks.enroll.datasource.username">${datasource.username}</param>
     <param name="ks.enroll.datasource.password">${datasource.password}</param>
+    <param name="ks.enroll.datasource.maxSize">${ks.core.datasource.maxSize}</param>
 
     <param name="ks.core.datasource.url">${datasource.url}</param>
     <param name="ks.core.datasource.username">${datasource.username}</param>
@@ -92,7 +94,7 @@
     <param name="ks.ap.datasource.url">${datasource.url}</param>
     <param name="ks.ap.datasource.username">${datasource.username}</param>
     <param name="ks.ap.datasource.password">${datasource.password}</param>
-
+    <param name="ks.ap.datasource.maxSize">${ks.core.datasource.maxSize}</param>
 
     <!-- Keystore Configuration -->
     <param name="keystore.file">${user.home}/rice.keystore</param>
