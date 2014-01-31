@@ -428,6 +428,32 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
     }
 
+    private List<String> getTermsToFilterOn(String termFilter){
+        List<String> termsToFilterOn = new ArrayList<String>();
+        if(termFilter.equals(CourseSearchForm.SEARCH_TERM_ANY_ITEM)){
+            termsToFilterOn.add("ANY");
+        }
+
+        // Build list of valid terms based on the filter
+
+        else if(termFilter.equals(CourseSearchForm.SEARCH_TERM_SCHEDULED)){
+            // Any Scheduled term selected
+            List<Term> terms = new ArrayList<Term>();
+            List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
+            List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
+            if(currentScheduled!=null) terms.addAll(currentScheduled);
+            if(futureScheduled!=null) terms.addAll(futureScheduled);
+            for(int i=0;i<terms.size();i++){
+               termsToFilterOn.add(terms.get(i).getId());
+            }
+        }else{
+            // Single Term selected
+            termsToFilterOn.add(termFilter);
+        }
+        return termsToFilterOn;
+    }
+
+
     /**
      * Load scheduling information for courses based on their course offerings
      *
@@ -1216,6 +1242,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 						request0.addParam("queryText", queryText.trim());
 						//addCampusParam(request0, form);
 						requests.add(request0);
+                        //Add course offering title search
+                        SearchRequestInfo requestOffering = new SearchRequestInfo(
+                                "ksap.lu.search.offering.title");
+                        requestOffering.addParam("queryText", queryText.trim());
+                        requestOffering.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
+                        //addCampusParam(request0, form);
+                        requests.add(requestOffering);
 						if (!this.getHashMap().containsKey(
 								CourseSearchConstants.SUBJECT_AREA)) {
 							subjects = KsapFrameworkServiceLocator
@@ -1324,6 +1357,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 								request1.addParam("queryText", key.trim());
 								//addCampusParam(request1, form);
 								requests.add(request1);
+                                //Add course offering title search
+                                SearchRequestInfo requestOffering = new SearchRequestInfo(
+                                        "ksap.lu.search.offering.title");
+                                requestOffering.addParam("queryText", key.trim());
+                                requestOffering.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
+                                //addCampusParam(request0, form);
+                                requests.add(requestOffering);
 								SearchRequestInfo request2 = new SearchRequestInfo(
 										"ksap.lu.search.description");
 								request2.addParam("queryText", key.trim());
@@ -1337,6 +1377,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 								request2.addParam("queryText", key.trim());
 								//addCampusParam(request2, form);
 								requests.add(request2);
+                                //Add course offering title search
+                                SearchRequestInfo requestOffering = new SearchRequestInfo(
+                                        "ksap.lu.search.offering.title");
+                                requestOffering.addParam("queryText", key.trim());
+                                requestOffering.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
+                                //addCampusParam(request0, form);
+                                requests.add(requestOffering);
 							}
 						}
 
