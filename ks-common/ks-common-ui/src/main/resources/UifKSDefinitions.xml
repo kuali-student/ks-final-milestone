@@ -591,35 +591,35 @@
     <bean id="KS-Uif-SecondaryActionButton" abstract="true" parent="KS-Uif-SecondaryActionButton-parentBean"/>
     <bean id="KS-Uif-SecondaryActionButton-parentBean" parent="Uif-SecondaryActionButton"/>
 
-    <bean id="KS-Uif-View-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+    <bean id="KS-Uif-View-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="View">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-eye"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-    <bean id="KS-Uif-Edit-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+    <bean id="KS-Uif-Edit-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Edit">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-pencil"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-    <bean id="KS-Uif-Copy-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+    <bean id="KS-Uif-Copy-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Copy">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-docs"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-    <bean id="KS-Uif-Delete-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+    <bean id="KS-Uif-Delete-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Delete">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
-    <bean id="KS-Uif-Manage-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+    <bean id="KS-Uif-Manage-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Manage">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-wrench"/>
         </property>
@@ -632,7 +632,7 @@
         </property>
     </bean>
 
-    <bean id="KS-Uif-Delete-ActionLink" parent="KS-Uif-ActionLink">
+    <bean id="KS-Uif-Delete-ActionLink" parent="KS-Uif-ActionLink" p:title="Delete">
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
         </property>
