@@ -28,7 +28,6 @@ public class DisplayActiveProfiles implements ApplicationContextAware, Initializ
 	 * 
 	 */
 	public DisplayActiveProfiles() {
-		// TODO Auto-generated constructor stub
 	}
 
 	

@@ -73,7 +73,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
 
-        RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
+        RuleEditor ruleEditor = this.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
@@ -136,7 +136,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
 
-        RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
+        RuleEditor ruleEditor = this.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
@@ -1022,6 +1022,12 @@ public class RuleEditorController extends MaintenanceDocumentController {
     private void parseRuleExpression(RuleEditor ruleEditor, RuleViewHelperService viewHelper) {
         RuleLogicExpressionParser ruleLogicExpressionParser = new RuleLogicExpressionParser();
         ruleLogicExpressionParser.setExpression(ruleEditor.getLogicArea());
+        
+        if (ruleEditor.getPropositionEditor() == null) {
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.logicArea",
+                    KRMSConstants.KSKRMS_MSG_INFO_LOGIC_NO_STATEMENTS);
+            return;
+        }
 
         if(ruleEditor.getPropositionEditor()==null){
             GlobalVariables.getMessageMap().putInfo("document.newMaintainableObject.dataObject.logicArea", KRMSConstants.KSKRMS_MSG_INFO_LOGIC_NO_STATEMENTS);
@@ -1252,6 +1258,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
 
         return super.getUIFModelAndView(form);
+    }
+
+    protected RuleEditor retrieveSelectedRuleEditor(MaintenanceDocumentForm document){
+        return AgendaUtilities.retrieveSelectedRuleEditor(document);
     }
 
 }
