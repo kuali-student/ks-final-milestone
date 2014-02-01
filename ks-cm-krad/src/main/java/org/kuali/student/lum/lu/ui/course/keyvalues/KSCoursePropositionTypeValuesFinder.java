@@ -14,13 +14,6 @@ package org.kuali.student.lum.lu.ui.course.keyvalues;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
@@ -35,9 +28,16 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.student.cm.course.service.CourseInfoMaintainable;
+import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Helper class that returns all agenda types that are valid for a given context.
@@ -51,10 +51,10 @@ public class KSCoursePropositionTypeValuesFinder extends UifKeyValuesFinderBase 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable)maintenanceDocumentForm.getDocument().getNewMaintainableObject();
-        
-        String ruleTypeId = courseInfoMaintainable.getCourseRuleManagementWrapper().getRuleEditor().getTypeId();
-        
+        FERuleManagementWrapper courseInfoMaintainable = (FERuleManagementWrapper)maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+
+        String ruleTypeId = courseInfoMaintainable.getRefObjectId(); //getCourseRuleManagementWrapper().getRuleEditor().getTypeId();
+
         NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, StudentIdentityConstants.KS_NAMESPACE_CD);
 
         // if we have an agenda w/ a selected context
