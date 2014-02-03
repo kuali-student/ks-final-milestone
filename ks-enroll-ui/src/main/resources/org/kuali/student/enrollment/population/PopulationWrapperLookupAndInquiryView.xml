@@ -144,7 +144,7 @@
                                     <bean class="org.kuali.student.enrollment.class2.population.keyvalue.PopulationRuleTypeKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.agendaIds[0]" p:label="Rule" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" >
+                            <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.ruleId" p:label="Rule" p:fieldLabel.renderColon="true" p:labelPlacement="LEFT" p:render="@{#dp.populationRuleInfo.typeKey eq 'kuali.population.rule.type.rule'}" p:id="rule_inquiry" >
                                 <property name="inquiry">
                                     <bean parent="Uif-Inquiry">
                                         <property name="render" value="false" />
