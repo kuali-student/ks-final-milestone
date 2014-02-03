@@ -6,7 +6,6 @@
         <artifactId>ks-lum</artifactId>
         <version>2.1.1-FR2-M1-cm-krad-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.cm</groupId>
     <artifactId>ks-cm-deployment-resources</artifactId>
     <name>KS Curriculum Management Deployment Resources</name>
     <dependencies>
