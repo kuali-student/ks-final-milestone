@@ -61,7 +61,7 @@ public class CurriculumFacet extends AbstractFacet {
 			item.setKey(display);
 			item.setDisplayName(display);
 			String title = this.getTitle(display);
-			if (title != null || title != "") {
+			if (title != null && title != "") {
 				item.setTitle(title);
 			}
 			facetItems.add(item);
