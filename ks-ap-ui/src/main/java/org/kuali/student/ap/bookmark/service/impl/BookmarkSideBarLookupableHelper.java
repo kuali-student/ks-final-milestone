@@ -68,11 +68,10 @@ public class BookmarkSideBarLookupableHelper extends
         }
         KsapFrameworkServiceLocator.getCourseHelper().frontLoad(new java.util.ArrayList<String>(courseIds));
 
-        for (String key : itemsByPlan.keySet()){
-            List<PlanItemInfo> planItemList = itemsByPlan.get(key);
-            for (PlanItemInfo planItem : planItemList) {
+        for (Map.Entry<String, List<PlanItemInfo>> entry : itemsByPlan.entrySet()){
+            for (PlanItemInfo planItem : entry.getValue()) {
                 BookmarkSideBarWrapper bookmark = new BookmarkSideBarWrapper();
-                bookmark.setLearningPlanId(key);
+                bookmark.setLearningPlanId(entry.getKey());
                 bookmark.setPlanItemId(planItem.getId());
                 bookmark.setCourseId(planItem.getRefObjectId());
                 Course course = KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(bookmark.getCourseId());

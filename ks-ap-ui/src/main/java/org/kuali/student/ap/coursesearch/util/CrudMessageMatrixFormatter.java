@@ -273,11 +273,12 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						"This course was also added to ");
 			}
 
-			for (String key : planItemsMap.keySet()) {
-
+			for (Map.Entry<String, String> entry : planItemsMap.entrySet()) {
+                String key = entry.getKey();
+                String value = entry.getValue();
 				if (count == 0) {
-					if (planItemsMap.get(key).contains(",")) {
-						String[] terms = planItemsMap.get(key).split(",");
+					if (value.contains(",")) {
+						String[] terms = value.split(",");
 						for (String t : terms) {
 							Term term = KsapFrameworkServiceLocator
 									.getTermHelper().getTerm(t);
@@ -295,7 +296,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						sb = formattedSubBuf.append(" on ").append(key);
 					} else {
 						Term term = KsapFrameworkServiceLocator.getTermHelper()
-								.getTerm(planItemsMap.get(key));
+								.getTerm(value);
 						if (!currentTermRegistered) {
 							sb = sb.append("<dd>")
 									.append("Added to ")
@@ -317,8 +318,8 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
 				}
 				if (count > 0) {
-					if (planItemsMap.get(key).contains(",")) {
-						String[] terms = planItemsMap.get(key).split(",");
+					if (value.contains(",")) {
+						String[] terms = value.split(",");
 						for (String t : terms) {
 							Term term = KsapFrameworkServiceLocator
 									.getTermHelper().getTerm(t);
@@ -335,7 +336,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						sb = formattedSubBuf.append(" on ").append(key);
 					} else {
 						Term term = KsapFrameworkServiceLocator.getTermHelper()
-								.getTerm(planItemsMap.get(key));
+								.getTerm(value);
 						sb = sb.append(" and ")
 								.append(plannerScreenUrl)
 								.append(term.getId()).append("\">")
