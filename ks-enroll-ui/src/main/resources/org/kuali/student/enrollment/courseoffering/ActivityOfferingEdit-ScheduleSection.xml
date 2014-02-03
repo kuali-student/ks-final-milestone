@@ -93,13 +93,13 @@
         <property name="layoutManager.richTable.render" value="false" />
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
-                <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysUI"/>
-                <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTime"/>
-                <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTime"/>
-                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
-                <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
-                <bean parent="Uif-ImageField" p:label="Options" p:hidden="@{!#lp.editRenderHelper.isShowColocateToolTip()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
+                <bean id="rsc_tabUI" parent="Uif-DataField" p:label="TBA" p:propertyName="tbaUI"/>
+                <bean id="rsc_daysUI" parent="Uif-DataField" p:label="Days" p:propertyName="daysUI"/>
+                <bean id="rsc_startTime" parent="Uif-DataField" p:label="Start Time" p:propertyName="startTime"/>
+                <bean id="rsc_endTime" parent="Uif-DataField" p:label="End Time" p:propertyName="endTime"/>
+                <bean id="rsc_buildingName" parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
+                <bean id="rsc_roomName" parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
+                <bean id="rsc_options" parent="Uif-ImageField" p:label="Options" p:hidden="@{!#lp.editRenderHelper.isShowColocateToolTip()}" p:image.altText="@{#lp.editRenderHelper.colocatedAOs}"
                     p:source="@{#ConfigProperties['ks.externalizable.images.url']}/colocate_icon.png">
                     <property name="toolTip">
                        <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true" p:tooltipContent="@{#lp.editRenderHelper.colocatedAOs}"/>
