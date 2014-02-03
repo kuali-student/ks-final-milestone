@@ -28,7 +28,7 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
-import org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
@@ -51,9 +51,9 @@ public class KSCoursePropositionTypeValuesFinder extends UifKeyValuesFinderBase 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        FERuleManagementWrapper courseInfoMaintainable = (FERuleManagementWrapper)maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+        RuleManagementWrapper ruleManagementWrapper = (RuleManagementWrapper)maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
 
-        String ruleTypeId = courseInfoMaintainable.getRefObjectId(); //getCourseRuleManagementWrapper().getRuleEditor().getTypeId();
+        String ruleTypeId = ruleManagementWrapper.getRuleEditor().getTypeId();
 
         NaturalLanguageUsage usage = this.getRuleManagementService().getNaturalLanguageUsageByNameAndNamespace(KSKRMSServiceConstants.KRMS_NL_TYPE_DESCRIPTION, StudentIdentityConstants.KS_NAMESPACE_CD);
 
