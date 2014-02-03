@@ -62,6 +62,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:additionalCssClasses="ks-dottedHeaderActions">
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}');"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false"
@@ -74,13 +75,21 @@
                       p:actionScript="openPopupContent(e,'KS-CourseOfferingManagement-RenameAOCPopupForm',{align:'right',tail:{align:'right'}});" p:style="float:right"
                       p:successCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
                       p:errorCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="renameCluster"/>
+                      p:componentSecurity.performActionAuthz="true" p:actionEvent="renameCluster">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-pencil"/>
+                    </property>
+                </bean>
                 <!--<bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" p:style="float:right"/>-->
                 <!-- jQuery('input.required[value=]').removeClass('required'); work-around added to stop a problem where form validation was preventing delete from working -->
                 <bean parent="Uif-NavigationActionLink" p:methodToCall="showDeleteClusterConfirmPage"
                       p:onClickScript="jQuery('input.required[value=]').removeClass('required');writeHiddenToForm(&quot;actionParameters[selectedLineIndex]&quot;, &quot;@{#index}&quot;);"
-                      p:actionLabel="Delete&#160;&#160;|&#160;&#160;"  p:style="float:right;"
-                      p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster"/>
+                      p:actionLabel="Delete"  p:style="float:right;"
+                      p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
+                    </property>
+                </bean>
             </list>
         </property>
 
