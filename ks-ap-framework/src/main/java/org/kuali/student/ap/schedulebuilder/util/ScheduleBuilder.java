@@ -171,21 +171,25 @@ public class ScheduleBuilder implements Serializable {
 
 	@Override
 	public String toString() {
-		String rv = "ScheduleBuilder\n  currentCourse " + currentCourseIndex
-				+ "\n  currentPrimary "
-				+ Arrays.toString(currentPrimaryActivityIndex)
-				+ "\n  currentSecondary ";
-		for (int[] cs : currentSecondaryOptionIndex)
-			rv += "\n      " + Arrays.toString(cs);
-		rv += "\n  currentSecondaryOption\n    ";
-		for (int[][] cso : currentSecondaryActivityIndex)
-			for (int[] cs : cso)
-				rv += "," + Arrays.toString(cs);
-		rv += "\n  limitSecondaryOption\n    ";
-		for (int[][] cso : limitSecondaryOption)
-			for (int[] cs : cso)
-				rv += "," + Arrays.toString(cs);
-		return rv;
+        StringBuilder sb=new StringBuilder("ScheduleBuilder\n  currentCourse ");
+        sb.append(currentCourseIndex).append("\n  currentPrimary ");
+        sb.append(Arrays.toString(currentPrimaryActivityIndex)).append("\n  currentSecondary ");
+		for (int[] cs : currentSecondaryOptionIndex)  {
+			sb.append("\n      ").append(Arrays.toString(cs));
+        }
+		sb.append("\n  currentSecondaryOption\n    ");
+		for (int[][] cso : currentSecondaryActivityIndex) {
+			for (int[] cs : cso){
+				sb.append(",").append(Arrays.toString(cs));
+            }
+        }
+		sb.append("\n  limitSecondaryOption\n    ");
+		for (int[][] cso : limitSecondaryOption){
+			for (int[] cs : cso){
+				sb.append(",").append(Arrays.toString(cs));
+            }
+        }
+		return sb.toString();
 	}
 
 	public ScheduleBuilder(Term term, List<CourseOption> courseOptions,

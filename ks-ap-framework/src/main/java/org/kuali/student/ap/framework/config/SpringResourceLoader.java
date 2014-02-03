@@ -121,15 +121,15 @@ public class SpringResourceLoader extends BaseResourceLoader {
 
 	@Override
 	public String getContents(String indent, boolean servicePerLine) {
-		String contents = "";
+		StringBuilder sb = new StringBuilder("");
 		for (String name : context.getBeanDefinitionNames()) {
 			if (servicePerLine) {
-				contents += indent + "+++" + name + "\n";
+                sb.append(indent).append("+++").append(name).append("\n");				
 			} else {
-				contents += name + ", ";
+				sb.append(name).append(", ");
 			}
 		}
-		return contents;
+		return sb.toString();
 	}
 
 }

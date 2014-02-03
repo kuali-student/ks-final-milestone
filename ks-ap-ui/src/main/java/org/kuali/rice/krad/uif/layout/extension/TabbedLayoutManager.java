@@ -75,13 +75,13 @@ public class TabbedLayoutManager extends StackedLayoutManager {
 			Object summaryFieldValue = ObjectPropertyUtils.getPropertyValue(
 					line, summaryField);
 			if (StringUtils.isNotBlank(summaryFieldString)) {
-				summaryFieldString += " - ";
+				summaryFieldString = new StringBuilder(summaryFieldString).append(" - ").toString();
 			}
 
 			if (summaryFieldValue != null) {
-				summaryFieldString += summaryFieldValue;
+				summaryFieldString = new StringBuilder(summaryFieldString).append(summaryFieldValue).toString();
 			} else {
-				summaryFieldString += "Null";
+				summaryFieldString = new StringBuilder(summaryFieldString).append("Null").toString();
 			}
 		}
 

@@ -333,7 +333,8 @@ public class PlannedTerm {
     public String getTermNoteUI(){
         String termNote ="";
         for(TermNoteDataObject note : termNoteList){
-            termNote = termNote+note.getTermNoteUI()+"\r";
+            StringBuilder sb=new StringBuilder(termNote).append(note.getTermNoteUI());
+            termNote = sb.append("\r").toString();
         }
         return termNote;
     }

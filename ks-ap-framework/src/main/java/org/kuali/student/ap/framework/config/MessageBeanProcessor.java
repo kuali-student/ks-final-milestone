@@ -239,7 +239,8 @@ public class MessageBeanProcessor extends DictionaryBeanProcessorBase {
                 }
             }
 
-            beanPath += "." + StringUtils.substringBefore(nestedPropertyPath, ".");
+            StringBuilder sb = new StringBuilder(beanPath).append(".");
+            beanPath = sb.append(StringUtils.substringBefore(nestedPropertyPath, ".")).toString();
             nestedPropertyPath = StringUtils.substringAfter(nestedPropertyPath, ".");
         }
 
