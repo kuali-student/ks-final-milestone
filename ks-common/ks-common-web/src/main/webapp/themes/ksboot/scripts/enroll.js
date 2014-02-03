@@ -865,10 +865,6 @@ jQuery(function () {
     handleEventforDisabledElements();
 });
 
-//jQuery(document).on('DOMNodeInserted', 'button.ks-enableMouseOver', function() {
-//    handleEventforDisabledElements();
-//});
-
 /*
     This function displays the tooltip on disabled buttons.
     Furthermore it adds a dotted underline to buttons's label.
