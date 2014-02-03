@@ -40,7 +40,9 @@ import org.kuali.student.enrollment.class2.courseoffering.service.decorators.Per
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -310,8 +312,8 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
                 return null;
             }
 
-            Date timeForDisplay = new Date(Long.parseLong(value));
-            return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+            TimeOfDayInfo start = TimeOfDayHelper.setMillis(Long.parseLong(value));
+            return TimeOfDayHelper.makeFormattedTimeForAOSchedules(start);
         }
 
         return null;
@@ -439,8 +441,8 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         }
 
         //Check if someone else has not created a rule while this one was created.
-        if(rule.getId()==null){
-            if(this.getRuleManagementService().getRuleByNameAndNamespace(rule.getName(), rule.getNamespace())!=null){
+        if (rule.getId() == null) {
+            if (this.getRuleManagementService().getRuleByNameAndNamespace(rule.getName(), rule.getNamespace()) != null) {
                 throw new KRMSOptimisticLockingException();
             }
         }
@@ -458,80 +460,11 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
      * @return new action definition with populated parameters
      */
     public void finActions(RuleEditor rule) {
-
-        FERuleEditor feRuleEditor = (FERuleEditor) rule;
-
-        ActionEditor actionEditor = null;
-        for (ActionEditor action : feRuleEditor.getActionEditors()) {
-            if (action.getTypeId().equals(this.getRdlActionTypeId())) {
-                actionEditor = action;
-            }
-        }
-
-        if (actionEditor == null) {
-            actionEditor = new ActionEditor();
-            actionEditor.setRuleId(feRuleEditor.getId());
-            actionEditor.setNamespace(StudentIdentityConstants.KS_NAMESPACE_CD);
-            actionEditor.setTypeId(getRdlActionTypeId());
-            actionEditor.setSequenceNumber(1);
-            feRuleEditor.getActionEditors().add(actionEditor);
-        }
-
-        //Set actionEditor required fields from rule
-        actionEditor.setDescription("Day " + feRuleEditor.getDay());
-        actionEditor.setName("day" + feRuleEditor.getDay() + feRuleEditor.getTimePeriodToDisplay());
-
-        //Populate dynamic attributes
-        Map<String, String> attributes = new HashMap<String, String>();
-        try {
-            attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, feRuleEditor.getDay());
-            if ((feRuleEditor.getStartTime() != null) && (!feRuleEditor.getStartTime().isEmpty())) {
-                String startTimeAMPM = new StringBuilder(feRuleEditor.getStartTime()).append(" ").append(feRuleEditor.getStartTimeAMPM()).toString();
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, Long.toString(parseTimeToMillis(startTimeAMPM)));
-            } else {
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, StringUtils.EMPTY);
-            }
-            if ((feRuleEditor.getEndTime() != null) && (!feRuleEditor.getEndTime().isEmpty())) {
-                String endTimeAMPM = new StringBuilder(feRuleEditor.getEndTime()).append(" ").append(feRuleEditor.getEndTimeAMPM()).toString();
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, Long.toString(parseTimeToMillis(endTimeAMPM)));
-            } else {
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, StringUtils.EMPTY);
-            }
-            if (feRuleEditor.getBuilding().getId() != null) {
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, feRuleEditor.getBuilding().getId());
-            } else {
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, StringUtils.EMPTY);
-            }
-            if (feRuleEditor.getRoom().getId() != null) {
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, feRuleEditor.getRoom().getId());
-            } else {
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, StringUtils.EMPTY);
-            }
-            if (feRuleEditor.isTba()) {
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.TRUE.toString());
-            } else {
-                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.FALSE.toString());
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        actionEditor.setAttributes(attributes);
+        //nothing for now.
     }
 
     public String getNextRuleKey() {
         return (String) alphaIterator.next();
-    }
-
-    /**
-     * Parses Date into Long
-     *
-     * @param time
-     * @return date in long value
-     */
-    protected long parseTimeToMillis(final String time) throws ParseException {
-        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.parse(time).getTime();
     }
 
     protected String getRdlActionTypeId() {

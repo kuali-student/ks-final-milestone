@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.class1.krms.builder;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.builder.ComponentBuilder;
@@ -22,6 +23,8 @@ import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
@@ -53,20 +56,18 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
 
         if (weekDay != null) {
             propositionEditor.setWeekdays(weekDay);
-
-
         }
+
         if (startTime != null) {
-            Date timeForDisplay = new Date(Long.parseLong(startTime));
-            String formatStartTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+            TimeOfDayInfo start = TimeOfDayHelper.setMillis(Long.parseLong(startTime));
+            String formatStartTime = TimeOfDayHelper.makeFormattedTimeForAOSchedules(start);
             propositionEditor.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(formatStartTime, " "));
             propositionEditor.setStartTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(formatStartTime, " "));
 
         }
         if (endTime != null) {
-
-            Date timeForDisplay = new Date(Long.parseLong(endTime));
-            String formatEndTime = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay);
+            TimeOfDayInfo end = TimeOfDayHelper.setMillis(Long.parseLong(endTime));
+            String formatEndTime = TimeOfDayHelper.makeFormattedTimeForAOSchedules(end);
             propositionEditor.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(formatEndTime, " "));
             propositionEditor.setEndTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(formatEndTime, " "));
         }
@@ -77,24 +78,21 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
         Map<String, String> termParameters = new HashMap<String, String>();
         try {
 
-
             if (propositionEditor.getWeekdays() != null) {
-
                 termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_WEEKDAY_STRING, propositionEditor.getWeekdays());
             }
 
-            if (propositionEditor.getStartTime() != null) {
+            if (StringUtils.isNotEmpty(propositionEditor.getStartTime())) {
                 String startTimeAMPM = new StringBuilder(propositionEditor.getStartTime()).append(" ").append(propositionEditor.getStartTimeAMPM()).toString();
-                long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
-                String startTime = String.valueOf(startTimeMillis);
+                TimeOfDayInfo startTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(startTimeAMPM);
+                String startTime = String.valueOf(TimeOfDayHelper.getMillis(startTimeOfDayInfo));
                 termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START, startTime);
             }
 
-            if (propositionEditor.getEndTime() != null) {
-
+            if (StringUtils.isNotEmpty(propositionEditor.getEndTime())) {
                 String endTimeAMPM = new StringBuilder(propositionEditor.getEndTime()).append(" ").append(propositionEditor.getEndTimeAMPM()).toString();
-                long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
-                String endTime = String.valueOf(endTimeMillis);
+                TimeOfDayInfo endTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(endTimeAMPM);
+                String endTime = String.valueOf(TimeOfDayHelper.getMillis(endTimeOfDayInfo));
                 termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_END, endTime);
             }
 

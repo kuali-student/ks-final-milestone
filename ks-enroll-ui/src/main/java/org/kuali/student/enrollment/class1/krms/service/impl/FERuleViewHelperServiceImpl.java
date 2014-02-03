@@ -40,6 +40,8 @@ import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingC
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingResourceLoader;
 import org.kuali.student.lum.lu.ui.krms.service.impl.LURuleViewHelperServiceImpl;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
@@ -58,6 +60,8 @@ import java.util.Map;
 public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
     private RoomService roomService;
+
+    private String rdlActionTypeId;
 
     /**
      * @return
@@ -124,51 +128,78 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
     public void buildActions(RuleEditor ruleEditor) {
         try {
             FERuleEditor rule = (FERuleEditor) ruleEditor;
-            ArrayList<ActionEditor> newActions = new ArrayList<ActionEditor>();
+            ActionEditor action = this.getRDLAction(rule);
+            Map<String, String> attributes = new HashMap<String, String>();
 
-            ArrayList<ActionEditor> actions = (ArrayList<ActionEditor>) ruleEditor.getActions();
-            for (ActionEditor action : actions) {
-                Map<String, String> attributes = action.getAttributes();
-                Map<String, String> newAttributes = new HashMap<String, String>();
-                if (rule.getDay() != null) {
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, rule.getDay());
-                }
-                if (rule.isTba()) {
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.TRUE.toString());
-                } else {
-                    if (rule.getStartTime() != null) {
-                        String startTimeAMPM = new StringBuilder(rule.getStartTime()).append(" ").append(rule.getStartTimeAMPM()).toString();
-                        long startTimeMillis = this.parseTimeToMillis(startTimeAMPM);
-                        String startTime = String.valueOf(startTimeMillis);
-                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
-                    }
-                    if (rule.getEndTime() != null) {
-                        String endTimeAMPM = new StringBuilder(rule.getEndTime()).append(" ").append(rule.getEndTimeAMPM()).toString();
-                        long endTimeMillis = this.parseTimeToMillis(endTimeAMPM);
-                        String endTime = String.valueOf(endTimeMillis);
-                        newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
-                    }
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.FALSE.toString());
-                }
-
-                if (rule.getBuilding().getBuildingCode() != null && !rule.getBuilding().getBuildingCode().isEmpty()) {
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, rule.getBuilding().getId());
-                }
-                if (rule.getRoom().getRoomCode() != null && !rule.getRoom().getRoomCode().isEmpty()) {
-                    newAttributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, rule.getRoom().getId());
-
-                }
-                action.setAttributes(newAttributes);
-                action.setDescription(ruleEditor.getDescription());
-                newActions.add(action);
+            if (rule.isTba()) {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.TRUE.toString());
+            } else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_TBA, Boolean.FALSE.toString());
             }
-            ((ArrayList<ActionEditor>) ruleEditor.getActions()).clear();
-            ((ArrayList<ActionEditor>) ruleEditor.getActions()).addAll(newActions);
-            ((FERuleEditor) ruleEditor).getTimePeriodToDisplay();
+            if (rule.getDay() != null) {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, rule.getDay());
+            } else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_DAY, StringUtils.EMPTY);
+            }
+
+            if (StringUtils.isNotEmpty(rule.getStartTime())) {
+                String startTimeAMPM = new StringBuilder(rule.getStartTime()).append(" ").append(rule.getStartTimeAMPM()).toString();
+                TimeOfDayInfo startTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(startTimeAMPM);
+                String startTime = String.valueOf(TimeOfDayHelper.getMillis(startTimeOfDayInfo));
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, startTime);
+            } else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_STARTTIME, StringUtils.EMPTY);
+            }
+            if (StringUtils.isNotEmpty(rule.getEndTime())) {
+                String endTimeAMPM = new StringBuilder(rule.getEndTime()).append(" ").append(rule.getEndTimeAMPM()).toString();
+                TimeOfDayInfo endTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(endTimeAMPM);
+                String endTime = String.valueOf(TimeOfDayHelper.getMillis(endTimeOfDayInfo));
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, endTime);
+            } else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ENDTIME, StringUtils.EMPTY);
+            }
+
+            if (rule.getBuilding().getBuildingCode() != null && !rule.getBuilding().getBuildingCode().isEmpty()) {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, rule.getBuilding().getId());
+            }else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_FACILITY, StringUtils.EMPTY);
+            }
+            if (rule.getRoom().getRoomCode() != null && !rule.getRoom().getRoomCode().isEmpty()) {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, rule.getRoom().getId());
+            } else {
+                attributes.put(KSKRMSServiceConstants.ACTION_PARAMETER_TYPE_RDL_ROOM, StringUtils.EMPTY);
+            }
+
+            action.setAttributes(attributes);
+            action.setDescription(ruleEditor.getDescription());
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private ActionEditor getRDLAction(FERuleEditor rule) {
+
+        for (ActionEditor action : rule.getActionEditors()) {
+            if (action.getTypeId().equals(this.getRdlActionTypeId())) {
+                return action;
+            }
+        }
+
+        ActionEditor actionEditor = new ActionEditor();
+        actionEditor.setRuleId(rule.getId());
+        actionEditor.setNamespace(StudentIdentityConstants.KS_NAMESPACE_CD);
+        actionEditor.setTypeId(getRdlActionTypeId());
+        actionEditor.setSequenceNumber(1);
+        rule.getActionEditors().add(actionEditor);
+        return actionEditor;
+    }
+
+    protected String getRdlActionTypeId() {
+        if (rdlActionTypeId == null) {
+            rdlActionTypeId = this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, KSKRMSServiceConstants.ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC).getId();
+        }
+        return rdlActionTypeId;
     }
 
     private String getDescriptionForPropositionTree(PropositionEditor proposition, boolean isRoot) {

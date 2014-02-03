@@ -1,6 +1,8 @@
 package org.kuali.student.enrollment.class2.examoffering.krms.naturallanguage.context;
 
 import org.kuali.student.enrollment.class2.courseoffering.krms.naturallanguage.context.BasicContextImpl;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
@@ -37,14 +39,14 @@ public class FinalExamContextImpl extends BasicContextImpl {
 
         if(parameters.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START)) {
             String timeInMillis = (String) parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START);
-            Date timeForDisplay = new Date(Long.parseLong(timeInMillis));
-            contextMap.put(STARTTIME_TOKEN, DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+            TimeOfDayInfo start = TimeOfDayHelper.setMillis(Long.parseLong(timeInMillis));
+            contextMap.put(STARTTIME_TOKEN, TimeOfDayHelper.makeFormattedTimeForAOSchedules(start));
         }
 
         if(parameters.containsKey(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_END)) {
             String timeInMillis = (String) parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_END);
-            Date timeForDisplay = new Date(Long.parseLong(timeInMillis));
-            contextMap.put(ENDTIME_TOKEN, DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(timeForDisplay));
+            TimeOfDayInfo end = TimeOfDayHelper.setMillis(Long.parseLong(timeInMillis));
+            contextMap.put(ENDTIME_TOKEN, TimeOfDayHelper.makeFormattedTimeForAOSchedules(end));
         }
 
         return contextMap;
