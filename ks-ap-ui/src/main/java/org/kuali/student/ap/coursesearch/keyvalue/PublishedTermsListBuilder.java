@@ -58,10 +58,10 @@ public class PublishedTermsListBuilder extends KeyValuesBase {
         else if(currentTerms.size() >0 ){
             if (currentTerms.size()>1) {
                 // Log an info message
-                LOG.info("There is more than one current term.");
+                LOG.warn("There is more than one current term.");
             }
             for (Term term : currentTerms) {
-                keyValues.add(new ConcreteKeyValue(term.getId(), currentTerms.get(0).getName()
+                keyValues.add(new ConcreteKeyValue(term.getId(), term.getName()
                     + suffix));
             }
         }

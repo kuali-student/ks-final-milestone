@@ -256,8 +256,10 @@ public class DefaultShoppingCartStrategy implements ShoppingCartStrategy,
 				cartRequest.setCourse(KsapFrameworkServiceLocator
 						.getCourseHelper().getCourseInfo(courseId));
 				List<ActivityOption> aol = aoe.getValue();
-				cartRequest.setPrimaryRegistrationCode(aol.get(0)
+                if(!aol.isEmpty()){
+				    cartRequest.setPrimaryRegistrationCode(aol.get(0)
 						.getRegistrationCode());
+                }
 				if (aol.size() > 1) {
 					List<String> scodes = new ArrayList<String>(aol.size() - 1);
 					for (ActivityOption ao : aol.subList(1, aol.size()))

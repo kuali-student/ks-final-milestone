@@ -1230,10 +1230,17 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 // Assumes a controlled build order of the query Division parameters should always be added first.
 				if (requests.get(i).getSearchKey()
 						.equalsIgnoreCase("ksap.lu.search.division")) {
-                    String queryText = (String) requests.get(i).getParams()
-                            .get(0).getValues().get(0);
-                    String key = (String) requests.get(i).getParams().get(0)
-                            .getValues().get(0);
+                    // Add redundant checks to insure no empty lists,
+                    String queryText = "";
+                    String key = "";
+                    try{
+                        queryText = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
+                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
+                        key = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
+                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
+                    }catch(OperationFailedException e){
+                        LOG.warn("Incorrectly Formed ksap.lu.search.division",e);
+                    }
 					if (form.getSearchQuery().length() <= 2) {
 						break;
 					} else {
