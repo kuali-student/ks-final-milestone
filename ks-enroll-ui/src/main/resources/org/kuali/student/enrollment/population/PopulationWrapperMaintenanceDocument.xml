@@ -106,7 +106,7 @@
                         <bean parent="Uif-HorizontalRadioControl" p:options-ref="populationStateKeyName-options"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.agendaIds[0]" p:label="Rule">
+                <bean parent="Uif-InputField" p:propertyName="populationRuleInfo.ruleId" p:label="Rule">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="populationRuleAgendaIds-options"/>
                     </property>
