@@ -886,7 +886,6 @@ function handleEventforDisabledElements() {
             jQuery('[data-for=' + id + ']').each(function(){
                 var dataValue = jQuery(this).val();
                 dataValue = dataValue.replace(id, divId);
-               // dataValue = dataValue.replace('createTooltip', 'myCreateTooltip');
                     eval(dataValue);
             });
         }
@@ -897,7 +896,6 @@ function handleEventforDisabledElements() {
             jQuery(div).css('z-index', parseInt(jQuery(this).css('z-index')) + 1);
             if (!div.HasBubblePopup()) {
                 div.addClass("uif-tooltip");
-                //initBubblePopups();  // shotgun approach to CreateBubblePopup, versus...
                 div.CreateBubblePopup(".uif-tooltip");
             }
         } else {
