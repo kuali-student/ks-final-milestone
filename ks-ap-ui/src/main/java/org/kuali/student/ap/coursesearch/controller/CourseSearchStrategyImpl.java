@@ -1261,7 +1261,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 							subjects = getHashMap().get(
 									CourseSearchConstants.SUBJECT_AREA);
 						}
-						StringBuffer additionalDivisions = new StringBuffer();
+						StringBuilder additionalDivisions = new StringBuilder();
 						if (subjects != null && subjects.size() > 0) {
 							// Add the individual term items.
 							for (Map.Entry<String, String> entry : subjects

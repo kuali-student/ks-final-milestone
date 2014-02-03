@@ -1002,7 +1002,7 @@ public class CourseSearchController extends UifControllerBase {
 		String subject = "";
 		String courseId = "";
 		courseCd = courseCd.toUpperCase();
-		StringBuffer campus = new StringBuffer();
+		StringBuilder campus = new StringBuilder();
 		List<KeyValue> campusKeys = campusSearch.getKeyValues();
 		for (KeyValue k : campusKeys) {
 			campus.append(k.getKey().toString());
@@ -1013,7 +1013,7 @@ public class CourseSearchController extends UifControllerBase {
 			number = splitStr[1];
 			subject = splitStr[0];
 		} else {
-			StringBuffer splitBuff = new StringBuffer();
+			StringBuilder splitBuff = new StringBuilder();
 			for (int i = 0; i < splitStr.length; i++) {
 				splitBuff.append(splitStr[i]);
 			}

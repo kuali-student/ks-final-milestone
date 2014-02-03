@@ -93,7 +93,7 @@ public class DataDictionaryIndex implements Runnable {
 					&& !(indexedEntry.getDataObjectClass().equals(entry
 							.getDataObjectClass()))) {
 				throw new DataDictionaryException(
-						new StringBuffer(
+						new StringBuilder(
 								"Two object classes may not share the same jstl key: this=")
 								.append(entry.getDataObjectClass())
 								.append(" / existing=")
@@ -142,7 +142,7 @@ public class DataDictionaryIndex implements Runnable {
 									.getDocumentTypeName(), entry
 									.getDocumentTypeName())) {
 				throw new DataDictionaryException(
-						new StringBuffer(
+						new StringBuilder(
 								"Two transactional document types may not share the same document class: this=")
 								.append(entry.getDocumentTypeName())
 								.append(" / existing=")
@@ -156,7 +156,7 @@ public class DataDictionaryIndex implements Runnable {
 							.get(entry.getJstlKey())).getDocumentTypeName()
 							.equals(entry.getDocumentTypeName())) {
 				throw new DataDictionaryException(
-						new StringBuffer(
+						new StringBuilder(
 								"Two document types may not share the same jstl key: this=")
 								.append(entry.getDocumentTypeName())
 								.append(" / existing=")

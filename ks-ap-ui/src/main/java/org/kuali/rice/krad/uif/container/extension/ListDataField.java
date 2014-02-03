@@ -12,7 +12,7 @@ import java.util.List;
  *
  * 1. Supports DL/DD
  * 2. Applies the styleClasses on the filed to the list container and provides a property to allow the list item value to be applied as a style also
- * 3. Uses StringBuffer instead of String concatinations to improve memory usage
+ * 3. Uses StringBuilder instead of String concatinations to improve memory usage
  *
  * @Author KSAP Team
  * Date: 3/22/13
@@ -42,7 +42,7 @@ public class ListDataField extends DataField {
      */
     @Override
     protected String generateReadOnlyListDisplayReplacement(List<?> list) {
-        StringBuffer generatedHtml = new StringBuffer();
+        StringBuilder generatedHtml = new StringBuilder();
 
         //Default to delimited if nothing is set
         if (getReadOnlyListDisplayType() == null) {

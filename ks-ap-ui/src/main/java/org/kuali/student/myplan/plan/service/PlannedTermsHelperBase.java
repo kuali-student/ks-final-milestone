@@ -148,7 +148,7 @@ public class PlannedTermsHelperBase {
                 if (!added) {
                     PlannedTerm plannedTerm = new PlannedTerm();
                     plannedTerm.setAtpId(atp);
-                    StringBuffer str = new StringBuffer();
+                    StringBuilder str = new StringBuilder();
                     YearTerm yearTerm = KsapFrameworkServiceLocator
                             .getTermHelper().getYearTerm(atp);
                     str = str.append(yearTerm.getTermName());

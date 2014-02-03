@@ -85,7 +85,7 @@ public class CollectionListPropertyEditor extends PropertyEditorSupport implemen
             styleClassNames = getStyleClassesAsString();
         }
 
-        StringBuffer formattedText = new StringBuffer();
+        StringBuilder formattedText = new StringBuilder();
         formattedText.append("<" + listType.getListElementName() + " class=\"" + styleClassNames + "\">" );
 
         if (isCollectionNullOrEmpty) {

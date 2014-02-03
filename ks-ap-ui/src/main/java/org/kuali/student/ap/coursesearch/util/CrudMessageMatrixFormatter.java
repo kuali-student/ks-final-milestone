@@ -56,8 +56,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 	public String getAsText() {
 
 		CourseDetails courseDetails = (CourseDetails) super.getValue();
-        //@TODO: Convert to StringBuilder instead of StringBuffer
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		boolean currentTermRegistered = false;
 
 		/*
@@ -158,7 +157,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 							message = user
 									+ ". currently enrolled in this course for ";
 						}
-						StringBuffer sec = new StringBuffer();
+						StringBuilder sec = new StringBuilder();
 						int count = 0;
 						for (String section : sections) {
 							if (count == 0) {
@@ -251,7 +250,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 									.parse(pl.getDateAdded().toString()
 											.substring(0, 10)));
 					if (planItemsMap.containsKey(date)) {
-						StringBuffer sbuf = new StringBuffer();
+						StringBuilder sbuf = new StringBuilder();
 						sbuf = sbuf.append(planItemsMap.get(date)).append(",")
 								.append(KsapFrameworkServiceLocator.getTermHelper().getTerm(yearTerm).getId());
 						planItemsMap.put(date, sbuf.toString());
@@ -262,7 +261,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
 			}
 			int count = 0;
-			StringBuffer startsSub = new StringBuffer();
+			StringBuilder startsSub = new StringBuilder();
 			if (sb.toString().length() > 0) {
 				startsSub = startsSub.append(sb);
 			}
@@ -290,7 +289,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						}
 						String formattedString = sb.substring(0,
 								sb.lastIndexOf(","));
-						StringBuffer formattedSubBuf = new StringBuffer();
+						StringBuilder formattedSubBuf = new StringBuilder();
 						formattedSubBuf = formattedSubBuf
 								.append(formattedString);
 						sb = formattedSubBuf.append(" on ").append(key);
@@ -330,7 +329,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						}
 						String formattedString = sb.substring(0,
 								sb.lastIndexOf(",") - 1);
-						StringBuffer formattedSubBuf = new StringBuffer();
+						StringBuilder formattedSubBuf = new StringBuilder();
 						formattedSubBuf = formattedSubBuf
 								.append(formattedString);
 						sb = formattedSubBuf.append(" on ").append(key);

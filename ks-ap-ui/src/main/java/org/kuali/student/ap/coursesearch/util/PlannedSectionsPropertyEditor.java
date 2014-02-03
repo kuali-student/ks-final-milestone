@@ -35,7 +35,7 @@ public class PlannedSectionsPropertyEditor extends PropertyEditorSupport {
     public String getAsText() {
         List<ActivityOfferingItem> plannedSections = (List<ActivityOfferingItem>) super.getValue();
         String atpId = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getParameter("atpId");
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         List<String> sections = new ArrayList<String>();
         for (ActivityOfferingItem activity : plannedSections) {
             if (activity.getPlanItemId() != null && activity.getAtpId().equalsIgnoreCase(atpId)) {

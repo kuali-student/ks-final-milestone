@@ -19,7 +19,7 @@ public class QueryMethodArgsCacheAdvice extends MethodArgsToObjectEhcacheAdvice 
 	
     // @Override
     protected String generateCacheKey(ProceedingJoinPoint pjp) {
-		final StringBuffer cacheKey = new StringBuffer(pjp.getSignature().getName());
+		final StringBuilder cacheKey = new StringBuilder(pjp.getSignature().getName());
 		cacheKey.append("(");
 		for (int i = 0; i < pjp.getArgs().length; i++) {
 
