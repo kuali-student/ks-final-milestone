@@ -1290,7 +1290,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 						request2.addParam("queryText", queryText.trim());
 						//addCampusParam(request2, form);
 						requests.add(request2);
-
+                        SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
+                                "ksap.lu.search.offering.description");
+                        requestOfferingDescr.addParam("queryText", queryText.trim());
+                        requestOfferingDescr.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
+                        //addCampusParam(request2, form);
+                        requests.add(requestOfferingDescr);
 					}
 
 				}
@@ -1369,6 +1374,13 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 								request2.addParam("queryText", key.trim());
 								//addCampusParam(request2, form);
 								requests.add(request2);
+                                SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
+                                        "ksap.lu.search.offering.description");
+                                requestOfferingDescr.addParam("queryText", key.trim());
+                                requestOfferingDescr.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
+                                //addCampusParam(request2, form);
+                                requests.add(requestOfferingDescr);
+
 							} else {
 								requests.get(i).setSearchKey(
 										"ksap.lu.search.title");
@@ -1384,6 +1396,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                                 requestOffering.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
                                 //addCampusParam(request0, form);
                                 requests.add(requestOffering);
+                                SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
+                                        "ksap.lu.search.offering.description");
+                                requestOfferingDescr.addParam("queryText", key.trim());
+                                requestOfferingDescr.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
+                                //addCampusParam(request2, form);
+                                requests.add(requestOfferingDescr);
 							}
 						}
 
