@@ -28,11 +28,14 @@ public class DateFormatters {
     public static final String DYNAMIC_ATTRIBUTE_DATE_FORMAT = "yyyy MMM d HH:mm:ss ZZZ";             // 2012 Nov 8 15:05:19 America/New_York
     public static final String MONTH_DAY_YEAR_TIME_DATE_FORMAT = "MM/dd/yyyy hh:mm aa";               // 11/08/2012 02:52 PM
     public static final String MONTH_DAY_YEAR_DATE_FORMAT = "MM/dd/yyyy";                             // 11/08/2012
+    public static final String MONTH_NOZERO_DAY_YEAR_DATE_FORMAT = "M/dd/yyyy";                       // 11/08/2012
     public static final String YEAR_MONTH_DAY_CONCAT_DATE_FORMAT = "yyyyMMdd";                        // 20121108
     public static final String COURSE_OFFERING_VIEW_HELPER_DATE_FORMAT = "EEE, MMMMM d, yyyy";        // Thu, November 8, 2012
     public static final String COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMAT = "MMMMM d, yyyy, h:mm a";// November 8, 2012, 2:52 PM
     public static final String HOUR_MINUTE_TIME_FORMAT = "hh:mm";                                     // 02:52
     public static final String HOUR_MINUTE_AM_PM_TIME_FORMAT = "hh:mm a";                             // 02:52 PM
+    public static final String HOUR_MINUTE_NOSPACE_AM_PM_TIME_FORMAT = "hh:mma";                      // 02:52pm
+    public static final String HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMAT = "h:mm a";                       // 2:52 pm
     public static final String AM_PM_TIME_FORMAT = "a";                                               // PM
     public static final String DEFULT_YEAR_FORMAT = "yyyy";                                           // 2012
     public static final String SIMPLE_TIMESTAMP_FORMAT = "MM/dd/yyyy HH:mm:ss";                       // 11/08/2012 02:52:26
@@ -49,6 +52,11 @@ public class DateFormatters {
 
     public static final String MONTH_DATE_YEAR_TIME_COMMA_FORMAT = "MM/dd/yyyy, hh:mm aa";
 
+    public static final String SHORTMONTH_DAY_FORMAT = "MMM d";                                       // Nov 8
+    public static final String DAY_SHORTMONTH_DATE_FORMAT = "E MMM d";                                // Thu Nov 8
+    public static final String DAY_MONTH_DATE_FORMAT = "EEEE, MMMM d";                                // Thursday, November 8
+    public static final String DAY_MONTH_DATE_YEAR_FORMAT = "EEEE, MMMM d YYYY";                      // Thursday, November 8 2012
+    public static final String MONTH_DAY_FORMAT = "M/d";                                              // 11/8
 
     // Fast Thread Safe Formatter. Use this instead of SimpleDateFormat
     public static final KSDateTimeFormatter STATE_CHANGE_DATE_FORMATTER = new KSDateTimeFormatter(STATE_CHANGE_DATE_FORMAT);
@@ -58,11 +66,14 @@ public class DateFormatters {
     public static final KSDateTimeFormatter DYNAMIC_ATTRIBUTE_DATE_FORMATTER = new KSDateTimeFormatter(DYNAMIC_ATTRIBUTE_DATE_FORMAT);
     public static final KSDateTimeFormatter MONTH_DAY_YEAR_TIME_DATE_FORMATTER = new KSDateTimeFormatter(MONTH_DAY_YEAR_TIME_DATE_FORMAT);
     public static final KSDateTimeFormatter MONTH_DAY_YEAR_DATE_FORMATTER = new KSDateTimeFormatter(MONTH_DAY_YEAR_DATE_FORMAT);
+    public static final KSDateTimeFormatter MONTH_NOZERO_DAY_YEAR_DATE_FORMATTER = new KSDateTimeFormatter(MONTH_NOZERO_DAY_YEAR_DATE_FORMAT);
     public static final KSDateTimeFormatter YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER = new KSDateTimeFormatter(YEAR_MONTH_DAY_CONCAT_DATE_FORMAT);
     public static final KSDateTimeFormatter COURSE_OFFERING_VIEW_HELPER_DATE_FORMATTER = new KSDateTimeFormatter(COURSE_OFFERING_VIEW_HELPER_DATE_FORMAT);
     public static final KSDateTimeFormatter COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMATTER = new KSDateTimeFormatter(COURSE_OFFERING_VIEW_HELPER_DATE_TIME_FORMAT);
     public static final KSDateTimeFormatter HOUR_MINUTE_TIME_FORMATTER = new KSDateTimeFormatter(HOUR_MINUTE_TIME_FORMAT);
     public static final KSDateTimeFormatter HOUR_MINUTE_AM_PM_TIME_FORMATTER = new KSDateTimeFormatter(HOUR_MINUTE_AM_PM_TIME_FORMAT);
+    public static final KSDateTimeFormatter HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMATTER = new KSDateTimeFormatter(HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMAT);
+    public static final KSDateTimeFormatter HOUR_MINUTE_NOSPACE_AM_PM_TIME_FORMATTER = new KSDateTimeFormatter(HOUR_MINUTE_NOSPACE_AM_PM_TIME_FORMAT);
     public static final KSDateTimeFormatter AM_PM_TIME_FORMATTER = new KSDateTimeFormatter(AM_PM_TIME_FORMAT);
     public static final KSDateTimeFormatter DEFULT_YEAR_FORMATTER = new KSDateTimeFormatter(DEFULT_YEAR_FORMAT);
     public static final KSDateTimeFormatter SIMPLE_TIMESTAMP_FORMATTER = new KSDateTimeFormatter(SIMPLE_TIMESTAMP_FORMAT);
@@ -70,4 +81,9 @@ public class DateFormatters {
     public static final KSDateTimeFormatter DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMATTER = new KSDateTimeFormatter(DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT);
     public static final KSDateTimeFormatter QUERY_SERVICE_TIMESTAMP_FORMATTER = new KSDateTimeFormatter(QUERY_SERVICE_TIMESTAMP_FORMAT);
     public static final KSDateTimeFormatter MONTH_DATE_YEAR_TIME_COMMA_FORMATTER = new KSDateTimeFormatter(MONTH_DATE_YEAR_TIME_COMMA_FORMAT);
+    public static final KSDateTimeFormatter SHORTMONTH_DAY_FORMATTER = new KSDateTimeFormatter(SHORTMONTH_DAY_FORMAT);
+    public static final KSDateTimeFormatter DAY_SHORTMONTH_DATE_FORMATTER = new KSDateTimeFormatter(DAY_SHORTMONTH_DATE_FORMAT);
+    public static final KSDateTimeFormatter DAY_MONTH_DATE_FORMATTER = new KSDateTimeFormatter(DAY_MONTH_DATE_FORMAT);
+    public static final KSDateTimeFormatter DAY_MONTH_DATE_YEAR_FORMATTER = new KSDateTimeFormatter(DAY_MONTH_DATE_YEAR_FORMAT);
+    public static final KSDateTimeFormatter MONTH_DAY_FORMATTER = new KSDateTimeFormatter(MONTH_DAY_FORMAT);
 }
