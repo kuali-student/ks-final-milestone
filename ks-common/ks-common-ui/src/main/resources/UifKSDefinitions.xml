@@ -411,9 +411,13 @@
     <bean id="KS-Uif-ToolBar-Button"
           parent="Uif-SecondaryActionButton"
           p:disabled="true"
-          abstract="true"
-          p:additionalCssClasses="tree-bar-button">
+          abstract="true">
         <property name="actionImagePlacement" value="TOP"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>tree-bar-button</value>
+            </list>
+        </property>
     </bean>
 
     <bean id="KS-Uif-Suggest" parent="KS-Uif-Suggest-parentBean"/>
