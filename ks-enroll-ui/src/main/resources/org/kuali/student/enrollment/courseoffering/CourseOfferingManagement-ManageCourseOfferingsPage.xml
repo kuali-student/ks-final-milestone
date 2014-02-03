@@ -106,6 +106,7 @@
                 <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
+                <entry key="sDom" value="opir"/>
             </map>
         </property>
         <property name="items">

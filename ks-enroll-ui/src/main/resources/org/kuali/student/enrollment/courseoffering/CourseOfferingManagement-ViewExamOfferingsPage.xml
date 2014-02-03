@@ -140,6 +140,7 @@
                 <entry key="bPaginate" value="false"/>
                 <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>
+                <entry key="sDom" value="opir"/>
             </map>
         </property>
         <property name="items">
@@ -181,6 +182,7 @@
                                 {'bSortable':false, 'sWidth':'25%'},
                                 {'bSortable':false, 'sWidth':'10%'}
                            ]"/>
+                <entry key="sDom" value="opir"/>
             </map>
         </property>
         <property name="items">
