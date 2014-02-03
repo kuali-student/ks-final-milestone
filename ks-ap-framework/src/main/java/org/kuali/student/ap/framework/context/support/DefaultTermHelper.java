@@ -400,7 +400,9 @@ public class DefaultTermHelper implements TermHelper {
                         KsapFrameworkServiceLocator.getContext().getContextInfo());
                 if (rl == null || rl.isEmpty())
                     throw new IllegalStateException("AcademicCalendarService did not return any planning terms");
-                getTermMarker().planningTerms = getTermMarker().cache(rl);
+                List<Term> temp = new ArrayList<Term>(rl);
+                sortTermsByStartDate(temp,true);
+                getTermMarker().planningTerms = getTermMarker().cache(temp);
             } catch (InvalidParameterException e) {
                 throw new IllegalArgumentException("Acal lookup failure", e);
             } catch (MissingParameterException e) {

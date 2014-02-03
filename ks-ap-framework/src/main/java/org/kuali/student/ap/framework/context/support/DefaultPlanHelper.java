@@ -119,6 +119,9 @@ public class DefaultPlanHelper implements PlanHelper {
         c.add(Calendar.YEAR, futureYears);
         List<Term> calendarTerms = KsapFrameworkServiceLocator.getTermHelper().getTermsByDateRange(startDate,c.getTime());
         calendarTerms = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(calendarTerms,true);
+        if(calendarTerms.isEmpty()){
+            throw new RuntimeException("No Valid Terms Found for Calendar "+startDate.toString() +" to " + c.getTime().toString());
+        }
         Term start = calendarTerms.get(0);
         Term end = calendarTerms.get(calendarTerms.size()-1);
         List<Term> startYear = KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear(new DefaultYearTerm(start.getId(),start.getTypeKey(),start.getStartDate().getYear()));
