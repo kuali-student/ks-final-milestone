@@ -50,7 +50,8 @@ public class ScheduleWrapper implements Serializable{
     private String days;
     private String startTime;
     private String endTime;
-
+    private String startTimeAmPm;
+    private String endTimeAmPm;
     private boolean tba;
 
     private String buildingCode;
@@ -93,6 +94,8 @@ public class ScheduleWrapper implements Serializable{
         this.building = wrapper.getBuilding();
         this.colocatedAOs = new ArrayList<String>();
         this.editRenderHelper = new EditRenderHelper();
+        this.startTimeAmPm = wrapper.getStartTimeAmPm();
+        this.endTimeAmPm = wrapper.getEndTimeAmPm();
     }
 
     public void copyForEditing(ScheduleWrapper wrapper){
@@ -102,6 +105,8 @@ public class ScheduleWrapper implements Serializable{
         this.tba = wrapper.isTba();
         this.startTime = wrapper.getStartTime();
         this.endTime = wrapper.getEndTime();
+        this.startTimeAmPm = wrapper.getStartTimeAmPm();
+        this.endTimeAmPm = wrapper.getEndTimeAmPm();
         this.buildingId = wrapper.getBuildingId();
         this.buildingCode = wrapper.getBuildingCode();
         this.roomCode = wrapper.getRoomCode();
@@ -387,4 +392,21 @@ public class ScheduleWrapper implements Serializable{
             return new String[0];
         }
     }
+
+    public String getStartTimeAmPm() {
+        return startTimeAmPm;
+    }
+
+    public void setStartTimeAmPm(String startTimeAmPm) {
+        this.startTimeAmPm = startTimeAmPm;
+    }
+
+    public String getEndTimeAmPm() {
+        return endTimeAmPm;
+    }
+
+    public void setEndTimeAmPm(String endTimeAmPm) {
+        this.endTimeAmPm = endTimeAmPm;
+    }
+
 }
