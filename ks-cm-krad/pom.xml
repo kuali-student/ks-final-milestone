@@ -38,9 +38,9 @@
             <version>${ks.api.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.lum</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ks-lum-ui</artifactId>
-            <version>${ks.lum.version}</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.core</groupId>
