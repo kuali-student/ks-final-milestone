@@ -2,9 +2,6 @@ package org.kuali.student.ap.schedulebuilder.support;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -64,6 +61,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
@@ -219,7 +218,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 
 	private ClassMeetingTime adaptClassMeeting(TimeSlot timeSlot,
 			ScheduleComponentDisplay scdi, Calendar tcal, Calendar sdcal,
-			Calendar edcal, DateFormat tdf, DateFormat ddf, String instructor,
+			Calendar edcal, KSDateTimeFormatter tdf, KSDateTimeFormatter ddf, String instructor,
 			Date sessionStartDate, Date sessionEndDate) {
 		ClassMeetingTimeInfo meeting = new ClassMeetingTimeInfo();
 		sdcal.setTime(sessionStartDate);
@@ -322,7 +321,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 
 	private ActivityOptionInfo getActivityOption(Term term, ActivityOfferingDisplayInfo aodi,
 			int courseIndex, String courseId, String campusCode, StringBuilder msg,
-			DateFormat tdf, DateFormat udf, DateFormat ddf, Calendar sdcal, Calendar edcal,
+            KSDateTimeFormatter tdf, KSDateTimeFormatter udf, KSDateTimeFormatter ddf, Calendar sdcal, Calendar edcal,
 			Calendar tcal) {
 
 		ActivityOptionInfo activityOption = new ActivityOptionInfo();
@@ -383,7 +382,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 			if ("SessionStartDate".equalsIgnoreCase(key)) {
 				try {
 					sessionStartDate = udf.parse(value);
-				} catch (ParseException e) {
+				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(
 							"Invalid session start date "
 									+ sessionStartDate);
@@ -392,7 +391,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 			if ("SessionEndDate".equalsIgnoreCase(key)) {
 				try {
 					sessionEndDate = udf.parse(value);
-				} catch (ParseException e) {
+				} catch (IllegalArgumentException e) {
 					throw new IllegalArgumentException(
 							"Invalid session start date "
 									+ sessionEndDate);
@@ -457,9 +456,9 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 				.getActivityOfferingDisplaysByCourseAndTerm(courseId,
 						termId))
 			if (regCode.equals(aodi.getActivityOfferingCode())) {
-				DateFormat tdf = new SimpleDateFormat("h:mm a");
-				DateFormat udf = new SimpleDateFormat("MM/dd/yyyy");
-				DateFormat ddf = new SimpleDateFormat("M/d");
+				KSDateTimeFormatter tdf = DateFormatters.HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMATTER;
+                KSDateTimeFormatter udf = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
+                KSDateTimeFormatter ddf = DateFormatters.MONTH_DAY_FORMATTER;
 				Calendar sdcal = Calendar.getInstance();
 				Calendar edcal = Calendar.getInstance();
 				Calendar tcal = Calendar.getInstance();
@@ -477,9 +476,9 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 		CourseHelper courseHelper = KsapFrameworkServiceLocator
 				.getCourseHelper();
 		ShoppingCartStrategy cartStrategy = KsapFrameworkServiceLocator.getShoppingCartStrategy();
-		DateFormat tdf = new SimpleDateFormat("h:mm a");
-		DateFormat udf = new SimpleDateFormat("MM/dd/yyyy");
-		DateFormat ddf = new SimpleDateFormat("M/d");
+        KSDateTimeFormatter tdf = DateFormatters.HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMATTER;
+        KSDateTimeFormatter udf = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
+        KSDateTimeFormatter ddf = DateFormatters.MONTH_DAY_FORMATTER;
 		Calendar sdcal = Calendar.getInstance();
 		Calendar edcal = Calendar.getInstance();
 		Calendar tcal = Calendar.getInstance();

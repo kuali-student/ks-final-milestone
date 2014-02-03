@@ -18,11 +18,11 @@ package org.kuali.student.ap.coursesearch.util;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 
 import java.beans.PropertyEditorSupport;
 import java.io.Serializable;
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TimestampPropertyEditor extends PropertyEditorSupport implements Serializable {
@@ -65,7 +65,7 @@ public class TimestampPropertyEditor extends PropertyEditorSupport implements Se
         if (this.simpleDateFormat.length() == 0) {
             return DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(date);
         } else {
-            SimpleDateFormat format = new SimpleDateFormat(simpleDateFormat);
+            KSDateTimeFormatter format = new KSDateTimeFormatter(simpleDateFormat);
             return format.format(date);
         }
     }

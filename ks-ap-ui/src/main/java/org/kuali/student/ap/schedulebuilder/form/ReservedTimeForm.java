@@ -2,10 +2,10 @@ package org.kuali.student.ap.schedulebuilder.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.schedulebuilder.infc.ReservedTime;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
@@ -14,16 +14,15 @@ public class ReservedTimeForm extends UifFormBase implements ReservedTime {
 
 	private static final long serialVersionUID = 2036743000466751688L;
 
-	private static final String[] DATE_FORMATS = new String[] { "MM/dd/yyyy", };
-	private static final String[] TIME_FORMATS = new String[] { "hh:mm a",
-			"hh:mma", "hh:mm" };
+	private static final KSDateTimeFormatter[] DATE_FORMATS = new KSDateTimeFormatter[] { DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER, };
+	private static final KSDateTimeFormatter[] TIME_FORMATS = new KSDateTimeFormatter[] { DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER,
+            DateFormatters.HOUR_MINUTE_NOSPACE_AM_PM_TIME_FORMATTER, DateFormatters.HOUR_MINUTE_TIME_FORMATTER };
 
 	// TODO: convert these to property editors, add to standard registry
 	private static final Date toTime(String str, Date date) {
 		if (str == null)
 			return date;
 
-		SimpleDateFormat df = new SimpleDateFormat();
 		Calendar dc = Calendar.getInstance();
 		if (date == null) {
 			dc.set(Calendar.YEAR, 1970);
@@ -45,7 +44,7 @@ public class ReservedTimeForm extends UifFormBase implements ReservedTime {
 		for (int i = 0; i < TIME_FORMATS.length; i++) {
 			try {
 				Calendar c = Calendar.getInstance();
-				df.applyPattern(TIME_FORMATS[i]);
+                KSDateTimeFormatter df = TIME_FORMATS[i];
 				c.setTime(df.parse(str));
 				if (i == TIME_FORMATS.length - 1)
 					if (c.get(Calendar.HOUR_OF_DAY) < 8)
@@ -54,7 +53,7 @@ public class ReservedTimeForm extends UifFormBase implements ReservedTime {
 				dc.set(Calendar.MINUTE, c.get(Calendar.MINUTE));
 				success = true;
 				break;
-			} catch (ParseException e) {
+			} catch (IllegalArgumentException e) {
 			}
 		}
 
@@ -62,15 +61,13 @@ public class ReservedTimeForm extends UifFormBase implements ReservedTime {
 	}
 
 	private static final String fromTime(Date time) {
-		return time == null ? null : new SimpleDateFormat(TIME_FORMATS[0])
-				.format(time);
+		return time == null ? null : TIME_FORMATS[0].format(time);
 	}
 
 	private static final Date toDate(String str, Date time) {
 		if (str == null)
 			return time;
 
-		SimpleDateFormat df = new SimpleDateFormat();
 		Calendar tc = Calendar.getInstance();
 		if (time == null) {
 			tc.set(Calendar.HOUR_OF_DAY, 0);
@@ -87,14 +84,14 @@ public class ReservedTimeForm extends UifFormBase implements ReservedTime {
 		for (int i = 0; i < DATE_FORMATS.length; i++) {
 			try {
 				Calendar c = Calendar.getInstance();
-				df.applyPattern(DATE_FORMATS[i]);
+                KSDateTimeFormatter df = DATE_FORMATS[i];
 				c.setTime(df.parse(str));
 				tc.set(Calendar.YEAR, c.get(Calendar.YEAR));
 				tc.set(Calendar.MONTH, c.get(Calendar.MONTH));
 				tc.set(Calendar.DATE, c.get(Calendar.DATE));
 				success = true;
 				break;
-			} catch (ParseException e) {
+			} catch (IllegalArgumentException e) {
 			}
 		}
 
@@ -102,8 +99,7 @@ public class ReservedTimeForm extends UifFormBase implements ReservedTime {
 	}
 
 	private static final String fromDate(Date date) {
-		return date == null ? null : new SimpleDateFormat(DATE_FORMATS[0])
-				.format(date);
+		return date == null ? null : DATE_FORMATS[0].format(date);
 	}
 
 	private final String uniqueId = UUID.randomUUID().toString();
@@ -301,7 +297,7 @@ public class ReservedTimeForm extends UifFormBase implements ReservedTime {
 			daysAndTimes
 					.append(SchedulingServiceConstants.SUNDAY_TIMESLOT_DISPLAY_DAY_CODE);
 
-		SimpleDateFormat df = new SimpleDateFormat("h:mm a");
+		KSDateTimeFormatter df = DateFormatters.HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMATTER;
 		if (daysAndTimes.length() > 0)
 			daysAndTimes.append(" ");
 		daysAndTimes.append(df.format(startDate));

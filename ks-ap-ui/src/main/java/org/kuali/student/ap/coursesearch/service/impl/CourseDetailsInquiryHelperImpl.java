@@ -1,7 +1,5 @@
 package org.kuali.student.ap.coursesearch.service.impl;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -21,6 +19,7 @@ import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.ap.framework.course.CreditsFormatter;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -672,7 +671,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		activity.setActivityOfferingType(displayInfo.getTypeName());
 		List<MeetingDetails> meetingDetailsList = activity.getMeetingDetailsList();
 		{
-			DateFormat tdf = new SimpleDateFormat("h:mm a");
+            KSDateTimeFormatter tdf = DateFormatters.HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMATTER;
 			ScheduleDisplayInfo sdi = displayInfo.getScheduleDisplay();
 			for (ScheduleComponentDisplay scdi : sdi.getScheduleComponentDisplays()) {
 				MeetingDetails meeting = new MeetingDetails();

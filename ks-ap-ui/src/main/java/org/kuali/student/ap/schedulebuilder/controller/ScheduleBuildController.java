@@ -17,6 +17,8 @@ import org.kuali.student.ap.schedulebuilder.infc.ClassMeetingTime;
 import org.kuali.student.ap.schedulebuilder.infc.PossibleScheduleOption;
 import org.kuali.student.ap.schedulebuilder.infc.ReservedTime;
 import org.kuali.student.ap.schedulebuilder.infc.ScheduleBuildEvent;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -32,8 +34,6 @@ import javax.json.JsonWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -186,7 +186,7 @@ public class ScheduleBuildController extends UifControllerBase {
 					.getStartDate();
 			if (lastUntilDate == null)
 				lastUntilDate = term.getEndDate();
-			DateFormat df = new SimpleDateFormat("MMM d");
+            KSDateTimeFormatter df = DateFormatters.SHORTMONTH_DAY_FORMATTER;
 			boolean done;
 			do {
 				Date end = (done = !weekBreaks.hasNext()) ? lastUntilDate
@@ -324,7 +324,7 @@ public class ScheduleBuildController extends UifControllerBase {
 			event.add("hoverText", description);
 		}
 
-		DateFormat edf = new SimpleDateFormat("E MMM d");
+        KSDateTimeFormatter edf = DateFormatters.DAY_SHORTMONTH_DATE_FORMATTER;
 		Element modal = DocumentHelper.createElement("div");
 		modal.addAttribute("class", "ksap-sb-event-dialog");
 		Element titleDiv = DocumentHelper.createElement("div");
@@ -476,7 +476,7 @@ public class ScheduleBuildController extends UifControllerBase {
 		UserSession sess = GlobalVariables.getUserSession();
 		sess.addObject(ShoppingCartForm.POSSIBLE_OPTIONS_KEY, cartOptions);
 
-		SimpleDateFormat ddf = new SimpleDateFormat("MM/dd/yyyy");
+        KSDateTimeFormatter ddf = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
 		JsonArrayBuilder jreserved = Json.createArrayBuilder();
 		List<ReservedTime> rts = form.getReservedTimes();
 		for (int i = 0; i < rts.size(); i++) {

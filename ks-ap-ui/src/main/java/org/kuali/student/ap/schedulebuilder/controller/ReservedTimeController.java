@@ -10,6 +10,8 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.schedulebuilder.form.ReservedTimeForm;
 import org.kuali.student.ap.planner.util.PlanEventUtils;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,7 +25,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -138,8 +139,8 @@ public class ReservedTimeController extends UifControllerBase {
 			throw new ServletException("Unexpected authorization failure", e);
 		}
 
-		SimpleDateFormat dateFormat = new SimpleDateFormat("M/dd/yyyy");
-		SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+		KSDateTimeFormatter dateFormat = DateFormatters.MONTH_NOZERO_DAY_YEAR_DATE_FORMATTER;
+        KSDateTimeFormatter timeFormat = DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER;
 		JsonObjectBuilder addedReservedTime = Json.createObjectBuilder();
 		addedReservedTime.add("uid", form.getUniqueId());
 		addedReservedTime.add("description", form.getDescription());

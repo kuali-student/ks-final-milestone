@@ -738,7 +738,7 @@
 
     <!-- last comment time stamp formatter -->
     <bean id="last_comment_formatter" class="org.kuali.student.ap.coursesearch.util.TimestampPropertyEditor">
-        <property name="simpleDateFormat" value="M/d/yyyy h:mm aa"/>
+        <property name="simpleDateFormat" value="#{T(org.kuali.student.r2.common.util.date.DateFormatters).MONTH_DAY_YEAR_TIME_DATE_FORMAT}"/>
         <property name="emptyDateText" value="--"/>
     </bean>
 

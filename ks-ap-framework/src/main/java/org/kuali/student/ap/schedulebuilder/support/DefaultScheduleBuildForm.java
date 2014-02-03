@@ -11,13 +11,13 @@ import org.kuali.student.ap.schedulebuilder.infc.CourseOption;
 import org.kuali.student.ap.schedulebuilder.infc.PossibleScheduleOption;
 import org.kuali.student.ap.schedulebuilder.infc.ReservedTime;
 import org.kuali.student.ap.schedulebuilder.util.ScheduleBuilder;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -429,7 +429,7 @@ public class DefaultScheduleBuildForm extends UifFormBase implements
 
 	public String getFullTermWeekSubtitle() {
 		Term t = getTerm();
-		DateFormat df = new SimpleDateFormat("MMM d");
+        KSDateTimeFormatter df = DateFormatters.SHORTMONTH_DAY_FORMATTER;
 		return df.format(t.getStartDate()) + " - " + df.format(t.getEndDate());
 	}
 
