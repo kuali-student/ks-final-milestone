@@ -125,6 +125,11 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Suspend-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-enableMouseOver</value>
+            </list>
+        </property>
         <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-pause');"/>
         <property name="actionLabel" value="Suspend"/>
         <property name="actionImage">
@@ -133,6 +138,11 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Cancel-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-enableMouseOver</value>
+            </list>
+        </property>
         <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-block');"/>
         <property name="actionLabel" value="Cancel"/>
         <property name="actionImage">
@@ -141,6 +151,11 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Reinstate-parent" parent="KS-Uif-ToolBar-Button">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-enableMouseOver</value>
+            </list>
+        </property>
         <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-reply');"/>
         <property name="actionLabel" value="Reinstate"/>
         <property name="actionImage">
