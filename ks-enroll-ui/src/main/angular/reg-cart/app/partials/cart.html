@@ -1,4 +1,13 @@
-<h1>My Cart!</h1>
+<h1>My Cart!</h1> ({{cart.length}} items)
+<button type="submit">Register</button>
+<div>
+    Course Code
+    <input type="text" ng-model="courseCode"/>
+    Registration Group Code
+    <input type="text" ng-model="regCode"/>
+    <button type="submit">Add to Cart</button>
+</div>
 <div ng-repeat="cartItem in cart">
-    {{cartItem.courseCode}}
+    <div>{{cartItem.courseCode}} ({{cartItem.regCode}})</div>
+    <p>{{cartItem.courseTitle}}</p>
 </div>

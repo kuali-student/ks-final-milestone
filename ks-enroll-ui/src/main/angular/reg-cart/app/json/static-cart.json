@@ -1,11 +1,17 @@
 [
     {
-        "courseCode":"MATH100"
+        "courseCode":"MATH100",
+        "regCode":"0101",
+        "courseTitle":"Algebra 1"
     },
     {
-        "courseCode":"ENGL200"
+        "courseCode":"ENGL200",
+        "regCode":"0101",
+        "courseTitle":"Modern Literature"
     },
     {
-        "courseCode":"HIST300"
+        "courseCode":"HIST300",
+        "regCode":"0101",
+        "courseTitle":"Early American History"
     }
 ]

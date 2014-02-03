@@ -22,5 +22,9 @@ angular.module('regCartApp', [
             .state('root.schedule',{
                 url: '/mySchedule',
                 templateUrl:'partials/schedule.html'
+            })
+            .state('root.additionalOptions',{
+                url: '/options',
+                templateUrl:'partials/additionalOptions.html'
             });
     });
