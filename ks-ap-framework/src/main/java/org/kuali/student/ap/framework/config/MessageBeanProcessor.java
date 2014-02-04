@@ -217,13 +217,13 @@ public class MessageBeanProcessor extends DictionaryBeanProcessorBase {
     protected void applyMessageToNestedBean(Message message, BeanDefinition beanDefinition, String propertyPath) {
         MutablePropertyValues pvs = beanDefinition.getPropertyValues();
 
-        String beanPath = StringUtils.substringBefore(propertyPath, ".");
+        StringBuilder beanPath = new StringBuilder(StringUtils.substringBefore(propertyPath, "."));
         String nestedPropertyPath = StringUtils.substringAfter(propertyPath, ".");
 
         boolean foundNestedBean = false;
         while (StringUtils.isNotBlank(nestedPropertyPath)) {
-            if (pvs.contains(beanPath)) {
-                PropertyValue propertyValue = pvs.getPropertyValue(beanPath);
+            if (pvs.contains(beanPath.toString())) {
+                PropertyValue propertyValue = pvs.getPropertyValue(beanPath.toString());
 
                 BeanDefinition propertyBeanDefinition = getPropertyValueBeanDefinition(propertyValue);
                 if (propertyBeanDefinition != null) {
@@ -239,8 +239,8 @@ public class MessageBeanProcessor extends DictionaryBeanProcessorBase {
                 }
             }
 
-            StringBuilder sb = new StringBuilder(beanPath).append(".");
-            beanPath = sb.append(StringUtils.substringBefore(nestedPropertyPath, ".")).toString();
+            beanPath.append(".");
+            beanPath.append(StringUtils.substringBefore(nestedPropertyPath, "."));
             nestedPropertyPath = StringUtils.substringAfter(nestedPropertyPath, ".");
         }
 

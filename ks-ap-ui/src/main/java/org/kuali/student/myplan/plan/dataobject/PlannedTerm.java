@@ -331,12 +331,12 @@ public class PlannedTerm {
     private String termNoteUI;
 
     public String getTermNoteUI(){
-        String termNote ="";
+        StringBuilder termNote =new StringBuilder("");
         for(TermNoteDataObject note : termNoteList){
-            StringBuilder sb=new StringBuilder(termNote).append(note.getTermNoteUI());
-            termNote = sb.append("\r").toString();
+            termNote.append(note.getTermNoteUI());
+            termNote.append("\r");
         }
-        return termNote;
+        return termNote.toString();
     }
 
     public void setTermNoteUI(String termNoteUI){

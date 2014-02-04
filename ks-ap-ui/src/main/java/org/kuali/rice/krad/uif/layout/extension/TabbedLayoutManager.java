@@ -70,27 +70,27 @@ public class TabbedLayoutManager extends StackedLayoutManager {
 		// }
 
 		// build up line summary from declared field values and fixed title
-		String summaryFieldString = "";
+        StringBuilder summaryFieldString = new StringBuilder("");
 		for (String summaryField : getSummaryFields()) {
 			Object summaryFieldValue = ObjectPropertyUtils.getPropertyValue(
 					line, summaryField);
-			if (StringUtils.isNotBlank(summaryFieldString)) {
-				summaryFieldString = new StringBuilder(summaryFieldString).append(" - ").toString();
+			if (StringUtils.isNotBlank(summaryFieldString.toString())) {
+				summaryFieldString.append(" - ");
 			}
 
 			if (summaryFieldValue != null) {
-				summaryFieldString = new StringBuilder(summaryFieldString).append(summaryFieldValue).toString();
+				summaryFieldString.append(summaryFieldValue);
 			} else {
-				summaryFieldString = new StringBuilder(summaryFieldString).append("Null").toString();
+				summaryFieldString.append("Null");
 			}
 		}
 
 		String headerText = getSummaryTitle();
 		if (StringUtils.isNotBlank(headerText)
-				&& StringUtils.isNotBlank(summaryFieldString)) {
+				&& StringUtils.isNotBlank(summaryFieldString.toString())) {
 			headerText += " ( " + summaryFieldString + " )";
-		} else if (StringUtils.isNotBlank(summaryFieldString)) {
-			headerText = summaryFieldString;
+		} else if (StringUtils.isNotBlank(summaryFieldString.toString())) {
+			headerText = summaryFieldString.toString();
 		}
 
 		return headerText;

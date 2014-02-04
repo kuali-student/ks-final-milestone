@@ -391,17 +391,15 @@ public class UifDictionaryIndex implements Runnable {
 	 * @return String index
 	 */
 	protected String buildTypeIndex(Map<String, String> typeParameters) {
-		String index = "";
-
+		StringBuilder index= new StringBuilder("");
 		for (Map.Entry<String, String> entry : typeParameters.entrySet()) {
-			if (StringUtils.isNotBlank(index)) {
-				index = new StringBuilder(index).append("|||").toString();
+			if (StringUtils.isNotBlank(index.toString())) {
+				index.append("|||");
 			}
-			index = new StringBuilder(index).append(entry.getKey()).append("^^").
-                    append(entry.getValue()).toString();
+			index.append(entry.getKey()).append("^^").append(entry.getValue());
 		}
 
-		return index;
+		return index.toString();
 	}
 
 }
