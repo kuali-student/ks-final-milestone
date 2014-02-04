@@ -40,12 +40,15 @@
         </property>
         <property name="header.lowerGroup">
             <bean parent="Uif-VerticalBoxGroup">
+                <property name="additionalCssClasses">
+                    <list merge="true">
+                        <value>ks-subSection</value>
+                    </list>
+                </property>
                 <property name="items">
                     <list>
                         <bean parent="Uif-Message"
-                              p:messageText="All holidays, including dates and times, will be copied to the new Holiday Calendar."
-                              p:style="margin-bottom:0;"/>
-                        <bean parent="Uif-SpaceField"/>
+                              p:messageText="All holidays, including dates and times, will be copied to the new Holiday Calendar."/>
                         <bean parent="Uif-ActionLink"
                               p:methodToCall="toCreate"
                               p:actionLabel="Create Blank Holiday Calendar"
@@ -118,7 +121,12 @@
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
-                      p:render="@{holidayCalendarInfo != null}" p:additionalCssClasses="ks-calendar-copy-from">
+                      p:render="@{holidayCalendarInfo != null}">
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-calendar-copy-from</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"
@@ -192,7 +200,12 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-VerticalBoxSubSection" p:additionalCssClasses="ks-calendar-copy-to">
+                <bean parent="Uif-VerticalBoxSubSection">
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-calendar-copy-to</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField"

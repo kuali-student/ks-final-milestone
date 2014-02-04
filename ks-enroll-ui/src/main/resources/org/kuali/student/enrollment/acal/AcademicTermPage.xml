@@ -369,6 +369,7 @@
                   value="@{#line.keyDateGroupNameUI} Key Dates"/>
         <property name="layoutManager.lineGroupPrototype.id" value="key_date_grp_section"/>
         <property name="layoutManager.lineGroupPrototype.header.additionalCssClasses" value="ks-key-date-header"/>
+        <property name="layoutManager.lineGroupPrototype.additionalCssClasses" value="ks-section"/>
         <property name="layoutManager.lineGroupPrototype.header.id" value="ks-key-date-header-id"/>
         <property name="addLineActions">
             <list>
@@ -555,7 +556,7 @@
 
     <!--Final Exam Period section-->
     <bean id="KS-ExamDates-EditSubSection"
-          parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod" p:additionalCssClasses="ks-subSection"
+          parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod" p:additionalCssClasses="ks-section"
           p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}">
         <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}');"/>
         <property name="propertyName" value="examdates"/>

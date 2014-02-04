@@ -36,6 +36,11 @@ limitations under the License.
         </property>
         <property name="header.lowerGroup">
                 <bean parent="Uif-VerticalBoxGroup">
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-subSection</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-Message"
@@ -107,7 +112,12 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-VerticalBoxGroup"
-                      p:render="@{copyFromAcal != null}" p:additionalCssClasses="ks-calendar-copy-from">
+                      p:render="@{copyFromAcal != null}">
+                    <property name="additionalCssClasses">
+                        <list merge="true">
+                            <value>ks-calendar-copy-from</value>
+                        </list>
+                    </property>
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField"

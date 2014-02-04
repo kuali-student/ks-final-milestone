@@ -487,6 +487,11 @@ limitations under the License.
                 </property>
             </bean>
         </property>
+        <property name="layoutManager.addLineGroup.additionalCssClasses">
+            <list merge="true">
+                <value>ks-subSection</value>
+            </list>
+        </property>
         <property name="layoutManager.lineGroupPrototype">
             <bean parent="Uif-CollectionVerticalBoxItem">
                 <property name="disclosure.render" value="true"/>
