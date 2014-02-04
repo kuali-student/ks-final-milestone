@@ -75,7 +75,9 @@ public class ListDataField extends DataField {
             }
 
 
-            //TODO the value should use the formatted text property value we would expect to see instead of toString
+            // TODO KSAP-740: Investigate using something similar to CrudMessageMatrixFormatter style tag generation
+            // As well as a string formatter
+            // the value should use the formatted text property value we would expect to see instead of toString
             //two types - delimited and html list
             if (getReadOnlyListDisplayType().equalsIgnoreCase(UifConstants.ReadOnlyListTypes.UL.name())
                     || getReadOnlyListDisplayType().equalsIgnoreCase(UifConstants.ReadOnlyListTypes.OL.name())) {

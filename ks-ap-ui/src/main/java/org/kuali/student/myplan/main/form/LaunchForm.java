@@ -18,7 +18,7 @@ package org.kuali.student.myplan.main.form;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 /**
- * This class //TODO ...
+ *
  *
  * @author Kuali Student Team
  */

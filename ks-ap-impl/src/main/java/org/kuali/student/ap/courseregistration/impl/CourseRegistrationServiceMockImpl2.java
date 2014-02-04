@@ -894,7 +894,6 @@ public class CourseRegistrationServiceMockImpl2
                 load.setAdditionalCredits(item.getCredits().add (load.getAdditionalCredits()));
             } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
                 LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
-                // TODO: figure out credits
             }
         }
 

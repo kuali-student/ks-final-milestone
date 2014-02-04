@@ -82,7 +82,7 @@ public class CourseLinkBuilder {
 	// Groups a list of course codes separated by / and followed by 3 digits:
 	// "CS&SS/SOC/STAT 221"
 	private static final String curriculumAbbreviationListRegex = "([A-Z]{1}[A-Z &]{1,}/[A-Z &/]{2,}\\s*[0-9]{3})";
-	// TODO: Remove /mwfyffe
+	//
 	@SuppressWarnings("unused")
 	private static final Pattern curriculumAbbreviationListPattern;
 
@@ -372,11 +372,7 @@ public class CourseLinkBuilder {
 				"ksap.course.getCourseTitleAndId");
 		searchRequest.addParam("subject", curriculumCode);
 		searchRequest.addParam("number", courseNumber);
-		// TODO: Fix when version issue for course is addressed
-		// searchRequest.addParam("currentTerm",
-		// DegreeAuditAtpHelper.getCurrentAtpId());
-//		searchRequest.addParam("lastScheduledTerm", KsapFrameworkServiceLocator
-//				.getTermHelper().getLastScheduledTerm().getId());
+
 
 		SearchResult searchResult = null;
 		try {

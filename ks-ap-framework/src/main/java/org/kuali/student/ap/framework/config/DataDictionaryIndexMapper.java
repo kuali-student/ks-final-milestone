@@ -219,7 +219,7 @@ public class DataDictionaryIndexMapper implements DataDictionaryMapper {
      *      java.lang.String)
      */
     public String getDocumentTypeName(DataDictionaryIndex index, String documentTypeName) {
-        // TODO arh14 - THIS METHOD NEEDS JAVADOCS
+        //
         return null;
     }
 

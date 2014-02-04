@@ -35,7 +35,7 @@ public class StudentCourseRecordAssemblerMockAllGradeA extends StudentCourseReco
                 courseRecord.setCourseTitle(identifier != null ? identifier.getLongName() : null);
                 courseRecord.setCourseCode(identifier != null ? identifier.getCode() : null);
 
-                //TODO:The code or number of the primary activity. how to determine which activity is primary?
+
                 /*            RegGroupRegistrationInfo regGroup = courseReg.getRegGroupRegistration();
                               if (regGroup.getActivityRegistrations()!= null && !regGroup.getActivityRegistrations().isEmpty()) {
                               courseRecord.setActivityCode(regGroup.getActivityRegistrations().get(0).getActivityOffering().getActivityCode());

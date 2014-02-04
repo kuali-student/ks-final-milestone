@@ -113,10 +113,6 @@ public class PlannedTermsHelperBase {
 				academicRecordDataObject.setAtpId(termId);
 				academicRecordDataObject.setPersonId(studentInfo.getPersonId());
 				academicRecordDataObject.setCourseCode(studentInfo.getCourseCode());
-				/*
-				 * TODO: StudentCourseRecordInfo does not have a courseId
-				 * property so using Id to set the course Id
-				 */
 				academicRecordDataObject.setCourseId(studentInfo.getId());
 				academicRecordDataObject.setCourseTitle(studentInfo.getCourseTitle());
 				academicRecordDataObject.setCredit(studentInfo.getCreditsEarned());

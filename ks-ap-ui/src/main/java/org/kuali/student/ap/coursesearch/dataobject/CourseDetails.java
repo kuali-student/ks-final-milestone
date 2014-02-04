@@ -81,9 +81,7 @@ public class CourseDetails {
 		this.plannedCourseSummary = plannedCourseSummary;
 	}
 
-	// TODO: Review why we really need this
-	// It's because we need access to more than on property in one of the
-	// property editors.
+
 	@JsonIgnore
 	public CourseDetails getThis() {
 		return this;

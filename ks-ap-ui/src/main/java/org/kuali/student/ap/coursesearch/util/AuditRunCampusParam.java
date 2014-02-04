@@ -41,7 +41,7 @@ public class AuditRunCampusParam extends KeyValuesBase {
 
     @Override
     public List<KeyValue> getKeyValues() {
-    	// TODO: factory for context /mwfyffe
+    	//
     	ContextInfo context = new ContextInfo();
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         if (blankOption) {

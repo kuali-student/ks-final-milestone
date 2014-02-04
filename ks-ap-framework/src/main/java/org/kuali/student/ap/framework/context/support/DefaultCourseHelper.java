@@ -41,7 +41,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-// TODO: REVIEW https://svn.kuali.org/repos/student/contrib/myplan/trunk/ks-myplan/myplan-ui/src/main/java/edu/uw/kuali/student/myplan/util/CourseHelperImpl.java
+//
 public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 	private static final long serialVersionUID = 8000868050066661992L;

@@ -750,8 +750,8 @@ public class ConversationCreateController extends ConversationControllerBase {
 	}
 
 	private synchronized CourseDetailsInquiryHelperImpl getCourseDetailsInquiryService() {
-		// TODO does this need to be synchronized? It was where I copied it from
-		// but not sure if it should be here or not.
+		//
+		//
 		if (this.courseDetailsInquiryService == null) {
 			this.courseDetailsInquiryService = new CourseDetailsInquiryHelperImpl();
 		}

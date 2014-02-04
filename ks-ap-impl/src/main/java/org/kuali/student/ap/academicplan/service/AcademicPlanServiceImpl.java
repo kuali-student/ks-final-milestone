@@ -261,7 +261,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			DataValidationErrorException, InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
-		//  FIXME: For a given plan there should be only one planned course item per course id. So, do a lookup to see
+		//  For a given plan there should be only one planned course item per course id. So, do a lookup to see
 		//  if a plan item exists if the type is "planned" and do an update of ATPid instead of creating a new plan item.
 		PlanItemEntity pie = new PlanItemEntity();
 		String planItemId = UUIDHelper.genStringUUID();
@@ -747,7 +747,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		 * validations are performed on "update" operations. The duplicate check
 		 * throw an AlreadyExistsException on updates.
 		 * 
-		 * TODO: Maybe there is a better way to deal with validating udpates?
+		 *
 		 * 
 		 * TODO: Move these validations to the data dictionary.
 		 */

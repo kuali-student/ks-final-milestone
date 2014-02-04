@@ -31,7 +31,7 @@ public class ScheduledTermsPropertyEditor extends PropertyEditorSupport {
 		super.setValue(value);
 	}
 
-	// TODO: KULRICE-6286 Upgrade to list with rice 2.2.1 
+	// TODO: KSAP 744 - Upgrade to list with rice 2.2.1
 	@Override
 	public String getAsText() {
 		CourseSummaryDetails courseSummaryDetails = (CourseSummaryDetails) super.getValue();

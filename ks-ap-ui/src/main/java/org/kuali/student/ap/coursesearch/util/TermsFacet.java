@@ -129,8 +129,7 @@ public class TermsFacet extends AbstractFacet {
 
 			// Two scheduled terms.
 			if (isYear1 && isYear2) {
-				// TODO: For now just ignore the year and projected keywords
-				String termKey1 = fi1.getKey().toUpperCase();
+                String termKey1 = fi1.getKey().toUpperCase();
 				termKey1 = termKey1.replaceAll(" \\d{2}", "");
 				String termKey2 = fi2.getKey().toUpperCase();
 				termKey2 = termKey2.replaceAll(" \\d{2}", "");

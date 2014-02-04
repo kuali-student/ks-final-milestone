@@ -99,7 +99,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 						String user = KsapFrameworkServiceLocator
 								.getUserSessionHelper().getStudentName();
                         /*
-                         * @TODO: Convert this tag manipulation handling
+                         * TODO KSAP-736: Convert this tag manipulation handling
                          * This is simply creating an orphan DD element, with no containing DL
                          * Moreover the ends up getting rendered inside of a SPAN element;
                          * It is bad form, and will not validate, when you put block-level elements, such as
@@ -137,11 +137,7 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
 			int counter2 = 0;
 			int counter3 = 0;
-            /*
-            * @TODO: look at the efficiency of how we are looping here
-             *
-             * As it stands, we potentially have an O(n^2) going on here
-            * */
+
 			for (String nonWithdrawnTerm : nonWithDrawnCourseTerms) {
 				Term term = KsapFrameworkServiceLocator.getTermHelper()
 						.getTerm(nonWithdrawnTerm);

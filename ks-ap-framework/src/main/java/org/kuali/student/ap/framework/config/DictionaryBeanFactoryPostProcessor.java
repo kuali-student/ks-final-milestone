@@ -74,9 +74,6 @@ public class DictionaryBeanFactoryPostProcessor {
 	public void postProcessBeanFactory() throws BeansException {
 		// check whether loading of external messages is enabled
 		boolean loadExternalMessages = true;
-		// TODO: Removed in Rice 2.3.0
-		// KRADServiceLocator.getKualiConfigurationService().getPropertyValueAsBoolean(
-		// "load.dictionary.external.messages");
 		if (!loadExternalMessages) {
 			return;
 		}

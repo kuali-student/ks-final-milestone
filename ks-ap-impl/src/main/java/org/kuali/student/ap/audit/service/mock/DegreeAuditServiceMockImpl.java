@@ -32,7 +32,7 @@ public class DegreeAuditServiceMockImpl implements DegreeAuditService {
 
     private static final Log logger = LogFactory.getLog(DegreeAuditServiceMockImpl.class);
 
-    // TODO: UW - Please review /mwfyffe
+
     //  These keep the spring bean definitions consistent between mock and real impls.
     public void setJobQueueRunDao(Object jobQueueRunDao) {}
     public void setJobQueueRunLoader(Object loader) {}

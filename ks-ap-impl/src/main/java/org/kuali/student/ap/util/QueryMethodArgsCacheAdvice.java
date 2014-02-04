@@ -7,8 +7,8 @@ import org.kuali.student.common.util.spring.MethodArgsToObjectEhcacheAdvice;
 /**
  * Extends the methodArgsCacheAdvice to be able to cache searchRequests based on same QueryByCriteria objects
  *
- * TODO: UW - please review, this appears to be dead code in CM-2.0 /mwfyffe
- * TODO: This class should be removed when https://jira.kuali.org/browse/KULRICE-6988 is fixed
+ * TODO KSAP-742 Rice Trackback KULRICE-6988
+ * This class should be removed when https://jira.kuali.org/browse/KULRICE-6988 is fixed
  *
  *
  * @Author kmuthu

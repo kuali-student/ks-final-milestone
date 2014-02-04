@@ -66,7 +66,7 @@ public class CommentController extends UifControllerBase {
 
 	private transient MyPlanMailService mailService;
 
-    //TODO: why do we need to specify propertiesFilePath here?
+    //
 	private transient String propertiesFilePath = "/org/kuali/student/kr-krad/KSAP-ApplicationResources.properties";
 
 	@Override
@@ -104,7 +104,7 @@ public class CommentController extends UifControllerBase {
 			BindingResult result, HttpServletRequest httprequest,
 			HttpServletResponse httpresponse) {
 
-		// TODO: determine factory for ContextInfo /mwfyffe
+		//
 		ContextInfo context = new ContextInfo();
 
 		Person user = GlobalVariables.getUserSession().getPerson();
@@ -182,8 +182,7 @@ public class CommentController extends UifControllerBase {
 		 * student. The from address should always be the system default. If
 		 * user is an advisor then the "to" address should be the advised
 		 * student. Otherwise, it should be the e-mail address of the adviser
-		 * who initiated the message. (TODO: What if the student is commenting
-		 * on a comment left by an adviser who didn't originate the thread)
+		 * who initiated the message.
 		 */
 		Properties pro = new Properties();
 		InputStream file = getClass().getResourceAsStream(propertiesFilePath);
@@ -265,7 +264,7 @@ public class CommentController extends UifControllerBase {
 			BindingResult result, HttpServletRequest httprequest,
 			HttpServletResponse httpresponse) {
 
-		// TODO: factory for context
+		//
 		ContextInfo context = new ContextInfo();
 
 		/*

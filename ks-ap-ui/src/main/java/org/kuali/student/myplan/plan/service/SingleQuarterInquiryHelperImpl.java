@@ -79,7 +79,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 
 	public AcademicRecordService getAcademicRecordService() {
 		if (this.academicRecordService == null) {
-			// TODO: Use constants for namespace.
+			// TODO KSAP-745: Convert to using constants for namespace.
 			this.academicRecordService = (AcademicRecordService) GlobalResourceLoader
 					.getService(new QName(
 							"http://student.kuali.org/wsdl/academicrecord",
@@ -251,8 +251,6 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 									.setPlanActivities(getPlannedSections(
 											plannedCourseDO.getCourseDetails()
 													.getCourseId(), termId));
-
-							// TODO: Add Plan activities to this view
 
 						} catch (Exception e) {
 							logger.error(

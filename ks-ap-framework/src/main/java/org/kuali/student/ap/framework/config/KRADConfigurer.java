@@ -47,9 +47,8 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 	private Lifecycle additionalComponents;
 
 	public KRADConfigurer() {
-		// TODO really the constant value should be "krad" but there's some work
-		// to do in order to make
-		// that really work, see KULRICE-6532
+		// TODO KSAP-739: Rice Trackback KULRICE-6532
+		// Constant value should be "krad"
 		super(KRADConstants.KR_MODULE_NAME);
 		assert instance == null : "Already created " + instance;
 		instance = this;
@@ -145,10 +144,7 @@ public class KRADConfigurer extends AbstractKsapModuleConfigurer implements
 							long start = System.currentTimeMillis();
 							LOG.info("Executing scheduled Data Dictionary component publishing...");
 							try {
-								// TODO: Removed in Rice 2.3.0?
-								// KRADServiceLocatorInternal
-								// .getDataDictionaryComponentPublisherService()
-								// .publishAllComponents();
+
 							} catch (RuntimeException e) {
 								LOG.error(
 										"Failed to publish data dictionary components.",

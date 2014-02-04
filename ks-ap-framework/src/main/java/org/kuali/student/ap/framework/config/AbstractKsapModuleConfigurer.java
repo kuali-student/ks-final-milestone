@@ -140,9 +140,9 @@ public abstract class AbstractKsapModuleConfigurer extends
 		}
 
 		if (!files.isEmpty()) {
-			// TODO: Add auto-wiring support to RiceResourceLoaderFactory and
-			// discontinue use of KsapRiceResourceLoaderFactory
-			@SuppressWarnings("deprecation")
+
+
+
 			ResourceLoader rl = RiceResourceLoaderFactory
 					.createRootRiceResourceLoader(servletContext, files,
 							getModuleName(), autowireCandidateResolver,
@@ -223,7 +223,7 @@ public abstract class AbstractKsapModuleConfigurer extends
 	@Override
 	public final void destroy() throws Exception {
 		stop();
-		// FIXME: attempting to see if this fixes the ksb tests...
+
 		GlobalResourceLoader.stop();
 	}
 

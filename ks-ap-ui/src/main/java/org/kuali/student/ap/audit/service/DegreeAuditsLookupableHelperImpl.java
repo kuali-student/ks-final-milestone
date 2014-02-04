@@ -46,7 +46,7 @@ public class DegreeAuditsLookupableHelperImpl extends MyPlanLookupableImpl {
         }
 
         List<AuditReportInfo> audits = new ArrayList<AuditReportInfo>();
-        //  TODO: Calculate dates that make sense.
+
         Date begin = new Date();
         Date end = new Date();
         try {

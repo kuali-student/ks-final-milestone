@@ -29,8 +29,8 @@ public class PlannedCourseDataObject implements
 
 	private boolean showAlert;
 
-	// TODO: KULRICE-9003. This should be on plannedTerm once the jira is
-	// resolved
+	// TODO KSAP-741 - Rice Trackback KULRICE-9003.
+	// This should be on plannedTerm once the jira is resolved
 	private boolean timeScheduleOpen;
 
 	public String getCourseCode() {

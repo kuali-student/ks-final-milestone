@@ -81,11 +81,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 			FullPlanItemsDataObject fullPlanItemsDataObject = new FullPlanItemsDataObject();
 			List<PlannedTerm> plannedTermList = new ArrayList<PlannedTerm>();
 
-
-
-			// TODO: configure number of terms to display at a time
-
-			for (int j = 0; j < numberOfTerms; j++){
+            for (int j = 0; j < numberOfTerms; j++){
                 if(perfectPlannedTerms.size()>0){
                     plannedTermList.add(perfectPlannedTerms.remove(0));
                 }else{
