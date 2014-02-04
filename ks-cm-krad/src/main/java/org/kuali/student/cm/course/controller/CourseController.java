@@ -165,10 +165,11 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * After the document is loaded calls method to setup the maintenance object
      */
-    @RequestMapping(value = "/create")
-    public ModelAndView initiateCreate(@ModelAttribute("KualiForm") DocumentFormBase formBase, BindingResult result,
-                                        HttpServletRequest request, HttpServletResponse response) throws Exception {
-        final MaintenanceDocumentForm maintenanceDocForm = (MaintenanceDocumentForm) formBase;
+    @RequestMapping(params = "methodToCall=docHandler")
+    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        final MaintenanceDocumentForm maintenanceDocForm = (MaintenanceDocumentForm) form;
 
         maintenanceDocForm.setDocTypeName(COURSE_CREATE_DOC_TYPE_NAME);
         maintenanceDocForm.setDataObjectClassName(CourseInfo.class.getName());
