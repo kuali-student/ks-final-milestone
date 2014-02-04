@@ -71,8 +71,12 @@ public class CreditsFormatter {
 		}
 
         // Aways use the first credit option if multiple are found.
-        ResultValuesGroupInfo rci = options.get(0);
-
+        ResultValuesGroupInfo rci;
+        try{
+            rci = KSCollectionUtils.getRequiredZeroElement(options);
+        }catch(OperationFailedException e){
+            throw new RuntimeException("Multiple Credit Options Defined", e);
+        }
 		/**
 		 * Credit values are provided in three formats: FIXED, LIST (Multiple),
 		 * and RANGE (Variable). Determine the format and parse it into a String

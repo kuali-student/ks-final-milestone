@@ -92,31 +92,6 @@ public class CreditsFormatterTest {
     }
 
     @Test
-    public void multipleCreditOptionsFirstIsUsed() {
-        CourseInfo courseInfo = new CourseInfo();
-
-        List<ResultValuesGroupInfo> creditOptions = new ArrayList<ResultValuesGroupInfo>();
-        courseInfo.setCreditOptions(creditOptions);
-
-        //  Credit options: fixed.
-        String creditsText = "3";
-
-        ResultValuesGroupInfo rci1 = new ResultValuesGroupInfo();
-        rci1.setTypeKey("kuali.result.values.group.type.fixed");
-
-        List<AttributeInfo> courseOptionAttributes = new java.util.LinkedList<AttributeInfo>();
-        courseOptionAttributes.add(new AttributeInfo("fixedCreditValue", creditsText));
-        rci1.setAttributes(courseOptionAttributes);
-        creditOptions.add(rci1);
-
-        ResultValuesGroupInfo rci2 = new ResultValuesGroupInfo();
-        rci2.setTypeKey("kuali.result.values.group.type.multiple");
-        creditOptions.add(rci2);
-
-        assertEquals(creditsText, CreditsFormatter.formatCredits(courseInfo));
-    }
-
-    @Test
     public void unknownCreditType() {
         CourseInfo courseInfo = new CourseInfo();
 
