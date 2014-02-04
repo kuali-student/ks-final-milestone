@@ -214,7 +214,7 @@
 						<bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" p:messageKey="validation.enroll.ao.scheduleValidChars"/>
 					</property>
                 </bean>
-                <bean id="rdl_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
+                <bean id="rdl_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time@{#dp.newScheduleRequest.tba ? '' : '*'}" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
                       p:disableNativeAutocomplete="true" p:required="@{!#dp.newScheduleRequest.tba}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
