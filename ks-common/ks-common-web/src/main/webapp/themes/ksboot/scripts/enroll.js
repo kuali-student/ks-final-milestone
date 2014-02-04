@@ -745,6 +745,7 @@ function resetCheckboxes(containerId) {
  */
 jQuery(document).on("click", ".dataTable input[type=checkbox]", function() {
     jQuery(this).closest('tr').toggleClass('selected-row');
+    handleEventforDisabledElements();
 });
 
 /*
@@ -847,6 +848,7 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
             $checkbox.attr('checked', !$checkbox.attr('checked'));
             jQuery(this).closest('tr').toggleClass('selected-row', $checkbox.prop('checked'));
             $checkbox.trigger("change");
+            handleEventforDisabledElements();
 
             var $table = jQuery(this).closest('table');
             var $toggleCB = jQuery('input:checkbox[id$="_toggle_control_checkbox"]');
@@ -858,3 +860,46 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
         }
     }
 });
+
+jQuery(function () {
+    handleEventforDisabledElements();
+});
+
+/*
+    This function displays the tooltip on disabled buttons.
+    Furthermore it adds a dotted underline to buttons's label.
+    It has not been tested for any other element except for the toolbar buttons.
+    To add this functionality to a button add the class 'ks-enableMouseOver' to the button.
+    Please note that this will not work if the page is not reloaded.
+ */
+function handleEventforDisabledElements() {
+    jQuery(".ks-enableMouseOver").each(function () {
+        var id = jQuery(this).attr('id');
+        jQuery(this).contents().filter(function() {
+            return this.nodeType === 3;
+        }).wrap( '<span class="ks-dotted-underline"></span>' );
+        var divId = "disabled-div-for-" + id;
+        var div = jQuery("#" + divId);
+        if (jQuery(div).length == 0) {
+            div = jQuery('<div id="' + divId + '" class="tree-bar-button-container uif-boxLayoutHorizontalItem" />');
+            jQuery(this).after(div);
+            jQuery('[data-for=' + id + ']').each(function(){
+                var dataValue = jQuery(this).val();
+                dataValue = dataValue.replace(id, divId);
+                    eval(dataValue);
+            });
+        }
+        jQuery(div).css({"position": "absolute", "top": jQuery(this).offset(top) + "px", "left": jQuery(this).offset().left + "px"});
+        jQuery(div).height(jQuery(this).height());
+        jQuery(div).width(jQuery(this).width());
+        if (jQuery(this).is(':disabled')) {
+            jQuery(div).css('z-index', parseInt(jQuery(this).css('z-index')) + 1);
+            if (!div.HasBubblePopup()) {
+                div.addClass("uif-tooltip");
+                div.CreateBubblePopup(".uif-tooltip");
+            }
+        } else {
+            jQuery(div).css('z-index', parseInt(jQuery(this).css('z-index')) - 1);
+        }
+    });
+}
