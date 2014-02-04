@@ -17,13 +17,16 @@ body {
   border-bottom: 1px solid #e5e5e5;
   margin-bottom: 5px;
   padding: 0.2em;
-  background-color: #000;
-  color: #FFF;
+  background-color: #000000;
+  color: #ffffff;
 
 }
 
 .kscr-header-container{
-    background-color: #CCC;
+    background-color: #B9B9B9;
+}
+.kscr-searchTerm{
+    padding-left: 0.5em;
 }
 
 .navigation{
@@ -107,6 +110,10 @@ body {
     padding: 5px;
 }
 
+.kscr-adding-header{
+    background-color: #CCC;
+    padding: 0.1em 0.1em 0.1em 0.5em;
+}
 
 
 @font-face {
