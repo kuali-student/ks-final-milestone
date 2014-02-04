@@ -17,9 +17,13 @@ body {
   border-bottom: 1px solid #e5e5e5;
   margin-bottom: 5px;
   padding: 0.2em;
-  //background-color: black;
-  //color: white;
+  background-color: #000;
+  color: #FFF;
 
+}
+
+.kscr-header-container{
+    background-color: #CCC;
 }
 
 .navigation{
