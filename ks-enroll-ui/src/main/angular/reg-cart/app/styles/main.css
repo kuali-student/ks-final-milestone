@@ -115,6 +115,9 @@ body {
     padding: 0.1em 0.1em 0.1em 0.5em;
 }
 
+#searchTerm{
+    padding: 0.6em 0.1em;
+}
 
 @font-face {
     font-family: 'Glyphicons Halflings';
