@@ -12,6 +12,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 
@@ -20,6 +22,9 @@ import javax.xml.namespace.QName;
  * @Author Sri komandur@uw.edu
  */
 public class AOStateHelperImpl implements StateHelper {
+	
+	private static final Logger log = LoggerFactory.getLogger(AOStateHelperImpl.class);
+	
     CourseOfferingService courseOfferingService;
     public AOStateHelperImpl() {
     }
@@ -33,11 +38,12 @@ public class AOStateHelperImpl implements StateHelper {
 
     @Override
     public StatusInfo updateState(String id, String nextStateKey, ContextInfo contextInfo) {
-        StatusInfo si = null;
+        StatusInfo si = new StatusInfo();
         try {
             si = getCourseOfferingService().changeActivityOfferingState(id, nextStateKey, contextInfo);
             si.setSuccess(true);
         } catch (Exception e) {
+        	log.warn(String.format("updateState failed to change ActivityOfferingState: (id=%s, nextStateKey=%s)", id, nextStateKey), e);
             si.setSuccess(false);
         }
         return si;
