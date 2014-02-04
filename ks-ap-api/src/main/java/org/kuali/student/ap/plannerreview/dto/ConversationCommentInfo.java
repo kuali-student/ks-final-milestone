@@ -90,7 +90,7 @@ public class ConversationCommentInfo implements ConversationComment, Serializabl
 	
 	@Override
 	public int compareTo(ConversationCommentInfo o) {
-		// TODO Better to use create or update time?
+		//
 		return meta.getCreateTime().compareTo(o.getMeta().getCreateTime());
 	}
 	
@@ -151,7 +151,7 @@ public class ConversationCommentInfo implements ConversationComment, Serializabl
 	 * Method that will turn a java.util.Date into something more readable by a human.
 	 * Default format will be MMM d (Jul 5).  If the date is the same as the current date, result will be "Today".
 	 * If the date is one day less than the current date, the result will be "Yesterday".
-	 * TODO Move the strings into a property file so they can be internationalized?
+	 *
 	 * @param date Date object to convert to a human readable form
 	 * @return
 	 */

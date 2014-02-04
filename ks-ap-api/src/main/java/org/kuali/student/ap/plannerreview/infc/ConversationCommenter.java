@@ -21,7 +21,7 @@ public interface ConversationCommenter {
 	String getName();
 	
 	/**
-	 * TODO Decide what other pieces of information about a commenter that we want to capture
+	 *
 	 * @return
 	 */
 	String getDescription();
