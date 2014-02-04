@@ -43,7 +43,9 @@ public class AOStateHelperImpl implements StateHelper {
             si = getCourseOfferingService().changeActivityOfferingState(id, nextStateKey, contextInfo);
             si.setSuccess(true);
         } catch (Exception e) {
-        	log.warn(String.format("updateState failed to change ActivityOfferingState: (id=%s, nextStateKey=%s)", id, nextStateKey), e);
+        	String message = String.format("Failed to updateState for (id=%s, nextStateKey=%s", id, nextStateKey);
+        	log.warn (message, e);
+        	si.setMessage(message);
             si.setSuccess(false);
         }
         return si;

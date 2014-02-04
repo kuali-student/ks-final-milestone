@@ -28,6 +28,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 
@@ -37,6 +39,9 @@ import javax.xml.namespace.QName;
  * @author Kuali Student Team
  */
 public class FOStateHelperImpl implements StateHelper {
+	
+	private static final Logger log = LoggerFactory.getLogger(FOStateHelperImpl.class);
+	
     CourseOfferingService courseOfferingService;
     public FOStateHelperImpl() {
     }
@@ -50,11 +55,14 @@ public class FOStateHelperImpl implements StateHelper {
 
     @Override
     public StatusInfo updateState(String id, String nextStateKey, ContextInfo contextInfo) {
-        StatusInfo si = null;
+        StatusInfo si = new StatusInfo();
         try {
             si = getCourseOfferingService().changeFormatOfferingState(id, nextStateKey, contextInfo);
             si.setSuccess(true);
         } catch (Exception e) {
+        	String message = String.format("Failed to updateState for (id=%s, nextStateKey=%s", id, nextStateKey);
+        	log.warn (message, e);
+        	si.setMessage(message);
             si.setSuccess(false);
         }
         return si;

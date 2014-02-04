@@ -15,6 +15,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 
@@ -23,6 +25,9 @@ import javax.xml.namespace.QName;
  * @Author Sri komandur@uw.edu
  */
 public class EOStateHelperImpl implements StateHelper {
+	
+	private static final Logger log = LoggerFactory.getLogger(EOStateHelperImpl.class);
+	
     ExamOfferingService examOfferingService;
     public EOStateHelperImpl() {
     }
@@ -36,11 +41,14 @@ public class EOStateHelperImpl implements StateHelper {
 
     @Override
     public StatusInfo updateState(String id, String nextStateKey, ContextInfo contextInfo) {
-        StatusInfo si = null;
+        StatusInfo si = new StatusInfo();
         try {
             si = getExamOfferingService().changeExamOfferingState(id, nextStateKey, contextInfo);
             si.setSuccess(true);
         } catch (Exception e) {
+        	String message = String.format("Failed to updateState for (id=%s, nextStateKey=%s", id, nextStateKey);
+        	log.warn (message, e);
+        	si.setMessage(message);
             si.setSuccess(false);
         }
         return si;

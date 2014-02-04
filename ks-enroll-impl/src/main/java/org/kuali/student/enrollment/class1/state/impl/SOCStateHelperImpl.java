@@ -28,10 +28,15 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 
 public class SOCStateHelperImpl implements StateHelper {
+	
+	private static final Logger log = LoggerFactory.getLogger(SOCStateHelperImpl.class);
+	
     private CourseOfferingSetService courseOfferingSetService;
 
     public SOCStateHelperImpl(){}
@@ -45,11 +50,14 @@ public class SOCStateHelperImpl implements StateHelper {
 
     @Override
     public StatusInfo updateState(String entityId, String nextStateKey, ContextInfo context) {
-        StatusInfo si = null;
+        StatusInfo si = new StatusInfo();
         try {
             si = getCourseOfferingSetService().changeSocState(entityId, nextStateKey, context);
             si.setSuccess(true);
         } catch (Exception e) {
+        	String message = String.format("Failed to updateState for (entityId=%s, nextStateKey=%s", entityId, nextStateKey);
+        	log.warn (message, e);
+        	si.setMessage(message);
             si.setSuccess(false);
         }
         return si;
