@@ -3,6 +3,8 @@ package org.kuali.student.ap.plannerreview.dto;
 import org.kuali.student.ap.plannerreview.infc.ConversationComment;
 import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -11,7 +13,6 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -140,9 +141,8 @@ public class ConversationCommentInfo implements ConversationComment, Serializabl
 		cal.setTime(commentDate);
 		int commentYear = cal.get(Calendar.YEAR);
 		boolean isSameYear = nowYear == commentYear;
-		
-		String format = isSameYear ? "EEEE, MMMM d" : "EEEE, MMMM d YYYY";
-		SimpleDateFormat df = new SimpleDateFormat(format);
+
+        KSDateTimeFormatter df = isSameYear ? DateFormatters.DAY_MONTH_DATE_FORMATTER : DateFormatters.DAY_MONTH_DATE_YEAR_FORMATTER;
 		String humanDate = df.format(commentDate);
 		return humanDate;
 	}
@@ -156,7 +156,7 @@ public class ConversationCommentInfo implements ConversationComment, Serializabl
 	 * @return
 	 */
 	private String makeDateHumanReadable(Date date) {
-		SimpleDateFormat df = new SimpleDateFormat("MMM d");
+        KSDateTimeFormatter df = DateFormatters.SHORTMONTH_DAY_FORMATTER;
 		String humanDate = df.format(date);
 		Date now = new Date();
 		Calendar todayCal = Calendar.getInstance();
@@ -185,7 +185,7 @@ public class ConversationCommentInfo implements ConversationComment, Serializabl
 	 * @return The time portion of a date
 	 */
 	private String getTimeFromDate(Date date) {
-		SimpleDateFormat df = new SimpleDateFormat("h:m a");
+		KSDateTimeFormatter df = DateFormatters.HOUR_NOZERO_MINUTE_AM_PM_TIME_FORMATTER;
 		String humanDate = df.format(date);
 		return humanDate;
 	}
