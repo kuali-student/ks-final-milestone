@@ -453,7 +453,8 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public StudentProgramRecordInfo createStudentProgramRecord(String personId,
+    public StudentProgramRecordInfo createStudentProgramRecord(String studentProgramRecordTypeKey,
+                                                               String personId,
                                                                StudentProgramRecordInfo studentProgramRecord,
                                                                ContextInfo contextInfo) throws
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -526,7 +527,8 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public StudentCredentialRecordInfo createStudentCredentialRecord(String personId,
+    public StudentCredentialRecordInfo createStudentCredentialRecord(String studentCredentialRecordTypeKey,
+                                                                     String personId,
                                                                     StudentCredentialRecordInfo studentCredentialRecord,
                                                                     ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
@@ -557,7 +559,8 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public StudentTestScoreRecordInfo createStudentTestScoreRecord(String personId,
+    public StudentTestScoreRecordInfo createStudentTestScoreRecord(String studentTestScoreRecordTypeKey,
+                                                                   String personId,
                                                                    StudentTestScoreRecordInfo studentTestScoreRecord,
                                                                    ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
@@ -588,7 +591,7 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public GPAInfo createGPA(String personId, String programId, String resultScaleId, String atpId,
+    public GPAInfo createGPA(String gpaTypeKey, String personId, String programId, String resultScaleId, String atpId,
                              GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -616,7 +619,7 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public LoadInfo createLoad(String personId, String atpId, LoadInfo load, ContextInfo contextInfo)
+    public LoadInfo createLoad(String loadTypeKey, String personId, String atpId, LoadInfo load, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         loadsMap.put(personId, load);

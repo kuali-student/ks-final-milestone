@@ -125,42 +125,48 @@ public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDa
 
         String student1Id = generateStudentId();
 
-        academicRecordService.createStudentProgramRecord(student1Id, studentProgramRecord, context);
+        String studentProgramRecordTypeKey = "kuali.student.acad.student.program.record";
+
+        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, student1Id, studentProgramRecord, context);
 
         StudentProgramRecordInfo studentProgramRecord2 = createStudentProgramRecord(generateProgramId(),
                 "program2", "programType", "programCode", "35");
 
         String student2Id = generateStudentId();
 
-        academicRecordService.createStudentProgramRecord(student2Id, studentProgramRecord2, context);
+        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, student2Id, studentProgramRecord2, context);
 
         StudentCredentialRecordInfo credentialRecord = createStudentCredentialRecord(generateProgramId(),
            "Program One", "MP101", "Mock University of Kuali", 2014, Calendar.JANUARY, 1, 2014, Calendar.NOVEMBER, 20);
 
-        academicRecordService.createStudentCredentialRecord(student1Id, credentialRecord, context);
+        String studentCredentialRecordTypeKey = "kuali.student.acad.student.credential.record";
+        academicRecordService.createStudentCredentialRecord(studentCredentialRecordTypeKey, student1Id, credentialRecord, context);
 
         StudentTestScoreRecordInfo testScoreRecord = createStudentTestScoreRecord("mock.code.test1",
                 "The First Mock Test", "mock.test.type.first", "70", "70", 2014, Calendar.JUNE, 03);
-        academicRecordService.createStudentTestScoreRecord(student1Id, testScoreRecord, context);
+        String studentTestScoreRecordTypeKey = "kuali.student.acad.student.test.score.record";
+        academicRecordService.createStudentTestScoreRecord(studentTestScoreRecordTypeKey, student1Id, testScoreRecord, context);
 
         testScoreRecord = createStudentTestScoreRecord("mock.code.test2",
                 "The Second Mock Test", "mock.test.type.second", "74", "74", 2014, Calendar.NOVEMBER, 9);
-        academicRecordService.createStudentTestScoreRecord(student1Id, testScoreRecord, context);
+        academicRecordService.createStudentTestScoreRecord(studentTestScoreRecordTypeKey, student1Id, testScoreRecord, context);
 
         String resultScaleId = "1";
         String atpId = "1";
         String studentCredentialRecordProgramId = credentialRecord.getProgramId();
 
+        String gpaTypeKey = "kuali.student.acad.gpa.record";
         GPAInfo gpa = createGpa("mockTypeKey1", "1", "1.9");
-        academicRecordService.createGPA(student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
+        academicRecordService.createGPA(gpaTypeKey, student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
         gpa = new GPAInfo();
         gpa = createGpa("mockTypeKey2", "1", "2.9");
-        academicRecordService.createGPA(student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
+        academicRecordService.createGPA(gpaTypeKey, student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
         gpa = createGpa("mockTypeKey3", "1", "3.9");
-        academicRecordService.createGPA(student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
+        academicRecordService.createGPA(gpaTypeKey, student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
 
         LoadInfo load = createLoad("mock.TypeKey.MediumLoad", 4);
-        academicRecordService.createLoad(student1Id, atpId, load, context);
+        String loadTypeKey = "kuali.student.acad.load.record";
+        academicRecordService.createLoad(loadTypeKey, student1Id, atpId, load, context);
 
     }
 }
