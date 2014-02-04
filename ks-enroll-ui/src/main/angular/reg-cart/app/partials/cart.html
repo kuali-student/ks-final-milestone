@@ -1,11 +1,14 @@
 <h1>My Cart!</h1> ({{cart.length}} items)
 <button type="submit">Register</button>
-<div><form novalidate class="css-form">
+<div><form novalidate name="form" class="css-form" ng-submit="add();">
+
+
+        <div class="has-error" ng-show="error.length > 1">{{ error }}</div>
         Course Code
-        <input type="text" ng-model="courseCode"/>
+        <input type="text" ng-model="courseCode" coursecheck/>
         Registration Group Code
         <input type="text" ng-model="regCode"/>
-        <button type="submit">Add to Cart</button>
+        <button Stype="submit">Add to Cart</button>
     </form>
 </div>
 <div class="kscr-cart-course" ng-repeat="cartItem in cart">
