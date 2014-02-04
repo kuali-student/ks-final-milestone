@@ -7,9 +7,7 @@
           </nav>
     </div>
     <div>
-        <select>
-            <option value="Fall2012">Fall 2012</option>
-        </select>
+        <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
     </div>
 
 <div ui-view></div>

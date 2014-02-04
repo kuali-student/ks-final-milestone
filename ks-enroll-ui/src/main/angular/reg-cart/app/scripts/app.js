@@ -12,7 +12,8 @@ angular.module('regCartApp', [
 
         $stateProvider
             .state('root',{
-                templateUrl:'partials/main.html'
+                templateUrl:'partials/main.html',
+                controller:'MainCtrl'
             })
             .state('root.cart',{
                 url: '/myCart',
