@@ -86,10 +86,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         if (!StringUtils.isEmpty(userId)) {
             contextInfo.setPrincipalId(userId);
-        }
-
-        if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
-            throw new LoginException("User must be logged in to access this service");
+        }  else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
+            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal]User must be logged in to access this service");
         }
 
         // get the regGroup
@@ -217,7 +215,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         if(StringUtils.isEmpty(userId)){
-            throw new LoginException("User must be logged in to access this service");
+            throw new LoginException("[CourseRegistrationClientServiceImpl::searchForScheduleByPersonAndTerm] User must be logged in to access this service");
         }
 
         if (StringUtils.isEmpty(termId) && StringUtils.isEmpty(termCode)) {
