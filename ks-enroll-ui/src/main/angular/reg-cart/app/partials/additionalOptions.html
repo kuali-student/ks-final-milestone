@@ -1,19 +1,32 @@
-<div><h3>Adding [FOO CLASS] to cart</h3>
+<div class="kscr-adding-header">
+    <h3>Adding [FOO CLASS] to cart</h3>
 
-    <p>[FOO CLASS TITLE]</p></div>
-<div>
-    <h3>Additional Options</h3>
+    <span>[FOO CLASS TITLE]</span>
+</div>
 
-    <p>Credits <select>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="4">4</option>
-    </select></p>
-    <p>Grading <select>
-        <option value="Letter">Letter</option>
-        <option value="Pass/Fail">Pass/Fail</option>
-        <option value="Audit">Audit</option>
-    </select></p>
-    <button type="submit">Add to Cart</button>
-    <a>cancel</a>
+<div class="kscr-AdditionalOptions">
+    <div class="kscr-AdditionalOptions-header">
+        <h3>Additional Options</h3>
+    </div>
+
+    <div class="kscr-AdditionalOptions-content">
+        <div>
+        <label for="credits">Credits</label>
+        <select id="credits">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+        </select>
+        </div>
+        <div>
+        <label for="grading">Grading</label>
+        <select id="grading">
+            <option value="Letter">Letter</option>
+            <option value="Pass/Fail">Pass/Fail</option>
+            <option value="Audit">Audit</option>
+        </select>
+    </div>
+        <button type="submit">Add to Cart</button>
+        <a>cancel</a>
+    </div>
 </div>
