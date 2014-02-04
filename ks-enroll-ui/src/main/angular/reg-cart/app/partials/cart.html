@@ -10,7 +10,7 @@
 </div>
 <div class="kscr-cart-course" ng-repeat="cartItem in cart">
     <div class="kscr-course-header">
-        <div>{{cartItem.courseCode}} ({{cartItem.regCode}})</div>
+        <div>{{cartItem.courseCode}} ({{cartItem.regCode}})<span class="remove"><a class="glyphicon glyphicon-remove" ng-click="delete($index)"></a></span></div>
         <p>{{cartItem.courseTitle}}</p>
     </div>
     <div>
