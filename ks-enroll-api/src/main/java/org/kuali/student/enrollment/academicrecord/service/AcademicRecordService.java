@@ -776,41 +776,13 @@ public interface AcademicRecordService {
      */
 
     /**
-     * Creates a new StudentProgramRecord
-     *
-     * @param personId
-     * @param studentProgramRecord
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
-     * @return the newly created StudentProgramRecordInfo
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
-     * @throws InvalidParameterException StudentProgramRecord or contextInfo is not valid
-     * @throws MissingParameterException objectTypeKey, studentProgramRecord, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     * @throws ReadOnlyException an attempt at supplying information designated as read only
-     */
-    public StudentProgramRecordInfo createStudentProgramRecord(@WebParam(name = "personId") String personId,
-                                                               @WebParam(name = "studentProgramRecord") StudentProgramRecordInfo studentProgramRecord,
-                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
-            DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
-
-    /**
      * Validates a StudentProgramRecord. If an identifier is present for the StudentProgramRecord and a
      * record is found for that identifier, the validation checks if the
      * StudentProgramRecord can be updated to the new values. If an identifier is not
      * present or a record does not exist, the validation checks if
      * the StudentProgramRecord with the given data can be created.
      * @param validationTypeKey the identifier for the validation Type
-     * @param objectTypeKey the identifier for the Object Type to be validated
+     * @param studentProgramTypeKey the identifier for the Object Type to be validated
      * @param studentProgramRecordInfo the studentProgramRecord to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
      * @return a list of validation results or an empty list if validation succeeded
@@ -821,11 +793,41 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateStudentProgramRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                                   @WebParam(name = "objectTypeKey") String objectTypeKey,
+                                                                   @WebParam(name = "studentProgramTypeKey") String studentProgramTypeKey,
                                                                    @WebParam(name = "studentProgramRecordInfo") StudentProgramRecordInfo studentProgramRecordInfo,
                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
+
+    /**
+     * Creates a new StudentProgramRecord
+     *
+     * @param studentProgramRecord
+     * @param personId
+     * @param studentProgramRecord
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created StudentProgramRecordInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException studentProgramRecord or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, studentProgramRecord, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public StudentProgramRecordInfo createStudentProgramRecord(@WebParam(name = "studentProgramRecordTypeKey") String studentProgramRecordTypeKey,
+                                                               @WebParam(name = "personId") String personId,
+                                                               @WebParam(name = "studentProgramRecord") StudentProgramRecordInfo studentProgramRecord,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      *
@@ -880,8 +882,8 @@ public interface AcademicRecordService {
     /**
      * Creates a new StudentCourseRecord
      *
+     * @param studentCourseRecordTypeKey
      * @param personId
-     * @param courseRegistrationId
      * @param studentCourseRecord
      * @param contextInfo Context information containing the principalId and
      *                    locale information about the caller of service
@@ -895,8 +897,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public StudentCourseRecordInfo createStudentCourseRecord(@WebParam(name = "personId") String personId,
-                                                             @WebParam(name = "courseRegistrationId") String courseRegistrationId,
+    public StudentCourseRecordInfo createStudentCourseRecord(@WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
+                                                             @WebParam(name = "personId") String personId,
                                                              @WebParam(name = "studentCourseRecord") StudentCourseRecordInfo studentCourseRecord,
                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
@@ -914,7 +916,7 @@ public interface AcademicRecordService {
      * If an identifier is not present or a record does not exist, the validation
      * checks if the StudentCourseRecord with the given data can be created.
      * @param validationTypeKey the identifier for the validation Type
-     * @param objectTypeKey the identifier for the Object Type to be validated
+     * @param studentCourseRecordTypeKey the identifier for the Object Type to be validated
      * @param studentCourseRecordInfo the studentCourseRecord to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
      * @return a list of validation results or an empty list if validation succeeded
@@ -925,7 +927,7 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateStudentCourseRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                                  @WebParam(name = "objectTypeKey") String objectTypeKey,
+                                                                  @WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
                                                                   @WebParam(name = "studentCourseRecordInfo") StudentCourseRecordInfo studentCourseRecordInfo,
                                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -984,6 +986,7 @@ public interface AcademicRecordService {
     /**
      * Creates a new StudentCredentialRecord
      *
+     * @param studentCredentialRecordTypeKey
      * @param personId
      * @param studentCredentialRecord
      * @param contextInfo Context information containing the principalId and
@@ -998,7 +1001,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public StudentCredentialRecordInfo createStudentCredentialRecord(@WebParam(name = "personId") String personId,
+    public StudentCredentialRecordInfo createStudentCredentialRecord(@WebParam(name = "studentCredentialRecordTypeKey") String studentCredentialRecordTypeKey,
+                                                                     @WebParam(name = "personId") String personId,
                                                                      @WebParam(name = "studentCredentialRecord") StudentCredentialRecordInfo studentCredentialRecord,
                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
@@ -1017,8 +1021,8 @@ public interface AcademicRecordService {
      * checks if the StudentCredentialRecord with the given data can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param objectTypeKey the identifier for the Object Type to be validated
-     * @param studentCredentialRecordInfo the studentCredentialRecord to be validated
+     * @param studentCredentialTypeKey the identifier for the Object Type to be validated
+     * @param studentCredentialRecord the studentCredentialRecord to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
      * @return a list of validation results or an empty list if validation succeeded
      * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
@@ -1028,8 +1032,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateStudentCredentialRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                                      @WebParam(name = "objectTypeKey") String objectTypeKey,
-                                                                      @WebParam(name = "studentCredentialRecordInfo") StudentCredentialRecordInfo studentCredentialRecordInfo,
+                                                                      @WebParam(name = "studentCredentialTypeKey") String studentCredentialTypeKey,
+                                                                      @WebParam(name = "studentCredentialRecord") StudentCredentialRecordInfo studentCredentialRecord,
                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
@@ -1087,6 +1091,7 @@ public interface AcademicRecordService {
     /**
      * Creates a new StudentTestScoreRecord
      *
+     * @param studentTestScoreRecordTypeKey
      * @param personId
      * @param studentTestScoreRecord
      * @param contextInfo Context information containing the principalId and
@@ -1101,7 +1106,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public StudentTestScoreRecordInfo createStudentTestScoreRecord(@WebParam(name = "personId") String personId,
+    public StudentTestScoreRecordInfo createStudentTestScoreRecord(@WebParam(name = "studentTestScoreRecordTypeKey") String studentTestScoreRecordTypeKey,
+                                                                   @WebParam(name = "personId") String personId,
                                                                    @WebParam(name = "studentTestScoreRecord") StudentTestScoreRecordInfo studentTestScoreRecord,
                                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
@@ -1121,8 +1127,8 @@ public interface AcademicRecordService {
      * checks if the StudentTestScoreRecord with the given data can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param objectTypeKey the identifier for the Object Type to be validated
-     * @param studentTestScoreRecordInfo the studentTestScoreRecord to be validated
+     * @param studentTestScoreRecordTypeKey the identifier for the Object Type to be validated
+     * @param studentTestScoreRecord the studentTestScoreRecord to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
      * @return a list of validation results or an empty list if validation succeeded
      * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
@@ -1132,8 +1138,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateStudentTestScoreRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                                     @WebParam(name = "objectTypeKey") String objectTypeKey,
-                                                                     @WebParam(name = "studentTestScoreRecordInfo") StudentTestScoreRecordInfo studentTestScoreRecordInfo,
+                                                                     @WebParam(name = "studentTestScoreRecordTypeKey") String studentTestScoreRecordTypeKey,
+                                                                     @WebParam(name = "studentTestScoreRecord") StudentTestScoreRecordInfo studentTestScoreRecord,
                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
@@ -1191,6 +1197,7 @@ public interface AcademicRecordService {
     /**
      * Creates a new GPA
      *
+     * @param gpaTypeKey
      * @param personId
      * @param programId
      * @param resultScaleId
@@ -1208,7 +1215,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public GPAInfo createGPA(@WebParam(name = "personId") String personId,
+    public GPAInfo createGPA(@WebParam(name = "gpaTypeKey") String gpaTypeKey,
+                             @WebParam(name = "personId") String personId,
                              @WebParam(name = "programId") String programId,
                              @WebParam(name = "resultScaleId") String resultScaleId,
                              @WebParam(name = "atpId") String atpId,
@@ -1230,8 +1238,8 @@ public interface AcademicRecordService {
      * checks if the GPA with the given data can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param objectTypeKey the identifier for the Object Type to be validated
-     * @param gpaInfo the gpa to be validated
+     * @param gpaTypeKey the identifier for the Object Type to be validated
+     * @param gpa the gpa to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
      * @return a list of validation results or an empty list if validation succeeded
      * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
@@ -1241,8 +1249,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateGPA(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                  @WebParam(name = "objectTypeKey") String objectTypeKey,
-                                                  @WebParam(name = "gpaInfo") GPAInfo gpaInfo,
+                                                  @WebParam(name = "gpaTypeKey") String gpaTypeKey,
+                                                  @WebParam(name = "gpa") GPAInfo gpa,
                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
@@ -1300,6 +1308,7 @@ public interface AcademicRecordService {
     /**
      * Creates a new Load
      *
+     * @param loadTypeKey
      * @param personId
      * @param load
      * @param contextInfo Context information containing the principalId and
@@ -1314,7 +1323,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public LoadInfo createLoad(@WebParam(name = "personId") String personId,
+    public LoadInfo createLoad(@WebParam(name = "loadTypeKey") String loadTypeKey,
+                               @WebParam(name = "personId") String personId,
                                @WebParam(name = "atpId") String atpId,
                                @WebParam(name = "load") LoadInfo load,
                                @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
@@ -1335,8 +1345,8 @@ public interface AcademicRecordService {
      * checks if the Load with the given data can be created.
      *
      * @param validationTypeKey the identifier for the validation Type
-     * @param objectTypeKey the identifier for the Object Type to be validated
-     * @param loadInfo the load to be validated
+     * @param loadTypeKey the identifier for the Object Type to be validated
+     * @param load the load to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
      * @return a list of validation results or an empty list if validation succeeded
      * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
@@ -1346,8 +1356,8 @@ public interface AcademicRecordService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<ValidationResultInfo> validateLoad(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                   @WebParam(name = "objectTypeKey") String objectTypeKey,
-                                                   @WebParam(name = "loadInfo") LoadInfo loadInfo,
+                                                   @WebParam(name = "loadTypeKey") String loadTypeKey,
+                                                   @WebParam(name = "load") LoadInfo load,
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
