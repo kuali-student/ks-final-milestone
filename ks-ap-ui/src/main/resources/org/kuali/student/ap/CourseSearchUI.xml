@@ -43,13 +43,40 @@
 
 	<bean id="course_search_page" parent="course_search_page-parent" />
 	<bean abstract="true" id="course_search_page-parent" parent="Uif-Page" p:id="course_search">
-		<property name="instructionalText"
-			value="Enter a department, course code, title, or a keyword to search the Course Catalog and Schedule of Classes." />
 		<property name="layoutManager">
 			<bean parent="Uif-HorizontalBoxLayout" />
 		</property>
 		<property name="items">
 			<list>
+                <bean p:id="searchValidationMessages" parent="Uif-HorizontalBoxGroup">
+                    <property name="cssClasses">
+                        <list>
+                            <value>uif-validationMessages</value>
+                            <value>uif-groupValidationMessages</value>
+                            <value>uif-pageValidationMessages</value>
+                            <value>uif-pageValidationMessages-error</value>
+                            <value>ksap-hide</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Image"
+                                  p:source="../themes/ksboot/images/validation/error.png">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>uif-validationImage</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-Message">
+                                <property name="messageText" value="There was a problem with your submission. Errors are highlighted below."/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-Message">
+                    <property name="messageText" value="Enter a department, course code, title, or a keyword to search the Course Catalog and Schedule of Classes."/>
+                </bean>
 				<ref bean="ksap_dialog_anchor" />
 				<ref bean="course_search_result_section" />
 				<ref bean="ksap_section" />
@@ -108,6 +135,7 @@
 		<property name="control">
 			<ref bean="course_search_criteria_input" />
 		</property>
+        <property name="simpleConstraint.minLength" value="3"/>
 	</bean>
 
 	<bean id="hidden_savedCourses" parent="Uif-InputField" p:propertyName="savedCourses"

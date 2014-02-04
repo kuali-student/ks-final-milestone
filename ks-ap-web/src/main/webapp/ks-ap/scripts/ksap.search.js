@@ -115,6 +115,14 @@ function fnSelectAllCampuses() {
  *            be hidden while the initial search is taking place.
  */
 function searchForCourses(id, parentId) {
+    if(jQuery('#text_searchQuery_control').val().length<3){
+        jQuery('#searchValidationMessages').removeClass("ksap-hide");
+        return;
+    }else{
+        jQuery('#searchValidationMessages').addClass("ksap-hide");
+    }
+
+
 	var results = jQuery("#" + parentId); // course_search_results_panel
 	results.fadeOut("fast");
     setupImages();
