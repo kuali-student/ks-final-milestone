@@ -83,3 +83,18 @@ body {
     border-bottom: 0;
   }
 }
+
+.kscr-cart-course {
+    background-color: #EEE;
+    margin: 10px;
+}
+
+.kscr-course-header {
+    background-color: #CCC;
+    padding: 5px;
+}
+
+.kscr-course-info {
+    border-bottom: 1px dotted #000;
+    padding: 5px;
+}

@@ -1,13 +1,22 @@
 <h1>My Cart!</h1> ({{cart.length}} items)
 <button type="submit">Register</button>
-<div>
-    Course Code
-    <input type="text" ng-model="courseCode"/>
-    Registration Group Code
-    <input type="text" ng-model="regCode"/>
-    <button type="submit">Add to Cart</button>
+<div><form novalidate class="css-form">
+        Course Code
+        <input type="text" ng-model="courseCode"/>
+        Registration Group Code
+        <input type="text" ng-model="regCode"/>
+        <button type="submit">Add to Cart</button>
+    </form>
 </div>
-<div ng-repeat="cartItem in cart">
-    <div>{{cartItem.courseCode}} ({{cartItem.regCode}})</div>
-    <p>{{cartItem.courseTitle}}</p>
+<div class="kscr-cart-course" ng-repeat="cartItem in cart">
+    <div class="kscr-course-header">
+        <div>{{cartItem.courseCode}} ({{cartItem.regCode}})</div>
+        <p>{{cartItem.courseTitle}}</p>
+    </div>
+    <div>
+        <div class="kscr-course-info">{{cartItem.credits}} credits, {{cartItem.grading}}</div>
+        <div ng-repeat="item in cartItem.schedule">
+            <div>{{item.type}} {{item.time}} {{item.location.building}} {{item.location.room}}</div>
+        </div>
+    </div>
 </div>

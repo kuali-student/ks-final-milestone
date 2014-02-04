@@ -2,16 +2,62 @@
     {
         "courseCode":"MATH100",
         "regCode":"0101",
-        "courseTitle":"Algebra 1"
+        "courseTitle":"Algebra 1",
+        "credits":"3",
+        "grading":"Pass/Fail",
+        "schedule": [
+            {
+                "type":"LEC",
+                "location": {
+                    "building":"MTH",
+                    "room":"134B"
+                },
+                "time":"MWF 9-10am"
+            }
+        ]
     },
     {
         "courseCode":"ENGL200",
         "regCode":"0101",
-        "courseTitle":"Modern Literature"
+        "courseTitle":"Modern Literature",
+        "credits":"3",
+        "grading":"Letter",
+        "schedule": [
+            {
+                "type":"LEC",
+                "location": {
+                    "building":"EN",
+                    "room":"10"
+                },
+                "time":"MWF 11am - 12pm"
+            }
+        ]
+
     },
     {
-        "courseCode":"HIST300",
+        "courseCode":"CHEM300",
         "regCode":"0101",
-        "courseTitle":"Early American History"
+        "courseTitle":"Organic Chemistry",
+        "credits":"3",
+        "grading":"Letter",
+        "schedule": [
+            {
+                "type":"LEC",
+                "location": {
+                    "building":"CHM",
+                    "room":"10"
+                },
+                "time":"MWF 11am - 12pm"
+            },
+            {
+                "type":"LAB",
+                "location": {
+                    "building":"CHM",
+                    "room":"10"
+                },
+                "time":"TTh 11am - 12pm"
+            }
+        ]
+
     }
 ]
