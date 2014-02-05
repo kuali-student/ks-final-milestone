@@ -18,7 +18,7 @@ public class ReservedTimeForm extends UifFormBase implements ReservedTime {
 	private static final KSDateTimeFormatter[] TIME_FORMATS = new KSDateTimeFormatter[] { DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER,
             DateFormatters.HOUR_MINUTE_NOSPACE_AM_PM_TIME_FORMATTER, DateFormatters.HOUR_MINUTE_TIME_FORMATTER };
 
-	// TODO KSAP-743: convert these to property editors, add to standard registry
+	// TODO: KSAP-743 convert these to property editors, add to standard registry
 	private static final Date toTime(String str, Date date) {
 		if (str == null)
 			return date;

@@ -403,7 +403,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 						: campusCode + " ") + value);
 			}
 
-			// TODO: Add getResultValuesGroup() to
+			// TODO: KSAP-758 Add getResultValuesGroup() to
 			// ActivityOfferingDisplayInfo and use it instead.
 			if ("minUnits".equalsIgnoreCase(key)) {
 				minCredits = new BigDecimal(value);
@@ -773,7 +773,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 				acodes = Arrays.asList(acodeattr.split(","));
 			}
 
-			// TODO: switch to attribute, ID is incorrect here
+			// TODO: KSAP-758 switch to attribute, ID is incorrect here
 			// courseId = completedRecord.getAttributeValue("courseId");
 			registeredCourseIdsAndActivityCodes.put(completedRecord.getId(),
 					acodes);
@@ -899,7 +899,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	}
 
 	@Override
-	// TODO: Convert from dynamic attributes to DAO service
+	// TODO: KSAP-758 Convert from dynamic attributes to DAO service
 	public List<ReservedTime> getReservedTimes(String requestedLearningPlanId)
 			throws PermissionDeniedException {
 		return new ArrayList<ReservedTime>(
@@ -907,7 +907,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	}
 
 	@Override
-	// TODO: Convert from dynamic attributes to DAO service
+	// TODO: KSAP-758 Convert from dynamic attributes to DAO service
 	public void createReservedTime(String requestedLearningPlanId,
 			ReservedTime reservedTime) throws PermissionDeniedException {
 		ReservedTimeInfo createReservedTime = new ReservedTimeInfo(reservedTime);
@@ -920,7 +920,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	}
 
 	@Override
-	// TODO: Convert from dynamic attributes to DAO service
+	// TODO: KSAP-758 Convert from dynamic attributes to DAO service
 	public void updateReservedTime(String requestedLearningPlanId,
 			ReservedTime reservedTime) throws PermissionDeniedException {
 		ScheduleBuildAttribute reservedTimes = getScheduleBuildAttribute(requestedLearningPlanId);
@@ -946,7 +946,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	}
 
 	@Override
-	// TODO: Convert from dynamic attributes to DAO service
+	// TODO: KSAP-758 Convert from dynamic attributes to DAO service
 	public void deleteReservedTime(String requestedLearningPlanId,
 			String reservedTimeId) throws PermissionDeniedException {
 		ScheduleBuildAttribute reservedTimes = getScheduleBuildAttribute(requestedLearningPlanId);
@@ -971,7 +971,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	}
 
 	@Override
-	// TODO: Convert from dynamic attributes to DAO service
+	// TODO: KSAP-758 Convert from dynamic attributes to DAO service
 	public List<PossibleScheduleOption> getSchedules(
 			String requestedLearningPlanId) throws PermissionDeniedException {
 		return new ArrayList<PossibleScheduleOption>(
@@ -979,7 +979,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	}
 
 	@Override
-	// TODO: Convert from dynamic attributes to DAO service
+	// TODO: KSAP-758 Convert from dynamic attributes to DAO service
 	public PossibleScheduleOption createSchedule(
 			String requestedLearningPlanId, PossibleScheduleOption schedule)
 			throws PermissionDeniedException {
@@ -1000,7 +1000,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	}
 
 	@Override
-	// TODO: Convert from dynamic attributes to DAO service
+	// TODO: KSAP-758 Convert from dynamic attributes to DAO service
 	public void updateSchedule(String requestedLearningPlanId,
 			PossibleScheduleOption schedule) throws PermissionDeniedException {
 		ScheduleBuildAttribute scheduleBuildInfo = getScheduleBuildAttribute(requestedLearningPlanId);
@@ -1026,7 +1026,7 @@ public class DefaultScheduleBuildStrategy implements ScheduleBuildStrategy,
 	}
 
 	@Override
-	// TODO: Convert from dynamic attributes to DAO service
+	// TODO: KSAP-758 Convert from dynamic attributes to DAO service
 	public void deleteSchedule(String requestedLearningPlanId, String scheduleId)
 			throws PermissionDeniedException {
 		ScheduleBuildAttribute scheduleBuildInfo = getScheduleBuildAttribute(requestedLearningPlanId);

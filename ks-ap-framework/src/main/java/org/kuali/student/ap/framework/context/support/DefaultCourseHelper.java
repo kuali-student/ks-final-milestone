@@ -372,7 +372,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 								KsapFrameworkServiceLocator.getContext().getContextInfo())) {
 					Map<String, Object> enrl = new java.util.LinkedHashMap<String, Object>();
 					enrl.put("enrollMaximum", ao.getMaximumEnrollment());
-					// TODO: convert remaining attributes to service lookup
+					// TODO: KSAP-755 convert remaining attributes to service lookup
 					// bean properties
 					enrl.put("enrollCount", ao.getAttributeValue("enrollCount"));
 					enrl.put("enrollOpen", ao.getAttributeValue("enrollOpen"));
@@ -490,7 +490,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	 */
 	@Override
 	public DeconstructedCourseCode getCourseDivisionAndNumber(String courseCode) {
-		// TODO: Evaluate whether or not this code is UW specific.
+		// TODO: KSAP-756
 		String subject = null;
 		String number = null;
 		String activityCd = null;

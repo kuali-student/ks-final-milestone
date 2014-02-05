@@ -40,8 +40,7 @@ public class DegreeAuditRunProgramParam extends UifKeyValuesFinderBase implement
 
     @Override
     public List<KeyValue> getKeyValues(ViewModel viewModel) {
-    //public List<KeyValue> getKeyValues() {
-        // TODO: factory for context /mwfyffe
+
 
         DegreeAuditForm degreeAuditForm = (DegreeAuditForm)viewModel;
         String campusParam = degreeAuditForm.getCampusParam();

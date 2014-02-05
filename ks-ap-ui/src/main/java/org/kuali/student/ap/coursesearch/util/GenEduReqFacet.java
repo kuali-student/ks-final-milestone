@@ -33,8 +33,7 @@ public class GenEduReqFacet extends AbstractFacet {
 	@Override
 	public void process(CourseSearchItem item) {
 
-		// TODO: factory for context
-		ContextInfo context = new ContextInfo();
+		ContextInfo context = KsapFrameworkServiceLocator.getContext().getContextInfo();
 
 		FacetItem itemFacet = new FacetItem();
 		String genEdString = item.getGenEduReq();
@@ -46,7 +45,7 @@ public class GenEduReqFacet extends AbstractFacet {
 				|| genEdString.equals("")) {
 			facetKeys.add(getUnknownFacetKey());
 		} else {
-			// TODO: UW SPECIFIC
+			// TODO: KSAP-757
 			// Remove white space before tokenizing.
 			genEdString = genEdString.replaceAll("\\s+", "");
 			String k[] = genEdString.split(",");

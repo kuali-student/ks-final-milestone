@@ -694,7 +694,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
 
 		/*
-		 * Validate that the course exists. TODO: Move this validation to the
+		 * Validate that the course exists. TODO: KSAP-752 Move this validation to the
 		 * data dictionary.
 		 */
 		try {
@@ -708,7 +708,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 					ValidationResult.ErrorLevel.ERROR));
 		}
 
-		//  TODO: This validation should be implemented in the data dictionary when that possibility manifests.
+		//  TODO: KSAP-752 This validation should be implemented in the data dictionary when that possibility manifests.
 		//  Make sure a plan period exists if category is planned course.
         if (planItemInfo.getCategory()==null) {
             throw new MissingParameterException("plan item category is missing (should be PLANNED, BACKUP,...");
@@ -749,7 +749,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 		 * 
 		 *
 		 * 
-		 * TODO: Move these validations to the data dictionary.
+		 * TODO: KSAP-752 Move these validations to the data dictionary.
 		 */
 		checkPlanItemDuplicate(planItemInfo);
 

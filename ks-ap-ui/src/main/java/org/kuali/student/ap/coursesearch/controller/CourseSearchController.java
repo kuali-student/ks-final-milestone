@@ -179,10 +179,7 @@ public class CourseSearchController extends UifControllerBase {
 
 	/**
 	 * Input command processor for supporting DataTables server-side processing.
-	 * 
-	 * <p>
-	 * TODO: Evaluate moving to a public class in KRAD.
-	 * </p>
+	 *
 	 * 
 	 * @see <a
 	 *      href="http://datatables.net/usage/server-side">http://datatables.net/usage/server-side</a>
@@ -345,10 +342,7 @@ public class CourseSearchController extends UifControllerBase {
 	 * Session-bound search results cache. This object backs the facet and data
 	 * table result views on the KSAP course search front-end. Up to three
 	 * searches are stored in the HTTP session via these objects.
-	 * 
-	 * <p>
-	 * TODO: Evaluate moving to a generic framework class in KRAD.
-	 * </p>
+	 *
 	 */
 	public static class SessionSearchInfo {
 

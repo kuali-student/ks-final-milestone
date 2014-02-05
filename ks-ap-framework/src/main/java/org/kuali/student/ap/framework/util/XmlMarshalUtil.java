@@ -12,9 +12,7 @@ import java.io.ByteArrayOutputStream;
  * 
  * @author Mark Fyffe <mwfyffe@indiana.edu>
  * @version 0.7.1
- * @deprecated TODO: Utility methods in this class were copied from the IU SIS
- *             EJB implementation. Move to Rice contribution, or replace with
- *             existing standard tool.  See RICECNTRB-7
+ * @deprecated
  */
 public class XmlMarshalUtil {
 

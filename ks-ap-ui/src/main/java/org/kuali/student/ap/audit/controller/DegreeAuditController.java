@@ -135,7 +135,6 @@ public class DegreeAuditController extends UifControllerBase {
 				Date startDate = new Date();
 				Date endDate = new Date();
 				String programParam = null;
-				// TODO - Donald Soar
 				// Setting this campusParam will set the default campus in the
 				// client-browser. Therefore, I think that it should be applied
 				// (in the future) when the default campus can be readily
@@ -151,9 +150,6 @@ public class DegreeAuditController extends UifControllerBase {
 					programParam = KSCollectionUtils.getRequiredZeroElement(auditReportInfoList).getProgramId();
 				}
 
-				// TODO: For now we are getting the auditType from the end
-				// user. This needs to be removed before going live and hard
-				// coded to audit type key html
 				if (auditId != null) {
 					AuditReportInfo auditReportInfo = degreeAuditService
 							.getAuditReport(auditId, form.getAuditType(),
@@ -256,9 +252,7 @@ public class DegreeAuditController extends UifControllerBase {
 						AuditReportInfo report = degreeAuditService.runAudit(
 								regid, programId, form.getAuditType(), context);
 						auditID = report.getAuditId();
-						// TODO: For now we are getting the auditType from the
-						// end user. This needs to be remvoed before going live
-						// and hard coded to audit type key html
+
 						AuditReportInfo auditReportInfo = degreeAuditService
 								.getAuditReport(auditID, form.getAuditType(),
 										context);

@@ -68,9 +68,6 @@ public abstract class AbstractKsapModuleConfigurer extends
 				+ getRunMode().name().toLowerCase() + ".xml");
 		return springFileLocations;
 	}
-
-	// TODO: Rice JIRA
-	// TODO: Move the customizations below to Rice ModuleConfigurer.
 	// See also ks-ap/pom.xml dependencies section - @EJB requires Java EE 6.0
 
 	/**
@@ -158,8 +155,6 @@ public abstract class AbstractKsapModuleConfigurer extends
 		}
 	}
 
-	// NOTE: ModuleConfigurer from Rice 2.2.1 is below, with overrides removed.
-	// TODO: Integrate autowiring with Rice source, and remove this duplication.
 	/**
 	 * Config key under which the list of registered ModuleConfigurers is stored
 	 */

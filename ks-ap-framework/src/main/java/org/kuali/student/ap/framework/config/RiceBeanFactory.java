@@ -27,7 +27,7 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
  * Short-term alternate for
  * org.kuali.rice.core.framework.resourceloader.SpringResourceLoader
  * 
- * @deprecated TODO: Move KSAP auto-wiring functionality to Rice.
+ * @deprecated
  */
 public class RiceBeanFactory extends DefaultListableBeanFactory {
 

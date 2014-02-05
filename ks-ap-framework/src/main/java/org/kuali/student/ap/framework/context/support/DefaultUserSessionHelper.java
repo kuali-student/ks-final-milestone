@@ -132,7 +132,7 @@ public class DefaultUserSessionHelper implements UserSessionHelper {
 			for (EntityTypeContactInfo ci : contactInfos) {
 				emailAddress = ci.getDefaultEmailAddress().getEmailAddress();
 				/*
-				 * for (EntityEmail e : ci.getEmailAddresses()) { // FIXME:
+				 * for (EntityEmail e : ci.getEmailAddresses()) { // FIXME: KSAP-752
 				 * Probably want to make this more deterministic. if
 				 * (e.getEmailType().getName().equals("Student")) { emailAddress
 				 * = e.getEmailAddress(); } if

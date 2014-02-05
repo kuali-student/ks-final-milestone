@@ -108,7 +108,7 @@ public class PlannedTerm {
 		String totalCredits = null;
 		double plannedTotalMin = 0;
 		double plannedTotalMax = 0;
-		// TODO need to check code and refine try statement to catch exact place of failures
+
 		try {
 			if (getPlannedList().size() > 0 && isOpenForPlanning()) {
 
@@ -167,10 +167,6 @@ public class PlannedTerm {
 
 			}
 
-			/*
-			 * TODO:Implement this based on the flags (past,present,future)
-			 * logic
-			 */
 			if (getPlannedList().size() > 0 && getAcademicRecord().size() > 0) {
 				if (plannedTotalMin != plannedTotalMax && academicTotalMin != academicTotalMax) {
 					double minVal = 0;

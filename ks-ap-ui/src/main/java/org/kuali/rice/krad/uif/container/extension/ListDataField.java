@@ -20,7 +20,6 @@ import java.util.List;
 public class ListDataField extends DataField {
 
 
-    // TODO: This needs to be added to the enum UifConstants.ReadOnlyListTypes
     private static final String DL = "DL";
 
     private boolean applyCssOnItem = false;

@@ -126,7 +126,6 @@ public class KSBConfigurer extends AbstractKsapModuleConfigurer implements
 
 			boolean isJpa = OrmUtils.isJpaEnabled("rice.ksb");
 			if (isJpa) {
-				// TODO redo this once we're back to JPA
 				// springFileLocations.add("classpath:org/kuali/rice/ksb/config/KSBJPASpringBeans.xml");
 				throw new UnsupportedOperationException(
 						"JPA not currently supported for KSB");

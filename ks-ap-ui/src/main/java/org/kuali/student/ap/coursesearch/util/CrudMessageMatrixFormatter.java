@@ -35,7 +35,6 @@ public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
 
 	protected CourseOfferingService getCourseOfferingService() {
 		if (this.courseOfferingService == null) {
-			// TODO: Use constants for namespace.
 			this.courseOfferingService = KsapFrameworkServiceLocator
 					.getCourseOfferingService();
 		}

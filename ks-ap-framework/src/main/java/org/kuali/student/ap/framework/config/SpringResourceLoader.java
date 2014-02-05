@@ -18,7 +18,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * Short-term alternate for
  * org.kuali.rice.core.framework.resourceloader.SpringResourceLoader
  * 
- * @deprecated TODO: Move KSAP auto-wiring functionality to Rice.
+ * @deprecated
  */
 public class SpringResourceLoader extends BaseResourceLoader {
 

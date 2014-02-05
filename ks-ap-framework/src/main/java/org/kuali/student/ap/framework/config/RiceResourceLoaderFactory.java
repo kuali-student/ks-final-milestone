@@ -34,7 +34,7 @@ import org.springframework.beans.factory.support.AutowireCandidateResolver;
  * Short-term alternate for
  * org.kuali.rice.core.framework.resourceloader.RiceResourceLoaderFactory
  * 
- * @deprecated TODO: Move KSAP auto-wiring functionality to Rice.
+ * @deprecated
  */
 public class RiceResourceLoaderFactory {
 
@@ -72,7 +72,6 @@ public class RiceResourceLoaderFactory {
 				new SimpleServiceLocator());
 
 		// KSAP MOD: Use KSAP resource loader for auto-wiring support
-		// TODO: Add auto-wiring support to RiceResourceLoaderFactory and remove
 		// this class.
 		final ResourceLoader springResourceLoader = new SpringResourceLoader(
 				spring, springFileLocations, context,
