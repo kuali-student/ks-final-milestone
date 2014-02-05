@@ -4,7 +4,7 @@
   "css_use_suffix": false,
   "hinting": true,
   "units_per_em": 1000,
-  "ascent": 850,
+  "ascent": 8501,
   "glyphs": [
     {
       "uid": "12f4ece88e46abd864e40b35e05b11cd",
@@ -142,6 +142,12 @@
       "uid": "4109c474ff99cad28fd5a2c38af2ec6f",
       "css": "filter",
       "code": 59410,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "dec0ce0476433f7e49e096526cf89465",
+      "css": "hammer",
+      "code": 59424,
       "src": "fontawesome"
     },
     {
