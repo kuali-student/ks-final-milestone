@@ -148,7 +148,7 @@
             <bean parent="KS-Uif-RichTable">
                 <property name="templateOptions">
                     <map merge="true">
-                        <entry key="sDom" value="fTrt"/>
+                        <entry key="sDom" value="ifTrt"/>
                         <entry key="aoColumnDefs" value="[{&quot;sWidth&quot; : &quot;15px&quot;, &quot;aTargets&quot; : [0]}]"/>
                     </map>
                 </property>

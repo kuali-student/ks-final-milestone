@@ -262,7 +262,7 @@ limitations under the License.
         </property>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="rtip"/>
+                <entry key="sDom" value="irtp"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
                 <entry key="bAutoWidth" value="false"/>

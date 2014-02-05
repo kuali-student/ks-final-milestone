@@ -194,7 +194,7 @@
             <bean parent="KS-Uif-PagedRichTable">
                 <property name="templateOptions">
                     <map merge="true">
-                        <entry key="sDom" value="rtip"/>
+                        <entry key="sDom" value="irtp"/>
                         <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
                         <entry key="bPaginate" value="false"/>
                     </map>
@@ -245,7 +245,7 @@
             <bean parent="KS-Uif-PagedRichTable">
                 <property name="templateOptions">
                     <map merge="true">
-                        <entry key="sDom" value="rtip"/>
+                        <entry key="sDom" value="irtp"/>
                         <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
                         <entry key="bPaginate" value="false"/>
                     </map>
@@ -293,7 +293,7 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="rtip"/>
+                <entry key="sDom" value="irtp"/>
                 <entry key="aaSorting" value="[[ 1, 'desc' ]]"/>
                 <entry key="bPaginate" value="false"/>
             </map>

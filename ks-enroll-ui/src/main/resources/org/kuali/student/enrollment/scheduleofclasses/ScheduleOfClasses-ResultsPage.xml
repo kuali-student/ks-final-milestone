@@ -110,6 +110,7 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="true" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
+                <entry key="sDom" value="irtp"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bFilter" value="false"/>
                 <entry key="aaSorting" value="[[1,'asc']]"/>
@@ -367,7 +368,7 @@
         <property name="style" value="padding-left: 30px;"/>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="rtip"/>
+                <entry key="sDom" value="irtp"/>
                 <entry key="aaSorting" value="[[0, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>

@@ -154,7 +154,7 @@
             <bean parent="KS-Uif-PagedRichTable">
                 <property name="templateOptions">
                     <map merge="true">
-                        <entry key="sDom" value="rtip"/>
+                        <entry key="sDom" value="irtp"/>
                         <entry key="aaSorting" value="[[ 4, 'asc' ]]"/>
                     </map>
                 </property>

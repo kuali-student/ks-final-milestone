@@ -138,11 +138,10 @@
         </property>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="rtip"/>
+                <entry key="sDom" value="irtp"/>
                 <entry key="aaSorting" value="[[ 3, 'desc' ], [ 1, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
-                <entry key="sDom" value="opir"/>
             </map>
         </property>
         <property name="items">
@@ -308,7 +307,7 @@
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="rtip"/>
+                <entry key="sDom" value="irtp"/>
                 <entry key="aaSorting" value="[[0, 'asc']]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
