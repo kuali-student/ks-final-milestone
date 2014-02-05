@@ -1,63 +1,92 @@
-[
-    {
-        "courseCode":"MATH100",
-        "regCode":"0101",
-        "courseTitle":"Algebra 1",
-        "credits":"3",
-        "grading":"Pass/Fail",
-        "schedule":[
-            {
-                "type":"LEC",
-                "location":{
-                    "building":"MTH",
-                    "room":"134B"
-                },
-                "time":"MWF 9-10am"
-            }
-        ]
-    },
-    {
-        "courseCode":"ENGL200",
-        "regCode":"0101",
-        "courseTitle":"Modern Literature",
-        "credits":"1",
-        "grading":"Letter",
-        "schedule":[
-            {
-                "type":"LEC",
-                "location":{
-                    "building":"EN",
-                    "room":"10"
-                },
-                "time":"MWF 11am - 12pm"
-            }
-        ]
+{
+    "cartId":"CART-AAAA",
+    "termId":"kuali.atp.2012Fall",
+    "items":[
+        {
+            "cartItemId":"ABCD-1111",
+            "courseCode":"MATH100",
+            "regCode":"0101",
+            "courseTitle":"Algebra 1",
+            "credits":"3",
+            "grading":"Pass/Fail",
+            "creditOptions":["3", "4", "6"],
+            "gradingOptions":["Letter", "Pass/Fail"],
+            "schedule":[
+                {
+                    "type":"LEC",
+                    "location":{
+                        "building":"MTH",
+                        "room":"134B"
+                    },
+                    "time":{
+                        "days":"MWF",
+                        "startTime":"9am",
+                        "endTime":"10am"
+                    }
+                }
+            ]
+        },
+        {
+            "cartItemId":"ABCD-2222",
+            "courseCode":"ENGL200",
+            "regCode":"0101",
+            "courseTitle":"Modern Literature",
+            "credits":"1",
+            "grading":"Letter",
+            "creditOptions":["1"],
+            "gradingOptions":["Letter", "Pass/Fail"],
+            "schedule":[
+                {
+                    "type":"LEC",
+                    "location":{
+                        "building":"EN",
+                        "room":"10"
+                    },
+                    "time":{
+                        "days":"MWF",
+                        "startTime":"11am",
+                        "endTime":"12pm"
+                    }
+                }
+            ]
 
-    },
-    {
-        "courseCode":"CHEM300",
-        "regCode":"0101",
-        "courseTitle":"Organic Chemistry",
-        "credits":"3",
-        "grading":"Letter",
-        "schedule":[
-            {
-                "type":"LEC",
-                "location":{
-                    "building":"CHM",
-                    "room":"10"
+        },
+        {
+            "cartItemId":"ABCD-3333",
+            "courseCode":"CHEM300",
+            "regCode":"0101",
+            "courseTitle":"Organic Chemistry",
+            "credits":"3",
+            "grading":"Letter",
+            "creditOptions":["3"],
+            "gradingOptions":["Letter"],
+            "schedule":[
+                {
+                    "type":"LEC",
+                    "location":{
+                        "building":"CHM",
+                        "room":"10"
+                    },
+                    "time":{
+                        "days":"MWF",
+                        "startTime":"11am",
+                        "endTime":"12pm"
+                    }
                 },
-                "time":"MWF 11am - 12pm"
-            },
-            {
-                "type":"LAB",
-                "location":{
-                    "building":"CHM",
-                    "room":"10"
-                },
-                "time":"TTh 11am - 12pm"
-            }
-        ]
+                {
+                    "type":"LAB",
+                    "location":{
+                        "building":"CHM",
+                        "room":"10"
+                    },
+                    "time":{
+                        "days":"TTh",
+                        "startTime":"11am",
+                        "endTime":"12pm"
+                    }
+                }
+            ]
 
-    }
-]
+        }
+    ]
+}

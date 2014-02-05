@@ -1,13 +1,14 @@
-<h1>My Cart!</h1> ({{cart.length}} items)
+<h1>My Cart!</h1> ({{cart.items.length}} items)
+
 <button type="submit">Register</button>
+
 <div>
     <form novalidate name="form" class="form-group form-inline" ng-submit="add();">
         <fieldset>
 
-        <div class="has-error" ng-show="error.length > 1"><span class="help-block">{{ error }}</span></div>
+            <div class="has-error" ng-show="error.length > 1"><span class="help-block">{{ error }}</span></div>
 
-        <div class="row-fluid">
-
+            <div class="row-fluid">
 
                 <label class="control-label" for="courseCode" placeholder="MATH100">Course Code</label>
                 <input id="courseCode" type="text" ng-model="courseCode" class="input-small"/>
@@ -18,11 +19,12 @@
                 <label class="control-label" for="submit"></label>
                 <button id="submit" name="submit" class="btn btn-primary">Add to Cart</button>
 
-        </div>
+            </div>
         </fieldset>
     </form>
 </div>
-<div class="kscr-cart-course" ng-repeat="cartItem in cart">
+
+<div class="kscr-cart-course" ng-repeat="cartItem in cart.items">
     <div class="kscr-course-header">
         <div>{{cartItem.courseCode}} ({{cartItem.regCode}})
             <span class="remove">
@@ -37,35 +39,32 @@
                           when="{'1'    : '{} credit',
                                  'other': '{} credits'}">
             </ng-pluralize>
-            {{cartItem.credits}} credits, {{cartItem.grading}}
-            <a ng-click="editing = true">Change</a>
+            , {{cartItem.grading}}
+            <a ng-click="editing = true"
+               ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptions.length > 1">Change</a>
         </div>
 
         <div class="kscr-course-info-edit" ng-show="editing">
-            <form ng-submit="editing = false">
+            <form ng-submit="$parent.editing = false" ng-controller="CartItemCtrl">
                 <div>
                     <label for="credits">Credits</label>
-                    <select id="credits">
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="4">4</option>
-                    </select>
+                    <select id="credits" ng-model="newCredits"
+                            ng-options="creditOption for creditOption in cartItem.creditOptions"/>
                 </div>
                 <div>
                     <label for="grading">Grading</label>
-                    <select id="grading">
-                        <option value="Letter">Letter</option>
-                        <option value="Pass/Fail">Pass/Fail</option>
-                        <option value="Audit">Audit</option>
-                    </select>
+                    <select id="grading" ng-model="newGrading"
+                            ng-options="grading for grading in cartItem.gradingOptions"/>
                 </div>
                 <button type="submit">Save</button>
-                <a ng-click="editing = false">Cancel</a>
+                <a ng-click="$parent.editing = false">Cancel</a>
             </form>
         </div>
 
         <div ng-repeat="item in cartItem.schedule">
-            <div>{{item.type}} {{item.time}} {{item.location.building}} {{item.location.room}}</div>
+            <div>{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
+                {{item.location.building}} {{item.location.room}}
+            </div>
         </div>
     </div>
 </div>
