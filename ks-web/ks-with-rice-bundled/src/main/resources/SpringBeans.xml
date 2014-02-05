@@ -91,7 +91,7 @@
  
  <beans profile="ks-ap">
  
-    <import resource="classpath:ksb/ks-ap-no-tx-context.xml"/>
+    <import resource="classpath:ks-ap-ui-context.xml"/>
     
     <import resource="classpath:ks-ap-krad-data-dictionary-config.xml"/>
 
