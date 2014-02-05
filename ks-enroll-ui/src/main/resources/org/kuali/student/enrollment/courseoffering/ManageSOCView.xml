@@ -273,6 +273,13 @@
                 <ref bean="ManageSOCView-SchedulingDetails-SendToSchedulerButton"/>
             </list>
         </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="style"
+                      p:condition="@{!showPublishSetButton and !showLockButton and !showFinalEditButton}" p:replacement="margin-top:38px;"/>
+
+            </list>
+        </property>
     </bean>
 
     <bean id="ManageSOCView-SchedulingDetails-SubSection3" parent="Uif-VerticalBoxSubSection">
