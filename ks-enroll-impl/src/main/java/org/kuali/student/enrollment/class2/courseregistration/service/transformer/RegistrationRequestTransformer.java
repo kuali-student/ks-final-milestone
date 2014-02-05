@@ -23,7 +23,6 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
-import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -52,6 +51,7 @@ public class RegistrationRequestTransformer {
     public static LprTransactionInfo regRequest2LprTransaction(RegistrationRequestInfo request, ContextInfo context)
             throws OperationFailedException, MissingParameterException, PermissionDeniedException, InvalidParameterException, DoesNotExistException {
         LprTransactionInfo lprTransaction = new LprTransactionInfo();
+        lprTransaction.setId(request.getId());
         lprTransaction.setTypeKey(request.getTypeKey());
         lprTransaction.setStateKey(request.getStateKey());
         lprTransaction.setAtpId(request.getTermId());

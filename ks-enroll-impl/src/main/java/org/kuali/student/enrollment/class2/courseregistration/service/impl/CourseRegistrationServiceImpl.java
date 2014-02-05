@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.class2.courseregistration.service.transformer.RegistrationRequestTransformer;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
@@ -20,6 +21,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.springframework.jms.core.JmsTemplate;
@@ -28,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 
 public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationService implements CourseRegistrationService {
 
@@ -56,7 +59,13 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
     public RegistrationResponseInfo submitRegistrationRequest(String registrationRequestId, ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // If registration request ID refers to a reg cart, then
+        RegistrationResponseInfo result = submitRegistrationCart(registrationRequestId, contextInfo);
+        if (result != null) { // If it's null, then it's a normal submit request
+            return result;
+        }
 
+        // Back to the main code if reg request is not a cart
         try {
             MapMessage mapMessage = new ActiveMQMapMessage();
             mapMessage.setString(CourseRegistrationConstants.REGISTRATION_QUEUE_MESSAGE_USER_ID, contextInfo.getPrincipalId());
@@ -73,17 +82,110 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
         return regResp;
     }
 
+    /**
+     *
+     * @param registrationCartId Same as a reg request ID.  Refers to a RegistrationRequestInfo/LPRTransactionInfo
+     *                           object (with type
+     * @param contextInfo The context info
+     */
+    private RegistrationResponseInfo submitRegistrationCart(String registrationCartId, ContextInfo contextInfo)
+            throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, AlreadyExistsException {
+        Exception ex = null;
+        try {
+            RegistrationRequestInfo cartInfo =
+                    getRegistrationRequest(registrationCartId, contextInfo);
+            if (!LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(cartInfo.getTypeKey())) {
+                return null; // This bails out back to the original method if the type is something else
+            }
+            // Create a copy of the registration request
+            RegistrationRequestInfo copy = new RegistrationRequestInfo(cartInfo);
+            // Change the type to standard
+            copy.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+            // Remove IDs and meta
+            copy.setId(null);
+            copy.setMeta(null);
+            for (RegistrationRequestItemInfo item: copy.getRegistrationRequestItems()) {
+                item.setId(null);
+                item.setMeta(null);
+            }
+            // Persist this
+            RegistrationRequestInfo updated =
+                    createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
+            // Empty out original cart so it can be reused
+            cartInfo.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
+            cartInfo = updateRegistrationRequest(cartInfo.getId(), cartInfo, contextInfo);
+            // Submit the copy
+            submitRegistrationRequest(updated.getId(), contextInfo);
+        } catch (ReadOnlyException e) {
+            ex = e;
+        } catch (DataValidationErrorException e) {
+            ex = e;
+        } catch (VersionMismatchException e) {
+            ex = e;
+        }
+        if (ex != null) {
+            // Rethrow
+            throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
+        }
+
+        RegistrationResponseInfo regResp = new RegistrationResponseInfo();
+        regResp.setRegistrationRequestId(registrationCartId);
+        regResp.getMessages().add("Reg Cart Submitted");
+
+        return regResp;
+    }
+    /**
+     * If the registration request type key is LPRTRANS_REG_CART_TYPE_KEY, then it will check the types
+     * of the operations of the transaction items to make sure they are "add" operations.
+     * @param registrationRequestTypeKey Type of the registration request
+     * @param regRequest The reg request to be created
+     *
+     */
+    private void verifyRegRequestCartTypeKey(String registrationRequestTypeKey, RegistrationRequestInfo regRequest)
+            throws InvalidParameterException {
+        if (LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY.equals(registrationRequestTypeKey)) {
+            for (RegistrationRequestItemInfo item: regRequest.getRegistrationRequestItems()) {
+                // Throw exception if any item is not an "add"
+                if (!LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY.equals(item.getTypeKey())) {
+                    throw new InvalidParameterException("Only add item keys permitted for reg cart type");
+                }
+            }
+        }
+    }
+
     @Override
     @Transactional
-    public RegistrationRequestInfo createRegistrationRequest(String registrationRequestTypeKey, RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public RegistrationRequestInfo createRegistrationRequest(String registrationRequestTypeKey,
+                                                             RegistrationRequestInfo registrationRequestInfo,
+                                                             ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // Check reg request of type "cart" only has add items
+        verifyRegRequestCartTypeKey(registrationRequestTypeKey, registrationRequestInfo);
         // There is no Reg Request table. the reg request is converted to an LPR and stored.
-
         LprTransactionInfo lprTransactionInfo = RegistrationRequestTransformer.regRequest2LprTransaction(registrationRequestInfo, contextInfo);
 
-        LprTransactionInfo newLprTransaction = getLprService().createLprTransaction(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, lprTransactionInfo, contextInfo);
+        LprTransactionInfo newLprTransaction = getLprService().createLprTransaction(lprTransactionInfo.getTypeKey(), lprTransactionInfo, contextInfo);
 
         return RegistrationRequestTransformer.lprTransaction2RegRequest(newLprTransaction, contextInfo);
 
+    }
+
+    @Override
+    @Transactional
+    public RegistrationRequestInfo updateRegistrationRequest(String registrationRequestId,
+                                                             RegistrationRequestInfo registrationRequestInfo,
+                                                             ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        // Check reg request of type "cart" only has add items
+        verifyRegRequestCartTypeKey(registrationRequestInfo.getTypeKey(), registrationRequestInfo);
+        // There is no Reg Request table. the reg request is converted to an LPR and stored.
+        LprTransactionInfo lprTransactionInfo
+                = RegistrationRequestTransformer.regRequest2LprTransaction(registrationRequestInfo, contextInfo);
+        LprTransactionInfo updated
+            = getLprService().updateLprTransaction(lprTransactionInfo.getId(), lprTransactionInfo, contextInfo);
+        return RegistrationRequestTransformer.lprTransaction2RegRequest(updated, contextInfo);
     }
 
     @Override
