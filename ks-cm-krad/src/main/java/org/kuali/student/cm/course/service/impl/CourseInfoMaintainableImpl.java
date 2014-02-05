@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
 import org.kuali.rice.krad.uif.view.View;
@@ -744,6 +745,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     @Override
     public void setCrossListingDisclosureSection(String argCrossListingDisclosureSection) {
         this.crossListingDisclosureSection = argCrossListingDisclosureSection;
+    }
+
+    @Override
+    public String getDocumentTitle(MaintenanceDocument document) {
+        return document.getDocumentHeader().getDocumentDescription();
     }
 
     @Override

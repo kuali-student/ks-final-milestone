@@ -451,7 +451,7 @@ public class CourseController extends CourseRuleEditorController {
             maintainable.getCourse().getUnitsContentOwner().add(wrapper.getValue());
         }
 
-        form.getDocument().getDocumentHeader().setDocumentDescription(maintainable.getProposal().getName() + " (Proposal)");
+        form.getDocument().getDocumentHeader().setDocumentDescription(maintainable.getProposal().getName());
 
         try {
             if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
