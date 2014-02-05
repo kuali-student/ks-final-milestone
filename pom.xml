@@ -22,7 +22,6 @@
                 <module>ks-enroll-sql</module>
                 <module>ks-enroll-impl</module>
                 <module>ks-enroll-ui</module>
-                <module>ks-enroll-web</module>
                 <module>ks-enroll-rice</module>
                 <module>ks-enroll-deployment-resources</module>
             </modules>
