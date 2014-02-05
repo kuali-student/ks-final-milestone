@@ -48,7 +48,7 @@ import org.kuali.student.r2.core.constants.FeeServiceConstants;
  * @author tom
  */
 
-@WebService(name = "FeeService", serviceName = "FeeService", portName = "FeeService", targetNamespace = FeeServiceConstants.NAMESPACE)
+@WebService(name = "FeeService", targetNamespace = FeeServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface FeeService {

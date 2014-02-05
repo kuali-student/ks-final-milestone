@@ -86,7 +86,7 @@ import java.util.List;
  * @author Kuali Student Team (Kamal)
  */
 
-@WebService(name = "CourseOfferingService", serviceName = "CourseOfferingService", portName = "CourseOfferingService", targetNamespace = CourseOfferingServiceConstants.NAMESPACE)
+@WebService(name = "CourseOfferingService", targetNamespace = CourseOfferingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface CourseOfferingService

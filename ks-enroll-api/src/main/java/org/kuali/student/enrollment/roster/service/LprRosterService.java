@@ -46,7 +46,7 @@ import org.kuali.student.r2.common.util.constants.LprRosterServiceConstants;
  * @version 0.0.7
  */
 
-@WebService(name = "LprRosterService", serviceName = "LprRosterService", portName = "LprRosterService", targetNamespace = LprRosterServiceConstants.NAMESPACE)
+@WebService(name = "LprRosterService", targetNamespace = LprRosterServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface LprRosterService {

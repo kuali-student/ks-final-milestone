@@ -31,7 +31,7 @@ import java.util.List;
  *
  * Represents a canonical exam service.
  */
-@WebService(name = "ExamService", serviceName = "ExamService", portName = "ExamService", targetNamespace = ExamServiceConstants.NAMESPACE)
+@WebService(name = "ExamService", targetNamespace = ExamServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface ExamService {
 

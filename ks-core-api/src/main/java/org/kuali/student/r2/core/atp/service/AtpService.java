@@ -49,7 +49,7 @@ import java.util.List;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */
 
-@WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
+@WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AtpService extends SearchService {
 

@@ -44,7 +44,7 @@ import java.util.List;
  * @Since Mon Nov 21 14:22:34 EDT 2011
  */
 
-@WebService(name = "PopulationService", serviceName = "PopulationService", portName = "PopulationService", targetNamespace = PopulationServiceConstants.NAMESPACE)
+@WebService(name = "PopulationService", targetNamespace = PopulationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface PopulationService {

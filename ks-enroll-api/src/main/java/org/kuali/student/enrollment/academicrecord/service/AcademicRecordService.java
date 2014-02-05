@@ -46,7 +46,7 @@ import java.util.List;
  * @since Mon Sep 12 12:22:34 EDT 2011
  */
 
-@WebService(name = "AcademicRecordService", serviceName = "AcademicRecordService", portName = "AcademicRecordService", targetNamespace = AcademicRecordServiceConstants.NAMESPACE)
+@WebService(name = "AcademicRecordService", targetNamespace = AcademicRecordServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 // TODO KSENROLL-1630
 public interface AcademicRecordService {
