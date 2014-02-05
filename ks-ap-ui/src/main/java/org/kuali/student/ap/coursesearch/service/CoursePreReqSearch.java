@@ -15,7 +15,7 @@ import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-
+@Deprecated
 public class CoursePreReqSearch {
 
     private CluService cluService;

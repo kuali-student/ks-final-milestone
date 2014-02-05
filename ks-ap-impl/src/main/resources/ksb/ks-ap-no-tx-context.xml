@@ -28,7 +28,6 @@
         <property name="ksapCourseHelper" ref="ksapCourseHelper"/>
         <property name="shoppingCartHelper" ref="shoppingCartHelper"/>
         <property name="planHelper" ref="planHelper"/>
-        <property name="courseSearchStrategy" ref="courseSearchStrategy"/>
         <property name="academicCalendarService" ref="ksEnrollAcalService"/>
         <property name="academicRecordService" ref="academicRecordServiceWithMockAssembler"/>
         <property name="courseOfferingService" ref="ksEnrollCourseOfferingService"/>
@@ -176,12 +175,6 @@
     <bean name="shoppingCartHelper" class="org.kuali.student.ap.framework.context.support.MockShoppingCartHelper" />
 
     <bean name="planHelper" class="org.kuali.student.ap.framework.context.support.DefaultPlanHelper" />
-
-    <bean id="courseSearchStrategy" class="org.kuali.student.ap.coursesearch.controller.CourseSearchStrategyImpl"/>
-
-    <bean id="coursePreReqSearch" class="org.kuali.student.ap.coursesearch.service.CoursePreReqSearch">
-        <property name="cluService" ref="cluServiceImpl"/>
-    </bean>
 
     <bean id="academicPlanServicePersistence" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceImpl">
         <property name="learningPlanDao" ref="learningPlanDao"/>
