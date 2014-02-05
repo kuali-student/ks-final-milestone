@@ -1,6 +1,7 @@
 <h1>My Cart!</h1> ({{cart.length}} items)
 <button type="submit">Register</button>
-<div><form novalidate name="form" class="css-form" ng-submit="add();">
+<div>
+    <form novalidate name="form" class="css-form" ng-submit="add();">
 
 
         <div class="has-error" ng-show="error.length > 1">{{ error }}</div>
@@ -13,11 +14,46 @@
 </div>
 <div class="kscr-cart-course" ng-repeat="cartItem in cart">
     <div class="kscr-course-header">
-        <div>{{cartItem.courseCode}} ({{cartItem.regCode}})<span class="remove"><a class="glyphicon glyphicon-remove" ng-click="delete($index)"></a></span></div>
+        <div>{{cartItem.courseCode}} ({{cartItem.regCode}})
+            <span class="remove">
+                <a class="glyphicon glyphicon-remove" ng-click="delete($index)"></a>
+            </span>
+        </div>
         <p>{{cartItem.courseTitle}}</p>
     </div>
     <div>
-        <div class="kscr-course-info">{{cartItem.credits}} credits, {{cartItem.grading}}</div>
+        <div class="kscr-course-info" ng-hide="editing">
+            <ng-pluralize count="cartItem.credits"
+                          when="{'1'    : '{} credit',
+                                 'other': '{} credits'}">
+            </ng-pluralize>
+            {{cartItem.credits}} credits, {{cartItem.grading}}
+            <a ng-click="editing = true">Change</a>
+        </div>
+
+        <div class="kscr-course-info-edit" ng-show="editing">
+            <form ng-submit="editing = false">
+                <div>
+                    <label for="credits">Credits</label>
+                    <select id="credits">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="4">4</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="grading">Grading</label>
+                    <select id="grading">
+                        <option value="Letter">Letter</option>
+                        <option value="Pass/Fail">Pass/Fail</option>
+                        <option value="Audit">Audit</option>
+                    </select>
+                </div>
+                <button type="submit">Save</button>
+                <a ng-click="editing = false">Cancel</a>
+            </form>
+        </div>
+
         <div ng-repeat="item in cartItem.schedule">
             <div>{{item.type}} {{item.time}} {{item.location.building}} {{item.location.room}}</div>
         </div>

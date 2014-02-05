@@ -5,10 +5,10 @@
         "courseTitle":"Algebra 1",
         "credits":"3",
         "grading":"Pass/Fail",
-        "schedule": [
+        "schedule":[
             {
                 "type":"LEC",
-                "location": {
+                "location":{
                     "building":"MTH",
                     "room":"134B"
                 },
@@ -20,12 +20,12 @@
         "courseCode":"ENGL200",
         "regCode":"0101",
         "courseTitle":"Modern Literature",
-        "credits":"3",
+        "credits":"1",
         "grading":"Letter",
-        "schedule": [
+        "schedule":[
             {
                 "type":"LEC",
-                "location": {
+                "location":{
                     "building":"EN",
                     "room":"10"
                 },
@@ -40,10 +40,10 @@
         "courseTitle":"Organic Chemistry",
         "credits":"3",
         "grading":"Letter",
-        "schedule": [
+        "schedule":[
             {
                 "type":"LEC",
-                "location": {
+                "location":{
                     "building":"CHM",
                     "room":"10"
                 },
@@ -51,7 +51,7 @@
             },
             {
                 "type":"LAB",
-                "location": {
+                "location":{
                     "building":"CHM",
                     "room":"10"
                 },
