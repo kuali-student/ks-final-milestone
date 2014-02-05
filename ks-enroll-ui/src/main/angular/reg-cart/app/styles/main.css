@@ -14,7 +14,6 @@ body {
 
 /* Custom page header */
 .header {
-  border-bottom: 1px solid #e5e5e5;
   margin-bottom: 5px;
   padding: 0.2em;
   background-color: #000000;
@@ -111,8 +110,13 @@ body {
 }
 
 .kscr-adding-header{
-    background-color: #CCC;
+    background-color: #EEE;
     padding: 0.1em 0.1em 0.1em 0.5em;
+}
+
+.kscr-AdditionalOpions-buttons{
+   float: right;
+   padding-right: 1em;
 }
 
 #searchTerm{
