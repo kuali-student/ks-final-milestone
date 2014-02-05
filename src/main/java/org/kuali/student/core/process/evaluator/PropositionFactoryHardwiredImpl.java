@@ -1,6 +1,7 @@
 package org.kuali.student.core.process.evaluator;
 
 import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.student.core.ges.service.proposition.IsGesValueApplicableOnDayProposition;
 import org.kuali.student.core.ges.service.proposition.IsGesValueApplicableProposition;
 import org.kuali.student.core.population.service.proposition.ClassStandingProposition;
 import org.kuali.student.enrollment.class2.academicrecord.service.impl.ClassStanding;
@@ -20,7 +21,9 @@ public class PropositionFactoryHardwiredImpl implements PropositionFactory {
     public static final String RULE_ID_CREDIT_LOAD = "kuali.rule.credit.load";
     public static final String RULE_ID_CREDIT_LIMIT = "kuali.rule.credit.limit";
     public static final String RULE_ID_CREDIT_MINIMUM = "kuali.rule.credit.minimum";
+    // GES service
     public static final String RULE_ID_IS_GES_VALUE_APPLICABLE = "kuali.ges.rule.is.applicable";
+    public static final String RULE_ID_IS_GES_VALUE_APPLICABLE_ON_DAY = "kuali.ges.rule.is.applicable.onday";
     // class standings
     public static final String RULE_ID_IS_FRESHMAN = "kuali.rule.freshman";
     public static final String RULE_ID_SOPHOMORE = "kuali.rule.sophomore";
@@ -47,6 +50,10 @@ public class PropositionFactoryHardwiredImpl implements PropositionFactory {
         // GES Service
         if (ruleId.equals(RULE_ID_IS_GES_VALUE_APPLICABLE)) {
             Proposition prop = new IsGesValueApplicableProposition();
+            return prop;
+        }
+        if (ruleId.equals(RULE_ID_IS_GES_VALUE_APPLICABLE_ON_DAY)) {
+            Proposition prop = new IsGesValueApplicableOnDayProposition();
             return prop;
         }
         //Population Service
