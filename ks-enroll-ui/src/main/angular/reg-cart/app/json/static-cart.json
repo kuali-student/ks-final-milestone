@@ -8,9 +8,18 @@
             "regCode":"0101",
             "courseTitle":"Algebra 1",
             "credits":"3",
-            "grading":"Pass/Fail",
+            "grading":"kuali.resultComponent.grade.passFail",
             "creditOptions":["3", "4", "6"],
-            "gradingOptions":["Letter", "Pass/Fail"],
+            "gradingOptions":[
+                {
+                    "key":"kuali.resultComponent.grade.letter",
+                    "value":"Letter"
+                },
+                {
+                    "key":"kuali.resultComponent.grade.passFail",
+                    "value":"Pass/Fail"
+                }
+            ],
             "schedule":[
                 {
                     "type":"LEC",
@@ -32,9 +41,18 @@
             "regCode":"0101",
             "courseTitle":"Modern Literature",
             "credits":"1",
-            "grading":"Letter",
+            "grading":"kuali.resultComponent.grade.letter",
             "creditOptions":["1"],
-            "gradingOptions":["Letter", "Pass/Fail"],
+            "gradingOptions":[
+                {
+                    "key":"kuali.resultComponent.grade.letter",
+                    "value":"Letter"
+                },
+                {
+                    "key":"kuali.resultComponent.grade.passFail",
+                    "value":"Pass/Fail"
+                }
+            ],
             "schedule":[
                 {
                     "type":"LEC",
@@ -57,9 +75,14 @@
             "regCode":"0101",
             "courseTitle":"Organic Chemistry",
             "credits":"3",
-            "grading":"Letter",
+            "grading":"kuali.resultComponent.grade.letter",
             "creditOptions":["3"],
-            "gradingOptions":["Letter"],
+            "gradingOptions":[
+                {
+                    "key":"kuali.resultComponent.grade.letter",
+                    "value":"Letter"
+                }
+            ],
             "schedule":[
                 {
                     "type":"LEC",

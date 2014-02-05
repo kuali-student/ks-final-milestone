@@ -10,7 +10,6 @@
     "angular-resource": "1.2.6",
     "angular-cookies": "1.2.6",
     "angular-sanitize": "1.2.6",
-    "angular-route": "1.2.6",
     "angular-ui-router":"0.2.8-bowratic-tedium"
   },
   "devDependencies": {

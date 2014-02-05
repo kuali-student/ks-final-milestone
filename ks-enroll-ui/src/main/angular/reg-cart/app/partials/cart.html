@@ -38,14 +38,13 @@
             <ng-pluralize count="cartItem.credits"
                           when="{'1'    : '{} credit',
                                  'other': '{} credits'}">
-            </ng-pluralize>
-            , {{cartItem.grading}}
+            </ng-pluralize>, {{(cartItem.gradingOptions | filter:{key:cartItem.grading}:true)[0].value}}
             <a ng-click="editing = true"
                ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptions.length > 1">Change</a>
         </div>
 
         <div class="kscr-course-info-edit" ng-show="editing">
-            <form ng-submit="$parent.editing = false" ng-controller="CartItemCtrl">
+            <form ng-submit="submit()" ng-controller="CartItemCtrl">
                 <div>
                     <label for="credits">Credits</label>
                     <select id="credits" ng-model="newCredits"
@@ -54,10 +53,10 @@
                 <div>
                     <label for="grading">Grading</label>
                     <select id="grading" ng-model="newGrading"
-                            ng-options="grading for grading in cartItem.gradingOptions"/>
+                            ng-options="grading.key as grading.value for grading in cartItem.gradingOptions"/>
                 </div>
                 <button type="submit">Save</button>
-                <a ng-click="$parent.editing = false">Cancel</a>
+                <a ng-click="cancel()">Cancel</a>
             </form>
         </div>
 
