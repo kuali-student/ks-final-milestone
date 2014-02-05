@@ -347,12 +347,6 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.ap</groupId>
-            <artifactId>ks-ap</artifactId>
-            <version>${ks.ap.version}</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>org.kuali.student.ap</groupId>
             <artifactId>ks-ap-framework</artifactId>
             <version>${ks.ap.version}</version>
         </dependency>
