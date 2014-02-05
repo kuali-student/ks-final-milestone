@@ -1,10 +1,15 @@
 <div class="kscr-header-container">
     <div class="header">
-        <span class="header-title">Kuali Student Course Registration</span>
-        <nav class="navigation">
-            <a ui-sref="root.cart">cart</a>
-            <a ui-sref="root.schedule">my schedule</a>
-        </nav>
+        <div class="kscr-logo">
+            <span class="kscr-header-title">Course Registration</span>
+
+            <nav class="navigation">
+                <div>
+                    <a ui-sref="root.cart" class="glyphicon glyphicon-shopping-cart"></a>
+                    <a ui-sref="root.schedule" class="glyphicon glyphicon-calendar"></a>
+                </div>
+            </nav>
+        </div>
     </div>
     <div class="kscr-searchTerm">
         <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"/>
