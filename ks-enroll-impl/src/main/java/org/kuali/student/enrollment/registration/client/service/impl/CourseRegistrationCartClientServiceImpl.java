@@ -11,6 +11,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
+import org.kuali.student.enrollment.registration.client.service.dto.CartItemInfoResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -65,6 +66,13 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         RegistrationResponseInfo registrationResponse = getCourseRegistrationService().submitRegistrationRequest(cartId, contextInfo);
 
         return registrationResponse;
+    }
+
+    @Override
+    public CartItemInfoResult addCourseToCart(String cartId, String courseCode, String termId, String regGroupId, String gradingMethod, String credits){
+        CartItemInfoResult cartItemInfo = new CartItemInfoResult();
+
+        return cartItemInfo;
     }
 
     @Override

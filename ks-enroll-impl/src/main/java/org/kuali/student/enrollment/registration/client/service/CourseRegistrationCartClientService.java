@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.registration.client.service.dto.CartItemInfoResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -53,6 +54,27 @@ public interface CourseRegistrationCartClientService {
      * @throws LoginException
      */
     public RegistrationResponseInfo submitCart(String userId, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException;
+
+    /**
+     * The REST version of addCourseToCart
+     *
+     * @param cartId      ID of the registrationRequest representing the cart
+     * @param courseCode  course offering to add to the cart
+     * @param termId      termId for the course offering
+     * @param regGroupId  reg group we want to add
+     * @param gradingMethod    the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
+     * @param credits    The numeric string value of credit student registration option. Must convert to KualiDecimal.
+     * @return Response containing the cart item that was updated or a server error response.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/addCourseToCart")
+    public CartItemInfoResult addCourseToCart(@QueryParam("cartId") String cartId,
+                                        @QueryParam("courseCode") String courseCode,
+                                        @QueryParam("termId") String termId,
+                                        @QueryParam("regGroupId") String regGroupId,
+                                        @QueryParam("gradingMethod") String gradingMethod,
+                                        @QueryParam("credits") String credits);
 
 
     /**
