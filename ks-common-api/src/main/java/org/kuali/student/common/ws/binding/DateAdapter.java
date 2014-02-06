@@ -13,13 +13,12 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.ws.binding;
+package org.kuali.student.common.ws.binding;
 
+import javax.xml.bind.DatatypeConverter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
-import javax.xml.bind.DatatypeConverter;
 
 public class DateAdapter {
 	public static Date parseDate(String s) {

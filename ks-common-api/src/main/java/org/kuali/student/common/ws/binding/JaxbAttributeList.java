@@ -13,38 +13,30 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.ws.binding;
-
-import java.io.Serializable;
+package org.kuali.student.common.ws.binding;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "Attribute", propOrder = {
-        "key", "value" })
-public class JaxbAttribute implements Serializable{
+public class JaxbAttributeList implements Serializable{
+
 	private static final long serialVersionUID = 1L;
-	@XmlAttribute
-      String key;
-      @XmlElement
-      String value;
-    /**
-     *
-     */
-    public JaxbAttribute() {
-        super();
-    }
-    /**
-     * @param name
-     * @param value
-     */
-    public JaxbAttribute(String key, String value) {
-        super();
-        this.key = key;
-        this.value = value;
-    }
+	@XmlElement
+	private List<JaxbAttribute> attribute;
+
+	/**
+	 * @return the attribute
+	 */
+	public List<JaxbAttribute> getAttribute() {
+		if (this.attribute == null) {
+			this.attribute = new ArrayList<JaxbAttribute>();
+		}
+		return attribute;
+	}
+
 }

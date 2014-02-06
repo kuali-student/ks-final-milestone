@@ -13,12 +13,11 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.ws.binding;
-
-import java.util.HashMap;
-import java.util.Map;
+package org.kuali.student.common.ws.binding;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JaxbAttributeMapListAdapter extends
 		XmlAdapter<JaxbAttributeList, Map<String, String>> {

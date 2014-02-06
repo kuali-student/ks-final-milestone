@@ -18,7 +18,6 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-common-ws</module>
                 <module>ks-common-api</module>
                 <module>ks-core-api</module>
                 <module>ks-lum-api</module>
@@ -45,7 +44,6 @@
             </build>
             <!-- include all the modules from the default profile -->
             <modules>
-                <module>ks-common-ws</module>
                 <module>ks-common-api</module>
                 <module>ks-core-api</module>
                 <module>ks-lum-api</module>
