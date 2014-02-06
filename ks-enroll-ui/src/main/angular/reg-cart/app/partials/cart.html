@@ -1,6 +1,6 @@
 <h1>My Cart!</h1> ({{cart.items.length}} items)
 
-<button type="submit">Register</button>
+<button class="btn" type="submit">Register</button>
 
 <div>
     <form novalidate name="form" class="form-group form-inline" ng-submit="add();">
@@ -55,7 +55,7 @@
                     <select id="grading" ng-model="newGrading"
                             ng-options="grading.key as grading.value for grading in cartItem.gradingOptions"/>
                 </div>
-                <button type="submit">Save</button>
+                <button type="submit" class="btn">Save</button>
                 <a ng-click="cancel()">Cancel</a>
             </form>
         </div>

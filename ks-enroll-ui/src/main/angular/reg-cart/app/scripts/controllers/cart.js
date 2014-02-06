@@ -12,8 +12,6 @@ cartServiceModule.controller('CartCtrl', ['$scope', 'CartService',
             var code = $scope.courseCode;
             var regGroup = $scope.regCode;
 
-            $scope.courseCode = "Test Value";
-
             $scope.error = "Cannot find the course \"" + code + "\" in term " + $scope.termId;
             $scope.courseCode.setValidity("coursecheck", false);
         }
