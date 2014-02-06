@@ -22,15 +22,9 @@ import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
-import org.kuali.rice.krms.api.repository.term.TermDefinition;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
-import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.dto.ActionEditor;
 import org.kuali.rice.krms.dto.PropositionEditor;
-import org.kuali.rice.krms.dto.PropositionParameterEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
-import org.kuali.rice.krms.dto.TermEditor;
-import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.util.ContextBuilder;
@@ -172,6 +166,10 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
             action.setAttributes(attributes);
             action.setDescription(ruleEditor.getDescription());
+
+            //Set actionEditor required fields from rule
+            action.setName("day" + rule.getDay() + rule.getTimePeriodToDisplay());
+            action.setName("day" + rule.getDay() + rule.getTimePeriodToDisplay());
 
         } catch (Exception e) {
             throw new RuntimeException(e);
