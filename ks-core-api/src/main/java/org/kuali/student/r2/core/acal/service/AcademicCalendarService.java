@@ -80,7 +80,7 @@ import java.util.List;
  * @since Sun Apr 10 14:22:34 EDT 2011
  */
 
-@WebService(name = "AcademicCalendarService", serviceName = "AcademicCalendarService", portName = "AcademicCalendarService", targetNamespace = AcademicCalendarServiceConstants.NAMESPACE)
+@WebService(name = "AcademicCalendarService", targetNamespace = AcademicCalendarServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface AcademicCalendarService {

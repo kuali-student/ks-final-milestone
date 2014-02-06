@@ -55,7 +55,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  * @Author Mezba Mahtab mezba.mahtab@utoronto.ca
  */
-@WebService(name = "SchedulingService", serviceName = "SchedulingService", portName = "SchedulingService", targetNamespace = SchedulingServiceConstants.NAMESPACE)
+@WebService(name = "SchedulingService", targetNamespace = SchedulingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface SchedulingService {
 

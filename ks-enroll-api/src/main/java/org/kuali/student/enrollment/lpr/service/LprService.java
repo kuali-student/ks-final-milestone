@@ -45,7 +45,7 @@ import java.util.List;
  * @Author Kamal
  * @Since Tue Mar 01 15:53:51 PST 2011
  */
-@WebService(name = "LprService", serviceName = "LprService", portName = "LprService",targetNamespace = LprServiceConstants.NAMESPACE)
+@WebService(name = "LprService", targetNamespace = LprServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface LprService {

@@ -48,7 +48,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * @author Kuali Student Services
  */
 
-@WebService(name = "CourseBundleService", serviceName = "CourseBundleService", portName = "CourseBundleService", targetNamespace = CourseBundleServiceNamespace.NAMESPACE)
+@WebService(name = "CourseBundleService", targetNamespace = CourseBundleServiceNamespace.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface CourseBundleService {

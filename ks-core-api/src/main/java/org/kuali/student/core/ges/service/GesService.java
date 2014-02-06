@@ -44,7 +44,7 @@ import java.util.List;
  * @author Kuali Student Services
  */
 
-@WebService(name = "GesService", serviceName = "GesService", portName = "GesService", targetNamespace = GesServiceNamespace.NAMESPACE)
+@WebService(name = "GesService", targetNamespace = GesServiceNamespace.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface GesService {
 

@@ -35,7 +35,7 @@ import java.util.List;
  *
  * @author Mezba Mahtab (mezba.mahtab@utoronto.ca)
  */
-@WebService(name = "ExamOfferingService", serviceName = "ExamOfferingService", portName = "ExamOfferingService", targetNamespace = ExamOfferingServiceConstants.NAMESPACE)
+@WebService(name = "ExamOfferingService", targetNamespace = ExamOfferingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface ExamOfferingService {
 
