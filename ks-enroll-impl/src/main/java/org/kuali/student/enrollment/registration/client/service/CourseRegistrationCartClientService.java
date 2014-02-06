@@ -24,6 +24,7 @@ import javax.ws.rs.core.Response;
 /**
  * Services for Registration Cart Operations
  */
+@Path("/")
 public interface CourseRegistrationCartClientService {
 
     /**

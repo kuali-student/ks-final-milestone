@@ -143,4 +143,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return courseRegistrationService;
     }
 
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
+    }
 }

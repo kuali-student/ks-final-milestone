@@ -12,9 +12,9 @@ cartServiceModule.controller('CartCtrl', ['$scope', 'CartService',
             var code = $scope.courseCode;
             var regGroup = $scope.regCode;
 
-            $scope.error = "Cannot find the course \"" + code + "\" in term " + $scope.termId;
+            $scope.error = 'Cannot find the course "' + code + '" in term ' + $scope.termId;
             $scope.courseCode.setValidity("coursecheck", false);
-        }
+        };
 
         $scope.delete = function(index) {
             //var course = $scope.cart.items[index];

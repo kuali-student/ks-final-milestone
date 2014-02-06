@@ -7,5 +7,9 @@ angular.module('regCartApp')
                 query:{method:'GET', cache:false, isArray:false}
             });
         };
-
+        this.updateCartItem = function () {
+            return $resource('http://localhost:8081/', {}, {
+                query:{method:'GET', cache:false, isArray:false}
+            });
+        };
     });

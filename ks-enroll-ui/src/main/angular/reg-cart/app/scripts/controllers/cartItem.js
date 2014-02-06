@@ -2,7 +2,7 @@
 
 
 angular.module('regCartApp').controller('CartItemCtrl', ['$scope',
-    function ($scope, $index) {
+    function ($scope) {
         //Default values
         $scope.newCredits = $scope.$parent.cartItem.credits;
         $scope.newGrading = $scope.$parent.cartItem.grading;
@@ -11,15 +11,16 @@ angular.module('regCartApp').controller('CartItemCtrl', ['$scope',
             $scope.newCredits = $scope.$parent.cartItem.credits;
             $scope.newGrading = $scope.$parent.cartItem.grading;
             $scope.$parent.editing = false;
-        }
+        };
 
         $scope.submit = function(){
+
             $scope.$parent.editing = false;
 
             $scope.$parent.cartItem.credits = $scope.newCredits;
             $scope.$parent.cartItem.grading = $scope.newGrading;
 
-        }
+        };
 
     }]);
 

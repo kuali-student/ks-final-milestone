@@ -1467,7 +1467,7 @@
     </bean>
 
     <bean id="courseRegistrationClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationClientServiceImpl">
-    </bean>
+</bean>
 
     <bean id="ks.exp.courseRegistrationClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
@@ -1493,6 +1493,34 @@
         </property>
     </bean>
 
+    <bean id="courseRegistrationCartClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartClientServiceImpl">
+        <property name="courseRegistrationService" ref="CourseRegistrationService"/>
+    </bean>
+
+    <bean id="ks.exp.courseRegistrationCartClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.RestServiceDefinition">
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseRegistrationCartClient" />
+                <property name="service" ref="courseRegistrationCartClientService" />
+                <property name="resourceClass" value="org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService" />
+                <property name="localServiceName" value="CourseRegistrationCartClientService" />
+                <property name="providers">
+                    <list>
+                        <bean class="org.kuali.student.enrollment.registration.client.service.impl.CustomHeaderJacksonJsonProvider">
+                            <property name="headers">
+                                <map>
+                                    <entry key="Access-Control-Allow-Origin" value="*"/>
+                                    <entry key="Access-Control-Allow-Methods" value="POST, GET, OPTIONS"/>
+                                    <entry key="Access-Control-Allow-Header" value="Content-Type"/>
+                                </map>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
  </beans>
 
 
