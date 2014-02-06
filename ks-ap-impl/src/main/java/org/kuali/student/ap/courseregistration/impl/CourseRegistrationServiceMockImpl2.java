@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.class2.courseregistration.service.impl.AbstractCourseRegistrationService;
 import org.kuali.student.enrollment.courseoffering.infc.RegistrationGroup;
@@ -143,7 +144,7 @@ public class CourseRegistrationServiceMockImpl2
         List<String> courseOfferingIds = null;
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.and(
-                PredicateFactory.like("courseOfferingCode", courseCode + "%"),
+                PredicateFactory.like("courseOfferingCode", courseCode),
                 PredicateFactory.equalIgnoreCase("atpId", termId)),
                 PredicateFactory.equal("luiState", LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
         QueryByCriteria criteria = qbcBuilder.build();
@@ -154,8 +155,10 @@ public class CourseRegistrationServiceMockImpl2
             LOGGER.error(errMsg,e);
             throw new RuntimeException(errMsg);
         }
-        if (courseOfferingIds!=null & courseOfferingIds.size()>0) {
-            courseOfferingId=courseOfferingIds.get(0);
+        try{
+            courseOfferingId = KSCollectionUtils.getRequiredZeroElement(courseOfferingIds);
+        } catch(OperationFailedException e){
+            LOGGER.warn("Unable to load course "+courseCode,e);
         }
         return courseOfferingId;
     }
