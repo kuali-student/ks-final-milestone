@@ -15,7 +15,12 @@ angular.module('regCartApp').controller('CartItemCtrl', ['$scope',
 
         $scope.submit = function(){
             $scope.$parent.editing = false;
+
+            $scope.$parent.cartItem.credits = $scope.newCredits;
+            $scope.$parent.cartItem.grading = $scope.newGrading;
+
         }
+
     }]);
 
 
