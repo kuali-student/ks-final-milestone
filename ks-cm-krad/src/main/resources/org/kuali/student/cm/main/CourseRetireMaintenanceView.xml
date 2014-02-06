@@ -55,7 +55,7 @@
                 <!-- <bean id="compareRuleLightBox" parent="KS-KRMS-CompareRule">
                     <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
                 </bean> -->
-                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup" p:fieldBindingObjectPath="document.newMaintainableObject.courseRuleManagementWrapper"/>
+                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup-CM" p:fieldBindingObjectPath="document.newMaintainableObject.courseRuleManagementWrapper"/>
                 <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo" p:fieldBindingObjectPath="document.newMaintainableObject.courseRuleManagementWrapper"/>
             </list>
         </property>
