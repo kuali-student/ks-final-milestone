@@ -131,7 +131,7 @@
         <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true"/>
         <property name="resultsGroup.layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="ltip"/>
+                <entry key="sDom" value="iltp"/>
                 <entry key="bPaginate" value="false"/>
             </map>
         </property>

@@ -72,7 +72,7 @@
         <property name="layoutManager.applyDefaultCellWidths" value="true" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="rtip"/>
+                <entry key="sDom" value="irtp"/>
                 <entry key="aaSorting" value="[[ 0, 'asc' ]]"/>
                 <entry key="bPaginate" value="false"/>
             </map>

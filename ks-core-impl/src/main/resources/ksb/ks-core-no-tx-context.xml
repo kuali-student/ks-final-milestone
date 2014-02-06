@@ -754,7 +754,7 @@
                 <property name="service" ref="messageServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.r2.common.messages.service.MessageService"/>
                 <property name="localServiceName" value="MessageService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/messages" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/message" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
