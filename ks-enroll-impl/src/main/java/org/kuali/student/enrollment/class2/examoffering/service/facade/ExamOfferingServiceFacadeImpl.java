@@ -2,26 +2,10 @@ package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krms.api.KrmsApiServiceLocator;
-import org.kuali.rice.krms.api.KrmsConstants;
-import org.kuali.rice.krms.api.engine.Engine;
-import org.kuali.rice.krms.api.engine.ExecutionFlag;
-import org.kuali.rice.krms.api.engine.ExecutionOptions;
-import org.kuali.rice.krms.api.engine.SelectionCriteria;
-import org.kuali.rice.krms.api.repository.RuleManagementService;
-import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
-import org.kuali.student.common.collection.KSCollectionUtils;
-import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
-import org.kuali.student.enrollment.class2.courseoffering.service.transformer.FormatOfferingTransformer;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluator;
-import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluatorImpl;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -33,7 +17,6 @@ import org.kuali.student.enrollment.exam.service.ExamService;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -57,12 +40,7 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.kuali.student.r2.core.process.krms.evaluator.KRMSEvaluator;
 
-import javax.jws.WebParam;
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -429,7 +407,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             } else {
                 LOGGER.info("(1) Not using 'cached' AOs");
                 aoInfos = this.getCourseOfferingService().getActivityOfferingsByFormatOffering(
-                            foEntry.getKey().getId(), context);
+                        foEntry.getKey().getId(), context);
             }
             for (ActivityOfferingInfo aoInfo : aoInfos) {
                 //Do not create exam offerings for canceled activity offerings.
@@ -463,9 +441,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 }
 
                 boolean hasEo = false;
+                ExamOfferingInfo eo = null;
                 for (ExamOfferingRelationInfo eoRelation : eors) {
                     if (eoRelation.getActivityOfferingIds().contains(aoInfo.getId())) {
-                        ExamOfferingInfo eo = eos.get(eoRelation.getExamOfferingId());
+                        eo = eos.get(eoRelation.getExamOfferingId());
                         if (eo.getStateKey().equals(ExamOfferingServiceConstants.EXAM_OFFERING_CANCELED_STATE_KEY)) {
                             this.getExamOfferingService().changeExamOfferingState(eoRelation.getExamOfferingId(),
                                     ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, context);
@@ -474,12 +453,20 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     }
                 }
 
+
                 if (!hasEo) {
                     //Retrieve corresponding eo state for ao.
                     String eoState = this.getExamOfferingStateForActivityOffering(aoInfo);
                     createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo, foEntry.getKey().getFinalExamLevelTypeKey(),
                             examPeriodId, eoState, termType, context);
                 }
+                if (hasEo) {
+
+                    if (this.getScheduleEvaluator() != null) {
+                        this.getScheduleEvaluator().executeRuleForAOScheduling(aoInfo, eo.getId(), termType, context);
+                    }
+                }
+
             }
         }
 
