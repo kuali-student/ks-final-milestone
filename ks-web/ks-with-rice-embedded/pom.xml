@@ -183,13 +183,6 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-web</artifactId>
-            <version>${ks.enroll.version}</version>
-            <type>war</type>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-cm-deployment-resources</artifactId>
             <version>${ks.lum.version}</version>
