@@ -45,9 +45,7 @@ public class RiceResourceLoaderFactory {
 			List<String> springFileLocations, String prefix,
 			AutowireCandidateResolver autowireCandidateResolver,
 			BeanFactory delegatedBeanFactory) {
-		// FIXME: RICE MODULARITY
-		// hack to not break the hack in
-		// ResourceLoaderContainer.moveKSBLoadersDownHack();
+
 		if ("KSB".equals(prefix.toUpperCase())) {
 			prefix = "K~S~B";
 		}

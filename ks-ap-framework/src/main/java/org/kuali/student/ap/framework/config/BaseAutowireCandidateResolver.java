@@ -16,7 +16,7 @@ import org.springframework.beans.factory.support.AutowireCandidateResolver;
  * 
  * @author Mark Fyffe <mwfyffe@indiana.edu>
  * @version 0.4.5
- * @deprecated TODO: Move KSAP auto-wiring functionality to Rice.
+ * @deprecated
  */
 // DO NOT USE @Singleton - delegate is controlled externally
 public class BaseAutowireCandidateResolver implements
