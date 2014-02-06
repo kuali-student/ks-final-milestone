@@ -19,14 +19,16 @@ cartServiceModule.controller('CartCtrl', ['$scope', 'CartService',
         }
 
         $scope.delete = function(index) {
-            var course = $scope.cart[index];
+            //var course = $scope.cart.items[index];
 
             // call the backend service here to persist something
             // API.delete(course){ id: couse.id }, function (success) {
             //      $scope.cart.splice(index, 1);
             // });
 
-            $scope.cart.splice(index, 1);
+            $scope.cart.items.splice(index, 1);
+
+
         };
 
     }]);
