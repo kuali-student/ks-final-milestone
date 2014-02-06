@@ -157,16 +157,16 @@ public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDa
 
         String gpaTypeKey = "kuali.student.acad.gpa.record";
         GPAInfo gpa = createGpa("mockTypeKey1", "1", "1.9");
-        academicRecordService.createGPA(gpaTypeKey, student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
+        academicRecordService.createGPA(gpaTypeKey, gpa, context);
         gpa = new GPAInfo();
         gpa = createGpa("mockTypeKey2", "1", "2.9");
-        academicRecordService.createGPA(gpaTypeKey, student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
+        academicRecordService.createGPA(gpaTypeKey, gpa, context);
         gpa = createGpa("mockTypeKey3", "1", "3.9");
-        academicRecordService.createGPA(gpaTypeKey, student1Id, studentCredentialRecordProgramId, resultScaleId, atpId, gpa, context);
+        academicRecordService.createGPA(gpaTypeKey, gpa, context);
 
         LoadInfo load = createLoad("mock.TypeKey.MediumLoad", 4);
         String loadTypeKey = "kuali.student.acad.load.record";
-        academicRecordService.createLoad(loadTypeKey, student1Id, atpId, load, context);
+        academicRecordService.createLoad(loadTypeKey, load, context);
 
     }
 }

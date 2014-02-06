@@ -314,9 +314,8 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
-    public GPAInfo createGPA(String gpaTypeKey, String studentId, String programId,
-                             String resultScaleId, String atpId, GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return nextDecorator.createGPA(gpaTypeKey, studentId, programId, resultScaleId, atpId, gpa, contextInfo);
+    public GPAInfo createGPA(String gpaTypeKey, GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createGPA(gpaTypeKey, gpa, contextInfo);
     }
 
     @Override
@@ -335,8 +334,8 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
-    public LoadInfo createLoad(String loadTypeKey, String studentId, String atpId, LoadInfo load, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return nextDecorator.createLoad(loadTypeKey, studentId, atpId, load, contextInfo);
+    public LoadInfo createLoad(String loadTypeKey, LoadInfo load, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return nextDecorator.createLoad(loadTypeKey, load, contextInfo);
     }
 
     @Override

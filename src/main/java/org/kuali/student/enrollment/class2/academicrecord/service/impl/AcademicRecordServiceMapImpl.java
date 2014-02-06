@@ -591,11 +591,10 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public GPAInfo createGPA(String gpaTypeKey, String personId, String programId, String resultScaleId, String atpId,
-                             GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException,
+    public GPAInfo createGPA(String gpaTypeKey, GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        gpasMap.put(personId, gpa);
+        gpasMap.put(gpa.getPersonId(), gpa);
         return gpa;
     }
 
@@ -619,10 +618,10 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public LoadInfo createLoad(String loadTypeKey, String personId, String atpId, LoadInfo load, ContextInfo contextInfo)
+    public LoadInfo createLoad(String loadTypeKey, LoadInfo load, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        loadsMap.put(personId, load);
+        loadsMap.put(load.getPersonId(), load);
         return load;
     }
 
