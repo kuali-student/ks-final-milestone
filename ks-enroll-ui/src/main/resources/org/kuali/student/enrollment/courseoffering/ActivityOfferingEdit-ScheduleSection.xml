@@ -218,24 +218,15 @@
                       p:disableNativeAutocomplete="true" p:required="@{!#dp.newScheduleRequest.tba}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_rdl_components" p:onBlurScript="rdlStartTimeOnBlur();"/>
-                    </property>
-                    <property name="constraintText" value="HH:MM"/>
-                </bean>
-                <bean id="rdl_startTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="newScheduleRequest.startTimeAmPm" p:defaultValue="AM">
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
-                    <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options" />
+                        <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur();"/>
                     </property>
                 </bean>
-
                 <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime"
                                        p:disableNativeAutocomplete="true" p:forceSessionPersistence="true">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                      <property name="control">
                          <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components, validDaysStartimeComboForStandardTimeSlot"/>
                     </property>
-                    <property name="constraintText" value="HH:MM"/>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.TimeSlotEndTimeKeyValues" p:addBlankOption="false" />
                     </property>
@@ -243,7 +234,7 @@
                       <list>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="control" p:condition="#dp.authorizedToModifyEndTimeTS or #dp.newScheduleRequest.tba">
                           <property name="replacement">
-                              <bean parent="Uif-TextControl" p:size="5"  p:maxLength="5" p:cssClasses="new_rdl_components" p:onBlurScript="endTimeOnBlur();"/>
+                              <bean parent="Uif-TextControl" p:size="10" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="endTimeOnBlur();"/>
                           </property>
                         </bean>
                         <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="suggest" p:condition="#dp.authorizedToModifyEndTimeTS">
@@ -260,12 +251,6 @@
                             </property>
                         </bean>
                       </list>
-                    </property>
-                </bean>
-                <bean id="rdl_endTimeAmPm" parent="Uif-InputField-LabelTop" p:label="&lt;br&gt;" p:propertyName="newScheduleRequest.endTimeAmPm"  p:defaultValue="AM">
-                    <property name="fieldLabel.requiredMessage.messageText" value=""/>
-                    <property name="control">
-                        <bean parent="Uif-VerticalRadioControl" p:options-ref="hctime-options"/>
                     </property>
                 </bean>
                 <bean id="rdl_bldg" parent="Uif-InputField-LabelTop" p:label="Facility" p:propertyName="newScheduleRequest.buildingCode" p:uppercaseValue="true">

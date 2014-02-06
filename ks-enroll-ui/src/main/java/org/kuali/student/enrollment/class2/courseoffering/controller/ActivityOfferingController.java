@@ -76,9 +76,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
 
         String startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime();
         String days = activityOfferingWrapper.getNewScheduleRequest().getDays();
-        if (!StringUtils.isBlank(startTime)){
-            startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime() +" "+activityOfferingWrapper.getNewScheduleRequest().getStartTimeAmPm();
-        }
+
         if (!StringUtils.isBlank(startTime) && !StringUtils.isBlank(days)){
             ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
 
@@ -109,27 +107,18 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=editScheduleComponent")
     public ModelAndView editScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
-        ScheduleWrapper scheduleWrapper = (ScheduleWrapper) getSelectedObject(form);
-        String startTime = " ";
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+        ScheduleWrapper scheduleWrapper = (ScheduleWrapper)getSelectedObject(form);
+
         activityOfferingWrapper.setNewScheduleRequest(scheduleWrapper);
         activityOfferingWrapper.getRequestedScheduleComponents().remove(scheduleWrapper);
         activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(true);
-        if (StringUtils.isNotBlank(activityOfferingWrapper.getNewScheduleRequest().getStartTime())) {
-            startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime();
-            activityOfferingWrapper.getNewScheduleRequest().setStartTime(StringUtils.substringBefore(scheduleWrapper.getStartTime(), " "));
-            activityOfferingWrapper.getNewScheduleRequest().setStartTimeAmPm(StringUtils.substringAfter(startTime, " "));
-        }
 
-        if (StringUtils.isNotBlank(activityOfferingWrapper.getNewScheduleRequest().getEndTime())) {
-            String endTime = activityOfferingWrapper.getNewScheduleRequest().getEndTime();
-            activityOfferingWrapper.getNewScheduleRequest().setEndTime(StringUtils.substringBefore(scheduleWrapper.getEndTime(), " "));
-            activityOfferingWrapper.getNewScheduleRequest().setEndTimeAmPm(StringUtils.substringAfter(endTime, " "));
-        }
+        String startTime = activityOfferingWrapper.getNewScheduleRequest().getStartTime();
         String days = activityOfferingWrapper.getNewScheduleRequest().getDays();
 
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
-        List<String> endTimes = viewHelper.getEndTimes(days, startTime, activityOfferingWrapper.getTimeSlotType());
+        List<String> endTimes = viewHelper.getEndTimes(days,startTime,activityOfferingWrapper.getTimeSlotType());
         activityOfferingWrapper.getNewScheduleRequest().setEndTimes(endTimes);
 
         return getUIFModelAndView(form);
@@ -150,25 +139,17 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     @RequestMapping(params = "methodToCall=addScheduleComponent")
     public ModelAndView addScheduleComponent(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
-        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
         ScheduleWrapper scheduleWrapper = activityOfferingWrapper.getNewScheduleRequest();
-        String startTime = scheduleWrapper.getStartTime();
-        String startTimeAmPm = scheduleWrapper.getStartTimeAmPm();
+        String startTime = StringUtils.substringBefore(scheduleWrapper.getStartTime()," ");
+        String startTimeAmPm = StringUtils.substringAfter(scheduleWrapper.getStartTime()," ");
         String endTime = "";
         String endTimeAmPm = "";
 
-        if (StringUtils.isNotBlank(scheduleWrapper.getEndTime())) {
-            endTime = scheduleWrapper.getEndTime();
-            if (StringUtils.isNotBlank(scheduleWrapper.getEndTimeAmPm())) {
-                endTimeAmPm = scheduleWrapper.getEndTimeAmPm();
-                scheduleWrapper.setEndTime(endTime + " " + endTimeAmPm);
-            }
-
-
-        }
-        if (StringUtils.isNotBlank(startTime)) {
-            scheduleWrapper.setStartTime(startTime + " " + startTimeAmPm);
+        if (StringUtils.isNotBlank(scheduleWrapper.getEndTime())){
+            endTime = StringUtils.substringBefore(scheduleWrapper.getEndTime()," ");
+            endTimeAmPm = StringUtils.substringAfter(scheduleWrapper.getEndTime()," ");
         }
 
         if (!StringUtils.isBlank(startTime) && !StringUtils.isBlank(endTime) && validateTime(startTime, startTimeAmPm, endTime, endTimeAmPm)) {
@@ -182,20 +163,17 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         ActivityOfferingMaintainable viewHelper = (ActivityOfferingMaintainable) KSControllerHelper.getViewHelperService(form);
         boolean success = viewHelper.addScheduleRequestComponent(activityOfferingWrapper);
 
-        if (success) {
+        if (success){
             activityOfferingWrapper.getEditRenderHelper().setScheduleEditInProgress(false);
             activityOfferingWrapper.setSchedulesModified(true);
             scheduleWrapper.setModified(true);
-            if (activityOfferingWrapper.isColocatedAO() && !activityOfferingWrapper.getColocatedActivities().isEmpty()) {
-                GlobalVariables.getMessageMap().putWarning("ActivityOffering-DeliveryLogistic-Requested", RiceKeyConstants.ERROR_CUSTOM, activityOfferingWrapper.getEditRenderHelper().getColocatedActivitiesAsString());
+            if (activityOfferingWrapper.isColocatedAO() && !activityOfferingWrapper.getColocatedActivities().isEmpty()){
+                GlobalVariables.getMessageMap().putWarning("ActivityOffering-DeliveryLogistic-Requested", RiceKeyConstants.ERROR_CUSTOM,activityOfferingWrapper.getEditRenderHelper().getColocatedActivitiesAsString());
             }
         }
 
         form.setJumpToId("ActivityOffering-DeliveryLogistic-Actuals");
-        if (GlobalVariables.getMessageMap().hasErrors()) {
-            scheduleWrapper.setStartTime(startTime);
-            scheduleWrapper.setEndTime(endTime);
-        }
+
         return getUIFModelAndView(form);
     }
 
