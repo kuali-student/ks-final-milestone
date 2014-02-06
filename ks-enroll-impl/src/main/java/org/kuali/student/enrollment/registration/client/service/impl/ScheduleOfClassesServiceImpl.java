@@ -68,9 +68,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         try {
             List<CourseSearchResult> courseSearchResults = searchForCourseOfferings(termId, termCode, courseCode);
             response = Response.ok(courseSearchResults);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -93,9 +93,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         try {
             List<CourseAndPrimaryAOSearchResult> courseSearchResults = searchForCourseOfferingsAndPrimaryAosByTermAndCourse(termId, termCode, courseCode);
             response = Response.ok(courseSearchResults);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -113,9 +113,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         try {
             List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroups(courseOfferingId, termId, termCode, courseCode, regGroupName);
             response = Response.ok(regGroupSearchResults);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -139,9 +139,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         try {
             List<ActivityOfferingSearchResult> activityOfferingSearchResults = searchForActivityOfferings(courseOfferingId, termId, termCode, courseCode);
             response = Response.ok(activityOfferingSearchResults);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t);
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -159,9 +159,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         try {
             List<ActivityTypeSearchResult> activityTypeSearchResults = searchForActivityTypes(courseOfferingId, termId, termCode, courseCode);
             response = Response.ok(activityTypeSearchResults);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t);
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -179,9 +179,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         try {
             List<InstructorSearchResult> instructorSearchResults = searchForInstructors(courseOfferingId, activityOfferingId, termId, termCode, courseCode);
             response = Response.ok(instructorSearchResults);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t);
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -199,9 +199,9 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         try {
             List<TermSearchResult> termSearchResults = searchForTerms(termCode, isActiveTerms);
             response = Response.ok(termSearchResults);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t);
+        } catch (Exception e) {
+            LOGGER.warn("Exception Thrown", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -383,10 +383,12 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         for (FormatOfferingInfo formatOffering : formatOfferings) {
             CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingTypeKeyList(formatOffering.getActivityOfferingTypeKeys(), contextInfo);  // sort the activity offerings type keys by priority order
             String primaryTypeKey = formatOffering.getActivityOfferingTypeKeys().get(0);
-
-            for (ActivityOfferingSearchResult ao : aoMap.get(formatOffering.getId())) {
-                if (primaryTypeKey.equals(ao.getActivityOfferingType())) {
-                    resultList.add(ao);
+            List<ActivityOfferingSearchResult> aos = aoMap.get(formatOffering.getId());
+            if (aos != null) {
+                for (ActivityOfferingSearchResult ao : aos) {
+                    if (primaryTypeKey.equals(ao.getActivityOfferingType())) {
+                        resultList.add(ao);
+                    }
                 }
             }
         }
@@ -809,18 +811,18 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                 scheduleIds.add(scheduleId);
             }
         }
-        if(scheduleIds!=null && !scheduleIds.isEmpty()){
-                Map<String, ScheduleSearchResult> schedMap = searchForScheduleByScheduleIds(scheduleIds, contextInfo);
+        if(!scheduleIds.isEmpty()){
+            Map<String, ScheduleSearchResult> schedMap = searchForScheduleByScheduleIds(scheduleIds, contextInfo);
 
-                if (schedMap != null && !schedMap.isEmpty()) {
-                    for (ActivityOfferingSearchResult ao : aoList) {
-                        String scheduleId = ao.getScheduleId();
-                        if (!StringUtils.isEmpty(scheduleId) && schedMap.containsKey(scheduleId)) {
-                            ao.setSchedule(convertScheduleSearchResultToAOSchedComponent(schedMap.get(scheduleId)));
-                        }
+            if (schedMap != null && !schedMap.isEmpty()) {
+                for (ActivityOfferingSearchResult ao : aoList) {
+                    String scheduleId = ao.getScheduleId();
+                    if (!StringUtils.isEmpty(scheduleId) && schedMap.containsKey(scheduleId)) {
+                        ao.setSchedule(convertScheduleSearchResultToAOSchedComponent(schedMap.get(scheduleId)));
                     }
-
                 }
+
+            }
         }
     }
 
@@ -936,9 +938,11 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
     private List<ActivityOfferingSearchResult> loadPopulatedActivityOfferingsByCourseOfferingId(String courseOfferingId, ContextInfo contextInfo) throws MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, InvalidParameterException {
         List<ActivityOfferingSearchResult> retList = searchForRawActivities(courseOfferingId);
-        populateActivityOfferingsWithScheduleData(retList, contextInfo);
-        populateActivityOfferingsWithInstructorData(retList, contextInfo);
-        populateActivityOfferingsWithActivityTypeNames(retList, contextInfo);
+        if(retList != null && !retList.isEmpty()){
+            populateActivityOfferingsWithScheduleData(retList, contextInfo);
+            populateActivityOfferingsWithInstructorData(retList, contextInfo);
+            populateActivityOfferingsWithActivityTypeNames(retList, contextInfo);
+        }
         return retList;
     }
 
