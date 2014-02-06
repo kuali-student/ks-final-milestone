@@ -102,7 +102,7 @@
         <property name="layoutManager.applyAlternatingRowStyles" value="false" />
         <property name="layoutManager.richTable.templateOptions">
             <map merge="true">
-                <entry key="sDom" value="irtp"/>
+                <entry key="sDom" value="opir"/>
                 <entry key="aaSorting" value="[[ 1, 'asc' ]]"/>
                 <entry key="bPaginate" value="false"/>
                 <entry key="bAutoWidth" value="false"/>
