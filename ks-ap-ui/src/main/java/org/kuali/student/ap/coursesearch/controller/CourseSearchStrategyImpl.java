@@ -1100,6 +1100,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				requests.add(request);
 			}
 		}
+        if (divisions == null || divisions.isEmpty()) {
+            // Create course code only search
+            for (String code : codes) {
+                SearchRequestInfo request = new SearchRequestInfo(
+                        "ksap.lu.search.exactCode");
+                request.addParam("code", code);
+                requests.add(request);
+            }
+        }
 	}
 
     /**
