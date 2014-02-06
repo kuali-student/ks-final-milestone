@@ -20,7 +20,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentProgramRecordInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "programId", "programTitle", "programTypeKey", "programCode", 
+        "programId", "personId", "programTitle", "programTypeKey", "programCode",
         "admittedDate", "creditsEarned", "classStanding", "childPrograms", "statusKey",
         "meta", "attributes", "_futureElements"})
 public class StudentProgramRecordInfo extends IdEntityInfo implements StudentProgramRecord, Serializable {
@@ -28,6 +28,8 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
 
     @XmlElement
     private String programId;
+    @XmlElement
+    private String personId;
     @XmlElement
     private String programTitle;
     @XmlElement
@@ -56,6 +58,7 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
         if (null != studentProgramRecord) {
 
             this.programId = studentProgramRecord.getProgramId();
+            this.personId = studentProgramRecord.getPersonId();
             this.programTitle = studentProgramRecord.getProgramTitle();
             this.programTypeKey = studentProgramRecord.getProgramTypeKey();
             this.programCode = studentProgramRecord.getProgramCode();
@@ -77,6 +80,15 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
 
     public void setProgramId(String programId) {
         this.programId = programId;
+    }
+
+    @Override
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     @Override

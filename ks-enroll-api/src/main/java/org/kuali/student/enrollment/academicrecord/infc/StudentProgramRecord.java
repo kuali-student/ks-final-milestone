@@ -18,6 +18,15 @@ public interface StudentProgramRecord extends IdEntity {
      */
     public String getProgramId();
 
+    /**
+     * The Id of the Student.
+     *
+     * @name Person Id
+     * @readOnly
+     * @required
+     * @impl retrieved from the Course Registration
+     */
+    public String getPersonId();
 
     /**
      * Program title
