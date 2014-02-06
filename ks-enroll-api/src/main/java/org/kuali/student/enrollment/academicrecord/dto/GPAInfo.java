@@ -31,6 +31,7 @@ import java.util.List;
 @XmlType(name = "GPAInfo", propOrder = {
         "id", "meta", "attributes",
         "value", "calculationTypeKey", "scaleKey",
+        "personId", "programId", "atpId",
         "typeKey", "stateKey", "_futureElements"})
 
 public class GPAInfo
@@ -48,6 +49,15 @@ public class GPAInfo
     @XmlElement
     private String scaleKey;
 
+    @XmlElement
+    private String personId;
+
+    @XmlElement
+    private String programId;
+
+    @XmlElement
+    private String atpId;
+
     @XmlAnyElement
     List<Element> _futureElements;
 
@@ -55,6 +65,9 @@ public class GPAInfo
         value = null;
         calculationTypeKey = null;
         scaleKey = null;
+        personId = null;
+        programId = null;
+        atpId = null;
         _futureElements = null;
     }
 
@@ -68,6 +81,9 @@ public class GPAInfo
         this.value = gpa.getValue();
         this.calculationTypeKey = gpa.getCalculationTypeKey();
         this.scaleKey = gpa.getScaleKey();
+        this.personId = gpa.getPersonId();
+        this.programId = gpa.getProgramId();
+        this.atpId = gpa.getAtpId();
         _futureElements = null;
     }
 
@@ -96,5 +112,32 @@ public class GPAInfo
 
     public void setScaleKey(String scaleKey) {
         this.scaleKey = scaleKey;
+    }
+
+    @Override
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    @Override
+    public String getProgramId() {
+        return programId;
+    }
+
+    public void setProgramId(String programId) {
+        this.programId = programId;
+    }
+
+    @Override
+    public String getAtpId() {
+        return atpId;
+    }
+
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
     }
 }

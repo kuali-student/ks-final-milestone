@@ -53,4 +53,25 @@ public interface GPA
      * @readOnly
      */
     public String getScaleKey();
+
+    /**
+     * The person ID
+     * @name Person ID
+     * @readOnly
+     */
+    public String getPersonId();
+
+    /**
+     * The program ID
+     * @name Program ID
+     * @readOnly
+     */
+    public String getProgramId();
+
+    /**
+     * The ATP ID
+     * @name ATP ID
+     * @readOnly
+     */
+    public String getAtpId();
 }

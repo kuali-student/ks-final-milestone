@@ -802,7 +802,7 @@ public interface AcademicRecordService {
     /**
      * Creates a new StudentProgramRecord
      *
-     * @param studentProgramRecord
+     * @param studentProgramRecordTypeKey
      * @param personId
      * @param studentProgramRecord
      * @param contextInfo Context information containing the principalId and
@@ -1198,10 +1198,6 @@ public interface AcademicRecordService {
      * Creates a new GPA
      *
      * @param gpaTypeKey
-     * @param personId
-     * @param programId
-     * @param resultScaleId
-     * @param atpId
      * @param gpa
      * @param contextInfo Context information containing the principalId and
      *                    locale information about the caller of service
@@ -1216,10 +1212,6 @@ public interface AcademicRecordService {
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
     public GPAInfo createGPA(@WebParam(name = "gpaTypeKey") String gpaTypeKey,
-                             @WebParam(name = "personId") String personId,
-                             @WebParam(name = "programId") String programId,
-                             @WebParam(name = "resultScaleId") String resultScaleId,
-                             @WebParam(name = "atpId") String atpId,
                              @WebParam(name = "gpa") GPAInfo gpa,
                              @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
@@ -1309,7 +1301,6 @@ public interface AcademicRecordService {
      * Creates a new Load
      *
      * @param loadTypeKey
-     * @param personId
      * @param load
      * @param contextInfo Context information containing the principalId and
      *                    locale information about the caller of service
@@ -1324,8 +1315,6 @@ public interface AcademicRecordService {
      * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
     public LoadInfo createLoad(@WebParam(name = "loadTypeKey") String loadTypeKey,
-                               @WebParam(name = "personId") String personId,
-                               @WebParam(name = "atpId") String atpId,
                                @WebParam(name = "load") LoadInfo load,
                                @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,

@@ -25,4 +25,16 @@ public interface Load extends IdNamelessEntity {
      * @required
      */
     public String getLoadLevelTypeKey();
+
+    /**
+     * The person ID
+     * @name Person ID
+     */
+    public String getPersonId();
+
+    /**
+     * The ATP ID
+     * @name ATP ID
+     */
+    public String getAtpId();
 }
