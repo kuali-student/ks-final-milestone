@@ -24,6 +24,7 @@
 
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
+        <property name="formClass" value="org.kuali.student.cm.course.form.CreateCourseForm"/>
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
         <!-- New Course header requires static string therefore below string construction is not required.
         commenting below code in case required in future.
@@ -31,7 +32,7 @@
         <property name="headerText" value="New Course (Proposal)" />
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
-        <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
+        <property name="entryPageId" value="KS-CourseView-createCourseInitialPage" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -78,6 +79,7 @@
         </property>
         <property name="items">
             <list>
+                <ref bean="KS-CourseView-createCourseInitialPage" />
                 <ref bean="KS-CourseView-CourseInfoPage" />
                 <ref bean="KS-CourseView-GovernancePage" />
                 <ref bean="KS-CourseView-CourseLogisticsPage" />
@@ -267,10 +269,13 @@
         </property>
     </bean>
     
-    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup">
+    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup"
+          p:render="@{#form.renderNavigationPanel}">
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderTwo" p:headerText="Course Sections" />
+                <bean id="KS-CourseViewCreateCourse-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-createCourseInitialPage"
+                      p:actionLabel="Create Course" p:render="@{!#form.renderNavigationPanel}" />
                 <bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage"
                       p:actionLabel="Course Information" />
                 <bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"

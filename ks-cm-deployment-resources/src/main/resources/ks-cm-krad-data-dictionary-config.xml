@@ -38,6 +38,7 @@
                 <value>classpath:org/kuali/student/cm/main/CourseViewReviewProposal.xml</value>
                 <value>classpath:org/kuali/student/cm/main/CourseViewAuthorsAndCollaborators.xml</value>
                 <value>classpath:org/kuali/student/cm/main/LoCategoryMaintenanceView.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CreateCourseInitialView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/CluInstructorInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/CourseJointInfoWrapperLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/lookup/OrganizationInfoWrapperLookupView.xml</value>

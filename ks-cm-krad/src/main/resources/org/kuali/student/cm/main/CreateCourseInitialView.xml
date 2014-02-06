@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright 2005-2013 The Kuali Foundation
+
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.opensource.org/licenses/ecl2.php
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <bean id="KS-CourseView-createCourseInitialPage" parent="Uif-MaintenancePage">
+        <!--<property name="id" value="createCourseInitialView"/>-->
+        <property name="headerText" value="Create Course"/>
+
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseCreate-InitialView-Page-Widgets"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-CourseCreate-InitialView-Footer"/>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseCreate-InitialView-Page-Widgets" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="How would you like to start?"/>
+        <property name="instructionalMessage">
+            <bean parent="Uif-Message">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>cm-home-view-instruction</value>
+                    </list>
+                </property>
+                <property name="messageText"
+                          value="You can choose to start a blank proposal with no pre-filled data, or copy an existing course/proposal and then edit the copied data to meet your needs"/>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="startBlankProposal" p:required="true" p:bindingInfo.bindToForm="true"
+                      p:defaultValue="true">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="true"  p:value="Start a blank proposal"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean id="createCourseInitial_is_reviewProcess"
+                      parent="Uif-InputField-LabelRight"
+                      p:label="Use curriculum review process"
+                      p:fieldLabel.cssClasses="label-normal"
+                      p:propertyName="useCMreviewProcess" p:bindingInfo.bindToForm="true"
+                      p:required="false">
+                    <property name="control">
+                        <bean parent="Uif-CheckboxControl"/>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseCreate-InitialView-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean id="createCourseInitial-continueCreate"
+                      parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="ContinueCreateCourse"
+                      p:actionLabel="Continue"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                <bean id="createCourseInitial-cancel"
+                      parent="Uif-CancelAction"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+
+</beans>

@@ -15,21 +15,6 @@
  */
 package org.kuali.student.cm.course.controller;
 
-import static org.kuali.student.logging.FormattedLogger.debug;
-import static org.kuali.student.logging.FormattedLogger.error;
-import static org.kuali.student.logging.FormattedLogger.info;
-import static org.kuali.student.logging.FormattedLogger.warn;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -48,7 +33,6 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -56,6 +40,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
+import org.kuali.student.cm.course.form.CreateCourseForm;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -108,6 +93,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.student.logging.FormattedLogger.debug;
+import static org.kuali.student.logging.FormattedLogger.error;
+import static org.kuali.student.logging.FormattedLogger.info;
+import static org.kuali.student.logging.FormattedLogger.warn;
+
 /**
  * This controller handles all the requests from the 'Create a Course' UI.
  * 
@@ -137,7 +136,8 @@ public class CourseController extends CourseRuleEditorController {
     private ProposalService proposalService;
     
     private enum CourseViewPages {
-        COURSE_INFO("KS-CourseView-CourseInfoPage"), 
+        CREATE_COURSE_ENTRY("KS-CourseView-createCourseInitialPage"),
+        COURSE_INFO("KS-CourseView-CourseInfoPage"),
         GOVERNANCE("KS-CourseView-GovernancePage"), 
         COURSE_LOGISTICS("KS-CourseView-CourseLogisticsPage"), 
         LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
@@ -160,7 +160,10 @@ public class CourseController extends CourseRuleEditorController {
 
     }
 
-    
+    @Override
+    protected CreateCourseForm createInitialForm(HttpServletRequest request) {
+        return new CreateCourseForm();
+    }
     
     /**
      * After the document is loaded calls method to setup the maintenance object
@@ -197,7 +200,7 @@ public class CourseController extends CourseRuleEditorController {
         ruleWrapper.setRefObjectId(maintainable.getCourse().getId());
 
         ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
-        
+
         if (KewApiConstants.INITIATE_COMMAND.equals(maintenanceDocForm.getCommand())) {
             
             // After creating the document, modify the state
@@ -227,17 +230,83 @@ public class CourseController extends CourseRuleEditorController {
         return retval;
     }
 
-        
     /**
-     * Add a Supporting Document line
-     *
-     *
-     * @param form {@link MaintenanceDocumentForm} instance used for this action
-     * @param result
-     * @param request {@link HttpServletRequest} instance of the actual HTTP request made
-     * @param response The intended {@link HttpServletResponse} sent back to the user
-     * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
+     * After the Craete course initial data is filled call the method to show the navigation panel and
+     * setup the maintenance object
      */
+    @RequestMapping(params = "methodToCall=ContinueCreateCourse")
+    public ModelAndView ContinueCreateCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+        final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
+
+        maintenanceDocForm.setDocTypeName(COURSE_CREATE_DOC_TYPE_NAME);
+        maintenanceDocForm.setDataObjectClassName(CourseInfo.class.getName());
+        maintenanceDocForm.setPageId(getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+        try {
+            redrawDecisionTable(maintenanceDocForm);
+        }
+        catch (Exception e) {
+            error("Unable to create decision table: %s", e.getMessage());
+        }
+
+        maintenanceDocForm.setRenderNavigationPanel(true);
+        // Create the document in the super method
+        final ModelAndView retval = super.docHandler(maintenanceDocForm, result, request, response);
+
+        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
+
+        CourseInfo coInfo = maintainable.getCourse();
+
+        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
+        maintainable.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+
+        // Initialize Course Requisites
+        final CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
+        ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
+
+        ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
+        ruleWrapper.setRefObjectId(coInfo.getId());
+
+        ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
+
+        if (KewApiConstants.INITIATE_COMMAND.equals(maintenanceDocForm.getCommand())) {
+
+            // After creating the document, modify the state
+            coInfo.setStateKey(DtoConstants.STATE_DRAFT);
+            maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+            coInfo.setEffectiveDate(new java.util.Date());
+
+            coInfo.setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
+
+            // Initialize Curriculum Oversight if it hasn't already been.
+            if (coInfo.getUnitsContentOwner() == null) {
+                coInfo.setUnitsContentOwner(new ArrayList<String>());
+            }
+
+        }
+        else if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, maintenanceDocForm.getCommand()) && maintenanceDocForm.getDocId() != null) {
+            ProposalInfo proposal = null;
+            try {
+                proposal = getProposalService().getProposalByWorkflowId(maintenanceDocForm.getDocument().getDocumentHeader().getDocumentNumber(), ContextUtils.getContextInfo());
+                maintainable.setProposal(proposal);
+            }
+            catch (Exception e) {
+                warn("Unable to retrieve the proposal: %s", e.getMessage());
+            }
+        }
+
+        return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+    }
+        /**
+        * Add a Supporting Document line
+        *
+        *
+        * @param form {@link MaintenanceDocumentForm} instance used for this action
+        * @param result
+        * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+        * @param response The intended {@link HttpServletResponse} sent back to the user
+        * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
+        */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addSupportingDocument")
     public ModelAndView addSupportingDocument(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) {
