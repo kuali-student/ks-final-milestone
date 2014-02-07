@@ -51,7 +51,22 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction" p:required="true" p:bindingInfo.bindToForm="true"
+                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-CMStartOptions" p:propertyName="createCourseInitialAction"
+                      p:required="true" p:bindingInfo.bindToForm="true"          p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"
+                      p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
+                    <property name="control">
+                        <bean parent="Uif-VerticalRadioControl">
+                            <property name="options">
+                                <list>
+                                    <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+
+                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction"
+                      p:required="true" p:bindingInfo.bindToForm="true"    p:render="@{!#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"
                       p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
@@ -68,7 +83,7 @@
                 <bean id="createCourseInitial_is_reviewProcess"
                       parent="Uif-InputField-LabelRight"
                       p:label="Use curriculum review process"
-                      p:fieldLabel.cssClasses="label-normal"
+                      p:fieldLabel.cssClasses="label-normal"     p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"
                       p:propertyName="useCMreviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
