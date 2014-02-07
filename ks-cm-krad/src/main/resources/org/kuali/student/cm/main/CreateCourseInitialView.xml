@@ -20,9 +20,10 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <bean id="KS-CourseView-createCourseInitialPage" parent="Uif-MaintenancePage">
-        <!--<property name="id" value="createCourseInitialView"/>-->
-        <property name="headerText" value="Create Course"/>
+    <bean id="KS-CourseView-createCourseInitialPage" parent="Uif-MaintenancePage"
+        p:headerText="Create Course"
+        p:disclosure.render="false">
+        <property name="header" ref="KS-CourseView-InitialPage-Header" />
 
         <property name="items">
             <list>
@@ -35,6 +36,7 @@
     </bean>
 
     <bean id="KS-CourseCreate-InitialView-Page-Widgets" parent="Uif-VerticalBoxSection">
+        <property name="header">  <bean parent="Uif-HeaderFour"/>  </property>
         <property name="headerText" value="How would you like to start?"/>
         <property name="instructionalMessage">
             <bean parent="Uif-Message">
@@ -50,7 +52,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="startBlankProposal" p:required="true" p:bindingInfo.bindToForm="true"
-                      p:defaultValue="true">
+                      p:style="padding-top: 18px;" p:defaultValue="true">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">
@@ -68,10 +70,30 @@
                       p:propertyName="useCMreviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
-                        <bean parent="Uif-CheckboxControl"/>
+                        <bean parent="Uif-CheckboxControl" p:style="margin-left: 6px;"/>
                     </property>
                 </bean>
             </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseView-InitialPage-Header" parent="Uif-HeaderOne">
+        <property name="upperGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HeaderOne" p:style="margin-top: 20px; margin-bottom: 20px; border-bottom: thin solid #000000;">
+                                        <property name="headerText" value="Create Course" />
+                                    </bean>
+                                 </list>
+                            </property>
+                        </bean>
+                     </list>
+                </property>
+            </bean>
         </property>
     </bean>
 
@@ -87,11 +109,9 @@
                 <bean id="createCourseInitial-cancel"
                       parent="Uif-CancelAction"
                       p:ajaxSubmit="false"
-                      p:methodToCall="cancel"
+                      p:methodToCall="cancel"  p:style="margin-right: 100px;"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
     </bean>
-
-
 </beans>
