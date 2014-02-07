@@ -1,6 +1,6 @@
-<h1>My Cart!</h1> ({{cart.items.length}} items)
+<h1>My Cart</h1> ({{cart.items.length}} items)
 
-<button class="btn" type="submit">Register</button>
+<button class="btn btn-primary" type="submit">Register</button>
 
 <div>
     <form novalidate name="form" class="form-group form-inline" ng-submit="add();">
@@ -17,7 +17,7 @@
                 <input id="regCode" type="text" ng-model="regCode" class="input-small"/>
 
                 <label class="control-label" for="submit"></label>
-                <button id="submit" name="submit" class="btn btn-primary">Add to Cart</button>
+                <button id="submit" name="submit" class="btn">Add to Cart</button>
 
             </div>
         </fieldset>
