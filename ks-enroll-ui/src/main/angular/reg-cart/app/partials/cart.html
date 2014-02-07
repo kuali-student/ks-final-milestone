@@ -1,8 +1,11 @@
-<h1>My Cart</h1> <span id="course_count">({{cart.items.length}} items)</span>
+<div class="kscr-cart-header">
+  <h1 class="kscr-cart-header-title"><strong>My Cart</strong> <span id="course_count">({{cart.items.length}} items)</span> </h1>
 
-<button id="register" class="btn btn-primary" type="submit">Register</button>
-
-<div>
+    <div>
+        <button id="register" class="btn btn-primary pull-right ks-Register-button" type="submit">Register</button>
+    </div>
+</div>
+<div class="kscr-cart">
     <form novalidate name="form" class="form-group form-inline" ng-submit="search();">
         <fieldset>
 
