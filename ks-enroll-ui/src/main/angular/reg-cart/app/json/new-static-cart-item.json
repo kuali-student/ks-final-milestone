@@ -1,0 +1,32 @@
+{
+    "courseCode":"COMPSCI10a",
+    "regCode":"0101",
+    "courseTitle":"Primitive Recursive Functions",
+    "credits":"3",
+    "grading":"kuali.resultComponent.grade.passFail",
+    "creditOptions":["3", "4", "6"],
+    "gradingOptions":[
+        {
+            "key":"kuali.resultComponent.grade.letter",
+            "value":"Letter"
+        },
+        {
+            "key":"kuali.resultComponent.grade.passFail",
+            "value":"Pass/Fail"
+        }
+    ],
+    "schedule":[
+        {
+            "type":"LEC",
+            "location":{
+                "building":"SCI",
+                "room":"1"
+            },
+            "time":{
+                "days":"MWF",
+                "startTime":"9am",
+                "endTime":"10am"
+            }
+        }
+    ]
+}

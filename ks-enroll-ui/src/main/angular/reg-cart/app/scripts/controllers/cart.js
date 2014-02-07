@@ -8,12 +8,32 @@ cartServiceModule.controller('CartCtrl', ['$scope', 'CartService',
         $scope.cart = CartService.getCart().query({termCode:'Fall2012'});
 
         $scope.add = function() {
+            $scope.cart.items.push($scope.newCartItem);
+
+            $scope.newCartItem = null;
+            $scope.showNew = false;
+
+        };
+
+        $scope.search = function() {
 
             var code = $scope.courseCode;
             var regGroup = $scope.regCode;
 
-            $scope.error = 'Cannot find the course "' + code + '" in term ' + $scope.termId;
-            $scope.courseCode.setValidity("coursecheck", false);
+            $scope.newCartItem = CartService.getGradingOptions().query();
+
+            if($scope.newCartItem == null) {
+                $scope.error = 'Cannot find the course "' + code + '" in term ' + $scope.termId;
+                $scope.courseCode.setValidity("coursecheck", false);
+                $scope.showNew = false;
+            } else {
+                $scope.showNew = true;
+            }
+        };
+
+        $scope.cancelNew = function(){
+            $scope.newCcartItem = null;
+            $scope.showNew = false;
         };
 
         $scope.delete = function(index) {
