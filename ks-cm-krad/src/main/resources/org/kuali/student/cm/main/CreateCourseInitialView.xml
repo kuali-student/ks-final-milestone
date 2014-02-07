@@ -51,13 +51,15 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="startBlankProposal" p:required="true" p:bindingInfo.bindToForm="true"
-                      p:style="padding-top: 18px;" p:defaultValue="true">
+                <bean parent="Uif-InputField-LabelRight" id="KS-createCourseInitialPage-StartOptions" p:propertyName="createCourseInitialAction" p:required="true" p:bindingInfo.bindToForm="true"
+                      p:style="padding-top: 18px;" p:defaultValue="startBlankProposal">
                     <property name="control">
                         <bean parent="Uif-VerticalRadioControl">
                             <property name="options">
                                 <list>
-                                    <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="true"  p:value="Start a blank proposal"/>
+                                    <bean id="createCourse-startBlankProposal" parent="Uif-KeyLabelPair" p:key="startBlankProposal"  p:value="Start a blank proposal" />
+                                    <bean id="createCourse-copyApprovedCourse" parent="Uif-KeyLabelPair" p:key="copyApprovedCourse" p:value="Copy an approved course"/>
+                                    <bean id="createCourse-copyProposedCourse" parent="Uif-KeyLabelPair" p:key="copyProposedCourse" p:value="Copy a proposed course"/>
                                 </list>
                             </property>
                         </bean>

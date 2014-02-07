@@ -25,9 +25,7 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
  */
 public class CreateCourseForm extends MaintenanceDocumentForm {
     private boolean renderNavigationPanel = false;
-    private boolean copyApprovedCourse = false;
-    private boolean copyProposedCourse = false;
-    private boolean startBlankProposal = true;
+    private String createCourseInitialAction;
     private boolean useCMreviewProcess = false;
 
     public boolean isRenderNavigationPanel() {
@@ -38,12 +36,12 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         this.renderNavigationPanel = renderNavigationPanel;
     }
 
-    public boolean isStartBlankProposal() {
-        return startBlankProposal;
+    public String getCreateCourseInitialAction() {
+        return createCourseInitialAction;
     }
 
-    public void setStartBlankProposal(boolean startBlankProposal) {
-        this.startBlankProposal = startBlankProposal;
+    public void setCreateCourseInitialAction(String createCourseInitialAction) {
+        this.createCourseInitialAction = createCourseInitialAction;
     }
 
     public boolean isUseCMreviewProcess() {
@@ -52,21 +50,5 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     public void setUseCMreviewProcess(boolean useCMreviewProcess) {
         this.useCMreviewProcess = useCMreviewProcess;
-    }
-
-    public boolean isCopyApprovedCourse() {
-        return copyApprovedCourse;
-    }
-
-    public void setCopyApprovedCourse(boolean copyApprovedCourse) {
-        this.copyApprovedCourse = copyApprovedCourse;
-    }
-
-    public boolean isCopyProposedCourse() {
-        return copyProposedCourse;
-    }
-
-    public void setCopyProposedCourse(boolean copyProposedCourse) {
-        this.copyProposedCourse = copyProposedCourse;
     }
 }
