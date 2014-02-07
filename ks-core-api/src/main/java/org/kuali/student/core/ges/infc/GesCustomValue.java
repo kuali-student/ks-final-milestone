@@ -17,14 +17,6 @@ package org.kuali.student.core.ges.infc;
 
 public interface GesCustomValue {
 
-    /**
-     *
-     * @name Type Key
-     */
-    public String getTypeKey();
-    /**
-     *
-     * @name Value
-     */
-    public CopyableSerializable getValue();
+    String getTypeKey();
+    CopyableSerializable getValue();
 }

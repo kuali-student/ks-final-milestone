@@ -26,7 +26,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValueInfo", propOrder = {
-         "typeKey","value","_futureElements" })
+         "value","typeKey","_futureElements" })
 public class GesCustomValueInfo implements GesCustomValue {
     @XmlAnyElement
     private String typeKey;
@@ -45,9 +45,6 @@ public class GesCustomValueInfo implements GesCustomValue {
         if(gesCustomValue != null) {
             if(gesCustomValue.getValue() != null) {
                 value = gesCustomValue.getValue().copy();
-            }
-            if (gesCustomValue.getTypeKey() != null){
-                typeKey = gesCustomValue.getTypeKey();
             }
         }
     }

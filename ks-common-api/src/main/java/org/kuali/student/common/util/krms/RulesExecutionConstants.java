@@ -47,7 +47,7 @@ public class RulesExecutionConstants {
     public static final Term POPULATION_SERVICE_TERM = new Term("populationService");
     public static final Term HOLD_SERVICE_TERM = new Term("holdService");
     public static final Term GES_SERVICE_TERM = new Term("gesService");
-    public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("academicRecordService");
+    public static final Term ACADEMIC_RECORD_SERVICE_TERM = new Term("AcademicRecordService");
     // factories
     public static final Term PROPOSITION_FACTORY_TERM = new Term("propositionFactory");
     public static final Term LOAD_CALCULATOR_RULE_FACTORY_TERM = new Term("loadCalculatorRuleFactory");
@@ -77,5 +77,5 @@ public class RulesExecutionConstants {
     // used to tag exceptions
     public static final String PROCESS_EVALUATION_EXCEPTION = "processEvaluationException";
     public static final String PROCESS_EVALUATION_RESULTS = "processEvaluationResults";
-    public static final String POPULATION_EVALUATION_RESULTS = "populationEvaluationResults";
+    public static final String STUDENT_CLASS_STANDING = "studentClassStanding";
 }
