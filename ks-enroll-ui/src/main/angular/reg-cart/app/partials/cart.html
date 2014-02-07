@@ -1,6 +1,6 @@
-<h1>My Cart</h1> ({{cart.items.length}} items)
+<h1>My Cart</h1> <span id="course_count">({{cart.items.length}} items)</span>
 
-<button class="btn btn-primary" type="submit">Register</button>
+<button id="register" class="btn btn-primary" type="submit">Register</button>
 
 <div>
     <form novalidate name="form" class="form-group form-inline" ng-submit="add();">
@@ -26,42 +26,42 @@
 
 <div class="kscr-cart-course" ng-repeat="cartItem in cart.items">
     <div class="kscr-course-header">
-        <div>{{cartItem.courseCode}} ({{cartItem.regCode}})
+        <div id="course_{{cartItem.courseCode}}_{{cartItem.regCode}}">{{cartItem.courseCode}} ({{cartItem.regCode}})
             <span class="remove">
-                <a class="glyphicon glyphicon-remove" ng-click="delete($index)"></a>
+                <a id="remove_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="glyphicon glyphicon-remove" ng-click="delete($index)"></a>
             </span>
         </div>
-        <p>{{cartItem.courseTitle}}</p>
+        <p id="title_{{cartItem.courseCode}}_{{cartItem.regCode}}">{{cartItem.courseTitle}}</p>
     </div>
     <div>
-        <div class="kscr-course-info" ng-hide="editing">
+        <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="kscr-course-info" ng-hide="editing">
             <ng-pluralize count="cartItem.credits"
                           when="{'1'    : '{} credit',
                                  'other': '{} credits'}">
             </ng-pluralize>, {{(cartItem.gradingOptions | filter:{key:cartItem.grading}:true)[0].value}}
-            <a ng-click="editing = true"
+            <a id="edit_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="editing = true"
                ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptions.length > 1">Change</a>
         </div>
 
         <div class="kscr-course-info-edit" ng-show="editing">
             <form ng-submit="submit()" ng-controller="CartItemCtrl">
                 <div>
-                    <label for="credits">Credits</label>
-                    <select id="credits" ng-model="newCredits"
+                    <label for="credits_{{cartItem.courseCode}}_{{cartItem.regCode}}">Credits</label>
+                    <select id="credits_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-model="newCredits"
                             ng-options="creditOption for creditOption in cartItem.creditOptions"/>
                 </div>
                 <div>
-                    <label for="grading">Grading</label>
-                    <select id="grading" ng-model="newGrading"
+                    <label for="grading_{{cartItem.courseCode}}_{{cartItem.regCode}}">Grading</label>
+                    <select id="grading_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-model="newGrading"
                             ng-options="grading.key as grading.value for grading in cartItem.gradingOptions"/>
                 </div>
-                <button type="submit" class="btn">Save</button>
-                <a ng-click="cancel()">Cancel</a>
-            </form>
+                <button id="save_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="btn" type="submit">Save</button>
+                <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="cancel()">Cancel</a>
+           </form>
         </div>
 
         <div ng-repeat="item in cartItem.schedule">
-            <div>{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
+            <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regCode}}" >{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
                 {{item.location.building}} {{item.location.room}}
             </div>
         </div>
