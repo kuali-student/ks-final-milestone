@@ -21,7 +21,7 @@ public class CartItemInfoResult {
     private String courseTitle;
     private String credits;
     private String grading;
-    private String[] creditOptions;
+    private List<String> creditOptions;
     private HashMap<String, String> gradingOptions;
     private ActivityOfferingScheduleResult schedule;
 
@@ -49,9 +49,9 @@ public class CartItemInfoResult {
 
     public void setGrading(String grading) { this.grading = grading; }
 
-    public String[] getCreditOptions() { return creditOptions; }
+    public List<String> getCreditOptions() { return creditOptions; }
 
-    public void setCreditOptions(String[] creditOptions) { this.creditOptions = creditOptions; }
+    public void setCreditOptions(List<String> creditOptions) { this.creditOptions = creditOptions; }
 
     public HashMap<String, String> getGradingOptions() { return gradingOptions; }
 
