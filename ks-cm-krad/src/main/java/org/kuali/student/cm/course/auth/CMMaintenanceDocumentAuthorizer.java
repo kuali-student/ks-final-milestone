@@ -4,6 +4,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 public class CMMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthorizerBase {
@@ -12,6 +13,12 @@ public class CMMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthoriz
     public boolean canOpen(Document document, Person user) {
         return isAuthorizedByTemplate(document, KSKRMSServiceConstants.NAMESPACE_CODE,
                 KimConstants.PermissionTemplateNames.OPEN_DOCUMENT, user.getPrincipalId());
+    }
+
+    @Override
+    public boolean canBlanketApprove(Document document, Person user) {
+        return isAuthorizedByTemplate(document, KSKRMSServiceConstants.NAMESPACE_CODE,
+                "Blanket Approve", user.getPrincipalId());
     }
 
 }
