@@ -9,18 +9,27 @@
 /* Space out content a bit */
 body {
   //padding-top: 20px;
-  padding-bottom: 20px;
+  //padding-bottom: 20px;
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,
 .footer {
-  padding-left: 15px;
-  padding-right: 15px;
+  //padding-left: 15px;
+  //padding-right: 15px;
 }
 
-/* Custom page header */
+/******* Mobile header  *********/
+
+/* Make the masthead heading the same height as the navigation */
+.header h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 40px;
+  padding-bottom: 19px;
+}
+
 .header {
   margin-bottom: 5px;
   padding: 0.2em;
@@ -32,12 +41,17 @@ body {
 .kscr-header-container{
     background-color: #B9B9B9;
 }
+
+.kscr-header-title{
+    padding-left: 2em;
+}
+
 .kscr-searchTerm{
     padding-left: 0.5em;
 }
 
-.kscr-header-title{
-    padding-left: 2em;
+#searchTerm{
+    padding: 0.6em 0.1em;
 }
 
 .kscr-logo{
@@ -46,6 +60,16 @@ body {
      background-size: 2.2em auto;
      padding: 0.5em;
 }
+/******* End header *********/
+
+/* Custom page footer */
+.footer {
+  padding-top: 19px;
+  color: #777;
+  border-top: 1px solid #e5e5e5;
+}
+
+/******* Mobile Navigation  *********/
 
 .navigation{
    float: right;
@@ -62,20 +86,6 @@ body {
     }
 }
 
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
-}
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
 
 /* Customize container */
 @media (min-width: 768px) {
@@ -121,6 +131,7 @@ body {
   }
 }
 
+/******* My Cart Section  *********/
 .ks-Register-button{
    margin: -3em 2em 0 0;
 }
@@ -143,6 +154,10 @@ body {
     margin: 10px;
 }
 
+/******* End My Cart Section  *********/
+
+
+/******* Course Section  *********/
 .kscr-course-header {
     background-color: @grayMedium;
     padding: 5px;
@@ -156,20 +171,24 @@ body {
     border-bottom: @dottedLineBorder;
     padding: 5px;
 }
+/******* End Course Section  *********/
 
+/******* Additional Options Section  *********/
 .kscr-adding-header{
     background-color: @grayLighter;
     padding: 0.1em 0.1em 0.1em 0.5em;
+}
+
+.kscr-AdditionalOptions{
+    padding-left: 1em;
 }
 
 .kscr-AdditionalOptions-buttons{
    float: right;
    padding-right: 1em;
 }
+/******* End Additional Options Section  *********/
 
-#searchTerm{
-    padding: 0.6em 0.1em;
-}
 
 @font-face {
     font-family: 'Glyphicons Halflings';
