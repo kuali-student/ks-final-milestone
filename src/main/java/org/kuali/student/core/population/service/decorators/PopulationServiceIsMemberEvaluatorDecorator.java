@@ -21,9 +21,7 @@ import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.process.evaluator.KRMSEvaluator;
-import org.kuali.student.core.process.evaluator.PropositionFactoryHardwiredImpl;
-import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
-import org.apache.commons.lang.StringUtils;
+import org.kuali.student.core.process.evaluator.PropositionFactory;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -47,8 +45,8 @@ import org.kuali.student.r2.core.population.service.PopulationService;
  * @author Mezba Mahtab
  */
 public class PopulationServiceIsMemberEvaluatorDecorator extends PopulationServiceDecorator {
-    private AcademicRecordService academicRecordService;
-    private PropositionFactoryHardwiredImpl propositionFactoryHardwired;
+
+    private PropositionFactory propositionFactory;
     private KRMSEvaluator krmsEvaluator;
     public PopulationServiceIsMemberEvaluatorDecorator() {
     }
@@ -58,20 +56,12 @@ public class PopulationServiceIsMemberEvaluatorDecorator extends PopulationServi
         this.setNextDecorator(nextDecorator);
     }
 
-    public AcademicRecordService getAcademicRecordService() {
-        return academicRecordService;
+    public PropositionFactory getPropositionFactory() {
+        return propositionFactory;
     }
 
-    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
-        this.academicRecordService = academicRecordService;
-    }
-
-    public PropositionFactoryHardwiredImpl getPropositionFactoryHardwired() {
-        return propositionFactoryHardwired;
-    }
-
-    public void setPropositionFactoryHardwired(PropositionFactoryHardwiredImpl propositionFactoryHardwired) {
-        this.propositionFactoryHardwired = propositionFactoryHardwired;
+    public void setPropositionFactory(PropositionFactory propositionFactory) {
+        this.propositionFactory = propositionFactory;
     }
 
     public KRMSEvaluator getKrmsEvaluator() {
@@ -86,8 +76,7 @@ public class PopulationServiceIsMemberEvaluatorDecorator extends PopulationServi
     public Boolean isMemberAsOfDate(String personId, String populationId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         PopulationRuleInfo populationRuleInfo = getPopulationRuleForPopulation(populationId, contextInfo);
         if (populationRuleInfo==null) throw new OperationFailedException("Population rule for population id " + populationId + " is null");
-
-        if (StringUtils.isNotEmpty(populationRuleInfo.getRuleId())){
+        if (populationRuleInfo.getTypeKey().equals(PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY)){
             return evaluatePopWithRule(populationRuleInfo,personId,contextInfo);
         } else{
             return evaluatePopWithoutRule(populationRuleInfo,date,personId,contextInfo);
@@ -96,7 +85,7 @@ public class PopulationServiceIsMemberEvaluatorDecorator extends PopulationServi
 
     private boolean evaluatePopWithRule(PopulationRuleInfo populationRuleInfo,String personId,ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
 
-        Proposition prop = propositionFactoryHardwired.getProposition(populationRuleInfo.getRuleId(), contextInfo);
+        Proposition prop = propositionFactory.getProposition(populationRuleInfo.getRuleId(), contextInfo);
         Map<String, Object> executionFacts = new LinkedHashMap<String, Object>();
         executionFacts.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), personId);
         executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM.getName(), contextInfo);
@@ -104,10 +93,12 @@ public class PopulationServiceIsMemberEvaluatorDecorator extends PopulationServi
         Exception ex = KRMSEvaluator.checkForExceptionDuringExecution(engineResults);
         boolean result;
         if (ex != null) {
-            throw new OperationFailedException ("Unexpected exception while executing rules", ex);
+            //throw new OperationFailedException ("Unexpected exception while executing rules", ex);
+            if (ex instanceof DoesNotExistException)
+                throw (DoesNotExistException)ex;
         }
-        // will need to return TRUE or FALSE
-        List<ResultEvent> resultEvents = engineResults.getResultsOfType(RulesExecutionConstants.STUDENT_CLASS_STANDING);
+
+        List<ResultEvent> resultEvents = engineResults.getResultsOfType(RulesExecutionConstants.POPULATION_EVALUATION_RESULTS);
         if(resultEvents.size() == 1) {
              result = resultEvents.get(0).getResult();
         } else {

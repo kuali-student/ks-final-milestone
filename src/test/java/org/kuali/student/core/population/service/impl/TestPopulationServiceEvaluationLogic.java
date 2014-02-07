@@ -21,6 +21,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
@@ -36,6 +37,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * This class tests the PopulationService evaluation logic
@@ -295,10 +297,19 @@ public class TestPopulationServiceEvaluationLogic {
     @Test
     public void testPopulationUsingRule() throws Exception {
         dataLoader.beforeTest();
+        Date date = new Date(System.currentTimeMillis());
 
+        assertTrue(populationService.isMemberAsOfDate(PopulationTestStudentEnum.STUDENT1.getPersonId(),dataLoader.getFreshmanRulePopId(),date,contextInfo));
+        try{
+            populationService.isMemberAsOfDate(PopulationTestStudentEnum.STUDENT2.getPersonId(), dataLoader.getFreshmanRulePopId(), date, contextInfo);
+            fail();
+        } catch (DoesNotExistException e){
 
+        }
 
-
+        assertTrue(populationService.isMemberAsOfDate(PopulationTestStudentEnum.STUDENT10.getPersonId(),dataLoader.getSophomoreRulePopId(),date,contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationTestStudentEnum.STUDENT11.getPersonId(),dataLoader.getJuniorRulePopId(),date,contextInfo));
+        assertTrue(populationService.isMemberAsOfDate(PopulationTestStudentEnum.STUDENT12.getPersonId(),dataLoader.getSeniorRulePopId(),date,contextInfo));
 
     }
 

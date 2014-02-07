@@ -17,15 +17,30 @@
 package org.kuali.student.core.population.service.impl;
 
 import org.kuali.student.common.test.AbstractMockServicesAwareDataLoader;
+import org.kuali.student.core.process.evaluator.PropositionFactoryHardwiredImpl;
+import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
+import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
+import org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceConstants;
+import org.kuali.student.enrollment.rules.credit.limit.AcademicRecordServiceTypeStateConstants;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 import org.kuali.student.r2.core.population.service.PopulationService;
 
+
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.kuali.student.core.population.service.impl.PopulationTestStudentEnum.*;
 
 /**
  * This class loads data into a Population Service
@@ -40,12 +55,18 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
 
     @Resource
     private PopulationService populationService;
+    @Resource
+    private AcademicRecordService academicRecordService;
 
     private String firstYearStudentPopulationId;
     private String freshmenStudentPopulationId;
     private String instructorPopulationId;
     private String studentPopulationId;
     private String undergraduteStudentPopulationId;
+    private String freshmanRulePopId;
+    private String sophomoreRulePopId;
+    private String juniorRulePopId;
+    private String seniorRulePopId;
 
     /////////////////////////
     // Getters and Setters
@@ -79,7 +100,49 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         return undergraduteStudentPopulationId;
     }
 
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
 
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
+    }
+
+    public void setFirstYearStudentPopulationId(String firstYearStudentPopulationId) {
+        this.firstYearStudentPopulationId = firstYearStudentPopulationId;
+    }
+
+    public String getSophomoreRulePopId() {
+        return sophomoreRulePopId;
+    }
+
+    public void setSophomoreRulePopId(String sophomoreRulePopId) {
+        this.sophomoreRulePopId = sophomoreRulePopId;
+    }
+
+    public String getJuniorRulePopId() {
+        return juniorRulePopId;
+    }
+
+    public void setJuniorRulePopId(String juniorRulePopId) {
+        this.juniorRulePopId = juniorRulePopId;
+    }
+
+    public String getSeniorRulePopId() {
+        return seniorRulePopId;
+    }
+
+    public void setSeniorRulePopId(String seniorRulePopId) {
+        this.seniorRulePopId = seniorRulePopId;
+    }
+
+    public String getFreshmanRulePopId() {
+        return freshmanRulePopId;
+    }
+
+    public void setFreshmanRulePopId(String freshmanRulePopId) {
+        this.freshmanRulePopId = freshmanRulePopId;
+    }
     ////////////////////////////
     // Functionals
     ////////////////////////////
@@ -101,83 +164,15 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                 ("First year students",
                         "A list of students in their first year of study in their program",
                         PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
-        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT1.getPersonId(), rule1e.getPersonIds()));
-        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT4.getPersonId(), rule1e.getPersonIds()));
-        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT5.getPersonId(), rule1e.getPersonIds()));
-        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT7.getPersonId(), rule1e.getPersonIds()));
-        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT10.getPersonId(), rule1e.getPersonIds()));
+        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT1.getPersonId(), rule1e.getPersonIds()));
+        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT4.getPersonId(), rule1e.getPersonIds()));
+        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT5.getPersonId(), rule1e.getPersonIds()));
+        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT7.getPersonId(), rule1e.getPersonIds()));
+        rule1e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT10.getPersonId(), rule1e.getPersonIds()));
         PopulationRuleInfo rule1 = populationService.createPopulationRule(rule1e.getTypeKey(), rule1e, context);
         populationService.applyPopulationRuleToPopulation(rule1.getId(), pop1.getId(), context);
         firstYearStudentPopulationId = pop1.getId();
 
-        //class standing populations
-        //Freshman
-        PopulationInfo freshmanPop = createPopulationInfo
-                ("First year students",
-                        "A list of students in their first year at the university.",
-                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
-                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
-                        new ArrayList<String>(),
-                        false,
-                        true);
-        freshmanPop = populationService.createPopulation(freshmanPop.getTypeKey(),freshmanPop,context);
-        PopulationRuleInfo freshman = createPopulationRuleInfo
-                ("First year students",
-                        "A list of students in their first year at the university.",
-                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
-        freshman.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT13.getPersonId(), freshman.getPersonIds()));
-        freshman.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT14.getPersonId(), freshman.getPersonIds()));
-
-
-
-        //sophomore
-        PopulationInfo sophomorePop = createPopulationInfo
-                ("Second year students",
-                        "A list of students in their second year at the university.",
-                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
-                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
-                        new ArrayList<String>(),
-                        false,
-                        true);
-        sophomorePop = populationService.createPopulation(sophomorePop.getTypeKey(),sophomorePop,context);
-        PopulationRuleInfo sophomore = createPopulationRuleInfo
-                ("Second year students",
-                        "A list of students in their second year at the university.",
-                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
-        sophomore.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT15.getPersonId(), sophomore.getPersonIds()));
-        sophomore.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT16.getPersonId(), sophomore.getPersonIds()));
-        //junior
-        PopulationInfo juniorPop = createPopulationInfo
-                ("Third year students",
-                        "A list of students in their third year at the university.",
-                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
-                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
-                        new ArrayList<String>(),
-                        false,
-                        true);
-        juniorPop = populationService.createPopulation(juniorPop.getTypeKey(),juniorPop,context);
-        PopulationRuleInfo junior = createPopulationRuleInfo
-                ("Third year students",
-                        "A list of students in their third year at the university.",
-                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
-        junior.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT17.getPersonId(), junior.getPersonIds()));
-        junior.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT18.getPersonId(), junior.getPersonIds()));
-        //senior
-        PopulationInfo seniorPop = createPopulationInfo
-                ("Fourth year students",
-                        "A list of students in their fourth year at the university.",
-                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
-                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
-                        new ArrayList<String>(),
-                        false,
-                        true);
-        seniorPop = populationService.createPopulation(seniorPop.getTypeKey(),seniorPop,context);
-        PopulationRuleInfo senior = createPopulationRuleInfo
-                ("Fourth year students",
-                        "A list of students in their fourth year at the university.",
-                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
-        senior.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT19.getPersonId(), senior.getPersonIds()));
-        senior.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT20.getPersonId(), senior.getPersonIds()));
 
         // Students
         PopulationInfo pop2 = createPopulationInfo
@@ -193,18 +188,18 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                         ("Students",
                                 "A list of students",
                                 PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT1.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT2.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT3.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT4.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT5.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT6.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT7.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT8.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT9.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT10.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT11.getPersonId(), rule2e.getPersonIds()));
-        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT12.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT1.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT2.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT3.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT4.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT5.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT6.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT7.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT8.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT9.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT10.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT11.getPersonId(), rule2e.getPersonIds()));
+        rule2e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT12.getPersonId(), rule2e.getPersonIds()));
         PopulationRuleInfo rule2 = populationService.createPopulationRule(rule2e.getTypeKey(), rule2e, context);
         populationService.applyPopulationRuleToPopulation(rule2.getId(), pop2.getId(), context);
         studentPopulationId = pop2.getId();
@@ -243,11 +238,11 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                         ("Undergraduate Students",
                                 "A list of undergraduate students",
                                 PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY);
-        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT1.getPersonId(), rule4e.getPersonIds()));
-        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT8.getPersonId(), rule4e.getPersonIds()));
-        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT10.getPersonId(), rule4e.getPersonIds()));
-        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT11.getPersonId(), rule4e.getPersonIds()));
-        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(PopulationTestStudentEnum.STUDENT12.getPersonId(), rule4e.getPersonIds()));
+        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT1.getPersonId(), rule4e.getPersonIds()));
+        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT8.getPersonId(), rule4e.getPersonIds()));
+        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT10.getPersonId(), rule4e.getPersonIds()));
+        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT11.getPersonId(), rule4e.getPersonIds()));
+        rule4e.setPersonIds(PopulationTestUtilities.addStringToListString(STUDENT12.getPersonId(), rule4e.getPersonIds()));
         PopulationRuleInfo rule4 = populationService.createPopulationRule(rule4e.getTypeKey(), rule4e, context);
         populationService.applyPopulationRuleToPopulation(rule4.getId(), pop4.getId(), context);
         undergraduteStudentPopulationId = pop4.getId();
@@ -285,6 +280,148 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         rule5 = populationService.createPopulationRule(rule5.getTypeKey(), rule5, context);
         populationService.applyPopulationRuleToPopulation(rule5.getId(), pop5.getId(), context);
         freshmenStudentPopulationId = pop5.getId();
+
+        createRuleBasedPops();
+    }
+    private void createAcademicRecordStudentProgramRecords() throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
+
+        StudentProgramRecordInfo info = generateStudentProgramRecordInfo(
+                AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
+                AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
+                "2000-01-01",
+                AcademicRecordServiceConstants.FRESHMAN_THRESHOLD
+                );
+
+
+        academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT1.getPersonId(),info,context);
+
+        info = generateStudentProgramRecordInfo(
+                AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
+                AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
+                "2000-01-01",
+                AcademicRecordServiceConstants.SOPHOMORE_THRESHOLD
+
+                );
+        academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT10.getPersonId(),info,context);
+
+        info = generateStudentProgramRecordInfo(
+                AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
+                AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
+                "2000-01-01",
+                AcademicRecordServiceConstants.JUNIOR_THRESHOLD
+                );
+        academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT11.getPersonId(),info,context);
+
+        info = generateStudentProgramRecordInfo(
+                AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
+                AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
+                "2000-01-01",
+                AcademicRecordServiceConstants.SENIOR_THRESHOLD
+                );
+        academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT12.getPersonId(),info,context);
+
+
+
+    }
+    public StudentProgramRecordInfo generateStudentProgramRecordInfo(String typeKey, String stateKey, String admittedDate, int creditsEarned){
+        StudentProgramRecordInfo studentProgramRecordInfo = new StudentProgramRecordInfo();
+        studentProgramRecordInfo.setTypeKey(typeKey);
+        studentProgramRecordInfo.setStateKey(stateKey);
+        studentProgramRecordInfo.setAdmittedDate(admittedDate);
+        studentProgramRecordInfo.setCreditsEarned(String.valueOf(creditsEarned));
+
+
+
+        return studentProgramRecordInfo;
+
+
+    }
+
+    private void createRuleBasedPops() throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
+            OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException {
+        createAcademicRecordStudentProgramRecords();
+
+        //class standing populations
+        //Freshman
+        PopulationInfo freshmanPop = createPopulationInfo
+                ("First year students",
+                        "A list of students in their first year at the university.",
+                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
+                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
+                        new ArrayList<String>(),
+                        false,
+                        true);
+        freshmanPop = populationService.createPopulation(freshmanPop.getTypeKey(),freshmanPop,context);
+
+        PopulationRuleInfo freshman = createPopulationRuleInfo
+                ("First year students",
+                        "A list of students in their first year at the university.",
+                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY,
+                        PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, false, true);
+        freshman.setRuleId(PropositionFactoryHardwiredImpl.RULE_ID_IS_FRESHMAN);
+        freshman = populationService.createPopulationRule(freshman.getTypeKey(),freshman,context);
+        populationService.applyPopulationRuleToPopulation(freshman.getId(),freshmanPop.getId(),context);
+        freshmanRulePopId = freshmanPop.getId();
+
+
+        //sophomore
+        PopulationInfo sophomorePop = createPopulationInfo
+                ("Second year students",
+                        "A list of students in their second year at the university.",
+                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
+                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
+                        new ArrayList<String>(),
+                        false,
+                        true);
+        sophomorePop = populationService.createPopulation(sophomorePop.getTypeKey(),sophomorePop,context);
+        PopulationRuleInfo sophomore = createPopulationRuleInfo
+                ("Second year students",
+                        "A list of students in their second year at the university.",
+                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY,
+                        PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, false, true);
+        sophomore.setRuleId(PropositionFactoryHardwiredImpl.RULE_ID_SOPHOMORE);
+        sophomore = populationService.createPopulationRule(sophomore.getTypeKey(),sophomore,context);
+        populationService.applyPopulationRuleToPopulation(sophomore.getId(),sophomorePop.getId(),context);
+        sophomoreRulePopId = sophomorePop.getId();
+        //junior
+        PopulationInfo juniorPop = createPopulationInfo
+                ("Third year students",
+                        "A list of students in their third year at the university.",
+                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
+                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
+                        new ArrayList<String>(),
+                        false,
+                        true);
+        juniorPop = populationService.createPopulation(juniorPop.getTypeKey(),juniorPop,context);
+        PopulationRuleInfo junior = createPopulationRuleInfo
+                ("Third year students",
+                        "A list of students in their third year at the university.",
+                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY,
+                        PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, false, true);
+        junior.setRuleId(PropositionFactoryHardwiredImpl.RULE_ID_JUNIOR);
+        junior = populationService.createPopulationRule(junior.getTypeKey(),junior,context);
+        populationService.applyPopulationRuleToPopulation(junior.getId(),juniorPop.getId(),context);
+        juniorRulePopId = juniorPop.getId();
+        //senior
+        PopulationInfo seniorPop = createPopulationInfo
+                ("Fourth year students",
+                        "A list of students in their fourth year at the university.",
+                        PopulationServiceConstants.POPULATION_STUDENT_TYPE_KEY,
+                        PopulationServiceConstants.POPULATION_ACTIVE_STATE_KEY,
+                        new ArrayList<String>(),
+                        false,
+                        true);
+        seniorPop = populationService.createPopulation(seniorPop.getTypeKey(),seniorPop,context);
+        PopulationRuleInfo senior = createPopulationRuleInfo
+                ("Fourth year students",
+                        "A list of students in their fourth year at the university.",
+                        PopulationServiceConstants.POPULATION_RULE_ACTIVE_STATE_KEY,
+                        PopulationServiceConstants.POPULATION_RULE_TYPE_RULE_KEY, false, true);
+        senior.setRuleId(PropositionFactoryHardwiredImpl.RULE_ID_SENIOR);
+        senior = populationService.createPopulationRule(senior.getTypeKey(),senior,context);
+        populationService.applyPopulationRuleToPopulation(senior.getId(),seniorPop.getId(),context);
+        seniorRulePopId = seniorPop.getId();
+
     }
 
     /////////////////////////
@@ -314,14 +451,24 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
             (String name,
              String descriptionPlain,
              String stateKey) {
+        return createPopulationRuleInfo(name, descriptionPlain, stateKey, PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY, false, true);
+    }
+
+    protected PopulationRuleInfo createPopulationRuleInfo
+            (String name,
+             String descriptionPlain,
+             String stateKey,
+             String typeKey,
+             boolean supportsGetMembers,
+             boolean variesByTime) {
         PopulationRuleInfo ruleInfo =
                 new PopulationRuleInfo();
         ruleInfo.setName(name);
         ruleInfo.setDescr(new RichTextHelper().fromPlain(descriptionPlain));
-        ruleInfo.setTypeKey(PopulationServiceConstants.POPULATION_RULE_TYPE_PERSON_KEY);
+        ruleInfo.setTypeKey(typeKey);
         ruleInfo.setStateKey(stateKey);
-        ruleInfo.setVariesByTime(Boolean.FALSE);
-        ruleInfo.setSupportsGetMembers(Boolean.TRUE);
+        ruleInfo.setVariesByTime(variesByTime);
+        ruleInfo.setSupportsGetMembers(supportsGetMembers);
         return ruleInfo;
     }
 

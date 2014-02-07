@@ -58,19 +58,19 @@ public class PropositionFactoryHardwiredImpl implements PropositionFactory {
         }
         //Population Service
         if (ruleId.equals(RULE_ID_IS_FRESHMAN)) {
-            Proposition prop = new ClassStandingProposition(ClassStanding.FRESHMAN.name());
+            Proposition prop = new ClassStandingProposition(ClassStanding.FRESHMAN.getDescription());
             return prop;
         }
         if (ruleId.equals(RULE_ID_SOPHOMORE)) {
-            Proposition prop = new ClassStandingProposition(ClassStanding.SOPHOMORE.name());
+            Proposition prop = new ClassStandingProposition(ClassStanding.SOPHOMORE.getDescription());
             return prop;
         }
         if (ruleId.equals(RULE_ID_JUNIOR)) {
-            Proposition prop = new ClassStandingProposition(ClassStanding.JUNIOR.name());
+            Proposition prop = new ClassStandingProposition(ClassStanding.JUNIOR.getDescription());
             return prop;
         }
         if (ruleId.equals(RULE_ID_SENIOR)) {
-            Proposition prop = new ClassStandingProposition(ClassStanding.SENIOR.name());
+            Proposition prop = new ClassStandingProposition(ClassStanding.SENIOR.getDescription());
             return prop;
         }
         throw new DoesNotExistException("unknown/unsupported proposition " + ruleId);

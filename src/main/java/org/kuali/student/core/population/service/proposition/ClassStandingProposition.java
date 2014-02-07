@@ -58,7 +58,6 @@ public class ClassStandingProposition extends AbstractLeafProposition {
                 }
             }
         } catch (DoesNotExistException e) {
-
             return KRMSEvaluator.constructExceptionPropositionResult(environment, e, this);
         } catch (InvalidParameterException e) {
             return KRMSEvaluator.constructExceptionPropositionResult(environment, e, this);
@@ -73,7 +72,7 @@ public class ClassStandingProposition extends AbstractLeafProposition {
         Map<String, Object> executionDetails = new LinkedHashMap<String, Object>();
         PropositionResult propResult = new PropositionResult(result, executionDetails);
 
-        BasicResult br = new BasicResult(executionDetails, RulesExecutionConstants.STUDENT_CLASS_STANDING,
+        BasicResult br = new BasicResult(executionDetails, RulesExecutionConstants.POPULATION_EVALUATION_RESULTS,
                 this,
                 environment,
                 propResult.getResult());

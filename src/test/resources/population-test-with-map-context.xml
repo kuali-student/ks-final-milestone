@@ -8,11 +8,29 @@
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
     <bean id="populationServiceImpl" class="org.kuali.student.core.population.service.impl.PopulationServiceMapImpl" />
+    <bean id="propositionFactory" class="org.kuali.student.core.process.evaluator.PropositionFactoryHardwiredImpl" />
+    <bean id="krmsEvaluator" class="org.kuali.student.core.process.evaluator.KRMSEvaluator" >
+        <property name="defaultFacts">
+            <map>
+                <!--needed services-->
+                <entry key="academicRecordService" value-ref="academicRecordService"/>
+                <!--factory to be replaced by someething not hardwired-->
+                <entry key="propositionFactory" value-ref="propositionFactory"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl" />
+
 
     <bean id="populationService" class="org.kuali.student.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator" ref="populationServiceImpl" />
+        <property name="propositionFactory" ref="propositionFactory"/>
+        <property name="krmsEvaluator" ref="krmsEvaluator"/>
+
     </bean>
 
     <bean id="populationServiceDataLoader" class="org.kuali.student.core.population.service.impl.PopulationServiceDataLoader" />
+
+
 
 </beans>

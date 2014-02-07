@@ -16,9 +16,11 @@
         <property name="nextDecorator">
             <bean id="populationServiceMapImpl" class="org.kuali.student.core.population.service.impl.PopulationServiceMapImpl" />
         </property>
+        <property name="krmsEvaluator" ref="krmsEvaluator"/>
     </bean>
 
     <bean id="popDataLoader" class="org.kuali.student.core.population.service.impl.PopulationServiceDataLoader"/>
+    <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl" />
 
 
     <!-- GES service -->
