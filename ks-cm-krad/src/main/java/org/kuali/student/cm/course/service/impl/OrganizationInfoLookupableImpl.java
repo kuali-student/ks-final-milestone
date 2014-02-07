@@ -66,7 +66,7 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         
         if (StringUtils.isNotBlank(id)) {
             final SearchParamInfo idParam = new SearchParamInfo();
-            idParam.setKey("org.queryParam.orgId");
+            idParam.setKey("org.queryParam.orgOptionalId");
             idParam.getValues().add(id);
             queryParamValueList.add(idParam);
         }
