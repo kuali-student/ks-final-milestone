@@ -145,10 +145,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-HeaderTwo">
-                                        <!-- New Course header requires static string therefore below string construction is not required.
-                                        commenting below code in case required in future.
-                                         @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
-                                        <property name="headerText" value="New Course (Proposal)" />
+                                        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>ks-header</value>
