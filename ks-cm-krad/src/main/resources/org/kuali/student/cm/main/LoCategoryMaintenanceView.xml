@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-LoCatMaintenance-View" parent="KS-Uif-FormView">
+        <property name="id" value="loCatMaintenanceView" />
+        <property name="headerText" value="Learning Objective Categories" />
+        <property name="formClass" value="org.kuali.student.cm.course.form.LoCategoryForm" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.LoCategoryViewHelperServiceImpl" />
+        <property name="singlePageView" value="true" />
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+            </list>
+        </property>
+        <property name="page">
+            <bean parent="Uif-Page">
+                <property name="items">
+                    <list>
+                        <ref bean="KS-LoCatSection" />
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="KS-LoCatSection" parent="Uif-HorizontalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KS-LoCatFilters" />
+                <ref bean="KS-LoCatTable" />
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="KS-LoCatFilters" parent="Uif-VerticalBoxSection">
+    </bean>
+    
+    <bean id="KS-LoCatTable" parent="Uif-TableCollectionSection">
+        <property name="collectionObjectClass" value="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" />
+        <property name="propertyName" value="loCategories" />
+        <property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.richTable.render" value="false" />
+        <property name="addViaLightBox" value="true"/>
+        <property name="addViaLightBoxAction">
+            <bean parent="Uif-AddViaLightBoxAction" p:actionLabel="Create" />
+        </property>
+        <property name="addLineActions">
+			<list>
+				<bean parent="Uif-AddLineAction" p:actionLabel="create" />
+			</list>
+		</property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="saveLine" p:actionLabel="update"
+                    p:performClientSideValidation="true" p:id="@{#collectionGroup.id}_save@{#lineSuffix}"
+                    p:onClickScript="writeCurrentPageToSession(this);" />
+                <bean parent="Uif-DeleteLineAction" />
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="Category" p:propertyName="name" p:required="true" />
+                <bean parent="Uif-InputField" p:label="Type" p:propertyName="typeKey" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean 
+                            class="org.kuali.student.lum.lu.ui.course.keyvalues.LoCategoryInfoTypeKeyValueFinder"
+                            p:addBlankOption="false" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>

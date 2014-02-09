@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-CourseView-CourseInfoPage" parent="Uif-MaintenancePage"
+          p:headerText="Course Information"
+          p:disclosure.render="false">
+        <property name="header" ref="KS-CourseView-Header" />
+        <property name="items">
+            <list>
+            	<ref bean="KS-CourseView-CourseInfoPage-Widgets" />
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer"/>
+        </property>
+        <property name="onDocumentReadyScript" value="setupCharCounters()" />
+    </bean>
+    
+    <bean id="KS-CourseView-CourseInfoPage-Widgets" parent="Uif-VerticalBoxSection">
+        <property name="items">
+			<list>
+				<bean parent="Uif-InputField-LabelTop" p:label="Proposal Title"
+					p:propertyName="proposal.name" p:required="true">
+					<property name="instructionalText" value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
+					<property name="control">
+						<bean parent="Uif-TextControl" p:size="70" p:maxLength="150" />
+					</property>
+					<property name="help">
+						<bean parent="Uif-Help"
+							p:tooltipHelpContent="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later." />
+					</property>
+				</bean>
+				<bean parent="Uif-InputField-LabelTop" p:label="Course Title"
+					p:propertyName="course.courseTitle" p:required="true">
+					<property name="instructionalText"
+						value="It is highly recommended that you use the same name for the course and proposal title." />
+					<property name="control">
+						<bean parent="Uif-TextControl" p:size="70" p:maxLength="150" />
+					</property>
+					<property name="validCharactersConstraint">
+        				<bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true" />
+    				</property>
+				</bean>
+
+				<bean id="KS-TranscriptTitle" parent="Uif-InputField-LabelTop" p:label="Transcript Course Title"
+					p:propertyName="course.transcriptTitle">
+					<property name="instructionalText"
+						value="This is the truncated title that will appear on the printed transcript." />
+					<property name="control">
+						<bean parent="Uif-TextControl" p:size="24">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>cm-charcount-max-24</value>    
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+				</bean>
+
+				<bean parent="Uif-HorizontalBoxSection">
+					<property name="items">
+						<list>
+							<bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop"
+								p:label="Subject Code" p:propertyName="course.subjectArea">
+								<property name="fieldLabel.requiredMessage">
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
+                                </property>
+                                <property name="constraintText" value="Must be a 4 letter code" />
+								<property name="validCharactersConstraint">
+									<bean parent="AlphaPatternConstraint" />
+								</property>
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>S+</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+								<property name="control">
+									<bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA" />
+								</property>
+								<property name="suggest">
+									<bean parent="Uif-Suggest" p:render="true">
+										<property name="valuePropertyName" value="code"/>
+										<property name="templateOptions" value="minLength:1,delay:0" />
+										<property name="suggestQuery">
+											<bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getSubjectCodesForSuggest" />
+										</property>
+									</bean>
+								</property>
+							</bean>
+							<bean id="KS-CourseNumberSuffix-Field" parent="Uif-InputField-LabelTop"
+								p:label="Course Number" p:propertyName="course.courseNumberSuffix">
+								<property name="constraintText" value="Must be a 3 digit number" />
+								<property name="validCharactersConstraint">
+									<bean parent="NumericPatternConstraint" />
+								</property>
+								<property name="control">
+									<bean parent="Uif-TextControl" p:size="3" p:maxLength="3" p:watermarkText="111" />
+								</property>
+								<property name="help">
+									<bean parent="Uif-Help"
+										p:tooltipHelpContent="The department will determine the course number based on: course format, restrictions, available numbers, and other factors." />
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+				<ref bean="KS-CrossListingEtcDisclosure-Section" /> <!-- Cross listings, etc -->
+
+				<bean id="KS-Instructors-Section" parent="Uif-StackedCollectionSection"
+					p:headerText="Instructor(s)" p:propertyName="instructorWrappers"
+					p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoWrapper">
+					<property name="addLineLabel.messageText" value="Add An Instructor" />
+					<property name="layoutManager.lineGroupPrototype.header.headerText"
+						value="Instructor @{(#index + 1)}" />
+					<!-- <property name="collectionLookup.quickfinderAction.render"
+						value="false" /> -->
+					<property name="help">
+						<bean parent="Uif-Help"
+							p:tooltipHelpContent="This is not a restrictive list - names here will not determine who will eventually teach this course." />
+					</property>
+					<property name="cssClasses">
+						<list merge="true">
+							<value>cm-collection-width</value>
+						</list>
+					</property>
+					<property name="addLineActions">
+						<list>
+							<bean parent="Uif-AddLineAction" p:actionLabel="Add" />
+						</list>
+					</property>
+					<property name="items">
+						<list>
+							<bean id="KS-Instructor-displayName" parent="Uif-InputField" p:propertyName="displayName">
+								<property name="control">
+									<bean parent="Uif-TextControl" p:size="50" />
+								</property>
+								<property name="suggest">
+                                    <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
+                                        <property name="valuePropertyName" value="displayName" />
+                                        <property name="templateOptions">
+                                            <map>
+                                                <entry key="minLength" value="1" />
+                                                <entry key="delay" value="0" />
+                                                <entry key="change">
+                                                    <value>
+                                                        function(event, ui) {
+                                                            if (ui.item==null) {
+                                                                jQuery(this).val('');
+                                                                jQuery(this).focus();
+                                                            }
+                                                        }
+                                                    </value>
+                                                </entry>
+                                                <!-- <entry key="formatResult">
+                                                    <value>
+                                                        function(data) {
+                                                            
+                                                        }
+                                                    </value>
+                                                </entry> -->
+                                            </map>
+                                        </property>
+                                        <property name="suggestQuery">
+                                            <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getInstructorsForSuggest"
+                                                p:queryMethodArgumentFieldList="" />
+                                        </property>
+                                    </bean>
+                                </property>
+								<property name="quickfinder">
+									<bean parent="Uif-QuickFinder">
+										<property name="quickfinderAction">
+											<bean parent="Uif-ActionLink">
+												<property name="methodToCall" value="performLookup" />
+												<property name="actionLabel" value="Advanced Search" />
+												<property name="cssClasses">
+													<list merge="true">
+														<value>uif-actionLink-block</value>
+													</list>
+												</property>
+											</bean>
+										</property>
+										<property name="lightBoxLookup">
+											<bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
+										</property>
+										<property name="dataObjectClassName"
+											value="org.kuali.student.cm.course.form.CluInstructorInfoWrapper" />
+										<property name="fieldConversions">
+											<map>
+												<entry key="displayName" value="displayName" />
+											</map>
+										</property>
+									</bean>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+
+				<bean parent="Uif-VerticalBoxSubSection" p:headerText="Description and Rationale">
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField-LabelTop" p:label="Description"
+								p:propertyName="course.descr.plain">
+                                <property name="fieldLabel.requiredMessage">
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
+                                </property>
+                                <property name="cssClasses">
+                                    <list>
+                                        <value>uif-label</value>
+                                    </list>
+                                </property>
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>S+</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+								<property name="instructionalText"
+									value="This description will appear in the catalog." />
+								<property name="control">
+									<bean parent="Uif-LargeTextAreaControl" />
+								</property>
+							</bean>
+							<bean id="KS-ProposalRationale" parent="Uif-InputField-LabelTop" p:label="Proposal Rationale"
+								p:propertyName="proposal.rationale.plain">
+								<property name="fieldLabel.requiredMessage">
+                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
+                                </property>
+                                <property name="instructionalText"
+									value="This will be used in evaluating the proposal. It will not be published in the catalog." />
+                                <property name="simpleConstraint">
+                                    <bean parent="RequiredConstraint">
+                                        <property name="states">
+                                            <list>
+                                                <value>S>R</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+								<property name="control">
+									<bean parent="Uif-LargeTextAreaControl">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>cm-charcount-max-255</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
+        <property name="disclosure.defaultOpen" value="@{document.newMaintainableObject.crossListingDisclosureSection}"/>
+		<property name="headerText" value="Cross List, Offer Jointly, Add Version Codes" />
+		<property name="cssClasses">
+         	<list merge="true">
+				<value>cm-collection-width</value>
+			</list>
+	    </property>
+		<property name="items">
+			<list>
+				<bean id="KS-CrossListed-Section" parent="Uif-StackedCollectionSubSection"
+					p:headerText="Cross Listed Courses" p:propertyName="course.crossListings"
+					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo">
+					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Course Listing @{(#index + 1)}" />
+					<property name="renderAddBlankLineButton" value="true" />
+					<property name="addLinePlacement" value="BOTTOM" />
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Cross Listing" />
+                    </property>
+					<property name="items">
+						<list>
+							<bean id="KS-CrossList-SubjectArea-Field" parent="KS-SubjectArea-Field" p:propertyName="subjectArea" />
+							<bean id="KS-CrossList-CourseNumberSuffix-Field" parent="KS-CourseNumberSuffix-Field" p:propertyName="courseNumberSuffix" />
+						</list>
+					</property>
+				</bean>
+				<bean id="KS-JointlyOffered-Section" parent="Uif-StackedCollectionSubSection"
+					p:headerText="Jointly Offered Courses" p:propertyName="courseJointWrappers"
+					p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoWrapper">
+					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Joint Offering @{(#index + 1)}" />
+					<property name="renderAddBlankLineButton" value="true" />
+					<property name="addLinePlacement" value="BOTTOM" />
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Another Course" />
+                    </property>
+					<!-- <property name="collectionLookup.quickfinderAction.render" value="false" /> -->
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField-LabelTop" p:label="Course Number or Title"
+								p:propertyName="courseCode">
+								<property name="instructionalText" value="Enter an existing course or proposal." />
+								<property name="control">
+									<bean parent="Uif-TextControl" />
+								</property>
+								<property name="suggest">
+<!-- 									<bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
+									<bean parent="Uif-Suggest" p:render="true">
+										<property name="valuePropertyName" value="courseCode"/>
+										<property name="templateOptions" value="minLength:1,delay:0" />
+										<property name="suggestQuery">
+											<bean parent="Uif-AttributeQueryConfig"
+													p:queryMethodToCall="searchForJointOfferingCourses" />
+													<!-- p:queryFieldMapping="#lp.courseCode:courseCode"
+													p:returnFieldMapping="courseId:#lp.courseId,courseCode:#lp.courseCode,subjectArea:#lp.subjectArea,courseNumberSuffix:#lp.courseNumberSuffix" /> -->
+										</property>
+									</bean>
+								</property>
+								<property name="quickfinder">
+									<bean parent="Uif-QuickFinder">
+										<property name="quickfinderAction">
+						           			<bean parent="Uif-ActionLink">
+								                <property name="methodToCall" value="performLookup"/>
+								                <property name="actionLabel" value="Advanced Search"/>
+								                <property name="cssClasses">
+								                	<list merge="true">
+        												<value>uif-actionLink-block</value>
+      												</list>
+								                </property>
+								            </bean>
+					        			</property>
+					     		        <property name="lightBoxLookup">
+								            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+								        </property>
+								        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
+								        <property name="fieldConversions">
+								            <map>
+								                <entry key="courseCode" value="courseCode"/>
+								            </map>
+								        </property>
+								    </bean>
+								</property>
+								<property name="help">
+									<bean parent="Uif-Help"
+										p:tooltipHelpContent="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator." />
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				<bean id="KS-VersionCodes-Section" parent="Uif-StackedCollectionSubSection"
+					p:headerText="Version Codes" p:propertyName="course.variations"
+					p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseVariationInfo">
+					<property name="layoutManager.lineGroupPrototype.header.headerText" value="Version Code @{(#index + 1)}" />
+					<property name="renderAddBlankLineButton" value="true" />
+					<property name="addLinePlacement" value="BOTTOM" />
+                    <property name="addBlankLineAction">
+                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Version Code" />
+                    </property>
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField-LabelTop" p:label="Version Code"
+								p:propertyName="variationCode" p:uppercaseValue="true">
+								<property name="constraintText" value="Code must be a capital letter." />
+								<property name="control">
+									<bean parent="Uif-TextControl" p:size="1" p:maxLength="1" />
+								</property>
+								<property name="validCharactersConstraint">
+									<bean parent="AlphaPatternConstraint"/>
+								</property>
+							</bean>
+							<bean parent="Uif-InputField-LabelTop" p:label="Course Title"
+								p:propertyName="variationTitle" p:required="true">
+								<property name="control">
+									<bean parent="Uif-TextControl" />
+								</property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+	
+</beans>
