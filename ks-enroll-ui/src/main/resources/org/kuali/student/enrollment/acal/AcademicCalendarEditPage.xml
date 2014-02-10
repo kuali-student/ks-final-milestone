@@ -506,7 +506,7 @@ limitations under the License.
                         </property>
                         <property name="headerText" value="@{#line.holidayCalendarHeading}"/>
                         <property name="rightGroup">
-                            <bean parent="Uif-HorizontalBoxGroup">
+                            <bean parent="Uif-HorizontalBoxGroup" p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
                                 <property name="additionalCssClasses">
                                     <list merge="true">
                                         <value>right-aligned</value>
