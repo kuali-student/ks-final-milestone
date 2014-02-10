@@ -31,12 +31,6 @@ public class CourseSearchConstants {
 
     public static final String ORG_TYPE_PARAM = "org_queryParam_orgType";
 
-    public static final String IS_ACADEMIC_CALENDER_SERVICE_UP = "isAcademicCalenderServiceRunning";
-
-    public static final String IS_COURSE_OFFERING_SERVICE_UP = "isCourseOfferingServiceRunning";
-
-    public static final String IS_ACADEMIC_RECORD_SERVICE_UP = "isAcademicRecordServiceRunning";
-
     public static final String COURSE_SEARCH_FOR_COURSE_ID = "ksap.course.getcluid";
 
     public static final String SEARCH_REQUEST_SUBJECT_PARAM = "subject";
@@ -56,35 +50,27 @@ public class CourseSearchConstants {
 
     public static final String COURSE_CODE_WITH_SECTION_REGEX = "^[A-Z]{1}[A-Z &]{2,6}\\s[0-9]{3}\\s[A-Z]{1}[A-Z0-9]{0,1}$";
 
-    //Unused
+    // MISC Search params/keys
+    public static final String COURSE_SEARCH_DIVISION_SPACEALLOWED = "ks.ap.search.division.parse.allowspace";
+    public static final String COURSE_SEARCH_SCALE_CREDIT_DEGREE = "kuali.result.scale.credit.degree";
 
-    public static final String LINK = "<a href=\"%s/kr-krad/inquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=%s#%s_tab-%s\">%s</a>";
+    // Search Keys
+    public static final String COURSE_SEARCH_TYPE_DESCRIPTION = "ksap.lu.search.description";
+    public static final String COURSE_SEARCH_TYPE_CO_DESCRIPTION = "ksap.lu.search.offering.description";
+    public static final String COURSE_SEARCH_TYPE_TITLE = "ksap.lu.search.title";
+    public static final String COURSE_SEARCH_TYPE_CO_TITLE = "ksap.lu.search.offering.title";
+    public static final String COURSE_SEARCH_TYPE_DIVISION = "ksap.lu.search.division";
+    public static final String COURSE_SEARCH_TYPE_DIVISIONANDCODE = "ksap.lu.search.divisionAndCode";
+    public static final String COURSE_SEARCH_TYPE_DIVISIONANDLEVEL = "ksap.lu.search.divisionAndLevel";
+    public static final String COURSE_SEARCH_TYPE_EXACTCODE = "ksap.lu.search.exactCode";
+    public static final String COURSE_SEARCH_TYPE_COURSECODE = "ksap.lu.search.courseCode";
 
-    public static final String APP_URL = "appserver.url";
+    // Search Params
+    public static final String COURSE_SEARCH_PARAM_DIVISION = "division";
+    public static final String COURSE_SEARCH_PARAM_LEVEL = "level";
+    public static final String COURSE_SEARCH_PARAM_CODE = "code";
+    public static final String COURSE_SEARCH_PARAM_TERMLIST = "termList";
+    public static final String COURSE_SEARCH_PARAM_QUERYTEXT = "queryText";
 
-    public static final String SUBJECT_CODE = "kuali.org.SubjectCode";
 
-    public static final String TIME_SCHEDULE_KEY = "TimeScheduleLinkAbbreviation";
-
-    public static final String COURSE_OFFERING_INSTITUTE = "kuali.course.offering.institute";
-
-    public static final String CAMPUS_LOCATION_ORG_TYPE = "kuali.org.type.campus";
-
-    // Service Constants
-    public static final String STATEMENT_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/statement";
-    public static final String ENUM_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/enumerationmanagement";
-    public static final String ORG_SERVICE_NAMESPACE = "http://student.kuali.org/wsdl/organization";
-
-    //  Process key for use in service methods which need caching, but don't use the process key argument.
-    public static final String PROCESS_KEY = "Null";
-
-    public static final Pattern ATP_REGEX = Pattern.compile("([0-9]{4})([1-4])");
-    public static final String ATP_FORMAT = "%d%d";
-
-    public static List<String> TERM_ID_LIST = Arrays.asList("winter", "spring", "summer i", "summer ii", "autumn");
-    public static List<String> TERM_LABELS_LIST = Arrays.asList("Winter", "Spring", "Summer1", "Summer2", "Fall");
-
-    public static final String COURSE_SEARCH_PAGE = "course_search";
-
-    //public static final String COURSE_SEARCH_EMPTY_RESULT_PAGE = "course_search_no_results";
 }

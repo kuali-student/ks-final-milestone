@@ -38,9 +38,7 @@ import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.Credit;
-import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -51,8 +49,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -209,7 +205,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			// "ksap.course.info.credits.details");
 			// searchRequest.setParams(Collections.<SearchParamInfo>
 			// emptyList());
-			String resultScaleKey = "kuali.result.scale.credit.degree";
+			String resultScaleKey = CourseSearchConstants.COURSE_SEARCH_SCALE_CREDIT_DEGREE;
 			ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext()
 					.getContextInfo();
 			List<ResultValuesGroupInfo> resultValuesGroupInfos = null;
@@ -998,50 +994,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		addCampusParams(Collections.singletonList(request), form);
 	}
 
-	/**
-	 * @param divisionMap
-	 *            for reference
-	 * @param query
-	 *            initial query
-	 * @param divisions
-	 *            matches found
-	 * @return query string, minus matches found
-	 */
-	public String extractDivisions(HashMap<String, String> divisionMap,
-			String query, List<String> divisions) {
-		boolean match = true;
-		while (match) {
-			match = false;
-			// Retokenize after each division found is removed
-			// Remove extra spaces to normalize input
-			/*
-			 * Replacing all the special characters in query with empty space
-			 * except for Ampersand(&)character cause it might be in course
-			 * codes
-			 */
-			query = query.trim().replaceAll(
-					"[\\s\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
-			List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
-			List<String> list = QueryTokenizer.toStringList(tokens);
-			List<String> pairs = TokenPairs.toPairs(list);
-			TokenPairs.sortedLongestFirst(pairs);
-
-			Iterator<String> i = pairs.iterator();
-			while (match == false && i.hasNext()) {
-				String pair = i.next();
-
-				String key = pair.replace(" ", "");
-				if (divisionMap.containsKey(key)) {
-					String division = divisionMap.get(key);
-					divisions.add(division);
-					query = query.replace(pair, "");
-					match = true;
-				}
-			}
-		}
-		return query;
-	}
-
     /**
      * Add the division type searches to the search requests
      *
@@ -1051,8 +1003,38 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param incompleteCodes - The list of possible incomplete course codes found in the query string
      * @param requests - The list of search requests to be ran
      */
-	public void addDivisionSearches(List<String> divisions, List<String> codes,
-			List<String> levels, List<String> incompleteCodes, List<SearchRequestInfo> requests) {
+	public void addComponentSearches(List<String> divisions, List<String> codes,
+			List<String> levels, List<String> incompleteCodes,List<String> completeCodes,List<String> completeLevels, List<SearchRequestInfo> requests) {
+
+        // Complete Code searches
+        for(String completedCode : completeCodes){
+            String division = completedCode.substring(0,completedCode.indexOf(','));
+            String code = completedCode.substring(completedCode.indexOf(',')+1);
+            codes.remove(code);
+            divisions.remove(division);
+            SearchRequestInfo request = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDCODE);
+            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
+            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
+            requests.add(request);
+            ;
+        }
+
+        // Complete Level searches
+        for(String completedLevel : completeLevels){
+            String division = completedLevel.substring(0,completedLevel.indexOf(","));
+            String level = completedLevel.substring(completedLevel.indexOf(",")+1);
+            levels.remove(level);
+            divisions.remove(division);
+            SearchRequestInfo request = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDLEVEL);
+            // Converts "1XX" to "100"
+            level = level.substring(0, 1) + "00";
+            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
+            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
+            requests.add(request);
+
+        }
 
         // for each division found determine the search types needed
 		for (String division : divisions) {
@@ -1062,9 +1044,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			for (String code : codes) {
 				needDivisionQuery = false;
 				SearchRequestInfo request = new SearchRequestInfo(
-						"ksap.lu.search.divisionAndCode");
-				request.addParam("division", division);
-				request.addParam("code", code);
+                        CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDCODE);
+				request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
+				request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
 				requests.add(request);
 			}
 
@@ -1076,9 +1058,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				level = level.substring(0, 1) + "00";
 
 				SearchRequestInfo request = new SearchRequestInfo(
-						"ksap.lu.search.divisionAndLevel");
-				request.addParam("division", division);
-				request.addParam("level", level);
+                        CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDLEVEL);
+				request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
+				request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
 				requests.add(request);
 			}
 
@@ -1087,25 +1069,27 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 needDivisionQuery = false;
 
                 SearchRequestInfo request = new SearchRequestInfo(
-                        "ksap.lu.search.courseCode");
-                request.addParam("code", incompleteCode);
+                        CourseSearchConstants.COURSE_SEARCH_TYPE_COURSECODE);
+                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, incompleteCode);
                 requests.add(request);
             }
 
             // If no other searches are created create a general division search.
 			if (needDivisionQuery) {
 				SearchRequestInfo request = new SearchRequestInfo(
-						"ksap.lu.search.division");
-				request.addParam("division", division);
+                        CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISION);
+				request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
 				requests.add(request);
 			}
 		}
+
+        // Code only searches
         if (divisions == null || divisions.isEmpty()) {
             // Create course code only search
             for (String code : codes) {
                 SearchRequestInfo request = new SearchRequestInfo(
-                        "ksap.lu.search.exactCode");
-                request.addParam("code", code);
+                        CourseSearchConstants.COURSE_SEARCH_TYPE_EXACTCODE);
+                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
                 requests.add(request);
             }
         }
@@ -1118,7 +1102,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param requests - The list of search requests to be ran
      */
 	public void addFullTextSearches(String query,
-			List<SearchRequestInfo> requests) {
+			List<SearchRequestInfo> requests, String searchTerm) {
         //find all tokens in the query string
 		List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
 
@@ -1138,11 +1122,34 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				break;
 			}
 
-            // Add requests for full text
-			SearchRequestInfo request = new SearchRequestInfo(
-					"ksap.lu.search.fulltext");
-			request.addParam("queryText", queryText);
-			requests.add(request);
+            // Skip if query is less than 3 characters
+            if(queryText.length() < 3) continue;
+
+            // Add course title search
+            SearchRequestInfo requestTitle = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_TITLE);
+            requestTitle.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
+            requests.add(requestTitle);
+
+            // Add course offering title search
+            SearchRequestInfo requestOffering = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_CO_TITLE);
+            requestOffering.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
+            requestOffering.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_TERMLIST,getTermsToFilterOn(searchTerm));
+            requests.add(requestOffering);
+
+            // Add course description search
+            SearchRequestInfo requestDescription = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_DESCRIPTION);
+            requestDescription.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
+            requests.add(requestDescription);
+
+            // Add course offering description search
+            SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_CO_DESCRIPTION);
+            requestOfferingDescr.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
+            requestOfferingDescr.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_TERMLIST,getTermsToFilterOn(searchTerm));
+            requests.add(requestOfferingDescr);
 		}
 	}
 
@@ -1162,39 +1169,38 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // Unchanging query for full text search
         String pureQuery = query;
 
-        // Extract possible levels from the query text
-		List<String> levels = QueryTokenizer.extractCourseLevels(query);
-		for (String level : levels) {
-			query = query.replace(level, "");
-		}
+        //Search Components
+        List<String> divisions = new ArrayList<String>();
+        List<String> codes;
+        List<String> levels;
+        List<String> incompleteCodes;
+        List<String> completedCodes;
+        List<String> completedLevels;
 
-        // Extract Possible course codes from the query text
-		List<String> codes = QueryTokenizer.extractCourseCodes(query);
-		for (String code : codes) {
-			query = query.replace(code, "");
-		}
+        //Search queries
+        List<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 
-        // Extract possible division from the query text
-		Map<String, String> divisionMap = fetchCourseDivisions();
-		List<String> divisions = new ArrayList<String>();
-		extractDivisions(divisionMap, query, divisions, true);
+        // Extract components from query
+		levels = QueryTokenizer.extractCourseLevels(query);
+		codes = QueryTokenizer.extractCourseCodes(query);
+		extractDivisions(fetchCourseDivisions(), query, divisions, Boolean.parseBoolean(
+                ConfigContext.getCurrentContextConfig().getProperty(CourseSearchConstants.COURSE_SEARCH_DIVISION_SPACEALLOWED)));
+        // remove found levels and codes to find incomplete code components
+        for(String level : levels) query = query.replace(level,"");
+        for(String code : codes) query = query.replace(code,"");
+        incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query,divisions);
+        completedCodes = QueryTokenizer.extractCompleteCourseCodes(pureQuery,divisions,codes);
+        completedLevels = QueryTokenizer.extractCompleteCourseLevels(pureQuery,divisions,levels);
 
-        // Extract possible partial course codes from the query text
-        List<String> incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query,divisions);
-
-        // Create list of search requests
-		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
-
-		LOG.info("Start of method addDivisionSearches of CourseSearchStrategy:"
+		LOG.info("Start of method addComponentSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-		// Order is important, more exact search results appear at top of list
-		addDivisionSearches(divisions, codes, levels, incompleteCodes, requests);
-		LOG.info("End of method addDivisionSearches of CourseSearchStrategy:"
+		addComponentSearches(divisions, codes, levels, incompleteCodes, completedCodes, completedLevels, requests);
+		LOG.info("End of method addComponentSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
 		LOG.info("Start of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-		addFullTextSearches(pureQuery, requests);
+		addFullTextSearches(pureQuery, requests, form.getSearchTerm());
 		LOG.info("End of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
@@ -1207,7 +1213,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Process Current list of Requests into direct search queries
 		LOG.info("Count of No of Query Tokens:" + requests.size());
-		processRequests(requests, form);
+		requests = processRequests(requests, form);
 		LOG.info("No of Requests after processRequest method:"
 				+ requests.size());
 
@@ -1221,213 +1227,28 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
 	/**
-	 * Process the Request with search key as division or full Text
+	 * Process the Request adding any additional values or checks
 	 * 
 	 * @param requests - The list of requests.
 	 * @param form - The search form.
 	 */
-	public void processRequests(List<SearchRequestInfo> requests,
+	public List<SearchRequestInfo> processRequests(List<SearchRequestInfo> requests,
 			CourseSearchForm form) {
 		LOG.info("Start of method processRequests in CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-		Map<String, String> subjects = null;
-		int size = requests.size();
         // Process search requests
-		for (int i = 0; i < size; i++) {
-			if (requests.get(i).getSearchKey() != null) {
 
-                // Assumes a controlled build order of the query Division parameters should always be added first.
-				if (requests.get(i).getSearchKey()
-						.equalsIgnoreCase("ksap.lu.search.division")) {
-                    // Add redundant checks to insure no empty lists,
-                    String queryText = "";
-                    String key = "";
-                    try{
-                        queryText = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
-                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
-                        key = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
-                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
-                    }catch(OperationFailedException e){
-                        LOG.warn("Incorrectly Formed ksap.lu.search.division",e);
-                    }
-					if (form.getSearchQuery().length() <= 2) {
-						break;
-					} else {
-						SearchRequestInfo request0 = new SearchRequestInfo(
-								"ksap.lu.search.title");
-						request0.addParam("queryText", queryText.trim());
-						//addCampusParam(request0, form);
-						requests.add(request0);
-                        //Add course offering title search
-                        SearchRequestInfo requestOffering = new SearchRequestInfo(
-                                "ksap.lu.search.offering.title");
-                        requestOffering.addParam("queryText", queryText.trim());
-                        requestOffering.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
-                        //addCampusParam(request0, form);
-                        requests.add(requestOffering);
-						if (!this.getHashMap().containsKey(
-								CourseSearchConstants.SUBJECT_AREA)) {
-							subjects = KsapFrameworkServiceLocator
-									.getOrgHelper().getSubjectAreas();
-							getHashMap().put(
-									CourseSearchConstants.SUBJECT_AREA,
-									subjects);
-
-						} else {
-							subjects = getHashMap().get(
-									CourseSearchConstants.SUBJECT_AREA);
-						}
-						StringBuilder additionalDivisions = new StringBuilder();
-						if (subjects != null && subjects.size() > 0) {
-							// Add the individual term items.
-							for (Map.Entry<String, String> entry : subjects
-									.entrySet()) {
-								if (entry.getKey().trim().contains(key.trim())) {
-									if (!entry.getKey().equalsIgnoreCase(
-											queryText)) {
-										additionalDivisions.append(entry
-												.getKey() + ",");
-									}
-								}
-
-							}
-						}
-						if (additionalDivisions.length() > 0) {
-							String div = additionalDivisions.substring(0,
-									additionalDivisions.length() - 1);
-							SearchRequestInfo request1 = new SearchRequestInfo(
-									"ksap.lu.search.additionalDivision");
-							request1.addParam("divisions", div.trim());
-							//addCampusParam(request1, form);
-							requests.add(request1);
-						}
-						SearchRequestInfo request2 = new SearchRequestInfo(
-								"ksap.lu.search.description");
-						request2.addParam("queryText", queryText.trim());
-						//addCampusParam(request2, form);
-						requests.add(request2);
-                        SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
-                                "ksap.lu.search.offering.description");
-                        requestOfferingDescr.addParam("queryText", queryText.trim());
-                        requestOfferingDescr.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
-                        //addCampusParam(request2, form);
-                        requests.add(requestOfferingDescr);
-					}
-
-				}
-				if (requests.get(i).getSearchKey()
-						.equalsIgnoreCase("ksap.lu.search.fulltext")) {
-                    String key;
-                    try{
-                        key = (String) KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils
-                                .getRequiredZeroElement(requests.get(i).getParams()).getValues());
-                    }catch (OperationFailedException e){
-                        throw new RuntimeException("Search Failure", e);
-                    }
-					String division = null;
-					if (key.length() <= 2) {
-                        try{
-                            KSCollectionUtils.getRequiredZeroElement(requests.get(i).getParams())
-								.setValues(Arrays.asList("null"));
-                        } catch (OperationFailedException e){
-
-                        }
-						break;
-					} else {
-						if (key.length() > 2) {
-
-							if (!this.getHashMap().containsKey(
-									CourseSearchConstants.SUBJECT_AREA)) {
-								subjects = KsapFrameworkServiceLocator
-										.getOrgHelper().getSubjectAreas();
-								getHashMap().put(
-										CourseSearchConstants.SUBJECT_AREA,
-										subjects);
-
-							} else {
-								subjects = getHashMap().get(
-										CourseSearchConstants.SUBJECT_AREA);
-							}
-
-							if (subjects != null && subjects.size() > 0) {
-								// Add the individual term items.
-								for (Map.Entry<String, String> entry : subjects
-										.entrySet()) {
-									if (entry.getValue().trim()
-											.equalsIgnoreCase(key.trim())) {
-										division = entry.getKey();
-
-									}
-
-								}
-							}
-							if (division != null) {
-								requests.get(i).setSearchKey(
-										"ksap.lu.search.division");
-                                try{
-                                    KSCollectionUtils.getRequiredZeroElement(requests.get(i).getParams())
-										.setKey("division");
-                                    KSCollectionUtils.getRequiredZeroElement(requests.get(i).getParams())
-										.setValues(Arrays.asList(division));
-                                }catch (OperationFailedException e){
-                                    LOG.warn("Couldn't set params for division");
-                                }
-
-								SearchRequestInfo request1 = new SearchRequestInfo(
-										"ksap.lu.search.title");
-								request1.addParam("queryText", key.trim());
-								//addCampusParam(request1, form);
-								requests.add(request1);
-                                //Add course offering title search
-                                SearchRequestInfo requestOffering = new SearchRequestInfo(
-                                        "ksap.lu.search.offering.title");
-                                requestOffering.addParam("queryText", key.trim());
-                                requestOffering.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
-                                //addCampusParam(request0, form);
-                                requests.add(requestOffering);
-								SearchRequestInfo request2 = new SearchRequestInfo(
-										"ksap.lu.search.description");
-								request2.addParam("queryText", key.trim());
-								//addCampusParam(request2, form);
-								requests.add(request2);
-                                SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
-                                        "ksap.lu.search.offering.description");
-                                requestOfferingDescr.addParam("queryText", key.trim());
-                                requestOfferingDescr.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
-                                //addCampusParam(request2, form);
-                                requests.add(requestOfferingDescr);
-
-							} else {
-								requests.get(i).setSearchKey(
-										"ksap.lu.search.title");
-								SearchRequestInfo request2 = new SearchRequestInfo(
-										"ksap.lu.search.description");
-								request2.addParam("queryText", key.trim());
-								//addCampusParam(request2, form);
-								requests.add(request2);
-                                //Add course offering title search
-                                SearchRequestInfo requestOffering = new SearchRequestInfo(
-                                        "ksap.lu.search.offering.title");
-                                requestOffering.addParam("queryText", key.trim());
-                                requestOffering.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
-                                //addCampusParam(request0, form);
-                                requests.add(requestOffering);
-                                SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
-                                        "ksap.lu.search.offering.description");
-                                requestOfferingDescr.addParam("queryText", key.trim());
-                                requestOfferingDescr.addParam("termList",getTermsToFilterOn(form.getSearchTerm()));
-                                //addCampusParam(request2, form);
-                                requests.add(requestOfferingDescr);
-							}
-						}
-
-					}
-				}
-			}
+        // Remove Duplicates
+        List<SearchRequestInfo> prunedRequests = new ArrayList<SearchRequestInfo>();
+		for (SearchRequestInfo request : requests) {
+            if(!prunedRequests.contains(request)) prunedRequests.add(request);
 		}
+        requests = prunedRequests;
 
 		LOG.info("End of processRequests method in CourseSearchStrategy:"
 				+ System.currentTimeMillis());
+
+        return requests;
 	}
 
 	private void addVersionDateParam(List<SearchRequestInfo> searchRequests) {
@@ -1453,36 +1274,17 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	@Override
 	public String extractDivisions(Map<String, String> divisionMap,
 			String query, List<String> divisions, boolean isSpaceAllowed) {
-		boolean match = true;
-		while (match) {
-			match = false;
-			// Retokenize after each division found is removed
-			// Remove extra spaces to normalize input
-			if (!isSpaceAllowed) {
-				query = query.trim().replaceAll(
-						"[\\s\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
-			} else {
-				query = query.replaceAll(
-						"[\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
-			}
-			List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
-			List<String> list = QueryTokenizer.toStringList(tokens);
-			List<String> pairs = TokenPairs.toPairs(list);
-			TokenPairs.sortedLongestFirst(pairs);
+        if (!isSpaceAllowed) {
+            query = query.trim().replaceAll(
+                    "[\\s\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
+            divisions.addAll(QueryTokenizer.extractDivisionsNoSpaces(query,divisionMap));
+        } else {
+            query = query.replaceAll(
+                    "[\\\\/:?\\\"<>|`~!@#$%^*()_+-={}\\]\\[;',.]", " ");
+            divisions.addAll(QueryTokenizer.extractDivisionsSpaces(query,divisionMap));
+        }
 
-			Iterator<String> i = pairs.iterator();
-			while (match == false && i.hasNext()) {
-				String pair = i.next();
 
-				String key = pair.replace(" ", "");
-				if (divisionMap.containsKey(key)) {
-					String division = divisionMap.get(key);
-					divisions.add(division);
-					query = query.replace(pair, "");
-					match = true;
-				}
-			}
-		}
 		return query;
 	}
 

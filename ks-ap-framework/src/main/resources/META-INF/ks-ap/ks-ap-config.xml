@@ -67,4 +67,6 @@
     <param name="ks.ap.planner.term.types">kuali.atp.type.Fall,kuali.atp.type.Winter,kuali.atp.type.Spring,kuali.atp.type.Summer1</param>
 
     <param name="ks.ap.externalizable.images.url">../ks-ap/images/</param>
+
+    <param name="ks.ap.search.division.parse.allowspace">true</param>
 </config>

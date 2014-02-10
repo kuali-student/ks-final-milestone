@@ -158,4 +158,85 @@ public class QueryTokenizer
 
         return tokens;
     }
+
+    public static List<String> extractCompleteCourseCodes(String source, List<String> divisions, List<String> codes){
+        List<String> completedCodes = new ArrayList<String>();
+        List<Token> tokens = tokenize(source);
+
+        for(Token token : tokens){
+            for(String division : divisions){
+                for(String code : codes){
+                    if(token.value.contains(division) && token.value.contains(code)){
+                        String newCompletedCode = division+","+code;
+                        if(!completedCodes.contains(newCompletedCode)){
+                            completedCodes.add(newCompletedCode);
+                        }
+                    }
+                }
+            }
+        }
+
+        return completedCodes;
+    }
+
+    public static List<String> extractCompleteCourseLevels(String source, List<String> divisions, List<String> levels){
+        List<String> completedLevels = new ArrayList<String>();
+        List<Token> tokens = tokenize(source);
+
+        for(Token token : tokens){
+            for(String division : divisions){
+                for(String level : levels){
+                    if(token.value.contains(division) && token.value.contains(level)){
+                        String newCompletedLevel = division+","+level;
+                        if(!completedLevels.contains(newCompletedLevel)){
+                            completedLevels.add(newCompletedLevel);
+                        }
+                    }
+                }
+            }
+        }
+
+        return completedLevels;
+    }
+
+    public static List<String> extractDivisionsNoSpaces(String source, Map<String, String> divisionMap){
+        List<String> divisions = new ArrayList<String>();
+        List<Token> tokens = tokenize(source);
+
+        for(Token token : tokens){
+            if(divisionMap.containsKey(token.value)){
+                divisions.add(divisionMap.get(token.value));
+            }
+        }
+
+        return divisions;
+    }
+
+    public static List<String> extractDivisionsSpaces(String source, Map<String, String> divisionMap){
+        List<String> divisions = new ArrayList<String>();
+        boolean match = true;
+        while (match) {
+            match = false;
+            List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(source);
+            List<String> list = QueryTokenizer.toStringList(tokens);
+            List<String> pairs = TokenPairs.toPairs(list);
+            TokenPairs.sortedLongestFirst(pairs);
+
+            Iterator<String> i = pairs.iterator();
+            while (match == false && i.hasNext()) {
+                String pair = i.next();
+
+                String key = pair.replace(" ", "");
+                if (divisionMap.containsKey(key)) {
+                    String division = divisionMap.get(key);
+                    divisions.add(division);
+                    source = source.replace(pair, "");
+                    match = true;
+                }
+            }
+        }
+        return divisions;
+    }
+
+
 }
