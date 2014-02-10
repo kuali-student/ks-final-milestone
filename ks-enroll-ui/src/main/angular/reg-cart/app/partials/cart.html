@@ -1,3 +1,4 @@
+<!--My Cart Header Section with Register button-->
 <div class="kscr-cart-header">
   <h1 class="kscr-cart-header-title"><strong>My Cart</strong> <span id="course_count">({{cart.items.length}} items)</span> </h1>
 
@@ -5,6 +6,7 @@
         <button id="register" class="btn btn-primary pull-right ks-Register-button" type="submit">Register</button>
     </div>
 </div>
+<!--My Cart Input Boxs and Add to Cart Button -->
 <div class="kscr-cart">
     <form novalidate name="form" class="form-group form-inline" ng-submit="search();">
         <fieldset>
@@ -27,6 +29,7 @@
     </form>
 </div>
 
+<!-- Cart Change Section: Credits, Grading, and Save -->
 <div class="kscr-cart-course"  ng-show="showNew">
         <div class="kscr-course-header">
             <div>Adding {{newCartItem.courseCode}} to cart
@@ -52,7 +55,7 @@
 
                 </form>
             </div>
-
+        <!--Days, Time, and Building -->
             <div ng-repeat="item in newCartItem.schedule">
                 <div>{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
                     {{item.location.building}} {{item.location.room}}
@@ -61,6 +64,7 @@
         </div>
 </div>
 
+<!--Section header with course name, number, and remove icon -->
 <div class="kscr-cart-course" ng-repeat="cartItem in cart.items">
     <div class="kscr-course-header">
         <div id="course_{{cartItem.courseCode}}_{{cartItem.regCode}}"><strong>{{cartItem.courseCode}} ({{cartItem.regCode}})</strong>
@@ -79,7 +83,7 @@
             <a id="edit_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="editItem(cartItem)"
                ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptions.length > 1">Change</a>
         </div>
-
+    <!-- Cart Change Section: Credits, Grading, and Save -->
         <div class="kscr-course-info-edit" ng-show="cartItem.editing">
             <form ng-submit="submit(cartItem)">
                 <div>
@@ -96,7 +100,7 @@
                 <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="cancel(cartItem)">Cancel</a>
            </form>
         </div>
-
+    <!--Days, Time, and Building -->
         <div ng-repeat="item in cartItem.schedule">
             <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regCode}}_{{$index}}" >{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
                 {{item.location.building}} {{item.location.room}}
