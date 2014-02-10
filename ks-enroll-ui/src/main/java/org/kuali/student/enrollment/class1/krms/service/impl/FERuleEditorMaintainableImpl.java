@@ -420,7 +420,7 @@ public class FERuleEditorMaintainableImpl extends RuleEditorMaintainableImpl {
         } catch (OjbOperationException e) {
             //OptimisticLockException
             if (e.getCause() instanceof OptimisticLockException) {
-                throw new KRMSOptimisticLockingException();
+                throw new KRMSOptimisticLockingException("Could not obtain OjbOperation ",e);
             } else {
                 throw e;
             }
