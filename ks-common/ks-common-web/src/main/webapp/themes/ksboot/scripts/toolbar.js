@@ -93,19 +93,3 @@ function decorateToolbar(id) {
         });
     }
 }
-
-/*
-    Use Glyph Icons insstead of images.
-    This removes an image with a given class name and adds the class to the span containing the image.
- */
-function replaceImageWithGlyph(containerId, className) {
-    var container = jQuery("#" + containerId);
-    var image = jQuery(container).find('img.' + className);
-    if (image.length) {
-        var span = jQuery(image).parents('span');
-        if (span.length) {
-            span.addClass(className);
-        }
-        jQuery(image).remove();
-    }
-}
