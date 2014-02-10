@@ -71,17 +71,17 @@
         <p id="title_{{cartItem.courseCode}}_{{cartItem.regCode}}">{{cartItem.courseTitle}}</p>
     </div>
     <div class="kscr-course-info-edit">
-        <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="kscr-course-info" ng-hide="editing">
+        <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="kscr-course-info" ng-hide="cartItem.editing">
             <ng-pluralize count="cartItem.credits"
                           when="{'1'    : '{} credit',
                                  'other': '{} credits'}">
             </ng-pluralize>, {{(cartItem.gradingOptions | filter:{key:cartItem.grading}:true)[0].value}}
-            <a id="edit_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="editing = true"
+            <a id="edit_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="editItem(cartItem)"
                ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptions.length > 1">Change</a>
         </div>
 
-        <div class="kscr-course-info-edit" ng-show="editing">
-            <form ng-submit="submit()" ng-controller="CartItemCtrl">
+        <div class="kscr-course-info-edit" ng-show="cartItem.editing">
+            <form ng-submit="submit(cartItem)">
                 <div>
                     <label for="credits_{{cartItem.courseCode}}_{{cartItem.regCode}}">Credits</label>
                     <select id="credits_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-model="newCredits"
@@ -93,7 +93,7 @@
                             ng-options="grading.key as grading.value for grading in cartItem.gradingOptions"/>
                 </div>
                 <button id="save_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="btn" type="submit">Save</button>
-                <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="cancel()">Cancel</a>
+                <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="cancel(cartItem)">Cancel</a>
            </form>
         </div>
 

@@ -1,9 +1,9 @@
 <div class="kscr-adding-header">
-    <h3>Adding [FOO CLASS] to cart</h3>
+    <h3>Adding {{addedItem.courseCode}} ({{addedItem.regCode}})to cart</h3>
 
-    <span>[FOO CLASS TITLE]</span>
+    <span>{{addedItem.courseTitle}}</span>
 </div>
-
+<form ng-submit="save()">
 <div class="kscr-AdditionalOptions">
     <div class="kscr-AdditionalOptions-header">
         <h3>Additional Options</h3>
@@ -12,23 +12,18 @@
     <div class="kscr-AdditionalOptions-content">
         <div>
             <label for="credits">Credits</label>
-            <select id="credits">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="4">4</option>
-            </select>
+            <select id="credits" ng-model="newCredits"
+                    ng-options="creditOption for creditOption in addedItem.creditOptions"/>
         </div>
         <div>
             <label for="grading">Grading</label>
-            <select id="grading">
-                <option value="Letter">Letter</option>
-                <option value="Pass/Fail">Pass/Fail</option>
-                <option value="Audit">Audit</option>
-            </select>
+            <select id="grading" ng-model="newGrading"
+                    ng-options="grading.key as grading.value for grading in addedItem.gradingOptions"/>
         </div>
-        <div class="kscr-AdditionalOptions-buttons">
-            <button type="submit" class="btn btn-primary">Add to Cart</button>
-            <a>cancel</a>
+        <div class="kscr-AdditionalOpions-buttons">
+            <button type="submit" class="btn">Save</button>
+            <a ng-click="dismiss()">Cancel</a>
         </div>
     </div>
 </div>
+</form>

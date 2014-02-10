@@ -1,14 +1,14 @@
 'use strict';
 angular.module('regCartApp')
-    .factory('TermsService', function ($resource) {
-        return $resource('http://localhost:8081/ks-with-rice-embedded-dev/services/ScheduleOfClassesService/terms', {}, {
-            query:{
-                method:'GET',
-                cache:true,
-                isArray:true
-            }
-        });
+    .factory('TermsService', ['$resource', 'APP_URL', function ($resource, APP_URL) {
+    return $resource(APP_URL + 'ScheduleOfClassesService/terms', {}, {
+        query:{
+            method:'GET',
+            cache:true,
+            isArray:true
+        }
     });
+}]);
 //angular.module('regCartApp')
 //    .service('TermsService', function TermsService($resource) {
 //        this.getTerms = function () {
