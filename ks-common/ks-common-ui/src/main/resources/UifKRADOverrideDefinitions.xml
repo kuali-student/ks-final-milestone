@@ -44,6 +44,7 @@
    <bean id="Uif-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean"  abstract="true" />
 
    <bean id="Uif-TableCollectionSection" parent="Uif-TableCollectionSection-parentBean" abstract="true">
+       <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}');"/>
    </bean>
 
     <bean id="Uif-TableCollectionLayout" parent="Uif-TableCollectionLayout-parentBean">

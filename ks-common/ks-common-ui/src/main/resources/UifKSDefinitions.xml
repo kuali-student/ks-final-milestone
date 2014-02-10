@@ -477,7 +477,8 @@
         </property>
     </bean>
     <bean id="KS-Unified-Header-Action-Group" parent="Uif-HorizontalBoxGroup"
-          p:cssClasses="ks-unified-header-rightGroup-action">
+          p:cssClasses="ks-unified-header-rightGroup-action"
+          p:onDocumentReadyScript="addBootstrapImageToLink('@{#component.id}');">
         <property name="items">
             <list>
                 <ref bean="Unified-Right-Header-Group-Action-Copy"/>
