@@ -24,6 +24,11 @@
         p:headerText="Create Course"
         p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-InitialPage-Header" />
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+             <list>
+                  <ref bean="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page"/>
+             </list>
+        </property>
 
         <property name="items">
             <list>
@@ -130,5 +135,9 @@
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
             </list>
         </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page" parent="Uif-BreadcrumbItem" p:render="@{!#form.renderNavigationPanel}" >
+        <property name="label" value="Create Course"></property>
     </bean>
 </beans>
