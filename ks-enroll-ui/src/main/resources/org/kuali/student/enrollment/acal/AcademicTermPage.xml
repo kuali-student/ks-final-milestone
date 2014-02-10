@@ -375,8 +375,7 @@
             <list>
                 <!-- Needed to prevent focus from moving to first line and re-validating, which always will cause an error
                 since the first field is a validated dropdown -->
-                <!--p:onClickScript="addBootstrapImageToLink('acal-term');"-->
-                <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Key Date Group" p:focusOnIdAfterSubmit="SELF" p:onDocumentReadyScript="addBootstrapImageToLink('acal-term');">
+                <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Key Date Group" p:focusOnIdAfterSubmit="SELF">
                     <property name="disabled" value="@{(#lp.keyDateGroupType == null) or (#lp.keyDateGroupType == '')}"/>
                     <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
                     <property name="refreshWhenChangedPropertyNames" value="@{#lp.keyDateGroupType}"/>
@@ -445,7 +444,7 @@
 
     <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSubSection"
           p:id="acal-term-keydates" p:readOnly="@{#view.readOnly}"
-          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');addBootstrapImageToLink('@{#component.id}');"
+          p:onDocumentReadyScript="highlightElements(@{validationJSONString == '' ? '{}' : validationJSONString}, @{addLineValid}, '@{#ConfigProperties['application.url']}');"
           p:layoutManager.id="key-dates-table"  >
         <property name="propertyName" value="keydates"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper"/>
@@ -558,7 +557,6 @@
     <bean id="KS-ExamDates-EditSubSection"
           parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod" p:additionalCssClasses="ks-section"
           p:id="acal-term-examdates" p:readOnly="@{#view.readOnly}">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}');"/>
         <property name="propertyName" value="examdates"/>
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper"/>
         <property name="header">
