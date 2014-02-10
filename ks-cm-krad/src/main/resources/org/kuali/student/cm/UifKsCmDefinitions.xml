@@ -18,15 +18,16 @@
        xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
-       >
-  <bean id="Uif-CancelActionButton" parent="Uif-CancelActionButton-parentBean"/>
-  <bean id="Uif-CancelActionButton-parentBean" abstract="true" parent="Uif-Action">
-    <property name="cssClasses">
-      <list>
-        <value>btn-danger</value>
-      </list>
-    </property>
-  </bean>
+        >
+    <bean id="Uif-CancelActionButton" parent="Uif-CancelActionButton-parentBean"/>
+    <bean id="Uif-CancelActionButton-parentBean" abstract="true" parent="Uif-Action">
+        <property name="cssClasses">
+            <list merge="false">
+                <value>btn</value>
+                <value>btn-link</value>
+            </list>
+        </property>
+    </bean>
 
   <bean id="Uif-CancelAction" parent="Uif-CancelActionButton" p:methodToCall="cancel"
         p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="cancel"/>
