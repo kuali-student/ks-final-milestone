@@ -25,6 +25,12 @@ body {
     font-size: 2.2em;
     margin-right: 0.3em;
     padding: 0.1em;
+    color: @gray;
+    cursor: pointer;
+        &:hover{
+        color: @grayDark;
+        text-decoration: none;
+        }
 }
 
 /******* Mobile header  *********/
@@ -38,7 +44,7 @@ body {
 }
 
 .header {
-  margin-bottom: 5px;
+  //margin-bottom: 5px;
   padding: 0.2em;
   background-color: @black;
   color: @white;
@@ -92,7 +98,7 @@ body {
        text-decoration:none;
     }
 }
-
+/******* End Mobile Navigation  *********/
 
 /* Customize container */
 @media (min-width: 768px) {
@@ -149,7 +155,7 @@ body {
 
 .kscr-cart-header{
   background-color: @grayLighter;
-  padding: 0.4em;
+  padding: 0.1em;
 }
 
 .kscr-cart-header-title{
