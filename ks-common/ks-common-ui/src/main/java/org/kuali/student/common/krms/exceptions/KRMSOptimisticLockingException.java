@@ -13,4 +13,8 @@ public class KRMSOptimisticLockingException extends RuntimeException {
         super(message);
     }
 
+    public KRMSOptimisticLockingException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
 }

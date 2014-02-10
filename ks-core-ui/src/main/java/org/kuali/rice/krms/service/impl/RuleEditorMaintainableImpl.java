@@ -416,7 +416,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             } catch (OjbOperationException e) {
                 //OptimisticLockException
                 if (e.getCause() instanceof OptimisticLockException) {
-                    throw new KRMSOptimisticLockingException();
+                    throw new KRMSOptimisticLockingException("RuleEditorMaintainableImpl Optimistic Lock exception",e);
                 } else {
                     throw e;
                 }
