@@ -98,7 +98,7 @@
         </div>
 
         <div ng-repeat="item in cartItem.schedule">
-            <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regCode}}" >{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
+            <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regCode}}_{{$index}}" >{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
                 {{item.location.building}} {{item.location.room}}
             </div>
         </div>
