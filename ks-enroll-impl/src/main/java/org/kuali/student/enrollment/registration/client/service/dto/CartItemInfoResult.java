@@ -4,7 +4,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +22,7 @@ public class CartItemInfoResult {
     private String grading;
     private List<String> creditOptions;
     private HashMap<String, String> gradingOptions;
-    private ActivityOfferingScheduleResult schedule;
+    private List<ActivityOfferingScheduleResult> schedule;
 
     public String getCartItemId() { return cartItemId; }
 
@@ -57,7 +56,7 @@ public class CartItemInfoResult {
 
     public void setGradingOptions(HashMap<String, String> gradingOptions) { this.gradingOptions = gradingOptions; }
 
-    public ActivityOfferingScheduleResult getSchedule() { return schedule; }
+    public List<ActivityOfferingScheduleResult> getSchedule() { return schedule; }
 
-    public void setSchedule(ActivityOfferingScheduleResult schedule) { this.schedule = schedule; }
+    public void setSchedule(List<ActivityOfferingScheduleResult> schedule) { this.schedule = schedule; }
 }

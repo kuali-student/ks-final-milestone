@@ -29,12 +29,17 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
+import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -50,6 +55,7 @@ import org.kuali.student.r2.common.util.TimeOfDayFormattingEnum;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -94,6 +100,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     private static TypeService typeService;
     private static CourseOfferingSetService courseOfferingSetService;
     private static LRCService lrcService;
+    private static ScheduleOfClassesService scheduleOfClassesService;
+    private static CourseRegistrationService courseRegistrationService;
 
     private static Map<String, Integer> activityPriorityMap = null;
 
@@ -305,6 +313,43 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             }
         }
         return resultList;
+    }
+
+    /**
+     * Based on the input, get the RegGroupSearchResult. There are two ways to find it (termCode, courseCode, regGroupName)
+     * or just the regGroupId.
+     *
+     * @param termCode
+     * @param courseCode
+     * @param regGroupCode
+     * @param regGroupId
+     * @param contextInfo
+     * @return
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    public static RegGroupSearchResult getRegGroup(String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+        RegGroupSearchResult rg = null;
+
+        if(!StringUtils.isEmpty(regGroupId)){
+            RegistrationGroupInfo rgInfo = getCourseOfferingService().getRegistrationGroup(regGroupId, contextInfo);
+            if(rgInfo != null){
+                rg = new RegGroupSearchResult();
+                rg.setCourseOfferingId(rgInfo.getCourseOfferingId());
+                rg.setTermId(rgInfo.getTermId());
+                rg.setRegGroupState(rgInfo.getStateKey());
+                rg.setRegGroupName(rgInfo.getName());
+                rg.setRegGroupId(rgInfo.getId());
+                rg.setActivityOfferingIds(rgInfo.getActivityOfferingIds());
+            }
+        } else {
+            // get the registration group
+            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupCode);
+        }
+        return rg;
     }
 
     private synchronized static void initActivityPriorityMap(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -536,5 +581,27 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     public void setLrcService(LRCService lrcService) {
         this.lrcService = lrcService;
+    }
+
+    public static ScheduleOfClassesService getScheduleOfClassesService() {
+        if (scheduleOfClassesService == null) {
+            scheduleOfClassesService = (ScheduleOfClassesService) GlobalResourceLoader.getService(new QName(ScheduleOfClassesServiceConstants.NAMESPACE, ScheduleOfClassesServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return scheduleOfClassesService;
+    }
+
+    public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
+        this.scheduleOfClassesService = scheduleOfClassesService;
+    }
+
+    public static CourseRegistrationService getCourseRegistrationService() {
+        if (courseRegistrationService == null) {
+            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseRegistrationService;
+    }
+
+    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
+        this.courseRegistrationService = courseRegistrationService;
     }
 }

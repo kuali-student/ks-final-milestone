@@ -62,9 +62,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     public static final Logger LOGGER = Logger.getLogger(CourseRegistrationClientServiceImpl.class);
 
-    private ScheduleOfClassesService scheduleOfClassesService;
-    private CourseRegistrationService courseRegistrationService;
-
     @Override
     public Response registerForRegistrationGroup(String userId, String termCode, String courseCode, String regGroupName, String regGroupId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
@@ -77,9 +74,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         return response.build();
-
-
     }
+
     public RegistrationResponseInfo registerForRegistrationGroupLocal(String userId, String termCode, String courseCode, String regGroupName, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
         LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupName));
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -91,7 +87,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         // get the regGroup
-        RegGroupSearchResult rg = getRegGroup(termCode, courseCode, regGroupName, regGroupId, contextInfo);
+        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termCode, courseCode, regGroupName, regGroupId, contextInfo);
 
         // get the registration group, returns default (from Course Offering) credits (as creditId) and grading options (as a string of options)
         CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode);
@@ -103,52 +99,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), credits, gradingOptionId);
 
         // persist the request object in the service
-        RegistrationRequestInfo newRegReq = getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
 
         // submit the request to the registration engine.
-        RegistrationResponseInfo registrationResponseInfo = getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+        RegistrationResponseInfo registrationResponseInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
 
         return registrationResponseInfo;
       
     }
-
-    /**
-     * Based on the input, get the RegGroupSearchResult. There are two ways to find it (termCode, courseCode, regGroupName)
-     * or just the regGroupId.
-     *
-     * @param termCode
-     * @param courseCode
-     * @param regGroupName
-     * @param regGroupId
-     * @param contextInfo
-     * @return
-     * @throws PermissionDeniedException
-     * @throws MissingParameterException
-     * @throws InvalidParameterException
-     * @throws OperationFailedException
-     * @throws DoesNotExistException
-     */
-    private RegGroupSearchResult getRegGroup(String termCode, String courseCode, String regGroupName, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
-        RegGroupSearchResult rg = null;
-
-        if(!StringUtils.isEmpty(regGroupId)){
-            RegistrationGroupInfo rgInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getRegistrationGroup(regGroupId, contextInfo);
-            if(rgInfo != null){
-                rg = new RegGroupSearchResult();
-                rg.setCourseOfferingId(rgInfo.getCourseOfferingId());
-                rg.setTermId(rgInfo.getTermId());
-                rg.setRegGroupState(rgInfo.getStateKey());
-                rg.setRegGroupName(rgInfo.getName());
-                rg.setRegGroupId(rgInfo.getId());
-                rg.setActivityOfferingIds(rgInfo.getActivityOfferingIds());
-            }
-        } else {
-            // get the registration group
-            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupName);
-        }
-        return rg;
-    }
-
 
     @Override
     public Response getRegEngineStats() {
@@ -627,28 +585,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         return credits;
-    }
-
-    public ScheduleOfClassesService getScheduleOfClassesService() {
-        if (scheduleOfClassesService == null) {
-            scheduleOfClassesService = (ScheduleOfClassesService) GlobalResourceLoader.getService(new QName(ScheduleOfClassesServiceConstants.NAMESPACE, ScheduleOfClassesServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return scheduleOfClassesService;
-    }
-
-    public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
-        this.scheduleOfClassesService = scheduleOfClassesService;
-    }
-
-    public CourseRegistrationService getCourseRegistrationService() {
-        if (courseRegistrationService == null) {
-            courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(new QName(CourseRegistrationServiceConstants.NAMESPACE, CourseRegistrationServiceConstants.SERVICE_NAME_LOCAL_PART));
-        }
-        return courseRegistrationService;
-    }
-
-    public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
     }
 
 }

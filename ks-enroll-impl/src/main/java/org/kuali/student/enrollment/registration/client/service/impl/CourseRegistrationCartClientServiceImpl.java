@@ -5,14 +5,24 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequest;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingLocationTimeResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemInfoResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleLocationResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleTimeResult;
+import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -23,11 +33,20 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -69,8 +88,35 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
-    public CartItemInfoResult addCourseToCart(String cartId, String courseCode, String termId, String regGroupId, String gradingMethod, String credits){
-        CartItemInfoResult cartItemInfo = new CartItemInfoResult();
+    public CartItemInfoResult addCourseToCart(String cartId, String courseCode, String termId, String termCode, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        RegistrationRequestInfo cart = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
+
+        // get the regGroup
+        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termCode, courseCode, regGroupCode, null, contextInfo);
+
+        // get the registration group, returns default (from Course Offering) credits (as creditId) and grading options (as a string of options)
+        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, termId, null);
+
+
+        RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
+        registrationRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
+        registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        registrationRequestItem.setRegistrationGroupId(rg.getRegGroupId());
+        registrationRequestItem.setPersonId(cart.getRequestorId());
+        registrationRequestItem.setCredits(new KualiDecimal(credits));
+        registrationRequestItem.setGradingOptionId(gradingOptionId);
+
+        cart.getRegistrationRequestItems().add(registrationRequestItem);
+
+        getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
+
+
+        CartItemInfoResult cartItemInfo = getCartItemInfoResult(rg.getActivityOfferingIds(), contextInfo);
+
+        cartItemInfo.setCredits(credits);
+        cartItemInfo.setGrading(gradingOptionId);
 
         return cartItemInfo;
     }
@@ -120,6 +166,71 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             }
         }
         throw new DoesNotExistException("No matching cart item was found.");
+    }
+
+    private CartItemInfoResult getCartItemInfoResult(List<String> aoIDs, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
+        CartItemInfoResult cartItemInfo = new CartItemInfoResult();
+        HashMap<String, ActivityOfferingScheduleResult> hmSchedules = new HashMap<String, ActivityOfferingScheduleResult>();
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.AO_SCHEDULES_BY_AO_IDS_SEARCH_TYPE.getKey());
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.AO_IDS, aoIDs);
+
+        SearchResultInfo searchResult;
+        try {
+            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
+        } catch (Exception e) {
+            throw new OperationFailedException("Search of activity offering schedules failed: ", e);
+        }
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            String luiId = "", luiName = "", roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
+                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID.equals(cellInfo.getKey())) {
+                    luiId = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_NAME.equals(cellInfo.getKey())) {
+                    luiName = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cellInfo.getKey())) {
+                    roomCode = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE.equals(cellInfo.getKey())) {
+                    buildingCode = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cellInfo.getKey())) {
+                    weekdays = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS.equals(cellInfo.getKey())) {
+                    startTimeMs = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS.equals(cellInfo.getKey())) {
+                    endTimeMs = cellInfo.getValue();
+                }
+
+                // setting location and time
+                // AO location
+                ScheduleLocationResult location = new ScheduleLocationResult();
+                location.setBuilding(buildingCode);
+                location.setRoom(roomCode);
+                // AO times
+                ScheduleTimeResult time = new ScheduleTimeResult();
+                TimeOfDayInfo startTime = TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs));
+                time.setStartTime(TimeOfDayHelper.formatTimeOfDay(startTime));
+                TimeOfDayInfo endTime = TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs));
+                time.setEndTime(TimeOfDayHelper.formatTimeOfDay(endTime));
+                time.setDays(weekdays);
+                // Combining location + time for AO
+                ActivityOfferingLocationTimeResult aoLocationTime = new ActivityOfferingLocationTimeResult();
+                aoLocationTime.setLocation(location);
+                aoLocationTime.setTime(time);
+                // now add location + time to the final result
+                if (!hmSchedules.containsKey(luiId)) {
+                    ActivityOfferingScheduleResult aoSchedule = new ActivityOfferingScheduleResult();
+                    aoSchedule.setActivityOfferingType(luiName);
+                    List<ActivityOfferingLocationTimeResult> aoLocationTimes = new ArrayList<ActivityOfferingLocationTimeResult>();
+                    aoLocationTimes.add(aoLocationTime);
+                    aoSchedule.setActivityOfferingLocationTime(aoLocationTimes);
+                } else {
+                    hmSchedules.get(luiId).getActivityOfferingLocationTime().add(aoLocationTime);
+                }
+            }
+        }
+
+        return cartItemInfo;
     }
 
     private ContextInfo getContextAndCheckLogin(String userId) throws LoginException {
