@@ -995,12 +995,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
     /**
-     * Add the division type searches to the search requests
+     * Add searches based on the components found in the query string
      *
      * @param divisions - The list of divisions found in the query string
      * @param codes - The list of course codes found in the query string
      * @param levels - The list of course levels found in the query string
      * @param incompleteCodes - The list of possible incomplete course codes found in the query string
+     * @param completeCodes - The list of completed (division+code) course codes found in the query string
+     * @param completeLevels - The list of completed (division+level) course codes found in the query string
      * @param requests - The list of search requests to be ran
      */
 	public void addComponentSearches(List<String> divisions, List<String> codes,
@@ -1008,10 +1010,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Complete Code searches
         for(String completedCode : completeCodes){
+            // Break into pieces
             String division = completedCode.substring(0,completedCode.indexOf(','));
             String code = completedCode.substring(completedCode.indexOf(',')+1);
+
+            // Remove an entry from the lists of pieces since were using one
             codes.remove(code);
             divisions.remove(division);
+
+            //Create search
             SearchRequestInfo request = new SearchRequestInfo(
                     CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDCODE);
             request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
@@ -1022,10 +1029,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         // Complete Level searches
         for(String completedLevel : completeLevels){
+            // Break into pieces
             String division = completedLevel.substring(0,completedLevel.indexOf(","));
             String level = completedLevel.substring(completedLevel.indexOf(",")+1);
+
+            // Remove an entry from the lists of pieces since were using one
             levels.remove(level);
             divisions.remove(division);
+
+            // Create Search
             SearchRequestInfo request = new SearchRequestInfo(
                     CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDLEVEL);
             // Converts "1XX" to "100"
@@ -1037,22 +1049,39 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         }
 
         // for each division found determine the search types needed
+        List<String> seenDivisions = new ArrayList<String>();
 		for (String division : divisions) {
+
+            // Skip if division has already been seen
+            if(seenDivisions.contains(division)) continue;
+
+            seenDivisions.add(division);
 			boolean needDivisionQuery = true;
 
             // Create code searches for that division
+            List<String> seenCodes = new ArrayList<String>();
 			for (String code : codes) {
+                // Skip if already seen
+                if(seenCodes.contains(code)) continue;
+
+                seenCodes.add(code);
 				needDivisionQuery = false;
-				SearchRequestInfo request = new SearchRequestInfo(
+
+                SearchRequestInfo request = new SearchRequestInfo(
                         CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDCODE);
 				request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
 				request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
 				requests.add(request);
 			}
 
-            // Create level searchs for that division
+            // Create level searches for that division
+            List<String> seenLevels = new ArrayList<String>();
 			for (String level : levels) {
-				needDivisionQuery = false;
+                // Skip if already seen
+                if(seenLevels.contains(level)) continue;
+
+                seenLevels.add(level);
+                needDivisionQuery = false;
 
 				// Converts "1XX" to "100"
 				level = level.substring(0, 1) + "00";
@@ -1065,7 +1094,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			}
 
             // Create course code only search
+            List<String> seenIncompleteCodes = new ArrayList<String>();
             for (String incompleteCode : incompleteCodes) {
+                // Skip if already seen
+                if(seenIncompleteCodes.contains(incompleteCode)) continue;
+
+                seenIncompleteCodes.add(incompleteCode);
                 needDivisionQuery = false;
 
                 SearchRequestInfo request = new SearchRequestInfo(
@@ -1100,6 +1134,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      *
      * @param query - The query string
      * @param requests - The list of search requests to be ran
+     * @param searchTerm - The term filter for the search (used for CO searches)
      */
 	public void addFullTextSearches(String query,
 			List<SearchRequestInfo> requests, String searchTerm) {
@@ -1204,13 +1239,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		LOG.info("End of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
-        // Add additional params to the search requests
-		LOG.info("Start of method addCampusParams of CourseSearchStrategy:"
-				+ System.currentTimeMillis());
-		//addCampusParams(requests, form);
-		LOG.info("Start of method addCampusParams of CourseSearchStrategy:"
-				+ System.currentTimeMillis());
-
         // Process Current list of Requests into direct search queries
 		LOG.info("Count of No of Query Tokens:" + requests.size());
 		requests = processRequests(requests, form);
@@ -1219,9 +1247,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		LOG.info("End Of Method queryToRequests in CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-/*
-		addVersionDateParam(requests);
-*/
 
 		return requests;
 	}

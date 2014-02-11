@@ -12,7 +12,7 @@ public class QueryTokenizer
 	enum Rule
 	{
         // Order significant. See matcher's foreach loop below.
-		WORD( "[A-Za-z0-9&]+" ),
+		WORD( "[A-Za-z0-9&-_]+" ),
 		QUOTED( "\"[^\"]*\"" );
 		
 		public Pattern pattern;
@@ -159,6 +159,14 @@ public class QueryTokenizer
         return tokens;
     }
 
+    /**
+     * Extract a list of complete course levels (Divison+code) found in a string
+     *
+     * @param source - String to parse
+     * @param divisions - list of found divisions
+     * @param codes - List of found codes
+     * @return A list of complete course codes
+     */
     public static List<String> extractCompleteCourseCodes(String source, List<String> divisions, List<String> codes){
         List<String> completedCodes = new ArrayList<String>();
         List<Token> tokens = tokenize(source);
@@ -179,6 +187,14 @@ public class QueryTokenizer
         return completedCodes;
     }
 
+    /**
+     * Extract a list of complete course levels (Divison+level) found in a string
+     *
+     * @param source - String to parse
+     * @param divisions - list of found divisions
+     * @param levels - List of found levels
+     * @return A list of complete course levels
+     */
     public static List<String> extractCompleteCourseLevels(String source, List<String> divisions, List<String> levels){
         List<String> completedLevels = new ArrayList<String>();
         List<Token> tokens = tokenize(source);
@@ -199,6 +215,13 @@ public class QueryTokenizer
         return completedLevels;
     }
 
+    /**
+     * Extract a list of divisions found in a string
+     *
+     * @param source - String to parse
+     * @param divisionMap - Map of valid divisions
+     * @return A list of valid divisions strings in the text
+     */
     public static List<String> extractDivisionsNoSpaces(String source, Map<String, String> divisionMap){
         List<String> divisions = new ArrayList<String>();
         List<Token> tokens = tokenize(source);
@@ -212,6 +235,14 @@ public class QueryTokenizer
         return divisions;
     }
 
+    /**
+     * Extract a list of divisions found in a string while allowing the divisions to be create from 2 tokens
+     * separated by a space
+     *
+     * @param source - String to parse
+     * @param divisionMap - Map of valid divisions
+     * @return A list of valid division strings in the text
+     */
     public static List<String> extractDivisionsSpaces(String source, Map<String, String> divisionMap){
         List<String> divisions = new ArrayList<String>();
         boolean match = true;
@@ -230,7 +261,7 @@ public class QueryTokenizer
                 if (divisionMap.containsKey(key)) {
                     String division = divisionMap.get(key);
                     divisions.add(division);
-                    source = source.replace(pair, "");
+                    source = source.replaceFirst(pair, "");
                     match = true;
                 }
             }
