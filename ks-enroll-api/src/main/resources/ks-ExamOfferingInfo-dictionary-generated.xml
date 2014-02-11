@@ -31,12 +31,6 @@
         because the generator is not perfect) please update the corresponding
         ks-XXXX-dictionary.xml instead of this one.
     ************************************************************* -->
-    <!-- ********************************************************************************************************** -->
-    <!-- The following file is required for this file to load:
- ks-base-dictionary.xml
-plus any of its dependencies -->
-    <!-- ********************************************************************************************************** -->
-    <import resource="classpath:ks-base-dictionary.xml"/>
 
     <!-- ExamOfferingInfo-->
     <bean id="ExamOfferingInfo-generated" abstract="true" parent="DataObjectEntry">
