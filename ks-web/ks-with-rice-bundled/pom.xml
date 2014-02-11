@@ -214,6 +214,18 @@
             <version>${ks.lum.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-krad</artifactId>
+            <version>${ks.lum.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-web</artifactId>
+            <version>${ks.lum.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>
@@ -255,6 +267,11 @@
             <version>${ks.core.version}</version>
             <type>war</type>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-deployment-resources</artifactId>
+            <version>${ks.lum.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.ap</groupId>
