@@ -7,16 +7,18 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
+import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingLocationTimeResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
+import org.kuali.student.enrollment.registration.client.service.dto.Link;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleLocationResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleTimeResult;
@@ -37,7 +39,6 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -47,6 +48,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.security.auth.login.LoginException;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -94,7 +96,85 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
-    public CartItemResult addCourseToCart(String cartId, String courseCode, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+    public Response addCourseToCartRS(String cartId, String regGroupId, String courseCode, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        Response.ResponseBuilder response;
+
+        try {
+            CartItemResult result = addCourseToCart(cartId, regGroupId, courseCode, regGroupCode,gradingOptionId,credits);
+            // build the link to delete this item.
+            result.getActionLinks().add(buildDeleteLink(CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART, cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
+
+            //This will need to be changed to the cartItemResponse object in the future!
+            response = Response.ok(result);
+        } catch (Throwable t) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
+    }
+
+    protected Link buildDeleteLink(String uriBase, String cartId, String cartItemId, String gradingOptionId, String credits){
+        String action = "removeItemFromCart";
+        String uri = uriBase + "/removeItemFromCart?cartId=%s&cartItemId=%s&gradingOptionId=$s&credits=%s";
+        uri = String.format(uri, cartId, cartItemId, gradingOptionId, credits );
+
+        return new Link(action, uri);
+    }
+
+    protected Link buildAddLink(String uriBase, String cartId, String regGroupId, String gradingOptionId, String credits){
+        String action = "addCourseToCart";
+        String uri = uriBase + "/addCourseToCart?cartId=%s&regGroupId=%s&gradingOptionId=$s&credits=%s";
+        uri = String.format(uri, cartId, regGroupId, gradingOptionId, credits );
+
+        return new Link(action, uri);
+    }
+
+    @Override
+    public Response removeItemFromCartRS(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId, @QueryParam("gradingOptionId") String gradingOptionId, @QueryParam("credits") String credits) {
+        Response.ResponseBuilder response;
+
+        try {
+            CartItemResult result = removeItemFromCart(cartId, cartItemId, gradingOptionId, credits);
+            // build the link to add this item.
+            result.getActionLinks().add(buildAddLink(CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART, cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
+
+            //This will need to be changed to the cartItemResponse object in the future!
+            response = Response.ok(result);
+        } catch (Throwable t) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
+    }
+
+    public CartItemResult removeItemFromCart(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId, @QueryParam("gradingOptionId") String gradingOptionId, @QueryParam("credits") String credits) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        RegistrationRequestInfo cart = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
+
+        RegistrationRequestItem removedItem = null;
+        for(int i=0; i < cart.getRegistrationRequestItems().size(); i++){
+            if(cart.getRegistrationRequestItems().get(i).getId().equals(cartItemId)){
+                removedItem = cart.getRegistrationRequestItems().remove(i);
+                break;
+            }
+        }
+
+        getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
+
+        CartItemResult cartItemInfo = new CartItemResult();
+        cartItemInfo.setRegGroupId(removedItem.getRegistrationGroupId());
+        cartItemInfo.setCredits(credits);
+        cartItemInfo.setGrading(gradingOptionId);
+
+        return cartItemInfo;
+
+    }
+
+
+    protected CartItemResult addCourseToCart(String cartId, String regGroupId, String courseCode, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         // getting cart
@@ -105,14 +185,14 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         }
 
         // get the regGroup
-        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, null, contextInfo);
+        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, regGroupId, contextInfo);
 
         // Create new reg request item and add it to the cart
         RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), credits, gradingOptionId);
         cart.getRegistrationRequestItems().add(registrationRequestItem);
         RegistrationRequestInfo info = getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
 
-        CartItemResult cartItemInfo = getCartItemInfoResult(rg.getCourseOfferingId(), rg.getActivityOfferingIds(), contextInfo);
+        CartItemResult cartItemInfo = getCartItemInfoResult(rg.getCourseOfferingId(), rg.getActivityOfferingIds(), contextInfo); // populates item with schedule info
         // looking for new item
         for (RegistrationRequestItemInfo item : info.getRegistrationRequestItems()) {
             if (!registrationRequestIds.contains(item.getId())) {
@@ -120,6 +200,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             }
         }
         cartItemInfo.setCourseCode(courseCode);
+        cartItemInfo.setRegGroupId(rg.getRegGroupId());
         cartItemInfo.setRegGroupCode(regGroupCode);
         cartItemInfo.setCredits(credits);
         cartItemInfo.setGrading(gradingOptionId);

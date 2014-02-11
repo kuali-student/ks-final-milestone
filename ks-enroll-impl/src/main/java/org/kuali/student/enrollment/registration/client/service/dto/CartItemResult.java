@@ -4,6 +4,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import java.util.Map;
 public class CartItemResult {
     private String cartItemId;
     private String courseCode;
+    private String regGroupId;
     private String regGroupCode;
     private String courseTitle;
     private String credits;
@@ -24,6 +26,7 @@ public class CartItemResult {
     private List<String> creditOptions;
     private Map<String, String> gradingOptions;
     private List<ActivityOfferingScheduleResult> schedule;
+    private List<Link> actionLinks;
 
     public String getCartItemId() { return cartItemId; }
 
@@ -49,15 +52,49 @@ public class CartItemResult {
 
     public void setGrading(String grading) { this.grading = grading; }
 
-    public List<String> getCreditOptions() { return creditOptions; }
+    public List<String> getCreditOptions() {
+        if(creditOptions == null){
+            creditOptions = new ArrayList<String>();
+        }
+        return creditOptions;
+    }
 
     public void setCreditOptions(List<String> creditOptions) { this.creditOptions = creditOptions; }
 
-    public Map<String, String> getGradingOptions() { return gradingOptions; }
+    public Map<String, String> getGradingOptions() {
+        if(gradingOptions == null){
+            gradingOptions = new HashMap<String, String>();
+        }
+        return gradingOptions;
+    }
 
     public void setGradingOptions(Map<String, String> gradingOptions) { this.gradingOptions = gradingOptions; }
 
-    public List<ActivityOfferingScheduleResult> getSchedule() { return schedule; }
+    public List<ActivityOfferingScheduleResult> getSchedule() {
+        if(schedule == null){
+            schedule = new ArrayList<ActivityOfferingScheduleResult>();
+        }
+        return schedule;
+    }
 
     public void setSchedule(List<ActivityOfferingScheduleResult> schedule) { this.schedule = schedule; }
+
+    public String getRegGroupId() {
+        return regGroupId;
+    }
+
+    public void setRegGroupId(String regGroupId) {
+        this.regGroupId = regGroupId;
+    }
+
+    public List<Link> getActionLinks() {
+        if(actionLinks == null){
+            actionLinks = new ArrayList<Link>();
+        }
+        return actionLinks;
+    }
+
+    public void setActionLinks(List<Link> actionLinks) {
+        this.actionLinks = actionLinks;
+    }
 }

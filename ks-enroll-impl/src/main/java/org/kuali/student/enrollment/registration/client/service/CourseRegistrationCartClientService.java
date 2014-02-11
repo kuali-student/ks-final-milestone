@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -61,6 +60,7 @@ public interface CourseRegistrationCartClientService {
      *
      * @param cartId       ID of the registrationRequest representing the cart
      * @param courseCode   course offering to add to the cart
+     * @param regGroupId   Optional. Will speed things up if passed instead of (courseCode, regGroupCode)
      * @param regGroupCode reg group we want to add
      * @param gradingOptionId    the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
      * @param credits    The numeric string value of credit student registration option. Must convert to KualiDecimal.
@@ -69,11 +69,29 @@ public interface CourseRegistrationCartClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/addCourseToCart")
-    public CartItemResult addCourseToCart(@QueryParam("cartId") String cartId,
+    public Response addCourseToCartRS(@QueryParam("cartId") String cartId,
                                         @QueryParam("courseCode") String courseCode,
+                                        @QueryParam("regGroupId")  String regGroupId,
                                         @QueryParam("regGroupCode")  String regGroupCode,
                                         @QueryParam("gradingOptionId") String gradingOptionId,
                                         @QueryParam("credits") String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
+
+    /**
+     * Rest method that removes an item from the cart.
+     *
+     * @param cartId    ID of the registrationRequest representing the cart
+     * @param cartItemId id of the item to delete from the cart.
+     * @param gradingOptionId the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
+     * @param credits  The numeric string value of credit student registration option. Must convert to KualiDecimal.
+     * @return   Response(with add action link) containing the cart item that was updated or a server error response.
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/removeItemFromCart")
+    public Response removeItemFromCartRS(@QueryParam("cartId") String cartId,
+                                         @QueryParam("cartItemId") String cartItemId,
+                                      @QueryParam("gradingOptionId") String gradingOptionId,
+                                      @QueryParam("credits") String credits) ;
 
 
     /**
