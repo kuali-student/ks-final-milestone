@@ -131,41 +131,42 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="organizationName">
+                <bean parent="Uif-InputField" p:propertyName="organizationName" p:id="organizationName">
+                    <property name="refreshWhenChangedPropertyNames" value="organizationName"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="50" />
-                    </property>
-                    <property name="suggest">
-                        <bean parent="Uif-Suggest" p:render="true">
-                            <property name="valuePropertyName" value="organizationName" />
-                            <property name="templateOptions" value="minLength:1,delay:0" />
-                            <property name="suggestQuery">
-                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="searchForOrganizations" />
-                            </property>
-                        </bean>
+                        <bean parent="Uif-TextControl" p:size="50"/>
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">
-                            <property name="quickfinderAction">
-                                <bean parent="Uif-ActionLink">
-                                    <property name="methodToCall" value="performLookup" />
-                                    <property name="actionLabel" value="Advanced Search" />
-                                    <property name="cssClasses">
-                                        <list merge="true">
-                                            <value>uif-actionLink-block</value>
-                                        </list>
-                                    </property>
-                                </bean>
-                            </property>
-                            <property name="lightBoxLookup">
-                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
-                            </property>
-                            <property name="dataObjectClassName"
-                                      value="org.kuali.student.cm.course.form.OrganizationInfoWrapper" />
+                            <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.OrganizationInfoWrapper"/>
                             <property name="fieldConversions">
                                 <map>
                                     <entry key="organizationName" value="organizationName" />
                                     <entry key="abbreviation" value="abbreviation" />
+                                </map>
+                            </property>
+                            <property name="lookupParameters">
+                                <map>
+                                    <entry key="organizationName" value="organizationName"/>
+                                </map>
+                            </property>
+                            <property name="quickfinderAction">
+                                <bean parent="Uif-ActionLink" p:actionLabel="Advanced Search" p:style="display:block" p:methodToCall="performLookup" p:evaluateDisabledOnKeyUp="true" />
+                            </property>
+                            <property name="lightBoxLookup">
+                                <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                            </property>
+                        </bean>
+                    </property>
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true" p:valuePropertyName="organizationName">
+                            <property name="returnFullQueryObject" value="true"/>
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getOrganizationsForSuggest"/>
+                            </property>
+                            <property name="templateOptions">
+                                <map merge="true">
+                                    <entry key="minLength" value="1"/>
                                 </map>
                             </property>
                         </bean>
