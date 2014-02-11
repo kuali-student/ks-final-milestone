@@ -123,19 +123,25 @@ public class SpringSecurityTest {
 
     @Test
     public void testLogout() throws Exception {
-        // after logging out
-        mockMvc.perform(get("/j_spring_security_logout"))
-                // should be redirected to /
-                .andExpect(redirectedUrl("/"))
-                .andExpect(new ResultMatcher() {
-                    @Override
-                    public void match(MvcResult result) throws Exception {
-                        HttpSession session = result.getRequest().getSession();
-                        SecurityContext securityContext = (SecurityContext) session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
-                        // security context should be wiped out
-                        assertNull("Spring Security context should be null", securityContext);
-                    }
-                });
+        List<String> pathsToTest = Arrays.asList("/j_spring_security_logout",
+                "/org.kuali.student.lum.lu.ui.main.LUMMain/j_spring_security_logout");
+
+        // for each of the tested paths, test to see if logout works properly
+        for (String path: pathsToTest) {
+            // after logging out
+            mockMvc.perform(get(path))
+                    // should be redirected to /
+                    .andExpect(redirectedUrl("/"))
+                    .andExpect(new ResultMatcher() {
+                        @Override
+                        public void match(MvcResult result) throws Exception {
+                            HttpSession session = result.getRequest().getSession();
+                            SecurityContext securityContext = (SecurityContext) session.getAttribute(SPRING_SECURITY_CONTEXT_KEY);
+                            // security context should be wiped out
+                            assertNull("Spring Security context should be null", securityContext);
+                        }
+                    });
+        }
     }
 
     @Test
