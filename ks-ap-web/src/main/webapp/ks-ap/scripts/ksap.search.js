@@ -28,7 +28,7 @@ function ksapCourseSearchColumns() {
     }, {
         'bSortable' : true,
         'bSearchable' : true,
-        'sTitle' : 'Course Name',
+        'sTitle' : 'Title',
         'sClass' : 'sortable details_link',
         'sWidth' : '100px'
     }, {
