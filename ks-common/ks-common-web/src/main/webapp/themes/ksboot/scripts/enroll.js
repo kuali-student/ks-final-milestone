@@ -498,22 +498,26 @@ function rgbToHex(r, g, b) {
  with KRAD. I think if using the src attribute is not causing any problem for the KRAD we should
  go back to using the src attribute.
  */
-function addBootstrapImageToLink(containerId) {
-//    jQuery("#" + containerId).find('img').each(function () {
-    jQuery("#" + containerId + " img[style^=ks-fontello-icon-]").each(function () {
+function addBootstrapImageToLink() {
+    jQuery("img[style^=ks-fontello-icon-]").each(function () {
         /*Style is used instead of src to prevent errors in krad*/
         var src = jQuery(this).attr('style');
-        var anchor = jQuery(this).parent();
-        var imagePosition = jQuery(anchor).data("imageposition");
-        var aText = anchor.text();
-        anchor.text("");
+        var parent = jQuery(this).parent();
+        if (jQuery(parent).is("span")) {
+            parent.addClass(src);
+            jQuery(this).remove();
+        } else {
+            var imagePosition = jQuery(parent).data("imageposition");
+            var aText = parent.text();
+            parent.text("");
         var imageFont = '<i class="' + src + '"></i>';
         if (imagePosition != undefined && imagePosition == 'right') {
             imageFont = jQuery.trim(aText) + imageFont;
         } else {
             imageFont = imageFont + jQuery.trim(aText);
         }
-        jQuery(anchor).append(imageFont);
+            jQuery(parent).append(imageFont);
+        }
     });
 }
 
