@@ -3,6 +3,7 @@ package org.kuali.student.ap.coursesearch.dataobject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +27,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.kuali.student.r2.core.acal.infc.Term;
 import org.springframework.util.StringUtils;
 
 /**
@@ -164,43 +167,48 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         //Return only the scheduled terms
         CollectionListPropertyEditorHtmlListType listType = CollectionListPropertyEditorHtmlListType.DL;
 
-        Element termsList = DocumentHelper.createElement(listType
-                .getListElementName()); // dl
+        Element termsList = DocumentHelper.createElement(listType.getListElementName()); // dl
 
         if (scheduledTermsList != null && scheduledTermsList.size() > 0) {
-            Element termsListItem = termsList.addElement(listType
-                    .getListItemElementName()); // dd
+            Element termsListItem = termsList.addElement(listType.getListItemElementName()); // dd
+
             termsListItem.addAttribute("class", "scheduled");
-            Element scheduledListElement = termsListItem.addElement(listType
-                    .getListElementName()); // dl
-            for (String scheduledTermId : scheduledTermsList) {
-                Element scheduledListItem = scheduledListElement
-                        .addElement(listType.getListItemElementName()); // dd
+
+            Element scheduledListElement = termsListItem.addElement(listType.getListElementName()); // dl
+
+            List<TermInfo> scheduledTermsListIds;
+            try {
+                scheduledTermsListIds = KsapFrameworkServiceLocator.getAcademicCalendarService().getTermsByIds(scheduledTermsList, KsapFrameworkServiceLocator.getContext().getContextInfo());
+            } catch (DoesNotExistException e) {
+                throw new IllegalArgumentException("ATP lookup error", e);
+            } catch (InvalidParameterException e) {
+                throw new IllegalArgumentException("ATP lookup error", e);
+            } catch (MissingParameterException e) {
+                throw new IllegalArgumentException("ATP lookup error", e);
+            } catch (OperationFailedException e) {
+                throw new IllegalStateException("ATP lookup error", e);
+            } catch (PermissionDeniedException e) {
+                throw new IllegalStateException("ATP lookup error", e);
+            }
+
+            //sort scheduledTermsListIds
+            List<Term> terms = new ArrayList<Term>(scheduledTermsListIds);
+            List<Term> scheduledTermsListSorted = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(terms, true);
+
+            Integer displayLimit = new Integer(ConfigContext.getCurrentContextConfig().getProperty("ks.ap.search.terms.scheduled.limit"));
+
+            //list greater than 3, truncate
+            if ( scheduledTermsListSorted.size() >  displayLimit )
+                scheduledTermsListSorted = scheduledTermsListSorted.subList(0, displayLimit);
+
+            for (Term scheduledTermId : scheduledTermsListSorted) {
+                Element scheduledListItem = scheduledListElement.addElement(listType.getListItemElementName()); // dd
                 String scheduledTerm;
-                try {
-                    scheduledTerm = KsapFrameworkServiceLocator
-                            .getAtpService()
-                            .getAtp(scheduledTermId,
-                                    KsapFrameworkServiceLocator.getContext()
-                                            .getContextInfo()).getName();
-                } catch (DoesNotExistException e) {
-                    throw new IllegalArgumentException("ATP lookup error", e);
-                } catch (InvalidParameterException e) {
-                    throw new IllegalArgumentException("ATP lookup error", e);
-                } catch (MissingParameterException e) {
-                    throw new IllegalArgumentException("ATP lookup error", e);
-                } catch (OperationFailedException e) {
-                    throw new IllegalStateException("ATP lookup error", e);
-                } catch (PermissionDeniedException e) {
-                    throw new IllegalStateException("ATP lookup error", e);
-                }
-                String termAbbreviation = scheduledTerm.substring(0, 2)
-                        .toUpperCase();
+                scheduledTerm = scheduledTermId.getName();
+                String termAbbreviation = scheduledTerm.substring(0, 2).toUpperCase();
                 scheduledListItem.addAttribute("class", termAbbreviation);
-                String year = scheduledTerm
-                        .substring(scheduledTerm.length() - 2);
-                scheduledListItem.setText(String.format("%s %s",
-                        termAbbreviation, year));
+                String year = scheduledTerm.substring(scheduledTerm.length() - 2);
+                scheduledListItem.setText(String.format("%s %s", termAbbreviation, year));
             }
         }
         return termsList.asXML();

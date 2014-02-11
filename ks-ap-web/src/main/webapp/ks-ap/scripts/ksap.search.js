@@ -487,7 +487,4 @@ function updateTermsOfferedDisplay(jqObject){
         newList.append(newDD);
     }
     baseDL.find('dd.projected').empty().append(newList);
-
-    //truncate scheduled terms to 3
-    jqObject.find('dd.scheduled dl dd').slice(jQuery('#course_search_results_panel').data('scheduled-terms-limit'));
 }
