@@ -8,7 +8,7 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
 
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function(newValue) {
-            CartService.getCart().query({termId:$scope.termId,userId:'admin'}, function(theCart){
+            CartService.getCart().query({termId:newValue,userId:'admin'}, function(theCart){
                 $scope.cart = theCart;
             });
         });
@@ -23,56 +23,54 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
 
         $scope.add = function () {
 
-            var addedItem = CartService.addCourseToCart().query({cartId:$scope.cart.cartId,
+            CartService.addCourseToCart().query({cartId:$scope.cart.cartId,
                 courseCode:$scope.courseCode,
                 termId:$scope.termId,
                 regGroupCode:$scope.regCode,
                 gradingMethod:'',
                 credits:''
             }, function (response) {
-                console.log("response: "+JSON.stringify(response));
-
+                console.log('response: '+JSON.stringify(response));
                 console.log('Searched for course: ' + $scope.courseCode + ' Term: ' + $scope.termId);
-
                 console.log('Added item:');
-                console.log(addedItem);
-                if (!addedItem.cartItemId) {
 
-//                    console.log('No itemId so finding options');
-//                    return $state.transitionTo('root.cart.options');
-                    $modal.open({
-                        backdrop:'static',
-                        templateUrl:'partials/additionalOptions.html',
-                        resolve:{item:function () {
-                            return addedItem;
-                        }},
-                        controller:['$scope', 'item', function ($scope, item) {
-                            console.log('in controller');
-                            console.log($scope);
-                            console.log(item);
-                            $scope.addedItem = item;
-                            $scope.dismiss = function () {
-                                console.log('dismiss');
-                                $scope.$close(true);
-                            };
+                $scope.cart.items.unshift(response);
+//                if (!addedItem.cartItemId) {
+//
+////                    console.log('No itemId so finding options');
+////                    return $state.transitionTo('root.cart.options');
+//                    $modal.open({
+//                        backdrop:'static',
+//                        templateUrl:'partials/additionalOptions.html',
+//                        resolve:{item:function () {
+//                            return addedItem;
+//                        }},
+//                        controller:['$scope', 'item', function ($scope, item) {
+//                            console.log('in controller');
+//                            console.log($scope);
+//                            console.log(item);
+//                            $scope.addedItem = item;
+//                            $scope.dismiss = function () {
+//                                console.log('dismiss');
+//                                $scope.$close(true);
+//                            };
+//
+//                            $scope.save = function () {
+//                                console.log('save');
+//                                $scope.$close(true);
+//                            };
+//                        }]
+//                    }).result.then(function (result) {
+//                            console.log('before result transition');
+//                            if (result) {
+//                                console.log('transition');
+//                            }
+//                        });
+//                } else {
+//
+                })
+            };
 
-                            $scope.save = function () {
-                                console.log('save');
-                                $scope.$close(true);
-                            };
-                        }]
-                    }).result.then(function (result) {
-                            console.log('before result transition');
-                            if (result) {
-                                console.log('transition');
-                            }
-                        });
-                } else {
-                    $scope.cart.items.unshift(addedItem);
-                }
-            });
-
-        },
 
         /*
         $scope.search = function() {

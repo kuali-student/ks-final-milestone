@@ -79,6 +79,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CO_ID = "courseOfferingId";
         public static final String RG_ID = "regGroupId";
         public static final String PERSON_ID = "personId";
+        public static final String CART_ITEM_ID = "cartItemId";
         public static final String ATP_ID = "atpId";
         public static final String TYPE_KEY = "typeKey";
     }
@@ -268,6 +269,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String atpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
+        String cartItemId = requestHelper.getParamAsString(SearchParameters.CART_ITEM_ID);
 
         String queryStr =
                 "SELECT " +
@@ -334,6 +336,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND room2bldg.ID = room.BUILDING_ID " +
                         "AND schedCmpTmslt.SCHED_CMP_ID = schedCmp.ID " +
                         "AND schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
+                        (StringUtils.isEmpty(cartItemId)?" ":"AND lprti.ID = :cartItemId ") +
                         "ORDER BY " +
                         "    lprt.ID, " +
                         "    ao.LUI_TYPE";
@@ -342,6 +345,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.PERSON_ID, personId);
         query.setParameter(SearchParameters.ATP_ID, atpId);
+        if(!StringUtils.isEmpty(cartItemId)){
+            query.setParameter(SearchParameters.CART_ITEM_ID, cartItemId);
+        }
 
         List<Object[]> results = query.getResultList();
 
@@ -502,9 +508,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "SELECT lui.ID, lui.NAME, luiId.LNG_NAME, luiRes.RESULT_VAL_GRP_ID, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
-                        "FROM KSEN_LUI lui, KSEN_LUI_IDENT luiId " +
+                        "FROM KSEN_LUI_IDENT luiId, KSEN_LUI lui " +
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP luiRes " +
-                        "ON luiRes.LUI_ID =  = lui.ID " +
+                        "ON luiRes.LUI_ID = lui.ID " +
                         "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
                         "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +

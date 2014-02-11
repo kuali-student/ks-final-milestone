@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
@@ -30,6 +31,7 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Course
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -187,11 +189,14 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     }
 
+    @Transactional
     protected CartItemResult addCourseToCart(String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         // getting cart
         RegistrationRequestInfo cart = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
+
+        //Save all the existing ids
         List<String> registrationRequestIds = new ArrayList<String>();
         for (RegistrationRequestItemInfo item : cart.getRegistrationRequestItems()) {
             registrationRequestIds.add(item.getId());
@@ -202,23 +207,34 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
         // Create new reg request item and add it to the cart
         RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), credits, gradingOptionId);
+        registrationRequestItem.setMeta(new MetaInfo());
+        registrationRequestItem.getMeta().setCreateId(cart.getMeta().getCreateId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
         cart.getRegistrationRequestItems().add(registrationRequestItem);
-        RegistrationRequestInfo info = getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
+        //Persist the new cart with the newly added item
+        RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
 
-        CartItemResult cartItemInfo = getCartItemInfoResult(rg.getCourseOfferingId(), rg.getActivityOfferingIds(), contextInfo); // populates item with schedule info
         // looking for new item
-        for (RegistrationRequestItemInfo item : info.getRegistrationRequestItems()) {
-            if (!registrationRequestIds.contains(item.getId())) {
-                cartItemInfo.setCartItemId(item.getId());
+        String newCartItemId = null;
+        for (RegistrationRequestItemInfo cartItem : cartRegistrationRequest.getRegistrationRequestItems()) {
+            if (!registrationRequestIds.contains(cartItem.getId())) {
+                newCartItemId = cartItem.getId();
             }
         }
-        cartItemInfo.setCourseCode(courseCode);
-        cartItemInfo.setRegGroupId(rg.getRegGroupId());
-        cartItemInfo.setRegGroupCode(regGroupCode);
-        cartItemInfo.setCredits(credits);
-        cartItemInfo.setGrading(gradingOptionId);
-
-        return cartItemInfo;
+        if(StringUtils.isEmpty(newCartItemId)){
+            throw new OperationFailedException("Can't find the newly added cart item.");
+        }
+        //Get the cart result with the item id to trim it down
+        CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), newCartItemId, contextInfo );
+        CartItemResult cartItemResult = KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
+        //TODO KSENROLL-11755 defaulting is not persisted
+        if(cartItemResult.getCreditOptions().size() == 1){
+            cartItemResult.setCredits(KSCollectionUtils.getRequiredZeroElement(cartItemResult.getCreditOptions()));
+        }
+        if(cartItemResult.getGrading() == null && !cartItemResult.getGradingOptions().isEmpty()){
+            cartItemResult.setGrading(cartItemResult.getGradingOptions().keySet().iterator().next());
+        }
+        //Return just the item
+        return cartItemResult;
     }
 
     @Override
@@ -474,7 +490,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         //Verify that the Atp exists.
         getAtpService().getAtp(termId, contextInfo);
 
-        CartResult cartResult = getCartForUserAndTerm(userId, termId, contextInfo);
+        CartResult cartResult = getCartForUserAndTerm(userId, termId, null, contextInfo);
 
         if (cartResult == null) {
             String cartId = searchForCartId(userId, termId, contextInfo);
@@ -512,10 +528,13 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return null;
     }
 
-    private CartResult getCartForUserAndTerm(String userId, String termId, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
+    private CartResult getCartForUserAndTerm(String userId, String termId, String cartItemIdParam, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_CART_BY_PERSON_TERM_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
+        if(!StringUtils.isEmpty(cartItemIdParam)){
+            searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.CART_ITEM_ID, cartItemIdParam);
+        }
 
         SearchResultInfo searchResult;
         try {
@@ -557,7 +576,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 currentCartItem.setCartItemId(cartItemId);
                 currentCartItem.setCourseCode(courseCode);
                 currentCartItem.setCourseTitle(courseTitle);
-                currentCartItem.setCredits(StringUtils.right(credits, "kuali.creditType.credit.degree.".length()));
+                currentCartItem.setCredits(StringUtils.substringAfterLast(credits, "kuali.result.value.credit.degree."));
                 currentCartItem.setGrading(grading);
                 currentCartItem.setRegGroupCode(rgCode);
                 cartResult.getItems().add(currentCartItem);

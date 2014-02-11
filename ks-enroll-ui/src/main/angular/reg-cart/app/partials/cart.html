@@ -32,43 +32,45 @@
 <!--Section header with course name, number, and remove icon -->
 <div class="kscr-cart-course" ng-repeat="cartItem in cart.items">
     <div class="kscr-course-header">
-        <div id="course_{{cartItem.courseCode}}_{{cartItem.regCode}}"><strong>{{cartItem.courseCode}} ({{cartItem.regCode}})</strong>
+        <div id="course_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}"><strong>{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</strong>
             <span class="remove">
-                <a id="remove_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="glyphicon glyphicon-remove ks-mobile-remove-icon" ng-click="delete($index)"></a>
+                <a id="remove_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="glyphicon glyphicon-remove ks-mobile-remove-icon" ng-click="delete($index)"></a>
             </span>
         </div>
-        <p id="title_{{cartItem.courseCode}}_{{cartItem.regCode}}">{{cartItem.courseTitle}}</p>
+        <p id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</p>
     </div>
     <div class="kscr-course-info-edit">
-        <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="kscr-course-info" ng-hide="cartItem.editing">
+        <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-course-info" ng-hide="cartItem.editing">
             <ng-pluralize count="cartItem.credits"
                           when="{'1'    : '{} credit',
                                  'other': '{} credits'}">
             </ng-pluralize>, {{(cartItem.gradingOptions | filter:{key:cartItem.grading}:true)[0].value}}
-            <a id="edit_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="editItem(cartItem)"
+            <a id="edit_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="editItem(cartItem)"
                ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptions.length > 1">Change</a>
         </div>
     <!-- Cart Change Section: Credits, Grading, and Save -->
         <div class="kscr-course-info-edit" ng-show="cartItem.editing">
             <form ng-submit="submit(cartItem)">
                 <div>
-                    <label for="credits_{{cartItem.courseCode}}_{{cartItem.regCode}}">Credits</label>
-                    <select id="credits_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-model="newCredits"
+                    <label for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
+                    <select id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
                             ng-options="creditOption for creditOption in cartItem.creditOptions"/>
                 </div>
                 <div>
-                    <label for="grading_{{cartItem.courseCode}}_{{cartItem.regCode}}">Grading</label>
-                    <select id="grading_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-model="newGrading"
+                    <label for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Grading</label>
+                    <select id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newGrading"
                             ng-options="grading.key as grading.value for grading in cartItem.gradingOptions"/>
                 </div>
-                <button id="save_{{cartItem.courseCode}}_{{cartItem.regCode}}" class="btn" type="submit">Save</button>
-                <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regCode}}" ng-click="cancel(cartItem)">Cancel</a>
+                <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="btn" type="submit">Save</button>
+                <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="cancel(cartItem)">Cancel</a>
            </form>
         </div>
     <!--Days, Time, and Building -->
         <div ng-repeat="item in cartItem.schedule">
-            <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regCode}}_{{$index}}" >{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
-                {{item.location.building}} {{item.location.room}}
+            <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{item.activityOfferingType}}
+                <div ng-repeat='scheduleItem in item.activityOfferingLocationTime'>{{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}
+                    {{scheduleItem.location.building}} {{scheduleItem.location.room}}
+                 </div>
             </div>
         </div>
     </div>
