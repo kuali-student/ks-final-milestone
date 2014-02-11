@@ -12,6 +12,7 @@
      <bean name="degreeAuditServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="auditReportInfoDictionaryLocation" />
             </list>
         </constructor-arg>

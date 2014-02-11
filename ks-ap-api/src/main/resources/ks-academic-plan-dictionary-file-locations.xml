@@ -4,7 +4,9 @@
        xsi:schemaLocation="
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
+    <bean id="ksBaseDictionaryLocation" class="java.lang.String">
+        <constructor-arg value="classpath:ks-base-dictionary.xml" />
+    </bean>
     <!-- Academic Plan Service -->
     <bean id="learningPlanInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-LearningPlanInfo-dictionary.xml"/>
@@ -19,6 +21,7 @@
     <bean name="academicPlanServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
+                <bean parent="ksBaseDictionaryLocation" />
                 <bean parent="learningPlanInfoDictionaryLocation" />
                 <bean parent="planItemInfoDictionaryLocation" />
                 <bean parent="planItemSetInfoDictionaryLocation" />
@@ -30,15 +33,6 @@
     <bean id="auditReportInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-AuditReportInfo-dictionary.xml"/>
     </bean>
-
-     <bean name="degreeAuditServiceDictionaryLocations" class="java.util.ArrayList">
-        <constructor-arg>
-            <list>
-                <bean parent="auditReportInfoDictionaryLocation" />
-            </list>
-        </constructor-arg>
-    </bean>
-
 
     <bean name="ks-ap-dictionary-file-locations" class="java.util.ArrayList">
         <constructor-arg index="0">
