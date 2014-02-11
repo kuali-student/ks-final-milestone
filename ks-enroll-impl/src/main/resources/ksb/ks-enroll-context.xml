@@ -1495,6 +1495,7 @@
 
     <bean id="courseRegistrationCartClientService" class="org.kuali.student.enrollment.registration.client.service.impl.CourseRegistrationCartClientServiceImpl">
         <property name="courseRegistrationService" ref="CourseRegistrationService"/>
+        <property name="lprService" ref="LprService"/>
     </bean>
 
     <bean id="ks.exp.courseRegistrationCartClientService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">

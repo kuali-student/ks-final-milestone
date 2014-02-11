@@ -37,7 +37,6 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,10 +60,16 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchForAOSchedulesAndCOCreditAndGradingOptionsByIds";
     public static final String LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_SEARCH_KEY =
             "kuali.search.type.lpr.searchForLprTransIdsByAtpAndPersonAndTypeKey";
-
+    public static final String REG_CART_BY_PERSON_TERM_SEARCH_KEY = 
+            "kuali.search.type.lui.searchForCourseRegistrationCartByStudentAndTerm";
+    public static final String RVGS_BY_LUI_IDS_SEARCH_KEY =
+            "kuali.search.type.lui.searchForRVGsByLuiIds";
+    
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
+    public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE;
     public static final TypeInfo LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE;
+    public static final TypeInfo RVGS_BY_LUI_IDS_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -98,6 +103,18 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String ATP_CD = "atpCd";
         public static final String ATP_NAME = "atpName";
         public static final String LPR_TRANS_ID = "lprTransId";
+        
+        public static final String CART_ID = "cartId";
+        public static final String CART_ITEM_ID = "cartItemId";
+        public static final String COURSE_CODE = "courseCode";
+        public static final String COURSE_ID = "courseId";
+        public static final String RG_CODE = "regGroupCode";
+        public static final String AO_NAME = "aoName";
+        public static final String AO_TYPE = "aoType";
+        public static final String GRADING = "grading";
+        public static final String RVG_ID = "rvgId";
+        public static final String RVG_NAME = "rvgName";
+        public static final String RVG_VALUE = "rvgValue";
     }
 
     static {
@@ -132,6 +149,24 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE = info;
         searchKeyToSearchTypeMap.put(info.getKey(), info);
+
+        info = new TypeInfo();
+        info.setKey(REG_CART_BY_PERSON_TERM_SEARCH_KEY);
+        info.setName("Registraion Cart by person and term");
+        info.setDescr(new RichTextHelper().fromPlain("Returns registraion cart for given person and term"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        REG_CART_BY_PERSON_TERM_SEARCH_TYPE = info;
+        searchKeyToSearchTypeMap.put(info.getKey(), info);
+
+        info = new TypeInfo();
+        info.setKey(RVGS_BY_LUI_IDS_SEARCH_KEY);
+        info.setName("RVG information by list of lui Ids");
+        info.setDescr(new RichTextHelper().fromPlain("Returns RVG keys names, and result values for credit options"));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+
+        RVGS_BY_LUI_IDS_SEARCH_TYPE = info;
+        searchKeyToSearchTypeMap.put(info.getKey(), info);
     }
 
     @Override
@@ -159,7 +194,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             MissingParameterException,
             OperationFailedException {
         return Arrays.asList(REG_INFO_BY_PERSON_TERM_SEARCH_TYPE, AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE,
-                LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE);
+                LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE, REG_CART_BY_PERSON_TERM_SEARCH_TYPE, RVGS_BY_LUI_IDS_SEARCH_TYPE);
     }
 
     @Override
@@ -172,9 +207,171 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForLprTransIdsByAtpAndPersonAndTypeKey(searchRequestInfo);
         } else if (AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
             return searchForAOSchedulesAndCOCreditAndGradingOptionsByIds(searchRequestInfo);
+        } else if (REG_CART_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
+            return searchForCourseRegistrationCartByPersonAndTerm(searchRequestInfo);
+        } else if (RVGS_BY_LUI_IDS_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
+            return searchForRVGsByLuiIds(searchRequestInfo);
         } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
+    }
+
+    private SearchResultInfo searchForRVGsByLuiIds(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        List<String> luiIds = requestHelper.getParamAsList(SearchParameters.LUI_IDS);
+
+        String queryStr =
+                "SELECT " +
+                        "    lrvg.LUI_ID luiId, " +
+                        "    rvg.ID      rvgId, " +
+                        "    rvg.name    rvgName, " +
+                        "    rvgVal.RESULT_VALUE rvgValue " +
+                        "FROM " +
+                        "    KSEN_LUI_RESULT_VAL_GRP lrvg, " +
+                        "    KSEN_LRC_RVG rvg " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_LRC_RVG_RESULT_VALUE rvg2Val " +
+                        "ON " +
+                        "    rvg2Val.RVG_ID=rvg.id " +
+                        "AND rvg.id LIKE 'kuali.creditType.credit.degree.%' " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_LRC_RESULT_VALUE rvgVal " +
+                        "ON " +
+                        "    rvgVal.ID = rvg2Val.RESULT_VALUE_ID " +
+                        "WHERE " +
+                        "    lrvg.LUI_ID IN(:luiIds) " +
+                        "AND lrvg.RESULT_VAL_GRP_ID=rvg.ID";
+
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.LUI_IDS, luiIds);
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RVG_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RVG_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RVG_VALUE, (String) resultRow[i++]);
+
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    private SearchResultInfo searchForCourseRegistrationCartByPersonAndTerm(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String atpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
+        String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
+
+        String queryStr =
+                "SELECT " +
+                        "    lprt.id     cartId, " +
+                        "    lprti.ID    cartItemId, " +
+                        "    coId.LUI_CD courseCode, " +
+                        "    co.ID       courseId, " +
+                        "    rg.NAME     rgName, " +
+                        "    ao.NAME     aoName, " +
+//                        "    co.DESCR_FORMATTED, " +
+                        "    ao.LUI_TYPE luiType, " +
+                        "    coId.LNG_NAME coTitle, " +
+                        "    room.ROOM_CD room, " +
+                        "    room2bldg.BUILDING_CD building, " +
+                        "    schedTmslt.WEEKDAYS weekdays, " +
+                        "    schedTmslt.START_TIME_MS startTime, " +
+                        "    schedTmslt.END_TIME_MS endTime, " +
+                        "    credits.RESULT_VAL_GRP_ID credits, " +
+                        "    grading.RESULT_VAL_GRP_ID grading " +
+                        "FROM " +
+                        "    KSEN_LPR_TRANS lprt, " +
+                        "    KSEN_LUI co, " +
+                        "    KSEN_LUI ao, " +
+                        "    KSEN_LUI rg, " +
+                        "    KSEN_LUI_IDENT coId, " +
+                        "    KSEN_LUILUI_RELTN rg2ao, " +
+                        "    KSEN_LUILUI_RELTN fo2rg, " +
+                        "    KSEN_LUILUI_RELTN co2fo, " +
+                        "    KSEN_LUI_SCHEDULE sched, " +
+                        "    KSEN_SCHED_CMP schedCmp, " +
+                        "    KSEN_ROOM room, " +
+                        "    KSEN_ROOM_BUILDING room2bldg, " +
+                        "    KSEN_SCHED_CMP_TMSLOT schedCmpTmslt, " +
+                        "    KSEN_SCHED_TMSLOT schedTmslt, " +
+                        "    KSEN_LPR_TRANS_ITEM lprti " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_LPR_TRANS_ITEM_RVG credits " +
+                        "ON " +
+                        "    credits.LPR_TRANS_ITEM_ID = lprti.id " +
+                        "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.result.value.credit.degree.%' " +
+                        "LEFT OUTER JOIN " +
+                        "    KSEN_LPR_TRANS_ITEM_RVG grading " +
+                        "ON " +
+                        "    grading.LPR_TRANS_ITEM_ID = lprti.id " +
+                        "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
+                        "WHERE " +
+                        "    lprt.REQUESTING_PERS_ID = :personId " +
+                        "AND lprt.LPR_TRANS_TYPE='kuali.lpr.trans.type.registration.cart' " +
+                        "AND lprt.ATP_ID = :atpId " +
+                        "AND lprti.LPR_TRANS_ID=lprt.ID " +
+                        "AND rg2ao.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
+                        "AND fo2rg.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.fo2rg' " +
+                        "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                        "AND rg2ao.LUI_ID=lprti.NEW_LUI_ID " +
+                        "AND fo2rg.RELATED_LUI_ID = lprti.NEW_LUI_ID " +
+                        "AND co2fo.RELATED_LUI_ID = fo2rg.LUI_ID " +
+                        "AND ao.id = rg2ao.RELATED_LUI_ID " +
+                        "AND co.id = co2fo.LUI_ID " +
+                        "AND rg.id = lprti.NEW_LUI_ID " +
+                        "AND coId.LUI_ID = co.id " +
+                        "AND sched.LUI_ID = ao.ID " +
+                        "AND schedCmp.SCHED_ID = sched.SCHED_ID " +
+                        "AND room.ID = schedCmp.ROOM_ID " +
+                        "AND room2bldg.ID = room.BUILDING_ID " +
+                        "AND schedCmpTmslt.SCHED_CMP_ID = schedCmp.ID " +
+                        "AND schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
+                        "ORDER BY " +
+                        "    lprt.ID, " +
+                        "    ao.LUI_TYPE";
+
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.PERSON_ID, personId);
+        query.setParameter(SearchParameters.ATP_ID, atpId);
+
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.CART_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CART_ITEM_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.COURSE_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.COURSE_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_NAME, (String) resultRow[i++]);
+//            row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);
+            BigDecimal startTimeMs = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.START_TIME_MS, (startTimeMs == null) ? "" : startTimeMs.toString());
+            BigDecimal endTimeMs = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.END_TIME_MS, (endTimeMs == null) ? "" : endTimeMs.toString());
+            row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.GRADING, (String) resultRow[i++]);
+
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+
     }
 
     /**
@@ -267,7 +464,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
         String typeKey = requestHelper.getParamAsString(SearchParameters.TYPE_KEY);
 
-        String queryStr = "SELECT lprTrans.ID " +
+        String queryStr = "SELECT lprTrans.ID lprtId " +
                 "FROM KSEN_LPR_TRANS lprTrans WHERE " +
                 " lprTrans.ATP_ID = :atpId AND " +
                 " lprTrans.LPR_TRANS_TYPE = :typeKey AND " +
