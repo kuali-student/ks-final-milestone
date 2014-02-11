@@ -41,7 +41,7 @@
     </bean>
 
     <bean id="KS-CourseCreate-InitialView-Page-Widgets" parent="Uif-VerticalBoxSection">
-        <property name="header">  <bean parent="Uif-HeaderFour"/>  </property>
+        <property name="header">  <bean parent="Uif-HeaderThree"/>  </property>
         <property name="headerText" value="How would you like to start?"/>
         <property name="instructionalMessage">
             <bean parent="Uif-Message">
@@ -85,10 +85,26 @@
                         </bean>
                     </property>
                 </bean>
+
+                <ref bean="KS-CreateCourse-Review-Section" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CreateCourse-Review-Section" parent="Uif-VerticalBoxSubSection"  p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}">
+        <property name="headerText" value="Review Process"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
                 <bean id="createCourseInitial_is_reviewProcess"
                       parent="Uif-InputField-LabelRight"
                       p:label="Use curriculum review process"
-                      p:fieldLabel.cssClasses="label-normal"     p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"
+                      p:fieldLabel.cssClasses="label-normal"
                       p:propertyName="useCMreviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
@@ -98,6 +114,7 @@
             </list>
         </property>
     </bean>
+
 
     <bean id="KS-CourseView-InitialPage-Header" parent="Uif-HeaderOne">
         <property name="upperGroup">
