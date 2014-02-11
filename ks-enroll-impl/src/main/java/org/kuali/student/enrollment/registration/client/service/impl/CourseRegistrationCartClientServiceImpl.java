@@ -20,8 +20,10 @@ import org.kuali.student.enrollment.registration.client.service.dto.ActivityOffe
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.Link;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleLocationResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleTimeResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
@@ -43,9 +45,7 @@ import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
-import org.kuali.student.r2.core.atp.infc.Atp;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -410,6 +410,31 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
         return cartItemInfo;
     }
+
+    @Override
+    public RegistrationOptionResult getStudentRegistrationOptions(String courseCode, String termId,String regGroupId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        ContextInfo context =  ContextUtils.createDefaultContextInfo();
+        List<CourseSearchResult> courses = CourseRegistrationAndScheduleOfClassesUtil.getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode);
+        CourseSearchResult exactMatch = new CourseSearchResult();
+        for(CourseSearchResult courseSearchResult:courses){
+            if(courseSearchResult.getCourseOfferingCode().equalsIgnoreCase(courseCode)){
+                exactMatch=courseSearchResult;
+            }
+        }
+
+        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(exactMatch.getCourseOfferingId(), courseCode, termId, CourseRegistrationAndScheduleOfClassesUtil.getAtpService().getAtp(termId, context).getCode());
+        RegistrationOptionResult registrationOptionResult = new RegistrationOptionResult();
+        registrationOptionResult.setCourseCode(courseCode);
+        registrationOptionResult.setTermId(termId);
+        registrationOptionResult.setRegGroupId(regGroupId);
+        registrationOptionResult.setGradingOptions(courseOfferingInfo.getStudentRegistrationGradingOptions());
+        registrationOptionResult.setCredits(courseOfferingInfo.getCreditOptionId());
+
+        return registrationOptionResult;
+
+
+    }
+
 
     private String translateGradingOptionKeyToName(String gradingOptionKey) {
         if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {

@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -144,4 +145,19 @@ public interface CourseRegistrationCartClientService {
                                     @QueryParam("termId") String termId);
 
     public CartResult searchForCart(String userId, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException;
+
+
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getStudentRegistrationOptions")
+    /**
+     *
+     *
+     */
+    public RegistrationOptionResult getStudentRegistrationOptions(@QueryParam("courseCode") String courseCode,
+                                                                  @QueryParam("termId") String termId,
+                                                                  @QueryParam("regGroupId") String regGroupId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
+
+
