@@ -1261,7 +1261,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 #text_searchQuery,
 #select_searchTerm { margin-right: 10px; }
 #course_search_panel { padding-left:0; }
-.course-search-submit {float:right;}
 /* Styles for Facet Panel ################################################################################## */
 .ksap-facets-panel {
     border: solid 1px #ddd;
@@ -1419,7 +1418,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 
 /* Styles for course search results ########################################################################### */
 .ksap-course-search-results .dataTables_wrapper {
-    width: 76%;
     float: left;
     clear: none;
     margin: 0;
@@ -1640,7 +1638,7 @@ table.ksap-course-search-results-datatable .blockUI {
     border-top: none;
     text-align: right;
     margin: 0;
-    padding: 8px 10px;
+    padding: 8px 13px;
     -webkit-box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 1);
     -moz-box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 1);
     box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 1);
@@ -2720,7 +2718,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     display:none;
 }
 #course_search_result_section{
-    width: 700px;
     margin-right: 10px;
 }
 .ks-plan-Bucket-footer-hide {

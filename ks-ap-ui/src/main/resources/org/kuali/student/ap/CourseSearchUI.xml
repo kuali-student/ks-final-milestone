@@ -79,7 +79,6 @@
                 </bean>
 				<ref bean="ksap_dialog_anchor" />
 				<ref bean="course_search_result_section" />
-				<ref bean="ksap_section" />
 			</list>
 		</property>
         <property name="stickyFooter" value="false"/>

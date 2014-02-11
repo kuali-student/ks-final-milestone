@@ -55,7 +55,7 @@
                     </#if>
 
                 <#--DegreeAudit Page Link-->
-                    <#if RequestParameters.viewId=="DegreeAudit-FormView">
+                   <#-- <#if RequestParameters.viewId=="DegreeAudit-FormView">
                         <li><a href="audit?methodToCall=audit&viewId=DegreeAudit-FormView" class="active">Audit Degree</a></li>
                     <#else>
                         <li><a href="audit?methodToCall=audit&viewId=DegreeAudit-FormView">Audit Degree</a></li>
@@ -63,7 +63,7 @@
                     <#else >
                         <li class="home"><a href="plan?methodToCall=start&viewId=PlannedCourses-FormView&currentPage=planPage">Plan</a></li>
                         <li><a href="course?methodToCall=start&viewId=CourseSearch-FormView&currentPage=coursePage">Find Courses</a></li>
-                        <li><a href="audit?methodToCall=audit&viewId=DegreeAudit-FormView&currentPage=auditPage">Audit Degree</a></li>
+                        <li><a href="audit?methodToCall=audit&viewId=DegreeAudit-FormView&currentPage=auditPage">Audit Degree</a></li>-->
                 </#if>
             </ul>
         </div>
