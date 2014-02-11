@@ -150,14 +150,14 @@ function searchForCourses(id, parentId) {
 						bStateSave : false,
 						iCookieDuration : 600,
 						iDisplayLength : 20,
-                        fnRowCallback : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+                        fnCreatedRow : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
                             jQuery(nRow).attr("id", aData[0]);
+                            updateTermsOfferedDisplay(jQuery(nRow));
                             return nRow;
                         },
 						fnDrawCallback : function() {
 							if (Math
-									.ceil((this.fnSettings().fnRecordsDisplay())
-											/ this.fnSettings()._iDisplayLength) > 1) {
+									.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {
 								jQuery(".dataTables_paginate .ui-button").not(
 										".first, .last").show();
 							} else {
@@ -467,4 +467,27 @@ function registerCourseSearchResultsFacetsEvents(jqObjects){
                 fnUpdateFacetList(this);
             });
 	});
+}
+
+function updateTermsOfferedDisplay(jqObject){
+    var terms = jQuery('#course_search_results_panel').data('terms-abbrev').split(",");
+    var baseDL = jqObject.find('td:nth-child(5) dl');
+    if (baseDL.has('dd.projected').length < 1) {
+        var fixEmptyList = baseDL.append(jQuery('<dd />').addClass("projected"));
+        var baseArray = [];
+    } else {
+        var baseArray = baseDL.find('dd.projected dl dd').map(function(){ return jQuery(this).text(); }).get();
+    }
+    var newList = jQuery('<dl />');
+    for (var i = 0; i < terms.length; i++) {
+        var newDD = jQuery('<dd/>').text(terms[i]);
+        if (jQuery.inArray(terms[i],baseArray) !== -1) {
+            newDD.addClass("termHighlight");
+        }
+        newList.append(newDD);
+    }
+    baseDL.find('dd.projected').empty().append(newList);
+
+    //truncate scheduled terms to 3
+    jqObject.find('dd.scheduled dl dd').slice(jQuery('#course_search_results_panel').data('scheduled-terms-limit'));
 }

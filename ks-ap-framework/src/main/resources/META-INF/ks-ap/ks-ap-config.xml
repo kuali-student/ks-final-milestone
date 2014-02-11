@@ -65,6 +65,9 @@
 
     <param name="ks.ap.planner.future.years">4</param>
     <param name="ks.ap.planner.term.types">kuali.atp.type.Fall,kuali.atp.type.Winter,kuali.atp.type.Spring,kuali.atp.type.Summer1</param>
+    <param name="ks.ap.search.terms.offered.abbrev">FA,WI,SP,SU</param>
+    <param name="ks.ap.search.terms.scheduled.limit">3</param>
+
 
     <param name="ks.ap.externalizable.images.url">../ks-ap/images/</param>
 

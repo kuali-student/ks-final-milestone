@@ -193,6 +193,12 @@
 	<!-- Layout for Search Facets and Search Results -->
     <bean id="course_search_results_panel" parent="course_search_results_panel-parent"/>
 	<bean id="course_search_results_panel-parent" abstract="true" parent="Uif-HorizontalBoxGroup">
+        <property name="dataAttributes">
+            <map>
+                <entry key="terms-abbrev" value="@{#ConfigProperties['ks.ap.search.terms.offered.abbrev']}" />
+                <entry key="scheduled-terms-limit" value="@{#ConfigProperties['ks.ap.search.terms.scheduled.limit']}" />
+            </map>
+        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-course-search-results</value>
@@ -209,7 +215,7 @@
 
 	<bean id="course_search_results" parent="course_search_results-parent" />
 	<bean id="course_search_results-parent" abstract="true" parent="Uif-DataTable">
-		<property name="cssClasses">
+        <property name="cssClasses">
 			<list merge="true">
 				<value>ksap-course-search-results-datatable</value>
 			</list>

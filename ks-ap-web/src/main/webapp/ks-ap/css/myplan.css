@@ -1574,8 +1574,13 @@ table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.project
 .ksap-data-list dl dd.projected dl dd {
     border: 1px solid black;
     padding: 1px 3px;
-    background: #DDDDDD;
+    background: #ffffff;
     border-right: none;
+    color:#A3A2A2;
+}
+.ksap-data-list dl dd.projected dl dd.termHighlight {
+    background: #c4c4c4;
+    color:#000000;
 }
 .ksap-data-list dl dd.projected dl dd:last-child {
     border-right: 1px solid black;
