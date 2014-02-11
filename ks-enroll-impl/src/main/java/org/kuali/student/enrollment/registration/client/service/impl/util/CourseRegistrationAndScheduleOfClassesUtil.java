@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
@@ -32,6 +33,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
+import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -331,7 +334,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @throws OperationFailedException
      * @throws DoesNotExistException
      */
-    public static RegGroupSearchResult getRegGroup(String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    public static RegGroupSearchResult getRegGroup(String termId, String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         RegGroupSearchResult rg = null;
 
         if(!StringUtils.isEmpty(regGroupId)){
@@ -347,7 +350,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             }
         } else {
             // get the registration group
-            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termCode, courseCode, regGroupCode);
+            rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
         }
         return rg;
     }
@@ -378,6 +381,28 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         List<CourseOfferingInfo> courseOfferingInfos = searchForCourseOfferingIdCreditsGradingByCourseCodeAndTerm(courseCode, termId);
 
         return KSCollectionUtils.getRequiredZeroElement(courseOfferingInfos);
+    }
+
+    /**
+     * This method creates a registration request for the add operation of a single registration group.
+     *
+     * @param principalId principal id
+     * @param regGroupid  Registration Group id
+     * @param credits     credits
+     * @param gradingOptionId    gradingOptionId
+     * @return registration request
+     */
+    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupid, String credits, String gradingOptionId) {
+
+        RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
+        registrationRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
+        registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        registrationRequestItem.setRegistrationGroupId(regGroupid);
+        registrationRequestItem.setPersonId(principalId);
+        registrationRequestItem.setCredits(new KualiDecimal(credits));
+        registrationRequestItem.setGradingOptionId(gradingOptionId);
+
+        return registrationRequestItem;
     }
 
     private static CourseOfferingInfo searchForCreditsGradingByCourseOfferingId(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {

@@ -6,22 +6,23 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CartItemInfoResult", propOrder = {
-        "cartItemId", "courseCode", "regCode", "courseTitle",
+@XmlType(name = "CartItemResult", propOrder = {
+        "cartItemId", "courseCode", "regGroupCode", "courseTitle",
         "credits", "grading", "creditOptions", "gradingOptions",
         "schedule"})
-public class CartItemInfoResult {
+public class CartItemResult {
     private String cartItemId;
     private String courseCode;
-    private String regCode;
+    private String regGroupCode;
     private String courseTitle;
     private String credits;
     private String grading;
     private List<String> creditOptions;
-    private HashMap<String, String> gradingOptions;
+    private Map<String, String> gradingOptions;
     private List<ActivityOfferingScheduleResult> schedule;
 
     public String getCartItemId() { return cartItemId; }
@@ -32,9 +33,9 @@ public class CartItemInfoResult {
 
     public void setCourseCode(String courseCode) { this.courseCode = courseCode; }
 
-    public String getRegCode() { return regCode; }
+    public String getRegGroupCode() { return regGroupCode; }
 
-    public void setRegCode(String regCode) { this.regCode = regCode; }
+    public void setRegGroupCode(String regGroupCode) { this.regGroupCode = regGroupCode; }
 
     public String getCourseTitle() { return courseTitle; }
 
@@ -52,9 +53,9 @@ public class CartItemInfoResult {
 
     public void setCreditOptions(List<String> creditOptions) { this.creditOptions = creditOptions; }
 
-    public HashMap<String, String> getGradingOptions() { return gradingOptions; }
+    public Map<String, String> getGradingOptions() { return gradingOptions; }
 
-    public void setGradingOptions(HashMap<String, String> gradingOptions) { this.gradingOptions = gradingOptions; }
+    public void setGradingOptions(Map<String, String> gradingOptions) { this.gradingOptions = gradingOptions; }
 
     public List<ActivityOfferingScheduleResult> getSchedule() { return schedule; }
 

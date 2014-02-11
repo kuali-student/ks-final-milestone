@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -54,23 +55,22 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     private EntityManager entityManager;
 
     public static final Map<String, TypeInfo> searchKeyToSearchTypeMap;
-
     public static final String REG_INFO_BY_PERSON_TERM_SEARCH_KEY =
             "kuali.search.type.lui.searchForCourseRegistrationByStudentAndTerm ";
-    public static final String AO_SCHEDULES_BY_AO_IDS_SEARCH_KEY =
-            "kuali.search.type.lui.searchForActivityOfferingSchedulesByAOIds";
+    public static final String AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_KEY =
+            "kuali.search.type.lui.searchForAOSchedulesAndCOCreditAndGradingOptionsByIds";
     public static final String LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_SEARCH_KEY =
             "kuali.search.type.lpr.searchForLprTransIdsByAtpAndPersonAndTypeKey";
 
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
-    public static final TypeInfo AO_SCHEDULES_BY_AO_IDS_SEARCH_TYPE;
+    public static final TypeInfo AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE;
     public static final TypeInfo LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
     public static final class SearchParameters {
         public static final String AO_ID = "activityOfferingId";
-        public static final String AO_IDS = "activityOfferingIds";
+        public static final String LUI_IDS = "luiIds";
         public static final String CO_ID = "courseOfferingId";
         public static final String RG_ID = "regGroupId";
         public static final String PERSON_ID = "personId";
@@ -87,6 +87,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String LUI_CODE = "luiCode";
         public static final String LUI_TYPE = "luiType";
         public static final String LUI_DESC = "luiDesc";
+        public static final String RES_VAL_GROUP_KEY = "resultValuesGroupKey";
         public static final String CREDITS = "credits";
         public static final String ROOM_CODE = "roomCode";
         public static final String BUILDING_CODE = "buildingCode";
@@ -112,12 +113,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         searchKeyToSearchTypeMap.put(info.getKey(), info);
 
         info = new TypeInfo();
-        info.setKey(AO_SCHEDULES_BY_AO_IDS_SEARCH_KEY);
+        info.setKey(AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_KEY);
         info.setName("AO schedules by AO ids");
         info.setDescr(new RichTextHelper().fromPlain("Returns AO schedules for given aoID"));
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
-        AO_SCHEDULES_BY_AO_IDS_SEARCH_TYPE = info;
+        AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE = info;
         searchKeyToSearchTypeMap.put(info.getKey(), info);
 
         // Search for LPR transactions by personId, atpId, and typeKey.  Can be used to fetch an ID for a
@@ -157,7 +158,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(REG_INFO_BY_PERSON_TERM_SEARCH_TYPE, AO_SCHEDULES_BY_AO_IDS_SEARCH_TYPE,
+        return Arrays.asList(REG_INFO_BY_PERSON_TERM_SEARCH_TYPE, AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE,
                 LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE);
     }
 
@@ -167,10 +168,10 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         if (REG_INFO_BY_PERSON_TERM_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
             return searchForCourseRegistrationByPersonAndTerm(searchRequestInfo);
-        } else if (AO_SCHEDULES_BY_AO_IDS_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
-            return searchForActivityOfferingSchedulesByAoIds(searchRequestInfo);
         } else if (LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
             return searchForLprTransIdsByAtpAndPersonAndTypeKey(searchRequestInfo);
+        } else if (AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE.getKey().equals(searchRequestInfo.getSearchKey())) {
+            return searchForAOSchedulesAndCOCreditAndGradingOptionsByIds(searchRequestInfo);
         } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
@@ -294,17 +295,21 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
      *
      * @throws OperationFailedException
      */
-    private SearchResultInfo searchForActivityOfferingSchedulesByAoIds(SearchRequestInfo searchRequestInfo)
-            throws OperationFailedException {
+    private SearchResultInfo searchForAOSchedulesAndCOCreditAndGradingOptionsByIds(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
-        List<String> aoIdsList = requestHelper.getParamAsList(SearchParameters.AO_IDS);
-        String aoIds = commaString(aoIdsList);
+        List<String> luiIdsList = requestHelper.getParamAsList(SearchParameters.LUI_IDS);
+        String luiIds = commaString(luiIdsList);
 
         String queryStr =
-                "SELECT lui.ID, lui.NAME, room.ROOM_CD, rBldg.BUILDING_CD, " +
+                "SELECT lui.ID, lui.NAME, luiId.LNG_NAME, luiRes.RESULT_VAL_GRP_ID, " +
+                        "room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
-                        "FROM KSEN_LUI lui " +
+                        "FROM KSEN_LUI lui, KSEN_LUI_IDENT luiId " +
+                        "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP luiRes " +
+                        "ON luiRes.LUI_ID =  = lui.ID " +
+                        "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
+                        "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = lui.ID " +
                         "LEFT OUTER JOIN KSEN_SCHED_CMP schedCmp " +
@@ -317,10 +322,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "ON schedCmpTmslt.SCHED_CMP_ID = schedCmp.ID " +
                         "LEFT OUTER JOIN KSEN_SCHED_TMSLOT schedTmslt " +
                         "ON schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
-                        "WHERE lui.ID IN (:aoIds)";
+                        "WHERE lui.ID IN (:luiIds) " +
+                        "  AND luiId.LUI_ID = lui.ID";
 
         Query query = entityManager.createNativeQuery(queryStr);
-        query.setParameter(SearchParameters.AO_IDS, aoIds);
+        query.setParameter(SearchParameters.LUI_IDS, luiIds);
         List<Object[]> results = query.getResultList();
 
         for (Object[] resultRow : results) {
@@ -328,6 +334,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);
@@ -343,6 +351,16 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
     private static String commaString(List<String> items){
         return items.toString().replace("[", "'").replace("]", "'").replace(", ", "','");
+    }
+
+    // getting all possible student registration grading options
+    private String getStudentRegGradingOptionsStr() {
+        String[] studentRegGradingOptions = CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS;
+        StringBuilder bld = new StringBuilder();
+        for (String studentRegGradingOption : studentRegGradingOptions) {
+            bld.append(",'" + studentRegGradingOption + "'");
+        }
+        return bld.toString().substring(1);
     }
 
     public EntityManager getEntityManager() {

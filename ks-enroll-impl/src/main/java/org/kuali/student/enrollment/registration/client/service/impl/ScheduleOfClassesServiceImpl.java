@@ -122,8 +122,8 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termCode, String courseCode, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroups(null, null, termCode, courseCode, regGroupName);
+    public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroups(null, termId, termCode, courseCode, regGroupCode);
         return KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
     }
 

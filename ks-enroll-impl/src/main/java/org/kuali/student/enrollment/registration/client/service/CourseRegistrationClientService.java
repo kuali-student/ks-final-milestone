@@ -34,7 +34,7 @@ public interface CourseRegistrationClientService {
      * @param userId       user id of the person you want to register in a course. This is for POC testing only and needs to be removed post POC for secuirty
      * @param termCode
      * @param courseCode
-     * @param regGroupName
+     * @param regGroupCode
      * @param regGroupId   optional, but the term, course, and reg group name are not checked if you supply the id
      * @param gradingOptionId
      * @param credits
@@ -56,7 +56,7 @@ public interface CourseRegistrationClientService {
     public Response registerForRegistrationGroup(@QueryParam("userId") String userId,
                                                                                                        @QueryParam("termCode") String termCode,
                                                                                                        @QueryParam("courseCode") String courseCode,
-                                                                                                       @QueryParam("regGroupName") String regGroupName,
+                                                                                                       @QueryParam("regGroupCode") String regGroupCode,
                                                                                                        @QueryParam("regGroupId") String regGroupId,
                                                                                                        @QueryParam("credits") String credits,
                                                                                                        @QueryParam("gradingOption") String gradingOptionId);

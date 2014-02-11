@@ -141,16 +141,17 @@ public interface ScheduleOfClassesService {
     /**
      * Java Helper method.
      *
+     * @param termId not required
      * @param termCode     required
      * @param courseCode   required
-     * @param regGroupName required
+     * @param regGroupCode required
      * @return Returns a single registration group
      * @throws InvalidParameterException
      * @throws MissingParameterException
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termCode, String courseCode, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
 /** ACTIVITY OFFERINGS **/

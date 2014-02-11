@@ -2,7 +2,7 @@ package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.registration.client.service.dto.CartItemInfoResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -61,8 +61,6 @@ public interface CourseRegistrationCartClientService {
      *
      * @param cartId       ID of the registrationRequest representing the cart
      * @param courseCode   course offering to add to the cart
-     * @param termId       termId for the course offering
-     * @param termCode     termCode for the course offering
      * @param regGroupCode reg group we want to add
      * @param gradingOptionId    the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
      * @param credits    The numeric string value of credit student registration option. Must convert to KualiDecimal.
@@ -71,10 +69,8 @@ public interface CourseRegistrationCartClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/addCourseToCart")
-    public CartItemInfoResult addCourseToCart(@QueryParam("cartId") String cartId,
+    public CartItemResult addCourseToCart(@QueryParam("cartId") String cartId,
                                         @QueryParam("courseCode") String courseCode,
-                                        @QueryParam("termId") String termId,
-                                        @QueryParam("termCode") String termCode,
                                         @QueryParam("regGroupCode")  String regGroupCode,
                                         @QueryParam("gradingOptionId") String gradingOptionId,
                                         @QueryParam("credits") String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;

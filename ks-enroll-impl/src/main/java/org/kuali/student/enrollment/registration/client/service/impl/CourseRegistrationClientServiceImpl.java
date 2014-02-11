@@ -63,11 +63,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     public static final Logger LOGGER = Logger.getLogger(CourseRegistrationClientServiceImpl.class);
 
     @Override
-    public Response registerForRegistrationGroup(String userId, String termCode, String courseCode, String regGroupName, String regGroupId, String credits, String gradingOptionId) {
+    public Response registerForRegistrationGroup(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(registerForRegistrationGroupLocal(userId,termCode,courseCode,regGroupName,regGroupId,credits,gradingOptionId));
+            response = Response.ok(registerForRegistrationGroupLocal(userId, termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId));
         } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
@@ -76,8 +76,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    public RegistrationResponseInfo registerForRegistrationGroupLocal(String userId, String termCode, String courseCode, String regGroupName, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
-        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupName));
+    public RegistrationResponseInfo registerForRegistrationGroupLocal(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupCode));
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         if (!StringUtils.isEmpty(userId)) {
@@ -87,7 +87,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         // get the regGroup
-        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termCode, courseCode, regGroupName, regGroupId, contextInfo);
+        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
 
         // get the registration group, returns default (from Course Offering) credits (as creditId) and grading options (as a string of options)
         CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(rg.getCourseOfferingId(), courseCode, rg.getTermId(), termCode);
@@ -533,13 +533,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY); // new reg request
         regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
 
-        RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
-        registrationRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
-        registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        registrationRequestItem.setRegistrationGroupId(regGroupid);
-        registrationRequestItem.setPersonId(principalId);
-        registrationRequestItem.setCredits(new KualiDecimal(credits));
-        registrationRequestItem.setGradingOptionId(gradingOptionId);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupid, credits, gradingOptionId);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
