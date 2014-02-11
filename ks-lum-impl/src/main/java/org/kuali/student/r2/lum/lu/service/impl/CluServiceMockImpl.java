@@ -1239,6 +1239,4 @@ public class CluServiceMockImpl implements CluService {
 			PermissionDeniedException {
 		throw new UnsupportedOperationException("not implemented");
 	}
-    
-    
 }

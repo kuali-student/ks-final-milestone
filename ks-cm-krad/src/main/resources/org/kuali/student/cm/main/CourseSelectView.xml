@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-Course-SelectView" parent="KS-Uif-MaintenanceView">
+        <property name="viewName" value="CourseSelectView" />
+        <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
+        <!--
+        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />
+        -->
+        <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
+        <property name="header.render" value="false" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+            </list>
+        </property>
+        <property name="stateMapping">
+            <bean parent="WorkflowStateMapping">
+                <property name="customClientSideValidationStates">
+                    <map>
+                        <entry key="I" value="A"/>
+                    </map>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-Course-SelectViewPage" />
+            </list>
+        </property>
+            
+    </bean>
+
+    <bean id="KS-Course-SelectView-Header" parent="Uif-HeaderTwo">
+        <property name="upperGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ks-cm-page-header</value>
+                                </list>
+                            </property>
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HeaderTwo">
+                                        <property name="headerText" value="Select View" />
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>ks-header</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="Uif-LinkGroup" p:linkSeparator="|">
+                                        <property name="items">
+                                            <list>
+                                                <bean parent="Uif-DataField" p:label="Proposal Status"
+                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="course.stateKey" />
+                                                <bean parent="Uif-ActionLink" p:actionLabel="Version History"
+                                                      p:methodToCall="versionHistory" />
+                                                <bean parent="Uif-Space" />
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        <!-- For showing/unshowing required fields
+                        <bean parent="Uif-VerticalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>uif-validationMessages</value>
+                                                <value>uif-groupValidationMessages</value> 
+                                                <value>uif-pageValidationMessages</value>
+                                                <value>uif-pageValidationMessages-warning</value>
+                                            </list>
+                                        </property>
+                                        <property name="messageText"
+                                                  value="Showing required and optional fields. Show only required fields" />
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                        -->
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+
+    <bean id="KS-Course-SelectViewPage" parent="Uif-MaintenancePage"
+          p:headerText=""
+          p:disclosure.render="false">
+        <property name="header" ref="KS-Course-SelectView-Header" />
+        <property name="items">
+            <list>
+                <bean parent="Uif-TabGroup">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-Course-AtAGlance-Tab" />
+                            <ref bean="KS-Course-DetailedView-Tab" />
+                            <ref bean="KS-Course-CatalogView-Tab" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Course-SelectView-Footer"/>
+        </property>
+    </bean>
+
+
+    <bean id="KS-Course-AtAGlance-Tab" parent="Uif-VerticalBoxSection"
+          p:headerText="At a Glance" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-Course-SelectView-AtAGlanceTab-Widgets" />
+            </list>
+        </property>        
+    </bean>
+    <bean id="KS-Course-DetailedView-Tab" parent="Uif-VerticalBoxSection"
+          p:headerText="Detailed View" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-Course-SelectView-DetailedViewTab-Widgets" />
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-Course-CatalogView-Tab" parent="Uif-VerticalBoxSection"
+          p:headerText="Catalog View" p:header.render="false">
+        <property name="items">
+            <list>
+                <ref bean="KS-Course-SelectView-CatalogViewTab-Widgets" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Course-SelectView-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="retire" 
+                      p:actionLabel="Retire" 
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="modify" 
+                      p:actionLabel="Modify" 
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="reload" 
+                      p:actionLabel="Reload"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="approve" 
+                      p:actionLabel="Approve" 
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="disapprove" 
+                      p:actionLabel="Disapprove"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="fyi" 
+                      p:actionLabel="FYI"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+                <bean parent="Uif-PrimaryActionButton" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="acknowledge" 
+                      p:actionLabel="Acknowledge"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                <bean parent="Uif-BackAction" 
+                      p:ajaxSubmit="false" 
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                <bean parent="Uif-CancelAction" 
+                      p:ajaxSubmit="false" 
+                      p:methodToCall="cancel" 
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                <bean parent="Uif-ActionLink" 
+                      p:ajaxSubmit="false"
+                      p:methodToCall="copy" 
+                      p:actionLabel="copy"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-Course-SelectView-AtAGlanceTab-Widgets" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Course Number" p:propertyName="reviewInfo.courseInfo.courseNumberSuffix" />
+                <bean parent="Uif-DataField" p:label="Administering Organization" p:propertyName="reviewInfo.governanceInfo.administeringOrganization" />
+                <bean parent="Uif-DataField" p:label="Description" p:propertyName="reviewInfo.courseInfo.subjectArea" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Curriculum Oversight" p:propertyName="reviewInfo.governanceInfo.curriculumOversight" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Campus Locations" p:propertyName="reviewInfo.governanceInfo.campusLocations" />
+                <bean parent="Uif-DataField" p:label="Term" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Assessment Scale" p:propertyName="reviewInfo.courseLogisticsInfo.term" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Audit" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+
+                <bean parent="Uif-DataField" p:label="Outcome 1" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Course Format" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Duration Type" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Duration Count" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Fee" p:propertyName="reviewInfo.financialsInfo.fee" />
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-Course-SelectView-DetailedViewTab-Widgets" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HeaderFour" p:style="text-decoration: underline;" p:headerText="Course Information" />
+                <bean parent="Uif-DataField" p:label="Proposal Title" p:propertyName="reviewInfo.courseInfo.proposalName" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Course Title" p:propertyName="reviewInfo.courseInfo.courseTitle" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Transcript Course Title" p:propertyName="reviewInfo.courseInfo.transcriptTitle" />
+                <bean parent="Uif-DataField" p:label="Subject Code" p:propertyName="reviewInfo.courseInfo.subjectArea" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Course Number" p:propertyName="reviewInfo.courseInfo.courseNumberSuffix" />
+                <bean parent="Uif-Space"/>
+                <bean parent="Uif-HeaderFour" p:style="text-decoration: underline;" p:headerText="Cross Listings" />
+                <bean parent="Uif-DataField" p:label="Course Listing" p:propertyName="reviewInfo.courseInfo.courseNumberSuffix" />
+
+                <bean parent="Uif-Space"/>
+                <bean parent="Uif-HeaderFour" p:style="text-decoration: underline;" p:headerText="Governance" />
+                <bean parent="Uif-DataField" p:label="Campus Locations" p:propertyName="reviewInfo.governanceInfo.campusLocations" />
+                <bean parent="Uif-DataField" p:label="Curriculum Oversight" p:propertyName="reviewInfo.governanceInfo.curriculumOversight" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Administering Organization" p:propertyName="reviewInfo.governanceInfo.administeringOrganization" />
+                <bean parent="Uif-Space"/>
+                <bean parent="Uif-HeaderFour" p:style="text-decoration: underline;" p:headerText="Course Logistics" />
+                <bean parent="Uif-DataField" p:label="Term" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Assessment Scale" p:propertyName="reviewInfo.courseLogisticsInfo.term" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Duration Type" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Duration Count" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Audit" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Final Exam Status" p:propertyName="reviewInfo.courseLogisticsInfo.term" p:required="true" />
+
+
+                <bean parent="Uif-DataField" p:label="Outcome 1" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Course Format" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+
+                <bean parent="Uif-Space"/>
+                <bean parent="Uif-HeaderFour" p:style="text-decoration: underline;" p:headerText="Learning Objectives" />
+                <bean parent="Uif-DataField" p:label="Learning Objectives" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-Space"/>
+                <bean parent="Uif-HeaderFour" p:style="text-decoration: underline;" p:headerText="Course Requisites" />
+                <bean parent="Uif-DataField" p:label="Student Eligibility + Prerequisite" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Corequisite" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Recommended Preparation" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Antirequisite" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Course that Restricts Credits" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Repeatable for Credit" p:propertyName="reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-Space"/>
+                <bean parent="Uif-HeaderFour" p:style="text-decoration: underline;" p:headerText="Active Dates" />
+                <bean parent="Uif-DataField" p:label="Start Term" p:propertyName="reviewInfo.activeDatesInfo.startTerm" p:required="true" />
+                <bean parent="Uif-DataField" p:label="End Term" p:propertyName="reviewInfo.activeDatesInfo.endTerm" />
+                <bean parent="Uif-DataField" p:label="Pilot Course" p:propertyName="reviewInfo.activeDatesInfo.pilotCourse" />
+                <bean parent="Uif-Space"/>
+                <bean parent="Uif-HeaderFour" p:style="text-decoration: underline;" p:headerText="Financials" />
+                <bean parent="Uif-DataField" p:label="Justification of Fees" p:propertyName="reviewInfo.financialsInfo.justificationOfFees" />
+                <bean parent="Uif-DataField" p:label="Fee" p:propertyName="reviewInfo.financialsInfo.fee" />
+                <bean parent="Uif-DataField" p:label="Revenue Source" p:propertyName="reviewInfo.financialsInfo.revenueSource" />
+                <bean parent="Uif-DataField" p:label="Expending Organization" p:propertyName="reviewInfo.financialsInfo.expendingOrganization" />
+                <bean parent="Uif-DataField" p:label="Supporting Documents" p:propertyName="reviewInfo.activeDatesInfo.startTerm" />
+            </list>                        
+        </property>
+    </bean>
+
+    <bean name="KS-Course-SelectView-CatalogViewTab-Widgets" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <!--
+                <bean parent="Uif-Message" p:messageText="&lt;&lt;b&gt;&gt;@{newMaintainableObject.course.subjectArea}@{newMaintainableObject.course.courseNumberSuffix} @{newMaintainableObject.course.courseTitle}&lt;&lt;/b&gt;&gt; @{newMaintainableObject.course.descr}"/>
+                -->
+                <bean parent="Uif-Message" p:messageText="The Catalog View" />
+            </list>
+        </property>
+    </bean>
+</beans>

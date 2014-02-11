@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-Course-FindACourse" parent="KS-Uif-LookupView" p:instructionalText="Enter  search terms in one or more fields">
+        <property name="viewName" value="CoursesOnlyLookup"/>
+        <property name="headerText" value="Find a Course" />
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.lum.lu.ui.krms.service.impl.CourseInfoLookupableImpl" />
+
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+            </list>
+        </property>
+
+    <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" p:label="Phrase in Description"/>
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Course Code"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Course Title"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="state" p:label="State"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
+            </list>
+        </property>
+
+        <property name="resultsGroup">
+            <bean parent="Uif-TableCollectionSection" p:layoutManager.suppressLineWrapping="true">
+                <property name="showInactiveLines" value="true"/>
+                <property name="propertyName" value="lookupResults"/>
+                <property name="headerText" value="Lookup Results"/>
+                <property name="header.cssClasses" value="uif-hideHeaderText"/>
+                <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
+                <property name="layoutManager.renderSequenceField" value="false"/>
+                <property name="renderLineActions" value="true"/>
+                <property name="layoutManager.actionColumnPlacement" value="3" />
+                <!--
+                <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
+                -->
+                <property name="layoutManager.selectFieldPrototype.finalizeMethodToCall" value="setMultiValueLookupSelect"/>
+                <property name="layoutManager.selectFieldPrototype.control.onChangeScript"
+                          value="setMultivalueLookupReturnButton(this)"/>
+                <property name="renderAddLine" value="false"/>
+                <property name="readOnly"      value="false"/>
+                <property name="header.lowerGroup">
+                    <bean parent="Uif-VerticalBoxGroup"/>
+                </property>
+                <property name="lineActions">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="copyLine" p:actionLabel="copy"/>
+                        <bean parent="Uif-SecondaryActionButton-Small"
+                              p:methodToCall="deleteLine"
+                              p:actionLabel="delete"/>
+                    </list>
+                </property>
+                <property name="validationMessages.additionalKeysToMatch">
+                    <list merge="true">
+                        <value>LookupResultMessages</value>
+                    </list>
+                </property>
+                <property name="footer">
+                    <bean parent="Uif-LookupResultsFooter"
+                          p:render="@{#view.multipleValuesSelect and (lookupResults != null) and !lookupResults.empty}"/>
+                </property>
+               <!--
+
+        <property name="resultsGroup.lineActions">
+            <list merge="true">
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Retire"/>
+                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                    <property name="render" value="true"/>
+                </bean>
+
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Select"/>
+                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                    <property name="render" value="true"/>
+                </bean>
+            </list>
+        </property>
+                -->
+            </bean>
+        </property>
+    </bean>
+</beans>

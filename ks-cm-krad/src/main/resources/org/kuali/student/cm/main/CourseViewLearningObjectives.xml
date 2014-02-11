@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="KS-CourseView-LearningObjectivesPage" parent="Uif-MaintenancePage"
+		p:headerText="Learning Objectives" p:disclosure.render="false">
+		<property name="instructionalText"
+			value="Use this tool to build a bullet-point style outline with a maximum of 500 characters for each learning objective.&lt;br&gt;Or click the following link to search for existing learning objectives." />
+		<property name="header" ref="KS-CourseView-Header" />
+		<property name="items">
+			<list>
+				<ref bean="LearningObjective-CollectionSection" />
+			</list>
+		</property>
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer"/>
+        </property>
+    </bean>
+
+	<bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
+		p:propertyName="loDisplayWrapperModel.loWrappers" p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
+        <property name="onDocumentReadyScript" value="setupCharCounters(); applyIndentationStyling();" />
+        <property name="layoutManager">
+			<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+				<property name="subCollectionFieldGroupPrototype">
+					<bean parent="Uif-HorizontalFieldGroup" />
+				</property>
+			</bean>
+		</property>
+		<property name="layoutManager.lineGroupPrototype.header.headerText" value="Learning Objective @{(#index + 1)}" />
+		<property name="layoutManager.lineGroupPrototype.header.lowerGroup">
+			<ref bean="LearningObjectives-ToolBarSection" />
+		</property>
+		<property name="renderAddBlankLineButton" value="true" />
+        <property name="addBlankLineAction">
+            <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Learning Objective"/>
+        </property>
+		<property name="addLinePlacement" value="BOTTOM" />
+        <property name="collectionLookup">
+            <bean parent="Uif-CollectionQuickFinder" p:render="true" p:dataObjectClassName="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" /> 
+        </property>
+        <property name="collectionLookup.fieldConversions" value="code:code,typeName:typeName,name:name,descr.plain:loInfo.descr.plain" />
+        <property name="collectionLookup.quickfinderAction.actionLabel" value="Search for Learning Objectives" />
+        <property name="items">
+			<list>
+				<bean id="KS-LoDisplayInfoWrapper-descr" parent="Uif-InputField"
+					p:propertyName="loInfo.descr.plain" p:showLabel="false">
+					<property name="control">
+						<bean parent="Uif-TextAreaControl" p:cols="60">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>cm-charcount-max-500</value>
+                                </list>
+                            </property>
+                        </bean>
+					</property>
+				</bean>
+                <bean id="KS-LoDisplayInfoWrapper-selected" parent="Uif-InputField" p:propertyName="selected">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
+                </bean>
+                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="Uif-InputField" p:propertyName="indentLevel">
+                    <property name="control">
+                        <bean parent="Uif-HiddenControl" />
+                    </property>
+                </bean>
+			</list>
+		</property>
+		<property name="subCollections">
+			<list>
+				<bean parent="Uif-StackedCollectionSubSection"
+					p:collectionObjectClass="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo"
+					p:propertyName="loCategoryInfoList">
+					<property name="layoutManager">
+						<bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+							<property name="subCollectionFieldGroupPrototype">
+								<bean parent="Uif-HorizontalFieldGroup" />
+							</property>
+						</bean>
+					</property>
+					<property name="layoutManager.lineGroupPrototype.header.headerText"
+						value="Category @{(#index + 1)}" />
+					<property name="addLineLabel.render" value="false" />
+					<property name="items">
+						<list>
+							<bean parent="Uif-InputField-LabelTop" p:label="Category"
+								p:propertyName="name">
+								<property name="control">
+									<bean parent="Uif-TextControl" />
+								</property>
+								<property name="suggest">
+									<bean parent="Uif-Suggest">
+										<property name="valuePropertyName" value="catNameAndType" />
+										<property name="templateOptions" value="minLength:1,delay:0" />
+										<property name="suggestQuery">
+											<bean parent="Uif-AttributeQueryConfig"
+												p:queryMethodToCall="searchForLoCategories" />
+										</property>
+									</bean>
+								</property>
+                                <property name="quickfinder">
+                                    <bean parent="Uif-QuickFinder">
+                                        <property name="autoSearch" value="true" />
+                                        <property name="quickfinderAction">
+                                            <bean parent="Uif-ActionLink">
+                                                <property name="methodToCall" value="performLookup" />
+                                                <property name="actionLabel" value="Browse for categories" />
+                                                <property name="cssClasses">
+                                                    <list merge="true">
+                                                        <value>uif-actionLink-block</value>
+                                                    </list>
+                                                </property>
+                                            </bean>
+                                        </property>
+                                        <property name="lightBoxLookup">
+                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
+                                        </property>
+                                        <property name="dataObjectClassName"
+                                            value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
+                                        <property name="fieldConversions">
+                                            <map>
+                                                <entry key="catNameAndType" value="name" />
+                                            </map>
+                                        </property>
+                                    </bean>
+                                </property>
+								<property name="help">
+									<bean parent="Uif-Help"
+										p:tooltipHelpContent="Add a category to classify your learning 
+ 									objectives. The categories will be used for administrative analysis." />
+								</property>
+							</bean>
+							
+						</list>
+					</property>
+                </bean>
+			</list>
+		</property>
+	</bean>
+    
+    <bean id="LearningObjectives-MoveUp-Button" parent="Uif-ActionImage">
+		<property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowUp.png'}" p:altText="Move Up"/>
+        </property>
+        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveUp');" />
+        <property name="toolTip">
+        	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective up" />
+        </property>
+    </bean>
+    
+    <bean id="LearningObjectives-MoveDown-Button" parent="Uif-ActionImage">
+    	<property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/ArrowDown.png'}" p:altText="Move Down"/>
+        </property>
+        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveDown');" />
+        <property name="toolTip">
+        	<bean parent="Uif-Tooltip" p:tooltipContent="Move learning objective down" />
+        </property>
+    </bean>
+    
+    <bean id="LearningObjectives-IncreaseIndent-Button" parent="Uif-ActionImage">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/IncreaseIndent.png'}" p:altText="Increase Indent"/>
+        </property>
+        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveRight');" />
+        <property name="toolTip">
+        	<bean parent="Uif-Tooltip" p:tooltipContent="Indent learning objective" />
+        </property>
+        <property name="successCallback" value="alert('successCallback')" />
+    </bean>
+    
+    <bean id="LearningObjectives-DecreaseIndent-Button" parent="Uif-ActionImage">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/DecreaseIndent.png'}" p:altText="Decrease Indent"/>
+        </property>
+        <property name="actionScript" value="moveLo(this, 'LearningObjective-CollectionSection', 'moveLearningObjectiveLeft');" />
+        <property name="toolTip">
+        	<bean parent="Uif-Tooltip" p:tooltipContent="Outdent learning objective" />
+        </property>
+    </bean>
+
+	<bean id="LearningObjectives-ToolBarSection" parent="Uif-HorizontalBoxSection">
+		<property name="items">
+			<list>
+				<ref bean="LearningObjectives-MoveUp-Button" />
+				<ref bean="LearningObjectives-MoveDown-Button" />
+				<ref bean="LearningObjectives-IncreaseIndent-Button" />
+				<ref bean="LearningObjectives-DecreaseIndent-Button" />
+			</list>
+		</property>
+	</bean>
+	
+</beans>
