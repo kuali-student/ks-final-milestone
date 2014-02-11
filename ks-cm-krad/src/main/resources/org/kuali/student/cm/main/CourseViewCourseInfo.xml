@@ -193,8 +193,9 @@
 		</property>
 	</bean>
 
-    <bean id="KS-CourseInfoData-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
+    <bean id="KS-CourseInfoData-Section" parent="Uif-VerticalBoxSubSection">
         <property name="headerText" value="Course Information" />
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
