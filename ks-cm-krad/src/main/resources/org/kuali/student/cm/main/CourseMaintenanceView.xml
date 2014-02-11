@@ -29,7 +29,7 @@
         <!-- New Course header requires static string therefore below string construction is not required.
         commenting below code in case required in future.
          @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
-        <property name="headerText" value="New Course (Proposal)" />
+        <!--<property name="headerText" value="@{(document.newMaintainableObject.proposal != null and !#empty(document.newMaintainableObject.proposal.name)) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />-->
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="entryPageId" value="KS-CourseView-createCourseInitialPage" />
@@ -106,6 +106,22 @@
             </list>
         </property>
     </bean>  
+
+    <bean id="KS-CourseView-BasePage" parent="Uif-MaintenancePage" p:disclosure.render="false" abstract="true">
+        <property name="header" ref="KS-CourseView-Header" />
+        <property name="footer">
+            <bean parent="KS-CourseView-Footer-Fred"/>
+        </property>
+        <property name="propertyReplacers">
+          <list>
+            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="#hasPerm('KS-SYS', 'Create Course By Admin Proposal')">
+              <property name="replacement">
+                  <bean parent="KS-CourseView-Footer-Admin"/>
+              </property>
+            </bean>
+          </list>
+        </property>
+    </bean>
 
     <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
         <property name="cssClasses">
@@ -194,20 +210,20 @@
         </property>
     </bean>
     
-    <bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
+    <bean id="KS-CourseView-Footer-Admin" parent="Uif-FooterBase">
         <property name="items">
             <list>
-                <bean parent="Uif-PrimaryActionButton" 
-                      p:ajaxSubmit="false" 
-                      p:methodToCall="performRouteReport" 
+                <bean parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="performRouteReport"
                       p:actionLabel="Route Report"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
-                <bean parent="Uif-PrimaryActionButton" 
-                      p:ajaxSubmit="false" 
-                      p:methodToCall="sendAdHocRequests" 
+                <bean parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="sendAdHocRequests"
                       p:actionLabel="Send Adhoc"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
-                <bean parent="Uif-PrimaryActionButton" 
+                <bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false" 
                       p:methodToCall="route" 
                       p:actionLabel="Submit" 
@@ -217,19 +233,25 @@
                       p:ajaxSubmit="false" 
                       p:methodToCall="saveAndContinue" 
                       p:actionLabel="Save and Continue" 
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
-                <bean parent="Uif-PrimaryActionButton" 
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                      <property name="actionParameters">
+                          <map>
+                            <entry key="displayPage" value="NEXT"/>
+                          </map>
+                      </property>
+                </bean>
+                <bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false" 
                       p:methodToCall="reload" 
                       p:actionLabel="Reload"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
-                <bean parent="Uif-PrimaryActionButton" 
-                      p:ajaxSubmit="false" 
-                      p:methodToCall="blanketApprove" 
-                      p:actionLabel="Blanket Approve" 
+                <bean parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="blanketApprove"
+                      p:actionLabel="Approve and Activate"
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
-                <bean parent="Uif-PrimaryActionButton" 
+                <bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false" 
                       p:methodToCall="approve" 
                       p:actionLabel="Approve" 
@@ -262,6 +284,40 @@
                       p:methodToCall="copy" 
                       p:actionLabel="copy"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseView-Footer-Fred" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="previousPage"
+                      p:actionLabel="&lt; Back"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                <bean parent="Uif-SaveAction"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="saveProposal"
+                      p:actionLabel="Save and Continue"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                      <property name="actionParameters">
+                          <map>
+                            <entry key="displayPage" value="NEXT"/>
+                          </map>
+                      </property>
+                </bean>
+                <bean parent="Uif-SecondaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="saveProposal"
+                      p:actionLabel="Save Progress"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                </bean>
+                <bean parent="Uif-ActionLink"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="back"
+                      p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
             </list>
         </property>
     </bean>

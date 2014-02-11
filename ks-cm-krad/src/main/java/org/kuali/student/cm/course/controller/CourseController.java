@@ -449,8 +449,8 @@ public class CourseController extends CourseRuleEditorController {
      * @param response The intended {@link HttpServletResponse} sent back to the user
      * @return The new {@link ModelAndView} that contains the newly created/updated {@CourseInfo} and {@ProposalInfo} information.
      */
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveAndContinue")
-    public ModelAndView saveAndContinue(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveProposal")
+    public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         
@@ -532,12 +532,22 @@ public class CourseController extends CourseRuleEditorController {
             error("Unable to save document: %s", e.getMessage());
         }
 
-        
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId=" + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
-        
-        return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+
+        String nextOrCurrentPage = form.getActionParameters().get("displayPage");
+        if (StringUtils.equalsIgnoreCase(nextOrCurrentPage,"NEXT")){
+            return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+        } else {
+            return getUIFModelAndView(form);
+        }
+
     }
-    
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=previousPage")
+    public ModelAndView previousPage(@ModelAttribute("KualiForm") MaintenanceDocumentForm form,HttpServletRequest request) {
+        return getUIFModelAndView(form, getPreviousPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+    }
+
     /**
      *
      * @param maintainable
@@ -662,6 +672,19 @@ public class CourseController extends CourseRuleEditorController {
         }
         return nextPageId;
     }
+
+
+    protected String getPreviousPageId(final String currentPageId) {
+        String prevPageId = null;
+        final CourseViewPages[] pages = CourseViewPages.values();
+        for (int i = 1; i < pages.length; i++) {
+            if (pages[i].getPageId().equals(currentPageId)) {
+                prevPageId = pages[--i].getPageId();
+                break;
+            }
+        }
+        return prevPageId;
+    }
     
     /**
      * Server-side action for rendering the comments lightbox
@@ -679,7 +702,7 @@ public class CourseController extends CourseRuleEditorController {
             // redirect back to client to display lightbox
             return showDialog("commentsLightBox", form, request, response);
     }
-    
+
     /**
      * This is called from the Comments lightbox. This is used to save the comments.
      * 

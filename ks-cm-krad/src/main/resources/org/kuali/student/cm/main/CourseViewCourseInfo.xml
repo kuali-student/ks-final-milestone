@@ -20,17 +20,12 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-CourseInfoPage" parent="Uif-MaintenancePage"
-          p:headerText="Course Information"
-          p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-Header" />
+    <bean id="KS-CourseView-CourseInfoPage" parent="KS-CourseView-BasePage"
+          p:headerText="Course Information">
         <property name="items">
             <list>
             	<ref bean="KS-CourseView-CourseInfoPage-Widgets" />
             </list>
-        </property>
-        <property name="footer">
-            <bean parent="KS-CourseView-Footer"/>
         </property>
         <property name="onDocumentReadyScript" value="setupCharCounters()" />
     </bean>

@@ -19,10 +19,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-CourseRequisitesPage" parent="Uif-MaintenancePage"
-		p:headerText="Course Requisites" p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-Header" />
- 		<property name="items"> 
+	<bean id="KS-CourseView-CourseRequisitesPage" parent="KS-CourseView-BasePage"
+		p:headerText="Course Requisites">
+ 		<property name="items">
 			<list> 
  				<bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
@@ -33,8 +32,5 @@
                 </bean>
  			</list> 
  		</property> 
-        <property name="footer">
-            <bean parent="KS-CourseView-Footer"/>
-        </property>
 	</bean>
 </beans>

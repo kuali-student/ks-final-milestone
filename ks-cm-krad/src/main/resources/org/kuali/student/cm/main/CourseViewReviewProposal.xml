@@ -19,9 +19,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage"
-          p:headerText="Review Proposal" p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-Header" />
+    <bean id="KS-CourseView-ReviewProposalPage" parent="KS-CourseView-BasePage"
+          p:headerText="Review Proposal">
 
         <property name="items">
             <list>
@@ -35,9 +34,6 @@
             </list>
         </property>
 
-        <property name="footer">
-            <bean parent="KS-CourseView-Footer"/>
-        </property> 
     </bean>
 
 

@@ -12,10 +12,9 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-CourseLogisticsPage" parent="Uif-MaintenancePage"
-		p:headerText="Course Logistics" p:disclosure.render="false"
+	<bean id="KS-CourseView-CourseLogisticsPage" parent="KS-CourseView-BasePage"
+		p:headerText="Course Logistics"
 		p:instructionalText="Indicate the scheduling, learning results and course format for this course.">
-		<property name="header" ref="KS-CourseView-Header" />
 		<property name="items">
 			<list>
 				<ref bean="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets" />
@@ -28,9 +27,6 @@
 				<ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" />
 			</list>
 		</property>
-        <property name="footer">
-            <bean parent="KS-CourseView-Footer"/>
-        </property>
 	</bean>
 	<bean id="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets"
 		parent="Uif-VerticalBoxSection" p:headerText="Scheduling">

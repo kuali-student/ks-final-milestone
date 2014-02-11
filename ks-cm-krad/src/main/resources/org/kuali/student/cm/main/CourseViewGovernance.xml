@@ -19,17 +19,13 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-GovernancePage" parent="Uif-MaintenancePage"
-          p:headerText="Governance" p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-Header" />
+    <bean id="KS-CourseView-GovernancePage" parent="KS-CourseView-BasePage"
+          p:headerText="Governance">
         <property name="items">
             <list> 
                 <ref bean="KS-CourseView-GovernancePage-Widgets" /> 
             </list> 
         </property> 
-        <property name="footer">
-            <bean parent="KS-CourseView-Footer"/>
-        </property>
     </bean>
 
     <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">

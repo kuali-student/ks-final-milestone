@@ -19,17 +19,13 @@
 	   xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-SupportingDocumentsPage" parent="Uif-MaintenancePage"
-		  p:headerText="Supporting Documents" p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-Header" />
+	<bean id="KS-CourseView-SupportingDocumentsPage" parent="KS-CourseView-BasePage"
+		  p:headerText="Supporting Documents">
         <property name="items">
             <list> 
                 <ref bean="KS-CourseView-SupportingDocumentsPage-Widgets" /> 
             </list> 
         </property> 
-        <property name="footer">
-            <bean parent="KS-CourseView-Footer"/>
-        </property>
 	</bean>
 
     <bean id="KS-CourseView-SupportingDocumentsPage-Widgets" parent="Uif-VerticalBoxSection">
