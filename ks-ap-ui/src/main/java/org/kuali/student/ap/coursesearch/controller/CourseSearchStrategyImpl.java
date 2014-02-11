@@ -261,7 +261,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 							if (tempArray != null) {
 								min = tempArray[0];
 								max = tempArray[tempArray.length - 1];
-								display = min + ", " + max + " Credits";
+								display = min + ", " + max;
 							}
 						}
 					}
@@ -273,7 +273,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 					}
 					CreditImpl credit = new CreditImpl();
 					credit.id = id;
-					credit.display = display;
+					credit.display = display.replace("Credits","").replace(" ","");
 					credit.type = CourseSearchItem.CreditType.valueOf(type);
 
 					Float tempValueHolder = 0F;
