@@ -3,18 +3,72 @@
 
 var cartServiceModule = angular.module('regCartApp');
 
-cartServiceModule.controller('CartCtrl', ['$scope', 'CartService',
-    function ($scope, CartService) {
+cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartService',
+    function ($scope, $state, $modal, CartService) {
         $scope.cart = CartService.getCart().query({termCode:'Fall2012'});
 
-        $scope.add = function() {
-            $scope.cart.items.unshift($scope.newCartItem);
+        //$scope.add = function() {
+        //    $scope.cart.items.unshift($scope.newCartItem);
+        //
+        //    $scope.newCartItem = null;
+        //    $scope.showNew = false;
+        //
+        //};
 
-            $scope.newCartItem = null;
-            $scope.showNew = false;
+        $scope.add = function () {
 
-        };
+            var addedItem = CartService.addCourseToCart().query({cartId:$scope.cart.cartId,
+                courseCode:$scope.courseCode,
+                termId:$scope.termId,
+                regGroupId:$scope.regCode,
+                gradingMethod:'',
+                credits:''
+            }, function (response) {
+                console.log("response: "+JSON.stringify(response));
 
+                console.log('Searched for course: ' + $scope.courseCode + ' Term: ' + $scope.termId);
+
+                console.log('Added item:');
+                console.log(addedItem);
+                if (!addedItem.cartItemId) {
+
+//                    console.log('No itemId so finding options');
+//                    return $state.transitionTo('root.cart.options');
+                    $modal.open({
+                        backdrop:'static',
+                        templateUrl:'partials/additionalOptions.html',
+                        resolve:{item:function () {
+                            return addedItem;
+                        }},
+                        controller:['$scope', 'item', function ($scope, item) {
+                            console.log('in controller');
+                            console.log($scope);
+                            console.log(item);
+                            $scope.addedItem = item;
+                            $scope.dismiss = function () {
+                                console.log('dismiss');
+                                $scope.$close(true);
+                            };
+
+                            $scope.save = function () {
+                                console.log('save');
+                                $scope.$close(true);
+                            };
+                        }]
+                    }).result.then(function (result) {
+                            console.log('before result transition');
+                            if (result) {
+                                console.log('transition');
+                            }
+                        });
+                } else {
+                    $scope.cart.items.unshift(addedItem);
+                }
+            });
+
+        },
+
+        /*
         $scope.search = function() {
 
             var code = $scope.courseCode;
@@ -30,6 +84,7 @@ cartServiceModule.controller('CartCtrl', ['$scope', 'CartService',
                 $scope.showNew = true;
             }
         };
+         */
 
         $scope.cancelNew = function(){
             $scope.newCcartItem = null;

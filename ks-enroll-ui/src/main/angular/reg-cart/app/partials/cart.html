@@ -8,7 +8,7 @@
 </div>
 <!--My Cart Input Boxs and Add to Cart Button -->
 <div class="kscr-cart">
-    <form novalidate name="form" class="form-group form-inline" ng-submit="search();">
+    <form novalidate name="form" class="form-group form-inline" ng-submit="add();">
         <fieldset>
 
             <div class="has-error" ng-show="error.length > 1"><span class="help-block">{{ error }}</span></div>
@@ -27,41 +27,6 @@
             </div>
         </fieldset>
     </form>
-</div>
-
-<!-- Cart Change Section: Credits, Grading, and Save -->
-<div class="kscr-cart-course"  ng-show="showNew">
-        <div class="kscr-course-header">
-            <div>Adding {{newCartItem.courseCode}} to cart
-            </div>
-            <p>{{newCartItem.courseTitle}}</p>
-        </div>
-        <div>
-            <div class="kscr-course-info-edit">
-                <form ng-submit="add()">
-                    <div>
-                        <label for="newItemCredits">Credits</label>
-                        <select id="newItemCredits" ng-model="newCartItem.credits"
-                                ng-options="creditOption for creditOption in newCartItem.creditOptions"/>
-                    </div>
-                    <div>
-                        <label for="newItemGrading">Grading</label>
-                        <select id="newItemGrading" ng-model="newCartItem.grading"
-                                ng-options="grading.key as grading.value for grading in newCartItem.gradingOptions"/>
-                    </div>
-                    <button type="submit" class="btn">Save</button>
-                    <a ng-click="cancelNew()">Cancel</a>
-
-
-                </form>
-            </div>
-        <!--Days, Time, and Building -->
-            <div ng-repeat="item in newCartItem.schedule">
-                <div>{{item.type}} {{item.time.days}} {{item.time.startTime}} - {{item.time.endTime}}
-                    {{item.location.building}} {{item.location.room}}
-                </div>
-            </div>
-        </div>
 </div>
 
 <!--Section header with course name, number, and remove icon -->
