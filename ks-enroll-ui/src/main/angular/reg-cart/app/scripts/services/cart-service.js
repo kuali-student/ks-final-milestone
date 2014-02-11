@@ -3,13 +3,12 @@
 angular.module('regCartApp')
     .service('CartService', ['$resource', 'APP_URL', function CartService($resource, APP_URL) {
     this.getCart = function () {
-//            return $resource(APP_URL + 'CourseRegistrationCartClientService/submitCart', {}, {
-        return $resource('json/static-cart.json', {}, {
+        return $resource(APP_URL + 'CourseRegistrationCartClientService/searchForCart', {}, {
             query:{method:'GET', cache:false, isArray:false}
         });
     };
     this.getGradingOptions = function() {
-        return $resource('json/new-static-cart-item.json', {}, {
+        return $resource(APP_URL + 'CourseRegistrationCartClientService/searchForCart', {}, {
             query:{method:'GET', cache:false, isArray:false}
         });
     };

@@ -5,7 +5,13 @@ var cartServiceModule = angular.module('regCartApp');
 
 cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartService',
     function ($scope, $state, $modal, CartService) {
-        $scope.cart = CartService.getCart().query({termCode:'Fall2012'});
+
+        //Add a watch so that when termId changes, the cart is reloaded with the new termId
+        $scope.$watch('termId', function(newValue) {
+            CartService.getCart().query({termId:$scope.termId,userId:'admin'}, function(theCart){
+                $scope.cart = theCart;
+            });
+        });
 
         //$scope.add = function() {
         //    $scope.cart.items.unshift($scope.newCartItem);
@@ -20,7 +26,7 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
             var addedItem = CartService.addCourseToCart().query({cartId:$scope.cart.cartId,
                 courseCode:$scope.courseCode,
                 termId:$scope.termId,
-                regGroupId:$scope.regCode,
+                regGroupCode:$scope.regCode,
                 gradingMethod:'',
                 credits:''
             }, function (response) {
