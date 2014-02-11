@@ -205,97 +205,97 @@ limitations under the License.
     <bean id="KRMS-RuleEditorView-AddButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Add Statement" p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-add-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-plus-1');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-plus-1"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-plus-1"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-EditButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Edit" p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'KRMS-RuleEditor-TreeGroup');">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-pencil');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-pencil"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-pencil"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-GroupButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Create Group" p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','KRMS-RuleEditor-TreeGroup');">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-fork');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-fork"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-fork"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-LeftButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Move Out" p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-left-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-left');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-left"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-left"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-RightButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Move In" p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-right-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-right');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-right"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-right"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-UpButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Move Up" p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-up-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-up');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-up"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-up"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-DownButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Move Down" p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-down-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-down');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-down"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-down"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-CopyButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Copy" p:actionScript="ajaxCopyPropositionTree();"
           p:additionalCssClasses="kr-cut-button,kr-copy-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-docs');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-docs"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-docs"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-CutButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Cut" p:actionScript="ajaxCutPropositionTree();"
           p:additionalCssClasses="kr-cut-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-scissors');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-scissors"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-scissors"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-PasteButton" parent="KRMS-RuleEditorView-Button"
           p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');" p:actionLabel="Paste"
           p:additionalCssClasses="kr-paste-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-paste');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-paste"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-paste"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-DeleteButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Delete" p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-delete-button">
-        <property name="onDocumentReadyScript" value="replaceImageWithGlyph('@{#component.id}', 'ks-fontello-icon-cancel');"/>
+        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:additionalCssClasses="ks-fontello-icon-cancel"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
         </property>
     </bean>
 
