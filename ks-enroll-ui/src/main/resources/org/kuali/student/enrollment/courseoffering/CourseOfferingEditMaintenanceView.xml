@@ -111,7 +111,7 @@
                 <property name="items">
                     <list>
                         <bean parent="KS-Unified-Header-Action-Group" p:render="@{!document.oldMaintainableObject.dataObject.createCO and #dp.renderHelper.relatedCOs.size() > 1}">
-                            <property name="onDocumentReadyScript" value="addBootstrapImageToLink('@{#component.id}')"/>
+                            <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
                             <property name="items">
                                 <list>
 
