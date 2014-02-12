@@ -870,6 +870,7 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
  */
 jQuery(function () {
     handleEventforDisabledElements();
+    addBootstrapImageToLink();
 });
 
 /*
@@ -879,6 +880,7 @@ jQuery(document).on('DOMNodeInserted', function(e) {
     var element = e.target;
     if(jQuery(element).is('div.uif-page')){
         handleEventforDisabledElements();
+        addBootstrapImageToLink();
     }
 });
 
