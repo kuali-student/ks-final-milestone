@@ -229,7 +229,14 @@
 							'sInfoEmpty' : '0 results found',
 							'sInfoFiltered' : '',
 							'sLengthMenu' : 'Show _MENU_',
-							'sZeroRecords' : '0 results found'
+							'sZeroRecords' : '0 results found',
+							'oPaginate':
+                                {
+                                    'sFirst' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;First&lt;/i&gt;',
+                                    'sPrevious' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;Previous&lt;/i&gt;',
+                                    'sNext' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Next&lt;/i&gt;',
+                                    'sLast' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Last&lt;/i&gt;'
+                                }
 						}" />
 				<entry key="iDisplayLength" value="20" />
 				<entry key="aLengthMenu" value="[ 20, 50, 100 ]" />

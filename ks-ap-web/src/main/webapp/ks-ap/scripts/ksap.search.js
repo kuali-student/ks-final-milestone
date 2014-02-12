@@ -217,7 +217,14 @@ function searchForCourses(id, parentId) {
 							"sInfoEmpty" : "0 results found",
 							"sInfoFiltered" : "",
 							"sLengthMenu" : "Show _MENU_",
-							"sZeroRecords" : "0 results found"
+							"sZeroRecords" : "0 results found",
+                            "oPaginate":
+                            {
+                                "sFirst" : "&#8249;",
+                                "sPrevious" : "&#8249;",
+                                "sNext" : "&#8250;",
+                                "sLast" : "&#8250;"
+                            }
 						},
 						sAjaxSource : 'course/search' + ksapGetSearchParams(),
 						sCookiePrefix : "ksap_",

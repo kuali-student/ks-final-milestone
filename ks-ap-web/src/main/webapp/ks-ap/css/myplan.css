@@ -1685,6 +1685,8 @@ table.ksap-course-search-results-datatable .blockUI {
     padding-top: 0px;
     padding-bottom: 0px;
     display: inline;
+    font-size: 200%;
+    text-decoration: none;
 }
 
 .dataTables_wrapper .dataTables_paginate .previous {
