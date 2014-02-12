@@ -98,16 +98,19 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
         };
 
         $scope.delete = function(index) {
-            //var course = $scope.cart.items[index];
+            var actionLinks = $scope.cart.items[index].actionLinks;
+            var deleteUri;
+            angular.forEach(actionLinks, function(actionLink){
+                if(actionLink.action == 'removeItemFromCart'){
+                    deleteUri = actionLink.uri;
+                }
+            });
 
             // call the backend service here to persist something
-            // API.delete(course){ id: couse.id }, function (success) {
-            //      $scope.cart.splice(index, 1);
-            // });
-
-            $scope.cart.items.splice(index, 1);
-
-
+            CartService.removeItemFromCart(deleteUri).query({},
+                function (response) {
+                    $scope.cart.items.splice(index, 1);
+            });
         };
 
         $scope.editItem = function (cartItem) {

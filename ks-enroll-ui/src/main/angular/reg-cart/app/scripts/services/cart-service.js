@@ -17,6 +17,11 @@ angular.module('regCartApp')
             query:{method:'GET', cache:false, isArray:false}
         });
     };
+    this.removeItemFromCart = function ($actionLink) {
+        return $resource(APP_URL + $actionLink, {}, {
+            query:{method:'GET', cache:false, isArray:false}
+        });
+    };
     this.updateCartItem = function () {
 //            return $resource(APP_URL + 'CourseRegistrationCartClientService/updateCartItem', {}, {
         return $resource('json/static-cart-update.json', {}, {
