@@ -44,9 +44,9 @@
             <ng-pluralize count="cartItem.credits"
                           when="{'1'    : '{} credit',
                                  'other': '{} credits'}">
-            </ng-pluralize>, {{(cartItem.gradingOptions | filter:{key:cartItem.grading}:true)[0].value}}
+            </ng-pluralize>, {{cartItem.gradingOptions[cartItem.grading]}}
             <a id="edit_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="editItem(cartItem)"
-               ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptions.length > 1">Change</a>
+               ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptionCount > 1">Change</a>
         </div>
     <!-- Cart Change Section: Credits, Grading, and Save -->
         <div class="kscr-course-info-edit" ng-show="cartItem.editing">
@@ -59,7 +59,7 @@
                 <div>
                     <label for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Grading</label>
                     <select id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newGrading"
-                            ng-options="grading.key as grading.value for grading in cartItem.gradingOptions"/>
+                            ng-options="key as value for (key, value) in cartItem.gradingOptions"/>
                 </div>
                 <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="btn" type="submit">Save</button>
                 <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="cancel(cartItem)">Cancel</a>

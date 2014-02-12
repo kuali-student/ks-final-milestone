@@ -13,7 +13,7 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CartItemResult", propOrder = {
         "cartItemId", "courseCode", "regGroupCode", "courseTitle",
-        "credits", "grading", "creditOptions", "gradingOptions",
+        "credits", "grading", "creditOptions", "gradingOptions", "gradingOptionCount",
         "schedule"})
 public class CartItemResult {
     private String cartItemId;
@@ -25,6 +25,7 @@ public class CartItemResult {
     private String grading;
     private List<String> creditOptions;
     private Map<String, String> gradingOptions;
+    private int gradingOptionCount;
     private List<ActivityOfferingScheduleResult> schedule;
     private List<Link> actionLinks;
 
@@ -96,5 +97,14 @@ public class CartItemResult {
 
     public void setActionLinks(List<Link> actionLinks) {
         this.actionLinks = actionLinks;
+    }
+
+    public int getGradingOptionCount() {
+        gradingOptionCount = getGradingOptions().size();
+        return gradingOptionCount;
+    }
+
+    public void setGradingOptionCount(int gradingOptionCount) {
+        this.gradingOptionCount = gradingOptionCount;
     }
 }
