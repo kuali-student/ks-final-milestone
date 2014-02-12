@@ -295,13 +295,12 @@
                       p:ajaxSubmit="false"
                       p:methodToCall="previousPage"
                       p:actionLabel="&lt; Back"
-                      p:performDirtyValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] and #form.pageId ne 'KS-CourseView-CourseInfoPage'}"/>
                 <bean parent="Uif-SaveAction"
                       p:ajaxSubmit="false"
                       p:methodToCall="saveProposal"
                       p:actionLabel="Save and Continue"
-                      p:performDirtyValidation="true"
+                      p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
                       <property name="actionParameters">
                           <map>
@@ -313,7 +312,7 @@
                       p:ajaxSubmit="false"
                       p:methodToCall="saveProposal"
                       p:actionLabel="Save Progress"
-                      p:performDirtyValidation="true"
+                      p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
                 </bean>
                 <bean parent="Uif-ActionLink"
@@ -331,27 +330,27 @@
             <list>
                 <bean parent="Uif-HeaderTwo" p:headerText="Course Sections" />
                 <bean id="KS-CourseViewCreateCourse-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-createCourseInitialPage"
-                      p:actionLabel="Create Course" p:render="@{!#form.renderNavigationPanel}" p:performDirtyValidation="true"/>
+                      p:actionLabel="Create Course" p:render="@{!#form.renderNavigationPanel}" p:performClientSideValidation="true"/>
                 <bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage"
-                      p:actionLabel="Course Information"  p:performDirtyValidation="true"/>
+                      p:actionLabel="Course Information"  p:performClientSideValidation="true"/>
                 <bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"
-                      p:actionLabel="Governance"  p:performDirtyValidation="true"/>
+                      p:actionLabel="Governance"  p:performClientSideValidation="true"/>
                 <bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-CourseLogisticsPage" p:actionLabel="Course Logistics"  p:performDirtyValidation="true"/>
+                      p:navigateToPageId="KS-CourseView-CourseLogisticsPage" p:actionLabel="Course Logistics" p:performClientSideValidation="true"/>
                 <bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives" p:performDirtyValidation="true" />
+                      p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives"  p:performClientSideValidation="true"/>
                 <bean id="KS-CourseViewCourseRequisites-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-CourseRequisitesPage" p:actionLabel="Course Requisites" p:performDirtyValidation="true" />
+                      p:navigateToPageId="KS-CourseView-CourseRequisitesPage" p:actionLabel="Course Requisites" p:performClientSideValidation="true" />
                 <bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" p:performDirtyValidation="true" />
+                      p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" p:performClientSideValidation="true" />
                 <bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
-                      p:actionLabel="Financials" p:performDirtyValidation="true"/>
+                      p:actionLabel="Financials" p:performClientSideValidation="true"/>
                 <bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="false" p:performDirtyValidation="true"/>
+                      p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="false" p:performClientSideValidation="true"/>
                 <bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" p:performDirtyValidation="true"/>
+                      p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" p:performClientSideValidation="true"/>
                 <bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" />
+                      p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" p:performClientSideValidation="true"/>
             </list>
         </property>
     </bean>
