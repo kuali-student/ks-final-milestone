@@ -2693,7 +2693,7 @@
                         JOIN clu.descr cludesc
                         WHERE
                         (
-                        UPPER( ' ' || ident.longName || ' ' ) LIKE '% '||:queryText||'%'
+                        UPPER( ' ' || ident.longName || ' ' ) LIKE '%'||:queryText||'%'
                         )
                         <!-- AND
                       attr.name = 'course.campus'
@@ -2715,8 +2715,8 @@
                         KSLU_CLU clu
                         WHERE
                         (
-                        UPPER( ' ' || ident.LNG_NAME || ' ' ) LIKE '% ' || :queryText || '%'
-                        OR UPPER( ' ' || ident.SHRT_NAME || ' ' ) LIKE '% ' || :queryText || '%'
+                        UPPER( ' ' || ident.LNG_NAME || ' ' ) LIKE '%' || :queryText || '%'
+                        OR UPPER( ' ' || ident.SHRT_NAME || ' ' ) LIKE '%' || :queryText || '%'
                         )
                         AND lui.ID = ident.LUI_ID
                         AND lui.CLU_ID = clu.ID
@@ -2757,7 +2757,7 @@
                         KSEN_LUI lui,
                         KSLU_CLU clu
                         WHERE
-                        UPPER( ' ' || lui.DESCR_PLAIN || ' ' ) LIKE '% ' || :queryText || '%'
+                        UPPER( ' ' || lui.DESCR_PLAIN || ' ' ) LIKE '%' || :queryText || '%'
                         AND lui.CLU_ID = clu.ID
                         AND clu.ST = 'Active'
                         AND lui.ATP_ID IN :termList
