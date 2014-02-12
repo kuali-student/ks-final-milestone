@@ -22,6 +22,12 @@ angular.module('regCartApp')
             query:{method:'GET', cache:false, isArray:false}
         });
     };
+
+    this.invokeActionLink = function ($actionLink) {
+            return $resource(APP_URL + $actionLink, {}, {
+                query:{method:'GET', cache:false, isArray:false}
+            });
+        };
     this.updateCartItem = function () {
         return $resource(APP_URL + 'CourseRegistrationCartClientService/updateCartItem', {}, {
             query:{method:'GET', cache:false, isArray:false}

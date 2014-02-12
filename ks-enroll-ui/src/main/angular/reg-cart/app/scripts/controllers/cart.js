@@ -110,6 +110,27 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
             CartService.removeItemFromCart(deleteUri).query({},
                 function (response) {
                     $scope.cart.items.splice(index, 1);
+
+                    var actionUri;
+                    angular.forEach(response.actionLinks, function(actionLink){
+                        if(actionLink.action == 'addCourseToCart'){
+                            actionUri = actionLink.uri;
+                        }
+                    });
+
+                    $scope.userMessage = {'txt' : 'Course has been removed from cart. ',
+                                            'actionLink' : actionUri,
+                                            'linkText' : 'Undo.'};
+                    $scope.userActionSuccessful = true;
+            });
+        };
+
+        $scope.invokeActionLink = function(actionLink) {
+            $scope.userActionSuccessful = false;
+            // call the backend service here to persist something
+            CartService.invokeActionLink(actionLink).query({},
+                function (response) {
+                    $scope.cart.items.unshift(response);
                 });
         };
 

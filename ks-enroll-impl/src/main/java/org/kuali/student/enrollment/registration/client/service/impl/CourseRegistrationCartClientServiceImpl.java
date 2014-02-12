@@ -153,7 +153,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         try {
             CartItemResult result = removeItemFromCart(cartId, cartItemId, gradingOptionId, credits);
             // build the link to add this item.
-            result.getActionLinks().add(buildAddLink(cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
+            result.getActionLinks().add(buildAddLink(cartId, result.getRegGroupId(), result.getGrading(), result.getCredits()));
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
@@ -252,6 +252,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         //populate the options we have already calculated
         cartItemResult.setGradingOptions(optionsCart.getGradingOptions());
         cartItemResult.setCreditOptions(optionsCart.getCreditOptions());
+        cartItemResult.setCredits(credits);
 
         //Return just the item
         return cartItemResult;

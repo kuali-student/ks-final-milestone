@@ -29,6 +29,12 @@
     </form>
 </div>
 
+
+<div class="util-Alert util-Alert--success" ng-if="userActionSuccessful">
+    <strong>{{userMessage.txt}} </strong>
+    <a id="userMessageInvoke" ng-click="invokeActionLink(userMessage.actionLink);">{{userMessage.linkText}}</a>
+</div>
+
 <!--Section header with course name, number, and remove icon -->
 <div class="kscr-cart-course" ng-repeat="cartItem in cart.items">
     <div class="kscr-course-header">
