@@ -140,7 +140,7 @@
         </property>
         <property name="actionLabel" value="Cancel"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-block"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-block-1"/>
         </property>
     </bean>
 
