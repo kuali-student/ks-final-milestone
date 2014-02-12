@@ -3,7 +3,7 @@
   <h1 class="kscr-cart-header-title"><strong>My Cart</strong> <span id="course_count">({{cart.items.length}} items)</span> </h1>
 
     <div>
-        <button id="register" class="btn btn-primary pull-right ks-Register-button" type="submit">Register</button>
+        <button id="register" class="btn btn-primary pull-right ks-Register-button" type="submit" ng-click="register()">Register</button>
     </div>
 </div>
 <!--My Cart Input Boxes and Add to Cart Button -->
@@ -50,7 +50,7 @@
         </div>
     <!-- Cart Change Section: Credits, Grading, and Save -->
         <div class="kscr-course-info-edit" ng-show="cartItem.editing">
-            <form ng-submit="submit(cartItem, newCredits, newGrading)">
+            <form ng-submit="updateCartItem(cartItem, newCredits, newGrading)">
                 <div>
                     <label for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
                     <select id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
@@ -62,7 +62,7 @@
                             ng-options="key as value for (key, value) in cartItem.gradingOptions"/>
                 </div>
                 <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="btn" type="submit">Save</button>
-                <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="cancel(cartItem)">Cancel</a>
+                <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="cancelEditItem(cartItem)">Cancel</a>
            </form>
         </div>
     <!--Days, Time, and Building -->

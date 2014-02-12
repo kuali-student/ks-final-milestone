@@ -8,7 +8,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
@@ -85,9 +84,9 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         try {
             submitCart(userId, cartId);
             response = Response.ok(Boolean.TRUE);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Error submitting cart", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -98,8 +97,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         ContextInfo contextInfo = getContextAndCheckLogin(userId);
 
         //Make sure that the user is the owner of the cart!
-        CourseRegistrationInfo courseRegistrationInfo = getCourseRegistrationService().getCourseRegistration(cartId, contextInfo);
-        if (!StringUtils.equals(courseRegistrationInfo.getPersonId(), contextInfo.getPrincipalId())) {
+        RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
+        if (!StringUtils.equals(cartRegistrationRequest.getRequestorId(), contextInfo.getPrincipalId())) {
             throw new PermissionDeniedException("User does not have permission to submit on this registration cart");
         }
 

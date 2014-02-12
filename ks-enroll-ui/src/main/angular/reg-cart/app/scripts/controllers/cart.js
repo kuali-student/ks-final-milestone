@@ -7,9 +7,9 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
     function ($scope, $state, $modal, CartService) {
 
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
-        $scope.$watch('termId', function(newValue) {
-            if(newValue){       // TODO: KSENROLL-11755: the first time the page is loaded, this is null. not sure why
-                CartService.getCart().query({termId:newValue,userId:'admin'}, function(theCart){
+        $scope.$watch('termId', function (newValue) {
+            if (newValue) {       // TODO: KSENROLL-11755: the first time the page is loaded, this is null. not sure why
+                CartService.getCart().query({termId:newValue, userId:'admin'}, function (theCart) {
                     $scope.cart = theCart;
                 });
             }
@@ -32,7 +32,7 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
                 gradingMethod:'',
                 credits:''
             }, function (response) {
-                console.log('response: '+JSON.stringify(response));
+                console.log('response: ' + JSON.stringify(response));
                 console.log('Searched for course: ' + $scope.courseCode + ' Term: ' + $scope.termId);
                 console.log('Added item:');
 
@@ -70,38 +70,38 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
 //                        });
 //                } else {
 //
-                })
-            };
+            })
+        };
 
 
         /*
-        $scope.search = function() {
+         $scope.search = function() {
 
-            var code = $scope.courseCode;
-            //var regGroup = $scope.regCode;
+         var code = $scope.courseCode;
+         //var regGroup = $scope.regCode;
 
-            $scope.newCartItem = CartService.getGradingOptions().query();
+         $scope.newCartItem = CartService.getGradingOptions().query();
 
-            if($scope.newCartItem === null) {
-                $scope.error = 'Cannot find the course "' + code + '" in term ' + $scope.termId;
-                $scope.courseCode.setValidity('coursecheck', false);
-                $scope.showNew = false;
-            } else {
-                $scope.showNew = true;
-            }
-        };
+         if($scope.newCartItem === null) {
+         $scope.error = 'Cannot find the course "' + code + '" in term ' + $scope.termId;
+         $scope.courseCode.setValidity('coursecheck', false);
+         $scope.showNew = false;
+         } else {
+         $scope.showNew = true;
+         }
+         };
          */
 
-        $scope.cancelNew = function(){
+        $scope.cancelNew = function () {
             $scope.newCcartItem = null;
             $scope.showNew = false;
         };
 
-        $scope.delete = function(index) {
+        $scope.delete = function (index) {
             var actionLinks = $scope.cart.items[index].actionLinks;
             var deleteUri;
-            angular.forEach(actionLinks, function(actionLink){
-                if(actionLink.action == 'removeItemFromCart'){
+            angular.forEach(actionLinks, function (actionLink) {
+                if (actionLink.action == 'removeItemFromCart') {
                     deleteUri = actionLink.uri;
                 }
             });
@@ -110,7 +110,7 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
             CartService.removeItemFromCart(deleteUri).query({},
                 function (response) {
                     $scope.cart.items.splice(index, 1);
-            });
+                });
         };
 
         $scope.editItem = function (cartItem) {
@@ -119,11 +119,11 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
             cartItem.editing = true;
         };
 
-        $scope.cancel = function (cartItem) {
+        $scope.cancelEditItem = function (cartItem) {
             cartItem.editing = false;
         };
 
-        $scope.submit = function (cartItem, newCredits, newGrading) {
+        $scope.updateCartItem = function (cartItem, newCredits, newGrading) {
             console.log('Updating:');
             console.log(newGrading);
             CartService.updateCartItem().query({
@@ -141,6 +141,17 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
 
         };
 
+        $scope.register = function () {
+            CartService.submitCart().query({
+                cartId:$scope.cart.cartId,
+                userId:'admin'
+            }, function () {
+                console.log('Submiting cart.');
+                CartService.getCart().query({termId:$scope.termId, userId:'admin'}, function (theCart) {
+                    $scope.cart = theCart;
+                });
+            });
+        };
     }]);
 
 

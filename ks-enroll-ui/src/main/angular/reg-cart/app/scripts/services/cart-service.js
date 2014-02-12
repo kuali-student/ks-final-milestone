@@ -27,4 +27,9 @@ angular.module('regCartApp')
             query:{method:'GET', cache:false, isArray:false}
         });
     };
+    this.submitCart = function () {
+        return $resource(APP_URL + 'CourseRegistrationCartClientService/submitCart', {}, {
+            query:{method:'GET', cache:false, isArray:false}
+        });
+    };
 }]);
