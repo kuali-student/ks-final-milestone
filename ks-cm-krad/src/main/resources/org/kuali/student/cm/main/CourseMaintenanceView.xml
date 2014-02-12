@@ -329,6 +329,7 @@
                                   p:ajaxSubmit="false"
                                   p:methodToCall="back"
                                   p:actionLabel="Cancel"
+                                  p:style="margin-top:5px;"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                         </list>
                     </property>
