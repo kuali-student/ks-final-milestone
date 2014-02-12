@@ -55,6 +55,8 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.infc.Clu;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 
@@ -481,8 +483,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 for(CourseSearchItemImpl course : courses){
                     if(course.getCourseId().equals(offering.getCourseId())){
                         // Avoid Duplicates
-                        if(!course.getScheduledTermsList().contains(offering.getTermId()))
+                        if(!course.getScheduledTermsList().contains(offering.getTermId())){
                             course.addScheduledTerm(offering.getTermId());
+                            course.addCampuses(offering.getCampusLocations());
+                        }
                     }
                 }
             }
@@ -707,6 +711,23 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				+ System.currentTimeMillis());
 	}
 
+    private void loadCampuses(List<CourseSearchItemImpl> courses, List<String> courseIds){
+        try{
+            List<CluInfo> clus = KsapFrameworkServiceLocator.getCluService().getClusByIds(courseIds,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            for(CourseSearchItemImpl course : courses){
+                for (CluInfo clu : clus){
+                    if(course.getCourseId().equals(clu.getId())){
+                        course.setCampuses(clu.getCampusLocations());
+                    }
+                }
+            }
+        }catch(Exception e){
+            LOG.warn("Unable to load campus data",e);
+            return;
+        }
+
+    }
+
     /**
      * Creates a map relating the course to its status in the plan.
      * @param studentID - Id of the user running the search
@@ -844,6 +865,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             courseIDs = termfilterCourseIds(courseIDs,form.getSearchTerm());
             if (!courseIDs.isEmpty()) {
                 courses = getCoursesInfo(courseIDs);
+                loadCampuses(courses, courseIDs);
                 loadScheduledTerms(courses);
                 loadTermsOffered(courses, courseIDs);
                 loadGenEduReqs(courses, courseIDs);

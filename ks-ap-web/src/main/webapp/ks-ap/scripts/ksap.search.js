@@ -39,6 +39,11 @@ function ksapCourseSearchColumns() {
     }, {
         'bSortable' : false,
         'bSearchable' : true,
+        'sTitle' : 'Campus',
+        'sWidth' : '34px'
+    },{
+        'bSortable' : false,
+        'bSearchable' : true,
         'sTitle' : 'Terms Scheduled',
         'sClass' : 'ksap-data-list',
         'sWidth' : '130px'
@@ -483,7 +488,7 @@ function registerCourseSearchResultsFacetsEvents(jqObjects){
 
 function updateTermsOfferedDisplay(jqObject){
     var terms = jQuery('#course_search_results_panel').data('terms-abbrev').split(",");
-    var baseDL = jqObject.find('td:nth-child(5) dl');
+    var baseDL = jqObject.find('td:nth-child(6) dl');
     if (baseDL.has('dd.projected').length < 1) {
         var fixEmptyList = baseDL.append(jQuery('<dd />').addClass("projected"));
         var baseArray = [];

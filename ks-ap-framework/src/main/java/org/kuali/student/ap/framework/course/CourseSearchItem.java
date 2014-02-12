@@ -167,4 +167,10 @@ public interface CourseSearchItem {
 	 */
 	List<String> getKeywords();
 
+    /**
+     * Get a list of campus where the courses is offered.
+     *
+     * @return A list of campuses.
+     */
+    List<String> getCampuses();
 }

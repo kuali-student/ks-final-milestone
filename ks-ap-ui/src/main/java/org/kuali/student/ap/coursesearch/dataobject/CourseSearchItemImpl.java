@@ -67,6 +67,8 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	private List<String> keywords;
 
+    private List<String> campuses;
+
 	/**
 	 * Lazy initialized column data for supporting server side result caching.
 	 */
@@ -395,7 +397,20 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		scheduledTermsList.add(term);
 	}
 
-	/**
+    public List<String> getCampuses() {
+        return campuses;
+    }
+
+    public void setCampuses(List<String> campuses) {
+        this.campuses = campuses;
+    }
+
+    public void addCampuses(List<String> campuses) {
+        if(campuses==null) campuses=new ArrayList<String>();
+        this.campuses.addAll(campuses);
+    }
+
+    /**
 	 * Override to provide additional GET parameters on the course inquiry link.
 	 * 
 	 * <p>
@@ -549,7 +564,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	@Override
 	public String[] getSearchColumns() {
 		return searchColumns == null ? searchColumns = new String[] {
-				getCode(), getInquiryLink(), getCredit(),
+				getCode(), getInquiryLink(), getCredit(), getCampusString(),
 				getScheduledTerms(), getOfferedTerms(), getGenEduReq(),
 				getStatusColumn(), } : searchColumns;
 	}
@@ -579,5 +594,14 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	public String toString() {
 		return String.format("%s: %s", getCode(), getCourseId());
 	}
+
+    public String getCampusString(){
+        StringBuilder campusBuilder = new StringBuilder("");
+        for(String campus : getCampuses()){
+            campusBuilder.append(campus);
+            campusBuilder.append(" ");
+        }
+        return campusBuilder.toString();
+    }
 
 }
