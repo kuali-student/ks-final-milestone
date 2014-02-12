@@ -1554,7 +1554,7 @@ table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
 }
 
 table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.scheduled {
-    width: 100px;
+    min-width: 110px;
 }
 
 table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.projected {
@@ -1575,10 +1575,12 @@ table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.project
     background: #ffffff;
     border-right: none;
     color:#A3A2A2;
+    font-weight: normal;
 }
 .ksap-data-list dl dd.projected dl dd.termHighlight {
     background: #c4c4c4;
     color:#000000;
+    font-weight: bold;
 }
 .ksap-data-list dl dd.projected dl dd:last-child {
     border-right: 1px solid black;
