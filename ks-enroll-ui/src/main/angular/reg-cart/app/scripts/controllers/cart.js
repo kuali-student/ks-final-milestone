@@ -119,9 +119,9 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
                         }
                     });
 
-                    $scope.userMessage = {'txt' : item.courseCode + '(' + item.regGroupCode + ') ' + 'has been removed from cart. ',
+                    $scope.userMessage = {'txt' : item.courseCode + '(' + item.regGroupCode + ') ' + 'has been successfully removed from your cart.   ',
                                             'actionLink' : actionUri,
-                                            'linkText' : 'Undo.'};
+                                            'linkText' : 'Undo'};
                     $scope.userActionSuccessful = true;
             });
         };
