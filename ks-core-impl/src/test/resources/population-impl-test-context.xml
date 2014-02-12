@@ -28,11 +28,6 @@
         </property>
     </bean>-->
 
-    <bean id="systemPropertyConfigurer"
-          class="org.kuali.student.common.util.SystemPropertyConfigurer">
-        <property name="properties" value="${propertiesPrefix.systemProperties}"/>
-    </bean>
-
     <bean id="AtomikosTxMgr"
           class="com.atomikos.icatch.jta.UserTransactionManager"
           init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
