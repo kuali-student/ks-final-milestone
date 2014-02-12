@@ -170,12 +170,6 @@ function searchForCourses(id, parentId) {
 										.hide();
 							}
 
-								var targetOffset = jQuery("#" + parentId)
-										.offset().top;
-								jQuery('html,body').animate({
-									scrollTop : targetOffset
-								}, 250);
-
                             //Hide pagination if there is less than 1 page of results
                             if (this.fnSettings()._iDisplayLength > this.fnSettings().fnRecordsDisplay()) {
                                 jQuery('#course_search_results_wrapper').find('.dataTables_paginate').hide();
