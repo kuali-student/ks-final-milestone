@@ -66,8 +66,7 @@
                                                     <bean parent="Uif-Message" p:messageText="Source Term"
                                                           p:style="font-size:1em;font-weight:bold;"/>
                                                     <bean parent="Uif-ImageField"
-                                                          p:image.style="ks-fontello-icon-help-circled"
-                                                          p:onDocumentReadyScript="addBootstrapImageToLink();">
+                                                          p:image.style="ks-fontello-icon-help-circled">
                                                         <property name="toolTip">
                                                             <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
                                                                   p:tooltipContent="Select the term you want to copy from \- the older term."/>
@@ -110,8 +109,7 @@
                                                     <bean parent="Uif-Message" p:messageText="Target Term"
                                                           p:style="font-size:1em;font-weight:bold;"/>
                                                     <bean parent="Uif-ImageField"
-                                                          p:image.style="ks-fontello-icon-help-circled"
-                                                          p:onDocumentReadyScript="addBootstrapImageToLink();">
+                                                          p:image.style="ks-fontello-icon-help-circled">
                                                         <property name="toolTip">
                                                             <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
                                                                   p:tooltipContent="Select the term you want to copy to \- the new term."/>

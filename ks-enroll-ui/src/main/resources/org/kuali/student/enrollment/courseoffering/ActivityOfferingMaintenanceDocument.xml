@@ -197,7 +197,6 @@
 
     <!-- This is the carousel widget -->
     <bean id="ActivityOfferingEdit-Header-Right-SubGroup" parent="KS-Unified-Header-Action-Group" p:render="@{#dp.editRenderHelper.aoCodes.size() > 1}">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="items">
             <list>
                 <bean id="edit_ao_prev" parent="KS-Uif-ActionLink" p:render="@{#dp.editRenderHelper.prevAO.id != null}"

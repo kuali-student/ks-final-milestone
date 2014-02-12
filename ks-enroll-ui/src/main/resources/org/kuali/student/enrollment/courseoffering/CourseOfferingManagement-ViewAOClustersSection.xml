@@ -62,7 +62,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ClusterHeaderText" parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" p:additionalCssClasses="ks-dottedHeaderActions">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="items">
             <list>
                 <bean parent="Uif-Label" p:labelText="@{#line.clusterNameForDisplay}" p:renderColon="false"
@@ -120,7 +119,7 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ActivityOfferingsPerClusterSubSection" parent="Uif-TableCollectionSubSection"
-          p:onDocumentReadyScript="resetCheckboxes('activityOfferingsPerCluster');addBootstrapImageToLink();"
+          p:onDocumentReadyScript="resetCheckboxes('activityOfferingsPerCluster');"
           p:renderAddLine="false"  p:renderLineActions="true" p:readOnly="false">
         <property name="id" value="activityOfferingsPerCluster" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper" />

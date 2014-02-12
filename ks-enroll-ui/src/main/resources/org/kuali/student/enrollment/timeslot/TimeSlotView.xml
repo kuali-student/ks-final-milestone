@@ -248,7 +248,6 @@
     -->
 
     <bean id="TimeSlot-ToolBar-Add-Button-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Add Time Slot"/>
         <property name="actionScript" value="showTimeSlotLightBox(e,'ADD');"/>
         <property name="actionImage">
@@ -257,7 +256,6 @@
     </bean>
 
     <bean id="TimeSlot-ToolBar-Delete-Button-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionScript" value="showTimeSlotDeleteConfirmation();"/>
         <property name="actionLabel" value="Delete"/>
         <property name="actionImage">

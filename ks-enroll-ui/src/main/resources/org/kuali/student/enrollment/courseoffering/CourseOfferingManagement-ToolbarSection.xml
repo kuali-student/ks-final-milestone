@@ -93,7 +93,6 @@
 
     <bean id="KS-CourseOfferingManagement-ToolBar-AddCluster-parent" parent="KS-Uif-ToolBar-Button"
           p:onClickScript="toggleAddAOCButton('addAOCButton','privateClusterNamePopover_control');">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Add Cluster"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-doc-add"/>
@@ -101,7 +100,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-MoveTo-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Move Activity"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-right"/>
@@ -109,7 +107,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Add-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Add Course"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-plus-1"/>
@@ -117,7 +114,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Approve-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Approve"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-ok"/>
@@ -130,7 +126,6 @@
                 <value>ks-enableMouseOver</value>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Suspend"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-pause"/>
@@ -143,7 +138,6 @@
                 <value>ks-enableMouseOver</value>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Cancel"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-block"/>
@@ -156,7 +150,6 @@
                 <value>ks-enableMouseOver</value>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Reinstate"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-reply"/>
@@ -164,7 +157,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Delete-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Delete"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
@@ -172,7 +164,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Draft-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Set as Draft"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-doc-text"/>
@@ -180,7 +171,6 @@
     </bean>
 
     <bean id="KS-CourseOfferingManagement-ToolBar-Copy-parent" parent="KS-Uif-ToolBar-Button">
-        <property name="onDocumentReadyScript" value="addBootstrapImageToLink();"/>
         <property name="actionLabel" value="Copy"/>
         <property name="actionImage">
             <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-docs"/>
