@@ -98,7 +98,8 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
         };
 
         $scope.delete = function (index) {
-            var actionLinks = $scope.cart.items[index].actionLinks;
+            var item = $scope.cart.items[index];
+            var actionLinks = item.actionLinks;
             var deleteUri;
             angular.forEach(actionLinks, function (actionLink) {
                 if (actionLink.action == 'removeItemFromCart') {
@@ -118,7 +119,7 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
                         }
                     });
 
-                    $scope.userMessage = {'txt' : 'Course has been removed from cart. ',
+                    $scope.userMessage = {'txt' : item.courseCode + '(' + item.regGroupCode + ') ' + 'has been removed from cart. ',
                                             'actionLink' : actionUri,
                                             'linkText' : 'Undo.'};
                     $scope.userActionSuccessful = true;
