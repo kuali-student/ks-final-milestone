@@ -115,7 +115,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         try {
             CartItemResult result = addCourseToCart(cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
             // build the link to delete this item.
-            result.getActionLinks().add(buildDeleteLink(CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART, cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
+            result.getActionLinks().add(buildDeleteLink(cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
@@ -130,17 +130,17 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return response.build();
     }
 
-    protected Link buildDeleteLink(String uriBase, String cartId, String cartItemId, String gradingOptionId, String credits) {
+    protected Link buildDeleteLink(String cartId, String cartItemId, String gradingOptionId, String credits) {
         String action = "removeItemFromCart";
-        String uri = uriBase + "/removeItemFromCart?cartId=%s&cartItemId=%s&gradingOptionId=%s&credits=%s";
+        String uri = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/removeItemFromCart?cartId=%s&cartItemId=%s&gradingOptionId=%s&credits=%s";
         uri = String.format(uri, cartId, cartItemId, gradingOptionId, credits);
 
         return new Link(action, uri);
     }
 
-    protected Link buildAddLink(String uriBase, String cartId, String regGroupId, String gradingOptionId, String credits) {
+    protected Link buildAddLink(String cartId, String regGroupId, String gradingOptionId, String credits) {
         String action = "addCourseToCart";
-        String uri = uriBase + "/addCourseToCart?cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
+        String uri = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/addCourseToCart?cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
         uri = String.format(uri, cartId, regGroupId, gradingOptionId, credits);
 
         return new Link(action, uri);
@@ -153,7 +153,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         try {
             CartItemResult result = removeItemFromCart(cartId, cartItemId, gradingOptionId, credits);
             // build the link to add this item.
-            result.getActionLinks().add(buildAddLink(CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART, cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
+            result.getActionLinks().add(buildAddLink(cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
@@ -599,6 +599,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 currentCartItem.setCredits(StringUtils.substringAfterLast(credits, "kuali.result.value.credit.degree."));
                 currentCartItem.setGrading(grading);
                 currentCartItem.setRegGroupCode(rgCode);
+                currentCartItem.getActionLinks().add(buildDeleteLink(cartId,cartItemId,grading,credits ));
                 cartResult.getItems().add(currentCartItem);
                 lastAoName = "";
                 luiIdToCartItem.put(courseId, currentCartItem);
