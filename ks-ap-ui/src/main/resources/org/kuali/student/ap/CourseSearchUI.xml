@@ -347,7 +347,8 @@
         </property>
 	</bean>
 
-	<bean id="facet_quarter" parent="facet-parent" p:headerText="Term">
+	<bean id="facet_quarter" parent="facet-parent" p:headerText="Terms Scheduled">
+		<!-- TODO: KSAP-560 -  Unhide and change to underlined help text
 		<property name="header.rightGroup">
 			<bean parent="Uif-HorizontalBoxGroup">
 				<property name="items">
@@ -357,6 +358,7 @@
 				</property>
 			</bean>
 		</property>
+		-->
 	</bean>
 	<bean id="facet_genedureq" parent="facet-parent" p:headerText="Gen Ed" />
 	<bean id="facet_credits" parent="facet-parent" p:headerText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
