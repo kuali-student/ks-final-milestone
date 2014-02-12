@@ -38,6 +38,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     private EntityManager entityManager;
 
     public static final Map<String, TypeInfo> searchKeyToSearchTypeMap;
+    public static final List<TypeInfo> searchTypeList;
+
     public static final String REG_INFO_BY_PERSON_TERM_SEARCH_KEY =
             "kuali.search.type.lui.searchForCourseRegistrationByStudentAndTerm ";
     public static final String AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_KEY =
@@ -120,6 +123,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
     static {
         searchKeyToSearchTypeMap = new HashMap<String, TypeInfo>();
+        searchTypeList = new ArrayList<TypeInfo>();
 
         TypeInfo info = new TypeInfo();
         info.setKey(REG_INFO_BY_PERSON_TERM_SEARCH_KEY);
@@ -128,6 +132,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         REG_INFO_BY_PERSON_TERM_SEARCH_TYPE = info;
+        searchTypeList.add(info);
         searchKeyToSearchTypeMap.put(info.getKey(), info);
 
         info = new TypeInfo();
@@ -137,6 +142,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE = info;
+        searchTypeList.add(info);
         searchKeyToSearchTypeMap.put(info.getKey(), info);
 
         // Search for LPR transactions by personId, atpId, and typeKey.  Can be used to fetch an ID for a
@@ -149,6 +155,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE = info;
+        searchTypeList.add(info);
         searchKeyToSearchTypeMap.put(info.getKey(), info);
 
         info = new TypeInfo();
@@ -158,6 +165,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         REG_CART_BY_PERSON_TERM_SEARCH_TYPE = info;
+        searchTypeList.add(info);
         searchKeyToSearchTypeMap.put(info.getKey(), info);
 
         info = new TypeInfo();
@@ -167,6 +175,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
 
         RVGS_BY_LUI_IDS_SEARCH_TYPE = info;
+        searchTypeList.add(info);
         searchKeyToSearchTypeMap.put(info.getKey(), info);
     }
 
@@ -194,8 +203,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException {
-        return Arrays.asList(REG_INFO_BY_PERSON_TERM_SEARCH_TYPE, AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE,
-                LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE, REG_CART_BY_PERSON_TERM_SEARCH_TYPE, RVGS_BY_LUI_IDS_SEARCH_TYPE);
+        return searchTypeList;
     }
 
     @Override
