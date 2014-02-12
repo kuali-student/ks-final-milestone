@@ -2736,7 +2736,7 @@
                         JOIN clu.descr cludesc
                         WHERE
                         (
-                        UPPER( ' ' || cludesc.plain || ' ' ) LIKE '% '||:queryText||'%'
+                        UPPER( ' ' || cludesc.plain || ' ' ) LIKE '%'||:queryText||'%'
                         )
                         <!--AND-->
                         <!--attr.name = 'course.campus'-->
