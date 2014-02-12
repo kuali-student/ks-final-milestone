@@ -274,9 +274,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
         if (proposition.getTerm() == null) {
             PropositionParameterEditor termParameter = PropositionTreeUtil.getTermParameter(proposition.getParameters());
             if (termParameter != null) {
-                String termId = termParameter.getValue();
-                TermDefinition termDefinition = this.getTermRepositoryService().getTerm(termId);
-                proposition.setTerm(new TermEditor(termDefinition));
+                proposition.setTerm(new TermEditor(termParameter.getTermValue()));
             } else {
                 return termParameters;
             }
