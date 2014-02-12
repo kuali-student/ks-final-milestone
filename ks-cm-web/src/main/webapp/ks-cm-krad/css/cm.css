@@ -144,3 +144,7 @@ table.uif-gridLayout {
 .cm-home-view-header {
 	border-bottom: 1px dotted gray;
 }
+
+.uif-create-course-initial-page-header-contentWrapper .uif-headerText-span {
+    margin-left: 20px;
+}
