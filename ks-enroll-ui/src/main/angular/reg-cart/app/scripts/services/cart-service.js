@@ -8,7 +8,7 @@ angular.module('regCartApp')
         });
     };
     this.getGradingOptions = function() {
-        return $resource(APP_URL + 'CourseRegistrationCartClientService/searchForCart', {}, {
+        return $resource(APP_URL + 'CourseRegistrationCartClientService/getStudentRegistrationOptions', {}, {
             query:{method:'GET', cache:false, isArray:false}
         });
     };

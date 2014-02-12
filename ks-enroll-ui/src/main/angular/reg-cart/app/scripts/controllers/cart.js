@@ -8,9 +8,11 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
 
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function(newValue) {
-            CartService.getCart().query({termId:newValue,userId:'admin'}, function(theCart){
-                $scope.cart = theCart;
-            });
+            if(newValue){       // TODO: the first time the page is loaded, this is null. not sure why
+                CartService.getCart().query({termId:newValue,userId:'admin'}, function(theCart){
+                    $scope.cart = theCart;
+                });
+            }
         });
 
         //$scope.add = function() {
