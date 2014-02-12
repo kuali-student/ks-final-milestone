@@ -865,8 +865,21 @@ jQuery(document).on("click", ".dataTable tbody tr", function (e) {
     }
 });
 
+/*
+    Perform operations as Document is loaded
+ */
 jQuery(function () {
     handleEventforDisabledElements();
+});
+
+/*
+    Apply changes to the DOM as elements are inserted.
+ */
+jQuery(document).on('DOMNodeInserted', function(e) {
+    var element = e.target;
+    if(jQuery(element).is('div.uif-page')){
+        handleEventforDisabledElements();
+    }
 });
 
 /*
@@ -906,4 +919,8 @@ function handleEventforDisabledElements() {
             jQuery(div).css('z-index', parseInt(jQuery(this).css('z-index')) - 1);
         }
     });
+}
+
+function createWatermark(id, watermark) {
+    jQuery("#" + id).watermark(watermark, {className: 'ks-watermark'});
 }
