@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
+import java.util.Date;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -36,6 +37,8 @@ public class TermSearchResult {
     private String termName;
     private String termId;
     private String termCode;
+    private Date startDate = null;
+    private Date endDate = null;
 
     public String getTermName() {
         return termName;
@@ -61,5 +64,35 @@ public class TermSearchResult {
         this.termCode = termCode;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    /**
+     * we want to be able to determine if the term is current. This helps with us defaulting dropdowns
+     * to the current term.
+     *
+     * @return startDate <= currentDate < endDate
+     */
+    public boolean isCurrentTerm() {
+        boolean bRet = false;
+        if(startDate != null && endDate != null){
+            long current = System.currentTimeMillis();
+            bRet = (startDate.getTime() <= current) && (current  < endDate.getTime());
+        }
+        return bRet;
+    }
 
 }

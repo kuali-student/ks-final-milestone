@@ -4,7 +4,11 @@ angular.module('regCartApp')
     .controller('MainCtrl', ['$scope', 'TermsService',
     function ($scope, TermsService) {
         $scope.terms = TermsService.query({active:true}, function () {
-            $scope.termId = $scope.terms[0].termId;
+            // default to the current term
+            angular.forEach($scope.terms, function(term){
+               if(term.currentTerm){
+                   $scope.termId = term.termId;
+               }
+            });
         });
-
     }]);

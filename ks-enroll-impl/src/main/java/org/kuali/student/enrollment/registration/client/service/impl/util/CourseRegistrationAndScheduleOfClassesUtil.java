@@ -33,7 +33,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
@@ -129,6 +128,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             ts.setTermId(atpInfo.getId());
             ts.setTermName(atpInfo.getName());
             ts.setTermCode(atpInfo.getCode());
+            ts.setStartDate(atpInfo.getStartDate());
+            ts.setEndDate(atpInfo.getEndDate());
             result.add(ts);
         }
 
