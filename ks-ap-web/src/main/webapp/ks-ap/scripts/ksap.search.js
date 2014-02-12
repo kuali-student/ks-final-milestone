@@ -151,7 +151,7 @@ function searchForCourses(id, parentId) {
 						iCookieDuration : 600,
 						iDisplayLength : 20,
                         fnCreatedRow : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-                            jQuery(nRow).attr("id", aData[0]);
+                            jQuery(nRow).attr("id", aData[0]).attr("data-display-index", iDisplayIndex);
                             updateTermsOfferedDisplay(jQuery(nRow));
                             return nRow;
                         },
