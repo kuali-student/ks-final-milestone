@@ -288,38 +288,51 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-Footer-Fred" parent="Uif-FooterBase">
+    <bean id="KS-CourseView-Footer-Fred" parent="Uif-FooterBase" p:layoutManager.style="float:none;">
         <property name="items">
             <list>
-                <bean parent="Uif-SecondaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="previousPage"
-                      p:actionLabel="&lt; Back"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] and #form.pageId ne 'KS-CourseView-CourseInfoPage'}"/>
-                <bean parent="Uif-SaveAction"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="saveProposal"
-                      p:actionLabel="Save and Continue"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
-                      <property name="actionParameters">
-                          <map>
-                            <entry key="displayPage" value="NEXT"/>
-                          </map>
-                      </property>
+                <bean parent="Uif-HorizontalBoxGroup" p:style="float:left;">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SecondaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="previousPage"
+                                  p:actionLabel="&lt; Back"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] and #form.pageId ne 'KS-CourseView-CourseInfoPage'}"/>
+                        </list>
+                    </property>
                 </bean>
-                <bean parent="Uif-SecondaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="saveProposal"
-                      p:actionLabel="Save Progress"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-SaveAction"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="saveProposal"
+                                  p:actionLabel="Save and Continue"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                                  <property name="actionParameters">
+                                      <map>
+                                        <entry key="displayPage" value="NEXT"/>
+                                      </map>
+                                  </property>
+                            </bean>
+                            <bean parent="Uif-SecondaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="saveProposal"
+                                  p:actionLabel="Save Progress"
+                                  p:performClientSideValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
+                            </bean>
+                            <bean parent="Uif-ActionLink"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="back"
+                                  p:actionLabel="Cancel"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                        </list>
+                    </property>
                 </bean>
-                <bean parent="Uif-ActionLink"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="back"
-                      p:actionLabel="Cancel"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
             </list>
         </property>
     </bean>
