@@ -121,62 +121,54 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String RVG_VALUE = "rvgValue";
     }
 
+    /**
+     * Convenience method for creating type info
+     * @param searchKey Search key
+     * @param name Fills the name field
+     * @param desc and the description field
+     * @return a TypeInfo object
+     */
+    private static TypeInfo createTypeInfo(String searchKey, String name, String desc) {
+        TypeInfo info = new TypeInfo();
+        info.setKey(searchKey);
+        info.setName(name);
+        info.setDescr(new RichTextHelper().fromPlain(desc));
+        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        searchKeyToSearchTypeMap.put(info.getKey(), info);
+        searchTypeList.add(info);
+        return info;
+    }
+
     static {
         searchKeyToSearchTypeMap = new HashMap<String, TypeInfo>();
         searchTypeList = new ArrayList<TypeInfo>();
 
-        TypeInfo info = new TypeInfo();
-        info.setKey(REG_INFO_BY_PERSON_TERM_SEARCH_KEY);
-        info.setName("Registraion info by person and term");
-        info.setDescr(new RichTextHelper().fromPlain("Returns registraion info for given person and term"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        REG_INFO_BY_PERSON_TERM_SEARCH_TYPE  =
+                createTypeInfo(REG_INFO_BY_PERSON_TERM_SEARCH_KEY,
+                        "Registration info by person and term",
+                        "Returns registration info for given person and term");
 
-        REG_INFO_BY_PERSON_TERM_SEARCH_TYPE = info;
-        searchTypeList.add(info);
-        searchKeyToSearchTypeMap.put(info.getKey(), info);
+        REG_CART_BY_PERSON_TERM_SEARCH_TYPE =
+                createTypeInfo(REG_CART_BY_PERSON_TERM_SEARCH_KEY,
+                        "Registration Cart by person and term",
+                        "Returns registration cart for given person and term");
 
-        info = new TypeInfo();
-        info.setKey(AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_KEY);
-        info.setName("AO schedules by AO ids");
-        info.setDescr(new RichTextHelper().fromPlain("Returns AO schedules for given aoID"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-
-        AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE = info;
-        searchTypeList.add(info);
-        searchKeyToSearchTypeMap.put(info.getKey(), info);
+        AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE =
+                createTypeInfo(AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_KEY,
+                        "AO schedules by AO ids",
+                        "Returns AO schedules for given aoID");
 
         // Search for LPR transactions by personId, atpId, and typeKey.  Can be used to fetch an ID for a
         // registration cart by looking for the registration cart ID.  It returns IDs only.
-        info = new TypeInfo();
-        String desc = "Lpr trans ids by person and term and typeKey";
-        info.setKey(LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_SEARCH_KEY);
-        info.setName(desc);
-        info.setDescr(new RichTextHelper().fromPlain(desc));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
+        LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE =
+                createTypeInfo(LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_SEARCH_KEY,
+                        "Lpr trans ids by person and term and typeKey",
+                        "Returns Lpr trans ids by person and term and typeKey");
 
-        LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE = info;
-        searchTypeList.add(info);
-        searchKeyToSearchTypeMap.put(info.getKey(), info);
-
-        info = new TypeInfo();
-        info.setKey(REG_CART_BY_PERSON_TERM_SEARCH_KEY);
-        info.setName("Registraion Cart by person and term");
-        info.setDescr(new RichTextHelper().fromPlain("Returns registraion cart for given person and term"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-
-        REG_CART_BY_PERSON_TERM_SEARCH_TYPE = info;
-        searchTypeList.add(info);
-        searchKeyToSearchTypeMap.put(info.getKey(), info);
-
-        info = new TypeInfo();
-        info.setKey(RVGS_BY_LUI_IDS_SEARCH_KEY);
-        info.setName("RVG information by list of lui Ids");
-        info.setDescr(new RichTextHelper().fromPlain("Returns RVG keys names, and result values for credit options"));
-        info.setEffectiveDate(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.parse(DEFAULT_EFFECTIVE_DATE));
-
-        RVGS_BY_LUI_IDS_SEARCH_TYPE = info;
-        searchTypeList.add(info);
-        searchKeyToSearchTypeMap.put(info.getKey(), info);
+        RVGS_BY_LUI_IDS_SEARCH_TYPE =
+                createTypeInfo(RVGS_BY_LUI_IDS_SEARCH_KEY,
+                        "RVG information by list of lui Ids",
+                        "Returns RVG keys names, and result values for credit options");
     }
 
     @Override
