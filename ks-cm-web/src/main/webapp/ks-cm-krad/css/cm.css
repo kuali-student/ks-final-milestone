@@ -15,6 +15,44 @@
     border-bottom : thick solid #000000
 }
 
+
+.ks-cm-find-course-button-centre  {
+    margin-right: 580px;
+}
+
+.ks-cm-find-course-InstructionalMessage {
+    line-height: 3;
+}
+
+table.uif-gridLayout {
+    border: 0 none;
+    margin-bottom: 10px;
+    margin-top: 0;
+    outline: 0 none;
+    padding: 0;
+    width: 40%;
+}
+
+.table-bordered th, .table-bordered td {
+    border-bottom: 0 none;
+    border-left: 0 none;
+    border-top: 0 none;
+}
+
+.uif-gridLayout th, .uif-tableCollectionLayout th {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.uif-gridLayout td, .uif-inputField input:first-child {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.uif-gridLayout th[scope="row"] {
+    text-align: right;
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
 .tree-bar-button {
     background-image: url('./images/buttonNormal.png');
     background-repeat: no-repeat;

@@ -20,11 +20,16 @@ limitations under the License.
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-Course-FindACourse" parent="KS-Uif-LookupView" p:instructionalText="Enter  search terms in one or more fields">
+    <bean id="KS-Course-FindACourse" parent="KS-Uif-LookupView">
         <property name="viewName" value="CoursesOnlyLookup"/>
         <property name="headerText" value="Find a Course" />
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
         <property name="viewHelperServiceClass" value="org.kuali.student.lum.lu.ui.krms.service.impl.CourseInfoLookupableImpl" />
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-cm-krad/css/cm.css</value>
+            </list>
+        </property>
 
         <property name="applicationHeader">
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
@@ -39,12 +44,30 @@ limitations under the License.
             </list>
         </property>
 
-    <property name="criteriaFields">
-            <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title"/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" p:label="Phrase in Description"/>
+        <property name="page">
+            <bean parent="Uif-LookupPage">
+                <property name="header">
+                    <null/>
+                </property>
+                <property name="instructionalMessage">
+                    <bean parent="Uif-Message" p:width="auto">
+                        <property name="cssClasses">
+                            <list merge="true">
+                                <value>ks-cm-find-course-InstructionalMessage</value>
+                            </list>
+                        </property>
+                        <property name="messageText"
+                                  value=" Enter  search terms in one or more fields" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
 
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code: "/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title: "/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" p:label="Phrase in Description: "/>
             </list>
         </property>
         <property name="resultFields">
@@ -56,63 +79,21 @@ limitations under the License.
             </list>
         </property>
 
-        <property name="resultsGroup">
-            <bean parent="Uif-TableCollectionSection" p:layoutManager.suppressLineWrapping="true">
-                <property name="showInactiveLines" value="true"/>
-                <property name="propertyName" value="lookupResults"/>
-                <property name="headerText" value="Lookup Results"/>
-                <property name="header.cssClasses" value="uif-hideHeaderText"/>
-                <property name="validationMessages.displayHeaderMessageSummary" value="false"/>
-                <property name="layoutManager.renderSequenceField" value="false"/>
-                <property name="renderLineActions" value="true"/>
-                <property name="layoutManager.actionColumnPlacement" value="3" />
-                <!--
-                <property name="layoutManager.actionColumnPlacement" value="LEFT"/>
-                -->
-                <property name="layoutManager.selectFieldPrototype.finalizeMethodToCall" value="setMultiValueLookupSelect"/>
-                <property name="layoutManager.selectFieldPrototype.control.onChangeScript"
-                          value="setMultivalueLookupReturnButton(this)"/>
-                <property name="renderAddLine" value="false"/>
-                <property name="readOnly"      value="false"/>
-                <property name="header.lowerGroup">
-                    <bean parent="Uif-VerticalBoxGroup"/>
-                </property>
-                <property name="lineActions">
-                    <list>
-                        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="copyLine" p:actionLabel="copy"/>
-                        <bean parent="Uif-SecondaryActionButton-Small"
-                              p:methodToCall="deleteLine"
-                              p:actionLabel="delete"/>
-                    </list>
-                </property>
-                <property name="validationMessages.additionalKeysToMatch">
-                    <list merge="true">
-                        <value>LookupResultMessages</value>
-                    </list>
-                </property>
-                <property name="footer">
-                    <bean parent="Uif-LookupResultsFooter"
-                          p:render="@{#view.multipleValuesSelect and (lookupResults != null) and !lookupResults.empty}"/>
-                </property>
-               <!--
-
-        <property name="resultsGroup.lineActions">
-            <list merge="true">
-                <bean parent="Uif-ActionLink">
-                    <property name="actionLabel" value="Retire"/>
-                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
-                    <property name="render" value="true"/>
-                </bean>
-
-                <bean parent="Uif-ActionLink">
-                    <property name="actionLabel" value="Select"/>
-                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
-                    <property name="render" value="true"/>
+        <property name="criteriaGroup.footer.items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find Courses">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-cm-find-course-button-centre</value>
+                        </list>
+                    </property>
                 </bean>
             </list>
         </property>
-                -->
-            </bean>
+
+        <property name="footer.items">
+            <list>
+            </list>
         </property>
     </bean>
 </beans>
