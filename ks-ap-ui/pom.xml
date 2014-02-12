@@ -39,12 +39,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.core</groupId>
-            <artifactId>ks-core-impl</artifactId>
-            <version>${ks.core.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-impl</artifactId>
             <version>${ks.lum.version}</version>
