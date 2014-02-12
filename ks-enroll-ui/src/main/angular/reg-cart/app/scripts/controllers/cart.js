@@ -123,13 +123,16 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
             cartItem.editing = false;
         };
 
-        $scope.submit = function (cartItem) {
-            var newCartItem = CartService.updateCartItem().query({
-                cartId:$scope.$parent.cartId,
+        $scope.submit = function (cartItem, newCredits, newGrading) {
+            console.log('Updating:');
+            console.log(newGrading);
+            CartService.updateCartItem().query({
+                cartId:$scope.cart.cartId,
                 cartItemId:cartItem.cartItemId,
-                credits:$scope.newCredits,
-                grading:$scope.newGrading
-            }, function () {
+                credits:newCredits,
+                grading:newGrading,
+                userId:'admin'
+            }, function (newCartItem) {
                 console.log($scope);
                 cartItem.credits = newCartItem.credits;
                 cartItem.grading = newCartItem.grading;

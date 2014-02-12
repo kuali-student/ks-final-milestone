@@ -338,7 +338,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "AND schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
                         (StringUtils.isEmpty(cartItemId)?" ":"AND lprti.ID = :cartItemId ") +
                         "ORDER BY " +
-                        "    lprt.ID, " +
+                        "    lprt.ID, lprti.ID, " +
                         "    ao.LUI_TYPE";
 
 

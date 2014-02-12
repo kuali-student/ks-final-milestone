@@ -23,8 +23,7 @@ angular.module('regCartApp')
         });
     };
     this.updateCartItem = function () {
-//            return $resource(APP_URL + 'CourseRegistrationCartClientService/updateCartItem', {}, {
-        return $resource('json/static-cart-update.json', {}, {
+        return $resource(APP_URL + 'CourseRegistrationCartClientService/updateCartItem', {}, {
             query:{method:'GET', cache:false, isArray:false}
         });
     };

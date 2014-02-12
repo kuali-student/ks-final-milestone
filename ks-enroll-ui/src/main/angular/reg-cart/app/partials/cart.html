@@ -50,7 +50,7 @@
         </div>
     <!-- Cart Change Section: Credits, Grading, and Save -->
         <div class="kscr-course-info-edit" ng-show="cartItem.editing">
-            <form ng-submit="submit(cartItem)">
+            <form ng-submit="submit(cartItem, newCredits, newGrading)">
                 <div>
                     <label for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
                     <select id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
