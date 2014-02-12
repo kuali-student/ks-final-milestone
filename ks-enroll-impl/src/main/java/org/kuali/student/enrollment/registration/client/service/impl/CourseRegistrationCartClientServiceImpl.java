@@ -132,7 +132,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     protected Link buildDeleteLink(String uriBase, String cartId, String cartItemId, String gradingOptionId, String credits) {
         String action = "removeItemFromCart";
-        String uri = uriBase + "/removeItemFromCart?cartId=%s&cartItemId=%s&gradingOptionId=$s&credits=%s";
+        String uri = uriBase + "/removeItemFromCart?cartId=%s&cartItemId=%s&gradingOptionId=%s&credits=%s";
         uri = String.format(uri, cartId, cartItemId, gradingOptionId, credits);
 
         return new Link(action, uri);
@@ -140,7 +140,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     protected Link buildAddLink(String uriBase, String cartId, String regGroupId, String gradingOptionId, String credits) {
         String action = "addCourseToCart";
-        String uri = uriBase + "/addCourseToCart?cartId=%s&regGroupId=%s&gradingOptionId=$s&credits=%s";
+        String uri = uriBase + "/addCourseToCart?cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
         uri = String.format(uri, cartId, regGroupId, gradingOptionId, credits);
 
         return new Link(action, uri);
