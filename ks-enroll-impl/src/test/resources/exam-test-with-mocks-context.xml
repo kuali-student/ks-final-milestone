@@ -15,11 +15,6 @@
     <import resource="classpath:ks-enroll-impl-test-data-dictionary-services-configuration.xml"/>
     <import resource="classpath:ks-enroll-impl-test-data-dictionary-validator-configuration.xml"/>
 
-    <bean id="systemPropertyConfigurer"
-          class="org.kuali.student.common.util.SystemPropertyConfigurer">
-        <property name="properties" value="${propertiesPrefix.systemProperties}"/>
-    </bean>
-
     <bean id="AtomikosTxMgr"
           class="com.atomikos.icatch.jta.UserTransactionManager"
           init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false"

@@ -11,7 +11,6 @@
     <context:annotation-config/>
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
-    <import resource="classpath:ks-test-system-property-configurer.xml"/>
     <import resource="classpath:ks-enroll-impl-test-data-dictionary-services-configuration.xml"/>
     <import resource="classpath:ks-enroll-impl-test-data-dictionary-validator-configuration.xml"/>
 
