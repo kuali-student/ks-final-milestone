@@ -173,6 +173,8 @@ function searchForCourses(id, parentId) {
                             //Hide pagination if there is less than 1 page of results
                             if (this.fnSettings()._iDisplayLength > this.fnSettings().fnRecordsDisplay()) {
                                 jQuery('#course_search_results_wrapper').find('.dataTables_paginate').hide();
+                            } else {
+                                jQuery('#course_search_results_wrapper').find('.dataTables_paginate').show();
                             }
 						},
 						fnInitComplete : function(oSettings, json) {
