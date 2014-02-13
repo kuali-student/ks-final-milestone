@@ -93,8 +93,17 @@
 		</property>
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="course.gradingOptions"
-					p:label="Assessment Scale" p:required="true">
+
+                <bean parent="Uif-HorizontalBoxSubSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false"/>
+                            <bean parent="Uif-Label" p:labelText="Required on Submit" p:renderColon="false" p:additionalCssClasses="cm-form-required-for-submit"/>
+                        </list>
+                    </property>
+                </bean>
+
+				<bean parent="Uif-InputField-LabelTop" p:propertyName="course.gradingOptions" p:showLabel="false" p:required="true">
 					<property name="control">
 						<bean parent="Uif-VerticalCheckboxesControl" />
 					</property>

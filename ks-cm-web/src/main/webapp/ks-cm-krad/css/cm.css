@@ -148,3 +148,11 @@ table.uif-gridLayout {
 .uif-create-course-initial-page-header-contentWrapper .uif-headerText-span {
     margin-left: 20px;
 }
+.cm-form-required-for-submit {
+    color:#999999;
+    font-size:0.9em;
+    font-style:italic;
+    font-weight:normal;
+    margin-left:4px;
+    text-align: left;
+}
