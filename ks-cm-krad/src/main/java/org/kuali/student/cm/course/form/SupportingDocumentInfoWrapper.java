@@ -26,8 +26,8 @@ public class SupportingDocumentInfoWrapper implements java.io.Serializable {
 	private static final long serialVersionUID = -1L;
     
 
-    protected MultipartFile documentUpload;
-    protected String description;
+    private MultipartFile documentUpload;
+    private String description;
 
     /**
      * Gets the value of documentUpload

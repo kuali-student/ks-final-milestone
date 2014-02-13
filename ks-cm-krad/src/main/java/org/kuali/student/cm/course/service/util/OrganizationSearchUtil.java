@@ -20,7 +20,9 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 public class OrganizationSearchUtil {
     
-    
+    private OrganizationSearchUtil() {
+    }
+
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
      *

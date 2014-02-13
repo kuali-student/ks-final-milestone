@@ -17,7 +17,10 @@ import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 public class LoCategorySearchUtil {
-    
+
+    private LoCategorySearchUtil() {
+    }
+
     public static List<LoCategoryInfoWrapper> searchForLoCategories(String categoryName, LearningObjectiveService learningObjectiveService) {
         List<LoCategoryInfoWrapper> retrievedCategories = new ArrayList<LoCategoryInfoWrapper>();
 

@@ -19,6 +19,10 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 public class CourseCodeSearchUtil {
     
+
+    private CourseCodeSearchUtil() {
+    }
+
     /**
      * Search for all course codes matching the 'courseNumber'
      * 

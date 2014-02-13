@@ -5,7 +5,10 @@ import org.kuali.student.r2.lum.clu.dto.CluInfo;
 
 public class NLHelper {
 
-	public static String getProperGrammar(Number number, String singularText, String pluralText) {
+	private NLHelper() {
+    }
+
+    public static String getProperGrammar(Number number, String singularText, String pluralText) {
 		return (number.intValue() == 1 ? singularText : pluralText);
 	}
 	

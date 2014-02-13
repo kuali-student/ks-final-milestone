@@ -76,7 +76,7 @@ public class CMGradeValuesKeyFinder extends UifKeyValuesFinderBase {
                     public int compare(ResultValueInfo o1, ResultValueInfo o2) {
                         Integer first = Integer.valueOf(o1.getNumericValue());
                         Integer second = Integer.valueOf(o2.getNumericValue());
-                        return (second < first) ? -1 : ((second == first) ? 0 : 1);
+                        return (second < first) ? -1 : ((second.equals(first)) ? 0 : 1);
                     }
                 });
 

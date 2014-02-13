@@ -11,6 +11,9 @@ public class RecentlyViewedDocsUtil {
     
     private static final String RECENT_DOCS_SESSION_KEY = "recentDocs";
 
+    private RecentlyViewedDocsUtil() {
+    }
+
     @SuppressWarnings("unchecked")
     public static List<RecentDocInfo> getRecentDocs() {
         if ((List<RecentDocInfo>)GlobalVariables.getUserSession().retrieveObject(RECENT_DOCS_SESSION_KEY) == null) {

@@ -642,7 +642,7 @@ public class CourseController extends CourseRuleEditorController {
     protected String getInstructorSearchString(String displayName) {
         String searchString = null;
         if (displayName.contains("(") && displayName.contains(")")) {
-            searchString = displayName.substring(displayName.lastIndexOf("(") + 1, displayName.lastIndexOf(")"));
+            searchString = displayName.substring(displayName.lastIndexOf('(') + 1, displayName.lastIndexOf(')'));
         }
         return searchString;
     }
