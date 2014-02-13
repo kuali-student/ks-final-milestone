@@ -247,7 +247,7 @@ public class CourseController extends CourseRuleEditorController {
 
         maintenanceDocForm.setRenderNavigationPanel(true);
         // Create the document in the super method
-        final ModelAndView retval = super.docHandler(maintenanceDocForm, result, request, response);
+        super.docHandler(maintenanceDocForm, result, request, response);
 
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
 
@@ -321,7 +321,6 @@ public class CourseController extends CourseRuleEditorController {
         }});
         toAdd.setName(toAdd.getFileName());
         
-        final DocumentBinaryInfo documentBinary = new DocumentBinaryInfo();
         try {
             toAdd.getDocumentBinary().setBinary(new String(Base64.encodeBase64(addLineResult.getDocumentUpload().getBytes())));
         }
@@ -976,19 +975,13 @@ public class CourseController extends CourseRuleEditorController {
                      : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
 
                 String subjectCodeId = "";
-                String subjectCodeShortName = "";
                 String subjectCodeOptionalLongName = "";
-                String subjectCodeType = "";
-                
+
                 for (final SearchResultCellInfo resultCell : result.getCells()) {
                     if ("subjectCode.resultColumn.orgId".equals(resultCell.getKey())) {
                         subjectCodeId = resultCell.getValue();
-                    } else if ("subjectCode.resultColumn.orgShortName".equals(resultCell.getKey())) {
-                        subjectCodeShortName = resultCell.getValue();
                     } else if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
                     	subjectCodeOptionalLongName = resultCell.getValue();
-                    } else if ("subjectCode.resultColumn.orgType".equals(resultCell.getKey())) {
-                    	subjectCodeType = resultCell.getValue();
                     }
                 }
                 return new ConcreteKeyValue(subjectCodeOptionalLongName, subjectCodeId);

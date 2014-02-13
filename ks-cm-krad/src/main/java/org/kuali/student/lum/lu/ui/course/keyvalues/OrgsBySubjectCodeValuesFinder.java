@@ -73,19 +73,13 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
         	for (final SearchResultRowInfo result 
                      : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
                 String subjectCodeId = "";
-                String subjectCodeShortName = "";
                 String subjectCodeOptionalLongName = "";
-                String subjectCodeType = "";
-                
+
                 for (final SearchResultCellInfo resultCell : result.getCells()) {
                     if ("subjectCode.resultColumn.orgId".equals(resultCell.getKey())) {
                         subjectCodeId = resultCell.getValue();
-                    } else if ("subjectCode.resultColumn.orgShortName".equals(resultCell.getKey())) {
-                        subjectCodeShortName = resultCell.getValue();
                     } else if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
                     	subjectCodeOptionalLongName = resultCell.getValue();
-                    } else if ("subjectCode.resultColumn.orgType".equals(resultCell.getKey())) {
-                    	subjectCodeType = resultCell.getValue();
                     }
                 }
 
@@ -131,19 +125,13 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                      : getSubjectCodeService().search(searchRequest, ContextUtils.getContextInfo()).getRows()) {
 
                 String subjectCodeId = "";
-                String subjectCodeShortName = "";
                 String subjectCodeOptionalLongName = "";
-                String subjectCodeType = "";
-                
+
                 for (final SearchResultCellInfo resultCell : result.getCells()) {
                     if ("subjectCode.resultColumn.orgId".equals(resultCell.getKey())) {
                         subjectCodeId = resultCell.getValue();
-                    } else if ("subjectCode.resultColumn.orgShortName".equals(resultCell.getKey())) {
-                        subjectCodeShortName = resultCell.getValue();
                     } else if ("subjectCode.resultColumn.orgLongName".equals(resultCell.getKey())) {
                     	subjectCodeOptionalLongName = resultCell.getValue();
-                    } else if ("subjectCode.resultColumn.orgType".equals(resultCell.getKey())) {
-                    	subjectCodeType = resultCell.getValue();
                     }
                 }
                 return new ConcreteKeyValue(subjectCodeOptionalLongName, subjectCodeId);
