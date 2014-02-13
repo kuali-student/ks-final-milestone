@@ -234,10 +234,12 @@ public class NLCluSet {
 	
 	public String getQueryValueFromParam(String param) {
 		String value = "";
-		if (cluSet.getMembershipQuery() != null && !cluSet.getMembershipQuery().getQueryParamValues().isEmpty()) 
-			for (SearchParamInfo searchParam : cluSet.getMembershipQuery().getQueryParamValues()) 
-				if (searchParam.getKey().equals(param)) 
+		if (cluSet.getMembershipQuery() != null && !cluSet.getMembershipQuery().getQueryParamValues().isEmpty()) {
+			for (SearchParamInfo searchParam : cluSet.getMembershipQuery().getQueryParamValues())
+				if (searchParam.getKey().equals(param)){
 					return searchParam.getValues().get(0);
+                }
+        }
 		return value;
 	}	
 }

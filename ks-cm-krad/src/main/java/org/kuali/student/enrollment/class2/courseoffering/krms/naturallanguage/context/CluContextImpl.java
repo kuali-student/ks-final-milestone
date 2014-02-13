@@ -83,8 +83,7 @@ public class CluContextImpl extends BasicContextImpl {
         }
         try {
             VersionDisplayInfo versionInfo = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, null);
-            CluInfo clu = this.cluService.getClu(versionInfo.getId(), contextInfo);
-            return clu;
+            return this.cluService.getClu(versionInfo.getId(), contextInfo);
         } catch (Exception e) {
             throw new RiceIllegalStateException (e);
         }
@@ -109,8 +108,7 @@ public class CluContextImpl extends BasicContextImpl {
             return null;
         }
         try {
-            CluSetInfo cluSet = this.cluService.getCluSet(cluSetId, contextInfo);
-            return cluSet;
+            return this.cluService.getCluSet(cluSetId, contextInfo);
         } catch (Exception e) {
             throw new RiceIllegalStateException (e);
         }

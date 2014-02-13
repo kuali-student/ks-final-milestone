@@ -115,10 +115,6 @@ import static org.kuali.student.logging.FormattedLogger.warn;
 @Controller
 @RequestMapping(value = "/courses")
 public class CourseController extends CourseRuleEditorController {
-    
-    private static final String CURRICULUM_OVERSIGHT_PROPERTY_PATH = KRADConstants.DOCUMENT_PROPERTY_NAME
-        + ".unitsContentOwner";
-    private static final String EXISTING_CURRICULUM_OVERSIGHT_ERROR_KEY = RiceKeyConstants.ERROR_CUSTOM;
         
     private static final String DECISIONS_DIALOG_KEY        = "decisionsDialog";    
     private static final String VIEW_CURRENT_PAGE_ID        = "view.currentPageId";
