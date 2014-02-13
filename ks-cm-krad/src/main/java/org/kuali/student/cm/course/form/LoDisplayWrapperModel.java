@@ -51,7 +51,7 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
     }
 
     public void moveUpCurrent() {
-        if (this.isMoveUpable() == false) {
+        if (!this.isMoveUpable()) {
             return;
         }
         List<LoDisplayInfoWrapper> siblingList = getSiblingList();
@@ -74,7 +74,7 @@ public class LoDisplayWrapperModel implements java.io.Serializable {
     }
 
     public void moveDownCurrent() {
-        if (this.isMoveDownable() == false) {
+        if (!this.isMoveDownable()) {
             return;
         }
         int index = loWrappers.indexOf(currentLoWrapper);

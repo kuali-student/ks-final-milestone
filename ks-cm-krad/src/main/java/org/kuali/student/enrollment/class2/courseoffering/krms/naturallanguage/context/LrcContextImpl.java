@@ -76,16 +76,6 @@ public class LrcContextImpl extends BasicContextImpl {
             throw new RiceIllegalStateException (e);
         }
     }
-    private ResultValuesGroupInfo getResultValuesGroupByResultValueGroupId(String resultValueGroupId, ContextInfo contextInfo ) throws OperationFailedException {
-        if (resultValueGroupId == null) {
-            return null;
-        }
-        try {
-            return this.getLrcService().getResultValuesGroup(resultValueGroupId,contextInfo);
-        } catch (Exception e) {
-            throw new RiceIllegalStateException (e);
-        }
-    }
 
     private ResultValueInfo getResultValue(String resultValueId, ContextInfo contextInfo)  {
         try {
