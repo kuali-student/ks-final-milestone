@@ -108,9 +108,6 @@ public class ReviewInfo implements java.io.Serializable {
         private List<String> variations;
 
         public String getProposalName() {
-            if (this.proposalName == null) {
-                proposalName = new String();
-            }
             return proposalName;
         }
 
@@ -119,9 +116,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getCourseTitle() {
-            if (this.courseTitle == null) {
-                courseTitle = new String();
-            }
             return courseTitle;
         }
 
@@ -130,9 +124,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getTranscriptTitle() {
-            if (this.transcriptTitle == null) {
-                transcriptTitle = new String();
-            }
             return transcriptTitle;
         }
 
@@ -141,9 +132,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getSubjectArea() {
-            if (this.subjectArea == null) {
-                subjectArea = new String();
-            }
             return subjectArea;
         }
 
@@ -152,9 +140,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getCourseNumberSuffix() {
-            if (this.courseNumberSuffix == null) {
-                courseNumberSuffix = new String();
-            }
             return courseNumberSuffix;
         }
 
@@ -184,16 +169,10 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getDescription() {
-            if (this.description == null) {
-                description = new String();
-            }
             return description;
         }
 
         public String getRationale() {
-            if (this.rationale == null) {
-                rationale = new String();
-            }
             return rationale;
         }
     }
@@ -235,37 +214,22 @@ public class ReviewInfo implements java.io.Serializable {
         private String audit;
 
         public String getTerm() {
-            if (this.term == null) {
-                term = new String();
-            }
             return term;
         }
 
         public String getGradingOptions() {
-            if (this.gradingOptions == null) {
-                gradingOptions = new String();
-            }
             return gradingOptions;
         }
 
         public String getAtpDurationType() {
-            if (this.atpDurationType == null) {
-                atpDurationType = new String();
-            }
             return atpDurationType;
         }
 
         public String getTimeQuantity() {
-            if (this.timeQuantity == null) {
-                timeQuantity = new String();
-            }
             return timeQuantity;
         }
 
         public String getPassFail() {
-            if (this.passFail == null) {
-                passFail = new String();
-            }
             return passFail;
         }
 
@@ -274,9 +238,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getAudit() {
-            if (this.audit == null) {
-                audit = new String();
-            }
             return audit;
         }
     }
@@ -300,9 +261,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getStartTerm() {
-            if (this.startTerm == null) {
-                startTerm = new String();
-            }
             return startTerm;
         }
  
@@ -311,9 +269,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getEndTerm() {
-            if (this.endTerm == null) {
-                endTerm = new String();
-            }
             return endTerm;
         }
         
@@ -322,9 +277,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getPilotCourse() {
-            if (this.pilotCourse == null) {
-                pilotCourse = new String();
-            }
             return pilotCourse;
         }
         
@@ -342,9 +294,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getJustificationOfFees() {
-            if (this.justificationOfFees == null) {
-                justificationOfFees = new String();
-            }
             return justificationOfFees;
         }
 
@@ -353,9 +302,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getFee() {
-            if (this.fee == null) {
-                fee = new String();
-            }
             return fee;
         }
 
@@ -364,9 +310,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getRevenueSource() {
-            if (this.revenueSource == null) {
-                revenueSource = new String();
-            }
             return revenueSource;
         }
 
@@ -375,9 +318,6 @@ public class ReviewInfo implements java.io.Serializable {
         }
 
         public String getExpendingOrganization() {
-            if (this.expendingOrganization == null) {
-                expendingOrganization = new String();
-            }
             return expendingOrganization;
         }
     }
