@@ -242,7 +242,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             initActivityPriorityMap(contextInfo);
         }
 
-        return activityPriorityMap;
+        return Collections.unmodifiableMap(activityPriorityMap);
     }
 
     /**
@@ -357,16 +357,18 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     private synchronized static void initActivityPriorityMap(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        activityPriorityMap = new HashMap<String, Integer>();
-        List<TypeInfo> activityTypes = getTypeService().getTypesForGroupType("kuali.lu.type.grouping.activity", contextInfo);
+        if(activityPriorityMap == null){    // this may seem silly, but this prevents a race condition on threads calling this method.
+            activityPriorityMap = new HashMap<String, Integer>();
+            List<TypeInfo> activityTypes = getTypeService().getTypesForGroupType("kuali.lu.type.grouping.activity", contextInfo);
 
-        for (TypeInfo typeInfo : activityTypes) {
-            List<AttributeInfo> attributes = typeInfo.getAttributes();
-            if (attributes != null && !attributes.isEmpty()) {
-                for (AttributeInfo attribute : attributes) {
-                    if (TypeServiceConstants.ACTIVITY_SELECTION_PRIORITY_ATTR.equals(attribute.getKey())) {
-                        TypeTypeRelation typeTypeRelation = KSCollectionUtils.getRequiredZeroElement(getTypeService().getTypeTypeRelationsByOwnerAndType(typeInfo.getKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, contextInfo));
-                        activityPriorityMap.put(typeTypeRelation.getRelatedTypeKey(), Integer.valueOf(attribute.getValue()));
+            for (TypeInfo typeInfo : activityTypes) {
+                List<AttributeInfo> attributes = typeInfo.getAttributes();
+                if (attributes != null && !attributes.isEmpty()) {
+                    for (AttributeInfo attribute : attributes) {
+                        if (TypeServiceConstants.ACTIVITY_SELECTION_PRIORITY_ATTR.equals(attribute.getKey())) {
+                            TypeTypeRelation typeTypeRelation = KSCollectionUtils.getRequiredZeroElement(getTypeService().getTypeTypeRelationsByOwnerAndType(typeInfo.getKey(), TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY, contextInfo));
+                            activityPriorityMap.put(typeTypeRelation.getRelatedTypeKey(), Integer.valueOf(attribute.getValue()));
+                        }
                     }
                 }
             }
