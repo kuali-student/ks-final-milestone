@@ -33,6 +33,7 @@ import org.kuali.rice.core.api.exception.RiceIllegalStateException;
  */
 public class AtpContextImpl extends BasicContextImpl {
 
+    private AtpService atpService;
     private TypeService typeService;
 	
 	public final static String DURATION_TYPE_TOKEN = "durationType";
