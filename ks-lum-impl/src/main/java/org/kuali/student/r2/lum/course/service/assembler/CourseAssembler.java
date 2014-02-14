@@ -406,7 +406,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
         clu.setStdDuration(course.getDuration());
 
         //Default course effective dates to the atps if entered
-        if(course.getStartTerm() != null){
+        if(org.apache.commons.lang.StringUtils.isNotBlank(course.getStartTerm())){
             try {
                 AtpInfo startAtp = atpService.getAtp(course.getStartTerm(), contextInfo);
                 course.setEffectiveDate(startAtp.getStartDate());

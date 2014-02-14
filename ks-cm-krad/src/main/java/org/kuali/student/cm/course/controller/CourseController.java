@@ -170,7 +170,7 @@ public class CourseController extends CourseRuleEditorController {
 
         maintenanceDocForm.setDocTypeName(COURSE_CREATE_DOC_TYPE_NAME);
         maintenanceDocForm.setDataObjectClassName(CourseInfo.class.getName());
-        
+
         try {
             redrawDecisionTable(maintenanceDocForm);
         }
@@ -289,7 +289,7 @@ public class CourseController extends CourseRuleEditorController {
             }
         }
 
-        return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+        return getUIFModelAndView(form, "KS-CourseView-CoursePage");
     }
         /**
         * Add a Supporting Document line
@@ -529,7 +529,11 @@ public class CourseController extends CourseRuleEditorController {
 
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
         if (StringUtils.equalsIgnoreCase(nextOrCurrentPage,"NEXT")){
-            return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+            if ( ((CreateCourseForm)form).getSelectedTabIndex() < 10){
+                ((CreateCourseForm)form).setSelectedTabIndex(((CreateCourseForm) form).getSelectedTabIndex() + 1);
+            }
+//            return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+            return getUIFModelAndView(form);
         } else {
             return getUIFModelAndView(form);
         }
@@ -538,7 +542,7 @@ public class CourseController extends CourseRuleEditorController {
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=previousPage")
     public ModelAndView previousPage(@ModelAttribute("KualiForm") MaintenanceDocumentForm form,HttpServletRequest request) {
-        return getUIFModelAndView(form, getPreviousPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+        return getUIFModelAndView(form);
     }
 
     /**

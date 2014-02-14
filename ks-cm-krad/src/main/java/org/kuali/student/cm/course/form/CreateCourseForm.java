@@ -28,6 +28,8 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
     private String createCourseInitialAction;
     private boolean useCMreviewProcess = false;
 
+    private int selectedTabIndex = 0;
+
     public boolean isRenderNavigationPanel() {
         return renderNavigationPanel;
     }
@@ -50,5 +52,13 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     public void setUseCMreviewProcess(boolean useCMreviewProcess) {
         this.useCMreviewProcess = useCMreviewProcess;
+    }
+
+    public int getSelectedTabIndex() {
+        return selectedTabIndex;
+    }
+
+    public void setSelectedTabIndex(int selectedTabIndex) {
+        this.selectedTabIndex = selectedTabIndex;
     }
 }

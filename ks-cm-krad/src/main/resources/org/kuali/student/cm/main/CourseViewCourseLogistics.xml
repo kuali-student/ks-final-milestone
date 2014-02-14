@@ -28,6 +28,24 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="KS-CourseView-Logistics-Widgets" parent="Uif-VerticalBoxSection">
+        <property name="headerText" value="Logistics"/>
+        <property name="header.render" value="false"/>
+        <property name="items">
+        			<list>
+        				<ref bean="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets" />
+        				<ref bean="KS-CourseView-CourseLogisticsPage-DurationCount-Widgets" />
+        				<ref bean="KS-CourseView-CourseLogisticsPage-LearningResults-Widgets" />
+        				<ref bean="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets" />
+        				<ref bean="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets" />
+        				<ref bean="KS-CourseView-CourseLogisticsPage-FinalExam-Widgets" />
+        				<ref bean="KS-CourseView-CourseLogisticsPage-Outcome-Widgets" />
+        				<ref bean="KS-CourseView-CourseLogisticsPage-CourseFormats-Widgets" />
+        			</list>
+        		</property>
+    </bean>
+
 	<bean id="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets"
 		parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
 		<property name="items">

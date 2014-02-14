@@ -36,6 +36,23 @@
 
     </bean>
 
+    <bean id="KS-CourseView-ReviewProposalPage-Widgets" parent="Uif-VerticalBoxSection"
+          p:headerText="Review Proposal">
+        <property name="header.render" value="false"/>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseView-CourseInfoPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-GovernancePage-ReviewWidgets" />
+                <ref bean="KS-CourseView-CourseLogisticsPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-ActiveDatesPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-LearningObjectivesPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-FinancialsPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-SupportingDocumentsPage-ReviewWidgets" />
+            </list>
+        </property>
+
+    </bean>
+
 
     <bean name="KS-CourseView-CourseInfoPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">

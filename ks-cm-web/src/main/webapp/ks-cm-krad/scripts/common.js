@@ -3,6 +3,10 @@
  */
 
 
+function scrollToCourseSection(divId){
+    jQuery(document).scrollTop( jQuery("#" + divId).offset().top );
+}
+
 /**
  * Enter key causes next action button to fire, so this routine turns the Enter
  * keypress into a Tab keypress, essentially

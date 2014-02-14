@@ -31,8 +31,8 @@
          @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
         <!--<property name="headerText" value="@{(document.newMaintainableObject.proposal != null and !#empty(document.newMaintainableObject.proposal.name)) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />-->
         <property name="header.render" value="false" />
-        <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="entryPageId" value="KS-CourseView-createCourseInitialPage" />
+        <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
@@ -63,6 +63,12 @@
                 <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo" p:fieldBindingObjectPath="document.newMaintainableObject.courseRuleManagementWrapper"/>
             </list>
         </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseView-createCourseInitialPage" />
+                <ref bean="KS-CourseView-CoursePage"/>
+            </list>
+        </property>
         <property name="additionalScriptFiles">
             <list>
                 <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
@@ -75,22 +81,6 @@
             <list>
                 <value>ks-cm-krad/css/cm.css</value>
                 <value>themes/ksboot/stylesheets/krms.css</value>
-            </list>
-        </property>
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseView-createCourseInitialPage" />
-                <ref bean="KS-CourseView-CourseInfoPage" />
-                <ref bean="KS-CourseView-GovernancePage" />
-                <ref bean="KS-CourseView-CourseLogisticsPage" />
-                <ref bean="KS-CourseView-LearningObjectivesPage" />
-                <ref bean="KS-CourseView-CourseRequisitesPage" />
-                <ref bean="KS-RuleMaintenance-Page-Parent"/>
-                <ref bean="KS-CourseView-ActiveDatesPage" />
-                <ref bean="KS-CourseView-FinancialsPage" />
-                <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage" />
-                <ref bean="KS-CourseView-SupportingDocumentsPage" />
-                <ref bean="KS-CourseView-ReviewProposalPage" />
             </list>
         </property>
     </bean>
@@ -107,7 +97,9 @@
         </property>
     </bean>  
 
-    <bean id="KS-CourseView-BasePage" parent="Uif-MaintenancePage" p:disclosure.render="false" abstract="true">
+    <bean id="KS-CourseView-BasePage" parent="Uif-MaintenancePage" p:disclosure.render="false"/>
+
+    <bean id="KS-CourseView-CoursePage" parent="Uif-MaintenancePage" p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-Header" />
         <property name="footer">
             <bean parent="KS-CourseView-Footer-Fred"/>
@@ -120,6 +112,45 @@
               </property>
             </bean>
           </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-TabGroup" p:id="course_tabs" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal') eq false}">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-CourseView-CourseInfoPage-Widgets"/>
+                            <ref bean="KS-CourseView-GovernancePage-Widgets"/>
+                            <ref bean="KS-CourseView-Logistics-Widgets"/>
+                            <ref bean="KS-CourseView-LearningObjectivesPage-Widgets" />
+                            <ref bean="KS-CourseView-CourseRequisites-Widgets"/>
+                            <!--<ref bean="KS-CourseView-RuleMaintenance-Widgets"/>-->
+                            <ref bean="KS-CourseView-ActiveDatesPage-Widgets"/>
+                            <ref bean="KS-CourseView-Financials"/>
+                            <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets"/>
+                            <ref bean="KS-CourseView-SupportingDocumentsPage-Widgets" />
+                            <ref bean="KS-CourseView-ReviewProposalPage-Widgets"/>
+                        </list>
+                    </property>
+                    <property name="tabsWidget.templateOptionsJSString">
+                        <value>
+                            { selected: @{selectedTabIndex} }
+                        </value>
+                    </property>
+                    <property name="tabsWidget.position" value="LEFT"/>
+                </bean>
+                <bean id="courseInfoSection" parent="KS-CourseView-CourseInfoPage-Widgets"  p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="governanceSetion" parent="KS-CourseView-GovernancePage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="logisticsSection" parent="KS-CourseView-Logistics-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="learningObjectivesSection" parent="KS-CourseView-LearningObjectivesPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="requisitesSection" parent="KS-CourseView-CourseRequisites-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <!--<bean id="ruleSection" parent="KS-CourseView-RuleMaintenance-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>-->
+                <bean id="activeDatesSection" parent="KS-CourseView-ActiveDatesPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="financialsSection" parent="KS-CourseView-Financials" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="authorsAndCollaboratorsSection" parent="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="supportingDocumentsSection" parent="KS-CourseView-SupportingDocumentsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="reviewProposalSection" parent="KS-CourseView-ReviewProposalPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+
+            </list>
         </property>
     </bean>
 
@@ -148,6 +179,9 @@
     </bean>
           
     <bean id="KS-CourseView-Header" parent="Uif-HeaderTwo">
+        <property name="lowerGroup">
+            <ref bean="Uif-HeaderLowerGroup"/>
+        </property>
         <property name="upperGroup">
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
@@ -231,7 +265,7 @@
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #form.pageId eq 'KS-CourseView-ReviewProposalPage'}"/>
                 <bean parent="Uif-SaveAction" 
                       p:ajaxSubmit="false" 
-                      p:methodToCall="saveAndContinue" 
+                      p:methodToCall="saveProposal"
                       p:actionLabel="Save and Continue"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
                       <property name="actionParameters">
@@ -337,8 +371,27 @@
             </list>
         </property>
     </bean>
-    
-    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup"
+
+    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal') and #form.renderNavigationPanel}">
+            <property name="style" value="position:fixed;"/>
+            <property name="items">
+                <list>
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('courseInfoSection');" p:actionLabel="Course" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('governanceSetion');" p:actionLabel="Governance" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('logisticsSection');" p:actionLabel="Logistics" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('learningObjectivesSection');" p:actionLabel="LearningObjective" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('requisitesSection');" p:actionLabel="Course Requisites" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('ruleSection');" p:actionLabel="Rule" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('activeDatesSection');" p:actionLabel="ActiveDates" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('financialsSection');" p:actionLabel="Financials" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('authorsAndCollaboratorsSection');" p:actionLabel="Authors &amp; Collaborators" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('supportingDocumentsSection');" p:actionLabel="Supporting Documents" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('reviewProposalSection');" p:actionLabel="Review Proposal" />
+                </list>
+            </property>
+    </bean>
+
+    <!--<bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup"
           p:render="@{#form.renderNavigationPanel}">
         <property name="items">
             <list>
@@ -367,7 +420,7 @@
                       p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" p:performClientSideValidation="true"/>
             </list>
         </property>
-    </bean>
+    </bean>-->
     
     <!-- Dialogs -->
 
