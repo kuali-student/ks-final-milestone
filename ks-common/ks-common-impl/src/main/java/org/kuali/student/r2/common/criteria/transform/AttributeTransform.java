@@ -9,7 +9,8 @@ import java.util.regex.Pattern;
 
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PropertyPathPredicate;
-import org.kuali.rice.core.framework.persistence.jpa.criteria.Criteria;
+
+import org.kuali.student.r2.common.criteria.Criteria;
 
 public class AttributeTransform extends BaseTransform {
     
