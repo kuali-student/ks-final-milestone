@@ -66,8 +66,10 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
             this.creditsEarned = studentProgramRecord.getCreditsEarned();
             this.classStanding = studentProgramRecord.getClassStanding();
             this.childPrograms = new ArrayList<StudentProgramRecordInfo>();
-            for (StudentProgramRecord spr : studentProgramRecord.getChildPrograms()) {
-                this.childPrograms.add(new StudentProgramRecordInfo(spr));
+            if(studentProgramRecord.getChildPrograms() != null) {
+                for (StudentProgramRecord spr : studentProgramRecord.getChildPrograms()) {
+                    this.childPrograms.add(new StudentProgramRecordInfo(spr));
+                }
             }
             this.statusKey = studentProgramRecord.getStatusKey();
         }
