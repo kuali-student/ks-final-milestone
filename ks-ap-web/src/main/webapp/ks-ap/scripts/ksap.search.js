@@ -152,7 +152,13 @@ function searchForCourses(id, parentId) {
 						bScrollCollapse : true,
 						bServerSide : true,
 						bSortClasses : false,
-						bStateSave : false,
+						bStateSave : true,     // Turn save state on to allow for saving pagination when moving between pages
+                        "fnStateSave": function (oSettings, oData) {
+                            localStorage.setItem( 'DataTables_'+jQuery('#text_searchQuery_control').val(), JSON.stringify(oData) );
+                        },
+                        "fnStateLoad": function (oSettings) {
+                            return JSON.parse( localStorage.getItem('DataTables_'+jQuery('#text_searchQuery_control').val()) );
+                        },
 						iCookieDuration : 600,
 						iDisplayLength : 20,
                         fnCreatedRow : function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
@@ -178,7 +184,6 @@ function searchForCourses(id, parentId) {
                             }
 						},
 						fnInitComplete : function(oSettings, json) {
-							oTable.fnDraw();
 							hideLoading();
 							results.fadeIn("fast");
 							results.find("table#" + id).width(
