@@ -31,6 +31,18 @@ limitations under the License.
             </list>
         </property>
 
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-cm-find-course-remove-table</value>
+                <value>ks-cm-find-course-remove-row-col</value>
+                <value>ks-cm-find-course-remove-grid</value>
+                <value>ks-cm-find-course-input-field</value>
+                <value>ks-cm-find-course-grid-row</value>
+
+            </list>
+        </property>
+
+
         <property name="applicationHeader">
             <bean parent="Uif-GlobalApplicationHeader-parentBean"
                   p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
