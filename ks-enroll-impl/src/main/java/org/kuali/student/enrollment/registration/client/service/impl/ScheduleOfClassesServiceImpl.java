@@ -123,8 +123,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     @Override
     public RegGroupSearchResult searchForRegistrationGroupByTermAndCourseAndRegGroup(String termId, String termCode, String courseCode, String regGroupCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<RegGroupSearchResult> regGroupSearchResults = searchForRegistrationGroups(null, termId, termCode, courseCode, regGroupCode);
-        return KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
+        List<RegGroupSearchResult> regGroupSearchResults =  searchForRegistrationGroups(null, termId, termCode, courseCode, regGroupCode);
+        if(regGroupSearchResults != null && !regGroupSearchResults.isEmpty()){
+           return  KSCollectionUtils.getRequiredZeroElement(regGroupSearchResults);
+        }  else {
+            return null;
+        }
+
     }
 
 
@@ -242,12 +247,20 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     private List<InstructorSearchResult> searchForInstructors(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
+        List<InstructorSearchResult> instructors = null;
+
         if (!StringUtils.isEmpty(activityOfferingId)) {
-            return getInstructorsByActivityOfferingId(activityOfferingId);
+            instructors =  getInstructorsByActivityOfferingId(activityOfferingId);
+        }  else {
+
+            courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
+
+            if(!StringUtils.isEmpty(courseOfferingId)){
+                instructors =  getInstructorsByCourseOfferingId(courseOfferingId);
+            }
         }
 
-        courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
-        return getInstructorsByCourseOfferingId(courseOfferingId);
+        return emptyIfNull(instructors);
     }
 
     private List<InstructorSearchResult> getInstructorsByCourseOfferingId(String courseOfferingId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -275,7 +288,10 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
         // get the FOs for the course offering. Note: FO's contain a list of activity offering type keys
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        List<FormatOfferingInfo> formatOfferings = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
+        List<FormatOfferingInfo> formatOfferings = null;
+        if(!StringUtils.isEmpty(courseOfferingId)){
+             formatOfferings = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(courseOfferingId, contextInfo);
+        }
 
         return getActivityTypesForFormatOfferings(formatOfferings, contextInfo);
     }
@@ -318,7 +334,14 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
     private List<RegGroupSearchResult> searchForRegistrationGroups(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
-        return getRegGroupList(courseOfferingId, regGroupName);
+        List<RegGroupSearchResult> retList = null;
+
+        if(!StringUtils.isEmpty(courseOfferingId)){
+            retList =  getRegGroupList(courseOfferingId, regGroupName);
+        }
+
+        return emptyIfNull(retList);
+
     }
 
     private List<RegGroupSearchResult> getRegGroupList(String courseOfferingId, String regGroupName) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -347,7 +370,16 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         termId = CourseRegistrationAndScheduleOfClassesUtil.getTermId(termId, termCode);
         List<String> coIds = searchForCourseOfferingIdByCourseCodeAndTerm(courseCode, termId);
 
-        return KSCollectionUtils.getRequiredZeroElement(coIds);
+        return getSingleItemFromListOrNull(coIds);
+    }
+
+    private <T> T getSingleItemFromListOrNull(List<T> items) throws OperationFailedException {
+        if(items != null && !items.isEmpty()){
+            return KSCollectionUtils.getRequiredZeroElement(items);
+        } else {
+            return null;
+        }
+
     }
 
     /**
@@ -917,10 +949,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     private List<ActivityOfferingSearchResult> searchForActivityOfferings(String courseOfferingId, String termId, String termCode, String courseCode) throws MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+        List<ActivityOfferingSearchResult> activityOfferingSearchResults = null;
         courseOfferingId = getCourseOfferingId(courseOfferingId, courseCode, termId, termCode);
-        List<ActivityOfferingSearchResult> activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
+        if(!StringUtils.isEmpty(courseOfferingId)){
+            activityOfferingSearchResults = loadPopulatedActivityOfferingsByCourseOfferingId(courseOfferingId, ContextUtils.createDefaultContextInfo());
+        }
 
-        return activityOfferingSearchResults;
+        return emptyIfNull(activityOfferingSearchResults);
     }
 
     /**
@@ -958,5 +993,13 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.IS_EXACT_MATCH_CO_CODE_SEARCH, BooleanUtils.toStringTrueFalse(false));
         searchRequest.addParam(CourseOfferingManagementSearchImpl.SearchParameters.INCLUDE_PASSFAIL_AUDIT_HONORS_RESULTS, BooleanUtils.toStringTrueFalse(true));
         return searchRequest;
+    }
+
+    private static  <T> List<T> emptyIfNull(List<T> inList){
+        if(inList == null){
+            inList = new ArrayList<T>();
+        }
+        return inList;
+
     }
 }
