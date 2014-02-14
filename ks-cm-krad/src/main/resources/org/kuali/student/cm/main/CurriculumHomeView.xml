@@ -30,6 +30,9 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
             </list>
         </property>
+        <property name="breadcrumbItem.siblingBreadcrumbComponent">
+            <bean parent="KS-Uif-Dynamic-BreadCrumb"/>
+        </property>
         <property name="page">
             <bean parent="Uif-Page">
                 <property name="items">
