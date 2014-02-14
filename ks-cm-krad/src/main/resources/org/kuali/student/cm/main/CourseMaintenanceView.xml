@@ -228,7 +228,7 @@
                       p:methodToCall="route" 
                       p:actionLabel="Submit" 
                       p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #form.pageId eq 'KS-CourseView-ReviewProposalPage'}"/>
                 <bean parent="Uif-SaveAction" 
                       p:ajaxSubmit="false" 
                       p:methodToCall="saveAndContinue" 
