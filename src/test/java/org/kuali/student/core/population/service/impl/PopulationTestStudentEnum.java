@@ -29,8 +29,14 @@ public enum PopulationTestStudentEnum implements hasPersonId {
     STUDENT17("2017", "888020017", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "junior", "0"),
     STUDENT18("2018", "888020018", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "junior", "0"),
     STUDENT19("2019", "888020019", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "senior", "0"),
-    STUDENT20("2020", "888020020", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "senior", "0");
+    STUDENT20("2020", "888020020", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "senior", "0"),
 
+    // for academic record class standing calculation test
+    STUDENT21("2021", "888020021", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "freshman", "8"),
+    STUDENT22("2022", "888020022", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "sophomore", "35"),
+    STUDENT23("2023", "888020023", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "sophomore", "25"),
+    STUDENT24("2024", "888020024", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "junior", "55"),
+    STUDENT25("2025", "888020025", "Chemistry", PopulationTestConstants.PROGRAM_BACHELOR_OF_ARTS, PopulationTestConstants.PROGRAM_LEVEL_UNDERGRADUATE, "senior", "85");
 
     //////////////////////
     // PROPERTIES

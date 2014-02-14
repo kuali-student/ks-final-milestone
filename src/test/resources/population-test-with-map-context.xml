@@ -19,8 +19,6 @@
             </map>
         </property>
     </bean>
-    <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl" />
-
 
     <bean id="populationService" class="org.kuali.student.core.population.service.decorators.PopulationServiceIsMemberEvaluatorDecorator">
         <property name="nextDecorator" ref="populationServiceImpl" />
@@ -31,6 +29,20 @@
 
     <bean id="populationServiceDataLoader" class="org.kuali.student.core.population.service.impl.PopulationServiceDataLoader" />
 
+    <bean id="academicRecordService" class="org.kuali.student.enrollment.academicrecord.service.decorators.AcademicRecordClassStandingCalculationDecorator">
+        <property name="gesService" ref="gesServiceImpl"/>
+        <property name="nextDecorator">
+            <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl" />
+        </property>
+    </bean>
+    <bean id="academicRecordServiceDataLoader" class="org.kuali.student.enrollment.academicrecord.service.AcademicRecordServiceDataLoader">
+        <property name="gesService" ref="gesServiceImpl"/>
+    </bean>
+    <bean id="gesServiceImpl" class="org.kuali.student.enrollment.academicrecord.service.AcademicRecordIntegrationTestGesServiceDataLoadingDecorator" init-method="init">
+        <property name="nextDecorator">
+            <bean id="gesService" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" />
+        </property>
+    </bean>
 
 
 </beans>

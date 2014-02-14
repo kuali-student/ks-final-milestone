@@ -17,7 +17,8 @@ package org.kuali.student.enrollment.academicrecord.service;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.test.AbstractMockServicesAwareDataLoader;
-import org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl;
+import org.kuali.student.core.ges.service.GesService;
+import org.kuali.student.core.population.service.impl.PopulationTestStudentEnum;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCredentialRecordInfo;
@@ -25,6 +26,7 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -32,8 +34,16 @@ import java.util.Calendar;
  */
 public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDataLoader {
 
-    private int countStudentId;
-    private int countProgramId;
+    @Resource
+    private GesService gesService;
+
+    public GesService getGesService() {
+        return gesService;
+    }
+
+    public void setGesService(GesService gesService) {
+        this.gesService = gesService;
+    }
 
     @Resource
     private AcademicRecordService academicRecordService;
@@ -42,16 +52,34 @@ public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDa
         return academicRecordService;
     }
 
+    @Override
+    protected void initializeData() throws Exception {
+        StudentProgramRecordInfo freshman = createStudentProgramRecord("program1", "programType", "programCode", "8");
+        StudentProgramRecordInfo sophomore = createStudentProgramRecord("program2", "programType", "programCode", "35");
+        StudentProgramRecordInfo sophomoreOnThreshold = createStudentProgramRecord("program2", "programType", "programCode", "25");
+        StudentProgramRecordInfo juniorOnThreshold = createStudentProgramRecord("program2", "programType", "programCode", "55");
+        StudentProgramRecordInfo seniorOnThreshold = createStudentProgramRecord("program2", "programType", "programCode", "85");
+
+        String studentProgramRecordTypeKey = "kuali.student.acad.student.program.record";
+
+        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, PopulationTestStudentEnum.STUDENT21.getPersonId(), freshman, context);
+        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, PopulationTestStudentEnum.STUDENT22.getPersonId(), sophomore, context);
+        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, PopulationTestStudentEnum.STUDENT23.getPersonId(), sophomoreOnThreshold, context);
+        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, PopulationTestStudentEnum.STUDENT24.getPersonId(), juniorOnThreshold, context);
+        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, PopulationTestStudentEnum.STUDENT25.getPersonId(), seniorOnThreshold, context);
+    }
+
     // convenience method for generating dto
-    private StudentProgramRecordInfo createStudentProgramRecord(String programId, String programTitle,
+    private StudentProgramRecordInfo createStudentProgramRecord(String programTitle,
                                                                 String programTypeKey, String programCode,
                                                                 String creditsEarned) {
         StudentProgramRecordInfo studentProgramRecord = new StudentProgramRecordInfo();
-        studentProgramRecord.setProgramId(programId);
         studentProgramRecord.setProgramTitle(programTitle);
         studentProgramRecord.setProgramTypeKey(programTypeKey);
         studentProgramRecord.setProgramCode(programCode);
         studentProgramRecord.setCreditsEarned(creditsEarned);
+        studentProgramRecord.setTypeKey("kuali.student.acad.student.program.record");
+        studentProgramRecord.setChildPrograms(new ArrayList<StudentProgramRecordInfo>());
         return studentProgramRecord;
     }
 
@@ -70,6 +98,7 @@ public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDa
         credentialRecord.setDateAdmitted(cal.getTime());
         cal.set(dateAwardedYear, dateAwardedMonth, dateAwardedDay);
         credentialRecord.setDateAwarded(cal.getTime());
+        credentialRecord.setTypeKey("kuali.student.acad.student.credential.record");
         return credentialRecord;
     }
 
@@ -87,6 +116,7 @@ public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDa
         Calendar cal = Calendar.getInstance();
         cal.set(year, month, day);
         testScoreRecord.setDateTaken(cal.getTime());
+        testScoreRecord.setTypeKey("kuali.student.acad.student.test.score.record");
         return testScoreRecord;
     }
 
@@ -96,6 +126,7 @@ public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDa
         gpa.setCalculationTypeKey(calculationTypeKey);
         gpa.setScaleKey(scaleKey);
         gpa.setValue(value);
+        gpa.setTypeKey("kuali.student.acad.student.gpa");
         return gpa;
     }
 
@@ -104,69 +135,7 @@ public class AcademicRecordServiceDataLoader extends AbstractMockServicesAwareDa
         LoadInfo load = new LoadInfo();
         load.setLoadLevelTypeKey(loadLevelTypeKey);
         load.setTotalCredits(new KualiDecimal(totalCredits));
+        load.setTypeKey("kuali.student.acad.student.load");
         return load;
-    }
-
-    // convenience method for generating test studentId
-    private String generateStudentId() {
-        return Integer.toString(countStudentId++);
-    }
-
-    // convenience method for generating test programId
-    private String generateProgramId() {
-        return Integer.toString(countProgramId++);
-    }
-
-    @Override
-    protected void initializeData() throws Exception {
-
-        StudentProgramRecordInfo studentProgramRecord = createStudentProgramRecord(generateProgramId(),
-                "program1", "programType", "programCode", "8");
-
-        String student1Id = generateStudentId();
-
-        String studentProgramRecordTypeKey = "kuali.student.acad.student.program.record";
-
-        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, student1Id, studentProgramRecord, context);
-
-        StudentProgramRecordInfo studentProgramRecord2 = createStudentProgramRecord(generateProgramId(),
-                "program2", "programType", "programCode", "35");
-
-        String student2Id = generateStudentId();
-
-        academicRecordService.createStudentProgramRecord(studentProgramRecordTypeKey, student2Id, studentProgramRecord2, context);
-
-        StudentCredentialRecordInfo credentialRecord = createStudentCredentialRecord(generateProgramId(),
-           "Program One", "MP101", "Mock University of Kuali", 2014, Calendar.JANUARY, 1, 2014, Calendar.NOVEMBER, 20);
-
-        String studentCredentialRecordTypeKey = "kuali.student.acad.student.credential.record";
-        academicRecordService.createStudentCredentialRecord(studentCredentialRecordTypeKey, student1Id, credentialRecord, context);
-
-        StudentTestScoreRecordInfo testScoreRecord = createStudentTestScoreRecord("mock.code.test1",
-                "The First Mock Test", "mock.test.type.first", "70", "70", 2014, Calendar.JUNE, 03);
-        String studentTestScoreRecordTypeKey = "kuali.student.acad.student.test.score.record";
-        academicRecordService.createStudentTestScoreRecord(studentTestScoreRecordTypeKey, student1Id, testScoreRecord, context);
-
-        testScoreRecord = createStudentTestScoreRecord("mock.code.test2",
-                "The Second Mock Test", "mock.test.type.second", "74", "74", 2014, Calendar.NOVEMBER, 9);
-        academicRecordService.createStudentTestScoreRecord(studentTestScoreRecordTypeKey, student1Id, testScoreRecord, context);
-
-        String resultScaleId = "1";
-        String atpId = "1";
-        String studentCredentialRecordProgramId = credentialRecord.getProgramId();
-
-        String gpaTypeKey = "kuali.student.acad.gpa.record";
-        GPAInfo gpa = createGpa("mockTypeKey1", "1", "1.9");
-        academicRecordService.createGPA(gpaTypeKey, gpa, context);
-        gpa = new GPAInfo();
-        gpa = createGpa("mockTypeKey2", "1", "2.9");
-        academicRecordService.createGPA(gpaTypeKey, gpa, context);
-        gpa = createGpa("mockTypeKey3", "1", "3.9");
-        academicRecordService.createGPA(gpaTypeKey, gpa, context);
-
-        LoadInfo load = createLoad("mock.TypeKey.MediumLoad", 4);
-        String loadTypeKey = "kuali.student.acad.load.record";
-        academicRecordService.createLoad(loadTypeKey, load, context);
-
     }
 }

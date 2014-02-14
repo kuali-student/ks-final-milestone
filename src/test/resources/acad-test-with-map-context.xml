@@ -7,12 +7,19 @@
           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
 
-    <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl" />
-<!--
-    <bean id="academicRecordService" class="org.kuali.student.r2.core.academicrecord.service.decorators.AcademicRecordServiceIsMemberEvaluatorDecorator">
-        <property name="nextDecorator" ref="academicRecordServiceImpl" />
+    <bean id="academicRecordService" class="org.kuali.student.enrollment.academicrecord.service.decorators.AcademicRecordClassStandingCalculationDecorator">
+        <property name="gesService" ref="gesServiceImpl"/>
+        <property name="nextDecorator">
+            <bean id="academicRecordService" class="org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl" />
+        </property>
     </bean>
--->
-    <bean id="academicRecordServiceDataLoader" class="org.kuali.student.enrollment.academicrecord.service.AcademicRecordServiceDataLoader" />
+    <bean id="academicRecordServiceDataLoader" class="org.kuali.student.enrollment.academicrecord.service.AcademicRecordServiceDataLoader">
+        <property name="gesService" ref="gesServiceImpl"/>
+    </bean>
+    <bean id="gesServiceImpl" class="org.kuali.student.enrollment.academicrecord.service.AcademicRecordIntegrationTestGesServiceDataLoadingDecorator" init-method="init">
+        <property name="nextDecorator">
+            <bean id="gesService" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" />
+        </property>
+    </bean>
 
 </beans>

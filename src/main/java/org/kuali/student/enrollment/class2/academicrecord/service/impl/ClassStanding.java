@@ -19,10 +19,10 @@ package org.kuali.student.enrollment.class2.academicrecord.service.impl;
  * @author Kuali Student Team
  */
 public enum ClassStanding {
-    FRESHMAN("Freshman"),
-    SOPHOMORE("Sophomore"),
-    JUNIOR("Junior"),
-    SENIOR("Senior");
+    FRESHMAN("kuali.class.standing.freshman"),
+    SOPHOMORE("kuali.class.standing.sophomore"),
+    JUNIOR("kuali.class.standing.junior"),
+    SENIOR("kuali.class.standing.senior");
 
     private final String description;
 

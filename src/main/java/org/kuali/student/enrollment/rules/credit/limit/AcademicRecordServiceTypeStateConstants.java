@@ -29,5 +29,7 @@ public class AcademicRecordServiceTypeStateConstants extends AcademicRecordServi
     public static final String LOAD_CODE_4_TIER_2_LT_HT = "kuali.academic.record.load.code.4.tier.2.less.than.half.time";
     public static final String LOAD_CODE_4_TIER_3_HT = "kuali.academic.record.load.code.4.tier.3.at.least.half.time";
     public static final String LOAD_CODE_4_TIER_4_FT = "kuali.academic.record.load.code.4.tier.4.full.time";
+
+    public static final String STUDENT_PROGRAM_RECORD_TYPE_KEY = "kuali.student.acad.student.program.record";
             
 }

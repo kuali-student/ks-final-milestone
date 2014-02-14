@@ -18,12 +18,18 @@ package org.kuali.student.enrollment.academicrecord.service;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.class2.academicrecord.service.impl.AcademicRecordServiceMapImpl;
+import org.kuali.student.core.population.service.impl.PopulationTestStudentEnum;
+import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
+import org.kuali.student.enrollment.class2.academicrecord.service.impl.ClassStanding;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
+
 
 /**
  * @author Kuali Student Team
@@ -34,6 +40,17 @@ public class AcademicRecordServiceTest {
 
     @Resource
     private AcademicRecordServiceDataLoader dataLoader;
+
+    @Resource(name = "academicRecordService")
+    private AcademicRecordService academicRecordService;
+
+    public AcademicRecordService getAcademicRecordService() {
+        return academicRecordService;
+    }
+
+    public void setAcademicRecordService(AcademicRecordService academicRecordService) {
+        this.academicRecordService = academicRecordService;
+    }
 
     private ContextInfo contextInfo;
     private String principalId = "123";
@@ -50,8 +67,37 @@ public class AcademicRecordServiceTest {
         dataLoader.afterTest();
     }
 
+    private void checkStudentProgramRecords(String personId) throws Exception {
+        List<StudentProgramRecordInfo> studentProgramRecords = academicRecordService.getProgramRecords(personId, contextInfo);
+        for(StudentProgramRecordInfo studentProgramRecord : studentProgramRecords) {
+            String classStanding = studentProgramRecord.getClassStanding();
+            String creditsEarned = studentProgramRecord.getCreditsEarned();
+
+            int FRESHMAN_THRESHOLD = Integer.valueOf(AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.FRESHMAN_CLASS_STANDING_THRESHOLD);
+            int SOPHOMORE_THRESHOLD = Integer.valueOf(AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.SOPHOMORE_CLASS_STANDING_THRESHOLD);
+            int JUNIOR_THRESHOLD = Integer.valueOf(AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.JUNIOR_CLASS_STANDING_THRESHOLD);
+            int SENIOR_THRESHOLD = Integer.valueOf(AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.SENIOR_CLASS_STANDING_THRESHOLD);
+
+            if(classStanding.equals(ClassStanding.FRESHMAN.getDescription())) {
+                assertTrue("Freshman threshold test failed", Integer.valueOf(creditsEarned) > FRESHMAN_THRESHOLD && Integer.valueOf(creditsEarned) < SOPHOMORE_THRESHOLD);
+            } else if(classStanding.equals(ClassStanding.SOPHOMORE.getDescription())) {
+                assertTrue("Sophomore threshold test failed", Integer.valueOf(creditsEarned) >= SOPHOMORE_THRESHOLD && Integer.valueOf(creditsEarned) < JUNIOR_THRESHOLD);
+            } else if(classStanding.equals(ClassStanding.JUNIOR.getDescription())) {
+                assertTrue("Junior threshold test failed", Integer.valueOf(creditsEarned) >= JUNIOR_THRESHOLD && Integer.valueOf(creditsEarned) < SENIOR_THRESHOLD);
+            } else if(classStanding.equals(ClassStanding.SENIOR.getDescription())) {
+                assertTrue("Senior threshold test failed", Integer.valueOf(creditsEarned) >= SENIOR_THRESHOLD);
+            }
+        }
+    }
+
     @Test
     public void testDataLoader() throws Exception {
         dataLoader.beforeTest();
+
+        checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT21.getPersonId());
+        checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT22.getPersonId());
+        checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT23.getPersonId());
+        checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT24.getPersonId());
+        checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT25.getPersonId());
     }
 }

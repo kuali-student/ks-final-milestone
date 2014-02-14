@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.academicrecord.service.impl;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
@@ -33,6 +35,7 @@ import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentTestScoreRecordInfo;
 import org.kuali.student.enrollment.academicrecord.service.AcademicRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -87,62 +90,6 @@ public class AcademicRecordServiceMapImpl implements
         studentToProgramRecordsMap.clear();
         studentCredentialRecordsMap.clear();
         studentTestScoreRecordsMap.clear();
-    }
-
-    /**
-     * Store a course record for the term specified.  The caller is responsible for filling in the object correctly.
-     *
-     * @param studentId    the student who completed the course
-     * @param termId       the term the course is from
-     * @param courseRecord the course record itself.
-     */
-    public void storeStudentCourseRecord(String studentId, String termId, String courseId, StudentCourseRecordInfo courseRecord) {
-
-        studentCourseRecordsSet.add(courseRecord);
-
-        courseIdToCourseCodeMap.put(courseId, courseRecord.getCourseCode());
-
-        // link to student
-        List<StudentCourseRecordInfo> studentCourseList = studentToCourseRecordsMap.get(studentId);
-
-        if (studentCourseList == null) {
-            studentCourseList = new ArrayList<StudentCourseRecordInfo>();
-            studentToCourseRecordsMap.put(studentId, studentCourseList);
-        }
-
-        studentCourseList.add(courseRecord);
-
-        // link to term
-
-        List<StudentCourseRecordInfo> termCourseList = termToCourseRecordsMap.get(termId);
-
-        if (termCourseList == null) {
-            termCourseList = new ArrayList<StudentCourseRecordInfo>();
-            termToCourseRecordsMap.put(termId, termCourseList);
-        }
-
-        termCourseList.add(courseRecord);
-    }
-
-    /**
-     * Store a program record for the term specified.  The caller is responsible for filling in the object correctly.
-     *
-     * @param studentId    the student who completed the course
-     * @param programId       the id of the program
-     * @param programRecord the course record itself.
-     */
-    public void storeStudentProgramRecord(String studentId, String programId, StudentProgramRecordInfo programRecord) {
-
-        // link to student
-        List<StudentProgramRecordInfo> studentProgramList = studentToProgramRecordsMap.get(studentId);
-
-        if (studentProgramList == null) {
-            studentProgramList = new ArrayList<StudentProgramRecordInfo>();
-            studentToProgramRecordsMap.put(studentId, studentProgramList);
-        }
-
-        studentProgramList.add(programRecord);
-
     }
 
     /* (non-Javadoc)
@@ -459,12 +406,27 @@ public class AcademicRecordServiceMapImpl implements
                                                                ContextInfo contextInfo) throws
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        String programId = generateProgramId();
-        studentProgramRecord.setProgramId(programId);
-        String classStanding = calculateClassStanding(studentProgramRecord);
-        studentProgramRecord.setClassStanding(classStanding);
-        storeStudentProgramRecord(personId, programId, studentProgramRecord);
-        return studentProgramRecord;
+
+        if (!studentProgramRecordTypeKey.equals((studentProgramRecord.getTypeKey()))) {
+            throw new InvalidParameterException("The typeKey parameter does not match the typeKey on the info object");
+        }
+
+        StudentProgramRecordInfo copy = new StudentProgramRecordInfo(studentProgramRecord);
+        if (copy.getId() == null) {
+            copy.setId(UUIDHelper.genStringUUID());
+        }
+        copy.setMeta(newMeta(contextInfo));
+
+        // link to student
+        List<StudentProgramRecordInfo> studentProgramList = studentToProgramRecordsMap.get(personId);
+
+        if (studentProgramList == null) {
+            studentProgramList = new ArrayList<StudentProgramRecordInfo>();
+            studentToProgramRecordsMap.put(personId, studentProgramList);
+        }
+
+        studentProgramList.add(copy);
+        return new StudentProgramRecordInfo(copy);
     }
 
     @Override
@@ -478,11 +440,17 @@ public class AcademicRecordServiceMapImpl implements
                                                                ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        String classStanding = calculateClassStanding(studentProgramRecord);
-        studentProgramRecord.setClassStanding(classStanding);
-        String personId = null;
-        String programId = studentProgramRecord.getProgramId();
-        storeStudentProgramRecord(personId, programId, studentProgramRecord);
+        String personId = studentProgramRecord.getPersonId();
+
+        // link to student
+        List<StudentProgramRecordInfo> studentProgramList = studentToProgramRecordsMap.get(personId);
+
+        if (studentProgramList == null) {
+            studentProgramList = new ArrayList<StudentProgramRecordInfo>();
+            studentToProgramRecordsMap.put(personId, studentProgramList);
+        }
+
+        studentProgramList.add(studentProgramRecord);
         return studentProgramRecord;
     }
 
@@ -499,9 +467,35 @@ public class AcademicRecordServiceMapImpl implements
                                                              ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
         String termId = studentCourseRecord.getTermId();
         String courseOfferingId = studentCourseRecord.getCourseOfferingId();
-        storeStudentCourseRecord(personId, termId, courseRegistrationId, studentCourseRecord);
+
+
+        studentCourseRecordsSet.add(studentCourseRecord);
+
+        courseIdToCourseCodeMap.put(courseRegistrationId, studentCourseRecord.getCourseCode());
+
+        // link to student
+        List<StudentCourseRecordInfo> studentCourseList = studentToCourseRecordsMap.get(personId);
+
+        if (studentCourseList == null) {
+            studentCourseList = new ArrayList<StudentCourseRecordInfo>();
+            studentToCourseRecordsMap.put(personId, studentCourseList);
+        }
+
+        studentCourseList.add(studentCourseRecord);
+
+        // link to term
+
+        List<StudentCourseRecordInfo> termCourseList = termToCourseRecordsMap.get(termId);
+
+        if (termCourseList == null) {
+            termCourseList = new ArrayList<StudentCourseRecordInfo>();
+            termToCourseRecordsMap.put(termId, termCourseList);
+        }
+
+        termCourseList.add(studentCourseRecord);
         return studentCourseRecord;
     }
 
@@ -538,7 +532,15 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public List<ValidationResultInfo> validateStudentCredentialRecord(String validationTypeKey, String objectTypeKey, StudentCredentialRecordInfo studentCredentialRecordInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateStudentCredentialRecord(String validationTypeKey,
+                                                                      String objectTypeKey,
+                                                                      StudentCredentialRecordInfo studentCredentialRecordInfo,
+                                                                      ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
@@ -594,8 +596,20 @@ public class AcademicRecordServiceMapImpl implements
     public GPAInfo createGPA(String gpaTypeKey, GPAInfo gpa, ContextInfo contextInfo) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        gpasMap.put(gpa.getPersonId(), gpa);
-        return gpa;
+
+        if (!gpaTypeKey.equals((gpa.getTypeKey()))) {
+            throw new InvalidParameterException("The typeKey parameter does not match the typeKey on the info object");
+        }
+
+        GPAInfo copy = new GPAInfo(gpa);
+        if (copy.getId() == null) {
+            copy.setId(UUIDHelper.genStringUUID());
+        }
+        copy.setMeta(newMeta(contextInfo));
+
+        gpasMap.put(copy.getPersonId(), gpa);
+
+        return new GPAInfo(copy);
     }
 
     @Override
@@ -621,8 +635,19 @@ public class AcademicRecordServiceMapImpl implements
     public LoadInfo createLoad(String loadTypeKey, LoadInfo load, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        loadsMap.put(load.getPersonId(), load);
-        return load;
+
+        if (!loadTypeKey.equals((load.getTypeKey()))) {
+            throw new InvalidParameterException("The typeKey parameter does not match the typeKey on the info object");
+        }
+
+        LoadInfo copy = new LoadInfo(load);
+        if (copy.getId() == null) {
+            copy.setId(UUIDHelper.genStringUUID());
+        }
+        copy.setMeta(newMeta(contextInfo));
+
+        loadsMap.put(copy.getPersonId(), copy);
+        return new LoadInfo(copy);
     }
 
     @Override
@@ -644,31 +669,18 @@ public class AcademicRecordServiceMapImpl implements
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
-    // calculate class standing based on credits earned for this
-    // poc but will likely be based on a ges rule in the future
-    private String calculateClassStanding(StudentProgramRecordInfo studentProgramRecord)
-            throws InvalidParameterException {
-        String classStanding = null;
-        try {
-            int creditsEarned = Integer.valueOf(studentProgramRecord.getCreditsEarned());
-            if(creditsEarned <= AcademicRecordServiceConstants.FRESHMAN_THRESHOLD) {
-                classStanding = ClassStanding.FRESHMAN.getDescription();
-            } else if(creditsEarned <= AcademicRecordServiceConstants.SOPHOMORE_THRESHOLD) {
-                classStanding = ClassStanding.SOPHOMORE.getDescription();
-            } else if(creditsEarned <= AcademicRecordServiceConstants.JUNIOR_THRESHOLD) {
-                classStanding = ClassStanding.JUNIOR.getDescription();
-            } else if(creditsEarned >= AcademicRecordServiceConstants.SENIOR_THRESHOLD) {
-                classStanding = ClassStanding.SENIOR.getDescription();
-            }
-            return classStanding;
-        } catch(NumberFormatException e) {
-            throw new InvalidParameterException("Credits Earned value is not valid: "
-                    + studentProgramRecord.getCreditsEarned());
-        }
-    }
-
     // simple sequence generator for testing
     private String generateProgramId() {
         return Integer.toString(this.countProgramId++);
+    }
+
+    private MetaInfo newMeta(ContextInfo context) {
+        MetaInfo meta = new MetaInfo();
+        meta.setCreateId(context.getPrincipalId());
+        meta.setCreateTime(new Date());
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(meta.getCreateTime());
+        meta.setVersionInd("0");
+        return meta;
     }
 }

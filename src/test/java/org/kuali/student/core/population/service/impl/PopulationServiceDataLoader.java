@@ -286,7 +286,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
     private void createAcademicRecordStudentProgramRecords() throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException {
 
         StudentProgramRecordInfo info = generateStudentProgramRecordInfo(
-                AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
+                AcademicRecordServiceTypeStateConstants.STUDENT_PROGRAM_RECORD_TYPE_KEY,
                 AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
                 "2000-01-01",
                 AcademicRecordServiceConstants.FRESHMAN_THRESHOLD
@@ -296,7 +296,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT1.getPersonId(),info,context);
 
         info = generateStudentProgramRecordInfo(
-                AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
+                AcademicRecordServiceTypeStateConstants.STUDENT_PROGRAM_RECORD_TYPE_KEY,
                 AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
                 "2000-01-01",
                 AcademicRecordServiceConstants.SOPHOMORE_THRESHOLD
@@ -305,7 +305,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT10.getPersonId(),info,context);
 
         info = generateStudentProgramRecordInfo(
-                AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
+                AcademicRecordServiceTypeStateConstants.STUDENT_PROGRAM_RECORD_TYPE_KEY,
                 AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
                 "2000-01-01",
                 AcademicRecordServiceConstants.JUNIOR_THRESHOLD
@@ -313,7 +313,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT11.getPersonId(),info,context);
 
         info = generateStudentProgramRecordInfo(
-                AcademicRecordServiceTypeStateConstants.LOAD_TYPE_CREDITS,
+                AcademicRecordServiceTypeStateConstants.STUDENT_PROGRAM_RECORD_TYPE_KEY,
                 AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
                 "2000-01-01",
                 AcademicRecordServiceConstants.SENIOR_THRESHOLD
