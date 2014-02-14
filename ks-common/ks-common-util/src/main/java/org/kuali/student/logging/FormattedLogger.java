@@ -35,7 +35,10 @@ import static org.apache.log4j.Level.*;
  * @see java.util.logging.Logger
  * @see java.util.logging.Level
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
+ *
+ * @deprecated Use slf4j logging instead. Will be removed as part of KSCM-1498.
  */
+@Deprecated
 public class FormattedLogger {
     
     /**
