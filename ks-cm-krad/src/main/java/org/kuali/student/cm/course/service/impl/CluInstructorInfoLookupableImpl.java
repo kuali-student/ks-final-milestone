@@ -15,18 +15,13 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.logging.FormattedLogger;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -37,9 +32,17 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 
 	private static final long serialVersionUID = -3027283578926320100L;
+    private static final String PERSON_ID = "personId";
+    private static final String DISPLAY_NAME ="displayName";
+
 	
 	private SearchService searchService;
 
@@ -49,8 +52,8 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
 		List<CluInstructorInfoWrapper> cluInstructorInfoDisplays = new ArrayList<CluInstructorInfoWrapper>();
 		
 		List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
-        String displayName = searchCriteria.get("displayName");
-        String personId = searchCriteria.get("personId");
+        String displayName = searchCriteria.get(DISPLAY_NAME);
+        String personId = searchCriteria.get(PERSON_ID);
         
         if (StringUtils.isNotBlank(displayName)) {
             SearchParamInfo displayNameParam = new SearchParamInfo();
@@ -94,7 +97,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
                 cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
         	}
 		} catch (Exception e) {
-		    FormattedLogger.error("An error occurred retrieving the CluInstructors: " + e);
+		    FormattedLogger.error(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_RETRIEVING_CLU_INSTRUCTORS + e);
 		}
         
 		return cluInstructorInfoDisplays;

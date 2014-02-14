@@ -1,21 +1,15 @@
 package org.kuali.student.cm.course.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchWrapper;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder.SearchByKeys;
@@ -33,6 +27,11 @@ import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Lookupable service class for {@link LoDisplayInfoWrapper} "Search for Learning Objectives" link
  * 
@@ -41,6 +40,8 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 public class LoDisplayInfoLookupableImpl extends LookupableImpl {
 
     private static final long serialVersionUID = 3381719326948770678L;
+    public static final String QNAME = "http://student.kuali.org/wsdl/organization";
+    public static final String ORGANIZATION_SERVICE = "OrganizationService";
     
     private LearningObjectiveService learningObjectiveService;
     private CluService cluService;
@@ -169,7 +170,7 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
                 loCategories.add(loWrapper);
             }
         } catch (Exception e) {
-            throw new RuntimeException("An error occurred while searching for Learning Objectives", e);
+            throw new RuntimeException(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_SEARCHING_LEARNING_OBJECTIVES, e);
         }
         return loCategories;
     }
@@ -203,7 +204,7 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
     protected OrganizationService getOrganizationService() {
         if (organizationService == null) {
             organizationService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
+                .getService(new QName(QNAME,ORGANIZATION_SERVICE));
         }
         return organizationService;
     }

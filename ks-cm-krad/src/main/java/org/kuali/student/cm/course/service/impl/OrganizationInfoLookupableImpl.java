@@ -15,20 +15,12 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
-import static org.kuali.student.logging.FormattedLogger.debug;
-import static org.kuali.student.logging.FormattedLogger.info;
-
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -39,6 +31,14 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
+import static org.kuali.student.logging.FormattedLogger.debug;
+import static org.kuali.student.logging.FormattedLogger.info;
+
 
 /**
  * Lookupable service class for {@link OrganizationInfoWrapper} advanced search
@@ -48,6 +48,11 @@ import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 public class OrganizationInfoLookupableImpl extends LookupableImpl {
 
 	private static final long serialVersionUID = -3027283578926320100L;
+    public static final String QNAME = "http://student.kuali.org/wsdl/organization";
+    public static final String ORGANIZATION_SERVICE = "OrganizationService";
+    public static final String ORGANIZATION_NAME = "organizationName";
+    public static final String ABBREVIATION = "abbreviation";
+    public static final String ID = "id";
 	
 	private SearchService searchService;
 	private OrganizationService organizationService;
@@ -60,26 +65,26 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 		final List<OrganizationInfoWrapper> retval = new LinkedList<OrganizationInfoWrapper>();
 		
 		final List<SearchParamInfo> queryParamValueList = new LinkedList<SearchParamInfo>();
-        final String id               = searchCriteria.get("id");
-        final String organizationName = searchCriteria.get("organizationName");
-        final String shortName        = searchCriteria.get("abbreviation");
+        final String id               = searchCriteria.get(ID);
+        final String organizationName = searchCriteria.get(ORGANIZATION_NAME);
+        final String shortName        = searchCriteria.get(ABBREVIATION);
         
         if (StringUtils.isNotBlank(id)) {
             final SearchParamInfo idParam = new SearchParamInfo();
-            idParam.setKey("org.queryParam.orgOptionalId");
+            idParam.setKey(CurriculumManagementConstants.QUERY_PARAM_OPTIONAL_ID);
             idParam.getValues().add(id);
             queryParamValueList.add(idParam);
         }
         if (StringUtils.isNotBlank(organizationName)) {
             final SearchParamInfo displayNameParam = new SearchParamInfo();
-            displayNameParam.setKey("org.queryParam.orgOptionalLongName");
+            displayNameParam.setKey(CurriculumManagementConstants.QUERY_PARAM_OPTIONAL_LONG_NAME);
             displayNameParam.getValues().add(organizationName);
             queryParamValueList.add(displayNameParam);
         }
 
         if (StringUtils.isNotBlank(shortName)) {
             final SearchParamInfo shortNameParam = new SearchParamInfo();
-            shortNameParam.setKey("org.queryParam.orgOptionalShortName");
+            shortNameParam.setKey(CurriculumManagementConstants.QUERY_PARAM_OPTIONAL_SHORT_NAME);
             shortNameParam.getValues().add(shortName);
             queryParamValueList.add(shortNameParam);
         }
@@ -87,12 +92,12 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         info("Searching for %s", queryParamValueList);
 
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("org.search.generic");
+        searchRequest.setSearchKey(CurriculumManagementConstants.SEARCH_GENERIC);
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
         searchRequest.setNeededTotalResults(false);
-        searchRequest.setSortColumn("org.resultColumn.orgOptionalId");
-        
+        searchRequest.setSortColumn(CurriculumManagementConstants.RESULT_COLUMN_OPTIONAL_ID);
+
         SearchResultInfo searchResult = null;
         try {
         	searchResult = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
@@ -107,13 +112,13 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
                 debug("Got key %s", cell.getKey());
                 debug("Got value %s", cell.getValue());
                 
-                if ("org.resultColumn.orgId".equals(cell.getKey())) {
+                if ((CurriculumManagementConstants.RESULT_COLUMN_ID).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());
                 } 
-                else if ("org.resultColumn.orgOptionalLongName".equals(cell.getKey())) {
+                else if ((CurriculumManagementConstants.RESULT_COLUMN_OPTIONAL_LONG_NAME).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setOrganizationName(cell.getValue());
                 } 
-                else if ("org.resultColumn.orgShortName".equals(cell.getKey())) {
+                else if ((CurriculumManagementConstants.RESULT_COLUMN_SHORT_NAME).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setAbbreviation(cell.getValue());
                 }
             }
@@ -133,7 +138,7 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 	protected OrganizationService getOrganizationService() {
 		if (organizationService == null) {
 	        organizationService = (OrganizationService) GlobalResourceLoader
-                .getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
+                .getService(new QName(QNAME,ORGANIZATION_SERVICE));
 		}
 		return organizationService;
 	}

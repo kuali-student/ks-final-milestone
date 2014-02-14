@@ -1,22 +1,21 @@
 package org.kuali.student.cm.course.service.util;
 
-import static org.kuali.student.logging.FormattedLogger.info;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.core.constants.OrganizationServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.student.logging.FormattedLogger.info;
 
 public class OrganizationSearchUtil {
     
@@ -35,23 +34,23 @@ public class OrganizationSearchUtil {
         final List<SearchParamInfo> queryParamValueList = new ArrayList<SearchParamInfo>();
         
         final SearchParamInfo displayNameParam = new SearchParamInfo();
-        displayNameParam.setKey("org.queryParam.orgOptionalLongName");
+        displayNameParam.setKey(CurriculumManagementConstants.QUERY_PARAM_OPTIONAL_LONG_NAME);
         displayNameParam.getValues().add(organizationName);
         queryParamValueList.add(displayNameParam);
 
         final SearchParamInfo orgOptionalTypeParam = new SearchParamInfo();
-        orgOptionalTypeParam.setKey("org.queryParam.orgOptionalType");
-        orgOptionalTypeParam.getValues().add("kuali.org.COC");
-        orgOptionalTypeParam.getValues().add("kuali.org.Department");
-        orgOptionalTypeParam.getValues().add("kuali.org.College");
+        orgOptionalTypeParam.setKey(CurriculumManagementConstants.QUERY_PARAM_OPTIONAL_TYPE);
+        orgOptionalTypeParam.getValues().add(OrganizationServiceConstants.ORGANIZATION_COC_TYPE_KEY);
+        orgOptionalTypeParam.getValues().add(OrganizationServiceConstants.ORGANIZATION_DEPARTMENT_TYPE_KEY);
+        orgOptionalTypeParam.getValues().add(OrganizationServiceConstants.ORGANIZATION_COLLEGE_TYPE_KEY);
         queryParamValueList.add(orgOptionalTypeParam);
         
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey("org.search.generic");
+        searchRequest.setSearchKey(CurriculumManagementConstants.SEARCH_GENERIC);
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
         searchRequest.setNeededTotalResults(false);
-        searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
+        searchRequest.setSortColumn(CurriculumManagementConstants.RESULT_COLUMN_OPTIONAL_LONG_NAME);
         
         SearchResultInfo searchResult = null;
         try {
@@ -67,19 +66,15 @@ public class OrganizationSearchUtil {
                 info("Got key %s", cell.getKey());
                 info("Got key %s", cell.getValue());
                 
-                if ("org.resultColumn.orgId".equals(cell.getKey())) {
+                if ((CurriculumManagementConstants.RESULT_COLUMN_ID).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());
                 } 
-                else if ("org.resultColumn.orgOptionalLongName".equals(cell.getKey())) {
+                else if ((CurriculumManagementConstants.RESULT_COLUMN_OPTIONAL_LONG_NAME).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setOrganizationName(cell.getValue());
                 } 
             }
             cluOrgInfoDisplays.add(cluOrgInfoDisplay);
         }
-        
         return cluOrgInfoDisplays;
     }
-    
-    
-
 }

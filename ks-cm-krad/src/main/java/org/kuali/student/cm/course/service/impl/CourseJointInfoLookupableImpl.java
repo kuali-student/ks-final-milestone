@@ -15,17 +15,12 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder.SearchByKeys;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -38,6 +33,11 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class CourseJointInfoLookupableImpl extends LookupableImpl {
 
@@ -141,7 +141,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
                 courseJointInfoDisplays.add(courseJointInfoDisplay);
             }
         } catch (Exception e) {
-            FormattedLogger.error("An error occurred retrieving the courseJointInfoDisplay: " + e);
+            FormattedLogger.error(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_RETRIEVING_COURSE_JOINT_INFO_DISPLAY + e);
         }
         return courseJointInfoDisplays;
 	}	

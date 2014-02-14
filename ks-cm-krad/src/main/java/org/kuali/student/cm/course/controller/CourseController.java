@@ -24,7 +24,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
@@ -33,7 +32,6 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -49,6 +47,7 @@ import org.kuali.student.cm.course.form.ReviewInfo;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
@@ -68,7 +67,6 @@ import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
-import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
@@ -177,7 +175,7 @@ public class CourseController extends CourseRuleEditorController {
             redrawDecisionTable(maintenanceDocForm);
         }
         catch (Exception e) {
-            error("Unable to create decision table: %s", e.getMessage());
+            error(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_CREATE_DECISION_TABLE, e.getMessage());
         }
 
         // Create the document in the super method
@@ -219,7 +217,7 @@ public class CourseController extends CourseRuleEditorController {
                 maintainable.setProposal(proposal);
             }
             catch (Exception e) {
-                warn("Unable to retrieve the proposal: %s", e.getMessage());
+                warn(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_RETRIEVE_PROPOSAL, e.getMessage());
             }
         }
         
@@ -242,7 +240,7 @@ public class CourseController extends CourseRuleEditorController {
             redrawDecisionTable(maintenanceDocForm);
         }
         catch (Exception e) {
-            error("Unable to create decision table: %s", e.getMessage());
+            error(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_CREATE_DECISION_TABLE, e.getMessage());
         }
 
         maintenanceDocForm.setRenderNavigationPanel(true);
@@ -287,7 +285,7 @@ public class CourseController extends CourseRuleEditorController {
                 maintainable.setProposal(proposal);
             }
             catch (Exception e) {
-                warn("Unable to retrieve the proposal: %s", e.getMessage());
+                warn(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_RETRIEVE_PROPOSAL, e.getMessage());
             }
         }
 

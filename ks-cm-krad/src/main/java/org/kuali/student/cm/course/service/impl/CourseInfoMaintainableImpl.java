@@ -60,6 +60,7 @@ import org.kuali.student.cm.course.form.SubjectCodeWrapper;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
@@ -287,11 +288,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     }
                 }
             } else {
-                error("The method getInstructor returned more than 1 search result.");
+                error(CurriculumManagementConstants.ConfigProperties.GET_INSTRUCTOR_RETURN_MORE_THAN_ONE_RESULT);
             }
         } catch (Exception e) {
-            error(
-                "An error occurred in the getInstructor method. %s", e.getMessage());
+            error(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_IN_GET_INSTRUCTOR, e.getMessage());
         }
 
         return instructor;
@@ -334,7 +334,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 retrievedCodes.add(new SubjectCodeWrapper(id, code));
             }
         } catch (Exception e) {
-            error("An error occurred retrieving the SubjectCodeDisplay: %s", e);
+            error(CurriculumManagementConstants.ConfigProperties.ERROR_RETRIEVING_SUBJECT_CODE_DISPLAY, e);
         }
 
         return retrievedCodes;
@@ -719,7 +719,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 listCollaboratorWrappers.add(theCollaboratorWrapper);
             }
         } catch (Exception e) {
-            error("Error retrieving Personel search List %s", e);
+            error(CurriculumManagementConstants.ConfigProperties.ERROR_RETRIEVING_PERSONEL_SEARCH, e);
             //throw new RuntimeException();
         }
 
