@@ -21,6 +21,7 @@
     <ul class="chan">
         <li><a class="portal_link" title="Home" href="${ConfigProperties.lum.application.url}/kr-krad/launch?methodToCall=start&viewId=ksFunctionalHomeView">Home</a></li>
         <li><a class="portal_link" title="Curriculum Management" href="${ConfigProperties.ks.lum.MainEntryPoint}">Curriculum Management</a></li>
+        <li><a class="portal_link" title="Curriculum Management KRAD" href="${ConfigProperties.lum.application.url}/kr-krad/cmHome?viewId=curriculumHomeView&methodToCall=start">Curriculum Management KRAD</a></li>
         <li><a class="portal_link" title="Enrollment" href="${ConfigProperties.lum.application.url}/kr-krad/launch?viewId=enrollmentHomeView&methodToCall=start">Enrollment</a></li>
     </ul>
 
