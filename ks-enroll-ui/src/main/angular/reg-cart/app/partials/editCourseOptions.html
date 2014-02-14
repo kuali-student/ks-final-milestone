@@ -1,0 +1,33 @@
+<h1>Edit Course Options</h1>
+
+<strong>CHEM237 (1001)</strong>
+<div>Principles of Organic Chemistry</div>
+
+<div>
+    <div>
+        <label for="credits">Credits</label>
+    </div>
+    <select id="credits">
+        <option>3</option>
+    </select>
+</div>
+
+<div>Registration Options</div>
+     <div>
+         <form action="">
+             <div>
+                <input type="radio" name="registrationOptions" id="letter" value="letter"><label for="letter">Letter (Default)</label>
+             </div>
+             <div>
+                <input type="radio" name="registrationOptions" id="passFail" value="passFail"><label for="passFail">Pass/Fail</label>
+             </div>
+             <div>
+                <input type="radio" name="registrationOptions" id="audit" value="audit"><label for="audit">Audit</label>
+             </div>
+         </form>
+     </div>
+
+<span>
+      <button id="save" class="btn btn-primary" type="submit">Save Changes</button>
+      <a id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="cancelEditItem(cartItem)">Cancel</a>
+</span>
