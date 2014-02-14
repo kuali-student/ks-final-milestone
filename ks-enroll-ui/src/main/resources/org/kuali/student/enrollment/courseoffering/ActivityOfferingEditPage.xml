@@ -379,7 +379,7 @@
                     <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:id="personnelPriority" p:propertyName="offeringInstructorInfo.personId"
+                            <bean parent="Uif-InputField" p:id="personnel_id" p:propertyName="offeringInstructorInfo.personId"
                                   p:label="ID" p:required="false" p:cssClasses="col_5">
                                 <property name="quickfinder">
                                     <bean parent="Uif-QuickFinder">
@@ -397,13 +397,13 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
-                            <bean parent="Uif-InputField" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation" p:required="false">
+                            <bean parent="Uif-InputField" p:id="personnel_name" p:propertyName="offeringInstructorInfo.personName" p:label="Name" p:required="false"/>
+                            <bean parent="Uif-InputField" p:id="personnel_affiliation" p:propertyName="offeringInstructorInfo.typeKey" p:label="Affiliation" p:required="false">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" p:options-ref="aoInstructors-options" />
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="sEffort" p:label="Inst.Effort" p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey" p:required="false" p:inclusiveMax="100">
+                            <bean parent="Uif-InputField" p:id="personnel_allocation" p:propertyName="sEffort" p:label="Inst.Effort" p:refreshWhenChangedPropertyNames="#lp.offeringInstructorInfo.typeKey" p:required="false" p:inclusiveMax="100">
                                   <property name="validCharactersConstraint">
                                         <bean parent="IntegerPatternConstraint" />
                                   </property>
@@ -421,7 +421,7 @@
                     </property>
                     <property name="lineActions">
                         <list>
-                            <bean parent="KS-Uif-Delete-ActionLink" p:methodToCall="deleteLine" p:actionLabel="Delete"
+                            <bean parent="KS-Uif-Delete-ActionLink" p:id="delete_personnel" p:methodToCall="deleteLine" p:actionLabel="Delete"
                                   p:actionEvent="deleteLine" p:dirtyOnAction="true"/>
                         </list>
                     </property>
@@ -548,12 +548,12 @@
                 <bean parent="Uif-VerticalBoxSubSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(!#dp.hasWaitlist) ? 'No' : 'Yes'}" p:fieldLabel.renderColon="true"/>
-                            <bean parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{(#dp.waitListType eq null) ? '' : (#dp.waitListTypeUI)}"
+                            <bean p:id="waitlist_active_ro" parent="Uif-MessageField" p:label="Waitlist Active" p:messageText="@{(!#dp.hasWaitlist) ? 'No' : 'Yes'}" p:fieldLabel.renderColon="true"/>
+                            <bean p:id="waitlist_proc_ro" parent="Uif-MessageField" p:label="Waitlist Processing" p:messageText="@{(#dp.waitListType eq null) ? '' : (#dp.waitListTypeUI)}"
                                   p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
-                            <bean parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(#dp.courseWaitListInfo.maxSize eq null) ? 'Unlimited':'Limit to '} @{(#dp.courseWaitListInfo.maxSize eq null) ? '': (#dp.courseWaitListInfo.maxSize)}"
+                            <bean p:id="waitlist_max_size_ro" parent="Uif-MessageField" p:label="Waitlist Max Size" p:messageText="@{(#dp.courseWaitListInfo.maxSize eq null) ? 'Unlimited':'Limit to '} @{(#dp.courseWaitListInfo.maxSize eq null) ? '': (#dp.courseWaitListInfo.maxSize)}"
                                   p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
-                            <bean parent="Uif-MessageField" p:label="Allow Holds in Waitlist" p:messageText="@{(#dp.courseWaitListInfo.allowHoldUntilEntries eq null or !#dp.courseWaitListInfo.allowHoldUntilEntries) ? 'No' : 'Yes'}"
+                            <bean p:id="waitlist_holds_ro" parent="Uif-MessageField" p:label="Allow Holds in Waitlist" p:messageText="@{(#dp.courseWaitListInfo.allowHoldUntilEntries eq null or !#dp.courseWaitListInfo.allowHoldUntilEntries) ? 'No' : 'Yes'}"
                                   p:fieldLabel.renderColon="true" p:render="@{#dp.hasWaitlist}"/>
                         </list>
                     </property>
@@ -629,7 +629,7 @@
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="seatPool.expirationMilestoneTypeKey" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Expiration Milestone">
+                            <bean parent="Uif-InputField" p:id="seatpool_milestone" p:propertyName="seatPool.expirationMilestoneTypeKey" p:onChangeScript="jQuery('#dirtyForm').val(true);" p:label="Expiration Milestone">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl" />
                                 </property>
