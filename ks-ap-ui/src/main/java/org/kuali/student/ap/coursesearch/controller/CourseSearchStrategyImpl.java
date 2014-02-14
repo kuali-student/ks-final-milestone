@@ -1148,7 +1148,19 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
                 requests.add(request);
             }
+
+            // Create level only search
+            for (String level : levels) {
+                // Converts "1XX" to "100"
+                level = level.substring(0, 1) + "00";
+                SearchRequestInfo request = new SearchRequestInfo(
+                        CourseSearchConstants.COURSE_SEARCH_TYPE_EXACTLEVEL);
+                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
+                requests.add(request);
+            }
         }
+
+
 	}
 
     /**

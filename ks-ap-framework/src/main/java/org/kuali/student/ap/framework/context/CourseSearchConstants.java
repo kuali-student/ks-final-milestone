@@ -63,6 +63,7 @@ public class CourseSearchConstants {
     public static final String COURSE_SEARCH_TYPE_DIVISIONANDCODE = "ksap.lu.search.divisionAndCode";
     public static final String COURSE_SEARCH_TYPE_DIVISIONANDLEVEL = "ksap.lu.search.divisionAndLevel";
     public static final String COURSE_SEARCH_TYPE_EXACTCODE = "ksap.lu.search.exactCode";
+    public static final String COURSE_SEARCH_TYPE_EXACTLEVEL = "ksap.lu.search.exactLevel";
     public static final String COURSE_SEARCH_TYPE_COURSECODE = "ksap.lu.search.courseCode";
 
     // Search Params
