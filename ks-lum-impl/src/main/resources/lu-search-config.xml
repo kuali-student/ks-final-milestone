@@ -2552,6 +2552,20 @@
         </search:searchCriteriaTypeInfo>
     </search:searchType>
 
+    <search:searchType id="ksap.lu.search.exactLevel">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <ref bean="lu.resultColumn.cluId"/>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
     <search:searchType id="ksap.lu.search.division">
         <search:searchResultTypeInfo>
             <search:name/>
@@ -2860,6 +2874,25 @@
                         JOIN clu.officialIdentifier ident
                         WHERE
                         ident.suffixCode = :code
+                        <!--AND-->
+                        <!--attr.name = 'course.campus'-->
+                        <!--AND-->
+                        <!--attr.value IN :campuses-->
+                        AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
+                        att.name='course.catalogOmit_ind' and att.value='Y')
+                        AND clu.state='Active'
+                        ORDER BY ident.suffixCode
+                    </value>
+                </entry>
+                <entry key="ksap.lu.search.exactLevel">
+                    <value>
+                        SELECT
+                        clu.id
+                        FROM CluAttribute attr
+                        JOIN attr.owner clu
+                        JOIN clu.officialIdentifier ident
+                        WHERE
+                        ident.level = :level
                         <!--AND-->
                         <!--attr.name = 'course.campus'-->
                         <!--AND-->
