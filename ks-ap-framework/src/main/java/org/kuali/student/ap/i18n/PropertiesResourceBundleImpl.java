@@ -17,9 +17,10 @@ public class PropertiesResourceBundleImpl extends ResourceBundle {
     protected String baseName = null;
     private ContextInfo contextInfo = null;
 
-    public PropertiesResourceBundleImpl(String baseName, ContextInfo contextInfo) {
+    public PropertiesResourceBundleImpl(String baseName, ContextInfo contextInfo, PropertiesResourceBundleImpl parent) {
         this.baseName = baseName;
         this.contextInfo = contextInfo;
+        this.parent = parent;
     }
 
     @Override
@@ -35,14 +36,15 @@ public class PropertiesResourceBundleImpl extends ResourceBundle {
         if(contextInfo == null){
             contextInfo = new ContextInfo();
         }
-        LocaleInfo locale = contextInfo.getLocale();
+        LocaleInfo localeInfo = contextInfo.getLocale();
         Locale loc = null;
-        if (locale != null) {
-            loc = LocaleHelper.localeInfo2Locale(locale);
+        if (localeInfo != null) {
+            loc = LocaleHelper.localeInfo2Locale(localeInfo);
         }
         else {
             loc = Locale.getDefault();
         }
+        //locale = loc;
         return loc;
     }
 

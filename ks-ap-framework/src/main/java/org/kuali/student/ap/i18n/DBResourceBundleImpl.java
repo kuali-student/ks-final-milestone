@@ -16,7 +16,7 @@ public class DBResourceBundleImpl extends ResourceBundle {
     private Locale locale;
     private Properties properties;
 
-    public DBResourceBundleImpl(Properties properties, Locale locale, PropertiesResourceBundleImpl parent) {
+    public DBResourceBundleImpl(Properties properties, Locale locale, MergedPropertiesResourceBundleImpl parent) {
         this.properties = properties;
         this.locale = locale;
         this.parent = parent;

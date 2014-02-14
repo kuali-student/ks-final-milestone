@@ -3,6 +3,7 @@ package org.kuali.student.ap.framework.context.support;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.TextHelper;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -88,10 +89,15 @@ public abstract class TestTextHelperBase {
     @Test
     public void testKeyDoesntExist() throws Exception {
         String key = "doesnt.exist";
-        String baseName = "META-INF/ks-ap/bundles/test";
+        String baseName = ConfigContext.getCurrentContextConfig().getProperty(TextHelper.CONFIG_RESOURCE_BUNDLE_NAMES);
         String value = th.getText(key);
 
         assertEquals("\\[missing key (mre): " + baseName + " " + key + "\\]", value);
+    }
+
+    @Test
+    public void getRBKeys() {
+
     }
 
 }

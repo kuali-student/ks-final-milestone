@@ -72,4 +72,6 @@
     <param name="ks.ap.externalizable.images.url">../ks-ap/images/</param>
 
     <param name="ks.ap.search.division.parse.allowspace">true</param>
+
+    <param name="ks.ap.TextHelper.resourceBundleNames" override="true">org.kuali.student.ap.bundles.POCResourceBundleUI</param>
 </config>

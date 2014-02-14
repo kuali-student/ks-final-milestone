@@ -3,11 +3,12 @@ package org.kuali.student.ap.test.resourceBundles;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.ap.i18n.PropertiesResourceBundleImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
+import org.kuali.student.ap.i18n.PropertiesResourceBundleImpl;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 
+import java.util.Enumeration;
 import java.util.MissingResourceException;
 
 import static org.junit.Assert.assertEquals;
@@ -27,7 +28,7 @@ public abstract class ResourceBundlesTestBase {
     @Before
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1", getLocaleInfo());
-        rb = new PropertiesResourceBundleImpl("META-INF/ks-ap/bundles/test", KsapFrameworkServiceLocator.getContext().getContextInfo());
+        rb = new PropertiesResourceBundleImpl("META-INF/ks-ap/bundles/test", KsapFrameworkServiceLocator.getContext().getContextInfo(), null);
     }
 
     @After
@@ -61,6 +62,14 @@ public abstract class ResourceBundlesTestBase {
     @Test(expected = MissingResourceException.class)
     public void testDoesntExist() {
         String value = rb.getString("testDoesntExist");
+    }
+
+    @Test
+    public void testGetKeys() {
+        Enumeration<String> keys = rb.getKeys();
+        while (keys.hasMoreElements()) {
+            System.out.println(keys.nextElement());
+        }
     }
 
     /**

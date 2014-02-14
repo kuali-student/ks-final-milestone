@@ -1,22 +1,23 @@
 package org.kuali.student.ap.framework.context.support;
 
-import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-
 import org.apache.log4j.Logger;
-import org.kuali.student.ap.i18n.DBResourceBundleControlImpl;
-import org.kuali.student.ap.i18n.DBResourceBundleImpl;
-import org.kuali.student.ap.i18n.PropertiesResourceBundleImpl;
-import org.kuali.student.ap.i18n.LocaleHelper;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.framework.context.TextHelper;
+import org.kuali.student.ap.i18n.DBResourceBundleControlImpl;
+import org.kuali.student.ap.i18n.DBResourceBundleImpl;
+import org.kuali.student.ap.i18n.LocaleHelper;
+import org.kuali.student.ap.i18n.MergedPropertiesResourceBundleImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 public class DefaultTextHelper implements TextHelper, Serializable {
 
@@ -25,8 +26,8 @@ public class DefaultTextHelper implements TextHelper, Serializable {
     private static final Logger LOG = Logger.getLogger(DefaultTextHelper.class);
 
 	private String messageGroup;
-    private String baseName;
-    private Map<String, PropertiesResourceBundleImpl> resourceBundles = new HashMap<String, PropertiesResourceBundleImpl>();
+    private List<String> baseNames;
+    private String resourceBundleNames;
 
     public String getMessageGroup() {
         if (messageGroup == null)
@@ -38,14 +39,22 @@ public class DefaultTextHelper implements TextHelper, Serializable {
 		this.messageGroup = messageGroup;
 	}
 
-    public String getBaseName() {
-        if (baseName == null)
-            throw new IllegalArgumentException("baseName must be set");
-        return baseName;
+    private List<String> getBaseNames() {
+        if (baseNames == null) {
+            baseNames = new ArrayList<String>();
+            String baseNameArray[] = getResourceBundleNamesFromConfig().split(",");
+            for(String baseName : baseNameArray){
+                baseNames.add(baseName);
+            }
+        }
+        return baseNames;
     }
 
-    public void setBaseName(String baseName) {
-        this.baseName = baseName;
+    private String getResourceBundleNamesFromConfig() {
+       if (resourceBundleNames == null) {
+           resourceBundleNames = ConfigContext.getCurrentContextConfig().getProperty(TextHelper.CONFIG_RESOURCE_BUNDLE_NAMES);
+       }
+        return resourceBundleNames;
     }
 
     @Override
@@ -54,7 +63,8 @@ public class DefaultTextHelper implements TextHelper, Serializable {
         try {
             value = getBundle().getString(messageCode);
         } catch (MissingResourceException mre) {
-            value = "\\[missing key (mre): " + baseName + " " + messageCode + "\\]";
+            LOG.error("Error getting text value", mre);
+            value = "\\[missing key (mre): " + getResourceBundleNamesFromConfig() + " " + messageCode + "\\]";
         }
         return value;
     }
@@ -76,6 +86,10 @@ public class DefaultTextHelper implements TextHelper, Serializable {
         return (new MessageFormat(pattern, getLocale())).format(args, new StringBuffer(), null).toString();
     }
 
+    /**
+     * Get the locale from the Context
+     * @return
+     */
     private Locale getLocale() {
         KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
         ContextInfo contextInfo = ksapCtx.getContextInfo();
@@ -91,28 +105,28 @@ public class DefaultTextHelper implements TextHelper, Serializable {
         KsapContext ksapCtx = KsapFrameworkServiceLocator.getContext();
         ContextInfo contextInfo = ksapCtx.getContextInfo();
         Locale locale = LocaleHelper.localeInfo2Locale(contextInfo.getLocale());
-        PropertiesResourceBundleImpl krb = getRBFromMap(locale, contextInfo);
+        List<ResourceBundle> bundles = processBundles(locale);
+        MergedPropertiesResourceBundleImpl mprb = new MergedPropertiesResourceBundleImpl(bundles);
 
         DBResourceBundleImpl drb = (DBResourceBundleImpl) ResourceBundle.getBundle(DBResourceBundleControlImpl.class.getName(), locale,
-                new DBResourceBundleControlImpl(getMessageGroup(), contextInfo, krb));
+                new DBResourceBundleControlImpl(getMessageGroup(), contextInfo, mprb));
 
         return drb;
     }
 
     /**
-     * Look up (or store if not found) a PropertiesResourceBundleImpl using a locale string
-     * @param locale The locale to use as the key in the map
-     * @param contextInfo Used to create the PropertiesResourceBundleImpl
-     * @return The found (or newly created) PropertiesResourceBundleImpl from the map
+     * Go through all of the configured bundles and make a list of ResourceBundle objects
+     * @param locale
+     * @return
      */
-    private PropertiesResourceBundleImpl getRBFromMap(Locale locale, ContextInfo contextInfo) {
-        PropertiesResourceBundleImpl krb = resourceBundles.get(locale.toString());
-        if (krb == null) {
-            LOG.debug("new PropertiesResourceBundleImpl(" + getBaseName() + ", " + locale.toString() + ")");
-            krb =  new PropertiesResourceBundleImpl(getBaseName(), contextInfo);
-            resourceBundles.put(locale.toString(), krb);
+    private List<ResourceBundle> processBundles(Locale locale) {
+        List<ResourceBundle> bundles = new ArrayList<ResourceBundle>();
+        LOG.debug("Processing " + getBaseNames().size() + " bundles...");
+        for (String baseName : getBaseNames()) {
+            LOG.debug("Creating new PropertiesResourceBundleImpl(baseName:" + baseName + ", locale: " + locale.toString() + ")");
+            ResourceBundle krb = ResourceBundle.getBundle(baseName, locale);
+            bundles.add(krb);
         }
-        return krb;
+        return bundles;
     }
-
 }

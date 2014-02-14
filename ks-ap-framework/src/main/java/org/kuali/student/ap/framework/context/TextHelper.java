@@ -17,6 +17,11 @@ import org.kuali.student.r2.common.messages.service.MessageService;
  */
 public interface TextHelper {
 
+    /**
+     * Key used to look up the config values for the resource bundle names
+     */
+    public static final String CONFIG_RESOURCE_BUNDLE_NAMES = "ks.ap.TextHelper.resourceBundleNames";
+
 	/**
 	 * Get the text for a message code within the current transactional context.
 	 * 
