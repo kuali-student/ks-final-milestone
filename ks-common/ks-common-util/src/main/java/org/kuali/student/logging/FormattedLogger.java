@@ -80,6 +80,7 @@ public class FormattedLogger {
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
+    @Deprecated
     public static final void debug(String pattern, Object ... objs) {
         Logger log = getLog();
         if (log.isEnabledFor(DEBUG)) {
@@ -96,6 +97,7 @@ public class FormattedLogger {
      * 
      * @param the thing that was thrown
      */
+    @Deprecated
     public static final void throwing(final Throwable thrown) {
         final StackTraceElement element = new Throwable().getStackTrace()[3];
         final Logger log = Logger.getLogger(element.getClassName());
@@ -109,6 +111,7 @@ public class FormattedLogger {
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
+    @Deprecated
     public static final void info(String pattern, Object ... objs) {
         Logger log = getLog();
         if (log.isEnabledFor(INFO)) {
@@ -122,6 +125,7 @@ public class FormattedLogger {
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
+    @Deprecated
     public static final void trace(String pattern, Object ... objs) {
         Logger log = getLog();
         if (log.isEnabledFor(TRACE)) {
@@ -136,6 +140,7 @@ public class FormattedLogger {
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
+    @Deprecated
     public static final void warn(String pattern, Object ... objs) {
         Logger log = getLog();
         if (log.isEnabledFor(WARN)) {
@@ -149,6 +154,7 @@ public class FormattedLogger {
      * @param pattern to format against
      * @param objs an array of objects used as parameters to the <code>pattern</code>
      */
+    @Deprecated
     public static final void error(String pattern, Object ... objs) {
         Logger log = getLog();
         if (log.isEnabledFor(ERROR)) {
