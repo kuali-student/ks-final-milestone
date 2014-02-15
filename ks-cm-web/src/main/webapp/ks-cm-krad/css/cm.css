@@ -156,3 +156,17 @@
     margin-left:4px;
     text-align: left;
 }
+
+/* Create Course tab styling */
+#course_tabs_tabs .ui-tabs, #course_tabs_tabs .ui-tabs-nav {
+    margin: 0px;
+    padding: .5em 0;
+}
+/*  Move the content down to align with the tab panel */
+#course_tabs_tabs .ui-tabs, #course_tabs_tabs .ui-tabs-panel {
+    margin-top: 7px;
+}
+/* Make the action links in the tab panel extend all the way across */
+#course_tabs_tabs .ui-tabs-nav li.ui-state-active a, #course_tabs_tabs .ui-tabs-nav li.ui-state-default a {
+    width: 85%;
+}
