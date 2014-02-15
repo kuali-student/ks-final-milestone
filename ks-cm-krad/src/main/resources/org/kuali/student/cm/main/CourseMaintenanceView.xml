@@ -52,6 +52,7 @@
         <property name="navigation">
             <ref bean="KS-CourseNavigation-Menu" />
         </property>
+        <property name="onDocumentReadyScript" value="onCourseLoad();"/>
         <property name="dialogs">
             <list>
                 <ref bean="commentsLightBox" />
@@ -373,7 +374,6 @@
     </bean>
 
     <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal') and #form.renderNavigationPanel}">
-            <property name="style" value="position:fixed;"/>
             <property name="items">
                 <list>
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('courseInfoSection');" p:actionLabel="Course" />

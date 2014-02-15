@@ -2,6 +2,9 @@
  * SCRIPT METHODS USED BY MULTIPLE .JS FILES
  */
 
+function onCourseLoad(){
+    jQuery("#KS-CourseNavigation-Menu").css("position","fixed");
+}
 
 function scrollToCourseSection(divId){
     jQuery(document).scrollTop( jQuery("#" + divId).offset().top );
