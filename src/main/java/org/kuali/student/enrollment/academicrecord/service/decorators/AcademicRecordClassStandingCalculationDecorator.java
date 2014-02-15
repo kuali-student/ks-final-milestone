@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.academicrecord.service.decorators;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
@@ -30,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -37,7 +39,7 @@ import java.util.List;
  */
 public class AcademicRecordClassStandingCalculationDecorator extends AcademicRecordServiceDecorator {
 
-    GesService gesService;
+    private GesService gesService;
 
     public GesService getGesService() {
         return gesService;
@@ -45,6 +47,14 @@ public class AcademicRecordClassStandingCalculationDecorator extends AcademicRec
 
     public void setGesService(GesService gesService) {
         this.gesService = gesService;
+    }
+
+    class ValueInfoDecimalValueComparator implements Comparator<ValueInfo> {
+        public int compare(ValueInfo valueInfo1, ValueInfo valueInfo2) {
+            KualiDecimal decimal1 = valueInfo1.getDecimalValue();
+            KualiDecimal decimal2 = valueInfo2.getDecimalValue();
+            return decimal2.compareTo(decimal1); // for class standing we need descending order
+        }
     }
 
     @Override
@@ -110,29 +120,6 @@ public class AcademicRecordClassStandingCalculationDecorator extends AcademicRec
         return values.get(0);
     }
 
-    /**
-     * sort the thresholds in descending order
-     * @param thresholds
-     * @return
-     */
-    private List<ValueInfo> sortThresholds(List<ValueInfo> thresholds) {
-        List<ValueInfo> sortedThresholds = new ArrayList<ValueInfo>();
-        List<Integer> sortedValues = new ArrayList<Integer>();
-        for(ValueInfo threshold : thresholds) {
-            sortedValues.add(Integer.valueOf(threshold.getStringValue()));
-        }
-        Collections.sort(sortedValues);
-        Collections.reverse(sortedValues);
-        for(Integer sortedValue : sortedValues) {
-            for(ValueInfo threshold : thresholds) {
-                if(threshold.getStringValue().equals(sortedValue.toString())) {
-                    sortedThresholds.add(threshold);
-                }
-            }
-        }
-        return sortedThresholds;
-    }
-
     /*
      * calculate class standing based on credits earned
      */
@@ -148,12 +135,11 @@ public class AcademicRecordClassStandingCalculationDecorator extends AcademicRec
         for(ValueInfo thresholdName : thresholdNames) {
             thresholds.add(getClassStandingThreshold(thresholdName.getStringValue(), contextInfo));
         }
-        thresholds = sortThresholds(thresholds);
+        Collections.sort(thresholds, new ValueInfoDecimalValueComparator());
 
         for(ValueInfo threshold : thresholds) {
-            Integer thresholdValue = Integer.valueOf(threshold.getStringValue());
+            Integer thresholdValue = threshold.getDecimalValue().intValue();
             if(creditsEarned >= thresholdValue) {
-//                String thresholdName = threshold.getParameterKey();
                 return threshold;
             }
         }

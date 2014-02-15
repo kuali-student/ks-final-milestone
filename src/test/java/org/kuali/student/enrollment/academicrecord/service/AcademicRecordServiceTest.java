@@ -73,10 +73,10 @@ public class AcademicRecordServiceTest {
             String classStanding = studentProgramRecord.getClassStanding();
             String creditsEarned = studentProgramRecord.getCreditsEarned();
 
-            int FRESHMAN_THRESHOLD = Integer.valueOf(AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.FRESHMAN_CLASS_STANDING_THRESHOLD);
-            int SOPHOMORE_THRESHOLD = Integer.valueOf(AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.SOPHOMORE_CLASS_STANDING_THRESHOLD);
-            int JUNIOR_THRESHOLD = Integer.valueOf(AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.JUNIOR_CLASS_STANDING_THRESHOLD);
-            int SENIOR_THRESHOLD = Integer.valueOf(AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.SENIOR_CLASS_STANDING_THRESHOLD);
+            int FRESHMAN_THRESHOLD = AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.FRESHMAN_CLASS_STANDING_THRESHOLD.intValue();
+            int SOPHOMORE_THRESHOLD = AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.SOPHOMORE_CLASS_STANDING_THRESHOLD.intValue();
+            int JUNIOR_THRESHOLD = AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.JUNIOR_CLASS_STANDING_THRESHOLD.intValue();
+            int SENIOR_THRESHOLD = AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.SENIOR_CLASS_STANDING_THRESHOLD.intValue();
 
             if(classStanding.equals(ClassStanding.FRESHMAN.getDescription())) {
                 assertTrue("Freshman threshold test failed", Integer.valueOf(creditsEarned) > FRESHMAN_THRESHOLD && Integer.valueOf(creditsEarned) < SOPHOMORE_THRESHOLD);

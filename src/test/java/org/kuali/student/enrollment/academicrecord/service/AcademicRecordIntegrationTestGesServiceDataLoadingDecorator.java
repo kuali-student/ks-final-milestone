@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.academicrecord.service;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
@@ -36,10 +37,10 @@ public class AcademicRecordIntegrationTestGesServiceDataLoadingDecorator extends
 
     public static final String KUALI_POPULATION_EVERYONE = "kuali.population.everyone";
 
-    public static final String FRESHMAN_CLASS_STANDING_THRESHOLD = "0";
-    public static final String SOPHOMORE_CLASS_STANDING_THRESHOLD = "25";
-    public static final String JUNIOR_CLASS_STANDING_THRESHOLD = "55";
-    public static final String SENIOR_CLASS_STANDING_THRESHOLD = "85";
+    public static final KualiDecimal FRESHMAN_CLASS_STANDING_THRESHOLD = new KualiDecimal(0);
+    public static final KualiDecimal SOPHOMORE_CLASS_STANDING_THRESHOLD = new KualiDecimal(25);
+    public static final KualiDecimal JUNIOR_CLASS_STANDING_THRESHOLD = new KualiDecimal(55);
+    public static final KualiDecimal SENIOR_CLASS_STANDING_THRESHOLD = new KualiDecimal(85);
 
     public AcademicRecordIntegrationTestGesServiceDataLoadingDecorator() {
     }
@@ -124,6 +125,25 @@ public class AcademicRecordIntegrationTestGesServiceDataLoadingDecorator extends
         info.setStateKey(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
         info.setPriority(priority);
         info.setStringValue(_nullIt(value));
+        info.setPopulationId(populationId);
+        info.setAtpTypeKeys(this._splitIt(atpTypeKeys));
+        try {
+            info = this.createValue(info.getTypeKey(), paramKey, info, context);
+        } catch (Exception ex) {
+            throw new RuntimeException("unexpected", ex);
+        }
+        return info;
+    }
+
+    private ValueInfo _createValue(String paramKey,int priority, KualiDecimal value, String populationId,
+                                   String atpTypeKeys,
+                                   ContextInfo context) {
+        ValueInfo info = new ValueInfo();
+        info.setParameterKey(paramKey);
+        info.setTypeKey(GesServiceConstants.GES_VALUE_TYPE_KEY);
+        info.setStateKey(GesServiceConstants.GES_VALUE_ACTIVE_STATE_KEY);
+        info.setPriority(priority);
+        info.setDecimalValue(value);
         info.setPopulationId(populationId);
         info.setAtpTypeKeys(this._splitIt(atpTypeKeys));
         try {
