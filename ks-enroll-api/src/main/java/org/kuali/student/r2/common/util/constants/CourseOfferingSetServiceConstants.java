@@ -172,7 +172,7 @@ public class CourseOfferingSetServiceConstants {
     
     public static final String ACTIVITY_OFFERINGS_CREATED_SOC_ITEM_DYNAMIC_ATTRIBUTE = "activityOfferingsCreated";
 
-    public static final String NO_EXAM_PERIOD_WARNING_DIALOG = "warningMessageNoExamPeriod";
+    public static final String NO_EXAM_PERIOD_WARNING_DIALOG = "warningNoExamPeriod";
 
     /**
      * Parameters for performing criteria searches for SOCs.
