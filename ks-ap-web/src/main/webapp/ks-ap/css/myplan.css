@@ -1314,6 +1314,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     font-weight: normal;
     vertical-align: middle;
     display: inline-block;
+    padding: 0px;
 }
 
 .ksap-facets-panel h5.uif-headerText {
