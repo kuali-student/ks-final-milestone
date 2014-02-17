@@ -1,0 +1,18 @@
+<form class="kscr-Searchs" ng-submit="search()">
+
+  <label for="searchTerm" class="kscr-Search-label">Term</label>
+  <select id="searchTerm" ng-model="searchCriteria.termId" ng-options="t.termId as t.termName for t in terms"></select>
+
+  <label for="searchCourses" class="kscr-Search-label">Courses</label>
+  <div class="kscr-Search-query">
+    <input id="searchCourses" type="text" class="kscr-Search-queryInput" placeholder="ENGL, ENGL2, ENGL200" ng-model="searchCriteria.query"/>
+    <span class="kscr-Search-queryButton">
+      <button class="secondary-button" type="submit" ui-sref="app.search.results.list">Go</button>
+    </span>
+  </div>
+
+</form>
+
+<div>
+  <a ui-sref="app.search.results.list">Return to your results</a>
+</div>

@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
+import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
@@ -110,7 +111,7 @@ public interface CourseRegistrationCartClientService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/updateCartItem")
     public Response updateCartItemRS(@QueryParam("userId") String userId,
-                                     @QueryParam("cartItem") String cartId,
+                                     @QueryParam("cartId") String cartId,
                                      @QueryParam("cartItemId") String cartItemId,
                                      @QueryParam("credits") String credits,
                                      @QueryParam("grading") String grading);
@@ -118,6 +119,7 @@ public interface CourseRegistrationCartClientService {
     /**
      * This method allows users to set credit and grading options on an item in their cart using the course registration
      * service's update method.
+     *
      *
      * @param userId     override of principal ID
      * @param cartId     ID of the registrationRequest representing the cart
@@ -135,7 +137,7 @@ public interface CourseRegistrationCartClientService {
      * @throws ReadOnlyException
      * @throws VersionMismatchException
      */
-    public RegistrationRequestItemInfo updateCartItem(String userId, String cartId, String cartItemId, String credits, String grading) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException;
+    public CartItemResult updateCartItem(String userId, String cartId, String cartItemId, String credits, String grading) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException;
 
 
     @GET

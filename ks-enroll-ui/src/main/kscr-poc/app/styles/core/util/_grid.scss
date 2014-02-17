@@ -1,0 +1,13 @@
+$ns: '.util-Grid';
+
+#{$ns} {
+  display: flex;
+}
+
+#{$ns}--center {
+  align-items: center;
+}
+
+#{$ns}-cell {
+  flex: 1;
+}

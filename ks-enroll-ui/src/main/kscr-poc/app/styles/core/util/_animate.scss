@@ -1,0 +1,51 @@
+$ns: '.util-Animate';
+/*
+#{$ns}--slide {
+
+  &.ng-enter, &.ng-leave {
+    -webkit-transition: 1s linear all;
+    transition: all 1s;
+  }
+
+  &.ng-enter {
+    left: 100%;
+    position: absolute;
+  }
+
+  &.ng-enter-active {
+    left: 0;
+  }
+
+  &.ng-leave {
+    left: 0;
+    position: absolute;
+  }
+
+  &.ng-leave-active {
+    left: -100%;
+  }
+}
+
+.ng-enter, .ng-leave {
+  -webkit-transition: 1s linear all;
+  transition: all 1s;
+}
+
+.ng-enter {
+  left: 100%;
+  position: absolute;
+}
+
+.ng-enter-active {
+  left: 0;
+}
+
+.ng-leave {
+  left: 0;
+  position: absolute;
+}
+
+.ng-leave-active {
+  left: -100%;
+}
+*/

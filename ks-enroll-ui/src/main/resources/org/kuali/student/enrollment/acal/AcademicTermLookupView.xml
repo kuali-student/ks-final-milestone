@@ -49,13 +49,13 @@
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="Uif-InputField" p:propertyName="id"/>
+        <bean parent="Uif-DataField" p:propertyName="id"/>
           <bean parent="Uif-DataField" p:propertyName="code"/>
-          <bean parent="Uif-InputField" p:propertyName="descr.plain" />
-          <bean parent="Uif-InputField" p:propertyName="typeKey" />
-          <bean parent="Uif-InputField" p:propertyName="stateKey" />
-          <bean parent="Uif-InputField" p:propertyName="startDate" />
-          <bean parent="Uif-InputField" p:propertyName="endDate" />
+          <bean parent="Uif-DataField" p:propertyName="descr.plain" />
+          <bean parent="Uif-DataField" p:propertyName="typeKey" />
+          <bean parent="Uif-DataField" p:propertyName="stateKey" />
+          <bean parent="Uif-DataField" p:propertyName="startDate" />
+          <bean parent="Uif-DataField" p:propertyName="endDate" />
       </list>
     </property>
   </bean>
@@ -70,12 +70,12 @@
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField" p:propertyName="id"/>
-                            <bean parent="Uif-InputField" p:propertyName="code"/>
-                            <bean parent="Uif-InputField" p:propertyName="descr.plain"/>
-                            <bean parent="Uif-InputField" p:propertyName="typeKey"/>
-                            <bean parent="Uif-InputField" p:propertyName="stateKey"/>
-                            <bean parent="Uif-InputField" p:propertyName="startDate"/>
+                            <bean parent="Uif-DataField" p:propertyName="id"/>
+                            <bean parent="Uif-DataField" p:propertyName="code"/>
+                            <bean parent="Uif-DataField" p:propertyName="descr.plain"/>
+                            <bean parent="Uif-DataField" p:propertyName="typeKey"/>
+                            <bean parent="Uif-DataField" p:propertyName="stateKey"/>
+                            <bean parent="Uif-DataField" p:propertyName="startDate"/>
                         </list>
                     </property>
                 </bean>

@@ -1,7 +1,0 @@
-node_modules
-dist
-kscr-poc.iml
-.idea
-.tmp
-.sass-cache
-app/bower_components

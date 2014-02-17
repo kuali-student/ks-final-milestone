@@ -116,6 +116,8 @@
             </map>
         </property>
 
+        <property name="footer.render" value="false"/>
+
         <property name="items">
             <list>
                 <ref bean="KS-CourseOffering-CopyPage"/>
