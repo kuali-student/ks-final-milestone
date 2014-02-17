@@ -29,8 +29,6 @@ import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.group.Group;
-import org.kuali.rice.kim.api.group.GroupHistory;
-import org.kuali.rice.kim.api.group.GroupHistoryQueryResults;
 import org.kuali.rice.kim.api.group.GroupMember;
 import org.kuali.rice.kim.api.group.GroupMemberQueryResults;
 import org.kuali.rice.kim.api.group.GroupQueryResults;
@@ -446,22 +444,6 @@ public class GroupServiceMockImpl implements GroupService, MockService {
     }
 
     public List<GroupMember> getMembersOfGroupWithDate(String groupId, DateTime asOfDate) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public GroupHistoryQueryResults findGroupHistories(QueryByCriteria queryByCriteria) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public GroupHistory getGroupHistory(String id, DateTime asOfDate) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public GroupHistory createGroupHistory(GroupHistory groupHistory) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public GroupHistory inactivateGroupHistory(String id, DateTime inactiveDate) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
