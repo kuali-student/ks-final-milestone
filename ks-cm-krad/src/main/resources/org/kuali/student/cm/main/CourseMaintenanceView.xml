@@ -68,6 +68,7 @@
             <list>
                 <ref bean="KS-CourseView-createCourseInitialPage" />
                 <ref bean="KS-CourseView-CoursePage"/>
+                <ref bean="KS-RuleMaintenance-Page-Parent" />
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -124,7 +125,6 @@
                             <ref bean="KS-CourseView-Logistics-Widgets"/>
                             <ref bean="KS-CourseView-LearningObjectivesPage-Widgets" />
                             <ref bean="KS-CourseView-CourseRequisites-Widgets"/>
-                            <!--<ref bean="KS-CourseView-RuleMaintenance-Widgets"/>-->
                             <ref bean="KS-CourseView-ActiveDatesPage-Widgets"/>
                             <ref bean="KS-CourseView-Financials"/>
                             <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets"/>
@@ -144,7 +144,6 @@
                 <bean id="logisticsSection" parent="KS-CourseView-Logistics-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <bean id="learningObjectivesSection" parent="KS-CourseView-LearningObjectivesPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <bean id="requisitesSection" parent="KS-CourseView-CourseRequisites-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <!--<bean id="ruleSection" parent="KS-CourseView-RuleMaintenance-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>-->
                 <bean id="activeDatesSection" parent="KS-CourseView-ActiveDatesPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <bean id="financialsSection" parent="KS-CourseView-Financials" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <bean id="authorsAndCollaboratorsSection" parent="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
