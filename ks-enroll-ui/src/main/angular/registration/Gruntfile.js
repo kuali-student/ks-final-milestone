@@ -240,7 +240,7 @@ module.exports = function (grunt) {
                     {
                         expand:true,
                         cwd:'<%= yeoman.dist %>',
-                        src:['*.html', 'partials/{,*/}*.html'],
+                        src:['*.html', '*.jsp', 'partials/{,*/}*.html'],
                         dest:'<%= yeoman.dist %>'
                     }
                 ]
@@ -369,6 +369,8 @@ module.exports = function (grunt) {
                         ".value('configServer', {" +
                         "apiBase: '${ConfigProperties.application.url}/services/'" +
                         "});" +
+                        "angular.module('configuration', [])" +
+                        ".constant('APP_URL','${ConfigProperties.application.url}/services/');" +
                         "</script>\n"
                     }
                 },
