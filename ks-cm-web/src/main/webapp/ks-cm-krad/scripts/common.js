@@ -3,7 +3,7 @@
  */
 
 function onCourseLoad(){
-    jQuery("#KS-CourseNavigation-Menu").css("position","fixed");
+    jQuery("#Uif-Navigation").css("position","fixed");
 }
 
 function scrollToCourseSection(divId){
