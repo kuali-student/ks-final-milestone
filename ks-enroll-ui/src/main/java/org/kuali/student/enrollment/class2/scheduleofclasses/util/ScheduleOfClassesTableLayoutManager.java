@@ -71,12 +71,12 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                 for (Field field : lineFields) {
                     if (field.getId().contains("regGroupName")) {
                         field.setHidden(true);
-                        field.setCellStyle("border-top:none;");
+                        field.setWrapperStyle("border-top:none;");
                         field.setRowSpan(getSpanSize(rgWrapper, false));
                     }
                     if (field.getId().contains("regGroupSeats")) {
                         field.setHidden(true);
-                        field.setCellStyle("border-top:none");
+                        field.setWrapperStyle("border-top:none");
                         field.setRowSpan(getSpanSize(rgWrapper, true));
                     }
                 }
