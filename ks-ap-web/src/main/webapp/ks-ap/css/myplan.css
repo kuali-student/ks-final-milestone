@@ -1551,7 +1551,7 @@ table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
-    width: 125px;
+    width: 160px;
 }
 
 table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.scheduled {
@@ -1654,6 +1654,7 @@ table.ksap-course-search-results-datatable .blockUI {
     font-size: 12px;
     margin: 0;
     padding: 0 6px;
+    cursor: pointer;
 }
 
 .dataTables_wrapper .dataTables_paginate a.ui-button.ui-state-default {
