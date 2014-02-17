@@ -169,7 +169,7 @@
     <bean id="searchForCourses" parent="Uif-PrimaryActionButton"
           p:actionLabel="Search" p:disabled="true">
         <property name="actionScript"
-                  value="searchForCourses('course_search_results','course_search_results_panel');" />
+                  value="searchForCourses('course_search_results','course_search_results_panel'); jQuery('#text_searchQuery_control').focus();" />
         <property name="cssClasses">
             <list merge="true">
                 <value>course-search-submit</value>
