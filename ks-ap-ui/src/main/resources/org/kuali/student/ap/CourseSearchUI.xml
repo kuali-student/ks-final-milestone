@@ -135,6 +135,7 @@
 			<ref bean="course_search_criteria_input" />
 		</property>
         <property name="simpleConstraint.minLength" value="3"/>
+        <property name="simpleConstraint.maxLength" value="30"/>
 	</bean>
 
 	<bean id="hidden_savedCourses" parent="Uif-InputField" p:propertyName="savedCourses"
