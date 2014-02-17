@@ -75,7 +75,7 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
 
         // since expressions are not evaluated on child components yet, we need to evaluate any properties
         // we are going to read for building the table
-        ExpressionEvaluator expressionEvaluator = ViewLifecycle.getHelper().getExpressionEvaluator();
+        ExpressionEvaluator expressionEvaluator = ViewLifecycle.getHelper().getExpressionEvaluatorFactory().createExpressionEvaluator();
         for (Field lineField : lineFields) {
             lineField.pushObjectToContext(UifConstants.ContextVariableNames.PARENT, collectionGroup);
             lineField.pushAllToContext(view.getContext());
