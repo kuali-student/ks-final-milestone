@@ -12,8 +12,10 @@ import java.util.Locale;
 public class LocaleHelper {
 
     public static Locale localeInfo2Locale(LocaleInfo li) {
-        Locale locale = new Locale(nullSafeGet(nullSafeGet(li.getLocaleLanguage())), nullSafeGet(li.getLocaleRegion()), nullSafeGet(li.getLocaleVariant()));
-        return locale;
+        if (li == null) {
+            return Locale.getDefault();
+        }
+        return new Locale(nullSafeGet(nullSafeGet(li.getLocaleLanguage())), nullSafeGet(li.getLocaleRegion()), nullSafeGet(li.getLocaleVariant()));
     }
 
     public static LocaleInfo locale2LocaleInfo(Locale locale) {

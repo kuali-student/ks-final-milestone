@@ -3,13 +3,13 @@ package org.kuali.student.ap.test.resourceBundles;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
-import org.kuali.student.ap.i18n.PropertiesResourceBundleImpl;
+import org.kuali.student.ap.i18n.LocaleHelper;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 
 import java.util.Enumeration;
 import java.util.MissingResourceException;
+import java.util.ResourceBundle;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -23,12 +23,12 @@ import static org.junit.Assert.assertNotNull;
  */
 public abstract class ResourceBundlesTestBase {
 
-    PropertiesResourceBundleImpl rb = null;
+    ResourceBundle rb = null;
 
     @Before
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1", getLocaleInfo());
-        rb = new PropertiesResourceBundleImpl("META-INF/ks-ap/bundles/test", KsapFrameworkServiceLocator.getContext().getContextInfo(), null);
+        rb = ResourceBundle.getBundle("META-INF/ks-ap/bundles/test", LocaleHelper.localeInfo2Locale(getLocaleInfo()));
     }
 
     @After

@@ -123,7 +123,7 @@ public class DefaultTextHelper implements TextHelper, Serializable {
         List<ResourceBundle> bundles = new ArrayList<ResourceBundle>();
         LOG.debug("Processing " + getBaseNames().size() + " bundles...");
         for (String baseName : getBaseNames()) {
-            LOG.debug("Creating new PropertiesResourceBundleImpl(baseName:" + baseName + ", locale: " + locale.toString() + ")");
+            LOG.debug("Creating new ResourceBundle(baseName:" + baseName + ", locale: " + locale.toString() + ")");
             ResourceBundle krb = ResourceBundle.getBundle(baseName, locale);
             bundles.add(krb);
         }
