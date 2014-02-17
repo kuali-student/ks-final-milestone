@@ -516,9 +516,9 @@ public class CourseController extends CourseRuleEditorController {
         form.getDocument().getDocumentHeader().setDocumentDescription(maintainable.getProposal().getName());
 
         try {
-            if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
+//            if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
                 handleFirstTimeSave(form);
-            }
+//            }
             save(form, result, request, response);
         }
         catch (Exception e) {
@@ -538,6 +538,14 @@ public class CourseController extends CourseRuleEditorController {
             return getUIFModelAndView(form);
         }
 
+    }
+
+    @Override
+    @RequestMapping(params = "methodToCall=blanketApprove")
+    public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+        saveProposal((MaintenanceDocumentForm)form,result,request,response);
+        return super.blanketApprove(form,result,request,response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=previousPage")
@@ -579,21 +587,31 @@ public class CourseController extends CourseRuleEditorController {
         for (final CourseVariationInfo variation : course.getVariations()) {
             variation.setTypeKey("kuali.lu.type.Variation");
         }
-        maintainable.setCourse(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
+        if (StringUtils.isBlank(course.getId())){
+            maintainable.setCourse(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
+        } else {
+            maintainable.setCourse(getCourseService().updateCourse(course.getId(), course, ContextUtils.getContextInfo()));
+        }
         
         info("Saving Proposal for course %s", maintainable.getCourse().getId());
 
         ProposalInfo proposal = maintainable.getProposal();
         proposal.setWorkflowId(form.getDocument().getDocumentHeader().getDocumentNumber());
-        proposal.setState(DtoConstants.STATE_DRAFT);
-        proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
-        proposal.setProposalReferenceType("kuali.proposal.referenceType.clu");
-        proposal.getProposalReference().add(maintainable.getCourse().getId());
-        proposal.getProposerOrg().clear();
-        proposal.getProposerPerson().clear();
+        if (StringUtils.isBlank(proposal.getId())){
+            proposal.setState(DtoConstants.STATE_DRAFT);
+            proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
+            proposal.setProposalReferenceType("kuali.proposal.referenceType.clu");
+            proposal.getProposalReference().add(maintainable.getCourse().getId());
+            proposal.getProposerOrg().clear();
+            proposal.getProposerPerson().clear();
+        }
                         
-        try {            
-            proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
+        try {
+            if (StringUtils.isBlank(proposal.getId())){
+                proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
+            } else {
+                proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.getContextInfo());
+            }
             maintainable.setProposal(proposal);
         }
         catch (Exception e) {
