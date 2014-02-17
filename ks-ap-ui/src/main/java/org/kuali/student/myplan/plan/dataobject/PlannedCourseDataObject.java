@@ -98,7 +98,7 @@ public class PlannedCourseDataObject implements
 
     public String getScheduledForUI(){
         ScheduledTermsPropertyEditor editor = new ScheduledTermsPropertyEditor();
-        editor.setValue(getCourseDetails());
+        editor.setValue(getCourseDetails().getScheduledTerms());
         return editor.getAsText();
     }
 

@@ -17,6 +17,7 @@ package org.kuali.student.ap.coursesearch.util;
  */
 
 import java.beans.PropertyEditorSupport;
+import java.util.List;
 
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.TermHelper;
@@ -31,21 +32,18 @@ public class ScheduledTermsPropertyEditor extends PropertyEditorSupport {
 		super.setValue(value);
 	}
 
-	// TODO: KSAP-744 - Upgrade to list with rice 2.2.1
 	@Override
 	public String getAsText() {
-		CourseSummaryDetails courseSummaryDetails = (CourseSummaryDetails) super.getValue();
-		StringBuilder formattedText = new StringBuilder();
+		List<String> scheduledTerms = (List<String>)super.getValue();
+        StringBuilder formattedText = new StringBuilder();
 		formattedText.append(String.format("<%s class=\"scheduled\">", "span"));
 		TermHelper th = KsapFrameworkServiceLocator.getTermHelper();
 
-        if (courseSummaryDetails != null
-				&& courseSummaryDetails.getScheduledTerms() != null
-				&& courseSummaryDetails.getScheduledTerms().size() > 0) {
+        if (scheduledTerms !=null) {
 
             int counter = 0;
 
-            for (String termId : courseSummaryDetails.getScheduledTerms()) {
+            for (String termId : scheduledTerms) {
 
                 if (counter > 0) {
                     formattedText.append(", ");

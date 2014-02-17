@@ -69,7 +69,7 @@ public class BookmarkDetailWrapper implements HasUniqueId, Comparable<BookmarkDe
 
     public String getScheduledForUI(){
         ScheduledTermsPropertyEditor editor = new ScheduledTermsPropertyEditor();
-        editor.setValue(getCourseSummaryDetails());
+        editor.setValue(getCourseSummaryDetails().getScheduledTerms());
         return editor.getAsText();
     }
 

@@ -124,7 +124,7 @@ public class CourseDetails {
     @JsonIgnore
     public String  getCourseSummaryDetailsEdited() {
         ScheduledTermsPropertyEditor editor = new ScheduledTermsPropertyEditor();
-        editor.setValue((Object) this.courseSummaryDetails);
+        editor.setValue(this.courseSummaryDetails.getScheduledTerms());
         return editor.getAsText();
     }
 
