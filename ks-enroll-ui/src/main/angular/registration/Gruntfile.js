@@ -293,6 +293,12 @@ module.exports = function (grunt) {
                         cwd:'.tmp/images',
                         dest:'<%= yeoman.dist %>/images',
                         src:['generated/*']
+                    },
+                    {
+                        expand:true,
+                        cwd:'.tmp',
+                        dest:'<%= yeoman.dist %>',
+                        src:['*.jsp']
                     }
                 ]
             },
@@ -351,11 +357,29 @@ module.exports = function (grunt) {
                 configFile:'karma.conf.js',
                 singleRun:true
             }
+        },
+
+        dom_munger: {
+            create_jsp: {
+                options: {
+                    append: {selector:'body',html:
+                        '<script>' +
+                        "'use strict'; " +
+                        "angular.module('kscrPocApp')" +
+                        ".value('configServer', {" +
+                        "apiBase: '${ConfigProperties.application.url}/services/'" +
+                        "});" +
+                        "</script>\n"
+                    }
+                },
+                src: 'app/index.html',
+                dest: '.tmp/index.jsp'
+            }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-less');
-
+    grunt.loadNpmTasks('grunt-dom-munger');
 
     grunt.registerTask('serve', function (target) {
         if (target === 'dist') {
@@ -391,6 +415,7 @@ module.exports = function (grunt) {
         'bower-install',
         'less',
         'useminPrepare',
+        'dom_munger',
         'concurrent:dist',
         'autoprefixer',
         'concat',
