@@ -41,10 +41,11 @@
                 <ref bean="KS-RolloverResultsPage-SelectTermPage"/>
             </list>
         </property>
+        <property name="singlePageView" value="false"/>
         <property name="dialogs">
             <list>
                 <bean id="releaseToDepts"  parent="KS-CourseOfferingRolloverManagement-ReleaseToDeptsDialog"/>
-                <bean id="warningMessageNoExamPeriod" parent="warningMessageNoExamPeriod-Dialog"/>
+                <bean id="warningNoExamPeriod" parent="KS-CourseOfferingRolloverManagement-NoExamPeriodDialog"/>
             </list>
         </property>
     </bean>
@@ -74,8 +75,28 @@
             </list>
         </property>
     </bean>
-    <bean id="warningMessageNoExamPeriod-Dialog" parent="Uif-Yes-No-DialogGroup">
-        <property name="headerText" value="Continue without Exams?"/>
-        <property name="promptText" value="Exam periods do not exist for terms and subterms for this rollover.&lt;br&gt; Exam offerings will not be created. Proceed Y/N?"/>
+    <bean id="KS-CourseOfferingRolloverManagement-NoExamPeriodDialog" parent="Uif-VerticalBoxGroup" p:hidden="true" p:style="width: 600px; overflow: hidden" p:cssClasses="aoc_dialog">
+        <property name="items">
+            <list>
+                <bean id="warningNoExamPeriodVBoxSec" parent="Uif-VerticalBoxSection">
+                    <property name="headerText" value="Continue without Exams?"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="Exam periods do not exist for terms and subterms for this rollover.&lt;br&gt; Exam offerings will not be created. Proceed Y/N?"
+                                  p:style="padding-bottom:25px; font-size:125%"/>
+                            <bean parent="Uif-HorizontalBoxGroup" p:style="padding-top:25px; float:right;">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Yes" p:id="noExamPeriodButton"
+                                              p:actionParameters="confirm:do" p:methodToCall="performRollover"/>
+                                        <bean parent="Uif-ActionLink" p:actionLabel="No" p:onClickScript="e.preventDefault();closeLightbox();return false;"  p:style="padding-top:5px;"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
     </bean>
 </beans>
