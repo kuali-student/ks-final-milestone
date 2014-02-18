@@ -18,7 +18,8 @@ package org.kuali.student.lum.lu.ui.krms.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
+import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
+import org.kuali.student.lum.lu.ui.krms.util.CluSearchUtil;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -38,7 +39,7 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
  *
  * @author Kuali Student Team
  */
-public class CourseInfoLookupableImpl extends LookupableImpl {
+public class CourseInfoLookupableImpl extends KSLookupableImpl {
 	private static final long serialVersionUID = 1L;	
 	
     private transient CluService cluService;
@@ -69,13 +70,9 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
     @Override
     public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
-        String courseId;
         List<SearchParamInfo> searchParams = new ArrayList<SearchParamInfo>();
-        SearchParamInfo qpv1 = new SearchParamInfo();
-        qpv1.setKey("lu.queryParam.luOptionalType");
-        qpv1.getValues().add("kuali.lu.type.CreditCourse");
-        searchParams.add(qpv1);
-        searchParams.add(CluInformationHelper.getApprovedStateSearchParam());
+        searchParams.add(CluSearchUtil.getTypeSearchParamForCourse());
+        searchParams.add(CluSearchUtil.getApprovedStateSearchParam());
         for (QueryParamEnum qpEnum : QueryParamEnum.values()) {
             String fieldValue = searchCriteria.get(qpEnum.getFieldValue());
             if ( ! isEmpty(fieldValue) ) {
@@ -93,7 +90,7 @@ public class CourseInfoLookupableImpl extends LookupableImpl {
 
         try {
             SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
-            return CluInformationHelper.resolveCluSearchResultSet(searchResult);
+            return CluSearchUtil.resolveCluSearchResultSet(searchResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

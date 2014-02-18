@@ -529,7 +529,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     		if (null != loInfos) {
 				// remove associations of this LoCategory from active LO's
     			for (LoInfo info : loInfos) {
-    				if (info.getStateKey().equals("active"))  {
+    				if ("active".equals(info.getStateKey()))  {
 	    				try {
 							removeLoCategoryFromLo(loCategoryId, info.getId(),contextInfo);
 						} catch (UnsupportedActionException uaee) {

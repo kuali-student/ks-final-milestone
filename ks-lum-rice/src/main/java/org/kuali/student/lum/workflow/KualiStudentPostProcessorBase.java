@@ -116,8 +116,8 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     }
 
     protected void processActionTakenOnAdhocRequest(ActionTakenEvent actionTakenEvent, ActionRequest actionRequest) throws Exception {
-        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId(), ContextUtils.getContextInfo());
-        WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), proposalInfo.getType());
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId(), ContextUtils.getContextInfo());        
+        WorkflowDocument doc = WorkflowDocumentFactory.loadDocument(getPrincipalIdForSystemUser(), proposalInfo.getWorkflowId());
         LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
         removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
     }

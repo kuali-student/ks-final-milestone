@@ -258,7 +258,7 @@
 	<bean id="messageClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">
 		<property name="wsdlLocation" value="http://localhost:8081/ks-with-rice-bundled-dev/services/MessageService?wsdl"/>
 		<property name="serviceEndpointInterface" value="org.kuali.student.r2.common.messages.service.MessageService" />
-		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/messages}MessageService" />
+		<property name="serviceQNameString" value="{http://student.kuali.org/wsdl/message}MessageService" />
 	</bean>
 
 	<bean id="proposalClient" class="org.kuali.student.common.ws.beans.JaxWsClientFactoryBean">

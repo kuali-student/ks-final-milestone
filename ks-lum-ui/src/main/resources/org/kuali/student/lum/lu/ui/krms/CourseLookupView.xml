@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="CluInformation" parent="CluInformation-parentBean"/>
+    <bean id="CluInformation-parentBean" abstract="true" parent="DataObjectEntry">
+        <property name="objectLabel" value="Course Info"/>
+        <property name="dataObjectClass" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
+        <property name="titleAttribute" value="id"/>
+        <property name="attributes">
+            <list>
+                <ref bean="CluInformation.title"/>
+                <ref bean="CluInformation.code"/>
+                <ref bean="CluInformation.description"/>
+            </list>
+        </property>
+        <property name="primaryKeys">
+            <list>
+                <value>cluId</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CluInformation.title" parent="CluInformation.title-parentBean"/>
+    <bean id="CluInformation.title-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="title"/>
+        <property name="dataType" value="STRING" />
+        <property name="label" value="Course Title"/>
+        <property name="shortLabel" value="Course Title"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="40"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="40"/>
+        </property>
+    </bean>
+
+    <bean id="CluInformation.code" parent="CluInformation.code-parentBean"/>
+    <bean id="CluInformation.code-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="code"/>
+        <property name="dataType" value="STRING" />
+        <property name="label" value="Course Code(Subject/Number)"/>
+        <property name="shortLabel" value="Course"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="10"/>
+        </property>
+    </bean>
+
+    <bean id="CluInformation.description" parent="CluInformation.description-parentBean"/>
+    <bean id="CluInformation.description-parentBean" abstract="true" parent="AttributeDefinition">
+        <property name="name" value="description"/>
+        <property name="dataType" value="STRING" />
+        <property name="label" value="Phrase in Description"/>
+        <property name="shortLabel" value="Description"/>
+        <property name="forceUppercase" value="false"/>
+        <property name="maxLength" value="10"/>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint"/>
+        </property>
+        <property name="controlField">
+            <bean parent="Uif-TextControl" p:size="30"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Course-LookupView" parent="KS-Uif-LookupView" p:breadcrumbs.render="false">
+
+        <property name="viewName" value="krmsCoursesOnlyLookup"/>
+        <property name="headerText" value="Advanced Search: Courses Only" />
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.lum.lu.ui.krms.service.impl.CourseInfoLookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code(Subject/Number)"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" p:label="Phrase in Description"/>
+
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Course Title"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="code" p:label="Course Code"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="state" p:label="State"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="description" p:label="Description"/>
+            </list>
+        </property>
+    </bean>
+
+</beans>

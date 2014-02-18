@@ -84,6 +84,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     }
 
     public void fromDTO(ResultValuesGroupInfo dto) {
+    	super.fromDTO(dto);
         this.setName(dto.getName());
         this.setState(dto.getStateKey());
         if (dto.getDescr() != null) {

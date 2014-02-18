@@ -138,7 +138,8 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
 		QueryPath path = QueryPath.concat(null, fieldKey);
 		Metadata meta = configurer.getModelDefinition().getMetadata(path);
 	        
-		searchWidget = new KSPicker(meta.getInitialLookup(), meta.getAdditionalLookups());
+        searchWidget = GWT.create(KSPicker.class);
+        ((KSPicker) searchWidget).init(meta.getInitialLookup(), meta.getAdditionalLookups());
 		SearchPanel panel = ((KSPicker) searchWidget).getSearchPanel();
         if (panel != null) {
             panel.setMutipleSelect(false);

@@ -19,6 +19,9 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
+import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -40,7 +43,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class CourseSetsLookupableImpl extends LookupableImpl {
+public class CourseSetsLookupableImpl extends KSLookupableImpl {
 
     private CluService cluService;
 

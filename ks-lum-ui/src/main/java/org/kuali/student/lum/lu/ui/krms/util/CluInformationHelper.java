@@ -18,17 +18,11 @@ package org.kuali.student.lum.lu.ui.krms.util;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
-import org.kuali.student.r2.common.dto.DtoConstants;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -111,14 +105,14 @@ public class CluInformationHelper {
                     //Handle predefined clusets.
                     CluSetInformation cluSetInformation = new CluSetInformation(subCluSet);
                     cluSetInformation.setClus(this.getCluInfos(subCluSet.getCluIds()));
-                    for(String subCluSetId : subCluSet.getCluSetIds()){
+                    for (String subCluSetId : subCluSet.getCluSetIds()) {
                         cluSetInformation.getCluSets().add(this.getCluSetInformation(subCluSetId));
                     }
                     unWrappedCluSets.add(cluSetInformation);
                 } else {
 
                     //Retrieve the information from the wrapped membership cluset.
-                    if(subCluSet.getMembershipQuery()!=null){
+                    if (subCluSet.getMembershipQuery() != null) {
                         this.createCluSetRange(result, subCluSet.getMembershipQuery());
                     } else {
 
@@ -190,7 +184,7 @@ public class CluInformationHelper {
         return result;
     }
 
-    private String getParentCluId(CluInfo cluInfo){
+    private String getParentCluId(CluInfo cluInfo) {
         //If the clu type is variation, get the parent clu id.
         if ("kuali.lu.type.Variation".equals(cluInfo.getTypeKey())) {
             int firstClu = 0;
@@ -292,7 +286,7 @@ public class CluInformationHelper {
 
                 try {
                     SearchResultInfo searchResult = this.getCluService().search(searchRequest, ContextUtils.getContextInfo());
-                    return resolveCluSearchResultSet(searchResult);
+                    return CluSearchUtil.resolveCluSearchResultSet(searchResult);
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -312,42 +306,35 @@ public class CluInformationHelper {
         return cluInfos;
     }
 
-    public static SearchParamInfo getApprovedStateSearchParam() {
-        SearchParamInfo searchParam = new SearchParamInfo();
-        searchParam.setKey("lu.queryParam.luOptionalState");
-        searchParam.getValues().add(DtoConstants.STATE_APPROVED);
-        searchParam.getValues().add(DtoConstants.STATE_ACTIVE);
-        searchParam.getValues().add(DtoConstants.STATE_RETIRED);
-        searchParam.getValues().add(DtoConstants.STATE_SUSPENDED);
-        return searchParam;
+    public CluInformation getCluInfoForCodeAndType(String code, List<String> types) {
+        try {
+
+            //Setup search criteria.
+            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+            qbcBuilder.setPredicates(PredicateFactory.equal("officialIdentifier.code", code),
+                    PredicateFactory.in("state", CluSearchUtil.getApprovedStatesForClus().toArray()),
+                    PredicateFactory.in("luType.id", types.toArray()));
+
+            //Perform the search for the clu.
+            List<CluInfo> cluInfos = this.getCluService().searchForClus(qbcBuilder.build(), ContextUtils.getContextInfo());
+            CluInfo cluInfo = KSCollectionUtils.getOptionalZeroElement(cluInfos);
+
+            if(cluInfo!=null){
+                return cluInformationFromCluInfo(cluInfo);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
-    public static List<CluInformation> resolveCluSearchResultSet(SearchResultInfo searchResult) {
-        List<CluInformation> clus = new ArrayList<CluInformation>();
-        List<SearchResultRowInfo> rows = searchResult.getRows();
-        for (SearchResultRowInfo row : rows) {
-            List<SearchResultCellInfo> cells = row.getCells();
-            CluInformation cluInformation = new CluInformation();
-            for (SearchResultCellInfo cell : cells) {
-                if (cell.getKey().equals("lu.resultColumn.cluId")) {
-                    cluInformation.setCluId(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.luOptionalCode")) {
-                    cluInformation.setCode(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.luOptionalLongName")) {
-                    cluInformation.setTitle(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.luOptionalDescr")) {
-                    cluInformation.setDescription(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.luOptionalState")) {
-                    cluInformation.setState(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.luOptionalVersionIndId")) {
-                    cluInformation.setVerIndependentId(cell.getValue());
-                } else if (cell.getKey().equals("lu.resultColumn.luOptionalShortName")) {
-                    cluInformation.setShortName(cell.getValue());
-                }
-            }
-            clus.add(cluInformation);
+    public CluSetInfo getCluSetForId(String id) {
+        try {
+            CluSetInfo cluSetInfo = this.getCluService().getCluSet(id, ContextUtils.getContextInfo());
+            return cluSetInfo;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return clus;
     }
 
     /**
@@ -359,7 +346,9 @@ public class CluInformationHelper {
     private static CluInformation cluInformationFromCluInfo(CluInfo cluInfo) {
         CluInformation cluInformation = new CluInformation(cluInfo.getOfficialIdentifier().getCode(), cluInfo.getOfficialIdentifier().getShortName(), "");
         cluInformation.setCluId(cluInfo.getId());
-        cluInformation.setDescription(cluInfo.getDescr().getPlain());
+        if(cluInfo.getDescr()!=null){
+            cluInformation.setDescription(cluInfo.getDescr().getPlain());
+        }
         cluInformation.setState(cluInfo.getStateKey());
         cluInformation.setTitle(cluInfo.getOfficialIdentifier().getLongName());
         cluInformation.setType(cluInfo.getTypeKey());

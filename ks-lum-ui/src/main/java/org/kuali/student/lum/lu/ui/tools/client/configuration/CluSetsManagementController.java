@@ -58,20 +58,20 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CluSetsManagementController extends BasicLayout implements RequiresAuthorization {  
 
-    private final DataModel cluSetModel = new DataModel();    
+    protected final DataModel cluSetModel = new DataModel();    
     private WorkQueue cluSetModelRequestQueue;
     
-    private ClusetView mainView;
+    protected ClusetView mainView;
     private ClusetView createClusetView;
-    private ClusetView editClusetView;
-    private ClusetView viewClusetView;
+    protected ClusetView editClusetView;
+    protected ClusetView viewClusetView;
 
-    private boolean initialized = false;
-    CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
+    private boolean initialized = false;          
+    protected CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync = GWT.create(CluSetManagementRpcService.class);
     public static final String CLUSET_MGT_MODEL = "cluSetManagementModel";
     
     private final BlockingTask initializingTask = new BlockingTask("Loading");
-    private final BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
+    protected final BlockingTask retrievingTask = new BlockingTask("Retrieving ...");
 	private final BlockingTask saving = new BlockingTask("Saving");    
 
     public CluSetsManagementController(){
@@ -141,7 +141,7 @@ public class CluSetsManagementController extends BasicLayout implements Requires
         }
     }
 
-    private void afterModelLoaded() {
+    protected void afterModelLoaded() {
       viewClusetView.afterModelIsLoaded(cluSetModel);
     }
 

@@ -1,4 +1,4 @@
-package org.kuali.student.lum.program.service.impl;
+package org.kuali.student.lum.program   .service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;

@@ -18,9 +18,8 @@ package org.kuali.student.lum.lu.ui.krms.util;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
-import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -50,6 +49,10 @@ public class CluSetRangeHelper implements Serializable {
     public static final String COURSE_RANGE_COURSE_NUMBER = "1";
     public static final String COURSE_RANGE_LEARNING_OBJECTIVES = "2";
     public static final String COURSE_RANGE_EFFECTIVE_DATE = "3";
+
+    public static final String COURSE_RANGE_COURSE_NUMBER_LBL = "Course Number Range";
+    public static final String COURSE_RANGE_LEARNING_OBJECTIVE_LBL = "Learning Objective";
+    public static final String COURSE_RANGE_EFFECTIVE_DATE_LBL = "Effective Date Range";
 
     public static final String CLU_SEARCH_MOSTCURRENT = "lu.search.mostCurrent.union";
     public static final String CLU_SEARCH_PARM_DIV = "lu.queryParam.luOptionalDivision";
@@ -196,7 +199,7 @@ public class CluSetRangeHelper implements Serializable {
         List<SearchParamInfo> queryParams = new ArrayList<SearchParamInfo>();
         queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_DIV, this.getSubjectCode()));
         queryParams.add(createSearchParam(CluSetRangeHelper.CLU_SEARCH_PARM_RANGE, this.getCourseNumberRange()));
-        queryParams.add(CluInformationHelper.getApprovedStateSearchParam());
+        queryParams.add(CluSearchUtil.getApprovedStateSearchParam());
         membershipQueryInfo.setQueryParamValues(queryParams);
     }
 
@@ -303,6 +306,28 @@ public class CluSetRangeHelper implements Serializable {
                 return false;
             }
             return true;
+        }
+        return true;
+    }
+
+    /**
+     * validate Courses in Range.
+     *
+     * @param propositionEditor
+     */
+    public boolean validateCoursesInRange(LUPropositionEditor propositionEditor, CluSetRangeInformation cluSetRange) {
+        if (cluSetRange.getClusInRange().isEmpty()) {
+            if (this.getSearchByCourseRange().equals(COURSE_RANGE_COURSE_NUMBER)) {
+                String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "cluSet.rangeHelper.courseNumberRange");
+                GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSESINRANGE_EMPTY, COURSE_RANGE_COURSE_NUMBER_LBL);
+            } else if (this.getSearchByCourseRange().equals(COURSE_RANGE_LEARNING_OBJECTIVES)) {
+                String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "cluSet.rangeHelper.learningObjective");
+                GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSESINRANGE_EMPTY, COURSE_RANGE_LEARNING_OBJECTIVE_LBL);
+            } else if (this.getSearchByCourseRange().equals(COURSE_RANGE_EFFECTIVE_DATE)) {
+                String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "cluSet.rangeHelper.effectiveTo");
+                GlobalVariables.getMessageMap().putError(propName, LUKRMSConstants.KSKRMS_MSG_ERROR_COURSESINRANGE_EMPTY, COURSE_RANGE_EFFECTIVE_DATE_LBL);
+            }
+            return false;
         }
         return true;
     }

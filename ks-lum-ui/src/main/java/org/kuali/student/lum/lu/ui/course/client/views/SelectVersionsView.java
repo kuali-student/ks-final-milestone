@@ -3,12 +3,7 @@ package org.kuali.student.lum.lu.ui.course.client.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r1.common.assembly.data.LookupMetadata;
-import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.assembly.data.QueryPath;
-import org.kuali.student.r2.core.search.dto.SearchParamInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SortDirection;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -22,8 +17,15 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonLayo
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.common.ui.client.widgets.search.SearchResultsTable;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r2.core.search.dto.SearchParamInfo;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SortDirection;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -83,7 +85,8 @@ public class SelectVersionsView extends ViewComposite{
 				}
 			}
 		}));
-		buttons.addButton(new KSButton("Return to Current Course", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+		buttons.addButton(new KSButton(Application.getApplicationContext().getUILabel(LUUIConstants.COURSE_GROUP_NAME,
+                LUUIConstants.VERSION_BACK_BUTTON_LABEL_KEY), ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {

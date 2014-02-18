@@ -99,23 +99,37 @@ public class TestCourseServiceImpl{
         assertNotNull(statementService);
     }
 
-    @Test
+    @Test(expected = MissingParameterException.class)
     public void testGetCoursesByIds() throws Exception{
 
         CourseDataGenerator generator = new CourseDataGenerator();
         CourseInfo cInfo = generator.getCourseTestData();
+        CourseInfo cInfo1 = generator.getCourseTestData();
+
         assertNotNull(cInfo);
         CourseInfo createdCourse = courseService.createCourse(cInfo, contextInfo);
+        CourseInfo createdCourse1 = courseService.createCourse(cInfo1, contextInfo);
+
         assertNotNull(createdCourse);
+
         List<String> courseIds = new ArrayList<String>();
         courseIds.add(createdCourse.getId());
+        // will throw MissingParameterException
+        List<CourseInfo> emptyCourseInfos= courseService.getCoursesByIds(new ArrayList<String>(),contextInfo);
+
         List<CourseInfo> courseInfos = courseService.getCoursesByIds(courseIds,contextInfo);
         assertTrue(courseInfos.size() ==1);
-        for(CourseInfo courseInfo : courseInfos){
+        for (CourseInfo courseInfo : courseInfos){
             System.out.println(courseInfo);
-            assertTrue(courseInfo.getCourseTitle().equals(createdCourse.getCourseTitle()));
-            assertTrue(courseInfo.getCode().equals(createdCourse.getCode()));
+            assertEquals(courseInfo.getCourseTitle(),createdCourse.getCourseTitle());
+            assertEquals(courseInfo.getCode(),createdCourse.getCode());
+            assertEquals(courseInfo.getLevel(),createdCourse.getLevel());
+            assertEquals(courseInfo.getCampusLocations(),createdCourse.getCampusLocations());
         }
+
+        courseIds.add(createdCourse1.getId());
+        courseInfos = courseService.getCoursesByIds(courseIds,contextInfo);
+        assertEquals(courseInfos.size(),2);
     }
 
     @Test
@@ -131,6 +145,8 @@ public class TestCourseServiceImpl{
             assertEquals("kuali.lu.type.CreditCourse", createdCourse.getTypeKey());
             assertEquals(cInfo.getStartTerm(), createdCourse.getStartTerm());
             assertEquals(cInfo.getEndTerm(), createdCourse.getEndTerm());
+            assertEquals(cInfo.getCreditOptions().get(0).getName(), createdCourse.getCreditOptions().get(0).getName());
+            assertEquals(cInfo.getCreditOptions().get(0).getDescr().getPlain(), createdCourse.getCreditOptions().get(0).getDescr().getPlain());
         } catch (DataValidationErrorException e) {
             dumpValidationErrors(cInfo);
             fail("DataValidationError: " + e.getMessage());
@@ -490,6 +506,9 @@ public class TestCourseServiceImpl{
         }            
 
         assertEquals(2, updatedCourse.getCreditOptions().size());
+        assertEquals("plain-20", updatedCourse.getCreditOptions().get(0).getDescr().getPlain());
+        assertEquals("name-23", updatedCourse.getCreditOptions().get(0).getName());
+
         // assertTrue(updatedCourse.getCreditOptions().contains("creditOptions-18"));
         // assertTrue(updatedCourse.getCreditOptions().contains("NewCreditOption"));
 
@@ -648,13 +667,26 @@ public class TestCourseServiceImpl{
             rv.add("1.5");
             rv.add("2.0");
             rc3.setResultValueKeys(rv);
-            
+
+            // Check to see if fixed w/ description & name is accepted
+            ResultValuesGroupInfo rc4 = new ResultValuesGroupInfo();
+            rc4.setTypeKey(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED);
+            ResultValueRangeInfo rv4 = new ResultValueRangeInfo();
+            rc4.setName( "rvg-name" );
+            rv4.setMinValue("1.0");
+            rv4.setMaxValue("1.0");
+            rc4.setResultValueRange(rv4);
+            RichTextInfo descr = new RichTextInfo();
+            descr.setPlain("plain-descr");
+            descr.setFormatted("formatted-descr");
+            rc4.setDescr(descr);
 
             List<ResultValuesGroupInfo> creditOptions = new ArrayList<ResultValuesGroupInfo>();
             creditOptions.add(rc1);
             creditOptions.add(rc2);
             creditOptions.add(rc3);
-                        
+            creditOptions.add(rc4);
+
             cInfo.setCreditOptions(creditOptions);
                         
             try {
@@ -671,7 +703,7 @@ public class TestCourseServiceImpl{
             
             List<ResultValuesGroupInfo> co = rcInfo.getCreditOptions(); 
             
-            assertEquals(3, co.size());
+            assertEquals(creditOptions.size(), co.size());
 
             // Check to see if multiple was set properly
             for(ResultValuesGroupInfo rc : co) { 
@@ -690,7 +722,13 @@ public class TestCourseServiceImpl{
                         assertEquals(3, rc.getResultValueKeys().size());
                         assertTrue(rc.getResultValueKeys().contains("5.5"));
                     }
-                }                
+                }
+                if(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED.equals(rc.getTypeKey())){
+                    assertEquals( "rvg-name", rc.getName());
+                    assertEquals("1.0", rc.getResultValueRange().getMaxValue());
+                    assertEquals("plain-descr",  rc.getDescr().getPlain());
+                    assertEquals("formatted-descr",  rc.getDescr().getFormatted());
+                }
             }
                         
             
@@ -1175,7 +1213,7 @@ public class TestCourseServiceImpl{
      */
     @Test
     public void testExpectedUnsupported() throws Exception {
-        String[] unsupportedOperations = {"getCourseActivities", "getCourseFormats", "getCourseLos"};
+        String[] unsupportedOperations = {"getCourseFormats", "getCourseLos"};
         
         Collection<ServiceMethodInvocationData> methods = new ArrayList<ServiceMethodInvocationData>(unsupportedOperations.length);
         for(String s : unsupportedOperations) {

@@ -7,19 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -28,11 +21,12 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
@@ -40,8 +34,15 @@ import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.lu.ui.course.client.configuration.AbstractCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.FontWeight;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -255,7 +256,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         layout.add(title);
 
         LabelPanel labelExamples = new LabelPanel(stmtTypeInfo.getDescr());
-        labelExamples.getElement().setAttribute("style", "font-weight: normal; width: 80%;");
+        labelExamples.getElement().getStyle().setFontWeight(FontWeight.NORMAL);
+        labelExamples.getElement().getStyle().setWidth(80, Unit.PCT);
         
         String examplesHtml = Application.getApplicationContext().getMessage(stmtTypeInfo.getId());
         
@@ -443,7 +445,11 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                 String courseId = model.getRoot().get("id");
                 String courseState = model.getRoot().get("stateKey");
                 if (courseId == null) {
-                    final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
+                            final ConfirmationDialog dialog = new ConfirmationDialog(Application
+                                    .getApplicationContext().getUILabel(LUUIConstants.COURSE_GROUP_NAME,
+                                            "submitCourseRequisitesDialogTitle"),
+                                    Application.getApplicationContext().getUILabel(LUUIConstants.COURSE_GROUP_NAME,
+                                            "submitCourseRequisitesDialogMsg"));
                     dialog.getConfirmButton().addClickHandler(new ClickHandler(){
                         @Override
                         public void onClick(ClickEvent event) {

@@ -123,7 +123,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	protected CourseRpcServiceAsync courseServiceAsync = GWT.create(CourseRpcService.class);
 	//Models
 	protected final DataModel cluProposalModel = new DataModel("Proposal");
-	protected final DataModel comparisonModel = new DataModel("Original Course");
+    protected final DataModel comparisonModel = new DataModel(Application.getApplicationContext().getMessage("course",
+            "proposalDataModuleTitle"));
 
 	protected CourseProposalConfigurer cfg;
 	
@@ -159,8 +160,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
     protected void initializeController() {
     	cfg = GWT.create(CourseProposalConfigurer.class);
    		proposalPath = cfg.getProposalPath();
-   		workflowUtil = new WorkflowUtilities(CourseProposalController.this, proposalPath, "Proposal Actions",
-   				CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG,"", cfg.getModelId());//TODO make msg
+        workflowUtil = GWT.create(WorkflowUtilities.class);
+        workflowUtil.init(CourseProposalController.this, proposalPath, "Proposal Actions",
+                CourseProposalConfigurer.CourseSections.WF_APPROVE_DIALOG, "", cfg.getModelId());
    		cfg.setState(DtoConstants.STATE_DRAFT);
    		
    		//Add an extra menu item to copy the proposal to a new proposal.

@@ -49,6 +49,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
+
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -3317,8 +3318,22 @@ public class CluServiceImpl implements CluService {
                 }
             }
 
-            //Find the clu
-            Clu clu = luDao.fetch(Clu.class, refObjId);
+			// Find the clu
+			Clu clu = new Clu();
+			try {
+				clu = luDao.fetch(Clu.class, refObjId);
+			} catch (DoesNotExistException e) {
+
+				logger.warn(
+						"Does Not Exist Exception occured, Dependency Analysis Tried to load a dependency from a clu with clu Id: "
+								+ refObjId
+								+ " which does not exist.  Removing dependency from results. Does not exist Exception follows: ",
+						e);
+
+				// skipping loop
+				continue;
+
+			}
 
             //Program statements are attached to dummy clus, so look up the parent program
             if ("kuali.lu.type.Requirement".equals(clu.getLuType().getId())) {
@@ -3996,7 +4011,6 @@ public class CluServiceImpl implements CluService {
              ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("not implemented");
     }
 
@@ -4009,9 +4023,44 @@ public class CluServiceImpl implements CluService {
              ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("not implemented");
     }
+
+	@Override
+	public List<CluCluRelationInfo> getCluCluRelationsByIds(
+			List<String> cluCluRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluPublicationInfo> getCluPublicationsByIds(
+			List<String> cluPublicationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluResultInfo> getCluResultsByIds(List<String> cluResultIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<CluLoRelationInfo> getCluLoRelationsByIds(
+			List<String> cluLoRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
     
     
 }

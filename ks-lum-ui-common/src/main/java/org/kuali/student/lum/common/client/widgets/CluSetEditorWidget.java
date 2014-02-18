@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -30,12 +31,12 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.DataValue;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.QueryPath;
-import org.kuali.student.r1.common.assembly.data.Data.DataValue;
-import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
@@ -292,14 +293,16 @@ public class CluSetEditorWidget extends VerticalSectionView {
         final VerticalSection choosingSection = new VerticalSection();
         HTML prompt;
         if(cluSetType.equals("kuali.cluSet.type.Program")){
-            choosingSection.addWidget(new HTML("<b>Add a program or program set</b>"));
-            prompt = new HTML("Add program or program sets. You may  <br/>"
-                    + "add any combination of programs or program sets.");
+            choosingSection.addWidget(new HTML(Application
+                    .getApplicationContext().getMessage(CommonWidgetConstants.CLU_SET_ADD_PROGRAM_LABEL)));
+            prompt = new HTML(Application
+                    .getApplicationContext().getMessage(CommonWidgetConstants.CLU_SET_MANAGEMENT_PROGRAM_INSTRUCTIONS));
         }
         else{
-            choosingSection.addWidget(new HTML("<b>Add a course, course set, or course range</b>"));
-            prompt = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
-                "add any combination of courses, dynamic course ranges, or Course sets.");
+            choosingSection.addWidget(new HTML(Application
+                    .getApplicationContext().getMessage(CommonWidgetConstants.CLU_SET_ADD_COURSE_LABEL)));
+            prompt = new HTML(Application
+                    .getApplicationContext().getMessage(CommonWidgetConstants.CLU_SET_MANAGEMENT_COURSE_INSTRUCTIONS));
         }
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
@@ -553,8 +556,12 @@ public class CluSetEditorWidget extends VerticalSectionView {
                     editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "Program Sets");
                 }
             } else {
-                editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS, "Approved Courses");
-                editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_PROPOSED_CLUS, "Proposed Courses");
+                editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS, Application
+                        .getApplicationContext().getMessage("clusetmanagement",
+                                CommonWidgetConstants.CLU_SET_APPROVED_COURSE));
+                editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_PROPOSED_CLUS, Application
+                        .getApplicationContext().getMessage("clusetmanagement",
+                                CommonWidgetConstants.CLU_SET_PROPOSED_COURSE));
                 if (!singularCluOnly) {
                     editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "Course Sets");
                     editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SET_RANGE, "Course Ranges (Course numbers, common learning objectives, etc)");
@@ -613,7 +620,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
         private List<LookupMetadata> additionalLookupMetadata;
 
         public Picker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
-            super(inLookupMetadata, additionalLookupMetadata);
+            super.init(inLookupMetadata, additionalLookupMetadata);
             this.initLookupMetadata = inLookupMetadata;
             this.additionalLookupMetadata = additionalLookupMetadata;
         }

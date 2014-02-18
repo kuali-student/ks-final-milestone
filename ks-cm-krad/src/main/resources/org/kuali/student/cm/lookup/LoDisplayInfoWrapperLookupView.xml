@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+  Copyright 2005-2013 The Kuali Foundation
+ 
+  Licensed under the Educational Community License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+ 
+  http://www.opensource.org/licenses/ecl2.php
+ 
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+                           
+    <bean id="KS-LoDisplayInfoWrapper-DataObjectEntry" parent="DataObjectEntry">
+        <property name="objectLabel" value="Learning Objective Display Information Wrapper" />
+        <property name="dataObjectClass"
+            value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" />
+    </bean>
+    
+    <bean id="KS-LoDisplayInfoWrapper-LookupView" parent="KS-Uif-LookupView">
+        <property name="id" value="LoDisplayInfoWrapperLookupView" />
+        <property name="headerText" value="Learning Objective" />
+        <property name="dataObjectClassName"
+            value="org.kuali.student.cm.course.form.LoDisplayInfoWrapper" />
+        <property name="viewHelperServiceClass"
+            value="org.kuali.student.cm.course.service.impl.LoDisplayInfoLookupableImpl" />
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="searchBy" p:label="Search By">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.LoSearchByValuesFinder" p:addBlankOption="false"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr.plain" p:label="Keyword in Learning Objective"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" p:label="Learning Objective Category">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest">
+                            <property name="valuePropertyName" value="name" />
+                            <property name="templateOptions" value="minLength:1,delay:0" />
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="searchForLoCategories" />
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code (Subject Code/Number)" p:progressiveRender="@{lookupCriteria['searchBy'] eq 'COURSE_ONLY'}">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" />
+                    </property>
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true">
+                            <property name="valuePropertyName" value="courseCode"/>
+                            <property name="templateOptions" value="minLength:1,delay:0" />
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig"
+                                        p:queryMethodToCall="searchForCourseCodes" />
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title" p:progressiveRender="@{lookupCriteria['searchBy'] eq 'COURSE_ONLY'}" />
+                
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Program Code" p:progressiveRender="@{lookupCriteria['searchBy'] eq 'PROGRAM_ONLY'}" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Program Title" p:progressiveRender="@{lookupCriteria['searchBy'] eq 'PROGRAM_ONLY'}"/>
+                
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="orgName" p:label="Organization Name">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="50" />
+                    </property>
+                    <property name="suggest">
+                        <bean parent="Uif-Suggest" p:render="true">
+                            <property name="valuePropertyName" value="organizationName" />
+                            <property name="templateOptions" value="minLength:1,delay:0" />
+                            <property name="suggestQuery">
+                                <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="searchForOrganizations" />
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="orgType" p:label="Organization Type"  p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.OrganizationTypeValuesFinder">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" />
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="Uif-DataField" p:propertyName="code" p:label="Code" />
+                <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type" p:hidden="@{(lookupCriteria['searchBy'] eq 'COURSE_ONLY') or (lookupCriteria['searchBy'] eq 'PROGRAM_ONLY')}" />
+                <bean parent="Uif-DataField" p:propertyName="name" p:label="Lo Category" />
+                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Lo Description" />
+           </list>
+        </property>
+    </bean>
+    
+</beans>                        

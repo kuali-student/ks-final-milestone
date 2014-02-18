@@ -51,43 +51,25 @@ limitations under the License.
 
     <bean id="KRMS-CreditHours-ConstantValue" parent="KRMS-Integer-ConstantValue-Parent" p:label="Credit Hours"/>
 
-    <!--bean id="KRMS-Course-SuggestControl" parent="Uif-Suggest">
-        <property name="render" value="true"/>
-        <property name="valuePropertyName" value="displayName"/>
-        <property name="templateOptions" value="minLength:1,delay:0"/>
-        <property name="suggestQuery">
-            <bean parent="Uif-AttributeQueryConfig">
-                <property name="queryMethodToCall" value="getCourseNamesForSuggest"/>
-            </bean>
-        </property>
-    </bean-->
-
-    <bean id="KRMS-SingleCourse-SuggestField-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-SingleCourse-InputField-Parent" parent="Uif-InputField-LabelTop"
           p:propertyName="proposition.courseInfo.code" p:label="Course" p:required="true">
-        <!--property name="suggest">
-            <bean parent="KRMS-Course-SuggestControl"/>
-        </property-->
-        <property name="control">
-            <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
-                  p:readOnly="true"/>
-        </property>
         <property name="quickfinder">
             <bean parent="KRMS-Course-QuickFinder"/>
         </property>
     </bean>
-    <bean id="KRMS-SingleCourse-SuggestField" parent="KRMS-SingleCourse-SuggestField-Parent"/>
+    <bean id="KRMS-SingleCourse-InputField" parent="KRMS-SingleCourse-InputField-Parent"/>
 
     <bean id="KRMS-MultiCourse-Section-Parent" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-HeaderThree" p:headerText="Courses">
-                    <property name="headerTagStyle" value="font-size:13px;"/>
+                    <property name="headerTagStyle" value="font-size:13px; font-weight: bold;"/>
                 </bean>
                 <bean parent="Uif-MessageField" p:messageText="You may add any combination of courses, dynamic course ranges, or Course sets."/>
                 <ref bean="KRMS-MultiCourse-Type-Field"/>
                 <ref bean="KRMS-ApprovedCourseStackedCollectionGroup"/>
                 <ref bean="KRMS-CourseSetStackedCollectionGroup"/>
-                <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-multiCourseItem">
+                <bean parent="Uif-VerticalBoxGroup" p:additionalCssClasses="ks-multiSelectItem">
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="header">
                         <bean parent="Uif-HeaderSix" p:headerText="Course Range" p:progressiveRender="#np.proposition.cluSet.cluRangeListSize gt 0"/>
@@ -108,7 +90,12 @@ limitations under the License.
           p:propertyName="proposition.multipleCourseType">
         <property name="control">
             <bean parent="Uif-DropdownControl">
-                <!--property name="onChangeScript" value="disableAll('.disableme');"/-->
+                <!--TODO KSENROLL-10558: remove this once krad jira is fixed.-->
+                <property name="onChangeScript">
+                    <value>
+                        jQuery("input[id='cluSetId_add_control']").removeAttr("disabled");
+                    </value>
+                </property>
             </bean>
         </property>
         <property name="optionsFinder">
@@ -118,53 +105,55 @@ limitations under the License.
     <bean id="KRMS-MultiCourse-Type-Field" parent="KRMS-MultiCourse-Type-Field-Parent"/>
 
     <bean id="KRMS-Course-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="id" value="CourseLookupView"/>
         <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
         <property name="fieldConversions">
             <map>
                 <entry key="code" value="proposition.courseInfo.code"/>
-                <entry key="cluId" value="proposition.courseInfo.id"/>
-                <entry key="verIndependentId" value="proposition.courseInfo.version.versionIndId"/>
             </map>
         </property>
     </bean>
 
     <bean id="KRMS-ApprovedCourses-QuickFinder" parent="KRMS-QuickFinder">
-        <property name="id" value="CourseLookupView"/>
         <property name="viewName" value="krmsCoursesOnlyLookup"/>
         <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation"/>
         <property name="fieldConversions">
             <map>
                 <entry key="code" value="code"/>
-                <entry key="cluId" value="cluId"/>
-                <entry key="verIndependentId" value="verIndependentId"/>
-                <entry key="shortName" value="shortName"/>
             </map>
         </property>
     </bean>
 
     <bean id="KRMS-CourseSet-QuickFinder" parent="KRMS-QuickFinder">
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo"/>
-        <!--<property name="viewName" value="krmsCourseSetsInfoView"/>-->
+        <property name="viewName" value="krmsCourseSetsInfoView"/>
         <property name="fieldConversions">
             <map>
                 <entry key="name" value="cluSetInfo.name"/>
                 <entry key="id" value="cluSetInfo.id"/>
-                <entry key="cluIds" value="cluSetInfo.cluIds"/>
             </map>
         </property>
     </bean>
 
-    <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets" p:additionalCssClasses="ks-multiCourseItem">
+    <bean id="KRMS-CourseSetStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:headerText="Course Sets" p:additionalCssClasses="ks-multiSelectItem">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
-                <property name="summaryFields" value="name"/>
+                <property name="summaryFields" value="cluSetInfo.name"/>
                 <property name="addLineGroup">
                     <bean parent="KRMS-CollectionGridItem"
                           p:progressiveRender="#np.proposition.multipleCourseType eq '2'"/>
                 </property>
             </bean>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="KS-Uif-AddLineAction"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-DeleteLineAction"/>
+            </list>
         </property>
         <property name="propertyName" value="proposition.cluSet.cluSets"/>
         <property name="collectionObjectClass"
@@ -178,16 +167,25 @@ limitations under the License.
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#line.name}" p:style="width: 500px; margin: 0px;"/>
+                <bean parent="Uif-MessageField" p:messageText="@{#line.cluSetInfo.name}" p:style="width: 500px; margin: 0px;"/>
             </list>
         </property>
         <property name="addLineItems">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:style="width: 500px;">
-                    <property name="propertyName" value="name"/>
+                <bean id="cluSetId" parent="Uif-InputField" p:showLabel="false">
+                    <property name="propertyName" value="cluSetInfo.id"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl"
-                              p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;" p:disabled="true">
+                        <bean parent="Uif-HiddenControl"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
+                    </property>
+                </bean>
+                <bean id="cluSetName" parent="Uif-InputField-LabelTop" p:style="width: 500px;">
+                    <property name="propertyName" value="cluSetInfo.name"/>
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:disabled="true"
+                              p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;">
                         </bean>
                     </property>
                     <property name="label" value="Course Set Name"/>
@@ -207,15 +205,18 @@ limitations under the License.
                     <bean parent="Uif-ActionLink" p:progressiveRender="#np.proposition.multipleCourseType eq '2'">
                         <property name="methodToCall" value="performLookup"/>
                         <property name="actionLabel" value="Search for Course Sets"/>
-                        <property name="style" value="display:block;color: #3F7826;"/>
+                        <property name="style" value="display:block"/>
                     </bean>
+                </property>
+                <property name="lightBoxLookup">
+                    <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
                 </property>
             </bean>
         </property-->
     </bean>
 
     <bean id="KRMS-ApprovedCourseStackedCollectionGroup" parent="KRMS-StackedCollectionGroup"
-          p:headerText="Approved Courses" p:additionalCssClasses="ks-multiCourseItem">
+          p:headerText="Approved Courses" p:additionalCssClasses="ks-multiSelectItem">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="code"/>
@@ -224,6 +225,17 @@ limitations under the License.
                           p:progressiveRender="#np.proposition.multipleCourseType eq '1'"/>
                 </property>
             </bean>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="KS-Uif-AddLineAction"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-DeleteLineAction">
+                </bean>
+            </list>
         </property>
         <property name="propertyName" value="proposition.cluSet.clus"/>
         <property name="collectionObjectClass"
@@ -244,16 +256,10 @@ limitations under the License.
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;"
-                              p:disabled="true">
-                        </bean>
-                    </property>
                     <property name="label" value="Course Code"/>
                     <property name="quickfinder">
                         <bean parent="KRMS-ApprovedCourses-QuickFinder"/>
                     </property>
-
                 </bean>
             </list>
         </property>
@@ -274,7 +280,7 @@ limitations under the License.
         </property-->
     </bean>
 
-    <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection"
+    <bean id="KS-CourseRange-BoxSection-parent" parent="Uif-VerticalBoxSection" p:style="background-color: transparent"
           p:progressiveRender="#np.proposition.multipleCourseType eq '3'">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
@@ -307,7 +313,7 @@ limitations under the License.
     </bean>
     <bean id="KS-CourseRange-TypeField" parent="KS-CourseRange-TypeField-parent"/>
 
-    <bean id="KS-CourseNumber-RangeSection" parent="Uif-HorizontalBoxSection"
+    <bean id="KS-CourseNumber-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '1'">
         <property name="items">
             <list>
@@ -328,7 +334,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-LearningObjective-RangeSection" parent="Uif-HorizontalBoxSection"
+    <bean id="KS-LearningObjective-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '2'">
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
@@ -340,24 +346,24 @@ limitations under the License.
                     <property name="instructionalText" value="Enter text from valid Learning Objective"/>
                 </bean>
 
-                <bean parent="KS-CourseRange-AddButton"  p:style="margin-top: 50px;"/>
+                <bean parent="KS-CourseRange-AddButton"  p:style="margin-top:40px;"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-EffectiveDate-RangeSection" parent="Uif-HorizontalBoxSection"
+    <bean id="KS-EffectiveDate-RangeSection" parent="Uif-HorizontalBoxSection" p:style="background-color: transparent"
           p:progressiveRender="#np.proposition.cluSet.rangeHelper.searchByCourseRange eq '3'">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveFrom" p:label="Effective From">
                     <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl" />
+                        <bean parent="KS-Uif-Default-DateControl" />
                     </property>
                 </bean>
 
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="proposition.cluSet.rangeHelper.effectiveTo" p:label="Effective To">
                     <property name="control">
-                        <bean parent="Uif-KS-Default-DateControl" />
+                        <bean parent="KS-Uif-Default-DateControl" />
                     </property>
                 </bean>
 
@@ -366,11 +372,11 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KS-CourseRange-AddButton" parent="Uif-PrimaryActionButton-Small" p:actionLabel="add"
-            p:style="margin-top: 25px;" p:methodToCall="addRange">
+    <bean id="KS-CourseRange-AddButton" parent="Uif-SecondaryActionButton" p:actionLabel="Add"
+            p:style="margin-top: 22.5px;" p:methodToCall="addRange">
     </bean>
 
-    <bean id="KS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:render="@{#np.proposition.cluSet.cluRangeListSize gt 0}" p:additionalCssClasses="ks-multiCourseItem">
+    <bean id="KS-CourseRangeStackedCollectionGroup" parent="KRMS-StackedCollectionGroup" p:render="@{#np.proposition.cluSet.cluRangeListSize gt 0}" p:additionalCssClasses="ks-multiSelectItem">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="cluSetRangeLabel"/>
@@ -398,8 +404,7 @@ limitations under the License.
             <list>
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="View" p:methodToCall="viewCourseRange"
                       p:style="margin-right: 15px;" p:actionParameters="selectedIndex:@{#index}"/>
-                <bean parent="Uif-DeleteLineAction" p:additionalCssClasses="krms-stackedActionItem">
-                </bean>
+                <bean parent="KS-Uif-DeleteLineAction" p:additionalCssClasses="krms-stackedActionItem"/>
             </list>
         </property>
     </bean>
@@ -565,14 +570,6 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Population-Group" parent="KRMS-CustomComponent-BoxGroup">
-        <property name="items">
-            <list>
-                <ref bean="KRMS-Population-Field"/>
-            </list>
-        </property>
-    </bean>
-
     <bean id="KRMS-AOStateAndSate-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
@@ -582,9 +579,9 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-Program-SuggestField-Parent" parent="Uif-InputField-LabelTop"
+    <bean id="KRMS-Program-InputField-Parent" parent="Uif-InputField-LabelTop"
           p:propertyName="proposition.termParameter" p:label="Program" p:required="true"/>
-    <bean id="KRMS-Program-SuggestField" parent="KRMS-Program-SuggestField-Parent"/>
+    <bean id="KRMS-Program-InputField" parent="KRMS-Program-InputField-Parent"/>
 
     <bean id="KRMS-ProgramWithNofAndOrg-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
@@ -592,6 +589,7 @@ limitations under the License.
                 <ref bean="KRMS-Program-Section"/>
                 <ref bean="KRMS-NumberOfCourses-ConstantValue"/>
                 <ref bean="KRMS-Department-Field"/>
+                <ref bean="KRMS-OrgId-HiddenField"/>
                 <ref bean="KRMS-Duration-section"/>
             </list>
         </property>
@@ -693,7 +691,7 @@ limitations under the License.
     <bean id="KRMS-CourseAndTerm-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-SingleCourse-SuggestField"/>
+                <ref bean="KRMS-SingleCourse-InputField"/>
                 <ref bean="KRMS-Term-Field"/>
             </list>
         </property>
@@ -703,7 +701,7 @@ limitations under the License.
         <property name="items">
             <list>
                 <ref bean="KRMS-Credits-ConstantValue"/>
-                <ref bean="KRMS-SingleCourse-SuggestField"/>
+                <ref bean="KRMS-SingleCourse-InputField"/>
             </list>
         </property>
     </bean>
@@ -711,7 +709,7 @@ limitations under the License.
     <bean id="KRMS-CourseAndRepeat-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-SingleCourse-SuggestField"/>
+                <ref bean="KRMS-SingleCourse-InputField"/>
                 <ref bean="KRMS-RepeatCourseNum-ConstantValue"/>
             </list>
         </property>
@@ -747,13 +745,13 @@ limitations under the License.
     </bean>
     <bean id="KRMS-DurationType-Field" parent="KRMS-DurationType-Field-Parent"/>
 
-    <bean id="KRMS-Program-Section-Parent" parent="Uif-VerticalBoxSection" p:headerText="Program(s)">
-        <property name="header.headerTagStyle" value="font-size:13px;"/>
-        <property name="validationMessages.displayMessages" value="false"/>
-        <property name="instructionalText"
-                  value="Add program or program sets. You may add any combination of programs or program sets."/>
+    <bean id="KRMS-Program-Section-Parent" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
+                <bean parent="Uif-HeaderThree" p:headerText="Program(s)">
+                    <property name="headerTagStyle" value="font-size:13px; font-weight: bold;"/>
+                </bean>
+                <bean parent="Uif-MessageField" p:messageText="You may add any combination of programs."/>
                 <ref bean="KRMS-Program-Type-Field"/>
                 <ref bean="KRMS-ApprovedProgramsStackedCollectionGroup"/>
             </list>
@@ -762,7 +760,6 @@ limitations under the License.
     <bean id="KRMS-Program-Section" parent="KRMS-Program-Section-Parent"/>
 
     <bean id="KRMS-Program-Type-Field-Parent" parent="Uif-InputField-LabelTop" p:propertyName="proposition.programType">
-        <property name="instructionalText" value="Add a program or program set"/>
         <property name="control">
             <bean parent="Uif-DropdownControl"/>
         </property>
@@ -773,7 +770,7 @@ limitations under the License.
     <bean id="KRMS-Program-Type-Field" parent="KRMS-Program-Type-Field-Parent"/>
 
     <bean id="KRMS-ApprovedProgramsStackedCollectionGroup" parent="KRMS-StackedCollectionGroup"
-          p:headerText="Approved Programs">
+          p:headerText="Program Code" p:additionalCssClasses="ks-multiSelectItem">
         <property name="layoutManager">
             <bean parent="KRMS-StackedCollectionLayout-WithBoxItems">
                 <property name="summaryFields" value="code"/>
@@ -781,6 +778,16 @@ limitations under the License.
                     <bean parent="KRMS-CollectionGridItem" p:progressiveRender="#np.proposition.programType eq '1'"/>
                 </property>
             </bean>
+        </property>
+        <property name="addLineActions">
+            <list>
+                <bean parent="KS-Uif-AddLineAction"/>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="KS-Uif-DeleteLineAction"/>
+            </list>
         </property>
         <property name="propertyName" value="proposition.progCluSet.clus" />
         <property name="collectionObjectClass"
@@ -801,12 +808,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:style="width: 280px;">
                     <property name="propertyName" value="code"/>
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:style="background-color: #DDDDDD;margin-top:null 2px;"
-                              p:readOnly="true">
-                        </bean>
-                    </property>
-                    <property name="label" value="Approved Programs"/>
+                    <property name="label" value="Program Code"/>
                     <property name="quickfinder">
                         <bean parent="KRMS-Programs-QuickFinder"/>
                     </property>
@@ -848,6 +850,7 @@ limitations under the License.
             <list>
                 <ref bean="KRMS-Credits-ConstantValue"/>
                 <ref bean="KRMS-Department-Field"/>
+                <ref bean="KRMS-OrgId-HiddenField"/>
             </list>
         </property>
     </bean>
@@ -855,7 +858,7 @@ limitations under the License.
     <bean id="KRMS-CourseAndTerms-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
-                <ref bean="KRMS-SingleCourse-SuggestField"/>
+                <ref bean="KRMS-SingleCourse-InputField"/>
                 <ref bean="KRMS-Term-Field"/>
                 <bean id="KRMS-Term2-Field" parent="KRMS-Term-Field" p:propertyName="proposition.termCode2" />
             </list>

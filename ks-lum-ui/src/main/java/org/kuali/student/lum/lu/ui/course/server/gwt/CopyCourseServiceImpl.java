@@ -7,7 +7,6 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
@@ -15,6 +14,7 @@ import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -115,7 +115,7 @@ public class CopyCourseServiceImpl {
         }
     }
 
-    private void resetIds(CourseInfo course) {
+    protected void resetIds(CourseInfo course) {
         //Clear/Reset Joint info ids
         for (CourseJointInfo joint : course.getJoints()) {
             joint.setRelationId(null);
@@ -144,9 +144,6 @@ public class CopyCourseServiceImpl {
         //Clear Fees
         for (CourseFeeInfo fee : course.getFees()) {
             fee.setId(null);
-            for (CurrencyAmountInfo feeAmount : fee.getFeeAmounts()) {
-                feeAmount.setId(null);
-            }
         }
         //Clear revenue
         for (CourseRevenueInfo revenue : course.getRevenues()) {
@@ -223,7 +220,7 @@ public class CopyCourseServiceImpl {
         }
     }
 
-    private void copyStatements(String originalCluId, String newCluId, String newState,
+    protected void copyStatements(String originalCluId, String newCluId, String newState,
             StatementService statementService, CluService cluService, CourseService courseService,
             ContextInfo contextInfo) throws OperationFailedException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, PermissionDeniedException, DataValidationErrorException {
@@ -241,7 +238,7 @@ public class CopyCourseServiceImpl {
         }
     }
 
-    private CourseInfo copyCourse(String originalCluId, String newCluId, String newState,
+    protected CourseInfo copyCourse(String originalCluId, String newCluId, String newState,
             List<String> ignoreProperties, StatementService statementService, CluService cluService,
             CourseService courseService, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
@@ -266,7 +263,7 @@ public class CopyCourseServiceImpl {
                 try {
                     PropertyUtils.setProperty(originalCourse, property, null);
                 } catch (Exception e) {
-                    throw new InvalidParameterException("Ignore property is invalid and is causing an exception.");
+                    throw new InvalidParameterException("Ignore property is invalid and is causing an exception.",e);
                 }
             }
         }

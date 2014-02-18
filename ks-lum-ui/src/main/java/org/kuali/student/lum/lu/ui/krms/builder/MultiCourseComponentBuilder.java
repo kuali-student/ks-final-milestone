@@ -15,33 +15,27 @@
  */
 package org.kuali.student.lum.lu.ui.krms.builder;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.builder.ComponentBuilderUtils;
 import org.kuali.rice.krms.dto.TermParameterEditor;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetRangeInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
 import org.kuali.student.lum.lu.ui.krms.util.CluSetRangeHelper;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -99,13 +93,21 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
             CluSetInfo cluSetInfo = propositionEditor.getCluSet().getCluSetInfo();
             if (cluSetInfo.getId() == null) {
                 cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
+
                 ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, cluSetInfo.getId());
+                TermDefinition.Builder termBuilder = TermDefinition.Builder.create(propositionEditor.getTerm());
+                PropositionTreeUtil.getTermParameter(propositionEditor.getParameters()).setTermValue(termBuilder.build());
 
             } else {
                 this.getCluService().updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
             }
         } catch (Exception ex) {
-            throw new IllegalArgumentException(ex);
+            if(ex instanceof VersionMismatchException){
+                throw new KRMSOptimisticLockingException();
+            }else{
+                throw new IllegalArgumentException(ex);
+            }
+
         }
     }
 

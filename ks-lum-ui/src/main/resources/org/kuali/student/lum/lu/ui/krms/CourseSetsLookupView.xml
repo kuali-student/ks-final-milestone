@@ -30,8 +30,6 @@ limitations under the License.
                 <ref bean="cluSetInfo.id"/>
                 <ref bean="cluSetInfo.name"/>
                 <ref bean="cluSetInfo.descr"/>
-                <!--<ref bean="CourseSets.CourseName"/>-->
-                <!--<ref bean="CourseSets.containSet"/>-->
 
             </list>
         </property>
@@ -90,40 +88,9 @@ limitations under the License.
         </property>
     </bean>
 
-    <!--<bean id="CourseSets.CourseName" parent="CourseSets.CourseName-parentBean"/>-->
-    <!--<bean id="CourseSets.CourseName-parentBean" abstract="true" parent="AttributeDefinition">-->
-        <!--<property name="name" value="longName"/>-->
-        <!--<property name="dataType" value="STRING" />-->
-        <!--<property name="label" value="Standardized Test Name"/>-->
-        <!--<property name="shortLabel" value="Clu"/>-->
-        <!--<property name="forceUppercase" value="false"/>-->
-        <!--<property name="maxLength" value="30"/>-->
-        <!--<property name="validCharactersConstraint">-->
-            <!--<bean parent="AnyCharacterPatternConstraint"/>-->
-        <!--</property>-->
-        <!--<property name="controlField">-->
-            <!--<bean parent="Uif-TextControl" p:size="30"/>-->
-        <!--</property>-->
-    <!--</bean>-->
-    <!--<bean id="CourseSets.containSet" parent="CluInfoTestSet.containSet-parentBean"/>-->
-    <!--<bean id="CourseSets.containSet-parentBean" abstract="true" parent="AttributeDefinition">-->
-        <!--<property name="name" value="containsSet"/>-->
-        <!--<property name="dataType" value="STRING" />-->
-        <!--<property name="label" value="Contains Set"/>-->
-        <!--<property name="shortLabel" value="Clu"/>-->
-        <!--<property name="forceUppercase" value="false"/>-->
-        <!--<property name="maxLength" value="30"/>-->
-        <!--<property name="validCharactersConstraint">-->
-            <!--<bean parent="AnyCharacterPatternConstraint"/>-->
-        <!--</property>-->
-        <!--<property name="controlField">-->
-            <!--<bean parent="Uif-TextControl" p:size="30"/>-->
-        <!--</property>-->
-    <!--</bean>-->
-
     <bean id="KS-CluSetInfo-LookupView" parent="KS-Uif-LookupView" p:breadcrumbs.render="false">
-        <property name="id" value="CourseSetsInfoLookupView"/>
-        <!--<property name="viewName" value="krmsCourseSetsInfoView" />-->
+
+        <property name="viewName" value="krmsCourseSetsInfoView" />
         <property name="headerText" value="Advanced Search: Course Sets" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.lum.clu.dto.CluSetInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.lum.lu.ui.krms.service.impl.CourseSetsLookupableImpl" />
@@ -131,8 +98,6 @@ limitations under the License.
             <list>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
                 <bean parent="Uif-LookupCriteriaInputField" p:propertyName="descr"/>
-                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="longName"/>-->
-                <!--<bean parent="Uif-LookupCriteriaInputField" p:propertyName="containsSet"/>-->
             </list>
         </property>
         <property name="resultFields">
@@ -140,11 +105,7 @@ limitations under the License.
                 <bean parent="Uif-DataField" p:propertyName="name"/>
             </list>
         </property>
-        <property name="additionalCssFiles">
-            <list>
-                <value>themes/ksboot/stylesheets/krms.css</value>
-            </list>
-        </property>
+
     </bean>
 
 </beans>

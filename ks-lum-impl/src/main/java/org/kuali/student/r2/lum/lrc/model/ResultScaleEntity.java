@@ -71,6 +71,8 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     }
 
     public void fromDTO(ResultScaleInfo dto) {
+    	
+    	super.fromDTO(dto);
 
         this.setName(dto.getName());
         this.setState(dto.getStateKey());

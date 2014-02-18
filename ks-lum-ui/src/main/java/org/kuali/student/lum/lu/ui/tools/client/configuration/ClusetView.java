@@ -190,7 +190,7 @@ public class ClusetView extends VerticalSectionView {
         cluSetsManagementController.showView(CluSetsManagementViews.VIEW);
     }
 
-    private void setupViewClusetView() {
+    protected void setupViewClusetView() {
         Anchor editCluSet = new Anchor("Edit Course Set");
         editCluSet.addClickHandler(new ClickHandler() {
             @Override
@@ -229,7 +229,7 @@ public class ClusetView extends VerticalSectionView {
         this.setStyleName("standard-content-padding");
     }
 
-    private SummaryTableSection setupGeneralClusInfoSection() {
+    protected SummaryTableSection setupGeneralClusInfoSection() {
         SummaryTableSection result = GWT.create(SummaryTableSection.class);
         result.init(getController());
         result.setEditable(false);
@@ -447,7 +447,7 @@ public class ClusetView extends VerticalSectionView {
         private List<LookupMetadata> additionalLookupMetadata;
 
         public Picker(LookupMetadata inLookupMetadata, List<LookupMetadata> additionalLookupMetadata) {
-            super(inLookupMetadata, additionalLookupMetadata);
+            super.init(inLookupMetadata, additionalLookupMetadata);
             this.initLookupMetadata = inLookupMetadata;
             this.additionalLookupMetadata = additionalLookupMetadata;
         }
