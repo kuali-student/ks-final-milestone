@@ -2824,3 +2824,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
     -moz-box-shadow: none;
     box-shadow: none;
 }
+.ksap-view .uif-boxLayoutVerticalItem.bold {
+    font-weight: bold;
+}
