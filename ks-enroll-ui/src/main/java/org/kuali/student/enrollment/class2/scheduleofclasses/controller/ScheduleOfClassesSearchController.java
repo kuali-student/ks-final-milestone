@@ -92,7 +92,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start( @ModelAttribute( MODEL_ATTRIBUTE_FORM ) UifFormBase form,
-                               BindingResult result, HttpServletRequest request, HttpServletResponse response) {
+                               HttpServletRequest request, HttpServletResponse response) {
 
         ScheduleOfClassesSearchForm scheduleOfClassesSearchForm = (ScheduleOfClassesSearchForm) form;
         scheduleOfClassesSearchForm.setSearchType( SEARCH_TYPE_COURSE );
@@ -105,7 +105,7 @@ public class ScheduleOfClassesSearchController extends UifControllerBase {
         configureDefaultAoDisplayFormat( scheduleOfClassesSearchForm );
         configureSelectableAoRenderingWidget( scheduleOfClassesSearchForm, request );
 
-        return super.start(form, result, request, response);
+        return super.start(form, request, response);
     }
 
     private void configureCurrentTermCodeOnInitialRequest( ScheduleOfClassesSearchForm form ) {

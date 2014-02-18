@@ -81,7 +81,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
      *
      */
     @Override
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request, HttpServletResponse response) {
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) form;
         setupMaintenance(maintenanceForm, request, KRADConstants.MAINTENANCE_NEW_ACTION);
@@ -263,8 +263,7 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
     }
 
     @RequestMapping(params = "methodToCall=continueFromCreate")
-    public ModelAndView continueFromCreate(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, @SuppressWarnings("unused") BindingResult result,
-                              @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView continueFromCreate(@ModelAttribute("KualiForm") MaintenanceDocumentForm form) throws Exception {
 
         CourseOfferingCreateWrapper coWrapper = ((CourseOfferingCreateWrapper) form.getDocument().getNewMaintainableObject().getDataObject());
         String courseCode = coWrapper.getCatalogCourseCode();

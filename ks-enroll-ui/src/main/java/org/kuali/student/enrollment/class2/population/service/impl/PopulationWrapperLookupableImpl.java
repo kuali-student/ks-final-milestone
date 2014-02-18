@@ -20,8 +20,8 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -44,14 +44,15 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
     private static final long serialVersionUID = 1L;
     private transient PopulationService populationService;
 
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    @Override
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<PopulationWrapper> populationWrappers = new ArrayList<PopulationWrapper>();
 
         ContextInfo context = ContextUtils.createDefaultContextInfo();
 
         try {
             //perform the lookup using the service
-            QueryByCriteria qbc = buildQueryByCriteria(fieldValues);
+            QueryByCriteria qbc = buildQueryByCriteria(searchCriteria);
             List<PopulationInfo> populationInfoList = getPopulationService().searchForPopulations(qbc, context);
 
             //Transform each PopulationInfo to the wrapper class
@@ -78,12 +79,12 @@ public class PopulationWrapperLookupableImpl extends LookupableImpl {
      * Builds a QueryByCriteria based on the KRAD field values passed in.
      * Performs fuzzy searching on the keyword field against the name and description fields on PopulationEntity
      *
-     * @param fieldValues map of field names and values
+     * @param searchCriteria map of field names and values
      * @return a criteria query
      */
-    private QueryByCriteria buildQueryByCriteria(Map<String, String> fieldValues){
-        String keyword = fieldValues.get("keyword");
-        String stateKey = fieldValues.get("populationInfo.stateKey");
+    private QueryByCriteria buildQueryByCriteria(Map<String, String> searchCriteria){
+        String keyword = searchCriteria.get("keyword");
+        String stateKey = searchCriteria.get("populationInfo.stateKey");
 
         keyword = keyword.isEmpty()?"*":keyword; //search for all if empty
 

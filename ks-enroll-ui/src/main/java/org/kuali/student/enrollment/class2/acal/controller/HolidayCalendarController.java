@@ -116,7 +116,6 @@ public class HolidayCalendarController extends UifControllerBase {
      * This is starting page before we enter any Holiday management activities.
      *
      * @param form
-     * @param result
      * @param request
      * @param response
      * @return
@@ -124,7 +123,7 @@ public class HolidayCalendarController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
             HttpServletRequest request, HttpServletResponse response) {
         HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
 
@@ -202,7 +201,7 @@ public class HolidayCalendarController extends UifControllerBase {
             form.setHolidayCalendarInfo(new HolidayCalendarInfo());
         }
 
-        return super.start(form, result, request, response);
+        return super.start(form, request, response);
     }
 
     /**

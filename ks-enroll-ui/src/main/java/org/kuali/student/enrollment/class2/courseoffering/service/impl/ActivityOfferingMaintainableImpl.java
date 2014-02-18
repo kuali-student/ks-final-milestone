@@ -732,17 +732,6 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     public void applyDefaultValuesForCollectionLine(View view, Object model, CollectionGroup collectionGroup,
                                                     Object line) {
 
-        super.applyDefaultValuesForCollectionLine(view,model,collectionGroup,line);
-
-        if (line instanceof ColocatedActivity){
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
-            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
-            ColocatedActivity colo = (ColocatedActivity)line;
-            colo.getEditRenderHelper().setTermId(activityOfferingWrapper.getTerm().getId());
-        }
-
-    }
-
     /**
      *
      * unwrap seatPoolWrapper. If the seatPoolWrapper is null or contains no seatPools, return null
@@ -828,7 +817,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
 
     @Override
-    protected void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+    public void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
         if (!(collectionGroup.getPropertyName().equals("seatpools") || collectionGroup.getPropertyName().equals("instructors"))) {
             super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
         }  else if(collectionGroup.getPropertyName().equals("instructors")) {
@@ -846,7 +835,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     @Override
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
+    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
         super.processAfterAddLine(view, collectionGroup, model, addLine, true);
 
         if (addLine instanceof ScheduleComponentWrapper) {
@@ -1048,7 +1037,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     @Override
-    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         if (addLine instanceof OfferingInstructorWrapper) {
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
             instructor.setOfferingInstructorInfo(disassembleInstructorWrapper(instructor));

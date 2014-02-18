@@ -2,11 +2,11 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.element.Link;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -85,51 +85,42 @@ public class CourseInfoByTermLookupableImpl extends LookupableImpl {
     }
 
     @Override
-    public void getReturnUrlForResults(Action returnLink, Object model) {
+    public void buildReturnUrlForResult(Link returnLink, Object model) {
 
         /**
          * This is a custom hack of a KRAD lookup to return a criteria field value
          * along with the selected lookup value...when a result row is selected.
          *
-         * To do this we will modify the url actionScript to insert: 1. the
+         * To do this we will modify the url href to insert: 1. the
          * path to the field to set in the parent view, and 2. the value to set it to.
          *
          * note: This code is specifically for view: CourseOfferingCreateMaintenanceView.xml
          */
-        super.getReturnUrlForResults(returnLink, model);    //To change body of overridden methods use File | Settings | File Templates.
-        String actionScript = returnLink.getActionScript();
-        String returnField="document.newMaintainableObject.dataObject.targetTermCode";
+        super.buildReturnUrlForResult(returnLink, model);
+        String href = returnLink.getHref();
+        String targetTermCode="document.newMaintainableObject.dataObject.targetTermCode";
 
         LookupForm lookupForm = (LookupForm) model;
         Map<String, String> lookupCriteria = lookupForm.getLookupCriteria();
-        String value = lookupCriteria.get("termId");
+        String termId = lookupCriteria.get("termId");
 
         //We need to check whether p:lookupReturnByScript is set to "true" or "false" by checking
         //for either 'returnLookupResultByScript' (i.e. when it is true) or
-        //for 'returnLookupResultReload' (when it is false), and construct the new actionscript
+        //for 'returnLookupResultReload' (when it is false), and construct the new href
         //accordingly
-        if (StringUtils.isEmpty(value) && actionScript.indexOf("returnLookupResultByScript") >0) {
+        if (StringUtils.isEmpty(termId) && href.indexOf("returnLookupResultByScript") >0) {
             String closeFunction = "closeLightbox();";
-            int closeIdx = actionScript.indexOf(closeFunction);
-            StringBuilder newActionScript = new StringBuilder(actionScript.substring(0,closeIdx));
-
-            newActionScript = newActionScript.append(
-                    "returnLookupResultByScript(\"" + returnField + "\", '" + value + "');"
-                            + closeFunction);
-            returnLink.setActionScript(newActionScript.toString());
-        } else if (actionScript.indexOf("returnLookupResultReload") >0) {
+            int closeIndex = href.indexOf(closeFunction);
+            returnLink.setHref(href.substring(0, closeIndex) + "returnLookupResultByScript(\"" + targetTermCode + "\", '" + termId + "');" + closeFunction);
+        } else if (href.indexOf("returnLookupResultReload") >0) {
             String parent = "\", '_parent');";
-            int closeIdx = actionScript.indexOf(parent);
-            StringBuilder newActionScript = new StringBuilder(actionScript.substring(0,closeIdx));
-
-            newActionScript = newActionScript.append(
-                    "&" + returnField + "=" + value + parent);
-            returnLink.setActionScript(newActionScript.toString());
+            int parentIndex = href.indexOf(parent);
+            returnLink.setHref(href.substring(0, parentIndex) + "&" + targetTermCode + "=" + termId + parent);
         }
     }
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         ContextInfo context = ContextUtils.createDefaultContextInfo();
 
         List <CourseInfo> courseInfoList = new ArrayList<CourseInfo>();
@@ -150,7 +141,7 @@ public class CourseInfoByTermLookupableImpl extends LookupableImpl {
         searchParams.add(qpv1);
 
         for (QueryParamEnum qpEnum : QueryParamEnum.values()) {
-            String fieldValue = fieldValues.get(qpEnum.getFieldValue());
+            String fieldValue = searchCriteria.get(qpEnum.getFieldValue());
             if ( ! isEmpty(fieldValue) ) {
                 SearchParamInfo qpv = new SearchParamInfo();
                 switch (qpEnum) {

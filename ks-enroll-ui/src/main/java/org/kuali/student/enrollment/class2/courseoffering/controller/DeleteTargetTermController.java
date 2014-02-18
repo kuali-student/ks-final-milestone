@@ -56,7 +56,7 @@ public class DeleteTargetTermController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         if (!(form instanceof DeleteTargetTermForm)){
             throw new RuntimeException("Form object passed into start method was not of expected type DeleteTargetTermForm. Got " + form.getClass().getSimpleName());
@@ -69,8 +69,7 @@ public class DeleteTargetTermController extends UifControllerBase {
     }
 
     @RequestMapping(params = "methodToCall=goTargetTerm")
-    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") DeleteTargetTermForm form, @SuppressWarnings("unused") BindingResult result,
-                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+    public ModelAndView goTargetTerm(@ModelAttribute("KualiForm") DeleteTargetTermForm form) throws Exception {
         LOGGER.info("In goTargetTerm");
         CourseOfferingViewHelperService helperService = CourseOfferingManagementUtil.getCoViewHelperService(form);
 

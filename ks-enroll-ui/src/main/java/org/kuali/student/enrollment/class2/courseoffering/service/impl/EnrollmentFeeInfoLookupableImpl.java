@@ -16,8 +16,8 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -38,13 +38,13 @@ public class EnrollmentFeeInfoLookupableImpl extends LookupableImpl {
     private static final Logger LOG = Logger.getLogger(EnrollmentFeeInfoInquirableImpl.class);
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<EnrollmentFeeInfo> enrollmentFeeInfos = new ArrayList<EnrollmentFeeInfo>();
 
         try {
-            String id = fieldValues.get("id");
-            String refObjectURI = fieldValues.get("refObjectURI");
-            String refObjectId = fieldValues.get("refObjectId");
+            String id = searchCriteria.get("id");
+            String refObjectURI = searchCriteria.get("refObjectURI");
+            String refObjectId = searchCriteria.get("refObjectId");
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
             // perform this search first so we don't have to search through the list for duplicates later
             if(refObjectId != null && !"".equals(refObjectId) && refObjectURI != null && !"".equals(refObjectURI) ){

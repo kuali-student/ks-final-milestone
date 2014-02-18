@@ -113,7 +113,7 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request, HttpServletResponse response) {
         AcademicCalendarForm acalForm = (AcademicCalendarForm) form;
 
@@ -176,7 +176,7 @@ public class AcademicCalendarController extends UifControllerBase {
             throw getAcalViewHelperService(acalForm).convertServiceExceptionsToUI(e);
         }
 
-        return super.start(acalForm, result, request, response);
+        return super.start(acalForm, request, response);
     }
 
     /**

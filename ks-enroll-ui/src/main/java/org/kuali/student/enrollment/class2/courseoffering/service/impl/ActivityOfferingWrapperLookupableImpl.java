@@ -18,10 +18,10 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -53,11 +53,11 @@ public class ActivityOfferingWrapperLookupableImpl extends LookupableImpl {
     }
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>();
 
-        String termId = fieldValues.get("termId");
-        String courseOfferingCode = fieldValues.get("courseOfferingCode");
+        String termId = searchCriteria.get("termId");
+        String courseOfferingCode = searchCriteria.get("courseOfferingCode");
 
         /**
          * Edit AO maintenace document uses this AO search to allow user to add colocated AOs.

@@ -21,8 +21,8 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
@@ -41,12 +41,12 @@ public class TypeTypeRelationInfoAdminLookupableImpl extends LookupableImpl
 	private transient TypeService typeService;
     private static final long serialVersionUID = 1L;
 	@Override
-	protected List<TypeTypeRelationInfo> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded)
+	public List<TypeTypeRelationInfo> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded)
 	{
 		QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
 		List<Predicate> pList = new ArrayList<Predicate>();
         //Code Changed for JIRA-8997 - SONAR Critical issues - Performance - Inefficient use of keySet iterator instead of entrySet iterator
-		for(Map.Entry<String, String> entry: fieldValues.entrySet()) {
+		for(Map.Entry<String, String> entry: searchCriteria.entrySet()) {
             String fieldName = entry.getKey();
             String value = entry.getValue();
             if (value != null && !value.isEmpty())

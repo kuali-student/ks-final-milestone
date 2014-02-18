@@ -3,8 +3,8 @@ package org.kuali.student.enrollment.class2.appointment.service.impl;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
@@ -43,11 +43,11 @@ public class AppointmentWindowWrapperLookupableImpl extends LookupableImpl {
     public final static String TERM_YEAR_KEY = "termYear";
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
         List<AppointmentWindowWrapper> windowWrapperList;
-        String termTypeKey = fieldValues.get(TERM_TYPE_KEY);
-        String termYear = fieldValues.get(TERM_YEAR_KEY);
+        String termTypeKey = searchCriteria.get(TERM_TYPE_KEY);
+        String termYear = searchCriteria.get(TERM_YEAR_KEY);
         try {
             List<KeyDateInfo> periods = _searchPeriods(termTypeKey, termYear);
             if (periods == null || periods.isEmpty()) {

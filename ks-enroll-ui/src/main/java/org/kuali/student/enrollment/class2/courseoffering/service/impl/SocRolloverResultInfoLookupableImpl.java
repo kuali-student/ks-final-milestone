@@ -3,8 +3,8 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
@@ -17,8 +17,8 @@ public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
 
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
         List<SocRolloverResultInfo> socRolloverResultInfos ;
-        String sourceTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
-        String targetTermId = fieldValues.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
+        String sourceTermId = searchCriteria.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
+        String targetTermId = searchCriteria.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
 
         //Build up a term search criteria
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();

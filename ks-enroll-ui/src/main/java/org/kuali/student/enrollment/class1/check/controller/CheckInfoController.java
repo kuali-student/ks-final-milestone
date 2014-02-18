@@ -15,31 +15,22 @@
  */
 package org.kuali.student.enrollment.class1.check.controller;
 
-import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.datadictionary.DataObjectEntry;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.controller.LookupController;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class1.check.form.CheckInfoForm;
-import org.kuali.student.enrollment.class1.process.form.ProcessInfoForm;
-import org.kuali.student.common.uif.view.KSLookupView;
 import org.kuali.student.mock.utilities.TestHelper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
-import org.kuali.student.r2.core.process.dto.InstructionInfo;
-import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -47,18 +38,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.kuali.rice.krad.web.form.LookupForm;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.and;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 import static org.kuali.rice.core.api.criteria.PredicateFactory.like;
 
 /**
@@ -91,17 +81,16 @@ public class CheckInfoController extends UifControllerBase {
      */
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               HttpServletRequest request, HttpServletResponse response) {
         CheckInfoForm checkForm = (CheckInfoForm) form;
         checkForm.setIsSaveSuccess(false);
         checkForm.setIsInstructionActive(false);
-        return super.start(form, result, request, response);
+        return super.start(form, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=search")
-    public ModelAndView search(@ModelAttribute("KualiForm") CheckInfoForm form, BindingResult result,
-                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ModelAndView search(@ModelAttribute("KualiForm") CheckInfoForm form) throws Exception {
         List<CheckInfo> results = new ArrayList<CheckInfo>();
         String name = form.getName();
         String descr = form.getDescr();

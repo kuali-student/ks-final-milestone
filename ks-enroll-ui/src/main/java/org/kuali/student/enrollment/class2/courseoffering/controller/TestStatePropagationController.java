@@ -84,7 +84,7 @@ public class TestStatePropagationController extends UifControllerBase {
 
     @Override
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
                               @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         if (!(form instanceof TestStatePropagationForm)){
             throw new RuntimeException("Form object passed into start method was not of expected type TestServiceCallForm. Got " + form.getClass().getSimpleName());
@@ -96,14 +96,14 @@ public class TestStatePropagationController extends UifControllerBase {
         if (paramMap.containsKey(PAGE_ID)) {
             String pageId = ((String []) paramMap.get(PAGE_ID))[0];
             if (pageId.equals("testStatePropagationPageId")) {
-                return _startStatePropagationTest(form, result, request, response);
+                return _startStatePropagationTest(form, request, response);
             }
         }
 
         return getUIFModelAndView(theForm);
     }
 
-    private ModelAndView _startStatePropagationTest(@ModelAttribute("KualiForm") UifFormBase form, @SuppressWarnings("unused") BindingResult result,
+    private ModelAndView _startStatePropagationTest(@ModelAttribute("KualiForm") UifFormBase form,
                                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) {
         // Doesn't do anything really, but is there for customization
         TestStatePropagationForm theForm = (TestStatePropagationForm) form;

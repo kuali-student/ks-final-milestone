@@ -3,8 +3,8 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.r2.core.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.core.acal.dto.HolidayInfo;
@@ -35,13 +35,13 @@ public class HolidayCalendarWrapperLookupableImpl extends LookupableImpl {
 
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
         List<HolidayCalendarWrapper> holidayCalendarWrapperList = new ArrayList<HolidayCalendarWrapper>();
         List<HolidayCalendarInfo> holidayCalendarInfoList = new ArrayList<HolidayCalendarInfo>();
         List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
 
-        Integer theStartYear = new Integer(fieldValues.get(ACADEMIC_CALENDAR_START_YEAR_KEY));
+        Integer theStartYear = new Integer(searchCriteria.get(ACADEMIC_CALENDAR_START_YEAR_KEY));
         ContextInfo context = new ContextInfo();
         try{
             holidayCalendarInfoList = getAcademicCalendarService().getHolidayCalendarsByStartYear(theStartYear, context);

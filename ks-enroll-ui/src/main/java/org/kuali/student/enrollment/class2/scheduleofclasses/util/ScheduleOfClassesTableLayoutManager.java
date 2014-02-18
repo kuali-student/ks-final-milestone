@@ -4,12 +4,10 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.layout.TableLayoutManager;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
-import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
@@ -30,9 +28,10 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
     private String name = StringUtils.EMPTY;
     private boolean requisite = true;
 
-    public void buildLine(View view, Object model, CollectionGroup collectionGroup, List<Field> lineFields, List<FieldGroup> subCollectionFields,
-                          String bindingPath, List<Action> actions, String idSuffix, Object currentLine, int lineIndex) {
-        super.buildLine(view, model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
+    @Override
+    public void buildLine(Object model, CollectionGroup collectionGroup, List<Field> lineFields, List<FieldGroup> subCollectionFields,
+                          String bindingPath, List<? extends Component> actions, String idSuffix, Object currentLine, int lineIndex) {
+        super.buildLine(model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
                 currentLine, lineIndex);
 
         if (currentLine instanceof ActivityOfferingWrapper) {
@@ -85,10 +84,11 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                 for (Field field : lineFields) {
                     if (field.getId().contains("regGroupName")) {
                         field.setHidden(true);
-                        field.setCellStyle("border-top:none;");
+                        field.setWrapperStyle("border-top:none;");
                         field.setRowSpan(getSpanSize(rgWrapper, false));
                     }
                     if (field.getId().contains("regGroupSeats")) {
+                        field.setWrapperStyle("border-top:none");
                         field.setCellStyle("border-top:none;");
                         field.setRowSpan(getSpanSize(rgWrapper, true));
                         if (!requisite) {

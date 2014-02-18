@@ -28,7 +28,7 @@ public class BuildingInfoLookupableImpl extends LookupableImpl implements Lookup
     private static final Logger LOGGER = Logger.getLogger(BuildingInfoLookupableImpl.class);
 
     @Override
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
 
         List<BuildingInfo> buildingInfos = null;
 

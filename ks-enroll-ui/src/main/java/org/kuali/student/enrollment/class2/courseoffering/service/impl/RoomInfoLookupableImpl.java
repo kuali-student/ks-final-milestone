@@ -6,7 +6,7 @@ import org.kuali.rice.krad.lookup.Lookupable;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -53,7 +53,7 @@ public class RoomInfoLookupableImpl extends LookupableImpl implements Lookupable
                     return new ArrayList<RoomInfo>();
                 }
 
-                if (StringUtils.isBlank(fieldValues.get("roomCode"))){
+                if (StringUtils.isBlank(searchCriteria.get("roomCode"))){
                     List<String> roomIds = CourseOfferingManagementUtil.getRoomService().getRoomIdsByBuilding(buildings.get(firstBuilding).getId(), ContextBuilder.loadContextInfo());
 
                     if(roomIds.isEmpty()) {
