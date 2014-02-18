@@ -43,6 +43,14 @@
             </modules>
         </profile>
         <profile>
+            <id>test-only</id>
+            <modules>
+                <module>ks-enroll-impl</module>
+                <module>ks-enroll-ui</module>
+                <module>ks-enroll-rice</module>
+            </modules>
+        </profile>
+        <profile>
             <id>skip-surefire-tests</id>
             <activation>
                 <property>
