@@ -17,6 +17,8 @@
 package org.kuali.student.enrollment.academicrecord.service.decorators;
 
 import java.util.List;
+
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.academicrecord.dto.GPAInfo;
 import org.kuali.student.enrollment.academicrecord.dto.LoadInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
@@ -222,6 +224,150 @@ public class AcademicRecordServiceDecorator
                 contextInfo);
     }
 
+    @Override
+    public StudentProgramRecordInfo getStudentProgramRecord(String studentProgramRecordId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentProgramRecord(studentProgramRecordId, contextInfo);
+    }
+
+    @Override
+    public StudentCourseRecordInfo getStudentCourseRecord(String studentCourseRecordId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentCourseRecord(studentCourseRecordId, contextInfo);
+    }
+
+    @Override
+    public StudentCourseRecordInfo getStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentCredentialRecord(studentCredentialRecordId, contextInfo);
+    }
+
+    @Override
+    public StudentTestScoreRecordInfo getStudentTestScoreRecord(String studentTestScoreRecordId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentTestScoreRecord(studentTestScoreRecordId, contextInfo);
+    }
+
+    @Override
+    public GPAInfo getGpa(String gpaId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getGpa(gpaId, contextInfo);
+    }
+
+    @Override
+    public LoadInfo getLoad(String loadId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getLoad(loadId, contextInfo);
+    }
+
+    @Override
+    public List<StudentProgramRecordInfo> getStudentProgramRecordsByIds(List<String> studentProgramRecordIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentProgramRecordsByIds(studentProgramRecordIds, contextInfo);
+    }
+
+    @Override
+    public List<StudentCredentialRecordInfo> getStudentCredentialRecordsByIds(List<String> studentCredentialRecordIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentCredentialRecordsByIds(studentCredentialRecordIds, contextInfo);
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsByIds(List<String> studentCourseRecordIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentCourseRecordsByIds(studentCourseRecordIds, contextInfo);
+    }
+
+    @Override
+    public List<StudentTestScoreRecordInfo> getStudentTestScoreRecordsByIds(List<String> studentTestScoreRecordIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentTestScoreRecordsByIds(studentTestScoreRecordIds, contextInfo);
+    }
+
+    @Override
+    public List<GPAInfo> getGpasByIds(List<String> gpaIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getGpasByIds(gpaIds, contextInfo);
+    }
+
+    @Override
+    public List<LoadInfo> getLoadsByIds(List<String> loadIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getLoadsByIds(loadIds, contextInfo);
+    }
+
+    @Override
+    public List<String> getStudentProgramRecordIdsByType(String studentProgramRecordTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentProgramRecordIdsByType(studentProgramRecordTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> getStudentCourseRecordIdsByType(String studentCourseRecordTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentCourseRecordIdsByType(studentCourseRecordTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> getStudentCredentialRecordIdsByType(String studentCredentialRecordTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentCredentialRecordIdsByType(studentCredentialRecordTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> getStudentTestScoreIdsByType(String studentTestScoreTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentTestScoreIdsByType(studentTestScoreTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> getGpaIdsByType(String gpaTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getGpaIdsByType(gpaTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> getLoadIdsByType(String loadTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getLoadIdsByType(loadTypeKey, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForStudentProgramRecordIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentProgramRecordIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForStudentCourseRecordIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentCourseRecordIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForStudentTestScoreRecordIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentTestScoreRecordIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForStudentCredentialRecordIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentCredentialRecordIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForGpaIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForGpaIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<String> searchForLoadIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForLoadIds(criteria, contextInfo);
+    }
+
+    @Override
+    public List<StudentProgramRecordInfo> searchForStudentProgramRecords(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentProgramRecords(criteria, contextInfo);
+    }
+
+    @Override
+    public List<StudentCourseRecordInfo> searchForStudentCourseRecords(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentCourseRecords(criteria, contextInfo);
+    }
+
+    @Override
+    public List<StudentCredentialRecordInfo> searchForStudentCredentialRecords(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentCredentialRecords(criteria, contextInfo);
+    }
+
+    @Override
+    public List<StudentTestScoreRecordInfo> searchForStudentTestScoreRecords(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForStudentTestScoreRecords(criteria, contextInfo);
+    }
+
+    @Override
+    public List<GPAInfo> searchForGpas(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.searchForGpas(criteria, contextInfo);
+    }
 
     @Override
     public StudentProgramRecordInfo createStudentProgramRecord(String studentProgramRecordTypeKey,
