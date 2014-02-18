@@ -47,6 +47,16 @@
             </modules>
         </profile>
         <profile>
+            <id>test-only</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
             <id>skip-ui</id>
             <modules>
                 <module>ks-common</module>
