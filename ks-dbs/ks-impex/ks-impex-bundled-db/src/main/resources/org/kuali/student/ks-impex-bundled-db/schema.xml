@@ -1962,7 +1962,7 @@
     <sequence name="KREW_ACTN_RQST_S" startValue="2369"/>
     <sequence name="KREW_ACTN_TKN_S" startValue="2329"/>
     <sequence name="KREW_ATTR_DEFN_S" startValue="10000"/>
-    <sequence name="KREW_DOC_HDR_S" startValue="3010"/>
+    <sequence name="KREW_DOC_HDR_S" startValue="3018"/>
     <sequence name="KREW_DOC_LNK_S" startValue="2000"/>
     <sequence name="KREW_DOC_NTE_S" startValue="2020"/>
     <sequence name="KREW_DOC_TYP_ATTR_S" startValue="2010"/>
@@ -1974,8 +1974,8 @@
     <sequence name="KREW_PPL_FLW_MBR_S" startValue="10000"/>
     <sequence name="KREW_PPL_FLW_S" startValue="10000"/>
     <sequence name="KREW_RSP_S" startValue="2065"/>
-    <sequence name="KREW_RTE_NODE_CFG_PARM_S" startValue="2485"/>
-    <sequence name="KREW_RTE_NODE_S" startValue="2923"/>
+    <sequence name="KREW_RTE_NODE_CFG_PARM_S" startValue="2530"/>
+    <sequence name="KREW_RTE_NODE_S" startValue="2939"/>
     <sequence name="KREW_RTE_TMPL_S" startValue="1645"/>
     <sequence name="KREW_RULE_EXPR_S" startValue="2002"/>
     <sequence name="KREW_RULE_TMPL_OPTN_S" startValue="2020"/>
@@ -7706,7 +7706,7 @@
             <size value="1"/>
         </column>
         <column name="ATTR_DEFN_ID" nullable="false" primaryKey="true" type="STRING">
-            <size value="255"/>
+            <size value="40"/>
         </column>
         <column name="CMPNT_NM" type="STRING">
             <size value="100"/>
@@ -8409,7 +8409,7 @@
             <size value="1"/>
         </column>
         <column name="ATTR_DEFN_ID" nullable="false" type="STRING">
-            <size value="255"/>
+            <size value="40"/>
         </column>
         <column name="SEQ_NO" nullable="false" type="FLOAT">
             <size value="5"/>
@@ -9296,6 +9296,32 @@
         </column>
         <column name="SVC_DSCRPTR_ID" nullable="false" primaryKey="true" type="STRING">
             <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_TEST_DISABLE_NO_VER_T">
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="OBJ_ID" nullable="false" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="STR_PROP" type="STRING">
+            <size value="40"/>
+        </column>
+    </table>
+    <table name="KRTST_TEST_DISABLE_VER_T">
+        <column name="ID" nullable="false" primaryKey="true" type="STRING">
+            <size value="10"/>
+        </column>
+        <column name="OBJ_ID" nullable="false" type="STRING">
+            <size value="36"/>
+        </column>
+        <column name="STR_PROP" type="STRING">
+            <size value="40"/>
+        </column>
+        <column name="VER_NBR" nullable="false" type="FLOAT">
+            <defaultValue>1 </defaultValue>
+            <size value="8"/>
         </column>
     </table>
     <table name="KSDO_DOCUMENT">
