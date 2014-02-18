@@ -901,14 +901,14 @@ public interface PersonService {
      * Updates an existing Person Bio Demographic. The Person Bio Demographic Id, Type, and Meta information may not be changed.
      *
      * @param personBioDemographicsId the identifier for the PersonBioDemographics to be updated
-     * @param PersonBioDemographicInfo the person to be validated
+     * @param personBioDemographicsInfo the person to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service
      * operation
      * @return the updated PersonBioDemographics
      * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException personBioDemographicsId is not found
-     * @throws InvalidParameterException personBioDemographicsId, PersonBioDemographicInfo or contextInfo is not valid
-     * @throws MissingParameterException personBioDemographicsId, PersonBioDemographicInfo, or contextInfo is missing or null
+     * @throws InvalidParameterException personBioDemographicsId, personBioDemographicsInfo or contextInfo is not valid
+     * @throws MissingParameterException personBioDemographicsId, personBioDemographicsInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated as read only
@@ -917,7 +917,7 @@ public interface PersonService {
      */
     public PersonBioDemographicsInfo updatePersonBioDemographics(
             @WebParam(name = "personBioDemographicsId") String personBioDemographicsId,
-            @WebParam(name = "PersonBioDemographicInfo") PersonBioDemographicsInfo PersonBioDemographicInfo,
+            @WebParam(name = "personBioDemographicsInfo") PersonBioDemographicsInfo personBioDemographicsInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
             DoesNotExistException,
@@ -956,7 +956,7 @@ public interface PersonService {
      * @param contextInfo Context information containing the principalId and locale information about the caller of service
      * operation
      * @return the person's demo graphics
-     * @throws DoesNotExistException personInfo is not found
+     * @throws DoesNotExistException personInfo is not found or person has no bio demographics
      * @throws InvalidParameterException personInfo or contextInfo is not valid
      * @throws MissingParameterException personInfo or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
@@ -1081,6 +1081,7 @@ public interface PersonService {
      * @param validationTypeKey the affiliation for the validation Type
      * @param personAffiliationTypeKey the affiliation for the person affiliation type to be validated
      * @param personId id of person for whom this affiliation is being applied
+     * @param organizationId id of organizational unit for whom this affiliation is being applied
      * @param personAffiliationInfo the person to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service
      * operation
@@ -1095,6 +1096,7 @@ public interface PersonService {
     public List<ValidationResultInfo> validatePersonAffiliation(@WebParam(name = "validationTypeKey") String validationTypeKey,
             @WebParam(name = "personAffiliationTypeKey") String personAffiliationTypeKey,
             @WebParam(name = "personId") String personId,
+            @WebParam(name = "organizationId") String organizationId,
             @WebParam(name = "personAffiliationInfo") PersonAffiliationInfo personAffiliationInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException,
@@ -1109,6 +1111,7 @@ public interface PersonService {
      *
      * @param personAffiliationTypeKey the affiliation for the person affiliation Type to assign to this affiliation object
      * @param personId id of the person to whom this affiliation is attached
+     * @param organizationId id of organizational unit for whom this affiliation is being applied
      * @param personAffiliationInfo the person to be validated
      * @param contextInfo Context information containing the principalId and locale information about the caller of service
      * operation
@@ -1124,6 +1127,7 @@ public interface PersonService {
     public PersonAffiliationInfo createPersonAffiliation(
             @WebParam(name = "personAffiliationTypeKey") String personAffiliationTypeKey,
             @WebParam(name = "personId") String personId,
+            @WebParam(name = "organizationId") String organizationId,
             @WebParam(name = "personAffiliationInfo") PersonAffiliationInfo personAffiliationInfo,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DataValidationErrorException,
@@ -1247,7 +1251,7 @@ public interface PersonService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public String getIntitutionalAffiliationOrganizationId(
+    public String getInstitutionalAffiliationOrganizationId(
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             InvalidParameterException,
             MissingParameterException,

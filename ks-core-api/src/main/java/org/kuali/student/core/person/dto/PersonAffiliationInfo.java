@@ -73,4 +73,9 @@ public class PersonAffiliationInfo extends RelationshipInfo implements PersonAff
         this.organizationId = organizationId;
     }
 
+    @Override
+    public String toString() {
+        return "PersonAffiliationInfo{" + super.toString() +  ", personId=" + personId + ", organizationId=" + organizationId + '}';
+    }
+
 }

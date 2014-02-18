@@ -98,4 +98,11 @@ public abstract class HasAttributesInfo
         }
         return results;
     }
+
+    @Override
+    public String toString() {
+        return  "attributes=" + attributes;
+    }
+    
+    
 }

@@ -26,7 +26,7 @@ import org.kuali.student.core.person.infc.PersonBioDemographics;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "PersonBioDemographicInfo", propOrder = {"id",
+@XmlType(name = "PersonBioDemographicsInfo", propOrder = {"id",
     "typeKey",
     "stateKey",
     "personId",
@@ -100,6 +100,14 @@ public class PersonBioDemographicsInfo extends IdNamelessEntityInfo implements P
 
     public void setGenderCode(String genderCode) {
         this.genderCode = genderCode;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonBioDemographicsInfo{" + super.toString() + ", personId=" + personId 
+                + ", deceasedDate=" + deceasedDate 
+                + ", birthDate=" + birthDate 
+                + ", genderCode=" + genderCode + '}';
     }
 
 }

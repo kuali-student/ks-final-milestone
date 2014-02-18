@@ -69,4 +69,11 @@ public abstract class HasAttributesAndMetaInfo
     public void setMeta(MetaInfo meta) {
         this.meta = meta;
     }
+
+    @Override
+    public String toString() {
+        return super.toString() +  "meta=" + meta;
+    }
+    
+    
 }

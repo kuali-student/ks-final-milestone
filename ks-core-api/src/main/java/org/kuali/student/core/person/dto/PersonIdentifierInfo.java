@@ -71,4 +71,9 @@ public class PersonIdentifierInfo extends IdNamelessEntityInfo implements Person
         this.identifier = identifier;
     }
 
+    @Override
+    public String toString() {
+        return "PersonIdentifierInfo{" + super.toString() + ", personId=" + personId + ", identifier=" + identifier + '}';
+    }
+
 }

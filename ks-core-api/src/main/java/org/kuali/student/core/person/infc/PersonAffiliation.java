@@ -18,7 +18,7 @@ package org.kuali.student.core.person.infc;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
- * An affiliation the person has to some organization.
+ * An affiliation the person has to an organization, primarily to the overall institution governing this person service.
  * 
  * Most are affiliations to the overall institute that is tracked in many identity systems.
  * It is often used to filter results to a smaller subset of people than the entire population.
@@ -27,6 +27,10 @@ import org.kuali.student.r2.common.infc.Relationship;
  * 
  * This is designed to be more flexible so that other organizational units such as the law school or even academic departments 
  * could track  students or faculty that are affiliated to them and then execute searches just within their specific group. 
+ * 
+ * This object appears very similar to the organization org-person-relation and it is.  The difference is that it is under the 
+ * governance of the person service because these relationships have been determined to be extremely useful in helping to
+ * filter results especially when searching by fragmentary information such as partial name.
  */
 public interface PersonAffiliation extends Relationship {
     
@@ -49,6 +53,7 @@ public interface PersonAffiliation extends Relationship {
      * 
      * @name OrganizationId
      * @required
+     * @readOnly
      * @impl EntityAffiliation.campusCode or some nailed up  org that represents the overall institution.
      */
     public String getOrganizationId();

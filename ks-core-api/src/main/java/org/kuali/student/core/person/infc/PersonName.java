@@ -37,9 +37,11 @@ public interface PersonName extends IdNamelessEntity {
     /**
      * A person's first or familiar name.
      * 
-     * The first name of the person, usually given at birth,baptism, during another ceremony, or through legal change
+     * The first name of the person, often called the given name because it is usually given to the person at birth, baptism, 
+     * during another ceremony, or through some legal change.
      * 
-     * In some countries the famiilar name is typically add the end so "first" may be a misnomer.
+     * In many non-western countries this part of the name is typically added at the end so calling it theh "first" is a bit of 
+     * a misnomer.
      *
      * @name First Name
      * @impl EntityName.firstName
@@ -105,6 +107,18 @@ public interface PersonName extends IdNamelessEntity {
      * @name Name Title
      * @impl EntityName.nameTitle
      */
-    public String getNameTitle();  
+    public String getNameTitle();
+    
+    
+    /**
+     * The name as one full item, in the following format.
+     * 
+     * Expected format:
+     *   Last Suffix, First Middle 
+     *
+     * @name Composite Name
+     * @impl EntityName.compositeName
+     */
+    public String getCompositeName();  
 
 }

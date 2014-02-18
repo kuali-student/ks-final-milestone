@@ -36,6 +36,7 @@ import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
     "middleName",
     "lastName",
     "nameSuffix",
+    "compositeName",
     "nameChangedDate",
     "meta",
     "attributes", "_futureElements"})
@@ -58,6 +59,8 @@ public class PersonNameInfo extends IdNamelessEntityInfo implements PersonName, 
     @XmlElement
     private String nameTitle;
     @XmlElement
+    private String compositeName;
+    @XmlElement
     private Date nameChangedDate;
 
     @XmlAnyElement
@@ -75,6 +78,7 @@ public class PersonNameInfo extends IdNamelessEntityInfo implements PersonName, 
         this.setLastName(infc.getLastName());
         this.setNameSuffix(infc.getNameSuffix());
         this.setNameTitle(infc.getNameTitle());
+        this.setCompositeName(infc.getCompositeName());
         if (infc.getNameChangedDate() != null) {
             this.setNameChangedDate(new Date(infc.getNameChangedDate().getTime()));
         }
@@ -150,6 +154,23 @@ public class PersonNameInfo extends IdNamelessEntityInfo implements PersonName, 
 
     public void setNameChangedDate(Date nameChangedDate) {
         this.nameChangedDate = nameChangedDate;
+    }
+
+    @Override
+    public String getCompositeName() {
+        return compositeName;
+    }
+
+    public void setCompositeName(String compositeName) {
+        this.compositeName = compositeName;
+    }
+
+    @Override
+    public String toString() {
+        return "PersonNameInfo{" + super.toString() + ", personId=" + personId + ", namePrefix=" + namePrefix 
+                + ", firstName=" + firstName + ", middleName=" + middleName + ", lastName=" + lastName 
+                + ", nameSuffix=" + nameSuffix + ", nameTitle=" + nameTitle + ", compositeName=" + compositeName 
+                + ", nameChangedDate=" + nameChangedDate + '}';
     }
 
 }

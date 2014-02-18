@@ -128,4 +128,11 @@ public class CreditLoadInfo
     public void setAdditionalCredits(KualiDecimal additionalCredits) {
         this.additionalCredits = additionalCredits;
     }
+
+    @Override
+    public String toString() {
+        return "CreditLoadInfo{" + "studentId=" + studentId + ", creditLoad=" + creditLoad + ", creditLimit=" + creditLimit + ", creditMinimum=" + creditMinimum + ", additionalCredits=" + additionalCredits + '}';
+    }
+    
+    
 }
