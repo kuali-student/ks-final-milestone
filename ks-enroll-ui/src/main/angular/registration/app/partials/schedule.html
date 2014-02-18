@@ -3,6 +3,29 @@
     <span><h3>Enrolled Courses  <span class="pull-right">6 credits</span></h3></span>
 </div>
 
+<div ng-repeat="schedule in schedules" ui-gauge="scheduleWidth">
+    <h1>{{schedule.term.termName}} Schedule</h1>
+    <div ng-repeat="course in schedule.courseOfferings">
+        <h2>
+            {{course.courseCode}}
+            <strong>{{course.longName}}</strong>
+            <small>{{course.credits}} CR</small>
+        </h2>
+        <p>{{course.description}}</p>
+        <ul>
+            <li ng-repeat="ao in course.activityOfferings" class="util-Grid">
+                <div class="util-Grid-cell">{{ao.activityOfferingTypeShortName}}</div>
+                <div class="util-Grid-cell" ng-bind-html="ao.schedule | meetingTimes"></div>
+                <div class="util-Grid-cell">{{ao.schedule.buildingCode}} {{ao.schedule.roomCode}}</div>
+                <div class="util-Grid-cell" ng-if="scheduleWidth > 500">
+                    <div ng-repeat="instructor in ao.instructors">
+                        {{instructor.firstName}} {{instructor.lastName}}
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
 
 <div>
     <!--Days, Time, and Building to be added-->

@@ -56,7 +56,8 @@ angular.module('regCartApp', [
             })
             .state('root.schedule', {
                 url:'/mySchedule',
-                templateUrl:'partials/schedule.html'
+                templateUrl:'partials/schedule.html',
+                controller:'ScheduleCtrl'
             })
             .state('root.additionalOptions', {
                 url:'/options',
