@@ -15,22 +15,6 @@
         <ks.gwt.module.lum>org.kuali.student.lum.lu.ui.main.LUMMain</ks.gwt.module.lum>
     </properties>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>META-INF/build-details.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>META-INF/build-details.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -63,6 +47,9 @@
                     </systemProperties>
                     <webAppConfig>
                         <contextPath>/ks-with-rice-bundled-dev</contextPath>
+                        <allowDuplicateFragmentNames>true</allowDuplicateFragmentNames>
+                        <!-- Remove after KULRICE-11157 is fixed -->
+                        <maxFormContentSize>-1</maxFormContentSize>
                     </webAppConfig>
                     <stopKey>foo</stopKey>
                     <stopPort>9999</stopPort>
@@ -112,6 +99,46 @@
                 <configuration>
                     <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
                     <dependentWarExcludes>**/web.xml,WEB-INF/lib/**,WEB-INF/krad-servlet.xml,**/sampleTravelApplication.tag,META-INF/**</dependentWarExcludes>
+                    <overlays>
+                        <!-- overlays are applied with a first-win strategy -->
+                        <!-- specify order in which overlays are applied -->
+                        <overlay>
+                            <groupId>org.kuali.student.core</groupId>
+                            <artifactId>ks-common-web</artifactId>
+                        </overlay>
+                        <overlay>
+                            <!-- empty groupId/artifactId represents the current build -->
+                        </overlay>
+                        <overlay>
+                            <groupId>org.kuali.rice</groupId>
+                            <artifactId>rice-web</artifactId>
+                            <excludes>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/**</exclude>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-ss/**</exclude>
+                                <!-- entries from dependentWarExcludes are repeated below -->
+                                <exclude>**/web.xml</exclude>
+                                <exclude>WEB-INF/lib/**</exclude>
+                                <exclude>WEB-INF/krad-servlet.xml</exclude>
+                                <exclude>**/sampleTravelApplication.tag</exclude>
+                                <exclude>META-INF/**</exclude>
+                            </excludes>
+                        </overlay>
+                        <overlay>
+                            <groupId>org.kuali.rice</groupId>
+                            <artifactId>rice-krad-web</artifactId>
+                            <excludes>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-cs/**</exclude>
+                                <exclude>plugins/tooltip/jquerybubblepopup-theme/kr-error-ss/**</exclude>
+                                <!-- entries from dependentWarExcludes are repeated below -->
+                                <exclude>**/web.xml</exclude>
+                                <exclude>WEB-INF/lib/**</exclude>
+                                <exclude>WEB-INF/krad-servlet.xml</exclude>
+                                <exclude>**/sampleTravelApplication.tag</exclude>
+                                <exclude>META-INF/**</exclude>
+                            </excludes>
+                        </overlay>
+                        <!-- any other remaining overlays will be applied last -->
+                    </overlays>
                 </configuration>
             </plugin>
         </plugins>
@@ -187,6 +214,18 @@
             <version>${ks.lum.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-krad</artifactId>
+            <version>${ks.lum.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-web</artifactId>
+            <version>${ks.lum.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-impl</artifactId>
             <version>${ks.core.version}</version>
@@ -206,13 +245,6 @@
             <groupId>org.kuali.student.api</groupId>
             <artifactId>ks-enroll-api</artifactId>
             <version>${ks.api.version}</version>
-        </dependency>
-        <!-- TODO: Remove this once mock impls have been moved to a regular jar or replaced with real impls -->
-        <dependency>
-            <groupId>org.kuali.student.api</groupId>
-            <artifactId>ks-enroll-api</artifactId>
-            <version>${ks.api.version}</version>
-            <type>test-jar</type>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>
@@ -237,11 +269,14 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>org.kuali.student.enroll</groupId>
-            <artifactId>ks-enroll-web</artifactId>
-            <version>${ks.enroll.version}</version>
-            <type>war</type>
-            <scope>runtime</scope>
+            <groupId>org.kuali.student.lum</groupId>
+            <artifactId>ks-cm-deployment-resources</artifactId>
+            <version>${ks.lum.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-deployment-resources</artifactId>
+            <version>${ks.ap.version}</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.enroll</groupId>
@@ -323,6 +358,27 @@
             <version>${ks.api.version}</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-framework</artifactId>
+            <version>${ks.ap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-impl</artifactId>
+            <version>${ks.ap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-ui</artifactId>
+            <version>${ks.ap.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kuali.student.ap</groupId>
+            <artifactId>ks-ap-web</artifactId>
+            <version>${ks.ap.version}</version>
+            <type>war</type>
         </dependency>
         <dependency>
             <groupId>backport-util-concurrent</groupId>

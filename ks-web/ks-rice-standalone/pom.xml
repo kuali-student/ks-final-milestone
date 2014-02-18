@@ -10,24 +10,7 @@
         <artifactId>ks-web</artifactId>
         <version>2.0.0-rice24upgrade-SNAPSHOT</version>
     </parent>
-    <!-- testing sandbox merge -->
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>META-INF/build-details.xml</include>
-                </includes>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-                <excludes>
-                    <exclude>META-INF/build-details.xml</exclude>
-                </excludes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -145,6 +128,11 @@
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-standard-sec</artifactId>
             <version>${ks.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>${jackson.mapper.asl.version}</version>
         </dependency>
     </dependencies>
 </project>

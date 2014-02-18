@@ -1,5 +1,5 @@
 <%--
- Copyright 2007-2009 The Kuali Foundation
+ Copyright 2005-2012 The Kuali Foundation
  
  Licensed under the Educational Community License, Version 2.0 (the "License");
  you may not use this file except in compliance with the License.
@@ -15,18 +15,13 @@
 --%>
 <%@ include file="/rice-portal/jsp/sys/riceTldHeader.jsp"%>
 
-<td class="content" valign="top">
-	<mainChannel:ksApplications/>
-    <mainChannel:KSAP/>
-    <mainChannel:ksCmKRADApplications/>
-    <mainChannel:coApplications/>
+
+<td class="content" valign="top" width="33%">
+    <kitchensinkChannel:kitchensink/>
+</td>
+<td class="content" valign="top" width="33%">
+    <kitchensinkChannel:kitchensink2/>
 </td>
 <td class="content" valign="top">
-    <mainChannel:ksMaintenance />
-    <mainChannel:aftApplications />
-</td>
-<td class="content" valign="top">
-	<mainChannel:workflow />
-	<mainChannel:notification />
-    <mainChannel:rules />
+    <kitchensinkChannel:kitchensink3/>
 </td>
