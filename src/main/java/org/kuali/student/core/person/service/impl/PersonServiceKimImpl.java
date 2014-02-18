@@ -344,7 +344,7 @@ public class PersonServiceKimImpl implements PersonService {
         PersonNameInfo info = new PersonNameInfo();
         info.setId(entityName.getId());
         info.setPersonId(entityName.getEntityId());
-        info.setTypeKey(PersonServiceConstants.PERSON_NAME_TYPE_PREFIX + entityName.getNameType().getCode());
+        info.setTypeKey(PersonServiceConstants.PERSON_NAME_TYPE_PREFIX + entityName.getNameType().getCode().toLowerCase());
         if (entityName.isActive()) {
             info.setStateKey(PersonServiceConstants.PERSON_NAME_STATE_ACTIVE_KEY);
         } else {
@@ -591,7 +591,7 @@ public class PersonServiceKimImpl implements PersonService {
         info.setId(entityExternalIdentifier.getId());
         info.setPersonId(entityExternalIdentifier.getEntityId());
         info.setTypeKey(PersonServiceConstants.PERSON_IDENTIFIER_TYPE_PREFIX + entityExternalIdentifier.
-                getExternalIdentifierType().getCode());
+                getExternalIdentifierType().getCode().toLowerCase());
         info.setStateKey(PersonServiceConstants.PERSON_IDENTIFIER_STATE_ACTIVE_KEY);
         info.setIdentifier(entityExternalIdentifier.getExternalId());
         MetaInfo meta = new MetaInfo();
@@ -1094,7 +1094,7 @@ public class PersonServiceKimImpl implements PersonService {
         info.setId(entityAffiliation.getId());
         info.setPersonId(entityAffiliation.getEntityId());
         info.setTypeKey(PersonServiceConstants.PERSON_AFFILIATION_TYPE_PREFIX + entityAffiliation.
-                getAffiliationType().getCode());
+                getAffiliationType().getCode().toLowerCase());
         if (entityAffiliation.isActive()) {
             info.setStateKey(PersonServiceConstants.PERSON_AFFILIATION_STATE_ACTIVE_KEY);
         } else {

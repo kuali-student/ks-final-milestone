@@ -38,20 +38,20 @@ public class PersonServiceConstants extends PersonServiceNamespace {
     public static final String PERSON_AFFILIATION_STATE_INACTIVE_KEY = "kuali.person.identifier.state.inactive";
 
     public static final String PERSON_NAME_TYPE_PREFIX = "kuali.person.name.type.";
-    public static final String PERSON_NAME_PRIMARY_TYPE_KEY = PERSON_NAME_TYPE_PREFIX + KimConstants.NameTypes.PRIMARY;
-    public static final String PERSON_NAME_PREFERRED_TYPE_KEY = PERSON_NAME_TYPE_PREFIX + KimConstants.NameTypes.PREFERRED;
-    public static final String PERSON_NAME_OTHER_TYPE_KEY = PERSON_NAME_TYPE_PREFIX + KimConstants.NameTypes.OTHER;
+    public static final String PERSON_NAME_PRIMARY_TYPE_KEY = PERSON_NAME_TYPE_PREFIX + KimConstants.NameTypes.PRIMARY.toLowerCase();
+    public static final String PERSON_NAME_PREFERRED_TYPE_KEY = PERSON_NAME_TYPE_PREFIX + KimConstants.NameTypes.PREFERRED.toLowerCase();
+    public static final String PERSON_NAME_OTHER_TYPE_KEY = PERSON_NAME_TYPE_PREFIX + KimConstants.NameTypes.OTHER.toLowerCase();
 
     public static final String PERSON_IDENTIFIER_TYPE_PREFIX = "kuali.person.identifier.type.";
-    public static final String PERSON_IDENTIFIER_TAX_TYPE_KEY = PERSON_IDENTIFIER_TYPE_PREFIX + KimConstants.PersonExternalIdentifierTypes.TAX;
+    public static final String PERSON_IDENTIFIER_TAX_TYPE_KEY = PERSON_IDENTIFIER_TYPE_PREFIX + KimConstants.PersonExternalIdentifierTypes.TAX.toLowerCase();
     
     public static final String PERSON_AFFILIATION_TYPE_PREFIX = "kuali.person.affiliation.type.";
-    public static final String PERSON_AFFILIATION_STUDENT_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + "STDNT";
+    public static final String PERSON_AFFILIATION_STUDENT_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + "STDNT".toLowerCase();
     // apparently the KimConstants don't match what is actually returned STUDENT expected but STDNT is what is actually returned
 //    public static final String PERSON_AFFILIATION_STUDENT_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + KimConstants.PersonAffiliationTypes.STUDENT_AFFILIATION_TYPE;
-    public static final String PERSON_AFFILIATION_STAFF_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + KimConstants.PersonAffiliationTypes.STAFF_AFFILIATION_TYPE;
-    public static final String PERSON_AFFILIATION_FACULTY_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + KimConstants.PersonAffiliationTypes.FACULTY_AFFILIATION_TYPE;
-    public static final String PERSON_AFFILIATION_AFFILIATE_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + KimConstants.PersonAffiliationTypes.AFFILIATE_AFFILIATION_TYPE;
+    public static final String PERSON_AFFILIATION_STAFF_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + KimConstants.PersonAffiliationTypes.STAFF_AFFILIATION_TYPE.toLowerCase();
+    public static final String PERSON_AFFILIATION_FACULTY_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + KimConstants.PersonAffiliationTypes.FACULTY_AFFILIATION_TYPE.toLowerCase();
+    public static final String PERSON_AFFILIATION_AFFILIATE_TYPE_KEY = PERSON_AFFILIATION_TYPE_PREFIX + KimConstants.PersonAffiliationTypes.AFFILIATE_AFFILIATION_TYPE.toLowerCase();
 
     public static final String PERSON_BIO_DEMOGRAPHICS_TYPE_KEY = "kuali.person.bio.demographics.type";
 }
