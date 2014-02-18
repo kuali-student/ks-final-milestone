@@ -167,6 +167,16 @@ function searchForCourses(id, parentId) {
                             return nRow;
                         },
 						fnDrawCallback : function() {
+                            // Create search summary line
+                            if(this.fnSettings().aoData.length){
+                                var searchKeyword = jQuery('#text_searchQuery_control').val();
+                                jQuery('<span/>', {text: ' for '}).appendTo('#course_search_results_info');
+                                jQuery('<span/>', {text: searchKeyword, class: 'search_keyword'}).appendTo('#course_search_results_info');
+                                jQuery("#course_search_results_facets").removeClass("invisible");
+                            }else{
+                                jQuery("#course_search_results_facets").addClass("invisible");
+                            }
+
 							if (Math
 									.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1) {
 								jQuery(".dataTables_paginate .ui-button").not(
@@ -188,14 +198,7 @@ function searchForCourses(id, parentId) {
 							results.fadeIn("fast");
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
-                            if(oSettings.aoData.length){
-                                var searchKeyword = jQuery('#text_searchQuery_control').val();
-                                jQuery('<span/>', {text: ' for '}).appendTo('#course_search_results_info');
-                                jQuery('<span/>', {text: searchKeyword, class: 'search_keyword'}).appendTo('#course_search_results_info');
-                                jQuery("#course_search_results_facets").removeClass("invisible");
-                            }else{
-                                jQuery("#course_search_results_facets").addClass("invisible");
-                            }
+
 							ksapSearchComplete();
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
