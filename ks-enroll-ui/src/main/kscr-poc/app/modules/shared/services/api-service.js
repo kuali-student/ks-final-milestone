@@ -12,6 +12,9 @@ angular.module('kscrPocApp')
           case 'registerreggroup':
             url += config.apiCourseRegistrationBase;
             break;
+          case 'addCourseToCart':
+            url += config.apiCourseRegistrationCartBase;
+            break;
           default:
             url += config.apiScheduleOfClassesBase;
             break;

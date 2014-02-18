@@ -9,14 +9,17 @@
         class="kscr-Nav-item"
         ng-class="{ 'kscr-Nav-item--active': $state.includes('app.search') }"
         ng-href="{{srefs['app.search']}}">Search</a>
-      <a
-        class="kscr-Nav-item"
-        ui-sref="app.cart"
-        ui-sref-active="kscr-Nav-item--active">Cart</a>
-      <a
-        class="kscr-Nav-item"
-        ui-sref="app.schedule"
-        ui-sref-active="kscr-Nav-item--active">Schedule</a>
+      <a class="kscr-Nav-item" href="{{appUrl}}registration/#/myCart">Cart</a>
+      <a class="kscr-Nav-item" href="{{appUrl}}registration/#/mySchedule">Schedule</a>
+
+        <!-- <a
+                class="kscr-Nav-item" href="{{}}"
+                ui-sref="app.cart"
+                ui-sref-active="kscr-Nav-item--active">Cart</a> -->
+        <!-- <a
+                class="kscr-Nav-item"
+                ui-sref="app.schedule"
+                ui-sref-active="kscr-Nav-item--active">Schedule</a> -->
     </nav>
 
   </div>

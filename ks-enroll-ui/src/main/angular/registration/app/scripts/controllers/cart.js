@@ -1,13 +1,13 @@
 'use strict';
 
-
-var cartServiceModule = angular.module('regCartApp');
-
-cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartService',
-    function ($scope, $state, $modal, CartService) {
-
+angular.module('regCartApp')
+    .controller('CartCtrl',
+    function ($scope, CartService) {
+        console.log('CartController!');
+        console.log($scope.termId);
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
+            console.log('term id has changed');
             if (newValue) {       // TODO: KSENROLL-11755: the first time the page is loaded, this is null. not sure why
                 CartService.getCart().query({termId:newValue, userId:'admin'}, function (theCart) {
                     $scope.cart = theCart;
@@ -174,7 +174,7 @@ cartServiceModule.controller('CartCtrl', ['$scope', '$state', '$modal', 'CartSer
                 });
             });
         };
-    }]);
+    });
 
 
 

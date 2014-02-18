@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('kscrPocApp')
-  .controller('AppSearchResultsListDetailsCtrl', function ($scope, $state, $stateParams, pagingService, regGroupService, config) {
+  .controller('AppSearchResultsListDetailsCtrl', function ($scope, $state, $stateParams, pagingService, regGroupService, addToCartService, config) {
 
     // Initiates during normal app use.
     initiate();
@@ -127,6 +127,16 @@ angular.module('kscrPocApp')
         console.log('submitted registration for', $scope.selectedRegGroupId);
         $scope.registrationSuccessful = true;
       });
+    };
+
+    $scope.addToCart = function() {
+        // Make sure there's a Reg Group Id to register.
+        if( !$scope.hasSelectedRegGroupId ) {
+            return;
+        }
+        addToCartService.query({userId: config.userId, regGroupId:$scope.selectedRegGroupId },function(data){
+            $scope.registrationSuccessful = true;
+        });
     };
 
   });

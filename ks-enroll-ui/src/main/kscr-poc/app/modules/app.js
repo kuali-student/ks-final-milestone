@@ -12,6 +12,8 @@ angular.module('kscrPocApp')
     // Store the term object.
     $scope.selectedTerm = null;
 
+    $scope.appUrl = config.appUrl;
+
     // Acquire all active terms.
     $scope.terms = termsService.query({ active: true }, function() {
       updateSelectedTerm($scope.searchCriteria.termCode);

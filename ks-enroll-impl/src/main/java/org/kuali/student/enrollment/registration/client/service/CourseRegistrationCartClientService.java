@@ -72,12 +72,13 @@ public interface CourseRegistrationCartClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/addCourseToCart")
-    public Response addCourseToCartRS(@QueryParam("cartId") String cartId,
-                                        @QueryParam("courseCode") String courseCode,
-                                        @QueryParam("regGroupId")  String regGroupId,
-                                        @QueryParam("regGroupCode")  String regGroupCode,
-                                        @QueryParam("gradingOptionId") String gradingOptionId,
-                                        @QueryParam("credits") String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
+    public Response addCourseToCartRS(@QueryParam("userId") String userId,
+                                      @QueryParam("cartId") String cartId,
+                                      @QueryParam("courseCode") String courseCode,
+                                      @QueryParam("regGroupId")  String regGroupId,
+                                      @QueryParam("regGroupCode")  String regGroupCode,
+                                      @QueryParam("gradingOptionId") String gradingOptionId,
+                                      @QueryParam("credits") String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
 
     /**
      * Rest method that removes an item from the cart.

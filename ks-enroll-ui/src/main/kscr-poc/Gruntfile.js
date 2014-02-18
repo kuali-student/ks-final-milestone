@@ -65,7 +65,7 @@ module.exports = function (grunt) {
         port: 9000,
         // Change this to '0.0.0.0' to access the server from outside.
         // hostname: 'localhost',
-        hostname: '0.0.0.0',
+        hostname: 'localhost',
         livereload: 35729
       },
       livereload: {
@@ -124,7 +124,13 @@ module.exports = function (grunt) {
           ]
         }]
       },
-      server: '.tmp'
+      server: '.tmp',
+        deploy:{
+            src:'../../../../../ks-core/ks-common/ks-common-web/src/main/webapp/kscr-poc/',
+            options:{
+                force:true
+            }
+        }
     },
 
     // Add vendor prefixed styles
@@ -296,7 +302,14 @@ module.exports = function (grunt) {
         cwd: '<%= yeoman.app %>/styles',
         dest: '.tmp/styles/',
         src: '{,*/}*.css'
-      }
+      },
+        deploy:{
+            expand:true,
+            cwd:'<%= yeoman.dist %>',
+            src:['**/*','!bower_components/**'],
+            dest:'../../../../../ks-core/ks-common/ks-common-web/src/main/webapp/kscr-poc/'
+
+        }
     },
 
     // Run some tasks in parallel to speed up the build process
@@ -385,9 +398,28 @@ module.exports = function (grunt) {
         // before it's picked up by the `usemin` process.
         dest: '.tmp/scripts/templateCache.js'
       }
-    }
+    },
+      dom_munger: {
+          create_jsp: {
+              options: {
+                  append: {selector:'body',html:
+                      '<script>' +
+                      '\'use strict\';' +
+                      'angular.module(\'kscrPocApp\')' +
+                      '.value(\'configServer\', {' +
+                      'apiBase: \'${ConfigProperties.application.url}/services/\',' +
+                      'appUrl: \'${ConfigProperties.application.url}/\'' +
+                      '});' +
+                      '</script>'
+                  }
+              },
+              src: '<%= yeoman.dist %>/index.html',
+              dest: '<%= yeoman.dist %>/index.jsp'
+          }
+      }
   });
 
+  grunt.loadNpmTasks('grunt-dom-munger');
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
@@ -429,7 +461,10 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'dom_munger',
+    'clean:deploy',
+    'copy:deploy'
   ]);
 
   grunt.registerTask('default', [

@@ -141,7 +141,13 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            server:'.tmp'
+            server:'.tmp',
+            deploy:{
+                src:'../../../../../../ks-core/ks-common/ks-common-web/src/main/webapp/registration/',
+                options:{
+                    force:true
+                }
+            }
         },
 
         // Add vendor prefixed styles
@@ -199,7 +205,7 @@ module.exports = function (grunt) {
             html:['<%= yeoman.dist %>/{,*/}*.html'],
             css:['<%= yeoman.dist %>/styles/{,*/}*.css'],
             options:{
-                assetsDirs:['<%= yeoman.dist %>']
+                assetsDirs:['<%= yeoman.dist %>', '<%= yeoman.dist%>/images']
             }
         },
 
@@ -307,6 +313,13 @@ module.exports = function (grunt) {
                 cwd:'<%= yeoman.app %>/styles',
                 dest:'.tmp/styles/',
                 src:'{,*/}*.css'
+            },
+            deploy:{
+                expand:true,
+                cwd:'<%= yeoman.dist %>',
+                src:['**/*','!bower_components/**'],
+                dest:'../../../../../../ks-core/ks-common/ks-common-web/src/main/webapp/registration/'
+
             }
         },
 
@@ -363,19 +376,19 @@ module.exports = function (grunt) {
             create_jsp: {
                 options: {
                     append: {selector:'body',html:
-                        '<script>' +
-                        "'use strict'; " +
-                        "angular.module('kscrPocApp')" +
-                        ".value('configServer', {" +
-                        "apiBase: '${ConfigProperties.application.url}/services/'" +
-                        "});" +
-                        "angular.module('configuration', [])" +
-                        ".constant('APP_URL','${ConfigProperties.application.url}/services/');" +
-                        "</script>\n"
+                        '\'<script>\'' +
+                        '\'use strict\'; ' +
+                        'angular.module(\'regCartApp\')' +
+                        '.value(\'configServer\', {' +
+                        'apiBase: \'${ConfigProperties.application.url}/services/\'' +
+                        '});' +
+                        'angular.module(\'configuration\', [])' +
+                        '.constant(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
+                        '</script>\n'
                     }
                 },
-                src: 'app/index.html',
-                dest: '.tmp/index.jsp'
+                src: '<%= yeoman.dist %>/index.html',
+                dest: '<%= yeoman.dist %>/index.jsp'
             }
         }
     });
@@ -417,7 +430,6 @@ module.exports = function (grunt) {
         'bower-install',
         'less',
         'useminPrepare',
-        'dom_munger',
         'concurrent:dist',
         'autoprefixer',
         'concat',
@@ -428,7 +440,10 @@ module.exports = function (grunt) {
         'uglify',
         'rev',
         'usemin',
-        'htmlmin'
+        'htmlmin',
+        'dom_munger',
+        'clean:deploy',
+        'copy:deploy'
     ]);
 
     grunt.registerTask('default', [

@@ -109,11 +109,11 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
-    public Response addCourseToCartRS(String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+    public Response addCourseToCartRS(String userId, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         Response.ResponseBuilder response;
 
         try {
-            CartItemResult result = addCourseToCart(cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
+            CartItemResult result = addCourseToCart(userId, cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
             // build the link to delete this item.
             result.getActionLinks().add(buildDeleteLink(cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
 
@@ -190,8 +190,20 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Transactional
-    protected CartItemResult addCourseToCart(String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+    protected CartItemResult addCourseToCart(String userId, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException {
+        ContextInfo contextInfo = getContextAndCheckLogin(userId);
+
+        RegGroupSearchResult rg = null;
+        //If only the user and regGroupId was passed in, we need to look up the RG and find the term to get the cart ID
+        if(StringUtils.isEmpty(cartId) && !StringUtils.isEmpty(regGroupId)){
+            rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null,null,null,null, regGroupId, contextInfo);
+            cartId = searchForCartId(contextInfo.getPrincipalId(), rg.getTermId(), contextInfo);
+            if (cartId == null) {
+                //If the cart does not yet exist we need to create it.
+               RegistrationRequestInfo request = createCart(contextInfo.getPrincipalId(), rg.getTermId(), contextInfo);
+               cartId = request.getId();
+            }
+        }
 
         // getting cart
         RegistrationRequestInfo cart = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
@@ -202,8 +214,10 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             registrationRequestIds.add(item.getId());
         }
 
-        // get the regGroup
-        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, regGroupId, contextInfo);
+        // get the regGroup if it was not already found
+        if(rg == null){
+            rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, regGroupId, contextInfo);
+        }
 
         CartItemResult optionsCart = new CartItemResult();
         Map<String, List<CartItemResult>> optionsMap = new HashMap<String, List<CartItemResult>>();
@@ -513,6 +527,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         CartResult cartResult = getCartForUserAndTerm(userId, termId, null, true, contextInfo);
 
         if (cartResult == null) {
+
             String cartId = searchForCartId(userId, termId, contextInfo);
             cartResult = new CartResult();
             cartResult.setCartId(cartId);
