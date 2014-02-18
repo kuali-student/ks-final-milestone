@@ -112,19 +112,23 @@
 		<property name="items">
 			<list>
 
-                <bean parent="Uif-HorizontalBoxSubSection">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false"/>
-                            <bean parent="Uif-Label" p:labelText="Required on Submit" p:renderColon="false" p:additionalCssClasses="cm-form-required-for-submit"/>
-                        </list>
-                    </property>
-                </bean>
-
-				<bean parent="Uif-InputField-LabelTop" p:propertyName="course.gradingOptions" p:showLabel="false" p:required="true">
+                 <bean parent="Uif-InputField-LabelTop" p:propertyName="course.gradingOptions"
+                      p:label="Assessment Scale">
+                     <property name="fieldLabel.requiredMessage">
+                         <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
+                     </property>
 					<property name="control">
 						<bean parent="Uif-VerticalCheckboxesControl" />
 					</property>
+                     <property name="simpleConstraint">
+                         <bean parent="RequiredConstraint">
+                             <property name="states">
+                                 <list>
+                                     <value>S+</value>
+                                 </list>
+                             </property>
+                         </bean>
+                     </property>
 					<property name="optionsFinder">
 						<bean
 							class="org.kuali.student.lum.lu.ui.course.keyvalues.AssesmentKeyValueFinder" />
@@ -159,10 +163,21 @@
 			<list>
 				<bean parent="Uif-InputField-LabelTop" p:propertyName="finalExamStatus"
 					p:label="Final Exam Status">
-					<property name="constraintText" value="Required on Submit" />
+                    <property name="fieldLabel.requiredMessage">
+                        <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.requiredWorkflowMode}" />
+                    </property>
 					<property name="control">
 						<bean parent="Uif-VerticalRadioControl" />
 					</property>
+                    <property name="simpleConstraint">
+                        <bean parent="RequiredConstraint">
+                            <property name="states">
+                                <list>
+                                    <value>S+</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
 					<property name="optionsFinder">
 						<bean
 							class="org.kuali.student.lum.lu.ui.course.keyvalues.FinalExamKeyValueFinder"
