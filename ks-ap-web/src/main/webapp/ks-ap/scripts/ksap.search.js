@@ -351,6 +351,11 @@ function fnGenerateFacetGroup(obj) {
 			continue;
 		else if (oData.hasOwnProperty(key))
 			bMore = !(bOne = !bOne);
+    if (bOne){
+        obj.addClass("ksap-hide");
+        return;
+    }
+    obj.removeClass("ksap-hide");
 	if (bMore) {
 		jFacets.append(jQuery('<div class="all"><ul /></div>'));
 		var jAll = jQuery('<li />').attr("title", "All").data("facetid", fcol)
