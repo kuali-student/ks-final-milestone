@@ -92,9 +92,9 @@ public class HolidayWrapperListFinder extends UifKeyValuesFinderBase implements 
         else {
             Integer theStartYear;
             if (startDate != null)
-                theStartYear = new Integer(DateFormatters.DEFULT_YEAR_FORMATTER.format(startDate));
+                theStartYear = Integer.valueOf(DateFormatters.DEFULT_YEAR_FORMATTER.format(startDate));
             else
-                theStartYear = new Integer(DateFormatters.DEFULT_YEAR_FORMATTER.format(endDate));
+                theStartYear = Integer.valueOf(DateFormatters.DEFULT_YEAR_FORMATTER.format(endDate));
             holidayCalendarInfoList = buildOfficialHolidayCalendarInfoList(theStartYear);
         }
 

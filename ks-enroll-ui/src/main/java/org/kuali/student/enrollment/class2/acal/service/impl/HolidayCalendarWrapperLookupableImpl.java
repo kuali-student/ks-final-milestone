@@ -41,7 +41,7 @@ public class HolidayCalendarWrapperLookupableImpl extends LookupableImpl {
         List<HolidayCalendarInfo> holidayCalendarInfoList = new ArrayList<HolidayCalendarInfo>();
         List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
 
-        Integer theStartYear = new Integer(fieldValues.get(ACADEMIC_CALENDAR_START_YEAR_KEY));
+        Integer theStartYear = Integer.valueOf(fieldValues.get(ACADEMIC_CALENDAR_START_YEAR_KEY));
         ContextInfo context = new ContextInfo();
         try{
             holidayCalendarInfoList = getAcademicCalendarService().getHolidayCalendarsByStartYear(theStartYear, context);

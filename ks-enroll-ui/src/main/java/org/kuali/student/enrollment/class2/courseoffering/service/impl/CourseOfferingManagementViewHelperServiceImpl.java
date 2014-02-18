@@ -1614,10 +1614,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         info.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(sched.getWeekdays()));
 
         info.setStartTime(TimeOfDayHelper.setMillis(((sched.getStart() != null && !"".equals(sched.getStart()))
-                ? new Long(sched.getStart()) : null)));
+                ? Long.valueOf(sched.getStart()) : null)));
 
         info.setEndTime(TimeOfDayHelper.setMillis(((sched.getEnd() != null && !"".equals(sched.getEnd()))
-                ? new Long(sched.getEnd()) : null)));
+                ? Long.valueOf(sched.getEnd()) : null)));
 
         info.setDescr(new RichTextInfo());
         info.getDescr().setFormatted(null);

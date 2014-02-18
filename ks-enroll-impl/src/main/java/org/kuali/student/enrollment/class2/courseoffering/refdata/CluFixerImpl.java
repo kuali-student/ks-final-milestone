@@ -440,8 +440,7 @@ public class CluFixerImpl implements CluFixer {
             throw new RuntimeException("Illegal season name");
         }
         String result = yearSubstr + suffix;
-        Integer val = new Integer(result);
-        return val;
+        return Integer.valueOf(result);
     }
 
     // Each line of the file should look like
