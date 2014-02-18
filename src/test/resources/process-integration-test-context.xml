@@ -66,7 +66,7 @@
     <bean id="identityService" class="org.kuali.student.enrollment.process.service.integration.test.ProcessIntegrationTestIdentityServiceDataLoadingDecorator">
         <constructor-arg ref="identityServiceMapImpl"/>
     </bean>
-    <bean id="identityServiceMapImpl" class="org.kuali.student.kim.permission.mock.IdentityServiceMapImpl"/>
+    <bean id="identityServiceMapImpl" class="org.kuali.student.kim.permission.map.IdentityServiceMapImpl"/>
             
     <bean id="propositionFactoryHardwiredImpl" class="org.kuali.student.core.process.evaluator.PropositionFactoryHardwiredImpl" >  
     </bean>

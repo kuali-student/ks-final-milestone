@@ -2,8 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.kuali.student.kim.permission.mock;
+package org.kuali.student.kim.permission.map;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -39,6 +41,8 @@ import javax.jws.WebParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.student.common.CriteriaMatcherInMemory;
 
 /**
  *
@@ -135,15 +139,38 @@ public class IdentityServiceMapImpl implements IdentityService, MockService {
         Entity.Builder builder = Entity.Builder.create(entity);
         if (builder.getId() == null) {
             builder.setId(UUIDHelper.genStringUUID());
+            for (EntityName.Builder nameBldr : builder.getNames()) {
+                if (nameBldr.getId() == null) {
+                    nameBldr.setId(UUIDHelper.genStringUUID());
+                }
+                nameBldr.setEntityId(builder.getId());
+            }
+            for (EntityAffiliation.Builder affilationBldr : builder.getAffiliations()) {
+                if (affilationBldr.getId() == null) {
+                    affilationBldr.setId(UUIDHelper.genStringUUID());
+                }
+                affilationBldr.setEntityId(builder.getId());
+            }
         }
         Entity copy = builder.build();
-        this.entities.put(entity.getId(), copy);
+        this.entities.put(copy.getId(), copy);
         return copy;
     }
 
     @Override
     public EntityQueryResults findEntities(QueryByCriteria qbc) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+        CriteriaMatcherInMemory<Entity> matcher = new CriteriaMatcherInMemory<Entity>();
+        matcher.setCriteria(qbc);
+        Collection<Entity> entities =  matcher.findMatching(this.entities.values());
+        EntityQueryResults.Builder bldr = EntityQueryResults.Builder.create();
+        List<Entity.Builder> list = new ArrayList<Entity.Builder> ();
+        for (Entity entity : entities) {
+            list.add (Entity.Builder.create(entity));
+        }
+        bldr.setResults(list);
+        bldr.setTotalRowCount(list.size());
+        bldr.setMoreResultsAvailable(false);
+        return bldr.build();
     }
 
     @Override
@@ -249,8 +276,13 @@ public class IdentityServiceMapImpl implements IdentityService, MockService {
     }
 
     @Override
-    public EntityDefault getEntityDefault(String string) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public EntityDefault getEntityDefault(String id) throws RiceIllegalArgumentException {
+       Entity entity = this.getEntity(id);
+       if (entity == null) {
+           return null;
+       }
+       EntityDefault.Builder bldr = EntityDefault.Builder.create(entity);
+       return bldr.build();
     }
 
     @Override
@@ -307,8 +339,20 @@ public class IdentityServiceMapImpl implements IdentityService, MockService {
     }
 
     @Override
-    public CodedAttribute getNameType(String string) throws RiceIllegalArgumentException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public CodedAttribute getNameType(String nameType) throws RiceIllegalArgumentException {
+        if (nameType.equals(KimConstants.NameTypes.PRIMARY)) {
+            CodedAttribute.Builder bldr  = CodedAttribute.Builder.create(nameType);
+            return bldr.build();
+        }
+        if (nameType.equals(KimConstants.NameTypes.PREFERRED)) {
+            CodedAttribute.Builder bldr  = CodedAttribute.Builder.create(nameType);
+            return bldr.build();
+        }
+        if (nameType.equals(KimConstants.NameTypes.OTHER)) {
+            CodedAttribute.Builder bldr  = CodedAttribute.Builder.create(nameType);
+            return bldr.build();
+        }
+        throw new RiceIllegalArgumentException (nameType);
     }
 
     @Override

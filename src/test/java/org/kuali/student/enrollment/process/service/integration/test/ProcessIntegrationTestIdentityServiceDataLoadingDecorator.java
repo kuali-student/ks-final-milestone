@@ -8,7 +8,7 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.personal.EntityBioDemographics;
-import org.kuali.student.kim.permission.mock.IdentityServiceDecorator;
+import org.kuali.student.kim.permission.map.IdentityServiceDecorator;
 import org.kuali.student.r2.common.util.constants.KimIdentityServiceConstants;
 
 import java.util.Arrays;
