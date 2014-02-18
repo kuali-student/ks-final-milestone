@@ -922,7 +922,3 @@ function handleEventforDisabledElements() {
         }
     });
 }
-
-function createWatermark(id, watermark) {
-    jQuery("#" + id).watermark(watermark, {className: 'ks-watermark'});
-}
