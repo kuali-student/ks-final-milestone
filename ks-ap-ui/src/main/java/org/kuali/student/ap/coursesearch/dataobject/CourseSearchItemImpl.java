@@ -197,7 +197,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
             List<Term> terms = new ArrayList<Term>(scheduledTermsListIds);
             List<Term> scheduledTermsListSorted = KsapFrameworkServiceLocator.getTermHelper().sortTermsByStartDate(terms, true);
 
-            Integer displayLimit = new Integer(ConfigContext.getCurrentContextConfig().getProperty("ks.ap.search.terms.scheduled.limit"));
+            Integer displayLimit = Integer.valueOf(ConfigContext.getCurrentContextConfig().getProperty("ks.ap.search.terms.scheduled.limit"));
 
             //list greater than 3, truncate
             if ( scheduledTermsListSorted.size() >  displayLimit )
