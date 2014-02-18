@@ -5,6 +5,8 @@
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <import resource="classpath:ks-enroll-impl-test-dictionary-file-locations.xml"/>
+    <import resource="classpath:/org/kuali/rice/krad/uif/UifControlDefinitions.xml" />
+    <import resource="classpath:/org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml" />
 
     <!--LPR Service-->
     <bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
