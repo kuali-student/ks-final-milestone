@@ -796,101 +796,6 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a single StudentCourseRecord by a StudentCourseRecord Id.
-     * @param studentCourseRecordId the id of the studentCourseRecord
-     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
-     * @return the StudentCourseRecordInfo
-     * @throws DoesNotExistException studentCourseRecordId is not found
-     * @throws InvalidParameterException studentCourseRecordId or contextInfo is not valid
-     * @throws MissingParameterException studentCourseRecordId or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public StudentCourseRecordInfo getStudentCourseRecord(@WebParam(name = "studentCourseRecordId") String studentCourseRecordId,
-                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a single StudentCredentialRecord by a StudentCredentialRecord Id.
-     * @param studentCredentialRecordId the id of the StudentCredentialRecord
-     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
-     * @return the StudentCredentialRecordInfo
-     * @throws DoesNotExistException studentCredentialRecordId is not found
-     * @throws InvalidParameterException studentCredentialRecordId or contextInfo is not valid
-     * @throws MissingParameterException studentCredentialRecordId or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public StudentCourseRecordInfo getStudentCredentialRecord(@WebParam(name = "studentCredentialRecordId") String studentCredentialRecordId,
-                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a single StudentTestScoreRecord by a StudentTestScoreRecord Id.
-     * @param studentTestScoreRecordId the id of the StudentCredentialRecord
-     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
-     * @return the StudentCredentialRecordInfo
-     * @throws DoesNotExistException studentTestScoreRecordId is not found
-     * @throws InvalidParameterException studentTestScoreRecordId or contextInfo is not valid
-     * @throws MissingParameterException studentTestScoreRecordId or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public StudentTestScoreRecordInfo getStudentTestScoreRecord(@WebParam(name = "studentTestScoreRecordId") String studentTestScoreRecordId,
-                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a single GPA by a GPA Id.
-     * @param gpaId the id of the GPA
-     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
-     * @return the GPAInfo
-     * @throws DoesNotExistException gpaId is not found
-     * @throws InvalidParameterException gpaId or contextInfo is not valid
-     * @throws MissingParameterException gpaId or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public GPAInfo getGpa(@WebParam(name = "gpaId") String gpaId,
-                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a single Load by a Load Id.
-     * @param loadId the id of the Load
-     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
-     * @return the LoadInfo
-     * @throws DoesNotExistException loadId is not found
-     * @throws InvalidParameterException loadId or contextInfo is not valid
-     * @throws MissingParameterException loadId or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public LoadInfo getLoad(@WebParam(name = "loadId") String loadId,
-                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
      * Retrieves a list of StudentProgramRecords from a list of StudentProgramRecord Ids. The returned
      * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
      * @param studentProgramRecordIds a list of StudentProgramRecord identifiers
@@ -904,106 +809,6 @@ public interface AcademicRecordService {
      */
     public List<StudentProgramRecordInfo> getStudentProgramRecordsByIds(@WebParam(name = "studentProgramRecordIds") List<String> studentProgramRecordIds,
                                                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of StudentCredentialRecords from a list of StudentCredentialRecord Ids. The returned
-     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
-     * @param studentCredentialRecordIds a list of StudentCredentialRecord identifiers
-     * @param contextInfo
-     * @return a List of studentCredentialRecordInfo
-     * @throws DoesNotExistException studentCredentialRecordIds are not found
-     * @throws InvalidParameterException studentCredentialRecordIds or contextInfo is not valid
-     * @throws MissingParameterException studentCredentialRecordIds or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<StudentCredentialRecordInfo> getStudentCredentialRecordsByIds(@WebParam(name = "studentCredentialRecordIds") List<String> studentCredentialRecordIds,
-                                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of StudentCourseRecords from a list of StudentCourseRecords Ids. The returned
-     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
-     * @param studentCourseRecordIds a list of StudentCourseRecord identifiers
-     * @param contextInfo
-     * @return a List of StudentCourseRecordInfo
-     * @throws DoesNotExistException studentCourseRecordIds are not found
-     * @throws InvalidParameterException studentCourseRecordIds or contextInfo is not valid
-     * @throws MissingParameterException studentCourseRecordIds or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<StudentCourseRecordInfo> getStudentCourseRecordsByIds(@WebParam(name = "studentCourseRecordIds") List<String> studentCourseRecordIds,
-                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of StudentTestScoreRecords from a list of StudentTestScoreRecord Ids. The returned
-     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
-     * @param studentTestScoreRecordIds a list of StudentTestScoreRecord identifiers
-     * @param contextInfo
-     * @return a List of StudentTestScoreRecordInfo
-     * @throws DoesNotExistException studentTestScoreRecordIds are not found
-     * @throws InvalidParameterException studentTestScoreRecordIds or contextInfo is not valid
-     * @throws MissingParameterException studentTestScoreRecordIds or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<StudentTestScoreRecordInfo> getStudentTestScoreRecordsByIds(@WebParam(name = "studentTestScoreRecordIds") List<String> studentTestScoreRecordIds,
-                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of GPAs from a list of GPA Ids. The returned
-     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
-     * @param gpaIds a list of GPA identifiers
-     * @param contextInfo
-     * @return a List of GPAInfo
-     * @throws DoesNotExistException gpaIds are not found
-     * @throws InvalidParameterException gpaIds or contextInfo is not valid
-     * @throws MissingParameterException gpaIds or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<GPAInfo> getGpasByIds(@WebParam(name = "gpaId") List<String> gpaIds,
-                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of Loads from a list of Load Ids. The returned
-     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
-     * @param loadIds a list of Load identifiers
-     * @param contextInfo
-     * @return a List of LoadInfo
-     * @throws DoesNotExistException loadIds are not found
-     * @throws InvalidParameterException loadIds or contextInfo is not valid
-     * @throws MissingParameterException loadIds or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<LoadInfo> getLoadsByIds(@WebParam(name = "loadIds") List<String> loadIds,
-                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
@@ -1028,91 +833,6 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
-     * Retrieves a list of StudentCourseRecord Ids by StudentCourseRecord Type.
-     * @param studentCourseRecordTypeKey
-     * @param contextInfo
-     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
-     * @throws InvalidParameterException studentCourseRecordTypeKey or contextInfo is not valid
-     * @throws MissingParameterException studentCourseRecordTypeKey or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> getStudentCourseRecordIdsByType(@WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
-                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of StudentCredentialRecord Ids by StudentCredentialRecord Type.
-     * @param studentCredentialRecordTypeKey
-     * @param contextInfo
-     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
-     * @throws InvalidParameterException studentCredentialRecordTypeKey or contextInfo is not valid
-     * @throws MissingParameterException studentCredentialRecordTypeKey or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> getStudentCredentialRecordIdsByType(@WebParam(name = "studentCredentialRecordTypeKey") String studentCredentialRecordTypeKey,
-                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of StudentTestScoreRecord Ids by StudentTestScoreRecord Type.
-     * @param studentTestScoreTypeKey
-     * @param contextInfo
-     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
-     * @throws InvalidParameterException studentTestScoreTypeKey or contextInfo is not valid
-     * @throws MissingParameterException studentTestScoreTypeKey or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> getStudentTestScoreIdsByType(@WebParam(name = "studentTestScoreTypeKey") String studentTestScoreTypeKey,
-                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of GPA Ids by GPA Type.
-     * @param gpaTypeKey
-     * @param contextInfo
-     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
-     * @throws InvalidParameterException gpaTypeKey or contextInfo is not valid
-     * @throws MissingParameterException gpaTypeKey or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> getGpaIdsByType(@WebParam(name = "gpaTypeKey") String gpaTypeKey,
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Retrieves a list of Load Ids by Load Type.
-     * @param loadTypeKey
-     * @param contextInfo
-     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
-     * @throws InvalidParameterException loadTypeKey or contextInfo is not valid
-     * @throws MissingParameterException loadTypeKey or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> getLoadIdsByType(@WebParam(name = "loadTypeKey") String loadTypeKey,
-                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
      * Searches for StudentProgramRecord Ids that meet the given search criteria.
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and locale information about the caller of the service operation
@@ -1130,91 +850,6 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
-     * Searches for StudentCourseRecord Ids that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of StudentCredentialRecordIds
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForStudentCourseRecordIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Searches for StudentTestScoreRecord Ids that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of StudentTestScoreRecordIds
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForStudentTestScoreRecordIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Searches for StudentCredentialRecord Ids that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of StudentCourseRecordIds
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForStudentCredentialRecordIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Searches for GPA Ids that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of GpaIds
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForGpaIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Searches for Load Ids that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of LoadIds
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> searchForLoadIds(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
      * Searches for StudentProgramRecords that meet the given search criteria.
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and locale information about the caller of the service operation
@@ -1226,74 +861,6 @@ public interface AcademicRecordService {
      */
     public List<StudentProgramRecordInfo> searchForStudentProgramRecords(@WebParam(name = "criteria") QueryByCriteria criteria,
                                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Searches for StudentCourseRecords that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of StudentCourseRecords
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<StudentCourseRecordInfo> searchForStudentCourseRecords(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Searches for StudentCredentialRecords that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of StudentCredentialRecords
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<StudentCredentialRecordInfo> searchForStudentCredentialRecords(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Searches for StudentTestScoreRecords that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of StudentTestScoreRecords
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<StudentTestScoreRecordInfo> searchForStudentTestScoreRecords(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException;
-
-    /**
-     * Searches for GPAs that meet the given search criteria.
-     * @param criteria the search criteria
-     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
-     * @return a list of GPAs
-     * @throws InvalidParameterException criteria or contextInfo is not valid
-     * @throws MissingParameterException criteria or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<GPAInfo> searchForGpas(@WebParam(name = "criteria") QueryByCriteria criteria,
-                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
@@ -1406,6 +973,120 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
+     * Retrieves a single StudentCourseRecord by a StudentCourseRecord Id.
+     * @param studentCourseRecordId the id of the studentCourseRecord
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return the StudentCourseRecordInfo
+     * @throws DoesNotExistException studentCourseRecordId is not found
+     * @throws InvalidParameterException studentCourseRecordId or contextInfo is not valid
+     * @throws MissingParameterException studentCourseRecordId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StudentCourseRecordInfo getStudentCourseRecord(@WebParam(name = "studentCourseRecordId") String studentCourseRecordId,
+                                                          @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of StudentCourseRecords from a list of StudentCourseRecords Ids. The returned
+     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param studentCourseRecordIds a list of StudentCourseRecord identifiers
+     * @param contextInfo
+     * @return a List of StudentCourseRecordInfo
+     * @throws DoesNotExistException studentCourseRecordIds are not found
+     * @throws InvalidParameterException studentCourseRecordIds or contextInfo is not valid
+     * @throws MissingParameterException studentCourseRecordIds or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentCourseRecordInfo> getStudentCourseRecordsByIds(@WebParam(name = "studentCourseRecordIds") List<String> studentCourseRecordIds,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of StudentCourseRecord Ids by StudentCourseRecord Type.
+     * @param studentCourseRecordTypeKey
+     * @param contextInfo
+     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
+     * @throws InvalidParameterException studentCourseRecordTypeKey or contextInfo is not valid
+     * @throws MissingParameterException studentCourseRecordTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getStudentCourseRecordIdsByType(@WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for StudentCourseRecord Ids that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of StudentCredentialRecordIds
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForStudentCourseRecordIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for StudentCourseRecords that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of StudentCourseRecords
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentCourseRecordInfo> searchForStudentCourseRecords(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates a StudentCourseRecord. If an identifier is present for the
+     * StudentCourseRecord and a record is found for that identifier, the validation
+     * checks if the StudentCourseRecord can be updated to the new values.
+     * If an identifier is not present or a record does not exist, the validation
+     * checks if the StudentCourseRecord with the given data can be created.
+     * @param validationTypeKey the identifier for the validation Type
+     * @param studentCourseRecordTypeKey the identifier for the Object Type to be validated
+     * @param studentCourseRecordInfo the studentCourseRecord to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException studentCourseRecordInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentCourseRecordInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateStudentCourseRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                  @WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
+                                                                  @WebParam(name = "studentCourseRecordInfo") StudentCourseRecordInfo studentCourseRecordInfo,
+                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Creates a new StudentCourseRecord. The StudentCourseRecord Id, Type, and Meta information may not
      * be set in the supplied data object.
      *
@@ -1435,30 +1116,6 @@ public interface AcademicRecordService {
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException;
-
-    /**
-     * Validates a StudentCourseRecord. If an identifier is present for the
-     * StudentCourseRecord and a record is found for that identifier, the validation
-     * checks if the StudentCourseRecord can be updated to the new values.
-     * If an identifier is not present or a record does not exist, the validation
-     * checks if the StudentCourseRecord with the given data can be created.
-     * @param validationTypeKey the identifier for the validation Type
-     * @param studentCourseRecordTypeKey the identifier for the Object Type to be validated
-     * @param studentCourseRecordInfo the studentCourseRecord to be validated
-     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
-     * @return a list of validation results or an empty list if validation succeeded
-     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
-     * @throws InvalidParameterException studentCourseRecordInfo or contextInfo is not valid
-     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentCourseRecordInfo, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ValidationResultInfo> validateStudentCourseRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                                  @WebParam(name = "studentCourseRecordTypeKey") String studentCourseRecordTypeKey,
-                                                                  @WebParam(name = "studentCourseRecordInfo") StudentCourseRecordInfo studentCourseRecordInfo,
-                                                                  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
 
     /**
      * Updates an existing StudentCourseRecord. The StudentCourseRecord Id, Type, and Meta information may not be changed.
@@ -1511,6 +1168,121 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
+     * Retrieves a single StudentCredentialRecord by a StudentCredentialRecord Id.
+     * @param studentCredentialRecordId the id of the StudentCredentialRecord
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return the StudentCredentialRecordInfo
+     * @throws DoesNotExistException studentCredentialRecordId is not found
+     * @throws InvalidParameterException studentCredentialRecordId or contextInfo is not valid
+     * @throws MissingParameterException studentCredentialRecordId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StudentCourseRecordInfo getStudentCredentialRecord(@WebParam(name = "studentCredentialRecordId") String studentCredentialRecordId,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of StudentCredentialRecord Ids by StudentCredentialRecord Type.
+     * @param studentCredentialRecordTypeKey
+     * @param contextInfo
+     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
+     * @throws InvalidParameterException studentCredentialRecordTypeKey or contextInfo is not valid
+     * @throws MissingParameterException studentCredentialRecordTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getStudentCredentialRecordIdsByType(@WebParam(name = "studentCredentialRecordTypeKey") String studentCredentialRecordTypeKey,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of StudentCredentialRecords from a list of StudentCredentialRecord Ids. The returned
+     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param studentCredentialRecordIds a list of StudentCredentialRecord identifiers
+     * @param contextInfo
+     * @return a List of studentCredentialRecordInfo
+     * @throws DoesNotExistException studentCredentialRecordIds are not found
+     * @throws InvalidParameterException studentCredentialRecordIds or contextInfo is not valid
+     * @throws MissingParameterException studentCredentialRecordIds or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentCredentialRecordInfo> getStudentCredentialRecordsByIds(@WebParam(name = "studentCredentialRecordIds") List<String> studentCredentialRecordIds,
+                                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for StudentCredentialRecord Ids that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of StudentCourseRecordIds
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForStudentCredentialRecordIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for StudentCredentialRecords that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of StudentCredentialRecords
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentCredentialRecordInfo> searchForStudentCredentialRecords(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Validates a StudentCredentialRecord. If an identifier is present for the
+     * StudentCredentialRecord and a record is found for that identifier, the validation
+     * checks if the StudentCredentialRecord can be updated to the new values.
+     * If an identifier is not present or a record does not exist, the validation
+     * checks if the StudentCredentialRecord with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param studentCredentialTypeKey the identifier for the Object Type to be validated
+     * @param studentCredentialRecord the studentCredentialRecord to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException studentCredentialRecordInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentCredentialRecordInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateStudentCredentialRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                      @WebParam(name = "studentCredentialTypeKey") String studentCredentialTypeKey,
+                                                                      @WebParam(name = "studentCredentialRecord") StudentCredentialRecordInfo studentCredentialRecord,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Creates a new StudentCredentialRecord. The StudentCredentialRecord Id, Type, and Meta information may not
      * be set in the supplied data object.
      *
@@ -1540,31 +1312,6 @@ public interface AcademicRecordService {
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException;
-
-    /**
-     * Validates a StudentCredentialRecord. If an identifier is present for the
-     * StudentCredentialRecord and a record is found for that identifier, the validation
-     * checks if the StudentCredentialRecord can be updated to the new values.
-     * If an identifier is not present or a record does not exist, the validation
-     * checks if the StudentCredentialRecord with the given data can be created.
-     *
-     * @param validationTypeKey the identifier for the validation Type
-     * @param studentCredentialTypeKey the identifier for the Object Type to be validated
-     * @param studentCredentialRecord the studentCredentialRecord to be validated
-     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
-     * @return a list of validation results or an empty list if validation succeeded
-     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
-     * @throws InvalidParameterException studentCredentialRecordInfo or contextInfo is not valid
-     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentCredentialRecordInfo, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ValidationResultInfo> validateStudentCredentialRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                                      @WebParam(name = "studentCredentialTypeKey") String studentCredentialTypeKey,
-                                                                      @WebParam(name = "studentCredentialRecord") StudentCredentialRecordInfo studentCredentialRecord,
-                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
 
     /**
      * Updates an existing StudentCredentialRecord. The StudentCredentialRecord Id, Type, and Meta
@@ -1618,6 +1365,122 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
+     * Retrieves a single StudentTestScoreRecord by a StudentTestScoreRecord Id.
+     * @param studentTestScoreRecordId the id of the StudentCredentialRecord
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return the StudentCredentialRecordInfo
+     * @throws DoesNotExistException studentTestScoreRecordId is not found
+     * @throws InvalidParameterException studentTestScoreRecordId or contextInfo is not valid
+     * @throws MissingParameterException studentTestScoreRecordId or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StudentTestScoreRecordInfo getStudentTestScoreRecord(@WebParam(name = "studentTestScoreRecordId") String studentTestScoreRecordId,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of StudentTestScoreRecords from a list of StudentTestScoreRecord Ids. The returned
+     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param studentTestScoreRecordIds a list of StudentTestScoreRecord identifiers
+     * @param contextInfo
+     * @return a List of StudentTestScoreRecordInfo
+     * @throws DoesNotExistException studentTestScoreRecordIds are not found
+     * @throws InvalidParameterException studentTestScoreRecordIds or contextInfo is not valid
+     * @throws MissingParameterException studentTestScoreRecordIds or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentTestScoreRecordInfo> getStudentTestScoreRecordsByIds(@WebParam(name = "studentTestScoreRecordIds") List<String> studentTestScoreRecordIds,
+                                                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of StudentTestScoreRecord Ids by StudentTestScoreRecord Type.
+     * @param studentTestScoreTypeKey
+     * @param contextInfo
+     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
+     * @throws InvalidParameterException studentTestScoreTypeKey or contextInfo is not valid
+     * @throws MissingParameterException studentTestScoreTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getStudentTestScoreIdsByType(@WebParam(name = "studentTestScoreTypeKey") String studentTestScoreTypeKey,
+                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for StudentTestScoreRecord Ids that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of StudentTestScoreRecordIds
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForStudentTestScoreRecordIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for StudentTestScoreRecords that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of StudentTestScoreRecords
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StudentTestScoreRecordInfo> searchForStudentTestScoreRecords(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     *
+     * Validates a StudentTestScoreRecord. If an identifier is present for the
+     * StudentTestScoreRecord and a record is found for that identifier, the validation
+     * checks if the StudentTestScoreRecord can be updated to the new values.
+     * If an identifier is not present or a record does not exist, the validation
+     * checks if the StudentTestScoreRecord with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the validation Type
+     * @param studentTestScoreRecordTypeKey the identifier for the Object Type to be validated
+     * @param studentTestScoreRecord the studentTestScoreRecord to be validated
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
+     * @throws InvalidParameterException studentTestScoreRecordInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentTestScoreRecordInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateStudentTestScoreRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
+                                                                     @WebParam(name = "studentTestScoreRecordTypeKey") String studentTestScoreRecordTypeKey,
+                                                                     @WebParam(name = "studentTestScoreRecord") StudentTestScoreRecordInfo studentTestScoreRecord,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Creates a new StudentTestScoreRecord. The StudentTestScoreRecord Id, Type, and Meta information may not
      * be set in the supplied data object.
      *
@@ -1647,32 +1510,6 @@ public interface AcademicRecordService {
             OperationFailedException,
             PermissionDeniedException,
             ReadOnlyException;
-
-    /**
-     *
-     * Validates a StudentTestScoreRecord. If an identifier is present for the
-     * StudentTestScoreRecord and a record is found for that identifier, the validation
-     * checks if the StudentTestScoreRecord can be updated to the new values.
-     * If an identifier is not present or a record does not exist, the validation
-     * checks if the StudentTestScoreRecord with the given data can be created.
-     *
-     * @param validationTypeKey the identifier for the validation Type
-     * @param studentTestScoreRecordTypeKey the identifier for the Object Type to be validated
-     * @param studentTestScoreRecord the studentTestScoreRecord to be validated
-     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
-     * @return a list of validation results or an empty list if validation succeeded
-     * @throws DoesNotExistException validationTypeKey or objectTypeKey is not found
-     * @throws InvalidParameterException studentTestScoreRecordInfo or contextInfo is not valid
-     * @throws MissingParameterException validationTypeKey, objectTypeKey, studentTestScoreRecordInfo, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<ValidationResultInfo> validateStudentTestScoreRecord(@WebParam(name = "validationTypeKey") String validationTypeKey,
-                                                                     @WebParam(name = "studentTestScoreRecordTypeKey") String studentTestScoreRecordTypeKey,
-                                                                     @WebParam(name = "studentTestScoreRecord") StudentTestScoreRecordInfo studentTestScoreRecord,
-                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
 
     /**
      * Updates an existing StudentTestScoreRecord. The StudentTestScoreRecord Id, Type, and Meta
@@ -1726,31 +1563,94 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
-     * Creates a new GPA. The GPA Id, Type, and Meta information may not be set in the supplied data object.
-     * @param gpaTypeKey
-     * @param gpa
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
-     * @return the newly created GPAInfo
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
-     * @throws InvalidParameterException gpa or contextInfo is not valid
-     * @throws MissingParameterException objectTypeKey, gpa, or contextInfo is missing or null
+     * Retrieves a single GPA by a GPA Id.
+     * @param gpaId the id of the GPA
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return the GPAInfo
+     * @throws DoesNotExistException gpaId is not found
+     * @throws InvalidParameterException gpaId or contextInfo is not valid
+     * @throws MissingParameterException gpaId or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
-     * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public GPAInfo createGPA(@WebParam(name = "gpaTypeKey") String gpaTypeKey,
-                             @WebParam(name = "gpa") GPAInfo gpa,
-                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
-            DataValidationErrorException,
-            DoesNotExistException,
+    public GPAInfo getGpa(@WebParam(name = "gpaId") String gpaId,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of GPAs from a list of GPA Ids. The returned
+     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param gpaIds a list of GPA identifiers
+     * @param contextInfo
+     * @return a List of GPAInfo
+     * @throws DoesNotExistException gpaIds are not found
+     * @throws InvalidParameterException gpaIds or contextInfo is not valid
+     * @throws MissingParameterException gpaIds or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<GPAInfo> getGpasByIds(@WebParam(name = "gpaId") List<String> gpaIds,
+                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of GPA Ids by GPA Type.
+     * @param gpaTypeKey
+     * @param contextInfo
+     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
+     * @throws InvalidParameterException gpaTypeKey or contextInfo is not valid
+     * @throws MissingParameterException gpaTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getGpaIdsByType(@WebParam(name = "gpaTypeKey") String gpaTypeKey,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for GPAs that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of GPAs
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<GPAInfo> searchForGpas(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                       @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for GPA Ids that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of GpaIds
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForGpaIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      * Validates a GPA. If an identifier is present for the
@@ -1776,6 +1676,33 @@ public interface AcademicRecordService {
                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
+
+    /**
+     * Creates a new GPA. The GPA Id, Type, and Meta information may not be set in the supplied data object.
+     * @param gpaTypeKey
+     * @param gpa
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created GPAInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException gpa or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, gpa, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public GPAInfo createGPA(@WebParam(name = "gpaTypeKey") String gpaTypeKey,
+                             @WebParam(name = "gpa") GPAInfo gpa,
+                             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Updates an existing GPA. The GPA Id, Type, and Meta information may not be changed.
@@ -1828,32 +1755,77 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
-     * Creates a new Load. The Load Id, Type, and Meta information may not be set in the supplied data object.
-     *
-     * @param loadTypeKey
-     * @param load
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
-     * @return the newly created LoadInfo
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
-     * @throws InvalidParameterException load or contextInfo is not valid
-     * @throws MissingParameterException objectTypeKey, load, or contextInfo is missing or null
+     * Retrieves a single Load by a Load Id.
+     * @param loadId the id of the Load
+     * @param contextInfo Context information containing the principalId and locale information about the caller of service operation
+     * @return the LoadInfo
+     * @throws DoesNotExistException loadId is not found
+     * @throws InvalidParameterException loadId or contextInfo is not valid
+     * @throws MissingParameterException loadId or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
-     * @throws ReadOnlyException an attempt at supplying information designated as read only
      */
-    public LoadInfo createLoad(@WebParam(name = "loadTypeKey") String loadTypeKey,
-                               @WebParam(name = "load") LoadInfo load,
-                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
-            DataValidationErrorException,
-            DoesNotExistException,
+    public LoadInfo getLoad(@WebParam(name = "loadId") String loadId,
+                                           @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException;
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Loads from a list of Load Ids. The returned
+     * list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     * @param loadIds a list of Load identifiers
+     * @param contextInfo
+     * @return a List of LoadInfo
+     * @throws DoesNotExistException loadIds are not found
+     * @throws InvalidParameterException loadIds or contextInfo is not valid
+     * @throws MissingParameterException loadIds or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LoadInfo> getLoadsByIds(@WebParam(name = "loadIds") List<String> loadIds,
+                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Load Ids by Load Type.
+     * @param loadTypeKey
+     * @param contextInfo
+     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
+     * @throws InvalidParameterException loadTypeKey or contextInfo is not valid
+     * @throws MissingParameterException loadTypeKey or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getLoadIdsByType(@WebParam(name = "loadTypeKey") String loadTypeKey,
+                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Searches for Load Ids that meet the given search criteria.
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoadIds
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForLoadIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+                                        @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
 
     /**
      *
@@ -1880,6 +1852,34 @@ public interface AcademicRecordService {
                                                    @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;
+
+    /**
+     * Creates a new Load. The Load Id, Type, and Meta information may not be set in the supplied data object.
+     *
+     * @param loadTypeKey
+     * @param load
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the newly created LoadInfo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException objectTypeKey does not exist or is not supported
+     * @throws InvalidParameterException load or contextInfo is not valid
+     * @throws MissingParameterException objectTypeKey, load, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information designated as read only
+     */
+    public LoadInfo createLoad(@WebParam(name = "loadTypeKey") String loadTypeKey,
+                               @WebParam(name = "load") LoadInfo load,
+                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws
+            DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException;
 
     /**
      * Updates an existing Load. The Load Id, Type, and Meta information may not be changed.
