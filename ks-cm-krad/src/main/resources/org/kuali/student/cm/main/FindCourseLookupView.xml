@@ -69,7 +69,7 @@ limitations under the License.
                             </list>
                         </property>
                         <property name="messageText"
-                                  value=" Enter  search terms in one or more fields" />
+                                  value=" Enter search terms in one or more fields" />
                     </bean>
                 </property>
             </bean>
@@ -77,9 +77,9 @@ limitations under the License.
 
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code: "/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title: "/>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" p:label="Phrase in Description: "/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="code" p:label="Course Code" p:fieldLabel.renderColon="true"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Course Title" p:fieldLabel.renderColon="true" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="description" p:label="Phrase in Description" p:fieldLabel.renderColon="true"/>
             </list>
         </property>
         <property name="resultFields">
