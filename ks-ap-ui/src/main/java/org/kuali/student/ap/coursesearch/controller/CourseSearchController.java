@@ -477,13 +477,7 @@ public class CourseSearchController extends UifControllerBase {
                                 fs.count++;
                             }
                 }
-                for (String kw : row.item.getKeywords()) {
-                    Integer kwi = kwc.get(kw);
-                    if (kwi == null)
-                        kwc.put(kw, 1);
-                    else
-                        kwc.put(kw, kwi + 1);
-                }
+
             }
             // Post-process based on calculated totals and per-column rules
             for (String fk : facetColumns.keySet()) {

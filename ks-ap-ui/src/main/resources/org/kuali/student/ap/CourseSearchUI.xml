@@ -323,7 +323,6 @@
 				<ref bean="facet_credits" />
 				<ref bean="facet_level" />
 				<ref bean="facet_curriculum" />
-				<ref bean="facet_keywords" />
 				<ref bean="add_course_items" />
 				<ref bean="course_quick_detail" />
 			</list>
@@ -367,7 +366,6 @@
 	<bean id="facet_credits" parent="facet-parent" p:headerText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
 	<bean id="facet_level" parent="facet-parent" p:headerText="Course Level" />
 	<bean id="facet_curriculum" parent="facet-parent" p:headerText="Course Prefix" />
-	<bean id="facet_keywords" parent="facet-parent" p:headerText="Keywords" />
 
 	<!--Add Course Menu -->
     <bean id="add_course_items" parent="add_course_items-parent"/>

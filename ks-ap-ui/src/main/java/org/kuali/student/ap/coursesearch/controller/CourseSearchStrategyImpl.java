@@ -74,13 +74,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	static {
 		// Related to CourseSearchUI.xml definitions
 		Map<String, Comparator<String>> l = new java.util.LinkedHashMap<String, Comparator<String>>(
-				6);
+				5);
 		l.put("facet_quarter", TERMS);
 		l.put("facet_genedureq", ALPHA);
 		l.put("facet_credits", NUMERIC);
 		l.put("facet_level", NUMERIC);
 		l.put("facet_curriculum", ALPHA);
-		l.put("facet_keywords", ALPHA);
 		FACET_SORT = Collections
 				.unmodifiableMap(Collections.synchronizedMap(l));
 	}

@@ -3,7 +3,6 @@ package org.kuali.student.ap.coursesearch.dataobject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -500,37 +499,6 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		return stsp.asXML();
 	}
 
-	@Override
-	public List<String> getKeywords() {
-		if (keywords == null) {
-			List<String> kws = new java.util.LinkedList<String>();
-			for (String kw : getCourseName().split("\\s+")) {
-				StringBuilder kwsb = new StringBuilder(kw);
-				int dig = 0;
-				boolean wild = false;
-				for (int c = 0; c < kwsb.length(); c++) {
-					char kwc = kwsb.charAt(c);
-					if (wild = wild || kwc == '-' || kwc == '*' || kwc == '#')
-						continue;
-					if (!Character.isLetterOrDigit(kwc))
-						kwsb.deleteCharAt(c);
-					else if (Character.isDigit(kwc) || kwc == 'x' || kwc == 'X')
-						dig++;
-				}
-				if (wild)
-					continue;
-				String searchTerm = kwsb.toString().trim().toUpperCase();
-				if (searchTerm.length() - dig >= 5
-						&& !Character.isDigit(searchTerm.charAt(0))
-						&& !NOISE_WORDS.contains(searchTerm)
-						&& !kws.contains(searchTerm))
-					kws.add(searchTerm);
-			}
-			keywords = kws;
-		}
-		return keywords;
-	}
-
 	/**
 	 * Convert a set of facet keys to a string for passing as a column in the
 	 * results for this item.
@@ -584,7 +552,6 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			m.put("facet_credits", facetString(getCreditsFacetKeys()));
 			m.put("facet_level", facetString(getCourseLevelFacetKeys()));
 			m.put("facet_curriculum", facetString(getCurriculumFacetKeys()));
-			m.put("facet_keywords", facetString(getKeywords()));
 			facetColumns = m.build();
 		}
 		return facetColumns;
