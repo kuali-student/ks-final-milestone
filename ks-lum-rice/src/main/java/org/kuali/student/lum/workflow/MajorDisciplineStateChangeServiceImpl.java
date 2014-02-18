@@ -182,8 +182,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		List<VersionDisplayInfo> versions = null;
 		versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, selectedVersion.getVersion().getVersionIndId(), contextInfo);
 	
-		Long startSeq = new Long(1);
-
+		Long startSeq = Long.valueOf(1);
 		if (!isSelectedVersionCurrent) {
 			startSeq = currentVersion.getVersion().getSequenceNumber() + 1;
 		}

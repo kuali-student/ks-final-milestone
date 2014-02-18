@@ -36,7 +36,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
             for (OutlineNode<LOPicker> node : value) {
                 if (node.getIndentLevel() == 0) {
                     Data item = createLoDisplayInfoData(node, sequence);
-                    parentStore.put(new Integer(0), item);
+                    parentStore.put(Integer.valueOf(0), item);
                     losData.add(item);
                 } else {
                     Data item = createLoDisplayInfoData(node, sequence);

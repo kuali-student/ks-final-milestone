@@ -242,9 +242,9 @@ public class CourseStateChangeServiceImpl {
 			List<VersionDisplayInfo> versions = courseService.getVersions(
 					CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
 						.getVersion().getVersionIndId(),contextInfo);
-			Long startSeq = new Long(1);
 
-			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {
+            Long startSeq = Long.valueOf(1);
+            if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {
 				startSeq = currVerCourse.getVersion().getSequenceNumber() + 1;
 			}
 

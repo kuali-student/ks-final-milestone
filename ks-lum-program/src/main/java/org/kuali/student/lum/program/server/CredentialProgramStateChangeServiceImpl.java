@@ -114,8 +114,8 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 
 		List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI,
 		selectedVersion.getVersion().getVersionIndId(),ContextUtils.getContextInfo());
-		Long startSeq = new Long(1);
 
+        Long startSeq = Long.valueOf(1);
 		if (!isSelectedVersionCurrent) {
 			startSeq = currentVersion.getVersion().getSequenceNumber() + 1;
 		}
