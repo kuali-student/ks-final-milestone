@@ -10,6 +10,14 @@ function scrollToCourseSection(divId){
     jQuery(document).scrollTop( jQuery("#" + divId).offset().top );
 }
 
+function onCourseCancel(){
+    if(dirtyFormState.isDirty()) {
+        showLightboxComponent('KS-CourseView-UnSavedChangesConfirmation');
+    } else {
+        return true;
+    }
+}
+
 /**
  * Enter key causes next action button to fire, so this routine turns the Enter
  * keypress into a Tab keypress, essentially

@@ -157,7 +157,7 @@
                 <bean id="authorsAndCollaboratorsSection" parent="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <bean id="supportingDocumentsSection" parent="KS-CourseView-SupportingDocumentsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <bean id="reviewProposalSection" parent="KS-CourseView-ReviewProposalPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-
+                <ref bean="KS-CourseView-UnSavedChangesConfirmation"/>
             </list>
         </property>
     </bean>
@@ -292,6 +292,7 @@
                       p:ajaxSubmit="false"
                       p:methodToCall="back"
                       p:actionLabel="Cancel"
+                      p:preSubmitCall="return onCourseCancel();"
                       p:style="margin-top:5px;"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                 <!--<bean parent="Uif-PrimaryActionButton"
@@ -372,6 +373,7 @@
                                   p:ajaxSubmit="false"
                                   p:methodToCall="back"
                                   p:actionLabel="Cancel"
+                                  p:preSubmitCall="return onCourseCancel();"
                                   p:style="margin-top:5px;"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                         </list>
@@ -430,6 +432,30 @@
     </bean>-->
     
     <!-- Dialogs -->
+
+    <bean id="KS-CourseView-UnSavedChangesConfirmation" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+        <property name="headerText" value="Warning"/>
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="You may have unsaved changes. Save changes?" p:style="margin-bottom:10px;margin-top:10px;"/>
+
+                <bean parent="Uif-HorizontalBoxSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveProposal" p:preSubmitCall="closeLightbox(); return validateForm();" p:actionLabel="Yes"/>
+                            <bean parent="Uif-SecondaryActionButton"
+                                  p:ajaxSubmit="false"
+                                  p:methodToCall="cancel"
+                                  p:actionLabel="No"/>
+                            <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel"/>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
 
     <bean id="commentsLightBox" parent="Uif-VerticalBoxSection">
         <property name="hidden" value="true" />
