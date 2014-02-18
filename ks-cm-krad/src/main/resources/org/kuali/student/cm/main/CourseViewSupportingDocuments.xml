@@ -28,7 +28,7 @@
         </property> 
 	</bean>
 
-    <bean id="KS-CourseView-SupportingDocumentsPage-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-SupportingDocumentsPage-Widgets" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
         <property name="header.render" value="false"/>
         <property name="items">

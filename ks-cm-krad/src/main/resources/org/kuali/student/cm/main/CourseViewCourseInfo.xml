@@ -30,7 +30,7 @@
         <property name="onDocumentReadyScript" value="setupCharCounters()" />
     </bean>
     
-    <bean id="KS-CourseView-CourseInfoPage-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-CourseInfoPage-Widgets" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="CourseInfo"/>
         <property name="header.render" value="false"/>
         <property name="items">

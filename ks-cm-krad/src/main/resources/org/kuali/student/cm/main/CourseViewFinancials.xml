@@ -18,9 +18,8 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-Financials" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-Financials" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Logistics"/>
-        <property name="header.render" value="false"/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseView-FinancialsPage-CourseFees-Widgets" />

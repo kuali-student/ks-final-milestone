@@ -28,7 +28,7 @@
         </property> 
     </bean>
 
-    <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-GovernancePage-Widgets" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Governance"/>
         <property name="header.render" value="false"/>
         <property name="items">

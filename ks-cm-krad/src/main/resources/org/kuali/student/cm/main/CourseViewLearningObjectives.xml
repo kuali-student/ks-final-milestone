@@ -30,9 +30,8 @@
 		</property>
     </bean>
 
-    <bean id="KS-CourseView-LearningObjectivesPage-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-LearningObjectivesPage-Widgets" parent="KS-CourseView-VerticalBoxSection">
             <property name="headerText" value="Learning Objectives"/>
-            <property name="header.render" value="false"/>
             <property name="items">
                 <list>
                     <ref bean="LearningObjective-CollectionSection" />

@@ -34,9 +34,8 @@
  		</property> 
 	</bean>
 
-    <bean id="KS-CourseView-CourseRequisites-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-CourseRequisites-Widgets" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Course Requisites"/>
-        <property name="header.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>

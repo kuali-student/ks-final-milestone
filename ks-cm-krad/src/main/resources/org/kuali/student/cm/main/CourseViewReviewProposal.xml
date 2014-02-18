@@ -36,9 +36,8 @@
 
     </bean>
 
-    <bean id="KS-CourseView-ReviewProposalPage-Widgets" parent="Uif-VerticalBoxSection"
+    <bean id="KS-CourseView-ReviewProposalPage-Widgets" parent="KS-CourseView-VerticalBoxSection"
           p:headerText="Review Proposal">
-        <property name="header.render" value="false"/>
         <property name="items">
             <list>
                 <ref bean="KS-CourseView-CourseInfoPage-ReviewWidgets" />

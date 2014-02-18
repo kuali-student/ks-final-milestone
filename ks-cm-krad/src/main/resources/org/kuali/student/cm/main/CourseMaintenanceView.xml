@@ -99,6 +99,14 @@
         </property>
     </bean>  
 
+    <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
+            <property name="header.render" value="false"/>
+    </bean>
+
+    <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true">
+            <property name="header.render" value="false"/>
+    </bean>
+
     <bean id="KS-CourseView-BasePage" parent="Uif-MaintenancePage" p:disclosure.render="false"/>
 
     <bean id="KS-CourseView-CoursePage" parent="Uif-MaintenancePage" p:disclosure.render="false">

@@ -17,7 +17,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ActiveDatesPage-Widgets" parent="Uif-VerticalBoxSection" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject">
+    <bean id="KS-CourseView-ActiveDatesPage-Widgets" parent="KS-CourseView-VerticalBoxSection" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject">
         <property name="headerText" value="Active Dates"/>
         <property name="header.render" value="false"/>
         <property name="items">

@@ -29,9 +29,8 @@
 		</property>
 	</bean>
 
-    <bean id="KS-CourseView-Logistics-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-Logistics-Widgets" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Logistics"/>
-        <property name="header.render" value="false"/>
         <property name="items">
         			<list>
         				<ref bean="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets" />
