@@ -78,8 +78,9 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         {
             Map<Integer, StatementTreeViewInfo> storedRules = new HashMap<Integer, StatementTreeViewInfo>();
 
-            for (Integer key : rules.keySet()) {
-                StatementTreeViewInfo rule = rules.get(key);
+            for (Map.Entry<Integer, StatementTreeViewInfo> entry : rules.entrySet()) {
+                final Integer key = entry.getKey();
+                final StatementTreeViewInfo rule = entry.getValue();
                 switch (states.get(key)) {
                     case STORED:
                         //rule was not changed so continue

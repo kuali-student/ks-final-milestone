@@ -80,8 +80,9 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
         Map<Integer, ProgramRequirementInfo> storedRules = new HashMap<Integer, ProgramRequirementInfo>();
         try
         {
-            for (Integer key : progReqs.keySet()) {
-                ProgramRequirementInfo rule = progReqs.get(key);
+            for (Map.Entry<Integer, ProgramRequirementInfo> entry : progReqs.entrySet()) {
+                final Integer key = entry.getKey();
+                final ProgramRequirementInfo rule = entry.getValue();
                 switch (states.get(key)) {
                     case STORED:
                         //rule was not changed so continue

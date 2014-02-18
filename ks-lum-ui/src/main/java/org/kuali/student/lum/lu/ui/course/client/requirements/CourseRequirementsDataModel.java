@@ -16,6 +16,7 @@ package org.kuali.student.lum.lu.ui.course.client.requirements;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -211,8 +212,9 @@ public class CourseRequirementsDataModel {
             @Override
             public void onSuccess(Map<Integer, StatementTreeViewInfo> storedRules) {
 
-                for (Integer internalProgReqID : storedRules.keySet()) {
-                    StatementTreeViewInfo storedRule = storedRules.get(internalProgReqID);
+                for(Map.Entry<Integer, StatementTreeViewInfo> entry : storedRules.entrySet()) {
+                    final Integer internalProgReqID = entry.getKey();
+                    final StatementTreeViewInfo storedRule = entry.getValue();
                     switch (courseReqState.get(internalProgReqID)) {
                         case STORED:
                             //rule was not changed so continue

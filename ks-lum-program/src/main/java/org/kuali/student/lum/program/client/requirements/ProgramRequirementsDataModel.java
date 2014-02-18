@@ -243,8 +243,9 @@ public class ProgramRequirementsDataModel {
             @Override
             public void onSuccess(Map<Integer, ProgramRequirementInfo> storedRules) {
 
-                for (Integer internalProgReqID : storedRules.keySet()) {
-                    ProgramRequirementInfo storedRule = storedRules.get(internalProgReqID);
+                for(Map.Entry<Integer, ProgramRequirementInfo> entry : storedRules.entrySet()) {
+                    final Integer internalProgReqID = entry.getKey();
+                    final ProgramRequirementInfo storedRule = entry.getValue();
                     switch (progReqState.get(internalProgReqID)) {
                         case STORED:
                             //rule was not changed so continue
