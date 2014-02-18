@@ -5,6 +5,6 @@
 
     <import resource="classpath:ks-enroll-api-rice-data-dictionary-service-configuration_test.xml"/>
     <import resource="classpath:ks-core-api-dictionary-file-locations_test.xml"/>
-    <import resource="classpath:ks-core-KRAD-dictionary-validation-configuration.xml"/>
+    <import resource="classpath:ks-core-api-rice-data-dictionary-service-configuration.xml"/>
 
 </beans>
