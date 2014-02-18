@@ -135,26 +135,26 @@ public class WorkflowUtilities{
 
     }
 
-    DataModel dataModel=null;
+    protected DataModel dataModel = null;
     
 
     
     boolean loaded=false;
     
-    private boolean workflowWidgetsEnabled = true;
+    protected boolean workflowWidgetsEnabled = true;
     
-    private KSMenuItemData wfApproveItem;
+    protected KSMenuItemData wfApproveItem;
     private KSMenuItemData wfDisApproveItem;
-    private KSMenuItemData wfAcknowledgeItem;
-    private KSMenuItemData wfStartWorkflowItem;
-    private KSMenuItemData wfCancelWorkflowItem;
-    private KSMenuItemData wfFYIWorkflowItem;
-    private KSMenuItemData wfWithdrawItem;
-    private KSMenuItemData wfReturnToPreviousItem;
-    private KSMenuItemData wfBlanketApproveItem;
+    protected KSMenuItemData wfAcknowledgeItem;
+    protected KSMenuItemData wfStartWorkflowItem;
+    protected KSMenuItemData wfCancelWorkflowItem;
+    protected KSMenuItemData wfFYIWorkflowItem;
+    protected KSMenuItemData wfWithdrawItem;
+    protected KSMenuItemData wfReturnToPreviousItem;
+    protected KSMenuItemData wfBlanketApproveItem;
     
-    private final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-    private final List<KSMenuItemData> additionalItems = new ArrayList<KSMenuItemData>();
+    protected final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+    protected final List<KSMenuItemData> additionalItems = new ArrayList<KSMenuItemData>();
 
     
     SaveActionEvent approveSaveActionEvent;
@@ -169,15 +169,15 @@ public class WorkflowUtilities{
     private String proposalId = "";
     private String workflowId;
     private String proposalName="";
-    private String workflowActions="";
+    protected String workflowActions = "";
         
-    private final List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
+    protected final List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
     private Callback<Boolean> submitCallback;
     private final ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
     private AbbrPanel required; 
     private KSLightBox submitSuccessDialog;
     private VerticalPanel dialogPanel;
-    private VerticalSectionView approveDialogView;
+    protected VerticalSectionView approveDialogView;
     private VerticalSectionView blanketApproveDialogView;
     private HashSet<String> ignoredApproveDialogFields = new HashSet<String>();
     
@@ -185,21 +185,23 @@ public class WorkflowUtilities{
     
     private final KSLabel proposalStatusLabel = new KSLabel("");
 
-    private final LayoutController parentController;
+    private LayoutController parentController;
     private SummaryTableSection tableSection;
 
     private String dropDownLabel = "Workflow Actions";
     
     ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL); 
     
-    public WorkflowUtilities(LayoutController parentController, String proposalPath) {
+    public WorkflowUtilities() {}
+
+    public void init(LayoutController parentController, String proposalPath) {
         this.parentController = parentController;
         this.proposalPath = proposalPath;
         setupWFButtons();
         setupDialog();
     }
     
-    public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel) {
+    public void init(LayoutController parentController, String proposalPath, String dropDownLabel) {
         this.dropDownLabel = dropDownLabel;
         this.parentController = parentController;
         this.proposalPath = proposalPath;
@@ -207,7 +209,8 @@ public class WorkflowUtilities{
         setupDialog();
     }
     
-    public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel, Enum<?> viewEnum, String name, String modelId) {
+    public void init(LayoutController parentController, String proposalPath, String dropDownLabel, Enum<?> viewEnum,
+            String name, String modelId) {
         this.dropDownLabel = dropDownLabel;
         this.parentController = parentController;
         this.proposalPath = proposalPath;
@@ -370,7 +373,7 @@ public class WorkflowUtilities{
         }
     }
     
-    private void setupWFButtons() {
+    protected void setupWFButtons() {
         wfApproveItem = getApproveItem();
         wfDisApproveItem = getDisApproveItem();
         wfAcknowledgeItem = getAcknowledgeItem();
@@ -514,7 +517,7 @@ public class WorkflowUtilities{
         }           
     }
     
-    private void updateWorkflowActionsWidget(){
+    protected void updateWorkflowActionsWidget() {
         items.clear();
 
         //When workflow widgets enabled display all available actions, otherwise only
@@ -596,7 +599,7 @@ public class WorkflowUtilities{
         }       
     }
     
-    private KSMenuItemData getFYIWorkflowItem() {
+    protected KSMenuItemData getFYIWorkflowItem() {
         KSMenuItemData wfFYIWorkflowItem;
         final KSRichEditor rationaleEditor = new KSRichEditor();
         wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
@@ -627,7 +630,7 @@ public class WorkflowUtilities{
         return wfFYIWorkflowItem;
     }
 
-    private KSMenuItemData getAcknowledgeItem() {
+    protected KSMenuItemData getAcknowledgeItem() {
         KSMenuItemData wfAcknowledgeItem;
         wfAcknowledgeItem = new KSMenuItemData("Acknowledge Proposal", new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -783,7 +786,7 @@ public class WorkflowUtilities{
         return wfDisApproveItem;
     }
 
-    private KSMenuItemData getApproveItem() {
+    protected KSMenuItemData getApproveItem() {
         KSMenuItemData wfApproveItem;
         
         wfApproveItem= new KSMenuItemData("Approve Proposal", new ClickHandler(){
@@ -949,7 +952,7 @@ public class WorkflowUtilities{
         return wfApproveItem;
     }
 
-    private KSMenuItemData getWithdrawItem() {
+    protected KSMenuItemData getWithdrawItem() {
         KSMenuItemData wfWithdrawItem;
 
         wfWithdrawItem = new KSMenuItemData("Withdraw Proposal", new ClickHandler() {
@@ -1034,7 +1037,7 @@ public class WorkflowUtilities{
         return wfWithdrawItem;
     }
 
-    private KSMenuItemData getBlanketApproveItem() {
+    protected KSMenuItemData getBlanketApproveItem() {
         KSMenuItemData wfBlanketApproveItem;
 
         wfBlanketApproveItem = new KSMenuItemData("Blanket Approve Proposal", new ClickHandler() {
@@ -1253,7 +1256,7 @@ public class WorkflowUtilities{
         return nodeNameDropDown;
     }
 
-    private KSMenuItemData getReturnToPreviousItem() {
+    protected KSMenuItemData getReturnToPreviousItem() {
         KSMenuItemData wfReturnToPreviousItem;
 
         wfReturnToPreviousItem = new KSMenuItemData("Return Proposal to Previous Node", new ClickHandler() {
@@ -1387,7 +1390,7 @@ public class WorkflowUtilities{
         }
     }
 
-    private KSMenuItemData getStartItem() {
+    protected KSMenuItemData getStartItem() {
         KSMenuItemData wfStartWorkflowItem;
         wfStartWorkflowItem = new KSMenuItemData("Submit Proposal", new ClickHandler(){
             public void onClick(ClickEvent event) {
@@ -1411,7 +1414,7 @@ public class WorkflowUtilities{
         return wfStartWorkflowItem;
     }
 
-    private KSMenuItemData getCancelWorkflowItem() {
+    protected KSMenuItemData getCancelWorkflowItem() {
         KSMenuItemData wfCancelWorkflowItem;
         wfCancelWorkflowItem = new KSMenuItemData("Cancel Proposal", new ClickHandler() {
             public void onClick(ClickEvent event) { 

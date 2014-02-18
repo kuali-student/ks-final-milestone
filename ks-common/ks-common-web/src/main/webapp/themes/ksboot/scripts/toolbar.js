@@ -51,7 +51,7 @@ function handleButtons(hiddenColumnsMap, buttonsMap) {
 
 function handleButton(arr, id) {
     if(jQuery.isEmptyObject(arr)){
-        disableButton(id);
+        disableTBButton(id);
     } else{
         evaluateButton(arr, id);
     }
@@ -59,35 +59,20 @@ function handleButton(arr, id) {
 
 function evaluateButton(arr, id){
     if(jQuery.inArray("true", arr) != -1){
-        enableButton(id);
+        enableTBButton(id);
     } else{
-        disableButton(id);
+        disableTBButton(id);
     }
 }
 
-function enableButton(id){
+function enableTBButton(id){
     jQuery("#" + id).removeClass('disabled');
     jQuery("#" + id).removeAttr("disabled");
-    var img = jQuery("#" + id).find('img') ,
-           src = img.attr('src') ,
-           disable = /\_disabled\.png$/;
-
-    if(src.match(disable)) {
-        img.attr('src', src.replace(disable, '_enabled.png'));
-    }
-
 }
 
-function disableButton(id){
+function disableTBButton(id){
     jQuery("#" + id).addClass("disabled");
     jQuery("#" + id).attr("disabled", "disabled");
-    var img = jQuery("#" + id).find('img') ,
-           src = img.attr('src') ,
-           enable = /\_enabled\.png$/ ;
-
-    if(src.match(enable)) {
-        img.attr('src', src.replace(enable, '_disabled.png'));
-    }
 }
 
 function refreshAddAODropdowns(){

@@ -16,6 +16,10 @@
  */
 package org.kuali.student.common.kitchensink;
 
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.tree.Node;
+import org.kuali.rice.core.impl.config.property.ConfigLogger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -33,6 +37,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -130,6 +135,21 @@ public class KitchenSinkController extends UifControllerBase {
         return getUIFModelAndView(form);
     }
 
+    @RequestMapping(params = "methodToCall=configProperties")
+    public ModelAndView configProperties(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                         HttpServletRequest request, HttpServletResponse response) {
+        List<ConcreteKeyValue> configProperties = new ArrayList<ConcreteKeyValue>();
+        Map<String, String> map = ConfigLogger.getDisplaySafeConfig(
+                        ConfigContext.getCurrentContextConfig().getProperties());
+
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            configProperties.add(new ConcreteKeyValue(entry.getKey(), entry.getValue()));
+        }
+        form.setConfigProperties(configProperties);
+
+        return getUIFModelAndView(form);
+    }
+
     @RequestMapping(params = "methodToCall=collectionTerm")
     public ModelAndView collectionTerm(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
@@ -180,6 +200,79 @@ public class KitchenSinkController extends UifControllerBase {
 
         form.setActivityList(activities);
         return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=trees")
+    public ModelAndView trees(@ModelAttribute("KualiForm") KitchenSinkForm form, BindingResult result,
+                                   HttpServletRequest request, HttpServletResponse response) {
+
+        form.getTree1().setRootElement(buildTree1());
+        form.getTree2().setRootElement(buildTree2());
+
+        return getUIFModelAndView(form);
+    }
+
+    private Node<KitchenSinkFormCollection2, String> buildTree2() {
+        Node<KitchenSinkFormCollection2, String> item1 = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1-A", "1-B", "1-C",
+                new Date()), "Item 1");
+        item1.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1SA-A", "1SA-B", "1SA-C", new Date()),
+                "SubItem A"));
+        item1.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1SB-A", "1SB-B", "1SB-C", new Date()),
+                "SubItem B"));
+
+        Node<KitchenSinkFormCollection2, String> item2 = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("2-A", "2-B", "2-C",
+                new Date()), "Item 2");
+        item2.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("SA-a", "SA-b", "SA-c", new Date()),
+                "SubItem A"));
+        Node<KitchenSinkFormCollection2, String> sub2B = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("SB-a", "SB-b", "SB-c",
+                new Date()), "SubItem B");
+        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("AA", "BB", "CC", new Date()), "Item B-1"));
+        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("Aa", "Bb", "Cc", new Date()), "Item B-2"));
+        sub2B.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("aA", "bB", "cC", new Date()), "Item B-3"));
+        item2.addChild(sub2B);
+        item2.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("SC-a", "SC-b", "SC-c", new Date()),
+                "SC-c"));
+
+        Node<KitchenSinkFormCollection2, String> item3 = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("3-A", "3-B", "3-C",
+                new Date()), "Item 3");
+        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("A", "B", "C", new Date()), "SubItem A"));
+        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("1", "2", "3", new Date()), "SubItem B"));
+        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("w", "x", "y", new Date()), "SubItem C"));
+        item3.addChild(new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("!", "@", "#", new Date()), "SubItem D"));
+
+        Node<KitchenSinkFormCollection2, String> root = new Node<KitchenSinkFormCollection2, String>(new KitchenSinkFormCollection2("foo", "bar", "baz",
+                new Date()), "Root");
+        root.addChild(item1);
+        root.addChild(item2);
+        root.addChild(item3);
+        return root;
+    }
+
+    private Node<String, String> buildTree1() {
+        Node<String, String> item1 = new Node<String, String>("Item 1", "Item 1");
+        item1.addChild(new Node<String, String>("SubItem A", "SubItem A"));
+        item1.addChild(new Node<String, String>("SubItem B", "SubItem B"));
+
+        Node<String, String> item2 = new Node<String, String>("Item 2", "Item 2");
+        item2.addChild(new Node<String, String>("SubItem A", "SubItem A"));
+        Node<String, String> sub2B = new Node<String, String>("SubItem B", "SubItem B");
+        sub2B.addChild(new Node<String, String>("Item B-1", "Item B-1"));
+        sub2B.addChild(new Node<String, String>("Item B-2", "Item B-2"));
+        sub2B.addChild(new Node<String, String>("Item B-3", "Item B-3"));
+        item2.addChild(sub2B);
+        item2.addChild(new Node<String, String>("SubItem C", "SubItem C"));
+
+        Node<String, String> item3 = new Node<String, String>("Item 3", "Item 3");
+        item3.addChild(new Node<String, String>("SubItem A", "SubItem A"));
+        item3.addChild(new Node<String, String>("SubItem B", "SubItem B"));
+        item3.addChild(new Node<String, String>("SubItem C", "SubItem C"));
+        item3.addChild(new Node<String, String>("SubItem D", "SubItem D"));
+
+        Node<String, String> root1 = new Node<String, String>("Root", "Root");
+        root1.addChild(item1);
+        root1.addChild(item2);
+        root1.addChild(item3);
+        return root1;
     }
 
     @RequestMapping(params = "methodToCall=growl")

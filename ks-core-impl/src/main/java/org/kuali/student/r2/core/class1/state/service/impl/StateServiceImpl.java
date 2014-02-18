@@ -230,7 +230,7 @@ public class StateServiceImpl implements StateService {
 
         entity.setEntityUpdated(contextInfo);
 
-        lifecycleDao.merge(entity);
+        entity = lifecycleDao.merge(entity);
         
         lifecycleDao.getEm().flush();
         
@@ -371,7 +371,7 @@ public class StateServiceImpl implements StateService {
 
         entity.setEntityUpdated(contextInfo);
 
-        stateDao.merge(entity);
+        entity = stateDao.merge(entity);
         
         stateDao.getEm().flush();
         
@@ -511,7 +511,7 @@ public class StateServiceImpl implements StateService {
         entity.fromDTO(stateChangeInfo);
         entity.setEntityUpdated(contextInfo);
 
-        stateChangeDao.merge(entity);
+        entity = stateChangeDao.merge(entity);
         
         stateChangeDao.getEm().flush();
         
@@ -613,7 +613,7 @@ public class StateServiceImpl implements StateService {
 
         entity.setEntityUpdated(contextInfo);
 
-        stateConstraintDao.merge(entity);
+        entity = stateConstraintDao.merge(entity);
         
         stateConstraintDao.getEm().flush();
         
@@ -726,7 +726,7 @@ public class StateServiceImpl implements StateService {
         entity.fromDto(statePropagationInfo);
         entity.setEntityUpdated(contextInfo);
 
-        statePropagationDao.merge(entity);
+        entity = statePropagationDao.merge(entity);
         
         statePropagationDao.getEm().flush();
         

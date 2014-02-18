@@ -33,6 +33,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
@@ -50,8 +51,10 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestDisplayInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestGroupConstraintInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionGroupInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleTransactionInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.model.ScheduleEntity;
@@ -67,7 +70,9 @@ import org.kuali.student.r2.core.scheduling.util.TimeSlotCodeGenerator;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import javax.persistence.OptimisticLockException;
 import javax.xml.namespace.QName;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -80,7 +85,7 @@ import java.util.List;
  * work from M4 by the PDTs (Venkat, Andy).
  */
 
-@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+
 public class SchedulingServiceImpl implements SchedulingService {
     private AtpService atpService;
     private RoomService roomService;
@@ -169,7 +174,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ScheduleInfo getSchedule(String scheduleId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ScheduleEntity scheduleEntity = scheduleDao.find(scheduleId);
         if (null == scheduleEntity) {
@@ -179,7 +184,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleInfo> getSchedulesByIds(List<String> scheduleIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleEntity> scheduleEntityList = scheduleDao.findByIds(scheduleIds);
         List<ScheduleInfo> scheduleInfoList = new ArrayList<ScheduleInfo>();
@@ -191,6 +196,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getScheduleIdsByType(String scheduleTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getIdList(scheduleDao.getSchedulesByType(scheduleTypeKey));
     }
@@ -228,6 +234,9 @@ public class SchedulingServiceImpl implements SchedulingService {
         scheduleEntity.setEntityCreated(contextInfo);
 
         scheduleDao.persist(scheduleEntity);
+        
+        scheduleDao.getEm().flush();
+        
         return scheduleEntity.toDto();
     }
 
@@ -239,8 +248,11 @@ public class SchedulingServiceImpl implements SchedulingService {
             scheduleEntity.fromDto(scheduleInfo);
 
             scheduleEntity.setEntityUpdated(contextInfo);
-
-            scheduleDao.merge(scheduleEntity);
+            
+            scheduleEntity = scheduleDao.merge(scheduleEntity);
+            
+            scheduleDao.getEm().flush();
+            
             return scheduleEntity.toDto();
         } else {
             throw new DoesNotExistException(scheduleId);
@@ -311,7 +323,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ScheduleRequestInfo getScheduleRequest(String scheduleRequestId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ScheduleRequestEntity scheduleRequestEntity = scheduleRequestDao.find(scheduleRequestId);
         if (null == scheduleRequestEntity) {
@@ -323,6 +335,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestInfo> getScheduleRequestsByIds(List<String> scheduleRequestIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestEntity> entityList = scheduleRequestDao.findByIds(scheduleRequestIds);
 
@@ -330,7 +343,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getScheduleRequestIdsByType(String scheduleRequestTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByType(scheduleRequestTypeKey);
 
@@ -338,14 +351,14 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getScheduleRequestIdsByRefObject(String refObjectType, String refObjectId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByRefObject(refObjectType, refObjectId);
-        return getIdList(entityList);
+        return scheduleRequestDao.getScheduleRequestIdsByRefObject(refObjectType, refObjectId);
     }
 
     
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestInfo> getScheduleRequestsByRefObjects(
             String refObjectType,
             List<String> refObjectIds,
@@ -357,19 +370,21 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestInfo> getScheduleRequestsByScheduleRequestSet(@WebParam(name = "scheduleRequestSetId") String scheduleRequestSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByScheduleRequestSet(scheduleRequestSetId);
         return getScheduleRequestInfoList(entityList);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestInfo> getScheduleRequestsByRefObject(String refObjectType, String refObjectId,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestEntity> entityList = scheduleRequestDao.getScheduleRequestsByRefObject(refObjectType, refObjectId);
         return getScheduleRequestInfoList(entityList);
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> searchForScheduleRequestIds(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         GenericQueryResults<String> srIds = criteriaLookupService.lookupIds(ScheduleRequestEntity.class, criteria);
@@ -378,6 +393,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestInfo> searchForScheduleRequests(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestInfo> results = new ArrayList<ScheduleRequestInfo>();
         GenericQueryResults<ScheduleRequestEntity> entities = criteriaLookupService.lookup(ScheduleRequestEntity.class, criteria);
@@ -406,6 +422,9 @@ public class SchedulingServiceImpl implements SchedulingService {
         scheduleRequestEntity.setEntityCreated(contextInfo);
 
         scheduleRequestDao.persist(scheduleRequestEntity);
+        
+        scheduleRequestDao.getEm().flush();
+        
         return scheduleRequestEntity.toDto();
     }
 
@@ -426,8 +445,11 @@ public class SchedulingServiceImpl implements SchedulingService {
 
         //Update any Meta information
         scheduleRequestEntity.setEntityUpdated(contextInfo);
-
-        scheduleRequestDao.merge(scheduleRequestEntity);
+        
+        scheduleRequestEntity = scheduleRequestDao.merge(scheduleRequestEntity);
+        
+        scheduleRequestDao.getEm().flush();
+        
         return scheduleRequestEntity.toDto();
     }
 
@@ -462,6 +484,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public TimeSlotInfo getTimeSlot(String timeSlotId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         TimeSlotEntity retrieved = timeSlotDao.find(timeSlotId);
@@ -474,6 +497,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<TimeSlotInfo> getTimeSlotsByIds(List<String> timeSlotIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TimeSlotEntity> entities = timeSlotDao.findByIds(timeSlotIds);
 
@@ -503,6 +527,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getTimeSlotIdsByType(String timeSlotTypeKey,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TimeSlotEntity> entities = timeSlotDao.getByTimeSlotType(timeSlotTypeKey);
 
@@ -516,6 +541,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTime( String timeSlotTypeKey, List<Integer> daysOfWeek, TimeOfDayInfo startTime,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // Check that no invalid days of week are passed in
@@ -531,7 +557,9 @@ public class SchedulingServiceImpl implements SchedulingService {
         // Build the string version of the days
         String weekdays = SchedulingServiceUtil.weekdaysList2WeekdaysString(daysOfWeek);
 
-        List<TimeSlotEntity> entities = timeSlotDao.getByTimeSlotTypeWeekdaysAndStartTime(timeSlotTypeKey, weekdays, startTime.getMilliSeconds());
+        List<TimeSlotEntity> entities =
+                timeSlotDao.getByTimeSlotTypeWeekdaysAndStartTime(timeSlotTypeKey, weekdays,
+                        TimeOfDayHelper.getMillis(startTime));
 
         List<TimeSlotInfo> results = new ArrayList<TimeSlotInfo>(entities.size());
 
@@ -543,12 +571,16 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<TimeSlotInfo> getTimeSlotsByDaysAndStartTimeAndEndTime( String timeSlotTypeKey,  List<Integer> daysOfWeek,  TimeOfDayInfo startTime,  TimeOfDayInfo endTime,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // Build the string version of the days
         String weekdays = SchedulingServiceUtil.weekdaysList2WeekdaysString(daysOfWeek);
 
-        List<TimeSlotEntity> entities = timeSlotDao.getByTimeSlotTypeWeekdaysStartTimeAndEndTime(timeSlotTypeKey, weekdays, startTime.getMilliSeconds(), endTime.getMilliSeconds());
+        List<TimeSlotEntity> entities =
+                timeSlotDao.getByTimeSlotTypeWeekdaysStartTimeAndEndTime(timeSlotTypeKey, weekdays,
+                        TimeOfDayHelper.getMillis(startTime),
+                        TimeOfDayHelper.getMillis(endTime));
 
         List<TimeSlotInfo> results = new ArrayList<TimeSlotInfo>(entities.size());
 
@@ -598,6 +630,8 @@ public class SchedulingServiceImpl implements SchedulingService {
         entity.setEntityCreated(contextInfo);
 
         timeSlotDao.persist(entity);
+        
+        timeSlotDao.getEm().flush();
 
         return entity.toDto();
     }
@@ -620,7 +654,10 @@ public class SchedulingServiceImpl implements SchedulingService {
         //Update any Meta information
         entity.setEntityUpdated(contextInfo);
 
-        timeSlotDao.merge(entity);
+        entity = timeSlotDao.merge(entity);
+        
+        timeSlotDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -732,18 +769,19 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo submitScheduleBatch( String scheduleBatchId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    @Transactional(readOnly = false)
+    @Transactional(readOnly = false, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public StatusInfo commitSchedules( String scheduleBatchId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException();
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public Boolean areTimeSlotsInConflict( String timeSlot1Id, String timeSlot2Id,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         TimeSlotInfo timeSlotInfo1 = getTimeSlot(timeSlot1Id, contextInfo);
         TimeSlotInfo timeSlotInfo2 = getTimeSlot(timeSlot2Id, contextInfo);
@@ -751,7 +789,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ScheduleDisplayInfo getScheduleDisplay(String scheduleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ScheduleInfo scheduleInfo = getSchedule(scheduleId, contextInfo);
         ScheduleDisplayInfo scheduleDisplayInfo =
@@ -760,7 +798,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleDisplayInfo> getScheduleDisplaysByIds(List<String> scheduleIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
                    OperationFailedException, PermissionDeniedException {
@@ -777,7 +815,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleDisplayInfo> searchForScheduleDisplays(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         GenericQueryResults<ScheduleEntity> results = criteriaLookupService.lookup(ScheduleEntity.class, criteria);
         List<ScheduleDisplayInfo> scheduleDisplayInfos = new ArrayList<ScheduleDisplayInfo>(results.getResults().size());
@@ -796,7 +834,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ScheduleRequestDisplayInfo getScheduleRequestDisplay(String scheduleRequestId,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ScheduleRequestInfo scheduleInfo = getScheduleRequest(scheduleRequestId, contextInfo);
         ScheduleRequestDisplayInfo scheduleDisplayInfo =
@@ -805,7 +843,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestDisplayInfo> getScheduleRequestDisplaysByIds(List<String> scheduleRequestIds,  ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestInfo> scheduleInfoList = getScheduleRequestsByIds(scheduleRequestIds, contextInfo);
         List<ScheduleRequestDisplayInfo> displayInfoList = new ArrayList<ScheduleRequestDisplayInfo>();
@@ -820,6 +858,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestDisplayInfo> searchForScheduleRequestDisplays(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         GenericQueryResults<ScheduleRequestEntity> results = criteriaLookupService.lookup(ScheduleRequestEntity.class, criteria);
         List<ScheduleRequestDisplayInfo> scheduleDisplayInfos = new ArrayList<ScheduleRequestDisplayInfo>(results.getResults().size());
@@ -845,6 +884,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public ScheduleRequestSetInfo getScheduleRequestSet(String scheduleRequestSetId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ScheduleRequestSetEntity scheduleRequestSetEntity = scheduleRequestSetDao.find(scheduleRequestSetId);
 
@@ -856,6 +896,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestSetInfo> getScheduleRequestSetsByIds(List<String> scheduleRequestSetIds, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if(scheduleRequestSetIds.size() == 0) {
@@ -865,23 +906,27 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getScheduleRequestSetIdsByType(String scheduleRequestSetTypeKey, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getIdList(scheduleRequestSetDao.getScheduleRequestSetsByType(scheduleRequestSetTypeKey));
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> getScheduleRequestSetIdsByRefObjType(String refObjectTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return scheduleRequestSetDao.getScheduleRequestSetIdsByRefObjType(refObjectTypeKey);
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<String> searchForScheduleRequestSetIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         GenericQueryResults<String> srsIds = criteriaLookupService.lookupIds(ScheduleRequestSetEntity.class, criteria);
         return srsIds.getResults();
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestSetInfo> searchForScheduleRequestSets(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<ScheduleRequestSetInfo> results = new ArrayList<ScheduleRequestSetInfo>();
         GenericQueryResults<ScheduleRequestSetEntity> entities = criteriaLookupService.lookup(ScheduleRequestSetEntity.class, criteria);
@@ -934,7 +979,10 @@ public class SchedulingServiceImpl implements SchedulingService {
         //Update any Meta information
         entity.setEntityUpdated(contextInfo);
 
-        scheduleRequestSetDao.merge(entity);
+        entity = scheduleRequestSetDao.merge(entity);
+        
+        scheduleRequestSetDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -958,6 +1006,7 @@ public class SchedulingServiceImpl implements SchedulingService {
     }
 
     @Override
+    @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
     public List<ScheduleRequestSetInfo> getScheduleRequestSetsByRefObject(String refObjectType, String refObjectId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getScheduleRequestSetInfoList(scheduleRequestSetDao.getScheduleRequestSetsByRefObject(refObjectType, refObjectId));
     }
@@ -1003,4 +1052,175 @@ public class SchedulingServiceImpl implements SchedulingService {
         this.timeSlotCodeGenerator = timeSlotCodeGenerator;
     }
 
+	@Override
+	public ScheduleTransactionGroupInfo getScheduleTransactionGroup(
+			String scheduleTransactionGroupId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ScheduleTransactionGroupInfo> getScheduleTransactionGroupsByIds(
+			List<String> scheduleTransactionGroupIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<String> getScheduleTransactionGroupIdsByType(
+			String scheduleTransactionGroupTypeKey, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<String> searchForScheduleTransactionGroupIds(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ScheduleTransactionGroupInfo> searchForScheduleTransactionGroups(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateScheduleTransactionGroup(
+			String validationTypeKey, String scheduleTransactionGroupTypeKey,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleTransactionGroupInfo createScheduleTransactionGroup(
+			String scheduleTransactionGroupTypeKey,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleTransactionGroupInfo updateScheduleTransactionGroup(
+			String scheduleTransactionGroupId,
+			ScheduleTransactionGroupInfo scheduleTransactionGroupInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo deleteScheduleTransactionGroup(
+			String scheduleTransactionGroupId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo getScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ScheduleRequestGroupConstraintInfo> getScheduleRequestGroupConstraintsByIds(
+			List<String> scheduleRequestGroupConstraintIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<String> getScheduleRequestGroupConstraintIdsByType(
+			String scheduleRequestGroupConstraintTypeKey,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<String> searchForScheduleRequestGroupConstraintIds(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ScheduleRequestGroupConstraintInfo> searchForScheduleRequestGroupConstraints(
+			QueryByCriteria criteria, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public List<ValidationResultInfo> validateScheduleRequestGroupConstraint(
+			String validationTypeKey,
+			String scheduleRequestGroupConstraintTypeKey,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo createScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintTypeKey,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public ScheduleRequestGroupConstraintInfo updateScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId,
+			ScheduleRequestGroupConstraintInfo scheduleRequestGroupConstraintInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+	@Override
+	public StatusInfo deleteScheduleRequestGroupConstraint(
+			String scheduleRequestGroupConstraintId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+
+    
 }

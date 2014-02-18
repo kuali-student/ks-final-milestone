@@ -91,6 +91,11 @@ function handleCONavigation(component, coId) {
         i++;
     }
     jQuery("#edit_co_cancel").attr("data-submit_data", cancel_data_array.join());
+    if(!dirtyFormState.isDirty()) {
+        jQuery("#edit_co_cancel").click();
+        return;
+    }
+
 
     showLightboxComponent( 'CourseOfferingEdit-NavigationConfirmation' );
 
@@ -108,7 +113,7 @@ function handleWaitListPrompt(dialog) {
     var dialogResponses = jQuery('input.uif-dialogButtons',dialog);
     for(i =0; i < dialogResponses.length; i++){
         if (dialogResponses[i].checked==true) {
-            if (dialogResponses[i].value=='Continue') {
+            if (dialogResponses[i].value=='yes') {
                 jQuery('#KS-CourseOfferingEdit-HasWaitlist_control').prop('checked',false);
                 jQuery('#KS-CourseOfferingEdit-WailtList-Message-Section').hide();
             }
@@ -172,3 +177,10 @@ function updateExamDriverInFOTable(finalExamDropDownId, finalExamTableCellId, pa
     }
 }
 
+function retrieveDeliveryFormatsComponent(id1, id2, finalExamType) {
+     retrieveComponent(id1, undefined);
+     if (finalExamType == "STANDARD") {
+        retrieveComponent(id2, undefined);
+      }
+
+}

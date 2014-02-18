@@ -86,7 +86,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<CommentInfo> getCommentsByReferenceAndType(String referenceId, String referenceTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<CommentEntity> allEnts = commentDao.findAll();
         List<CommentEntity> entities = commentDao.getCommentsByRefObjectIdAndRefObjectType(referenceId, referenceTypeKey);
         List<CommentInfo> infoList = new ArrayList<CommentInfo>();
         for(CommentEntity entity : entities) {
@@ -166,9 +165,10 @@ public class CommentServiceImpl implements CommentService {
         entity.fromDto(commentInfo);
         entity.setEntityUpdated(contextInfo);
 
-
         entity = commentDao.merge(entity);
+        
         commentDao.getEm().flush();
+        
         return entity.toDto();
     }
 
@@ -198,4 +198,5 @@ public class CommentServiceImpl implements CommentService {
     public List<ValidationResultInfo> validateComment(String validationTypeKey, String referenceId, String referenceTypeKey, String commentTypeKey, CommentInfo commentInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return new ArrayList<ValidationResultInfo>();
     }
+
 }

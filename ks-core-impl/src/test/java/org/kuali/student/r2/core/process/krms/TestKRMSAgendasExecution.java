@@ -133,7 +133,7 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
     private Map<String, Object> buildExecutionFacts() {
         Map<String, Object> executionFacts = new HashMap<String, Object>();
-        executionFacts.put(RulesExecutionConstants.STUDENT_ID_TERM_NAME, "2016");
+        executionFacts.put(RulesExecutionConstants.PERSON_ID_TERM.getName(), "2016");
         return executionFacts;
     }
 
@@ -141,17 +141,17 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
         @Override
         public Set<String> getPrerequisites() {
-            return Collections.singleton(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+            return Collections.singleton(RulesExecutionConstants.PERSON_ID_TERM.getName());
         }
 
         @Override
         public String getOutput() {
-            return RulesExecutionConstants.ORG_PERMISSION_TERM_NAME;
+            return RulesExecutionConstants.ORG_PERMISSION_TERM.getName();
         }
 
         @Override
         public Set<String> getParameterNames() {
-            return Collections.singleton(RulesExecutionConstants.ORGANIZATION_ID_PROPERTY);
+            return Collections.singleton(RulesExecutionConstants.ORGANIZATION_ID_TERM.getName());
         }
 
         @Override
@@ -162,7 +162,7 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
         @Override
         public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-            String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+            String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
 
             if (studentId.equals("2106")){
                 return true;
@@ -176,17 +176,17 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
 
         @Override
         public Set<String> getPrerequisites() {
-            return Collections.singleton(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+            return Collections.singleton(RulesExecutionConstants.PERSON_ID_TERM.getName());
         }
 
         @Override
         public String getOutput() {
-            return RulesExecutionConstants.NR_OF_COMPLETED_COURSES_TERM_NAME;
+            return RulesExecutionConstants.NR_OF_COMPLETED_COURSES_TERM.getName();
         }
 
         @Override
         public Set<String> getParameterNames() {
-            return Collections.singleton(RulesExecutionConstants.REQUIRED_COURSES_PROPERTY);
+            return Collections.singleton(RulesExecutionConstants.REQUIRED_COURSES_TERM.getName());
         }
 
         @Override
@@ -197,7 +197,7 @@ public class TestKRMSAgendasExecution extends KSKRMSTestCase {
         @Override
         public Integer resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-            String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
+            String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.PERSON_ID_TERM.getName());
 
             if (studentId.equals("2106")){
                 return 1;

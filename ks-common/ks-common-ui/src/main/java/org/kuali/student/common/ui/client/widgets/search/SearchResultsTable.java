@@ -24,8 +24,8 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -37,15 +37,15 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
 import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 @Deprecated
 public class SearchResultsTable extends Composite{
@@ -130,7 +130,7 @@ public class SearchResultsTable extends Composite{
                           
                 col1.setName(header);
                 col1.setId(r.getKey());
-                col1.setWidth("100px");                    
+                col1.setWidth((r.getColumnWidth() != null) ? r.getColumnWidth() : "100px");
                 col1.setAscendingRowComparator(new FieldAscendingRowComparator(r.getKey(), r.getDataType()));
                 col1.setDescendingRowComparator(new FieldDescendingRowComparator(r.getKey(), r.getDataType()));                
                 

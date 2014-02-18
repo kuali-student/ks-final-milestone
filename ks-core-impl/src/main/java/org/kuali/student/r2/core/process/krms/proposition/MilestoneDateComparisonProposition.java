@@ -66,9 +66,9 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
         this.atpKey = atpKey;
 
         Map<String, String> termParametersMap = new HashMap<String, String>(2);
-        termParametersMap.put(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY, milestoneType);
-        termParametersMap.put(RulesExecutionConstants.MILESTONE_ATP_KEY_TERM_PROPERTY, atpKey);
-        milestonesTerm = new Term(RulesExecutionConstants.MILESTONES_BY_TYPE_TERM_NAME, termParametersMap);
+        termParametersMap.put(RulesExecutionConstants.MILESTONE_TYPE_TERM.getName(), milestoneType);
+        termParametersMap.put(RulesExecutionConstants.MILESTONE_ATP_ID_TERM.getName(), atpKey);
+        milestonesTerm = new Term(RulesExecutionConstants.MILESTONES_BY_TYPE_TERM.getName(), termParametersMap);
     }
 
     public Term getComparisonDateTerm() {

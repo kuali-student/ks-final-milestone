@@ -330,7 +330,7 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         boolean canUpdate = canUpdateTimeSlot(timeSlotId,contextInfo);
 
         if (!canUpdate){
-            throw new OperationFailedException("Time slot " + timeSlotInfo.getName() + " is already associated with delivery logistics, so cannot be changed.");
+            throw new OperationFailedException("Time slot " + timeSlotInfo.getName() + " is already associated with scheduling information cannot be changed because they are in use.");
         }
 
         return getNextDecorator().updateTimeSlot(timeSlotId, timeSlotInfo, contextInfo);
@@ -346,7 +346,7 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
         boolean canDelete = canUpdateTimeSlot(timeSlotId,contextInfo);
 
         if (!canDelete){
-            throw new OperationFailedException("The time slot(s) you are attempting to delete are already associated with delivery logistics, so cannot be changed.");
+            throw new OperationFailedException("The time slot(s) you are attempting to delete are already associated with scheduling information cannot be changed because they are in use.");
         }
 
         return getNextDecorator().deleteTimeSlot(timeSlotId, contextInfo);
@@ -369,31 +369,20 @@ public class SchedulingServiceValidationDecorator extends SchedulingServiceDecor
      */
     protected void validateAOTimeSlotCreateAndUpdate(TimeSlotInfo timeSlotInfo) throws DataValidationErrorException{
 
-        if (StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA)){
-            /**
-             * Make sure at least one field (days/starttime/endtime is empty)
-              */
-            if (timeSlotInfo.getStartTime() != null && timeSlotInfo.getStartTime().getMilliSeconds() != null &&
-                timeSlotInfo.getEndTime() != null && timeSlotInfo.getEndTime().getMilliSeconds() != null &&
-                timeSlotInfo.getWeekdays() != null && !timeSlotInfo.getWeekdays().isEmpty()){
-                throw new DataValidationErrorException("For time slots of type TBA at least one of these properties: weekDays, startTime, or endTime must be unspecified.");
-            }
-        } else { //This else covers both standard and adhoc timeslots (Currently, we have only AO related timeslots. Once we
-                // implement final exam timeslots, we should be reviewing this else and make appropriate changes.)
-
-            if (timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getMilliSeconds() == null){
+        if (!StringUtils.equals(timeSlotInfo.getTypeKey(), SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA)){
+            if (timeSlotInfo.getStartTime() == null || timeSlotInfo.getStartTime().getHour() == null){
                 throw new DataValidationErrorException("Start Time should not be empty for standard and ad hoc time slots");
             }
 
-            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getMilliSeconds() == null){
+            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getHour() == null){
                 throw new DataValidationErrorException("End Time should not be empty for standard time slots");
             }
 
-            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getMilliSeconds() == null){
+            if (timeSlotInfo.getEndTime() == null || timeSlotInfo.getEndTime().getHour() == null){
                 throw new DataValidationErrorException("End Time should not be empty for standard time slots");
             }
 
-            if (timeSlotInfo.getStartTime().getMilliSeconds() > timeSlotInfo.getEndTime().getMilliSeconds()){
+            if (timeSlotInfo.getStartTime().isAfter(timeSlotInfo.getEndTime())) {
                 throw new DataValidationErrorException("Start time should be less than End time");
             }
 

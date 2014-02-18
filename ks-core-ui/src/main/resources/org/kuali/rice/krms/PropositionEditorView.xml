@@ -111,7 +111,7 @@ limitations under the License.
                       p:showLabel="true" p:label="Rule Statement Option" p:maxLength="40" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:cssClasses="categorySelect"
-                              p:onChangeScript="ajaxCallPropositionTree('updatePropositionType', 'KRMS-PropositionEdit-DetailSection');"/>
+                              p:onChangeScript="ajaxCallPropositionTypeUpdate(jQuery(this), 'updatePropositionType', 'KRMS-PropositionEdit-DetailSection');"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.rice.krms.keyvalues.PropositionTypeValuesFinder"/>

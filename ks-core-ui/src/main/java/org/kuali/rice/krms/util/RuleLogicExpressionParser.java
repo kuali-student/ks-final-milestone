@@ -47,12 +47,12 @@ public class RuleLogicExpressionParser {
         }
     }
 
-    public boolean validateExpression(List<String> errorMessages) {
+    public boolean validateExpression(List<String> errorMessages, List<String> keyList) {
         checkExpressionSet();
-        return doValidateExpression(errorMessages, tokenList);
+        return doValidateExpression(errorMessages, tokenList, keyList);
     }
 
-    private boolean doValidateExpression(List<String> errorMessages, final List<ExpressionToken> tokens) {
+    private boolean doValidateExpression(List<String> errorMessages, final List<ExpressionToken> tokens, List<String> keyList) {
         boolean valid = true;
         List<String> seenConditonValues = new ArrayList<String>();
 
@@ -110,7 +110,7 @@ public class RuleLogicExpressionParser {
                 } else {
                     seenConditonValues.add(token.getValue());
                 }
-                if (!checkCondition(errorMessages, prevToken, nextToken)) {
+                if (!checkCondition(errorMessages, prevToken, nextToken, i, keyList)) {
                     return false;
                 }
             }
@@ -142,7 +142,8 @@ public class RuleLogicExpressionParser {
             } else if (token.getType() != ExpressionToken.CONDITION) {
                 operatorStack.push(token);
             }
-        } if (!operatorStack.isEmpty()) {
+        }
+        if (!operatorStack.isEmpty()) {
             ExpressionToken operator = operatorStack.pop();
             //Check if all other types are the same as the first type.
             while (!operatorStack.isEmpty()) {
@@ -215,7 +216,8 @@ public class RuleLogicExpressionParser {
         return validToken;
     }
 
-    private boolean checkCondition(List<String> errorMessages, ExpressionToken prevToken, ExpressionToken nextToken) {
+    private boolean checkCondition(List<String> errorMessages, ExpressionToken prevToken, ExpressionToken nextToken, int currentIndex,
+                                   List<String> keyList) {
         boolean validToken = true;
         if ((prevToken != null) && (!ExpressionToken.isOperator(prevToken.getType())) && (prevToken.getType() != ExpressionToken.PARENTHESIS_START)) {
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_PRECEDE_CONDITION);
@@ -225,6 +227,13 @@ public class RuleLogicExpressionParser {
             errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_FOLLOW_CONDITION);
             validToken = false;
         }
+
+        ExpressionToken conditionToken = tokenList.get(currentIndex);
+        if((!keyList.contains(conditionToken.getValue().toLowerCase())) && (!keyList.contains(conditionToken.getValue().toUpperCase()))){
+            errorMessages.add(KRMSConstants.KRMS_MSG_ERROR_INVALID_CONDITION);
+            validToken = false;
+        }
+
         return validToken;
     }
 
@@ -320,6 +329,16 @@ public class RuleLogicExpressionParser {
             tokenStack.push(token);
             index++;
         }
+        
+        //Return null if stack is empty, all propositions deleted from logic expression.
+        if (tokenStack.isEmpty()) {
+            return null;
+        }
+
+        //Return null if stack is empty, all propositions deleted from logic expression.
+        if(tokenStack.isEmpty()){
+            return null;
+        }
 
         Map<String, PropositionEditor> simplePropositions = new LinkedHashMap<String, PropositionEditor>();
         Queue<PropositionEditor> compoundPropositions = new LinkedList<PropositionEditor>();
@@ -383,6 +402,18 @@ public class RuleLogicExpressionParser {
      */
     public PropositionEditor ruleFromStack(Stack<ExpressionToken> tokenStack, Map<String, PropositionEditor> simplePropositions,
                                            Queue<PropositionEditor> compoundPropositions, RuleEditor rule, RuleViewHelperService viewHelper) {
+        
+        //Check for single statement.
+        if (tokenStack.size() == 1) {
+            ExpressionToken token = tokenStack.pop();
+            return simplePropositions.remove(token.getValue().toUpperCase());
+        }
+
+        //Check for single statement.
+        if(tokenStack.size()==1){
+            ExpressionToken token = tokenStack.pop();
+            return simplePropositions.remove(token.getValue().toUpperCase());
+        }
 
         //Get the first compound from the queue, if nothing left create new one.
         PropositionEditor currentCompound = null;

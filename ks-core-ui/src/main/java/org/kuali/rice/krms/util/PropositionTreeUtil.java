@@ -265,19 +265,21 @@ public class PropositionTreeUtil {
 
     /**
      * This method walks through the proposition tree including the root node on the tree
-     * and remove all parent compounde propositions that only have one child.
+     * and remove all parent compound propositions that only have one child.
      *
      * @param rule
      */
     public static void removeCompoundProp(RuleEditor rule) {
         //Check if the root only has one child, if so set the child as the root proposition.
         PropositionEditor root = rule.getPropositionEditor();
-        if(root.getCompoundEditors().size() == 1) {
-            rule.setProposition(root.getCompoundEditors().get(0));
-        }
+        if (root.getCompoundEditors() != null) {
+            if(root.getCompoundEditors().size() == 1) {
+                rule.setProposition(root.getCompoundEditors().get(0));
+            }
 
-        //Remove single parent from proposition tree.
-        removeCompoundProp(rule.getPropositionEditor());
+            //Remove single parent from proposition tree.
+            removeCompoundProp(rule.getPropositionEditor());
+        }
 
     }
 

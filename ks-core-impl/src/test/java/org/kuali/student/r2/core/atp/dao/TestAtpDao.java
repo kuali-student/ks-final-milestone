@@ -1,5 +1,7 @@
 package org.kuali.student.r2.core.atp.dao;
 
+import org.apache.openjpa.lib.log.Log;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,12 +21,15 @@ import org.kuali.student.r2.core.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.class1.atp.dao.AtpDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+
 import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
@@ -36,6 +41,8 @@ import static org.junit.Assert.assertNull;
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 public class TestAtpDao {
+    
+    private static final Logger log = LoggerFactory.getLogger(TestAtpDao.class); 
 
     @Resource(name = "atpServiceAuthDecorator")
     public AtpService atpService;
@@ -118,7 +125,13 @@ public class TestAtpDao {
         assertNotNull(atp);
         AtpAttributeEntity attr = new AtpAttributeEntity(new AttributeInfo("foo", "bar"), atp);
         atp.getAttributes().add(attr);
-        dao.update(atp);
+        
+        try {
+            atp = dao.merge(atp);
+        } catch (VersionMismatchException e) {
+            log.error("unexpected version mismatch", e);
+            Assert.fail("unexpected version mismatch");
+        }
 
         AtpEntity atp2 = dao.find("testAtpId2");
         assertNotNull(atp2);

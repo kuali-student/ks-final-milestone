@@ -21,3 +21,36 @@ function openDataTablePage(tableId, pageNumber) {
         }
     }
 }
+
+/*
+ * FIXME KSENROLL-10557: Remove once jira is fixed.
+ *
+ * Function that returns lookup results by script
+ */
+function returnLookupResultByScript(fieldName, value) {
+    var returnField;
+    if (parent.jQuery('iframe[id*=easyXDM_]').length > 0) {
+        // portal and content on same domain
+        returnField = top.jQuery('iframe[id*=easyXDM_]').contents().find('#' + kradVariables.PORTAL_IFRAME_ID).contents().find('[name="' + escapeName(fieldName) + '"]');
+    } else if (parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).length > 0) {
+        // portal and content on different domain
+        returnField = parent.parent.jQuery('#' + kradVariables.PORTAL_IFRAME_ID).contents().find('[name="' + escapeName(fieldName) + '"]');
+    } else {
+        returnField = top.jq('[name="' + escapeName(fieldName) + '"]');
+    }
+    if (!returnField.length) {
+        return;
+    }
+
+    returnField.val(value);
+
+    //Don't put focus on hidden fields.
+    if(returnField.is(":visible")) {
+        returnField.focus();
+        returnField.blur();
+        returnField.focus();
+
+        // trigger change event
+        returnField.change();
+    }
+}

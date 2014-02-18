@@ -31,9 +31,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class KSCharCount extends Composite implements HasText, HasInputWidget, HasBlurHandlers {
-    VerticalPanel countingPanel;
-    Widget inputWidget;
-    KSLabel countingLabel;
+    protected VerticalPanel countingPanel;
+    protected Widget inputWidget;
+    protected KSLabel countingLabel;
 
     private int maxLength;
 

@@ -1,5 +1,5 @@
 /*
- * To change this template, choose Tools | Templates
+ * To change this template, choose Toolsno | Templates
  * and open the template in the editor.
  */
 package org.kuali.student.r2.core.class1.appointment.service.impl;
@@ -676,5 +676,15 @@ public class AppointmentServiceMockImpl implements AppointmentService, MockServi
 		// TODO KSENROLL-8703
 		throw new UnsupportedOperationException("not implemented");
 	}
+
+	@Override
+	public StatusInfo deleteAppointmentWindow(String appointmentWindowId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		throw new OperationFailedException("not implemented");
+	}
+	
+	
     
 }

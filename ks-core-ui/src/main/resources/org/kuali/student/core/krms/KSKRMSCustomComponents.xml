@@ -40,11 +40,11 @@ limitations under the License.
             <bean parent="Uif-ActionLink">
                 <property name="methodToCall" value="performLookup"/>
                 <property name="actionLabel" value="Advanced Search"/>
-                <property name="style" value="display:block;color: #3F7826;"/>
+                <property name="style" value="display:block"/>
             </bean>
         </property>
         <property name="lightBoxLookup">
-            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="true"/>
         </property>
     </bean>
 
@@ -61,18 +61,6 @@ limitations under the License.
     <bean id="KRMS-OrgDepartment-Field-Parent" parent="Uif-InputField-LabelTop"
           p:propertyName="proposition.orgInfo.longName" p:required="true">
         <property name="style" value="width:450px;"/>
-        <!--<property name="suggest">
-            <bean parent="Uif-Suggest">
-                <property name="render" value="true"/>
-                <property name="valuePropertyName" value="displayName"/>
-                <property name="templateOptions" value="minLength:1,delay:0"/>
-                <property name="suggestQuery">
-                    <bean parent="Uif-AttributeQueryConfig">
-                        <property name="queryMethodToCall" value="getOrgDepartmentForSuggest"/>
-                    </bean>
-                </property>
-            </bean>
-        </property>-->
         <property name="control">
             <bean parent="Uif-TextControl" p:size="60" p:style="background-color: #DDDDDD;width:370px; margin-top:null 2px;"
                   p:readOnly="true"/>
@@ -86,10 +74,39 @@ limitations under the License.
 
     <bean id="KRMS-Administering-Org-Field" parent="KRMS-OrgDepartment-Field-Parent" p:label="Organization"/>
 
+    <bean id="KRMS-OrgId-HiddenField" parent="Uif-InputField" p:showLabel="false">
+        <property name="propertyName" value="proposition.orgInfo.id"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Administering-Org-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Administering-Org-Field"/>
+                <ref bean="KRMS-OrgId-HiddenField"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-Department-Group" parent="KRMS-CustomComponent-BoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-Department-Field"/>
+                <ref bean="KRMS-OrgId-HiddenField"/>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KRMS-Population-Group" parent="KRMS-CustomComponent-BoxGroup">
         <property name="items">
             <list>
                 <ref bean="KRMS-Population-Field"/>
+                <ref bean="KRMS-PopulationId-HiddenField"/>
             </list>
         </property>
     </bean>
@@ -126,6 +143,16 @@ limitations under the License.
         </property>
     </bean>
     <bean id="KRMS-Population-Field" parent="KRMS-Population-Field-Parent" p:label="Population"/>
+
+    <bean id="KRMS-PopulationId-HiddenField" parent="Uif-InputField" p:showLabel="false">
+        <property name="propertyName" value="proposition.population.id"/>
+        <property name="control">
+            <bean parent="Uif-HiddenControl"/>
+        </property>
+        <property name="validCharactersConstraint">
+            <bean parent="AnyCharacterPatternConstraint" p:applyClientSide="false"/>
+        </property>
+    </bean>
 
     <bean id="KRMS-Population-QuickFinder" parent="KRMS-QuickFinder">
         <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.population.dto.PopulationWrapper"/>

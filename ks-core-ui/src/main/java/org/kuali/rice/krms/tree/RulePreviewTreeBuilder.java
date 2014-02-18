@@ -31,6 +31,8 @@ import org.kuali.rice.krms.util.PropositionTreeUtil;
 import java.util.List;
 
 /**
+ * This is a helper class to build the preview tree to be displayed on the manage requisites page on the ui to display
+ * a readonly tree of the rule on the edit with logic tab.
  *
  * @author Kuali Student Team
  */
@@ -78,7 +80,8 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
             if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
                 tNode = new TreeNode(this.buildNodeLabel(prop));
             } else if (PropositionType.COMPOUND.getCode().equalsIgnoreCase(prop.getPropositionTypeCode())) {
-                tNode = new TreeNode(StringEscapeUtils.escapeHtml(this.getDescription(prop)));
+                tNode = new TreeNode(this.getDescription(prop));
+                tNode.setCompound(true);
                 boolean first = true;
                 for (PropositionEditor child : prop.getCompoundEditors()) {
                     // add an opcode node in between each of the children.
@@ -88,10 +91,9 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
                         opNode.setNodeLabel(PropositionTreeUtil.getLabelForOperator(prop.getCompoundOpCode()));
                         opNode.setData(new TreeNode(null));
                         newNode.getChildren().add(opNode);
-
                     }
                     first = false;
-                    // call to build the childs node
+                    // call to build the child nodes
                     buildPreviewTree(rule, newNode, child);
                 }
             }
@@ -108,7 +110,7 @@ public class RulePreviewTreeBuilder extends AbstractTreeBuilder{
     protected String buildNodeLabel(PropositionEditor prop){
         //Build the node label.
         String prefix = this.getPropositionPrefix(prop);
-        return prefix + StringEscapeUtils.escapeHtml(this.getDescription(prop));
+        return prefix + this.getDescription(prop);
     }
 
     @Override

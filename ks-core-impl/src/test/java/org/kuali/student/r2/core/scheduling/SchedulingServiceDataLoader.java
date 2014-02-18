@@ -15,8 +15,6 @@
 
 package org.kuali.student.r2.core.scheduling;
 
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -29,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
@@ -60,23 +59,23 @@ public class SchedulingServiceDataLoader {
     ///////////////////////
     // START / END TIMES
     ///////////////////////
+    public final static TimeOfDayInfo TOD_8_00_AM = new TimeOfDayInfo(8, 0);
+    public final static TimeOfDayInfo TOD_8_50_AM = new TimeOfDayInfo(8, 50);
+    public final static TimeOfDayInfo TOD_9_10_AM = new TimeOfDayInfo(9, 10);
+    public final static TimeOfDayInfo TOD_9_50_AM = new TimeOfDayInfo(9, 50);
+    public final static TimeOfDayInfo TOD_8_51_AM = new TimeOfDayInfo(8, 51);
+    public final static TimeOfDayInfo TOD_10_00_AM = new TimeOfDayInfo(10, 0);
+    public final static TimeOfDayInfo TOD_10_50_AM = new TimeOfDayInfo(10, 50);
+    public final static TimeOfDayInfo TOD_11_10_AM = new TimeOfDayInfo(11, 10);
+    public final static TimeOfDayInfo TOD_1_00_PM = new TimeOfDayInfo(13, 0);
+    public final static TimeOfDayInfo TOD_1_50_PM = new TimeOfDayInfo(13, 50);
+    public final static TimeOfDayInfo TOD_2_10_PM = new TimeOfDayInfo(14, 10);
+    public final static TimeOfDayInfo TOD_3_00_PM = new TimeOfDayInfo(15, 0);
+    public final static TimeOfDayInfo TOD_3_50_PM = new TimeOfDayInfo(15, 50);
+    public final static TimeOfDayInfo TOD_4_10_PM = new TimeOfDayInfo(16, 10);
 
-    public final static Long START_TIME_MILLIS_8_00_AM = (long) (8 * 60 * 60 * 1000);
-    public final static Long START_TIME_MILLIS_10_00_AM = (long) (10 * 60 * 60 * 1000);
-    public final static Long START_TIME_MILLIS_1_00_PM = (long) (13 * 60 * 60 * 1000);
-    public final static Long START_TIME_MILLIS_3_00_PM = (long) (15 * 60 * 60 * 1000);
-
-    public final static Long END_TIME_MILLIS_8_50_AM = (long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000);
-    public final static Long END_TIME_MILLIS_9_10_AM = (long) (8 * 60 * 60 * 1000 + 70 * 60 * 1000);
-    public final static Long END_TIME_MILLIS_10_50_AM = (long) (10 * 60 * 60 * 1000 + 50 * 60 * 1000);
-    public final static Long END_TIME_MILLIS_11_10_AM = (long) (10 * 60 * 60 * 1000 + 70 * 60 * 1000);
-    public final static Long END_TIME_MILLIS_1_50_PM = (long) (13 * 60 * 60 * 1000 + 50 * 60 * 1000);
-    public final static Long END_TIME_MILLIS_2_10_PM = (long) (13 * 60 * 60 * 1000 + 70 * 60 * 1000);
-    public final static Long END_TIME_MILLIS_3_50_PM = (long) (15 * 60 * 60 * 1000 + 50 * 60 * 1000);
-    public final static Long END_TIME_MILLIS_4_10_PM = (long) (15 * 60 * 60 * 1000 + 70 * 60 * 1000);
-
-    public final static Long START_TIME_MILLIS_5_10_PM = (long) (17 * 60 * 60 * 1000 + 10 * 60 * 1000);
-    public final static Long END_TIME_MILLIS_6_00_PM = (long) (18 * 60 * 60 * 1000);
+    public final static TimeOfDayInfo TOD_5_10_PM = new TimeOfDayInfo(17, 10);
+    public final static TimeOfDayInfo TOD_6_00_PM = new TimeOfDayInfo(18, 0);
 
     public final static String ATP_ID = "TestATP";
     public final static String ROOM_ID = "Room1";
@@ -152,54 +151,54 @@ public class SchedulingServiceDataLoader {
         String fullTermSpringType =  SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING;
         String adHocTermType =  SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC;
 
-        String[][] timeSlotsData = {
+        Object[][] timeSlotsData = {
             //  This data is for testing search.
             //  {id, type, name, days, start time, end time}
             //  Base time slot
-            {"ts101", fullTermFallType, "1000", "MWF", "08:00", "08:50"},
-            {"ts102", fullTermFallType, "1010", "MWF", "08:00", "09:10"},
-            {"ts103", fullTermFallType, "1001", "TH", "08:00", "08:50"},
-            {"ts3", fullTermFallType, "1002", "MTWHF", "08:00", "08:50"},
+            {"ts101", fullTermFallType, "1000", "MWF", TOD_8_00_AM, TOD_8_50_AM},
+            {"ts102", fullTermFallType, "1010", "MWF", TOD_8_00_AM, TOD_9_10_AM},
+            {"ts103", fullTermFallType, "1001", "TH", TOD_8_00_AM, TOD_8_50_AM},
+            {"ts3", fullTermFallType, "1002", "MTWHF", TOD_8_00_AM, TOD_8_50_AM},
             //  Same day pattern and type as base, but change up the end times
-            {"ts4", fullTermFallType, "1003", "MWF", "08:00", "09:50"},
-            {"ts5", fullTermFallType, "1004", "TH", "08:00", "09:50"},
-            {"ts6", fullTermFallType, "1005", "MTWHF", "08:00", "09:50"},
+            {"ts4", fullTermFallType, "1003", "MWF", TOD_8_00_AM, TOD_9_50_AM},
+            {"ts5", fullTermFallType, "1004", "TH", TOD_8_00_AM, TOD_9_50_AM},
+            {"ts6", fullTermFallType, "1005", "MTWHF", TOD_8_00_AM, TOD_9_50_AM},
             //  Ad hoc with different end time
-            {"ts7", adHocTermType, "1006", "MWF", "08:00", "08:51"},
+            {"ts7", adHocTermType, "1006", "MWF", TOD_8_00_AM, TOD_8_51_AM},
             //  Same day pattern and type as base, but change up the type
-            {"ts8", fullTermSpringType, "1007", "MWF", "08:00", "08:50"},
-            {"ts9", fullTermSpringType, "1008", "TH", "08:00", "08:50"},
-            {"ts10", fullTermSpringType, "1009", "MTWHF", "08:00", "08:50"},
+            {"ts8", fullTermSpringType, "1007", "MWF", TOD_8_00_AM, TOD_8_50_AM},
+            {"ts9", fullTermSpringType, "1008", "TH", TOD_8_00_AM, TOD_8_50_AM},
+            {"ts10", fullTermSpringType, "1009", "MTWHF", TOD_8_00_AM, TOD_8_50_AM},
 
             //  Additional Fall Full Term time slots ...
-            {"ts104", fullTermFallType, "1012", "TH", "08:00", "09:10"},
-            {"ts105", fullTermFallType, "1013", "MWF", "10:00", "10:50"},
-            {"ts106", fullTermFallType, "1014", "MWF", "10:00", "11:10"},
-            {"ts107", fullTermFallType, "1015", "TH", "10:00", "10:50"},
-            {"ts108", fullTermFallType, "1016", "TH", "10:00", "11:10"},
-            {"ts109", fullTermFallType, "1017", "MWF", "13:00", "13:50"},
-            {"ts110", fullTermFallType, "1018", "MWF", "13:00", "14:10"},
-            {"ts111", fullTermFallType, "1019", "TH", "13:00", "13:50"},
-            {"ts112", fullTermFallType, "1020", "TH", "13:00", "14:10"},
-            {"ts113", fullTermFallType, "1021", "MWF", "15:00", "15:50"},
-            {"ts114", fullTermFallType, "1022", "MWF", "15:00", "16:10"},
-            {"ts115", fullTermFallType, "1023", "TH", "15:00", "15:50"},
-            {"ts116", fullTermFallType, "1024", "TH", "15:00", "16:10"},
+            {"ts104", fullTermFallType, "1012", "TH", TOD_8_00_AM, TOD_9_10_AM},
+            {"ts105", fullTermFallType, "1013", "MWF", TOD_10_00_AM, TOD_10_50_AM},
+            {"ts106", fullTermFallType, "1014", "MWF", TOD_10_00_AM, TOD_11_10_AM},
+            {"ts107", fullTermFallType, "1015", "TH", TOD_10_00_AM, TOD_10_50_AM},
+            {"ts108", fullTermFallType, "1016", "TH", TOD_10_00_AM, TOD_11_10_AM},
+            {"ts109", fullTermFallType, "1017", "MWF", TOD_1_00_PM, TOD_1_50_PM},
+            {"ts110", fullTermFallType, "1018", "MWF", TOD_1_00_PM, TOD_2_10_PM},
+            {"ts111", fullTermFallType, "1019", "TH", TOD_1_00_PM, TOD_1_50_PM},
+            {"ts112", fullTermFallType, "1020", "TH", TOD_1_00_PM, TOD_2_10_PM},
+            {"ts113", fullTermFallType, "1021", "MWF", TOD_3_00_PM, TOD_3_50_PM},
+            {"ts114", fullTermFallType, "1022", "MWF", TOD_3_00_PM, TOD_4_10_PM},
+            {"ts115", fullTermFallType, "1023", "TH", TOD_3_00_PM, TOD_3_50_PM},
+            {"ts116", fullTermFallType, "1024", "TH", TOD_3_00_PM, TOD_4_10_PM},
 
             //  Other Time Slots
-            {"toDelete", fullTermFallType, "1025", "MWF", "17:10", "18:00"},
-            {"toUpdate", fullTermFallType, "1026", "MWF", "17:10", "18:00"},
+            {"toDelete", fullTermFallType, "1025", "MWF", TOD_5_10_PM, TOD_6_00_PM},
+            {"toUpdate", fullTermFallType, "1026", "MWF", TOD_5_10_PM, TOD_6_00_PM},
         };
 
-        for (String[] ts: timeSlotsData) {
+        for (Object[] ts: timeSlotsData) {
             TimeSlotInfo tsInfo = new TimeSlotInfo();
-            tsInfo.setId(ts[0]);
-            tsInfo.setTypeKey(ts[1]);
+            tsInfo.setId((String) ts[0]);
+            tsInfo.setTypeKey((String) ts[1]);
             tsInfo.setStateKey(SchedulingServiceConstants.TIME_SLOT_STATE_STANDARD_KEY);
-            tsInfo.setName(ts[2]);
-            tsInfo.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList(ts[3]));
-            tsInfo.setStartTime(SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString(ts[4]));
-            tsInfo.setEndTime(SchedulingServiceUtil.makeTimeOfDayFromMilitaryTimeString(ts[5]));
+            tsInfo.setName((String) ts[2]);
+            tsInfo.setWeekdays(SchedulingServiceUtil.weekdaysString2WeekdaysList((String) ts[3]));
+            tsInfo.setStartTime((TimeOfDayInfo) ts[4]);
+            tsInfo.setEndTime((TimeOfDayInfo) ts[5]);
             schedulingService.createTimeSlot(tsInfo.getTypeKey(), tsInfo, contextInfo);
         }
 
@@ -220,11 +219,9 @@ public class SchedulingServiceDataLoader {
         TimeSlotInfo ts = new TimeSlotInfo();
         ts.setId(ts_id);
         ts.setWeekdays(weekdays);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(startTimeInMillisecs);
+        TimeOfDayInfo startTime = TimeOfDayHelper.setMillis(startTimeInMillisecs);
         ts.setStartTime(startTime);
-        TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(endTimeInMillisecs);
+        TimeOfDayInfo endTime = TimeOfDayHelper.setMillis(endTimeInMillisecs);
         ts.setEndTime(endTime);
         ts.setStateKey(stateKey);
         ts.setTypeKey(typeKey);
@@ -315,7 +312,7 @@ public class SchedulingServiceDataLoader {
 
         ScheduleComponentInfo scheduleComponentInfo = new ScheduleComponentInfo();
         scheduleComponentInfo.setId(id + "-ScheduleComponent1");
-        scheduleComponentInfo.setIsTBA(Boolean.valueOf(isTBA));
+        scheduleComponentInfo.setIsTBA(isTBA);
 
         List<String> timeSlotIds = new ArrayList();
         timeSlotIds.add("ts101");

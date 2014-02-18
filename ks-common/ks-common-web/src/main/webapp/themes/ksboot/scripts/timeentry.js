@@ -8,6 +8,12 @@ jQuery.validator.addMethod("validTimeAMPMPattern",
     }, "Valid time format hh:mm AM or hh:mm PM")
 
 
+jQuery.validator.addMethod("validDaysStartimeComboForStandardTimeSlot",
+    function(value, element) {
+        return value != "";
+    },
+    "Days and Start Time combo does not match an existing Standard Time Slot")
+
 function parseAndReplaceTimeClause(startTimeTextField, daysPatternTextField) {
     //  Get the value from the start time text field.
     var startTimeText = startTimeTextField.val();

@@ -160,6 +160,7 @@
                                     <value>code</value>
                                     <value>typeKey</value>
                                     <value>stateKey</value>
+
                                 </list>
                             </property>
                         </bean>
@@ -171,6 +172,7 @@
                                     <entry key="code" value="atpCode"/>
                                     <entry key="typeKey" value="atpType"/>
                                     <entry key="stateKey" value="atpState"/>
+                                    <entry key="atpStatus" value="atpState"/>
                                 </map>
                             </property>
                         </bean>
@@ -248,8 +250,13 @@
     </bean>
 
     <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-        <property name="nextDecorator" ref="atpServiceImpl" />
+        <property name="nextDecorator" ref="atpServiceCache" />
         <property name="validator" ref="validator" />
+    </bean>
+
+    <bean id="atpServiceCache" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceCacheDecorator">
+        <property name="nextDecorator" ref="atpServiceImpl" />
+        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <alias name="atpServiceValidation" alias="AtpService" />
@@ -747,7 +754,7 @@
                 <property name="service" ref="messageServiceImpl" />
                 <property name="serviceInterface" value="org.kuali.student.r2.common.messages.service.MessageService"/>
                 <property name="localServiceName" value="MessageService" />
-                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/messages" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/message" />
                 <property name="busSecurity" value="${ks.core.bus.security}" />
             </bean>
         </property>
@@ -900,7 +907,7 @@
                     pointcut="execution(* org.kuali.student.core.messages.service.*.*(..))"
                     method="afterThrowing" throwing="ex" />
             <aop:after-throwing
-                    pointcut="execution(* org.kuali.student.r2.core.proposal.service.*.*(..))"
+                    pointcut="execution(* org.kuali.student.r1.core.proposal.service.*.*(..))"
                     method="afterThrowing" throwing="ex" />
         </aop:aspect>
     </aop:config>
@@ -937,13 +944,7 @@
     <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar() -->
     <bean id="acalServiceCalculation" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
         <property name="atpService" ref="atpServiceClient" />
-        <property name="nextDecorator" ref="academicCalendarServiceCacheDecorator" />
-    </bean>
-    <!-- -->
-
-    <bean id="academicCalendarServiceCacheDecorator" class="org.kuali.student.r2.core.acal.service.decorators.AcademicCalendarServiceCacheDecorator">
         <property name="nextDecorator" ref="acalServiceImpl" />
-        <property name="cacheManager" ref="ksCacheManager"/>
     </bean>
 
     <!-- change id to "acalServiceImpl" if the above bean is used -->

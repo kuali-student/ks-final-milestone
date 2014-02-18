@@ -64,6 +64,7 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
     private String selectedKey;
     private String cutKey;
     private boolean dummy;
+    private boolean initialized;
     private List<String> activeSelections;
 
     //Edit with Logic
@@ -227,6 +228,14 @@ public class RuleEditor extends UifFormBase implements RuleDefinitionContract, S
 
     public void setDummy(boolean dummy) {
         this.dummy = dummy;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
+    }
+
+    public void setInitialized(boolean initialized) {
+        this.initialized = initialized;
     }
 
     /**

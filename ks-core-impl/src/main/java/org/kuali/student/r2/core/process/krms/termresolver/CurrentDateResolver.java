@@ -41,7 +41,7 @@ public class CurrentDateResolver implements TermResolver<Date> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.CURRENT_DATE_TERM_NAME;
+        return RulesExecutionConstants.AS_OF_DATE_TERM.getName();
     }
 
     @Override

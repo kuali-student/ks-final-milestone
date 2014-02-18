@@ -169,7 +169,8 @@ public class TypeServiceMockImpl implements TypeService, MockService {
 
     @Override
     public TypeInfo createType(String typeKey, TypeInfo typeInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        allTypes.put(typeInfo.getKey(), typeInfo);
+        return typeInfo;
     }
 
     @Override

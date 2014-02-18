@@ -52,6 +52,8 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     }
 
     public void fromDTO(AtpAtpRelation atpAtpRelation) {
+        super.fromDTO(atpAtpRelation);
+        
         this.setAtpState(atpAtpRelation.getStateKey());
         this.setEffectiveDate(atpAtpRelation.getEffectiveDate());
         this.setExpirationDate(atpAtpRelation.getExpirationDate());

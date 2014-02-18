@@ -18,6 +18,8 @@ package org.kuali.rice.krms.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
@@ -37,6 +39,7 @@ public class RuleManagementWrapper extends UifFormBase {
     private List<AgendaEditor> agendas;
     private RuleEditor ruleEditor;
     private AgendaEditor agendaEditor;
+    private boolean hasOptimisticLockingError;
 
     private Tree<CompareTreeNode, String> compareTree;
 
@@ -51,6 +54,9 @@ public class RuleManagementWrapper extends UifFormBase {
     }
 
     public List<AgendaEditor> getAgendas() {
+        if(agendas==null){
+            agendas = new ArrayList<AgendaEditor>();
+        }
         return agendas;
     }
 
@@ -168,5 +174,13 @@ public class RuleManagementWrapper extends UifFormBase {
 
     public void setCompareLightBoxHeader( String compareLightBoxHeader){
         this.compareLightBoxHeader = compareLightBoxHeader;
+    }
+
+    public boolean hasOptimisticLockingError() {
+        return hasOptimisticLockingError;
+    }
+
+    public void setHasOptimisticLockingError(boolean hasOptimisticLockingError) {
+        this.hasOptimisticLockingError = hasOptimisticLockingError;
     }
 }

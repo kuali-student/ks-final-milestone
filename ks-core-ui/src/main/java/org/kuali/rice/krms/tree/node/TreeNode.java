@@ -27,9 +27,14 @@ public class TreeNode implements Serializable {
 
     private String key;
     private String data;
+    private boolean compound;
     private List<Object> listItems;
 
     public TreeNode(){
+    }
+
+    public TreeNode(String data){
+        this.data = data;
     }
 
     public String getKey() {
@@ -40,24 +45,28 @@ public class TreeNode implements Serializable {
         this.key = key;
     }
 
-    public List<Object> getListItems() {
-        return listItems;
-    }
-
-    public void setListItems(List<Object> listItems) {
-        this.listItems = listItems;
-    }
-
-    public TreeNode(String data){
-        this.data = data;
-    }
-
     public String getData() {
         return data;
     }
 
     public void setData(String data) {
         this.data = data;
+    }
+
+    public boolean isCompound() {
+        return compound;
+    }
+
+    public void setCompound(boolean compound) {
+        this.compound = compound;
+    }
+
+    public List<Object> getListItems() {
+        return listItems;
+    }
+
+    public void setListItems(List<Object> listItems) {
+        this.listItems = listItems;
     }
 
 }

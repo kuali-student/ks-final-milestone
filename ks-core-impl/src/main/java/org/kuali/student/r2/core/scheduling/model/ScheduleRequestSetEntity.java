@@ -44,10 +44,10 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name="ScheduleRequestSet.getScheduleRequestSetByType", query="SELECT srs FROM ScheduleRequestSetEntity srs WHERE srs.schedReqSetType = :schedReqSetType"),
         @NamedQuery(name="ScheduleRequestSet.getScheduleRequestSetByRefObjTypeAndRefObjId",
-                query="SELECT srs FROM ScheduleRequestSetEntity srs " +
-                        "WHERE :refObjectTypeKey = srs.refObjectTypeKey and :refObjectId in elements(srs.refObjectIds)"),
+                query="SELECT srs FROM ScheduleRequestSetEntity srs, IN(srs.refObjectIds) objId " +
+                        "WHERE srs.refObjectTypeKey = :refObjectTypeKey AND objId = :refObjectId"),
         @NamedQuery(name="ScheduleRequestSet.getScheduleRequestSetIdsByRefObjType",
-                query="SELECT srs.id FROM ScheduleRequestSetEntity srs WHERE :refObjectTypeKey = srs.refObjectTypeKey")
+                query="SELECT srs.id FROM ScheduleRequestSetEntity srs WHERE srs.refObjectTypeKey = :refObjectTypeKey")
     })
 public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwner<ScheduleRequestSetAttributeEntity> {
 
@@ -97,6 +97,8 @@ public class ScheduleRequestSetEntity extends MetaEntity implements AttributeOwn
 
 
     public void fromDto(ScheduleRequestSet scheduleRequestSet) {
+        super.fromDTO(scheduleRequestSet);
+        
         setSchedReqSetState(scheduleRequestSet.getStateKey());
         setName(scheduleRequestSet.getName());
 

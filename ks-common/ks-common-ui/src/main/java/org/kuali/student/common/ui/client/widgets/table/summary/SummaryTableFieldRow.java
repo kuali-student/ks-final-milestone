@@ -38,7 +38,7 @@ public class SummaryTableFieldRow extends SummaryTableRow{
      * rows
      * @param multiplicityRow
      */
-    protected void setTemporaryRowFlag(boolean multiplicityRow) {
+    public void setTemporaryRowFlag(boolean multiplicityRow) {
 		this.temporary = multiplicityRow;
 	}
     

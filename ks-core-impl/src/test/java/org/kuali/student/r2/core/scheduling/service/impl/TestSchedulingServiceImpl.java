@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
@@ -63,7 +64,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.jws.WebParam;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -110,6 +110,15 @@ public class TestSchedulingServiceImpl {
     private String scheduleRequestInfoId, scheduleRequestComponentInfoId, scheduleRequestInfoName, scheduleRequestSetInfoId;
     private String scheduleRequestInfoId2, scheduleRequestComponentInfoId2, scheduleRequestInfoName2,requestType;
 
+    public static final TimeOfDayInfo TOD_8_AM = new TimeOfDayInfo(8, 0);
+    public static final TimeOfDayInfo TOD_8_50_AM = new TimeOfDayInfo(8, 50);
+    public static final TimeOfDayInfo TOD_9_10_AM = new TimeOfDayInfo(9, 10);
+    public static final TimeOfDayInfo TOD_10_AM = new TimeOfDayInfo(10, 0);
+    public static final TimeOfDayInfo TOD_10_50_AM = new TimeOfDayInfo(10, 50);
+    public static final TimeOfDayInfo TOD_1_PM = new TimeOfDayInfo(13, 0);
+    public static final TimeOfDayInfo TOD_2_10_PM = new TimeOfDayInfo(14, 10);
+    public static final TimeOfDayInfo TOD_3_PM = new TimeOfDayInfo(15, 0);
+    public static final TimeOfDayInfo TOD_3_50_PM = new TimeOfDayInfo(15, 50);
 
     @Before
     public void setUp() {
@@ -274,6 +283,15 @@ public class TestSchedulingServiceImpl {
     }
 
     @Test
+    public void testSetMillis() {
+        // Checks that setMillis
+        TimeOfDayInfo setMillis_8_30_2AM = TimeOfDayHelper.setMillis(8L * 60 * 60 * 1000L +
+                30L * 60 * 1000L + 2000L);  // 8:30 and 2 seconds
+        TimeOfDayInfo TOD_8_30_2_AM = new TimeOfDayInfo(8, 30, 2);
+        assertEquals(TOD_8_30_2_AM, setMillis_8_30_2AM);
+    }
+
+    @Test
     public void testgetTimeSlot() throws Exception {
         // test get by id
         for (int i = 1; i<= 16; i++) {
@@ -293,8 +311,9 @@ public class TestSchedulingServiceImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_9_10_AM);
+
+        assertEquals(ts.getStartTime(), TOD_8_AM);
+        assertEquals(ts.getEndTime(), TOD_9_10_AM);
 
         // test specific records - 3
         ts = schedulingService.getTimeSlot("ts103", contextInfo);
@@ -306,8 +325,8 @@ public class TestSchedulingServiceImpl {
         // should contain Tuesday or Thursday
         assertTrue(dow.contains(Calendar.TUESDAY));
         assertTrue(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_8_50_AM);
+        assertEquals(ts.getStartTime(), TOD_8_AM);
+        assertEquals(ts.getEndTime(), TOD_8_50_AM);
 
         // test specific records - 10
         ts = schedulingService.getTimeSlot("ts110", contextInfo);
@@ -319,8 +338,8 @@ public class TestSchedulingServiceImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
+        assertEquals(ts.getStartTime(), TOD_1_PM);
+        assertEquals(ts.getEndTime(), TOD_2_10_PM);
     }
 
     @Test
@@ -447,8 +466,8 @@ public class TestSchedulingServiceImpl {
         // should not contain Tuesday or Thursday
         assertFalse(dow.contains(Calendar.TUESDAY));
         assertFalse(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts2.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts2.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_9_10_AM);
+        assertEquals(ts2.getStartTime(), TOD_8_AM);
+        assertEquals(ts2.getEndTime(), TOD_9_10_AM);
 
         assertEquals("ts115", ts15.getId());
         dow = ts15.getWeekdays();
@@ -459,8 +478,8 @@ public class TestSchedulingServiceImpl {
         // should contain Tuesday or Thursday
         assertTrue(dow.contains(Calendar.TUESDAY));
         assertTrue(dow.contains(Calendar.THURSDAY));
-        assertEquals(ts15.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_3_00_PM);
-        assertEquals(ts15.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_3_50_PM);
+        assertEquals(ts15.getStartTime(), TOD_3_PM);
+        assertEquals(ts15.getEndTime(), TOD_3_50_PM);
 
         // test case: all invalid ids
         List<String> invalid_ids = new ArrayList<String>();
@@ -513,7 +532,7 @@ public class TestSchedulingServiceImpl {
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
         TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        startTime = SchedulingServiceDataLoader.TOD_8_00_AM;
         List<TimeSlotInfo> tsi = schedulingService
             .getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, contextInfo);
         assertEquals(3, tsi.size());
@@ -528,7 +547,7 @@ public class TestSchedulingServiceImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getStartTime(), TOD_8_AM);
 
         assertEquals("ts5", tsi.get(1).getId());
         ts = tsi.get(1);
@@ -540,7 +559,7 @@ public class TestSchedulingServiceImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getStartTime(), TOD_8_AM);
 
         assertEquals("ts104", tsi.get(2).getId());
         ts = tsi.get(2);
@@ -552,7 +571,7 @@ public class TestSchedulingServiceImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
+        assertEquals(ts.getStartTime(), TOD_8_AM);
     }
 
     @Test
@@ -561,10 +580,8 @@ public class TestSchedulingServiceImpl {
         List<Integer> dow = new ArrayList<Integer>();
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
-        TimeOfDayInfo endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(SchedulingServiceDataLoader.END_TIME_MILLIS_8_50_AM);
+        TimeOfDayInfo startTime = SchedulingServiceDataLoader.TOD_8_00_AM;
+        TimeOfDayInfo endTime  = SchedulingServiceDataLoader.TOD_8_50_AM;
         List<TimeSlotInfo> tsi = schedulingService
             .getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
@@ -578,8 +595,8 @@ public class TestSchedulingServiceImpl {
         // should contain Tuesday or Thursday
         assertTrue(ts_dow.contains(Calendar.TUESDAY));
         assertTrue(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_8_50_AM);
+        assertEquals(ts.getStartTime(), TOD_8_AM);
+        assertEquals(ts.getEndTime(), TOD_8_50_AM);
 
         // should return record 10
         dow = new ArrayList<Integer>();
@@ -587,9 +604,9 @@ public class TestSchedulingServiceImpl {
         dow.add(Calendar.WEDNESDAY);
         dow.add(Calendar.FRIDAY);
         startTime = new TimeOfDayInfo();
-        startTime.setMilliSeconds(SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
+        startTime = SchedulingServiceDataLoader.TOD_1_00_PM;
         endTime = new TimeOfDayInfo();
-        endTime.setMilliSeconds(SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
+        endTime = SchedulingServiceDataLoader.TOD_2_10_PM;
         tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
         assertEquals("ts110", tsi.get(0).getId());
@@ -602,8 +619,8 @@ public class TestSchedulingServiceImpl {
         // should not contain Tuesday or Thursday
         assertFalse(ts_dow.contains(Calendar.TUESDAY));
         assertFalse(ts_dow.contains(Calendar.THURSDAY));
-        assertEquals(ts.getStartTime().getMilliSeconds(), SchedulingServiceDataLoader.START_TIME_MILLIS_1_00_PM);
-        assertEquals(ts.getEndTime().getMilliSeconds(), SchedulingServiceDataLoader.END_TIME_MILLIS_2_10_PM);
+        assertEquals(ts.getStartTime(), TOD_1_PM);
+        assertEquals(ts.getEndTime(), TOD_2_10_PM);
     }
 
     @Test
@@ -1133,7 +1150,8 @@ public class TestSchedulingServiceImpl {
             PredicateFactory.and(
                     PredicateFactory.equal("timeSlotType", fallFull),
                     PredicateFactory.equal("weekdays", days),
-                    PredicateFactory.equal("startTimeMillis", SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM)
+                    PredicateFactory.equal("startTimeMillis",
+                            TimeOfDayHelper.getMillis(SchedulingServiceDataLoader.TOD_8_00_AM))
             )
         );
         QueryByCriteria criteria = qbcBuilder.build();
@@ -1142,7 +1160,7 @@ public class TestSchedulingServiceImpl {
         for (TimeSlotInfo ts : timeSlotInfos) {
             assertEquals(fallFull, ts.getTypeKey());
             assertEquals(days, SchedulingServiceUtil.weekdaysList2WeekdaysString(ts.getWeekdays()));
-            assertEquals(SchedulingServiceDataLoader.START_TIME_MILLIS_8_00_AM, ts.getStartTime().getMilliSeconds());
+            assertEquals(TOD_8_AM, ts.getStartTime());
         }
     }
 
@@ -1155,7 +1173,7 @@ public class TestSchedulingServiceImpl {
         String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
 
         String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
-        List<String> refObjectIds = new ArrayList();
+        List<String> refObjectIds = new ArrayList<String>();
         refObjectIds.add("Ao1");
         refObjectIds.add("Ao2");
         ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
@@ -1196,7 +1214,7 @@ public class TestSchedulingServiceImpl {
         String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
 
         String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
-        List<String> refObjectIds = new ArrayList();
+        List<String> refObjectIds = new ArrayList<String>();
         refObjectIds.add("Ao1");
         refObjectIds.add("Ao2");
         ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,

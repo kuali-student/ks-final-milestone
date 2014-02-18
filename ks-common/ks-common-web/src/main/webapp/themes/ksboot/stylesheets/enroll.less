@@ -1,6 +1,8 @@
 @import "variables.less";
 @import "mixins.less";
 
+@import "ks-fonts";
+
 /* Enrollment Title
    Enrollment header found on the enrollment home page
 */
@@ -46,16 +48,99 @@
   margin: 3px;
 }
 
-/************************************** ERROR MESSAGES **************************************/
+/*  Prevent text from wrapping. */
+.nowrap {
+  white-space: nowrap;
+}
+
+/************************************** VALIDATION MESSAGES **************************************/
 li.uif-errorMessageItem:before
 {
-    color: @black;
+  color: @black;
 }
- .uif-validationMessages ul
- {
-    margin-left: 2.8em;
- }
-/************************************** END ERROR MESSAGES **************************************/
+
+/* Vertically Centering the Icon with the Title */
+.uif-pageValidationMessages .uif-validationImage {
+  vertical-align: middle;
+  margin-top: -3px;
+  padding-right: 2px;
+}
+
+/* Make the error icon on the top of tooltip */
+.uif-validationImage {
+    vertical-align: top;
+}
+/* Attributes of the Title */
+.uif-pageValidationHeader {
+  font-size: 1.1em;
+  font-weight: bold;
+}
+
+/* Attributes of the Title */
+.uif-validationMessages > h3 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  padding: 0px 0px 2px 0px;
+}
+
+/* single validation error message */
+.uif-validationMessages ul.uif-pageValidationMessage-single,  .uif-validationMessages ul.uif-pageValidationMessage-single > div > ul {
+    margin-left: 0em;
+}
+
+/* indentation for error message panel with title */
+h3 + #pageValidationList.uif-validationMessagesList > div > ul > li {
+    margin-left: 11px;
+}
+
+h3 + #pageValidationList.uif-validationMessagesList > li {
+    margin-left: 24px;
+}
+
+/* error message margin in course prerequisite screen */
+div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem {
+    margin-left: 18px;
+}
+
+div.jstree-editrule ul.uif-validationMessagesList > li.uif-errorMessageItem > ul > li.uif-errorMessageItem {
+    margin-left: 0px;
+}
+
+/* error message color in course prerequisite screen */
+div.jstree-editrule ul.uif-validationMessagesList a {
+    color: #0088cc;
+}
+
+/* Attributes of the Bullet */
+.uif-validationMessages li {
+  margin-bottom: 0px;
+}
+
+/* Override the warning message panel */
+.uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection {
+  background: url("../images/validation/warning.png") no-repeat;
+  background-position: 10px 8px;
+  background-color: @warningBackground;
+  border: 1px solid @warningBorder;
+  color: @warningText;
+  padding-left: 30px;
+  width: 96%;
+}
+
+/* Informational message panel */
+.ks-informational-message-for-field {
+  padding: 8px 14px 8px 14px;
+  margin-bottom: 18px;
+  display: inline-block;
+  background-color:@infoBackground;
+  border: 1px solid @infoBorder;
+  color: @infoText;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  width: 98%;
+
+}
+/************************************** END VALIDATION MESSAGES **************************************/
 
 /************************************** CSS COLUMN GRID **************************************/
 .col_1
@@ -159,73 +244,156 @@ li.uif-errorMessageItem:before
 /************************************** END CSS COLUMN GRID **************************************/
 
 /************************************** CSS COLUMN Fixed Widths **************************************/
- /**These widths are to help standardise columns. As of Oct 2013 they are used in Manage Time Slot***/
-.fixedCol_1
-{
-    width:35px;
+/**These widths are to help standardise columns. As of Dec 2013 they are used in Manage Time Slot and Manage CO edit view***/
+
+.checkBox_course_offering{
+  width:10px;
 }
 
-.fixedCol_2
-{
-    width:45px;
+.delete_course_offering{
+  width:50px;
 }
 
-.fixedCol_3
-{
-    width:50px;
+.course_course_offering{
+  width: 65px;
 }
 
-.fixedCol_4
-{
-    width:60px;
+.title_course_offering{
+  width:600px;
 }
 
-.fixedCol_5
-{
-    width:65px;
+.credits_course_offering{
+  width:100px;
 }
 
-.fixedCol_6
-{
-    width:75px;
+.status_course_offering{
+  width: 65px;
 }
 
-.fixedCol_7
- {
-     width:80px;
- }
-
- .fixedCol_8
- {
-     width:90px;
- }
-
-.fixedCol_9
-{
-    width:100px;
+.code_course_offering{
+  width:65px;
 }
 
-.fixedCol_10
-{
-    width:110px;
+.type_course_offering{
+  width: 65px;
 }
 
-.fixedCol_11
- {
-     width:120px;
- }
+.format_course_offering{
+  width: 150px;
+}
 
- .fixedCol_12
- {
-     width:150px;
- }
+.days_course_offering{
+  width: 90px;
+}
 
- .fixedCol_13
- {
-     width:200px;
- }
+.startTime_course_offering{
+  width: 90px;
+}
+
+.endTime_course_offering{
+  width: 90px;
+}
+
+.instructor_course_offering{
+  width: 200px;
+}
+
+.maxEnr_course_offering{
+  width:90px;
+}
+
+.grade_roster_course_offering{
+  width:150px;
+}
+
+.final_exam_course_offering{
+   width:150px;
+}
+
+.final_exam_activity_course_offering{
+   width:200px;
+}
+
+.id_search_course_offering{
+  width:280px;
+}
+
+.organization_id_course_offering{
+  width:200px;
+}
+
+.organization_name_course_offering{
+  width:300px;
+}
+/***Activity Offerings****/
+.status_activity_offering{
+  width: 65px;
+}
+
+.code_activity_offering{
+  width:65px;
+}
+
+.type_activity_offering{
+  width: 65px;
+}
+
+.format_activity_offering{
+  width: 150px;
+}
+/***TimeSlotView.xml****/
+.check_timeSlot{
+  width:35px;
+}
+
+.code_timeSlot{
+  width:65px;
+}
+
+.termType_timeSlot{
+  width:120px;
+}
+
+.days_timeSlot{
+  width:90px;
+}
+
+.startTime_timeSlot{
+  width:90px;
+}
+
+.endTime_timeSlot{
+  width:90px;
+}
+
+.actions_timeSlot{
+  width:50px;
+}
+
+/***Holiday Calendar****/
+
+.am_pm_style{
+  width:50px;
+}
+
 /************************************** END CSS COLUMN Fixed Widths **************************************/
 
+/************************************** CSS TABLE Fixed Widths **************************************/
+
+#KS-CourseOfferingManagement-DeleteCourseOfferingListSection{
+  width:1050px;
+}
+
+#KS-CourseOfferingManagement-DeleteAoListSection{
+  width:976px;
+  margin-left:1.8em;
+}
+
+#KS-CourseOfferingManagement-SelectedActivityOfferingListSection{
+  width:500px;
+}
+
+/************************************** END CSS TABLE Fixed Widths **************************************/
 
 /************************************** VIEW REGISTRATION GROUP STATE COLUMN **************************************
    These control the colour of the items in the State column
@@ -330,14 +498,65 @@ a {
 
 
 
-/************************************** MANAGE CO ACTION LINKS **************************************
+/************************************** ACTION LINKS **************************************
    Links that appear in the Actions column on the Manage CO page
 */
+/** TODO: KSENROLL-10793 This appears to be unused and can go away */
 .ks-table-uif-navigationActionLink {
   padding-left: 8px;
   margin-left: 8px;
 }
-/************************************** END MANAGE CO ACTION LINKS **************************************/
+
+/** Make sure each flavor of action link doesn't wrap.
+    Since action links are used in lots of places limit this styling to items which are in fieldsets. */
+fieldset .uif-navigationActionLink,
+fieldset .uif-actionLink,
+fieldset .uif-smallActionButton {
+  display: inline-block;
+  white-space: nowrap;
+/* Floating the links causes wrapping if the window gets too small. */
+  float: none;
+/* This messes up the Action links on calendar search results action links because they don't have separators.
+ * margin: 0px; */
+}
+
+/** This class is assigned to the separators */
+.ks-line-action-seperator {
+  cursor: default;
+  text-decoration: none;
+  white-space: nowrap;
+/* Floating the separators causes wrapping if the window gets too small. */
+  float: none;
+  display: inline-block;
+  margin: 0px;
+}
+
+/* TODO: KSENROLL-10793 should eliminate the need for this abomination ;)
+   In some cases the layoutManager.actionFieldPrototype bean sets the label to upper case, in other cases it
+   doesn't (and apparently specifying non-html attributes is case sensitive), so both cases are covered.
+ */
+.uif-horizontalFieldGroup[data-label="ACTIONS"],
+.uif-horizontalFieldGroup[data-label="Actions"] {
+  white-space: nowrap !important;
+/* This floats the outer div to the left */
+  float: left;
+  display: inline-block;
+
+  /* delete in Manage Scheduling Requests */
+    a:last-child{
+       float:none;
+       padding:0;
+       display: inline-block;
+       margin-top:0.18em;
+    }
+}
+
+ .cancel_link{
+   margin-top:5px;
+   margin-right:20px;
+ }
+
+/************************************** END ACTION LINKS **************************************/
 
 
 
@@ -350,13 +569,28 @@ a {
 .ks-toolbar {
   padding: 6px 0 1px 6px;
   background-color: #f1f1f1;
+  margin-bottom: 10px;
 }
-.ks-toolbar .uif-sectionHeader {
+
+/* Work-arounds to prevent buttons from wrapping when screen is sized too narrow
+ * KSENROLL-9694 KSENROLL-9703
+ */
+.ks-toolbar {
+  #manageTheCourseOfferingPage & {
+    min-width: 950px;
+  }
+  #KSCO-RuleMaintenance-Page &,
+  #KSAO-RuleMaintenance-Page & {
+    min-width: 1160px;
+  }
+}
+
+.uif-sectionHeader {
   margin: 0;
 }
 
 .ks-toolbar button.tree-bar-button {
-  font-size: 0.813em;
+  font-size: 0.9em;
   color: black;
   background-color: #f5f5f5;
   #gradient.vertical(#ffffff, #e6e6e6); /*-- LESS gradient mixin --*/
@@ -406,7 +640,7 @@ border: 1px solid #cccccc;
 border-color: #e6e6e6 #e6e6e6 #bfbfbf;
 border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 border-bottom-color: #b3b3b3;
-color: #B0B0B0;
+color: #636363;
 border-left:0;
 cursor:auto;
   }
@@ -490,32 +724,6 @@ cursor:auto;
 /************************************** END WATERMARK **************************************/
 
 
-
-
-.ks-line-action-seperator{
-  cursor: default;
-  text-decoration: none !important;
-}
-
-/*div.ks-line-action-seperator a:not(:last-child):after {*/
-/*display:inline-block;*/
-/*pointer-events: none;*/
-/*cursor: default;*/
-/*color:black;*/
-/*text-decoration: none;*/
-/*margin-left:.5em;*/
-/*margin-right:.5em;*/
-/*content:attr(data-actionseperator) " ";*/
-/*}*/
-
-.ks-seatpools :not(:last-child){
-  margin-bottom: 0px;
-  padding-bottom: 0px;
-}
-
-
-
-
 /************************************** APPLICATION HEADER **************************************/
 .ks-uif-viewHeader-container {
   background-image:url('../images/header/bg_header.png');
@@ -524,7 +732,7 @@ cursor:auto;
 
 /* Kuali Logo  */
 .ks-logo-image {
-  padding: 13px 0 0 13px;
+  padding: 13px 0 0 17px;
 }
 
 /* Student Text  */
@@ -582,7 +790,7 @@ cursor:auto;
 }
 
 .header-right-group {
-  padding-right: 10px;
+  padding-right: 13px;
 }
 
 /* Altering the Default Link Colour */
@@ -623,6 +831,9 @@ cursor:auto;
 .state-published    { .state-lozenge-completed(); }
 .state-canceled     { .state-lozenge-canceled(); }
 .state-suspended    { .state-lozenge-suspended(); }
+.state-finaledits   { .state-lozenge-ready(); }
+.state-locked       { .state-lozenge-suspended(); }
+.state-open         { .state-lozenge-ready(); }
 /************************************** END LOZENGES **********************/
 
 
@@ -644,9 +855,8 @@ cursor:auto;
 }
 
 .ks-topGroup-courseOffering-termName {
-  padding-top: 10px;
+  padding-top: 12px;
   padding-left: 8px;
-  font-size: 0.875em;
 }
 
 .ks-topGroup-courseOffering-termName span {
@@ -690,12 +900,19 @@ cursor:auto;
 #Uif-BreadcrumbWrapper {
   display: block !important;         /* It is overriding the KRMS display: none; */
   visibility: visible !important;;    /* It is overriding the KRMS visibility: hidden; */
-  background-image: url('../images/breadcrumb/bg_breadcrumb.png');
+  background-color: red;
 }
 
 /* Breadcrumb Dividers */
 .uif-breadcrumbs > li {
   background-image: url(../images/breadcrumb/divider-breadcrumb.png);
+
+}
+
+/* Last Breadcrumb */
+.uif-breadcrumbs > li:last-child > span, .uif-breadcrumbs > li:last-child > a {
+  font-weight: normal;
+  white-space: nowrap;
 }
 /************************************** END BREADCRUMBS **************************************/
 
@@ -704,16 +921,30 @@ cursor:auto;
 
 /************************************** UNIFIED PAGE HEADER **********************/
 /* Attributes of the right side */
-.ks-unified-header {
-  padding: 15px 0px 25px 15px;
+.uif-viewHeader-supportTitle{
+  display: inline-block;
+  padding-top: 12px;
+}
+
+#edit_co_next.uif-actionLink {
+  margin-right: 0px;
+}
+
+.ks-unified-header, .ks-unified-header .uif-viewHeader {
+  padding-top: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 25px;
+  margin: 0;
 }
 
 /* Attributes of the left side */
 .ks-unified-header-rightGroup-container {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 0.875em;
+  font-size: 1.07692307692308em;
   line-height: 20px;
-  padding-top: 15px;
+  padding-top: 17px;
+  padding-bottom: 32px;
   float: right;
 }
 
@@ -726,12 +957,12 @@ cursor:auto;
 /* Setting the Action Links colour */
 .ks-unified-header-rightGroup-action a {
   color: #0088cc;
-  padding-right: 7px;
+  padding-right: 0px;
 }
 
 /* Setting the Action Link icons' opacity */
 .ks-unified-header-rightGroup-action a i {
-  opacity: .5;
+//opacity: .5;
   padding-right: .3em;
 }
 
@@ -750,14 +981,13 @@ cursor:auto;
 .ks-unified-header-rightGroup-status {
   padding-right: 6px;
   float: right;
-  margin-top: -5px;
 }
 
 /* Meta Data Info */
 .ks-unified-header-rightGroup-status :not(:last-child){
-  padding-top: 2px;
+  padding-top: 0px;
   font-style: italic;
-  font-size: 0.813em;
+  font-size: 1em;
   color: black;
 }
 
@@ -786,7 +1016,7 @@ cursor:auto;
 /************************************** BOOTSTRAP OVERRIDES **********************/
 /* Overriding the 14px font size */
 body {
-  font-size: 0.813em;
+  font-size: @baseFontSize;
 }
 
 /* Overriding from bottom as this was affecting headers items - Student text & user image */
@@ -882,10 +1112,6 @@ input[disabled].acal_term_code{
   margin-top: 27px;
 }
 
-div[class*="-labelTop"] ~ div:not([class*="-labelTop"]){
-  margin-top: 30px;
-}
-
 div#Uif-ApplicationHeader-Wrapper{
   z-index: 100;
 }
@@ -896,22 +1122,27 @@ div#Uif-ApplicationHeader-Wrapper{
 
 
 /*define a gray box as background. This is basically the "info grid" styling. */
-.ks-gray-background  {
+.ks-details-panel  {
   background-color: #ebebeb;
   border: none;
   padding: 10px;
 }
 
-.ks-gray-background table {
+.ks-details-panel table {
   width: auto !important;
   border: none;
 }
 
-.ks-gray-background th,
-.ks-gray-background  td {
+.ks-details-panel th,
+.ks-details-panel  td {
   background-color: #ebebeb !important;
   padding: 1px 6px;
   border: none;
+}
+
+//Override paddings from .uif-boxSubSection uif-boxLayoutVerticalItem
+.uif-boxSubSection .uif-boxLayoutVerticalItem.uif-boxLayoutVerticalItem.ks-details-panel {
+  padding: 10px;
 }
 
 .ks-no-margins
@@ -936,13 +1167,13 @@ div#Uif-ApplicationHeader-Wrapper{
 }
 
 #ks-uif-primaryActionButton.uif-boxLayoutHorizontalItem ~ .uif-boxLayoutHorizontalItem{
-  /*float: right  !important;*/
+/*float: right  !important;*/
   padding-top: 6px;
   padding-right: 6px;
 }
 
 #ks-uif-secondaryActionButton.uif-boxLayoutHorizontalItem ~ .uif-boxLayoutHorizontalItem{
-  /*float: right  !important;*/
+/*float: right  !important;*/
 }
 
 .ks-krad-tab-gridgroup-fix th,
@@ -998,7 +1229,6 @@ div#Uif-ApplicationHeader-Wrapper{
 */
 
 .co_copy_tables {
-  padding-bottom: 20px;
   width: 75%;
 }
 
@@ -1025,42 +1255,76 @@ div#Uif-ApplicationHeader-Wrapper{
   font-weight: normal;
 }
 
-/*
-    Appended from ks-jquery.css
-    Possibly not used any longer
-*/
+/************************************** Growl message customization ******************/
+div.jGrowl div.ERROR {
+  background-color: @errorBackground;
+  opacity: 1;
+}
+div.jGrowl div.ERROR div.jGrowl-close {
+  color: @errorText;
+}
+
+div.jGrowl div.INFORMATION {
+  background-color: @infoBackground;
+  opacity: 1;
+}
+div.jGrowl div.INFORMATION div.jGrowl-close {
+  color: @infoText;
+}
+
+div.jGrowl div.SUCCESS {
+  background-color: @successBackground;
+  opacity: 1;
+}
+div.jGrowl div.SUCCESS div.jGrowl-close {
+  color: @successText;
+}
+
+div.jGrowl div.WARNING {
+  background-color: @warningBackground;
+  opacity: 1;
+}
+div.jGrowl div.WARNING div.jGrowl-close {
+  color: @warningText;
+}
+
 div.jGrowl div.ERROR div.jGrowl-message {
-  background: url("images/iconError16.png") no-repeat;
+  background: url("../images/validation/error.png") no-repeat;
+  color: @errorText;
   padding-left: 25px;
 }
 div.jGrowl div.INFORMATION div.jGrowl-message {
-  background: url("images/iconInformation16.png") no-repeat;
+  background: url("../images/validation/info.png") no-repeat;
+  color: @infoText;
   padding-left: 25px;
 }
 div.jGrowl div.SUCCESS div.jGrowl-message {
-  background: url("images/iconSuccess16.png") no-repeat;
+  background: url("../images/validation/success.png") no-repeat;
+  color: @successText;
   padding-left: 25px;
 }
 div.jGrowl div.WARNING div.jGrowl-message {
-  background: url("images/iconWarning16.png") no-repeat;
+  background: url("../images/validation/warning.png") no-repeat;
+  color: @warningText;
   padding-left: 25px;
 }
 
 /* Acal radio buttons for key dates and events */
 .ks_toolbar_popup_action_button {
-  font-size: 0.750em;
+  font-size: 0.92307692307692em;
   height: 25px;
   margin-top: 2.0em;
   min-width: 50px;
 }
 
-.ks-informational-message-for-field {
-  display: inline-block;
-  background-color:#C8E4F7;
-  padding:4px;
-  border: 1px solid rgb(9, 172, 248);
-}
+/************************************** END Growl message customization ******************/
 
+/**************************************Loading Icon/Message ******************/
+
+div.blockPage {
+  padding-top: 20px;
+}
+/************************************** END Loading Icon/Message ******************/
 
 /************************************** Schedule of Classes **********************/
 .uif-messageField.course-offering-display-info-icon .uif-message img {
@@ -1120,7 +1384,7 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   background-color: @body_background;
 }
 
-//home page start
+//home page and dynamic breadcrumb start
 
 .ks-home label {
   font-weight: normal;
@@ -1165,7 +1429,7 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
   margin-bottom: 3px;
 }
 
-//home page end
+//home page and dynamic breadcrumb end
 
 @import "pagination";
 
@@ -1184,13 +1448,550 @@ table.dataTable tr.uif-newCollectionItem td.sorting_1 {
 .halflings::-moz-focus-inner {border:none;}
 .halflings:before {
   color: @iconColor;
-  font-size: 12px;
-  line-height: 12px;
+  font-size: 0.92307692307692em;
+  line-height: 0.92307692307692em;
   position: absolute;
   top:0;
   left:0;
 }
 button.halflings:before {
-  top:-6px;
+// top:-6px;
+}
+.ui-datepicker-trigger.halflings {
+  width:16px;
+  height:16px;
+}
+button.ui-datepicker-trigger {
+  &:hover, &:focus, &:active, &:visited {
+    padding-right:6px;
+  }
 }
 .icon.halflings:hover:before {color: @iconHoverColor;}
+
+/*
+  Style guide implementation: text sizes. START
+*/
+
+label{
+  font-size:1em;
+}
+
+input[type="radio"]+label, input[type="checkbox"]+label, input[type="checkbox"] ~ span > label {
+  font-weight: normal;
+}
+
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  font-size: 1em;
+}
+
+/*
+  override the tooltip content text size for all-black theme to base font size
+*/
+.jquerybubblepopup-all-black  .jquerybubblepopup-innerHtml {
+  font-size: 0.9em;
+  font-family: @baseFontFamily;
+}
+
+/*
+  override the background color of KRAD error tooltip
+*/
+.uif-clientErrorDiv {
+    background-color: #F2DEDE;
+}
+.jquerybubblepopup-kr-error-ss  .jquerybubblepopup-innerHtml {
+    background-color: #F2DEDE;
+}
+
+/*
+  Style guide implementation: text sizes. END
+*/
+
+/*
+  Style guide implementation: margin and padding settings. START
+*/
+
+.ui-tabs .ui-tabs-panel {
+  padding: 15px 0px 0px 0px;
+}
+
+h1 {
+  padding: 0px 0px 25px 0px;
+  margin: 0px;
+}
+
+h2,h3,h4 {
+  padding: 0px 0px 10px 0px;
+  margin: 0px;
+}
+
+h5, h6 {
+  padding: 0px 0px 10px 0px;
+  margin: 0px;
+}
+
+// The padding to the view headers are appleid from the ks-unified-header.
+//So to avoid compunding padding, remove padding from h1 inside the ks-uified-header
+.ks-unified-header h1{
+  padding: 0;
+  margin: 0;
+}
+
+/*
+  Style guide implementation: margin and padding settings. END
+*/
+
+
+// change the font for the controls in decending from ui-widget
+.ui-widget input, .ui-widget select, .ui-widget textarea, .ui-widget button{
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/*
+  Change the quickfinder button to text and show it below it -- START
+*/
+
+.ks-uif-quickFinder fieldset a{
+  display: table-cell;
+  padding-left: 0px;
+}
+
+.ks-uif-quickFinder fieldset a.uif-actionLink.disabled {
+  color: #0088cc;
+  cursor: pointer;
+}
+
+.ks-uif-quickFinder fieldset a.uif-actionLink.disabled:hover {
+  color: #005580;
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+/*
+  Change the quickfinder button to text and show it below it -- END
+*/
+
+/*
+  Center the icon in the middle of the firs column START
+*/
+div.ks-uif-table-column table tr td:nth-child(1) {
+  text-align: center;
+}
+
+div.ks-uif-table-column table tr td:nth-child(1) img {
+  margin-right: 0px;
+  vertical-align: middle;
+}
+
+/*
+  Center the icon in the middle of the firs column END
+*/
+
+/*
+  Override the auto complete input to remove the image
+*/
+.ui-autocomplete-input {
+  background: transparent;
+}
+
+
+/*
+  Override buttons on dialog box
+  ==============================
+*/
+
+//Move buttons to bottom right of dialog
+.uif-dialogGroup fieldset {
+  margin-top: 20px;
+  margin-left: -12px;
+}
+
+//Transition for hover and click on buttons
+.uif-dialogButtons-transition() {
+  -webkit-transition: background-position 0.1s linear;
+  -moz-transition: background-position 0.1s linear;
+  -o-transition: background-position 0.1s linear;
+  transition: background-position 0.1s linear;
+}
+
+//Override button to look like KS button
+.uif-dialogGroup input[value^=y] + label, .uif-dialogGroup input[value^=Y] + label {
+  margin-right: -20px;
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #006dcc;
+  background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+  background-repeat: repeat-x;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+
+  &:hover {
+    background-color: #0044cc;
+    text-decoration: none;
+    background-position: 0 -15px;
+    .uif-dialogButtons-transition;
+  }
+}
+
+
+//Override button to look like KS link
+.uif-dialogGroup input[value^=n] + label, .uif-dialogGroup input[value^=N] + label {
+  border-color: transparent;
+  cursor: pointer;
+  color: #0088cc;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-size: 13px;
+  line-height: 18px;
+  text-align: center;
+  vertical-align: middle;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75);
+  background-repeat: repeat-x;
+  text-decoration: none;
+
+      &:hover {
+        color: #005580;
+        text-decoration: underline;
+        background-position: 0 -15px;
+        .uif-dialogButtons-transition;
+      }
+
+  }
+
+/* This is a copy of the exact same definition from ksboot.less -- but for some reason IE isn't "seeing" that rule.  If you view the raw CSS from within IE9, this rule from ksboot is entirely missing.
+ * For some reason, including the rule here gets picked up by IE.
+ * Note: the rule is actually found in kboot.less but is then inherited by ksboot.less
+
+ * https://jira.kuali.org/browse/KSENROLL-10508
+ */
+fieldset[data-type="InputSet"] {
+  display: inline;
+}
+
+.ks-section{
+  margin-bottom: 45px;
+}
+
+.ks-subSection{
+  margin-bottom: 10px;
+}
+
+#ao-seatpoolgroupZ_add {
+  height: 28px;
+  margin: 10px 0 10px 0;
+}
+
+/*
+  This is the equivalent of the uif-inputField chained with uif-boxLayoutVerticalItem
+*/
+.ks-itemSection{
+  margin-bottom: 8px;
+}
+
+/*
+    styles for forms inside the sections such as inside disclosures
+*/
+.ks-form-panel {
+  min-width: 781px;
+  padding: 17px 0 17px 17px;
+  border: 1px solid #AAAAAA;
+  display: inline-block;
+}
+
+.uif-disclosureContent{
+  margin-left: 18px;
+}
+
+/*
+  override unnecessary indentations caused by uif-diclosureContent
+*/
+.ks-uif-diclosureContent-noIndent .uif-disclosureContent {
+  margin-left: 0px;
+}
+
+/*
+ Remove the padding to align left for only acal_keydate_group
+*/
+.acal_keydate_group .uif-stackedCollectionLayout {
+  padding: 0px;
+}
+
+.ks-search-group-section{
+  border: none;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.ks-search-group-footer{
+  margin-bottom: 6px;
+  display: inline-block;
+}
+
+ /*This is a dotted separator  */
+.ks-dottedHeaderActions{
+  border-bottom: @dottedLineBorder;
+}
+
+.ks-subSection.ks-subSection-marginTop {
+  margin-top: 10px;
+}
+
+.ks-section.ks-section-marginTop {
+  margin-top: 10px;
+}
+
+.fancybox-skin{
+  background: white;
+}
+
+.ks-key-date-header{
+  border-bottom: @dottedLineBorder;
+  margin-bottom: 20px;
+}
+
+#KS-CourseOfferingManagement-DeleteCourseOfferingListSection .uif-rowDetails .course-has-no-aos {
+    font-weight: bold;
+}
+
+/*
+ make the right group align with the dotted line if there is one
+*/
+.ks-dottedHeaderActions .uif-header-rightGroup.right-aligned {
+  right: -@rightGroupRightAlignment;
+}
+
+.ks-dottedHeaderActions .uif-header-rightGroup a.right-aligned{
+  padding-right: @rightGroupRightAlignment;
+  margin-right: 0px;
+}
+
+.ks-key-date-header h5 {
+  padding-bottom: 5px;
+}
+
+.ks-key-date-header .uif-header-rightGroup.right-aligned{
+  right: -@rightGroupRightAlignment;
+}
+
+.ks-key-date-header .uif-header-rightGroup a.right-aligned{
+  padding-right: @rightGroupRightAlignment;
+  margin-right: 0px
+}
+
+.ks-manage-scheduling-request-form-fields{
+  display: inline-block;
+}
+
+.ks-manage-scheduling-request-form-field-top-aligned{
+  display: inline-block;
+  vertical-align: top;
+  margin: 24px 17px 0 0;
+}
+
+/*
+ make the action link in a Vertical Box Group to display inline instead of block
+*/
+#academicCalendarCopyPage .uif-actionLink.uif-boxLayoutVerticalItem  {
+    display: inline;
+}
+
+.ks-activity-offering-coLocation-form{
+  padding: 17px 17px 17px 17px;
+  border: 1px solid #AAAAAA;
+  width: 600px;
+}
+
+.ks-activity-offering-coLocation-form .ks-informational-message-for-field {
+  padding-right: 0px;
+}
+
+.uif-tableCollectionLayout tbody tr:hover>td {
+    background-color: #E1E1E1;
+}
+
+/*
+ Override the warning message on breaking colocation lightbox
+*/
+#ActivityOfferingEdit-BreakColocateConfirmation .uif-validationMessages.uif-groupValidationMessages.uif-pageValidationMessages-warning.ks-subSection {
+    padding-right: 0px;
+}
+
+/*
+ Customization on the Change Sub Term link on edit AO screen
+*/
+#aoEdit_subTerm_change {
+    margin-left: -50px
+}
+#change_link {
+    font-weight: normal;
+}
+
+/*
+ Customization on Waitlist section on edit AO screen
+*/
+#ActivityOfferingEdit-WailtList-Info-Section label {
+    font-weight: normal;
+}
+#allow-hold-list-checkbox {
+    margin-top: -10px;
+}
+#limit_waitlist_size_text {
+    margin-top: -5px;
+}
+
+/*
+ Customization for Manage SOC screen
+*/
+#ManageSOCView-DetailsSection .uif-boxLayoutVerticalItem {
+    margin-bottom: 5px;
+}
+#ManageSOCView-SchedulingDetails-Section  table {
+    border: none;
+    margin-left: -4px;
+}
+#ManageSOCView-SchedulingDetails-Section  th {
+    background-color: transparent;
+    text-align: left;
+    border: none;
+    white-space: nowrap
+}
+#ManageSOCView-SchedulingDetails-Section td {
+    border: none;
+}
+#ManageSOCView-StatusHistory-SubSection2 {
+    margin-top: 25px;
+}
+#ManageSOCView-SchedulingDetails-ManageCOButton  {
+    display: inline;
+}
+
+/*
+  Customizing the collections
+*/
+table.dataTable th.sorting_asc {
+  color: #000;
+  background-image: url(../images/icon-sort-up.png);
+  background-color: #c4c4c4;
+}
+
+table.dataTable th.sorting_desc {
+  color: #000;
+  background-image: url(../images/icon-sort-down.png);
+  background-color: #c4c4c4;
+}
+
+table.dataTable tr.odd td.sorting_1 {
+  background-color: #fff;
+}
+
+table.dataTable tr.even td.sorting_1 {
+  background-color: #fff;
+}
+
+.uif-tableCollectionLayout tbody tr:hover > td, .uif-tableCollectionLayout tbody tr:hover > th {
+  background-color: #F5F5F5;
+}
+
+.uif-tableCollectionLayout tbody tr:hover > td.sorting_1, .uif-tableCollectionLayout tbody tr:hover > th.sorting_1 {
+  background-color: #F5F5F5;
+}
+
+.uif-tableCollectionLayout tbody tr.selected-row td.sorting_1 {
+  background-color: #eff7fd;
+}
+
+.uif-tableCollectionLayout th,
+.uif-tableCollectionLayout td {
+  border-left: none;
+  border-right: none;
+  padding: 10px 15px 5px 15px;
+}
+
+.uif-tableCollectionLayout {
+  border: 0;
+}
+
+.uif-tableCollectionLayout thead th {
+  border-top: 0;
+}
+
+.uif-tableCollectionLayout th{
+  font-family: 'Lato', sans-serif;
+  font-size: 1em;
+}
+
+.uif-tableCollectionLayout td {
+  border-bottom: 1px solid #E1E1E1;
+  border-top: 0;
+}
+
+.uif-tableCollectionLayout tfoot th {
+  padding: 0 !important;
+  border: 0;
+}
+
+/*
+ Customization for the rollover exception result header
+*/
+.ks-rollover-result-exception-header {
+    background-image: url('../images/validation/warning.png');
+    background-repeat: no-repeat;
+    padding-left: 20px;
+}
+.ks-rollover-result-exception-header h3.uif-headerText {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.uif-rowDetails .ks-innerTableCollectionSection {
+  margin: 0px 36px 36px 36px;
+  text-align: left;
+}
+
+/*
+  Override the browser's default outline on focused elements.
+*/
+:focus {
+  outline: none;
+}
+
+.tree-bar-button-container{
+  background: transparent;
+}
+
+.ks-dotted-underline{
+  border-bottom: 1px dotted #000;
+}
+
+.ks-enableMouseOver{
+  z-index: 100;
+}
+
+/*
+  Override the datables to add marging between the info and the table
+*/
+.dataTables_info {
+  width: 50%;
+  float: left;
+  margin-bottom: 10px;
+}

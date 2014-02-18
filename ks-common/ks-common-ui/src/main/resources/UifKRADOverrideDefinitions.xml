@@ -43,6 +43,15 @@
 
    <bean id="Uif-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean"  abstract="true" />
 
+   <bean id="Uif-TableCollectionSection" parent="Uif-TableCollectionSection-parentBean" abstract="true">
+   </bean>
+
+    <bean id="Uif-TableCollectionLayout" parent="Uif-TableCollectionLayout-parentBean">
+        <property name="actionFieldPrototype">
+            <bean parent="Uif-HorizontalFieldGroup" p:required="false" p:label="" p:shortLabel="Actions"/>
+        </property>
+    </bean>
+
     <bean id="Uif-Page" parent="Uif-Page-parentBean">
         <property name="footer">
             <bean parent="KS-Uif-EmptyFooter"/>
@@ -75,5 +84,53 @@
           </list>
         </property>
    </bean>
+
+    <bean id="Uif-IncidentReportView" parent="KS-Uif-FormView">
+        <property name="onLoadScript" value="jQuery('#Uif-BreadcrumbWrapper').remove(); jQuery('.ks-unified-header').hide();"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>uif-incidentReportView</value>
+            </list>
+        </property>
+        <property name="headerText" value="Incident Report"/>
+        <property name="entryPageId" value="page1"/>
+        <property name="persistFormToSession" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Page" p:id="page1">
+                    <property name="items">
+                        <list>
+                            <ref bean="Uif-IncidentDetailGroup"/>
+                            <ref bean="Uif-IncidentStackTraceGroup"/>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="KS-OptimisticLock-Page" p:id="page2"/>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.rice.krad.web.form.IncidentReportForm"/>
+        <property name="viewName" value="default"/>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="instructionalText" value="Please use the Incident Report form below to report the problems"/>
+    </bean>
+
+    <bean id="Uif-Inquiry" parent="Uif-Inquiry-KS-parent"/>
+    <bean id="Uif-Inquiry-KS-parent" parent="Uif-Inquiry-parentBean" abstract="true" scope="prototype">
+        <property name="inquiryLink">
+            <bean parent="Uif-Link">
+                <property name="lightBox">
+                  <bean parent="Uif-LightBox">
+                      <property name="templateOptions">
+                          <map merge="true">
+                              <entry key="beforeLoad" value="function(){showLoading();}"/>
+                          </map>
+                      </property>
+                  </bean>
+                </property>
+             </bean>
+        </property>
+    </bean>
 
 </beans>

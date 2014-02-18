@@ -1,71 +1,4 @@
 /**
- * This method handles colocate/unclocate AO.
- *
- */
-function handleColocation(){
-
-    if(jQuery("#is_co_located_control").is(":checked")) {
-        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
-    }else {
-        var overrideOptions = { autoDimensions:false, width:500 };
-        showLightboxComponent('ActivityOfferingEdit-BreakColocateConfirmation', overrideOptions);
-    }
-
-}
-
-function closeColocationLightbox(){
-    jQuery("#is_co_located_control").attr('checked', 'checked');
-    closeLightbox();
-}
-
-
-function breakColoCallBack(){
-    setupColoCheckBoxChange(jQuery("#is_co_located_control"));
-}
-
-/**
- * This method handles the colocated checkbox event.
- * @param control colocated checkbox control
- *
- */
-function setupColoCheckBoxChange(control,doRDLCheck){
-
-    if(jQuery(control).is(":checked")) {
-
-        jQuery("#maximumEnrollment").hide();
-        jQuery("#ActivityOfferingEdit-CoLocation").show();
-
-        if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
-            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").hide();
-            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").show();
-            jQuery("#shared_max_enr_control").removeClass("ignoreValid");
-            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-        } else {
-            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").show();
-            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").hide();
-            jQuery("#shared_max_enr_control").addClass("ignoreValid");
-            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
-        }
-        onColoCheckBoxChange(true);
-
-    } else {
-
-        var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
-
-        if (rdlExists && doRDLCheck){
-            jQuery(control).prop("checked","checked");
-        } else {
-            jQuery("#maximumEnrollment").show();
-            jQuery("#ActivityOfferingEdit-CoLocation").hide();
-            jQuery("#shared_max_enr_control").addClass("ignoreValid");
-            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
-            onColoCheckBoxChange(false);
-        }
-    }
-
-}
-
-/**
  * This method handles the on load event
  *
  */
@@ -116,12 +49,151 @@ function activityEditDocumentOnLoad(){
 }
 
 /**
+ * This method handles colocate/unclocate AO.
+ *
+ */
+function handleColocation(){
+
+    isColoCheckboxSet = jQuery("#is_co_located_control").is(":checked");
+    isColoPersistedOnInfo = ( jQuery('#infoColoStatus_control').attr('value') == 'true' )
+
+    /* warn the user they are going to break colocation if they are both un-setting the
+     * checkbox and the colo had previously been persisted at the database
+     */
+    if( !isColoCheckboxSet && isColoPersistedOnInfo ) {
+        overrideOptions = { autoDimensions:false, width:500, afterClose:breakColoWarningHasClosed };
+        showLightboxComponent('ActivityOfferingEdit-BreakColocateConfirmation', overrideOptions);
+    }
+    // failing that, just hide the colo-box
+    else {
+        setupColoCheckBoxChange(jQuery("#is_co_located_control"));
+    }
+
+}
+
+/**
+ * FancyBox provides an "X"-button in it's upper-right corner which fires the 'close'-event, but there is no way
+ * to distinguish how the dialog was closed because closing the box via any other method fires the exact same event
+ * (ie: using either the "Break Colocation"- or "Close"-buttons are indistinguishable from the "X"-button)
+ *
+ * And the "X"-button does not provide it's own handler to enable us to apply special logic when it's pressed.  It can
+ * only be hidden, but the project uses this button throughout similar dialogs.
+ *
+ * Functionally, the "X"-button should behave exactly as if the user had used the "Close"-button.  That is, the
+ * colo-checkbox should be re-set.
+ *
+ * Thus, we introduce the didConfirmBreakColo-variable to determine whether or not the dialog is closing due to the
+ * user clicking the confirm-button.
+ *
+ * See KSENROLL-10868
+ */
+var didConfirmBreakColo = false;
+function confirmBreakColo() {   // this method gets called only when the user clicks on the confirm-button
+    didConfirmBreakColo = true;
+    closeLightbox();
+    return true;
+}
+var breakColoWarningHasClosed = function() {  // this method executes whenever the dialog is closing
+
+    if( !didConfirmBreakColo ) { // user canceled
+        jQuery("#is_co_located_control").attr('checked', 'checked');
+    }
+    else { // user confirmed
+        didConfirmBreakColo = false;
+    }
+};
+
+function breakColoCallBack(){
+    setupColoCheckBoxChange(jQuery("#is_co_located_control"));
+}
+
+/**
+ * This method handles the colocated checkbox event.
+ * @param control colocated checkbox control
+ *
+ */
+function setupColoCheckBoxChange(control,doRDLCheck){
+
+    if(jQuery(control).is(":checked")) {
+
+        jQuery("#maximumEnrollment").hide();
+        jQuery("#ActivityOfferingEdit-CoLocation").show();
+
+        if(jQuery("#share_seats_control_0").length != 0 && jQuery("#share_seats_control_0").is(":checked")) {
+            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").hide();
+            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").show();
+            jQuery("#shared_max_enr_control").removeClass("ignoreValid");
+            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+        } else {
+            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate").show();
+            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentShared").hide();
+            jQuery("#shared_max_enr_control").addClass("ignoreValid");
+            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").removeClass("ignoreValid");
+        }
+        onColoCheckBoxChange(true);
+
+    } else {
+
+        var rdlExists = jQuery("#ActivityOffering-DeliveryLogistic-Requested td").length > 0;
+
+        if (rdlExists && doRDLCheck){
+            jQuery(control).prop("checked","checked");
+        } else {
+            jQuery("#maximumEnrollment").show();
+            jQuery("#ActivityOfferingEdit-CoLocation").hide();
+            jQuery("#shared_max_enr_control").addClass("ignoreValid");
+            jQuery("#ActivityOfferingEdit-CoLocatedEnrollmentSeperate :text").addClass("ignoreValid");
+            onColoCheckBoxChange(false);
+        }
+    }
+
+}
+
+
+/**
  * This method refreshes all the related components when the user adds/deletes an AO from the colocated set.
  */
 function addColocatedAOSuccessCallBack(){
     retrieveComponent('enr_shared_table',undefined, function () {
         jQuery('#ActivityOfferingEdit-CoLocatedActivities').show();
     });
+}
+
+/**
+ * Due to FancyBox limitations, we have to implement this extra variable (and related control-logic) to determine
+ * which of the 3 lightbox buttons the user pressed.  For more detail, refer to the comments for the breaking-colocation
+ * block of code (which is different functionality, but with the same work-around).
+ */
+var didConfirmRemoveAllOfferingsFromScheduler = false;
+function confirmRemoveAllOfferingsFromScheduler() {  // this method gets called only when the user clicks on the confirm-button
+    didConfirmRemoveAllOfferingsFromScheduler = true;
+    closeLightbox();
+    return true;
+}
+var removeAllOfferingsFromSchedulerConfirmationHasClosed = function() {  // this method executes whenever the dialog is closing
+    if( !didConfirmRemoveAllOfferingsFromScheduler ) {  // user canceled
+        jQuery('#send_RDLs_to_scheduler_control').prop('checked', false);
+    }
+    else {  // user confirmed
+        didConfirmRemoveAllOfferingsFromScheduler = false;
+    }
+}
+
+function refreshRemoveAllOfferingsFromSchedulerConfirmation() {
+    retrieveComponent('ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation', undefined, function() {
+        jQuery('#send_RDLs_to_scheduler_control').prop('checked', false);
+    });
+}
+
+function showRemoveAllOfferingsFromSchedulerConfirmation() {
+    isActivityInOfferedState = ( jQuery('#ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_ActivityState_control').prop('value') == "Offered" ? true : false );
+    isRdlListEmpty = ( jQuery('#ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation_IsRdlListRecentlyEmpty_control').prop('value') == "true" ? true : false );
+    isUserSendingToScheduler = ( jQuery('#send_RDLs_to_scheduler_control').attr('checked') == "checked" ? true : false );
+
+    if( isActivityInOfferedState && isRdlListEmpty && isUserSendingToScheduler  ) {
+        overrideOptions = { autoDimensions:false, width:500, afterClose:removeAllOfferingsFromSchedulerConfirmationHasClosed };
+        showLightboxComponent( 'ActivityOfferingEdit-RemoveAllOfferingsFromSchedulerConfirmation', overrideOptions );
+    }
 }
 
 function reDisplayPersonnelSection() {
@@ -197,6 +269,9 @@ function checkAOEditWIP(){
 function validatePopulationForSP(field, populationsJSONString) {
     var fieldId = jQuery(field).attr('id'); //id of the population name text box
     var populationName = jQuery(field).val();
+    if(populationName && populationName.length)  {
+        validateFieldValue(jQuery("#" + fieldId));
+    }
     var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0); //div for error message display on top of SP table
     var ul = jQuery('#seatpool_validation_errorMessageUl');
 
@@ -373,21 +448,12 @@ function clearFeaturesSelected(){
 }
 
 function validateSeatsForSP(jqObject) {
-    var currentId = jqObject.attr('id');
-        if (currentId.indexOf("_control") == -1) {
-            currentId = currentId + "_control";
-        }
-        var element = jQuery('#' + currentId);
-        var numValue = element.val();
-        var numericExpression = /^[0-9]+$/;
-        if(!numValue.match(numericExpression) && numValue != '') {
-            if (currentId == 'maximumEnrollment') {
-                alert("Maximum enrollment must be a number!");
-            } else {
-                alert("Number of seats must be a number!");
-            }
-            element.val('');
-        }
+
+    var valid = validateFieldValue(jqObject);
+
+    if (!valid){
+        return;
+    }
 
     var spErrorMsgDiv = jQuery('#ao-seatpoolgroup').find('.uif-validationMessages.uif-groupValidationMessages').get(0);
     var ul = jQuery('#seatpool_validation_errorMessageUl');
@@ -635,44 +701,41 @@ function handleAOSelection(component){
 /*
   This is the method which handles AO navigation.
  */
-function handleAONavigation(component, aoId){
+function handleAONavigation(component, aoId) {
 
-    var isValidForm = validateForm();
-
-//    if (!isValidForm){
-
-        var saveAndContinue = jQuery("#edit_ao_save_and_continue").attr("data-submit_data");
-        var cancelSaveAndLoad = jQuery("#edit_ao_cancel").attr("data-submit_data");
-        var submit_data_array = saveAndContinue.split(',');
-        var i = 0;
-        for (; i<submit_data_array.length; ){
-            var data = submit_data_array[i].split(':');
-            if (data[0] == '"actionParameters[aoId]"'){
-                data[1] = '"' + aoId + '"';
-                submit_data_array[i] = data[0] + ":" + data[1];
-                break;
-            }
-            i++;
+    var saveAndContinue = jQuery("#edit_ao_save_and_continue").attr("data-submit_data");
+    var cancelSaveAndLoad = jQuery("#edit_ao_cancel").attr("data-submit_data");
+    var submit_data_array = saveAndContinue.split(',');
+    var i = 0;
+    for (; i < submit_data_array.length;) {
+        var data = submit_data_array[i].split(':');
+        if (data[0] == '"actionParameters[aoId]"') {
+            data[1] = '"' + aoId + '"';
+            submit_data_array[i] = data[0] + ":" + data[1];
+            break;
         }
-        jQuery("#edit_ao_save_and_continue").attr("data-submit_data",submit_data_array.join());
+        i++;
+    }
+    jQuery("#edit_ao_save_and_continue").attr("data-submit_data", submit_data_array.join());
 
-        var cancel_data_array = cancelSaveAndLoad.split(',');
-        i = 0;
-        for (; i<cancel_data_array.length; ){
-            var data = cancel_data_array[i].split(':');
-            if (data[0] == '"actionParameters[aoId]"'){
-                data[1] = '"' + aoId + '"';
-                cancel_data_array[i] = data[0] + ":" + data[1];
-                break;
-            }
-            i++;
+    var cancel_data_array = cancelSaveAndLoad.split(',');
+    i = 0;
+    for (; i < cancel_data_array.length;) {
+        var data = cancel_data_array[i].split(':');
+        if (data[0] == '"actionParameters[aoId]"') {
+            data[1] = '"' + aoId + '"';
+            cancel_data_array[i] = data[0] + ":" + data[1];
+            break;
         }
-        jQuery("#edit_ao_cancel").attr("data-submit_data",cancel_data_array.join());
+        i++;
+    }
+    jQuery("#edit_ao_cancel").attr("data-submit_data", cancel_data_array.join());
+    if(!dirtyFormState.isDirty()) {
+        jQuery("#edit_ao_cancel").click();
+        return;
+    }
 
-        showLightboxComponent('ActivityOfferingEdit-NavigationConfirmation');
-//    } else {
-//        actionInvokeHandler(component);
-//    }
+    showLightboxComponent('ActivityOfferingEdit-NavigationConfirmation');
 }
 
 
@@ -704,7 +767,20 @@ function endTimeOnBlur(){
 function rdlStartTimeOnBlur(){
 
     var startTime = jQuery("#rdl_starttime_control").val();
+    var isMozilla = jQuery.browser.mozilla != null;
+
+    //Mozilla supports relatedTarget only for mouse event.
+    //relatedTarget may be null when the user just navigates to some other window and comes back
+    if (isMozilla == false && (event.relatedTarget == null || event.relatedTarget.id != "rdl_endtime_control")){
+        if (startTime != ''){
+            parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
+        }
+        validateFieldValue(jQuery("#rdl_starttime_control"));
+        return;
+    }
+
     var days = jQuery("#rdl_days_control").val();
+    var tbaChecked = document.getElementById('rdl_tba_control').checked;
 
     jQuery("#rdl_endtime_control").val('');
 
@@ -712,18 +788,29 @@ function rdlStartTimeOnBlur(){
         parseAndReplaceTimeClause(jQuery("#rdl_starttime_control"), jQuery("#rdl_days_control"));
     }
 
-    if (startTime == '' || days == ''){
-       return;
+    if (!tbaChecked && (startTime == '' || days == '' || (jQuery("#rdl_starttime_control").val() == jQuery("#rdl_starttime_control").data("starttime")
+        && jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("days"))) ) {
+        jQuery("#rdl_endtime").show();
+        if (isMozilla == false){
+            jQuery("#rdl_endtime_control").focus();
+        }
+        return;
     }
 
+    jQuery("#rdl_starttime_control").data("starttime", jQuery("#rdl_starttime_control").val());
+    jQuery("#rdl_days_control").data("days", jQuery("#rdl_days_control").val());
 
-   if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
-       validateFieldValue(jQuery("#rdl_days_control")) == false){
-       return;
-   }
+    if (validateFieldValue(jQuery("#rdl_starttime_control")) == false ||
+        validateFieldValue(jQuery("#rdl_days_control")) == false){
+        return;
+    }
 
     retrieveComponent('rdl_endtime','loadTSEndTimes',function () {
-        jQuery("#rdl_endtime_control").focus();
+        jQuery("#rdl_endtime").show();
+        if (isMozilla == false){
+            jQuery("#rdl_endtime_control").focus();
+        }
+        validateFieldValue(jQuery("#rdl_endtime_control"));
     });
 }
 
@@ -732,9 +819,65 @@ function rdlStartTimeOnBlur(){
  * and set the focus on start time.
  */
 function rdlDaysOnBlur(){
+    var days = jQuery("#rdl_days_control").val();
+    var startTime = jQuery("#rdl_starttime_control").val();
 
-    retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
-        jQuery("#rdl_starttime_control").val('');
-        jQuery("#rdl_starttime_control").focus();
-    });
+    if (days == '' || jQuery("#rdl_days_control").val() == jQuery("#rdl_days_control").data("daysOnly")){
+        jQuery("#rdl_endtime").show();
+        return;
+    }
+
+    jQuery("#rdl_days_control").data("daysOnly", jQuery("#rdl_days_control").val());
+
+    if (days == '' ||  startTime == '') {
+        retrieveComponent('rdl_endtime','resetNewRDLTime',function () {
+        jQuery("#rdl_endtime").show();
+        });
+    }
 }
+
+/**
+ * KRAD displays true or false as the value for a readonly checkbox
+ * This function replaces true or false with a disabled checkbox
+ */
+function makeReadOnlyCheckboxDisabled (componentId) {
+    var domId = componentId + '_control';
+
+    var checkboxValueSpan = jQuery('span[id="' + domId + '"]');
+    if(checkboxValueSpan!==null && checkboxValueSpan.length>0 ) {
+        var checked;
+        if (checkboxValueSpan.text().indexOf('true') >= 0) {
+            checked = true;
+        } else if (checkboxValueSpan.text().indexOf('false') >= 0) {
+            checked = false;
+        }
+        checkboxValueSpan.replaceWith(
+            jQuery("<input>", {
+                    type:'checkbox',
+                    id:domId,
+                    name:'document.newMaintainableObject.dataObject.aoInfo.isApprovedForNonStandardTimeSlots',
+                    class:'uif-checkboxControl valid',
+                    tabindex:'0',
+                    disabled:'disabled'
+                }
+            )
+        );
+        jQuery('#'+domId).prop("checked", checked);
+        var newComponent = jQuery('#'+domId);
+    }
+}
+
+/**
+ * Validate the seat pool seats and change the error message.
+ */
+jQuery.validator.addMethod("validSeatsAndPopulationName",
+    function(value, element) {
+        if(element) {
+            var populationNameVal = jQuery(element).val();
+            if(populationNameVal == "") return true;
+            var populationId = jQuery(element).attr('id'); //id of the population name text box
+            var seatId = populationId.replace("ao-seatpoolgroup-population-name", "seatLimit");
+            return (jQuery("#" + seatId).val() && jQuery("#" + seatId).val().length);
+        }
+    },
+    "Seats must be entered before Population Name.")

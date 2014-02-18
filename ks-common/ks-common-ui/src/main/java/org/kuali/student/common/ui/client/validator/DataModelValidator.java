@@ -15,27 +15,59 @@
 
 package org.kuali.student.common.ui.client.validator;
 
-import com.google.gwt.i18n.client.DateTimeFormat;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.BOOLEAN;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.DATE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.DOUBLE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.FLOAT;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.INTEGER;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.INVALID_VALUE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.LENGTH_OUT_OF_RANGE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.LONG;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MAX_LENGTH;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MAX_OCCURS;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MAX_VALUE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MIN_LENGTH;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MIN_OCCURS;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.MIN_VALUE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.OCCURS;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.OUT_OF_RANGE;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.REQUIRED;
+import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.VALID_CHARS;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getLargestMinLength;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getLargestMinOccurs;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getLargestMinValue;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getLargestMinValueDate;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getLargestMinValueDouble;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getSmallestMaxLength;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getSmallestMaxOccurs;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getSmallestMaxValue;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getSmallestMaxValueDate;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.getSmallestMaxValueDouble;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.isRequired;
+import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.isRequiredForNextState;
 
-import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
-import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.assembly.data.QueryPath;
-import org.kuali.student.r1.common.assembly.data.Data.DataType;
-import org.kuali.student.r1.common.assembly.data.Data.StringKey;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.DataType;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.validator.DateParser;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
-import java.util.*;
-
-import static org.kuali.student.common.ui.client.validator.ValidationMessageKeys.*;
-import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.*;
+import com.google.gwt.i18n.client.DateTimeFormat;
 
 public class DataModelValidator {
 
@@ -664,10 +696,12 @@ public class DataModelValidator {
                 Object[] valueList = values.values().toArray();
                 for (int i = 0; i < valueList.length; i++) {
                     Object value = valueList[i];
-                    Data d = (Data) value;
-                    Boolean deleted = d.query(RUNTIME_DELETED_KEY);
-                    if (deleted == null || !deleted) {
-                        size++;
+                    if (value instanceof Data) {
+                        Data d = (Data) value;
+                        Boolean deleted = d.query(RUNTIME_DELETED_KEY);
+                        if (deleted == null || !deleted) {
+                            size++;
+                        }
                     }
                 }
             } else {

@@ -132,7 +132,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-Tree-Section" parent="KRMS-Tree-Section-parent"/>
 
-    <bean id="KRMS-ViewTree-Section-parent" parent="KRMS-Tree-Section" p:additionalCssClasses="krms-ruleViewTreeSection">
+    <bean id="KRMS-ViewTree-Section-parent" parent="KRMS-Tree-Section" >
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
                 <property name="labelPrototype">
@@ -147,10 +147,10 @@ limitations under the License.
             <bean parent="Uif-GridLayoutBase"/>
         </property>
     </bean>
-
     <bean id="KRMS-ViewTree-Section" parent="KRMS-ViewTree-Section-parent"/>
 
-    <bean id="KRMS-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup" p:style="width: 600px; padding: 0;">
+    <bean id="KRMS-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup"
+          p:style="width: 600px; padding: 0; margin-bottom: 0px;">
         <property name="layoutManager">
             <bean parent="Uif-StackedCollectionLayout-WithBoxItems" p:additionalCssClasses="krms-stackedCollectionLayout">
                 <property name="lineGroupPrototype">
@@ -161,8 +161,7 @@ limitations under the License.
             </bean>
         </property>
         <property name="lineActions">
-            <list>
-            </list>
+            <list></list>
         </property>
         <property name="renderAddLine" value="false"/>
         <property name="propertyName" value="listItems"/>
@@ -181,7 +180,9 @@ limitations under the License.
     </bean>
     <bean id="KRMS-View-Section" parent="KRMS-View-Section-parent"/>
 
-    <bean id="KRMS-CompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 800px;">
+    <bean id="KRMS-CompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 790px; min-height:100px;"
+          p:additionalCssClasses="compareTree">
+        <property name="tree"><null/></property>
         <property name="propertyName" value="compareTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -191,13 +192,13 @@ limitations under the License.
                 <property name="dataGroupPrototype">
                     <bean parent="Uif-GroupBase" p:style="margin-left: 2em;">
                         <property name="layoutManager">
-                            <bean parent="Uif-BoxLayoutBase" p:style="display: table; width: 750px; margin: 1px;"/>
+                            <bean p:id="compare_msgs" parent="Uif-BoxLayoutBase" p:style="display: table; width: 760px; margin: 1px;"/>
                         </property>
                         <property name="items">
                             <list>
-                                <bean parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
+                                <bean p:id="left_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
                                       p:style="display: table-cell; width: @{#np.width}px;"/>
-                                <bean parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
+                                <bean p:id="right_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
                                       p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
                             </list>
                         </property>
@@ -237,7 +238,7 @@ limitations under the License.
     </bean>
     <bean id="KRMS-CompareRule" parent="KRMS-CompareRule-parent"/>
 
-    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Tree-Section" p:additionalCssClasses="krms-ruleViewTreeSection">
+    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Tree-Section" >
         <property name="propertyName" value="previewTree"/>
         <property name="defaultNodePrototype">
             <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
@@ -250,7 +251,6 @@ limitations under the License.
             </bean>
         </property>
     </bean>
-
     <bean id="KRMS-PreviewTree-Section" parent="KRMS-PreviewTree-Section-parent"/>
 
     <bean id="KRMS-PreviewPrototype-BoxGroup" parent="Uif-VerticalBoxGroup">
@@ -265,17 +265,17 @@ limitations under the License.
     <bean id="KRMS-PrototypeHeader-BoxGroup" parent="Uif-HorizontalBoxGroup" p:render="@{#np.data != null}"
           p:additionalCssClasses="krms-editVerticalBox">
         <property name="items">
-            <list>
-                <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
-                <bean parent="Uif-SpaceField"/>
-                <bean parent="KS-Uif-ActionLink" p:actionLabel="edit" p:align="right" p:methodToCall="getSelectedKey">
-                    <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
-                    <property name="toolTip">
-                        <bean parent="Uif-TooltipFocus" p:onMouseHover="true"
-                              p:tooltipContent="Edit Prerequisite Rule"/>
-                    </property>
-                </bean>
-            </list>
-        </property>
+        <list>
+            <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
+            <bean parent="Uif-SpaceField"/>
+            <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit" p:align="right" p:methodToCall="getSelectedKey" p:render="@{!#np.compound}">
+                <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
+                <property name="toolTip">
+                    <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
+                          p:tooltipContent="Edit Prerequisite Rule"/>
+                </property>
+            </bean>
+        </list>
+    </property>
     </bean>
 </beans>

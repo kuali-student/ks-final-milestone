@@ -168,4 +168,29 @@ public abstract class MetaEntity extends BaseVersionEntity {
         }
         return miInfo;
     }
+    
+    /**
+     * Set our meta properties based on the values provided by meta.
+     * 
+     * @param meta the properties to assign to ourself.
+     */
+    public void fromDTO(HasMeta hasMeta) {
+
+        if (hasMeta != null) {
+            Meta meta = hasMeta.getMeta();
+
+            if (meta != null) {
+                setCreateId(meta.getCreateId());
+                setCreateTime(meta.getCreateTime());
+
+                setUpdateId(meta.getUpdateId());
+                setUpdateTime(meta.getUpdateTime());
+
+                if (meta.getVersionInd() == null)
+                    setVersionNumber(null);
+                else
+                    setVersionNumber(new Long(meta.getVersionInd()));
+            }
+        }
+    }
 }

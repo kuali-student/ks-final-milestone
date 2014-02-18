@@ -19,7 +19,6 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.MaintenanceDocumentController;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -74,12 +73,16 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
 
-        RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
+        RuleEditor ruleEditor = this.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
         if (!form.getActionParameters().containsKey(UifParameters.NAVIGATE_TO_PAGE_ID)) {
             form.getActionParameters().put(UifParameters.NAVIGATE_TO_PAGE_ID, KRMSConstants.KRMS_RULE_MAINTENANCE_PAGE_ID);
         }
+
+        //Compare rule with parent rule.
+        compareRulePropositions((MaintenanceDocumentForm) form, ruleEditor);
+
         return super.navigate(form, result, request, response);
     }
 
@@ -133,7 +136,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
         //Clear the client state on new edit rule.
         form.getClientStateForSyncing().clear();
 
-        RuleEditor ruleEditor = AgendaUtilities.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
+        RuleEditor ruleEditor = this.retrieveSelectedRuleEditor((MaintenanceDocumentForm) form);
 
         this.getViewHelper(form).refreshInitTrees(ruleEditor);
 
@@ -961,6 +964,12 @@ public class RuleEditorController extends MaintenanceDocumentController {
             ruleEditor.setDummy(false);
             PropositionTreeUtil.resetNewProp(ruleEditor.getPropositionEditor());
         }
+
+        if(ruleEditor.getPropositionEditor()!=null){
+            // handle saving new parameterized terms
+            this.getViewHelper(form).finPropositionEditor(ruleEditor.getPropositionEditor());
+        }
+
         this.getViewHelper(form).refreshViewTree(ruleEditor);
 
         //Replace edited rule with existing rule.
@@ -1013,10 +1022,22 @@ public class RuleEditorController extends MaintenanceDocumentController {
     private void parseRuleExpression(RuleEditor ruleEditor, RuleViewHelperService viewHelper) {
         RuleLogicExpressionParser ruleLogicExpressionParser = new RuleLogicExpressionParser();
         ruleLogicExpressionParser.setExpression(ruleEditor.getLogicArea());
+        
+        if (ruleEditor.getPropositionEditor() == null) {
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.logicArea",
+                    KRMSConstants.KSKRMS_MSG_INFO_LOGIC_NO_STATEMENTS);
+            return;
+        }
+
+        if(ruleEditor.getPropositionEditor()==null){
+            GlobalVariables.getMessageMap().putInfo("document.newMaintainableObject.dataObject.logicArea", KRMSConstants.KSKRMS_MSG_INFO_LOGIC_NO_STATEMENTS);
+            return;
+        }
 
         //validate the expression
         List<String> errorMessages = new ArrayList<String>();
-        boolean validExpression = ruleLogicExpressionParser.validateExpression(errorMessages);
+        List<String> keyList = getPropositionKeys(new ArrayList<String>(), ruleEditor.getPropositionEditor());
+        boolean validExpression = ruleLogicExpressionParser.validateExpression(errorMessages, keyList);
 
         //show errors and don't change anything else
         if (!validExpression) {
@@ -1175,7 +1196,7 @@ public class RuleEditorController extends MaintenanceDocumentController {
             }
 
             //Build the compare rule tree
-            ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(ruleEditor, ruleEditor.getParent()));
+            ruleWrapper.setCompareTree(this.getViewHelper(form).buildCompareTree(ruleEditor.getParent(), ruleEditor));
             ruleWrapper.setCompareLightBoxHeader(ruleEditor.getRuleTypeInfo().getDescription());
         }
     }
@@ -1237,6 +1258,10 @@ public class RuleEditorController extends MaintenanceDocumentController {
         }
 
         return super.getUIFModelAndView(form);
+    }
+
+    protected RuleEditor retrieveSelectedRuleEditor(MaintenanceDocumentForm document){
+        return AgendaUtilities.retrieveSelectedRuleEditor(document);
     }
 
 }

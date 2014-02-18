@@ -19,6 +19,7 @@ import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRule;
@@ -257,15 +258,6 @@ public class AppointmentWindowEntity
         return attributes;
     }
 
-    private TimeOfDayInfo convertToTimeOfDayInfo(Long time) {
-        if (time == null) {
-            return null;
-        }
-        TimeOfDayInfo info = new TimeOfDayInfo();
-        info.setMilliSeconds(time);
-        return info;
-    }
-
     private TimeAmountInfo convertToTimeAmountInfo(String typeKey, Integer quantity) {
         if ((typeKey == null) && (quantity == null)) {
             return null;
@@ -280,6 +272,8 @@ public class AppointmentWindowEntity
 
     public void fromDto(AppointmentWindow apptWin) {
 
+        super.fromDTO(apptWin);
+        
         // AppointmentWindow specific initialization; readOnly fields go only in the ctor
         this.setPeriodMilestoneId(apptWin.getPeriodMilestoneId());
         this.setAssignedPopulationId(apptWin.getAssignedPopulationId());
@@ -306,8 +300,8 @@ public class AppointmentWindowEntity
                 this.setWeekdays(null);
             }
 
-            this.setStartTime(slotRule.getStartTimeOfDay() == null ? null : slotRule.getStartTimeOfDay().getMilliSeconds());
-            this.setEndTime(slotRule.getEndTimeOfDay() == null ? null : slotRule.getEndTimeOfDay().getMilliSeconds());
+            this.setStartTime(slotRule.getStartTimeOfDay() == null ? null : TimeOfDayHelper.getMillis(slotRule.getStartTimeOfDay()));
+            this.setEndTime(slotRule.getEndTimeOfDay() == null ? null : TimeOfDayHelper.getMillis(slotRule.getEndTimeOfDay()));
 
             // start interval could be null, duration
             if (slotRule.getSlotStartInterval() != null) {
@@ -363,8 +357,8 @@ public class AppointmentWindowEntity
         } else {
             appointmentSlotRuleInfo.setWeekdays(null);
         }
-        appointmentSlotRuleInfo.setStartTimeOfDay(convertToTimeOfDayInfo(getStartTime()));
-        appointmentSlotRuleInfo.setEndTimeOfDay(convertToTimeOfDayInfo(getEndTime()));
+        appointmentSlotRuleInfo.setStartTimeOfDay(TimeOfDayHelper.setMillis(getStartTime()));
+        appointmentSlotRuleInfo.setEndTimeOfDay(TimeOfDayHelper.setMillis(getEndTime()));
         appointmentSlotRuleInfo.setSlotStartInterval(convertToTimeAmountInfo(getStartIntervalDurationType(),
                 getStartIntervalTimeQuantity()));
         appointmentSlotRuleInfo.setSlotDuration(convertToTimeAmountInfo(getDurationType(), getDurationTimeQuantity()));

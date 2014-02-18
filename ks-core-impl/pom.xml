@@ -72,6 +72,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.kuali.student.api</groupId>
+            <artifactId>ks-enroll-api</artifactId>
+            <version>${ks.api.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.rice</groupId>
             <artifactId>rice-kim-api</artifactId>
         </dependency>

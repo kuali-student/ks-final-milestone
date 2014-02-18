@@ -5,11 +5,13 @@
 @import "../../kboot/stylesheets/variables.less";
 
 
-/*------------------- BEGIN KBOOT COLOR OVERRIDES ---------------------------*/
+/*------------------- BEGIN KBOOT OVERRIDES ---------------------------*/
 // Text
 @black: #000;
 @textColor: @black;
 @selectedText: @textColor;
+
+@baseFontSize:          13px; //overrideds kboot and boostrap baseFontSize setting of 14px
 
 // Links
 @linkColor:             #08c;
@@ -23,11 +25,11 @@
 @btnBorder:                         #CCC;
 
 // System Messages
-@successText:             #468847;
+@successText:             #3B723B;
 @successBackground:       #dff0d8;
 @successBorder:           #D6E9C6;
 
-@infoText:                #3A87AD;
+@infoText:                #2A617D;
 @infoBackground:          #D9EDF7;
 @infoBorder:              #BCE8F1;
 
@@ -72,4 +74,10 @@
 
 // Borders
 @border-color: #AAAAAA;
+@rightGroupRightAlignment: 0px;
 /*------------------- END KS NEW COLOR DEFINITIONS --------------------------*/
+
+/*------------------- BGGIN MISCELLANEOUS VARIABLES DEFINITIONS -------------------*/
+// for dotted line border
+@dottedLineBorder: 1px dotted @border-color;
+/*------------------- END MISCELLANEOUS VARIABLES DEFINITIONS -------------------*/

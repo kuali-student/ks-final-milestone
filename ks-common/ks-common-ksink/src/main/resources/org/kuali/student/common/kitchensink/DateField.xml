@@ -46,7 +46,7 @@
             </bean>
         </property>
         <property name="validCharactersConstraint">
-            <bean parent="BasicDatePatternConstraint" />
+            <bean parent="KS-BasicDatePatternConstraint" />
         </property>
     </bean>
 

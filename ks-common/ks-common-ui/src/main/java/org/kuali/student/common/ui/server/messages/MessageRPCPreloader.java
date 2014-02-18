@@ -34,13 +34,13 @@ import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.MessageServiceConstants;
 
 import com.google.gwt.user.server.rpc.RPC;
 
 public class MessageRPCPreloader {
 	final Logger LOG = Logger.getLogger(MessageRPCPreloader.class);
     private final String MESSAGE_SERVICE_MOCK = "ks.messageService";
-	private final String MESSAGE_SERVICE = "{http://student.kuali.org/wsdl/messages}MessageService";
     
     MessageService messageService;
     
@@ -52,7 +52,7 @@ public class MessageRPCPreloader {
         if (messageService == null){
             setMessageService((MessageService)GlobalResourceLoader.getService(MESSAGE_SERVICE_MOCK));
             if (messageService == null){
-                setMessageService((MessageService)GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/messages","MessageService")));
+                setMessageService((MessageService)GlobalResourceLoader.getService(new QName(MessageServiceConstants.NAMESPACE,"MessageService")));
             }
         }
         return messageService;

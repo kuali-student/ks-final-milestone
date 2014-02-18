@@ -17,6 +17,7 @@ package org.kuali.student.common.kitchensink;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class KitchenSinkFormCollection2 implements Serializable {
     private String field1;
     private String field2;
     private String field3;
-    private String field4;
+    private Date field4;
     private boolean bfield;
 
     private Map<String, Object> remoteFieldValuesMap;
@@ -47,7 +48,7 @@ public class KitchenSinkFormCollection2 implements Serializable {
         remoteFieldValuesMap.put("remoteField4", "Fruit");
     }
 
-    public KitchenSinkFormCollection2(String field1, String field2, String field3, String field4) {
+    public KitchenSinkFormCollection2(String field1, String field2, String field3, Date field4) {
         this.field1 = field1;
         this.field2 = field2;
         this.field3 = field3;
@@ -106,14 +107,14 @@ public class KitchenSinkFormCollection2 implements Serializable {
     /**
      * @return the field4
      */
-    public String getField4() {
+    public Date getField4() {
         return this.field4;
     }
 
     /**
      * @param field4 the field4 to set
      */
-    public void setField4(String field4) {
+    public void setField4(Date field4) {
         this.field4 = field4;
     }
 

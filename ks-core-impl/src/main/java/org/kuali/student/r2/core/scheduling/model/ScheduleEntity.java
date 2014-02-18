@@ -67,6 +67,9 @@ public class ScheduleEntity extends MetaEntity implements AttributeOwner<Schedul
      * @return a non-null collection of objects that were orphaned from this entity
      */
     public void fromDto(Schedule schedule) {
+        
+        super.fromDTO(schedule);
+        
         this.setId(schedule.getId());
         this.setScheduleState(schedule.getStateKey());
         this.setScheduleType(schedule.getTypeKey());

@@ -32,12 +32,46 @@
         <property name="actionImagePlacement" value="TOP"/>
     </bean>
 
-    <bean id="Uif-KS-Default-DateControl" parent="Uif-DateControl" p:size="9" p:minLength="8" p:maxLength="10" p:watermarkText="mm/dd/yyyy">
+    <bean id="KS-Uif-Default-DateControl" parent="KS-Uif-Default-DateControl-parent"/>
+    <bean id="KS-Uif-Default-DateControl-parent" parent="Uif-DateControl" p:size="9" p:minLength="8" p:maxLength="10" p:watermarkText="mm/dd/yyyy">
         <property name="datePicker.templateOptions">
             <map merge="true">
-                <entry key="showOn" value="both"/>
+                <entry key="showOn" value="button"/>
                 <entry key="buttonImageOnly" value="false"/>
                 <entry key="constrainInput" value="false"/>
+            </map>
+        </property>
+        <property name="toolTip">
+            <null/>
+        </property>
+    </bean>
+
+    <!-- customize Uif-TooltipFocus and Uif-Tooltip for the enrollment-wide tooltip customization -->
+    <bean id="Uif-KS-TooltipFocus"  parent="Uif-TooltipFocus">
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="position" value="top"/>
+                <entry key="themeName" value="all-black"/>
+                <entry key="openingSpeed" value="250"/>
+                <entry key="mouseOut" value="hide"/>
+                <entry key="divStyle" value="{ margin:'0px 0px 0px -5px'}"/>
+                <entry key="tableStyle" value="{ margin:'0px 0px 5px 0px'}"/>
+                <entry key="closingDelay" value="0"/>
+                <entry key="distance" value="0px"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="Uif-KS-Tooltip" parent="Uif-Tooltip">
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="position" value="top"/>
+                <entry key="themeName" value="all-black"/>
+                <entry key="openingSpeed" value="250"/>
+                <entry key="mouseOut" value="hide"/>
+                <entry key="divStyle" value="{ margin:'0px 0px 0px -5px'}"/>
+                <entry key="tableStyle" value="{ margin:'0px 0px 5px 0px'}"/>
+                <entry key="closingDelay" value="0"/>
+                <entry key="distance" value="0px"/>
             </map>
         </property>
     </bean>

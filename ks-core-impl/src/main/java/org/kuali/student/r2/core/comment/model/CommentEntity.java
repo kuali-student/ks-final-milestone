@@ -180,6 +180,9 @@ public class CommentEntity extends MetaEntity implements AttributeOwner<CommentA
     }
 
     public void fromDto(Comment comment) {
+    	
+    	super.fromDTO(comment);
+    	
         setStateKey(comment.getStateKey());
         if(null != comment.getCommentText()) {
             setCommentFormatted(comment.getCommentText().getFormatted());

@@ -23,8 +23,6 @@
     <security:http pattern="/index.jsp*" security="none"/>
     <!-- resource files (css, scripts, images) can bypass security: -->
     <security:http pattern="\S*?\.(css|js|png|gif|jpg)$" request-matcher="ciRegex" security="none" />
-    <!-- enable KS Kitchen Sink pages to bypass login.jsp: -->
-    <security:http pattern="/kr-krad/kitchensink*" security="none" />
     <!-- enable access to theme files with no security -->
     <security:http pattern="/themes/**/theme-derived.properties" security="none" />
 
@@ -43,7 +41,16 @@
         <security:intercept-url pattern="/**" access="ROLE_KS_USER" />
 	</security:http>
 
-	<bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter" />
+	<bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter">
+        <constructor-arg name="logoutSuccessHandler">
+            <bean class="org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler" />
+        </constructor-arg>
+        <constructor-arg name="handlers">
+            <list>
+                <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+            </list>
+        </constructor-arg>
+    </bean>
 
 	<!-- List of Custom Providers that can be registered with the default authentication 
 		manager -->

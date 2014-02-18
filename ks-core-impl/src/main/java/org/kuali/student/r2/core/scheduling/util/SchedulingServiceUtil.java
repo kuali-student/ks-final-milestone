@@ -16,17 +16,12 @@
 package org.kuali.student.r2.core.scheduling.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.Duration;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
@@ -49,7 +44,7 @@ import java.util.List;
  * @author andrewlubbers
  * @author Mezba Mahtab
  */
-public class SchedulingServiceUtil {
+public final class SchedulingServiceUtil {
 
     //  Since this is a utility class (all static methods) hide the constructor.
     private SchedulingServiceUtil() {}
@@ -115,9 +110,18 @@ public class SchedulingServiceUtil {
     }
 
     private static void checkStringForDayCode(String codeInString, Integer integerDayCode, List<Integer> result, String testString) {
-        if (testString.contains(codeInString)) {
+        if (StringUtils.containsIgnoreCase(testString, codeInString)) {
             result.add(integerDayCode);
         }
+    }
+
+    public static boolean isValidDays(String days){
+        if (StringUtils.isNotBlank(days)){
+            days = StringUtils.upperCase(days);
+            String validDays = "MTWHFSU";
+            return StringUtils.containsOnly(days,validDays);
+        }
+        return false;
     }
 
     /**
@@ -143,10 +147,10 @@ public class SchedulingServiceUtil {
             return false;
         }
 
-        if (timeSlotInfo1.getStartTime().getMilliSeconds() == null ||
-                timeSlotInfo1.getEndTime().getMilliSeconds() == null ||
-                timeSlotInfo2.getStartTime().getMilliSeconds() == null ||
-                timeSlotInfo2.getEndTime().getMilliSeconds() == null ) {
+        if (timeSlotInfo1.getStartTime() == null ||
+                timeSlotInfo1.getEndTime() == null ||
+                timeSlotInfo2.getStartTime() == null ||
+                timeSlotInfo2.getEndTime() == null) {
             // If there are null values in any of these spots, assume no conflict can occur.
             return false;
         }
@@ -254,10 +258,10 @@ public class SchedulingServiceUtil {
             ScheduleRequestComponentInfo requestComponentInfo = new ScheduleRequestComponentInfo();
             requestComponentInfo.setIsTBA(schedComp.getIsTBA());
             requestComponentInfo.setTimeSlotIds(schedComp.getTimeSlotIds());
-            requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
 
             // retrieve the room to find the building id
             if (schedComp.getRoomId() != null) {
+                requestComponentInfo.getRoomIds().add(schedComp.getRoomId());
                 RoomInfo room = roomService.getRoom(schedComp.getRoomId(), callContext);
                 requestComponentInfo.getBuildingIds().add(room.getBuildingId());
 
@@ -299,60 +303,6 @@ public class SchedulingServiceUtil {
     }
 
     /**
-     * Makes a TimeOfDayInfo given a time in military format. This is used in tests.
-     * @param time A time string in miltary format (e.g. "13:00" or "08:15")
-     * @return A new TimeOfDayInfo.
-     */
-    public static TimeOfDayInfo makeTimeOfDayFromMilitaryTimeString(String time) {
-        TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo();
-
-        // Parse the time string.
-        String[] t = time.split(":");
-        int hour = Integer.valueOf(t[0]);
-        int min = Integer.valueOf(t[1]);
-
-        //  Calculate from the UNIX epoch to avoid DST bugs.
-        DateTime epoch = new DateTime(0, DateTimeZone.UTC);
-        DateTime epochPlusTime = epoch.plusHours(hour).plusMinutes(min);
-        Duration duration = new Duration(epoch, epochPlusTime);
-        timeOfDayInfo.setMilliSeconds(duration.getMillis());
-
-        return timeOfDayInfo;
-    }
-
-    /**
-     * Creates a new TimeOfDayInfo given a time in standard format.
-     * @param time A time string of format HH:MM AM or HH:MM PM
-     * @return  A new TimeOfDayInfo.
-     */
-    public static TimeOfDayInfo makeTimeOfDayInfoFromTimeString(String time) {
-        time = standardTimeStringToStandardTimeString(time);
-        return makeTimeOfDayFromMilitaryTimeString(time);
-    }
-
-    private static String standardTimeStringToStandardTimeString(String time) {
-        boolean isPM = true;
-        if (time.endsWith("AM")) {
-            isPM = false;
-        }
-
-        int hour = Integer.valueOf(time.substring(0, 2));
-        int min = Integer.valueOf(time.substring(3, 5));
-
-        if (isPM) {
-            //  For PM times just add 12
-            hour = hour + 12;
-        } else {
-            // For AM times if the hour is 12 then it becomes zero. Otherwise, noop.
-            if (hour == 12) {
-                hour = 0;
-            }
-        }
-
-        return String.format("%02d:%02d", hour, min);
-    }
-
-    /**
      * Makes a new Comparator<TimeSlotInfo> which can be use to sort a collection of TimeSlotInfo.
      * @return A new Comparator<TimeSlotInfo>.
      */
@@ -376,13 +326,13 @@ public class SchedulingServiceUtil {
                 }
 
                 //  Compare start time
-                if (! o1.getStartTime().getMilliSeconds().equals(o2.getStartTime().getMilliSeconds())) {
-                    return o1.getStartTime().getMilliSeconds().compareTo(o2.getStartTime().getMilliSeconds());
+                if (! o1.getStartTime().equals(o2.getStartTime())) {
+                    return o1.getStartTime().compareTo(o2.getStartTime());
                 }
 
                 //  Compare end time
-                if (! o1.getEndTime().getMilliSeconds().equals(o2.getEndTime().getMilliSeconds())) {
-                    return o1.getEndTime().getMilliSeconds().compareTo(o2.getEndTime().getMilliSeconds());
+                if (! o1.getEndTime().equals(o2.getEndTime())) {
+                    return o1.getEndTime().compareTo(o2.getEndTime());
                 }
                 //  They match.
                 return 0;
@@ -390,16 +340,4 @@ public class SchedulingServiceUtil {
         };
     }
 
-    /**
-     * Creates a time string in hh:mm aa format. Does not suffer from DST issues.
-     *
-     * @param offsetFromMidnight Number of milliseconds from midnight.
-     * @return  A time string.
-     */
-    public static String makeFormattedTimeFromMillis(Long offsetFromMidnight) {
-        //  Calculate from the UNIX epoch to avoid DST bugs.
-        DateTime epoch = new DateTime(0, DateTimeZone.UTC);
-        DateTime epochPlusTime = epoch.plusMillis((int)(long) offsetFromMidnight);
-        return DateFormatters.HOUR_MINUTE_AM_PM_TIME_FORMATTER.format(epochPlusTime);
-    }
 }

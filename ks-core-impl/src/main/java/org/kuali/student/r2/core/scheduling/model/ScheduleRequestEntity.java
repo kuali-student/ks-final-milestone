@@ -33,7 +33,8 @@ import java.util.Set;
         @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefObjectAndRefObjectType",
                 query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId in (SELECT reqSet.id FROM ScheduleRequestSetEntity reqSet WHERE reqSet.refObjectTypeKey = :refObjectTypeKey and :refObjectId in elements(reqSet.refObjectIds))"),
         @NamedQuery(name="ScheduleRequest.getScheduleRequestsByScheduleRequestSet", query="SELECT sr FROM ScheduleRequestEntity sr WHERE sr.scheduleRequestSetId = :scheduleRequestSetId"),
-        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefIdAndType", query="Select sr from ScheduleRequestEntity sr, ScheduleRequestSetEntity srs, IN (srs.refObjectIds) srsRefIds where srsRefIds in (:refObjectId)and sr.scheduleRequestSetId =srs.id and srs.refObjectTypeKey = :refObjectTypeKey")
+        @NamedQuery(name="ScheduleRequest.getScheduleRequestsByRefIdAndType", query="Select sr from ScheduleRequestEntity sr, ScheduleRequestSetEntity srs, IN (srs.refObjectIds) srsRefIds where srsRefIds in (:refObjectId)and sr.scheduleRequestSetId =srs.id and srs.refObjectTypeKey = :refObjectTypeKey"),
+        @NamedQuery(name="ScheduleRequest.getScheduleRequestIdsByRefIdAndType", query="Select sr.id from ScheduleRequestEntity sr, ScheduleRequestSetEntity srs, IN (srs.refObjectIds) srsRefIds where srsRefIds in (:refObjectId)and sr.scheduleRequestSetId =srs.id and srs.refObjectTypeKey = :refObjectTypeKey")
 })
 public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<ScheduleRequestAttributeEntity> {
 
@@ -78,6 +79,8 @@ public class ScheduleRequestEntity extends MetaEntity implements AttributeOwner<
     }
 
     public void fromDto(ScheduleRequest scheduleRequest) {
+        super.fromDTO(scheduleRequest);
+        
         this.setSchedReqState(scheduleRequest.getStateKey());
         this.setName(scheduleRequest.getName());
         this.setScheduleRequestSetId(scheduleRequest.getScheduleRequestSetId());

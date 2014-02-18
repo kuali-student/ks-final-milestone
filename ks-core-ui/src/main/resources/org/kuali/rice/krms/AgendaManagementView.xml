@@ -97,10 +97,9 @@ limitations under the License.
     </bean>
 
     <bean name="KRMS-RuleMaintenance-Page-Parent" parent="KS-Uif-Page">
-        <property name="headerText" value="Requisites"/>
+        <property name="headerText" value="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
         <property name="items">
             <list>
-                <bean parent="Uif-HeaderFour" p:headerText="@{#dp.ruleEditor.dummy == true ? 'Add' : 'Edit'} @{#dp.ruleEditor.ruleTypeInfo.description}"/>
                 <ref bean="KRMS-Rules-ManageSection"/>
             </list>
         </property>
@@ -108,12 +107,12 @@ limitations under the License.
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean id="update-button" parent="Uif-PrimaryActionButton"
+                        <bean id="update-button" parent="Uif-NavigationActionButton"
                               p:performClientSideValidation="true">
                             <property name="actionLabel" value="Update Rule"/>
                             <property name="methodToCall" value="updateRule"/>
                         </bean>
-                        <bean id="cancel-button" parent="Uif-ActionLink"
+                        <bean id="cancel-button" parent="Uif-NavigationActionLink"
                               p:style="margin-left: 0.5em;margin-top: 0.3em;">
                             <property name="actionLabel" value="Cancel"/>
                             <property name="methodToCall" value="cancelEditRule"/>
@@ -147,7 +146,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-RuleSection-BoxSection" parent="Uif-VerticalBoxSection" p:additionalCssClasses="krms-ruleViewSection">
+    <bean id="KRMS-RuleSection-BoxGroup" parent="Uif-VerticalBoxGroup" p:additionalCssClasses="krms-ruleViewSection">
     </bean>
 
     <bean id="KRMS-AgendaManage-RulePrototype" parent="Uif-Disclosure-VerticalBoxSubSection">
@@ -160,14 +159,13 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-AgendaManage-EditRule" parent="KRMS-RuleSection-BoxSection" p:render="@{!#line.dummy}">
+    <bean id="KRMS-AgendaManage-EditRule" parent="KRMS-RuleSection-BoxGroup" p:render="@{!#line.dummy}">
         <property name="items">
             <list>
                 <bean id="KRSM-RuleEdit-ActionLinks" parent="KRMS-RuleEdit-Links" p:align="right"/>
                 <bean id="KRSM-RuleView-ActionLinks" parent="KRMS-RuleView-Links" p:align="right"/>
                 <bean parent="Uif-MessageField" p:messageText="@{#line.ruleTypeInfo.instruction}"/>
-                <bean id="KRMS-PreviewTree-Group" parent="Uif-VerticalBoxGroup"
-                      p:cssClasses="viewModeNode">
+                <bean id="KRMS-ViewTree-Group" parent="Uif-VerticalBoxGroup" p:cssClasses="ks-form-panel">
                     <property name="items">
                         <list>
                             <bean parent="KRMS-ViewTree-Section">
@@ -180,7 +178,7 @@ limitations under the License.
         </property>
     </bean>
 
-    <bean id="KRMS-AgendaManage-AddRule" parent="KRMS-RuleSection-BoxSection" p:render="@{#line.dummy}">
+    <bean id="KRMS-AgendaManage-AddRule" parent="KRMS-RuleSection-BoxGroup" p:render="@{#line.dummy}">
         <property name="items">
             <list>
                 <bean parent="KRMS-RuleAdd-Links" p:id="KRMS-RuleAdd-ActionLink" p:align="right"/>
@@ -193,9 +191,9 @@ limitations under the License.
         <property name="linkSeparator" value=" "/>
         <property name="items">
             <list>
-                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules" p:disabled="@{!#line.permission.compare}"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView" p:disabled="@{!#line.permission.addEditRequisite}"/>
-                <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule" p:disabled="@{!#line.permission.deleteRequisite}"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules"/>
+                <bean parent="Uif-NavigationActionLink" p:actionLabel="Edit Rule" p:methodToCall="goToRuleView"/>
+                <bean parent="Uif-ActionLink" p:actionLabel="Delete Rule" p:methodToCall="deleteRule"/>
             </list>
         </property>
     </bean>
@@ -206,7 +204,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare" p:methodToCall="compareRules">
                     <property name="toolTip">
-                        <bean parent="Uif-Tooltip" p:tooltipContent="Compare with parent"/>
+                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Compare with parent"/>
                     </property>
                 </bean>
             </list>
@@ -219,7 +217,7 @@ limitations under the License.
             <list>
                 <bean parent="Uif-ActionLink" p:actionLabel="Compare Rule" p:methodToCall="compareRules"
                       p:render="@{#line.dummy and #line.parent != null}" />
-                <bean parent="Uif-ActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
+                <bean parent="Uif-NavigationActionLink" p:actionLabel="Add Rule" p:methodToCall="addRule"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
             </list>
         </property>

@@ -34,7 +34,7 @@ li.compoundOpCodeNode > a { display: none; }
 .jstree-editrule ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
 .jstree-editrule li { background-position:-18px 0; background-repeat:repeat-y; margin-left: 36px; }
 .jstree-editrule li.jstree-last { background:transparent; }
-.jstree-editrule .jstree-open a:not(.uif-action) { color: black; height: auto; }
+.jstree-editrule .jstree-open a:not(.uif-action, .uif-actionLink) { color: black; height: auto; }
 .jstree-editrule .jstree-closed a { text-shadow: 1px 1px 0.2em #ccc; }
 .jstree-editrule .jstree-open > ins { background-position:-18px 0; }
 .jstree-editrule .jstree-closed > ins { background-position:0px 0; }
@@ -52,7 +52,7 @@ li.compoundOpCodeNode > a { display: none; }
 .jstree-editrule .jstree-clicked { /* background:#beebff; border:1px solid #99defd; padding:0 3px 0 1px; */ }
 .jstree-editrule a .jstree-icon { background-position:-56px -20px; }
 .jstree-editrule a.jstree-loading .jstree-icon { background:url("throbber.gif") center center no-repeat !important; }
-.jstree-editrule a.uif-action { color: #3F7826; display: inline-block; height: 16px; line-height: 16px; margin: 0; padding: 1px 2px; text-decoration: none; white-space: nowrap; }
+.jstree-editrule a.uif-action, a.uif-actionLink, a.btn-link { color: #0088CC; }
 
 .jstree-editrule .jstree-focused { background:white; }
 

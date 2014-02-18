@@ -116,7 +116,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 			}},null);
     }
     
-    private <V extends Enum<?>> void beginShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
+    protected <V extends Enum<?>> void beginShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
         beforeViewChange(viewType, new Callback<Boolean>(){
 
             @Override
@@ -125,8 +125,10 @@ public abstract class Controller extends Composite implements HistorySupport, Br
                      boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
                         
                         if (requiresAuthz){
-//                          GWT.log("Checking permission type '" + getViewContext().getPermissionType().getPermissionTemplateName() + "' for viewType '" + viewType.toString() + "'", null);
-
+                        	ViewContext currView = getViewContext();
+				        	if (getViewContext()!=null && getViewContext().getPermissionType()!=null && viewType!=null)
+				            GWT.log("Checking permission type '" + getViewContext().getPermissionType().getPermissionTemplateName() + "' for viewType '" + viewType.toString() + "'", null);
+				        	
                             //A callback is required if async rpc call is required for authz check
                             ((RequiresAuthorization)view).checkAuthorization(new AuthorizationCallback(){
                                 public void isAuthorized() {
@@ -151,7 +153,7 @@ public abstract class Controller extends Composite implements HistorySupport, Br
         });
     }
     
-    private <V extends Enum<?>> void finalizeShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
+    protected <V extends Enum<?>> void finalizeShowView(final View view, final V viewType, final Callback<Boolean> onReadyCallback){
         if (((currentView == null) || currentView.beforeHide()) && view != null) {
 			view.beforeShow(new Callback<Boolean>() {
 				@Override

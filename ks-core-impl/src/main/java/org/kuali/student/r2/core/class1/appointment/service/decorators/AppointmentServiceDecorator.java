@@ -267,6 +267,15 @@ public abstract class AppointmentServiceDecorator implements AppointmentService 
 			PermissionDeniedException {
 		return getNextDecorator().changeAppointmentSlotState(appointmentSlotId, nextStateKey, contextInfo);
 	}
+
+	@Override
+	public StatusInfo deleteAppointmentWindow(String appointmentWindowId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		return getNextDecorator().deleteAppointmentWindow(appointmentWindowId, contextInfo);
+	}
     
+	
     
 }

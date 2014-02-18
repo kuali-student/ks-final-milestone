@@ -50,10 +50,10 @@ public class KSPersonLookupableImpl extends PersonLookupableImpl{
                 String lastName = StringUtils.substringBefore(nameSearch,",");
                 String firstName = StringUtils.substringAfter(nameSearch,",");
 
-                searchCriteria.put(KIMPropertyConstants.Person.LAST_NAME,lastName);
+                searchCriteria.put(KIMPropertyConstants.Person.LAST_NAME,lastName + "*");
                 searchCriteria.put(KIMPropertyConstants.Person.FIRST_NAME,firstName + "*");
             } else {
-                searchCriteria.put(KIMPropertyConstants.Person.LAST_NAME,nameSearch);
+                searchCriteria.put(KIMPropertyConstants.Person.LAST_NAME,nameSearch + "*");
             }
         }
 

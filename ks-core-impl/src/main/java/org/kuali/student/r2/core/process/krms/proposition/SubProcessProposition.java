@@ -50,7 +50,7 @@ public class SubProcessProposition extends AbstractLeafProposition {
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
-        ContextInfo context = environment.resolveTerm(new Term(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME), this);
+        ContextInfo context = environment.resolveTerm(new Term(RulesExecutionConstants.CONTEXT_INFO_TERM.getName()), this);
         List<ValidationResultInfo> results = null;
 
         Map<String, Object> resultDetails = new HashMap<String, Object>();
@@ -60,14 +60,14 @@ public class SubProcessProposition extends AbstractLeafProposition {
         } catch (OperationFailedException e) {
 
             // on an evaluation exception, report the details of the exception to the KRMS environment
-            resultDetails.put(RulesExecutionConstants.SUBPROCESS_EVALUATION_EXCEPTION, e);
+            resultDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_EXCEPTION, e);
             environment.getEngineResults().addResult(new BasicResult(resultDetails, ResultEvent.PROPOSITION_EVALUATED, this, environment, false));
             return new PropositionResult(false);
 
         }
 
         // add all the validation results into the map
-        resultDetails.put(RulesExecutionConstants.SUBPROCESS_EVALUATION_RESULTS, results);
+        resultDetails.put(RulesExecutionConstants.PROCESS_EVALUATION_RESULTS, results);
 
         boolean propositionResult = true;
         for (ValidationResultInfo evalResult : results) {

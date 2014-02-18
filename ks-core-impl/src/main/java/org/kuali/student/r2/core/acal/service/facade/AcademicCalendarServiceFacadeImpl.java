@@ -76,12 +76,24 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         this.acalService = acalService;
     }
 
+    public AcademicCalendarService getAcalService() {
+        return acalService;
+    }
+
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
     }
 
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
     public void setTypeService(TypeService typeService) {
         this.typeService = typeService;
+    }
+
+    public TypeService getTypeService() {
+        return typeService;
     }
 
     @Override
@@ -201,7 +213,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         return statusInfo;
     }
 
-    private void deleteKeyDatesbyTermId (String termId, ContextInfo context) {
+    protected void deleteKeyDatesbyTermId (String termId, ContextInfo context) {
         try {
             List<String> keyDateIds = acalService.getKeyDateIdsForTerm(termId, context);
             if (keyDateIds!=null && !keyDateIds.isEmpty()) {
@@ -215,7 +227,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
     }
 
-    private void deleteExamPeriodByTermId (String termId, ContextInfo context) {
+    protected void deleteExamPeriodByTermId (String termId, ContextInfo context) {
         try {
             //retrieve all the exam period ids of the give term
             List<String> examPeriodIds = getRelatedAtpIdsForParentAtpIdAndRelationType(termId, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY, context);
@@ -230,7 +242,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
     }
 
-    private void changeExamPeriodStateByTermId (String termId, String nextStateKey, ContextInfo context) {
+    protected void changeExamPeriodStateByTermId (String termId, String nextStateKey, ContextInfo context) {
         try {
             //retrieve all the exam period ids of the give term
             List<String> examPeriodIds = getRelatedAtpIdsForParentAtpIdAndRelationType(termId, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TERM2EXAMPERIOD_TYPE_KEY, context);
@@ -254,7 +266,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
         return _validateTermRecursive(termId, processedTermIds, context);
     }
 
-    private boolean _validateTermRecursive(String termId, Set<String> processedTermIds, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+    protected boolean _validateTermRecursive(String termId, Set<String> processedTermIds, ContextInfo context) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         List<TermInfo> childTerms = acalService.getIncludedTermsInTerm(termId, context);
         TermInfo term = acalService.getTerm(termId, context);
 
@@ -366,7 +378,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
     // validate if the given examPeriod type is kuali.atp.type.ExamPeriod
     // also validate if the given examPeriod type is allowed by the given term type
-    private boolean _validateExamPeriodType (String examPeriodTypeKey, String termTypeKey, ContextInfo context) {
+    protected boolean _validateExamPeriodType (String examPeriodTypeKey, String termTypeKey, ContextInfo context) {
         if (!StringUtils.equals(examPeriodTypeKey, AtpServiceConstants.ATP_EXAM_PERIOD_TYPE_KEY)){
             return false;
         }
@@ -387,7 +399,7 @@ public class AcademicCalendarServiceFacadeImpl implements AcademicCalendarServic
 
     }
 
-    private boolean checkTypeInTypes(String typeKey, List<TypeInfo> types) {
+    protected boolean checkTypeInTypes(String typeKey, List<TypeInfo> types) {
         if (types != null && !types.isEmpty()) {
             for (TypeInfo type : types) {
                 if (type.getKey().equals(typeKey)) {

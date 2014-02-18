@@ -98,7 +98,7 @@ limitations under the License.
         <property name="actionLabel" value="Preview Change"/>
     </bean>
 
-    <bean id="KRMS-LogicPreview-Tree" parent="Uif-VerticalBoxGroup" p:cssClasses="viewModeNode"
+    <bean id="KRMS-LogicPreview-Tree" parent="Uif-VerticalBoxGroup" p:cssClasses="ks-form-panel"
           p:width="50%" p:style="border: 1px solid #999999">
         <property name="items">
             <list>
@@ -123,7 +123,7 @@ limitations under the License.
     <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
         is needed for the javascript hack that is refreshing -->
     <bean id="KRMS-RuleEditor-TreeGroup" parent="Uif-VerticalBoxGroup"
-          p:style="margin-bottom: 5pt; margin-top: 0em;" p:refreshWhenChangedPropertyNames="this.is.a.hack">
+          p:style="margin-bottom: 5pt; margin-top: 0em;" p:forceSessionPersistence="true">
         <property name="layoutManager.orientation" value="VERTICAL"/>
         <property name="items">
             <list>
@@ -131,8 +131,7 @@ limitations under the License.
                 <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
                       p:style="font-weight:bold;margin-left: 2em;"/>
                 <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
-                <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"
-                      p:forceSessionPersistence="true"/>
+                <bean id="RuleStudentEditorView-Tree" parent="KRMS-RulerEditor-TreeSection-parent"/>
                 <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
                       p:propertyName="selectedKey"/>
                 <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
@@ -207,27 +206,21 @@ limitations under the License.
           p:actionLabel="Add Statement" p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-add-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconAdd.png"
-                  p:altText="Add"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-plus-1"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-EditButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Edit" p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconEdit.png"
-                  p:altText="Edit Proposition"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-pencil"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-GroupButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Create Group" p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconGroup.png"
-                  p:altText="Add Parent"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-fork"/>
         </property>
     </bean>
 
@@ -235,9 +228,7 @@ limitations under the License.
           p:actionLabel="Move Out" p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-left-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconLeft.png"
-                  p:altText="Left"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-left"/>
         </property>
     </bean>
 
@@ -245,9 +236,7 @@ limitations under the License.
           p:actionLabel="Move In" p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-right-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconRight.png"
-                  p:altText="Right"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-right"/>
         </property>
     </bean>
 
@@ -255,9 +244,7 @@ limitations under the License.
           p:actionLabel="Move Up" p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-up-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconUp.png"
-                  p:altText="Up"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-up"/>
         </property>
     </bean>
 
@@ -265,9 +252,7 @@ limitations under the License.
           p:actionLabel="Move Down" p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-down-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconDown.png"
-                  p:altText="Down"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-down"/>
         </property>
     </bean>
 
@@ -275,9 +260,7 @@ limitations under the License.
           p:actionLabel="Copy" p:actionScript="ajaxCopyPropositionTree();"
           p:additionalCssClasses="kr-cut-button,kr-copy-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconCopy.png"
-                  p:altText="Copy"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-docs"/>
         </property>
     </bean>
 
@@ -285,9 +268,7 @@ limitations under the License.
           p:actionLabel="Cut" p:actionScript="ajaxCutPropositionTree();"
           p:additionalCssClasses="kr-cut-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconCut.png"
-                  p:altText="Cut"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-scissors"/>
         </property>
     </bean>
 
@@ -295,9 +276,7 @@ limitations under the License.
           p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');" p:actionLabel="Paste"
           p:additionalCssClasses="kr-paste-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconPaste.png"
-                  p:altText="Paste"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-paste"/>
         </property>
     </bean>
 
@@ -305,9 +284,7 @@ limitations under the License.
           p:actionLabel="Delete" p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-delete-button">
         <property name="actionImage">
-            <bean parent="Uif-Image"
-                  p:source="@{#ConfigProperties['application.url']}/themes/ksboot/stylesheets/images/iconDelete.png"
-                  p:altText="Delete"/>
+            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
         </property>
     </bean>
 
@@ -318,7 +295,7 @@ limitations under the License.
         <property name="templateName" value="uif_ruleTreeGroup"/>
         <property name="propertyName" value="editTree"/>
         <property name="validationMessages.displayMessages" value="true"/>
-        <property name="validationMessages.displayFieldLabelWithMessages" value="false"/>
+        <!--property name="validationMessages.displayFieldLabelWithMessages" value="false"/-->
         <property name="tree">
             <bean parent="RuleTreeWidget">
                 <property name="templateOptions">
@@ -359,9 +336,7 @@ limitations under the License.
             <bean parent="Uif-HorizontalBoxGroup">
                 <property name="items">
                     <list>
-
                         <bean parent="KRMS-PropKey-HiddenField"/>
-
                     </list>
                 </property>
             </bean>
@@ -403,6 +378,17 @@ limitations under the License.
                     </list>
                 </property>
             </bean>
+        </property>
+    </bean>
+
+    <bean id="KRMS-ruleOpLockErrorDialog" parent="Uif-DialogGroup">
+        <property name="header.render" value="false"/>
+        <property name="promptText" value="This rule has been edited by another user. Do you want to reload it or cancel editing?"/>
+        <property name="availableResponses">
+            <list>
+                <bean parent="Uif-KeyLabelPair" p:key="Y" p:value="Reload rule"/>
+                <bean parent="Uif-KeyLabelPair" p:key="N" p:value="Cancel editing"/>
+            </list>
         </property>
     </bean>
 

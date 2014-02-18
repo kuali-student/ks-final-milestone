@@ -151,7 +151,7 @@ public class UploadServlet extends HttpServlet{
 				    	info.setName(filename.substring(0, extSeperator));
 				    	
 				    	//FIXME Probably temporary solution for type on document info
-				    	String type = "documentType." + filename.substring(extSeperator + 1);
+				    	String type = "documentType." + filename.substring(extSeperator + 1).toLowerCase();
 				    	info.setTypeKey(type);
 			    	}
 			    	else{

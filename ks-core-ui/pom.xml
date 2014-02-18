@@ -115,6 +115,11 @@
         <!-- KS common & core dependencies (GWT dependencies come from common-ui) -->
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>ks-core-krms</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ks-common-ui</artifactId>
             <version>${project.version}</version>
         </dependency>

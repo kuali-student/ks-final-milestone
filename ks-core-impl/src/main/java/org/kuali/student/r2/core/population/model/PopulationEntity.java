@@ -67,6 +67,9 @@ public class PopulationEntity extends MetaEntity implements AttributeOwner<Popul
     }
 
     public void fromDTO(Population infc) {
+        
+        super.fromDTO(infc);
+        
         this.setPopulationState(infc.getStateKey());
         this.setName(infc.getName());
         if (infc.getDescr() != null) {

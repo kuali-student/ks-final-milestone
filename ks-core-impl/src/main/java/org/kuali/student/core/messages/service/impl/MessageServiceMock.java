@@ -261,6 +261,14 @@ public class MessageServiceMock implements MessageService {
 			MissingParameterException, OperationFailedException {
 		  throw new UnsupportedOperationException ("not implemented");
 	}
+
+	@Override
+	public List<MessageInfo> getMessagesByKeys(List<String> messageKeys,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		 throw new UnsupportedOperationException ("not implemented");
+	}
     
     
 

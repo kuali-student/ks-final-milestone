@@ -107,7 +107,9 @@ public class SubjectCodeServiceImpl
 		return searchResult;
 	}
 	
-    private SearchResultInfo doOrgsForSubjectCodeSearch(Map<String, Object> paramMap, ContextInfo contextInfo) throws MissingParameterException, PermissionDeniedException, OperationFailedException, InvalidParameterException {
+    protected SearchResultInfo doOrgsForSubjectCodeSearch(Map<String, Object> paramMap, ContextInfo contextInfo)
+            throws MissingParameterException, PermissionDeniedException, OperationFailedException,
+            InvalidParameterException {
 		SearchResultInfo searchResult = new SearchResultInfo();
 		Map<String,Object> queryMap = new HashMap<String,Object>();
 		String codeParam = (String) paramMap.get("subjectCode.queryParam.code");
@@ -182,7 +184,7 @@ public class SubjectCodeServiceImpl
 		return searchResult;
 	}
 
-	private SearchResultInfo doSubjectCodeGenericSearch(Map<String, Object> paramMap) {
+    protected SearchResultInfo doSubjectCodeGenericSearch(Map<String, Object> paramMap) {
 		SearchResultInfo searchResult = new SearchResultInfo();
 		Map<String,String> queryMap = new HashMap<String,String>();
 		String code = (String) paramMap.get("subjectCode.queryParam.code");

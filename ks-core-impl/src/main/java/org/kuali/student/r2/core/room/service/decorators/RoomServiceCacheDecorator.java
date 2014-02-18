@@ -16,6 +16,7 @@
  */
 package org.kuali.student.r2.core.room.service.decorators;
 
+import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
@@ -34,9 +35,11 @@ import org.kuali.student.r2.core.room.dto.BuildingInfo;
 import org.kuali.student.r2.core.room.dto.RoomInfo;
 import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.service.RoomServiceDecorator;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 
 import javax.jws.WebParam;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class RoomServiceCacheDecorator extends RoomServiceDecorator {
@@ -63,6 +66,36 @@ public class RoomServiceCacheDecorator extends RoomServiceDecorator {
 
     public void setCacheManager(CacheManager cacheManager) {
         this.cacheManager = cacheManager;
+    }
+
+    @Override
+    public List<RoomInfo> getRoomsByIds(List<String> roomIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<RoomInfo> roomInfos = new ArrayList<RoomInfo>();
+        List<String> roomIdsToSearch = new ArrayList<String>();
+        Cache cache = cacheManager.getCache(roomCacheName);
+        //Check the cache for the ids
+        for (String roomId : roomIds) {
+            MultiKey cacheKey = new MultiKey(ROOM_CACHE_PREFIX, roomId);
+            Element cachedResult = cache.get(cacheKey);
+            if (cachedResult != null) {
+                //If the id was found in the cache then use that and remove from the list of ids one is searching for
+                roomInfos.add((RoomInfo) cachedResult.getValue());
+            } else {
+                //Otherwise save this id as one that needs to be looked up
+                roomIdsToSearch.add(roomId);
+            }
+        }
+        //Call the underlying service to get the remainder
+        if (!roomIdsToSearch.isEmpty()) {
+            List<RoomInfo> uncachedRoomInfos = getNextDecorator().getRoomsByIds(roomIdsToSearch, contextInfo);
+            for (RoomInfo roomInfo : uncachedRoomInfos) {
+                MultiKey cacheKey = new MultiKey(ROOM_CACHE_PREFIX, roomInfo.getId());
+                cache.put(new Element(cacheKey, roomInfo));
+            }
+            roomInfos.addAll(uncachedRoomInfos);
+        }
+
+        return roomInfos;
     }
 
     @Override

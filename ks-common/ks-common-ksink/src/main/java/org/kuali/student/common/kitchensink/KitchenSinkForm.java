@@ -16,6 +16,8 @@
  */
 package org.kuali.student.common.kitchensink;
 
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,6 +41,7 @@ public class KitchenSinkForm extends UifFormBase {
     private Boolean checkboxSelected;
     private Integer integerField1;
     private List<String> checkboxSelections;
+    private List<ConcreteKeyValue> configProperties = new ArrayList<ConcreteKeyValue>();
     private List<KitchenSinkFormCollection1> collection;
     //private List<KitchenSinkFormCollection1> collection2;
     private List<String> multiSelections;
@@ -50,8 +53,14 @@ public class KitchenSinkForm extends UifFormBase {
     private List<KitchenSinkFormCollection2> list1 = new ArrayList<KitchenSinkFormCollection2>();
     private List<KitchenSinkFormCollection2> list3 = new ArrayList<KitchenSinkFormCollection2>();
 
+    private Tree<String, String> tree1 = new Tree<String, String>();
+    private Tree<KitchenSinkFormCollection2, String> tree2 = new Tree<KitchenSinkFormCollection2, String>();
+
     private List<KitchenSinkMockDisplayScheduleData> displayScheduleMockDataList = KitchenSinkMockDisplayScheduleData.mockTestData();
     private List<KitchenSinkMockActivityData> activityList;
+
+    //TODO: KSENROLL-11286 remove this workournd once krad jira is fixed
+    private Boolean disabledSelectedCheckbox;
 
     public KitchenSinkForm() {
         super();
@@ -153,6 +162,22 @@ public class KitchenSinkForm extends UifFormBase {
         this.list3 = list3;
     }
 
+    public Tree<String, String> getTree1() {
+        return tree1;
+    }
+
+    public void setTree1(Tree<String, String> tree1) {
+        this.tree1 = tree1;
+    }
+
+    public Tree<KitchenSinkFormCollection2, String> getTree2() {
+        return tree2;
+    }
+
+    public void setTree2(Tree<KitchenSinkFormCollection2, String> tree2) {
+        this.tree2 = tree2;
+    }
+
     public List<KitchenSinkMockDisplayScheduleData> getDisplayScheduleMockDataList() {
         return displayScheduleMockDataList;
     }
@@ -211,5 +236,19 @@ public class KitchenSinkForm extends UifFormBase {
     public void setDateField(Date dateField) {
         this.dateField = dateField;
     }
+    public List<ConcreteKeyValue> getConfigProperties() {
+        return configProperties;
+    }
 
+    public void setConfigProperties(List<ConcreteKeyValue> configProperties) {
+        this.configProperties = configProperties;
+    }
+
+    public Boolean getDisabledSelectedCheckbox() {
+        return disabledSelectedCheckbox;
+    }
+
+    public void setDisabledSelectedCheckbox(Boolean disabledSelectedCheckbox) {
+        this.disabledSelectedCheckbox = disabledSelectedCheckbox;
+    }
 }

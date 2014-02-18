@@ -788,6 +788,39 @@
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
+    <search:searchType id="org.search.orgInfoByType" parent="org.search.orgInfoByType-parent"/>
+    <search:searchType id="org.search.orgInfoByType-parent"  abstract="true">
+        <search:name>Organization Quick View By Org Type</search:name>
+        <search:desc>Returns a quick view of organization information for orgs having a match on org type.</search:desc>
+        <search:searchResultTypeInfo>
+            <ref bean="org.result.orgQuickView" />
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <ref bean="org.criteria.orgByOrgType" />
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+    <search:searchType id="org.search.orgCurriculum" parent="org.search.orgCurriculum-parent"/>
+    <search:searchType id="org.search.orgCurriculum-parent" abstract="true">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="org.resultColumn.attrValue">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="org.resultColumn.name">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
+
+
     <bean id="queryMap" parent="queryMap-parent"/>
     <bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
@@ -908,6 +941,18 @@
 				<entry key="org.queryParam.orgOptionalLocation">
 					<value>org.longName</value>  <!--  we don't have yet location defined in database -->
 				</entry>
+                <entry key="org.search.orgInfoByType">
+                    <value>SELECT org.id, org.shortName, org.longName FROM Org org WHERE
+                        org.type.id = :org_queryParam_orgType
+                    </value>
+                </entry>
+                <entry key="org.search.orgCurriculum">
+                    <value>NATIVE:
+                        SELECT attr.ATTR_VALUE,org.SHRT_DESCR
+                        from KSOR_ORG org JOIN KSOR_ORG_ATTR attr on attr.OWNER=org.ID
+                        where TYPE='kuali.org.type.curriculum' and attr.ATTR_NAME='org.abbreviation'
+                    </value>
+                </entry>
 			</map>
 		</property>
 	</bean>

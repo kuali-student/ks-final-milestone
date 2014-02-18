@@ -34,8 +34,10 @@ import org.kuali.student.r2.core.search.service.SearchManager;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebService;
+
 import java.util.Arrays;
 import java.util.List;
+
 import org.kuali.student.r1.core.document.entity.RefDocRelationType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -508,4 +510,15 @@ public class DocumentServiceImpl implements DocumentService {
     public void setValidatorFactory(ValidatorFactory validatorFactory) {
         this.validatorFactory = validatorFactory;
     }
+
+	@Override
+	public List<RefDocRelationInfo> getRefDocRelationsByIds(
+			List<String> refDocRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		throw new UnsupportedOperationException("not implemented");
+	}
+    
+    
 }

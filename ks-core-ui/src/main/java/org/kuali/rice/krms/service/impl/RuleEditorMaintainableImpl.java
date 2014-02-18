@@ -16,6 +16,7 @@
 package org.kuali.rice.krms.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.ojb.broker.OptimisticLockException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
@@ -50,8 +51,10 @@ import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.rice.krms.util.AlphaIterator;
 import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
+import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.springmodules.orm.ojb.OjbOperationException;
 
 import javax.xml.namespace.QName;
 import java.util.*;
@@ -98,14 +101,14 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         String refObjectId = dataObjectKeys.get("refObjectId");
         dataObject.setRefObjectId(refObjectId);
 
-        dataObject.setAgendas(this.getAgendasForRef("", refObjectId));
+        dataObject.setAgendas(this.getAgendasForRef("", refObjectId, null));
 
         dataObject.setCompareTree(RuleCompareTreeBuilder.initCompareTree());
 
         return dataObject;
     }
 
-    protected List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId) {
+    protected List<AgendaEditor> getAgendasForRef(String discriminatorType, String refObjectId, String parentRefObjectId) {
         // Initialize new array lists.
         List<AgendaEditor> agendas = new ArrayList<AgendaEditor>();
         List<AgendaEditor> sortedAgendas = new ArrayList<AgendaEditor>();
@@ -120,7 +123,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
 
         // Get the list of parent agendas
-        List<ReferenceObjectBinding> parentRefObjects = this.getParentRefOjbects(refObjectId);
+        List<ReferenceObjectBinding> parentRefObjects = this.getParentRefOjbects(parentRefObjectId);
         for (ReferenceObjectBinding referenceObject : parentRefObjects) {
             parentAgendas.add(this.getAgendaEditor(referenceObject.getKrmsObjectId()));
         }
@@ -158,7 +161,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     protected AgendaEditor getAgendaEditor(String agendaId) {
         LOG.info("Retrieving agenda for id: " + agendaId);
         AgendaDefinition agenda = this.getRuleManagementService().getAgenda(agendaId);
-        LOG.info("Retrieved agenda for id: " + agendaId);
         return new AgendaEditor(agenda);
     }
 
@@ -169,7 +171,6 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         if (agenda.getId() != null) {
             LOG.info("Retrieving agenda item for id: " + agenda.getFirstItemId());
             AgendaItemDefinition firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
-            LOG.info("Retrieved agenda item for id: " + agenda.getFirstItemId());
             existingRules = getRuleEditorsFromTree(firstItem, true);
         }
 
@@ -246,11 +247,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     /**
      * Override this method to return the reference object id of the parent object.
      *
-     * @param refObjectId
+     * @param parentRefObjectId
      * @return
      */
     @Override
-    public List<ReferenceObjectBinding> getParentRefOjbects(String refObjectId) {
+    public List<ReferenceObjectBinding> getParentRefOjbects(String parentRefObjectId) {
         return null;
     }
 
@@ -278,7 +279,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         KrmsTypeDefinition requisitesType = this.getKrmsTypeRepositoryService().getTypeByName(StudentIdentityConstants.KS_NAMESPACE_CD, this.getViewTypeName());
 
         // Get all agenda types linked to super type.
-        List<TypeTypeRelation> agendaRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(requisitesType.getId());
+        List<TypeTypeRelation> agendaRelationships = this.getSortedTypeRelationshipsForTypeId(requisitesType.getId());
         for (TypeTypeRelation agendaRelationship : agendaRelationships) {
             AgendaTypeInfo agendaTypeInfo = new AgendaTypeInfo();
             agendaTypeInfo.setId(agendaRelationship.getToTypeId());
@@ -286,19 +287,8 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
             agendaTypeInfo.setType(agendaType.getName());
             agendaTypeInfo.setDescription(this.getDescriptionForTypeAndUsage(agendaRelationship.getToTypeId(), descriptionUsageId));
 
-            // Get all rule types for each agenda type
-            List<TypeTypeRelation> ruleRelationships = this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(agendaRelationship.getToTypeId());
-            // order rules
-            List<TypeTypeRelation> sortedRuleRelationships = new ArrayList<TypeTypeRelation>();
-            sortedRuleRelationships.addAll(ruleRelationships);
-            Collections.sort(sortedRuleRelationships, new Comparator<TypeTypeRelation>() {
-                @Override
-                public int compare(TypeTypeRelation typeTypeRelation1, TypeTypeRelation typeTypeRelation2) {
-                    return typeTypeRelation1.getSequenceNumber().compareTo(typeTypeRelation2.getSequenceNumber());
-                }
-            });
-
             List<RuleTypeInfo> ruleTypes = new ArrayList<RuleTypeInfo>();
+            List<TypeTypeRelation> sortedRuleRelationships = this.getSortedTypeRelationshipsForTypeId(agendaRelationship.getToTypeId());
             for (TypeTypeRelation ruleRelationship : sortedRuleRelationships) {
                 RuleTypeInfo ruleTypeInfo = new RuleTypeInfo();
                 ruleTypeInfo.setId(ruleRelationship.getToTypeId());
@@ -320,6 +310,21 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
 
         return agendaTypeInfos;
+    }
+
+    private List<TypeTypeRelation> getSortedTypeRelationshipsForTypeId(String typeId){
+        // Get all rule types for each agenda type
+        List<TypeTypeRelation> relationships = new ArrayList<TypeTypeRelation>();
+        relationships.addAll(this.getKrmsTypeRepositoryService().findTypeTypeRelationsByFromType(typeId));
+
+        // order rules
+        Collections.sort(relationships, new Comparator<TypeTypeRelation>() {
+            @Override
+            public int compare(TypeTypeRelation typeTypeRelation1, TypeTypeRelation typeTypeRelation2) {
+                return typeTypeRelation1.getSequenceNumber().compareTo(typeTypeRelation2.getSequenceNumber());
+            }
+        });
+        return relationships;
     }
 
     private String getDescriptionForTypeAndUsage(String typeId, String usageId) {
@@ -369,6 +374,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
             //Create or update the agenda.
             if (agenda.getId() == null) {
+
+                //Check if someone else has not created an agenda while this one was created.
+                if(this.getRuleManagementService().getAgendaByNameAndContextId(agenda.getName(), agenda.getContextId())!=null){
+                    throw new KRMSOptimisticLockingException();
+                }
+
                 AgendaDefinition.Builder agendaBldr = AgendaDefinition.Builder.create(agenda);
                 AgendaDefinition agendaDfn = this.getRuleManagementService().createAgenda(agendaBldr.build());
 
@@ -383,22 +394,32 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 this.getRuleManagementService().createReferenceObjectBinding(refBuilder.build());
             }
 
-            //Set the first agenda item id and save the agenda items
-            AgendaItemDefinition firstItem = maintainAgendaItems(agenda, ruleWrapper.getRefObjectId() + ":", ruleWrapper.getNamespace());
+            //Update the root item.
+            try {
 
-            //If no more rules linked to agenda, delete it.
-            if (firstItem.getRule() == null) {
-                List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
-                for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
-                    if (referenceObjectBinding.getKrmsObjectId().equals(agenda.getId())) {
-                        LOG.info("Deleting reference object binding for id: " + referenceObjectBinding.getId());
-                        this.getRuleManagementService().deleteReferenceObjectBinding(referenceObjectBinding.getId());
+                //Set the first agenda item id and save the agenda items
+                AgendaItemDefinition firstItem = maintainAgendaItems(agenda, ruleWrapper.getRefObjectId() + ":", ruleWrapper.getNamespace());
+
+                //If no more rules linked to agenda, delete it.
+                if (firstItem.getRule() == null) {
+                    List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId());
+                    for (ReferenceObjectBinding referenceObjectBinding : refObjectsBindings) {
+                        if (referenceObjectBinding.getKrmsObjectId().equals(agenda.getId())) {
+                            LOG.info("Deleting reference object binding for id: " + referenceObjectBinding.getId());
+                            this.getRuleManagementService().deleteReferenceObjectBinding(referenceObjectBinding.getId());
+                        }
                     }
+                    this.getRuleManagementService().deleteAgenda(agenda.getId());
                 }
-                LOG.info("Deleting agenda item for id: " + firstItem.getId());
-                this.getRuleManagementService().deleteAgendaItem(firstItem.getId());
-                LOG.info("Deleting agenda for id: " + agenda.getId());
-                this.getRuleManagementService().deleteAgenda(agenda.getId());
+
+
+            } catch (OjbOperationException e) {
+                //OptimisticLockException
+                if (e.getCause() instanceof OptimisticLockException) {
+                    throw new KRMSOptimisticLockingException("RuleEditorMaintainableImpl Optimistic Lock exception",e);
+                } else {
+                    throw e;
+                }
             }
 
         }
@@ -407,10 +428,10 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
 
     public AgendaItemDefinition maintainAgendaItems(AgendaEditor agenda, String namePrefix, String nameSpace) {
 
-        Queue<RuleEditor> rules = new LinkedList<RuleEditor>();
+        Queue<RuleDefinition.Builder> rules = new LinkedList<RuleDefinition.Builder>();
         for (RuleEditor rule : agenda.getRuleEditors().values()) {
             if (!rule.isDummy()) {
-                rules.add(rule);
+                rules.add(this.finRule(rule, namePrefix, nameSpace));
             }
         }
 
@@ -425,7 +446,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         AgendaItemDefinition.Builder rootItemBuilder = AgendaItemDefinition.Builder.create(firstItem);
         AgendaItemDefinition.Builder itemBuilder = rootItemBuilder;
         while (rules.peek() != null) {
-            itemBuilder.setRule(this.finRule(rules.poll(), namePrefix, nameSpace));
+            itemBuilder.setRule(rules.poll());
             itemBuilder.setRuleId(itemBuilder.getRule().getId());
             if (rules.peek() != null) {
                 itemBuilder.setWhenTrue(AgendaItemDefinition.Builder.create(null, agenda.getId()));
@@ -444,7 +465,12 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         AgendaItemDefinition firstItem;
         AgendaItemDefinition.Builder firstItemBuilder = AgendaItemDefinition.Builder.create(agenda.getFirstItemId(), agenda.getId());
         if (agenda.getFirstItemId() != null) {
+            //Retrieve the first item from the database.
             firstItem = this.getRuleManagementService().getAgendaItem(agenda.getFirstItemId());
+            if(firstItem==null){
+                throw new KRMSOptimisticLockingException("Rule was deleted by another user.");
+            }
+
             firstItemBuilder.setVersionNumber(firstItem.getVersionNumber());
             this.getRuleManagementService().updateAgendaItem(firstItemBuilder.build());
 
@@ -473,7 +499,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
     public RuleDefinition.Builder finRule(RuleEditor rule, String rulePrefix, String namespace) {
         // handle saving new parameterized terms
         if (rule.getPropositionEditor() != null) {
-            this.finPropositionEditor(rule.getPropositionEditor());
+            this.onSubmit(rule.getPropositionEditor());
         }
 
         if (rule.getNamespace() == null) {
@@ -481,10 +507,17 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
         rule.setName(rulePrefix + rule.getRuleTypeInfo().getId() + ":1");
 
+        //Check if someone else has not created a rule while this one was created.
+        if(rule.getId()==null){
+            if(this.getRuleManagementService().getRuleByNameAndNamespace(rule.getName(), rule.getNamespace())!=null){
+                throw new KRMSOptimisticLockingException();
+            }
+        }
+
         return RuleDefinition.Builder.create(rule);
     }
 
-    public void finPropositionEditor(PropositionEditor propositionEditor) {
+    public void onSubmit(PropositionEditor propositionEditor) {
         if (PropositionType.SIMPLE.getCode().equalsIgnoreCase(propositionEditor.getPropositionTypeCode())) {
 
             //Call onsubmit on the associated builder.
@@ -493,24 +526,11 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
                 builder.onSubmit(propositionEditor);
             }
 
-            //Set the default operation and value
-            TemplateInfo template = this.getTemplateRegistry().getTemplateForType(propositionEditor.getType());
-            PropositionTreeUtil.getOperatorParameter(propositionEditor.getParameters()).setValue(template.getOperator());
-
-            if (!"n".equals(template.getValue())) {
-                PropositionTreeUtil.getConstantParameter(propositionEditor.getParameters()).setValue(template.getValue());
-            }
-
-            if (propositionEditor.getTerm() != null) {
-                TermDefinition.Builder termBuilder = TermDefinition.Builder.create(propositionEditor.getTerm());
-                PropositionTreeUtil.getTermParameter(propositionEditor.getParameters()).setTermValue(termBuilder.build());
-            }
-
         } else {
 
             //If not a simple node, recursively finalize the child proposition editors.
             for (PropositionEditor child : propositionEditor.getCompoundEditors()) {
-                finPropositionEditor(child);
+                onSubmit(child);
             }
 
         }
@@ -541,7 +561,7 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
         }
     }
 
-    protected Map<String, String> getTermParameters(PropositionEditor proposition) {
+    public Map<String, String> getTermParameters(PropositionEditor proposition) {
 
         Map<String, String> termParameters = new HashMap<String, String>();
         if (proposition.getTerm() == null) {

@@ -45,8 +45,8 @@ public class MilestoneByTypeResolver implements TermResolver<List<MilestoneInfo>
 
     static {
         Set<String> temp = new HashSet<String>(2);
-        temp.add(RulesExecutionConstants.MILESTONE_ATP_KEY_TERM_PROPERTY);
-        temp.add(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
+        temp.add(RulesExecutionConstants.MILESTONE_ATP_ID_TERM.getName());
+        temp.add(RulesExecutionConstants.MILESTONE_TYPE_TERM.getName());
 
         requiredParameterNames = Collections.unmodifiableSet(temp);
     }
@@ -57,12 +57,12 @@ public class MilestoneByTypeResolver implements TermResolver<List<MilestoneInfo>
 
     @Override
     public Set<String> getPrerequisites() {
-        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
     }
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.MILESTONES_BY_TYPE_TERM_NAME;
+        return RulesExecutionConstants.MILESTONES_BY_TYPE_TERM.getName();
     }
 
     @Override
@@ -78,9 +78,9 @@ public class MilestoneByTypeResolver implements TermResolver<List<MilestoneInfo>
     @Override
     public List<MilestoneInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String milestoneType = parameters.get(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
-        String atpKey = parameters.get(RulesExecutionConstants.MILESTONE_ATP_KEY_TERM_PROPERTY);
-        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String milestoneType = parameters.get(RulesExecutionConstants.MILESTONE_TYPE_TERM.getName());
+        String atpKey = parameters.get(RulesExecutionConstants.MILESTONE_ATP_ID_TERM.getName());
+        ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM.getName());
 
         List<MilestoneInfo> result = null;
         try {
