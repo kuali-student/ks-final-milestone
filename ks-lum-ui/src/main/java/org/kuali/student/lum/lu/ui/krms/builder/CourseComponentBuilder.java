@@ -62,7 +62,7 @@ public class CourseComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void resolveTermParameters(LUPropositionEditor propositionEditor, Map<String, String> termParameters) {
-        String courseId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        String courseId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
         String termCode1 = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE_KEY);
         String termCode2 = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERMCODE2_KEY);
 
@@ -93,7 +93,7 @@ public class CourseComponentBuilder extends CluComponentBuilder {
     public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCourseInfo() != null) {
-            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, propositionEditor.getCourseInfo().getVersion().getVersionIndId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY, propositionEditor.getCourseInfo().getVersion().getVersionIndId());
         }
 
         if (propositionEditor.getTermInfo() != null) {

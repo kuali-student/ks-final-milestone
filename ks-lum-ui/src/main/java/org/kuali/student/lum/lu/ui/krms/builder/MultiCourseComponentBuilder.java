@@ -54,7 +54,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
 
     @Override
     public void resolveTermParameters(LUPropositionEditor propositionEditor, Map<String, String> termParameters) {
-        String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        String cluSetId = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
         if (cluSetId != null) {
             try {
                 CluSetInformation cluSetInfo = this.getCluInfoHelper().getCluSetInformation(cluSetId);
@@ -73,9 +73,9 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCluSet() != null) {
             if (propositionEditor.getCluSet().getCluSetInfo() != null) {
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, propositionEditor.getCluSet().getCluSetInfo().getId());
             } else {
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, null);
+                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, null);
             }
         }
         if (propositionEditor.getGradeScale() != null) {
@@ -94,7 +94,7 @@ public class MultiCourseComponentBuilder extends CluComponentBuilder {
             if (cluSetInfo.getId() == null) {
                 cluSetInfo = this.getCluService().createCluSet(cluSetInfo.getTypeKey(), cluSetInfo, ContextUtils.getContextInfo());
 
-                ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY, cluSetInfo.getId());
+                ComponentBuilderUtils.updateTermParameter(propositionEditor.getTerm(), KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY, cluSetInfo.getId());
                 TermDefinition.Builder termBuilder = TermDefinition.Builder.create(propositionEditor.getTerm());
                 PropositionTreeUtil.getTermParameter(propositionEditor.getParameters()).setTermValue(termBuilder.build());
 
