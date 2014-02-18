@@ -258,6 +258,12 @@
                       p:actionLabel="Send Adhoc"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>-->
                 <bean parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="blanketApprove"
+                      p:actionLabel="Approve and Activate"
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false" 
                       p:methodToCall="route"
                       p:actionLabel="Submit" 
@@ -279,12 +285,6 @@
                       p:methodToCall="reload" 
                       p:actionLabel="Reload"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/> -->
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="blanketApprove"
-                      p:actionLabel="Approve and Activate"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
                 <bean parent="Uif-ActionLink"
                       p:ajaxSubmit="false"
                       p:methodToCall="back"
@@ -386,7 +386,6 @@
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('logisticsSection');" p:actionLabel="Logistics" />
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('learningObjectivesSection');" p:actionLabel="LearningObjective" />
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('requisitesSection');" p:actionLabel="Course Requisites" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('ruleSection');" p:actionLabel="Rule" />
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('activeDatesSection');" p:actionLabel="ActiveDates" />
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('financialsSection');" p:actionLabel="Financials" />
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('authorsAndCollaboratorsSection');" p:actionLabel="Authors &amp; Collaborators" />
