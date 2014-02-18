@@ -49,7 +49,7 @@ public class TimeSlotCodeGeneratorImpl implements TimeSlotCodeGenerator {
                 return "1";
             }
         } else if (NumberUtils.isDigits(currentCode)){
-            Integer i = new Integer(currentCode);
+            Integer i = Integer.valueOf(currentCode);
             return String.valueOf(i + 1);
         } else {
             throw new OperationFailedException("TimeSlotCodeGeneratorImpl supports only numeric code.");

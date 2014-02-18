@@ -89,7 +89,7 @@ public abstract class MultiplicityComposite extends Composite {
 		    item.setRemoveCallback(removeCallback);
 	    } else if (itemWidget instanceof MultiplicityItem){
 	    	item = (MultiplicityItem)itemWidget;
-	    	item.setItemKey(new Integer(itemCount -1));
+	    	item.setItemKey(Integer.valueOf(itemCount -1));
 	    }
 	    items.add(item);
 	    item.redraw();

@@ -183,7 +183,7 @@ public class MultiplicityGroup extends Composite {
 		    item.setRemoveCallback(removeCallback);
 	    } else if (itemWidget instanceof MultiplicityGroupItem){
 	    	item = (MultiplicityGroupItem)itemWidget;
-	    	item.setItemKey(new Integer(itemCount -1));
+	    	item.setItemKey(Integer.valueOf(itemCount -1));
 	    }
 	    items.add(item);
 	    item.redraw();

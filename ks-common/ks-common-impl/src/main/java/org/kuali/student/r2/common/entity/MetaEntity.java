@@ -189,7 +189,7 @@ public abstract class MetaEntity extends BaseVersionEntity {
                 if (meta.getVersionInd() == null)
                     setVersionNumber(null);
                 else
-                    setVersionNumber(new Long(meta.getVersionInd()));
+                    setVersionNumber(Long.valueOf(meta.getVersionInd()));
             }
         }
     }

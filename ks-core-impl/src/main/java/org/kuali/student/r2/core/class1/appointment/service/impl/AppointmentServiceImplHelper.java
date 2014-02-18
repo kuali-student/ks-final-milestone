@@ -328,7 +328,7 @@ public class AppointmentServiceImplHelper {
         }
         List<Calendar> slotTimes = new ArrayList<Calendar>();
         if (weekdays.isEmpty()) {
-            Object[] result = {slotTimes, Integer.valueOf(0), new Integer(totalStudents)};
+            Object[] result = {slotTimes, Integer.valueOf(0), Integer.valueOf(totalStudents)};
             return result;
         }
         Calendar date = _makeCopy(startDate);
@@ -374,7 +374,7 @@ public class AppointmentServiceImplHelper {
             numAllocated = totalStudents;
         }
         int unallocated = totalStudents - numAllocated;
-        Object[] result = {slotTimes, new Integer(numAllocated), new Integer(unallocated)};
+        Object[] result = {slotTimes, Integer.valueOf(numAllocated), Integer.valueOf(unallocated)};
         return result;
     }
 
@@ -384,7 +384,7 @@ public class AppointmentServiceImplHelper {
                                                          List<Integer> weekdays) {
         List<Calendar> slotTimes = new ArrayList<Calendar>();
         if (weekdays.isEmpty()) {
-            Object[] result = {slotTimes, Integer.valueOf(0), new Integer(totalStudents)};
+            Object[] result = {slotTimes, Integer.valueOf(0), Integer.valueOf(totalStudents)};
             return result;
         }
         Calendar date = _makeCopy(startDate);
@@ -414,7 +414,7 @@ public class AppointmentServiceImplHelper {
             }
         }
         // We haven't really allocated, just computed how many we *would* allocate.
-        Object[] result = {slotTimes, new Integer(totalStudents), new Integer(0)};
+        Object[] result = {slotTimes, Integer.valueOf(totalStudents), Integer.valueOf(0)};
         return result;
     }
 
