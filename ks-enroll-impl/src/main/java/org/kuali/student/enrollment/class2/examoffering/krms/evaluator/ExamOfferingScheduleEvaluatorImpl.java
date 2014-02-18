@@ -30,6 +30,7 @@ import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -78,12 +79,12 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     /**
      * @see ExamOfferingScheduleEvaluator
      */
-    public void executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
+    public ExamOfferingResult executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
                                            ContextInfo context) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_STANDARD);
-
+        ExamOfferingResult eoResult = new   ExamOfferingResult();
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
 
         if (agenda != null) {
@@ -91,8 +92,9 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
             executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
             executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, this.getTimeSlotsForAO(activityOffering, context));
 
-            executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+            eoResult =  executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
         }
+       return eoResult;
     }
 
     /**
@@ -126,12 +128,12 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     /**
      * @see ExamOfferingScheduleEvaluator
      */
-    public void executeRuleForCOScheduling(CourseOffering courseOffering, String examOfferingId, String termType,
+    public ExamOfferingResult executeRuleForCOScheduling(CourseOffering courseOffering,String examOfferingId, String termType,
                                            ContextInfo context) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_COMMON);
-
+        ExamOfferingResult eoResult = new   ExamOfferingResult();
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
 
         if (agenda != null) {
@@ -145,9 +147,9 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
                 throw new OperationFailedException("Unable to retrieve course version independent id.", e);
             }
 
-            executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+            executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId,context);
         }
-
+      return eoResult;
     }
 
     /**
@@ -162,12 +164,12 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
      * @param examOfferingId
      * @param context
      */
-    private void executeRuleForScheduling(Agenda agenda, String typeId, Map<String, Object> executionFacts,
-                                          String examOfferingId, ContextInfo context) {
+    private ExamOfferingResult executeRuleForScheduling(Agenda agenda, String typeId, Map<String, Object> executionFacts,
+                                          String examOfferingId,ContextInfo context) {
 
         Map<String, String> agendaQualifiers = new HashMap<String, String>();
         agendaQualifiers.put("typeId", typeId);
-
+        ExamOfferingResult eoResult = new   ExamOfferingResult();
         EngineResults results = this.evaluateAgenda(agenda, executionFacts, agendaQualifiers);
 
         //Check if action inserted a schedule request component.
@@ -176,6 +178,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
             TimeSlotInfo timeslot = (TimeSlotInfo) results.getAttribute("timeslotInfo");
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
         }
+        return eoResult;
     }
 
     /**

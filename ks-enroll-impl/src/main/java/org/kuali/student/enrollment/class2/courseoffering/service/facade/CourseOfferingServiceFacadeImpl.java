@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.F
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.InvalidRegGroupSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.RegGroupNotGeneratedByAocSubissue;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -48,7 +49,6 @@ import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -76,12 +76,10 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -409,8 +407,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             if (fo.getFinalExamLevelTypeKey() != null) {
                 TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
                 if (typeAO.getName().equals(typeFEO.getName())){
-                    StatusInfo statusInfo = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, aoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
-                    aoResult.getExamOfferingsGenerated().setSuccess(statusInfo.getIsSuccess());
+                    ExamOfferingResult statusInfo = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, aoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
+                    aoResult.getExamOfferingsGenerated().setSuccess(statusInfo.getExamStatus().getIsSuccess());
                 } else {
                     aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
                 }
@@ -519,8 +517,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             if (fo.getFinalExamLevelTypeKey() != null) {
                 TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
                 if (typeAO.getName().equals(typeFEO.getName())){
-                    StatusInfo statusInfo = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(copyAoInfo, copyAoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
-                    aoResult.getExamOfferingsGenerated().setSuccess(statusInfo.getIsSuccess());
+                    ExamOfferingResult statusInfo = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(copyAoInfo, copyAoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
+                    aoResult.getExamOfferingsGenerated().setSuccess(statusInfo.getExamStatus().getIsSuccess());
                 } else {
                     aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
                 }

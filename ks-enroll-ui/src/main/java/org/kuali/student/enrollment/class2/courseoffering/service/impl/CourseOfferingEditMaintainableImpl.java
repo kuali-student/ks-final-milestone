@@ -39,6 +39,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
@@ -55,7 +56,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -197,8 +197,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             CourseOfferingManagementUtil.getCourseOfferingService().updateCourseOffering(coInfo.getId(), coInfo, contextInfo);
 
             // generate exam offerings if exam period exists
+            ExamOfferingResult examOfferingResult;
             if (!StringUtils.isEmpty(coEditWrapper.getExamPeriodId())) {
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo,
+                examOfferingResult = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(coInfo,
                         coInfo.getTermId(), coEditWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
             }
 
@@ -294,8 +295,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
 
             this.updateFormatOfferings(coCreateWrapper);
             // generate exam offerings if exam period exists
+            ExamOfferingResult examOfferingResult;
             if (!StringUtils.isEmpty(coCreateWrapper.getExamPeriodId())) {
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, info.getTermId(), coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
+                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info,info.getTermId(), coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
             }
 
             return info;
