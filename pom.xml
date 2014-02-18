@@ -45,6 +45,16 @@
             </modules>
         </profile>
         <profile>
+            <id>test-only</id>
+            <modules>
+                <module>ks-lum-impl</module>
+                <module>ks-lum-rice</module>
+                <module>ks-lum-ui</module>
+                <module>ks-lum-program</module>
+                <module>ks-lum-ui-common</module>
+            </modules>
+        </profile>
+        <profile>
             <id>skip-ui</id>
             <modules>
                 <module>ks-lum-sql</module>
