@@ -62,7 +62,7 @@ public class CourseWithGradeTermResolver implements TermResolver<Boolean> {
     @Override
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(3);
-        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
         temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
         temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY);
         return Collections.unmodifiableSet(temp);

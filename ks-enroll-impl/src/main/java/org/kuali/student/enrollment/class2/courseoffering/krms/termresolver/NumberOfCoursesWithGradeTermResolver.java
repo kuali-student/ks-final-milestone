@@ -54,7 +54,7 @@ public class NumberOfCoursesWithGradeTermResolver implements TermResolver<Intege
     @Override
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(3);
-        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
         temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_KEY);
         temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_GRADE_TYPE_KEY);
         return Collections.unmodifiableSet(temp);
@@ -72,7 +72,7 @@ public class NumberOfCoursesWithGradeTermResolver implements TermResolver<Intege
             ////Retrieve the list of cluIds from the cluset.
             List<String> versionIndIds = this.getCluIdsInCluSetTermResolver().resolve(resolvedPrereqs, parameters);
             for(String versionIndId : versionIndIds){
-                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
+                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY, versionIndId);
                 if(this.getCourseWithGradeTermResolver().resolve(resolvedPrereqs, parameters)){
                     result++;
                 }

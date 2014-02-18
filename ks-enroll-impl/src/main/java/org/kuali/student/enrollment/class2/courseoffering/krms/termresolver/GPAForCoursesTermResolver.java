@@ -58,7 +58,7 @@ public class GPAForCoursesTermResolver implements TermResolver<Float> {
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
     }
 
     @Override

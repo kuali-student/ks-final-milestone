@@ -43,7 +43,7 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
     @Override
     public Set<String> getParameterNames() {
         Set<String> parameters = new HashSet<String>(2);
-        parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
         parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY);
         return Collections.unmodifiableSet(parameters);
     }
@@ -60,7 +60,7 @@ public class CompletedCoursePriorToTermTermResolver implements TermResolver<Bool
 
         try {
             //Retrieve the version independent clu id.
-            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
             String startTermId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY);
             AtpInfo term = this.getAtpService().getAtp(startTermId, context);
 

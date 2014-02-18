@@ -55,7 +55,7 @@ public class MatchingCourseSetTermResolver implements TermResolver<Boolean> {
     @Override
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(3);
-        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
         return Collections.unmodifiableSet(temp);
     }
 

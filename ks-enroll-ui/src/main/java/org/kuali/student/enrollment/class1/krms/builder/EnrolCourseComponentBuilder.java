@@ -52,7 +52,7 @@ public class EnrolCourseComponentBuilder extends CourseComponentBuilder {
     public Map<String, String> buildTermParameters(LUPropositionEditor propositionEditor) {
         Map<String, String> termParameters = new HashMap<String, String>();
         if (propositionEditor.getCourseInfo() != null) {
-            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, propositionEditor.getCourseInfo().getVersion().getVersionIndId());
+            termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY, propositionEditor.getCourseInfo().getVersion().getVersionIndId());
         }
 
         if (propositionEditor.getTermInfo() != null) {

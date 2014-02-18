@@ -57,7 +57,7 @@ public class CluIdsInCluSetTermResolver implements TermResolver<List<String>> {
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class CluIdsInCluSetTermResolver implements TermResolver<List<String>> {
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO);
         try {
             //Retrieve the list of cluIds from the cluset.
-            String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+            String cluSetId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
             return this.getCluService().getAllCluIdsInCluSet(cluSetId, context);
         } catch (Exception e) {
             KSKRMSExecutionUtil.convertExceptionsToTermResolutionException(parameters, e, this);

@@ -54,7 +54,7 @@ public class CluIdsFromVersionIndIdTermResolver implements TermResolver<List<Str
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CluIdsFromVersionIndIdTermResolver implements TermResolver<List<Str
 
         try {
             //Retrieve the version independent clu id.
-            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
             List<VersionDisplayInfo> versions = this.getCluVersionService().getVersions(CluServiceConstants.CLU_NAMESPACE_URI, cluId, context);
             for(VersionDisplayInfo version : versions){
                 courseIds.add(version.getVersionedFromId());

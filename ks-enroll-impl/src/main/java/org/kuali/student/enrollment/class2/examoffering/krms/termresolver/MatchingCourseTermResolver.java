@@ -61,7 +61,7 @@ public class MatchingCourseTermResolver implements TermResolver<Boolean> {
     @Override
     public Set<String> getParameterNames() {
         Set<String> temp = new HashSet<String>(3);
-        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        temp.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
         return Collections.unmodifiableSet(temp);
     }
 
@@ -72,7 +72,7 @@ public class MatchingCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Boolean resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        String courseId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        String courseId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
 
         try {
             String versionIndId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_COURSE_VERSIONINDID);

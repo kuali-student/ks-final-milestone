@@ -58,7 +58,7 @@ public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
     }
 
     @Override
@@ -73,7 +73,7 @@ public class CourseRecordsForCourseSetTermResolver implements TermResolver<List<
             //Retrieve the list of cluIds from the cluset.
             List<String> versionIndIds = this.getCluIdsInCluSetTermResolver().resolve(resolvedPrereqs, parameters);
             for(String versionIndId : versionIndIds){
-                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
+                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY, versionIndId);
                 studentRecords.addAll(this.getCourseRecordsForCourseIdTermResolver().resolve(resolvedPrereqs, parameters));
             }
         } catch (Exception e) {

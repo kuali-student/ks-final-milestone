@@ -46,7 +46,7 @@ public class AdmittedProgramTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
     }
 
     @Override
@@ -60,7 +60,7 @@ public class AdmittedProgramTermResolver implements TermResolver<Boolean> {
         String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
 
         try {
-            String programId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+            String programId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
 
             //Retrieve the students academic record.
             List<StudentProgramRecordInfo> programRecords = this.getAcademicRecordService().getProgramRecords(personId, context);

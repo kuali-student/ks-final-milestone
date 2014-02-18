@@ -61,7 +61,7 @@ public class CourseRecordsForCourseIdTermResolver implements TermResolver<List<S
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
     }
 
     @Override
@@ -76,7 +76,7 @@ public class CourseRecordsForCourseIdTermResolver implements TermResolver<List<S
         String personId = (String) resolvedPrereqs.get(KSKRMSServiceConstants.TERM_PREREQUISITE_PERSON_ID);
         try {
             //Retrieve the version independent clu id.
-            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+            String cluId = parameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
 
             List<String> courseIds = this.getCluIdsTermResolver().resolve(resolvedPrereqs, parameters);
             for(String courseId : courseIds){

@@ -67,7 +67,7 @@ public class EnrolledCourseTermResolver implements TermResolver<Boolean> {
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
     }
 
     @Override

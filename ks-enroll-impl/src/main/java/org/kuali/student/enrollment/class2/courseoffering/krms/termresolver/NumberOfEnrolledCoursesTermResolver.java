@@ -56,7 +56,7 @@ public class NumberOfEnrolledCoursesTermResolver implements TermResolver<Integer
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLUSET_KEY);
+        return Collections.singleton(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLUSET_KEY);
     }
 
     @Override
@@ -71,7 +71,7 @@ public class NumberOfEnrolledCoursesTermResolver implements TermResolver<Integer
             ////Retrieve the list of cluIds from the cluset.
             List<String> versionIndIds = this.getCluIdsInCluSetTermResolver().resolve(resolvedPrereqs, parameters);
             for(String versionIndId : versionIndIds){
-                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY, versionIndId);
+                parameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY, versionIndId);
                 if(this.getEnrolledCourseTermResolver().resolve(resolvedPrereqs, parameters)){
                     counter++;
                 }

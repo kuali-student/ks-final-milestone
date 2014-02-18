@@ -43,7 +43,7 @@ public class CompletedCourseAsOfTermTermResolver implements TermResolver<Boolean
     @Override
     public Set<String> getParameterNames() {
         Set<String> parameters = new HashSet<String>(2);
-        parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_CLU_KEY);
+        parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_COURSE_CLU_KEY);
         parameters.add(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TERM_KEY);
         return Collections.unmodifiableSet(parameters);
     }
