@@ -269,16 +269,11 @@
                       p:actionLabel="Submit" 
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #form.pageId eq 'KS-CourseView-ReviewProposalPage'}"/>
-                <bean parent="Uif-SaveAction" 
+                <bean parent="Uif-SecondaryActionButton"
                       p:ajaxSubmit="false" 
                       p:methodToCall="saveProposal"
-                      p:actionLabel="Save and Continue"
+                      p:actionLabel="Save Progress"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
-                      <property name="actionParameters">
-                          <map>
-                            <entry key="displayPage" value="NEXT"/>
-                          </map>
-                      </property>
                 </bean>
                 <!--<bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false" 
