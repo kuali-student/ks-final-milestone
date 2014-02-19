@@ -1,7 +1,19 @@
 @import "variables";
 @import "mixins";
 
-@import url(http://fonts.googleapis.com/css?family=Raleway:300,600);
+//@import url(http://fonts.googleapis.com/css?family=Raleway:300,600);
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Raleway Light'), local('Raleway-Light'), url(../fonts/raleway/Raleway-Light-webfont.woff) format('woff');
+}
+@font-face {
+  font-family: 'Raleway';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Raleway SemiBold'), local('Raleway-SemiBold'), url(../fonts/raleway/raleway-semibold-webfont.woff) format('woff');
+}
 
 /*-- Custom pagination concept for kitchen sink demo --*/
 .dataTables_paginate {
