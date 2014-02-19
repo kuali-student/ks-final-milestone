@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 
 /**
  * MyPlan Lookupable Impl extends the default LookupableImpl and overrides the

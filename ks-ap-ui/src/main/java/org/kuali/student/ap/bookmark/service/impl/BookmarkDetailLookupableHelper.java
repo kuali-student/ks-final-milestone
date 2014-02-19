@@ -1,7 +1,7 @@
 package org.kuali.student.ap.bookmark.service.impl;
 
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
@@ -32,9 +32,9 @@ public class BookmarkDetailLookupableHelper extends
     CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;
 
     @Override
-    protected List<BookmarkDetailWrapper> getSearchResults(
-            LookupForm lookupForm, Map<String, String> fieldValues,
-            boolean unbounded) {
+    public List<BookmarkDetailWrapper> performSearch(
+            LookupForm lookupForm, Map<String, String> searchCriteria,
+            boolean bounded) {
         String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()
                 .getStudentId();
         try {

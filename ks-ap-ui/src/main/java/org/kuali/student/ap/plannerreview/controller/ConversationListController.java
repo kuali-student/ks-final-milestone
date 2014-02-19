@@ -9,7 +9,6 @@ import org.kuali.student.ap.plannerreview.dto.ConversationYearInfo;
 import org.kuali.student.ap.plannerreview.form.ConversationListForm;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,9 +44,9 @@ public class ConversationListController  extends ConversationControllerBase {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView get(@ModelAttribute("KualiForm") ConversationListForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		super.start(form, result, request, response);
+		super.start(form, request, response);
 		
 		try {
 			initialize(form);
@@ -69,7 +68,7 @@ public class ConversationListController  extends ConversationControllerBase {
 	
     @RequestMapping(params = "methodToCall=ajaxRefresh")
     public ModelAndView ajaxRefresh(@ModelAttribute("KualiForm") ConversationListForm form,
-    		BindingResult result, HttpServletRequest request,
+    		HttpServletRequest request,
     		HttpServletResponse response)
             throws Exception {
     	try {

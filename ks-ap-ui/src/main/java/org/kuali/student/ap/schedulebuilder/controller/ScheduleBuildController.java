@@ -21,7 +21,6 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -62,9 +61,9 @@ public class ScheduleBuildController extends UifControllerBase {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView get(@ModelAttribute("KualiForm") UifFormBase form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		super.start((UifFormBase) form, result, request, response);
+		super.start(form, request, response);
 
 		ScheduleBuildForm sbform = (ScheduleBuildForm) form;
 		try {
@@ -365,7 +364,7 @@ public class ScheduleBuildController extends UifControllerBase {
 	@RequestMapping(params = "methodToCall=build")
 	public ModelAndView build(
 			@ModelAttribute("KualiForm") ScheduleBuildForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 
 		form.buildSchedules();
@@ -528,7 +527,7 @@ public class ScheduleBuildController extends UifControllerBase {
 	@RequestMapping(params = "methodToCall=save")
 	public ModelAndView saveSchedule(
 			@ModelAttribute("KualiForm") ScheduleBuildForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 
 		JsonObjectBuilder json = Json.createObjectBuilder();
@@ -591,7 +590,7 @@ public class ScheduleBuildController extends UifControllerBase {
 	@RequestMapping(params = "methodToCall=remove")
 	public ModelAndView removeSchedule(
 			@ModelAttribute("KualiForm") ScheduleBuildForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 
 		form.removeSchedule();

@@ -11,7 +11,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.audit.dataobject.DegreeAuditItem;
 import org.kuali.student.ap.audit.dto.AuditReportInfo;
@@ -29,7 +29,7 @@ public class DegreeAuditsLookupableHelperImpl extends MyPlanLookupableImpl {
     private transient DegreeAuditService degreeAuditService;
 
     @Override
-    protected List<DegreeAuditItem> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    public List<DegreeAuditItem> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         String studentId = null;
         try {
             studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getAuditSystemKey();

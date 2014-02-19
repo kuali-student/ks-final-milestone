@@ -49,7 +49,6 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -76,9 +75,9 @@ public class CommentController extends UifControllerBase {
 
 	@RequestMapping(params = "methodToCall=startCommentForm")
 	public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) {
-		super.start(form, result, request, response);
+		super.start(form, request, response);
 		Person user = GlobalVariables.getUserSession().getPerson();
 		String principleId = user.getPrincipalId();
 		CommentForm commentForm = (CommentForm) form;
@@ -101,7 +100,7 @@ public class CommentController extends UifControllerBase {
 	@RequestMapping(params = "methodToCall=addComment")
 	public ModelAndView addComment(
 			@ModelAttribute("KualiForm") CommentForm form,
-			BindingResult result, HttpServletRequest httprequest,
+			HttpServletRequest httprequest,
 			HttpServletResponse httpresponse) {
 
 		//
@@ -255,13 +254,13 @@ public class CommentController extends UifControllerBase {
 		GlobalVariables.getMessageMap().clearErrorMessages();
 		form.setPageId(CommentConstants.COMMENT_RESPONSE_PAGE);
 
-		return start(form, result, httprequest, httpresponse);
+		return start(form, httprequest, httpresponse);
 	}
 
 	@RequestMapping(params = "methodToCall=addMessage")
 	public ModelAndView addMessage(
 			@ModelAttribute("KualiForm") CommentForm form,
-			BindingResult result, HttpServletRequest httprequest,
+			HttpServletRequest httprequest,
 			HttpServletResponse httpresponse) {
 
 		//
@@ -390,7 +389,7 @@ public class CommentController extends UifControllerBase {
 					CommentConstants.ERROR_KEY_NOTIFICATION_FAILED);
 		}
 		GlobalVariables.getMessageMap().clearErrorMessages();
-		return start(form, result, httprequest, httpresponse);
+		return start(form, httprequest, httpresponse);
 	}
 
 	/**

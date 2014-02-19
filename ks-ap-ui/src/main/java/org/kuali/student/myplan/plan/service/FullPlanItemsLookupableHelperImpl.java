@@ -6,7 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
@@ -35,7 +35,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 
 
 	@Override
-	protected List<FullPlanItemsDataObject> getSearchResults(
+	public List<FullPlanItemsDataObject> performSearch(
 			LookupForm lookupForm, Map<String, String> fieldValues,
 			boolean unbounded) {
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper()

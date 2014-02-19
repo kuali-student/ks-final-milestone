@@ -30,7 +30,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -59,9 +58,9 @@ public class ShoppingCartController extends UifControllerBase {
 
 	private ModelAndView startPlannerDialog(
 			@ModelAttribute("KualiForm") ShoppingCartForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
-		super.start((UifFormBase) form, result, request, response);
+		super.start((UifFormBase) form, request, response);
 
 		PlanItem planItem = PlanItemControllerHelper.getValidatedPlanItem(form,
 				request, response);
@@ -100,7 +99,7 @@ public class ShoppingCartController extends UifControllerBase {
 			+ SB_ADD_FROM_SB)
 	public ModelAndView startAddFromScheduleBuild(
 			@ModelAttribute("KualiForm") ShoppingCartForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
 		LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(form, request,
@@ -154,32 +153,32 @@ public class ShoppingCartController extends UifControllerBase {
 			+ SB_ADD_FROM_PLAN_PAGE)
 	public ModelAndView startAddFromPlan(
 			@ModelAttribute("KualiForm") ShoppingCartForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		// Add to the cart, we expect that item type is PLANNED
 		// This will set courseOption.selected, and subsequently
 		// shoppingCartRequest.addToCart, to true.
 		form.setExpectedPlanItemCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-		return startPlannerDialog(form, result, request, response);
+		return startPlannerDialog(form, request, response);
 	}
 
 	@RequestMapping(params = "pageId="
 			+ SB_REMOVE_PAGE)
 	public ModelAndView startRemove(
 			@ModelAttribute("KualiForm") ShoppingCartForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		// Remove from the cart, we expect that item type is CART
 		// This will set courseOption.selected, and subsequently
 		// shoppingCartRequest.addToCart, to false.
 		form.setExpectedPlanItemCategory(AcademicPlanServiceConstants.ItemCategory.CART);
-		return startPlannerDialog(form, result, request, response);
+		return startPlannerDialog(form, request, response);
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
 	public ModelAndView processRequests(
 			@ModelAttribute("KualiForm") ShoppingCartForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 
 		LearningPlan plan = PlanItemControllerHelper.getAuthorizedLearningPlan(

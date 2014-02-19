@@ -45,9 +45,9 @@ public class ConversationViewController  extends ConversationControllerBase {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView get(@ModelAttribute("KualiForm") ConversationViewForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		super.start(form, result, request, response);
+		super.start(form, request, response);
 		try {
 			initialize(form);
 		} catch (PermissionDeniedException e) {

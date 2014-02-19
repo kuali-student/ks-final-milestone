@@ -63,7 +63,6 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -989,7 +988,7 @@ public class CourseSearchController extends UifControllerBase {
 	@RequestMapping(value = "/course/{courseCd}", method = RequestMethod.GET)
 	public String get(@PathVariable("courseCd") String courseCd,
 			@ModelAttribute("KualiForm") CourseSearchForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 
 		String number = "";
@@ -1064,9 +1063,9 @@ public class CourseSearchController extends UifControllerBase {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView get(@ModelAttribute("KualiForm") UifFormBase form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) {
-		super.start(form, result, request, response);
+		super.start(form, request, response);
 		form.setViewId("CourseSearch-FormView");
 		form.setView(super.getViewService()
 				.getViewById("CourseSearch-FormView"));
@@ -1075,16 +1074,16 @@ public class CourseSearchController extends UifControllerBase {
 
 	@RequestMapping(value = "/course/", method = RequestMethod.GET)
 	public String doGet(@ModelAttribute("KualiForm") UifFormBase form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) {
 		return "redirect:/kr-krad/course";
 	}
 
 	@RequestMapping(params = "methodToCall=start")
 	public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) {
-		super.start(form, result, request, response);
+		super.start(form, request, response);
 		return getUIFModelAndView(form);
 	}
 
@@ -1271,7 +1270,6 @@ public class CourseSearchController extends UifControllerBase {
     /**
      * Redirects to the course search results page.
      * @param form
-     * @param result
      * @param httprequest
      * @param httpresponse
      * @return
@@ -1279,7 +1277,7 @@ public class CourseSearchController extends UifControllerBase {
 	@RequestMapping(params = "methodToCall=searchForCourses")
 	public ModelAndView searchForCourses(
 			@ModelAttribute("KualiForm") CourseSearchFormImpl form,
-			BindingResult result, HttpServletRequest httprequest,
+			HttpServletRequest httprequest,
 			HttpServletResponse httpresponse) {
 		return getUIFModelAndView(form,
 				CourseSearchConstants.COURSE_SEARCH_RESULT_PAGE);

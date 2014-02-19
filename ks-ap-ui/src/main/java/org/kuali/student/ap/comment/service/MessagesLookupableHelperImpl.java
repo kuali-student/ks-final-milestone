@@ -9,7 +9,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.comment.dataobject.MessageDataObject;
 import org.kuali.student.myplan.main.service.MyPlanLookupableImpl;
@@ -25,8 +25,8 @@ public class MessagesLookupableHelperImpl extends MyPlanLookupableImpl {
 	private transient CommentQueryHelper commentQueryHelper;
 
 	@Override
-	protected List<MessageDataObject> getSearchResults(LookupForm lookupForm,
-			Map<String, String> fieldValues, boolean unbounded) {
+	public List<MessageDataObject> performSearch(LookupForm lookupForm,
+			Map<String, String> searchCriteria, boolean bounded) {
 		String studentId = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentId();
 		List<MessageDataObject> messages = CommentQueryHelper.getMessages(studentId);
 

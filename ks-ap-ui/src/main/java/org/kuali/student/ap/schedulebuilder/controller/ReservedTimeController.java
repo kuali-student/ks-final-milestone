@@ -69,11 +69,11 @@ public class ReservedTimeController extends UifControllerBase {
 	@RequestMapping(params = "methodToCall=startDialog")
 	public ModelAndView startDialog(
 			@ModelAttribute("KualiForm") ReservedTimeForm form,
-			BindingResult result, HttpServletRequest request,
+			HttpServletRequest request,
 			HttpServletResponse response) throws IOException, ServletException {
 		if (!authorize(form, request, response))
 			return null;
-		super.start((UifFormBase) form, result, request, response);
+		super.start(form, request, response);
 		form.setViewId(FORM);
 		form.setView(super.getViewService().getViewById(FORM));
 		return getUIFModelAndView(form);
