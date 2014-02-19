@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AcademicRecordServiceConstants;
 
 import javax.jws.WebParam;
@@ -947,7 +948,8 @@ public interface AcademicRecordService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException,
-            ReadOnlyException;
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Deletes an existing StudentProgramRecord
@@ -1142,7 +1144,8 @@ public interface AcademicRecordService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException,
-            ReadOnlyException;
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Deletes an existing StudentCourseRecord
@@ -1339,7 +1342,8 @@ public interface AcademicRecordService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException,
-            ReadOnlyException;
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Deletes an existing StudentCredentialRecord
@@ -1537,7 +1541,8 @@ public interface AcademicRecordService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException,
-            ReadOnlyException;
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Deletes an existing StudentTestScoreRecord
@@ -1729,7 +1734,8 @@ public interface AcademicRecordService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException,
-            ReadOnlyException;
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Deletes an existing GPA
@@ -1906,7 +1912,8 @@ public interface AcademicRecordService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException,
-            ReadOnlyException;
+            ReadOnlyException,
+            VersionMismatchException;
 
     /**
      * Deletes an existing Load
