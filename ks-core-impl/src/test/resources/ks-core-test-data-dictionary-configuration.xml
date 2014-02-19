@@ -7,6 +7,25 @@
     <import resource="classpath:ks-core-api-data-dictionary-services-configuration.xml"/>
     <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml"/>
 
+    <bean id="riceDataDictionaryService" class="org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl">
+        <constructor-arg>
+            <bean class="org.kuali.student.r2.common.datadictionary.SpringConfigurableDataDictionaryWithFakeEnvironment" init-method="init">
+                <property name="dataDictionaryMapper">
+                    <bean class="org.kuali.rice.krad.datadictionary.DataDictionaryIndexMapper"/>
+                </property>
+            </bean>
+        </constructor-arg>
+        <property name="kualiModuleService" ref="kualiModuleService" />
+        <property name="additionalDictionaryFiles">
+            <map>
+                <entry key="http://student.kuali.org/wsdl/datadictionary">
+                    <ref bean="allDictionaryFileLocations"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+
     <bean id="allDictionaryFileLocations" class="org.kuali.student.common.spring.CollectionAggregatingFactoryBean">
         <property name="collectionBeanReferences" >
             <list>
