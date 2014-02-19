@@ -46,6 +46,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,6 @@ public class AcademicRecordServiceMapImpl implements
     private static final Logger log = LoggerFactory
             .getLogger(AcademicRecordServiceMapImpl.class);
 
-    //Mock datastructures
     private Map<String, GPAInfo> gpasMap = new LinkedHashMap<String, GPAInfo>();
     private List<StudentCourseRecordInfo> courseRecordInfoList = new ArrayList<StudentCourseRecordInfo>();        //to be replaced with studentToCourseRecordsMap
     private Map<String, LoadInfo> loadsMap = new LinkedHashMap<String, LoadInfo>();
@@ -440,7 +440,7 @@ public class AcademicRecordServiceMapImpl implements
                                                                StudentProgramRecordInfo studentProgramRecord,
                                                                ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         String personId = studentProgramRecord.getPersonId();
 
         // link to student
@@ -510,7 +510,7 @@ public class AcademicRecordServiceMapImpl implements
                                                              StudentCourseRecordInfo studentCourseRecord,
                                                              ContextInfo contextInfo) throws
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
@@ -550,7 +550,7 @@ public class AcademicRecordServiceMapImpl implements
                                                                     StudentCredentialRecordInfo studentCredentialRecord,
                                                                     ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
@@ -582,7 +582,7 @@ public class AcademicRecordServiceMapImpl implements
                                                                    StudentTestScoreRecordInfo studentTestScoreRecord,
                                                                    ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
@@ -621,7 +621,7 @@ public class AcademicRecordServiceMapImpl implements
     @Override
     public GPAInfo updateGPA(String gpaId, GPAInfo gpa, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
@@ -659,7 +659,7 @@ public class AcademicRecordServiceMapImpl implements
     @Override
     public LoadInfo updateLoad(String loadId, LoadInfo load, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 

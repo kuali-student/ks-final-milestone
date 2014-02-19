@@ -28,6 +28,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -76,8 +77,15 @@ public class AcademicRecordClassStandingCalculationDecorator extends AcademicRec
     public StudentProgramRecordInfo updateStudentProgramRecord(String studentProgramRecordId,
                                                                StudentProgramRecordInfo studentProgramRecord,
                                                                ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            ReadOnlyException,
+            VersionMismatchException {
+
         ValueInfo classStanding = calculateClassStanding(studentProgramRecord, contextInfo);
         studentProgramRecord.setClassStanding(classStanding.getParameterKey());
         return getNextDecorator().updateStudentProgramRecord(studentProgramRecordId, studentProgramRecord, contextInfo);
