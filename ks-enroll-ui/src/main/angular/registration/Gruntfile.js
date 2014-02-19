@@ -372,7 +372,7 @@ module.exports = function (grunt) {
             }
         },
 
-        domMunger: {
+        dom_munger: {
             createJsp: {
                 options: {
                     append: {selector:'body',html:
@@ -437,7 +437,7 @@ module.exports = function (grunt) {
         'rev',
         'usemin',
         'htmlmin',
-        'domMunger',
+        'dom_munger',
         'clean:deploy',
         'copy:deploy'
     ]);

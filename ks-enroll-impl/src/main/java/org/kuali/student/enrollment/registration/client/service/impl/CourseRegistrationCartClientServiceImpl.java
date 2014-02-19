@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -32,7 +31,6 @@ import org.kuali.student.enrollment.registration.client.service.impl.util.Search
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -44,17 +42,12 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
-import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -121,26 +114,25 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
         } catch (MissingOptionException e) {
-            //The request needs additional options (HTTP status 400 Bad Request)
-            response = Response.status(Response.Status.BAD_REQUEST).entity(e.getCartItemOptions());
-            response.header("Access-Control-Allow-Header", "Content-Type");
-            response.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-            response.header("Access-Control-Allow-Origin", "*");
+            response = getResponse(Response.Status.BAD_REQUEST, e.getCartItemOptions());
         } catch (DoesNotExistException e) {
             //The reg request does not exist (HTTP status 404 Not Found)
-            response = Response.status(Response.Status.NOT_FOUND).entity(e.getMessage());
-            response.header("Access-Control-Allow-Header", "Content-Type");
-            response.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-            response.header("Access-Control-Allow-Origin", "*");
+            response = getResponse(Response.Status.NOT_FOUND, e.getMessage());
         } catch (Exception e) {
             LOGGER.warn("Error adding to cart", e);
-            response = Response.serverError().entity(e.getMessage());
-            response.header("Access-Control-Allow-Header", "Content-Type");
-            response.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
-            response.header("Access-Control-Allow-Origin", "*");
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
         }
 
         return response.build();
+    }
+
+    private Response.ResponseBuilder getResponse(Response.Status status, Object entity) {
+        //The request needs additional options (HTTP status 400 Bad Request)
+        Response.ResponseBuilder response = Response.status(status).entity(entity);
+        response.header("Access-Control-Allow-Header", "Content-Type");
+        response.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        response.header("Access-Control-Allow-Origin", "*");
+        return response;
     }
 
     protected Link buildDeleteLink(String cartId, String cartItemId, String gradingOptionId, String credits) {
@@ -178,6 +170,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return response.build();
     }
 
+    @Transactional
     public CartItemResult removeItemFromCart(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId, @QueryParam("gradingOptionId") String gradingOptionId, @QueryParam("credits") String credits) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -189,6 +182,10 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 removedItem = cart.getRegistrationRequestItems().remove(i);
                 break;
             }
+        }
+
+        if (removedItem == null) {
+            throw new DoesNotExistException("Item can not be removed as it does not exist.");
         }
 
         getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
@@ -232,21 +229,69 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, regGroupId, contextInfo);
         }
 
-        if (rg == null) {
-            throw new DoesNotExistException("Cannot find the course \"" + courseCode + "\" in the selected term");
+        //Look up the student grading/credit options
+        CartItemResult optionsCartItem = getOptionsCartItem(rg, courseCode, credits, gradingOptionId, contextInfo);
+
+        // Create new reg request item and add it to the cart
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), credits, gradingOptionId);
+        registrationRequestItem.setMeta(new MetaInfo());
+        registrationRequestItem.getMeta().setCreateId(cart.getMeta().getCreateId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
+        cart.getRegistrationRequestItems().add(registrationRequestItem);
+
+        //Persist the new cart with the newly added item
+        RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
+
+        // looking for new item from the results
+        String newCartItemId = null;
+        for (RegistrationRequestItemInfo cartItem : cartRegistrationRequest.getRegistrationRequestItems()) {
+            if (!registrationRequestIds.contains(cartItem.getId())) {
+                newCartItemId = cartItem.getId();
+            }
         }
 
+        //Check that the item was created
+        if (StringUtils.isEmpty(newCartItemId)) {
+            throw new OperationFailedException("Can't find the newly added cart item.");
+        }
+
+        //Get the cart result with the item id to trim it down and no reg options since we know these already
+        CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), newCartItemId, false, contextInfo);
+        CartItemResult cartItemResult = KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
+
+        //populate the options we have already calculated
+        cartItemResult.setGradingOptions(optionsCartItem.getGradingOptions());
+        cartItemResult.setCreditOptions(optionsCartItem.getCreditOptions());
+        cartItemResult.setCredits(optionsCartItem.getCredits());
+        cartItemResult.setGrading(optionsCartItem.getGrading());
+
+        //Return just the item
+        return cartItemResult;
+    }
+
+    /**
+     * Gets student registration options (grading/credits) of a given registration group
+     * This performs validation against the set credit and grading options, and defaults values if there is only one option.
+     * @param regGroup Registration group
+     * @param courseCode Code of the Course being searched for
+     * @param credits credits that the student has selected (or none)
+     * @param gradingOptionId grading option that the student has selected (or none)
+     * @param contextInfo context of the call
+     * @return a cart item that has the student options for the given registration group
+     * @throws OperationFailedException
+     * @throws MissingOptionException
+     * @throws InvalidParameterException
+     */
+    private CartItemResult getOptionsCartItem(RegGroupSearchResult regGroup, String courseCode, String credits, String gradingOptionId, ContextInfo contextInfo) throws OperationFailedException, MissingOptionException, InvalidParameterException {
         CartItemResult optionsCartItem = new CartItemResult();
         Map<String, List<CartItemResult>> optionsMap = new HashMap<String, List<CartItemResult>>();
-        optionsMap.put(rg.getCourseOfferingId(), Arrays.asList(optionsCartItem));
+        optionsMap.put(regGroup.getCourseOfferingId(), Arrays.asList(optionsCartItem));
         populateOptions(optionsMap, contextInfo);
         optionsCartItem.setCourseCode(courseCode);
-        optionsCartItem.setRegGroupCode(rg.getRegGroupName());
-        optionsCartItem.setRegGroupId(rg.getRegGroupId());
+        optionsCartItem.setRegGroupCode(regGroup.getRegGroupName());
+        optionsCartItem.setRegGroupId(regGroup.getRegGroupId());
         optionsCartItem.setCredits(KSCollectionUtils.getRequiredZeroElement(optionsCartItem.getCreditOptions()));
         optionsCartItem.setGrading(optionsCartItem.getGradingOptions().keySet().iterator().next());
         optionsCartItem.setGradingOptionCount(optionsCartItem.getGradingOptions().size());
-
 
         //Do Checks for credit/grading options. If there is more than one option available on the course and no
         //option set in the input, then throw a missing option exception
@@ -256,53 +301,25 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
         if (StringUtils.isEmpty(credits)) {
             if (optionsCartItem.getCreditOptions().size() == 1) {
-                credits = KSCollectionUtils.getRequiredZeroElement(optionsCartItem.getCreditOptions());
+                optionsCartItem.setCredits(KSCollectionUtils.getRequiredZeroElement(optionsCartItem.getCreditOptions()));
             } else {
                 throw new MissingOptionException(optionsCartItem);
             }
         } else if (!optionsCartItem.getCreditOptions().contains(credits)) {
-            throw new InvalidParameterException("Credit option " + credits + " is not valid for this course: " + courseCode + "(" + regGroupCode + ")");
+            throw new InvalidParameterException("Credit option " + credits + " is not valid for this course: " + courseCode + "(" + regGroup.getRegGroupName() + ")");
         }
 
         if (StringUtils.isEmpty(gradingOptionId)) {
             if (optionsCartItem.getGradingOptions().size() == 1) {
-                gradingOptionId = optionsCartItem.getGradingOptions().keySet().iterator().next();
+                optionsCartItem.setGrading(optionsCartItem.getGradingOptions().keySet().iterator().next());
             } else {
                 throw new MissingOptionException(optionsCartItem);
             }
         } else if (!optionsCartItem.getGradingOptions().containsKey(gradingOptionId)) {
-            throw new InvalidParameterException("Grading option " + gradingOptionId + " is not valid for this course: " + courseCode + "(" + regGroupCode + ")");
+            throw new InvalidParameterException("Grading option " + gradingOptionId + " is not valid for this course: " + courseCode + "(" + regGroup.getRegGroupName() + ")");
         }
 
-        // Create new reg request item and add it to the cart
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), credits, gradingOptionId);
-        registrationRequestItem.setMeta(new MetaInfo());
-        registrationRequestItem.getMeta().setCreateId(cart.getMeta().getCreateId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
-        cart.getRegistrationRequestItems().add(registrationRequestItem);
-        //Persist the new cart with the newly added item
-        RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
-
-        // looking for new item
-        String newCartItemId = null;
-        for (RegistrationRequestItemInfo cartItem : cartRegistrationRequest.getRegistrationRequestItems()) {
-            if (!registrationRequestIds.contains(cartItem.getId())) {
-                newCartItemId = cartItem.getId();
-            }
-        }
-        if (StringUtils.isEmpty(newCartItemId)) {
-            throw new OperationFailedException("Can't find the newly added cart item.");
-        }
-        //Get the cart result with the item id to trim it down
-        CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), newCartItemId, false, contextInfo);
-        CartItemResult cartItemResult = KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
-
-        //populate the options we have already calculated
-        cartItemResult.setGradingOptions(optionsCartItem.getGradingOptions());
-        cartItemResult.setCreditOptions(optionsCartItem.getCreditOptions());
-        cartItemResult.setCredits(credits);
-
-        //Return just the item
-        return cartItemResult;
+        return optionsCartItem;
     }
 
     @Override
@@ -349,149 +366,6 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             }
         }
         throw new DoesNotExistException("No matching cart item was found.");
-    }
-
-    private CartItemResult getCartItemInfoResult(String coId, List<String> aoIds, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        CartItemResult cartItemInfo = new CartItemResult();
-        cartItemInfo.setSchedule(new ArrayList<ActivityOfferingScheduleResult>());
-        Map<String, ActivityOfferingScheduleResult> hmSchedules = new HashMap<String, ActivityOfferingScheduleResult>();
-
-        CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
-        courseOfferingInfo.setId(coId);
-        courseOfferingInfo.setStudentRegistrationGradingOptions(new ArrayList<String>());
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE.getKey());
-        List<String> luiIDs = new ArrayList<String>(aoIds);
-        luiIDs.add(coId);
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LUI_IDS, luiIDs);
-
-        SearchResultInfo searchResult;
-        try {
-            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, contextInfo);
-        } catch (Exception e) {
-            throw new OperationFailedException("Search of activity offering schedules failed: ", e);
-        }
-
-        for (SearchResultRowInfo row : searchResult.getRows()) {
-            String luiId = "", luiName = "", luiLongName = "", resultValuesGroupKey = "",
-                    roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
-            for (SearchResultCellInfo cellInfo : row.getCells()) {
-                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID.equals(cellInfo.getKey())) {
-                    luiId = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_NAME.equals(cellInfo.getKey())) {
-                    luiName = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME.equals(cellInfo.getKey())) {
-                    luiLongName = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY.equals(cellInfo.getKey())) {
-                    resultValuesGroupKey = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cellInfo.getKey())) {
-                    roomCode = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE.equals(cellInfo.getKey())) {
-                    buildingCode = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cellInfo.getKey())) {
-                    weekdays = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS.equals(cellInfo.getKey())) {
-                    startTimeMs = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS.equals(cellInfo.getKey())) {
-                    endTimeMs = cellInfo.getValue();
-                }
-            }
-
-            // Creating CO if it's the one
-            if (StringUtils.equals(luiId, coId)) {
-                cartItemInfo.setCourseTitle(luiLongName);
-                if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
-                    courseOfferingInfo.setCreditOptionId(resultValuesGroupKey);
-                } else if (resultValuesGroupKey != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValuesGroupKey)) {
-                    courseOfferingInfo.getStudentRegistrationGradingOptions().add(resultValuesGroupKey);
-                }
-            }
-
-            // setting location and time
-            // AO location
-            ScheduleLocationResult location = new ScheduleLocationResult();
-            location.setBuilding(buildingCode);
-            location.setRoom(roomCode);
-            // AO times
-            ScheduleTimeResult time = new ScheduleTimeResult();
-            TimeOfDayInfo startTime = TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs));
-            time.setStartTime(TimeOfDayHelper.formatTimeOfDay(startTime));
-            TimeOfDayInfo endTime = TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs));
-            time.setEndTime(TimeOfDayHelper.formatTimeOfDay(endTime));
-            time.setDays(weekdays);
-            // Combining location + time for AO
-            ActivityOfferingLocationTimeResult aoLocationTime = new ActivityOfferingLocationTimeResult();
-            aoLocationTime.setLocation(location);
-            aoLocationTime.setTime(time);
-            // now add location + time to the final result
-            if (!hmSchedules.containsKey(luiId)) {
-                ActivityOfferingScheduleResult aoSchedule = new ActivityOfferingScheduleResult();
-                aoSchedule.setActivityOfferingType(luiName);
-                List<ActivityOfferingLocationTimeResult> aoLocationTimes = new ArrayList<ActivityOfferingLocationTimeResult>();
-                aoLocationTimes.add(aoLocationTime);
-                aoSchedule.setActivityOfferingLocationTime(aoLocationTimes);
-            } else {
-                hmSchedules.get(luiId).getActivityOfferingLocationTime().add(aoLocationTime);
-            }
-        }
-
-        // setting AO schedules
-        for (Map.Entry<String, ActivityOfferingScheduleResult> pair : hmSchedules.entrySet()) {
-            cartItemInfo.getSchedule().add(pair.getValue());
-        }
-
-        // Setting Grading Options and Credits (from CO)
-        cartItemInfo = setRegistrationRequestCreditsGradingOptions(cartItemInfo, courseOfferingInfo, contextInfo);
-
-        return cartItemInfo;
-    }
-
-    private CartItemResult setRegistrationRequestCreditsGradingOptions(CartItemResult cartItemInfo, CourseOfferingInfo courseOfferingInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-        int firstValue = 0;
-
-        // checking grading option. If null - just keep it that way
-        if (!courseOfferingInfo.getStudentRegistrationGradingOptions().isEmpty()) {
-            HashMap<String, String> hmGradingOptions = new HashMap<String, String>();
-            for (String gradingOptionKey : courseOfferingInfo.getStudentRegistrationGradingOptions()) {
-                String gradingOptionName = translateGradingOptionKeyToName(gradingOptionKey);
-                if (!StringUtils.isEmpty(gradingOptionName)) {
-                    hmGradingOptions.put(gradingOptionKey, gradingOptionName);
-                }
-            }
-            cartItemInfo.setGradingOptions(hmGradingOptions);
-        }
-
-        //Lookup the selected credit option and set from persisted values
-        if (!courseOfferingInfo.getCreditOptionId().isEmpty()) {
-            //Lookup the resultValueGroup Information
-            ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(courseOfferingInfo.getCreditOptionId(), contextInfo);
-            String typeKey = resultValuesGroupInfo.getTypeKey();
-
-            //Get the actual values
-            List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
-
-            if (!resultValueInfos.isEmpty()) {
-                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
-                    cartItemInfo.getCreditOptions().add(resultValueInfos.get(firstValue).getValue()); // fixed credits
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // range
-                    int minValue = Integer.parseInt(resultValuesGroupInfo.getResultValueRange().getMinValue());
-                    int maxValue = Integer.parseInt(resultValuesGroupInfo.getResultValueRange().getMaxValue());
-                    List<String> creditOptions = new ArrayList<String>();
-                    for (int i = minValue; i <= maxValue; i++) {
-                        creditOptions.add(Integer.toString(i));
-                    }
-                    cartItemInfo.setCreditOptions(creditOptions);
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {  // multiple
-                    List<String> creditOptions = new ArrayList<String>();
-                    for (ResultValueInfo resultValueInfo : resultValueInfos) {
-                        creditOptions.add(resultValueInfo.getValue());
-                    }
-                    cartItemInfo.setCreditOptions(creditOptions);
-                }
-            }
-        }
-
-        return cartItemInfo;
     }
 
     @Override
@@ -712,7 +586,6 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
             String coId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID);
             String rvgId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_ID);
-            String rvgName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_NAME);
             String rvgValue = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RVG_VALUE);
 
             if (rvgId.startsWith("kuali.creditType.credit.degree.")) {

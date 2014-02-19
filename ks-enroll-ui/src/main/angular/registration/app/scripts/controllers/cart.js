@@ -37,14 +37,14 @@ angular.module('regCartApp')
                 console.log('response: ' + JSON.stringify(response));
                 console.log('Searched for course: ' + $scope.courseCode + ' Term: ' + $scope.termId);
                 console.log('Added item:');
-
+                $scope.userMessage = {txt:'Course Added Successfully', type:'success'};
                 $scope.cart.items.unshift(response);
 
             }, function (error) {
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
                     //Reg group was not found
-                    $scope.error = error.data;
+                    $scope.userMessage = {txt:error.data, type:'error'};
                 } else if (error.status === 400) {
                     console.log('CartId:', cartId);
                     //Additional options are required
@@ -80,6 +80,7 @@ angular.module('regCartApp')
                     });
                 } else {
                     console.log('Error with adding course', error);
+                    $scope.userMessage = {txt:'There was an error processing your request', type:'error'};
                 }
 
             });
@@ -114,7 +115,8 @@ angular.module('regCartApp')
 
                     $scope.userMessage = {'txt':item.courseCode + '(' + item.regGroupCode + ') ' + 'has been successfully removed from your cart.   ',
                         'actionLink':actionUri,
-                        'linkText':'Undo'};
+                        'linkText':'Undo',
+                        'type':'success'};
                     $scope.userActionSuccessful = true;
                 });
         };
@@ -152,6 +154,7 @@ angular.module('regCartApp')
                 cartItem.credits = newCartItem.credits;
                 cartItem.grading = newCartItem.grading;
                 cartItem.editing = false;
+                $scope.userMessage = {txt:'Updated Successfully', type:'success'};
             });
 
         };
@@ -164,6 +167,7 @@ angular.module('regCartApp')
                 console.log('Submiting cart.');
                 CartService.getCart().query({termId:$scope.termId, userId:'admin'}, function (theCart) {
                     $scope.cart = theCart;
+                    $scope.userMessage = {txt:'Cart was submitted.', type:'success'};
                 });
             });
         };

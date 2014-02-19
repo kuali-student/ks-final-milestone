@@ -338,9 +338,9 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     public static RegGroupSearchResult getRegGroup(String termId, String termCode, String courseCode, String regGroupCode, String regGroupId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
         RegGroupSearchResult rg = null;
 
-        if(!StringUtils.isEmpty(regGroupId)){
+        if (!StringUtils.isEmpty(regGroupId)) {
             RegistrationGroupInfo rgInfo = getCourseOfferingService().getRegistrationGroup(regGroupId, contextInfo);
-            if(rgInfo != null){
+            if (rgInfo != null) {
                 rg = new RegGroupSearchResult();
                 rg.setCourseOfferingId(rgInfo.getCourseOfferingId());
                 rg.setTermId(rgInfo.getTermId());
@@ -353,11 +353,16 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
             // get the registration group
             rg = getScheduleOfClassesService().searchForRegistrationGroupByTermAndCourseAndRegGroup(termId, termCode, courseCode, regGroupCode);
         }
+
+        if (rg == null) {
+            throw new DoesNotExistException("Cannot find the course \"" + courseCode + "\" in the selected term");
+        }
+
         return rg;
     }
 
     private synchronized static void initActivityPriorityMap(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        if(activityPriorityMap == null){    // this may seem silly, but this prevents a race condition on threads calling this method.
+        if (activityPriorityMap == null) {    // this may seem silly, but this prevents a race condition on threads calling this method.
             activityPriorityMap = new HashMap<String, Integer>();
             List<TypeInfo> activityTypes = getTypeService().getTypesForGroupType("kuali.lu.type.grouping.activity", contextInfo);
 
@@ -376,7 +381,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     public static CourseOfferingInfo getCourseOfferingIdCreditGrading(String courseOfferingId, String courseCode, String termId, String termCode) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
-        if( !StringUtils.isEmpty(courseOfferingId) ) {
+        if (!StringUtils.isEmpty(courseOfferingId)) {
             return searchForCreditsGradingByCourseOfferingId(courseOfferingId);
         }
 
@@ -389,10 +394,10 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     /**
      * This method creates a registration request for the add operation of a single registration group.
      *
-     * @param principalId principal id
-     * @param regGroupid  Registration Group id
-     * @param credits     credits
-     * @param gradingOptionId    gradingOptionId
+     * @param principalId     principal id
+     * @param regGroupid      Registration Group id
+     * @param credits         credits
+     * @param gradingOptionId gradingOptionId
      * @return registration request
      */
     public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupid, String credits, String gradingOptionId) {
@@ -582,8 +587,8 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     public static TypeService getTypeService() {
-        if(typeService == null) {
-            typeService =  GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if (typeService == null) {
+            typeService = GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return typeService;
     }
@@ -601,14 +606,14 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     public static LRCService getLrcService() {
-        if (lrcService == null){
+        if (lrcService == null) {
             lrcService = (LRCService) GlobalResourceLoader.getService(new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return lrcService;
     }
 
     public void setLrcService(LRCService lrcService) {
-        this.lrcService = lrcService;
+        CourseRegistrationAndScheduleOfClassesUtil.lrcService = lrcService;
     }
 
     public static ScheduleOfClassesService getScheduleOfClassesService() {
@@ -619,7 +624,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     public void setScheduleOfClassesService(ScheduleOfClassesService scheduleOfClassesService) {
-        this.scheduleOfClassesService = scheduleOfClassesService;
+        CourseRegistrationAndScheduleOfClassesUtil.scheduleOfClassesService = scheduleOfClassesService;
     }
 
     public static CourseRegistrationService getCourseRegistrationService() {
@@ -630,6 +635,6 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     }
 
     public void setCourseRegistrationService(CourseRegistrationService courseRegistrationService) {
-        this.courseRegistrationService = courseRegistrationService;
+        CourseRegistrationAndScheduleOfClassesUtil.courseRegistrationService = courseRegistrationService;
     }
 }

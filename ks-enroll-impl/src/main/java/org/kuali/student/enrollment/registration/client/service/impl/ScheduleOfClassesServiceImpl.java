@@ -357,6 +357,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
                     return result;
                 }
             }
+            return new ArrayList<RegGroupSearchResult>();
         }
 
         return new ArrayList<RegGroupSearchResult>(regGroupSearchResults);
