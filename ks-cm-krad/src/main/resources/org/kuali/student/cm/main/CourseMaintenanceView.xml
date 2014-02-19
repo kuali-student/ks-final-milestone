@@ -394,7 +394,6 @@
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('financialsSection');" p:actionLabel="Financials" />
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('authorsAndCollaboratorsSection');" p:actionLabel="Authors &amp; Collaborators" />
                     <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('supportingDocumentsSection');" p:actionLabel="Supporting Documents" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('reviewProposalSection');" p:actionLabel="Review Proposal" />
                 </list>
             </property>
     </bean>
