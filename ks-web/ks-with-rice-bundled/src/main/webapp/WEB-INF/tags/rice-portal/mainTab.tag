@@ -19,9 +19,9 @@
     <mainChannel:ksApplications/>
     <mainChannel:ksCmKRADApplications/>
     <mainChannel:KSAP/>
-    <mainChannel:coApplications/>
 </td>
 <td class="content" valign="top">
+    <mainChannel:coApplications/>
     <mainChannel:ksMaintenance />
     <mainChannel:aftApplications />
 </td>
