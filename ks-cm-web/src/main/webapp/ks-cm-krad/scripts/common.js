@@ -181,3 +181,22 @@ function getIndentationClass(indentLevel) {
 	}
 	return indentationClass;
 }
+
+function showHideCreateCourseOptionalElements () {
+    var showingAll = "Showing required and optional fields";
+    var showAll = "Show all fields."
+    var showingRequired = "Showing only required fields.";
+    var showRequired = "Show only required fields.";
+
+    var actualShowMsg = jQuery("#Create-CourseView-Admin-Message_span").text();
+
+    if(actualShowMsg != null && actualShowMsg == showingRequired) {    // display all
+        jQuery("#Create-CourseView-Admin-Message_span").text(showingAll);
+        jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showRequired);
+    }  else  {
+        jQuery("#Create-CourseView-Admin-Message_span").text(showingRequired);
+        jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showAll);
+    }
+    jQuery("#CreateCourseProposalTitleInputField_control").focus();
+
+}

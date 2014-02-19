@@ -227,20 +227,25 @@
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="Uif-VerticalBoxGroup" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}">
+                        <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                              p:showLabel="false" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>uif-validationMessages</value>
+                                    <value>uif-groupValidationMessages</value>
+                                    <value>uif-pageValidationMessages</value>
+                                    <value>uif-pageValidationMessages-warning</value>
+                                </list>
+                            </property>
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-Message">
-                                        <property name="cssClasses">
-                                            <list merge="true">
-                                                <value>uif-validationMessages</value>
-                                                <value>uif-groupValidationMessages</value> 
-                                                <value>uif-pageValidationMessages</value>
-                                                <value>uif-pageValidationMessages-warning</value>
-                                            </list>
+                                    <bean parent="Uif-Message" p:id="Create-CourseView-Admin-Message" p:messageText="Showing required and optional fields." p:style="margin-left: 2em; margin-top: 5px;">
+                                    </bean>
+                                    <bean parent="KS-Uif-ActionLink" p:id="Create-CourseView-Admin-Message-expand-optional-link" p:actionScript="showHideCreateCourseOptionalElements();"
+                                          p:actionLabel="Show only required fields" p:style="margin-right: 15pt;margin-left:1em; margin-top: 0px;">
+                                        <property name="actionImage">
+                                            <null/>
                                         </property>
-                                        <property name="messageText"
-                                                  value="Showing required and optional fields. Show only required fields" />
                                     </bean>
                                 </list>
                             </property>
@@ -250,7 +255,7 @@
             </bean>
         </property>
     </bean>
-    
+
     <bean id="KS-CourseView-Footer-Admin" parent="Uif-FooterBase">
         <property name="items">
             <list>
