@@ -3,7 +3,7 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
@@ -82,7 +82,7 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
     }
 
     @Override
-    protected List<?> getSearchResults(LookupForm form, Map<String, String> searchCriteria, boolean unbounded) {
+    public List<?> performSearch(LookupForm form, Map<String, String> searchCriteria, boolean bounded) {
         List<LoDisplayInfoWrapper> loCategories = new ArrayList<LoDisplayInfoWrapper>();
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey(CourseServiceConstants.LO_BY_CATEGORY_CLU_CROSS_SEARCH);

@@ -879,7 +879,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
     
     @Override
-    protected void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
+    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
             boolean isValidLine) {
         ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
     }

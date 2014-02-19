@@ -29,7 +29,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
 
 
     @Override
-    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
         LoCategoryInfo loCategory = (LoCategoryInfo) addLine;
         loCategory.setStateKey(ACTIVE);
         loCategory.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
@@ -46,7 +46,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
     }
 
     @Override
-    protected void processBeforeSaveLine(View view, CollectionGroup collectionGroup, Object model, Object updateLine) {
+    public void processBeforeSaveLine(View view, CollectionGroup collectionGroup, Object model, Object updateLine) {
         LoCategoryInfo loCategory = (LoCategoryInfo) updateLine;
         //The 'loRepositoryKey' is not retrieved on the initial load of the existing Categories, so we are setting it again.
         loCategory.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);

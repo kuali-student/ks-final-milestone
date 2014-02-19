@@ -20,6 +20,7 @@ import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
@@ -152,7 +153,8 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
 
             if (template != null && template.getComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getComponentId());
-                view.assignComponentIds(component);
+//                view.assignComponentIds(component);
+                ViewLifecycle.spawnSubLifecyle(model, component, container);
                 if(container.getId().equals(maintenanceDocumentForm.getUpdateComponentId())){
                     String nodePath = view.getDefaultBindingObjectPath() + "." + propEditor.getBindingPath();
                     ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
@@ -165,7 +167,8 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
 
             if (template != null && template.getConstantComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getConstantComponentId());
-                view.assignComponentIds(component);
+//                view.assignComponentIds(component);
+                ViewLifecycle.spawnSubLifecyle(model, component, container);
 
                 //Add Proposition Type FieldGroup to Tree Node
                 components.add(component);

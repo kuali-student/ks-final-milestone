@@ -18,7 +18,7 @@ package org.kuali.student.cm.course.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
-import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.rice.krad.lookup.LookupForm;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -59,9 +59,9 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
 
 
 	@Override
-	protected List<?> getSearchResults(final LookupForm form,
+	public List<?> performSearch(final LookupForm form,
                                        final Map<String, String> searchCriteria, 
-                                       final boolean unbounded) {
+                                       final boolean bounded) {
 		final List<OrganizationInfoWrapper> retval = new LinkedList<OrganizationInfoWrapper>();
 		
 		final List<SearchParamInfo> queryParamValueList = new LinkedList<SearchParamInfo>();
