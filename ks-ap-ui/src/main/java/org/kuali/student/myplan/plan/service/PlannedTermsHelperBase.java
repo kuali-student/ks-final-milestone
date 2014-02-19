@@ -191,9 +191,11 @@ public class PlannedTermsHelperBase {
 				pl.setOpenForPlanning(true);
 			if (th.isCompleted(pl.getAtpId()))
 				pl.setCompletedTerm(true);
-			for (Term t : th.getCurrentTerms())
-				if (t.getId().equals(pl.getAtpId()))
-					pl.setCurrentTermForView(true);
+			Term t = th.getCurrentTerm();
+            if(t!=null){
+                if (t.getId().equals(pl.getAtpId()))
+                    pl.setCurrentTermForView(true);
+            }
 		}
 
 		populateHelpIconFlags(perfectPlannedTerms);
