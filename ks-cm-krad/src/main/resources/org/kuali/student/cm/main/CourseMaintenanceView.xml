@@ -156,7 +156,6 @@
                 <bean id="financialsSection" parent="KS-CourseView-Financials" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <bean id="authorsAndCollaboratorsSection" parent="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <bean id="supportingDocumentsSection" parent="KS-CourseView-SupportingDocumentsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="reviewProposalSection" parent="KS-CourseView-ReviewProposalPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
                 <ref bean="KS-CourseView-UnSavedChangesConfirmation"/>
             </list>
         </property>
