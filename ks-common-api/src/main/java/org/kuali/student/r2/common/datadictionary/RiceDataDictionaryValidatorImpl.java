@@ -19,7 +19,6 @@ import java.util.List;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.datadictionary.validation.result.DictionaryValidationResult;
 import org.kuali.rice.krad.service.DictionaryValidationService;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -82,7 +81,7 @@ public class RiceDataDictionaryValidatorImpl implements DataDictionaryValidator 
         if (dictEntry == null) {
             throw new OperationFailedException("Dictionary entry for " + entryName + " does not exist");
         }
-        DictionaryValidationResult dvr = this.getRiceDictionaryValidationService().validate(info,
+        DictionaryValidationResult dvr = this.riceDictionaryValidationService.validate(info,
           entryName,
           dictEntry,
           doOptionalProcessing);
