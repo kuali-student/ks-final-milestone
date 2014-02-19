@@ -378,12 +378,8 @@ module.exports = function (grunt) {
                     append: {selector:'body',html:
                         '\'<script>\'' +
                         '\'use strict\'; ' +
-                        'angular.module(\'regCartApp\')' +
-                        '.value(\'configServer\', {' +
-                        'apiBase: \'${ConfigProperties.application.url}/services/\'' +
-                        '});' +
                         'angular.module(\'configuration\', [])' +
-                        '.constant(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
+                        '.value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
                         '</script>\n'
                     }
                 },
