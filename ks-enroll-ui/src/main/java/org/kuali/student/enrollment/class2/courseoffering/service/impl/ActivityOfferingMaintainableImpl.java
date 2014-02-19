@@ -728,9 +728,20 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
         return result;
     }
 
-    @Override
-    public void applyDefaultValuesForCollectionLine(View view, Object model, CollectionGroup collectionGroup,
-                                                    Object line) {
+//    @Override
+//    public void applyDefaultValuesForCollectionLine(View view, Object model, CollectionGroup collectionGroup,
+//                                                    Object line) {
+//
+//        super.applyDefaultValuesForCollectionLine(view,model,collectionGroup,line);
+//
+//        if (line instanceof ColocatedActivity){
+//            MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
+//            ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
+//            ColocatedActivity colo = (ColocatedActivity)line;
+//            colo.getEditRenderHelper().setTermId(activityOfferingWrapper.getTerm().getId());
+//        }
+//
+//    }
 
     /**
      *
