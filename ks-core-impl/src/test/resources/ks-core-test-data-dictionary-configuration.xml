@@ -5,7 +5,6 @@
 
     <import resource="classpath:ks-core-api-dictionary-file-locations.xml" />
     <import resource="classpath:ks-core-api-data-dictionary-services-configuration.xml"/>
-    <import resource="classpath:ks-core-api-data-dictionary-validator-configuration.xml"/>
 
     <bean id="allDictionaryFileLocations" class="org.kuali.student.common.spring.CollectionAggregatingFactoryBean">
         <property name="collectionBeanReferences" >
