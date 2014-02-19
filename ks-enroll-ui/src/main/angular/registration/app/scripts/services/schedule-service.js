@@ -7,10 +7,10 @@ angular.module('regCartApp')
             query:{method:'GET', cache:false, isArray:true}
         });
     };
-    this.updateCartItem = function() {
+    this.updateCartItem = function () {
         return $resource(APP_URL + 'CourseRegistrationClientService/updateScheduleItem', {}, {
             query:{method:'GET', cache:false, isArray:true}
         });
     };
 
-    }]);
+}]);

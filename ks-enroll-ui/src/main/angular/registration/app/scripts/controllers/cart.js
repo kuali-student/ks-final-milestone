@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('CartCtrl',
-    function ($scope, CartService) {
+    function ($scope, $modal, CartService) {
         console.log('CartController!');
         console.log($scope.termId);
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
@@ -15,82 +15,75 @@ angular.module('regCartApp')
             }
         });
 
-        //$scope.add = function() {
-        //    $scope.cart.items.unshift($scope.newCartItem);
-        //
-        //    $scope.newCartItem = null;
-        //    $scope.showNew = false;
-        //
-        //};
-
         $scope.add = function () {
+            addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null, null);
+        };
+        $scope.$on('addCourseToCart', function (event, cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits, userId) {
+            console.log('receiveing event addCourseToCart', event);
+            addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits, userId);
+        });
 
-            CartService.addCourseToCart().query({cartId:$scope.cart.cartId,
-                courseCode:$scope.courseCode,
-                termId:$scope.termId,
-                regGroupCode:$scope.regCode,
-                gradingMethod:'',
-                credits:''
+        function addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits, userId) {
+            CartService.addCourseToCart().query({
+                cartId:cartId,
+                courseCode:courseCode,
+                termId:termId,
+                regGroupCode:regGroupCode,
+                regGroupId:regGroupId,
+                gradingOptionId:gradingOptionId,
+                credits:credits,
+                userId:(userId ? userId : 'admin')
             }, function (response) {
                 console.log('response: ' + JSON.stringify(response));
                 console.log('Searched for course: ' + $scope.courseCode + ' Term: ' + $scope.termId);
                 console.log('Added item:');
 
                 $scope.cart.items.unshift(response);
-//                if (!addedItem.cartItemId) {
-//
-////                    console.log('No itemId so finding options');
-////                    return $state.transitionTo('root.cart.options');
-//                    $modal.open({
-//                        backdrop:'static',
-//                        templateUrl:'partials/additionalOptions.html',
-//                        resolve:{item:function () {
-//                            return addedItem;
-//                        }},
-//                        controller:['$scope', 'item', function ($scope, item) {
-//                            console.log('in controller');
-//                            console.log($scope);
-//                            console.log(item);
-//                            $scope.addedItem = item;
-//                            $scope.dismiss = function () {
-//                                console.log('dismiss');
-//                                $scope.$close(true);
-//                            };
-//
-//                            $scope.save = function () {
-//                                console.log('save');
-//                                $scope.$close(true);
-//                            };
-//                        }]
-//                    }).result.then(function (result) {
-//                            console.log('before result transition');
-//                            if (result) {
-//                                console.log('transition');
-//                            }
-//                        });
-//                } else {
-//
-            })
-        };
 
+            }, function (error) {
+                console.log('CartId:', cartId);
+                if (error.status === 404) {
+                    //Reg group was not found
+                    $scope.error = error.data;
+                } else if (error.status === 400) {
+                    console.log('CartId:', cartId);
+                    //Additional options are required
+                    $modal.open({
+                        backdrop:'static',
+                        templateUrl:'partials/additionalOptions.html',
+                        resolve:{
+                            item:function () {
+                                return error.data;
+                            },
+                            cartId:function () {
+                                return cartId;
+                            }
+                        },
+                        controller:['$rootScope', '$scope', 'item', 'cartId', function ($rootScope, $scope, item, cartId) {
+                            console.log('in controller');
+                            console.log($scope);
+                            console.log(item);
+                            $scope.newCartItem = item;
 
-        /*
-         $scope.search = function() {
+                            $scope.dismiss = function () {
+                                console.log('dismiss');
+                                $scope.$close(true);
+                            };
 
-         var code = $scope.courseCode;
-         //var regGroup = $scope.regCode;
+                            $scope.save = function () {
+                                console.log('save', cartId);
+                                $rootScope.$broadcast('addCourseToCart', cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.grading, $scope.newCartItem.credits, null);
+                                $scope.$close(true);
 
-         $scope.newCartItem = CartService.getGradingOptions().query();
+                            };
+                        }]
+                    });
+                } else {
+                    console.log('Error with adding course', error);
+                }
 
-         if($scope.newCartItem === null) {
-         $scope.error = 'Cannot find the course "' + code + '" in term ' + $scope.termId;
-         $scope.courseCode.setValidity('coursecheck', false);
-         $scope.showNew = false;
-         } else {
-         $scope.showNew = true;
-         }
-         };
-         */
+            });
+        }
 
         $scope.cancelNew = function () {
             $scope.newCcartItem = null;
@@ -102,7 +95,7 @@ angular.module('regCartApp')
             var actionLinks = item.actionLinks;
             var deleteUri;
             angular.forEach(actionLinks, function (actionLink) {
-                if (actionLink.action == 'removeItemFromCart') {
+                if (actionLink.action === 'removeItemFromCart') {
                     deleteUri = actionLink.uri;
                 }
             });
@@ -113,20 +106,20 @@ angular.module('regCartApp')
                     $scope.cart.items.splice(index, 1);
 
                     var actionUri;
-                    angular.forEach(response.actionLinks, function(actionLink){
-                        if(actionLink.action == 'addCourseToCart'){
+                    angular.forEach(response.actionLinks, function (actionLink) {
+                        if (actionLink.action === 'addCourseToCart') {
                             actionUri = actionLink.uri;
                         }
                     });
 
-                    $scope.userMessage = {'txt' : item.courseCode + '(' + item.regGroupCode + ') ' + 'has been successfully removed from your cart.   ',
-                                            'actionLink' : actionUri,
-                                            'linkText' : 'Undo'};
+                    $scope.userMessage = {'txt':item.courseCode + '(' + item.regGroupCode + ') ' + 'has been successfully removed from your cart.   ',
+                        'actionLink':actionUri,
+                        'linkText':'Undo'};
                     $scope.userActionSuccessful = true;
-            });
+                });
         };
 
-        $scope.invokeActionLink = function(actionLink) {
+        $scope.invokeActionLink = function (actionLink) {
             $scope.userActionSuccessful = false;
             // call the backend service here to persist something
             CartService.invokeActionLink(actionLink).query({},

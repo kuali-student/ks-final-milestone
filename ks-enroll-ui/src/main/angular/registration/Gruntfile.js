@@ -372,11 +372,11 @@ module.exports = function (grunt) {
             }
         },
 
-        dom_munger: {
-            create_jsp: {
+        domMunger: {
+            createJsp: {
                 options: {
                     append: {selector:'body',html:
-                        '\'<script>\'' +
+                        '<script>' +
                         '\'use strict\'; ' +
                         'angular.module(\'configuration\', [])' +
                         '.value(\'APP_URL\',\'${ConfigProperties.application.url}/services/\');' +
@@ -437,7 +437,7 @@ module.exports = function (grunt) {
         'rev',
         'usemin',
         'htmlmin',
-        'dom_munger',
+        'domMunger',
         'clean:deploy',
         'copy:deploy'
     ]);

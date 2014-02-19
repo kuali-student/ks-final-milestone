@@ -1,5 +1,5 @@
 <div class="kscr-adding-header">
-    <h3>Adding {{newCartItem.courseCode}} ({{newCartItem.regCode}})to cart</h3>
+    <h3>Adding {{newCartItem.courseCode}} ({{newCartItem.regGroupCode}}) to cart</h3>
 
     <span>{{newCartItem.courseTitle}}</span>
 </div>
@@ -13,12 +13,12 @@
         <div>
             <label for="newItemCredits">Credits</label>
             <select id="newItemCredits" ng-model="newCartItem.credits"
-                    ng-options="creditOption for creditOption in newCartItem.creditOptions"/>
+                    ng-options="creditOption for creditOption in newCartItem.creditOptions"></select>
         </div>
         <div>
             <label for="newItemGrading">Grading</label>
             <select id="newItemGrading" ng-model="newCartItem.grading"
-                    ng-options="grading.key as grading.value for grading in newCartItem.gradingOptions"/>
+                    ng-options="key as value for (key, value) in newCartItem.gradingOptions"></select>
         </div>
 
         <div class="kscr-AdditionalOpions-buttons">

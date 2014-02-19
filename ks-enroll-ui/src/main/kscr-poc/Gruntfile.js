@@ -399,8 +399,8 @@ module.exports = function (grunt) {
         dest: '.tmp/scripts/templateCache.js'
       }
     },
-      dom_munger: {
-          create_jsp: {
+      domMunger: {
+          createJsp: {
               options: {
                   append: {selector:'body',html:
                       '<script>' +
@@ -462,7 +462,7 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'dom_munger',
+    'domMunger',
     'clean:deploy',
     'copy:deploy'
   ]);

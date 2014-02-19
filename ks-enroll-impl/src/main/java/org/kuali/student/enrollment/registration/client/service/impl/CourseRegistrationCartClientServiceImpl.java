@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSear
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleLocationResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleTimeResult;
+import org.kuali.student.enrollment.registration.client.service.exception.MissingOptionException;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
@@ -119,6 +120,18 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
+        } catch (MissingOptionException e) {
+            //The request needs additional options (HTTP status 400 Bad Request)
+            response = Response.status(Response.Status.BAD_REQUEST).entity(e.getCartItemOptions());
+            response.header("Access-Control-Allow-Header", "Content-Type");
+            response.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+            response.header("Access-Control-Allow-Origin", "*");
+        } catch (DoesNotExistException e) {
+            //The reg request does not exist (HTTP status 404 Not Found)
+            response = Response.status(Response.Status.NOT_FOUND).entity(e.getMessage());
+            response.header("Access-Control-Allow-Header", "Content-Type");
+            response.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+            response.header("Access-Control-Allow-Origin", "*");
         } catch (Exception e) {
             LOGGER.warn("Error adding to cart", e);
             response = Response.serverError().entity(e.getMessage());
@@ -190,18 +203,18 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Transactional
-    protected CartItemResult addCourseToCart(String userId, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException {
+    protected CartItemResult addCourseToCart(String userId, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException {
         ContextInfo contextInfo = getContextAndCheckLogin(userId);
 
         RegGroupSearchResult rg = null;
         //If only the user and regGroupId was passed in, we need to look up the RG and find the term to get the cart ID
-        if(StringUtils.isEmpty(cartId) && !StringUtils.isEmpty(regGroupId)){
-            rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null,null,null,null, regGroupId, contextInfo);
+        if (StringUtils.isEmpty(cartId) && !StringUtils.isEmpty(regGroupId)) {
+            rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, null, null, null, regGroupId, contextInfo);
             cartId = searchForCartId(contextInfo.getPrincipalId(), rg.getTermId(), contextInfo);
             if (cartId == null) {
                 //If the cart does not yet exist we need to create it.
-               RegistrationRequestInfo request = createCart(contextInfo.getPrincipalId(), rg.getTermId(), contextInfo);
-               cartId = request.getId();
+                RegistrationRequestInfo request = createCart(contextInfo.getPrincipalId(), rg.getTermId(), contextInfo);
+                cartId = request.getId();
             }
         }
 
@@ -215,29 +228,49 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         }
 
         // get the regGroup if it was not already found
-        if(rg == null){
+        if (rg == null) {
             rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, regGroupId, contextInfo);
         }
 
-        CartItemResult optionsCart = new CartItemResult();
-        Map<String, List<CartItemResult>> optionsMap = new HashMap<String, List<CartItemResult>>();
-        optionsMap.put(rg.getCourseOfferingId(), Arrays.asList(optionsCart));
-        populateOptions(optionsMap, contextInfo);
+        if (rg == null) {
+            throw new DoesNotExistException("Cannot find the course \"" + courseCode + "\" in the selected term");
+        }
 
-        //Default values and check if options are allowed for the course.
-        //Check with BAs about how to default.
+        CartItemResult optionsCartItem = new CartItemResult();
+        Map<String, List<CartItemResult>> optionsMap = new HashMap<String, List<CartItemResult>>();
+        optionsMap.put(rg.getCourseOfferingId(), Arrays.asList(optionsCartItem));
+        populateOptions(optionsMap, contextInfo);
+        optionsCartItem.setCourseCode(courseCode);
+        optionsCartItem.setRegGroupCode(rg.getRegGroupName());
+        optionsCartItem.setRegGroupId(rg.getRegGroupId());
+        optionsCartItem.setCredits(KSCollectionUtils.getRequiredZeroElement(optionsCartItem.getCreditOptions()));
+        optionsCartItem.setGrading(optionsCartItem.getGradingOptions().keySet().iterator().next());
+        optionsCartItem.setGradingOptionCount(optionsCartItem.getGradingOptions().size());
+
+
+        //Do Checks for credit/grading options. If there is more than one option available on the course and no
+        //option set in the input, then throw a missing option exception
+        //if no credits were set and there is only one option, use that option
+        //if no credits and multiple options then error since they must return an option
+        //credits and option is not valid, error with invalid option
+
         if (StringUtils.isEmpty(credits)) {
-            credits = KSCollectionUtils.getOptionalZeroElement(optionsCart.getCreditOptions());
-        } else if (!optionsCart.getCreditOptions().contains(credits)) {
+            if (optionsCartItem.getCreditOptions().size() == 1) {
+                credits = KSCollectionUtils.getRequiredZeroElement(optionsCartItem.getCreditOptions());
+            } else {
+                throw new MissingOptionException(optionsCartItem);
+            }
+        } else if (!optionsCartItem.getCreditOptions().contains(credits)) {
             throw new InvalidParameterException("Credit option " + credits + " is not valid for this course: " + courseCode + "(" + regGroupCode + ")");
         }
+
         if (StringUtils.isEmpty(gradingOptionId)) {
-            if (optionsCart.getGradingOptions().containsKey(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER)) {
-                gradingOptionId = LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER;
+            if (optionsCartItem.getGradingOptions().size() == 1) {
+                gradingOptionId = optionsCartItem.getGradingOptions().keySet().iterator().next();
             } else {
-                gradingOptionId = optionsCart.getGradingOptions().keySet().iterator().next();
+                throw new MissingOptionException(optionsCartItem);
             }
-        } else if (!optionsCart.getGradingOptions().containsKey(gradingOptionId)) {
+        } else if (!optionsCartItem.getGradingOptions().containsKey(gradingOptionId)) {
             throw new InvalidParameterException("Grading option " + gradingOptionId + " is not valid for this course: " + courseCode + "(" + regGroupCode + ")");
         }
 
@@ -264,8 +297,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         CartItemResult cartItemResult = KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
 
         //populate the options we have already calculated
-        cartItemResult.setGradingOptions(optionsCart.getGradingOptions());
-        cartItemResult.setCreditOptions(optionsCart.getCreditOptions());
+        cartItemResult.setGradingOptions(optionsCartItem.getGradingOptions());
+        cartItemResult.setCreditOptions(optionsCartItem.getCreditOptions());
         cartItemResult.setCredits(credits);
 
         //Return just the item
