@@ -50,7 +50,7 @@ public class FormatOfferingInfoLookupableImpl extends LookupableImpl {
         String courseOfferingId = searchCriteria.get(ActivityOfferingConstants.ACTIVITYOFFERING_COURSE_OFFERING_ID);
         try {
             if (StringUtils.isNotBlank(courseOfferingId)) {
-                formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(fieldValues.get(COURSE_OFFER_ID), ContextUtils.createDefaultContextInfo());
+                formatOfferingInfos = CourseOfferingManagementUtil.getCourseOfferingService().getFormatOfferingsByCourseOffering(searchCriteria.get(COURSE_OFFER_ID), ContextUtils.createDefaultContextInfo());
             }  else if (StringUtils.isNotBlank(typeKey)) {
                 formatOfferingInfos = getSearchResultsByType (typeKey);
             }

@@ -66,7 +66,7 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                     }
                     if (field.getId().contains("regGroupSeats")) {
                         field.setRowSpan(getSpanSize(rgWrapper, true));
-                        field.setCellStyle("text-align:center; vertical-align:bottom;");
+                        field.setWrapperStyle("text-align:center; vertical-align:bottom;");
                         if (rgWrapper.getRequisite() == null) {
                             RegistrationGroupWrapper partnerRGWrapper = getPartnerRGWrapper(rgWrapper, (ScheduleOfClassesSearchForm) model);
                             if (partnerRGWrapper != null) {
@@ -89,10 +89,10 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
                     }
                     if (field.getId().contains("regGroupSeats")) {
                         field.setWrapperStyle("border-top:none");
-                        field.setCellStyle("border-top:none;");
+                        field.setWrapperStyle("border-top:none;");
                         field.setRowSpan(getSpanSize(rgWrapper, true));
                         if (!requisite) {
-                            field.setCellStyle(field.getCellStyle() + " text-align:center; vertical-align:top;");
+                            field.setWrapperStyle(field.getWrapperStyle() + " text-align:center; vertical-align:top;");
                             requisite = true;
                         } else {
                             field.setHidden(true);

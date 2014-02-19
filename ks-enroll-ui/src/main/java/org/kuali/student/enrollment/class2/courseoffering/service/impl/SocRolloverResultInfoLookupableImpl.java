@@ -15,7 +15,8 @@ import java.util.Map;
 public class SocRolloverResultInfoLookupableImpl extends LookupableImpl {
     private static final long serialVersionUID = 1L;
 
-    protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
+    @Override
+    public List<?> performSearch(LookupForm lookupForm, Map<String, String> searchCriteria, boolean bounded) {
         List<SocRolloverResultInfo> socRolloverResultInfos ;
         String sourceTermId = searchCriteria.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_SOURCE_TERM_ID);
         String targetTermId = searchCriteria.get(CourseOfferingConstants.SOCROLLOVERRESULTINFO_TARGET_TERM_ID);
