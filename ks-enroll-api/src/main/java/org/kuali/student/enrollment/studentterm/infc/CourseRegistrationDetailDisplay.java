@@ -169,7 +169,7 @@ public interface CourseRegistrationDetailDisplay
      * @name Course Offering Code
      * @readonly
      */
-    public RichText getCourseOfferingCode();
+    public String getCourseOfferingCode();
 
     /**
      * Instructor Id
