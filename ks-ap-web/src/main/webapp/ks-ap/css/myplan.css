@@ -2827,3 +2827,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .ksap-view .uif-boxLayoutVerticalItem.bold {
     font-weight: bold;
 }
+.ksap-view .uif-boxLayoutVerticalItem.uif-link {
+    display: inline;
+}
