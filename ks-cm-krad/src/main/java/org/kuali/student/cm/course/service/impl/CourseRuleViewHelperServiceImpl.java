@@ -132,9 +132,9 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
     }
     
     @Override
-    public void addCustomContainerComponents(View view, Object model, Container container) {
+    public void addCustomContainerComponents(Object model, Container container) {
         if (KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID.equals(container.getId())) {
-            customizePropositionEditSection(view, model, container);
+            customizePropositionEditSection(((MaintenanceDocumentForm)model).getView(), model, container);
         }
     }
     
