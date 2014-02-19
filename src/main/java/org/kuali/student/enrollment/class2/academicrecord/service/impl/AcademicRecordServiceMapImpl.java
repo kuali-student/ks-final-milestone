@@ -681,7 +681,7 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public StudentCourseRecordInfo getStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StudentCredentialRecordInfo getStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
@@ -691,7 +691,7 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public GPAInfo getGpa(String gpaId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public GPAInfo getGPA(String gpaId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
@@ -746,12 +746,12 @@ public class AcademicRecordServiceMapImpl implements
     }
 
     @Override
-    public List<String> getStudentTestScoreIdsByType(String studentTestScoreTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getStudentTestScoreRecordIdsByType(String studentTestScoreTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 
     @Override
-    public List<String> getGpaIdsByType(String gpaTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getGPAIdsByType(String gpaTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("This method is not yet supported.");
     }
 

@@ -236,7 +236,7 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
-    public StudentCourseRecordInfo getStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StudentCredentialRecordInfo getStudentCredentialRecord(String studentCredentialRecordId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return nextDecorator.getStudentCredentialRecord(studentCredentialRecordId, contextInfo);
     }
 
@@ -246,8 +246,8 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
-    public GPAInfo getGpa(String gpaId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getGpa(gpaId, contextInfo);
+    public GPAInfo getGPA(String gpaId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getGPA(gpaId, contextInfo);
     }
 
     @Override
@@ -301,13 +301,13 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
-    public List<String> getStudentTestScoreIdsByType(String studentTestScoreTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getStudentTestScoreIdsByType(studentTestScoreTypeKey, contextInfo);
+    public List<String> getStudentTestScoreRecordIdsByType(String studentTestScoreTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getStudentTestScoreRecordIdsByType(studentTestScoreTypeKey, contextInfo);
     }
 
     @Override
-    public List<String> getGpaIdsByType(String gpaTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getGpaIdsByType(gpaTypeKey, contextInfo);
+    public List<String> getGPAIdsByType(String gpaTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getGPAIdsByType(gpaTypeKey, contextInfo);
     }
 
     @Override
