@@ -1181,7 +1181,7 @@ public interface AcademicRecordService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StudentCourseRecordInfo getStudentCredentialRecord(@WebParam(name = "studentCredentialRecordId") String studentCredentialRecordId,
+    public StudentCredentialRecordInfo getStudentCredentialRecord(@WebParam(name = "studentCredentialRecordId") String studentCredentialRecordId,
                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -1409,15 +1409,15 @@ public interface AcademicRecordService {
 
     /**
      * Retrieves a list of StudentTestScoreRecord Ids by StudentTestScoreRecord Type.
-     * @param studentTestScoreTypeKey
+     * @param studentTestScoreRecordTypeKey
      * @param contextInfo
-     * @return a list of Object identifiers matching objectTypeKey or an empty list if none found
+     * @return a list of StudentTestScoreRecord identifiers matching studentTestScoreRecordTypeKey or an empty list if none found
      * @throws InvalidParameterException studentTestScoreTypeKey or contextInfo is not valid
      * @throws MissingParameterException studentTestScoreTypeKey or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getStudentTestScoreIdsByType(@WebParam(name = "studentTestScoreTypeKey") String studentTestScoreTypeKey,
+    public List<String> getStudentTestScoreRecordIdsByType(@WebParam(name = "studentTestScoreRecordTypeKey") String studentTestScoreRecordTypeKey,
                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
@@ -1578,7 +1578,7 @@ public interface AcademicRecordService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public GPAInfo getGpa(@WebParam(name = "gpaId") String gpaId,
+    public GPAInfo getGPA(@WebParam(name = "gpaId") String gpaId,
                                            @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
@@ -1616,7 +1616,7 @@ public interface AcademicRecordService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getGpaIdsByType(@WebParam(name = "gpaTypeKey") String gpaTypeKey,
+    public List<String> getGPAIdsByType(@WebParam(name = "gpaTypeKey") String gpaTypeKey,
                                         @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException,
             MissingParameterException,
