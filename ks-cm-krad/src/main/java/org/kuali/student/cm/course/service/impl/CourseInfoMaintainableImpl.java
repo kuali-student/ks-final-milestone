@@ -886,7 +886,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     
     
     @Override
-    protected void addCustomContainerComponents(Object model, Container container) {
+    public void addCustomContainerComponents(Object model, Container container) {
         ((CourseRuleViewHelperServiceImpl) getRuleViewHelperService()).addCustomContainerComponents(model, container);
     }
 
