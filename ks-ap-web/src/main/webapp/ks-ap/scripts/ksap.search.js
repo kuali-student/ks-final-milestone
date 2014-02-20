@@ -173,8 +173,6 @@ function searchForCourses(id, parentId) {
                                 jQuery('<span/>', {text: ' for '}).appendTo('#course_search_results_info');
                                 jQuery('<span/>', {text: searchKeyword, class: 'search_keyword'}).appendTo('#course_search_results_info');
                                 jQuery("#course_search_results_facets").removeClass("invisible");
-                            }else{
-                                jQuery("#course_search_results_facets").addClass("invisible");
                             }
 
 							if (Math
@@ -259,6 +257,12 @@ function fnLoadFacets() {
 				url : 'course/facetValues' + ksapGetSearchParams(),
 				success : function(data, textStatus, jqXHR) {
 					oFacets = data;
+                    var facets = data.oFacetState;
+                    if(jQuery.isEmptyObject(facets)){
+                        jQuery("#course_search_results_facets").addClass("invisible");
+                    }else{
+                        jQuery("#course_search_results_facets").removeClass("invisible");
+                    }
 					jQuery(
 							".ksap-facets-group .uif-disclosureContent .uif-boxLayout")
 							.each(function() {
