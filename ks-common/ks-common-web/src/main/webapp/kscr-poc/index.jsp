@@ -28,7 +28,7 @@
 
   <script src="scripts/a3b2cd12.vendor.js"></script>
 
-  <script src="scripts/aa4e2929.modules.js"></script>
+  <script src="scripts/d101beaa.modules.js"></script>
 
 <script>'use strict';angular.module('kscrPocApp').value('configServer', {apiBase: '${ConfigProperties.application.url}/services/',appUrl: '${ConfigProperties.application.url}/'});</script></body>
 </html>
