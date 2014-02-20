@@ -58,11 +58,11 @@ public interface CourseWaitListEntry extends Relationship {
     String getStudentId();
 
     /**
-     * The Id of the registration group that this entry is associated with.
-     * @name Registration Group Id
+     * The Id of the RegistrationRequestItem that this entry is associated with.
+     * @name RegistrationRequestItem Id
      * @required
      */
-    String getRegistrationGroupId();
+    String getRegistrationRequestItemId();
 
     /**
      * This entry's position on the WaitList.
