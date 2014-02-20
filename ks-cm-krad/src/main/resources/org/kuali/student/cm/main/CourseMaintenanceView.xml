@@ -116,6 +116,18 @@
         </property>
     </bean>
 
+    <bean id="CourseInfoAdminMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
+        <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
+        <property name="documentTypeName" value="kuali.proposal.type.course.create.admin"/>
+        <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
+        <property name="lockingKeys">
+            <list>
+                <value>courseInfo.id</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
             <property name="header.render" value="false"/>
     </bean>
@@ -132,17 +144,17 @@
             <bean parent="KS-CourseView-Footer-Fred"/>
         </property>
         <property name="propertyReplacers">
-            <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="#hasPerm('KS-SYS', 'Create Course By Admin Proposal')">
-                    <property name="replacement">
-                        <bean parent="KS-CourseView-Footer-Admin"/>
-                    </property>
-                </bean>
-            </list>
+          <list>
+            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="#form.curriculumSpecialistUser">
+              <property name="replacement">
+                  <bean parent="KS-CourseView-Footer-Admin"/>
+              </property>
+            </bean>
+          </list>
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup" p:id="course_tabs" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal') eq false}">
+                <bean parent="Uif-TabGroup" p:id="course_tabs" p:render="@{#form.curriculumSpecialistUser eq false}">
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseView-CourseInfoPage-Widgets"/>
@@ -164,16 +176,16 @@
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>
                 </bean>
-                <bean id="courseInfoSection" parent="KS-CourseView-CourseInfoPage-Widgets"  p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="governanceSetion" parent="KS-CourseView-GovernancePage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="logisticsSection" parent="KS-CourseView-Logistics-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="learningObjectivesSection" parent="KS-CourseView-LearningObjectivesPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="requisitesSection" parent="KS-CourseView-CourseRequisites-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="activeDatesSection" parent="KS-CourseView-ActiveDatesPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="financialsSection" parent="KS-CourseView-Financials" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="authorsAndCollaboratorsSection" parent="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="supportingDocumentsSection" parent="KS-CourseView-SupportingDocumentsPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
-                <bean id="reviewProposalSection" parent="KS-CourseView-ReviewProposalPage-Widgets" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}"/>
+                <bean id="courseInfoSection" parent="KS-CourseView-CourseInfoPage-Widgets"  p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean id="governanceSetion" parent="KS-CourseView-GovernancePage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean id="logisticsSection" parent="KS-CourseView-Logistics-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean id="learningObjectivesSection" parent="KS-CourseView-LearningObjectivesPage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean id="requisitesSection" parent="KS-CourseView-CourseRequisites-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean id="activeDatesSection" parent="KS-CourseView-ActiveDatesPage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean id="financialsSection" parent="KS-CourseView-Financials" p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean id="authorsAndCollaboratorsSection" parent="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean id="supportingDocumentsSection" parent="KS-CourseView-SupportingDocumentsPage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
+                <ref bean="KS-CourseView-UnSavedChangesConfirmation"/>
             </list>
         </property>
     </bean>
@@ -244,7 +256,7 @@
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="Uif-VerticalBoxGroup" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}">
+                        <bean parent="Uif-VerticalBoxGroup" p:render="@{#form.curriculumSpecialistUser}">
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-Message">
@@ -267,7 +279,7 @@
             </bean>
         </property>
     </bean>
-
+    
     <bean id="KS-CourseView-Footer-Admin" parent="Uif-FooterBase">
         <property name="items">
             <list>
@@ -283,36 +295,32 @@
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>-->
                 <bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false"
+                      p:methodToCall="blanketApprove"
+                      p:actionLabel="Approve and Activate"
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false" 
                       p:methodToCall="route"
-                      p:actionLabel="Submit"
+                      p:actionLabel="Submit" 
                       p:performClientSideValidation="true"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE] and #form.pageId eq 'KS-CourseView-ReviewProposalPage'}"/>
-                <bean parent="Uif-SaveAction"
-                      p:ajaxSubmit="false"
+                <bean parent="Uif-SecondaryActionButton"
+                      p:ajaxSubmit="false" 
                       p:methodToCall="saveProposal"
-                      p:actionLabel="Save and Continue"
+                      p:actionLabel="Save Progress"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
-                    <property name="actionParameters">
-                        <map>
-                            <entry key="displayPage" value="NEXT"/>
-                        </map>
-                    </property>
                 </bean>
                 <!--<bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false" 
                       p:methodToCall="reload" 
                       p:actionLabel="Reload"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/> -->
-                <bean parent="Uif-PrimaryActionButton"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="blanketApprove"
-                      p:actionLabel="Approve and Activate"
-                      p:performClientSideValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
                 <bean parent="Uif-ActionLink"
                       p:ajaxSubmit="false"
                       p:methodToCall="back"
                       p:actionLabel="Cancel"
+                      p:preSubmitCall="return onCourseCancel();"
                       p:style="margin-top:5px;"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                 <!--<bean parent="Uif-PrimaryActionButton"
@@ -376,11 +384,11 @@
                                   p:actionLabel="Save and Continue"
                                   p:performClientSideValidation="true"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
-                                <property name="actionParameters">
-                                    <map>
+                                  <property name="actionParameters">
+                                      <map>
                                         <entry key="displayPage" value="NEXT"/>
-                                    </map>
-                                </property>
+                                      </map>
+                                  </property>
                             </bean>
                             <bean parent="Uif-SecondaryActionButton"
                                   p:ajaxSubmit="false"
@@ -393,6 +401,7 @@
                                   p:ajaxSubmit="false"
                                   p:methodToCall="back"
                                   p:actionLabel="Cancel"
+                                  p:preSubmitCall="return onCourseCancel();"
                                   p:style="margin-top:5px;"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                         </list>
@@ -402,22 +411,20 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup" p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal') and #form.renderNavigationPanel}">
-        <property name="items">
-            <list>
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('courseInfoSection');" p:actionLabel="Course" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('governanceSetion');" p:actionLabel="Governance" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('logisticsSection');" p:actionLabel="Logistics" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('learningObjectivesSection');" p:actionLabel="LearningObjective" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('requisitesSection');" p:actionLabel="Course Requisites" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('ruleSection');" p:actionLabel="Rule" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('activeDatesSection');" p:actionLabel="ActiveDates" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('financialsSection');" p:actionLabel="Financials" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('authorsAndCollaboratorsSection');" p:actionLabel="Authors &amp; Collaborators" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('supportingDocumentsSection');" p:actionLabel="Supporting Documents" />
-                <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('reviewProposalSection');" p:actionLabel="Review Proposal" />
-            </list>
-        </property>
+    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup" p:render="@{#form.curriculumSpecialistUser and #form.renderNavigationPanel}">
+            <property name="items">
+                <list>
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('courseInfoSection');" p:actionLabel="Course Information" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('governanceSetion');" p:actionLabel="Governance" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('logisticsSection');" p:actionLabel="Course Logistics" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('learningObjectivesSection');" p:actionLabel="LearningObjective" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('requisitesSection');" p:actionLabel="Course Requisites" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('activeDatesSection');" p:actionLabel="ActiveDates" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('financialsSection');" p:actionLabel="Financials" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('authorsAndCollaboratorsSection');" p:actionLabel="Authors &amp; Collaborators" />
+                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('supportingDocumentsSection');" p:actionLabel="Supporting Documents" />
+                </list>
+            </property>
     </bean>
 
     <!--<bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup"

@@ -76,6 +76,7 @@ import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -141,7 +142,8 @@ public class CourseController extends CourseRuleEditorController {
         FINANCIALS("KS-CourseView-FinancialsPage"),
         AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaboratorsPage"),
         SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocumentsPage"),
-        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
+        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage"),
+        COURSE_PAGE("KS-CourseView-CoursePage");
         
         private String pageId;
         
@@ -236,9 +238,30 @@ public class CourseController extends CourseRuleEditorController {
                                    HttpServletRequest request, HttpServletResponse response) throws Exception {
         final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
 
-        maintenanceDocForm.setDocTypeName(COURSE_CREATE_DOC_TYPE_NAME);
-        maintenanceDocForm.setDataObjectClassName(CourseInfo.class.getName());
-        maintenanceDocForm.setPageId(getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+
+        /**
+         * If the user is CS, then make sure the user checked the 'Curriculum Review process'.
+         * If checked, create an admin document. Otherwise, create a regular proposal create
+         * document.
+         */
+        if (maintenanceDocForm.isCurriculumSpecialistUser() && !maintenanceDocForm.isUseCMreviewProcess()){
+            maintenanceDocForm.setDocTypeName(CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
+            super.docHandler(maintenanceDocForm, result, request, response);
+            final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
+            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceDocForm.getDocument().getNewMaintainableObject().getDataObject();
+            // After creating the document, modify the state
+            courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+            courseInfoWrapper.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+            courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
+
+            courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
+
+            // Initialize Curriculum Oversight if it hasn't already been.
+            if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
+                courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
+            }
+        }
+
         try {
             redrawDecisionTable(maintenanceDocForm);
         }
@@ -247,8 +270,6 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         maintenanceDocForm.setRenderNavigationPanel(true);
-        // Create the document in the super method
-        super.docHandler(maintenanceDocForm, result, request, response);
 
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
 
@@ -268,32 +289,6 @@ public class CourseController extends CourseRuleEditorController {
         ruleWrapper.setRefObjectId(coInfo.getId());
 
         ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
-
-        if (KewApiConstants.INITIATE_COMMAND.equals(maintenanceDocForm.getCommand())) {
-
-            // After creating the document, modify the state
-            coInfo.setStateKey(DtoConstants.STATE_DRAFT);
-            courseInfoWrapper.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
-            coInfo.setEffectiveDate(new java.util.Date());
-
-            coInfo.setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
-
-            // Initialize Curriculum Oversight if it hasn't already been.
-            if (coInfo.getUnitsContentOwner() == null) {
-                coInfo.setUnitsContentOwner(new ArrayList<String>());
-            }
-
-        }
-        else if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, maintenanceDocForm.getCommand()) && maintenanceDocForm.getDocId() != null) {
-            ProposalInfo proposal = null;
-            try {
-                proposal = getProposalService().getProposalByWorkflowId(maintenanceDocForm.getDocument().getDocumentHeader().getDocumentNumber(), ContextUtils.getContextInfo());
-                courseInfoWrapper.setProposalInfo(proposal);
-            }
-            catch (Exception e) {
-                warn("Unable to retrieve the proposal: %s", e.getMessage());
-            }
-        }
 
         return getUIFModelAndView(form, "KS-CourseView-CoursePage");
     }
@@ -567,7 +562,7 @@ public class CourseController extends CourseRuleEditorController {
 
     /**
      *
-     * @param maintainable
+     * @param form
      */
     protected void updateReview(final DocumentFormBase form) {
 
@@ -607,7 +602,7 @@ public class CourseController extends CourseRuleEditorController {
         } else {
             courseInfoWrapper.setCourseInfo(getCourseService().updateCourse(course.getId(), course, ContextUtils.getContextInfo()));
         }
-        
+
         info("Saving Proposal for course %s", courseInfoWrapper.getCourseInfo().getId());
 
         ProposalInfo proposal = courseInfoWrapper.getProposalInfo();

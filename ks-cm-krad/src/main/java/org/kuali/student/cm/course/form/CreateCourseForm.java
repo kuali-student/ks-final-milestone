@@ -16,6 +16,8 @@
  */
 package org.kuali.student.cm.course.form;
 
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 
 /**
@@ -28,7 +30,13 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
     private String createCourseInitialAction;
     private boolean useCMreviewProcess = false;
 
+    private boolean isCurriculumSpecialistUser;
+
     private int selectedTabIndex = 0;
+
+    public CreateCourseForm(){
+        isCurriculumSpecialistUser = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(),"KS-SYS", "Create Course By Admin Proposal");
+    }
 
     public boolean isRenderNavigationPanel() {
         return renderNavigationPanel;
@@ -61,4 +69,9 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
     public void setSelectedTabIndex(int selectedTabIndex) {
         this.selectedTabIndex = selectedTabIndex;
     }
+
+    public boolean isCurriculumSpecialistUser() {
+        return isCurriculumSpecialistUser;
+    }
+
 }

@@ -30,7 +30,7 @@
     </bean>
 
     <bean id="KS-CourseView-Logistics-Widgets" parent="Uif-VerticalBoxSection">
-        <property name="headerText" value="Logistics"/>
+        <property name="headerText" value="Course Logistics"/>
         <property name="header.render" value="false"/>
         <property name="items">
             <list>
