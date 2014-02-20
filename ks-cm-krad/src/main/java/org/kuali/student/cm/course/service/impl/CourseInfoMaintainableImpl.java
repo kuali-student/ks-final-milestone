@@ -15,16 +15,8 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
-import static org.kuali.student.logging.FormattedLogger.error;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -49,34 +41,28 @@ import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
+import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
-import org.kuali.student.cm.course.form.ReviewInfo;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
-import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
-import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
-import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
-import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -90,7 +76,15 @@ import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.student.logging.FormattedLogger.error;
+
 /**
+ *
+ *
  * Base view helper service for both create and edit course info presentations.
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
@@ -101,57 +95,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private static final long serialVersionUID = 1338662637708570500L;
 
-    private ProposalInfo proposalInfo;
-
-    private boolean audit;
-
-    private boolean passFail;
-
-    private List<CluInstructorInfoWrapper> instructorWrappers;
-
-    private List<CourseJointInfoWrapper> courseJointWrappers;
-
-    private List<ResultValuesGroupInfoWrapper> creditOptionWrappers;
-
-    private String finalExamStatus;
-
-    private String finalExamRationale;
-
-    private List<CommentInfo> commentInfos;
-
-    private Boolean showAll;
-
-    private String userId;
-
-    private List<DecisionInfo> decisions;
-
-    private List<OrganizationInfoWrapper> administeringOrganizations;
-
-    private String lastUpdated;
-
-    private List<CollaboratorWrapper> collaboratorWrappers;
-
-    private String unitsContentOwnerToAdd;
-
-    private List<KeyValue> unitsContentOwner;
-
-    private List<SupportingDocumentInfoWrapper> documentsToAdd;
-
-    private List<DocumentInfo> supportingDocuments;
-
-    private String crossListingDisclosureSection;
-
-    private LoDisplayWrapperModel loDisplayWrapperModel;
-
-    private CourseRuleManagementWrapper courseRuleManagementWrapper;
-
     private RuleViewHelperService ruleViewHelperService = new CourseRuleViewHelperServiceImpl();
-    
+
     private transient OrganizationService organizationService;
 
     private transient SearchService searchService;
-
-    private ReviewInfo reviewInfo;
 
     private transient SubjectCodeService subjectCodeService;
 
@@ -163,28 +111,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private transient KSRuleViewTreeBuilder viewTreeBuilder;
 
+    private CourseRuleManagementWrapper courseRuleManagementWrapper;
+
     private transient NaturalLanguageHelper nlHelper;
-
-    private String requiredWorkflowMode; 
-
-    public void setUnitsContentOwnerToAdd(final String unitsContentOwnerToAdd) {
-        this.unitsContentOwnerToAdd = unitsContentOwnerToAdd;
-    }
-
-    public String getUnitsContentOwnerToAdd() {
-        return unitsContentOwnerToAdd;
-    }
-
-    public void setUnitsContentOwner(final List<KeyValue> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
-    }
-
-    public List<KeyValue> getUnitsContentOwner() {
-        if (unitsContentOwner == null) {
-            unitsContentOwner = new ArrayList<KeyValue>();
-        }
-        return unitsContentOwner;
-    }
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
@@ -245,6 +174,22 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         return cluInstructorInfoDisplays;
     }
+
+
+
+
+    public LoDisplayWrapperModel getLoDisplayWrapperModel() {
+        if (loDisplayWrapperModel == null) {
+            loDisplayWrapperModel = new LoDisplayWrapperModel();
+        }
+        return loDisplayWrapperModel;
+    }
+
+    public void setLoDisplayWrapperModel(LoDisplayWrapperModel loDisplayWrapperModel) {
+        this.loDisplayWrapperModel = loDisplayWrapperModel;
+    }
+
+    private LoDisplayWrapperModel loDisplayWrapperModel;
 
     /**
      * @see CourseInfoMaintainable#getInstructor(String)
@@ -350,331 +295,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return LoCategorySearchUtil.searchForLoCategories(categoryName, getLearningObjectiveService());
     }
 
-    public ProposalInfo getProposal() {
-        return proposalInfo;
-
-    }
-
-    public void setProposal(final ProposalInfo proposal) {
-        this.proposalInfo = proposal;
-    }
 
     public CourseInfo getCourse() {
-        return (CourseInfo) getDataObject();
+        return ((CourseInfoWrapper) getDataObject()).getCourseInfo();
     }
 
     public void setCourse(final CourseInfo course) {
         setDataObject(course);
     }
-
-    /**
-     * Gets the value of audit
-     *
-     * @return the value of audit
-     */
-    public boolean isAudit() {
-        return this.audit;
-    }
-
-    /**
-     * Sets the value of audit
-     *
-     * @param argAudit Value to assign to this.audit
-     */
-    public void setAudit(final boolean argAudit) {
-        this.audit = argAudit;
-    }
-
-    /**
-     * Gets the value of passFail
-     *
-     * @return the value of passFail
-     */
-    public boolean isPassFail() {
-        return this.passFail;
-    }
-
-    /**
-     * Sets the value of passFail
-     *
-     * @param argPassFail Value to assign to this.passFail
-     */
-    public void setPassFail(final boolean argPassFail) {
-        this.passFail = argPassFail;
-    }
-
-    /**
-     * Gets the value of finalExamStatus
-     *
-     * @return the value of finalExamStatus
-     */
-    public String getFinalExamStatus() {
-        return this.finalExamStatus;
-    }
-
-    /**
-     * Sets the value of finalExamStatus
-     *
-     * @param argFinalExamStatus Value to assign to this.finalExamStatus
-     */
-    public void setFinalExamStatus(final String argFinalExamStatus) {
-        this.finalExamStatus = argFinalExamStatus;
-    }
-
-    /**
-     * Gets the value of finalExamRationale
-     *
-     * @return the value of finalExamRationale
-     */
-    public String getFinalExamRationale() {
-        return this.finalExamRationale;
-    }
-
-    /**
-     * Sets the value of finalExamRationale
-     *
-     * @param argFinalExamRationale Value to assign to this.finalExamRationale
-     */
-    public void setFinalExamRationale(final String argFinalExamRationale) {
-        this.finalExamRationale = argFinalExamRationale;
-    }
-
-    /**
-     * Gets the value of showAll
-     *
-     * @return the value of showAll
-     */
-    public Boolean getShowAll() {
-        return this.showAll;
-    }
-
-    /**
-     * Sets the value of showAll
-     *
-     * @param argShowAll Value to assign to this.showAll
-     */
-    public void setShowAll(final Boolean argShowAll) {
-        this.showAll = argShowAll;
-    }
-
-    /**
-     * Gets the value of userId
-     *
-     * @return the value of userId
-     */
-    public String getUserId() {
-        return this.userId;
-    }
-
-    /**
-     * Sets the value of userId
-     *
-     * @param argUserId Value to assign to this.userId
-     */
-    public void setUserId(final String argUserId) {
-        this.userId = argUserId;
-    }
-
-    /**
-     * Gets the value of lastUpdated
-     *
-     * @return the value of lastUpdated
-     */
-    public String getLastUpdated() {
-        return this.lastUpdated;
-    }
-
-    /**
-     * Sets the value of lastUpdated
-     *
-     * @param argLastUpdated Value to assign to this.lastUpdated
-     */
-    public void setLastUpdated(final String argLastUpdated) {
-        this.lastUpdated = argLastUpdated;
-    }
-
-    /**
-     * Gets the list of Instructor wrappers
-     *
-     * @return the list of {@link CluInstructorInfoWrapper}
-     */
-    public List<CluInstructorInfoWrapper> getInstructorWrappers() {
-        if (instructorWrappers == null) {
-            instructorWrappers = new ArrayList<CluInstructorInfoWrapper>(0);
-        }
-        return instructorWrappers;
-    }
-
-    /**
-     * Sets the list of Instructor wrappers
-     *
-     * @param instructorWrappers List of {@link CluInstructorInfoWrapper}
-     */
-    public void setInstructorWrappers(List<CluInstructorInfoWrapper> instructorWrappers) {
-        this.instructorWrappers = instructorWrappers;
-    }
-
-    /**
-     * Gets the list of Course Joint wrappers
-     *
-     * @return the list of {@link CourseJointInfoWrapper}
-     */
-    public List<CourseJointInfoWrapper> getCourseJointWrappers() {
-        if (courseJointWrappers == null) {
-            courseJointWrappers = new ArrayList<CourseJointInfoWrapper>(0);
-        }
-        return courseJointWrappers;
-    }
-
-    /**
-     * Sets the list of Course Joint wrappers
-     *
-     * @param courseJointWrappers List of {@link CourseJointInfoWrapper}
-     */
-    public void setCourseJointWrappers(List<CourseJointInfoWrapper> courseJointWrappers) {
-        this.courseJointWrappers = courseJointWrappers;
-    }
-
-    /**
-     * Gets the list of Credit Option wrappers
-     *
-     * @return the list of {@link ResultValuesGroupInfoWrapper}
-     */
-    public List<ResultValuesGroupInfoWrapper> getCreditOptionWrappers() {
-        if (creditOptionWrappers == null) {
-            creditOptionWrappers = new ArrayList<ResultValuesGroupInfoWrapper>(0);
-        }
-        return creditOptionWrappers;
-    }
-
-    /**
-     * Sets the list of Credit Option wrappers
-     *
-     * @param creditOptionWrappers List of {@link ResultValuesGroupInfoWrapper}
-     */
-    public void setCreditOptionWrappers(List<ResultValuesGroupInfoWrapper> creditOptionWrappers) {
-        this.creditOptionWrappers = creditOptionWrappers;
-    }
-
-    /**
-     * Gets the list of Comments
-     *
-     * @return the list of {@link CommentInfo}
-     */
-    public List<CommentInfo> getCommentInfos() {
-        if (commentInfos == null) {
-            commentInfos = new ArrayList<CommentInfo>(0);
-        }
-        return commentInfos;
-    }
-
-    /**
-     * Sets the list of Comments
-     *
-     * @param commentInfos List of {@link CommentInfo}
-     */
-    public void setCommentInfos(List<CommentInfo> commentInfos) {
-        this.commentInfos = commentInfos;
-    }
-
-    /**
-     * Gets the list of Decisions
-     *
-     * @return the list of {@link DecisionInfo}
-     */
-    public List<DecisionInfo> getDecisions() {
-        if (decisions == null) {
-            decisions = new ArrayList<DecisionInfo>(0);
-        }
-        return decisions;
-    }
-
-    /**
-     * Sets the list of Decisions
-     *
-     * @param decisions List of {@link DecisionInfo}
-     */
-    public void setDecisions(List<DecisionInfo> decisions) {
-        this.decisions = decisions;
-    }
-
-    /**
-     * Gets the list of Administering Organizations
-     *
-     * @return the list of {@link OrganizationInfoWrapper}
-     */
-    public List<OrganizationInfoWrapper> getAdministeringOrganizations() {
-        if (administeringOrganizations == null) {
-            administeringOrganizations = new ArrayList<OrganizationInfoWrapper>(0);
-        }
-        return administeringOrganizations;
-    }
-
-    /**
-     * Sets the list of Administering Organizations
-     *
-     * @param administeringOrganizations List of {@link OrganizationInfoWrapper}
-     */
-    public void setAdministeringOrganizations(List<OrganizationInfoWrapper> administeringOrganizations) {
-        this.administeringOrganizations = administeringOrganizations;
-    }
-
-    /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#getCollaboratorWrappers()
-     */
-    @Override
-    public List<CollaboratorWrapper> getCollaboratorWrappers() {
-        if (collaboratorWrappers == null) {
-            collaboratorWrappers = new ArrayList<CollaboratorWrapper>(0);
-        }
-        return collaboratorWrappers;
-    }
-
-    /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#setCollaboratorWrappers(List)
-     */
-    @Override
-    public void setCollaboratorWrappers(List<CollaboratorWrapper> collaboratorWrappers) {
-        this.collaboratorWrappers = collaboratorWrappers;
-
-    }
-
-    /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#getDocumentToAdd()
-     */
-    public List<SupportingDocumentInfoWrapper> getDocumentsToAdd() {
-        if (documentsToAdd == null) {
-            documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
-        }
-        return documentsToAdd;
-    }
-
-    /**
-     * This overridden method ...
-     *
-     * @see org.kuali.student.cm.course.service.CourseInfoMaintainable#setDocumentToAdd(org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper)
-     */
-    public void setDocumentsToAdd(final List<SupportingDocumentInfoWrapper> documentsToAdd) {
-        this.documentsToAdd = documentsToAdd;
-    }
-    
-    public void setSupportingDocuments(final List<DocumentInfo> supportingDocuments) {
-        this.supportingDocuments = supportingDocuments;
-    }
-
-    public List<DocumentInfo> getSupportingDocuments() {
-        if (supportingDocuments == null) {
-            supportingDocuments = new ArrayList<DocumentInfo>();
-        }
-        return supportingDocuments;
-    }
-
 
     /**
      * @see CourseInfoMaintainable#getCollaboratorWrappersSuggest(String)
@@ -726,46 +354,10 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return listCollaboratorWrappers;
     }
 
-    /**
-     * Method is overridden to change default property
-     * <p/>
-     * checks if one of the sections stackCollection
-     * is used and then changes the property value
-     */
-    @Override
-    public String getCrossListingDisclosureSection() {
-        this.crossListingDisclosureSection = "true";
-
-        if (getCourse().getCrossListings().isEmpty() && getCourseJointWrappers().isEmpty() && getCourse().getVariations().isEmpty()) {
-            this.crossListingDisclosureSection = "false";
-        }
-        return this.crossListingDisclosureSection;
-    }
-
-    @Override
-    public void setCrossListingDisclosureSection(String argCrossListingDisclosureSection) {
-        this.crossListingDisclosureSection = argCrossListingDisclosureSection;
-    }
 
     @Override
     public String getDocumentTitle(MaintenanceDocument document) {
         return document.getDocumentHeader().getDocumentDescription();
-    }
-
-    @Override
-    public LoDisplayWrapperModel getLoDisplayWrapperModel() {
-        if (loDisplayWrapperModel == null) {
-            loDisplayWrapperModel = new LoDisplayWrapperModel();
-        }
-        return loDisplayWrapperModel;
-    }
-    
-    @Override
-    public CourseRuleManagementWrapper getCourseRuleManagementWrapper() {
-        if (courseRuleManagementWrapper == null) {
-            courseRuleManagementWrapper = new CourseRuleManagementWrapper();
-        }
-        return courseRuleManagementWrapper;
     }
 
     /**
@@ -795,6 +387,19 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     public String getSelectedKey() {
         return courseRuleManagementWrapper.getSelectedKey();
     }
+
+
+    public CourseRuleManagementWrapper getCourseRuleManagementWrapper() {
+        if (courseRuleManagementWrapper == null) {
+            courseRuleManagementWrapper = new CourseRuleManagementWrapper();
+        }
+        return courseRuleManagementWrapper;
+    }
+
+    public void setCourseRuleManagementWrapper(CourseRuleManagementWrapper courseRuleManagementWrapper) {
+        this.courseRuleManagementWrapper = courseRuleManagementWrapper;
+    }
+
 
     /**
      * Specifically created for KRMS purposes.
@@ -852,8 +457,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             if (model instanceof MaintenanceDocumentForm) {
                 MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) model;
+                CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
                 CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
-                for (CluInstructorInfoWrapper instructor : courseInfoMaintainable.getInstructorWrappers()) {
+                for (CluInstructorInfoWrapper instructor : courseInfoWrapper.getInstructorWrappers()) {
                     if (instructor.getDisplayName().equals(instructorWrapper.getDisplayName())) {
                         return false; //already in the list
                     }
@@ -866,8 +472,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
             if (model instanceof MaintenanceDocumentForm) {
                 MaintenanceDocumentForm modelForm = (MaintenanceDocumentForm) model;
+                CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) modelForm.getDocument().getNewMaintainableObject().getDataObject();
                 CourseInfoMaintainable courseInfoMaintainable = (CourseInfoMaintainable) modelForm.getDocument().getNewMaintainableObject();
-                for (CollaboratorWrapper collaboratorAuthor : courseInfoMaintainable.getCollaboratorWrappers()) {
+                for (CollaboratorWrapper collaboratorAuthor : courseInfoWrapper.getCollaboratorWrappers()) {
                     if (collaboratorAuthor.getDisplayName().equals(collaboratorWrapper.getDisplayName())) {
                         return false; //already in the list
                     }
@@ -1073,17 +680,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return rules;
     }
 
-    public String getRequiredWorkflowMode() {
-        if (requiredWorkflowMode == null) {
-            requiredWorkflowMode = DEFAULT_REQUIRED_WORKFLOW_MODE;;
-        }
-        return requiredWorkflowMode;
-    }
-
-    public void setRequiredWorkflowMode(final String requiredWorkflowMode) {
-        this.requiredWorkflowMode = requiredWorkflowMode;
-    }
-
     /**
      * Return the clu id from the canonical course that is linked to the given course offering id.
      *
@@ -1096,12 +692,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(CourseServiceConstants.REF_OBJECT_URI_COURSE, refObjectId);
     }
 
-    public ReviewInfo getReviewInfo() {
-        if (this.reviewInfo == null) {
-            reviewInfo = new ReviewInfo();
-        }
-        return reviewInfo;
-    }
 
     protected RuleViewTreeBuilder getViewTreeBuilder() {
         if (this.viewTreeBuilder == null) {

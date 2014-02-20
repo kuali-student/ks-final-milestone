@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
   Copyright 2005-2013 The Kuali Foundation
- 
+
   Licensed under the Educational Community License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
   http://www.opensource.org/licenses/ecl2.php
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,17 +15,17 @@
   limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html 
+    <!-- Controller Class: CourseController.java View Helper Class: CourseViewHelperServiceImpl.java UX : http://ux.ks.kuali.org.s3.amazonaws.com/wireframes/ENR/Scheduling_Interface/v3/start.html
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
     <bean id="KS-CourseRetirementView" parent="KS-Uif-MaintenanceView">
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
-        <property name="dataObjectClassName" value="org.kuali.student.r2.lum.course.dto.CourseInfo"/>
-        <property name="headerText" value="@{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />
+        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
+        <property name="headerText" value="@{!#empty(document.newMaintainableObject.dataObject.ProposalInfo.name) ? document.newMaintainableObject.dataObject.ProposalInfo.name + ' (Proposal)': 'New Course (Proposal)'}" />
         <property name="header.render" value="false" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="entryPageId" value="KS-CourseView-CourseInfoPage" />
@@ -55,8 +55,8 @@
                 <!-- <bean id="compareRuleLightBox" parent="KS-KRMS-CompareRule">
                     <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
                 </bean> -->
-                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup-CM" p:fieldBindingObjectPath="document.newMaintainableObject.courseRuleManagementWrapper"/>
-                <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo" p:fieldBindingObjectPath="document.newMaintainableObject.courseRuleManagementWrapper"/>
+                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup-CM" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.courseRuleManagementWrapper"/>
+                <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.courseRuleManagementWrapper"/>
             </list>
         </property>
         <property name="additionalScriptFiles">
@@ -81,9 +81,9 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="CourseInfoRetireMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
-        <property name="dataObjectClass" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
+        <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.retire"/>
         <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
@@ -92,5 +92,5 @@
                 <value>id</value>
             </list>
         </property>
-    </bean>  
+    </bean>
 </beans>

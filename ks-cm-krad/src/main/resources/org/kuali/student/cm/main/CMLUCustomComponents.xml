@@ -36,12 +36,12 @@ limitations under the License.
         <property name="items">
             <list>
                 <bean parent="Uif-MessageField" p:messageText="No courses match the current search criteria."
-                    p:style="width: 450px; margin: 0px;" p:render="@{document.newMaintainableObject.courseRuleManagementWrapper.clusInRangeSize eq 0}"/>
+                      p:style="width: 450px; margin: 0px;" p:render="@{document.newMaintainableObject.courseRuleManagementWrapper.clusInRangeSize eq 0}"/>
                 <!-- <ref bean="KRMS-CourseRangeResult"/> -->
                 <bean parent="KS-Uif-ActionLink" p:actionLabel="Close" p:actionScript="jQuery.fancybox.close();"
                       p:align="right"/>
             </list>
         </property>
     </bean>
-    
+
 </beans>

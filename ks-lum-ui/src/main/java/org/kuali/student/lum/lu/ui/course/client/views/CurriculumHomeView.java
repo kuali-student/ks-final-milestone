@@ -16,17 +16,17 @@ import com.google.gwt.core.client.GWT;
 /**
  * CurriculumHomeView for the Curriculum Management landing page.  This view uses a configurer to set up its
  * layout (CurriculumHomeConfigurer).
- * 
+ *
  * @author Kuali Student Team
  * @see CurriculumHomeConfigurer
  */
 public class CurriculumHomeView extends ViewComposite{
-	
+
 	private final SpanPanel container = new SpanPanel();
 	MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
 	protected CurriculumHomeConfigurer configurer = GWT.create(CurriculumHomeConfigurer.class);
-	
+
 	public CurriculumHomeView(Controller controller, Enum<?> viewType) {
 		super(controller, "", viewType);
 		this.initWidget(container);
@@ -48,8 +48,8 @@ public class CurriculumHomeView extends ViewComposite{
 //             + formatMetadata (metadata, "search")));
             	container.add(configurer.configure(metadata));
             }
-        });       
+        });
 	}
-	
+
 
 }

@@ -16,20 +16,13 @@
 
 package org.kuali.student.lum.lu.ui.course.keyvalues;
 
-import static org.kuali.student.logging.FormattedLogger.debug;
-import static org.kuali.student.logging.FormattedLogger.error;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -39,7 +32,13 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
-import static org.kuali.student.logging.FormattedLogger.*;
+import javax.xml.namespace.QName;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.student.logging.FormattedLogger.debug;
+import static org.kuali.student.logging.FormattedLogger.error;
+import static org.kuali.student.logging.FormattedLogger.info;
 
 /**
  * Return all organizations by a specific subject code.
@@ -64,10 +63,11 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setSearchKey("subjectCode.search.orgsForSubjectCode");
 
-        final CourseInfo course = (CourseInfo) form.getDocument().getNewMaintainableObject().getDataObject();
+        final CourseInfo course = ((CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject()).getCourseInfo();
         searchRequest.addParam("subjectCode.queryParam.code", course.getSubjectArea());
 
         final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
 
         try {
         	for (final SearchResultRowInfo result 
@@ -83,8 +83,8 @@ public class OrgsBySubjectCodeValuesFinder extends UifKeyValuesFinderBase {
                     }
                 }
 
-                if (maintainable.getUnitsContentOwner() != null
-                    && !maintainable.getUnitsContentOwner().contains(getOrganizationBy(maintainable.getCourse().getSubjectArea(), subjectCodeId))) {
+                if (courseInfoWrapper.getUnitsContentOwner() != null
+                    && !courseInfoWrapper.getUnitsContentOwner().contains(getOrganizationBy(courseInfoWrapper.getCourseInfo().getSubjectArea(), subjectCodeId))) {
                     
                     departments.add(new ConcreteKeyValue(subjectCodeId, subjectCodeOptionalLongName));
                 }

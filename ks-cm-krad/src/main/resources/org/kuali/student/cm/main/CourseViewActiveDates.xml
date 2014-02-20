@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); 
-    you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.opensource.org/licenses/ecl2.php 
-    Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS 
-    IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language 
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.opensource.org/licenses/ecl2.php
+    Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+    IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
     governing permissions and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseView-ActiveDatesPage" parent="KS-CourseView-BasePage" p:headerText="Active Dates">
@@ -29,11 +29,11 @@
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
-                            p:addBlankOption="true" />
+                              p:addBlankOption="true" />
                     </property>
                     <property name="help">
                         <bean parent="Uif-Help"
-                            p:tooltipHelpContent="New Courses: This course will not neccessarily be acticated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications." />
+                              p:tooltipHelpContent="New Courses: This course will not neccessarily be acticated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications." />
                     </property>
                 </bean>
 
@@ -47,24 +47,24 @@
                 </bean>
 
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"
-                    p:required="@{document.newMaintainableObject.dataObject.pilotCourse}" >
+                      p:required="@{document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" >
                     <property name="refreshWhenChangedPropertyNames">
                         <list>
-                            <value>document.newMaintainableObject.dataObject.pilotCourse</value>
-                            <value>document.newMaintainableObject.dataObject.startTerm</value> 
+                            <value>document.newMaintainableObject.dataObject.courseInfo.pilotCourse</value>
+                            <value>document.newMaintainableObject.dataObject.courseInfo.startTerm</value>
                         </list>
                     </property>
                     <property name="instructionalText" value="Last term in which the course can be offered" />
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.pilotCourse}" />
+                        <bean parent="Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
-                            p:addBlankOption="true" />
+                              p:addBlankOption="true" />
                     </property>
                     <property name="help">
                         <bean parent="Uif-Help"
-                            p:tooltipHelpContent="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses" />
+                              p:tooltipHelpContent="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses" />
                     </property>
                 </bean>
             </list>

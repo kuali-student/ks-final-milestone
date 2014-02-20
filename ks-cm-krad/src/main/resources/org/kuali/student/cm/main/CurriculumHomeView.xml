@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
   Copyright 2005-2013 The Kuali Foundation
- 
+
   Licensed under the Educational Community License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
   http://www.opensource.org/licenses/ecl2.php
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,7 +50,7 @@
                 <value>ks-curriculum-home</value>
             </list>
         </property>
-    
+
         <!-- CSS Styling -->
         <property name="additionalCssFiles">
             <list merge="true">
@@ -65,19 +65,19 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="KS-HomewardPathBreadcrumbs-Home" parent="Uif-BreadcrumbItem">
         <property name="label" value="Home"/>
         <property name="url.baseUrl" value="launch"/>
         <property name="url.viewId" value="ksFunctionalHomeView"/>
     </bean>
-    
+
     <bean id="KS-HomewardPathBreadcrumbs-CMKRAD" parent="Uif-BreadcrumbItem">
         <property name="label" value="Curriculum Management KRAD"/>
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>
     </bean>
-    
+
     <bean id="KS-CurriculumHome-Group" parent="Uif-HorizontalBoxGroup">
         <property name="items">
             <list>
@@ -87,7 +87,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="KS-CurriculumHome-Create" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Create..."/>
         <property name="instructionalMessage">
@@ -109,7 +109,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Create a Course"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courses?methodToCall=docHandler&amp;command=initiate&amp;dataObjectClassName=org.kuali.student.r2.lum.course.dto.CourseInfo&amp;hideReturnLink=true"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courses?methodToCall=docHandler&amp;command=initiate&amp;dataObjectClassName=org.kuali.student.cm.course.form.CourseInfoWrapper&amp;hideReturnLink=true"/>
             </list>
         </property>
     </bean>
@@ -136,12 +136,12 @@
             <list>
                 <bean parent="Uif-HeaderFive" p:headerText="Courses" />
                 <bean parent="Uif-Link" p:linkText="Find a Course"
-                    p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Course-FindACourse&amp;dataObjectClassName=org.kuali.student.lum.lu.ui.krms.dto.CluInformation&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true" />
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Course-FindACourse&amp;dataObjectClassName=org.kuali.student.lum.lu.ui.krms.dto.CluInformation&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true" />
                 <bean parent="Uif-Link" p:linkText="Find a Course Proposal" />
             </list>
         </property>
     </bean>
-    
+
     <bean id="KS-CurriculumHome-Tools" parent="Uif-VerticalBoxGroup">
         <property name="cssClasses">
             <list merge="true">
@@ -155,7 +155,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="KS-CurriculumHome-Recently-Viewed" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Recently Viewed"/>
         <property name="instructionalMessage">
@@ -182,7 +182,7 @@
                 </bean>
                 <bean parent="Uif-ListCollectionSection">
                     <property name="collectionObjectClass"
-                      value="org.kuali.student.lum.common.client.helpers.RecentDocInfo" />
+                              value="org.kuali.student.lum.common.client.helpers.RecentDocInfo" />
                     <property name="propertyName" value="recentlyViewedDocs" />
                     <property name="items">
                         <list>
@@ -193,7 +193,7 @@
             </list>
         </property>
     </bean>
-    
+
     <bean id="KS-CurriculumHome-Management-Tools" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Management Tools"/>
         <property name="instructionalText" value="Support tools for courses and programs." />
@@ -205,10 +205,10 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Course Set Management" />
-                <bean parent="Uif-Link" p:linkText="Learning Objective Categories"  
-                    p:href="@{#ConfigProperties['application.url']}/kr-krad/loCategory?viewId=loCatMaintenanceView&amp;methodToCall=start" />
+                <bean parent="Uif-Link" p:linkText="Learning Objective Categories"
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/loCategory?viewId=loCatMaintenanceView&amp;methodToCall=start" />
             </list>
         </property>
     </bean>
-    
+
 </beans>

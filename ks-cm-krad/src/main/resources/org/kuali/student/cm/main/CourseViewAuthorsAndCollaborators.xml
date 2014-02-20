@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); 
-    you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.opensource.org/licenses/ecl2.php 
-    Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS 
-    IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language 
+<!-- Copyright 2005-2013 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.opensource.org/licenses/ecl2.php
+    Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS
+    IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language
     governing permissions and limitations under the License. -->
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="KS-CourseView-AuthorsAndCollaboratorsPage" parent="KS-CourseView-BasePage" p:headerText="Authors &amp; Collaborators">
@@ -18,13 +18,14 @@
     </bean>
 
     <bean id="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" parent="KS-CourseView-HorizontalBoxSection"
-        p:fieldBindingObjectPath="document.newMaintainableObject">
+          p:fieldBindingObjectPath="document.newMaintainableObject">
         <property name="headerText" value="Authors &amp; Collaborators"/>
+        <property name="header.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TableCollectionSection" lazy-init="false" p:layoutManager.numberOfColumns="4">
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
-                    <property name="propertyName" value="collaboratorWrappers" />
+                    <property name="propertyName" value="dataObject.collaboratorWrappers" />
                     <property name="layoutManager.separateAddLine" value="true" />
                     <!-- <property name="collectionLookup.quickfinderAction.render" value="false" /> -->
                     <property name="addLineLabel.messageText" value=" " />
@@ -53,17 +54,17 @@
                                                 <entry key="change">
                                                     <value>
                                                         function(event, ui) {
-                                                            if (ui.item==null) {
-                                                                jQuery(this).val('');
-                                                                jQuery(this).focus();
-                                                            }
+                                                        if (ui.item==null) {
+                                                        jQuery(this).val('');
+                                                        jQuery(this).focus();
+                                                        }
                                                         }
                                                     </value>
                                                 </entry>
                                                 <!-- <entry key="formatResult">
                                                     <value>
                                                         function(data) {
-                                                            
+
                                                         }
                                                     </value>
                                                 </entry> -->
@@ -71,7 +72,7 @@
                                         </property>
                                         <property name="suggestQuery">
                                             <bean parent="Uif-AttributeQueryConfig" p:queryMethodToCall="getCollaboratorWrappersSuggest"
-                                                p:queryMethodArgumentFieldList="" />
+                                                  p:queryMethodArgumentFieldList="" />
                                         </property>
                                     </bean>
                                 </property>
@@ -101,7 +102,7 @@
                                 </property>
                             </bean>
                             <bean id="KS-PermissionDropDown" parent="Uif-InputField-LabelTop" p:propertyName="permission" p:labelPlacement="TOP"
-                                p:label="Permission" p:required="true">
+                                  p:label="Permission" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -116,7 +117,7 @@
                                 </property>
                             </bean>
                             <bean id="KS-ActionRequestDropDown" parent="Uif-InputField-LabelTop" p:propertyName="action" p:labelPlacement="TOP"
-                                p:label="Action Request" p:required="true">
+                                  p:label="Action Request" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
@@ -139,11 +140,11 @@
                         <list>
                             <bean parent="Uif-DataField" p:label="Name" p:propertyName="displayName" p:readOnly="true" />
                             <bean parent="Uif-DataField" p:label="Permission" p:propertyName="permission"
-                                p:readOnly="true" />
+                                  p:readOnly="true" />
                             <bean parent="Uif-DataField" p:label="Action Request" p:propertyName="action"
-                                p:readOnly="true" />
+                                  p:readOnly="true" />
                             <bean parent="Uif-DataField" p:label="Author Notation" p:propertyName="author"
-                                p:readOnly="true" />
+                                  p:readOnly="true" />
                         </list>
                     </property>
                 </bean>

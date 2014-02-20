@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- 
+<!--
   Copyright 2005-2013 The Kuali Foundation
- 
+
   Licensed under the Educational Community License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
- 
+
   http://www.opensource.org/licenses/ecl2.php
- 
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -15,20 +15,20 @@
   limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-SupportingDocumentsPage" parent="KS-CourseView-BasePage"
-		  p:headerText="Supporting Documents">
+    <bean id="KS-CourseView-SupportingDocumentsPage" parent="KS-CourseView-BasePage"
+          p:headerText="Supporting Documents">
         <property name="items">
-            <list> 
-                <ref bean="KS-CourseView-SupportingDocumentsPage-Widgets" /> 
-            </list> 
-        </property> 
-	</bean>
+            <list>
+                <ref bean="KS-CourseView-SupportingDocumentsPage-Widgets" />
+            </list>
+        </property>
+    </bean>
 
-    <bean id="KS-CourseView-SupportingDocumentsPage-Widgets" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="KS-CourseView-SupportingDocumentsPage-Widgets" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
         <property name="header.render" value="false"/>
         <property name="items">
@@ -40,54 +40,54 @@
 
 
 
-	<bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
-		  p:headerText="Supporting Document(s)" p:propertyName="documentsToAdd"
-		  p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
-      <!--
-		<property name="renderAddBlankLineButton" value="true" />
-		<property name="addLinePlacement" value="BOTTOM" />
-        <property name="addBlankLineAction">
-            <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Supporting Document" />
-            
-        </property>
--->
-		<property name="addLineLabel.messageText" value="Add a Supporting Document" />
-		<property name="layoutManager.lineGroupPrototype.header.headerText"
-				  value="Document @{(#index + 1)}" />
-		<property name="help">
-			<bean parent="Uif-Help"
-				  p:tooltipHelpContent="Files that will be submitted
+    <bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
+          p:headerText="Supporting Document(s)" p:propertyName="dataObject.documentsToAdd"
+          p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
+        <!--
+          <property name="renderAddBlankLineButton" value="true" />
+          <property name="addLinePlacement" value="BOTTOM" />
+          <property name="addBlankLineAction">
+              <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add a Supporting Document" />
+
+          </property>
+  -->
+        <property name="addLineLabel.messageText" value="Add a Supporting Document" />
+        <property name="layoutManager.lineGroupPrototype.header.headerText"
+                  value="Document @{(#index + 1)}" />
+        <property name="help">
+            <bean parent="Uif-Help"
+                  p:tooltipHelpContent="Files that will be submitted
 				  with the Course Proposal that support it." />
-		</property>
-		<property name="cssClasses">
-			<list merge="true">
-				<value>cm-collection-width</value>
-			</list>
-		</property>
-		<property name="addLineActions">
-			<list>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>cm-collection-width</value>
+            </list>
+        </property>
+        <property name="addLineActions">
+            <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="addLine2" p:actionLabel="add" />
-			</list>
-		</property>
+            </list>
+        </property>
         <property name="lineActions">
             <list>
                 <bean parent="Uif-ActionLink" p:methodToCall="removeSupportingDocument" p:actionLabel="delete" />
             </list>
         </property>
 
-		<property name="items">
-			<list>
-				<bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload">
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:label="File" p:propertyName="documentUpload">
                     <property name="control">
                         <bean parent="Uif-FileControl" p:size="30"/>
                     </property>
-				</bean>
-				<bean parent="Uif-InputField" p:label="Description" p:propertyName="description">
+                </bean>
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description">
                     <property name="control">
                         <bean parent="Uif-TextControl"/>
                     </property>
-				</bean>
-			</list>
-		</property>
-	</bean>
+                </bean>
+            </list>
+        </property>
+    </bean>
 </beans>

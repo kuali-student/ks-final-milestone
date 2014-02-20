@@ -36,6 +36,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
+import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.CreateCourseForm;
@@ -47,9 +48,9 @@ import org.kuali.student.cm.course.form.ReviewInfo;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
-import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
@@ -180,47 +181,49 @@ public class CourseController extends CourseRuleEditorController {
 
         // Create the document in the super method
         final ModelAndView retval = super.docHandler(maintenanceDocForm, result, request, response);
-                
+
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
-        
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceDocForm.getDocument().getNewMaintainableObject().getDataObject();
+
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
-        maintainable.setUserId(ContextUtils.getContextInfo().getPrincipalId());
-        
+        courseInfoWrapper.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+
         // Initialize Course Requisites
         final CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
         ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
 
         ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
-        ruleWrapper.setRefObjectId(maintainable.getCourse().getId());
+        ruleWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
 
         ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
 
         if (KewApiConstants.INITIATE_COMMAND.equals(maintenanceDocForm.getCommand())) {
-            
-            // After creating the document, modify the state
-            maintainable.getCourse().setStateKey(DtoConstants.STATE_DRAFT);
-            maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
-            maintainable.getCourse().setEffectiveDate(new java.util.Date());
 
-            maintainable.getCourse().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
+            // After creating the document, modify the state
+            courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+            courseInfoWrapper.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+            courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
+
+            courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
 
             // Initialize Curriculum Oversight if it hasn't already been.
-            if (maintainable.getCourse().getUnitsContentOwner() == null) {
-                maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
+            if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
+                courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
             }
-            
-        } 
+
+        }
         else if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, maintenanceDocForm.getCommand()) && maintenanceDocForm.getDocId() != null) {
             ProposalInfo proposal = null;
-            try {            
+            try {
                 proposal = getProposalService().getProposalByWorkflowId(maintenanceDocForm.getDocument().getDocumentHeader().getDocumentNumber(), ContextUtils.getContextInfo());
-                maintainable.setProposal(proposal);
+                courseInfoWrapper.setProposalInfo(proposal);
             }
             catch (Exception e) {
                 warn("Unable to retrieve the proposal: %s", e.getMessage());
             }
         }
-        
+
         return retval;
     }
 
@@ -249,10 +252,13 @@ public class CourseController extends CourseRuleEditorController {
 
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
 
-        CourseInfo coInfo = maintainable.getCourse();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceDocForm.getDocument().getNewMaintainableObject().getDataObject();
+
+
+        CourseInfo coInfo = courseInfoWrapper.getCourseInfo();
 
         // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
-        maintainable.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+        courseInfoWrapper.setUserId(ContextUtils.getContextInfo().getPrincipalId());
 
         // Initialize Course Requisites
         final CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
@@ -267,7 +273,7 @@ public class CourseController extends CourseRuleEditorController {
 
             // After creating the document, modify the state
             coInfo.setStateKey(DtoConstants.STATE_DRAFT);
-            maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+            courseInfoWrapper.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
             coInfo.setEffectiveDate(new java.util.Date());
 
             coInfo.setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
@@ -282,7 +288,7 @@ public class CourseController extends CourseRuleEditorController {
             ProposalInfo proposal = null;
             try {
                 proposal = getProposalService().getProposalByWorkflowId(maintenanceDocForm.getDocument().getDocumentHeader().getDocumentNumber(), ContextUtils.getContextInfo());
-                maintainable.setProposal(proposal);
+                courseInfoWrapper.setProposalInfo(proposal);
             }
             catch (Exception e) {
                 warn("Unable to retrieve the proposal: %s", e.getMessage());
@@ -307,8 +313,11 @@ public class CourseController extends CourseRuleEditorController {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         final ModelAndView retval = addLine(form, result, request, response);
 
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+
+
         // Resulting Add Line is at the bottom
-        final SupportingDocumentInfoWrapper addLineResult = maintainable.getDocumentsToAdd().get(maintainable.getDocumentsToAdd().size() - 1);
+        final SupportingDocumentInfoWrapper addLineResult = courseInfoWrapper.getDocumentsToAdd().get(courseInfoWrapper.getDocumentsToAdd().size() - 1);
 
         // New document
         DocumentInfo toAdd = new DocumentInfo();
@@ -337,7 +346,7 @@ public class CourseController extends CourseRuleEditorController {
         RefDocRelationInfo docRelation = new RefDocRelationInfo();
         try {
             getSupportingDocumentService().createRefDocRelation("kuali.lu.type.CreditCourse",
-                                                      maintainable.getCourse().getId(),
+                    courseInfoWrapper.getCourseInfo().getId(),
                                                       toAdd.getId(),
                                                       "kuali.org.DocRelation.allObjectTypes",
                                                       docRelation,
@@ -364,6 +373,8 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView removeSupportingDocument(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         // final ModelAndView retval = super.deleteLine(form, result, request, response);
 
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
@@ -383,7 +394,7 @@ public class CourseController extends CourseRuleEditorController {
             throw new RuntimeException("Selected line index was not set for delete line action, cannot delete line");
         }
         
-        final DocumentInfo toRemove = maintainable.getSupportingDocuments().remove(selectedLineIndex);
+        final DocumentInfo toRemove = courseInfoWrapper.getSupportingDocuments().remove(selectedLineIndex);
         try {
             getSupportingDocumentService().deleteDocument(toRemove.getId(), ContextUtils.getContextInfo());
         }
@@ -446,36 +457,37 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView saveProposal(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         
         //Clear collection fields (those with matching 'wrapper' collections)
-        maintainable.getCourse().getJoints().clear();
-        maintainable.getCourse().getInstructors().clear();
-        maintainable.getCourse().getUnitsDeployment().clear();
-        maintainable.getCourse().getCourseSpecificLOs().clear();
+        courseInfoWrapper.getCourseInfo().getJoints().clear();
+        courseInfoWrapper.getCourseInfo().getInstructors().clear();
+        courseInfoWrapper.getCourseInfo().getUnitsDeployment().clear();
+        courseInfoWrapper.getCourseInfo().getCourseSpecificLOs().clear();
         
         //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
-        if (maintainable.getCourseJointWrappers() != null) {
-            for (final CourseJointInfoWrapper jointInfoDisplay : maintainable.getCourseJointWrappers()) {
-                maintainable.getCourse().getJoints().add(CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService()));
+        if (courseInfoWrapper.getCourseJointWrappers() != null) {
+            for (final CourseJointInfoWrapper jointInfoDisplay : courseInfoWrapper.getCourseJointWrappers()) {
+                courseInfoWrapper.getCourseInfo().getJoints().add(CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService()));
             }
         }
         
-        if (maintainable.getInstructorWrappers() != null) {
-            for (final CluInstructorInfoWrapper instructorDisplay : maintainable.getInstructorWrappers()) {
+        if (courseInfoWrapper.getInstructorWrappers() != null) {
+            for (final CluInstructorInfoWrapper instructorDisplay : courseInfoWrapper.getInstructorWrappers()) {
                 final CluInstructorInfoWrapper retrievedInstructor = getCourseMaintainableFrom(form).getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
-                maintainable.getCourse().getInstructors().add(retrievedInstructor);
+                courseInfoWrapper.getCourseInfo().getInstructors().add(retrievedInstructor);
             }
         }
 
-        if (maintainable.getAdministeringOrganizations() != null) {
-            for (final OrganizationInfoWrapper org : maintainable.getAdministeringOrganizations()) {
-                maintainable.getCourse().getUnitsDeployment().add(org.getOrganizationName());
+        if (courseInfoWrapper.getAdministeringOrganizations() != null) {
+            for (final OrganizationInfoWrapper org : courseInfoWrapper.getAdministeringOrganizations()) {
+                courseInfoWrapper.getCourseInfo().getUnitsDeployment().add(org.getOrganizationName());
             }
         }
         
-        if (maintainable.getLoDisplayWrapperModel() != null && maintainable.getLoDisplayWrapperModel().getLoWrappers() != null) {
-            List<LoDisplayInfoWrapper> loWrappers = maintainable.getLoDisplayWrapperModel().getLoWrappers();
-            List<LoDisplayInfo> courseLos = maintainable.getCourse().getCourseSpecificLOs();
+        if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
+            List<LoDisplayInfoWrapper> loWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
+            List<LoDisplayInfo> courseLos = courseInfoWrapper.getCourseInfo().getCourseSpecificLOs();
             for (int i = 0; i < loWrappers.size(); i++) {
                 
                 LoDisplayInfoWrapper currentLo = loWrappers.get(i);
@@ -505,15 +517,15 @@ public class CourseController extends CourseRuleEditorController {
         }
         
         // Set derived course fields before saving/updating
-        maintainable.setCourse(calculateCourseDerivedFields(maintainable.getCourse()));
-        maintainable.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+        courseInfoWrapper.setCourseInfo(calculateCourseDerivedFields(courseInfoWrapper.getCourseInfo()));
+        courseInfoWrapper.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
 
-        maintainable.getCourse().setUnitsContentOwner(new ArrayList<String>());
-        for (final KeyValue wrapper : maintainable.getUnitsContentOwner()) {
-            maintainable.getCourse().getUnitsContentOwner().add(wrapper.getValue());
+        courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
+        for (final KeyValue wrapper : courseInfoWrapper.getUnitsContentOwner()) {
+            courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getValue());
         }
 
-        form.getDocument().getDocumentHeader().setDocumentDescription(maintainable.getProposal().getName());
+        form.getDocument().getDocumentHeader().setDocumentDescription(courseInfoWrapper.getProposalInfo().getName());
 
         try {
 //            if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
@@ -557,21 +569,22 @@ public class CourseController extends CourseRuleEditorController {
      *
      * @param maintainable
      */
-    protected void updateReview(final CourseInfoMaintainable maintainable) {
+    protected void updateReview(final DocumentFormBase form) {
 
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
         // Update course info
-        final ReviewInfo reviewData = maintainable.getReviewInfo();
-        reviewData.getCourseInfo().setCourseTitle(maintainable.getCourse().getCourseTitle());
-        reviewData.getCourseInfo().setProposalName(maintainable.getProposal().getName());
-        reviewData.getCourseInfo().setTranscriptTitle(maintainable.getCourse().getTranscriptTitle());
-        reviewData.getCourseInfo().setSubjectArea(maintainable.getCourse().getSubjectArea());
-        reviewData.getCourseInfo().setCourseNumberSuffix(maintainable.getCourse().getCourseNumberSuffix());
+        final ReviewInfo reviewData = courseInfoWrapper.getReviewInfo();
+        reviewData.getCourseInfo().setCourseTitle(courseInfoWrapper.getCourseInfo().getCourseTitle());
+        reviewData.getCourseInfo().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        reviewData.getCourseInfo().setTranscriptTitle(courseInfoWrapper.getCourseInfo().getTranscriptTitle());
+        reviewData.getCourseInfo().setSubjectArea(courseInfoWrapper.getCourseInfo().getSubjectArea());
+        reviewData.getCourseInfo().setCourseNumberSuffix(courseInfoWrapper.getCourseInfo().getCourseNumberSuffix());
 
         // Update governance info
         reviewData.getGovernanceInfo().getCampusLocations().clear();
-        reviewData.getGovernanceInfo().getCampusLocations().addAll(maintainable.getCourse().getCampusLocations());
+        reviewData.getGovernanceInfo().getCampusLocations().addAll(courseInfoWrapper.getCourseInfo().getCampusLocations());
         reviewData.getGovernanceInfo().getCurriculumOversight().clear();
-        reviewData.getGovernanceInfo().getCurriculumOversight().addAll(maintainable.getCourse().getUnitsContentOwner());
+        reviewData.getGovernanceInfo().getCurriculumOversight().addAll(courseInfoWrapper.getCourseInfo().getUnitsContentOwner());
     }
 
 
@@ -583,25 +596,27 @@ public class CourseController extends CourseRuleEditorController {
     protected void handleFirstTimeSave(final MaintenanceDocumentForm form) throws Exception {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
 
-        final CourseInfo course = maintainable.getCourse();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+
+        final CourseInfo course = courseInfoWrapper.getCourseInfo();
         for (final CourseVariationInfo variation : course.getVariations()) {
             variation.setTypeKey("kuali.lu.type.Variation");
         }
         if (StringUtils.isBlank(course.getId())){
-            maintainable.setCourse(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
+            courseInfoWrapper.setCourseInfo(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
         } else {
-            maintainable.setCourse(getCourseService().updateCourse(course.getId(), course, ContextUtils.getContextInfo()));
+            courseInfoWrapper.setCourseInfo(getCourseService().updateCourse(course.getId(), course, ContextUtils.getContextInfo()));
         }
         
-        info("Saving Proposal for course %s", maintainable.getCourse().getId());
+        info("Saving Proposal for course %s", courseInfoWrapper.getCourseInfo().getId());
 
-        ProposalInfo proposal = maintainable.getProposal();
+        ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         proposal.setWorkflowId(form.getDocument().getDocumentHeader().getDocumentNumber());
         if (StringUtils.isBlank(proposal.getId())){
             proposal.setState(DtoConstants.STATE_DRAFT);
             proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
             proposal.setProposalReferenceType("kuali.proposal.referenceType.clu");
-            proposal.getProposalReference().add(maintainable.getCourse().getId());
+            proposal.getProposalReference().add(courseInfoWrapper.getCourseInfo().getId());
             proposal.getProposerOrg().clear();
             proposal.getProposerPerson().clear();
         }
@@ -612,7 +627,7 @@ public class CourseController extends CourseRuleEditorController {
             } else {
                 proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.getContextInfo());
             }
-            maintainable.setProposal(proposal);
+            courseInfoWrapper.setProposalInfo(proposal);
         }
         catch (Exception e) {
             warn("Unable to create a proposal: %s", e.getMessage());
@@ -738,6 +753,7 @@ public class CourseController extends CourseRuleEditorController {
         String tempRefTypeKey = "referenceType.clu.proposal";
         
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         
         final String dateStr = DateTimeFormat.forPattern("MMMM dd, yyyy - hh:mmaaa").print(new DateTime());
         final Date date = new Date();
@@ -746,11 +762,11 @@ public class CourseController extends CourseRuleEditorController {
         // prob might move to showComment so that it displays the comments already made.
         //List<CommentInfo> commentInfoFromDB = getCommentService().getCommentsByReferenceAndType(tempRefId, tempRefTypeKey,ContextUtils.getContextInfo());
         
-        for (CommentInfo ittCommentInfo : maintainable.getCommentInfos()) {
+        for (CommentInfo ittCommentInfo : courseInfoWrapper.getCommentInfos()) {
             CommentInfo commentInfo = ittCommentInfo;
             commentInfo.getCommentText().setFormatted(commentInfo.getCommentText().getPlain());
             //get the userID from the form to save with the comment made.
-            commentInfo.setCommenterId(getUserNameLoggedin(maintainable.getUserId()) + " " + dateStr);
+            commentInfo.setCommenterId(getUserNameLoggedin(courseInfoWrapper.getUserId()) + " " + dateStr);
             if(commentInfo.getEffectiveDate() == null){
                 commentInfo.setEffectiveDate(date);
             }
@@ -894,6 +910,7 @@ public class CourseController extends CourseRuleEditorController {
                                        final Map<String, MembershipInfo> members) {
 	    
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         
         final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
 
@@ -921,7 +938,7 @@ public class CourseController extends CourseRuleEditorController {
     					decision.setActor(memberName.toString());
     				}
     				decision.setRationale(commentInfo.getCommentText().getPlain());
-    				maintainable.getDecisions().add(decision);
+                    courseInfoWrapper.getDecisions().add(decision);
 			    }
 			}
 		}
@@ -962,15 +979,16 @@ public class CourseController extends CourseRuleEditorController {
                                                 final HttpServletResponse response) {
         info("Adding a unitsContentOwner");
         final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
-        if (maintainable.getUnitsContentOwnerToAdd() == null) {
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        if (courseInfoWrapper.getUnitsContentOwnerToAdd() == null) {
             info("Units Content Owner is null");
             return getUIFModelAndView(form);
         }
 
-        final String toAdd = maintainable.getUnitsContentOwnerToAdd();
+        final String toAdd = courseInfoWrapper.getUnitsContentOwnerToAdd();
         info("Adding ", toAdd);
-        maintainable.getUnitsContentOwner().add(getOrganizationBy(maintainable.getCourse().getSubjectArea(), toAdd));
-        maintainable.setUnitsContentOwnerToAdd("");
+        courseInfoWrapper.getUnitsContentOwner().add(getOrganizationBy(courseInfoWrapper.getCourseInfo().getSubjectArea(), toAdd));
+        courseInfoWrapper.setUnitsContentOwnerToAdd("");
         
         return getUIFModelAndView(form);
     }
@@ -1058,7 +1076,7 @@ public class CourseController extends CourseRuleEditorController {
         final ModelAndView retval = super.navigate(form, result, request, response);
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom((MaintenanceDocumentForm) form);
 
-        updateReview(maintainable);
+        updateReview((DocumentFormBase) form);
 
         return retval;
     }
@@ -1076,7 +1094,8 @@ public class CourseController extends CourseRuleEditorController {
     
     private LoDisplayWrapperModel setupLoModel(MaintenanceDocumentForm form) {
         final CourseInfoMaintainable courseInfoMaintainable = getCourseMaintainableFrom(form);
-        LoDisplayWrapperModel loDisplayWrapperModel = courseInfoMaintainable.getLoDisplayWrapperModel();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        LoDisplayWrapperModel loDisplayWrapperModel = courseInfoWrapper.getLoDisplayWrapperModel();
         List<LoDisplayInfoWrapper> loWrappers = loDisplayWrapperModel.getLoWrappers();
         LoDisplayInfoWrapper selectedLoWrapper = getSelectedLoWrapper(loWrappers);
         loDisplayWrapperModel.setCurrentLoWrapper(selectedLoWrapper);
