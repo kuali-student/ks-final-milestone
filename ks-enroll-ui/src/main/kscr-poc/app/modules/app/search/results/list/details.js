@@ -134,8 +134,8 @@ angular.module('kscrPocApp')
         if( !$scope.hasSelectedRegGroupId ) {
             return;
         }
-        addToCartService.query({userId: config.userId, regGroupId:$scope.selectedRegGroupId, gradingOptionId:'kuali.resultComponent.grade.passFail' },function(data){
-            $scope.registrationSuccessful = true;
+        addToCartService.query({userId: config.userId, regGroupId:$scope.selectedRegGroupId, gradingOptionId:'kuali.resultComponent.grade.letter' },function(data){
+            $scope.cartSuccessful = true;
         });
     };
 

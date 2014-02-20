@@ -17,6 +17,7 @@ angular.module('regCartApp')
         });
 
         $scope.add = function () {
+            $scope.courseCode = $scope.courseCode.toUpperCase();
             addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null, null);
         };
         $scope.$on('addCourseToCart', function (event, cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits, userId) {
