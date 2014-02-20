@@ -56,11 +56,11 @@
                                      'other': '{} credits'}">
                 </ng-pluralize>, {{cartItem.gradingOptions[cartItem.grading]}}
             </div>
-            <div>
-                <!--Course Header Section-->
-                <i class=" glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
 
-                 <span>{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</span>
+            <!--Course Header Section-->
+            <div>
+                 <i class=" glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
+                 <span><strong>{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</strong></span>
             </div>
             <!--Course Title and description-->
             <div class="kscr-register-courseTitle" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
@@ -98,6 +98,7 @@
                         <label for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Registration Options</label>
                         <select id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newGrading"
                                 ng-options="key as value for (key, value) in cartItem.gradingOptions"/>
+
                     </div>
                     <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="btn btn-primary" type="submit">Save Changes</button>
                     <button class="btn" id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="cancelEditItem(cartItem)">Cancel</button>
