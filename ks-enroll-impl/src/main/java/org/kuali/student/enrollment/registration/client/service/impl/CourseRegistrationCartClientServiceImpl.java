@@ -229,11 +229,11 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, regGroupId, contextInfo);
         }
 
-        //Look up the student grading/credit options
+        //Look up and validate the student grading/credit options
         CartItemResult optionsCartItem = getOptionsCartItem(rg, courseCode, credits, gradingOptionId, contextInfo);
 
         // Create new reg request item and add it to the cart
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), credits, gradingOptionId);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), optionsCartItem.getCredits(), optionsCartItem.getGrading());
         registrationRequestItem.setMeta(new MetaInfo());
         registrationRequestItem.getMeta().setCreateId(cart.getMeta().getCreateId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
         cart.getRegistrationRequestItems().add(registrationRequestItem);
@@ -261,8 +261,6 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         //populate the options we have already calculated
         cartItemResult.setGradingOptions(optionsCartItem.getGradingOptions());
         cartItemResult.setCreditOptions(optionsCartItem.getCreditOptions());
-        cartItemResult.setCredits(optionsCartItem.getCredits());
-        cartItemResult.setGrading(optionsCartItem.getGrading());
 
         //Return just the item
         return cartItemResult;
@@ -289,8 +287,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         optionsCartItem.setCourseCode(courseCode);
         optionsCartItem.setRegGroupCode(regGroup.getRegGroupName());
         optionsCartItem.setRegGroupId(regGroup.getRegGroupId());
-        optionsCartItem.setCredits(KSCollectionUtils.getRequiredZeroElement(optionsCartItem.getCreditOptions()));
-        optionsCartItem.setGrading(optionsCartItem.getGradingOptions().keySet().iterator().next());
+        optionsCartItem.setCredits(credits);
+        optionsCartItem.setGrading(gradingOptionId);
         optionsCartItem.setGradingOptionCount(optionsCartItem.getGradingOptions().size());
 
         //Do Checks for credit/grading options. If there is more than one option available on the course and no

@@ -317,7 +317,7 @@ module.exports = function (grunt) {
             deploy:{
                 expand:true,
                 cwd:'<%= yeoman.dist %>',
-                src:['**/*','!bower_components/**'],
+                src:['**/*','!bower_components/**','!index.html'],
                 dest:'../../../../../../ks-core/ks-common/ks-common-web/src/main/webapp/registration/'
 
             }
