@@ -291,7 +291,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 error(CurriculumManagementConstants.ConfigProperties.GET_INSTRUCTOR_RETURN_MORE_THAN_ONE_RESULT);
             }
         } catch (Exception e) {
-            error(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_IN_GET_INSTRUCTOR, e.getMessage());
+            error("An error occurred in the getInstructor method. %s", e.getMessage());
         }
 
         return instructor;
@@ -334,7 +334,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 retrievedCodes.add(new SubjectCodeWrapper(id, code));
             }
         } catch (Exception e) {
-            error(CurriculumManagementConstants.ConfigProperties.ERROR_RETRIEVING_SUBJECT_CODE_DISPLAY, e);
+            error("An error occurred retrieving the SubjectCodeDisplay: %s", e);
         }
 
         return retrievedCodes;
@@ -719,7 +719,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 listCollaboratorWrappers.add(theCollaboratorWrapper);
             }
         } catch (Exception e) {
-            error(CurriculumManagementConstants.ConfigProperties.ERROR_RETRIEVING_PERSONEL_SEARCH, e);
+            error("Error retrieving Personel search List %s", e);
             //throw new RuntimeException();
         }
 

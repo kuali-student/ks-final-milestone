@@ -38,9 +38,9 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                     ContextUtils.getContextInfo());
             BeanUtils.copyProperties(loCategory, savedLoCat);
         } catch (DataValidationErrorException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(KS_LO_CAT_TABLE, ERROR_CM_KRAD_LOCAT_DUPLICATE);
+            GlobalVariables.getMessageMap().putErrorForSectionId("KS-LoCatTable", "error.cmkrad.locat.duplicate");
         } catch (Exception e) {
-            FormattedLogger.error(CurriculumManagementConstants.ConfigProperties.ERROR_CREATE_NEW_LEARNING_OBJECTIVE_CATEGORY,
+            FormattedLogger.error("An error occurred while trying to create a new Learning Objective Category: %s",
                     e.getMessage());
         }
     }
@@ -55,9 +55,9 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                     ContextUtils.getContextInfo());
             BeanUtils.copyProperties(loCategory, updatedLoCat);
         } catch (DataValidationErrorException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId( KS_LO_CAT_TABLE , ERROR_CM_KRAD_LOCAT_DUPLICATE);
+            GlobalVariables.getMessageMap().putErrorForSectionId("KS-LoCatTable", "error.cmkrad.locat.duplicate");
         } catch (Exception e) {
-            FormattedLogger.error(CurriculumManagementConstants.ConfigProperties.ERROR_UPDATING_LEARNING_OBJECTIVE_CATEGORY,
+            FormattedLogger.error("An error occurred while updating the Learning Objective Category: %s",
                     e.getMessage());
         }
     }
@@ -98,7 +98,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                 try {
                     getLoService().deleteLoCategory(loCategory.getId(), ContextUtils.getContextInfo());
                 } catch (Exception e) {
-                    FormattedLogger.error(CurriculumManagementConstants.ConfigProperties.ERROR_DELETE_LEARNING_OBJECTIVE_CATEGORY,
+                    FormattedLogger.error("An error occurred while trying to delete a Learning Objective Category: %s",
                             e.getMessage());
                 }
                 ((List<Object>) collection).remove(lineIndex);

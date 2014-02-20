@@ -141,7 +141,7 @@ public class CourseJointInfoLookupableImpl extends LookupableImpl {
                 courseJointInfoDisplays.add(courseJointInfoDisplay);
             }
         } catch (Exception e) {
-            FormattedLogger.error(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_RETRIEVING_COURSE_JOINT_INFO_DISPLAY + e);
+            FormattedLogger.error("An error occurred retrieving the courseJointInfoDisplay: " + e);
         }
         return courseJointInfoDisplays;
 	}	

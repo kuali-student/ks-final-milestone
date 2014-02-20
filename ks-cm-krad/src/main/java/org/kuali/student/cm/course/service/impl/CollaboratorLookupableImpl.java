@@ -105,7 +105,7 @@ public class CollaboratorLookupableImpl extends LookupableImpl {
                 }
         	}
 		} catch (Exception e) {
-		    FormattedLogger.error(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_RETRIEVING_COLLABORATORS + e);
+            FormattedLogger.error("An error occurred retrieving the Collaborators: " + e);
 		}
         
 		return collaboratorDisplays;

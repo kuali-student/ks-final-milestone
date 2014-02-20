@@ -97,7 +97,7 @@ public class CluInstructorInfoLookupableImpl extends LookupableImpl {
                 cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
         	}
 		} catch (Exception e) {
-		    FormattedLogger.error(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_RETRIEVING_CLU_INSTRUCTORS + e);
+            FormattedLogger.error("An error occurred retrieving the CluInstructors: " + e);
 		}
         
 		return cluInstructorInfoDisplays;

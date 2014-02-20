@@ -175,7 +175,7 @@ public class CourseController extends CourseRuleEditorController {
             redrawDecisionTable(maintenanceDocForm);
         }
         catch (Exception e) {
-            error(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_CREATE_DECISION_TABLE, e.getMessage());
+            error("Unable to create decision table: %s", e.getMessage());
         }
 
         // Create the document in the super method
@@ -217,7 +217,7 @@ public class CourseController extends CourseRuleEditorController {
                 maintainable.setProposal(proposal);
             }
             catch (Exception e) {
-                warn(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_RETRIEVE_PROPOSAL, e.getMessage());
+                warn("Unable to retrieve the proposal: %s", e.getMessage());
             }
         }
         
@@ -240,7 +240,7 @@ public class CourseController extends CourseRuleEditorController {
             redrawDecisionTable(maintenanceDocForm);
         }
         catch (Exception e) {
-            error(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_CREATE_DECISION_TABLE, e.getMessage());
+            error("Unable to create decision table: %s", e.getMessage());
         }
 
         maintenanceDocForm.setRenderNavigationPanel(true);
@@ -285,7 +285,7 @@ public class CourseController extends CourseRuleEditorController {
                 maintainable.setProposal(proposal);
             }
             catch (Exception e) {
-                warn(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_RETRIEVE_PROPOSAL, e.getMessage());
+                warn("Unable to retrieve the proposal: %s", e.getMessage());
             }
         }
 

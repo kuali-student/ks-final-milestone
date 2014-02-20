@@ -170,7 +170,7 @@ public class LoDisplayInfoLookupableImpl extends LookupableImpl {
                 loCategories.add(loWrapper);
             }
         } catch (Exception e) {
-            throw new RuntimeException(CurriculumManagementConstants.ConfigProperties.ERROR_OCCURRED_SEARCHING_LEARNING_OBJECTIVES, e);
+            throw new RuntimeException("An error occurred while searching for Learning Objectives", e);
         }
         return loCategories;
     }
