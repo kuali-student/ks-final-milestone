@@ -22,8 +22,8 @@ import java.util.Date;
 /**
  * Relates a Student to a CourseWaitList.  Essentially these entries are used to represent all students on a course wait list
  *
- * These entries are assigned a well defined position that may be changed at a later time.
- * The lowest position is one.  The highest position is equal to the number of entries on the associated CourseWaitList.
+ * These entries are assigned a well defined order that may be changed at a later time.
+ * The lowest order is one.  The highest order is equal to the number of entries on the associated CourseWaitList.
  */
 public interface CourseWaitListEntry extends Relationship {
 
@@ -65,10 +65,10 @@ public interface CourseWaitListEntry extends Relationship {
     String getRegistrationRequestItemId();
 
     /**
-     * This entry's position on the WaitList.
-     * @name Position
+     * This entry's order on the WaitList.
+     * @name Order
      */
-    Integer getPosition();
+    Integer getOrder();
 
     /**
      * The last time that the student checked-in on this entry.
