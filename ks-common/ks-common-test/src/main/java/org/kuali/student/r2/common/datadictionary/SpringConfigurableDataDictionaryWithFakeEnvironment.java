@@ -15,25 +15,17 @@
  */
 package org.kuali.student.r2.common.datadictionary;
 
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.CoreConstants;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.api.config.property.ConfigurationService;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.resourceloader.ResourceLoader;
 import org.kuali.rice.core.api.util.RiceConstants;
 import org.kuali.rice.core.framework.resourceloader.BaseResourceLoader;
-import org.kuali.rice.core.framework.resourceloader.SimpleServiceLocator;
 import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.rice.krad.datadictionary.DataDictionary;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
-import org.kuali.rice.krad.service.KualiModuleService;
 import org.kuali.rice.krad.service.impl.DataDictionaryServiceImpl;
-import org.kuali.rice.krad.uif.service.impl.UifDefaultingServiceImpl;
-import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.class1.type.service.impl.TypeServiceMockImpl;
-import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.common.test.resourceloader.SimpleSpringResourceLoader;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -42,7 +34,6 @@ import javax.xml.namespace.QName;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class allows us to parse data dictionary files along with creating a fake environment
@@ -52,30 +43,20 @@ import java.util.Map;
  */
 public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDictionary implements ApplicationContextAware {
     private static final String MOCK_APP_ID = "mock-app.id";
+    private static final String APPLICATION_VERSION = "application.version";
+    private static final String RICE_VERSION = "rice.version";
+    private static final String VERSION_ONE = "1.0";
+
     private ApplicationContext applicationContext;
 
     public void init() {
         Config config = new JAXBConfigImpl();
         config.putProperty(CoreConstants.Config.APPLICATION_ID, MOCK_APP_ID);
-        config.putProperty("application.version", "1.0");
-        config.putProperty("rice.version", "1.0");
+        config.putProperty(APPLICATION_VERSION, VERSION_ONE);
+        config.putProperty(RICE_VERSION, VERSION_ONE);
         ConfigContext.init(config);
-        SimpleServiceLocator serviceLocator = new SimpleServiceLocator();
-
-        ConfigurationService configurationService = new ConfigurationService() {
-            @Override public String getPropertyValueAsString(String key) { return "{0} message"; }
-            @Override public boolean getPropertyValueAsBoolean(String key) { return false; }
-            @Override public Map<String, String> getAllProperties() { return null; }
-        };
-        serviceLocator.addService(new QName(CoreApiServiceLocator.KUALI_CONFIGURATION_SERVICE), configurationService);
-
-        KualiModuleService moduleService = (KualiModuleService) applicationContext.getBean(KRADServiceLocatorWeb.KUALI_MODULE_SERVICE);
-        serviceLocator.addService(new QName(KRADServiceLocatorWeb.KUALI_MODULE_SERVICE), moduleService);
-
-        serviceLocator.addService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART), new TypeServiceMockImpl());
 
         DataDictionaryServiceImpl dataDictionaryService = new DataDictionaryServiceImpl();
-        dataDictionaryService.setKualiConfigurationService(configurationService);
         List<String> locations = Arrays.asList(
                 "classpath:org/kuali/rice/krad/uif/UifControlDefinitions.xml",
                 "classpath:org/kuali/rice/krad/uif/UifConfigurationDefinitions.xml",
@@ -93,15 +74,12 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        serviceLocator.addService(new QName(KRADServiceLocatorWeb.DATA_DICTIONARY_SERVICE), dataDictionaryService);
-
-        UifDefaultingServiceImpl uifDefaultingService = new UifDefaultingServiceImpl();
-        uifDefaultingService.setDataDictionaryService(dataDictionaryService);
-        serviceLocator.addService(new QName(KRADServiceLocatorWeb.UIF_DEFAULTING_SERVICE), uifDefaultingService);
 
         ResourceLoader resourceLoader =
                 new BaseResourceLoader(
-                        new QName(MOCK_APP_ID, RiceConstants.DEFAULT_ROOT_RESOURCE_LOADER_NAME), serviceLocator);
+                        new QName(MOCK_APP_ID, RiceConstants.DEFAULT_ROOT_RESOURCE_LOADER_NAME),
+                        new SimpleSpringResourceLoader(applicationContext, dataDictionaryService)
+                );
 
         try {
             GlobalResourceLoader.stop();
