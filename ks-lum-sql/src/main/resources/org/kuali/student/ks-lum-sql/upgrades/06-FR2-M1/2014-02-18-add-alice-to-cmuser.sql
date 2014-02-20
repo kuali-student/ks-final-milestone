@@ -16,7 +16,3 @@ VALUES('Y','PERSON','KS-1535', SYS_GUID(), '1' )
 INSERT INTO KRIM_ROLE_MBR_T (ACTV_FRM_DT,ACTV_TO_DT,LAST_UPDT_DT,MBR_ID,MBR_TYP_CD,OBJ_ID,ROLE_ID,ROLE_MBR_ID,VER_NBR)
 VALUES (null,null,sysdate,'alice', 'P', SYS_GUID(),(select role_id from KRIM_ROLE_T where ROLE_NM='Kuali Student CM Admin'),KRIM_ROLE_MBR_ID_S.NEXTVAL,1)
 /
-DELETE FROM KRIM_ROLE_MBR_T WHERE MBR_ID = 'admin' and MBR_TYP_CD = 'P' and ROLE_ID = (select role_id from KRIM_ROLE_T where ROLE_NM='Kuali Student CM Admin')
-/
-DELETE FROM KRIM_ROLE_MBR_T WHERE MBR_ID = 'admin' and MBR_TYP_CD = 'P' and ROLE_ID = (select role_id from KRIM_ROLE_T where ROLE_NM='Kuali Student CM User')
-/
