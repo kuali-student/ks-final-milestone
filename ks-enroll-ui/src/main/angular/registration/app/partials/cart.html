@@ -66,7 +66,7 @@
             <div class="kscr-register-courseTitle" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
 
         </accordion-heading>
-            <div>
+            <div ng-hide="cartItem.editing" >
                 <!--course time, day, building-->
                 <div ng-repeat="item in cartItem.schedule">
                       <span class="kscr-course-times">
