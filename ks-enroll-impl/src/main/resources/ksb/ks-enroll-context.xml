@@ -82,6 +82,25 @@
         </property>
     </bean>
 
+    <!-- Seat count service START -->
+    <bean id="courseSeatCountService" class="org.kuali.student.enrollment.class2.courseseatcount.service.impl.CourseSeatCountServiceImpl"
+          scope="singleton">
+    </bean>
+
+    <bean id="ks.exp.courseSeatCountService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="true" />
+                <property name="service" ref="courseSeatCountService" />
+                <property name="serviceInterface" value="org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService" />
+                <property name="localServiceName" value="CourseSeatCountService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/courseSeatCount" />
+                <property name="busSecurity" value="${ks.enroll.bus.security}" />
+            </bean>
+        </property>
+    </bean>
+    <!-- Seat count service END -->
+
     <bean id="coCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
         <property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
         <property name="predicateTransforms">

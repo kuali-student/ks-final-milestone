@@ -54,6 +54,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
+import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
 import org.kuali.student.enrollment.lpr.service.LprService;
@@ -67,6 +68,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
+import org.kuali.student.r2.common.util.constants.CourseSeatCountServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -160,6 +162,7 @@ public class CourseOfferingManagementUtil {
     private static ActivityOfferingControllerTransactionHelper activityOfferingControllerTransactionHelper;
     private static EnumerationManagementService enumerationManagementService;
     private static PersonService personService;
+    private static CourseSeatCountService courseSeatCountService;
 
     private static HashMap<String, String> scheduleStateHm = null;
 
@@ -465,6 +468,15 @@ public class CourseOfferingManagementUtil {
             defaultOptionKeysService = new DefaultOptionKeysServiceImpl();
         }
         return defaultOptionKeysService;
+    }
+
+    public static CourseSeatCountService getCourseSeatCountService() {
+        if (courseSeatCountService == null) {
+            courseSeatCountService =
+                    (CourseSeatCountService) GlobalResourceLoader.getService(new QName(CourseSeatCountServiceConstants.NAMESPACE,
+                            CourseSeatCountServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return courseSeatCountService;
     }
 
     public static boolean checkEditViewAuthz(CourseOfferingManagementForm theForm) {
