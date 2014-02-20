@@ -16,9 +16,11 @@
  */
 package org.kuali.student.cm.course.form;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 /**
  * This class //TODO ...
@@ -72,6 +74,23 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     public boolean isCurriculumSpecialistUser() {
         return isCurriculumSpecialistUser;
+    }
+
+    public String getHeaderText(){
+        String headerSuffixText;
+
+        if (isCurriculumSpecialistUser() && !isUseCMreviewProcess()){
+            headerSuffixText = " (Admin Proposal)";
+        } else {
+            headerSuffixText = " (Proposal)";
+        }
+        ProposalInfo proposalInfo = ((CourseInfoWrapper) getDocument().getNewMaintainableObject().getDataObject()).getProposalInfo();
+
+        if (proposalInfo != null && StringUtils.isNotBlank(proposalInfo.getName())){
+            return proposalInfo.getName() + headerSuffixText;
+        } else {
+            return "New Course" + headerSuffixText;
+        }
     }
 
 }

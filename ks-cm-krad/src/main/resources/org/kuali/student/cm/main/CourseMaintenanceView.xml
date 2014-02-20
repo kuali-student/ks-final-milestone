@@ -231,7 +231,7 @@
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-HeaderTwo">
-                                        <property name="headerText" value="@{!#empty(document.newMaintainableObject.dataObject.ProposalInfo.name) ? document.newMaintainableObject.dataObject.ProposalInfo.name + ' (Proposal)': 'New Course (Proposal)'}" />
+                                        <property name="headerText" value="@{#form.headerText}" />
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>ks-header</value>
