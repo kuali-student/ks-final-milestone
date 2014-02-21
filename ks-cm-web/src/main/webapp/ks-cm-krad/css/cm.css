@@ -171,3 +171,8 @@
 .never_hide {
     display: block !important;
 }
+
+/* css class flag to toggle the widget */
+.admin-not-required-field {
+
+}

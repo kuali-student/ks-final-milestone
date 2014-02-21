@@ -110,6 +110,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
+                <value>admin-not-required-field</value>
             </list>
         </property>
         <property name="addLineActions">

@@ -29,7 +29,12 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course"  p:id="CourseView-ActiveDatesPage-PilotCourse">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>admin-not-required-field</value>
+                        </list>
+                    </property>
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
                     </property>
@@ -38,8 +43,13 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"   p:id="CourseView-ActiveDatesPage-EndTerm"
                       p:required="@{document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>admin-not-required-field</value>
+                        </list>
+                    </property>
                     <property name="refreshWhenChangedPropertyNames">
                         <list>
                             <value>document.newMaintainableObject.dataObject.courseInfo.pilotCourse</value>
