@@ -46,6 +46,7 @@
 		<property name="layoutManager">
 			<bean parent="Uif-HorizontalBoxLayout" />
 		</property>
+        <property name="onDocumentReadyScript" value="registerClosePopups();"/>
 		<property name="items">
 			<list>
                 <bean p:id="searchValidationMessages" parent="Uif-HorizontalBoxGroup">
@@ -79,6 +80,16 @@
                 </bean>
 				<ref bean="ksap_dialog_anchor" />
 				<ref bean="course_search_result_section" />
+                <bean p:id="termsOfferedPlaceholder" parent="Uif-HorizontalBoxGroup" p:cssClasses="ksap-hide">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message" p:messageText="Terms Offered"/>
+                        </list>
+                    </property>
+                    <property name="toolTip">
+                        <ref bean="quarter_facet_help_tooltip"/>
+                    </property>
+                </bean>
 			</list>
 		</property>
         <property name="stickyFooter" value="false"/>
@@ -349,19 +360,7 @@
         </property>
 	</bean>
 
-	<bean id="facet_quarter" parent="facet-parent" p:headerText="Terms Scheduled">
-		<!-- TODO: KSAP-560 -  Unhide and change to underlined help text
-		<property name="header.rightGroup">
-			<bean parent="Uif-HorizontalBoxGroup">
-				<property name="items">
-					<list>
-						<ref bean="quarter_facet_help_icon" />
-					</list>
-				</property>
-			</bean>
-		</property>
-		-->
-	</bean>
+	<bean id="facet_quarter" parent="facet-parent" p:headerText="Terms Scheduled"/>
 	<bean id="facet_genedureq" parent="facet-parent" p:headerText="Gen Ed" />
 	<bean id="facet_credits" parent="facet-parent" p:headerText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
 	<bean id="facet_level" parent="facet-parent" p:headerText="Course Level" />

@@ -196,7 +196,11 @@ function searchForCourses(id, parentId) {
 							results.fadeIn("fast");
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
-
+                            var newheader = jQuery("#termsOfferedPlaceholder");
+                            var oldheader = jQuery("[aria-label='Terms Offered']");
+                            oldheader.children().remove();
+                            newheader.removeClass("ksap-hide");
+                            oldheader.append(newheader);
 							ksapSearchComplete();
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {

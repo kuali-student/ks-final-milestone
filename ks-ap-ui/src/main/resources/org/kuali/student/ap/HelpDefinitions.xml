@@ -82,6 +82,5 @@
     <bean id="total_credits_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="The total number of credits attempted for a completed term. Check your transcript to verify earned credits."/>
     <bean id="recent_audits_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Displays the last seven audits run through KSAP. Audits are cleared at the end of each term."/>
     <bean id="bookmarks_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="Bookmark a course to save it for future planning. The course remains in your bookmarks until you've added it to your Plan or deleted it."/>
-
-
+    <bean id="quarter_facet_help_tooltip" parent="KSAP-Planner-Tooltip" p:tooltipContent="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TOOLTIP_TEXT')}"/>
 </beans>
