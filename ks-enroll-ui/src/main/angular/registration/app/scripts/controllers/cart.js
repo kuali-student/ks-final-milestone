@@ -129,6 +129,7 @@ angular.module('regCartApp')
             CartService.invokeActionLink(actionLink).query({},
                 function (response) {
                     $scope.cart.items.unshift(response);
+                    $scope.userMessage.txt = '';
                 });
         };
 
