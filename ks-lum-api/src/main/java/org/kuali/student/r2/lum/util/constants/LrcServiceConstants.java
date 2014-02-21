@@ -219,6 +219,7 @@ public class LrcServiceConstants {
     public static final String RESULT_VALUE_KEY_GRADE_PERCENTAGE_98 = "kuali.result.value.grade.percentage.98";
     public static final String RESULT_VALUE_KEY_GRADE_PERCENTAGE_99 = "kuali.result.value.grade.percentage.99";
     public static final String RESULT_VALUE_KEY_GRADE_PERCENTAGE_100 = "kuali.result.value.grade.percentage.100";
+    public static final String RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX = "kuali.result.value.credit.degree.";
     public static final String RESULT_VALUE_KEY_CREDIT_DEGREE_1 = "kuali.result.value.credit.degree.1";
     public static final String RESULT_VALUE_KEY_CREDIT_DEGREE_2 = "kuali.result.value.credit.degree.2";
     public static final String RESULT_VALUE_KEY_CREDIT_DEGREE_3 = "kuali.result.value.credit.degree.3";
