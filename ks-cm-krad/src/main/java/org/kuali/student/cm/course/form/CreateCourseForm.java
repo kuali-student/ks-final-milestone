@@ -17,10 +17,13 @@
 package org.kuali.student.cm.course.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,8 +43,8 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     public CreateCourseForm(){
         Map<String,String> permDetails = new HashMap<String, String>();
-        permDetails.put("documentTypeName","kuali.proposal.type.course.create.admin");
-        isCurriculumSpecialist = KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), "KR-SYS", "Initiate Document", permDetails);
+        permDetails.put(KewApiConstants.DOCUMENT_TYPE_NAME_DETAIL, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
+        isCurriculumSpecialist = KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION, permDetails);
     }
 
     public String getCreateCourseInitialAction() {
