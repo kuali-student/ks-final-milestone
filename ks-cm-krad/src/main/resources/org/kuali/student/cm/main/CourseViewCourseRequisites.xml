@@ -23,6 +23,39 @@
         <property name="headerText" value="Course Requisites"/>
         <property name="items">
             <list>
+                <ref bean="CourseRequisites-NoRequiredMessageLink" />
+                <ref bean="CourseRequisites-CollectionSection" />
+            </list>
+        </property>
+    </bean>
+    <bean id="CourseRequisites-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
+        <property name="style" value="display: none;" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>hide-when-show-all-fields</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="CourseRequisites-NoRequiredMessage"
+                      p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="CourseRequisites-NoRequiredMessage-expand-link"
+                      p:actionScript="createCourseShowHideObjectiveElements('CourseRequisites-NoRequiredMessageLink', 'CourseRequisites-CollectionSection');"
+                      p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseRequisites-CollectionSection" parent="Uif-VerticalBoxSection" p:headerText="">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
                 <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
                 <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
                     <property name="propertyName" value="courseRuleManagementWrapper.agendas"/>
@@ -33,5 +66,4 @@
             </list>
         </property>
     </bean>
-
 </beans>

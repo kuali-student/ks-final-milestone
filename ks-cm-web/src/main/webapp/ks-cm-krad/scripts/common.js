@@ -220,11 +220,19 @@ function showHideCreateCourseOptionalElements () {
         jQuery("#Create-CourseView-Admin-Message_span").text(showingAll);
         jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showRequired);
         jQuery(".admin-not-required-field").show();
+        jQuery(".hide-when-show-all-fields").hide();
     }  else  {
         jQuery("#Create-CourseView-Admin-Message_span").text(showingRequired);
         jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showAll);
         jQuery(".admin-not-required-field").hide();
+        jQuery(".hide-when-show-all-fields").show();
     }
     jQuery("#CreateCourseProposalTitleInputField_control").focus();
+
+}
+
+function createCourseShowHideObjectiveElements(hideId, showId) {
+    jQuery("#"+hideId).hide();
+    jQuery("#"+showId).show();
 
 }

@@ -23,8 +23,42 @@
         <property name="header.render" value="@{#form.curriculumSpecialist}"/>
         <property name="items">
             <list>
+                <ref bean="CourseView-Financials-NoRequiredMessageLink" />
+                <ref bean="CourseView-Financials-CollectionSection" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseView-Financials-CollectionSection" parent="Uif-VerticalBoxSection" p:headerText="">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
                 <ref bean="KS-CourseView-Financials-CourseFees-Widgets" />
                 <ref bean="KS-CourseView-Financials-Widgets" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="CourseView-Financials-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
+        <property name="style" value="display: none;" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>hide-when-show-all-fields</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="CourseView-Financials-NoRequiredMessage"
+                      p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="CourseRequisites-NoRequiredMessage-expand-link"
+                      p:actionScript="createCourseShowHideObjectiveElements('CourseView-Financials-NoRequiredMessageLink', 'CourseView-Financials-CollectionSection');"
+                      p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                </bean>
             </list>
         </property>
     </bean>
