@@ -92,7 +92,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CreateCourse-Review-Section" parent="Uif-VerticalBoxSubSection"  p:render="@{#hasPerm('KS-SYS', 'Create Course By Admin Proposal')}">
+    <bean id="KS-CreateCourse-Review-Section" parent="Uif-VerticalBoxSubSection"  p:render="@{#form.curriculumSpecialist}">
         <property name="headerText" value="Review Process"/>
         <property name="cssClasses">
             <list merge="true">

@@ -22,6 +22,9 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Form for create course.
  */
@@ -36,7 +39,9 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
     private int selectedTabIndex = 0;
 
     public CreateCourseForm(){
-        isCurriculumSpecialist = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(),"KS-SYS", "Create Course By Admin Proposal");
+        Map<String,String> permDetails = new HashMap<String, String>();
+        permDetails.put("documentTypeName","kuali.proposal.type.course.create.admin");
+        isCurriculumSpecialist = KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), "KR-SYS", "Initiate Document", permDetails);
     }
 
     public String getCreateCourseInitialAction() {
