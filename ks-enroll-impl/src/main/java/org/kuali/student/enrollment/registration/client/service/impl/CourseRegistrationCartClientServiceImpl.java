@@ -512,7 +512,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
             String grading = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING);
             if (!lastCartItemId.equals(cartItemId)) {
-                String creditsStr = StringUtils.substringAfterLast(credits, "kuali.result.value.credit.degree.");
+                String creditsStr = StringUtils.substringAfterLast(credits, LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
                 currentCartItem = new CartItemResult();
                 currentCartItem.setCartItemId(cartItemId);
                 currentCartItem.setCourseCode(courseCode);

@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -151,7 +152,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         lpr.setEffectiveDate(effDate);
         lpr.setAtpId(atpId);
         if (!StringUtils.isEmpty(credits)) {
-            lpr.getResultValuesGroupKeys().add("kuali.result.value.credit.degree." + credits);
+            lpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
         }
         if (!StringUtils.isEmpty(gradingOptionKey)) {
             lpr.getResultValuesGroupKeys().add(gradingOptionKey);
