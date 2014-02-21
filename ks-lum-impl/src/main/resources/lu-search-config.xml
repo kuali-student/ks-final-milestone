@@ -2683,6 +2683,24 @@
             </search:queryParams>
         </search:searchCriteriaTypeInfo>
     </search:searchType>-->
+    <search:searchType id="ksap.course.lui.code.find">
+        <search:searchResultTypeInfo>
+            <search:name/>
+            <search:desc/>
+            <search:resultColumns>
+                <search:resultColumn id="ksap.course.lui.code.find.result.code">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+                <search:resultColumn id="ksap.course.lui.code.find.result.division">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
+            </search:resultColumns>
+        </search:searchResultTypeInfo>
+        <search:searchCriteriaTypeInfo>
+            <search:queryParams>
+            </search:queryParams>
+        </search:searchCriteriaTypeInfo>
+    </search:searchType>
 
     <bean id="queryMap" parent="queryMap-parent">
         <property name="sourceMap">
@@ -3205,6 +3223,23 @@
                         FROM KSLU_CLU clu
                         WHERE clu.id = :courseId OR (clu.ver_ind_id = :courseId) AND clu.EXP_FIRST_ATP = (select min(c.EXP_FIRST_ATP)
                         FROM KSLU_CLU c where c.ver_ind_id = clu.ver_ind_id and c.LAST_ATP >= :lastScheduledTerm group by c.ver_ind_id )
+                    </value>
+                </entry>
+                <entry key="ksap.course.lui.code.find">
+                    <value>NATIVE:
+                        SELECT DISTINCT
+                        cluIdent.SUFX_CD,
+                        cluIdent.DIVISION
+                        FROM
+                        KSLU_CLU clu,
+                        KSLU_CLU_IDENT cluIdent,
+                        KSEN_LUI lui,
+                        KSEN_LUI_IDENT luiIdent
+                        WHERE
+                        luiIdent.LUI_CD = :courseCd
+                        AND luiIdent.LUI_ID = lui.ID
+                        AND lui.CLU_ID = clu.ID
+                        AND clu.OFFIC_CLU_ID = cluIdent.ID
                     </value>
                 </entry>
 
