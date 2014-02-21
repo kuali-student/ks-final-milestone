@@ -352,7 +352,7 @@ public interface AcademicRecordService {
             PermissionDeniedException;
 
     /**
-     * This method returns the summary of student programs (includes currently
+     * This method returns the summary of student programs records (includes currently
      * enrolled, completed and not completed)
      *
      * @param personId    an Id of a student
@@ -367,7 +367,7 @@ public interface AcademicRecordService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StudentProgramRecordInfo> getProgramRecords(@WebParam(name = "personId") String personId,
+    public List<StudentProgramRecordInfo> getStudentProgramRecords(@WebParam(name = "personId") String personId,
                                                             @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException,
             InvalidParameterException,
