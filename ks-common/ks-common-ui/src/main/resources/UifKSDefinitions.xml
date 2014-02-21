@@ -22,7 +22,9 @@
 
     <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
     <bean id="KSTheme-parentBean" parent="Uif-BaseTheme">
-        <property name="cssFiles">
+        <property name="usesThemeBuilder" value="false"/>
+        <property name="minCssFile" value="themes/ksboot/stylesheets/ksboot.@{#ConfigProperties['project.version']}.min.css"/>
+        <property name="minCssSourceFiles">
             <list merge="true">
                 <value>plugins/tooltip/ks.jquery.bubblepopup.css</value>
                 <value>themes/ksboot/stylesheets/enroll.css</value>
@@ -31,9 +33,10 @@
         </property>
         <!--TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
         <!--We need to remove <value>themes/ksboot/scripts/krad.request.js</value> from the cript files after the rice fix-->
-        <property name="scriptFiles">
+        <property name="minScriptFile" value="themes/ksboot/scripts/ksboot.@{#ConfigProperties['project.version']}.min.js"/>
+        <property name="minScriptSourceFiles">
             <list merge="true">
-                <value>themes/bootstrap/scripts/bootstrap.js</value>
+                <value>themes/ksboot/scripts/bootstrap.js</value>
                 <value>themes/ksboot/scripts/enroll.js</value>
                 <value>krad/scripts/ks.krad.override.js</value>
                 <value>themes/ksboot/scripts/krad.request.js</value>

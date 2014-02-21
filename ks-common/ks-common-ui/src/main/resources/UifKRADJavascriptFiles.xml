@@ -23,10 +23,10 @@
     <!-- This allows switching of minified and pretty KRAD javascript for debugging -->
     <bean id="Uif-BaseTheme" abstract="true" parent="Uif-KbootTheme">
         <!-- since we are providing a manual listing of files below, configuration should not be based on convention -->
-        <property name="usesThemeBuilder" value="false" />
+        <!--<property name="usesThemeBuilder" value="false" />-->
         <!-- since we are providing a manual listing of files below, we should exclude minimized files -->
-        <property name="includeMinFiles" value="false" />
-        <property name="cssFiles">
+        <!--<property name="includeMinFiles" value="false" />-->
+        <property name="minCssSourceFiles">
             <list>
                 <value>themes/ksboot/stylesheets/ksboot.css</value>
                 <value>themes/ksboot/stylesheets/fontello.css</value>
@@ -40,7 +40,7 @@
                 <value>plugins/tooltip/jquery.bubblepopup.v2.3.1.css</value>
             </list>
         </property>
-        <property name="scriptFiles">
+        <property name="minScriptSourceFiles">
             <list>
                 <value>plugins/jquery/jquery-1.8.3.js</value>
                 <value>plugins/validate/jquery.validate.js</value>
