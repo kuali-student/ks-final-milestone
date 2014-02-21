@@ -145,19 +145,44 @@ public interface CourseRegistrationCartClientService {
     public Response searchForCartRS(@QueryParam("userId") String userId,
                                     @QueryParam("termId") String termId);
 
+    /**
+     * Looks up cart information for the given user and term. if no cart exists, one is created
+     *
+     * @param userId student id that owns the cart
+     * @param termId term for the cart
+     * @return a Cart Result that contains the courses a student is intending to enroll in for the given term.
+     * @throws LoginException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DoesNotExistException
+     * @throws DataValidationErrorException
+     * @throws ReadOnlyException
+     */
     public CartResult searchForCart(String userId, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException;
 
 
+    /**
+     * Gets the registration options of the for the course term and reg group id
+     *
+     * @param courseCode course code
+     * @param termId     term key
+     * @param regGroupId registration group id
+     * @return a registration result option
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/getStudentRegistrationOptions")
-    /**
-     *
-     *
-     */
     public RegistrationOptionResult getStudentRegistrationOptions(@QueryParam("courseCode") String courseCode,
                                                                   @QueryParam("termId") String termId,
                                                                   @QueryParam("regGroupId") String regGroupId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 }
 
 

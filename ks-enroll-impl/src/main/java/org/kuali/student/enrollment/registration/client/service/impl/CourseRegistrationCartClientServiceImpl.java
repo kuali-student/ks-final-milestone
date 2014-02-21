@@ -422,19 +422,21 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         //Verify that the Atp exists.
         getAtpService().getAtp(termId, contextInfo);
 
+        //Perform the actual search (this requires user id and term id)
         CartResult cartResult = getCartForUserAndTerm(userId, termId, null, true, contextInfo);
 
+        //If nothing was found, this could mean there is an empty cart or no cart at all
         if (cartResult == null) {
-
+            //Search for the cart ID to see if an empty cart already exists for the user and term
             String cartId = searchForCartId(userId, termId, contextInfo);
             cartResult = new CartResult();
             cartResult.setCartId(cartId);
             cartResult.setTermId(termId);
             if (cartId == null) {
+                //If no cart was found we will create one
                 RegistrationRequestInfo request = createCart(userId, termId, contextInfo);
                 cartResult.setCartId(request.getId());
             }
-
         }
 
         return cartResult;
@@ -461,7 +463,20 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return null;
     }
 
+    /**
+     * A search service-backed method that returns a cart and the associated item(s)
+     *
+     * @param userId          the student id who wons the cart
+     * @param termId          the term for the cart
+     * @param cartItemIdParam An optional parameter if you are looking for schedule information for just one cart item
+     * @param populateOptions flag if the credit/grading options should be populated
+     * @param contextInfo     the context of the call
+     * @return a Cart result
+     * @throws OperationFailedException
+     * @throws InvalidParameterException
+     */
     private CartResult getCartForUserAndTerm(String userId, String termId, String cartItemIdParam, boolean populateOptions, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
+        //Create a search request that finds cart information for a given user and term, or alternatively for a single specific cart item.
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_CART_BY_PERSON_TERM_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
@@ -480,6 +495,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             return null;
         }
 
+        //Initialize variables that help organize the flat data into the object graph
         String lastCartItemId = "";
         String lastAoName = "";
         String lastCartId = "";
@@ -488,6 +504,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         CartResult cartResult = new CartResult();
         Map<String, List<CartItemResult>> luiIdToCartItems = new HashMap<String, List<CartItemResult>>();
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
+            //Parse information from the flat search results
             String cartId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ID);
             String cartItemId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ITEM_ID);
             String courseCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_CODE);
@@ -504,7 +521,10 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
             String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
             String grading = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING);
+
+            //Check if this is a new cart item and create a new object if so
             if (!lastCartItemId.equals(cartItemId)) {
+                //If so, create the new cart item
                 String creditsStr = StringUtils.substringAfterLast(credits, LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX);
                 currentCartItem = new CartItemResult();
                 currentCartItem.setCartItemId(cartItemId);
@@ -515,17 +535,21 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 currentCartItem.setRegGroupCode(rgCode);
                 currentCartItem.getActionLinks().add(buildDeleteLink(cartId, cartItemId, grading, creditsStr));
                 cartResult.getItems().add(currentCartItem);
+                //Reset the lastAO Name
                 lastAoName = "";
                 if (!luiIdToCartItems.containsKey(courseId)) {
                     luiIdToCartItems.put(courseId, new ArrayList<CartItemResult>());
                 }
                 luiIdToCartItems.get(courseId).add(currentCartItem);
             }
+            //Check if this is a new AO and create a new object if so
             if (!lastAoName.equals(aoName)) {
                 aoSched = new ActivityOfferingScheduleResult();
                 aoSched.setActivityOfferingType(aoType.substring(aoType.lastIndexOf(".") + 1, aoType.lastIndexOf(".") + 4).toUpperCase());
                 currentCartItem.getSchedule().add(aoSched);
             }
+
+            //The rest of the information (schedule) is repeated for each AO on each cart Item.
             ActivityOfferingLocationTimeResult locationTimeResult = new ActivityOfferingLocationTimeResult();
 
             ScheduleLocationResult locationResult = new ScheduleLocationResult();
@@ -546,7 +570,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             lastCartItemId = cartItemId;
         }
 
-        //Now we need grading options
+        //Now we need grading and credit options in a new search
         if (populateOptions) {
             populateOptions(luiIdToCartItems, contextInfo);
         }
@@ -556,6 +580,13 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return cartResult;
     }
 
+    /**
+     * The method populates the credit and grading options for a cart item
+     *
+     * @param luiIdToCartItem a mapping of lui to cart items
+     * @param contextInfo     the context of the call
+     * @throws OperationFailedException
+     */
     private void populateOptions(Map<String, List<CartItemResult>> luiIdToCartItem, ContextInfo contextInfo) throws OperationFailedException {
 
         List<String> coIds = new ArrayList<String>(luiIdToCartItem.keySet());
