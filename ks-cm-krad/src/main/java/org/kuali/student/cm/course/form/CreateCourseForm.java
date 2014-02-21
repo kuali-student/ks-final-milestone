@@ -67,10 +67,6 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         return isCurriculumSpecialist;
     }
 
-    public void setCurriculumSpecialist(boolean isCurriculumSpecialist) {
-        this.isCurriculumSpecialist = isCurriculumSpecialist;
-    }
-
     public String getHeaderText() {
         String headerSuffixText;
 

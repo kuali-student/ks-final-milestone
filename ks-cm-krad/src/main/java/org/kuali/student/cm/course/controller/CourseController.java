@@ -159,14 +159,7 @@ public class CourseController extends CourseRuleEditorController {
 
     @Override
     protected CreateCourseForm createInitialForm(HttpServletRequest request) {
-        CreateCourseForm form = new CreateCourseForm();
-
-        boolean isCurriculumSpecialist = KimApiServiceLocator.getPermissionService()
-                .hasPermission(GlobalVariables.getUserSession()
-                        .getPrincipalId(), "KS-SYS", "Create Course By Admin Proposal");
-
-        form.setCurriculumSpecialist(isCurriculumSpecialist);
-        return form;
+        return new CreateCourseForm();
     }
     
     /**
