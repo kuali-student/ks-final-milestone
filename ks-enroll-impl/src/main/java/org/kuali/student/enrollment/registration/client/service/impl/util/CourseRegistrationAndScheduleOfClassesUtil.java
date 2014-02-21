@@ -401,11 +401,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * @param gradingOptionId gradingOptionId
      * @return registration request
      */
-    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupid, String credits, String gradingOptionId) {
+    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupid, String credits, String gradingOptionId, String typeKey, String stateKey) {
 
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
-        registrationRequestItem.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
-        registrationRequestItem.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        registrationRequestItem.setTypeKey(typeKey);
+        registrationRequestItem.setStateKey(stateKey);
         registrationRequestItem.setRegistrationGroupId(regGroupid);
         registrationRequestItem.setPersonId(principalId);
         registrationRequestItem.setCredits(new KualiDecimal(credits));

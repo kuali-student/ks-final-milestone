@@ -237,7 +237,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         CartItemResult optionsCartItem = getOptionsCartItem(rg, courseCode, credits, gradingOptionId, contextInfo);
 
         // Create new reg request item and add it to the cart
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), optionsCartItem.getCredits(), optionsCartItem.getGrading());
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(cart.getRequestorId(), rg.getRegGroupId(), optionsCartItem.getCredits(), optionsCartItem.getGrading(), LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         registrationRequestItem.setMeta(new MetaInfo());
         registrationRequestItem.getMeta().setCreateId(cart.getMeta().getCreateId());//TODO KSENROLL-11755 we need a  better way to handle userIds (add as param in RS)
         cart.getRegistrationRequestItems().add(registrationRequestItem);

@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -128,5 +129,15 @@ public interface CourseRegistrationClientService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/clearpersonlprs")
     public Response clearLPRsByPerson(@QueryParam("person") String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
+
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/updateScheduleItem")
+    public ScheduleItemResult updateScheduleItem(@QueryParam("userId") String userId,
+                                                 @QueryParam("termId") String termId,
+                                                 @QueryParam("courseCode") String courseCode,
+                                                 @QueryParam("regGroupCode") String regGroupCode,
+                                                 @QueryParam("credits") String credits,
+                                                 @QueryParam("gradingOptions") String gradingOption) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException;
 
 }

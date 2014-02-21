@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.ActivityOffe
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleCourseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
@@ -557,7 +558,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY); // new reg request
         regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
 
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupid, credits, gradingOptionId);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupid, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
@@ -603,6 +604,36 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         return credits;
+    }
+
+    public ScheduleItemResult updateScheduleItem(String userId, String termId, String courseCode, String regGroupCode, String credits, String gradingOption) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+        RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        String regGroupId = "";
+        regGroupId=CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, CourseRegistrationAndScheduleOfClassesUtil.getAtpService().getAtp(termId, contextInfo).getCode(), courseCode, regGroupCode, regGroupId, contextInfo).getRegGroupId();
+        registrationRequestInfo.setTermId(termId);
+        registrationRequestInfo.setRequestorId(userId);
+        registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+        registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, regGroupId,credits,gradingOption, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
+        registrationRequestItemInfos.add(registrationRequestItem);
+        registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
+
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, registrationRequestInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        RegistrationResponseInfo registrationResponseInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+
+        ScheduleItemResult scheduleItemResult = new ScheduleItemResult();
+        scheduleItemResult.setCourseCode(courseCode);
+        scheduleItemResult.setCredits(credits);
+        scheduleItemResult.setGradingOptions(gradingOption);
+        scheduleItemResult.setRegGroupId(regGroupCode);
+        scheduleItemResult.setTermId(termId);
+        scheduleItemResult.setUserId(userId);
+
+        return scheduleItemResult;
     }
 
     private List<String> setCourseOfferingCreditOptions(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
