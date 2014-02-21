@@ -165,12 +165,14 @@
           parent="Uif-StackedCollectionSection" p:headerText="Outcome"
           p:propertyName="dataObject.creditOptionWrappers"
           p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper">
-        <property name="addBlankLineAction">
-            <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Outcome"/>
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Outcome" />
+            </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="Outcome @{(#index + 1)}" />
-        <property name="renderAddBlankLineButton" value="true" />
+        <!--<property name="renderAddBlankLineButton" value="true" />-->
         <property name="addLinePlacement" value="BOTTOM" />
         <property name="items">
             <list>
@@ -247,9 +249,11 @@
                   p:tooltipHelpContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats." />
         </property>
         <property name="addLinePlacement" value="BOTTOM" />
-        <property name="renderAddBlankLineButton" value="true" />
-        <property name="addBlankLineAction">
-            <bean parent="Uif-AddBlankLineAction" p:actionLabel="Add Additional Format"/>
+        <!--<property name="renderAddBlankLineButton" value="true" />-->
+        <property name="addLineActions">
+            <list>
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Additional Format" />
+            </list>
         </property>
         <property name="addLineLabel.messageText" value=" " />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
@@ -260,9 +264,11 @@
                       p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.ActivityInfo"
                       p:propertyName="activities">
                     <property name="addLinePlacement" value="BOTTOM" />
-                    <property name="renderAddBlankLineButton" value="true" />
-                    <property name="addBlankLineAction">
-                        <bean parent="Uif-AddBlankLineAction" p:actionLabel="Activity"/>
+                    <!--<property name="renderAddBlankLineButton" value="true" />-->
+                    <property name="addLineActions">
+                        <list>
+                            <bean parent="Uif-AddLineAction" p:actionLabel="Activity" />
+                        </list>
                     </property>
                     <property name="addLineLabel.messageText" value="Activity " />
                     <property name="layoutManager.lineGroupPrototype.header.headerText"
