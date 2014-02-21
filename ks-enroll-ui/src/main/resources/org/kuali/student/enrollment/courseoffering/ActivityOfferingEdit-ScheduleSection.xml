@@ -214,15 +214,15 @@
 						<bean parent="CharsetPatternConstraint" p:validChars="MTWHFSUmtwhfsu" p:messageKey="validation.enroll.ao.scheduleValidChars"/>
 					</property>
                 </bean>
-                <bean id="rdl_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time@{#dp.newScheduleRequest.tba ? '' : '*'}" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
+                <bean id="rdl_starttime" parent="Uif-InputField-LabelTop" p:label="Start Time@{#dp.newScheduleRequest.tba ? '' : ' *'}" p:propertyName="newScheduleRequest.startTime"   p:additionalCssClasses="uif-boxLayoutHorizontalItem"
                       p:disableNativeAutocomplete="true" p:required="@{!#dp.newScheduleRequest.tba}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="8" p:maxLength="8" p:cssClasses="new_rdl_components, validTimeAMPMPattern" p:onBlurScript="rdlStartTimeOnBlur();"/>
                     </property>
                 </bean>
-                <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time" p:propertyName="newScheduleRequest.endTime"
-                                       p:disableNativeAutocomplete="true" p:forceSessionPersistence="true">
+                <bean id="rdl_endtime" parent="Uif-InputField-LabelTop" p:label="End Time@{#dp.newScheduleRequest.tba ? '' : ' *'}"  p:propertyName="newScheduleRequest.endTime"  p:additionalCssClasses="uif-boxLayoutHorizontalItem"
+                                       p:disableNativeAutocomplete="true" p:forceSessionPersistence="true" p:required="@{!#dp.newScheduleRequest.tba}" p:refreshWhenChangedPropertyNames="#dp.newScheduleRequest.tba">
                     <property name="fieldLabel.requiredMessage.messageText" value=""/>
                      <property name="control">
                          <bean parent="Uif-DropdownControl" p:cssClasses="new_rdl_components, validDaysStartimeComboForStandardTimeSlot"/>
