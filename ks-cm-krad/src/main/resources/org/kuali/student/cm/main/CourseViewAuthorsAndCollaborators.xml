@@ -14,7 +14,14 @@
         <property name="headerText" value="Authors &amp; Collaborators"/>
         <property name="items">
             <list>
-                <bean parent="Uif-TableCollectionSection" lazy-init="false" p:layoutManager.numberOfColumns="4">
+                <ref bean="AuthorsAndCollaborators-NoRequiredMessageLink" />
+                <bean parent="Uif-TableCollectionSection" lazy-init="false" p:layoutManager.numberOfColumns="4"
+                    p:id="CourseView-AuthorsAndCollaborators-TableCollectionSection">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>admin-not-required-field</value>
+                        </list>
+                    </property>
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
                     <property name="propertyName" value="dataObject.collaboratorWrappers" />
                     <property name="layoutManager.separateAddLine" value="true" />
@@ -142,4 +149,25 @@
             </list>
         </property>
     </bean>
+
+    <bean id="AuthorsAndCollaborators-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
+        <property name="style" value="display: none;" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>hide-when-show-all-fields</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="AuthorsAndCollaborators-NoRequiredMessage"
+                      p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="AuthorsAndCollaborators-NoRequiredMessage-expand-link"
+                      p:actionScript="createCourseShowHideObjectiveElements('AuthorsAndCollaborators-NoRequiredMessageLink', 'CourseView-AuthorsAndCollaborators-TableCollectionSection');"
+                      p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>

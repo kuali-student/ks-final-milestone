@@ -29,6 +29,11 @@
     </bean>
 
     <bean id="KS-CourseView-CourseLogisticsPage-Scheduling-Widgets" parent="Uif-VerticalBoxSection" p:headerText="Scheduling">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="course.termsOffered"
@@ -51,6 +56,11 @@
           parent="Uif-HorizontalBoxSection" p:headerText="Duration Count"
           p:instructionalText="First select the duration type (term, month, week, weekend, day) then select the count of the duration for the course.
 			Most courses will have 1 or 2&lt;br&gt;terms, for example.">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean id="KS-DurationTypeDropDown" parent="Uif-InputField-LabelTop"
@@ -114,9 +124,13 @@
             </list>
         </property>
     </bean>
-    <bean
-            id="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets"
+    <bean id="KS-CourseView-CourseLogisticsPage-StudentRegistrationOptions-Widgets"
             parent="Uif-VerticalBoxSection" p:headerText="Student Registration Options">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>admin-not-required-field</value>
+            </list>
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.audit"

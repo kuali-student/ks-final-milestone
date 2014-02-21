@@ -23,6 +23,7 @@
         <property name="headerText" value="Supporting Documents"/>
         <property name="items">
             <list>
+                <ref bean="SupportingDocuments-NoRequiredMessageLink" />
                 <ref bean="KS-SupportingDocuments-Section" />
             </list>
         </property>
@@ -50,6 +51,7 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
+                <value>admin-not-required-field</value>
             </list>
         </property>
         <property name="addLineActions">
@@ -78,4 +80,25 @@
             </list>
         </property>
     </bean>
+
+    <bean id="SupportingDocuments-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
+        <property name="style" value="display: none;" />
+        <property name="cssClasses">
+            <list merge="true">
+                <value>hide-when-show-all-fields</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:id="SupportingDocuments-NoRequiredMessage"
+                      p:messageText="No required fields." p:style="margin-top: 5px; margin-right: 0px;">
+                </bean>
+                <bean parent="KS-Uif-ActionLink" p:id="SupportingDocuments-NoRequiredMessage-expand-link"
+                      p:actionScript="createCourseShowHideObjectiveElements('SupportingDocuments-NoRequiredMessageLink', 'KS-SupportingDocuments-Section');"
+                      p:actionLabel="Show all fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                </bean>
+            </list>
+        </property>
+    </bean>
+
 </beans>
