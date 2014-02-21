@@ -20,6 +20,7 @@ import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
+import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -35,6 +36,8 @@ import org.kuali.student.r2.core.search.infc.SearchRequest;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.infc.Clu;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
@@ -490,26 +493,38 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	 */
 	@Override
 	public DeconstructedCourseCode getCourseDivisionAndNumber(String courseCode) {
-		// TODO: KSAP-756
 		String subject = null;
 		String number = null;
 		String activityCd = null;
-		if (courseCode.matches(CourseSearchConstants.FORMATTED_COURSE_CODE_REGEX)) {
-			String[] splitStr = courseCode.toUpperCase().split(CourseSearchConstants.SPLIT_DIGITS_ALPHABETS);
-			subject = splitStr[0].trim();
-			number = splitStr[1].trim();
-		} else if (courseCode.matches(CourseSearchConstants.COURSE_CODE_WITH_SECTION_REGEX)) {
-			activityCd = courseCode.substring(courseCode.lastIndexOf(" "), courseCode.length()).trim();
-			courseCode = courseCode.substring(0, courseCode.lastIndexOf(" ")).trim();
-			String[] splitStr = courseCode.toUpperCase().split(CourseSearchConstants.SPLIT_DIGITS_ALPHABETS);
-			subject = splitStr[0].trim();
-			number = splitStr[1].trim();
-		} else if (courseCode.matches(CourseSearchConstants.UNFORMATTED_COURSE_CODE_REGEX)) {
-			String[] splitStr = courseCode.toUpperCase().split(CourseSearchConstants.SPLIT_DIGITS_ALPHABETS);
-			subject = splitStr[0].trim();
-			number = splitStr[1].trim();
-		}
-		return new DefaultDeconstructedCourseCode(subject, number, activityCd);
+        courseCode=courseCode.toUpperCase();
+        try{
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code", courseCode));
+            List<CluInfo> clus = KsapFrameworkServiceLocator.getCluService().searchForClus(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+            CluInfo clu = KSCollectionUtils.getOptionalZeroElement(clus);
+            if(clu!=null){
+                subject = clu.getOfficialIdentifier().getDivision();
+                number = clu.getOfficialIdentifier().getSuffixCode();
+                activityCd ="";
+            }else{
+                SearchRequestInfo luiQuery = new SearchRequestInfo("ksap.course.lui.code.find");
+                luiQuery.addParam("courseCd",courseCode);
+                SearchResultInfo results = KsapFrameworkServiceLocator.getCluService().search(luiQuery, KsapFrameworkServiceLocator.getContext().getContextInfo());
+                SearchResultRow row = KSCollectionUtils.getOptionalZeroElement(results.getRows());
+                subject = getCellValue(row,"ksap.course.lui.code.find.result.division");
+                number = getCellValue(row,"ksap.course.lui.code.find.result.code");
+                activityCd = courseCode.replace(subject,"").replace(number,"").trim();
+            }
+        }catch (MissingParameterException e) {
+           throw new RuntimeException("Course code not found", e);
+        } catch (InvalidParameterException e) {
+            throw new RuntimeException("Course code not found", e);
+        } catch (OperationFailedException e) {
+            throw new RuntimeException("Course code not found", e);
+        } catch (PermissionDeniedException e) {
+            throw new RuntimeException("Course code not found", e);
+        }
+
+        return new DefaultDeconstructedCourseCode(subject, number, activityCd);
 	}
 
 	/**
@@ -766,5 +781,14 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         } catch (PermissionDeniedException e) {
             throw new IllegalStateException("CO lookup failure", e);
         }
+    }
+
+    private String getCellValue(SearchResultRow row, String key) {
+        for (SearchResultCell cell : row.getCells()) {
+            if (key.equals(cell.getKey())) {
+                return cell.getValue();
+            }
+        }
+        return "";
     }
 }
