@@ -10,7 +10,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.infc.RegistrationRequestItem;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
@@ -58,6 +57,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -137,16 +137,16 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     protected Link buildDeleteLink(String cartId, String cartItemId, String gradingOptionId, String credits) {
         String action = "removeItemFromCart";
-        String uri = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/removeItemFromCart?cartId=%s&cartItemId=%s&gradingOptionId=%s&credits=%s";
-        uri = String.format(uri, cartId, cartItemId, gradingOptionId, credits);
+        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/removeItemFromCart?cartId=%s&cartItemId=%s&gradingOptionId=%s&credits=%s";
+        String uri = String.format(uriFormat, cartId, cartItemId, gradingOptionId, credits);
 
         return new Link(action, uri);
     }
 
     protected Link buildAddLink(String cartId, String regGroupId, String gradingOptionId, String credits) {
         String action = "addCourseToCart";
-        String uri = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/addCourseToCart?cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
-        uri = String.format(uri, cartId, regGroupId, gradingOptionId, credits);
+        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/addCourseToCart?cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
+        String uri = String.format(uriFormat, cartId, regGroupId, gradingOptionId, credits);
 
         return new Link(action, uri);
     }
@@ -174,28 +174,32 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     public CartItemResult removeItemFromCart(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId, @QueryParam("gradingOptionId") String gradingOptionId, @QueryParam("credits") String credits) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        //Look up the courseRegistration request that represents this cart
         RegistrationRequestInfo cart = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
 
-        RegistrationRequestItem removedItem = null;
-        for (int i = 0; i < cart.getRegistrationRequestItems().size(); i++) {
-            if (cart.getRegistrationRequestItems().get(i).getId().equals(cartItemId)) {
-                removedItem = cart.getRegistrationRequestItems().remove(i);
-                break;
+        //Loop through the request items in the cart and remove the item with the matching cartItem ID
+        for (Iterator<RegistrationRequestItemInfo> cartItemIter = cart.getRegistrationRequestItems().iterator(); cartItemIter.hasNext(); ) {
+            RegistrationRequestItemInfo requestItem = cartItemIter.next();
+            if (requestItem.getId().equals(cartItemId)) {
+
+                //Remove the cart Item
+                cartItemIter.remove();
+
+                //Persist the changes to the cart
+                getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
+
+                //Create a result as a return value of what was deleted
+                CartItemResult cartItemInfo = new CartItemResult();
+                cartItemInfo.setRegGroupId(requestItem.getRegistrationGroupId());
+                cartItemInfo.setCredits(credits);
+                cartItemInfo.setGrading(gradingOptionId);
+
+                return cartItemInfo;
             }
         }
 
-        if (removedItem == null) {
-            throw new DoesNotExistException("Item can not be removed as it does not exist.");
-        }
-
-        getCourseRegistrationService().updateRegistrationRequest(cartId, cart, contextInfo);
-
-        CartItemResult cartItemInfo = new CartItemResult();
-        cartItemInfo.setRegGroupId(removedItem.getRegistrationGroupId());
-        cartItemInfo.setCredits(credits);
-        cartItemInfo.setGrading(gradingOptionId);
-
-        return cartItemInfo;
+        throw new DoesNotExistException("Item can not be removed as it does not exist.");
 
     }
 
@@ -269,11 +273,12 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     /**
      * Gets student registration options (grading/credits) of a given registration group
      * This performs validation against the set credit and grading options, and defaults values if there is only one option.
-     * @param regGroup Registration group
-     * @param courseCode Code of the Course being searched for
-     * @param credits credits that the student has selected (or none)
+     *
+     * @param regGroup        Registration group
+     * @param courseCode      Code of the Course being searched for
+     * @param credits         credits that the student has selected (or none)
      * @param gradingOptionId grading option that the student has selected (or none)
-     * @param contextInfo context of the call
+     * @param contextInfo     context of the call
      * @return a cart item that has the student options for the given registration group
      * @throws OperationFailedException
      * @throws MissingOptionException

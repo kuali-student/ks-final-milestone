@@ -1,10 +1,9 @@
 package org.kuali.student.enrollment.registration.client.service;
 
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
+import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -61,12 +60,12 @@ public interface CourseRegistrationCartClientService {
     /**
      * The REST version of addCourseToCart
      *
-     * @param cartId       ID of the registrationRequest representing the cart
-     * @param courseCode   course offering to add to the cart
-     * @param regGroupId   Optional. Will speed things up if passed instead of (courseCode, regGroupCode)
-     * @param regGroupCode reg group we want to add
-     * @param gradingOptionId    the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
-     * @param credits    The numeric string value of credit student registration option. Must convert to KualiDecimal.
+     * @param cartId          ID of the registrationRequest representing the cart
+     * @param courseCode      course offering to add to the cart
+     * @param regGroupId      Optional. Will speed things up if passed instead of (courseCode, regGroupCode)
+     * @param regGroupCode    reg group we want to add
+     * @param gradingOptionId the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
+     * @param credits         The numeric string value of credit student registration option. Must convert to KualiDecimal.
      * @return Response containing the cart item that was updated or a server error response.
      */
     @GET
@@ -75,27 +74,27 @@ public interface CourseRegistrationCartClientService {
     public Response addCourseToCartRS(@QueryParam("userId") String userId,
                                       @QueryParam("cartId") String cartId,
                                       @QueryParam("courseCode") String courseCode,
-                                      @QueryParam("regGroupId")  String regGroupId,
-                                      @QueryParam("regGroupCode")  String regGroupCode,
+                                      @QueryParam("regGroupId") String regGroupId,
+                                      @QueryParam("regGroupCode") String regGroupCode,
                                       @QueryParam("gradingOptionId") String gradingOptionId,
                                       @QueryParam("credits") String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
 
     /**
      * Rest method that removes an item from the cart.
      *
-     * @param cartId    ID of the registrationRequest representing the cart
-     * @param cartItemId id of the item to delete from the cart.
+     * @param cartId          ID of the registrationRequest representing the cart
+     * @param cartItemId      id of the item to delete from the cart.
      * @param gradingOptionId the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
-     * @param credits  The numeric string value of credit student registration option. Must convert to KualiDecimal.
-     * @return   Response(with add action link) containing the cart item that was updated or a server error response.
+     * @param credits         The numeric string value of credit student registration option. Must convert to KualiDecimal.
+     * @return Response(with add action link) containing the cart item that was updated or a server error response. As Well as action links to undo the removal.
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/removeItemFromCart")
     public Response removeItemFromCartRS(@QueryParam("cartId") String cartId,
                                          @QueryParam("cartItemId") String cartItemId,
-                                      @QueryParam("gradingOptionId") String gradingOptionId,
-                                      @QueryParam("credits") String credits) ;
+                                         @QueryParam("gradingOptionId") String gradingOptionId,
+                                         @QueryParam("credits") String credits);
 
 
     /**
@@ -120,7 +119,6 @@ public interface CourseRegistrationCartClientService {
     /**
      * This method allows users to set credit and grading options on an item in their cart using the course registration
      * service's update method.
-     *
      *
      * @param userId     override of principal ID
      * @param cartId     ID of the registrationRequest representing the cart
@@ -148,7 +146,6 @@ public interface CourseRegistrationCartClientService {
                                     @QueryParam("termId") String termId);
 
     public CartResult searchForCart(String userId, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException;
-
 
 
     @GET
