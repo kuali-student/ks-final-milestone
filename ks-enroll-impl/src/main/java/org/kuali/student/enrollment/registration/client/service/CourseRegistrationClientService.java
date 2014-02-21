@@ -130,6 +130,27 @@ public interface CourseRegistrationClientService {
     @Path("/clearpersonlprs")
     public Response clearLPRsByPerson(@QueryParam("person") String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
+    /**
+     * Creates a new RegistrationRequest with type Update
+     * and submits it to be processed
+     *
+     * @param userId
+     * @param termId
+     * @param courseCode
+     * @param regGroupCode
+     * @param credits
+     * @param gradingOption
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DataValidationErrorException
+     * @throws ReadOnlyException
+     * @throws AlreadyExistsException
+     */
+
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/updateScheduleItem")

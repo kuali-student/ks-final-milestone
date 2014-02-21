@@ -3,18 +3,12 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
-import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesService;
-import org.kuali.student.enrollment.registration.client.service.ScheduleOfClassesServiceConstants;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
@@ -39,7 +33,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -52,7 +45,6 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.jms.JMSException;
 import javax.security.auth.login.LoginException;
 import javax.ws.rs.core.Response;
-import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -610,21 +602,26 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         String regGroupId = "";
+        //Get RegGroupId
         regGroupId=CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, CourseRegistrationAndScheduleOfClassesUtil.getAtpService().getAtp(termId, contextInfo).getCode(), courseCode, regGroupCode, regGroupId, contextInfo).getRegGroupId();
+        //Populate Fields for RegRequestInfo object
         registrationRequestInfo.setTermId(termId);
         registrationRequestInfo.setRequestorId(userId);
         registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        //Create Reg Request Item
         RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, regGroupId,credits,gradingOption, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
         registrationRequestItemInfos.add(registrationRequestItem);
         registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
 
+        //Create Registration Request
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, registrationRequestInfo, contextInfo);
 
         // submit the request to the registration engine.
         RegistrationResponseInfo registrationResponseInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
 
+        //Build Result object
         ScheduleItemResult scheduleItemResult = new ScheduleItemResult();
         scheduleItemResult.setCourseCode(courseCode);
         scheduleItemResult.setCredits(credits);
