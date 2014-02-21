@@ -52,7 +52,7 @@
         </property>
     </bean>
 
-    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" >
+    <bean id="ActivityOfferingEdit-section1" parent="Uif-VerticalBoxSection" p:onDocumentReadyScript="rePositionChangeLink('subterm_name', 'change_link')">
         <property name="items">
             <list>
                 <bean parent="Uif-GridGroup" p:layoutManager.numberOfColumns="4" p:additionalCssClasses="ks-details-panel,ks-no-margins,ks-subSection">
