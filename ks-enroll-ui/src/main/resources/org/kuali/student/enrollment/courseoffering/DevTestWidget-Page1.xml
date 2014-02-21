@@ -22,19 +22,33 @@
     -->
     <bean id="KS-DevTestWidget-Page1" parent="KS-Uif-Page" p:disclosure.render="false"
         p:id="devTestWidgetPageId"
-        p:headerText="Developer Test Widget">
+        p:headerText="Test Buttons">
 
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-HorizontalBoxSection" id="FirstRow">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Alpha Test"
+                                  p:methodToCall="alphaTest"/>
+
+                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Beta Test"
+                                  p:methodToCall="betaTest"/>
+
+                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Gamma Test"
+                                  p:methodToCall="gammaTest"/>
+
+                            <bean parent="Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Delta Test"
+                                  p:methodToCall="deltaTest"/>
+                        </list>
+                    </property>
+
+                </bean>
+            </list>
+        </property>
         <!-- It's easier to put the footer up front since it has a lot less content -->
-        <property name="footer"> <!-- Start of footer-->
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="KS-Uif-PrimaryActionButton" p:performClientSideValidation="true" p:actionLabel="Test Service Call"
-                              p:methodToCall="testSeatpools"/>
-                    </list>
-                </property>
-            </bean>
-        </property> <!-- End of footer -->
+
         <!-- Body start -->
 
 

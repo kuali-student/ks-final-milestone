@@ -21,7 +21,6 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.DevTestWidgetForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.DevTestWidgetViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,9 +41,10 @@ import java.util.Map;
 @RequestMapping(value = "/devTestWidget")
 public class DevTestWidgetController extends UifControllerBase {
 
-    private static final Logger LOGGER = Logger.getLogger(DiagnoseRolloverController.class);
+    private static final Logger LOGGER = Logger.getLogger(DevTestWidgetController.class);
 
     public static final String PAGE_ID = "pageId";
+    private DevTestWidgetViewHelperService viewHelperService;
 
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {
@@ -78,19 +78,50 @@ public class DevTestWidgetController extends UifControllerBase {
         return getUIFModelAndView(theForm);
     }
 
-    @RequestMapping(params = "methodToCall=testSocService")
-    public ModelAndView testSocService(@ModelAttribute("KualiForm") DevTestWidgetForm form, @SuppressWarnings("unused") BindingResult result,
-                                     @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        DevTestWidgetViewHelperService helper = CourseOfferingManagementUtil.getDevTestWidgetViewHelperService(form);
-        helper.getSocIdsByTerm("20123");
+    @RequestMapping(params = "methodToCall=alphaTest")
+    public ModelAndView alphaTest(@ModelAttribute("KualiForm") DevTestWidgetForm form, @SuppressWarnings("unused") BindingResult result,
+                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        LOGGER.info("alphaTest in DevTestWidgetController");
+        DevTestWidgetViewHelperService helper = getViewHelperService(form);
+        helper.runAlphaTest(form);
         return getUIFModelAndView(form);
     }
 
-    @RequestMapping(params = "methodToCall=testSeatpools")
-    public ModelAndView testSeatpools(@ModelAttribute("KualiForm") DevTestWidgetForm form, @SuppressWarnings("unused") BindingResult result,
-                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        DevTestWidgetViewHelperService helper = CourseOfferingManagementUtil.getDevTestWidgetViewHelperService(form);
-        helper.verifyPopulations();
+    @RequestMapping(params = "methodToCall=betaTest")
+    public ModelAndView betaTest(@ModelAttribute("KualiForm") DevTestWidgetForm form, @SuppressWarnings("unused") BindingResult result,
+                                 @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        LOGGER.info("betaTest in DevTestWidgetController");
+        DevTestWidgetViewHelperService helper = getViewHelperService(form);
+        helper.runBetaTest(form);
         return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=gammaTest")
+    public ModelAndView gammaTest(@ModelAttribute("KualiForm") DevTestWidgetForm form, @SuppressWarnings("unused") BindingResult result,
+                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        LOGGER.info("gammaTest in DevTestWidgetController");
+        DevTestWidgetViewHelperService helper = getViewHelperService(form);
+        helper.runGammaTest(form);
+        return getUIFModelAndView(form);
+    }
+
+    @RequestMapping(params = "methodToCall=deltaTest")
+    public ModelAndView deltaTest(@ModelAttribute("KualiForm") DevTestWidgetForm form, @SuppressWarnings("unused") BindingResult result,
+                                  @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        LOGGER.info("deltaTest in DevTestWidgetController");
+        DevTestWidgetViewHelperService helper = getViewHelperService(form);
+        helper.runDeltaTest(form);
+        return getUIFModelAndView(form);
+    }
+
+    public DevTestWidgetViewHelperService getViewHelperService(DevTestWidgetForm serviceCallForm) {
+        if (viewHelperService == null) {
+            if (serviceCallForm.getView().getViewHelperServiceClass() != null) {
+                viewHelperService = (DevTestWidgetViewHelperService) serviceCallForm.getView().getViewHelperService();
+            } else {
+                viewHelperService = (DevTestWidgetViewHelperService) serviceCallForm.getPostedView().getViewHelperService();
+            }
+        }
+        return viewHelperService;
     }
 }

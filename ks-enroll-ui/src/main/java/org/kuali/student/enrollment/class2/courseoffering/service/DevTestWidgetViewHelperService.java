@@ -1,17 +1,30 @@
 package org.kuali.student.enrollment.class2.courseoffering.service;
 
-import java.util.List;
+import org.kuali.student.enrollment.class2.courseoffering.form.DevTestWidgetForm;
 
 /**
-
- * User: Charles
- * Date: 9/26/12
- * Time: 1:44 PM
- * Used to test service calls on live DB.
+ * Copyright 2014 The Kuali Foundation Licensed under the
+ * Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ *
+ * Created by Charles on Feb 21, 2014.
+ *
+ * This code was refactored and repurposed for dev testing purposes.
  */
-public interface DevTestWidgetViewHelperService {
-    List<String> getSocIdsByTerm(String termId) throws Exception;
 
-    void verifyPopulations() throws Exception;
+public interface DevTestWidgetViewHelperService {
+    void runAlphaTest(DevTestWidgetForm form) throws Exception;
+    void runBetaTest(DevTestWidgetForm form) throws Exception;
+    void runGammaTest(DevTestWidgetForm form) throws Exception;
+    void runDeltaTest(DevTestWidgetForm form) throws Exception;
 }
 

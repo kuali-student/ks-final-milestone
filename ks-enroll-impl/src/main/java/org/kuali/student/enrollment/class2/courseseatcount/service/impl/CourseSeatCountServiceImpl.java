@@ -105,7 +105,7 @@ public class CourseSeatCountServiceImpl implements CourseSeatCountService {
                 new SearchRequestInfo(CourseRegistrationSearchServiceImpl.LPRS_BY_AOIDS_LPR_STATE_TYPE.getKey());
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.AO_IDS, activityOfferingIds);
         List<String> lprStates = new ArrayList<String>();
-        lprStates.add(LprServiceConstants.PLANNED_STATE_KEY);
+        lprStates.add(LprServiceConstants.REGISTERED_STATE_KEY);
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LPR_STATES, lprStates);
 
         SearchResultInfo searchResult;

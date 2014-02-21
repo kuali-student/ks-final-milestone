@@ -20,7 +20,6 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RGStateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.StatePropagationWrapper;
@@ -44,22 +43,14 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
-import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
-import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
-import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
-import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
-import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
 import org.kuali.student.poc.eventproc.event.KSEvent;
 import org.kuali.student.poc.eventproc.event.KSEventFactory;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -71,7 +62,6 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
-import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
@@ -79,9 +69,6 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.service.SearchService;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -508,196 +495,9 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
 //        LOGGER.info("Total time 2: " + overall);
     }
 
-    private void testRegRequest() throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
-        String regGroupId = "647a2b36-af91-456a-8ff2-a4cd51fcdcb5";
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.LPR_TRANS_IDS_BY_PERSON_TERM_TYPE_KEY_SEARCH_TYPE.getKey());
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, "admin");
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, "kuali.atp.2012Spring");
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.TYPE_KEY,
-                LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY);
-
-        SearchResultInfo searchResult;
-        try {
-            SearchService searchService = CourseRegistrationAndScheduleOfClassesUtil.getSearchService();
-            searchResult = searchService.search(searchRequest, CONTEXT);
-        } catch (Exception e) {
-            throw new OperationFailedException("Search of lprTrans for person 'admin' and term '2012Spring' failed: ", e);
-        }
-
-        RegistrationRequestItemInfo itemInfo = new RegistrationRequestItemInfo();
-        itemInfo.setPersonId("admin");
-        itemInfo.setRegistrationGroupId("647a2b36-af91-456a-8ff2-a4cd51fcdcb5");
-        itemInfo.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
-        itemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        itemInfo.setCredits(new KualiDecimal("3.5"));
-        itemInfo.setGradingOptionId("kuali.resultComponent.grade.letter"); // Fill in
-
-        RegistrationRequestInfo request = new RegistrationRequestInfo();
-        request.setTermId("kuali.atp.2012Spring");
-        request.setRequestorId("admin");
-        request.setTypeKey(LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY);
-        request.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
-
-        // Add the item
-        request.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
-        request.getRegistrationRequestItems().add(itemInfo);
-
-        // Now create and test
-        CourseRegistrationService courseRegistrationService =
-                CourseOfferingManagementUtil.getCourseRegistrationService();
-        RegistrationRequestInfo requestResult =
-                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
-                request, CONTEXT);
-        RegistrationResponseInfo resp =
-                courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
-
-        try {
-            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, CONTEXT);
-        } catch (Exception e) {
-            throw new OperationFailedException("Search of lprTrans for person 'admin' and term '2012Spring' failed: ", e);
-        }
-        LOGGER.info("Done");
-    }
-
-    private void testFetchLprsByAoIds() throws OperationFailedException, PermissionDeniedException,
-            MissingParameterException, InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, AlreadyExistsException {
-        String regGroupId = "647a2b36-af91-456a-8ff2-a4cd51fcdcb5";
-        RegistrationGroupInfo rgInfo =
-                CourseOfferingManagementUtil.getCourseOfferingService().getRegistrationGroup(regGroupId, CONTEXT);
-        List<String> aoIds = rgInfo.getActivityOfferingIds();
-
-        RegistrationRequestItemInfo itemInfo = new RegistrationRequestItemInfo();
-        itemInfo.setPersonId("admin");
-        itemInfo.setRegistrationGroupId("647a2b36-af91-456a-8ff2-a4cd51fcdcb5");
-        itemInfo.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
-        itemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        itemInfo.setCredits(new KualiDecimal("3.5"));
-        itemInfo.setGradingOptionId("kuali.resultComponent.grade.letter"); // Fill in
-
-        RegistrationRequestInfo request = new RegistrationRequestInfo();
-        request.setTermId("kuali.atp.2012Spring");
-        request.setRequestorId("admin");
-        request.setTypeKey(LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY);
-        request.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
-
-        // Add the item
-        request.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
-        request.getRegistrationRequestItems().add(itemInfo);
-
-        // Now create and test
-        CourseRegistrationService courseRegistrationService =
-                CourseOfferingManagementUtil.getCourseRegistrationService();
-        RegistrationRequestInfo requestResult =
-                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
-                        request, CONTEXT);
-        RegistrationResponseInfo resp =
-                courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
-
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.LPRS_BY_AOIDS_LPR_STATE_TYPE.getKey());
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.AO_IDS, aoIds);
-        List<String> lprStates = new ArrayList<String>();
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LPR_STATES, lprStates);
-
-        SearchResultInfo searchResult;
-        try {
-            searchResult = CourseRegistrationAndScheduleOfClassesUtil.getSearchService().search(searchRequest, CONTEXT);
-        } catch (Exception e) {
-            throw new OperationFailedException("Search of lprTrans for person 'admin' and term '2012Spring' failed: ", e);
-        }
-        LOGGER.info("Done");
-    }
-
-    private void testAoCount() throws OperationFailedException {
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.AOIDS_COUNT_SEARCH_TYPE.getKey());
-        List<String> aoIds = new ArrayList<String>();
-        aoIds.add("0037fe37-205a-4332-b822-030938d5dc80"); // lab
-        aoIds.add("00390418-8263-43d8-87ca-2b7998692000"); // lecture
-        aoIds.add("00384c9c-9961-41a5-ad4e-6431d27a9d9b"); // reg group
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.AO_IDS, aoIds);
-
-        SearchResultInfo searchResult;
-        try {
-            SearchService searchService = CourseRegistrationAndScheduleOfClassesUtil.getSearchService();
-            searchResult = searchService.search(searchRequest, CONTEXT);
-        } catch (Exception e) {
-            throw new OperationFailedException("Search of lprTrans for person 'admin' and term '2012Spring' failed: ", e);
-        }
-    }
-
-    private void testAoMaxSeats() throws OperationFailedException {
-        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.AOIDS_TYPE_MAXSEATS_SEARCH_TYPE.getKey());
-        List<String> aoIds = new ArrayList<String>();
-        aoIds.add("0037fe37-205a-4332-b822-030938d5dc80"); // lab
-        aoIds.add("00390418-8263-43d8-87ca-2b7998692000"); // lecture
-        aoIds.add("00384c9c-9961-41a5-ad4e-6431d27a9d9b"); // reg group
-        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.AO_IDS, aoIds);
-
-        SearchResultInfo searchResult;
-        try {
-            SearchService searchService = CourseRegistrationAndScheduleOfClassesUtil.getSearchService();
-            searchResult = searchService.search(searchRequest, CONTEXT);
-        } catch (Exception e) {
-            throw new OperationFailedException("Search of lprTrans for person 'admin' and term '2012Spring' failed: ", e);
-        }
-    }
-
-    private void registerPerson(String personId)
-            throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
-            InvalidParameterException, ReadOnlyException, MissingParameterException,
-            DataValidationErrorException, AlreadyExistsException {
-        RegistrationRequestItemInfo itemInfo = new RegistrationRequestItemInfo();
-        itemInfo.setPersonId(personId);
-        itemInfo.setRegistrationGroupId("647a2b36-af91-456a-8ff2-a4cd51fcdcb5");
-        itemInfo.setTypeKey(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY);
-        itemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
-        itemInfo.setCredits(new KualiDecimal("3.5"));
-        itemInfo.setGradingOptionId("kuali.resultComponent.grade.letter"); // Fill in
-
-        RegistrationRequestInfo request = new RegistrationRequestInfo();
-        request.setTermId("kuali.atp.2012Spring");
-        request.setRequestorId(personId);
-        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
-        request.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
-
-        // Add the item
-        request.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
-        request.getRegistrationRequestItems().add(itemInfo);
-
-        // Now create and test
-        CourseRegistrationService courseRegistrationService =
-                CourseOfferingManagementUtil.getCourseRegistrationService();
-        RegistrationRequestInfo requestResult =
-                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
-                        request, CONTEXT);
-        RegistrationResponseInfo resp =
-                courseRegistrationService.submitRegistrationRequest(requestResult.getId(), CONTEXT);
-    }
-
-    private void testSeatCountService()
-            throws OperationFailedException, PermissionDeniedException, MissingParameterException,
-            InvalidParameterException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
-            AlreadyExistsException {
-        CourseSeatCountService seatCountService =
-                CourseOfferingManagementUtil.getCourseSeatCountService();
-        String regGroupId = "647a2b36-af91-456a-8ff2-a4cd51fcdcb5";
-        RegistrationGroupInfo rgInfo =
-                CourseOfferingManagementUtil.getCourseOfferingService().getRegistrationGroup(regGroupId, CONTEXT);
-        List<String> aoIds = rgInfo.getActivityOfferingIds();
-
-        registerPerson("admin");
-        registerPerson("carol");
-
-        seatCountService.getSeatCountsForActivityOfferings(aoIds, CONTEXT);
-        System.err.println("DONE");
-    }
 
     @Override
     public void runTests(TestStatePropagationForm form) throws Exception {
-//        testSeatCountService();
-//        if (1 == 1){
-//            return;
-//        }
         // Now begin to test AO state transitions
         System.err.println("<<<<<<<<<<<<<< Starting tests >>>>>>>>>>>>");
         _reset(true);
