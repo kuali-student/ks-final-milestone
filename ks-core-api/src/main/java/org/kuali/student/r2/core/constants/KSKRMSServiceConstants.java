@@ -128,7 +128,7 @@ public class KSKRMSServiceConstants {
     public static final String PROPOSITION_TYPE_FINAL_EXAM_TIMESLOT = "kuali.krms.proposition.type.final.exam.timeslot";
     public static final String PROPOSITION_TYPE_FINAL_EXAM_COURSE_OFFERING = "kuali.krms.proposition.type.final.exam.course.offering";
     public static final String PROPOSITION_TYPE_FINAL_EXAM_COURSESET = "kuali.krms.proposition.type.final.exam.courseset";
-
+    public static final String PROPOSITION_TYPE_FINAL_EXAM_FREEFORM_TEXT = "kuali.krms.proposition.type.final.exam.freeform.text";
     // Action types
     public static final String ACTION_TYPE_REQUESTED_DELIVERY_LOGISTIC = "kuali.krms.action.type.requested.delivery.logistic";
 
@@ -233,6 +233,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_SPEC_MATCHINGTIMESLOT = "MatchingTimeSlot";
     public static final String TERM_SPEC_MATCHINGCOURSE = "MatchingCourse";
     public static final String TERM_SPEC_MATCHINGCOURSESET = "MatchingCourseSet";
+    public static final String TERM_SPEC_EXAM_FREEFORMTEXT = "ExamFreeFormText";
 
     // term resolvers
     public static final String TERM_RESOLVER_COMPLETEDCOURSE = "CompletedCourse";
@@ -265,6 +266,7 @@ public class KSKRMSServiceConstants {
     public static final String TERM_RESOLVER_MATCHINGTIMESLOT = "MatchingTimeSlot";
     public static final String TERM_RESOLVER_MATCHINGCOURSE = "MatchingCourse";
     public static final String TERM_RESOLVER_MATCHINGCOURSESET = "MatchingCourseSet";
+    public static final String TERM_RESOLVER_EXAM_FREEFORMTEXT = "ExamFreeFormText";
 
     // natural language usage keys
     public static final String KRMS_NL_RULE_EDIT = "kuali.krms.edit";
