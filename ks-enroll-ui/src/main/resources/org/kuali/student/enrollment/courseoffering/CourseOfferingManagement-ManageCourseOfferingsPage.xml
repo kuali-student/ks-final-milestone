@@ -110,7 +110,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="isChecked" p:required="false"
+                <bean parent="Uif-InputField" p:propertyName="isChecked" p:id="checkbx_co_@{#line.courseOfferingCode}" p:required="false"
                       p:onChangeScript="handleToolbar('KS-CourseOfferingManagement-CourseOfferingListSection',['enableApproveButton', 'enableDeleteButton'], ['KS-CourseOfferingManagement-ToolBar-Approve-CO', 'KS-CourseOfferingManagement-ToolBar-Delete-CO'] );"
                       p:hidden="@{#lp.crossListed or !#line.isEnableDeleteButton()}">
                     <property name="control">
@@ -122,7 +122,7 @@
                     <property name="items">
                         <list>
                             <bean parent="KS-Uif-InquiryLink"
-                                  p:propertyName="courseOfferingCode"
+                                  p:propertyName="courseOfferingCode" p:id="view_co_@{#line.courseOfferingCode}"
                                   p:inquiry.dataObjectClassName="org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper"
                                   p:inquiry.inquiryParameters="courseOfferingId" />
 
@@ -145,16 +145,16 @@
                     </property>
                 </bean>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="Status"
+                      p:label="Status"  p:id="co_status_@{#line.courseOfferingCode}"
                       p:propertyName="courseOfferingStateDisplay"/>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="Title"
+                      p:label="Title"  p:id="co_title_@{#line.courseOfferingCode}"
                       p:propertyName="courseOfferingDesc"/>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="Credits"
+                      p:label="Credits" p:id="co_credits_@{#line.courseOfferingCode}"
                       p:propertyName="courseOfferingCreditOptionDisplay"/>
                 <bean parent="KS-Uif-DataField-Simple"
-                      p:label="Grading"
+                      p:label="Grading" p:id="co_grading_@{#line.courseOfferingCode}"
                       p:propertyName="courseOfferingGradingOptionDisplay"/>
                 <bean name="enableApproveButton" parent="KS-Uif-DataField-Simple" p:label="enableApproveButton" p:propertyName="enableApproveButton"/>
                 <bean name="enableSuspendButton" parent="KS-Uif-DataField-Simple" p:label="enableSuspendButton" p:propertyName="enableSuspendButton"/>
@@ -184,15 +184,15 @@
                 <!--<bean parent="KS-Uif-NavigationActionLink-withSeparator" p:seperator="&#160;&#160;|&#160;&#160;">-->
                     <!--<property name="seperatedActions">-->
                         <!--<list>-->
-                            <bean parent="KS-Uif-Copy-NavigationActionLink" p:methodToCall="copyCourseOffering"
+                            <bean parent="KS-Uif-Copy-NavigationActionLink" p:id="copy_co_@{#line.courseOfferingCode}" p:methodToCall="copyCourseOffering"
                                   p:actionLabel="Copy"
                                   p:render="@{#line.isEnableCopyCOActionLink() and !#line.isCrossListed()}"
                                   p:actionEvent="copyCOonManageCOsPage"/>
-                            <bean parent="KS-Uif-Edit-NavigationActionLink" p:methodToCall="edit"
+                            <bean parent="KS-Uif-Edit-NavigationActionLink" p:id="edit_co_@{#line.courseOfferingCode}" p:methodToCall="edit"
                                   p:actionLabel="Edit"
                                   p:render="@{#line.isEnableEditCOActionLink()}" p:actionEvent="editCOonManageCOsPage">
                             </bean>
-                            <bean parent="KS-Uif-Manage-NavigationActionLink" p:methodToCall="loadAOs_RGs_AOCs"
+                            <bean parent="KS-Uif-Manage-NavigationActionLink" p:id="manage_co_@{#line.courseOfferingCode}" p:methodToCall="loadAOs_RGs_AOCs"
                                   p:actionLabel="Manage">
                             </bean>
                         <!--</list>-->
