@@ -45,5 +45,25 @@ public class GesCriteriaInfo extends HasAttributesInfo implements GesCriteria {
         this.atpId = atpId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof GesCriteriaInfo)) return false;
+
+        GesCriteriaInfo that = (GesCriteriaInfo) o;
+
+        if (atpId != null ? !atpId.equals(that.atpId) : that.atpId != null) return false;
+        if (personId != null ? !personId.equals(that.personId) : that.personId != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = personId != null ? personId.hashCode() : 0;
+        result = 31 * result + (atpId != null ? atpId.hashCode() : 0);
+        return result;
+    }
+
 
 }
