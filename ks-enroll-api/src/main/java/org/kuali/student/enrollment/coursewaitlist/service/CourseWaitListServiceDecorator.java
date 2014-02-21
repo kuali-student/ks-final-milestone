@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.coursewaitlist.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.WaitListPositionInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -31,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
+import javax.jws.WebParam;
 import java.util.List;
 
 /**
@@ -187,5 +189,15 @@ public class CourseWaitListServiceDecorator implements CourseWaitListService {
     @Override
     public StatusInfo moveCourseWaitListEntryToPosition(String courseWaitListEntryId, Integer position, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().moveCourseWaitListEntryToPosition(courseWaitListEntryId, position, contextInfo);
+    }
+
+    @Override
+    public WaitListPositionInfo getWaitListPositionForStudent(String studentId, String courseWaitListId, String activityOfferingId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getWaitListPositionForStudent(studentId, courseWaitListId, activityOfferingId, contextInfo);
+    }
+
+    @Override
+    public List<CourseWaitListEntryInfo> getTopCourseWaitListEntries(String courseWaitListId, String activityOfferingId, Integer count, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getTopCourseWaitListEntries(courseWaitListId, activityOfferingId, count, contextInfo);
     }
 }

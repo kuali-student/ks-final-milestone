@@ -19,6 +19,7 @@ package org.kuali.student.enrollment.coursewaitlist.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.WaitListPositionInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -755,4 +756,54 @@ public interface CourseWaitListService {
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException;
+
+    /**
+     * Retrieves the position in the CourseWaitList (matching given wait list id) for
+     * a student with given id.
+     *
+     * @param studentId         the identifier for the Student
+     * @param courseWaitListId  the identifier for the CourseWaitList the student is in
+     * @param activityOfferingId the identifier for the activity offering the waitlist is for
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @throws DoesNotExistException     courseWaitListId, studentId or activityOfferingId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseWaitListId, studentId, activityOfferingId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public WaitListPositionInfo getWaitListPositionForStudent (@WebParam(name = "studentId") String studentId,
+                                                               @WebParam(name = "courseWaitListId") String courseWaitListId,
+                                                               @WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
+     * Retrieves the top waitlist entries in the waitlist with the given id.
+     *
+     * @param courseWaitListId  the identifier for the CourseWaitList whose top entries are to be obtained
+     * @param activityOfferingId the identifier for the activity offering the waitlist is for
+     * @param count             the number of entries to get from the top
+     * @param contextInfo information containing the principalId and
+     *                    locale information about the caller of service operation
+     * @throws DoesNotExistException     courseWaitListId is not found or activityOfferingId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException courseWaitListId, count, activityOfferingId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<CourseWaitListEntryInfo> getTopCourseWaitListEntries (@WebParam(name = "courseWaitListId") String courseWaitListId,
+                                                                      @WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                                      @WebParam(name = "count") Integer count,
+                                                                      @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
 }
