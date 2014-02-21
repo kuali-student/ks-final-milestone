@@ -23,29 +23,20 @@ import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 /**
- * This class //TODO ...
- *
- * @author Kuali Student Team
+ * Form for create course.
  */
 public class CreateCourseForm extends MaintenanceDocumentForm {
-    private boolean renderNavigationPanel = false;
-    private String createCourseInitialAction;
-    private boolean useCMreviewProcess = false;
 
-    private boolean isCurriculumSpecialistUser;
+    private String createCourseInitialAction;
+
+    private boolean useReviewProcess = false;
+
+    private boolean isCurriculumSpecialist = false;
 
     private int selectedTabIndex = 0;
 
     public CreateCourseForm(){
-        isCurriculumSpecialistUser = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(),"KS-SYS", "Create Course By Admin Proposal");
-    }
-
-    public boolean isRenderNavigationPanel() {
-        return renderNavigationPanel;
-    }
-
-    public void setRenderNavigationPanel(boolean renderNavigationPanel) {
-        this.renderNavigationPanel = renderNavigationPanel;
+        isCurriculumSpecialist = KimApiServiceLocator.getPermissionService().hasPermission(GlobalVariables.getUserSession().getPrincipalId(),"KS-SYS", "Create Course By Admin Proposal");
     }
 
     public String getCreateCourseInitialAction() {
@@ -56,12 +47,12 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         this.createCourseInitialAction = createCourseInitialAction;
     }
 
-    public boolean isUseCMreviewProcess() {
-        return useCMreviewProcess;
+    public boolean isUseReviewProcess() {
+        return useReviewProcess;
     }
 
-    public void setUseCMreviewProcess(boolean useCMreviewProcess) {
-        this.useCMreviewProcess = useCMreviewProcess;
+    public void setUseReviewProcess(boolean useCMreviewProcess) {
+        this.useReviewProcess = useCMreviewProcess;
     }
 
     public int getSelectedTabIndex() {
@@ -72,14 +63,18 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         this.selectedTabIndex = selectedTabIndex;
     }
 
-    public boolean isCurriculumSpecialistUser() {
-        return isCurriculumSpecialistUser;
+    public boolean isCurriculumSpecialist() {
+        return isCurriculumSpecialist;
     }
 
-    public String getHeaderText(){
+    public void setCurriculumSpecialist(boolean isCurriculumSpecialist) {
+        this.isCurriculumSpecialist = isCurriculumSpecialist;
+    }
+
+    public String getHeaderText() {
         String headerSuffixText;
 
-        if (isCurriculumSpecialistUser() && !isUseCMreviewProcess()){
+        if (isCurriculumSpecialist() && !isUseReviewProcess()){
             headerSuffixText = " (Admin Proposal)";
         } else {
             headerSuffixText = " (Proposal)";
@@ -92,5 +87,4 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
             return "New Course" + headerSuffixText;
         }
     }
-
 }

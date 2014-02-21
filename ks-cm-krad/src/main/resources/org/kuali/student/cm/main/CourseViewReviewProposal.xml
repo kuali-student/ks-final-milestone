@@ -19,41 +19,22 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-ReviewProposalPage" parent="KS-CourseView-BasePage"
-          p:headerText="Review Proposal">
-
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseView-CourseInfoPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-GovernancePage-ReviewWidgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-ActiveDatesPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-LearningObjectivesPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-FinancialsPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-SupportingDocumentsPage-ReviewWidgets" />
-            </list>
-        </property>
-
-    </bean>
-
-    <bean id="KS-CourseView-ReviewProposalPage-Widgets" parent="KS-CourseView-VerticalBoxSection"
+    <bean id="KS-CourseView-ReviewProposal-Section" parent="KS-CourseView-VerticalBoxSection"
           p:headerText="Review Proposal">
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-CourseInfoPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-GovernancePage-ReviewWidgets" />
-                <ref bean="KS-CourseView-CourseLogisticsPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-ActiveDatesPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-LearningObjectivesPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-FinancialsPage-ReviewWidgets" />
-                <ref bean="KS-CourseView-SupportingDocumentsPage-ReviewWidgets" />
+                <ref bean="KS-CourseView-CourseInfo-ReviewWidgets" />
+                <ref bean="KS-CourseView-Governance-ReviewWidgets" />
+                <ref bean="KS-CourseView-CourseLogistics-ReviewWidgets" />
+                <ref bean="KS-CourseView-ActiveDates-ReviewWidgets" />
+                <ref bean="KS-CourseView-LearningObjectives-ReviewWidgets" />
+                <ref bean="KS-CourseView-Financials-ReviewWidgets" />
+                <ref bean="KS-CourseView-SupportingDocuments-ReviewWidgets" />
             </list>
         </property>
-
     </bean>
 
-
-    <bean name="KS-CourseView-CourseInfoPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-CourseInfo-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
@@ -108,7 +89,7 @@
         </property>
     </bean>
 
-    <bean name="KS-CourseView-GovernancePage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-Governance-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
@@ -134,7 +115,7 @@
         </property>
     </bean>
 
-    <bean name="KS-CourseView-CourseLogisticsPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-CourseLogistics-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
@@ -167,7 +148,7 @@
         </property>
     </bean>
 
-    <bean name="KS-CourseView-LearningObjectivesPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-LearningObjectives-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
@@ -218,7 +199,7 @@
        </property>
     </bean>
 
-    <bean name="KS-CourseView-ActiveDatesPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-ActiveDates-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
@@ -243,7 +224,7 @@
        </property>
     </bean>
 
-    <bean name="KS-CourseView-FinancialsPage-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-Financials-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
@@ -269,7 +250,7 @@
         </property>
     </bean>
 
-    <bean name="KS-CourseView-SupportingDocumentsPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+    <bean name="KS-CourseView-SupportingDocuments-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
@@ -291,5 +272,4 @@
             </list>
         </property>
     </bean>
-
 </beans>

@@ -163,3 +163,11 @@
 #course_tabs_tabs .ui-tabs-nav li.ui-state-active a, #course_tabs_tabs .ui-tabs-nav li.ui-state-default a {
     width: 85%;
 }
+
+#course_tabs_tabs a {
+    cursor: pointer;
+}
+
+.never_hide {
+    display: block !important;
+}

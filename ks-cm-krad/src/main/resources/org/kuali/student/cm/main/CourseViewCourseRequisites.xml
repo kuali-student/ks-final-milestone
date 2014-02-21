@@ -19,22 +19,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-CourseRequisitesPage" parent="KS-CourseView-BasePage"
-		p:headerText="Course Requisites">
- 		<property name="items">
-			<list> 
- 				<bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>
-                <bean parent="KRMS-AgendaManage-Section" class="org.kuali.student.cm.course.service.util.CourseAgendaSection">
-                    <property name="propertyName" value="courseRuleManagementWrapper.agendas"/>
-                    <property name="rulePrototype">
-                        <ref bean="KS-AgendaManage-RulePrototype"/>
-                    </property>
-                </bean>
- 			</list> 
- 		</property> 
-	</bean>
-
-    <bean id="KS-CourseView-CourseRequisites-Widgets" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="KS-CourseView-CourseRequisites-Section" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Course Requisites"/>
         <property name="items">
             <list>

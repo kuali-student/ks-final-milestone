@@ -19,18 +19,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-SupportingDocumentsPage" parent="KS-CourseView-BasePage"
-          p:headerText="Supporting Documents">
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseView-SupportingDocumentsPage-Widgets" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseView-SupportingDocumentsPage-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-SupportingDocuments-Section" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
-        <property name="header.render" value="false"/>
         <property name="items">
             <list>
                 <ref bean="KS-SupportingDocuments-Section" />
@@ -38,11 +28,9 @@
         </property>
     </bean>
 
-
-
     <bean id="KS-SupportingDocuments-Section" parent="Uif-StackedCollectionSection"
-          p:headerText="Supporting Document(s)" p:propertyName="dataObject.documentsToAdd"
-          p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
+        p:propertyName="dataObject.documentsToAdd"
+        p:collectionObjectClass="org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper">
         <!--
           <property name="renderAddBlankLineButton" value="true" />
           <property name="addLinePlacement" value="BOTTOM" />

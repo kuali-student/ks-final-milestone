@@ -2,8 +2,17 @@
  * SCRIPT METHODS USED BY MULTIPLE .JS FILES
  */
 
-function onCourseLoad(){
-    jQuery("#Uif-Navigation").css("position","fixed");
+function onCourseLoad(isCurriculumSpecialist) {
+    //  Make the tab panel fixed/sticky.
+    jQuery("#course_tabs_tabList").css("position", "fixed");
+
+    /**
+     *  Hacks for single-page view
+     */
+    if (isCurriculumSpecialist) {
+        //  Don't all the tabs to be hidden.
+        jQuery("div[data-type='TabWrapper']").addClass('never_hide');
+    }
 }
 
 function scrollToCourseSection(divId){
@@ -193,9 +202,11 @@ function showHideCreateCourseOptionalElements () {
     if(actualShowMsg != null && actualShowMsg == showingRequired) {    // display all
         jQuery("#Create-CourseView-Admin-Message_span").text(showingAll);
         jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showRequired);
+        jQuery(".admin-not-required-field").show();
     }  else  {
         jQuery("#Create-CourseView-Admin-Message_span").text(showingRequired);
         jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showAll);
+        jQuery(".admin-not-required-field").hide();
     }
     jQuery("#CreateCourseProposalTitleInputField_control").focus();
 

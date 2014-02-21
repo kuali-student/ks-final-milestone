@@ -30,8 +30,10 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.Entity;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -131,35 +133,40 @@ public class CourseController extends CourseRuleEditorController {
     private CluService cluService;
     private ProposalService proposalService;
     
-    private enum CourseViewPages {
+    private enum CourseViewSections {
         CREATE_COURSE_ENTRY("KS-CourseView-createCourseInitialPage"),
-        COURSE_INFO("KS-CourseView-CourseInfoPage"),
-        GOVERNANCE("KS-CourseView-GovernancePage"), 
-        COURSE_LOGISTICS("KS-CourseView-CourseLogisticsPage"), 
-        LEARNING_OBJECTIVES("KS-CourseView-LearningObjectivesPage"), 
-        COURSE_REQUISITES("KS-CourseView-CourseRequisitesPage"), 
-        ACTIVE_DATES("KS-CourseView-ActiveDatesPage"), 
-        FINANCIALS("KS-CourseView-FinancialsPage"),
-        AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaboratorsPage"),
-        SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocumentsPage"),
-        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage"),
-        COURSE_PAGE("KS-CourseView-CoursePage");
+        COURSE_INFO("KS-CourseView-CourseInfo-Section"),
+        GOVERNANCE("KS-CourseView-Governance-Section"),
+        COURSE_LOGISTICS("KS-CourseView-CourseLogistics-Section"),
+        LEARNING_OBJECTIVES("KS-CourseView-LearningObjectives-Section"),
+        COURSE_REQUISITES("KS-CourseView-CourseRequisites-Section"),
+        ACTIVE_DATES("KS-CourseView-ActiveDates-Section"),
+        FINANCIALS("KS-CourseView-Financials-Section"),
+        AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaborators-Section"),
+        SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocuments-Section"),
+        REVIEW_PROPOSAL("KS-CourseView-ReviewProposal-Section");
         
-        private String pageId;
+        private String sectionId;
         
-        CourseViewPages(String pageId) {
-            this.pageId = pageId;
+        CourseViewSections(String sectionId) {
+            this.sectionId = sectionId;
         }
         
-        String getPageId() {
-            return this.pageId;
+        String getSectionId() {
+            return this.sectionId;
         }
-
     }
 
     @Override
     protected CreateCourseForm createInitialForm(HttpServletRequest request) {
-        return new CreateCourseForm();
+        CreateCourseForm form = new CreateCourseForm();
+
+        boolean isCurriculumSpecialist = KimApiServiceLocator.getPermissionService()
+                .hasPermission(GlobalVariables.getUserSession()
+                        .getPrincipalId(), "KS-SYS", "Create Course By Admin Proposal");
+
+        form.setCurriculumSpecialist(isCurriculumSpecialist);
+        return form;
     }
     
     /**
@@ -233,9 +240,9 @@ public class CourseController extends CourseRuleEditorController {
      * After the Craete course initial data is filled call the method to show the navigation panel and
      * setup the maintenance object
      */
-    @RequestMapping(params = "methodToCall=ContinueCreateCourse")
-    public ModelAndView ContinueCreateCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-                                   HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @RequestMapping(params = "methodToCall=continueCreateCourse")
+    public ModelAndView continueCreateCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
         final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
 
 
@@ -244,7 +251,7 @@ public class CourseController extends CourseRuleEditorController {
          * If checked, create an admin document. Otherwise, create a regular proposal create
          * document.
          */
-        if (maintenanceDocForm.isCurriculumSpecialistUser() && !maintenanceDocForm.isUseCMreviewProcess()){
+        if (maintenanceDocForm.isCurriculumSpecialist() && !maintenanceDocForm.isUseReviewProcess()){
             maintenanceDocForm.setDocTypeName(CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
             super.docHandler(maintenanceDocForm, result, request, response);
             final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
@@ -269,7 +276,8 @@ public class CourseController extends CourseRuleEditorController {
             error("Unable to create decision table: %s", e.getMessage());
         }
 
-        maintenanceDocForm.setRenderNavigationPanel(true);
+        // Create the document in the super method
+        super.docHandler(maintenanceDocForm, result, request, response);
 
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
 
@@ -539,7 +547,7 @@ public class CourseController extends CourseRuleEditorController {
             if ( ((CreateCourseForm)form).getSelectedTabIndex() < 10){
                 ((CreateCourseForm)form).setSelectedTabIndex(((CreateCourseForm) form).getSelectedTabIndex() + 1);
             }
-//            return getUIFModelAndView(form, getNextPageId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
+//            return getUIFModelAndView(form, getNextSectionId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
             return getUIFModelAndView(form);
         } else {
             return getUIFModelAndView(form);
@@ -680,17 +688,17 @@ public class CourseController extends CourseRuleEditorController {
     /**
      * Determines to which page to navigate.
      * 
-     * @param currentPageId The current page id.
+     * @param currentSectionId The current page id.
      * @return The id of the next page to navigate to.
      */
-    protected String getNextPageId(final String currentPageId) {
+    protected String getNextSectionId(final String currentSectionId) {
         String nextPageId = null;
-        final CourseViewPages[] pages = CourseViewPages.values();
+        final CourseViewSections[] pages = CourseViewSections.values();
         for (int i = 0; i < pages.length; i++) {
-            if (pages[i].getPageId().equals(currentPageId)) {
+            if (pages[i].getSectionId().equals(currentSectionId)) {
                 //Get the next page in the enum, except when it's the last page in the enum
                 if (i + 1 < pages.length) {
-                    nextPageId = pages[++i].getPageId();
+                    nextPageId = pages[++i].getSectionId();
                     break;
                 }
             }
@@ -699,12 +707,12 @@ public class CourseController extends CourseRuleEditorController {
     }
 
 
-    protected String getPreviousPageId(final String currentPageId) {
+    protected String getPreviousSectionId(final String currentSectionId) {
         String prevPageId = null;
-        final CourseViewPages[] pages = CourseViewPages.values();
+        final CourseViewSections[] pages = CourseViewSections.values();
         for (int i = 1; i < pages.length; i++) {
-            if (pages[i].getPageId().equals(currentPageId)) {
-                prevPageId = pages[--i].getPageId();
+            if (pages[i].getSectionId().equals(currentSectionId)) {
+                prevPageId = pages[--i].getSectionId();
                 break;
             }
         }

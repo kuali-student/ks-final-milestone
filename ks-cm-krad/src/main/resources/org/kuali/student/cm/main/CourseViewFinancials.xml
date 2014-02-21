@@ -18,22 +18,22 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-Financials" parent="KS-CourseView-VerticalBoxSection">
-        <property name="headerText" value="Logistics"/>
-        <property name="header.render" value="false"/>
+    <bean id="KS-CourseView-Financials-Section" parent="KS-CourseView-VerticalBoxSection">
+        <property name="headerText" value="Financials"/>
+        <property name="header.render" value="@{#form.curriculumSpecialist}"/>
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-FinancialsPage-CourseFees-Widgets" />
-                <ref bean="KS-CourseView-FinancialsPage-Widgets" />
+                <ref bean="KS-CourseView-Financials-CourseFees-Widgets" />
+                <ref bean="KS-CourseView-Financials-Widgets" />
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseView-FinancialsPage-CourseFees-Widgets" parent="Uif-HorizontalBoxSection" p:headerText="Course Fees">
+    <bean id="KS-CourseView-Financials-CourseFees-Widgets" parent="Uif-HorizontalBoxSection" p:headerText="Course Fees">
         <property name="instructionalText" value="These are the required fees for the course, for example lab, material, field trips." />
     </bean>
 
-    <bean id="KS-CourseView-FinancialsPage-Widgets" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-Financials-Widgets" parent="Uif-VerticalBoxSection">
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:label="Justification of Fees" p:propertyName="course.feeJustification.plain">
@@ -59,12 +59,7 @@
                         <bean parent="Uif-LargeTextAreaControl" />
                     </property>
                 </bean>
-
-
             </list>
         </property>
     </bean>
-
-
-
 </beans>

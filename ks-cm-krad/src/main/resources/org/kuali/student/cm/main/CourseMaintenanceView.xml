@@ -66,10 +66,7 @@
                 </property>
             </bean>
         </property>
-        <property name="navigation">
-            <ref bean="KS-CourseNavigation-Menu" />
-        </property>
-        <property name="onDocumentReadyScript" value="onCourseLoad();"/>
+        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist});"/>
         <property name="dialogs">
             <list>
                 <ref bean="commentsLightBox" />
@@ -129,11 +126,11 @@
     </bean>
 
     <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
-            <property name="header.render" value="false"/>
+
     </bean>
 
     <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true">
-            <property name="header.render" value="false"/>
+
     </bean>
 
     <bean id="KS-CourseView-BasePage" parent="Uif-MaintenancePage" p:disclosure.render="false"/>
@@ -145,7 +142,7 @@
         </property>
         <property name="propertyReplacers">
           <list>
-            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="#form.curriculumSpecialistUser">
+            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="#form.curriculumSpecialist">
               <property name="replacement">
                   <bean parent="KS-CourseView-Footer-Admin"/>
               </property>
@@ -154,19 +151,19 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-TabGroup" p:id="course_tabs" p:render="@{#form.curriculumSpecialistUser eq false}">
+                <bean parent="Uif-TabGroup" p:id="course_tabs">
                     <property name="items">
                         <list>
-                            <ref bean="KS-CourseView-CourseInfoPage-Widgets"/>
-                            <ref bean="KS-CourseView-GovernancePage-Widgets"/>
-                            <ref bean="KS-CourseView-Logistics-Widgets"/>
-                            <ref bean="KS-CourseView-LearningObjectivesPage-Widgets" />
-                            <ref bean="KS-CourseView-CourseRequisites-Widgets"/>
-                            <ref bean="KS-CourseView-ActiveDatesPage-Widgets"/>
-                            <ref bean="KS-CourseView-Financials"/>
-                            <ref bean="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets"/>
-                            <ref bean="KS-CourseView-SupportingDocumentsPage-Widgets" />
-                            <ref bean="KS-CourseView-ReviewProposalPage-Widgets"/>
+                            <ref bean="KS-CourseView-CourseInfo-Section"/>
+                            <ref bean="KS-CourseView-GovernancePage-Section"/>
+                            <ref bean="KS-CourseView-Logistics-Section"/>
+                            <ref bean="KS-CourseView-LearningObjectives-Section" />
+                            <ref bean="KS-CourseView-CourseRequisites-Section"/>
+                            <ref bean="KS-CourseView-ActiveDates-Section"/>
+                            <ref bean="KS-CourseView-Financials-Section"/>
+                            <ref bean="KS-CourseView-AuthorsAndCollaborators-Section"/>
+                            <ref bean="KS-CourseView-SupportingDocuments-Section" />
+                            <ref bean="KS-CourseView-ReviewProposal-Section"/>
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
@@ -176,15 +173,7 @@
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>
                 </bean>
-                <bean id="courseInfoSection" parent="KS-CourseView-CourseInfoPage-Widgets"  p:render="@{#form.curriculumSpecialistUser}"/>
-                <bean id="governanceSetion" parent="KS-CourseView-GovernancePage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
-                <bean id="logisticsSection" parent="KS-CourseView-Logistics-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
-                <bean id="learningObjectivesSection" parent="KS-CourseView-LearningObjectivesPage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
-                <bean id="requisitesSection" parent="KS-CourseView-CourseRequisites-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
-                <bean id="activeDatesSection" parent="KS-CourseView-ActiveDatesPage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
-                <bean id="financialsSection" parent="KS-CourseView-Financials" p:render="@{#form.curriculumSpecialistUser}"/>
-                <bean id="authorsAndCollaboratorsSection" parent="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
-                <bean id="supportingDocumentsSection" parent="KS-CourseView-SupportingDocumentsPage-Widgets" p:render="@{#form.curriculumSpecialistUser}"/>
+
                 <ref bean="KS-CourseView-UnSavedChangesConfirmation"/>
             </list>
         </property>
@@ -256,10 +245,8 @@
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="Uif-VerticalBoxGroup" p:render="@{#form.curriculumSpecialistUser}">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-Message">
+                        <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                              p:showLabel="false" p:render="@{#form.curriculumSpecialist}">
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>uif-validationMessages</value>
@@ -268,8 +255,15 @@
                                                 <value>uif-pageValidationMessages-warning</value>
                                             </list>
                                         </property>
-                                        <property name="messageText"
-                                                  value="Showing required and optional fields. Show only required fields" />
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message" p:id="Create-CourseView-Admin-Message" p:messageText="Showing required and optional fields." p:style="margin-left: 2em; margin-right: 0pt; margin-top: 5px;">
+                                    </bean>
+                                    <bean parent="KS-Uif-ActionLink" p:id="Create-CourseView-Admin-Message-expand-optional-link" p:actionScript="showHideCreateCourseOptionalElements();"
+                                          p:actionLabel="Show only required fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                                        <property name="actionImage">
+                                            <null/>
+                                        </property>
                                     </bean>
                                 </list>
                             </property>
@@ -411,53 +405,6 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup" p:render="@{#form.curriculumSpecialistUser and #form.renderNavigationPanel}">
-            <property name="items">
-                <list>
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('courseInfoSection');" p:actionLabel="Course Information" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('governanceSetion');" p:actionLabel="Governance" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('logisticsSection');" p:actionLabel="Course Logistics" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('learningObjectivesSection');" p:actionLabel="LearningObjective" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('requisitesSection');" p:actionLabel="Course Requisites" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('activeDatesSection');" p:actionLabel="ActiveDates" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('financialsSection');" p:actionLabel="Financials" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('authorsAndCollaboratorsSection');" p:actionLabel="Authors &amp; Collaborators" />
-                    <bean parent="Uif-NavigationActionLink" p:actionScript="scrollToCourseSection('supportingDocumentsSection');" p:actionLabel="Supporting Documents" />
-                </list>
-            </property>
-    </bean>
-
-    <!--<bean id="KS-CourseNavigation-Menu" parent="Uif-MenuNavigationGroup"
-          p:render="@{#form.renderNavigationPanel}">
-        <property name="items">
-            <list>
-                <bean parent="Uif-HeaderTwo" p:headerText="Course Sections" />
-                <bean id="KS-CourseViewCreateCourse-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-createCourseInitialPage"
-                      p:actionLabel="Create Course" p:render="@{!#form.renderNavigationPanel}" p:performClientSideValidation="true"/>
-                <bean id="KS-CourseViewCourseInfo-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-CourseInfoPage"
-                      p:actionLabel="Course Information"  p:performClientSideValidation="true"/>
-                <bean id="KS-CourseViewGovernance-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-GovernancePage"
-                      p:actionLabel="Governance"  p:performClientSideValidation="true"/>
-                <bean id="KS-CourseViewCourseLogistics-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-CourseLogisticsPage" p:actionLabel="Course Logistics" p:performClientSideValidation="true"/>
-                <bean id="KS-CourseViewLearningObjectives-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-LearningObjectivesPage" p:actionLabel="Learning Objectives"  p:performClientSideValidation="true"/>
-                <bean id="KS-CourseViewCourseRequisites-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-CourseRequisitesPage" p:actionLabel="Course Requisites" p:performClientSideValidation="true" />
-                <bean id="KS-CourseViewActiveDates-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-ActiveDatesPage" p:actionLabel="Active Dates" p:performClientSideValidation="true" />
-                <bean id="KS-CourseViewFinancials-ActionLink" parent="Uif-NavigationActionLink" p:navigateToPageId="KS-CourseView-FinancialsPage"
-                      p:actionLabel="Financials" p:performClientSideValidation="true"/>
-                <bean id="KS-CourseViewAuthorsAndCollaborators-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-AuthorsAndCollaboratorsPage" p:actionLabel="Authors &amp; Collaborators" p:disabled="false" p:performClientSideValidation="true"/>
-                <bean id="KS-CourseViewSupportingDocuments-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" p:actionLabel="Supporting Documents" p:performClientSideValidation="true"/>
-                <bean id="KS-CourseViewReviewProposal-ActionLink" parent="Uif-NavigationActionLink"
-                      p:navigateToPageId="KS-CourseView-ReviewProposalPage" p:actionLabel="Review Proposal" p:performClientSideValidation="true"/>
-            </list>
-        </property>
-    </bean>-->
-
     <!-- Dialogs -->
 
     <bean id="KS-CourseView-UnSavedChangesConfirmation" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
@@ -544,5 +491,4 @@
             </list>
         </property>
     </bean>
-
 </beans>

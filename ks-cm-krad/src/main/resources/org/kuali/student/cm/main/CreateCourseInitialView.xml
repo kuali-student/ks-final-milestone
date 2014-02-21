@@ -20,7 +20,7 @@
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <bean id="KS-CourseView-createCourseInitialPage" parent="Uif-MaintenancePage"   p:style="margin-left: -18px;"
+    <bean id="KS-CourseView-createCourseInitialPage" parent="Uif-MaintenancePage"  p:style="margin-left: -18px;"
         p:headerText="Create Course"
         p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-InitialPage-Header" />
@@ -105,7 +105,7 @@
                       parent="Uif-InputField-LabelRight"
                       p:label="Use curriculum review process"
                       p:fieldLabel.cssClasses="label-normal"
-                      p:propertyName="useCMreviewProcess" p:bindingInfo.bindToForm="true"
+                      p:propertyName="useReviewProcess" p:bindingInfo.bindToForm="true"
                       p:required="false">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:style="margin-left: 6px;"/>
@@ -148,7 +148,7 @@
                 <bean id="createCourseInitial-continueCreate"
                       parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false"
-                      p:methodToCall="ContinueCreateCourse"
+                      p:methodToCall="continueCreateCourse"
                       p:actionLabel="Continue"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
                 <bean id="createCourseInitial-cancel"
@@ -160,7 +160,7 @@
         </property>
     </bean>
 
-    <bean id="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page" parent="Uif-BreadcrumbItem" p:render="@{!#form.renderNavigationPanel}" >
+    <bean id="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page" parent="Uif-BreadcrumbItem">
         <property name="label" value="Create Course"></property>
     </bean>
 </beans>

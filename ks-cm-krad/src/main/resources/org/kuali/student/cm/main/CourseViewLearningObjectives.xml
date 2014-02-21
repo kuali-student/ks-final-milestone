@@ -19,18 +19,7 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="KS-CourseView-LearningObjectivesPage" parent="KS-CourseView-BasePage"
-		p:headerText="Learning Objectives">
-		<property name="instructionalText"
-			value="Use this tool to build a bullet-point style outline with a maximum of 500 characters for each learning objective.&lt;br&gt;Or click the following link to search for existing learning objectives." />
-		<property name="items">
-			<list>
-				<ref bean="LearningObjective-CollectionSection" />
-			</list>
-		</property>
-    </bean>
-
-    <bean id="KS-CourseView-LearningObjectivesPage-Widgets" parent="KS-CourseView-VerticalBoxSection">
+    <bean id="KS-CourseView-LearningObjectives-Section" parent="KS-CourseView-VerticalBoxSection">
             <property name="headerText" value="Learning Objectives"/>
             <property name="items">
                 <list>
@@ -38,7 +27,6 @@
                 </list>
             </property>
     </bean>
-
 
 	<bean id="LearningObjective-CollectionSection" parent="Uif-StackedCollectionSection"
 		p:propertyName="loDisplayWrapperModel.loWrappers" p:collectionObjectClass="org.kuali.student.cm.course.form.LoDisplayInfoWrapper">
@@ -213,5 +201,4 @@
 			</list>
 		</property>
 	</bean>
-	
 </beans>

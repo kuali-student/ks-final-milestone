@@ -9,17 +9,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-ActiveDatesPage" parent="KS-CourseView-BasePage" p:headerText="Active Dates">
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseView-ActiveDatesPage-Widgets" />
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseView-ActiveDatesPage-Widgets" parent="KS-CourseView-VerticalBoxSection" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject">
+    <bean id="KS-CourseView-ActiveDates-Section" parent="KS-CourseView-VerticalBoxSection"
+            p:fieldBindingObjectPath="document.newMaintainableObject.dataObject">
         <property name="headerText" value="Active Dates"/>
-        <property name="header.render" value="false"/>
         <property name="items">
             <list>
 

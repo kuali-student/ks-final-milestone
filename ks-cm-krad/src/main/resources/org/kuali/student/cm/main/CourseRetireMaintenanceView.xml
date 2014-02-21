@@ -45,9 +45,6 @@
                 </property>
             </bean>
         </property>
-        <property name="navigation">
-            <ref bean="KS-CourseNavigation-Menu" />
-        </property>
         <property name="dialogs">
             <list>
                 <ref bean="commentsLightBox" />
