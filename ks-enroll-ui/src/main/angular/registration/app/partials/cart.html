@@ -1,6 +1,6 @@
 
 <div class="kscr-cart-header">
-    <h1 class="kscr-cart-header-title"><strong>MY CART</strong> <span id="course_count">({{cart.items.length}} credits)</span> </h1>
+    <h1 class="kscr-cart-header-title"><strong>MY CART</strong> <span id="course_count" class="kscr-support-heading">({{cart.items.length}} credits)</span> </h1>
 </div>
 
 <div>
@@ -36,7 +36,7 @@
 </div>
 
 <div class="kscr-register-header">
-    <span><strong>REGISTER FOR </strong><span id="course_count" class="pull-right">{{cart.items.length}} credits</span> </span>
+    <span><strong>REGISTER FOR </strong><span id="course_count" class="pull-right kscr-support-heading">{{cart.items.length}} credits</span> </span>
 </div>
 
 <!--Alert message-->
@@ -59,8 +59,8 @@
 
             <!--Course Header Section-->
             <div>
-                 <i class=" glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i>
-                 <span><strong>{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</strong></span>
+                 <span class="kscr-register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
+                 <span class="kscr-card-header"><strong>{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</strong></span>
             </div>
             <!--Course Title and description-->
             <div class="kscr-register-courseTitle" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
