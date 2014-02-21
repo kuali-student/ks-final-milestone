@@ -20,8 +20,13 @@ public class ActivityOfferingScheduleComponentResult {
     private boolean sat;
     private String startTime;
     private String endTime;
+    private String days;
     private String buildingCode;
     private String roomCode;
+
+    public String getDays() { return days; }
+
+    public void setDays(String days) { this.days = days; }
 
     public String getBuildingCode() {
         return buildingCode;

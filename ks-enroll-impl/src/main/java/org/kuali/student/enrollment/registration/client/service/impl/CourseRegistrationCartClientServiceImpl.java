@@ -395,18 +395,6 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     }
 
-
-    private String translateGradingOptionKeyToName(String gradingOptionKey) {
-        if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-            return "Audit";
-        } else if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER)) {
-            return "Letter";
-        } else if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-            return "Pass/Fail";
-        }
-        return null;
-    }
-
     @Override
     public Response searchForCartRS(String userId, String termId) {
         Response.ResponseBuilder response;
@@ -598,7 +586,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             } else {
                 //rvgName is odd in the DB right now so doing a manual translation.
                 for (CartItemResult item : luiIdToCartItem.get(coId)) {
-                    item.getGradingOptions().put(rvgId, translateGradingOptionKeyToName(rvgId));
+                    item.getGradingOptions().put(rvgId, CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(rvgId));
                 }
             }
         }

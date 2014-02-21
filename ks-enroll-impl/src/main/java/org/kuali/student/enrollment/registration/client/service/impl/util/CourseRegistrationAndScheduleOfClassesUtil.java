@@ -190,6 +190,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         ActivityOfferingScheduleComponentResult scheduleComponent = new ActivityOfferingScheduleComponentResult();
         scheduleComponent.setRoomCode(roomCode);
         scheduleComponent.setBuildingCode(buildingCode);
+        scheduleComponent.setDays(weekdays);
 
         List<TimeOfDayFormattingEnum> options = new ArrayList<TimeOfDayFormattingEnum>();
         options.add(TimeOfDayFormattingEnum.USE_MILITARY_TIME);
@@ -411,6 +412,17 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         registrationRequestItem.setGradingOptionId(gradingOptionId);
 
         return registrationRequestItem;
+    }
+
+    public static String translateGradingOptionKeyToName(String gradingOptionKey) {
+        if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
+            return "Audit";
+        } else if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER)) {
+            return "Letter";
+        } else if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
+            return "Pass/Fail";
+        }
+        return null;
     }
 
     private static CourseOfferingInfo searchForCreditsGradingByCourseOfferingId(String courseOfferingId) throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {

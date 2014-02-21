@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -36,6 +37,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -308,7 +310,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
-            String atpId = "", atpCode = "", atpName = "",
+            String atpId = "", atpCode = "", atpName = "", resultValuesGroupKey = "",
                    luiId = "", masterLuiId = "", personLuiType = "", credits = "",
                    luiCode = "", luiName = "", luiDesc = "", luiType = "", luiLongName = "",
                    roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
@@ -347,8 +349,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     startTimeMs = cellInfo.getValue();
                 } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS.equals(cellInfo.getKey())) {
                     endTimeMs = cellInfo.getValue();
+                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY.equals(cellInfo.getKey())) {
+                    resultValuesGroupKey = cellInfo.getValue();
                 }
             }
+            String aoName = (luiName!=null&&luiName.length()>=3?luiName.substring(0,3).toUpperCase():"");
 
             // running over the list of results returned. One CO can have multiple AOs
             if (hmCourseOffering.containsKey(masterLuiId)) {
@@ -358,6 +363,16 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setLongName(luiLongName);
+                    if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
+                        studentScheduleCourseResult.setCreditOptions(setCourseOfferingCreditOptions(resultValuesGroupKey, contextInfo));
+                    } else if (resultValuesGroupKey != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValuesGroupKey)) {
+                        if (!studentScheduleCourseResult.getGradingOptions().containsKey(resultValuesGroupKey)) {
+                            String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
+                            if (!StringUtils.isEmpty(gradingOptionName)) {
+                                studentScheduleCourseResult.getGradingOptions().put(resultValuesGroupKey, gradingOptionName);
+                            }
+                        }
+                    }
                     hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     // Scheduling info
@@ -374,7 +389,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
                         // AO basic info
                         activityOffering.setActivityOfferingId(luiId);
-                        activityOffering.setActivityOfferingTypeShortName(luiName);
+                        activityOffering.setActivityOfferingTypeShortName(aoName);
                         activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
 
                         // adding schedule to AO
@@ -411,13 +426,22 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
                     studentScheduleCourseResult.setLongName(luiLongName);
+                    if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
+                        studentScheduleCourseResult.setCreditOptions(setCourseOfferingCreditOptions(resultValuesGroupKey, contextInfo));
+                    } else if (resultValuesGroupKey != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValuesGroupKey)) {
+                        studentScheduleCourseResult.setGradingOptions(new HashMap<String, String>());
+                        String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
+                        if (!StringUtils.isEmpty(gradingOptionName)) {
+                            studentScheduleCourseResult.getGradingOptions().put(resultValuesGroupKey, gradingOptionName);
+                        }
+                    }
                     hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
                     StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
                     // AO basic info
                     activityOffering.setActivityOfferingId(luiId);
-                    activityOffering.setActivityOfferingTypeShortName(luiName);
+                    activityOffering.setActivityOfferingTypeShortName(aoName);
                     activityOffering.setActivityOfferingType(luiType);  // to sort over priorities
 
                     // Scheduling info
@@ -581,6 +605,37 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
+    private List<String> setCourseOfferingCreditOptions(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        int firstValue = 0;
+        List<String> creditOptions = new ArrayList<String>();
+
+        //Lookup the selected credit option and set from persisted values
+        if (!creditOptionId.isEmpty()) {
+            //Lookup the resultValueGroup Information
+            ResultValuesGroupInfo resultValuesGroupInfo = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesGroup(creditOptionId, contextInfo);
+            String typeKey = resultValuesGroupInfo.getTypeKey();
+
+            //Get the actual values
+            List<ResultValueInfo> resultValueInfos = CourseRegistrationAndScheduleOfClassesUtil.getLrcService().getResultValuesByKeys(resultValuesGroupInfo.getResultValueKeys(), contextInfo);
+
+            if (!resultValueInfos.isEmpty()) {
+                if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
+                    creditOptions.add(resultValueInfos.get(firstValue).getValue()); // fixed credits
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // range
+                    int minValue = Integer.parseInt(resultValuesGroupInfo.getResultValueRange().getMinValue());
+                    int maxValue = Integer.parseInt(resultValuesGroupInfo.getResultValueRange().getMaxValue());
+                    for (int i = minValue; i <= maxValue; i++) {
+                        creditOptions.add(Integer.toString(i));
+                    }
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {  // multiple
+                    for (ResultValueInfo resultValueInfo : resultValueInfos) {
+                        creditOptions.add(resultValueInfo.getValue());
+                    }
+                }
+            }
+        }
+
+        return creditOptions;
+    }
+
 }
-
-

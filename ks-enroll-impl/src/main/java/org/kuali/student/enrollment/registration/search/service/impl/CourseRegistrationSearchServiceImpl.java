@@ -438,12 +438,17 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String queryStr =
                 "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, " +
                         "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
+                        "luiRes.RESULT_VAL_GRP_ID, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
                         "FROM KSEN_ATP atp, " +
                         "     KSEN_LPR lpr, " +
                         "     KSEN_LUI lui, " +
                         "     KSEN_LUI_IDENT luiId " +
+                        "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP luiRes " +
+                        "ON luiRes.LUI_ID = luiId.LUI_ID " +
+                        "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
+                        "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = luiId.LUI_ID " +
                         "LEFT OUTER JOIN KSEN_SCHED_CMP schedCmp " +
@@ -488,6 +493,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);
