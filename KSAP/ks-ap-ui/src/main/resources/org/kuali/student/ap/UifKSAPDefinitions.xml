@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+    Copyright 2007-2009 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    -->
+    <!-- VIEWS ######################################################################################## -->
+    <!-- View without the header and footer and just the theme -->
+    <bean id="KSAPBaseFormView" abstract="true" parent="KSAPBaseFormView-parent"/>
+    <bean id="KSAPBaseFormView-parent" abstract="true" parent="Uif-FormView">
+    	<property name="theme">
+            <bean parent="KSAPTheme"/>
+        </property>
+        <property name="persistFormToSession" value="false"/>
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
+    </bean>
+
+    <bean id="KSAPFormView" abstract="true" parent="KSAPFormView-parent"/>
+    <bean id="KSAPFormView-parent" abstract="true" parent="KSAPBaseFormView">
+        <property name="theme">
+            <bean parent="KSAPTheme"/>
+        </property>
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:templateName="ksap_app_header"/>
+        </property>
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:id="ks-footer"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
+                  p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KSAPBaseLookupView" abstract="true" parent="KSAPBaseLookupView-parent"/>
+    <bean id="KSAPBaseLookupView-parent" abstract="true" parent="Uif-LookupView">
+        <property name="theme">
+            <bean parent="KSAPTheme"/>
+        </property>
+        <property name="persistFormToSession" value="false"/>
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
+    </bean>
+
+    <bean id="KSAPLookupView" abstract="true" parent="KSAPLookupView-parent"/>
+    <bean id="KSAPLookupView-parent" abstract="true" parent="KSAPBaseLookupView">
+        <property name="theme">
+            <bean parent="KSAPTheme"/>
+        </property>
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:templateName="ksap_app_header"/>
+        </property>
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:id="ks-footer"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
+                  p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KSAPBaseInquiryView" abstract="true" parent="KSAPBaseInquiryView-parent"/>
+    <bean id="KSAPBaseInquiryView-parent" abstract="true" parent="Uif-InquiryView">
+        <property name="theme">
+            <bean parent="KSAPTheme"/>
+        </property>
+        <property name="persistFormToSession" value="false"/>
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
+    </bean>
+
+    <bean id="KSAPInquiryView" abstract="true" parent="KSAPInquiryView-parent"/>
+    <bean id="KSAPInquiryView-parent" abstract="true" parent="KSAPBaseInquiryView">
+        <property name="theme">
+            <bean parent="KSAPTheme"/>
+        </property>
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:templateName="ksap_app_header"/>
+        </property>
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:id="ks-footer"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
+                  p:cssClasses="ks-page-bottom" p:templateName="ksap_app_footer"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KSAPBaseMaintenanceView" abstract="true" parent="KSAPBaseMaintenanceView-parent"/>
+    <bean id="KSAPBaseMaintenanceView-parent" abstract="true" parent="Uif-MaintenanceView">
+        <property name="theme">
+            <bean parent="KSAPTheme"/>
+        </property>
+        <property name="breadcrumbs.render" value="false"/>
+        <property name="applyDirtyCheck" value="false"/>
+    </bean>
+
+    <bean id="KSAPMaintenanceView" abstract="true" parent="KSAPMaintenanceView-parent"/>
+    <bean id="KSAPMaintenanceView-parent" abstract="true" parent="KSAPBaseMaintenanceView">
+        <property name="theme">
+            <bean parent="KSAPTheme"/>
+        </property>
+        <property name="footer" ref="KSAPFooterDocument"/>
+        <property name="applicationHeader">
+            <bean parent="Uif-HeaderOne" p:id="ks-banner"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationHeader.ftl"
+                  p:templateName="ksap_app_header"/>
+        </property>
+        <property name="applicationFooter">
+            <bean parent="Uif-FooterBase" p:id="ks-footer"
+                  p:template="/ks-ap/WEB-INF/ftl/templates/KSAPApplicationFooter.ftl"
+                  p:cssClasses="ks-page-bottom" p:templateName="ksap_app_header"/>
+        </property>
+        <property name="refreshBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+        <property name="navigationBlockUI">
+            <bean parent="Uif-BlockUI">
+                <property name="blockingImageSource" value="@{#ConfigProperties['ks.ap.externalizable.images.url']}ajaxLoader.gif"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- THEMES ######################################################################################## -->
+
+    <bean id="KSAPTheme" abstract="true" parent="KSAPTheme-parentBean"/>
+    <bean id="KSAPTheme-parentBean" parent="Uif-BaseTheme">
+        <property name="cssFiles">
+            <list merge="true">
+                <value>themes/ksboot/stylesheets/ksboot.css</value>
+                <value>ks-ap/scripts/jquery-popover/jquery.popover.css</value>
+                <value>ks-ap/jquery-ui/jquery-ui.css</value>
+                <value>ks-ap/css/myplan.css</value>
+                <value>themes/ksboot/stylesheets/enroll.css</value>
+            </list>
+        </property>
+        <property name="scriptFiles">
+            <!--@TODO: KSAP-254: Create ksap.js and include here-->
+            <list merge="true">
+                <value>ks-ap/scripts/KradOverrides.js</value>
+                <value>ks-ap/scripts/plan/planner.js</value>
+                <value>ks-ap/scripts/ksap.widgets.js?@{#ConfigProperties['ksap.version']}</value>
+                <value>ks-ap/plugins/jquery.subscribe.js?@{#ConfigProperties['ksap.version']}</value>
+                <value>ks-ap/scripts/jquery-popover/jquery.popover.js?@{#ConfigProperties['ksap.version']}</value>
+                <value>themes/bootstrap/scripts/bootstrap.js</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!--Base generic KS theme with no CSS or JS included-->
+    <bean id="KSAPRetrievedTheme" abstract="true" parent="KSAPRetrievedTheme-parentBean"/>
+    <bean id="KSAPRetrievedTheme-parentBean" parent="Uif-BaseTheme">
+        <property name="cssFiles">
+            <list merge="false"/>
+        </property>
+        <property name="scriptFiles">
+            <list merge="false"/>
+        </property>
+    </bean>
+
+    <bean id="KSAPFooterDocument" parent="KSAPFooterDocument-parent"/>
+    <bean id="KSAPFooterDocument-parent" abstract="true" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="performRouteReport" p:actionLabel="Route Report"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_PERFORM_ROUTE_REPORT]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="sendAdHocRequests" p:actionLabel="Send Adhoc"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SEND_ADHOC_REQUESTS]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionScript="validateAndSubmit('route', replacePage);"
+                      p:actionLabel="Submit"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionScript="validateAndSubmit('save', replacePage);"
+                      p:actionLabel="Save"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="reload" p:actionLabel="Reload"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/>
+                <bean parent="Uif-PrimaryActionButton"
+                      p:actionScript="validateAndSubmit('blanketApprove', replacePage);" p:actionLabel="Blanket Approve"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_BLANKET_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:actionScript="validateAndSubmit('approve', replacePage);"
+                      p:actionLabel="Approve"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_APPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="disapprove" p:actionLabel="Disapprove"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_DISAPPROVE]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="fyi" p:actionLabel="FYI"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_FYI]}"/>
+                <bean parent="Uif-PrimaryActionButton" p:methodToCall="acknowledge" p:actionLabel="Acknowledge"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ACKNOWLEDGE]}"/>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                <bean parent="Uif-ActionLink" p:actionScript="validateAndSubmit('copy', replacePage);"
+                      p:actionLabel="Copy"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_COPY]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAPFooter_SubmitCancel" parent="KSAPFooter_SubmitCancel-parent"/>
+    <bean id="KSAPFooter_SubmitCancel-parent" abstract="true" parent="KSAPFooterDocument">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:actionScript="validateAndSubmit('route', replacePage);"
+                      p:actionLabel="Submit"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAPHeader_Empty" parent="Uif-HeaderOne">
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <bean id="KSAPHelpImage" parent="KSAPHelpImage-parent"/>
+    <bean id="KSAPHelpImage-parent" abstract="true" parent="Uif-HelpImage"
+          p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconHelp.png" p:altText="" p:title="">
+    </bean>
+
+    <bean id="KSAP-Tooltip" parent="KSAP-Tooltip-parent"/>
+    <bean id="KSAP-Tooltip-parent" abstract="true" parent="Uif-Tooltip">
+        <property name="onFocus" value="false"/>
+        <property name="onMouseHover" value="true"/>
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="position" value="top"/>
+                <entry key="align" value="center"/>
+                <entry key="width" value="250px"/>
+                <entry key="tail" value="{ align:'center', hidden: false }"/>
+                <entry key="closingDelay" value="500"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Tooltip-Right" parent="KSAP-Tooltip-Right-parent"/>
+    <bean id="KSAP-Tooltip-Right-parent" abstract="true" parent="KSAP-Tooltip">
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="align" value="right"/>
+                <entry key="tail" value="{ align:'right', hidden: false }"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Tooltip-Left" parent="KSAP-Tooltip-Left-parent"/>
+    <bean id="KSAP-Tooltip-Left-parent" abstract="true" parent="KSAP-Tooltip">
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="align" value="left"/>
+                <entry key="tail" value="{ align:'left', hidden: false }"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KSAPRegistrationStatusIcon" parent="KSAPRegistrationStatusIcon-parent"/>
+    <bean id="KSAPRegistrationStatusIcon-parent" abstract="true" parent="Uif-Image" p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>@{#parentLine.completedTerm ? 'locked' : (#parentLine.openForPlanning ? 'unlocked' : 'locked')}</value>
+                <value>ksap-registration-status</value>
+                <value>ks-plan-Icon</value>
+                <value>@{#parentLine.completedTerm ? 'ks-plan-Icon--locked' : (#parentLine.openForPlanning ? 'ks-plan-Icon--unlocked' : 'ks-plan-Icon--locked')}</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAPMessagingIcon" parent="KSAPMessagingIcon-parent"/>
+    <bean id="KSAPMessagingIcon-parent" abstract="true" parent="Uif-Image" p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>icon</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="UifKSAP-HorizontalStackedSubCollection-WithinSection" parent="UifKSAP-HorizontalStackedSubCollection-WithinSection-parent"/>
+    <bean id="UifKSAP-HorizontalStackedSubCollection-WithinSection-parent" abstract="true"
+          parent="Uif-StackedSubCollection-WithinSection-parentBean">
+        <property name="layoutManager">
+            <bean parent="UifKSAP-HorizontalStackedCollectionLayout"/>
+        </property>
+    </bean>
+
+
+    <bean id="UifKSAP-HorizontalStackedCollectionLayout" parent="UifKSAP-HorizontalStackedCollectionLayout-parent"/>
+    <bean id="UifKSAP-HorizontalStackedCollectionLayout-parent" abstract="true"
+          parent="Uif-StackedCollectionLayout-WithBoxItems-parentBean">
+
+        <!--
+        <property name="template" value="/ks-ap/WEB-INF/jsp/templates/layout/override/horizontalstacked.jsp"/>
+        -->
+
+        <property name="addLineGroup">
+            <bean parent="Uif-CollectionVerticalBoxItem">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>uif-collectionAddItem</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="lineGroupPrototype">
+            <bean parent="Uif-CollectionHorizontalBoxItem">
+                <property name="validationMessages.render" value="false"/>
+                <property name="footer.render" value="false"/>
+            </bean>
+        </property>
+
+        <property name="subCollectionFieldGroupPrototype">
+            <bean parent="Uif-VerticalFieldGroup" p:cssClasses="uif-subCollection"/>
+        </property>
+
+    </bean>
+
+   	<bean id="ksap_dialog_anchor" parent="Uif-Image"
+   		p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}pixel.gif"/>
+
+    <bean id="ksap_section" parent="ksap_section-parent"/>
+    <bean id="ksap_section-parent" abstract="true" parent="Uif-VerticalBoxSubSection">
+        <property name="header.render" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-section</value>
+                <value>ksap-no-margin</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <!--<ref bean="messages_widget"/>-->
+                <ref bean="your_stuff_widget"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="your_stuff_widget" parent="your_stuff_widget-parent"/>
+    <bean id="your_stuff_widget-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="YOUR STUFF">
+        <property name="header">
+            <bean parent="Uif-HeaderFive">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>primary</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-widget</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="watch_list" />
+                <ref bean="non_student_degree_audits_list" />
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
+                    <property name="replacement">
+                        <list>
+                            <ref bean="watch_list" />
+                            <ref bean="degree_audits_list" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="your_stuff_widget_planner" parent="your_stuff_widget_planner-parent"/>
+    <bean id="your_stuff_widget_planner-parent" abstract="true" parent="Uif-VerticalBoxSubSection" p:headerText="YOUR STUFF">
+        <property name="header">
+            <bean parent="Uif-HeaderFive">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>primary</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-widget</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="watch_list" />
+                <ref bean="non_student_degree_audits_list" />
+            </list>
+        </property>
+        <property name="propertyReplacers">
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isStudent()">
+                    <property name="replacement">
+                        <list>
+                            <ref bean="watch_list" />
+                            <ref bean="degree_audits_list" />
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messages_widget" parent="messages_widget-parent" />
+    <bean id="messages_widget-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="MESSAGES" >
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-widget</value>
+                <value>ksap-messages-summary</value>
+                <value>ksap-stacked-list</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderFive">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>primary</value>
+                    </list>
+                </property>
+            </bean>
+        </property>
+        <property name="onDocumentReadyScript"
+                  value="ksapRetrieveComponent('messages_widget','messages_summary','search','lookup',{viewId:'MessagesSummary-LookupView'});
+                        registerMessageEvents(jQuery('#messages_widget'));"/>
+    </bean>
+
+    <bean id="watch_list" parent="watch_list-parent"/>
+    <bean id="watch_list-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="Bookmarked Courses">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-saved-courses-summary</value>
+                <value>ksap-stacked-list</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="onDocumentReadyScript"
+                  value="ksapRetrieveComponent('watch_list','bookmark_summary','search','lookup',{viewId:'BookmarkSideBar-LookupView'});"/>
+    </bean>
+
+    <bean id="degree_audits_list" parent="degree_audits_list-parent"/>
+    <bean id="degree_audits_list-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="Recent Audit Reports">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-recent-audit</value>
+                <value>ksap-stacked-list</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="onDocumentReadyScript"
+                  value="ksapRetrieveComponent('degree_audits_list','degree_audits_summary','search','lookup',{viewId:'DegreeAuditsSummary-LookupView'});
+                        registerDegreeAuditListEvents(jQuery('#degree_audits_summary'));"/>
+    </bean>
+
+    <bean id="non_student_degree_audits_list" parent="non_student_degree_audits_list-parent"/>
+    <bean id="non_student_degree_audits_list-parent" abstract="true" parent="Uif-VerticalBoxGroup" p:headerText="Recent Audit Reports">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-recent-audit</value>
+                <value>ksap-stacked-list</value>
+            </list>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderSix"/>
+        </property>
+        <property name="instructionalText" value="No recent audits found."/>
+    </bean>
+
+
+    <bean id="data_list_formatter" class="org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor">
+        <property name="emptyListMessage" value="None"/>
+    </bean>
+
+    <bean id="crud_message_matrix_formatter" class="org.kuali.student.ap.coursesearch.util.CrudMessageMatrixFormatter"/>
+
+
+    <bean id="planned_sections_formatter" class="org.kuali.student.ap.coursesearch.util.PlannedSectionsPropertyEditor"/>
+
+    <bean id="scheduled_terms_list_formatter"
+          class="org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor"/>
+
+    <bean id="scheduled_terms_list_formatter_savedCourses"
+          class="org.kuali.student.ap.coursesearch.util.ScheduledTermsPropertyEditor"/>
+
+    <bean id="terms_formatter" class="org.kuali.student.ap.coursesearch.util.CollectionListPropertyEditor">
+        <property name="emptyListMessage"
+                  value="Check with the department or your adviser for more information about this course."/>
+        <property name="applyClassOnItem" value="true"/>
+        <property name="emptyListStyleClasses">
+            <list merge="true">
+                <value>empty</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="timestamp_formatter" class="org.kuali.student.ap.coursesearch.util.TimestampPropertyEditor">
+        <property name="simpleDateFormat" value="#{T(org.kuali.student.r2.common.util.date.DateFormatters).MONTH_DAY_YEAR_TIME_DATE_FORMAT}"/>
+    </bean>
+
+    <!--  Message to use when an adviser can't perform a particular action. -->
+    <bean id="course_adviser_actions_message" parent="course_adviser_actions_message-parent"/>
+    <bean id="course_adviser_actions_message-parent" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-status</value>
+                <value>info</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:cssClasses="ksap-no-margin">
+                    <property name="fieldLabel.render" value="false"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Advisers are unable to add or bookmark courses."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="audit_adviser_actions_message" parent="audit_adviser_actions_message-parent"/>
+    <bean id="audit_adviser_actions_message-parent" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-status</value>
+                <value>info</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Advisers are unable to run degree audits."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="bookmark_adviser_actions_message" parent="bookmark_adviser_actions_message-parent"/>
+    <bean id="bookmark_adviser_actions_message-parent" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-status</value>
+                <value>info</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="Advisers are unable to edit bookmarked courses."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Light weight fields -->
+    <bean id="KSAP-SimpleDataField" parent="KSAP-SimpleDataField-parentBean"/>
+    <bean id="KSAP-SimpleDataField-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
+        <property name="fieldLabel.render" value="false"/>
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
+        <property name="templateName" value="ksap_simpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+
+    <bean id="KSAP-SimpleInputField" parent="KSAP-SimpleInputField-parentBean"/>
+    <bean id="KSAP-SimpleInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
+        <property name="fieldLabel.render" value="false"/>
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/KSAPSimpleDataField.ftl"/>
+        <property name="templateName" value="ksap_simpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+        <property name="quickfinder">
+            <null/>
+        </property>
+        <property name="validationMessages">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-MessageField" parent="KSAP-MessageField-parentBean"/>
+    <bean id="KSAP-MessageField-parentBean" abstract="true" class="org.kuali.rice.krad.uif.field.MessageField"
+          parent="Uif-MessageField-parentBean" scope="prototype">
+        <property name="message">
+            <bean parent="KSAP-NoSpanMessage"/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Message" parent="KSAP-Message-parentBean"/>
+    <bean id="KSAP-Message-parentBean" abstract="true" parent="Uif-Message-parentBean" scope="prototype">
+        <property name="generateSpan" value="true"/>
+        <property name="readOnly" value="true"/>
+    </bean>
+
+    <bean id="KSAP-NoSpanMessage" parent="KSAP-NoSpanMessage-parentBean"/>
+    <bean id="KSAP-NoSpanMessage-parentBean" abstract="true" parent="Uif-Message-parentBean" scope="prototype">
+        <property name="generateSpan" value="false"/>
+    </bean>
+
+
+    <bean id="KSAP-StackedCollectionGroup" parent="KSAP-StackedCollectionGroup-parentBean"/>
+    <bean id="KSAP-StackedCollectionGroup-parentBean" abstract="true" parent="Uif-StackedCollectionGroup-parentBean">
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/KSAPcollectionGroup.ftl"/>
+        <property name="templateName" value="ksap_collectionGroup"/>
+
+
+        <property name="highlightNewItems" value="false"/>
+        <property name="newItemsCssClass" value="uif-newCollectionItem"/>
+        <property name="highlightAddItem" value="false"/>
+        <property name="addItemCssClass" value="uif-collectionAddItem"/>
+        <property name="renderAddBlankLineButton" value="false"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="readOnly" value="true"/>
+        <property name="bindingInfo">
+            <ref bean="Uif-BindingInfo"/>
+        </property>
+        <property name="addLineBindingInfo">
+            <null/>
+        </property>
+        <property name="addLineLabel">
+            <null/>
+        </property>
+        <property name="addLineActions">
+            <list>
+            </list>
+        </property>
+        <property name="lineActions">
+            <list>
+            </list>
+        </property>
+        <property name="addBlankLineAction">
+            <null/>
+        </property>
+        <property name="addViaLightBoxAction">
+            <null/>
+        </property>
+        <property name="collectionLookup">
+            <null/>
+        </property>
+        <property name="validationMessages">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-VerticalBoxGroup" parent="KSAP-VerticalBoxGroup-parent"/>
+    <bean id="KSAP-VerticalBoxGroup-parent" abstract="true" parent="Uif-VerticalBoxGroup">
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+        <property name="toolTip">
+            <null/>
+        </property>
+        <property name="scrollpane">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-VerticalBoxGroup-NoMargin" parent="KSAP-VerticalBoxGroup-NoMargin-parent"/>
+    <bean id="KSAP-VerticalBoxGroup-NoMargin-parent" abstract="true" parent="KSAP-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-HorizontalBoxGroup" parent="KSAP-HorizontalBoxGroup-parent"/>
+    <bean id="KSAP-HorizontalBoxGroup-parent" abstract="true" parent="Uif-HorizontalBoxGroup">
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+        <property name="toolTip">
+            <null/>
+        </property>
+        <property name="scrollpane">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-HorizontalBoxGroup-NoMargin" parent="KSAP-HorizontalBoxGroup-NoMargin-parent"/>
+    <bean id="KSAP-HorizontalBoxGroup-NoMargin-parent" abstract="true" parent="KSAP-HorizontalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-VerticalFieldGroup" parent="KSAP-VerticalFieldGroup-parent"/>
+    <bean id="KSAP-VerticalFieldGroup-parent" abstract="true" parent="Uif-VerticalFieldGroup">
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/field/fieldGroup.ftl"/>
+        <property name="fieldLabel">
+            <bean parent="Uif-Label">
+                <property name="render" value="false"/>
+                <property name="renderColon" value="false"/>
+            </bean>
+        </property>
+        <property name="group">
+            <bean parent="KSAP-VerticalBoxGroup"/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-VerticalFieldGroup-NoMargin" parent="KSAP-VerticalFieldGroup-NoMargin-parent"/>
+    <bean id="KSAP-VerticalFieldGroup-NoMargin-parent" abstract="true" parent="KSAP-VerticalFieldGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-HorizontalFieldGroup" parent="KSAP-HorizontalFieldGroup-parent"/>
+    <bean id="KSAP-HorizontalFieldGroup-parent" abstract="true" parent="Uif-HorizontalFieldGroup">
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/field/fieldGroup.ftl"/>
+        <property name="fieldLabel">
+            <bean parent="Uif-Label">
+                <property name="render" value="false"/>
+                <property name="renderColon" value="false"/>
+            </bean>
+        </property>
+        <property name="group">
+            <bean parent="KSAP-HorizontalBoxGroup"/>
+        </property>
+    </bean>
+
+    <bean id="KSAP-HorizontalFieldGroup-NoMargin" parent="KSAP-HorizontalFieldGroup-NoMargin-parent"/>
+    <bean id="KSAP-HorizontalFieldGroup-NoMargin-parent" abstract="true" parent="KSAP-HorizontalFieldGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-noMargin</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-PopoverPage" parent="KSAP-PopoverPage-parent"/>
+    <bean id="KSAP-PopoverPage-parent" abstract="true" parent="Ksap-Page">
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="header">
+            <bean parent="Uif-HeaderFour">
+		        <property name="cssClasses">
+		        	<list merge="true">
+			        	<value>ks-Popover-header</value>
+		        	</list>
+		        </property>
+            </bean>
+        </property>
+        <property name="cssClasses">
+        	<list merge="true">
+	        	<value>ks-Popover</value>
+        	</list>
+        </property>
+        <property name="layoutManager.cssClasses">
+        	<list merge="true">
+	        	<value>ks-Popover-body</value>
+        	</list>
+        </property>
+        <property name="stickyFooter" value="false"/>
+        <property name="footer">
+            <bean parent="KSAP-VerticalBoxGroup-NoMargin" />
+        </property>
+        <property name="footer.cssClasses">
+        	<list merge="true">
+	        	<value>ks-Popover-footer</value>
+        	</list>
+        </property>
+    </bean>
+
+    <bean id="KSAP-Suggest" parent="KSAP-Suggest-parent"/>
+    <bean id="KSAP-Suggest-parent" abstract="true" parent="Uif-Suggest-parentBean">
+        <property name="template" value="/ks-ap/WEB-INF/ftl/components/widget/suggest.ftl"/>
+    </bean>
+
+    <bean id="Ksap-Page" parent="Uif-Page" class="org.kuali.rice.krad.uif.container.extension.KSAPPageGroup"/>
+
+</beans>
+

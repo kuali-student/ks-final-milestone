@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!--
+     Copyright 2007-2009 The Kuali Foundation
+
+     Licensed under the Educational Community License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.opensource.org/licenses/ecl2.php
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+    -->
+
+
+    <bean id="Message-FormView" parent="KSAPBaseFormView">
+        <property name="id" value="Message-FormView"/>
+        <property name="header.render" value="false"/>
+       <!-- <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>-->
+        <property name="cssClasses">
+            <list merge="true">
+                <value>base-view</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Page" p:id="message_dialog_response_page"
+                      p:headerText="Leave a Message for @{studentName}.">
+                    <property name="onDocumentReadyScript" value="
+                        jQuery('form input, form textarea').keyup(function(event) {
+                            var empty = false;
+                            var code = (event.keyCode ? event.keyCode : event.which);
+                            jQuery('form .ksap-required').each(function() {
+                                if (jQuery(this).val().replace(/\n/g, '').length == 0) {
+                                    empty = true;
+                                }
+                            });
+                            if (code == 13 &amp;&amp; event.target.tagName.toLowerCase() == 'input' &amp;&amp; event.target.type == 'text' &amp;&amp; empty) {
+                                jQuery('button#cancelMessage').click();
+                            }
+                            jQuery('button#leaveMessageButton').attr('disabled', empty);
+                        });
+                    "/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-messages-lightbox</value>
+                        </list>
+                    </property>
+                   <!-- <property name="header">
+                        <bean parent="Uif-HeaderSix" p:style="border-bottom:solid 1px #a9a9a9; margin-bottom:20px; padding-bottom:10px;"/>
+                    </property>-->
+                    <property name="layoutManager">
+                        <bean parent="Uif-VerticalBoxLayout"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="message_dialog_subject"/>
+                            <ref bean="message_dialog_message"/>
+                            <ref bean="message_dialog_message_count"/>
+                            <ref bean="message_actions"/>
+                        </list>
+                    </property>
+                </bean>
+                <!--Comment Page-->
+                <bean parent="Uif-Page" p:id="comment_dialog_response_page"
+                      p:headerText="View Message">
+                    <property name="onDocumentReadyScript" value="
+                        jQuery('form input, form textarea').keyup(function() {
+                            var empty = false;
+                            jQuery('form .ksap-required').each(function() {
+                                if (jQuery(this).val().replace(/\n/g, '').length == 0) {
+                                    empty = true;
+                                }
+                            });
+                            jQuery('button#postCommentButton').attr('disabled', empty);
+                        });
+                    "/>
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-messages-lightbox</value>
+                        </list>
+                    </property>
+                   <!-- <property name="header">
+                        <bean parent="Uif-HeaderSix"/>
+                    </property>-->
+                    <property name="layoutManager">
+                        <bean parent="Uif-VerticalBoxLayout"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="comment_dialog_subject"/>
+                            <ref bean="comment_dialog_comments_list"/>
+                            <ref bean="comment_dialog_message"/>
+                            <ref bean="comment_dialog_message_count"/>
+                            <bean id="postCommentButton" p:id="postCommentButton" parent="Uif-PrimaryActionButton"
+                                  p:actionLabel="Post a Comment" p:methodToCall="addComment" p:style="margin:0 0 0 100px;" p:disabled="true" p:focusOnIdAfterSubmit="commenting_textbox_control">
+                            </bean>
+                            <bean id="hidden_messageId" parent="Uif-InputField" p:propertyName="messageId"
+                                  p:defaultValue="@{messageId}" p:style="display:none;">
+                                <property name="hidden" value="true"/>
+                                <property name="control">
+                                    <bean parent="Uif-HiddenControl"/>
+                                </property>
+                            </bean>
+                            <ref bean="comment_sent"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer.render" value="false"/>
+        <property name="formClass" value="org.kuali.student.ap.comment.form.CommentForm"/>
+    </bean>
+
+    <bean id="comment_sent" parent="Uif-HorizontalBoxGroup" p:render="@{feedBackMode eq true ? true : false}" p:style="margin:0 0 0 100px;">
+        <property name="onDocumentReadyScript" value="parent.jQuery.publish('COMMENT_SENT'); parent.jQuery.fancybox.inner.css({height:jQuery('.fancybox-iframe').contents().find('body').height()+'px'});"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-feedback</value>
+                <value>success</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ImageField" p:source="../ks-ap/images/pixel.gif">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>icon</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-Message" p:messageText="Sent Successfully" p:cssClasses="message"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="comment_close" parent="Uif-Link" p:render="@{feedBackMode eq true ? true : false}">
+        <property name="linkText" value="Back to Plan"/>
+        <property name="onClickScript" value="parent.jQuery.fancybox.close(true);"/>
+        <property name="href" value="#"/>
+        <property name="target" value=""/>
+        <property name="style" value="line-height:18px; margin:4px 0px 4px 10px;"/>
+    </bean>
+
+    <bean id="comment_dialog_subject" parent="Uif-VerticalBoxSubSection">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-messages-original</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean id="comment_text_box" parent="Uif-HorizontalBoxSubSection">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="from" p:label="From" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false" />
+                            <bean parent="Uif-DataField" p:propertyName="createdDate" p:label="on" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false">
+                                <property name="propertyEditor" ref="timestamp_formatter"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="subject" p:style="width:610px;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-text-ellipsis</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:propertyName="body" p:style="width:610px; margin:0;" p:escapeHtmlInPropertyValue="false">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-block-ellipsis</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="comment_dialog_comments_list" parent="Uif-ListCollectionSection"
+          p:headerText="@{comments.size() gt 0 ? (comments.size() gt 1 ? comments.size() + ' comments to this message were posted' : comments.size() + ' comment to this message was posted') : 'Post your comment to this message'}">
+        <property name="header">
+            <bean parent="Uif-HeaderSix" p:style="margin:0 0 10px 0;"/>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.comment.dataobject.CommentDataObject"/>
+        <property name="propertyName" value="comments"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-stacked-list</value>
+                <value>ksap-comments-list</value>
+            </list>
+        </property>
+        <property name="onDocumentReadyScript" value="if ( jQuery('.ksap-comments-list ul')[0].scrollHeight > jQuery('.ksap-comments-list ul').height() ) {
+            jQuery('.ksap-comments-list ul').scrollTop(jQuery('.ksap-comments-list ul')[0].scrollHeight);
+        }"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalFieldGroup" p:fieldLabel.render="false" >
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-messages-comments</value>
+                        </list>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-HorizontalBoxSubSection" p:style="margin:0;">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-DataField" p:propertyName="from" />
+                                        <bean parent="Uif-DataField" p:propertyName="createDate" p:style="margin:0;" p:escapeHtmlInPropertyValue="false">
+                                            <property name="propertyEditor" ref="timestamp_formatter"/>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="body" p:escapeHtmlInPropertyValue="false">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-messages-comments-body</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+
+            </list>
+        </property>
+    </bean>
+
+    <bean id="comment_dialog_message" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+
+                <bean parent="Uif-DataField" p:propertyName="personName" p:style="margin:0;" />
+
+                <bean id="commenting_textbox" parent="Uif-InputField" p:propertyName="commentBody"
+                      p:fieldLabel.render="false" p:style="margin:0;">
+                    <!--<property name="onDocumentReadyScript" value="
+                        jQuery('textarea#commenting_textbox_control').focus();
+                    "/>-->
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="2" p:style="resize:none; padding:10px;" p:textExpand="false"
+                              p:watermarkText="Write comment... (500 characters max)">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-textarea</value>
+                                    <value>ksap-required</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="comment_dialog_message_count" parent="Uif-HorizontalBoxSubSection" p:style="float:right;">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="" p:style="margin:0;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-counter</value>
+                        </list>
+                    </property>
+                    <property name="onDocumentReadyScript" value="jQuery('.ksap-textarea').characterCount({maxLength:500,classCounter:'ksap-counter'});"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="message_dialog_message_count" parent="Uif-HorizontalBoxSubSection" p:style="float:right;">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="" p:style="margin:0;">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-counter</value>
+                        </list>
+                    </property>
+                    <property name="onDocumentReadyScript" value="jQuery('.ksap-textarea').characterCount({maxLength:1000,classCounter:'ksap-counter'});"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="message_dialog_subject" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Subject" p:style="margin:0;" />
+                <bean id="subject_textbox" parent="Uif-InputField" p:propertyName="subject"
+                      p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:maxLength="70" p:watermarkText="Maximum characters are 70" p:disabled="@{feedBackMode ? true : false}">
+                            <property name="onKeyPressScript" value="
+                                var code = (e.keyCode ? e.keyCode : e.which);
+                                if (code == 13) {
+                                    e.preventDefault ? e.preventDefault() : e.returnValue = false;
+                                }
+                            "/>
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-required</value>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="message_dialog_message" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="Message" p:style="margin:0;" />
+                <bean id="message_textbox" parent="Uif-InputField" p:propertyName="body"
+                      p:fieldLabel.render="false">
+                    <property name="control">
+                        <bean parent="Uif-TextAreaControl" p:rows="10" p:textExpand="false" p:style="resize:none;"
+                              p:watermarkText="Maximum characters are 1000" p:disabled="@{feedBackMode ? true : false}">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>ksap-textarea</value>
+                                    <value>ksap-required</value>
+                                </list>
+                            </property>
+                        </bean>
+
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="message_actions" parent="Uif-HorizontalBoxSubSection">
+        <property name="items">
+            <list>
+                <bean id="leaveMessageButton" p:id="leaveMessageButton" parent="Uif-PrimaryActionButton" p:disabled="true" p:style="margin:0 0 0 100px;"
+                      p:actionLabel="Leave a Message" p:methodToCall="addMessage" p:render="@{feedBackMode eq false ? true : false}">
+                </bean>
+                <bean p:id="cancelMessage" parent="Uif-PrimaryActionButton" p:actionLabel="Cancel" p:style="margin: 0 0 0 20px;" p:render="@{feedBackMode eq false ? true : false}">
+                    <property name="actionScript"
+                              value="e.preventDefault();closeLightbox();return false;actionInvokeHandler(this);" />
+                </bean>
+                <ref bean="comment_sent"/>
+                <ref bean="comment_close"/>
+            </list>
+        </property>
+    </bean>
+
+    <!--  Messages Summary (Gutter) Lookup -->
+    <bean id="MessagesSummary-LookupView" parent="KSAPBaseLookupView">
+        <property name="headerText" value="Messages Summary"/>
+        <property name="page.header.render" value="false"/>
+        <property name="header.render" value="false"/>
+        <property name="footer.render" value="false"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.comment.service.MessagesLookupableHelperImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-section</value>
+            </list>
+        </property>
+        <property name="criteriaFields">
+            <list/>
+        </property>
+        <property name="resultFields">
+            <list/>
+        </property>
+
+        <!-- Not Displaying any criteria -->
+        <property name="criteriaGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="footer">
+                    <bean parent="Uif-FooterBase"/>
+                </property>
+            </bean>
+        </property>
+        <property name="resultsGroup">
+            <bean id="messages_summary" parent="messages_summary_list"/>
+        </property>
+    </bean>
+
+    <bean id="messages_summary_list" parent="Uif-ListCollectionSection" p:style="margin-bottom:10px;">
+        <property name="header">
+            <bean id="messsage_header" parent="Uif-HeaderBase" p:style="padding:0;" p:cssClasses="">
+                <property name="upperGroup">
+                    <bean parent="Uif-VerticalBoxSubSection" p:headerText="MESSAGES" p:style="float:none; border-bottom:solid 1px #ddd;">
+                        <property name="header">
+                            <bean parent="Uif-HeaderFive">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>primary</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </property>
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-Message" p:messageText=""/>
+                            </list>
+                        </property>
+                        <property name="propertyReplacers">
+                            <list>
+                                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="items"
+                                      p:condition="T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getUserSessionHelper().isAdviser()">
+                                    <property name="replacement">
+                                        <list>
+                                            <bean id="leave_message_button" parent="Uif-PrimaryActionButton-Small" p:actionLabel="Leave a Message" p:style="margin:5px;">
+                                                <property name="actionScript" value=""/>
+                                                <property name="onDocumentReadyScript" value="
+                                                    ksapCreateLightBoxLink('leave_message_button', {helpers:{overlay:{closeClick: false}},autoScale:true,width:660,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=message_dialog_response_page&amp;renderedInLightBox=true'});
+                                                "/>
+                                            </bean>
+                                        </list>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-widget</value>
+                <value>ksap-messages-summary</value>
+                <value>ksap-stacked-list</value>
+            </list>
+        </property>
+        <property name="collectionObjectClass"
+                  value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
+        <property name="propertyName" value="lookupResults"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="disclosure.render" value="false"/>
+        <property name="layoutManager.lineGroupPrototype.header.render" value="false"/>
+        <property name="filters">
+            <list>
+                <bean parent="Uif-ConditionalCollectionFilter" p:expression="#index lt 3"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.messageId}" parent="Uif-HorizontalFieldGroup" p:style="cursor:pointer;">
+                    <!--
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}', {autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    -->
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ksap-click</value>
+                        </list>
+                    </property>
+                    <property name="onClickScript" value="ksapLightBoxLink('comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}', {helpers:{overlay:{closeClick: false}},autoScale:true,width:660,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe'}, e);"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-VerticalFieldGroup" p:style="width:170px;">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-MessageField" p:messageText="@{#line.subject}"
+                                              p:style="width:170px;">
+                                            <property name="cssClasses">
+                                                <list merge="true">
+                                                    <value>ksap-text-ellipsis</value>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-HorizontalFieldGroup">
+                                            <property name="items">
+                                                <list>
+                                                    <bean parent="Uif-MessageField" p:messageText="@{#line.from}"
+                                                          p:label="from"
+                                                          p:fieldLabel.renderColon="false"
+                                                          p:fieldLabel.cssClasses="ksap-text-normal" p:style="line-height:22px;">
+                                                    </bean>
+                                                    <bean parent="Uif-MessageField"
+                                                          p:messageText="@{#line.comments.size()}"
+                                                          p:render="@{#line.comments.size() gt 0}" p:style="margin-left:0.5em;">
+                                                        <property name="cssClasses">
+                                                            <list merge="true">
+                                                                <value>ksap-comment-bubble</value>
+                                                            </list>
+                                                        </property>
+                                                    </bean>
+                                                </list>
+                                            </property>
+                                        </bean>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="createDate"
+                                  p:label="Posted" p:labelPlacement="TOP"
+                                  p:fieldLabel.renderColon="false"
+                                  p:fieldLabel.cssClasses="ksap-text-normal"
+                                  p:render="@{#line.comments.size() eq 0}" p:escapeHtmlInPropertyValue="false">
+                                <property name="propertyEditor" ref="timestamp_formatter"/>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="lastCommentDate"
+                                  p:label="Last Comment" p:labelPlacement="TOP"
+                                  p:fieldLabel.renderColon="false"
+                                  p:fieldLabel.cssClasses="ksap-text-normal"
+                                  p:render="@{#line.comments.size() gt 0}" p:escapeHtmlInPropertyValue="false">
+                                <property name="propertyEditor" ref="timestamp_formatter"/>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="messages_summary_footer"/>
+        </property>
+    </bean>
+
+    <bean id="messages_summary_footer" parent="Uif-VerticalBoxSection" p:header.render="false"
+          p:style="padding: 6px 10px;">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Link">
+                    <property name="linkText"
+                              value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'message' : 'all '+lookupResults.size()+' messages'}"/>
+                    <property name="title"
+                              value="View @{(lookupResults eq null or lookupResults.size() lt 2) ? 'message' : 'all '+lookupResults.size()+' messages'}"/>
+                    <property name="href"
+                              value="lookup?methodToCall=search&amp;viewId=MessagesDetail-LookupView"/>
+                    <property name="render"
+                              value="@{lookupResults ne null and lookupResults.size() gt 0 ? true : false}"/>
+                    <property name="target" value=""/>
+                </bean>
+                <bean parent="Uif-HorizontalBoxGroup">
+                    <property name="render"
+                              value="@{lookupResults ne null and lookupResults.size() gt 0 ? false : true}"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-Message"
+                                  p:messageText="You don't have any messages."/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="MessagesDetail-LookupView" parent="KSAPLookupView">
+        <property name="viewName" value="MessagesDetail-LookupView"/>
+        <property name="headerText" value="Messages &amp; Comments"/>
+        <property name="page.header.render" value="false"/>
+        <property name="header.render" value="false"/>
+        <property name="footer.render" value="false"/>
+        <property name="dataObjectClassName" value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
+        <property name="viewHelperServiceClass"
+                  value="org.kuali.student.ap.comment.service.MessagesLookupableHelperImpl"/>
+        <property name="singlePageView" value="true"/>
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-view</value>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <bean parent="Uif-LookupPage" p:id="messages_detail_page" p:headerText="Messages &amp; Comments">
+                    <property name="layoutManager">
+                        <bean parent="Uif-HorizontalBoxLayout"/>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <ref bean="messages_detail"/>
+                            <bean parent="ksap_section">
+                                <property name="items">
+                                    <list>
+                                        <ref bean="your_stuff_widget"/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="criteriaFields">
+            <list/>
+        </property>
+        <property name="resultFields">
+            <list/>
+        </property>
+    </bean>
+
+    <bean id="messages_detail" parent="Uif-VerticalBoxSubSection" p:validationMessages.render="false" p:style="width: 710px; margin-right: 10px;">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ksap-messages-detail</value>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="messages_detail_list"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="messages_detail_list" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="4">
+        <property name="headerText" value="You have @{lookupResults.size()} messages"/>
+        <property name="collectionObjectClass" value="org.kuali.student.ap.comment.dataobject.MessageDataObject"/>
+        <property name="propertyName" value="lookupResults"/>
+        <property name="renderAddLine" value="false"/>
+        <property name="renderLineActions" value="false"/>
+        <property name="collectionLookup.quickfinderAction.render" value="false"/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="header.render" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="onDocumentReadyScript" value="jQuery('#messages_detail_list')
+            .on('COMMENT_SENT', function(){
+                ksapRetrieveComponent('messages_detail_list','messages_detail_list','search','lookup',{viewId:'MessagesDetail-LookupView'});
+            });
+        "/>
+        <property name="layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="bJQueryUI" value="true"/>
+                <entry key="sDom" value="irtp"/>
+                <entry key="aaSorting" value="[]"/>
+                <entry key="bSortClasses" value="false"/>
+                <entry key="bDeferRender" value="true"/>
+                <entry key="bAutoWidth" value="false"/>
+                <entry key="oLanguage"
+                       value="{
+                            'sEmptyTable':'You do not have any messages',
+                            'sZeroRecords':'You do not have any messages',
+                            'sInfo':'You have _TOTAL_ message(s)',
+                            'sInfoFiltered':''
+                       }"/>
+                <entry key="aoColumns"
+                       value="[
+                            {'sTitle':'Subject','bSortable':true,'sWidth':'35%'},
+                            {'sTitle':'Received','bSortable':true,'sWidth':'25%','sType':'longdate'},
+                            {'sTitle':'Comments','bSortable':false,'sWidth':'15%'},
+                            {'sTitle':'Last Comment','bSortable':true,'sWidth':'25%','sType':'longdate'}
+                        ]"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+                <entry key="fnDrawCallback"
+                       value="function() {
+                            if ( Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength ) > 1)  {
+                                jq('.dataTables_paginate .ui-button').not('.first, .last').show();
+                            } else {
+                                jq('.dataTables_paginate .ui-button').hide();
+                            }
+                       }"/>
+            </map>
+        </property>
+        <property name="items">
+            <list>
+                <bean p:id="@{#line.messageId}_subject" parent="Uif-VerticalFieldGroup" p:label="Subject" p:group.validationMessages.render="false">
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_subject', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="subject" p:fieldLabel.render="false">
+                                <property name="style" value="width:242px;"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-text-ellipsis</value>
+                                    </list>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="from" p:label="from" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false"
+                                  p:style="margin:0;" />
+                        </list>
+                    </property>
+                </bean>
+
+                <bean p:id="@{#line.messageId}_received" parent="Uif-VerticalFieldGroup" p:label="Received" p:group.validationMessages.render="false">
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_received', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="createDate" p:fieldLabel.render="false" p:escapeHtmlInPropertyValue="false">
+                                <property name="propertyEditor" ref="timestamp_formatter"/>
+                            </bean>
+                            <bean parent="Uif-SpaceField" p:style="margin:0;"/> <!--<bean parent="Uif-MessageField" p:messageText="Received"/>-->
+                        </list>
+                    </property>
+                </bean>
+
+                <bean p:id="@{#line.messageId}_comments" parent="Uif-VerticalFieldGroup" p:label="Comments" p:group.validationMessages.render="false">
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_comments', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-MessageField" p:messageText="@{#line.comments.size()} comments" p:fieldLabel.render="false"
+                                  p:render="true"/>
+                            <bean parent="Uif-SpaceField" p:style="margin:0;"/> <!--<bean parent="Uif-MessageField" p:messageText="Comments"/>-->
+                        </list>
+                    </property>
+                </bean>
+
+                <bean p:id="@{#line.messageId}_lastcomment" parent="Uif-VerticalFieldGroup" p:label="Last Comment" p:group.validationMessages.render="false">
+                    <property name="onDocumentReadyScript" value="ksapCreateLightBoxLink('@{#line.messageId}_lastcomment', {helpers:{overlay:{closeClick: false}},autoScale:true,width:650,centerOnScroll:true,transitionIn:'fade',transitionOut:'fade',speedIn:200,speedOut:200,type:'iframe',href:'comment?methodToCall=startCommentForm&amp;viewId=Message-FormView&amp;pageId=comment_dialog_response_page&amp;messageId=@{#line.messageId}'});"/>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField" p:propertyName="lastCommentDate" p:fieldLabel.render="false" p:escapeHtmlInPropertyValue="false">
+                                <property name="propertyEditor" ref="last_comment_formatter"/>
+                            </bean>
+                            <bean parent="Uif-DataField" p:propertyName="lastCommentBy" p:label="by" p:fieldLabel.cssClasses="ksap-text-normal" p:fieldLabel.renderColon="false"
+                                  p:style="margin:0;">
+                                <property name="render" value="@{#line.lastCommentBy eq null ? false : true}"/>
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>ksap-sort-remove</value>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- last comment time stamp formatter -->
+    <bean id="last_comment_formatter" class="org.kuali.student.ap.coursesearch.util.TimestampPropertyEditor">
+        <property name="simpleDateFormat" value="#{T(org.kuali.student.r2.common.util.date.DateFormatters).MONTH_DAY_YEAR_TIME_DATE_FORMAT}"/>
+        <property name="emptyDateText" value="--"/>
+    </bean>
+
+</beans>

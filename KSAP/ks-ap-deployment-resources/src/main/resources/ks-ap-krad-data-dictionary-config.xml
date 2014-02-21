@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2013 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+	<beans profile="ks-ap">
+		<bean id="ks-ap-krad-data-dictionary-config"  class="java.util.ArrayList">
+		<constructor-arg index="0">	
+			<list>
+				<!-- KSAP Application Bean Files -->
+				<value>classpath:org/kuali/rice/student/bo</value>
+				<value>classpath:ks-AuditReportInfo-dictionary.xml</value>
+		
+				<value>classpath:org/kuali/student/ap/UifKSAPDefinitions.xml</value>
+				<value>classpath:ui/UifExtensionDefinitions.xml</value>
+				<value>classpath:ui/KSAPDataObjects.xml</value>
+				<value>classpath:org/kuali/student/ap/HelpDefinitions.xml</value>
+				<value>classpath:org/kuali/student/ap/CourseSearchUI.xml</value>
+				<value>classpath:ui/CourseDetailsUI.xml</value>
+				<value>classpath:ui/DegreeAuditUI.xml</value>
+				<value>classpath:ui/DegreeAuditDetailsUI.xml</value>
+				<value>classpath:ui/CommentUI.xml</value>
+				<value>classpath:ui/CourseSectionsUI.xml</value>
+				<value>classpath:ui/FullPlanCoursesUI.xml</value>
+				<value>classpath:ui/SingleQuarterUI.xml</value>
+				<value>classpath:org/kuali/student/ap/PlannerDialogUI.xml</value>
+				<value>classpath:org/kuali/student/ap/PlannerUI.xml</value>
+				<value>classpath:ui/ReservedTimeUI.xml</value>
+				<value>classpath:ui/ScheduleBuildUI.xml</value>
+				<value>classpath:ui/ShoppingCartUI.xml</value>
+				<value>classpath:ui/ConversationCreateUI.xml</value>
+				<value>classpath:ui/ConversationListUI.xml</value>
+				<value>classpath:ui/ConversationViewUI.xml</value>
+				<value>classpath:org/kuali/student/ap/BookmarkUI.xml</value>
+		
+				<!-- Course Search POC -->
+				<value>classpath:org/kuali/student/ap/CourseInfoLookupView-ForKSAP.xml</value>
+
+                <!-- i18n POC -->
+                <value>classpath:org/kuali/student/ap/POCResourceBundleUI.xml</value>
+			</list>
+			</constructor-arg>
+		</bean>  
+	</beans>              
+</beans>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+	<!-- Copyright 2007-2009 The Kuali Foundation Licensed under the Educational 
+		Community License, Version 2.0 (the "License"); you may not use this file 
+		except in compliance with the License. You may obtain a copy of the License 
+		at http://www.opensource.org/licenses/ecl2.php Unless required by applicable 
+		law or agreed to in writing, software distributed under the License is distributed 
+		on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either 
+		express or implied. See the License for the specific language governing permissions 
+		and limitations under the License. -->
+
+	<bean id="ScheduleBuild-ReservedTime-FormView" parent="ScheduleBuild-ReservedTime-FormView-parent" />
+	<bean abstract="true" id="ScheduleBuild-ReservedTime-FormView-parent" parent="KSAPBaseFormView">
+		<property name="id" value="ScheduleBuild-ReservedTime-FormView" />
+		<property name="items">
+			<list>
+				<ref bean="sb_create_reserved_time_page" />
+			</list>
+		</property>
+		<property name="additionalScriptFiles">
+			<list>
+				<value>arm-ks/scripts/arm-sb-ks.js</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sb_create_reserved_time_page" parent="sb_create_reserved_time_page-parent" />
+	<bean abstract="true" id="sb_create_reserved_time_page-parent" parent="KSAP-PopoverPage" p:id="sb_create_reserved_time_page">
+		<property name="innerViewWrapperId" value="sb_create_reserved_time_inner" />
+		<property name="headerText" value="New Reserved Time" />
+		<property name="layoutManager">
+			<bean parent="Uif-VerticalBoxLayout" />
+		</property>
+		<property name="items">
+			<list>
+				<ref bean="sb_create_reserved_time_outer" />
+			</list>
+		</property>
+		<property name="footer">
+			<bean parent="sb_reserved_time_buttons">
+				<property name="items[0].items[0].items[0].methodToCall" value="createReservedTime" />
+				<property name="items[0].items[0].items[0].actionLabel" value="Create" />
+			</bean>
+		</property>
+	</bean>
+
+	<bean id="sb_create_reserved_time_outer" parent="sb_create_reserved_time_outer-parent" />
+	<bean abstract="true" id="sb_create_reserved_time_outer-parent" parent="Uif-VerticalBoxGroup" p:id="sb_create_reserved_time_outer">
+		<property name="items">
+			<list>
+				<ref bean="sb_reserved_time_descr_fields" />
+				<ref bean="sb_reserved_time_weekday_fields" />
+				<ref bean="sb_reserved_time_daytime_fields" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sb_reserved_time_descr_fields" parent="sb_reserved_time_descr_fields-parent" />
+	<bean abstract="true" id="sb_reserved_time_descr_fields-parent" parent="Uif-VerticalBoxGroup" p:id="sb_reserved_time_descr_fields">
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:propertyName="description" p:label="Description" p:required="true">
+					<property name="control">
+						<bean parent="Uif-TextControl" p:size="45" />
+ 					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean abstract="true" id="sb_weekday_checkbox" parent="Uif-InputField" p:fieldLabel.renderColon="false">
+		<property name="control">
+			<bean parent="Uif-CheckboxControl" />
+		</property>
+	</bean>
+
+	<bean id="sb_reserved_time_weekday_fields" parent="sb_reserved_time_weekday_fields-parent" />
+	<bean abstract="true" id="sb_reserved_time_weekday_fields-parent" parent="Uif-VerticalBoxGroup" p:id="sb_reserved_time_weekday_fields">
+		<property name="headerText" value="Select days of the week to reserve" />
+		<property name="header">
+			<bean parent="Uif-HeaderThree" p:render="true" />
+		</property>
+		<property name="items">
+			<list>
+				<bean parent="Uif-HorizontalBoxSection">
+					<property name="items">
+						<list>
+							<bean parent="sb_weekday_checkbox" p:propertyName="sunday" p:label="Sun" />
+							<bean parent="sb_weekday_checkbox" p:propertyName="monday" p:label="Mon" />
+							<bean parent="sb_weekday_checkbox" p:propertyName="tuesday" p:label="Tue" />
+							<bean parent="sb_weekday_checkbox" p:propertyName="wednesday" p:label="Wed" />
+							<bean parent="sb_weekday_checkbox" p:propertyName="thursday" p:label="Thu" />
+							<bean parent="sb_weekday_checkbox" p:propertyName="friday" p:label="Fri" />
+							<bean parent="sb_weekday_checkbox" p:propertyName="saturday" p:label="Sat" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean abstract="true" id="sb_daytime_date_control" parent="Uif-InputField" p:fieldLabel.renderColon="false">
+		<property name="required" value="true" />
+		<property name="control">
+			<bean parent="Uif-DateControl" p:watermarkText="MM/DD/YYYY" p:size="10">
+				<property name="datePicker.templateOptions['buttonImage']" value="../arm-ks/images/cal.gif" />
+			</bean>
+		</property>
+		<property name="validCharactersConstraint">
+			<bean parent="BasicDatePatternConstraint" />
+		</property>
+	</bean>
+
+	<bean abstract="true" id="sb_daytime_time_control" parent="Uif-InputField" p:fieldLabel.renderColon="false">
+		<property name="progressiveRender" value="@{!allDay}" />
+		<property name="required" value="@{!allDay}" />
+		<property name="control">
+			<bean parent="Uif-TextControl" p:watermarkText="HH:MM AM/PM" p:size="12" />
+		</property>
+		<property name="validCharactersConstraint">
+  			<bean class="org.kuali.rice.krad.datadictionary.validation.constraint.ConfigurationBasedRegexPatternConstraint"
+        		p:messageKey="validation.time12ap" p:patternTypeKey="validationPatternRegex.time12ap"/>
+		</property>
+	</bean>
+
+	<bean id="sb_reserved_time_daytime_fields" parent="sb_reserved_time_daytime_fields-parent" />
+	<bean abstract="true" id="sb_reserved_time_daytime_fields-parent" parent="Uif-VerticalBoxGroup" p:id="sb_reserved_time_daytime_fields">
+		<property name="items">
+			<list>
+				<bean parent="sb_weekday_checkbox" p:propertyName="allDay" p:label="All day?" />
+				<bean parent="Uif-HorizontalBoxSection">
+					<property name="items">
+						<list>
+							<bean parent="sb_daytime_date_control" p:propertyName="startDateStr" p:label="From" />
+							<bean parent="sb_daytime_time_control" p:propertyName="startTimeStr" />
+							<bean parent="sb_daytime_time_control" p:propertyName="endTimeStr" p:label="To" />
+							<bean parent="sb_daytime_date_control" p:propertyName="untilDateStr" p:label="Until" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="sb_reserved_times_submit_button" parent="Uif-PrimaryActionButton">
+		<property name="actionScript" value="ksapSbSubmitDialog('@{#component.methodToCall}', e);" />
+	</bean>
+
+	<bean id="sb_reserved_times_cancel_button" parent="Uif-SecondaryActionButton" p:actionLabel="Cancel">
+		<property name="actionScript" value="fnClosePopup();" />
+	</bean>
+
+	<bean id="sb_reserved_time_buttons" parent="sb_reserved_time_buttons-parent" />
+	<bean abstract="true" id="sb_reserved_time_buttons-parent" parent="Uif-FooterBase">
+		<property name="items">
+			<list>
+				<bean parent="Uif-VerticalBoxGroup">
+					<property name="items">
+						<list>
+							<bean parent="Uif-HorizontalBoxGroup">
+								<property name="items">
+									<list>
+										<bean parent="sb_reserved_times_submit_button" />
+										<bean parent="sb_reserved_times_cancel_button" />
+									</list>
+								</property>
+							</bean>
+							<bean parent="planner_error_placeholder" />
+						</list>
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+</beans>

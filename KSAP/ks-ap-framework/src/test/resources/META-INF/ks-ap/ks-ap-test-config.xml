@@ -1,0 +1,8 @@
+<!-- This is used to load KRAD Messages. You will need to use a config context to make this possible. -->
+<config>
+    <param name="rice.struts.message.resources" override="false"></param>
+    <param name="ks.ap.planner.future.years">4</param>
+    <param name="ks.ap.planner.term.types">kuali.atp.type.Fall,kuali.atp.type.Winter,kuali.atp.type.Spring,kuali.atp.type.Summer1</param>
+    <param name="ks.ap.TextHelper.resourceBundleNames" override="true">META-INF/ks-ap/bundles.test,META-INF/ks-ap/bundles.anotherTest</param>
+
+</config>
