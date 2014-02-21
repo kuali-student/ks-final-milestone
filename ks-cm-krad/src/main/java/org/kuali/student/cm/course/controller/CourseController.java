@@ -276,9 +276,6 @@ public class CourseController extends CourseRuleEditorController {
             error("Unable to create decision table: %s", e.getMessage());
         }
 
-        // Create the document in the super method
-        super.docHandler(maintenanceDocForm, result, request, response);
-
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceDocForm.getDocument().getNewMaintainableObject().getDataObject();
