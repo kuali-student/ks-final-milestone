@@ -12,6 +12,15 @@ function onCourseLoad(isCurriculumSpecialist) {
     if (isCurriculumSpecialist) {
         //  Don't all the tabs to be hidden.
         jQuery("div[data-type='TabWrapper']").addClass('never_hide');
+        //  Scroll to the selected tab
+        jQuery("#course_tabs_tabs" ).on( "tabsactivate",
+            function( event, ui ) {
+                var tabId = ui.newPanel.attr('id').replace('_tab','');
+                jQuery('html,body').animate({
+                    scrollTop: jQuery("#"+ tabId).offset().top
+                }, 1000);
+            }
+        );
     }
 }
 
