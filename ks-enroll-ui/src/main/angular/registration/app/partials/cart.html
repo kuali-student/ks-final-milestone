@@ -1,6 +1,6 @@
 
 <div class="kscr-cart-header">
-    <h1 class="kscr-cart-header-title"><strong>MY CART</strong> <span id="credit_count_title" class="kscr-support-heading">({{creditTotal}} credits)</span> </h1>
+    <h1 class="kscr-cart-main-heading kscr-main-heading"><strong>MY CART</strong> <span id="credit_count_title" class="kscr-support-heading">({{creditTotal}} credits)</span> </h1>
 </div>
 
 <div>
@@ -35,7 +35,7 @@
     <span>Registered for 3 courses (9 credits)  <a id="goToSchedule" ui-sref="root.schedule"></a> <span class="glyphicon glyphicon-chevron-right pull-right"></span></span>
 </div>
 
-<div class="kscr-register-header">
+<div class="kscr-register-subHeader kscr-sub-heading">
     <span><strong>REGISTER FOR </strong><span id="credit_count_register_for_header" class="pull-right kscr-support-heading">{{cart.items.length}} credits</span> </span>
 </div>
 
@@ -60,16 +60,16 @@
             <!--Course Header Section-->
             <div>
                  <span class="kscr-register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
-                 <span class="kscr-card-header" id="course_code_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}"><strong>{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</strong></span>
+                 <span class="kscr-register-header kscr-Card-title" id="course_code_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}"><strong>{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</strong></span>
             </div>
             <!--Course Title and description-->
-            <div class="kscr-register-courseTitle" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
+            <div class="kscr-register-cardText kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
 
         </accordion-heading>
             <div ng-hide="cartItem.editing" >
                 <!--course time, day, building-->
                 <div ng-repeat="item in cartItem.schedule">
-                      <span class="kscr-course-times">
+                      <span class="kscr-register-courseTimes">
                         <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{item.activityOfferingType}} </div>
                             <div ng-repeat='scheduleItem in item.activityOfferingLocationTime'>{{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}
                                 {{scheduleItem.location.building}} {{scheduleItem.location.room}}
@@ -87,7 +87,7 @@
                 </div>
             </div>
             <!-- Cart Change Section: Credits, Grading, and Save -->
-            <div class="kscr-course-info-edit" ng-show="cartItem.editing">
+            <div class="kscr-edit" ng-show="cartItem.editing">
                 <form ng-submit="updateCartItem(cartItem, newCredits, newGrading)">
                     <div>
                         <label for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
