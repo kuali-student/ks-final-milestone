@@ -115,6 +115,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private transient NaturalLanguageHelper nlHelper;
 
+
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
      *

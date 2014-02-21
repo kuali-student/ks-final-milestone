@@ -163,7 +163,6 @@
                             <ref bean="KS-CourseView-Financials-Section"/>
                             <ref bean="KS-CourseView-AuthorsAndCollaborators-Section"/>
                             <ref bean="KS-CourseView-SupportingDocuments-Section" />
-                            <ref bean="KS-CourseView-ReviewProposal-Section"/>
                         </list>
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
