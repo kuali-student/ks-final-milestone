@@ -36,6 +36,7 @@ import org.kuali.student.enrollment.class2.courseoffering.krms.termresolver.util
 import org.kuali.student.enrollment.class2.examoffering.krms.termresolver.MatchingCourseSetTermResolver;
 import org.kuali.student.enrollment.class2.examoffering.krms.termresolver.MatchingCourseTermResolver;
 import org.kuali.student.enrollment.class2.examoffering.krms.termresolver.MatchingTimeSlotTermResolver;
+import org.kuali.student.enrollment.class2.examoffering.krms.termresolver.MatrixFreeFormTextTermResolver;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -193,7 +194,10 @@ public class KSTermResolverTypeService implements TermResolverTypeService {
             resolver.setCluIdsInCluSetTermResolver(getCluIdsInCluSetTermResolver());
             return resolver;
         }
-
+        else if (KSKRMSServiceConstants.TERM_SPEC_EXAM_FREEFORMTEXT.equals(termResolverDefinition.getName())){
+            MatrixFreeFormTextTermResolver resolver = new MatrixFreeFormTextTermResolver();
+           return resolver;
+        }
         return null;
 	}
 

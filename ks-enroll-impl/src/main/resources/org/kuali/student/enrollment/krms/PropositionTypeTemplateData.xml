@@ -527,6 +527,16 @@ limitations under the License.
                                   value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
                     </bean>
                 </entry>
+
+                <entry key="kuali.krms.proposition.type.exam.freeform.text">
+                    <bean parent="TemplateInfo-parent"
+                          p:termSpecName="ExamFreeFormText"
+                          p:value="true">
+                        <property name="componentId" value="KRMS-FreeForm-InputField"/>
+                        <property name="componentBuilderClass"
+                                  value="org.kuali.rice.krms.builder.SimpleTextComponentBuilder"/>
+                    </bean>
+                </entry>
             </map>
         </property>
     </bean>
