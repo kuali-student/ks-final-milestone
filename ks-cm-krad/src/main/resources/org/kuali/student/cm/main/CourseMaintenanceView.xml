@@ -256,10 +256,8 @@
                                 </list>
                             </property>
                         </bean>
-                        <bean parent="Uif-VerticalBoxGroup" p:render="@{#form.curriculumSpecialistUser}">
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-Message">
+                        <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
+                              p:showLabel="false" p:render="@{#form.curriculumSpecialistUser}">
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>uif-validationMessages</value>
@@ -268,8 +266,15 @@
                                                 <value>uif-pageValidationMessages-warning</value>
                                             </list>
                                         </property>
-                                        <property name="messageText"
-                                                  value="Showing required and optional fields. Show only required fields" />
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Message" p:id="Create-CourseView-Admin-Message" p:messageText="Showing required and optional fields." p:style="margin-left: 2em; margin-right: 0pt; margin-top: 5px;">
+                                    </bean>
+                                    <bean parent="KS-Uif-ActionLink" p:id="Create-CourseView-Admin-Message-expand-optional-link" p:actionScript="showHideCreateCourseOptionalElements();"
+                                          p:actionLabel="Show only required fields" p:style="margin-right: 15pt; margin-top: 0px;">
+                                        <property name="actionImage">
+                                            <null/>
+                                        </property>
                                     </bean>
                                 </list>
                             </property>

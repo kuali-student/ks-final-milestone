@@ -36,6 +36,7 @@
 
     <bean id="KS-CourseView-CourseRequisites-Widgets" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Course Requisites"/>
+        <property name="header.render" value="@{#form.curriculumSpecialistUser}"/>
         <property name="items">
             <list>
                 <bean parent="KRMS-AgendaMaintenance-DisclosureLinks"/>

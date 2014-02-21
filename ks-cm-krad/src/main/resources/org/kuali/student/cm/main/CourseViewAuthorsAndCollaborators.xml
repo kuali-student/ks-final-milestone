@@ -20,7 +20,7 @@
     <bean id="KS-CourseView-AuthorsAndCollaboratorsPage-Widgets" parent="KS-CourseView-HorizontalBoxSection"
           p:fieldBindingObjectPath="document.newMaintainableObject">
         <property name="headerText" value="Authors &amp; Collaborators"/>
-        <property name="header.render" value="false"/>
+        <property name="header.render" value="@{#form.curriculumSpecialistUser}"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TableCollectionSection" lazy-init="false" p:layoutManager.numberOfColumns="4">
