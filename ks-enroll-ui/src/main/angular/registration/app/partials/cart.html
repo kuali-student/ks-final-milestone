@@ -92,12 +92,12 @@
                     <div>
                         <label for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
                         <select id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
-                                ng-options="creditOption for creditOption in cartItem.creditOptions"/>
+                                ng-options="creditOption for creditOption in cartItem.creditOptions"></select>
                     </div>
                     <div>
                         <label for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Registration Options</label>
                         <select id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newGrading"
-                                ng-options="key as value for (key, value) in cartItem.gradingOptions"/>
+                                ng-options="key as value for (key, value) in cartItem.gradingOptions"></select>
 
                     </div>
                     <!--Edit buttons-->
