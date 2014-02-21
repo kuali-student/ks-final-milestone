@@ -175,6 +175,22 @@ angular.module('regCartApp')
                 });
             });
         };
+
+        function creditTotal() {
+            if(!$scope.cart) {
+                return 0;
+            }
+            var totalNumber = 0;
+            for(var i=0; i<$scope.cart.items.length; i++){
+                totalNumber = totalNumber + Number($scope.cart.items[i].credits);
+            }
+
+            return totalNumber;
+        }
+
+        $scope.$watchCollection('cart.items', function() {
+            $scope.creditTotal = creditTotal();
+        });
     });
 
 
