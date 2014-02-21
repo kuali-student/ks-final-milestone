@@ -231,7 +231,7 @@
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-DataField" p:label="Proposal Status"
-                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="dataObject.courseInfo.stateKey" />
+                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="dataObject.proposalInfo.stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                                                       p:methodToCall="showComment" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
