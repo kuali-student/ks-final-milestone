@@ -10,14 +10,22 @@ function onCourseLoad(isCurriculumSpecialist) {
      *  Hacks for single-page view
      */
     if (isCurriculumSpecialist) {
-        //  Don't all the tabs to be hidden.
+        //  Don't allow the tabs to be hidden.
         jQuery("div[data-type='TabWrapper']").addClass('never_hide');
-        //  Scroll to the selected tab
+
+        //  Register a handler for tab clicks
         jQuery("#course_tabs_tabs" ).on( "tabsactivate",
             function( event, ui ) {
-                var tabId = ui.newPanel.attr('id').replace('_tab','');
+                //  Find the id of the section corresponding to the clicked tab.
+                var sectionId = ui.newPanel.attr('id').replace('_tab','');
+                sectionId = "#" + sectionId;
+
+                 //  Give focus to the first input widget. Had problems doing this after the scroll.
+                jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
+
+                //  Scroll the window to the section
                 jQuery('html,body').animate({
-                    scrollTop: jQuery("#"+ tabId).offset().top
+                    scrollTop: jQuery(sectionId).offset().top
                 }, 1000);
             }
         );
