@@ -1,3 +1,24 @@
+jQuery('#course_search #text_searchQuery_control').ready(function(){
+    if(localStorage.getItem('back_search') != null) {
+        //came from the course details page, check search input, and fill in if blank
+        if(jQuery('#text_searchQuery_control').val().length == 0){
+            //fill in the form input for the user with the last search term
+            jQuery('#text_searchQuery_control').val(localStorage.getItem('back_search'));
+        }
+    }
+    //clear the local storage values
+    localStorage.removeItem('back_search');
+    localStorage.removeItem('last_search');
+});
+
+jQuery(function(){
+    //set the search terms to pass onto course details page
+    //for setting a sentinal value there
+    jQuery('#course_search #course_search_results').on('click', 'td.details_link a', function(){
+        localStorage.setItem('last_search', jQuery('#text_searchQuery_control').val());
+    });
+});
+
 var oTable;
 var oFacets = new Object();
 

@@ -32,6 +32,11 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="header.render" value="true"/>
         <property name="footer.render" value="false"/>
         <property name="singlePageView" value="true"/>
+        <property name="additionalScriptFiles">
+            <list>
+                <value>ks-ap/scripts/ksap.search.details.js</value>
+            </list>
+        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>ksap-view</value>
