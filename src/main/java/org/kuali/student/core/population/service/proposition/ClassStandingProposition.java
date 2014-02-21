@@ -51,7 +51,7 @@ public class ClassStandingProposition extends AbstractLeafProposition {
 
         List<StudentProgramRecordInfo> studentProgramRecords = null;
         try {
-            studentProgramRecords = academicRecordService.getProgramRecords(personId,contextInfo);
+            studentProgramRecords = academicRecordService.getStudentProgramRecords(personId,contextInfo);
             for (StudentProgramRecordInfo info : studentProgramRecords){
                 if(info.getClassStanding().equals(standing)){
                     result = true;

@@ -137,7 +137,7 @@ public class AcademicRecordClassStandingCalculationDecorator extends AcademicRec
             OperationFailedException,
             PermissionDeniedException {
 
-        int creditsEarned = Integer.valueOf(studentProgramRecord.getCreditsEarned());
+        int creditsEarned = studentProgramRecord.getCreditsEarned().intValue();
         List<ValueInfo> thresholdNames = getClassStandingThresholdNames(contextInfo);
         List<ValueInfo> thresholds = new ArrayList<ValueInfo>();
         for(ValueInfo thresholdName : thresholdNames) {

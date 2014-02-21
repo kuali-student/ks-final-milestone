@@ -18,7 +18,9 @@ package org.kuali.student.enrollment.academicrecord.service;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.core.population.service.impl.PopulationTestStudentEnum;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
 import org.kuali.student.enrollment.class2.academicrecord.service.impl.ClassStanding;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -26,6 +28,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -68,10 +71,10 @@ public class AcademicRecordServiceTest {
     }
 
     private void checkStudentProgramRecords(String personId) throws Exception {
-        List<StudentProgramRecordInfo> studentProgramRecords = academicRecordService.getProgramRecords(personId, contextInfo);
+        List<StudentProgramRecordInfo> studentProgramRecords = academicRecordService.getStudentProgramRecords(personId, contextInfo);
         for(StudentProgramRecordInfo studentProgramRecord : studentProgramRecords) {
             String classStanding = studentProgramRecord.getClassStanding();
-            String creditsEarned = studentProgramRecord.getCreditsEarned();
+            KualiDecimal creditsEarned = studentProgramRecord.getCreditsEarned();
 
             int FRESHMAN_THRESHOLD = AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.FRESHMAN_CLASS_STANDING_THRESHOLD.intValue();
             int SOPHOMORE_THRESHOLD = AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.SOPHOMORE_CLASS_STANDING_THRESHOLD.intValue();
@@ -79,13 +82,13 @@ public class AcademicRecordServiceTest {
             int SENIOR_THRESHOLD = AcademicRecordIntegrationTestGesServiceDataLoadingDecorator.SENIOR_CLASS_STANDING_THRESHOLD.intValue();
 
             if(classStanding.equals(ClassStanding.FRESHMAN.getDescription())) {
-                assertTrue("Freshman threshold test failed", Integer.valueOf(creditsEarned) > FRESHMAN_THRESHOLD && Integer.valueOf(creditsEarned) < SOPHOMORE_THRESHOLD);
+                assertTrue("Freshman threshold test failed", creditsEarned.intValue() > FRESHMAN_THRESHOLD && creditsEarned.intValue() < SOPHOMORE_THRESHOLD);
             } else if(classStanding.equals(ClassStanding.SOPHOMORE.getDescription())) {
-                assertTrue("Sophomore threshold test failed", Integer.valueOf(creditsEarned) >= SOPHOMORE_THRESHOLD && Integer.valueOf(creditsEarned) < JUNIOR_THRESHOLD);
+                assertTrue("Sophomore threshold test failed", creditsEarned.intValue() >= SOPHOMORE_THRESHOLD && creditsEarned.intValue() < JUNIOR_THRESHOLD);
             } else if(classStanding.equals(ClassStanding.JUNIOR.getDescription())) {
-                assertTrue("Junior threshold test failed", Integer.valueOf(creditsEarned) >= JUNIOR_THRESHOLD && Integer.valueOf(creditsEarned) < SENIOR_THRESHOLD);
+                assertTrue("Junior threshold test failed", creditsEarned.intValue() >= JUNIOR_THRESHOLD && creditsEarned.intValue() < SENIOR_THRESHOLD);
             } else if(classStanding.equals(ClassStanding.SENIOR.getDescription())) {
-                assertTrue("Senior threshold test failed", Integer.valueOf(creditsEarned) >= SENIOR_THRESHOLD);
+                assertTrue("Senior threshold test failed", creditsEarned.intValue() >= SENIOR_THRESHOLD);
             }
         }
     }
@@ -94,10 +97,37 @@ public class AcademicRecordServiceTest {
     public void testDataLoader() throws Exception {
         dataLoader.beforeTest();
 
+        // test class standing
         checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT21.getPersonId());
         checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT22.getPersonId());
         checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT23.getPersonId());
         checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT24.getPersonId());
         checkStudentProgramRecords(PopulationTestStudentEnum.STUDENT25.getPersonId());
+
+        // test that data exists
+        List<String> studentCourseRecordIds = academicRecordService.getStudentCourseRecordIdsByType("kuali.student.acad.student.course.record", contextInfo);
+        assertTrue(studentCourseRecordIds.size() == 4);
+
+        List<String> studentCredentialRecordIds = academicRecordService.getStudentCredentialRecordIdsByType("kuali.student.acad.student.credential.record", contextInfo);
+        assertTrue(studentCourseRecordIds.size() == 4);
+
+        List<String> studentTestScoreRecordIds = academicRecordService.getStudentTestScoreRecordIdsByType("kuali.student.acad.student.test.score.record", contextInfo);
+        assertTrue(studentTestScoreRecordIds.size() == 4);
+
+        List<String> studentGpaIds = academicRecordService.getGPAIdsByType("kuali.student.acad.student.gpa", contextInfo);
+        assertTrue(studentGpaIds.size() == 4);
+
+        List<String> studentLoadIds = academicRecordService.getLoadIdsByType("kuali.student.acad.student.load", contextInfo);
+        assertTrue(studentLoadIds.size() == 4);
+
+        // test a student course record update
+        StudentCourseRecordInfo studentCourseRecordForUpdate = academicRecordService.getStudentCourseRecord(studentCourseRecordIds.get(0), contextInfo);
+        Date forUpdate = new Date();
+        long now = new Date().getTime();
+        forUpdate.setTime(now);
+        studentCourseRecordForUpdate.setCourseEndDate(forUpdate);
+        academicRecordService.updateStudentCourseRecord(studentCourseRecordForUpdate.getId(), studentCourseRecordForUpdate, contextInfo);
+        StudentCourseRecordInfo check = academicRecordService.getStudentCourseRecord(studentCourseRecordForUpdate.getId(), contextInfo);
+        assertTrue(check.getCourseEndDate().getTime() == now);
     }
 }

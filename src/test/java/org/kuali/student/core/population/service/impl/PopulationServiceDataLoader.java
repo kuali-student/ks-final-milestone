@@ -16,6 +16,7 @@
  */
 package org.kuali.student.core.population.service.impl;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.test.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.core.process.evaluator.PropositionFactoryHardwiredImpl;
 import org.kuali.student.enrollment.academicrecord.dto.StudentProgramRecordInfo;
@@ -327,7 +328,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         studentProgramRecordInfo.setTypeKey(typeKey);
         studentProgramRecordInfo.setStateKey(stateKey);
         studentProgramRecordInfo.setAdmittedDate(admittedDate);
-        studentProgramRecordInfo.setCreditsEarned(String.valueOf(creditsEarned));
+        studentProgramRecordInfo.setCreditsEarned(new KualiDecimal(creditsEarned));
 
         return studentProgramRecordInfo;
     }
