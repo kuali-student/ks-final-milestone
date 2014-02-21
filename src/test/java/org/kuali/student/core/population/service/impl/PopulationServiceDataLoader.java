@@ -289,7 +289,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                 AcademicRecordServiceTypeStateConstants.STUDENT_PROGRAM_RECORD_TYPE_KEY,
                 AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
                 "2000-01-01",
-                AcademicRecordServiceConstants.FRESHMAN_THRESHOLD
+                0
                 );
 
 
@@ -299,8 +299,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                 AcademicRecordServiceTypeStateConstants.STUDENT_PROGRAM_RECORD_TYPE_KEY,
                 AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
                 "2000-01-01",
-                AcademicRecordServiceConstants.SOPHOMORE_THRESHOLD
-
+                25
                 );
         academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT10.getPersonId(),info,context);
 
@@ -308,7 +307,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                 AcademicRecordServiceTypeStateConstants.STUDENT_PROGRAM_RECORD_TYPE_KEY,
                 AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
                 "2000-01-01",
-                AcademicRecordServiceConstants.JUNIOR_THRESHOLD
+                55
                 );
         academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT11.getPersonId(),info,context);
 
@@ -316,7 +315,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
                 AcademicRecordServiceTypeStateConstants.STUDENT_PROGRAM_RECORD_TYPE_KEY,
                 AcademicRecordServiceTypeStateConstants.LOAD_STATE_FINAL,
                 "2000-01-01",
-                AcademicRecordServiceConstants.SENIOR_THRESHOLD
+                85
                 );
         academicRecordService.createStudentProgramRecord(info.getTypeKey(),PopulationTestStudentEnum.STUDENT12.getPersonId(),info,context);
 
@@ -330,11 +329,7 @@ public class PopulationServiceDataLoader extends AbstractMockServicesAwareDataLo
         studentProgramRecordInfo.setAdmittedDate(admittedDate);
         studentProgramRecordInfo.setCreditsEarned(String.valueOf(creditsEarned));
 
-
-
         return studentProgramRecordInfo;
-
-
     }
 
     private void createRuleBasedPops() throws PermissionDeniedException, MissingParameterException, InvalidParameterException,

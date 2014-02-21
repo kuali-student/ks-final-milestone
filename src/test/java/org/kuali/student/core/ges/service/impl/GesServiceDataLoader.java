@@ -3,6 +3,7 @@ package org.kuali.student.core.ges.service.impl;
 
 import org.kuali.student.common.test.AbstractMockServicesAwareDataLoader;
 import org.kuali.student.core.constants.GesServiceConstants;
+import org.kuali.student.core.ges.infc.GesValueTypeEnum;
 import org.kuali.student.core.population.service.impl.PopulationServiceDataLoader;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -20,14 +21,12 @@ import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
-import org.kuali.student.core.ges.service.ValueType;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.kuali.student.core.ges.service.GesService;
-import org.kuali.student.core.ges.service.ValueType;
 
 public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
 
@@ -91,11 +90,11 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
     private void createParameters() throws PermissionDeniedException, DataValidationErrorException, InvalidParameterException, ReadOnlyException,
             OperationFailedException, MissingParameterException, DoesNotExistException {
         ParameterInfo param = generateParameter(GesServiceConstants.GES_PARAMETER_TYPE_KEY, GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY,
-                ValueType.NUMERIC, PARAM_KEY_MAX_CREDITS, true);
+                GesValueTypeEnum.NUMERIC, PARAM_KEY_MAX_CREDITS, true);
         maxCreditsParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param, context);
 
         param = generateParameter(GesServiceConstants.GES_PARAMETER_TYPE_KEY, GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY,
-                ValueType.NUMERIC, PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM, true);
+                GesValueTypeEnum.NUMERIC, PARAM_KEY_MIN_CREDITS_REQUIRED_FOR_PROGRAM, true);
         minCreditsForProgramParameter = gesService.createParameter(param.getKey(), param.getTypeKey(), param, context);
     }
 
@@ -159,11 +158,11 @@ public class GesServiceDataLoader extends AbstractMockServicesAwareDataLoader {
         return info;
     }
 
-    public ParameterInfo generateParameter(String typeKey, String stateKey, ValueType gesValueType, String key, Boolean requireUniquePriorities) {
+    public ParameterInfo generateParameter(String typeKey, String stateKey, GesValueTypeEnum gesValueTypeEnum, String key, Boolean requireUniquePriorities) {
         ParameterInfo info = new ParameterInfo();
         info.setKey(key);
         info.setTypeKey(typeKey);
-        info.setGesValueType(gesValueType);
+        info.setGesGesValueTypeEnum(gesValueTypeEnum);
         info.setStateKey(stateKey);
         info.setRequireUniquePriorities(requireUniquePriorities);
 

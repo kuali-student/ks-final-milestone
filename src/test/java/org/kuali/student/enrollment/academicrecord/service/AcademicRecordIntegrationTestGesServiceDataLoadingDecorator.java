@@ -20,7 +20,7 @@ import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.ParameterInfo;
 import org.kuali.student.core.ges.dto.ValueInfo;
 import org.kuali.student.core.ges.service.GesService;
-import org.kuali.student.core.ges.service.ValueType;
+import org.kuali.student.core.ges.infc.GesValueTypeEnum;
 import org.kuali.student.core.ges.service.GesServiceDecorator;
 import org.kuali.student.enrollment.class2.academicrecord.service.impl.ClassStanding;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -58,7 +58,7 @@ public class AcademicRecordIntegrationTestGesServiceDataLoadingDecorator extends
         _createParam(GesServiceConstants.PARAMETER_KEY_CLASS_STANDING_CREDIT_THRESHOLDS,
                 "Class Standing Credit Threshold",
                 "Credit threshold for each class standing population",
-                ValueType.KUALI_DECIMAL, contextInfo);
+                 GesValueTypeEnum.KUALI_DECIMAL , contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CLASS_STANDING_CREDIT_THRESHOLDS,
                 1, ClassStanding.FRESHMAN.getDescription(), KUALI_POPULATION_EVERYONE, "", contextInfo);
         _createValue(GesServiceConstants.PARAMETER_KEY_CLASS_STANDING_CREDIT_THRESHOLDS,
@@ -72,39 +72,39 @@ public class AcademicRecordIntegrationTestGesServiceDataLoadingDecorator extends
         _createParam(ClassStanding.FRESHMAN.getDescription(),
                 "Class Standing Freshman Credit Threshold",
                 "Credit threshold for freshman class standing",
-                ValueType.KUALI_DECIMAL, contextInfo);
+                GesValueTypeEnum.KUALI_DECIMAL, contextInfo);
         _createValue(ClassStanding.FRESHMAN.getDescription(),
                 1, FRESHMAN_CLASS_STANDING_THRESHOLD, KUALI_POPULATION_EVERYONE, "", contextInfo);
 
         _createParam(ClassStanding.SOPHOMORE.getDescription(),
                 "Class Standing Sophomore Credit Threshold",
                 "Credit threshold for sophomore class standing",
-                ValueType.KUALI_DECIMAL, contextInfo);
+                GesValueTypeEnum.KUALI_DECIMAL, contextInfo);
         _createValue(ClassStanding.SOPHOMORE.getDescription(),
                 2, SOPHOMORE_CLASS_STANDING_THRESHOLD, KUALI_POPULATION_EVERYONE, "", contextInfo);
 
         _createParam(ClassStanding.JUNIOR.getDescription(),
                 "Class Standing Junior Credit Threshold",
                 "Credit threshold for junior class standing",
-                ValueType.KUALI_DECIMAL, contextInfo);
+                GesValueTypeEnum.KUALI_DECIMAL, contextInfo);
         _createValue(ClassStanding.JUNIOR.getDescription(),
                 3, JUNIOR_CLASS_STANDING_THRESHOLD, KUALI_POPULATION_EVERYONE, "", contextInfo);
 
         _createParam(ClassStanding.SENIOR.getDescription(),
                 "Class Standing Senior Credit Threshold",
                 "Credit threshold for senior class standing",
-                ValueType.KUALI_DECIMAL, contextInfo);
+                GesValueTypeEnum.KUALI_DECIMAL, contextInfo);
         _createValue(ClassStanding.SENIOR.getDescription(),
                 4, SENIOR_CLASS_STANDING_THRESHOLD, KUALI_POPULATION_EVERYONE, "", contextInfo);
     }
 
-    private ParameterInfo _createParam(String key, String name, String descr, ValueType valueType, ContextInfo context) {
+    private ParameterInfo _createParam(String key, String name, String descr, GesValueTypeEnum gesValueTypeEnum, ContextInfo context) {
 
         ParameterInfo info = new ParameterInfo();
         info.setKey(key);
         info.setName(name);
         info.setDescr(RichTextHelper.buildRichTextInfo(descr, descr));
-        info.setGesValueType(valueType);
+        info.setGesGesValueTypeEnum(gesValueTypeEnum);
         info.setTypeKey(GesServiceConstants.GES_PARAMETER_TYPE_KEY);
         info.setStateKey(GesServiceConstants.GES_PARAMETER_ACTIVE_STATE_KEY);
         info.setRequireUniquePriorities(true);

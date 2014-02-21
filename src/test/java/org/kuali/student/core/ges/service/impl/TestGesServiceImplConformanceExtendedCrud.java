@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.RichTextTester;
-import org.kuali.student.core.ges.service.ValueType;
+import org.kuali.student.core.ges.infc.GesValueTypeEnum;
 import org.kuali.student.core.population.service.impl.PopulationTestStudentEnum;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -38,7 +38,6 @@ import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.core.ges.service.ValueType;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -74,7 +73,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
 		expected.setKey("key01");
-        expected.setGesValueType(ValueType.STRING);
+        expected.setGesGesValueTypeEnum(GesValueTypeEnum.STRING);
         expected.setName("Max Credit");
         expected.setDescr((RichTextHelper.buildRichTextInfo("The max credit student can take in a period of time.", "formatted descr")));
         expected.setRequireUniquePriorities(true);
@@ -91,7 +90,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
-        assertEquals(expected.getGesValueType(), actual.getGesValueType());
+        assertEquals(expected.getGesGesValueTypeEnum(),actual.getGesGesValueTypeEnum());
         assertEquals (expected.getName(), actual.getName());
         new RichTextTester().check(expected.getDescr(),actual.getDescr());
         assertEquals(expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
@@ -104,7 +103,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	{
 		expected.setStateKey("stateKey_Updated");
         expected.setName("My Max Credit");
-        expected.setGesValueType(ValueType.BOOLEAN);
+        expected.setGesGesValueTypeEnum(GesValueTypeEnum.BOOLEAN);
         expected.setDescr((RichTextHelper.buildRichTextInfo("My max credit student can take in a period of time." ,"formatted descr")));
         expected.setRequireUniquePriorities(false);
 	}
@@ -119,7 +118,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 		assertEquals (expected.getTypeKey(), actual.getTypeKey());
 		assertEquals (expected.getStateKey(), actual.getStateKey());
 		assertEquals (expected.getKey(), actual.getKey());
-        assertEquals(expected.getGesValueType(), actual.getGesValueType());
+        assertEquals(expected.getGesGesValueTypeEnum(), actual.getGesGesValueTypeEnum());
         assertEquals (expected.getName(), actual.getName());
         new RichTextTester().check(expected.getDescr(),actual.getDescr());
         assertEquals (expected.getRequireUniquePriorities(), actual.getRequireUniquePriorities());
@@ -132,7 +131,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
 	public void testCrudParameter_setDTOFieldsForTestReadAfterUpdate(ParameterInfo expected)
 	{
 		expected.setKey("key_Updated");
-        expected.setGesValueType(ValueType.NUMERIC);
+        expected.setGesGesValueTypeEnum(GesValueTypeEnum.NUMERIC);
         expected.setName("Max Credit Limit");
         expected.setDescr((RichTextHelper.buildRichTextInfo("Limit max credit student can take in a period of time." ,"formatted descr")));
         expected.setRequireUniquePriorities(false);
