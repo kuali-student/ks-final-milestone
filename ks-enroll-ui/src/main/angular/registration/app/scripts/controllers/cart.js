@@ -66,7 +66,8 @@ angular.module('regCartApp')
                             console.log($scope);
                             console.log(item);
                             $scope.newCartItem = item;
-
+                            $scope.newCartItem.credits = $scope.newCartItem.creditOptions[0];
+                            $scope.newCartItem.grading = 'kuali.resultComponent.grade.letter';
                             $scope.dismiss = function () {
                                 console.log('dismiss');
                                 $scope.$close(true);
