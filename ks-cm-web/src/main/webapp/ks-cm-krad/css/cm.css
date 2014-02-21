@@ -163,8 +163,3 @@
 #course_tabs_tabs .ui-tabs-nav li.ui-state-active a, #course_tabs_tabs .ui-tabs-nav li.ui-state-default a {
     width: 85%;
 }
-
-/* css class flag to toggle the widget */
-.admin-not-required-field {
-
-}

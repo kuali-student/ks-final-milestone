@@ -54,7 +54,6 @@
                     <property name="cssClasses">
                         <list merge="true">
                             <value>cm-collection-width</value>
-                            <value>admin-not-required-field</value>
                         </list>
                     </property>
                     <property name="addLineActions">
@@ -201,7 +200,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:label="Proposal Title"   p:id="CreateCourseProposalTitleInputField"
+                <bean parent="Uif-InputField-LabelTop" p:label="Proposal Title"
                       p:propertyName="dataObject.proposalInfo.name" p:required="true">
                     <property name="instructionalText"
                               value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
@@ -303,7 +302,6 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
-                <value>admin-not-required-field</value>
             </list>
         </property>
         <property name="items">

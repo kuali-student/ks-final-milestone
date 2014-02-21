@@ -30,7 +30,7 @@
 
     <bean id="KS-CourseView-GovernancePage-Widgets" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Governance"/>
-        <property name="header.render" value="@{#form.curriculumSpecialistUser}"/>
+        <property name="header.render" value="false"/>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="course.campusLocations" p:label="Campus Locations"
@@ -120,7 +120,6 @@
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>
-                <value>admin-not-required-field</value>
             </list>
         </property>
         <property name="addLineActions">

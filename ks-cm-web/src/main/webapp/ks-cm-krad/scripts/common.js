@@ -193,11 +193,9 @@ function showHideCreateCourseOptionalElements () {
     if(actualShowMsg != null && actualShowMsg == showingRequired) {    // display all
         jQuery("#Create-CourseView-Admin-Message_span").text(showingAll);
         jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showRequired);
-        jQuery(".admin-not-required-field").show();
     }  else  {
         jQuery("#Create-CourseView-Admin-Message_span").text(showingRequired);
         jQuery("#Create-CourseView-Admin-Message-expand-optional-link").text(showAll);
-        jQuery(".admin-not-required-field").hide();
     }
     jQuery("#CreateCourseProposalTitleInputField_control").focus();
 

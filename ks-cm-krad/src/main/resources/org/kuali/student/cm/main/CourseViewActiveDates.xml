@@ -19,7 +19,7 @@
 
     <bean id="KS-CourseView-ActiveDatesPage-Widgets" parent="KS-CourseView-VerticalBoxSection" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject">
         <property name="headerText" value="Active Dates"/>
-        <property name="header.render" value="@{#form.curriculumSpecialistUser}"/>
+        <property name="header.render" value="false"/>
         <property name="items">
             <list>
 
@@ -37,12 +37,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course" p:id="CourseView-ActiveDatesPage-PilotCourse">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>admin-not-required-field</value>
-                        </list>
-                    </property>
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course">
                     <property name="control">
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
                     </property>
@@ -51,13 +46,8 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"   p:id="CourseView-ActiveDatesPage-EndTerm"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"
                       p:required="@{document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" >
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>admin-not-required-field</value>
-                        </list>
-                    </property>
                     <property name="refreshWhenChangedPropertyNames">
                         <list>
                             <value>document.newMaintainableObject.dataObject.courseInfo.pilotCourse</value>
