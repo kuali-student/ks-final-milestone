@@ -2087,7 +2087,7 @@
     <sequence name="KRSB_MSG_QUE_S" startValue="467"/>
     <sequence name="KRSB_SVC_DEF_S" startValue="10105"/>
     <sequence name="KRSB_SVC_DSCRPTR_S" startValue="10105"/>
-    <sequence name="KS_RICE_ID_S" startValue="55748"/>
+    <sequence name="KS_RICE_ID_S" startValue="55758"/>
     <table name="KRAD_MSG_T">
         <column name="CMPNT_CD" nullable="false" primaryKey="true" type="STRING">
             <size value="100"/>
