@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-GovernancePage-Section" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-Governance-Section" parent="Uif-VerticalBoxSection">
         <property name="headerText" value="Governance"/>
         <property name="items">
             <list>

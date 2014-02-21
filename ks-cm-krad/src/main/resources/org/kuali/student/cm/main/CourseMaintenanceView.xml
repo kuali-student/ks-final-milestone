@@ -125,29 +125,25 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
+    <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true" />
 
-    </bean>
-
-    <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true">
-
-    </bean>
+    <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true" />
 
     <bean id="KS-CourseView-BasePage" parent="Uif-MaintenancePage" p:disclosure.render="false"/>
 
     <bean id="KS-CourseView-CoursePage" parent="Uif-MaintenancePage" p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-Header" />
         <property name="footer">
-            <bean parent="KS-CourseView-Footer-Fred"/>
+            <bean parent="KS-CourseView-Footer"/>
         </property>
         <property name="propertyReplacers">
-          <list>
-            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="#form.curriculumSpecialist">
-              <property name="replacement">
-                  <bean parent="KS-CourseView-Footer-Admin"/>
-              </property>
-            </bean>
-          </list>
+            <list>
+                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="#form.curriculumSpecialist">
+                    <property name="replacement">
+                        <bean parent="KS-CourseView-CurriculumSpecialistFooter"/>
+                    </property>
+                </bean>
+            </list>
         </property>
         <property name="items">
             <list>
@@ -155,7 +151,7 @@
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseView-CourseInfo-Section"/>
-                            <ref bean="KS-CourseView-GovernancePage-Section"/>
+                            <ref bean="KS-CourseView-Governance-Section"/>
                             <ref bean="KS-CourseView-Logistics-Section"/>
                             <ref bean="KS-CourseView-LearningObjectives-Section" />
                             <ref bean="KS-CourseView-CourseRequisites-Section"/>
@@ -267,7 +263,7 @@
         </property>
     </bean>
     
-    <bean id="KS-CourseView-Footer-Admin" parent="Uif-FooterBase">
+    <bean id="KS-CourseView-CurriculumSpecialistFooter" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <!--<bean parent="Uif-PrimaryActionButton"
@@ -347,7 +343,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-Footer-Fred" parent="Uif-FooterBase" p:layoutManager.style="float:none;">
+    <bean id="KS-CourseView-Footer" parent="Uif-FooterBase" p:layoutManager.style="float:none;">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup" p:style="float:left;">
