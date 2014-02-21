@@ -156,12 +156,12 @@ public class AcademicRecordServiceDecorator
     }
 
     @Override
-    public List<StudentProgramRecordInfo> getProgramRecords(String personId, ContextInfo contextInfo) throws DoesNotExistException,
+    public List<StudentProgramRecordInfo> getStudentProgramRecords(String personId, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException,
             MissingParameterException,
             OperationFailedException,
             PermissionDeniedException {
-        return nextDecorator.getProgramRecords(personId, contextInfo);
+        return nextDecorator.getStudentProgramRecords(personId, contextInfo);
     }
 
     @Override
