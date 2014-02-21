@@ -132,7 +132,6 @@ public class StudentCourseRecordInfo
         this.sourceTypeKey = scr.getSourceTypeKey();
         this.courseRegistrationId = scr.getCourseRegistrationId();
         this.personId = scr.getPersonId();
-        ;
         this.courseTitle = scr.getCourseTitle();
         this.courseCode = scr.getCourseCode();
         this.activityCode = scr.getActivityCode();

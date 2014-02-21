@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.academicrecord.dto;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.enrollment.academicrecord.infc.StudentProgramRecord;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
@@ -39,7 +40,7 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
     @XmlElement
     private String admittedDate;
     @XmlElement
-    private String creditsEarned;
+    private KualiDecimal creditsEarned;
     @XmlElement
     private String classStanding;
     @XmlElement
@@ -149,11 +150,11 @@ public class StudentProgramRecordInfo extends IdEntityInfo implements StudentPro
     }
 
     @Override
-    public String getCreditsEarned() {
+    public KualiDecimal getCreditsEarned() {
         return creditsEarned;
     }
 
-    public void setCreditsEarned(String creditsEarned) {
+    public void setCreditsEarned(KualiDecimal creditsEarned) {
         this.creditsEarned = creditsEarned;
     }
 

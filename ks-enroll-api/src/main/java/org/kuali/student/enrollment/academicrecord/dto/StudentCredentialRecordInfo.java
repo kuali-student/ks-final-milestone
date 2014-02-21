@@ -20,12 +20,14 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentCredentialRecordInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "programId", "programTitle", "programCode", "dateAdmitted", "dateAwarded", "awardingInstitution",
+        "programId", "personId", "programTitle", "programCode", "dateAdmitted", "dateAwarded", "awardingInstitution",
         "meta", "attributes", "_futureElements"})
 public class StudentCredentialRecordInfo extends IdEntityInfo implements StudentCredentialRecord, Serializable {
     private static final long serialVersionUID = 1L;
     @XmlElement
     private String programId;
+    @XmlElement
+    private String personId;
     @XmlElement
     private String programTitle;
     @XmlElement
@@ -54,6 +56,7 @@ public class StudentCredentialRecordInfo extends IdEntityInfo implements Student
             this.dateAwarded = (null != studentCredentialRecord.getDateAwarded()) ?
                     new Date(studentCredentialRecord.getDateAwarded().getTime()) : null;
             this.awardingInstitution = studentCredentialRecord.getAwardingInstitution();
+            this.personId = studentCredentialRecord.getPersonId();
         }
     }
 
@@ -109,5 +112,14 @@ public class StudentCredentialRecordInfo extends IdEntityInfo implements Student
 
     public void setAwardingInstitution(String awardingInstitution) {
         this.awardingInstitution = awardingInstitution;
+    }
+
+    @Override
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 }

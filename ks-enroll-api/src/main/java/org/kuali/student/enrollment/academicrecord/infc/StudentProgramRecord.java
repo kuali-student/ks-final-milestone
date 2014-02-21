@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.academicrecord.infc;
 
+import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 import java.util.List;
@@ -68,7 +69,7 @@ public interface StudentProgramRecord extends IdEntity {
      * @name Credits Earned
      * @required
      */
-    public String getCreditsEarned();
+    public KualiDecimal getCreditsEarned();
 
     /**
      * Student's class standing. It's an enumeration of levels

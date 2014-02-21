@@ -19,6 +19,16 @@ public interface StudentCredentialRecord extends IdEntity {
     public String getProgramId();
 
     /**
+     * The Id of the Student.
+     *
+     * @name Person Id
+     * @readOnly
+     * @required
+     * @impl retrieved from the Course Registration
+     */
+    public String getPersonId();
+
+    /**
      * Title of the program that was in effect at the time the student took the
      * course
      *

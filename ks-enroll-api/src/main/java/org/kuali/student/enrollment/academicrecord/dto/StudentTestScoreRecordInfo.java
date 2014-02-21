@@ -20,7 +20,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StudentTestScoreRecordInfo", propOrder = {
-        "id", "typeKey", "stateKey", "name", "descr",
+        "id", "typeKey", "stateKey", "name", "descr", "personId",
         "testTitle", "testCode", "testTypeKey", "dateTaken", "scoreValue", "scorePercent", "subComponents",
         "meta", "attributes", "_futureElements"})
 public class StudentTestScoreRecordInfo extends IdEntityInfo implements StudentTestScoreRecord, Serializable {
@@ -40,6 +40,8 @@ public class StudentTestScoreRecordInfo extends IdEntityInfo implements StudentT
     public String scorePercent;
     @XmlElement
     public List<StudentTestScoreRecordInfo> subComponents;
+    @XmlElement
+    private String personId;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -59,6 +61,7 @@ public class StudentTestScoreRecordInfo extends IdEntityInfo implements StudentT
             for (StudentTestScoreRecord stsr : studentTestScoreRecord.getSubComponents()) {
                 this.subComponents.add(new StudentTestScoreRecordInfo(stsr));
             }
+            this.personId = studentTestScoreRecord.getPersonId();
         }
     }
 
@@ -118,10 +121,23 @@ public class StudentTestScoreRecordInfo extends IdEntityInfo implements StudentT
 
     @Override
     public List<StudentTestScoreRecordInfo> getSubComponents() {
+
+        if(subComponents == null) {
+            subComponents = new ArrayList<StudentTestScoreRecordInfo>();
+        }
         return subComponents;
     }
 
     public void setSubComponents(List<StudentTestScoreRecordInfo> subComponents) {
         this.subComponents = subComponents;
+    }
+
+    @Override
+    public String getPersonId() {
+        return personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 }
