@@ -150,6 +150,13 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
 
         urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode() + dataObject.getCourseOfferingInfo().getCourseNumberSuffix());
 
+      //display the correct Warning  message based on the on the ExamOffering results.
+        if (!dataObject.getExamOfferingResult().getMatrixMatchStatus().getIsSuccess()) {
+
+            urlParameters.put(EnrollConstants.WARNING_MESSAGE_SECTION_ID, dataObject.getExamOfferingResult().getMatrixMatchStatus().getId());
+            urlParameters.put(EnrollConstants.WARNING_MESSAGE, CourseOfferingConstants.COURSEOFFERING_MSG_WARNING_NO_MATCH_FOUND);
+
+        }
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
         urlParameters.put("termCode", dataObject.getTerm().getCode());
         if (dataObject.getCourseOfferingInfo().getCourseNumberSuffix() != null && !StringUtils.isBlank(dataObject.getCourseOfferingInfo().getCourseNumberSuffix())) {
@@ -430,7 +437,13 @@ public class CourseOfferingCreateController extends CourseOfferingBaseController
         }
         urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, courseOfferingInfo.getCourseOfferingCode());
 
+        //display the correct Warning  message based on the on the ExamOffering results.
+        if (!createWrapper.getExamOfferingResult().getMatrixMatchStatus().getIsSuccess()) {
 
+            urlParameters.put(EnrollConstants.WARNING_MESSAGE_SECTION_ID, createWrapper.getExamOfferingResult().getMatrixMatchStatus().getId());
+            urlParameters.put(EnrollConstants.WARNING_MESSAGE, CourseOfferingConstants.COURSEOFFERING_MSG_WARNING_NO_MATCH_FOUND);
+
+        }
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, "show");
         urlParameters.put("termCode",createWrapper.getTargetTermCode());
         urlParameters.put("inputCode",courseOfferingInfo.getCourseOfferingCode());

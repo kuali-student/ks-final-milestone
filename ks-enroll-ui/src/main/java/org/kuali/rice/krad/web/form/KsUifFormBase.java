@@ -45,6 +45,13 @@ public class KsUifFormBase extends UifFormBase {
         if (growlMessage != null) {
               KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage, growlMessageParams);
         }
+        String sectionKey = request.getParameter("warning.message.section.id");
+        String warningMessage = request.getParameter("warning.message");
+
+        if (warningMessage != null)
+        {
+            GlobalVariables.getMessageMap().putWarningForSectionId(sectionKey,warningMessage);
+        }
 
         super.postBind(request);
     }

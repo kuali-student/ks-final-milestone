@@ -33,6 +33,7 @@ import org.kuali.student.enrollment.class2.courseoffering.service.decorators.Per
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
@@ -147,7 +148,13 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
                 throw new OperationFailedException("Unable to retrieve course version independent id.", e);
             }
 
-            executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId,context);
+            eoResult = executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+        }
+        else{
+                eoResult.setExamMatrixStatus(new BulkStatusInfo());
+                eoResult.getExamMatrixStatus().setSuccess(Boolean.FALSE);
+                eoResult.getExamMatrixStatus().setMessage("Warning: Exam matrix doesn't exist for the relevant term type");
+                eoResult.getExamMatrixStatus().setId("manageTheCourseOfferingPage");
         }
       return eoResult;
     }
@@ -177,6 +184,12 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
         if(componentInfo != null){
             TimeSlotInfo timeslot = (TimeSlotInfo) results.getAttribute("timeslotInfo");
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
+        }
+        else{
+            eoResult.setMatrixMatchStatus(new BulkStatusInfo());
+            eoResult.getMatrixMatchStatus().setSuccess(Boolean.FALSE);
+            eoResult.getMatrixMatchStatus().setMessage("Warning: No match found on the Matrix");
+            eoResult.getMatrixMatchStatus().setId("manageTheCourseOfferingPage");
         }
         return eoResult;
     }
@@ -280,7 +293,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
             List<TermResolverDefinition> definitions = this.getTermRepositoryService().findTermResolversByNamespace(PermissionServiceConstants.KS_SYS_NAMESPACE);
             for (TermResolverDefinition definition : definitions) {
                 if (definition.getTypeId().equals(typeDefinition.getId()) ||
-                        definition.getName().equals(KSKRMSServiceConstants.TERM_RESOLVER_FREEFORMTEXT)) {
+                        definition.getName().equals(KSKRMSServiceConstants.TERM_RESOLVER_EXAM_FREEFORMTEXT)) {
                     eoTermResolvers.add(termResolverTypeService.loadTermResolver(definition));
                 }
             }

@@ -204,6 +204,8 @@ public class CourseOfferingConstants {
     public static final String COURSE_OFFERING_CREATE_SUCCESS = "info.enroll.courseoffering.create.success";
     public static final String COURSE_OFFERING_CREATE_SUCCESS_WITH_EXAMOFFERING_GENERATED = "info.enroll.courseoffering.create.success.with.examoffering.generated";
     public static final String COURSE_OFFERING_CREATE_SUCCESS_WITH_MISSING_EXAMPERIOD = "info.enroll.courseoffering.create.success.with.missing.examperiod";
+    public static final String COURSEOFFERING_MSG_WARNING_NO_MATCH_FOUND = "warning.courseoffering.finalexam.matrix.match.not.found";
+    public static final String COURSEOFFERING_MSG_WARNING_MATRIX_NOT_FOUND ="warning.courseoffering.finalexam.matrix.not.found";
 
     /**
          * These are the confirm dialog bean ids used in Manage CO/AO view.

@@ -110,6 +110,14 @@ public class CourseOfferingEditController extends CourseOfferingBaseController {
         }
 
         urlParameters.put(EnrollConstants.GROWL_MESSAGE_PARAMS, dataObject.getCourseOfferingCode());
+        //display the correct Warning  message based on the on the ExamOffering results.
+        if (!dataObject.getExamOfferingResult().getMatrixMatchStatus().getIsSuccess()) {
+
+            urlParameters.put(EnrollConstants.WARNING_MESSAGE_SECTION_ID, dataObject.getExamOfferingResult().getMatrixMatchStatus().getId());
+            urlParameters.put(EnrollConstants.WARNING_MESSAGE, CourseOfferingConstants.COURSEOFFERING_MSG_WARNING_NO_MATCH_FOUND);
+
+        }
+
 
         // determine which url to redirect to
         String returnLocationFromForm = form.getReturnLocation();

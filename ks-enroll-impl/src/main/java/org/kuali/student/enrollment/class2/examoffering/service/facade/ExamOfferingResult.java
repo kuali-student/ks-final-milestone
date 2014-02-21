@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.dto.BulkStatusInfo;
 public class ExamOfferingResult {
     private BulkStatusInfo examPeriodStatus; // Exam period is not defined for the Term
     private BulkStatusInfo examMatrixStatus; //status for whether or not the exam matrix exist for the term
-    private BulkStatusInfo startTimeDaysStatus; //status for whether or not the  the AO start time and days is found on the Standard Final Exam
+    private BulkStatusInfo matrixMatchStatus; //status for whether or not the  match was found on the matrix
     private BulkStatusInfo courseStatus;  //status for whether or not the the Course Offering is  found on the Matrix
     private BulkStatusInfo examStatus;
 
@@ -35,8 +35,8 @@ public class ExamOfferingResult {
         examPeriodStatus.setSuccess(Boolean.TRUE);
         examMatrixStatus = new BulkStatusInfo();
         examMatrixStatus.setSuccess(Boolean.TRUE);
-        startTimeDaysStatus = new BulkStatusInfo();
-        startTimeDaysStatus.setSuccess(Boolean.TRUE);
+        matrixMatchStatus = new BulkStatusInfo();
+        matrixMatchStatus.setSuccess(Boolean.TRUE);
         courseStatus = new BulkStatusInfo();
         courseStatus.setSuccess(Boolean.TRUE);
         examStatus = new BulkStatusInfo();
@@ -60,12 +60,12 @@ public class ExamOfferingResult {
         this.examMatrixStatus = examMatrixStatus;
     }
 
-    public BulkStatusInfo getStartTimeDaysStatus() {
-        return startTimeDaysStatus;
+    public BulkStatusInfo getMatrixMatchStatus() {
+        return matrixMatchStatus;
     }
 
-    public void setStartTimeDaysStatus(BulkStatusInfo startTimeDaysStatus) {
-        this.startTimeDaysStatus = startTimeDaysStatus;
+    public void setMatrixMatchStatus(BulkStatusInfo matrixMatchStatus) {
+        this.matrixMatchStatus = matrixMatchStatus;
     }
 
     public BulkStatusInfo getCourseStatus() {

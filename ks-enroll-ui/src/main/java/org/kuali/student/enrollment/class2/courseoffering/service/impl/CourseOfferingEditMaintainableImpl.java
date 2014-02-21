@@ -297,7 +297,9 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             // generate exam offerings if exam period exists
             ExamOfferingResult examOfferingResult;
             if (!StringUtils.isEmpty(coCreateWrapper.getExamPeriodId())) {
-                CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info,info.getTermId(), coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
+                examOfferingResult =  CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info,info.getTermId(), coCreateWrapper.getExamPeriodId(), new ArrayList<String>(), contextInfo);
+
+                coCreateWrapper.setExamOfferingResult(examOfferingResult);
             }
 
             return info;
