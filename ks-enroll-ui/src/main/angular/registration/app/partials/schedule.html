@@ -1,6 +1,6 @@
 <h1>My Schedule</h1>
-<div>
-    <span><h3>Enrolled Courses  <span class="pull-right">6 credits</span></h3></span>
+<div ng-controller="ScheduleCtrl">
+    <span><h3>Enrolled Courses  <span class="pull-right"><span ng-bind="registeredCredits"></span> credits</span></h3></span>
 </div>
 
 <div ng-repeat="schedule in schedules" ui-gauge="scheduleWidth">
