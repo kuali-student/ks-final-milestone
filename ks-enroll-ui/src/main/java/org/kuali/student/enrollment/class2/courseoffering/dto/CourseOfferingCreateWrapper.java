@@ -515,7 +515,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         getDialogFormatOfferingWrapperList().clear();
         setSocInfo(null);
         setAdminOrg(null);
-        setExamOfferingResult(null);
     }
 
 }
