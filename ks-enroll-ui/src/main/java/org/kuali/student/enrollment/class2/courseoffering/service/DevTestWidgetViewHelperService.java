@@ -9,7 +9,7 @@ import java.util.List;
  * Time: 1:44 PM
  * Used to test service calls on live DB.
  */
-public interface TestServiceCallViewHelperService {
+public interface DevTestWidgetViewHelperService {
     List<String> getSocIdsByTerm(String termId) throws Exception;
 
     void verifyPopulations() throws Exception;

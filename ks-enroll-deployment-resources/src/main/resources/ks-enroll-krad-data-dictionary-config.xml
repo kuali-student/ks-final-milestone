@@ -98,9 +98,9 @@
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRolloverView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/courseoffering/DiagnoseRollover-SelectTermPage.xml</value>
 
-                <!-- East Coast Sandbox (test service) -->
-                <value>classpath:org/kuali/student/enrollment/courseoffering/TestServiceCallView.xml</value>
-                <value>classpath:org/kuali/student/enrollment/courseoffering/TestServiceCall-FirstServicePage.xml</value>
+                <!-- Red Team Sandbox (test service) -->
+                <value>classpath:org/kuali/student/enrollment/courseoffering/DevTestWidgetView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/courseoffering/DevTestWidget-Page1.xml</value>
 
                 <!-- Population -->
                 <value>classpath:org/kuali/student/enrollment/population/PopulationWrapperMaintenanceDocument.xml</value>

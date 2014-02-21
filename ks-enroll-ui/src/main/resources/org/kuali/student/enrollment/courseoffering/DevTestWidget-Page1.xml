@@ -20,9 +20,9 @@
      See the License for the specific language governing permissions and
      limitations under the License.
     -->
-    <bean id="KS-TestServiceCall-FirstServicePage" parent="KS-Uif-Page" p:disclosure.render="false"
-        p:id="firstServiceCall"
-        p:headerText="Test GetSocIdsByTerm">
+    <bean id="KS-DevTestWidget-Page1" parent="KS-Uif-Page" p:disclosure.render="false"
+        p:id="devTestWidgetPageId"
+        p:headerText="Developer Test Widget">
 
         <!-- It's easier to put the footer up front since it has a lot less content -->
         <property name="footer"> <!-- Start of footer-->

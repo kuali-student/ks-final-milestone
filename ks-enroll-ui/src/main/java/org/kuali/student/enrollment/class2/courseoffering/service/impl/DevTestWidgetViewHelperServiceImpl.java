@@ -18,12 +18,11 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.student.enrollment.class2.courseoffering.service.DevTestWidgetViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer;
-import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
-import javax.xml.namespace.QName;
 import java.util.List;
 
 /**
@@ -32,10 +31,10 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class TestServiceCallViewHelperServiceImpl extends ViewHelperServiceImpl implements TestServiceCallViewHelperService {
+public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl implements DevTestWidgetViewHelperService {
 
     private ContextInfo contextInfo = new ContextInfo();
-    private static final Logger LOG = Logger.getLogger(TestServiceCallViewHelperServiceImpl.class);
+    private static final Logger LOG = Logger.getLogger(DevTestWidgetViewHelperServiceImpl.class);
 
     @Override
     public List<String> getSocIdsByTerm(String termId) throws Exception {

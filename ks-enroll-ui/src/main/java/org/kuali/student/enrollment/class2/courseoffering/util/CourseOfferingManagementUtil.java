@@ -28,16 +28,16 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrap
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.CreateSocForm;
+import org.kuali.student.enrollment.class2.courseoffering.form.DevTestWidgetForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
-import org.kuali.student.enrollment.class2.courseoffering.form.TestServiceCallForm;
 import org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl;
 import org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.CreateSocViewHelperService;
+import org.kuali.student.enrollment.class2.courseoffering.service.DevTestWidgetViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRolloverViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.SeatPoolUtilityService;
-import org.kuali.student.enrollment.class2.courseoffering.service.TestServiceCallViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CSRServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.CourseOfferingServiceFacade;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseInfoByTermLookupableImpl;
@@ -127,7 +127,7 @@ public class CourseOfferingManagementUtil {
     private static CourseOfferingViewHelperService coViewHelperService;
     private static CreateSocViewHelperService socViewHelperService;
     private static DiagnoseRolloverViewHelperService drViewHelperService;
-    private static  TestServiceCallViewHelperService testViewHelperService;
+    private static DevTestWidgetViewHelperService devTestWidgetViewHelperService;
     private static OrganizationService organizationService;
     private static StateService stateService;
     private static LRCService lrcService;
@@ -311,15 +311,15 @@ public class CourseOfferingManagementUtil {
         return drViewHelperService;
     }
 
-    public static TestServiceCallViewHelperService getTestViewHelperService(TestServiceCallForm serviceCallForm) {
-        if (testViewHelperService == null) {
+    public static DevTestWidgetViewHelperService getDevTestWidgetViewHelperService(DevTestWidgetForm serviceCallForm) {
+        if (devTestWidgetViewHelperService == null) {
             if (serviceCallForm.getView().getViewHelperServiceClass() != null) {
-                testViewHelperService = (TestServiceCallViewHelperService) serviceCallForm.getView().getViewHelperService();
+                devTestWidgetViewHelperService = (DevTestWidgetViewHelperService) serviceCallForm.getView().getViewHelperService();
             } else {
-                testViewHelperService = (TestServiceCallViewHelperService) serviceCallForm.getPostedView().getViewHelperService();
+                devTestWidgetViewHelperService = (DevTestWidgetViewHelperService) serviceCallForm.getPostedView().getViewHelperService();
             }
         }
-        return testViewHelperService;
+        return devTestWidgetViewHelperService;
     }
 
     public static OrganizationService getOrganizationService() {

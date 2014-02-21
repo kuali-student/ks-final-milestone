@@ -23,8 +23,8 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  *
  * @author Kuali Student Team
  */
-public class TestServiceCallForm extends UifFormBase {
-    public TestServiceCallForm() {
+public class DevTestWidgetForm extends UifFormBase {
+    public DevTestWidgetForm() {
 
     }
 }
