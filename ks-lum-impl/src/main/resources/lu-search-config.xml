@@ -2754,6 +2754,7 @@
                         AND lui.CLU_ID = clu.ID
                         AND clu.ST = 'Active'
                         AND lui.ATP_ID IN :termList
+                        AND lui.LUI_STATE = 'kuali.lui.activity.offering.state.offered'
                         ORDER BY ident.LUI_CD
                     </value>
                 </entry>
