@@ -17,6 +17,7 @@ public class StudentScheduleCourseResult {
     private String courseCode;
     private String description;
     private String credits;
+    private String gradingOptionId;
     private String longName;
     private String regGroupCode;
     private List<String> creditOptions;
@@ -49,6 +50,10 @@ public class StudentScheduleCourseResult {
     public void setCredits(String credits) {
         this.credits = credits;
     }
+
+    public String getGradingOptionId() { return gradingOptionId; }
+
+    public void setGradingOptionId(String gradingOptionId) { this.gradingOptionId = gradingOptionId; }
 
     public String getDescription() {
         return description;

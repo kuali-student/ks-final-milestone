@@ -110,6 +110,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String LUI_DESC = "luiDesc";
         public static final String RES_VAL_GROUP_KEY = "resultValuesGroupKey";
         public static final String CREDITS = "credits";
+        public static final String GRADING_OPTION_ID = "gradingOptionId";
         public static final String ROOM_CODE = "roomCode";
         public static final String BUILDING_CODE = "buildingCode";
         public static final String WEEKDAYS = "weekdays";
@@ -446,7 +447,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
 
         String queryStr =
-                "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, " +
+                "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, lpr.GRADING_OPT_ID, " +
                         "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
                         "luiRes.RESULT_VAL_GRP_ID, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
@@ -498,6 +499,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.MASTER_LUI_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.PERSON_LUI_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.GRADING_OPTION_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_NAME, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
