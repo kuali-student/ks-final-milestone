@@ -442,7 +442,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 		Map<String, String> ap = getInquiryParams();
         // Only send part of the session id to create session specific link for security
         String sid = sessionid.substring(0,sessionid.length()/2);
-        ap.put("sid",sessionid);
+        ap.put("sid",sid);
 		if (ap != null)
 			for (Entry<String, String> e : ap.entrySet())
 				try {
