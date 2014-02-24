@@ -384,15 +384,14 @@ public class CourseRetireSummaryConfigurer extends CourseSummaryConfigurer {
 					String courseNumberSuffix = (String) ((Data)property.getValue()).get(CreditCourseConstants.COURSE_NUMBER_SUFFIX);
 					codes.add(subjectArea + courseNumberSuffix);
 				}
-				String output="";
+                StringBuffer output = new StringBuffer("");
 				for(Iterator<String> iter=codes.iterator();iter.hasNext();){
-					String code = iter.next();
-					output += code;
+					output.append(iter.next());
 					if(iter.hasNext()){
-						output += ", ";
+						output.append(", ");
 					}
 				}
-				widget.setText(output);
+				widget.setText(output.toString());
 			}
         	
         });

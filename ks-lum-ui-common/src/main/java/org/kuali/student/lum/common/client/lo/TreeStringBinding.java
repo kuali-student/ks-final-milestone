@@ -2,6 +2,7 @@ package org.kuali.student.lum.common.client.lo;
 
 import com.google.gwt.user.client.ui.Label;
 
+import javassist.compiler.Javac;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
@@ -153,15 +154,18 @@ public class TreeStringBinding extends ModelWidgetBindingSupport<KSListPanel> {
         }
 
         public String getCategoriesString() {
-            String result = " (";
+            StringBuffer resultBuffer = new StringBuffer(" (");
             for (int i = 0; i < categories.size(); i++) {
                 if (i != categories.size() - 1) {
-                    result = result + categories.get(i) + ", ";
+                    resultBuffer.append(categories.get(i));
+                    resultBuffer.append(", ");
                 } else {
-                    result = result + categories.get(i) + ")";
+                    resultBuffer.append(categories.get(i));
+                    resultBuffer.append(")");
                 }
+
             }
-            return result;
+            return resultBuffer.toString();
         }
     }
 }

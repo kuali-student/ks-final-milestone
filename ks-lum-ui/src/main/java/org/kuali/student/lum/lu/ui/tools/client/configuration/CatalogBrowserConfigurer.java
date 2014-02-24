@@ -90,29 +90,37 @@ public class CatalogBrowserConfigurer {
 	}
 
 	private String formatMetadata(Metadata md, String fieldKey) {
-		String msg = "metadata for fieldKey="
-				+ fieldKey
-				// + "\n Name=" + md.getName ()
-				+ "\n LabelKey="
-				+ md.getLabelKey()
-				+ "\n defaultValuePath="
-				+ md.getDefaultValuePath()
-				+ "\n LookupContextPath="
-				+ md.getLookupContextPath()
-				// + "\n maskForatter=" + md.getMaskFormatter ()
-				// + "\n partialMaskFormatter=" + md.getPartialMaskFormatter ()
-				+ "\n dataType=" + md.getDataType() + "\n defaultValue="
-				+ md.getDefaultValue() + "\n WriteAccess="
-				+ md.getWriteAccess() + "\n initialLookup="
-				+ md.getInitialLookup() + "\n additionalLookups="
-				+ md.getAdditionalLookups();
+        StringBuffer bufferMsg = new StringBuffer("metadata for fieldKey=");
+        bufferMsg.append(fieldKey);
+        // + "\n Name=" + md.getName ()
+        bufferMsg.append("\n LabelKey=");
+        bufferMsg.append(md.getLabelKey());
+        bufferMsg.append("\n defaultValuePath=");
+        bufferMsg.append(md.getDefaultValuePath());
+        bufferMsg.append("\n LookupContextPath=");
+        bufferMsg.append(md.getLookupContextPath());
+        // + "\n maskForatter=" + md.getMaskFormatter ()
+        // + "\n partialMaskFormatter=" + md.getPartialMaskFormatter ()
+        bufferMsg.append("\n dataType=");
+        bufferMsg.append(md.getDataType());
+        bufferMsg.append( "\n defaultValue=");
+        bufferMsg.append(md.getDefaultValue());
+        bufferMsg.append("\n WriteAccess=");
+        bufferMsg.append(md.getWriteAccess());
+        bufferMsg.append("\n initialLookup=");
+        bufferMsg.append(md.getInitialLookup());
+        bufferMsg.append("\n additionalLookups=");
+        bufferMsg.append(md.getAdditionalLookups());
 		if (md.getProperties() != null) {
-			msg += "\n It has " + md.getProperties().size() + " properties: \n";
+            bufferMsg.append("\n It has ");
+            bufferMsg.append(md.getProperties().size());
+            bufferMsg.append(" properties: \n");
 			for (String fk : md.getProperties().keySet()) {
-				msg += "\n" + formatMetadata(md.getProperties().get(fk), fk);
+                bufferMsg.append("\n");
+                bufferMsg.append(formatMetadata(md.getProperties().get(fk), fk));
 			}
 		}
-		return msg;
+		return bufferMsg.toString();
 	}
 
 	private KSBrowser configureKSBrowser(String fieldKey) {

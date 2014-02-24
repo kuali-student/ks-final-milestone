@@ -169,7 +169,8 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                     if (cluInfo != null) {
 
                         //retrieve credits
-                        String credits = "";
+                        StringBuffer credits = new StringBuffer("");
+
                         List<CluResultInfo> cluResultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
                         if (cluResultInfos != null) {
                             for (CluResultInfo cluResultInfo : cluResultInfos) {
@@ -198,22 +199,25 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                     continue;
                                 }
 
-                                if (!credits.isEmpty()) {
-                                    credits = credits + "; ";
+                                if (!credits.toString().isEmpty()) {
+                                    credits.append("; ");
                                 }
 
                                 if (creditType.equals("kuali.result.values.group.type.fixed")) {
-                                    credits = credits + resultValues.get(0).substring(33);
+                                    credits.append(resultValues.get(0).substring(33)) ;
                                 } else if (creditType.equals("kuali.result.values.group.type.multiple")) {
                                     boolean firstValue = true;
                                     for (String resultValue : resultValues) {
-                                        credits = credits + (firstValue ? "" :", ")  + resultValue.substring(33);
+                                        credits.append(firstValue ? "" :", ");
+                                        credits.append(resultValue.substring(33));
                                         firstValue = false;
                                     }
                                 } else if (creditType.equals("kuali.result.values.group.type.range")) {
                                     String minCredits = resultComponentInfo.getResultValueRange().getMinValue();
                                     String maxCredits = resultComponentInfo.getResultValueRange().getMaxValue();
-                                    credits += minCredits + " - " + maxCredits;
+                                    credits.append(minCredits);
+                                    credits.append(" - ");
+                                    credits.append(maxCredits);
                                 }
                             }
                         }
@@ -222,7 +226,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                         if (cluInfo.getOfficialIdentifier() != null) {
                             cluInformation.setCode(cluInfo.getOfficialIdentifier().getCode());
                             cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
-                            cluInformation.setCredits(credits);
+                            cluInformation.setCredits(credits.toString());
                         }
                         
                         cluInformation.setType(cluInfo.getTypeKey());
