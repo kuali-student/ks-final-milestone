@@ -315,76 +315,86 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
         String cartItemId = requestHelper.getParamAsString(SearchParameters.CART_ITEM_ID);
 
-        String queryStr =
-                "SELECT " +
-                        "    lprt.id     cartId, " +
-                        "    lprti.ID    cartItemId, " +
-                        "    coId.LUI_CD courseCode, " +
-                        "    co.ID       courseId, " +
-                        "    rg.NAME     rgName, " +
-                        "    ao.NAME     aoName, " +
-//                        "    co.DESCR_FORMATTED, " +
-                        "    ao.LUI_TYPE luiType, " +
-                        "    coId.LNG_NAME coTitle, " +
-                        "    room.ROOM_CD room, " +
-                        "    room2bldg.BUILDING_CD building, " +
-                        "    schedTmslt.WEEKDAYS weekdays, " +
-                        "    schedTmslt.START_TIME_MS startTime, " +
-                        "    schedTmslt.END_TIME_MS endTime, " +
-                        "    credits.RESULT_VAL_GRP_ID credits, " +
-                        "    grading.RESULT_VAL_GRP_ID grading " +
-                        "FROM " +
-                        "    KSEN_LPR_TRANS lprt, " +
-                        "    KSEN_LUI co, " +
-                        "    KSEN_LUI ao, " +
-                        "    KSEN_LUI rg, " +
-                        "    KSEN_LUI_IDENT coId, " +
-                        "    KSEN_LUILUI_RELTN rg2ao, " +
-                        "    KSEN_LUILUI_RELTN fo2rg, " +
-                        "    KSEN_LUILUI_RELTN co2fo, " +
-                        "    KSEN_LUI_SCHEDULE sched, " +
-                        "    KSEN_SCHED_CMP schedCmp, " +
-                        "    KSEN_ROOM room, " +
-                        "    KSEN_ROOM_BUILDING room2bldg, " +
-                        "    KSEN_SCHED_CMP_TMSLOT schedCmpTmslt, " +
-                        "    KSEN_SCHED_TMSLOT schedTmslt, " +
-                        "    KSEN_LPR_TRANS_ITEM lprti " +
-                        "LEFT OUTER JOIN " +
-                        "    KSEN_LPR_TRANS_ITEM_RVG credits " +
-                        "ON " +
-                        "    credits.LPR_TRANS_ITEM_ID = lprti.id " +
-                        "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.result.value.credit.degree.%' " +
-                        "LEFT OUTER JOIN " +
-                        "    KSEN_LPR_TRANS_ITEM_RVG grading " +
-                        "ON " +
-                        "    grading.LPR_TRANS_ITEM_ID = lprti.id " +
-                        "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
-                        "WHERE " +
-                        "    lprt.REQUESTING_PERS_ID = :personId " +
-                        "AND lprt.LPR_TRANS_TYPE='kuali.lpr.trans.type.registration.cart' " +
-                        "AND lprt.ATP_ID = :atpId " +
-                        "AND lprti.LPR_TRANS_ID=lprt.ID " +
-                        "AND rg2ao.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
-                        "AND fo2rg.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.fo2rg' " +
-                        "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
-                        "AND rg2ao.LUI_ID=lprti.NEW_LUI_ID " +
-                        "AND fo2rg.RELATED_LUI_ID = lprti.NEW_LUI_ID " +
-                        "AND co2fo.RELATED_LUI_ID = fo2rg.LUI_ID " +
-                        "AND ao.id = rg2ao.RELATED_LUI_ID " +
-                        "AND co.id = co2fo.LUI_ID " +
-                        "AND rg.id = lprti.NEW_LUI_ID " +
-                        "AND coId.LUI_ID = co.id " +
-                        "AND sched.LUI_ID = ao.ID " +
-                        "AND schedCmp.SCHED_ID = sched.SCHED_ID " +
-                        "AND room.ID = schedCmp.ROOM_ID " +
-                        "AND room2bldg.ID = room.BUILDING_ID " +
-                        "AND schedCmpTmslt.SCHED_CMP_ID = schedCmp.ID " +
-                        "AND schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID " +
-                        (StringUtils.isEmpty(cartItemId)?" ":"AND lprti.ID = :cartItemId ") +
-                        "ORDER BY " +
-                        "    lprt.ID, lprti.ID, " +
-                        "    ao.LUI_TYPE";
-
+        String queryStr ="SELECT " +
+                "    lprt.id                   cartId, " +
+                "    lprti.ID                  cartItemId, " +
+                "    coId.LUI_CD               courseCode, " +
+                "    co.ID                     courseId, " +
+                "    rg.NAME                   rgName, " +
+                "    ao.NAME                   aoName, " +
+                "    ao.LUI_TYPE               luiType, " +
+                "    coId.LNG_NAME             coTitle, " +
+                "    room.ROOM_CD              room, " +
+                "    room2bldg.BUILDING_CD     building, " +
+                "    schedTmslt.WEEKDAYS       weekdays, " +
+                "    schedTmslt.START_TIME_MS  startTime, " +
+                "    schedTmslt.END_TIME_MS    endTime, " +
+                "    credits.RESULT_VAL_GRP_ID credits, " +
+                "    grading.RESULT_VAL_GRP_ID grading " +
+                "FROM " +
+                "    KSEN_LPR_TRANS lprt, " +
+                "    KSEN_LUI co, " +
+                "    KSEN_LUI rg, " +
+                "    KSEN_LUI_IDENT coId, " +
+                "    KSEN_LUILUI_RELTN fo2rg, " +
+                "    KSEN_LUILUI_RELTN co2fo, " +
+                "    KSEN_LUILUI_RELTN rg2ao, " +
+                "    KSEN_LUI ao " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_LUI_SCHEDULE sched " +
+                "ON " +
+                "    sched.LUI_ID = ao.ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_SCHED_CMP schedCmp " +
+                "ON " +
+                "    schedCmp.SCHED_ID = sched.SCHED_ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_ROOM room " +
+                "ON " +
+                "    room.ID = schedCmp.ROOM_ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_ROOM_BUILDING room2bldg " +
+                "ON " +
+                "    room2bldg.ID = room.BUILDING_ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_SCHED_CMP_TMSLOT schedCmpTmslt " +
+                "ON " +
+                "    schedCmpTmslt.SCHED_CMP_ID = schedCmp.ID " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_SCHED_TMSLOT schedTmslt " +
+                "ON " +
+                "    schedTmslt.ID = schedCmpTmslt.TM_SLOT_ID, " +
+                "    KSEN_LPR_TRANS_ITEM lprti " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_LPR_TRANS_ITEM_RVG credits " +
+                "ON " +
+                "    credits.LPR_TRANS_ITEM_ID = lprti.id " +
+                "AND credits.RESULT_VAL_GRP_ID LIKE 'kuali.result.value.credit.degree.%' " +
+                "LEFT OUTER JOIN " +
+                "    KSEN_LPR_TRANS_ITEM_RVG grading " +
+                "ON " +
+                "    grading.LPR_TRANS_ITEM_ID = lprti.id " +
+                "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
+                "WHERE " +
+                "    lprt.REQUESTING_PERS_ID = :personId " +
+                "AND lprt.LPR_TRANS_TYPE='kuali.lpr.trans.type.registration.cart' " +
+                "AND lprt.ATP_ID = :atpId " +
+                "AND lprti.LPR_TRANS_ID=lprt.ID " +
+                "AND rg2ao.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
+                "AND fo2rg.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.fo2rg' " +
+                "AND co2fo.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.deliveredvia.co2fo' " +
+                "AND rg2ao.LUI_ID=lprti.NEW_LUI_ID " +
+                "AND fo2rg.RELATED_LUI_ID = lprti.NEW_LUI_ID " +
+                "AND co2fo.RELATED_LUI_ID = fo2rg.LUI_ID " +
+                "AND ao.id = rg2ao.RELATED_LUI_ID " +
+                "AND co.id = co2fo.LUI_ID " +
+                "AND rg.id = lprti.NEW_LUI_ID " +
+                "AND coId.LUI_ID = co.id " +
+                (StringUtils.isEmpty(cartItemId)?" ":"AND lprti.ID = :cartItemId ") +
+                "ORDER BY " +
+                "    lprt.ID, " +
+                "    lprti.ID, " +
+                "    ao.LUI_TYPE";
 
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.PERSON_ID, personId);

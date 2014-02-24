@@ -559,8 +559,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
             ScheduleTimeResult scheduleTimeResult = new ScheduleTimeResult();
             scheduleTimeResult.setDays(weekdays);
-            scheduleTimeResult.setStartTime(TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs))));
-            scheduleTimeResult.setEndTime(TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs))));
+            scheduleTimeResult.setStartTime(StringUtils.isEmpty(startTimeMs)?"":TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs))));
+            scheduleTimeResult.setEndTime(StringUtils.isEmpty(endTimeMs)?"":TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs))));
             locationTimeResult.setTime(scheduleTimeResult);
 
             aoSched.getActivityOfferingLocationTime().add(locationTimeResult);
