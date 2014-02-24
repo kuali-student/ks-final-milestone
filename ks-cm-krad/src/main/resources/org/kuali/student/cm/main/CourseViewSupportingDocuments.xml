@@ -19,7 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-SupportingDocuments-Section" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-SupportingDocuments-Section" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
         <property name="items">
             <list>
