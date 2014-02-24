@@ -46,6 +46,8 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
     private static final String APPLICATION_VERSION = "application.version";
     private static final String RICE_VERSION = "rice.version";
     private static final String VERSION_ONE = "1.0";
+    // copied from org.kuali.rice.core.impl.datetime.DateTimeServiceImpl
+    private static final String STRING_TO_DATE_FORMATS = "MM/dd/yyyy hh:mm a;MM/dd/yy;MM/dd/yyyy;MM-dd-yy;MM-dd-yyyy;MMddyy;MMMM dd;yyyy;MM/dd/yy HH:mm:ss;MM/dd/yyyy HH:mm:ss;MM-dd-yy HH:mm:ss;MMddyy HH:mm:ss;MMMM dd HH:mm:ss;yyyy HH:mm:ss";
 
     private ApplicationContext applicationContext;
 
@@ -54,6 +56,7 @@ public class SpringConfigurableDataDictionaryWithFakeEnvironment extends DataDic
         config.putProperty(CoreConstants.Config.APPLICATION_ID, MOCK_APP_ID);
         config.putProperty(APPLICATION_VERSION, VERSION_ONE);
         config.putProperty(RICE_VERSION, VERSION_ONE);
+        config.putProperty(CoreConstants.STRING_TO_DATE_FORMATS, STRING_TO_DATE_FORMATS);
         ConfigContext.init(config);
 
         DataDictionaryServiceImpl dataDictionaryService = new DataDictionaryServiceImpl();
