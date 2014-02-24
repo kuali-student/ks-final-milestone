@@ -63,6 +63,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -204,7 +206,7 @@ public class CourseController extends CourseRuleEditorController {
 
             // After creating the document, modify the state
             courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
-            courseInfoWrapper.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+            courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
             courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
 
             courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
@@ -251,7 +253,7 @@ public class CourseController extends CourseRuleEditorController {
             CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceDocForm.getDocument().getNewMaintainableObject().getDataObject();
             // After creating the document, modify the state
             courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
-            courseInfoWrapper.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+            courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
             courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
 
             courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
@@ -511,7 +513,7 @@ public class CourseController extends CourseRuleEditorController {
         
         // Set derived course fields before saving/updating
         courseInfoWrapper.setCourseInfo(calculateCourseDerivedFields(courseInfoWrapper.getCourseInfo()));
-        courseInfoWrapper.setLastUpdated(DateTimeFormat.forPattern("MM/dd/yyyy HH:mm:ss").print(new DateTime()));
+        courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
 
         courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
         for (final KeyValue wrapper : courseInfoWrapper.getUnitsContentOwner()) {
@@ -748,7 +750,7 @@ public class CourseController extends CourseRuleEditorController {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         
-        final String dateStr = DateTimeFormat.forPattern("MMMM dd, yyyy - hh:mmaaa").print(new DateTime());
+        final String dateStr = DateFormatters.MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMATTER.format(new DateTime());
         final Date date = new Date();
         
         // This needs to be looked at when Reference data is retrieved. Lookup what comments are in the DB
@@ -905,7 +907,8 @@ public class CourseController extends CourseRuleEditorController {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
         
-        final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
+        //final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
+        final KSDateTimeFormatter dateFormat = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
 
 		if (commentInfos != null) {
 			for (final CommentInfo commentInfo : commentInfos) {
@@ -918,7 +921,7 @@ public class CourseController extends CourseRuleEditorController {
                     decision.setDecision(drDetails.getLabel());
                     decision.setId(commentInfo.getId());
 
-                    final String rationaleDate = dateFormat.print(new DateTime(commentInfo.getMeta().getCreateTime().getTime()));
+                    final String rationaleDate = dateFormat.format(new DateTime(commentInfo.getMeta().getCreateTime().getTime()));
     				decision.setDate(rationaleDate);
     
     				if (members.get(commentInfo.getMeta().getCreateId()) != null) {
