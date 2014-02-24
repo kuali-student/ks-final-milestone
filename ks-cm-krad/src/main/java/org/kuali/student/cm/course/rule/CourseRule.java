@@ -21,6 +21,7 @@ import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 
@@ -44,11 +45,13 @@ public class CourseRule extends KsMaintenanceDocumentRuleBase {
         CourseInfoWrapper dataObject = (CourseInfoWrapper)maintenanceDocument.getNewMaintainableObject().getDataObject();
 
         if (StringUtils.isBlank(dataObject.getProposalInfo().getName())){
-            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.proposalInfo.name", RiceKeyConstants.ERROR_CUSTOM, "Proposal title required");
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.proposalInfo.name", CurriculumManagementConstants.MessageKeys.ERROR_PROPOSAL_TITLE_REQUIRED);
+            success = false;
         }
 
         if (StringUtils.isBlank(dataObject.getCourseInfo().getCourseTitle())){
-            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.courseInfo.courseTitle", RiceKeyConstants.ERROR_CUSTOM, "Course title required");
+            GlobalVariables.getMessageMap().putError("document.newMaintainableObject.dataObject.courseInfo.courseTitle", CurriculumManagementConstants.MessageKeys.ERROR_COURSE_TITLE_REQUIRED);
+            success = false;
         }
 
         return success;

@@ -29,6 +29,9 @@ public class CurriculumManagementConstants {
         public final static String ERROR_LIST_COLLECTION_IMPLEMENTATIONS_SUPPORTED_FOR_DELETE_INDEX = "list.collection.implementations.supported.for.delete.index";
         public final static String ERROR_GET_INSTRUCTOR_RETURN_MORE_THAN_ONE_RESULT = "get.instructor.return.more.than.one.result";
         public final static String ERROR_LO_CATEGORY_DUPLICATE = "error.learning.objective.category.duplicate";
+
+        public final static String ERROR_COURSE_TITLE_REQUIRED = "error.course.title.required";
+        public final static String ERROR_PROPOSAL_TITLE_REQUIRED = "error.proposal.title.required";
     }
 
     public static class OrganizationMessageKeys{
