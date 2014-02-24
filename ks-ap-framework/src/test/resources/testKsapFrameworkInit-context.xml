@@ -5,6 +5,7 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-test-system-property-configurer.xml" />
 
+    <bean id="fakeEnvResourceLoader" class="org.kuali.student.ap.test.FakeEnvResourceLoader" init-method="init" />
     <bean id="configContext" class="org.kuali.student.common.test.KSTestConfigContextLoader">
         <constructor-arg index="0">
             <list>
