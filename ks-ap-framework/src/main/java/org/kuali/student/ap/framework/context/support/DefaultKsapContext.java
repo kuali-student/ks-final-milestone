@@ -1,9 +1,11 @@
 package org.kuali.student.ap.framework.context.support;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.Date;
-import java.util.Locale;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.student.ap.framework.context.KsapContext;
+import org.kuali.student.ap.i18n.LocaleUtil;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,13 +13,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-
-import org.kuali.student.ap.i18n.LocaleHelper;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.student.ap.framework.context.KsapContext;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Provides minimal context support for interaction with KS services.
@@ -59,7 +58,7 @@ public class DefaultKsapContext implements KsapContext {
                 Locale loc = req.getLocale();
                 //((HttpServletRequest) req).getHeader("ServletRequest.")
                 if (loc != null) {
-                    locInfo = LocaleHelper.locale2LocaleInfo(loc);
+                    locInfo = LocaleUtil.locale2LocaleInfo(loc);
                 }
                 if(principal!=null){
                     String principalName = principal.getName();

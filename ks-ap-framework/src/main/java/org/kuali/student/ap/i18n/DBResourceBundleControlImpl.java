@@ -1,6 +1,7 @@
 package org.kuali.student.ap.i18n;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -25,14 +26,19 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
 
     private static final Logger LOG = Logger.getLogger(DBResourceBundleControlImpl.class);
 
-    private static final String FORMAT_DB = "DB";
+    public static final String FORMAT_DB = "kuali.DB";
+
+    /**
+     * Configuration key to be used when setting TTL for this item to live in the cache
+     */
+    public static final String CONFIG_RESOURCE_BUNDLE_DB_TTL = "ks.ap.ResourceBundle.DB.ttl";
 
     private String messageGroup;
-    private MergedPropertiesResourceBundleImpl parent;
+    private ResourceBundle parent;
     private ContextInfo contextInfo;
     private MessageService messageService;
 
-    public DBResourceBundleControlImpl(String messageGroup, ContextInfo contextInfo, MergedPropertiesResourceBundleImpl parent) {
+    public DBResourceBundleControlImpl(String messageGroup, ContextInfo contextInfo, ResourceBundle parent) {
         this.messageGroup = messageGroup;
         this.parent = parent;
         this.contextInfo = contextInfo;
@@ -56,7 +62,7 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
         if(contextInfo == null){
             contextInfo = new ContextInfo();
         }
-        LocaleInfo localeInfo = LocaleHelper.locale2LocaleInfo(locale);
+        LocaleInfo localeInfo = LocaleUtil.locale2LocaleInfo(locale);
         List<MessageInfo> messages = new ArrayList<MessageInfo>();
         LOG.debug("Attempting to create a DBResourceBundleImpl with locale:" + locale.toString() + " and parent:" + parent);
         try {
@@ -66,11 +72,18 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
         }
 
         for (MessageInfo mi : messages) {
-            LOG.debug(mi.getLocale().toString() + "-" + mi.getMessageKey() + "->" + mi.getValue());
+            LOG.debug(LocaleUtil.localeInfo2Locale(mi.getLocale()).toString() + "-" + mi.getMessageKey() + "->" + mi.getValue());
             p.setProperty(mi.getMessageKey(), mi.getValue());
         }
 
         return new DBResourceBundleImpl(p, locale, parent);
+    }
+
+    @Override
+    public long getTimeToLive(String baseName, Locale locale) {
+        String ttl = ConfigContext.getCurrentContextConfig().getProperty(CONFIG_RESOURCE_BUNDLE_DB_TTL);
+        LOG.debug("Get the TTL for " + baseName + " and '" + locale.toString() + "': " + ttl);
+        return Long.parseLong(ttl);
     }
 
     private MessageService getMessageService() {

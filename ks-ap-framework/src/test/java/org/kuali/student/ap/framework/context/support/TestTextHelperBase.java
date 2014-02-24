@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
  */
 public abstract class TestTextHelperBase {
 
-    private TextHelper th = null;
+    protected TextHelper th = null;
 
     public abstract LocaleInfo getLocaleInfo();
     public abstract String getPrefix();

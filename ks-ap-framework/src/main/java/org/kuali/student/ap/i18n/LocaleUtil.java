@@ -9,7 +9,7 @@ import java.util.Locale;
  * This class allows for easy conversion between {@link Locale} and {@link LocaleInfo}
  * @author Chris Maurer <chmaurer@iu.edu>
  */
-public class LocaleHelper {
+public class LocaleUtil {
 
     public static Locale localeInfo2Locale(LocaleInfo li) {
         if (li == null) {

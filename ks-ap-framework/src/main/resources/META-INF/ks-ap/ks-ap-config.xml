@@ -74,4 +74,7 @@
     <param name="ks.ap.search.division.parse.allowspace">true</param>
 
     <param name="ks.ap.TextHelper.resourceBundleNames" override="true">org.kuali.student.ap.bundles.POCResourceBundleUI</param>
+
+    <!-- TTL in milliseconds -->
+    <param name="ks.ap.ResourceBundle.DB.ttl">3600000</param>
 </config>

@@ -1,5 +1,6 @@
 package org.kuali.student.ap.test.resourceBundles;
 
+import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,8 +8,7 @@ import org.junit.runner.RunWith;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.ap.i18n.DBResourceBundleControlImpl;
-import org.kuali.student.ap.i18n.DBResourceBundleImpl;
-import org.kuali.student.ap.i18n.LocaleHelper;
+import org.kuali.student.ap.i18n.LocaleUtil;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -32,18 +32,25 @@ import static org.junit.Assert.assertNotNull;
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 public class DBResourceBundleTest {
-    DBResourceBundleImpl rb = null;
+    ResourceBundle rb = null;
+
+    private static final Logger LOG = Logger.getLogger(DBResourceBundleTest.class);
 
     @Before
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1", getLocaleInfo());
-        rb = (DBResourceBundleImpl) ResourceBundle.getBundle(DBResourceBundleControlImpl.class.getName(), LocaleHelper.localeInfo2Locale(getLocaleInfo()),
-                new DBResourceBundleControlImpl("ksap", KsapFrameworkServiceLocator.getContext().getContextInfo(), null));
+        rb = initializeResourceBundle();
     }
 
     @After
     public void tearDown() throws Throwable {
         DefaultKsapContext.after();
+    }
+
+    private ResourceBundle initializeResourceBundle() {
+        ResourceBundle rb = ResourceBundle.getBundle(DBResourceBundleControlImpl.class.getName(), LocaleUtil.localeInfo2Locale(getLocaleInfo()),
+                new DBResourceBundleControlImpl("ksap", KsapFrameworkServiceLocator.getContext().getContextInfo(), null));
+        return rb;
     }
 
     private LocaleInfo getLocaleInfo() {
@@ -63,5 +70,24 @@ public class DBResourceBundleTest {
     public void testSimpleTextLookup() throws Exception {
         String value = rb.getString("simpleText");
         assertEquals("Simple Text", value);
+    }
+
+    @Test
+    public void testClearCache() throws Exception {
+        //System.out.println("Begin...");
+        LOG.debug("Begin...");
+        rb = initializeResourceBundle();
+        String value = rb.getString("simpleText");
+        assertEquals("Simple Text", value);
+
+        //Clear the cache
+        ResourceBundle.clearCache();
+        LOG.debug("Cache has been cleared...");
+
+        rb = initializeResourceBundle();
+        //Run test again...
+        value = rb.getString("simpleText");
+        assertEquals("Simple Text", value);
+        LOG.debug("End...");
     }
 }
