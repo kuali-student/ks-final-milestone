@@ -368,7 +368,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                             }
                         }
                     }
-                    hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY)) {
                     studentScheduleCourseResult.setRegGroupCode(luiName);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
@@ -409,8 +408,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         studentScheduleCourseResult.getActivityOfferings().add(activityOffering);
                     }
 
-                    hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
-
                     // adding AOID to the list to search for instructors
                     if (!activityOfferingList.contains(luiId)) {
                         activityOfferingList.add(luiId);
@@ -435,6 +432,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY)) {
                     studentScheduleCourseResult.setRegGroupCode(luiName);
+                    hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
                     StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();
@@ -464,9 +462,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             // Adding all course offerings for the particular term
             if (!hmTerm.containsKey(termId)) {
-                List<String> courseOfferingIds = new ArrayList<String>();
-                courseOfferingIds.add(masterLuiId);
-                hmTerm.put(termId, courseOfferingIds);
+                List<String> masterLuiIds = new ArrayList<String>();
+                masterLuiIds.add(masterLuiId);
+                hmTerm.put(termId, masterLuiIds);
                 TermSearchResult termInfo = new TermSearchResult();
                 termInfo.setTermId(atpId);
                 termInfo.setTermCode(atpCode);
@@ -488,9 +486,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         for (Map.Entry<String, List<String>> pair : hmTerm.entrySet()) {
             List<StudentScheduleCourseResult> studentScheduleCourseResults = new ArrayList<StudentScheduleCourseResult>();
             TermSearchResult termInfo = hmTermInfo.get(pair.getKey());
-            List<String> courseOfferingIds = pair.getValue();
-            for (String courseOfferingId : courseOfferingIds) {
-                StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(courseOfferingId);
+            List<String> masterLuiIds = pair.getValue();
+            for (String masterLuiId : masterLuiIds) {
+                StudentScheduleCourseResult studentScheduleCourseResult = hmCourseOffering.get(masterLuiId);
                 if (studentScheduleCourseResult.getActivityOfferings().size() > 1) {
                     CourseRegistrationAndScheduleOfClassesUtil.sortActivityOfferingReslutList(studentScheduleCourseResult.getActivityOfferings(), contextInfo);
                 }
