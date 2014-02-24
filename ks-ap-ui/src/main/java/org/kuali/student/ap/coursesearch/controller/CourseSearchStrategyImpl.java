@@ -427,14 +427,9 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
     private List<String> getTermsToFilterOn(String termFilter){
         List<String> termsToFilterOn = new ArrayList<String>();
-        if(termFilter.equals(CourseSearchForm.SEARCH_TERM_ANY_ITEM)){
-            termsToFilterOn.add("ANY");
-        }
 
-        // Build list of valid terms based on the filter
-
-        else if(termFilter.equals(CourseSearchForm.SEARCH_TERM_SCHEDULED)){
-            // Any Scheduled term selected
+        if(termFilter.equals(CourseSearchForm.SEARCH_TERM_ANY_ITEM) || termFilter.equals(CourseSearchForm.SEARCH_TERM_SCHEDULED)){
+            // Any Term or Any Scheduled term selected
             List<Term> terms = new ArrayList<Term>();
             List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
             List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
