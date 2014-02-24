@@ -870,6 +870,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             if (courseStatusMap.containsKey(courseId)) {
                 course.setStatus(courseStatusMap.get(courseId));
             }
+            course.setSessionid(form.getSessionId());
             courseList.add(course);
             if (courseList.size() >= maxCount) {
                 break;

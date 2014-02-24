@@ -1553,6 +1553,9 @@ table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
     -ms-text-overflow: ellipsis;
     width: 160px;
 }
+table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis:visited{
+    color: #3355a6;
+}
 
 table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.scheduled {
     min-width: 110px;

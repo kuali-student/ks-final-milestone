@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -64,8 +65,6 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	private List<String> termInfoList;
 
-	private List<String> keywords;
-
     private List<String> campuses;
 
 	/**
@@ -82,6 +81,8 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 * Lazy initialized column data for supporting server side result caching.
 	 */
 	private transient FacetIndex facetColumns;
+
+    private String sessionid;
 
 	public String getCourseId() {
 		return courseId;
@@ -419,7 +420,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 	 * @return Additional GET parameters to send on the course inquiry link.
 	 */
 	protected Map<String, String> getInquiryParams() {
-		return Collections.emptyMap();
+		return new HashMap<String,String>();
 	}
 
 	/**
@@ -439,6 +440,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			throw new IllegalStateException("UTF-8 is unsupported", e);
 		}
 		Map<String, String> ap = getInquiryParams();
+        ap.put("sid",sessionid);
 		if (ap != null)
 			for (Entry<String, String> e : ap.entrySet())
 				try {
@@ -571,4 +573,11 @@ public class CourseSearchItemImpl implements CourseSearchItem {
         return campusBuilder.toString();
     }
 
+    public String getSessionid() {
+        return sessionid;
+    }
+
+    public void setSessionid(String sessionid) {
+        this.sessionid = sessionid;
+    }
 }
