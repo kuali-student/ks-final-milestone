@@ -367,6 +367,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         }
                     }
                     hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY)) {
+                    studentScheduleCourseResult.setRegGroupCode(luiName);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     // Scheduling info
                     ActivityOfferingScheduleComponentResult scheduleComponent = CourseRegistrationAndScheduleOfClassesUtil.getActivityOfferingScheduleComponent(roomCode, buildingCode,
@@ -429,6 +431,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                         }
                     }
                     hmCourseOffering.put(masterLuiId, studentScheduleCourseResult);
+                } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_RG_TYPE_KEY)) {
+                    studentScheduleCourseResult.setRegGroupCode(luiName);
                 } else if (StringUtils.equals(personLuiType, LprServiceConstants.REGISTRANT_AO_TYPE_KEY)) {
                     List<StudentScheduleActivityOfferingResult> activityOfferings = new ArrayList<StudentScheduleActivityOfferingResult>();
                     StudentScheduleActivityOfferingResult activityOffering = new StudentScheduleActivityOfferingResult();

@@ -18,6 +18,7 @@ public class StudentScheduleCourseResult {
     private String description;
     private String credits;
     private String longName;
+    private String regGroupCode;
     private List<String> creditOptions;
     private Map<String, String> gradingOptions;
     private List<StudentScheduleActivityOfferingResult> activityOfferings;
@@ -64,6 +65,10 @@ public class StudentScheduleCourseResult {
     public void setLongName(String longName) {
         this.longName = longName;
     }
+
+    public String getRegGroupCode() { return regGroupCode; }
+
+    public void setRegGroupCode(String regGroupCode) { this.regGroupCode = regGroupCode; }
 
     public List<String> getCreditOptions() {
         if(creditOptions == null){
