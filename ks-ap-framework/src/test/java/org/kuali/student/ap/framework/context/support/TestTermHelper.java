@@ -46,7 +46,8 @@ public class TestTermHelper {
 
     private void loadData() throws Exception {
         TermAndCalDataLoader loader = new TermAndCalDataLoader(KsapFrameworkServiceLocator.getAtpService(),
-                KsapFrameworkServiceLocator.getAcademicCalendarService(), KsapFrameworkServiceLocator.getCourseOfferingSetService());
+                KsapFrameworkServiceLocator.getAcademicCalendarService(), KsapFrameworkServiceLocator.getCourseOfferingSetService(),
+                KsapFrameworkServiceLocator.getTypeService());
         loader.loadData();
     }
 

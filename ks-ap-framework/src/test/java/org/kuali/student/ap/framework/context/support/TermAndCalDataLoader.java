@@ -50,13 +50,6 @@ public class TermAndCalDataLoader {
 
     }
 
-    public TermAndCalDataLoader(AtpService atpService, AcademicCalendarService acalService, CourseOfferingSetService courseOfferingSetService) {
-        this.atpService = atpService;
-        this.acalService = acalService;
-        this.courseOfferingSetService = courseOfferingSetService;
-        this.typeService = null;
-    }
-
     public TermAndCalDataLoader(AtpService atpService, AcademicCalendarService acalService, CourseOfferingSetService courseOfferingSetService, TypeService typeService) {
         this.atpService = atpService;
         this.acalService = acalService;
