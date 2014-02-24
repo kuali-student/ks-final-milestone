@@ -440,6 +440,8 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 			throw new IllegalStateException("UTF-8 is unsupported", e);
 		}
 		Map<String, String> ap = getInquiryParams();
+        // Only send part of the session id to create session specific link for security
+        String sid = sessionid.substring(0,sessionid.length()/2);
         ap.put("sid",sessionid);
 		if (ap != null)
 			for (Entry<String, String> e : ap.entrySet())
