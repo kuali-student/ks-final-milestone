@@ -12,7 +12,7 @@
                 <ng-pluralize count="course.credits"
                               when="{'1'    : '{} credit',
                                      'other': '{} credits'}">
-                </ng-pluralize>
+                </ng-pluralize>, {{course.gradingOptions[course.gradingOptionId]}}
             </div>
 
             <!--Course Header Section-->
@@ -28,7 +28,7 @@
             <!--course time, day, building-->
             <div ng-repeat="ao in course.activityOfferings">
                       <span class="kscr-register-courseTimes">
-                        <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{ao.activityOfferingTypeShortName}} - </div>
+                        <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{ao.activityOfferingTypeShortName}} &nbsp;</div>
                             <div ng-repeat='scheduleComponent in ao.scheduleComponents'>{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
                                 {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
                             </div>

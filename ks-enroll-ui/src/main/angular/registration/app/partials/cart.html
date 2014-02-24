@@ -1,6 +1,17 @@
 
 <div class="kscr-cart-header">
-    <h1 class="kscr-cart-main-heading kscr-main-heading"><strong>MY CART</strong> <span id="credit_count_title" class="kscr-support-heading">({{creditTotal}} credits)</span> </h1>
+    <h1 class="kscr-cart-main-heading kscr-main-heading"><strong>MY CART</strong>
+        <span id="credit_count_title" class="kscr-support-heading">
+            <ng-pluralize count="cart.items.length"
+                          when="{'1'    : '{} course',
+                                     'other': '{} courses'}">
+            </ng-pluralize>
+            (
+            <ng-pluralize count="creditTotal"
+                          when="{'1'    : '{} credit',
+                                     'other': '{} credits'}">
+            </ng-pluralize>
+            )</span> </h1>
 </div>
 
 <div>
@@ -36,7 +47,7 @@
 </div>
 
 <div class="kscr-register-subHeader kscr-sub-heading">
-    <span><strong>REGISTER FOR </strong><span id="credit_count_register_for_header" class="pull-right kscr-support-heading">{{cart.items.length}} credits</span> </span>
+    <span><strong>REGISTER FOR </strong></span>
 </div>
 
 <!--Alert message-->
@@ -70,7 +81,7 @@
                 <!--course time, day, building-->
                 <div ng-repeat="item in cartItem.schedule">
                       <span class="kscr-register-courseTimes">
-                        <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{item.activityOfferingType}} </div>
+                        <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{item.activityOfferingType}}&nbsp;</div>
                             <div ng-repeat='scheduleItem in item.activityOfferingLocationTime'>{{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}
                                 {{scheduleItem.location.building}} {{scheduleItem.location.room}}
                             </div>
