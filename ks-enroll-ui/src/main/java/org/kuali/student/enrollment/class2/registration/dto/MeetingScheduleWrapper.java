@@ -88,12 +88,14 @@ public class MeetingScheduleWrapper implements Serializable {
     }
 
     public String getJsScheduleObject() {
-        String daysArray = "[";
+        StringBuffer scheduleString = new StringBuffer("[");
         //FindBugs - it is fine as is
         for (String day : getDays()) {
-            daysArray = daysArray + "'" + day + "',";
+            scheduleString.append("'");
+            scheduleString.append(day) ;
+            scheduleString.append("',");
         }
-        daysArray = StringUtils.removeEnd(daysArray, ",") + "]";
+        String daysArray = StringUtils.removeEnd(scheduleString.toString(), ",") + "]";
         String st = startTime.trim();
         String et = endTime.trim();
         if (st.length() == 3) {

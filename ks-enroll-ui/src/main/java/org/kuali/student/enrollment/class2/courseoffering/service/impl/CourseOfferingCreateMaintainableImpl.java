@@ -319,10 +319,13 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             // Check authz
             List<String> orgIds = jointCourse.getUnitsContentOwner();
             if(orgIds != null && !orgIds.isEmpty()){
-                String orgIDs = "";
+                StringBuffer orgIDBuffer = new StringBuffer("");
                 for (String orgId : orgIds) {
-                    orgIDs = orgIDs + orgId + ",";
+                    orgIDBuffer.append(orgId);
+                    orgIDBuffer.append(",");
                 }
+                String orgIDs = orgIDBuffer.toString();
+
                 if (orgIDs.length() > 0) {
                     roleQualifications.put("offeringAdminOrgId", orgIDs.substring(0, orgIDs.length() - 1));
                 }
