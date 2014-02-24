@@ -46,7 +46,7 @@ public class CurriculumManagementConstants {
     public final static String ORG_SEARCH_GENERIC = "org.search.generic";
 
     public final static String KS_LO_CAT_TABLE = "KS-LoCatTable";
-    public final static String ERROR_CM_KRAD_LOCAT_DUPLICATE = "error.cmkrad.locat.duplicate";
+    public final static String ERROR_LO_CATEGORY_DUPLICATE = "error.learning.objective.category.duplicate";
 
 
 }
