@@ -21,23 +21,9 @@ angular.module('regCartApp')
         $scope.termId = 'kuali.atp.2012Spring';
         TermsService.setTermId($scope.termId);
 
-        $scope.schedules = ScheduleService.getScheduleFromServer().query({ userId:'admin', termId:TermsService.getTermId() }, function (result) {
-            console.log('called rest service to get schedule data');
-            var creditCount = 0;
-            var courses = 0;
-            angular.forEach(result, function (schedule) {
-                angular.forEach(schedule.courseOfferings, function (course) {
-                    creditCount += parseFloat(course.credits);
-                    courses++;
-                });
-            });
-
-            ScheduleService.setRegisteredCourseCount(courses);
-            ScheduleService.setRegisteredCredits(creditCount);
-            ScheduleService.setStudentSchedule(result);
-
-        });
-        $scope.registeredCredits = ScheduleService.getRegisteredCredits;
-        $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
+        ScheduleService.populateSchedule('admin', TermsService.getTermId());
+        $scope.schedules = ScheduleService.getStudentSchedule();
+        $scope.registeredCredits = ScheduleService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
+        $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
 
     });
