@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('CartCtrl',
-    function ($scope, $modal, CartService) {
+    function ($scope, $modal, CartService, ScheduleService) {
         console.log('CartController!');
         console.log($scope.termId);
         $scope.oneAtATime = false;
@@ -191,6 +191,9 @@ angular.module('regCartApp')
         $scope.$watchCollection('cart.items', function() {
             $scope.creditTotal = creditTotal();
         });
+
+
+
     });
 
 

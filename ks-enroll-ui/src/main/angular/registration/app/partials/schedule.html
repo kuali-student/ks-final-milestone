@@ -14,9 +14,12 @@
         <ul>
             <div ng-repeat="ao in course.activityOfferings" class="util-Grid">
                 <div class="util-Grid-cell">{{ao.activityOfferingTypeShortName}}</div>
-                <div ng-repeat="scheduleComponent in ao.scheduleComponents">
-                    {{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
-                    {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
+                <div class="util-Grid-cell" ng-bind-html="ao.schedule | meetingTimes"></div>
+                <div class="util-Grid-cell">
+                    <div ng-repeat="scheduleComponent in ao.scheduleComponents">
+                        <div class="util-Grid-cell">{{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}</div>
+                        <div class="util-Grid-cell">{{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}</div>
+                    </div>
                 </div>
             </div>
         </ul>
