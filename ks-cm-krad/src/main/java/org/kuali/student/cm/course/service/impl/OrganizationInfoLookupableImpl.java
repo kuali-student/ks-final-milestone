@@ -20,7 +20,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -71,20 +71,20 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         
         if (StringUtils.isNotBlank(id)) {
             final SearchParamInfo idParam = new SearchParamInfo();
-            idParam.setKey(CurriculumManagementConstants.ORG_QUERY_PARAM_OPTIONAL_ID);
+            idParam.setKey(CurriculumManagementConstants.OrganizationMessageKeys.ORG_QUERY_PARAM_OPTIONAL_ID);
             idParam.getValues().add(id);
             queryParamValueList.add(idParam);
         }
         if (StringUtils.isNotBlank(organizationName)) {
             final SearchParamInfo displayNameParam = new SearchParamInfo();
-            displayNameParam.setKey(CurriculumManagementConstants.ORG_QUERY_PARAM_OPTIONAL_LONG_NAME);
+            displayNameParam.setKey(CurriculumManagementConstants.OrganizationMessageKeys.ORG_QUERY_PARAM_OPTIONAL_LONG_NAME);
             displayNameParam.getValues().add(organizationName);
             queryParamValueList.add(displayNameParam);
         }
 
         if (StringUtils.isNotBlank(shortName)) {
             final SearchParamInfo shortNameParam = new SearchParamInfo();
-            shortNameParam.setKey(CurriculumManagementConstants.ORG_QUERY_PARAM_OPTIONAL_SHORT_NAME);
+            shortNameParam.setKey(CurriculumManagementConstants.OrganizationMessageKeys.ORG_QUERY_PARAM_OPTIONAL_SHORT_NAME);
             shortNameParam.getValues().add(shortName);
             queryParamValueList.add(shortNameParam);
         }
@@ -92,11 +92,11 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         info("Searching for %s", queryParamValueList);
 
         final SearchRequestInfo searchRequest = new SearchRequestInfo();
-        searchRequest.setSearchKey(CurriculumManagementConstants.ORG_SEARCH_GENERIC);
+        searchRequest.setSearchKey(CurriculumManagementConstants.OrganizationMessageKeys.ORG_SEARCH_GENERIC);
         searchRequest.setParams(queryParamValueList);
         searchRequest.setStartAt(0);
         searchRequest.setNeededTotalResults(false);
-        searchRequest.setSortColumn(CurriculumManagementConstants.ORG_RESULT_COLUMN_OPTIONAL_ID);
+        searchRequest.setSortColumn(CurriculumManagementConstants.OrganizationMessageKeys.ORG_RESULT_COLUMN_OPTIONAL_ID);
 
         SearchResultInfo searchResult = null;
         try {
@@ -112,13 +112,13 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
                 debug("Got key %s", cell.getKey());
                 debug("Got value %s", cell.getValue());
                 
-                if ((CurriculumManagementConstants.ORG_RESULT_COLUMN_ID).equals(cell.getKey())) {
+                if ((CurriculumManagementConstants.OrganizationMessageKeys.ORG_RESULT_COLUMN_ID).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setId(cell.getValue());
                 } 
-                else if ((CurriculumManagementConstants.ORG_RESULT_COLUMN_OPTIONAL_LONG_NAME).equals(cell.getKey())) {
+                else if ((CurriculumManagementConstants.OrganizationMessageKeys.ORG_RESULT_COLUMN_OPTIONAL_LONG_NAME).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setOrganizationName(cell.getValue());
                 } 
-                else if ((CurriculumManagementConstants.ORG_RESULT_COLUMN_SHORT_NAME).equals(cell.getKey())) {
+                else if ((CurriculumManagementConstants.OrganizationMessageKeys.ORG_RESULT_COLUMN_SHORT_NAME).equals(cell.getKey())) {
                     cluOrgInfoDisplay.setAbbreviation(cell.getValue());
                 }
             }

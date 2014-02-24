@@ -56,7 +56,7 @@ import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
-import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -234,7 +234,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                     }
                 }
             } else {
-                error(CurriculumManagementConstants.ConfigProperties.GET_INSTRUCTOR_RETURN_MORE_THAN_ONE_RESULT);
+                error(CurriculumManagementConstants.MessageKeys.ERROR_GET_INSTRUCTOR_RETURN_MORE_THAN_ONE_RESULT);
             }
         } catch (Exception e) {
             error("An error occurred in the getInstructor method. %s", e.getMessage());

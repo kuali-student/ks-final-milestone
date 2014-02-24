@@ -20,7 +20,6 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
-import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.lum.lu.ui.course.keyvalues.CourseJointKeyValuesFinder.SearchByKeys;
 import org.kuali.student.r2.common.dto.RichTextInfo;

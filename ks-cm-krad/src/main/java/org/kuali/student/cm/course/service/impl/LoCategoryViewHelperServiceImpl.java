@@ -8,7 +8,7 @@ import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.util.ContextUtils;
@@ -35,7 +35,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                     ContextUtils.getContextInfo());
             BeanUtils.copyProperties(loCategory, savedLoCat);
         } catch (DataValidationErrorException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.ERROR_LO_CATEGORY_DUPLICATE);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
         } catch (Exception e) {
             FormattedLogger.error("An error occurred while trying to create a new Learning Objective Category: %s",
                     e.getMessage());
@@ -52,7 +52,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                     ContextUtils.getContextInfo());
             BeanUtils.copyProperties(loCategory, updatedLoCat);
         } catch (DataValidationErrorException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.ERROR_LO_CATEGORY_DUPLICATE);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.MessageKeys.ERROR_LO_CATEGORY_DUPLICATE);
         } catch (Exception e) {
             FormattedLogger.error("An error occurred while updating the Learning Objective Category: %s",
                     e.getMessage());
@@ -73,13 +73,13 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
         // get the collection group from the view
         CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
         if (collectionGroup == null) {
-            logAndThrowRuntime(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_GET_COLLECTION_GROUP + collectionPath);
+            logAndThrowRuntime(CurriculumManagementConstants.MessageKeys.ERROR_UNABLE_TO_GET_COLLECTION_GROUP + collectionPath);
         }
 
         // get the collection instance for adding the new line
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
         if (collection == null) {
-            logAndThrowRuntime(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_GET_COLLECTION_PROPERTY + collectionPath);
+            logAndThrowRuntime(CurriculumManagementConstants.MessageKeys.ERROR_UNABLE_TO_GET_COLLECTION_PROPERTY + collectionPath);
         }
 
         // TODO: look into other ways of identifying a line so we can deal with
@@ -102,7 +102,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                 processAfterDeleteLine(view, collectionGroup, model, lineIndex);
             }
         } else {
-            logAndThrowRuntime(CurriculumManagementConstants.ConfigProperties.LIST_COLLECTION_IMPLEMENTATIONS_SUPPORTED_FOR_DELETE_INDEX);
+            logAndThrowRuntime(CurriculumManagementConstants.MessageKeys.ERROR_LIST_COLLECTION_IMPLEMENTATIONS_SUPPORTED_FOR_DELETE_INDEX);
         }
     }
 
