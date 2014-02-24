@@ -112,7 +112,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.gradingOptions" p:showLabel="false" p:required="true">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.gradingOptions" p:showLabel="false">
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>

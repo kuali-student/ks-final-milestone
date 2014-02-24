@@ -57,7 +57,7 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
             </list>
         </property>
-        <property name="stateMapping">
+        <!--<property name="stateMapping">
             <bean parent="WorkflowStateMapping">
                 <property name="customClientSideValidationStates">
                     <map>
@@ -65,7 +65,7 @@
                     </map>
                 </property>
             </bean>
-        </property>
+        </property>-->
         <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist});"/>
         <property name="dialogs">
             <list>
@@ -106,6 +106,7 @@
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
         <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
+        <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>
         <property name="lockingKeys">
             <list>
                 <value>courseInfo.id</value>
@@ -118,6 +119,7 @@
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.create.admin"/>
         <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
+        <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>
         <property name="lockingKeys">
             <list>
                 <value>courseInfo.id</value>
