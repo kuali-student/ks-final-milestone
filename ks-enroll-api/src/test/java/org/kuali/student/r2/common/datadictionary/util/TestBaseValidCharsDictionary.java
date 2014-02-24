@@ -424,7 +424,9 @@ public class TestBaseValidCharsDictionary {
 
         // If you get this error -- don't just change the number
         // also add a unit test for new valid chars definition that you must have added into the base dictionary!
-        assertEquals(14, vccs.size());
+        // TODO: KSENROLL-11999 need more assertions now that org/kuali/rice/krad/datadictionary/DataDictionaryBaseTypes.xml
+        // has exposed more prototype-scoped beans
+        assertEquals(38, vccs.size());
     }
 }
 
