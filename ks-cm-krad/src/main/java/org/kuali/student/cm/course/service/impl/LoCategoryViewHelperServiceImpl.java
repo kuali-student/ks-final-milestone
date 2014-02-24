@@ -24,9 +24,6 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
 
     private transient LearningObjectiveService loService;
     public final String ACTIVE = "Active";
-    public final String KS_LO_CAT_TABLE = "KS-LoCatTable";
-    public final String ERROR_CM_KRAD_LOCAT_DUPLICATE = "error.cmkrad.locat.duplicate";
-
 
     @Override
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
@@ -38,7 +35,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                     ContextUtils.getContextInfo());
             BeanUtils.copyProperties(loCategory, savedLoCat);
         } catch (DataValidationErrorException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId("KS-LoCatTable", "error.cmkrad.locat.duplicate");
+            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.ERROR_CM_KRAD_LOCAT_DUPLICATE);
         } catch (Exception e) {
             FormattedLogger.error("An error occurred while trying to create a new Learning Objective Category: %s",
                     e.getMessage());
@@ -55,7 +52,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                     ContextUtils.getContextInfo());
             BeanUtils.copyProperties(loCategory, updatedLoCat);
         } catch (DataValidationErrorException e) {
-            GlobalVariables.getMessageMap().putErrorForSectionId("KS-LoCatTable", "error.cmkrad.locat.duplicate");
+            GlobalVariables.getMessageMap().putErrorForSectionId(CurriculumManagementConstants.KS_LO_CAT_TABLE, CurriculumManagementConstants.ERROR_CM_KRAD_LOCAT_DUPLICATE);
         } catch (Exception e) {
             FormattedLogger.error("An error occurred while updating the Learning Objective Category: %s",
                     e.getMessage());
