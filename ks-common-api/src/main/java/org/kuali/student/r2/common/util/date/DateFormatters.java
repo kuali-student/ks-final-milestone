@@ -42,7 +42,7 @@ public class DateFormatters {
     public static final String DEFAULT_MONTH_YEAR_TIME_DATE_FORMAT = "MM-dd-yyyy hh:mm a";            // 11-08-2012 02:52 pm
     public static final String DEFAULT_YEAR_MONTH_24HOUR_MILLISECONDS_FORMAT = "yyyy-MM-dd HH:mm:ss.S";                  // 2012-08-11 02:52:26.9
     public static final String QUERY_SERVICE_TIMESTAMP_FORMAT = "EEE MMM dd hh:mm:ss zzz yyyy";
-    public static final String MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMAT = "MMMM dd, yyyy - hh:mmaaa";
+    public static final String MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMAT = "MMMM dd, yyyy - hh:mmaaa";    //February 24, 2014 - 05:55PM
 
     /**
      * DO NOT USE THIS CONSTANT unless you absolutely have to and for Date->String only.
