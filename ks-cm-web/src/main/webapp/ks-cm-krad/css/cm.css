@@ -150,34 +150,75 @@
 }
 
 
-/* Create Course tab styling */
-#course_tabs_tabs .ui-tabs, #course_tabs_tabs .ui-tabs-nav {
-    margin: 0px;
-    padding: .5em 0;
+/*
+ *   Create Course tab styling
+ */
+#course_tabs_tabs .ui-tabs-nav {
+    margin-left: 2px;
+    font-family: 'ralewayregular', sans-serif;
 }
-/*  Move the content down to align with the tab panel */
-#course_tabs_tabs .ui-tabs, #course_tabs_tabs .ui-tabs-panel {
-    margin-top: 7px;
+
+#course_tabs_tabs .ui-tabs-panel {
+    border: 0;  /* Remove the border/line from the top of the sections */
 }
-/* Make the action links in the tab panel extend all the way across */
-#course_tabs_tabs .ui-tabs-nav li.ui-state-active a, #course_tabs_tabs .ui-tabs-nav li.ui-state-default a {
-    width: 85%;
+
+ #course_tabs_tabs .ui-tabs-nav li {
+    /* Make the left corners round the the right ones square*/
+	-moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-topright: 0px;
+
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 0px;
+	-webkit-border-top-right-radius: 0px;
+}
+
+#course_tabs_tabs .ui-tabs-nav li.ui-state-active a,
+#course_tabs_tabs .ui-tabs-nav li.ui-state-default a {
+    width: 91%;  /* Make the action links in the tab panel extend all the way across */
+	color: #000000;
+	padding-top: 6px;
+	padding-right: 0;
+	padding-bottom: 6px;
+	padding-left: 15px;
+
+    /* Make the left corners round the the right ones square*/
+    -moz-border-radius-bottomleft: 5px;
+    -moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-topright: 0px;
+
+	-webkit-border-bottom-left-radius: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-right-radius: 0px;
+	-webkit-border-top-right-radius: 0px;
+}
+
+/* Make the bottom border of the last tab item more substantial */
+#course_tabs_tabs .ui-tabs-nav li:last-child a {
+    border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-color: #bbbbbb;
+}
+
+/* The tab content sections have this class */
+.create_course_tab_section {
+    padding: 0 0 10px 10px;
 }
 
 #course_tabs_tabs a {
     cursor: pointer;
 }
 
+/*  Used to keep all of the tabs/sections visible in Curriculum Speicalist mode */
 .never_hide {
     display: block !important;
 }
 
-/* css class flag to toggle the widget */
-.admin-not-required-field {
-
-}
-
-/* css class flag to toggle the widget */
-.hide-when-show-all-fields {
-
+/* Validations icons on the tab items need to float right. */
+#course_tabs_tabs .uif-validationImage {
+	float: right;
+	padding-right: 5px;
 }

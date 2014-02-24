@@ -49,7 +49,7 @@ function onCourseLoad(isCurriculumSpecialist) {
         jQuery(window).scroll(function() {
             jQuery("div[data-type='TabWrapper']").each(function() {
                 var tab = this;
-                if (isMidway(tab) && focusedTab !== tab) {
+                if (isAboveFocusPoint(tab) && focusedTab !== tab) {
                     focusedTab = tab;
                     jQuery(tabPanelId).tabs("select", "#" + tab.id);
                     return false;
@@ -60,16 +60,17 @@ function onCourseLoad(isCurriculumSpecialist) {
 }
 
 /**
- * Determine if an element is on the screen and above the mid point.
+ * Determine if an element is on the screen and above a particular point (the focus point).
  * @param e The element to test.
- * @returns {boolean} True is the element is on the screen and above the mid point. Otherwise, false.
+ * @returns {boolean} True is the element is on the screen and above the focus point. Otherwise, false.
  */
-function isMidway(e) {
+function isAboveFocusPoint(e) {
     var docViewTop = jQuery(window).scrollTop();
-    var mid = docViewTop + (jQuery(window).height() / 2);
+    //var mid = docViewTop + (jQuery(window).height() * .4);
+    var focusPoint = docViewTop + 20;
     var elemTop = jQuery(e).offset().top;
     var elemBottom = elemTop + jQuery(e).height();
-    return elemTop <= mid && elemBottom >= mid;
+    return elemTop <= focusPoint && elemBottom >= focusPoint;
 }
 
 function onCourseCancel(){

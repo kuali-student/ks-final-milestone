@@ -125,7 +125,13 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true" />
+    <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>create_course_tab_section</value>
+            </list>
+        </property>
+    </bean>
 
     <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true" />
 
