@@ -2,38 +2,74 @@
  * SCRIPT METHODS USED BY MULTIPLE .JS FILES
  */
 
+/*
+ * Used to keep track of the currently selected tab when scrolling in Curriculum Specialist view.
+ */
+var focusedTab;
+
 function onCourseLoad(isCurriculumSpecialist) {
     //  Make the tab panel fixed/sticky.
     jQuery("#course_tabs_tabList").css("position", "fixed");
 
     /**
-     *  Hacks for single-page view
+     *  Hacks for Curriculum Specialist single-page view.
      */
     if (isCurriculumSpecialist) {
-        //  Don't allow the tabs to be hidden.
+        var tabPanelId = "#course_tabs_tabs";
+
+        //  Add a CSS class that prevents the tabs from being hidden.
         jQuery("div[data-type='TabWrapper']").addClass('never_hide');
 
         //  Register a handler for tab clicks
-        jQuery("#course_tabs_tabs" ).on( "tabsactivate",
-            function( event, ui ) {
+        jQuery(tabPanelId).on( "tabsactivate",
+            function(event, ui) {
                 //  Find the id of the section corresponding to the clicked tab.
-                var sectionId = ui.newPanel.attr('id').replace('_tab','');
-                sectionId = "#" + sectionId;
+                var sectionId = "#" + ui.newPanel.attr('id').replace('_tab','');
 
-                 //  Give focus to the first input widget. Had problems doing this after the scroll.
-                jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
-
-                //  Scroll the window to the section
-                jQuery('html,body').animate({
-                    scrollTop: jQuery(sectionId).offset().top
-                }, 1000);
+                /*
+                 * Only scroll and change focused widget if the tab was activated by a mouse click.
+                 * Tabs can also be activated when the window is scrolled by the user.
+                 */
+                if ( typeof event.originalEvent.originalEvent !== 'undefined'
+                        && event.originalEvent.originalEvent.type == "click") {
+                    //  Give focus to the first input widget. Had problems doing this after the scroll.
+                    jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
+                    //  Scroll to the selected tab.
+                    jQuery('html,body').animate({
+                        scrollTop: jQuery(sectionId).offset().top
+                    }, 750);
+                }
             }
         );
+
+        /*
+         * When the window is scrolled, once a tab has passed the midway point in the window select/activate it.
+         * This will cause the 'tabsactivate' handler above to get called.
+         */
+        jQuery(window).scroll(function() {
+            jQuery("div[data-type='TabWrapper']").each(function() {
+                var tab = this;
+                if (isMidway(tab) && focusedTab !== tab) {
+                    focusedTab = tab;
+                    jQuery(tabPanelId).tabs("select", "#" + tab.id);
+                    return false;
+                }
+            });
+        });
     }
 }
 
-function scrollToCourseSection(divId){
-    jQuery(document).scrollTop( jQuery("#" + divId).offset().top );
+/**
+ * Determine if an element is on the screen and above the mid point.
+ * @param e The element to test.
+ * @returns {boolean} True is the element is on the screen and above the mid point. Otherwise, false.
+ */
+function isMidway(e) {
+    var docViewTop = jQuery(window).scrollTop();
+    var mid = docViewTop + (jQuery(window).height() / 2);
+    var elemTop = jQuery(e).offset().top;
+    var elemBottom = elemTop + jQuery(e).height();
+    return elemTop <= mid && elemBottom >= mid;
 }
 
 function onCourseCancel(){
