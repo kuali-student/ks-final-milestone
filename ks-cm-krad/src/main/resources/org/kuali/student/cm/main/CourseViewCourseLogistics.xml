@@ -92,7 +92,7 @@
     <bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets"
           parent="Uif-VerticalBoxSection" p:headerText="Grades/Assessments">
         <property name="help">
-            <bean parent="Uif-Help"
+            <bean parent="Uif-KS-Help"
                   p:tooltipHelpContent="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
  						A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
  						Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
