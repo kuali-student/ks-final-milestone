@@ -17,7 +17,6 @@
 package org.kuali.student.cm.course.rule;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.document.Document;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -26,7 +25,7 @@ import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.common.uif.rule.KsMaintenanceDocumentRuleBase;
 
 /**
- * This class //TODO ...
+ * This class contains all the course creation business rules
  *
  * @author Kuali Student Team
  */
