@@ -21,6 +21,21 @@
 
     <bean id="KS-CourseView-SupportingDocuments-Section" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Supporting Documents"/>
+        <property name="header">
+            <bean parent="KS-CourseView-TooltipHeader">
+                <property name="rightGroup.items">
+                    <list>
+                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                            <property name="style" value="margin-left:5px;"/>
+                            <property name="toolTip">
+                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="Files that will be submitted
+                                                  with the Course Proposal that support it."/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
         <property name="items">
             <list>
                 <ref bean="SupportingDocuments-NoRequiredMessageLink" />
@@ -43,11 +58,11 @@
         <property name="addLineLabel.messageText" value="Add a Supporting Document" />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="Document @{(#index + 1)}" />
-        <property name="help">
+        <!--<property name="help">
             <bean parent="Uif-KS-Help"
                   p:tooltipHelpContent="Files that will be submitted
 				  with the Course Proposal that support it." />
-        </property>
+        </property> -->
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>

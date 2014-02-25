@@ -492,6 +492,7 @@
     <bean id="KS-CourseView-TooltipHeader" parent="Uif-SectionHeader">
         <property name="rightGroup">
             <bean parent="Uif-HeaderRightGroup">
+                <property name="style" value="position:initial;float:left;"/>
             </bean>
         </property>
         <property name="headerTagStyle" value="float:left;"/>

@@ -111,7 +111,8 @@
             <bean parent="KS-CourseView-TooltipHeader">
                 <property name="rightGroup.items">
                     <list>
-                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/info.png">
+                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                            <property name="style" value="margin-left:5px;"/>
                             <property name="toolTip">
                                 <bean parent="Uif-KS-Tooltip" p:tooltipContent="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
                             </property>

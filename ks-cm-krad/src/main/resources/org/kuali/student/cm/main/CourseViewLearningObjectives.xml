@@ -121,54 +121,65 @@
 					<property name="addLineLabel.render" value="false" />
 					<property name="items">
 						<list>
-							<bean parent="Uif-InputField-LabelTop" p:label="Category"
-								p:propertyName="name">
-								<property name="control">
-									<bean parent="Uif-TextControl" />
-								</property>
-								<property name="suggest">
-									<bean parent="Uif-Suggest">
-										<property name="valuePropertyName" value="catNameAndType" />
-										<property name="templateOptions" value="minLength:1,delay:0" />
-										<property name="suggestQuery">
-											<bean parent="Uif-AttributeQueryConfig"
-												p:queryMethodToCall="searchForLoCategories" />
-										</property>
-									</bean>
-								</property>
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
-                                        <property name="autoSearch" value="true" />
-                                        <property name="quickfinderAction">
-                                            <bean parent="Uif-ActionLink">
-                                                <property name="methodToCall" value="performLookup" />
-                                                <property name="actionLabel" value="Browse for categories" />
-                                                <property name="cssClasses">
-                                                    <list merge="true">
-                                                        <value>uif-actionLink-block</value>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                        </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
-                                        </property>
-                                        <property name="dataObjectClassName"
-                                            value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
-                                        <property name="fieldConversions">
-                                            <map>
-                                                <entry key="catNameAndType" value="name" />
-                                            </map>
-                                        </property>
-                                    </bean>
-                                </property>
-								<property name="help">
-									<bean parent="Uif-KS-Help"
-										p:tooltipHelpContent="Add a category to classify your learning 
- 									objectives. The categories will be used for administrative analysis." />
-								</property>
-							</bean>
-							
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Category"
+                                            p:propertyName="name">
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" />
+                                            </property>
+                                            <property name="suggest">
+                                                <bean parent="Uif-Suggest">
+                                                    <property name="valuePropertyName" value="catNameAndType" />
+                                                    <property name="templateOptions" value="minLength:1,delay:0" />
+                                                    <property name="suggestQuery">
+                                                        <bean parent="Uif-AttributeQueryConfig"
+                                                            p:queryMethodToCall="searchForLoCategories" />
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                            <property name="quickfinder">
+                                                <bean parent="Uif-QuickFinder">
+                                                    <property name="autoSearch" value="true" />
+                                                    <property name="quickfinderAction">
+                                                        <bean parent="Uif-ActionLink">
+                                                            <property name="methodToCall" value="performLookup" />
+                                                            <property name="actionLabel" value="Browse for categories" />
+                                                            <property name="cssClasses">
+                                                                <list merge="true">
+                                                                    <value>uif-actionLink-block</value>
+                                                                </list>
+                                                            </property>
+                                                        </bean>
+                                                    </property>
+                                                    <property name="lightBoxLookup">
+                                                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
+                                                    </property>
+                                                    <property name="dataObjectClassName"
+                                                        value="org.kuali.student.cm.course.form.LoCategoryInfoWrapper" />
+                                                    <property name="fieldConversions">
+                                                        <map>
+                                                            <entry key="catNameAndType" value="name" />
+                                                        </map>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                            <!--<property name="help">
+                                                <bean parent="Uif-KS-Help"
+                                                    p:tooltipHelpContent="Add a category to classify your learning
+                                                objectives. The categories will be used for administrative analysis." />
+                                            </property>-->
+                                        </bean>
+                                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="Add a category to classify your learning
+                                                                                                objectives. The categories will be used for administrative analysis."/>
+                                            </property>
+                                        </bean>
+                                    </list>
+							    </property>
+                            </bean>
 						</list>
 					</property>
                 </bean>
