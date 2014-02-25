@@ -259,7 +259,7 @@
         <property name="instructionalText"
                   value="Each course format can consist of any number of activities, and you may have more than one course format for this&lt;br&gt;course." />
         <property name="help">
-            <bean parent="Uif-Help"
+            <bean parent="Uif-KS-Help"
                   p:tooltipHelpContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats." />
         </property>
         <property name="addLinePlacement" value="BOTTOM" />
@@ -306,7 +306,7 @@
                                     <bean parent="Uif-TextControl" p:size="9" />
                                 </property>
                                 <property name="help">
-                                    <bean parent="Uif-Help"
+                                    <bean parent="Uif-KS-Help"
                                           p:tooltipHelpContent="Sum of contact hours will validate with&lt;br&gt;credits(from learning results)" />
                                 </property>
                             </bean>
@@ -319,7 +319,7 @@
                             </bean>
                             <bean parent="KS-DurationTypeDropDown" p:propertyName="duration.atpDurationTypeKey">
                                 <property name="help">
-                                    <bean parent="Uif-Help"
+                                    <bean parent="Uif-KS-Help"
                                           p:tooltipHelpContent="First select the duration type(term,month,week,weekend,day)&lt;br&gt;then select the count of the duration for the course.&lt;br&gt;Most courses will have 1 or 2 terms,&lt;br&gt;for example" />
                                 </property>
                             </bean>
@@ -334,7 +334,7 @@
                                     <bean parent="Uif-TextControl" p:size="3" p:maxLength="3" />
                                 </property>
                                 <property name="help">
-                                    <bean parent="Uif-Help"
+                                    <bean parent="Uif-KS-Help"
                                           p:tooltipHelpContent="This does not have to be exact - it will be used&lt;br&gt;as an estimate for evaluation purposes only." />
                                 </property>
                             </bean>

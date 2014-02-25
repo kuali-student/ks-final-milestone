@@ -163,7 +163,7 @@
                                     </bean>
                                 </property>
 								<property name="help">
-									<bean parent="Uif-Help"
+									<bean parent="Uif-KS-Help"
 										p:tooltipHelpContent="Add a category to classify your learning 
  									objectives. The categories will be used for administrative analysis." />
 								</property>

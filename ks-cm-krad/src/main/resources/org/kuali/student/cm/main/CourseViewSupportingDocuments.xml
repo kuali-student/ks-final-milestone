@@ -44,7 +44,7 @@
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="Document @{(#index + 1)}" />
         <property name="help">
-            <bean parent="Uif-Help"
+            <bean parent="Uif-KS-Help"
                   p:tooltipHelpContent="Files that will be submitted
 				  with the Course Proposal that support it." />
         </property>

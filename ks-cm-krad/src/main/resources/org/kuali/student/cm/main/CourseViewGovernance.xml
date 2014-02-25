@@ -104,7 +104,7 @@
         <!-- <property name="collectionLookup.quickfinderAction.render"
                   value="false" /> -->
         <property name="help">
-            <bean parent="Uif-Help"
+            <bean parent="Uif-KS-Help"
                   p:tooltipHelpContent="This is not a restrictive list - organizations here are additional organizations that can administer this course." />
         </property>
         <property name="cssClasses">

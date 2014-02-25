@@ -24,7 +24,7 @@
                               p:addBlankOption="true" />
                     </property>
                     <property name="help">
-                        <bean parent="Uif-Help"
+                        <bean parent="Uif-KS-Help"
                               p:tooltipHelpContent="New Courses: This course will not neccessarily be acticated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications." />
                     </property>
                 </bean>
@@ -39,7 +39,7 @@
                         <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
                     </property>
                     <property name="help">
-                        <bean parent="Uif-Help" p:tooltipHelpContent="If this is a pilot course, you must select an End Term" />
+                        <bean parent="Uif-KS-Help" p:tooltipHelpContent="If this is a pilot course, you must select an End Term" />
                     </property>
                 </bean>
 
@@ -65,7 +65,7 @@
                               p:addBlankOption="true" />
                     </property>
                     <property name="help">
-                        <bean parent="Uif-Help"
+                        <bean parent="Uif-KS-Help"
                               p:tooltipHelpContent="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses" />
                     </property>
                 </bean>

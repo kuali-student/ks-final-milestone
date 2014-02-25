@@ -49,7 +49,7 @@
                     <!-- <property name="collectionLookup.quickfinderAction.render"
                         value="false" /> -->
                     <property name="help">
-                        <bean parent="Uif-Help"
+                        <bean parent="Uif-KS-Help"
                               p:tooltipHelpContent="This is not a restrictive list - names here will not determine who will eventually teach this course." />
                     </property>
                     <property name="cssClasses">
@@ -210,7 +210,7 @@
                         <bean parent="Uif-TextControl" p:size="70" p:maxLength="150"/>
                     </property>
                     <property name="help">
-                        <bean parent="Uif-Help"
+                        <bean parent="Uif-KS-Help"
                               p:tooltipHelpContent="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later."/>
                     </property>
                 </bean>
@@ -287,7 +287,7 @@
                                     <bean parent="Uif-TextControl" p:size="3" p:maxLength="3" p:watermarkText="111"/>
                                 </property>
                                 <property name="help">
-                                    <bean parent="Uif-Help"
+                                    <bean parent="Uif-KS-Help"
                                           p:tooltipHelpContent="The department will determine the course number based on: course format, restrictions, available numbers, and other factors."/>
                                 </property>
                             </bean>
@@ -381,7 +381,7 @@
                                     </bean>
                                 </property>
                                 <property name="help">
-                                    <bean parent="Uif-Help"
+                                    <bean parent="Uif-KS-Help"
                                           p:tooltipHelpContent="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator." />
                                 </property>
                             </bean>
