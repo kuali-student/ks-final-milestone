@@ -304,7 +304,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         for (SearchResultRowInfo row : searchResult.getRows()) {
             String atpId = "", atpCode = "", atpName = "", resultValuesGroupKey = "",
-                   luiId = "", masterLuiId = "", personLuiType = "", credits = "",
+                   luiId = "", masterLuiId = "", personLuiType = "", credits = "", gradingOptionId = "",
                    luiCode = "", luiName = "", luiDesc = "", luiType = "", luiLongName = "",
                    roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
             for (SearchResultCellInfo cellInfo : row.getCells()) {
@@ -323,7 +323,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS.equals(cellInfo.getKey())) {
                     credits = cellInfo.getValue();
                 } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID.equals(cellInfo.getKey())) {
-                    luiCode = cellInfo.getValue();
+                    gradingOptionId = cellInfo.getValue();
                 } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE.equals(cellInfo.getKey())) {
                     luiCode = cellInfo.getValue();
                 } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_NAME.equals(cellInfo.getKey())) {
@@ -357,6 +357,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setCourseCode(luiCode);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
+                    studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
                         studentScheduleCourseResult.setCreditOptions(setCourseOfferingCreditOptions(resultValuesGroupKey, contextInfo));
@@ -419,6 +420,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setCourseCode(luiCode);
                     studentScheduleCourseResult.setDescription(luiDesc);
                     studentScheduleCourseResult.setCredits(credits);
+                    studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
                         studentScheduleCourseResult.setCreditOptions(setCourseOfferingCreditOptions(resultValuesGroupKey, contextInfo));
