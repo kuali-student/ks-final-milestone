@@ -76,4 +76,10 @@
         </property>
     </bean>
 
+    <bean id="Uif-KS-Help" parent="Uif-Help">
+        <property name="toolTip">
+          <bean parent="Uif-KS-Tooltip"/>
+        </property>
+    </bean>
+
 </beans>
