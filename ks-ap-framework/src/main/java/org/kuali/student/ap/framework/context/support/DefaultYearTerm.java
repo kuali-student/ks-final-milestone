@@ -75,7 +75,22 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 				.getName();
 	}
 
-	@Override
+    /**
+     * Get the abbreviation of the term name for display (i.e. &quot;SP 13&quot; for Spring 2013).
+     *
+     * @return The abbreviation of the term name for display (i.e. &quot;SP 13&quot; for Spring 2013).
+     */
+    @Override
+    public String getAbbrivation() {
+        String rv = (rv = getLongName()) == null ? null : rv.trim();
+        if (rv != null && rv.length() > 7
+                && rv.endsWith(" " + Integer.toString(year)))
+            return rv.substring(0, 2).toUpperCase() + " " + Integer.toString(year).substring(2);
+        LOG.warn("Not sure how to shorten term name " + rv);
+        return rv;
+    }
+
+    @Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

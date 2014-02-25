@@ -1222,8 +1222,6 @@ public class CourseSearchController extends UifControllerBase {
 		String fcol = request.getParameter("fcol");
 		if (fclick != null && fcol != null)
 			table.facetClick(fclick, fcol);
-		else
-			table.facetClickAll();
 
 		// Create the oFacets object used by ksap.search.js
 		ObjectNode oFacets = mapper.createObjectNode();

@@ -75,6 +75,7 @@ public class YearTermTest {
         assertEquals("Fall 3123",testYearTerm.getLongName());
         assertEquals("Fall",testYearTerm.getTermName());
         assertEquals("FA 3123",testYearTerm.getShortName());
+        assertEquals("FA 23",testYearTerm.getAbbrivation());
 
     }
 

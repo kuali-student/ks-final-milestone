@@ -387,14 +387,23 @@ function fnGenerateFacetGroup(obj) {
         return;
     }
     obj.removeClass("ksap-hide");
+    var bAll = true;
+    for ( var key in oData)
+        if (!bAll)
+            continue;
+        else if (oData.hasOwnProperty(key) && !oData[key].checked)
+            bAll = false;
 	if (bMore) {
 		jFacets.append(jQuery('<div class="all"><ul /></div>'));
 		var jAll = jQuery('<li />').attr("title", "All").data("facetid", fcol)
-				.addClass("all checked").html('<a href="#">All</a>').click(
+            .addClass("all").html('<a href="#">All</a>').click(
 						function(e) {
 							var t = jQuery(this);
 							fnClickFacet('All', t.data("facetid"), e);
 						});
+        if(bAll){
+            jAll.addClass("checked")
+        }
 		jFacets.find(".all ul").append(jAll);
 	}
 	jFacets.append(jQuery('<div class="facets"><ul /></div>'));
@@ -407,6 +416,10 @@ function fnGenerateFacetGroup(obj) {
 					var t = jQuery(this);
 					fnClickFacet(t.data("facetkey"), t.data("facetid"), e);
 				});
+        if (!bAll && oData[key].checked)
+            jQuery(jItem).addClass("checked");
+        else
+            jQuery(jItem).removeClass("checked")
 		if (bOne)
 			jItem.addClass("static");
 		ful.append(jItem);
