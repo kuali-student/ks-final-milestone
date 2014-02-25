@@ -299,6 +299,7 @@
                 <bean parent="Uif-SecondaryActionButton"
                       p:ajaxSubmit="false" 
                       p:methodToCall="saveProposal"
+                      p:performClientSideValidation="true"
                       p:actionLabel="Save Progress"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
                 </bean>
