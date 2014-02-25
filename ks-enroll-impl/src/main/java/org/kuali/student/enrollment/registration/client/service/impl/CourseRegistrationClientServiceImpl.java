@@ -71,6 +71,20 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
+    @Override
+    public Response dropRegistrationGroup(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(dropRegistrationGroupLocal(userId, termCode, courseCode, regGroupCode, regGroupId));
+        } catch (Throwable t) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
+    }
+
     public RegistrationResponseInfo registerForRegistrationGroupLocal(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
         LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupCode));
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -91,7 +105,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         credits = verifyRegistrationRequestCreditsGradingOption(courseOfferingInfo, credits, gradingOptionId, contextInfo);
 
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createAddRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), credits, gradingOptionId);
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), credits, gradingOptionId, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_NEW_STATE_KEY, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
@@ -102,6 +116,34 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return registrationResponseInfo;
       
     }
+
+    public RegistrationResponseInfo dropRegistrationGroupLocal(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+        //
+        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupCode));
+        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
+        if (!StringUtils.isEmpty(userId)) {
+            contextInfo.setPrincipalId(userId);
+        }  else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
+            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal]User must be logged in to access this service");
+        }
+
+        // get the regGroup
+        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
+
+        //Create the request object
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY);
+
+        // persist the request object in the service
+        RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
+
+        // submit the request to the registration engine.
+        RegistrationResponseInfo registrationResponseInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+
+        return registrationResponseInfo;
+
+    }
+
 
     @Override
     public Response getRegEngineStats() {
@@ -549,14 +591,14 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @param regGroupid  Registration Group id
      * @return registration request
      */
-    private RegistrationRequestInfo createAddRegistrationRequest(String principalId, String termId, String regGroupid, String credits, String gradingOptionId) {
+    private RegistrationRequestInfo createRegistrationRequest(String principalId, String termId, String regGroupid, String credits, String gradingOptionId, String typeKey, String stateKey, String reqItemTypeKey, String reqItemStateKey) {
         RegistrationRequestInfo regReqInfo = new RegistrationRequestInfo();
         regReqInfo.setRequestorId(principalId);
         regReqInfo.setTermId(termId); // bad bc we have it from the load call above
-        regReqInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY); // new reg request
-        regReqInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        regReqInfo.setTypeKey(typeKey);
+        regReqInfo.setStateKey(stateKey);
 
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupid, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(principalId, regGroupid, credits, gradingOptionId, reqItemTypeKey, reqItemStateKey);
 
         regReqInfo.getRegistrationRequestItems().add(registrationRequestItem);
 
@@ -604,19 +646,19 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
-    public ScheduleItemResult updateScheduleItem(String userId, String termId, String courseCode, String regGroupCode, String credits, String gradingOption) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    public ScheduleItemResult updateScheduleItem(String userId, String termId, String courseCode, String regGroupCode, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
         RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         String regGroupId = "";
         //Get RegGroupId
-        regGroupId=CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, CourseRegistrationAndScheduleOfClassesUtil.getAtpService().getAtp(termId, contextInfo).getCode(), courseCode, regGroupCode, regGroupId, contextInfo).getRegGroupId();
+        regGroupId = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, CourseRegistrationAndScheduleOfClassesUtil.getAtpService().getAtp(termId, contextInfo).getCode(), courseCode, regGroupCode, regGroupId, contextInfo).getRegGroupId();
         //Populate Fields for RegRequestInfo object
         registrationRequestInfo.setTermId(termId);
         registrationRequestInfo.setRequestorId(userId);
         registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
         //Create Reg Request Item
-        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, regGroupId,credits,gradingOption, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        RegistrationRequestItemInfo registrationRequestItem = CourseRegistrationAndScheduleOfClassesUtil.createNewRegistrationRequestItem(userId, regGroupId, credits, gradingOptionId, LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         List<RegistrationRequestItemInfo> registrationRequestItemInfos = new ArrayList<RegistrationRequestItemInfo>();
         registrationRequestItemInfos.add(registrationRequestItem);
         registrationRequestInfo.setRegistrationRequestItems(registrationRequestItemInfos);
@@ -631,7 +673,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         ScheduleItemResult scheduleItemResult = new ScheduleItemResult();
         scheduleItemResult.setCourseCode(courseCode);
         scheduleItemResult.setCredits(credits);
-        scheduleItemResult.setGradingOptions(gradingOption);
+        scheduleItemResult.setGradingOptions(gradingOptionId);
         scheduleItemResult.setRegGroupId(regGroupCode);
         scheduleItemResult.setTermId(termId);
         scheduleItemResult.setUserId(userId);

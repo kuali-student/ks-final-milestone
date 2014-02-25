@@ -161,4 +161,34 @@ public interface CourseRegistrationClientService {
                                                  @QueryParam("credits") String credits,
                                                  @QueryParam("gradingOptions") String gradingOption) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException;
 
+    /**
+     * This is the "one click" registration method. It will first create a registration request then submit that
+     * request to the registration engine.
+     *
+     * @param userId       user id of the person you want to register in a course. This is for POC testing only and needs to be removed post POC for secuirty
+     * @param termCode
+     * @param courseCode
+     * @param regGroupCode
+     * @param regGroupId   optional, but the term, course, and reg group name are not checked if you supply the id
+     * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
+     *         ansynchonous so the client will need to poll the system for status updates.
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws ReadOnlyException
+     * @throws AlreadyExistsException
+     * @throws LoginException
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/dropRegistrationGroup")
+    public Response dropRegistrationGroup(@QueryParam("userId") String userId,
+                                                 @QueryParam("termCode") String termCode,
+                                                 @QueryParam("courseCode") String courseCode,
+                                                 @QueryParam("regGroupCode") String regGroupCode,
+                                                 @QueryParam("regGroupId") String regGroupId);
+
 }
