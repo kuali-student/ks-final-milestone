@@ -166,6 +166,11 @@
             <version>${ks.core.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.kuali.student.enroll</groupId>
             <artifactId>ks-enroll-ui</artifactId>
             <version>${ks.enroll.version}</version>
