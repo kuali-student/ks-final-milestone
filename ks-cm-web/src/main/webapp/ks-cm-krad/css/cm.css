@@ -153,9 +153,14 @@
 /*
  *   Create Course tab styling
  */
-#course_tabs_tabs .ui-tabs-nav {
+.ui-tabs-vertical-left .ui-tabs-nav {
+    width: 15em;
     margin-left: 2px;
     font-family: 'ralewayregular', sans-serif;
+}
+
+.ui-tabs-vertical .ui-tabs-panel {
+  width: 67em;
 }
 
 #course_tabs_tabs .ui-tabs-panel {
