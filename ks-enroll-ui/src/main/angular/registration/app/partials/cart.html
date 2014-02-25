@@ -51,7 +51,7 @@
 </div>
 
 <!--Alert message-->
-<div class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
+<div id="user_message" class="util-Alert util-Alert--{{userMessage.type}}" ng-if="userMessage.txt">
     <strong>{{userMessage.txt}}</strong>
     <a id="userMessageInvoke" ng-click="invokeActionLink(userMessage.actionLink);" ng-if="userMessage.linkText">{{userMessage.linkText}}</a>
 </div>
