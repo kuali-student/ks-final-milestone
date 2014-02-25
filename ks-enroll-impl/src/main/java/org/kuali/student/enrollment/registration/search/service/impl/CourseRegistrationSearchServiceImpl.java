@@ -458,8 +458,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "     KSEN_LUI_IDENT luiId " +
                         "LEFT OUTER JOIN KSEN_LUI_RESULT_VAL_GRP luiRes " +
                         "ON luiRes.LUI_ID = luiId.LUI_ID " +
-                        "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
-                        "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
+//                        "AND (luiRes.RESULT_VAL_GRP_ID in (" + getStudentRegGradingOptionsStr() + ")" +
+//                        "       OR luiRes.RESULT_VAL_GRP_ID like 'kuali.creditType.credit%') " +
                         "LEFT OUTER JOIN KSEN_LUI_SCHEDULE aoSched " +
                         "ON aoSched.LUI_ID = luiId.LUI_ID " +
                         "LEFT OUTER JOIN KSEN_SCHED_CMP schedCmp " +

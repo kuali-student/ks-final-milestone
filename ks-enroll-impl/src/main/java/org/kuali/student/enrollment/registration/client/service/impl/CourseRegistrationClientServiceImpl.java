@@ -361,7 +361,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setLongName(luiLongName);
                     if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
                         studentScheduleCourseResult.setCreditOptions(setCourseOfferingCreditOptions(resultValuesGroupKey, contextInfo));
-                    } else if (resultValuesGroupKey != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValuesGroupKey)) {
+                    } else {
                         if (!studentScheduleCourseResult.getGradingOptions().containsKey(resultValuesGroupKey)) {
                             String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
                             if (!StringUtils.isEmpty(gradingOptionName)) {
@@ -424,7 +424,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setLongName(luiLongName);
                     if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
                         studentScheduleCourseResult.setCreditOptions(setCourseOfferingCreditOptions(resultValuesGroupKey, contextInfo));
-                    } else if (resultValuesGroupKey != null && ArrayUtils.contains(CourseOfferingServiceConstants.ALL_STUDENT_REGISTRATION_OPTION_TYPE_KEYS, resultValuesGroupKey)) {
+                    } else {
                         studentScheduleCourseResult.setGradingOptions(new HashMap<String, String>());
                         String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
                         if (!StringUtils.isEmpty(gradingOptionName)) {
