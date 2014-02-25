@@ -89,16 +89,30 @@
                   value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options&lt;br&gt;
 			for either type, which can be used for multiple course formats, or to account for variations in course offerings." />
     </bean>
+
     <bean id="KS-CourseView-CourseLogisticsPage-GradesAssessments-Widgets"
           parent="Uif-VerticalBoxSection" p:headerText="Grades/Assessments">
-        <property name="help">
+        <!--<property name="help">
             <bean parent="Uif-KS-Help"
-                  p:tooltipHelpContent="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
- 						A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
- 						Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
- 						ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
- 						ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
- 						Notation&lt;b&gt;&lt;br&gt;complete,incomplete " />
+                  p:tooltipHelpContent= />
+        </property>-->
+        <property name="header">
+            <bean parent="KS-CourseView-TooltipHeader">
+                <property name="rightGroup.items">
+                    <list>
+                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/info.png">
+                            <property name="toolTip">
+                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
+                                                        A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
+                                                        Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
+                                                        ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
+                                                        ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
+                                                        Notation&lt;b&gt;&lt;br&gt;complete,incomplete "/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
@@ -258,9 +272,22 @@
           p:propertyName="dataObject.courseInfo.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
         <property name="instructionalText"
                   value="Each course format can consist of any number of activities, and you may have more than one course format for this&lt;br&gt;course." />
-        <property name="help">
+        <!--<property name="help">
             <bean parent="Uif-KS-Help"
                   p:tooltipHelpContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats." />
+        </property>-->
+        <property name="header">
+            <bean parent="KS-CourseView-TooltipHeader">
+                <property name="rightGroup.items">
+                    <list>
+                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/info.png">
+                            <property name="toolTip">
+                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="Is your course taught differently in the school year than it is in the summer? For example, online in the summer, lecture/lab in the fall. If so, you will need two course formats."/>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="addLinePlacement" value="BOTTOM" />
         <!--<property name="renderAddBlankLineButton" value="true" />-->
