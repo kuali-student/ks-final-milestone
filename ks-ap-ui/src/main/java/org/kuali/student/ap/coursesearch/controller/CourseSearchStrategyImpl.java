@@ -1252,6 +1252,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // remove found levels and codes to find incomplete code components
         for(String level : levels) query = query.replace(level,"");
         for(String code : codes) query = query.replace(code,"");
+        for(String division : divisions) query = query.replace(division,"");
+
         incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query,divisions);
         completedCodes = QueryTokenizer.extractCompleteCourseCodes(pureQuery,divisions,codes);
         completedLevels = QueryTokenizer.extractCompleteCourseLevels(pureQuery,divisions,levels);
@@ -1264,7 +1266,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		LOG.info("Start of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-		addFullTextSearches(pureQuery, requests, form.getSearchTerm());
+		addFullTextSearches(query, requests, form.getSearchTerm());
 		LOG.info("End of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 

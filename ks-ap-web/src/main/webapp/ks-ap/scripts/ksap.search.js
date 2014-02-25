@@ -1,21 +1,21 @@
 jQuery('#course_search #text_searchQuery_control').ready(function(){
-    if(localStorage.getItem('back_search') != null) {
+    if(sessionStorage.getItem('back_search') != null) {
         //came from the course details page, check search input, and fill in if blank
         if(jQuery('#text_searchQuery_control').val().length == 0){
             //fill in the form input for the user with the last search term
-            jQuery('#text_searchQuery_control').val(localStorage.getItem('back_search'));
+            jQuery('#text_searchQuery_control').val(sessionStorage.getItem('back_search'));
         }
     }
     //clear the local storage values
-    localStorage.removeItem('back_search');
-    localStorage.removeItem('last_search');
+    sessionStorage.removeItem('back_search');
+    sessionStorage.removeItem('last_search');
 });
 
 jQuery(function(){
     //set the search terms to pass onto course details page
     //for setting a sentinal value there
     jQuery('#course_search #course_search_results').on('click', 'td.details_link a', function(){
-        localStorage.setItem('last_search', jQuery('#text_searchQuery_control').val());
+        sessionStorage.setItem('last_search', jQuery('#text_searchQuery_control').val());
     });
 });
 
@@ -175,10 +175,10 @@ function searchForCourses(id, parentId) {
 						bSortClasses : false,
 						bStateSave : true,     // Turn save state on to allow for saving pagination when moving between pages
                         "fnStateSave": function (oSettings, oData) {
-                            localStorage.setItem( 'DataTables_'+jQuery('#text_searchQuery_control').val(), JSON.stringify(oData) );
+                            sessionStorage.setItem( 'DataTables_'+jQuery('#text_searchQuery_control').val(), JSON.stringify(oData) );
                         },
                         "fnStateLoad": function (oSettings) {
-                            return JSON.parse( localStorage.getItem('DataTables_'+jQuery('#text_searchQuery_control').val()) );
+                            return JSON.parse( sessionStorage.getItem('DataTables_'+jQuery('#text_searchQuery_control').val()) );
                         },
 						iCookieDuration : 600,
 						iDisplayLength : 20,
@@ -217,11 +217,13 @@ function searchForCourses(id, parentId) {
 							results.fadeIn("fast");
 							results.find("table#" + id).width(
 									ksapCourseSearchTableWidth());
-                            var newheader = jQuery("#termsOfferedPlaceholder");
+
+                            var newheader = jQuery("#termsOfferedPlaceholder").clone(true);
                             var oldheader = jQuery("[aria-label='Terms Offered']");
                             oldheader.children().remove();
                             newheader.removeClass("ksap-hide");
                             oldheader.append(newheader);
+
 							ksapSearchComplete();
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
