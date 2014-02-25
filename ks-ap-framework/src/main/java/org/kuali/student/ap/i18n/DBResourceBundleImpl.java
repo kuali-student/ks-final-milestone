@@ -12,14 +12,13 @@ import java.util.Set;
  * @see org.kuali.student.ap.i18n.DBResourceBundleControlImpl for the details on how the properties are actually retrieved from the DB.
  * @author Chris Maurer <chmaurer@iu.edu>
  */
-public class DBResourceBundleImpl extends ResourceBundle implements NonKeyValidatingResourceBundle {
+public class DBResourceBundleImpl extends ResourceBundle {
     private Locale locale;
     private Properties properties;
 
-    public DBResourceBundleImpl(Properties properties, Locale locale, ResourceBundle parent) {
+    public DBResourceBundleImpl(Properties properties, Locale locale) {
         this.properties = properties;
         this.locale = locale;
-        this.parent = parent;
     }
 
     @Override
@@ -36,10 +35,5 @@ public class DBResourceBundleImpl extends ResourceBundle implements NonKeyValida
     public Enumeration<String> getKeys() {
         Set<String> handleKeys = properties.stringPropertyNames();
         return Collections.enumeration(handleKeys);
-    }
-
-    @Override
-    public boolean validateKeys() {
-        return false;
     }
 }

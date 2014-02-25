@@ -34,13 +34,11 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
     public static final String CONFIG_RESOURCE_BUNDLE_DB_TTL = "ks.ap.ResourceBundle.DB.ttl";
 
     private String messageGroup;
-    private ResourceBundle parent;
     private ContextInfo contextInfo;
     private MessageService messageService;
 
-    public DBResourceBundleControlImpl(String messageGroup, ContextInfo contextInfo, ResourceBundle parent) {
+    public DBResourceBundleControlImpl(String messageGroup, ContextInfo contextInfo) {
         this.messageGroup = messageGroup;
-        this.parent = parent;
         this.contextInfo = contextInfo;
     }
 
@@ -64,7 +62,7 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
         }
         LocaleInfo localeInfo = LocaleUtil.locale2LocaleInfo(locale);
         List<MessageInfo> messages = new ArrayList<MessageInfo>();
-        LOG.debug("Attempting to create a DBResourceBundleImpl with locale:" + locale.toString() + " and parent:" + parent);
+        LOG.debug("Attempting to create a DBResourceBundleImpl with locale:'" + locale.toString() + "'");
         try {
             messages = getMessageService().getMessagesByGroup(localeInfo, messageGroup, contextInfo);
         } catch (Exception e) {
@@ -76,7 +74,7 @@ public class DBResourceBundleControlImpl extends ResourceBundle.Control {
             p.setProperty(mi.getMessageKey(), mi.getValue());
         }
 
-        return new DBResourceBundleImpl(p, locale, parent);
+        return new DBResourceBundleImpl(p, locale);
     }
 
     @Override

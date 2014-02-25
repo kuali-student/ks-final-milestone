@@ -85,11 +85,9 @@ public class MergedPropertiesResourceBundleImpl extends ResourceBundle {
             boolean doValidate = true;
             List<String> bundleKeys = Collections.list(bundle.getKeys());
 
-            if (bundle instanceof NonKeyValidatingResourceBundle) {
+            if (bundle instanceof DBResourceBundleImpl) {
                 //Don't include a bundle
-                if (!((NonKeyValidatingResourceBundle) bundle).validateKeys()) {
-                    doValidate = false;
-                }
+                doValidate = false;
             }
             if (doValidate) {
                 keys.addAll(bundleKeys);

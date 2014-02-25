@@ -112,7 +112,7 @@ public class DefaultTextHelper implements TextHelper, Serializable {
         List<ResourceBundle> bundles = processBundles(locale);
 
         DBResourceBundleImpl drb = (DBResourceBundleImpl) ResourceBundle.getBundle(DBResourceBundleControlImpl.class.getName(), locale,
-                new DBResourceBundleControlImpl(getMessageGroup(), contextInfo, null));
+                new DBResourceBundleControlImpl(getMessageGroup(), contextInfo));
 
         //Add to the beginning so that it gets searched first
         bundles.add(0, drb);

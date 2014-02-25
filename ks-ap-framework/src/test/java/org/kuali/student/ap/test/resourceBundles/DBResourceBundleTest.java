@@ -49,7 +49,7 @@ public class DBResourceBundleTest {
 
     private ResourceBundle initializeResourceBundle() {
         ResourceBundle rb = ResourceBundle.getBundle(DBResourceBundleControlImpl.class.getName(), LocaleUtil.localeInfo2Locale(getLocaleInfo()),
-                new DBResourceBundleControlImpl("ksap", KsapFrameworkServiceLocator.getContext().getContextInfo(), null));
+                new DBResourceBundleControlImpl("ksap", KsapFrameworkServiceLocator.getContext().getContextInfo()));
         return rb;
     }
 
