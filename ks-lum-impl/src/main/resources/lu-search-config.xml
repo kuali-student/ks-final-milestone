@@ -2754,7 +2754,7 @@
                         AND lui.CLU_ID = clu.ID
                         AND clu.ST = 'Active'
                         AND lui.ATP_ID IN :termList
-                        AND lui.LUI_STATE = 'kuali.lui.activity.offering.state.offered'
+                        AND lui.LUI_STATE = 'kuali.lui.course.offering.state.offered'
                         ORDER BY ident.LUI_CD
                     </value>
                 </entry>
@@ -2794,7 +2794,7 @@
                         AND lui.CLU_ID = clu.ID
                         AND clu.ST = 'Active'
                         AND lui.ATP_ID IN :termList
-
+                        AND lui.LUI_STATE = 'kuali.lui.course.offering.state.offered'
                     </value>
                 </entry>
 
