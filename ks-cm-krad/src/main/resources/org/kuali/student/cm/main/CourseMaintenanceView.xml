@@ -355,18 +355,6 @@
     <bean id="KS-CourseView-Footer" parent="Uif-FooterBase" p:layoutManager.style="float:none;">
         <property name="items">
             <list>
-                <bean parent="Uif-HorizontalBoxGroup" p:style="float:left;">
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-SecondaryActionButton"
-                                  p:ajaxSubmit="false"
-                                  p:methodToCall="previousPage"
-                                  p:actionLabel="&lt; Back"
-                                  p:performClientSideValidation="true"
-                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE] and #form.pageId ne 'KS-CourseView-CourseInfoPage'}"/>
-                        </list>
-                    </property>
-                </bean>
                 <bean parent="Uif-HorizontalBoxGroup">
                     <property name="items">
                         <list>
