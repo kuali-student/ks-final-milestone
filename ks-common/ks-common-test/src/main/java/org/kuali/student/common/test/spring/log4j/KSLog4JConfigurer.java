@@ -15,7 +15,6 @@
  */
 package org.kuali.student.common.test.spring.log4j;
 
-import org.mortbay.log.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Log4jConfigurer;
