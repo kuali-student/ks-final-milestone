@@ -643,7 +643,7 @@ public class TestStateServiceMockImpl {
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
             assertNotNull(e.getMessage());
-            assertEquals(orig.getId(), e.getMessage());
+            assertTrue(e.getMessage().contains(orig.getId()));
         }
     }
 }

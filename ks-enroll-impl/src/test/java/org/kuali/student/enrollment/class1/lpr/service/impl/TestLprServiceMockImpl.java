@@ -174,7 +174,7 @@ public class TestLprServiceMockImpl {
             fail("Did not receive DoesNotExistException when attempting to get already-deleted LprEntity");
         } catch (DoesNotExistException dnee) {
             assertNotNull(dnee.getMessage());
-            assertEquals(expected.getId(), dnee.getMessage());
+            assertTrue(dnee.getMessage().contains(expected.getId()));
         }
     }
 
@@ -275,7 +275,7 @@ public class TestLprServiceMockImpl {
             fail("Did not receive DoesNotExistException when attempting to get already-deleted LprTransactionEntity");
         } catch (DoesNotExistException dnee) {
             assertNotNull(dnee.getMessage());
-            assertEquals(expected.getId(), dnee.getMessage());
+            assertTrue(dnee.getMessage().contains(expected.getId()));
         }
     }
 
