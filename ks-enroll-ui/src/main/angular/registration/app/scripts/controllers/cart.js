@@ -158,6 +158,7 @@ angular.module('regCartApp')
                 cartItem.credits = newCartItem.credits;
                 cartItem.grading = newCartItem.grading;
                 cartItem.editing = false;
+                cartItem.actionLinks = newCartItem.actionLinks;
                 $scope.userMessage = {txt:'Updated Successfully', type:'success'};
             });
 
