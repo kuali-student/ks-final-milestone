@@ -294,7 +294,7 @@
             <list>
                 <bean id="audit_inf_text_1" parent="Uif-Message" p:style="padding: 5px;">
                     <property name="messageText"
-                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_FEATURE_DISABLED')}"/>
+                              value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_FEATURE_DISABLED')}"/>
                 </bean>
             </list>
         </property>
@@ -311,15 +311,15 @@
             <list>
                 <bean id="audit_info_header_1" parent="Uif-Message" p:style="padding: 5px;"
                       p:cssClasses="ksap-carousel-list">
-                    <property name="messageText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_TRACK_PROGRESS')}"/>
+                    <property name="messageText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_TRACK_PROGRESS')}"/>
                 </bean>
                 <bean id="audit_info_text_1" parent="Uif-Message" p:style="padding: 5px;">
                     <property name="messageText"
-                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_YOUR_REQUIREMENTS')}"/>
+                              value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_YOUR_REQUIREMENTS')}"/>
                 </bean>
                 <bean id="audit_info_footer_1" parent="Uif-Message" p:style="padding: 5px;">
                     <property name="messageText"
-                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_PROGRAM')}"/>
+                              value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_PROGRAM')}"/>
                 </bean>
             </list>
         </property>
@@ -335,15 +335,15 @@
         <property name="items">
             <list>
                 <bean id="audit_info_header_2" parent="Uif-Message" p:style="padding: 5px;">
-                    <property name="messageText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_PROGRAMS_MINORS')}"/>
+                    <property name="messageText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_PROGRAMS_MINORS')}"/>
                 </bean>
                 <bean id="audit_info_text_2" parent="Uif-Message" p:style="padding: 5px;">
                     <property name="messageText"
-                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_STILL_DECIDING')}"/>
+                              value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_STILL_DECIDING')}"/>
                 </bean>
                 <bean id="audit_info_footer_2" parent="Uif-Message" p:style="padding: 5px;">
                     <property name="messageText"
-                              value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_FROM')}"/>
+                              value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_FROM')}"/>
                 </bean>
             </list>
         </property>
@@ -352,7 +352,7 @@
 
     <bean id="select_instruction" parent="Uif-Message" p:cssClasses="ksap-text-normal">
         <property name="messageText"
-                  value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_CAMPUS')}"/>
+                  value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_SELECT_CAMPUS')}"/>
     </bean>
 
     <bean id="campus_params" parent="Uif-HorizontalFieldGroup">
@@ -426,7 +426,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Message">
-                    <property name="messageText" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_PROGRAMS_NOT_INCLUDED')}"/>
+                    <property name="messageText" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DEGREE_AUDIT_PROGRAMS_NOT_INCLUDED')}"/>
                 </bean>
             </list>
         </property>

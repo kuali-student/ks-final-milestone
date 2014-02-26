@@ -133,7 +133,7 @@
 
 	<bean id="course_search_criteria_input" parent="course_search_criteria_input-parent" />
 	<bean id="course_search_criteria_input-parent" abstract="true" parent="Uif-TextControl"
-		p:watermarkText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('SEARCH_SEARCHTERMS_PLACEHOLDER_TEXT')}">
+		p:watermarkText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('SEARCH_SEARCHTERMS_PLACEHOLDER_TEXT')}">
 		<property name="onDocumentReadyScript"
                   value="setupCourseSearchCriteriaActions(jQuery('#text_searchQuery_control'), jQuery('#searchForCourses'))"/>
 	</bean>
@@ -362,7 +362,7 @@
 
 	<bean id="facet_quarter" parent="facet-parent" p:headerText="Terms Scheduled"/>
 	<bean id="facet_genedureq" parent="facet-parent" p:headerText="Gen Ed" />
-	<bean id="facet_credits" parent="facet-parent" p:headerText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
+	<bean id="facet_credits" parent="facet-parent" p:headerText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('RESULTS_CREDITS_FACET_NAME')}" />
 	<bean id="facet_level" parent="facet-parent" p:headerText="Course Level" />
 	<bean id="facet_curriculum" parent="facet-parent" p:headerText="Course Prefix" />
 

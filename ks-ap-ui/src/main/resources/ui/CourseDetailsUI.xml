@@ -371,7 +371,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                             </list>
                                                         </property>
                                                     </bean>
-                                                    <bean parent="Uif-Message" p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')})"/>
+                                                    <bean parent="Uif-Message" p:messageText="(Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_REQUISITE_SOURCE_NAME')})"/>
                                                 </list>
                                             </property>
                                         </bean>
@@ -397,7 +397,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                             </property>
                                             <property name="items">
                                                 <list>
-                                                    <bean parent="Uif-Label" p:labelText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_QUARTERS_HEADER')}"
+                                                    <bean parent="Uif-Label" p:labelText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_QUARTERS_HEADER')}"
                                                           p:renderColon="false"/>
                                                     <ref bean="course_quarter_help_icon"/>
                                                 </list>
@@ -434,7 +434,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                     </property>
                                                                 </bean>
                                                                 <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')})">
+                                                                      p:messageText="(Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_SCHEDULED_SOURCE_NAME')})">
                                                                 </bean>
                                                             </list>
                                                         </property>
@@ -463,7 +463,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                         <property name="items">
                                                             <list>
                                                                 <bean parent="Uif-Label"
-                                                                      p:labelText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMSOFFERED_LABEL')}"
+                                                                      p:labelText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMSOFFERED_LABEL')}"
                                                                       p:cssClasses="fl-text-gray ksap-text-normal"/>
                                                                 <bean parent="Uif-MessageField" p:messageText="
                                                                         @{dataObject.courseSummaryDetails.termsOffered.size() gt 0
@@ -476,7 +476,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
                                                                     </property>
                                                                 </bean>
                                                                 <bean parent="Uif-Message"
-                                                                      p:messageText="(Source: #{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')})"/>
+                                                                      p:messageText="(Source: @{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_TERMS_TYPICALLYOFFERED_SOURCE_NAME')})"/>
                                                             </list>
                                                         </property>
                                                     </bean>
@@ -560,7 +560,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 						                    </property>
 						                    <property name="items">
 						                        <list>
-						                            <bean parent="Uif-Label" p:labelText="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}"
+						                            <bean parent="Uif-Label" p:labelText="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CURRICULUM_HEADER')}"
 						                                  p:renderColon="false"/>
 						                        </list>
 						                    </property>
@@ -985,7 +985,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="group.validationMessages">
             <null/>
         </property>
-        <property name="label" value="#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_SECTION_NUMBER_HEADING')}"/>
+        <property name="label" value="@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_SECTION_NUMBER_HEADING')}"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>activityCode</value>
@@ -1020,7 +1020,7 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
         <property name="group.validationMessages">
             <null/>
         </property>
-        <property name="label" value="Type (#{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CREDITS_HEADING')})"/>
+        <property name="label" value="Type (@{T(org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator).getTextHelper().getText('DETAILS_CREDITS_HEADING')})"/>
         <property name="cssClasses">
             <list merge="true">
                 <value>activityType</value>
