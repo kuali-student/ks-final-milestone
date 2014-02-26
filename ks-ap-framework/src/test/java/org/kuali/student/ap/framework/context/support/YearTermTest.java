@@ -27,11 +27,7 @@ public class YearTermTest {
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1");
         testYearTerm = new DefaultYearTerm("kuali.atp.Fall3123", AtpServiceConstants.ATP_FALL_TYPE_KEY,3123);
-        try {
-            loadData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        loadData();
     }
 
     @After

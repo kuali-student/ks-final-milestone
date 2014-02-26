@@ -37,11 +37,7 @@ public class TestTermHelper {
     public void setUp() throws Throwable {
         DefaultKsapContext.before("student1");
         th = KsapFrameworkServiceLocator.getTermHelper();
-        try {
-            loadData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        loadData();
     }
 
     private void loadData() throws Exception {
