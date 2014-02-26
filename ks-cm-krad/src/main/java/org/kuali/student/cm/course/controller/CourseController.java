@@ -51,6 +51,7 @@ import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
+import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
@@ -608,7 +609,7 @@ public class CourseController extends CourseRuleEditorController {
         ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         proposal.setWorkflowId(form.getDocument().getDocumentHeader().getDocumentNumber());
         if (StringUtils.isBlank(proposal.getId())){
-            proposal.setState(DtoConstants.STATE_SAVED);
+            proposal.setState(ProposalConstants.PROPOSAL_STATE_SAVED);     // remove proposal constant, try to use KualiStudentPostProcessorBase
             proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
             proposal.setProposalReferenceType("kuali.proposal.referenceType.clu");
             proposal.getProposalReference().add(courseInfoWrapper.getCourseInfo().getId());
