@@ -3098,7 +3098,7 @@
         <column name="LUI_ID" nullable="false" type="STRING">
             <size value="255"/>
         </column>
-        <column name="MASTER_LUI_ID" type="STRING">
+        <column name="MASTER_LPR_ID" type="STRING">
             <size value="255"/>
         </column>
         <column name="OBJ_ID" type="STRING">
