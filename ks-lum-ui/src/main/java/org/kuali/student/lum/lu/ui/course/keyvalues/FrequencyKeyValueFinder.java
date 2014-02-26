@@ -22,6 +22,8 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
 /**
@@ -36,9 +38,9 @@ public class FrequencyKeyValueFinder extends UifKeyValuesFinderBase {
         @Override
         public List<KeyValue> getKeyValues(ViewModel model) {
             List<KeyValue> labels = new ArrayList<KeyValue>();
-            labels.add(new ConcreteKeyValue("kuali.atp.duration.day", CourseServiceConstants.PER_DAY_FREQUENCY_KEY));
-            labels.add(new ConcreteKeyValue("kuali.atp.duration.week", CourseServiceConstants.PER_WEEK_FREQUENCY_KEY));
-            labels.add(new ConcreteKeyValue("kuali.atp.duration.month", CourseServiceConstants.PER_MONTH_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_DAY_TYPE_KEY, CourseServiceConstants.PER_DAY_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_WEEK_TYPE_KEY, CourseServiceConstants.PER_WEEK_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue(AtpServiceConstants.DURATION_MONTH_TYPE_KEY, CourseServiceConstants.PER_MONTH_FREQUENCY_KEY));
             return labels;
         }
     
