@@ -20,7 +20,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.CourseOfferingServiceTestDataLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -35,16 +34,17 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
-import org.slf4j.Logger;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.util.Date;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Tests AcademicCalendarServiceFacadeImpl
@@ -54,9 +54,6 @@ import static junit.framework.Assert.assertTrue;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:acal-service-facade-test-class2-mock-context.xml"})
 public class TestAcademicCalendarServiceFacadeImpl {
-    private static final Logger log = KSLog4JConfigurer
-            .getLogger(TestAcademicCalendarServiceFacadeImpl.class);
-
     @Resource(name="CourseOfferingService")
     protected CourseOfferingService coService;
 
@@ -152,51 +149,44 @@ public class TestAcademicCalendarServiceFacadeImpl {
     public void testDeleteTermSucceed() throws Exception {
         // KSENROLL-7701
         StatusInfo statusInfo = acalServiceFacade.deleteTermCascaded(parentTerm.getId(), contextInfo);
-        assert(statusInfo.getIsSuccess());
-        boolean threwException = false;
+        assertTrue(statusInfo.getIsSuccess());
         try {
             acalService.getTerm(parentTerm.getId(), contextInfo);
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            threwException = true;
+            assertNotNull(e.getMessage());
+            assertEquals(parentTerm.getId(), e.getMessage());
         }
-        assert(threwException);
 
-        threwException = false;
         try {
             acalService.getTerm(childTerm.getId(), contextInfo);
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            threwException = true;
+            assertNotNull(e.getMessage());
+            assertEquals(childTerm.getId(), e.getMessage());
         }
-        assert(threwException);
 
-        threwException = false;
         try {
             acalService.getTerm(childTerm2.getId(), contextInfo);
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            threwException = true;
+            assertNotNull(e.getMessage());
+            assertEquals(childTerm2.getId(), e.getMessage());
         }
-        assert(threwException);
     }
 
     @Test
     public void testDeleteTermFailed() throws Exception {
-        boolean threwException = false;
-
         acalServiceFacade.makeTermOfficialCascaded(parentTerm.getId(), contextInfo);
         try {
-            StatusInfo statusInfo = acalServiceFacade.deleteTermCascaded(parentTerm.getId(), contextInfo);
+            acalServiceFacade.deleteTermCascaded(parentTerm.getId(), contextInfo);
+            fail("OperationFailedException should have been thrown");
         } catch (OperationFailedException e) {
-            threwException = true;
+            assertNotNull(e.getMessage());
+            assertEquals("Can't delete term that is official", e.getMessage());
         }
-        assert(threwException);
 
-        threwException = false;
-        try {
-            acalService.getTerm(parentTerm.getId(), contextInfo);
-        } catch (DoesNotExistException e) {
-            threwException = true;
-        }
-        assert(!threwException);
+        acalService.getTerm(parentTerm.getId(), contextInfo);
 
         // KSENROLL-7927
         // The code below fails because mocks don't do rollbacks.  deleteTermCascaded deletes child

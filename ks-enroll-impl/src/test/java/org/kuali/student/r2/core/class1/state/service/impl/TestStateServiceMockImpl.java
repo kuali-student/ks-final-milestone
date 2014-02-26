@@ -16,10 +16,8 @@
 package org.kuali.student.r2.core.class1.state.service.impl;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -208,25 +206,25 @@ public class TestStateServiceMockImpl {
         assertNotNull(updated.getMeta().getVersionInd());
         assertNotSame(retrived.getMeta().getVersionInd(), updated.getMeta().getVersionInd());
 
-        StateInfo atpDraftState = updated;
-
-        // delete state
-        StatusInfo result = stateService.deleteState(atpDraftState.getKey(), callContext);
+       // delete state
+        StatusInfo result = stateService.deleteState(updated.getKey(), callContext);
         assertEquals(true, result.getIsSuccess());
         try {
-            stateService.getState(atpDraftState.getKey(), callContext);
+            stateService.getState(updated.getKey(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
-            // expected
+            assertNotNull(e.getMessage());
+            assertEquals(updated.getKey(), e.getMessage());
         }
         // delete life
         result = stateService.deleteLifecycle(atpLife.getKey(), callContext);
         assertEquals(true, result.getIsSuccess());
         try {
-            infoLife = stateService.getLifecycle(atpLife.getKey(), callContext);
+            stateService.getLifecycle(atpLife.getKey(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
-            // expected
+            assertNotNull(e.getMessage());
+            assertEquals(atpLife.getKey(), e.getMessage());
         }
     }
 
@@ -317,9 +315,8 @@ public class TestStateServiceMockImpl {
         attr.setKey("attribute.key");
         attr.setValue("attribute value");
         orig.getAttributes().add(attr);
-        StateChangeInfo created = stateService.createStateChange(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, "statechange", orig, callContext);
 
-        return created;
+        return stateService.createStateChange(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, "statechange", orig, callContext);
     }
 
     @Test
@@ -443,7 +440,8 @@ public class TestStateServiceMockImpl {
             stateService.getStateChange(retrieved.getId(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
-            // expected
+            assertNotNull(e.getMessage());
+            assertEquals(retrieved.getId(), e.getMessage());
         }
     }
 
@@ -458,9 +456,8 @@ public class TestStateServiceMockImpl {
         attr.setKey("attribute.key");
         attr.setValue("attribute value");
         orig.getAttributes().add(attr);
-        StateConstraintInfo created = stateService.createStateConstraint(orig.getTypeKey(), orig, callContext);
 
-        return created;
+        return stateService.createStateConstraint(orig.getTypeKey(), orig, callContext);
     }
 
     @Test
@@ -543,7 +540,8 @@ public class TestStateServiceMockImpl {
             stateService.getStateConstraint(orig.getId(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
-            // expected
+            assertNotNull(e.getMessage());
+            assertEquals(orig.getId(), e.getMessage());
         }
     }
 
@@ -558,9 +556,8 @@ public class TestStateServiceMockImpl {
         attr.setKey("attribute.key");
         attr.setValue("attribute value");
         orig.getAttributes().add(attr);
-        StatePropagationInfo created = stateService.createStatePropagation(orig.getTargetStateChangeId(), orig.getTypeKey(), orig, callContext);
 
-        return created;
+        return stateService.createStatePropagation(orig.getTargetStateChangeId(), orig.getTypeKey(), orig, callContext);
     }
 
     @Test
@@ -645,7 +642,8 @@ public class TestStateServiceMockImpl {
             stateService.getStatePropagation(orig.getId(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
-            // expected
+            assertNotNull(e.getMessage());
+            assertEquals(orig.getId(), e.getMessage());
         }
     }
 }

@@ -94,9 +94,10 @@ public class TestProcessServiceImpl {
         processService.deleteProcess(processId, context);
         try {
             processService.getProcess(processId, context);
-            fail("Process not deleted properly.");
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            // expected, do nothing
+            assertNotNull(e.getMessage());
+            assertEquals(processId, e.getMessage());
         }
 
     }
@@ -153,9 +154,10 @@ public class TestProcessServiceImpl {
         processService.deleteCheck(check.getId(), context);
         try {
             processService.getCheck(check.getId(), context);
-            fail("Check not deleted properly.");
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            // expected, do nothing
+            assertNotNull(e.getMessage());
+            assertEquals(check.getId(), e.getMessage());
         }
     }
 
@@ -287,9 +289,10 @@ public class TestProcessServiceImpl {
         processService.deleteInstruction(instruction.getId(), context);
         try {
             processService.getInstruction(instruction.getId(), context);
-            fail("Insruction not deleted properly.");
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            // expected, do nothing
+            assertNotNull(e.getMessage());
+            assertEquals(instruction.getId(), e.getMessage());
         }
     }
 

@@ -16,20 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TestCourseOfferingServiceImplWithFewerClass1Mocks extends TestCourseOfferingServiceImplWithClass1Mocks {
 
-    public void setUp() {
+    public void setUp() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        try {
-            new CourseR1TestDataLoader(this.courseService).loadData();
-            new LuiServiceDataLoader(this.luiService).loadData();
-            new MockAcalTestDataLoader(this.acalService).loadData();
-            new MockLrcTestDataLoader(this.lrcService).loadData();
+        new CourseR1TestDataLoader(this.courseService).loadData();
+        new LuiServiceDataLoader(this.luiService).loadData();
+        new MockAcalTestDataLoader(this.acalService).loadData();
+        new MockLrcTestDataLoader(this.lrcService).loadData();
 
-            createStateTestData();
-            createSchedulingServiceData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-
+        createStateTestData();
+        createSchedulingServiceData();
     }
 }

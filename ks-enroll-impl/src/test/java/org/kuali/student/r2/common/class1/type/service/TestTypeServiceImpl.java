@@ -4,7 +4,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -21,7 +20,10 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.fail;
 
 /**
  * Unit tester for the type service impl
@@ -155,12 +157,13 @@ public class TestTypeServiceImpl {
         assertEquals(1, refObjectUris.size());
         assertEquals(AtpServiceConstants.REF_OBJECT_URI_ATP, refObjectUris.get(0));
 
-        StatusInfo status = typeService.deleteType(orig.getKey(), context);
+        typeService.deleteType(orig.getKey(), context);
         try {
             typeService.getType(orig.getKey(), context);
-            fail("should have been deleted");
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(orig.getKey(), ex.getMessage());
         }
         refObjectUris = typeService.getRefObjectUris(context);
         assertNotNull(refObjectUris);

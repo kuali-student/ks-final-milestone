@@ -45,7 +45,10 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:em-test-context.xml"})
@@ -98,14 +101,13 @@ public class TestEnumerationManagementServiceImpl {
         assertEquals("level.descr", dto.getDescr().getPlain());
         
         //fetchEnumerationMeta for "NULL" key
-        EnumerationInfo dto_null = null;
         try {
-            dto_null = enumService.getEnumeration("NULL", callContext);
-            assertTrue(false);
+            enumService.getEnumeration("NULL", callContext);
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("NULL", e.getMessage());
         }
-        assertEquals(dto_null, null);
     }
     
     @Test
@@ -244,10 +246,10 @@ public class TestEnumerationManagementServiceImpl {
         assertEquals(2, list.size());
         
         try{
-            list = enumService.getEnumeratedValues(null, null, null, null, callContext);
-            assertTrue("This line is not supposed to be reached.", false);
+            enumService.getEnumeratedValues(null, null, null, null, callContext);
+            fail("DoesNotExistException should have been thrown");
         }catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertNull(e.getMessage());
         }
         
     }
@@ -310,9 +312,8 @@ public class TestEnumerationManagementServiceImpl {
         assertEquals(listItem.getValue(), dto.getValue());
         
         for(EnumContextValueInfo c: listItem.getContexts()){
-            EnumContextValueInfo original = newContext;
-            assertEquals(c.getKey(), original.getKey());
-            assertEquals(c.getValue(), original.getValue());
+            assertEquals(c.getKey(), newContext.getKey());
+            assertEquals(c.getValue(), newContext.getValue());
         }
         
         //update
@@ -408,9 +409,8 @@ public class TestEnumerationManagementServiceImpl {
         assertEquals(listItem.getValue(), dto.getValue());
         
         for(EnumContextValueInfo c: listItem.getContexts()){
-            EnumContextValueInfo original = newContext;
-            assertEquals(c.getKey(), original.getKey());
-            assertEquals(c.getValue(), original.getValue());
+            assertEquals(c.getKey(), newContext.getKey());
+            assertEquals(c.getValue(), newContext.getValue());
         }
     }
 }

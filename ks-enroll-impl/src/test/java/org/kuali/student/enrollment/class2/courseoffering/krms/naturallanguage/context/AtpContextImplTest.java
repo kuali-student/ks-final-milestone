@@ -47,7 +47,7 @@ public class AtpContextImplTest extends AbstractServiceTest {
 	}
 
 	@Before
-	public void beforeMethod() {
+	public void beforeMethod() throws Exception {
         atpContext.setTypeService(typeService);
         type1 = new TypeInfo();
         type1.setKey("kuali.atp.type.TestAtp1");
@@ -62,9 +62,6 @@ public class AtpContextImplTest extends AbstractServiceTest {
             typeService.createType(type1.getKey(), type1, context);
         } catch (AlreadyExistsException e) {
             //Might already be inserted
-        }
-        catch (Exception e) {
-            Assert.fail("Problem creating test data in the Type Service");
         }
         setupTerm1();
         setupTerm2();

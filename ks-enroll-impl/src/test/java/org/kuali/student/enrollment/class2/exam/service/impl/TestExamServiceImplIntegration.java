@@ -78,47 +78,36 @@ public class TestExamServiceImplIntegration extends TestExamServiceImplConforman
 
     /* Method Name: searchForExamIds */
     @Test
-    public void test_searchForExamIds() throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public void test_searchForExamIds() throws Exception {
 
         createExamTestData();
 
-        try {
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            QueryByCriteria criteria = qbcBuilder.build();
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        QueryByCriteria criteria = qbcBuilder.build();
 
-            List<String> examIds = this.getExamService().searchForExamIds(criteria, contextInfo);
-            assertNotNull(examIds);
-            assertEquals(1, examIds.size());
-            String examId = examIds.get(0);
-        } catch (Exception ex) {
-            fail("Exception from service call :" + ex.getMessage());
-        }
+        List<String> examIds = this.getExamService().searchForExamIds(criteria, contextInfo);
+        assertNotNull(examIds);
+        assertEquals(1, examIds.size());
+        String examId = examIds.get(0);
     }
 
     /* Method Name: searchForExams */
     @Test
-    public void test_searchForExams()
-            throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+    public void test_searchForExams() throws Exception {
 
         createExamTestData();
 
-        try {
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            QueryByCriteria criteria = qbcBuilder.build();
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        QueryByCriteria criteria = qbcBuilder.build();
 
-            List<ExamInfo> examList = this.getExamService().searchForExams(criteria, contextInfo);
-            assertNotNull(examList);
-            assertEquals(1, examList.size());
-            ExamInfo coInfo = examList.get(0);
-        } catch (Exception ex) {
-            fail("Exception from service call :" + ex.getMessage());
-        }
+        List<ExamInfo> examList = this.getExamService().searchForExams(criteria, contextInfo);
+        assertNotNull(examList);
+        assertEquals(1, examList.size());
+        ExamInfo coInfo = examList.get(0);
 
     }
 
-    private void createExamTestData() {
+    private void createExamTestData() throws Exception {
         createLuTypes("typeKey01");
         createLuTypes(ExamServiceConstants.EXAM_FINAL_TYPE_KEY);
 
@@ -132,16 +121,12 @@ public class TestExamServiceImplIntegration extends TestExamServiceImplConforman
         luDao.create(type);
     }
 
-    private void createExamToSearch(String typeKey, String stateKey, String name, String descr) {
-        try {
-            ExamInfo toSearch = new ExamInfo ();
-            toSearch.setTypeKey(typeKey);
-            toSearch.setStateKey(stateKey);
-            toSearch.setName(name);
-            toSearch.setDescr(RichTextHelper.buildRichTextInfo(descr, descr));
-            this.getExamService().createExam(toSearch.getTypeKey(), toSearch, contextInfo);
-        } catch (Exception e) {
-            fail("Unable to create exam to search for :" + e.getMessage());
-        }
+    private void createExamToSearch(String typeKey, String stateKey, String name, String descr) throws Exception {
+        ExamInfo toSearch = new ExamInfo ();
+        toSearch.setTypeKey(typeKey);
+        toSearch.setStateKey(stateKey);
+        toSearch.setName(name);
+        toSearch.setDescr(RichTextHelper.buildRichTextInfo(descr, descr));
+        this.getExamService().createExam(toSearch.getTypeKey(), toSearch, contextInfo);
     }
 }

@@ -16,18 +16,9 @@
 package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 
 
-import java.lang.Exception;
-import java.lang.Integer;
-import java.lang.RuntimeException;
-import java.lang.String;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Resource;
-
 import org.junit.After;
-import org.junit.Assert;import org.junit.Test;
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
@@ -40,9 +31,14 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -75,7 +71,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	/*
 		A method to set the fields for a CourseWaitList in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public void testCrudCourseWaitList_setDTOFieldsForTestCreate(CourseWaitListInfo expected)
+	public void testCrudCourseWaitList_setDTOFieldsForTestCreate(CourseWaitListInfo expected) throws ParseException
 	{
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
@@ -98,12 +94,8 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         timeAmountInfo.setAtpDurationTypeKey(AtpServiceConstants.DURATION_WEEK_TYPE_KEY);
 		expected.setCheckInFrequency(timeAmountInfo);
 		expected.setAllowHoldUntilEntries(true);
-        try {
-            expected.setEffectiveDate(dateFormat.parse("20130611"));
-            expected.setExpirationDate(dateFormat.parse("21000101"));
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("20130611"));
+        expected.setExpirationDate(dateFormat.parse("21000101"));
 	}
 	
 	/*
@@ -151,7 +143,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	/*
 		A method to set the fields for a CourseWaitList in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public void testCrudCourseWaitList_setDTOFieldsForTestUpdate(CourseWaitListInfo expected)
+	public void testCrudCourseWaitList_setDTOFieldsForTestUpdate(CourseWaitListInfo expected) throws ParseException
 	{
         List<String> offerings = new ArrayList<String>();
         offerings.add("1");
@@ -168,12 +160,8 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 		expected.setCheckInRequired(false);
 		expected.setCheckInFrequency(null);
 		expected.setAllowHoldUntilEntries(false);
-        try {
-            expected.setEffectiveDate(dateFormat.parse("20130519"));
-            expected.setExpirationDate(dateFormat.parse("21000102"));
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("20130519"));
+        expected.setExpirationDate(dateFormat.parse("21000102"));
 	}
 	
 	/*
@@ -221,7 +209,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 		A method to set the fields for a CourseWaitList in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public void testCrudCourseWaitList_setDTOFieldsForTestReadAfterUpdate(CourseWaitListInfo expected)
+	public void testCrudCourseWaitList_setDTOFieldsForTestReadAfterUpdate(CourseWaitListInfo expected) throws ParseException
 	{
         List<String> offerings = new ArrayList<String>();
         offerings.add("1");
@@ -238,12 +226,8 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         expected.setCheckInRequired(false);
         expected.setCheckInFrequency(null);
         expected.setAllowHoldUntilEntries(true);
-        try {
-            expected.setEffectiveDate(dateFormat.parse("20110519"));
-            expected.setExpirationDate(dateFormat.parse("21000212"));
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("20110519"));
+        expected.setExpirationDate(dateFormat.parse("21000212"));
 	}
 	
 	
@@ -254,17 +238,13 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	/*
 		A method to set the fields for a CourseWaitListEntry in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public void testCrudCourseWaitListEntry_setDTOFieldsForTestCreate(CourseWaitListEntryInfo expected)
+	public void testCrudCourseWaitListEntry_setDTOFieldsForTestCreate(CourseWaitListEntryInfo expected) throws ParseException
 	{
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
-        try {
-            expected.setEffectiveDate(dateFormat.parse("20110519"));
-            expected.setExpirationDate(dateFormat.parse("21000212"));
-            expected.setLastCheckIn(dateFormat.parse("19000101"));
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("20110519"));
+        expected.setExpirationDate(dateFormat.parse("21000212"));
+        expected.setLastCheckIn(dateFormat.parse("19000101"));
 		expected.setCourseWaitListId("waitListId01");
 		expected.setStudentId("studentId01");
 		expected.setRegistrationGroupId("registrationGroupId01");
@@ -293,15 +273,11 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	/*
 		A method to set the fields for a CourseWaitListEntry in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public void testCrudCourseWaitListEntry_setDTOFieldsForTestUpdate(CourseWaitListEntryInfo expected)
+	public void testCrudCourseWaitListEntry_setDTOFieldsForTestUpdate(CourseWaitListEntryInfo expected) throws ParseException
 	{
-        try {
-            expected.setEffectiveDate(dateFormat.parse("20120219"));
-            expected.setExpirationDate(dateFormat.parse("21000515"));
-            expected.setLastCheckIn(dateFormat.parse("19000202"));
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("20120219"));
+        expected.setExpirationDate(dateFormat.parse("21000515"));
+        expected.setLastCheckIn(dateFormat.parse("19000202"));
         expected.setRegistrationGroupId("registrationGroupId_Updated");
 	}
 	
@@ -327,15 +303,11 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 		A method to set the fields for a CourseWaitListEntry in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public void testCrudCourseWaitListEntry_setDTOFieldsForTestReadAfterUpdate(CourseWaitListEntryInfo expected)
+	public void testCrudCourseWaitListEntry_setDTOFieldsForTestReadAfterUpdate(CourseWaitListEntryInfo expected) throws ParseException
 	{
-        try {
-            expected.setEffectiveDate(dateFormat.parse("20130219"));
-            expected.setExpirationDate(dateFormat.parse("21000414"));
-            expected.setLastCheckIn(dateFormat.parse("19000303"));
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("20130219"));
+        expected.setExpirationDate(dateFormat.parse("21000414"));
+        expected.setLastCheckIn(dateFormat.parse("19000303"));
         expected.setRegistrationGroupId("registrationGroupId_Updated");
         expected.setCourseWaitListId("WL_ID_Updated");
         expected.setStudentId("S_ID_Updated");
@@ -348,8 +320,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	
 	/* Method Name: getCourseWaitListsByActivityOffering */
 	@Test
-	public void test_getCourseWaitListsByActivityOffering()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_getCourseWaitListsByActivityOffering() throws Exception {
         loadData();
         List<CourseWaitListInfo> waitLists = testService.getCourseWaitListsByActivityOffering("activityOfferingId0", contextInfo);
         assertEquals(10, waitLists.size());
@@ -361,8 +332,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 
     /* Method Name: getCourseWaitListsByFormatOffering */
     @Test
-    public void test_getCourseWaitListsByFormatOffering()
-    throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+    public void test_getCourseWaitListsByFormatOffering() throws Exception {
         loadData();
         List<CourseWaitListInfo> waitLists = testService.getCourseWaitListsByFormatOffering("formatOfferingId0", contextInfo);
         assertEquals(10, waitLists.size());
@@ -393,8 +363,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	
 	/* Method Name: changeCourseWaitListState */
 	@Test
-	public void test_changeCourseWaitListState()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_changeCourseWaitListState() throws Exception {
         loadData();
         List<CourseWaitListInfo> waitLists = testService.getCourseWaitListsByActivityOffering("activityOfferingId0", contextInfo);
         assertEquals(10, waitLists.size());
@@ -409,8 +378,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 
 	/* Method Name: getCourseWaitListEntriesByStudent */
 	@Test
-	public void test_getCourseWaitListEntriesByStudent()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_getCourseWaitListEntriesByStudent() throws Exception {
         loadData();
 
         List<CourseWaitListEntryInfo> entries = testService.getCourseWaitListEntriesByStudent("studentId9", contextInfo);
@@ -422,8 +390,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	
 	/* Method Name: getCourseWaitListEntriesByCourseWaitList */
 	@Test
-	public void test_getCourseWaitListEntriesByCourseWaitList()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_getCourseWaitListEntriesByCourseWaitList() throws Exception {
         loadData();
 
         List<String> waitListIds = testService.getCourseWaitListIdsByType(CourseWaitListDataLoader.COURSE_WAIT_LIST_TYPE_KEY + ".10", contextInfo);
@@ -441,8 +408,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	}
 	/* Method Name: getCourseWaitListEntriesByCourseWaitListAndStudent */
 	@Test
-	public void test_getCourseWaitListEntriesByCourseWaitListAndStudent()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_getCourseWaitListEntriesByCourseWaitListAndStudent() throws Exception {
         loadData();
 
         List<String> waitListIds = testService.getCourseWaitListIdsByType(CourseWaitListDataLoader.COURSE_WAIT_LIST_TYPE_KEY + ".10", contextInfo);
@@ -478,8 +444,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	
 	/* Method Name: changeCourseWaitListEntryState */
 	@Test
-	public void test_changeCourseWaitListEntryState()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_changeCourseWaitListEntryState() throws Exception {
         loadData();
         List<CourseWaitListEntryInfo> entries = testService.getCourseWaitListEntriesByStudent("studentId0", contextInfo);
         assertEquals(10, entries.size());
@@ -494,8 +459,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 
 	/* Method Name: reorderCourseWaitListEntries */
 	@Test
-	public void test_reorderCourseWaitListEntries()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_reorderCourseWaitListEntries() throws Exception {
         loadData();
 
         List<String> waitListIds = testService.getCourseWaitListIdsByType(CourseWaitListDataLoader.COURSE_WAIT_LIST_TYPE_KEY + ".10", contextInfo);
@@ -529,8 +493,7 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
 	
 	/* Method Name: moveCourseWaitListEntryToPosition */
 	@Test
-	public void test_moveCourseWaitListEntryToPosition()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_moveCourseWaitListEntryToPosition() throws Exception {
         loadData();
 
         List<String> waitListIds = testService.getCourseWaitListIdsByType(CourseWaitListDataLoader.COURSE_WAIT_LIST_TYPE_KEY + ".10", contextInfo);
@@ -567,12 +530,8 @@ public class TestCourseWaitListServiceImplConformanceExtendedCrud extends TestCo
         }
     }
 
-    private void loadData() throws OperationFailedException {
-        try {
-            dataLoader.beforeTest();
-        } catch (Exception e) {
-            throw new OperationFailedException("failed to load data", e);
-        }
+    private void loadData() throws Exception {
+        dataLoader.beforeTest();
     }
 	
 }

@@ -45,9 +45,7 @@ public class AcalTestDataLoader {
     private AtpService atpService;
     private static String principalId = AcalTestDataLoader.class.getSimpleName();
 
-    public void loadData() throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
+    public void loadData() throws Exception {
         loadAtp("testAtpId1", "testAtp1", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 101");
         loadAtp("testAtpId2", "testAtp2", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.HolidayCalendar", AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 102");
         loadAtp("testDeleteAtpId1", "testDeleteAtp1", "2012-01-01 00:00:00.0", "2100-12-31 00:00:00.0", "kuali.atp.type.HolidayCalendar", AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 103");
@@ -151,14 +149,12 @@ public class AcalTestDataLoader {
                                boolean isRelative,
                                String relativeAnchorMilestoneId,
                                String descrPlain)
-            throws DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            ReadOnlyException {
+            throws Exception {
         MilestoneInfo info = new MilestoneInfo();
         info.setId(id);
         info.setName(name);
-        info.setStartDate(str2Date(startDate, id));
-        info.setEndDate(str2Date(endDate, id));
+        info.setStartDate(str2Date(startDate));
+        info.setEndDate(str2Date(endDate));
         info.setTypeKey(type);
         info.setStateKey(state);
         info.setIsAllDay(isAllDay);
@@ -195,13 +191,11 @@ public class AcalTestDataLoader {
                                String atpId,
                                String type,
                                String relatedAtpId)
-            throws DataValidationErrorException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            ReadOnlyException, DoesNotExistException {
+            throws Exception {
         AtpAtpRelationInfo info = new AtpAtpRelationInfo();
         info.setId(id);
-        info.setEffectiveDate(str2Date(effectiveDate, id));
-        info.setExpirationDate(str2Date(expirationDate, id));
+        info.setEffectiveDate(str2Date(effectiveDate));
+        info.setExpirationDate(str2Date(expirationDate));
         info.setTypeKey(type);
         info.setStateKey(state);
         info.setAtpId(atpId);
@@ -237,16 +231,14 @@ public class AcalTestDataLoader {
                         String type,
                         String state,
                         String descrPlain)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, ReadOnlyException {
+            throws Exception {
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setId(id);
         atpInfo.setName(name);
         atpInfo.setTypeKey(type);
         atpInfo.setStateKey(state);
-        atpInfo.setStartDate(str2Date(startDate, id));
-        atpInfo.setEndDate(str2Date(endDate, id));
+        atpInfo.setStartDate(str2Date(startDate));
+        atpInfo.setEndDate(str2Date(endDate));
         atpInfo.setDescr(new RichTextHelper().fromPlain(descrPlain));
         ContextInfo context = new ContextInfo();
         context.setPrincipalId(principalId);
@@ -255,16 +247,12 @@ public class AcalTestDataLoader {
         atpService.createAtp(atpInfo.getTypeKey(), atpInfo, context);
     }
 
-    private Date str2Date(String str, String context) {
+    private Date str2Date(String str) throws Exception {
         if (str == null) {
             return null;
         }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
-        try {
-            return df.parse(str);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException("Bad date " + str + " in " + context);
-        }
+        return df.parse(str);
     }
 
     /**
@@ -277,20 +265,6 @@ public class AcalTestDataLoader {
      * @param type
      * @param state
      * @param descrPlain
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *
-     * @throws org.kuali.student.r2.common.exceptions.InvalidParameterException
-     *
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *
-     * @throws org.kuali.student.r2.common.exceptions.DataValidationErrorException
-     *
-     * @throws org.kuali.student.r2.common.exceptions.ReadOnlyException
-     *
      */
     public void loadTerm(String id,
                          String name,
@@ -299,26 +273,20 @@ public class AcalTestDataLoader {
                          String type,
                          String state,
                          String descrPlain)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, ReadOnlyException {
+            throws Exception {
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setId(id);
         atpInfo.setName(name);
         atpInfo.setTypeKey(type);
         atpInfo.setStateKey(state);
-        atpInfo.setStartDate(str2Date(startDate, id));
-        atpInfo.setEndDate(str2Date(endDate, id));
+        atpInfo.setStartDate(str2Date(startDate));
+        atpInfo.setEndDate(str2Date(endDate));
         atpInfo.setDescr(new RichTextHelper().fromPlain(descrPlain));
         ContextInfo context = new ContextInfo();
 
-        try {
-            TermInfo term = new TermAssembler().assemble(atpInfo, context);
-            TermCodeGeneratorMockImpl tcg = new TermCodeGeneratorMockImpl();
-            atpInfo.setCode(tcg.generateTermCode(term));
-        } catch (AssemblyException e) {
-            throw new OperationFailedException("Assembly of TermInfo failed", e);
-        }
+        TermInfo term = new TermAssembler().assemble(atpInfo, context);
+        TermCodeGeneratorMockImpl tcg = new TermCodeGeneratorMockImpl();
+        atpInfo.setCode(tcg.generateTermCode(term));
 
         context.setPrincipalId(principalId);
         context.setCurrentDate(new Date());
@@ -326,10 +294,4 @@ public class AcalTestDataLoader {
         atpService.createAtp(atpInfo.getTypeKey(), atpInfo, context);
     }
 
-    public void loadDataOneRecord() throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, ReadOnlyException, VersionMismatchException, AlreadyExistsException {
-        loadAtp("atpId5", "atpId5", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 101");
-        loadAtp("atpId8", "atpId8", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, "Desc 101");
-    }
 }

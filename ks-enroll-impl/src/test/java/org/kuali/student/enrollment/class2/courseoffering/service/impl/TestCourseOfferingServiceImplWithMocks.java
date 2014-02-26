@@ -76,24 +76,19 @@ public class TestCourseOfferingServiceImplWithMocks {
     protected LRCService lrcService;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        try {
-            new CourseR1TestDataLoader(this.courseService).loadData();
-            new LuiServiceDataLoader(this.luiService).loadData();
+        new CourseR1TestDataLoader(this.courseService).loadData();
+        new LuiServiceDataLoader(this.luiService).loadData();
 
-            // due to KSENROLL-4185, data must be loaded into the mock Atp and mock Acal services
-            AcalTestDataLoader acalLoader = new AcalTestDataLoader(this.atpService);
-            acalLoader.loadTerm("testAtpId1", "test1", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "description 1");
-            new MockAcalTestDataLoader(this.acalService).loadData();
-            new MockLrcTestDataLoader(this.lrcService).loadData();
+        // due to KSENROLL-4185, data must be loaded into the mock Atp and mock Acal services
+        AcalTestDataLoader acalLoader = new AcalTestDataLoader(this.atpService);
+        acalLoader.loadTerm("testAtpId1", "test1", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "description 1");
+        new MockAcalTestDataLoader(this.acalService).loadData();
+        new MockLrcTestDataLoader(this.lrcService).loadData();
 
-            createStateTestData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-
+        createStateTestData();
     }
 
     private void createStateTestData() throws Exception {
@@ -188,11 +183,7 @@ public class TestCourseOfferingServiceImplWithMocks {
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // get course
         CourseInfo course;
-        try {
-            course = courseService.getCourse("COURSE1", ContextUtils.getContextInfo());
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        course = courseService.getCourse("COURSE1", ContextUtils.getContextInfo());
         // create co from course
         List<String> optionKeys = new ArrayList<String>();
         CourseOfferingInfo orig = new CourseOfferingInfo();
@@ -303,10 +294,11 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(Boolean.TRUE, status.getIsSuccess());
 
         try {
-            ao = courseOfferingService.getActivityOffering(ao.getId(), callContext);
+            courseOfferingService.getActivityOffering(ao.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(ao.getId(), ex.getMessage());
         }
 
 
@@ -316,10 +308,11 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(Boolean.TRUE, status.getIsSuccess());
 
         try {
-            fo = courseOfferingService.getFormatOffering(fo.getId(), callContext);
+            courseOfferingService.getFormatOffering(fo.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(fo.getId(), ex.getMessage());
         }
 
         // delete co
@@ -328,10 +321,11 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertEquals(Boolean.TRUE, status.getIsSuccess());
 
         try {
-            co = courseOfferingService.getCourseOffering(co.getId(), callContext);
+            courseOfferingService.getCourseOffering(co.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(co.getId(), ex.getMessage());
         }
     }
 
@@ -438,7 +432,7 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertNotNull(info);
         assertEquals(orig.getId(), info.getId());
         assertEquals(orig.getStateKey(), info.getStateKey());
-        assertEquals(orig.getTypeKey(), info.getTypeKey());;
+        assertEquals(orig.getTypeKey(), info.getTypeKey());
         assertEquals(orig.getFormatOfferingId(), info.getFormatOfferingId());
         assertEquals(orig.getActivityId(), info.getActivityId());
         assertEquals(orig.getMinimumEnrollment(), info.getMinimumEnrollment());
@@ -491,10 +485,11 @@ public class TestCourseOfferingServiceImplWithMocks {
         assertNotNull(deleteStatus);
         assertTrue(deleteStatus.getIsSuccess());
         try {
-            retrieved = luiService.getLuiSet(created.getId(), callContext);
+            luiService.getLuiSet(created.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals("luiSetId not found: " + retrieved.getId(), ex.getMessage());
         }
 
         // bulk operation -- get a bunch of luis using a list of their ids

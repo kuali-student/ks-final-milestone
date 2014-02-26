@@ -25,13 +25,15 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-validation-decorator-test-context.xml"})
 public class TestCourseOfferingServiceValidationDecorator {
 
+    private static final String EXPECTED_ERROR_MESSAGE = "Access to course offerings is not permitted while this term's Set of Course (SOC) is being scheduled (SocState).";
     @Resource(name = "CourseOfferingService")
     protected CourseOfferingService courseOfferingService;
     @Resource(name = "socService")
@@ -111,57 +113,44 @@ public class TestCourseOfferingServiceValidationDecorator {
         String cId = "c1";
         String offeringId = "offering1";
         String coType = "coType1";
-        String errorKeyWord = "socstate";
-        Boolean assertStatus = false;
         List<String> optionKeys = new ArrayList<String>();
 
         SocInfo orig = makeSocInfo(termId, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_IN_PROGRESS);
-        SocInfo info = this.socService.createSoc(orig.getTermId(), orig.getTypeKey(), orig, context);
+        this.socService.createSoc(orig.getTermId(), orig.getTypeKey(), orig, context);
 
         CourseOfferingInfo coInfo = makeCoInfo(termId, offeringId, coType);
         // CourseOffering
         try {
             this.courseOfferingService.createCourseOffering(cId, termId, coType, coInfo, optionKeys, context);
+            fail("OperationFailedException should have been thrown");
         } catch(OperationFailedException e) {
-            // Ideally, a generic serviceException  would have returned appropriate return code
-            if(StringUtils.containsIgnoreCase(e.getMessage(), errorKeyWord)) {
-                assertStatus = true;
-            }
+            assertNotNull(e.getMessage());
+            assertEquals(EXPECTED_ERROR_MESSAGE, e.getMessage());
         }
-        assertTrue(assertStatus);
 
-        assertStatus = false;
         try {
             courseOfferingService.updateCourseOffering(coInfo.getId(), coInfo, context);
+            fail("OperationFailedException should have been thrown");
         } catch(OperationFailedException e) {
-            // Ideally, a generic serviceException  would have returned appropriate return code
-            if(StringUtils.containsIgnoreCase(e.getMessage(), errorKeyWord)) {
-                assertStatus = true;
-            }
+            assertNotNull(e.getMessage());
+            assertEquals(EXPECTED_ERROR_MESSAGE, e.getMessage());
         }
-        assertTrue(assertStatus);
 
-        assertStatus = false;
         try {
             courseOfferingService.deleteCourseOffering(coInfo.getId(), context);
+            fail("OperationFailedException should have been thrown");
         } catch(OperationFailedException e) {
-            // Ideally, a generic serviceException  would have returned appropriate return code
-            if(StringUtils.containsIgnoreCase(e.getMessage(), errorKeyWord)) {
-                assertStatus = true;
-            }
+            assertNotNull(e.getMessage());
+            assertEquals(EXPECTED_ERROR_MESSAGE, e.getMessage());
         }
-        assertTrue(assertStatus);
 
-        assertStatus = false;
         try {
             courseOfferingService.deleteCourseOfferingCascaded(coInfo.getId(), context);
+            fail("OperationFailedException should have been thrown");
         } catch(OperationFailedException e) {
-            // Ideally, a generic serviceException  would have returned appropriate return code
-            if(StringUtils.containsIgnoreCase(e.getMessage(), errorKeyWord)) {
-                assertStatus = true;
-            }
+            assertNotNull(e.getMessage());
+            assertEquals(EXPECTED_ERROR_MESSAGE, e.getMessage());
         }
-        assertTrue(assertStatus);
 
        // ActivityOffering
 
@@ -172,36 +161,27 @@ public class TestCourseOfferingServiceValidationDecorator {
         aoInfo.setTermId("termH2G242");
         try {
             this.courseOfferingService.createActivityOffering(foId, aId, aTypeKey, aoInfo, context);
+            fail("OperationFailedException should have been thrown");
         } catch(OperationFailedException e) {
-            // Ideally, a generic serviceException  would have returned appropriate return code
-            if(StringUtils.containsIgnoreCase(e.getMessage(), errorKeyWord)) {
-                assertStatus = true;
-            }
+            assertNotNull(e.getMessage());
+            assertEquals(EXPECTED_ERROR_MESSAGE, e.getMessage());
         }
-        assertTrue(assertStatus);
 
-        assertStatus = false;
         try {
             courseOfferingService.updateActivityOffering(offeringId, aoInfo, context);
+            fail("OperationFailedException should have been thrown");
         } catch(OperationFailedException e) {
-            // Ideally, a generic serviceException  would have returned appropriate return code
-            if(StringUtils.containsIgnoreCase(e.getMessage(), errorKeyWord)) {
-                assertStatus = true;
-            }
+            assertNotNull(e.getMessage());
+            assertEquals(EXPECTED_ERROR_MESSAGE, e.getMessage());
         }
-        assertTrue(assertStatus);
 
-        assertStatus = false;
         try {
             courseOfferingService.deleteActivityOffering(offeringId, context);
+            fail("OperationFailedException should have been thrown");
         } catch(OperationFailedException e) {
-            // Ideally, a generic serviceException  would have returned appropriate return code
-            if(StringUtils.containsIgnoreCase(e.getMessage(), errorKeyWord)) {
-                assertStatus = true;
-            }
+            assertNotNull(e.getMessage());
+            assertEquals(EXPECTED_ERROR_MESSAGE, e.getMessage());
         }
-        assertTrue(assertStatus);
-
     }
 
     private CourseOfferingInfo makeCoInfo(String termId, String coId, String coType) {

@@ -36,7 +36,6 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.kim.data.PermissionAndRoleServiceDataLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -213,23 +212,15 @@ public class CourseOfferingServiceAuthorizationDecoratorTest  {
     private TermInfo SP2013_TERM;
     private TermInfo FA2013_TERM;
 
-    private void loadNeededTerms() {
+    private void loadNeededTerms() throws Exception {
         AtpInfo atp = new AtpInfo();
         atp.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         atp.setId("2011FA");
-        try {
-            FA2011_ATP = atpService.createAtp(atp.getTypeKey(), atp, getContext(PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1));
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        FA2011_ATP = atpService.createAtp(atp.getTypeKey(), atp, getContext(PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1));
         atp = new AtpInfo();
         atp.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
         atp.setId("2012FA");
-        try {
-            FA2012_ATP = atpService.createAtp(atp.getTypeKey(), atp, getContext(PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1));
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        FA2012_ATP = atpService.createAtp(atp.getTypeKey(), atp, getContext(PermissionAndRoleServiceDataLoader.CENTRAL_ADMIN1));
         MockAcalTestDataLoader acalLoader = new MockAcalTestDataLoader(this.acalService);
         SP2011_TERM = acalLoader.loadTerm("2011SP", "Spring 2011", "2011-03-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2011"
         );
@@ -321,7 +312,7 @@ public class CourseOfferingServiceAuthorizationDecoratorTest  {
         ContextInfo context = this.getContext(principalId);
         co.setCourseOfferingTitle(co.getCourseOfferingTitle() + " Updated");
         try {
-            CourseOfferingInfo info = this.courseOfferingService.updateCourseOffering(co.getId(), co, context);
+            this.courseOfferingService.updateCourseOffering(co.getId(), co, context);
         } catch (PermissionDeniedException ex) {
             if (!shouldThrowPermissionDenied) {
                 fail("Delete should not have thrown permission denied but did " + co.getCourseCode() + " " + principalId);
@@ -331,9 +322,7 @@ public class CourseOfferingServiceAuthorizationDecoratorTest  {
         }
         if (shouldThrowPermissionDenied) {
             fail("Delete should have thrown permission denied but did not " + co.getCourseCode() + " " + principalId);
-            return;
         }
-        return;
     }
     private void deleteCourseOffering(boolean shouldThrowPermissionDenied, CourseOfferingInfo co, String principalId)
             throws DoesNotExistException,
@@ -346,7 +335,7 @@ public class CourseOfferingServiceAuthorizationDecoratorTest  {
             DependentObjectsExistException {
         ContextInfo context = this.getContext(principalId);
         try {
-            StatusInfo status = this.courseOfferingService.deleteCourseOffering(co.getId(), context);
+            this.courseOfferingService.deleteCourseOffering(co.getId(), context);
         } catch (PermissionDeniedException ex) {
             if (!shouldThrowPermissionDenied) {
                 fail("Delete should not have thrown permission denied but did " + co.getCourseCode() + " " + principalId);
@@ -356,9 +345,7 @@ public class CourseOfferingServiceAuthorizationDecoratorTest  {
         }
         if (shouldThrowPermissionDenied) {
             fail("Delete should have thrown permission denied but did not " + co.getCourseCode() + " " + principalId);
-            return;
         }
-        return;
     }
     
 }

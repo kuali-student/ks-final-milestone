@@ -48,13 +48,13 @@ public class MockAcalTestDataLoader {
         this.acalService = acalService;
     }
 
-    public void loadData() {
+    public void loadData() throws Exception {
         loadTerm("testAtpId1", "test1", "2000-01-01 00:00:00.0", "2100-12-31 00:00:00.0", AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "description 1");
     }
 
     public TermInfo loadTerm(String id,
                              String name,
-                             String startDate, String endDate, String type, String state, String description) {
+                             String startDate, String endDate, String type, String state, String description) throws Exception {
 
         TermInfo info = new TermInfo();
         info.setId(id);
@@ -63,30 +63,22 @@ public class MockAcalTestDataLoader {
         info.setDescr(new RichTextHelper().fromPlain(description));
         info.setTypeKey(type);
         info.setStateKey(state);
-        info.setStartDate(str2Date(startDate, id));
-        info.setEndDate(str2Date(endDate, id));
+        info.setStartDate(str2Date(startDate));
+        info.setEndDate(str2Date(endDate));
 
 
         ContextInfo context = new ContextInfo();
         context.setPrincipalId(principalId);
         context.setCurrentDate(new Date());
-        try {
-            return this.acalService.createTerm(type, info, context);
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        return this.acalService.createTerm(type, info, context);
     }
 
-    private Date str2Date(String str, String context) {
+    private Date str2Date(String str) throws Exception {
         if (str == null) {
             return null;
         }
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss.S");
-        try {
-            return df.parse(str);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException("Bad date " + str + " in " + context);
-        }
+        return df.parse(str);
     }
 
 }

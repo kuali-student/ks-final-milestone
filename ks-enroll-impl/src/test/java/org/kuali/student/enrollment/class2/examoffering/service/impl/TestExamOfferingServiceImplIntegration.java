@@ -74,41 +74,31 @@ public class TestExamOfferingServiceImplIntegration extends TestExamOfferingServ
     /* Method Name: searchForExamOfferingIds */
     /* temporarily ignore this method because ExamOfferingServiceMapImpl.searchForExamOfferingIds hasn't been implemented yet */
     @Ignore
-    public void test_searchForExamOfferingIds_ignore() throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public void test_searchForExamOfferingIds_ignore() throws Exception {
 
         createExamOfferingTestData();
 
-        try {
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            QueryByCriteria criteria = qbcBuilder.build();
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        QueryByCriteria criteria = qbcBuilder.build();
 
-            List<String> examOfferingIds = this.getExamOfferingService().searchForExamOfferingIds(criteria, contextInfo);
-            assertNotNull(examOfferingIds);
-            assertEquals(1, examOfferingIds.size());
-        } catch (Exception ex) {
-            fail("Exception from service call :" + ex.getMessage());
-        }
+        List<String> examOfferingIds = this.getExamOfferingService().searchForExamOfferingIds(criteria, contextInfo);
+        assertNotNull(examOfferingIds);
+        assertEquals(1, examOfferingIds.size());
     }
 
     /* Method Name: searchForExamOfferings */
     /* temporarily ignore this method because ExamOfferingServiceMapImpl.searchForExamOfferings hasn't been implemented yet */
     @Ignore
-    public void test_searchForExamOfferings_ignore() throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException	{
+    public void test_searchForExamOfferings_ignore() throws Exception	{
         createExamOfferingTestData();
 
-        try {
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            QueryByCriteria criteria = qbcBuilder.build();
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        QueryByCriteria criteria = qbcBuilder.build();
 
-            List<ExamOfferingInfo> examOfferings = this.getExamOfferingService().searchForExamOfferings(criteria, contextInfo);
-            assertNotNull(examOfferings);
-            assertEquals(1, examOfferings.size());
-            ExamOfferingInfo eoInfo = examOfferings.get(0);
-        } catch (Exception ex) {
-            fail("Exception from service call :" + ex.getMessage());
-        }
+        List<ExamOfferingInfo> examOfferings = this.getExamOfferingService().searchForExamOfferings(criteria, contextInfo);
+        assertNotNull(examOfferings);
+        assertEquals(1, examOfferings.size());
+        ExamOfferingInfo eoInfo = examOfferings.get(0);
     }
 
     /* Method Name: searchForExamOfferingRelationIds */
@@ -123,24 +113,20 @@ public class TestExamOfferingServiceImplIntegration extends TestExamOfferingServ
             OperationFailedException, PermissionDeniedException {
     }
 
-    private void createExamOfferingTestData() {
+    private void createExamOfferingTestData() throws Exception {
         createExamOfferingToSearch("typeKey01", "stateKey01", "name01", "descr01");
         createExamOfferingToSearch(ExamOfferingServiceConstants.EXAM_OFFERING_FINAL_TYPE_KEY, "stateKey02", "name02", "descr02");
     }
 
-    private void createExamOfferingToSearch(String typeKey, String stateKey, String name, String descr) {
-        try {
-            ExamOfferingInfo toSearch = new ExamOfferingInfo();
-            toSearch.setExamId("ExamId1");
-            toSearch.setExamPeriodId("ExamPeriodId1");
-            toSearch.setScheduleId("ScheduleId1");
-            toSearch.setTypeKey(typeKey);
-            toSearch.setStateKey(stateKey);
-            toSearch.setName(name);
-            toSearch.setDescr(RichTextHelper.buildRichTextInfo(descr, descr));
-            this.getExamOfferingService().createExamOffering(toSearch.getExamPeriodId(), toSearch.getExamId(), toSearch.getTypeKey(), toSearch, contextInfo);
-        } catch (Exception e) {
-            fail("Unable to create exam to search for :" + e.getMessage());
-        }
+    private void createExamOfferingToSearch(String typeKey, String stateKey, String name, String descr) throws Exception {
+        ExamOfferingInfo toSearch = new ExamOfferingInfo();
+        toSearch.setExamId("ExamId1");
+        toSearch.setExamPeriodId("ExamPeriodId1");
+        toSearch.setScheduleId("ScheduleId1");
+        toSearch.setTypeKey(typeKey);
+        toSearch.setStateKey(stateKey);
+        toSearch.setName(name);
+        toSearch.setDescr(RichTextHelper.buildRichTextInfo(descr, descr));
+        this.getExamOfferingService().createExamOffering(toSearch.getExamPeriodId(), toSearch.getExamId(), toSearch.getTypeKey(), toSearch, contextInfo);
     }
 }

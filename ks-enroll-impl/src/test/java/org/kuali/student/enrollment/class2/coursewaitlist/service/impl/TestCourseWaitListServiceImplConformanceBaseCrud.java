@@ -16,6 +16,7 @@
 package org.kuali.student.enrollment.class2.coursewaitlist.service.impl;
 
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -83,16 +84,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	//           CourseWaitListInfo
 	// ****************************************************
 	@Test
-	public void testCrudCourseWaitList()
-		throws DataValidationErrorException,
-			DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException,
-			ReadOnlyException,
-			VersionMismatchException,
-			DependentObjectsExistException
+	public void testCrudCourseWaitList() throws Exception
 	{
 			// -------------------------------------
 			// test create
@@ -243,7 +235,8 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 			}
 			catch (DoesNotExistException dnee)
 			{
-					// expected
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getId(), dnee.getMessage());
 			}
 			
 	}
@@ -251,7 +244,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	/*
 		A method to set the fields for a CourseWaitList in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public abstract void testCrudCourseWaitList_setDTOFieldsForTestCreate(CourseWaitListInfo expected);
+	public abstract void testCrudCourseWaitList_setDTOFieldsForTestCreate(CourseWaitListInfo expected) throws ParseException;
 	
 	/*
 		A method to test the fields for a CourseWaitList. This is called after:
@@ -264,7 +257,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	/*
 		A method to set the fields for a CourseWaitList in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public abstract void testCrudCourseWaitList_setDTOFieldsForTestUpdate(CourseWaitListInfo expected);
+	public abstract void testCrudCourseWaitList_setDTOFieldsForTestUpdate(CourseWaitListInfo expected) throws ParseException;
 	
 	/*
 		A method to test the fields for a CourseWaitList after an update operation, followed by a read operation,
@@ -276,23 +269,14 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 		A method to set the fields for a CourseWaitList in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public abstract void testCrudCourseWaitList_setDTOFieldsForTestReadAfterUpdate(CourseWaitListInfo expected);
+	public abstract void testCrudCourseWaitList_setDTOFieldsForTestReadAfterUpdate(CourseWaitListInfo expected) throws ParseException;
 	
 	
 	// ****************************************************
 	//           CourseWaitListEntryInfo
 	// ****************************************************
 	@Test
-	public void testCrudCourseWaitListEntry()
-		throws DataValidationErrorException,
-			DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException,
-			ReadOnlyException,
-			VersionMismatchException,
-			DependentObjectsExistException
+	public void testCrudCourseWaitListEntry() throws Exception
 	{
 			// -------------------------------------
 			// test create
@@ -443,15 +427,16 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 			}
 			catch (DoesNotExistException dnee)
 			{
-					// expected
-			}
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getId(), dnee.getMessage());
+            }
 			
 	}
 	
 	/*
 		A method to set the fields for a CourseWaitListEntry in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestCreate(CourseWaitListEntryInfo expected);
+	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestCreate(CourseWaitListEntryInfo expected) throws ParseException;
 	
 	/*
 		A method to test the fields for a CourseWaitListEntry. This is called after:
@@ -464,7 +449,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	/*
 		A method to set the fields for a CourseWaitListEntry in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestUpdate(CourseWaitListEntryInfo expected);
+	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestUpdate(CourseWaitListEntryInfo expected) throws ParseException;
 	
 	/*
 		A method to test the fields for a CourseWaitListEntry after an update operation, followed by a read operation,
@@ -476,7 +461,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 		A method to set the fields for a CourseWaitListEntry in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestReadAfterUpdate(CourseWaitListEntryInfo expected);
+	public abstract void testCrudCourseWaitListEntry_setDTOFieldsForTestReadAfterUpdate(CourseWaitListEntryInfo expected) throws ParseException;
 	
 	
 	// ========================================
@@ -505,13 +490,11 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	
 	/* Method Name: getCourseWaitListsByActivityOffering */
 	@Test
-	public abstract void test_getCourseWaitListsByActivityOffering()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getCourseWaitListsByActivityOffering() throws Exception;
 	
 	/* Method Name: getCourseWaitListsByFormatOffering */
 	@Test
-	public abstract void test_getCourseWaitListsByFormatOffering()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getCourseWaitListsByFormatOffering() throws Exception;
 	
 	/* Method Name: searchForCourseWaitListIds */
 	@Test
@@ -530,23 +513,19 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	
 	/* Method Name: changeCourseWaitListState */
 	@Test
-	public abstract void test_changeCourseWaitListState()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_changeCourseWaitListState() throws Exception;
 
 	/* Method Name: getCourseWaitListEntriesByStudent */
 	@Test
-	public abstract void test_getCourseWaitListEntriesByStudent()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getCourseWaitListEntriesByStudent() throws Exception;
 	
 	/* Method Name: getCourseWaitListEntriesByCourseWaitList */
 	@Test
-	public abstract void test_getCourseWaitListEntriesByCourseWaitList()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getCourseWaitListEntriesByCourseWaitList() throws Exception;
 	
 	/* Method Name: getCourseWaitListEntriesByCourseWaitListAndStudent */
 	@Test
-	public abstract void test_getCourseWaitListEntriesByCourseWaitListAndStudent()
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getCourseWaitListEntriesByCourseWaitListAndStudent() throws Exception;
 	
 	/* Method Name: searchForCourseWaitListEntryIds */
 	@Test
@@ -565,18 +544,15 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 	
 	/* Method Name: changeCourseWaitListEntryState */
 	@Test
-	public abstract void test_changeCourseWaitListEntryState()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_changeCourseWaitListEntryState() throws Exception;
 
 	/* Method Name: reorderCourseWaitListEntries */
 	@Test
-	public abstract void test_reorderCourseWaitListEntries()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_reorderCourseWaitListEntries() throws Exception;
 	
 	/* Method Name: moveCourseWaitListEntryToPosition */
 	@Test
-	public abstract void test_moveCourseWaitListEntryToPosition()
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_moveCourseWaitListEntryToPosition() throws Exception;
 
     private void check(TypeStateEntityInfo expected, TypeStateEntityInfo actual) {
         assertEquals(expected.getTypeKey(), actual.getTypeKey());

@@ -77,7 +77,7 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 	}
 
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		// intentionally does not call super.setUp()
 
 		principalId = "123";
@@ -89,13 +89,9 @@ public class TestLprServiceImpl extends TestLprServiceMockImpl {
 		txTemplate
 				.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 		
-		try {
-
-			if (lprDao.findAll().size() == 0)
-				new LprTestDataLoader(lprDao).loadData();
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
+        if (lprDao.findAll().size() == 0) {
+            new LprTestDataLoader(lprDao).loadData();
+        }
 	}
 
 	@After

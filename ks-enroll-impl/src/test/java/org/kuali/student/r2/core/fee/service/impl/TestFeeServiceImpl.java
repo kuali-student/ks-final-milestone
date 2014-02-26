@@ -35,7 +35,10 @@ import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * This class provides unit tests for FeeServiceImpl
@@ -88,100 +91,81 @@ public class TestFeeServiceImpl {
     }
 
     @Test
-    public void testGetFeesByReference() {
+    public void testGetFeesByReference() throws Exception {
         before();
+        // Create three fees, two with the same ref URI/ID, and one different
+        EnrollmentFeeInfo same = createFeeInfo(2);
+        feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, same, contextInfo);
+        same = createFeeInfo(2);
+        feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, same, contextInfo);
+        // Now a different one
+        EnrollmentFeeInfo different = createFeeInfo(3);
+        feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, different, contextInfo);
+        String sameUri = "http://kuali.org/sample2";
+        String sameRefId = "Kuali2";
+        String diffUri = "http://kuali.org/sample3";
+        String diffRefId = "Kuali3";
+        List<EnrollmentFeeInfo> fetchSame = feeService.getFeesByReference(sameUri, sameRefId, contextInfo);
+        assertEquals(2, fetchSame.size());
+        List<EnrollmentFeeInfo> fetchDiff = feeService.getFeesByReference(diffUri, diffRefId, contextInfo);
+        assertEquals(1, fetchDiff.size());
+        List<EnrollmentFeeInfo> fetchZero = feeService.getFeesByReference(sameUri, diffRefId, contextInfo);
+        assertEquals(0, fetchZero.size());
+    }
+    @Test
+    public void testCrud() throws Exception {
+        before();
+        EnrollmentFeeInfo feeInfo = createFeeInfo();
+        EnrollmentFeeInfo returned = feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, feeInfo, contextInfo);
+        String id = returned.getId();
+        EnrollmentFeeInfo fetched = feeService.getFee(id, contextInfo);
+        // Change the amount
+        fetched.getAmount().setCurrencyQuantity(20);
+        // Update
+        feeService.updateFee(id, fetched, contextInfo);
+        // Fetch it back again
+        EnrollmentFee fetchedAgain = feeService.getFee(id, contextInfo);
+        assertEquals(feeInfo.getOrgId(), fetchedAgain.getOrgId());
+        // Verify new value
+        assertEquals(new Integer(20), fetchedAgain.getAmount().getCurrencyQuantity());
+        // Now delete
+        StatusInfo info = feeService.deleteFee(id, contextInfo);
+        assertTrue(info.getIsSuccess());
         try {
-            // Create three fees, two with the same ref URI/ID, and one different
-            EnrollmentFeeInfo same = createFeeInfo(2);
-            feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, same, contextInfo);
-            same = createFeeInfo(2);
-            feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, same, contextInfo);
-            // Now a different one
-            EnrollmentFeeInfo different = createFeeInfo(3);
-            feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, different, contextInfo);
-            String sameUri = "http://kuali.org/sample2";
-            String sameRefId = "Kuali2";
-            String diffUri = "http://kuali.org/sample3";
-            String diffRefId = "Kuali3";
-            List<EnrollmentFeeInfo> fetchSame = feeService.getFeesByReference(sameUri, sameRefId, contextInfo);
-            assertEquals(2, fetchSame.size());
-            List<EnrollmentFeeInfo> fetchDiff = feeService.getFeesByReference(diffUri, diffRefId, contextInfo);
-            assertEquals(1, fetchDiff.size());
-            List<EnrollmentFeeInfo> fetchZero = feeService.getFeesByReference(sameUri, diffRefId, contextInfo);
-            assertEquals(0, fetchZero.size());
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false);
+            feeService.getFee(id, contextInfo);
+            fail("DoesNotExistException should have been thrown");
+        } catch (DoesNotExistException e) {
+            assertNotNull(e.getMessage());
+            assertEquals(id, e.getMessage());
         }
     }
     @Test
-    public void testCrud() {
+    public void testUpdate() throws Exception {
         before();
         EnrollmentFeeInfo feeInfo = createFeeInfo();
-        try {
-            EnrollmentFeeInfo returned = feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, feeInfo, contextInfo);
-            String id = returned.getId();
-            EnrollmentFeeInfo fetched = feeService.getFee(id, contextInfo);
-            // Change the amount
-            fetched.getAmount().setCurrencyQuantity(20);
-            // Update
-            feeService.updateFee(id, fetched, contextInfo);
-            // Fetch it back again
-            EnrollmentFee fetchedAgain = feeService.getFee(id, contextInfo);
-            assertEquals(feeInfo.getOrgId(), fetchedAgain.getOrgId());
-            // Verify new value
-            assertEquals(new Integer(20), fetchedAgain.getAmount().getCurrencyQuantity());
-            // Now delete
-            StatusInfo info = feeService.deleteFee(id, contextInfo);
-            assertEquals(new Boolean(true), info.getIsSuccess());
-            try {
-                feeService.getFee(id, contextInfo);
-            } catch (DoesNotExistException e) {
-                assert(true);
-                return;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        assert(false); // Shouldn't get here
-    }
-    @Test
-    public void testUpdate() {
-        before();
-        EnrollmentFeeInfo feeInfo = createFeeInfo();
-        try {
-            EnrollmentFeeInfo returned = feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, feeInfo, contextInfo);
-            String id = returned.getId();
-            EnrollmentFeeInfo fetched = feeService.getFee(id, contextInfo);
-            // Change the amount
-            fetched.getAmount().setCurrencyQuantity(20);
-            // Update
-            feeService.updateFee(id, fetched, contextInfo);
-            // Fetch it back again
-            EnrollmentFee fetchedAgain = feeService.getFee(id, contextInfo);
-            assertEquals(feeInfo.getOrgId(), fetchedAgain.getOrgId());
-            // Verify new value
-            assertEquals(new Integer(20), fetchedAgain.getAmount().getCurrencyQuantity());
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false); // Shouldn't get here
-        }
+        EnrollmentFeeInfo returned = feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, feeInfo, contextInfo);
+        String id = returned.getId();
+        EnrollmentFeeInfo fetched = feeService.getFee(id, contextInfo);
+        // Change the amount
+        fetched.getAmount().setCurrencyQuantity(20);
+        // Update
+        feeService.updateFee(id, fetched, contextInfo);
+        // Fetch it back again
+        EnrollmentFee fetchedAgain = feeService.getFee(id, contextInfo);
+        assertEquals(feeInfo.getOrgId(), fetchedAgain.getOrgId());
+        // Verify new value
+        assertEquals(new Integer(20), fetchedAgain.getAmount().getCurrencyQuantity());
     }
 
     @Test
-    public void testCreateAndRead() {
+    public void testCreateAndRead() throws Exception {
         before();
         EnrollmentFeeInfo feeInfo = createFeeInfo();
-        try {
-            EnrollmentFeeInfo returned = feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, feeInfo, contextInfo);
-            String id = returned.getId();
-            EnrollmentFeeInfo fetched = feeService.getFee(id, contextInfo);
-            assertEquals(feeInfo.getOrgId(), fetched.getOrgId());
-            assertEquals(feeInfo.getAmount().getCurrencyQuantity(), fetched.getAmount().getCurrencyQuantity());
-            assertEquals(feeInfo.getAmount().getCurrencyTypeKey(), fetched.getAmount().getCurrencyTypeKey());
-        } catch (Exception e) {
-            e.printStackTrace();  
-            assert(false); // Shouldn't get here
-        }
+        EnrollmentFeeInfo returned = feeService.createFee(FeeServiceConstants.FEE_ENROLLMENT_TYPE_KEY, feeInfo, contextInfo);
+        String id = returned.getId();
+        EnrollmentFeeInfo fetched = feeService.getFee(id, contextInfo);
+        assertEquals(feeInfo.getOrgId(), fetched.getOrgId());
+        assertEquals(feeInfo.getAmount().getCurrencyQuantity(), fetched.getAmount().getCurrencyQuantity());
+        assertEquals(feeInfo.getAmount().getCurrencyTypeKey(), fetched.getAmount().getCurrencyTypeKey());
     }
 }

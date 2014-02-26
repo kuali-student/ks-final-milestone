@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,17 +23,13 @@ import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
-import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -48,8 +43,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-class2-mock-context.xml"})
 public class TestRiceDataDictionaryValidatorImplAgainstAtp {
-    private static final Logger log = Logger.getLogger(TestRiceDataDictionaryValidatorImplAgainstAtp.class);
-
     public ContextInfo callContext = null;
 
     @Resource
@@ -70,18 +63,12 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
     }
 
 
-    private Date parseDate(String str) {
+    private Date parseDate(String str) throws Exception {
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = null;
-        try {
-            date = df.parse(str);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException(str, ex);
-        }
-        return date;
+        return df.parse(str);
     }
 
-    private AtpInfo getDefaultAtpInfo() {
+    private AtpInfo getDefaultAtpInfo() throws Exception {
         AtpInfo atp = new AtpInfo();
         atp.setId("org.kuali.test.atp");
         atp.setName("test atp");

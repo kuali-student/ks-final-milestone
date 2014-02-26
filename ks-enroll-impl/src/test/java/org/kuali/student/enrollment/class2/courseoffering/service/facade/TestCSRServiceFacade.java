@@ -106,21 +106,17 @@ public class TestCSRServiceFacade {
                         new ArrayList<String>(Collections.singletonList("SCHED-ID")), activityId, "Lecture", "A",
                         LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,
                         instructors);
-        try {
-            ActivityOfferingInfo created = coService.createActivityOffering(
-                    "CO-1:LEC-ONLY", activityId,
-                    LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, ao,
-                    contextInfo);
+        ActivityOfferingInfo created = coService.createActivityOffering(
+                "CO-1:LEC-ONLY", activityId,
+                LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, ao,
+                contextInfo);
 
-            ActivityOfferingInfo retrieved = coService.getActivityOffering(
-                    created.getId(), contextInfo);
+        ActivityOfferingInfo retrieved = coService.getActivityOffering(
+                created.getId(), contextInfo);
 
-            // test getActivityOfferingsByCourseOffering
-            List<ActivityOfferingInfo> activities = coService
-                    .getActivityOfferingsByCourseOffering("CO-1", contextInfo);
-        } catch (Exception ex) {
-            fail("Exception from service call :" + ex.getMessage());
-        }
+        // test getActivityOfferingsByCourseOffering
+        List<ActivityOfferingInfo> activities = coService
+                .getActivityOfferingsByCourseOffering("CO-1", contextInfo);
     }
 
 

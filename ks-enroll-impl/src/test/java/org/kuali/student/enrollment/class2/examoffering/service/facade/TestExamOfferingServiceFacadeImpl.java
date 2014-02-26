@@ -175,9 +175,10 @@ public class TestExamOfferingServiceFacadeImpl {
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
             try{
                 ExamOffering eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);
-                fail("Service should throw does noet exist exception");
-            } catch (DoesNotExistException dne){
-                // do nothing.
+                fail("Service should throw does not exist exception");
+            } catch (DoesNotExistException dnee){
+                assertNotNull(dnee.getMessage());
+                assertEquals(eoRelation.getExamOfferingId(), dnee.getMessage());
             }
         }
     }
@@ -213,9 +214,10 @@ public class TestExamOfferingServiceFacadeImpl {
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
             try{
                 ExamOffering eo = this.getExamOfferingService().getExamOffering(eoRelation.getExamOfferingId(), contextInfo);
-                fail("Service should throw does noet exist exception");
-            } catch (DoesNotExistException dne){
-                // do nothing.
+                fail("Service should throw does not exist exception");
+            } catch (DoesNotExistException dnee){
+                assertNotNull(dnee.getMessage());
+                assertEquals(eoRelation.getExamOfferingId(), dnee.getMessage());
             }
         }
     }

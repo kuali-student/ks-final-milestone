@@ -239,7 +239,8 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 			}
 			catch (DoesNotExistException dnee)
 			{
-					// expected
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getId(), dnee.getMessage());
 			}
 			
 	}
@@ -432,15 +433,16 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 			}
 			catch (DoesNotExistException dnee)
 			{
-					// expected
-			}
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getId(), dnee.getMessage());
+            }
 			
 	}
 	
 	/*
 		A method to set the fields for a LprRosterEntry in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public abstract void testCrudLprRosterEntry_setDTOFieldsForTestCreate(LprRosterEntryInfo expected);
+	public abstract void testCrudLprRosterEntry_setDTOFieldsForTestCreate(LprRosterEntryInfo expected) throws Exception;
 	
 	/*
 		A method to test the fields for a LprRosterEntry. This is called after:
@@ -453,7 +455,7 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 	/*
 		A method to set the fields for a LprRosterEntry in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public abstract void testCrudLprRosterEntry_setDTOFieldsForTestUpdate(LprRosterEntryInfo expected);
+	public abstract void testCrudLprRosterEntry_setDTOFieldsForTestUpdate(LprRosterEntryInfo expected) throws Exception;
 	
 	/*
 		A method to test the fields for a LprRosterEntry after an update operation, followed by a read operation,
@@ -465,7 +467,7 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 		A method to set the fields for a LprRosterEntry in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public abstract void testCrudLprRosterEntry_setDTOFieldsForTestReadAfterUpdate(LprRosterEntryInfo expected);
+	public abstract void testCrudLprRosterEntry_setDTOFieldsForTestReadAfterUpdate(LprRosterEntryInfo expected) throws Exception;
 	
 	
 	// ========================================
@@ -494,13 +496,11 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 	
 	/* Method Name: getLprRostersByLui */
 	@Test
-	public abstract void test_getLprRostersByLui() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getLprRostersByLui() throws Exception;
 	
 	/* Method Name: getLprRostersByTypeAndLui */
 	@Test
-	public abstract void test_getLprRostersByTypeAndLui() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getLprRostersByTypeAndLui() throws Exception;
 	
 	/* Method Name: searchForLprRosterIds */
 	@Test
@@ -524,13 +524,11 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 	
 	/* Method Name: getLprRosterEntriesByLpr */
 	@Test
-	public abstract void test_getLprRosterEntriesByLpr() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getLprRosterEntriesByLpr() throws Exception;
 	
 	/* Method Name: getLprRosterEntriesByLprRosterAndLpr */
 	@Test
-	public abstract void test_getLprRosterEntriesByLprRosterAndLpr() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getLprRosterEntriesByLprRosterAndLpr() throws Exception;
 	
 	/* Method Name: searchForLprRosterEntryIds */
 	@Test
@@ -549,13 +547,11 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 	
 	/* Method Name: moveLprRosterEntryToPosition */
 	@Test
-	public abstract void test_moveLprRosterEntryToPosition() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_moveLprRosterEntryToPosition() throws Exception;
 	
 	/* Method Name: reorderLprRosterEntries */
 	@Test
-	public abstract void test_reorderLprRosterEntries() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_reorderLprRosterEntries() throws Exception;
 	
 }
 

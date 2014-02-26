@@ -257,7 +257,8 @@ public abstract class TestExamServiceImplConformanceBaseCrud {
         }
         catch (DoesNotExistException dnee)
         {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(actual.getId(), dnee.getMessage());
         }
 
     }
@@ -318,13 +319,11 @@ public abstract class TestExamServiceImplConformanceBaseCrud {
 
     /* Method Name: searchForExamIds */
     @Test
-    public abstract void test_searchForExamIds()
-            throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+    public abstract void test_searchForExamIds() throws Exception;
 
     /* Method Name: searchForExams */
     @Test
-    public abstract void test_searchForExams()
-            throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+    public abstract void test_searchForExams() throws Exception;
 
 }
 

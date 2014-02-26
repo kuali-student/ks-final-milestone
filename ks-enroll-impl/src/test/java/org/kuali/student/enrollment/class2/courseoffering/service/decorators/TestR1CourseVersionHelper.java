@@ -56,7 +56,7 @@ public class TestR1CourseVersionHelper {
     public void tearDown() {
     }
 
-    private void loadData(CourseService courseService, AcademicCalendarService acalService) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+    private void loadData(CourseService courseService, AcademicCalendarService acalService) throws Exception {
 
         MockAcalTestDataLoader acalLoader = new MockAcalTestDataLoader(acalService);
         acalLoader.loadTerm("2011SP", "Spring 2011", "2011-03-01 00:00:00.0", "2011-05-31 00:00:00.0", AtpServiceConstants.ATP_SPRING_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Spring Term 2011"

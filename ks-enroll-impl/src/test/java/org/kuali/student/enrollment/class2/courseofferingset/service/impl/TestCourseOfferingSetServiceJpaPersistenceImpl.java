@@ -36,25 +36,19 @@ public class TestCourseOfferingSetServiceJpaPersistenceImpl extends TestCourseOf
     protected StateService stateService;
 
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
 
         super.setUp();
-        try{
-            loadStateData();
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
+        loadStateData();
     }
 
-    private void loadStateData()throws Exception{
-        try {
-            String lifecycleKey = createLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, "kuali.soc.lifecycle", "Set of Courses State Lifecycle", CourseOfferingSetServiceConstants.REF_OBJECT_URI_SOC);
-            createState(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, lifecycleKey, "Final Edits", "Final Edits",true);
-            createState(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, lifecycleKey, "Open", "Open",false);
-            createState(CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, lifecycleKey, "Published", "Published",false);
-            createState(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, lifecycleKey, "Locked", "Locked",false);
-            createState(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, lifecycleKey, "Final Edits", "Final Edits",false);
-        } catch( AlreadyExistsException aee ) { }
+    private void loadStateData() throws Exception {
+        String lifecycleKey = createLifecycle(CourseOfferingSetServiceConstants.SOC_LIFECYCLE_KEY, "kuali.soc.lifecycle", "Set of Courses State Lifecycle", CourseOfferingSetServiceConstants.REF_OBJECT_URI_SOC);
+        createState(CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY, lifecycleKey, "Final Edits", "Final Edits",true);
+        createState(CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY, lifecycleKey, "Open", "Open",false);
+        createState(CourseOfferingSetServiceConstants.PUBLISHING_SOC_STATE_KEY, lifecycleKey, "Published", "Published",false);
+        createState(CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY, lifecycleKey, "Locked", "Locked",false);
+        createState(CourseOfferingSetServiceConstants.FINALEDITS_SOC_STATE_KEY, lifecycleKey, "Final Edits", "Final Edits",false);
     }
 
     private String createLifecycle(String key, String name, String descr, String uri) throws Exception{

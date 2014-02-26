@@ -142,20 +142,12 @@ public class TestExamServiceImplConformanceExtendedCrud extends TestExamServiceI
 
     /* Method Name: searchForExamIds */
     @Test
-    public void test_searchForExamIds()
-            throws 	InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException	{
+    public void test_searchForExamIds() throws Exception {
     }
 
     /* Method Name: searchForExams */
     @Test
-    public void test_searchForExams()
-            throws 	InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException	{
+    public void test_searchForExams() throws Exception	{
     }
 
 }

@@ -38,6 +38,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:cwl-test-context.xml"})
@@ -60,191 +61,134 @@ public class TestCourseWaitListServiceImpl {
     }
 
     @Test
-    public void testCreateAndReadCwl() {
+    public void testCreateAndReadCwl() throws Exception {
         CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+        String id = returned.getId();
+        CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
+        assertEquals(cwlInfo.getActivityOfferingIds().get(0), fetched.getActivityOfferingIds().get(0));
+        assertEquals(cwlInfo.getFormatOfferingIds().get(0), fetched.getFormatOfferingIds().get(0));
+        assertEquals(cwlInfo.getConfirmationRequired(), fetched.getConfirmationRequired());
+        assertEquals(cwlInfo.getMaxSize(), fetched.getMaxSize());
+        assertEquals(cwlInfo.getCheckInFrequency().getTimeQuantity(), fetched.getCheckInFrequency().getTimeQuantity());
+    }
+
+    // CourseWaitListEntry is not yet implemented; when ready to test, add Test annotation
+    public void testCreateAndReadCwlEntry() throws Exception {
+        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        CourseWaitListInfo createdCwl;
+        createdCwl = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+        CourseWaitListEntryInfo cwlEntryInfo = buildDefaultCourseWaitListEntry(createdCwl);
+        CourseWaitListEntryInfo returned = cwlService.createCourseWaitListEntry(cwlEntryInfo.getCourseWaitListId(), cwlEntryInfo.getStudentId(), CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlEntryInfo, contextInfo);
+        String id = returned.getId();
+        CourseWaitListEntryInfo fetched = cwlService.getCourseWaitListEntry(id, contextInfo);
+        assertEquals(cwlEntryInfo.getLastCheckIn(), fetched.getLastCheckIn());
+        assertEquals(cwlEntryInfo.getCourseWaitListId(), fetched.getCourseWaitListId());
+        assertEquals(cwlEntryInfo.getPosition(), fetched.getPosition());
+        assertEquals(cwlEntryInfo.getStudentId(), fetched.getStudentId());
+    }
+
+    @Test
+    public void testUpdateCwl() throws Exception {
+        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+        String id = returned.getId();
+        CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
+        fetched.setMaxSize(50);
+        cwlService.updateCourseWaitList(fetched.getId(), fetched, contextInfo);
+
+        CourseWaitListInfo fetchedAgain = cwlService.getCourseWaitList(id, contextInfo);
+
+        assertEquals(fetchedAgain.getMaxSize(), fetched.getMaxSize());
+    }
+
+    // CourseWaitListEntry is not yet implemented; when ready to test, add Test annotation
+    public void testUpdateCwlEntry() throws Exception {
+        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        CourseWaitListInfo createdCwl;
+        createdCwl = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+        CourseWaitListEntryInfo cwlEntryInfo = buildDefaultCourseWaitListEntry(createdCwl);
+        CourseWaitListEntryInfo returned = cwlService.createCourseWaitListEntry(cwlEntryInfo.getCourseWaitListId(), cwlEntryInfo.getStudentId(), CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlEntryInfo, contextInfo);
+        String id = returned.getId();
+        CourseWaitListEntryInfo fetched = cwlService.getCourseWaitListEntry(id, contextInfo);
+        fetched.setPosition(2);
+        cwlService.updateCourseWaitListEntry(fetched.getId(), fetched, contextInfo);
+
+        CourseWaitListEntryInfo fetchedAgain = cwlService.getCourseWaitListEntry(id, contextInfo);
+
+        assertEquals(fetchedAgain.getPosition(), fetched.getPosition());
+    }
+
+    @Test
+    public void testGetCwlsByAo() throws Exception {
+        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        List<CourseWaitListInfo> courseWaitListInfos = cwlService.getCourseWaitListsByActivityOffering("123", contextInfo);
+        assertTrue(courseWaitListInfos.isEmpty());
+        CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+
+        courseWaitListInfos = cwlService.getCourseWaitListsByActivityOffering("123", contextInfo);
+        assertTrue(!courseWaitListInfos.isEmpty());
+
+        for(CourseWaitListInfo courseWaitListInfo : courseWaitListInfos) {
+            assertTrue(courseWaitListInfo.getActivityOfferingIds().contains("123"));
+        }
+    }
+
+
+    @Test
+    public void testChangeCwlState() throws Exception {
+        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+        String id = returned.getId();
+        CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
+
+        assertTrue(null == fetched.getStateKey());
+
+        StatusInfo statusInfo = cwlService.changeCourseWaitListState(fetched.getId(),CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY,contextInfo);
+        assertTrue(statusInfo.getIsSuccess());
+
+        CourseWaitListInfo fetchAgain = cwlService.getCourseWaitList(id, contextInfo);
+        assertNotNull(fetchAgain.getStateKey());
+        assertTrue(fetchAgain.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY));
+    }
+
+
+
+    @Test
+    public void testDeleteCwl() throws Exception {
+        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
+        CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
+        String id = returned.getId();
+        CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
+        cwlService.deleteCourseWaitList(fetched.getId(), contextInfo);
+
         try {
-            CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
-            String id = returned.getId();
-            CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
-            assertEquals(cwlInfo.getActivityOfferingIds().get(0), fetched.getActivityOfferingIds().get(0));
-            assertEquals(cwlInfo.getFormatOfferingIds().get(0), fetched.getFormatOfferingIds().get(0));
-            assertEquals(cwlInfo.getConfirmationRequired(), fetched.getConfirmationRequired());
-            assertEquals(cwlInfo.getMaxSize(), fetched.getMaxSize());
-            assertEquals(cwlInfo.getCheckInFrequency().getTimeQuantity(), fetched.getCheckInFrequency().getTimeQuantity());
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
+            cwlService.getCourseWaitList(id, contextInfo);
+            fail("DoesNotExistException should have been thrown");
+        } catch(DoesNotExistException e) {
+            assertNotNull(e.getMessage());
+            assertEquals(id, e.getMessage());
         }
     }
 
     // CourseWaitListEntry is not yet implemented; when ready to test, add Test annotation
-    public void testCreateAndReadCwlEntry() {
+    public void testDeleteCwlEntry() throws Exception {
         CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
-        CourseWaitListInfo createdCwl = null;
-        try {
-            createdCwl = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
+        CourseWaitListInfo createdCwl;
+        createdCwl = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
         CourseWaitListEntryInfo cwlEntryInfo = buildDefaultCourseWaitListEntry(createdCwl);
+        CourseWaitListEntryInfo returned = cwlService.createCourseWaitListEntry(cwlEntryInfo.getCourseWaitListId(), cwlEntryInfo.getStudentId(), CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlEntryInfo, contextInfo);
+        String id = returned.getId();
+        CourseWaitListEntryInfo fetched = cwlService.getCourseWaitListEntry(id, contextInfo);
+        cwlService.deleteCourseWaitListEntry(fetched.getId(), contextInfo);
+
         try {
-            CourseWaitListEntryInfo returned = cwlService.createCourseWaitListEntry(cwlEntryInfo.getCourseWaitListId(), cwlEntryInfo.getStudentId(), CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlEntryInfo, contextInfo);
-            String id = returned.getId();
-            CourseWaitListEntryInfo fetched = cwlService.getCourseWaitListEntry(id, contextInfo);
-            assertEquals(cwlEntryInfo.getLastCheckIn(), fetched.getLastCheckIn());
-            assertEquals(cwlEntryInfo.getCourseWaitListId(), fetched.getCourseWaitListId());
-            assertEquals(cwlEntryInfo.getPosition(), fetched.getPosition());
-            assertEquals(cwlEntryInfo.getStudentId(), fetched.getStudentId());
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
+            cwlService.getCourseWaitListEntry(id, contextInfo);
+            fail("DoesNotExistException should have been thrown");
+        } catch(DoesNotExistException e) {
+            assertNotNull(e.getMessage());
+            assertEquals(id, e.getMessage());
         }
-    }
-
-    @Test
-    public void testUpdateCwl() {
-        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
-        try {
-            CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
-            String id = returned.getId();
-            CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
-            fetched.setMaxSize(50);
-            cwlService.updateCourseWaitList(fetched.getId(), fetched, contextInfo);
-
-            CourseWaitListInfo fetchedAgain = cwlService.getCourseWaitList(id, contextInfo);
-
-            assertEquals(fetchedAgain.getMaxSize(), fetched.getMaxSize());
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
-    }
-
-    // CourseWaitListEntry is not yet implemented; when ready to test, add Test annotation
-    public void testUpdateCwlEntry() {
-        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
-        CourseWaitListInfo createdCwl = null;
-        try {
-            createdCwl = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
-        CourseWaitListEntryInfo cwlEntryInfo = buildDefaultCourseWaitListEntry(createdCwl);
-        try {
-            CourseWaitListEntryInfo returned = cwlService.createCourseWaitListEntry(cwlEntryInfo.getCourseWaitListId(), cwlEntryInfo.getStudentId(), CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlEntryInfo, contextInfo);
-            String id = returned.getId();
-            CourseWaitListEntryInfo fetched = cwlService.getCourseWaitListEntry(id, contextInfo);
-            fetched.setPosition(2);
-            cwlService.updateCourseWaitListEntry(fetched.getId(), fetched, contextInfo);
-
-            CourseWaitListEntryInfo fetchedAgain = cwlService.getCourseWaitListEntry(id, contextInfo);
-
-            assertEquals(fetchedAgain.getPosition(), fetched.getPosition());
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
-    }
-
-    @Test
-    public void testGetCwlsByAo(){
-        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
-        try {
-            List<CourseWaitListInfo> courseWaitListInfos = cwlService.getCourseWaitListsByActivityOffering("123", contextInfo);
-            assertTrue(courseWaitListInfos.isEmpty());
-            CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
-
-            courseWaitListInfos = cwlService.getCourseWaitListsByActivityOffering("123", contextInfo);
-            assertTrue(!courseWaitListInfos.isEmpty());
-
-            for(CourseWaitListInfo courseWaitListInfo : courseWaitListInfos) {
-                assertTrue(courseWaitListInfo.getActivityOfferingIds().contains("123"));
-            }
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            assert(false);
-        }
-    }
-
-
-    @Test
-    public void testChangeCwlState(){
-        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
-        try {
-            CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
-            String id = returned.getId();
-            CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
-
-            assertTrue(null == fetched.getStateKey());
-
-            StatusInfo statusInfo = cwlService.changeCourseWaitListState(fetched.getId(),CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY,contextInfo);
-            assertTrue(statusInfo.getIsSuccess());
-
-            CourseWaitListInfo fetchAgain = cwlService.getCourseWaitList(id, contextInfo);
-            assertNotNull(fetchAgain.getStateKey());
-            assertTrue(fetchAgain.getStateKey().equals(CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY));
-        }
-        catch (Exception e){
-            e.printStackTrace();
-            assert(false);
-        }
-    }
-
-
-
-    @Test
-    public void testDeleteCwl() {
-        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
-        try {
-            CourseWaitListInfo returned = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
-            String id = returned.getId();
-            CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
-            cwlService.deleteCourseWaitList(fetched.getId(), contextInfo);
-
-            try {
-                CourseWaitListInfo fetchedAgain = cwlService.getCourseWaitList(id, contextInfo);
-            } catch(DoesNotExistException e) {
-                assert(true);
-                return;
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
-        assert(false); // Shouldn't get here
-    }
-
-    // CourseWaitListEntry is not yet implemented; when ready to test, add Test annotation
-    public void testDeleteCwlEntry() {
-        CourseWaitListInfo cwlInfo = buildDefaultCourseWaitList();
-        CourseWaitListInfo createdCwl = null;
-        try {
-            createdCwl = cwlService.createCourseWaitList(CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlInfo, contextInfo);
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
-        CourseWaitListEntryInfo cwlEntryInfo = buildDefaultCourseWaitListEntry(createdCwl);
-        try {
-            CourseWaitListEntryInfo returned = cwlService.createCourseWaitListEntry(cwlEntryInfo.getCourseWaitListId(), cwlEntryInfo.getStudentId(), CourseWaitListServiceConstants.COURSE_WAIT_LIST_WAIT_TYPE_KEY, cwlEntryInfo, contextInfo);
-            String id = returned.getId();
-            CourseWaitListEntryInfo fetched = cwlService.getCourseWaitListEntry(id, contextInfo);
-            cwlService.deleteCourseWaitListEntry(fetched.getId(), contextInfo);
-
-            try {
-                CourseWaitListEntryInfo fetchedAgain = cwlService.getCourseWaitListEntry(id, contextInfo);
-            } catch(DoesNotExistException e) {
-                assert(true);
-                return;
-            }
-        } catch(Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
-        assert(false); // Shouldn't get here
     }
 
     private CourseWaitListInfo buildDefaultCourseWaitList() {

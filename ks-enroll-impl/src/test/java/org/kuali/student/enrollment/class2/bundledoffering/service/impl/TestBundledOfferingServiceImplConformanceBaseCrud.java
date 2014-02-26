@@ -158,15 +158,15 @@ public abstract class TestBundledOfferingServiceImplConformanceBaseCrud {
 			new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
 			
 			// Test that VersionMissmatchException's are being detected
-			boolean exception = false;
 			try {
-   			testService.updateBundledOffering ( original.getId(), original, contextInfo);
+       			testService.updateBundledOffering ( original.getId(), original, contextInfo);
+                fail("VersionMismatchException should have been thrown");
 			}
-			catch (VersionMismatchException e) { 
-   			exception = true;			}
-			
-			Assert.assertTrue("VersionMissmatchException was not detected!", exception);
-			
+			catch (VersionMismatchException e) {
+                assertNotNull(e.getMessage());
+                assertEquals("1", e.getMessage());
+            }
+
 			// -------------------------------------
 			// test read after update
 			// -------------------------------------
@@ -257,7 +257,8 @@ public abstract class TestBundledOfferingServiceImplConformanceBaseCrud {
 			}
 			catch (DoesNotExistException dnee)
 			{
-					// expected
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getId(), dnee.getMessage());
 			}
 			
 	}
@@ -313,33 +314,27 @@ public abstract class TestBundledOfferingServiceImplConformanceBaseCrud {
 	
 	/* Method Name: getBundledOfferingsByCourseBundle */
 	@Test
-	public abstract void test_getBundledOfferingsByCourseBundle() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getBundledOfferingsByCourseBundle() throws Exception;
 	
 	/* Method Name: getBundledOfferingsByTerm */
 	@Test
-	public abstract void test_getBundledOfferingsByTerm() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getBundledOfferingsByTerm() throws Exception;
 	
 	/* Method Name: getBundledOfferingsByCourseBundleAndTerm */
 	@Test
-	public abstract void test_getBundledOfferingsByCourseBundleAndTerm() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getBundledOfferingsByCourseBundleAndTerm() throws Exception;
 	
 	/* Method Name: getBundledOfferingsByRegistrationGroup */
 	@Test
-	public abstract void test_getBundledOfferingsByRegistrationGroup() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getBundledOfferingsByRegistrationGroup() throws Exception;
 	
 	/* Method Name: getBundledOfferingsByTermAndCode */
 	@Test
-	public abstract void test_getBundledOfferingsByTermAndCode() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getBundledOfferingsByTermAndCode() throws Exception;
 	
 	/* Method Name: getBundledOfferingsByTermAndSubjectAreaOrg */
 	@Test
-	public abstract void test_getBundledOfferingsByTermAndSubjectAreaOrg() 
-	throws 	InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_getBundledOfferingsByTermAndSubjectAreaOrg() throws Exception;
 	
 	/* Method Name: searchForBundledOfferingIds */
 	@Test
@@ -358,8 +353,7 @@ public abstract class TestBundledOfferingServiceImplConformanceBaseCrud {
 	
 	/* Method Name: changeBundledOfferingState */
 	@Test
-	public abstract void test_changeBundledOfferingState() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_changeBundledOfferingState() throws Exception;
 	
 }
 

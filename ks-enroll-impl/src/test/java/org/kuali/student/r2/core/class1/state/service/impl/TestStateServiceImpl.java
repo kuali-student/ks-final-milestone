@@ -299,7 +299,8 @@ public class TestStateServiceImpl {
             stateService.getState(atpDraftState.getKey(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
-            // expected
+            assertNotNull(e.getMessage());
+            assertEquals(atpDraftState.getKey(), e.getMessage());
         }
         // delete life 
         result = stateService.deleteLifecycle(atpLife.getKey(), callContext);
@@ -308,7 +309,8 @@ public class TestStateServiceImpl {
             stateService.getLifecycle(atpLife.getKey(), callContext);
             fail("should have thrown dne exception");
         } catch (DoesNotExistException e) {
-            // expected
+            assertNotNull(e.getMessage());
+            assertEquals(atpLife.getKey(), e.getMessage());
         }
     }
 

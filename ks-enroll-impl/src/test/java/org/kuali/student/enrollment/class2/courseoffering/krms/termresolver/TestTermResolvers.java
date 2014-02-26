@@ -43,9 +43,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -88,7 +88,7 @@ public class TestTermResolvers {
     private LRCService lrcService;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
             contextInfo = new ContextInfo();
             contextInfo.setLocale(new LocaleInfo());
             contextInfo.setPrincipalId("admin");
@@ -917,40 +917,36 @@ public class TestTermResolvers {
         cluSetDataLoader.load();
     }
 
-    private void loadAcadRecordData() {
+    private void loadAcadRecordData() throws Exception {
 
-        try {
-            dataLoader.beforeTest();
+        dataLoader.beforeTest();
 
-            // setup the test data for student 1
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(),
-                    "COURSE1", "kuali.result.value.grade.letter.plus.minus.a+", "kuali.result.value.grade.letter.plus.minus");
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(),
-                    "COURSE2", "kuali.result.value.grade.letter.plus.minus.c", "kuali.result.value.grade.letter.plus.minus");
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(),
-                    "COURSE4", "kuali.result.value.grade.letter.plus.minus.c", "kuali.result.value.grade.letter.plus.minus");
+        // setup the test data for student 1
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(),
+                "COURSE1", "kuali.result.value.grade.letter.plus.minus.a+", "kuali.result.value.grade.letter.plus.minus");
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(),
+                "COURSE2", "kuali.result.value.grade.letter.plus.minus.c", "kuali.result.value.grade.letter.plus.minus");
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(),
+                "COURSE4", "kuali.result.value.grade.letter.plus.minus.c", "kuali.result.value.grade.letter.plus.minus");
 
-            // setup the test data for student 2
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(),
-                    "COURSE2", "kuali.result.value.grade.letter.plus.minus.a", "kuali.result.value.grade.letter.plus.minus");
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(),
-                    "COURSE3", "kuali.result.value.grade.letter.plus.minus.b", "kuali.result.value.grade.letter.plus.minus");
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(),
-                    "COURSE4", "kuali.result.value.grade.letter.plus.minus.a", "kuali.result.value.grade.letter.plus.minus");
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(),
-                    "COURSE5", "kuali.result.value.grade.letter.plus.minus.c", "kuali.result.value.grade.letter.plus.minus");
+        // setup the test data for student 2
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(),
+                "COURSE2", "kuali.result.value.grade.letter.plus.minus.a", "kuali.result.value.grade.letter.plus.minus");
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(),
+                "COURSE3", "kuali.result.value.grade.letter.plus.minus.b", "kuali.result.value.grade.letter.plus.minus");
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(),
+                "COURSE4", "kuali.result.value.grade.letter.plus.minus.a", "kuali.result.value.grade.letter.plus.minus");
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(),
+                "COURSE5", "kuali.result.value.grade.letter.plus.minus.c", "kuali.result.value.grade.letter.plus.minus");
 
-            // setup the test data for student 3
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(),
-                    "COURSE1", "kuali.result.value.grade.letter.plus.minus.a+", "kuali.result.value.grade.letter.plus.minus");
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(),
-                    "COURSE2", "kuali.result.value.grade.letter.plus.minus.a+", "kuali.result.value.grade.letter.plus.minus");
-            createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(),
-                    "COURSE3", "kuali.result.value.grade.letter.plus.minus.a+", "kuali.result.value.grade.letter.plus.minus");
+        // setup the test data for student 3
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(),
+                "COURSE1", "kuali.result.value.grade.letter.plus.minus.a+", "kuali.result.value.grade.letter.plus.minus");
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(),
+                "COURSE2", "kuali.result.value.grade.letter.plus.minus.a+", "kuali.result.value.grade.letter.plus.minus");
+        createStudentCourseRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, dataLoader.getSpringTermId(),
+                "COURSE3", "kuali.result.value.grade.letter.plus.minus.a+", "kuali.result.value.grade.letter.plus.minus");
 
-        } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
     }
 
     private void createStudentCourseRecord(String personId, String termId, String courseId, String gradeValue, String gradeScaleKey) throws Exception {
@@ -961,16 +957,12 @@ public class TestTermResolvers {
         dataLoader.storeStudentCourseRecord(personId, termId, courseId, courseRecord);
     }
 
-    private void loadRegistrationData() {
-        try {
-            // setup the test data for student 1
-            RegistrationRequestInfo regReqInfo = createRegistrationRequest(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(), "COURSE3", "COURSE5");
-            dataLoader.submitRegistrationRequest(regReqInfo.getId());
-            // setup the test data for student 2
-            createRegistrationRequest(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(), "COURSE1", "COURSE6", "COURSE7", "COURSE8");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void loadRegistrationData() throws Exception {
+        // setup the test data for student 1
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, dataLoader.getFallTermId(), "COURSE3", "COURSE5");
+        dataLoader.submitRegistrationRequest(regReqInfo.getId());
+        // setup the test data for student 2
+        createRegistrationRequest(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, dataLoader.getFallTermId(), "COURSE1", "COURSE6", "COURSE7", "COURSE8");
     }
 
     private RegistrationRequestInfo createRegistrationRequest(String studentId, String termId, String... courseIds) throws Exception {
@@ -982,17 +974,11 @@ public class TestTermResolvers {
         return dataLoader.persistRegistrationRequest(request);
     }
 
-    private void loadProgramRecordData() {
-        try {
-
-            // setup the test data for student 1
-            insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, "PROGRAM1");
-            insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, "PROGRAM1");
-            insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, "PROGRAM2");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void loadProgramRecordData() throws Exception {
+        // setup the test data for student 1
+        insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_ONE_ID, "PROGRAM1");
+        insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_TWO_ID, "PROGRAM1");
+        insertStudentProgramRecord(KRMSEnrollmentEligibilityDataLoader.STUDENT_THREE_ID, "PROGRAM2");
     }
 
     private void insertStudentProgramRecord(String personId, String programId) throws Exception {
@@ -1001,12 +987,8 @@ public class TestTermResolvers {
         dataLoader.storeStudentProgramRecord(personId, programRecord.getProgramId(), programRecord);
     }
 
-    private void loadPopulationData() {
-        try {
-            populationService.getMembersAsOfDate("SENIOR_ONLY_STUDENTS", new Date(), contextInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    private void loadPopulationData() throws Exception {
+        populationService.getMembersAsOfDate("SENIOR_ONLY_STUDENTS", new Date(), contextInfo);
     }
 
     private void loadOrgData(){

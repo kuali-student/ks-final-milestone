@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,19 +28,12 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import sun.rmi.runtime.NewThreadAction;
 
 import javax.annotation.Resource;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -53,8 +45,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-class2-mock-context.xml"})
 public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
-
-    private static final Logger log = Logger.getLogger(TestRiceDataDictionaryValidatorImplAgainstCourseOffering.class);
 
     private final boolean testAwareDataLoader;
     public ContextInfo callContext = null;
@@ -74,13 +64,9 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
         this.testAwareDataLoader = testAwareDataLoader;
     }
 
-    protected Config getTestHarnessConfig() {
+    protected Config getTestHarnessConfig() throws IOException {
         Config config = new JAXBConfigImpl(getConfigLocations(), System.getProperties());
-        try {
-            config.parseConfig();
-        } catch (IOException ex) {
-            throw new RuntimeException(ex);
-        }
+        config.parseConfig();
         return config;
     }
 
@@ -90,9 +76,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
      * @return List of config locations to add to this tests config location.
      */
     protected List<String> getConfigLocations() {
-        List<String> configLocations = new ArrayList<String>();
-//        configLocations.add(getRiceMasterDefaultConfigFile());
-        return configLocations;
+        return new ArrayList<String>();
     }
 
     @Before
@@ -114,8 +98,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
     }
 
     private CourseOfferingInfo getDefaultCourseOfferingInfo() {
-        CourseOfferingInfo co = new CourseOfferingInfo();
-        return co;
+        return new CourseOfferingInfo();
     }
 
     /**
@@ -124,7 +107,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
     @Test
     public void testValidate1() throws Exception {
         System.out.println("tests basic validation");
-        DataDictionaryValidator.ValidationType validationType = null;
+        DataDictionaryValidator.ValidationType validationType;
         CourseOfferingInfo co = new CourseOfferingInfo();
         co.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         co.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);

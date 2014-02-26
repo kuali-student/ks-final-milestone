@@ -37,11 +37,6 @@ public class TestSearchServiceDispatcherImpl {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-//        try {
-//            loadData();
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
 
     }
 

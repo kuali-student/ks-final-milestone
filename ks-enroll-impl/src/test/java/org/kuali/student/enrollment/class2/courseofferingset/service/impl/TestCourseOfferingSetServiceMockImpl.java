@@ -16,24 +16,11 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.fail;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -61,7 +48,7 @@ public class TestCourseOfferingSetServiceMockImpl {
     public ContextInfo callContext = null;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
     }
@@ -195,10 +182,11 @@ public class TestCourseOfferingSetServiceMockImpl {
 
         // try getting again
         try {
-            info = this.socService.getSoc(orig.getId(), callContext);
+            this.socService.getSoc(orig.getId(), callContext);
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(orig.getId(), ex.getMessage());
         }
     }
 
@@ -340,10 +328,11 @@ public class TestCourseOfferingSetServiceMockImpl {
 
         // try getting again
         try {
-            info = this.socService.getSocRolloverResult(orig.getId(), callContext);
+            this.socService.getSocRolloverResult(orig.getId(), callContext);
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(orig.getId(), ex.getMessage());
         }
     }
 
@@ -480,15 +469,16 @@ public class TestCourseOfferingSetServiceMockImpl {
             info = this.socService.getSocRolloverResultItem(orig.getId(), callContext);
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(orig.getId(), ex.getMessage());
         }
     }
 
     private void compareStringList(List<String> list1, List<String> list2) {
         assertEquals(list1.size(), list2.size());
-        List lst1 = new ArrayList(list1);
+        List<String> lst1 = new ArrayList<String>(list1);
         Collections.sort(lst1);
-        List lst2 = new ArrayList(list2);
+        List<String> lst2 = new ArrayList<String>(list2);
         Collections.sort(lst2);
         for (int i = 0; i < lst1.size(); i++) {
             assertEquals(i + "", lst1.get(i), lst2.get(i));

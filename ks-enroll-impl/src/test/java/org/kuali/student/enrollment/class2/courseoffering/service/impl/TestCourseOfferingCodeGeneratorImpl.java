@@ -197,12 +197,8 @@ public class TestCourseOfferingCodeGeneratorImpl {
      *     issue is solved.
      */
     @Test
-    public void testGenerateActivityOfferingCodeMultiThread(){
-        try{
-            test("ENGL104", 6);
-        }catch (Exception ex){
-            ex.printStackTrace();
-        }
+    public void testGenerateActivityOfferingCodeMultiThread() throws Exception {
+        test("ENGL104", 6);
     }
 
     private void test(final String courseOfferingCode, final int threadCount) throws InterruptedException, ExecutionException {

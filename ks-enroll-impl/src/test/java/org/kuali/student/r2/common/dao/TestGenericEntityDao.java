@@ -94,28 +94,24 @@ public class TestGenericEntityDao {
     }
 
     @Test
-    public void testStateDao() {
+    public void testStateDao() throws DoesNotExistException {
 
-        try {
-            List<StateEntity> result = testStateDao.findByIds("id", primaryKeys);
-            int queryCount = getSubstringCount(queryString, "IN");
+        List<StateEntity> result = testStateDao.findByIds("id", primaryKeys);
+        int queryCount = getSubstringCount(queryString, "IN");
 
-            assertNotNull("Result should be non-null", result);
-            assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
-            assertEquals("We have asked for " + MAXIMUM_ENTITIES + " ids, so the query should have 4 'in' clauses", queryCount, 4);
+        assertNotNull("Result should be non-null", result);
+        assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
+        assertEquals("We have asked for " + MAXIMUM_ENTITIES + " ids, so the query should have 4 'in' clauses", queryCount, 4);
 
-            // set the DAO to not allow splitting up of query
-            testStateDao.setMaxInClauseElements(500);
-            // re-run the query
-            result = testStateDao.findByIds("id", primaryKeys);
-            queryCount = getSubstringCount(queryString, "IN");
+        // set the DAO to not allow splitting up of query
+        testStateDao.setMaxInClauseElements(500);
+        // re-run the query
+        result = testStateDao.findByIds("id", primaryKeys);
+        queryCount = getSubstringCount(queryString, "IN");
 
-            assertNotNull("Result should be non-null", result);
-            assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
-            assertEquals("Since we disabled splitting up of query, it should have only one 'in' clause", queryCount, 1);
-        } catch(Exception e) {
-            e.printStackTrace();
-        }
+        assertNotNull("Result should be non-null", result);
+        assertEquals(MAXIMUM_ENTITIES + " entities should be returned", MAXIMUM_ENTITIES, result.size());
+        assertEquals("Since we disabled splitting up of query, it should have only one 'in' clause", queryCount, 1);
 
     }
 

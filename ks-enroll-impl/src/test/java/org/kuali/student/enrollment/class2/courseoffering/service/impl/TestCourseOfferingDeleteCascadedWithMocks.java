@@ -89,57 +89,32 @@ public class TestCourseOfferingDeleteCascadedWithMocks {
     protected LRCService lrcService;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        try {
-            new CourseR1TestDataLoader(this.courseService).loadData();
-            new LuiServiceDataLoader(this.luiService).loadData();
-            new MockAcalTestDataLoader(this.acalService).loadData();
-            new AcalTestDataLoader(this.atpService).loadData();
-            new MockLrcTestDataLoader(this.lrcService).loadData();
+        new CourseR1TestDataLoader(this.courseService).loadData();
+        new LuiServiceDataLoader(this.luiService).loadData();
+        new MockAcalTestDataLoader(this.acalService).loadData();
+        new AcalTestDataLoader(this.atpService).loadData();
+        new MockLrcTestDataLoader(this.lrcService).loadData();
 
-            createStateTestData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-
+        createStateTestData();
     }
 
 
     private void createStateTestData() throws Exception {
 
         // ActivityOffering state
-        cleanupStateTestData( LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY );
-        cleanupLifecycleTestData( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
         LifecycleInfo aoLifecycle = addLifecycle( LuiServiceConstants.ACTIVITY_OFFERING_LIFECYCLE_KEY );
         addState( aoLifecycle, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY, true );
 
         // FormatOffering state
-        cleanupStateTestData( LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY );
-        cleanupLifecycleTestData( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
         LifecycleInfo foLifecycle = addLifecycle( LuiServiceConstants.FORMAT_OFFERING_LIFECYCLE_KEY );
         addState( foLifecycle, LuiServiceConstants.LUI_FO_STATE_PLANNED_KEY, true );
 
         // CourseOffering state
-        cleanupStateTestData( LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY );
-        cleanupLifecycleTestData( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
         LifecycleInfo coLifecycle = addLifecycle( LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_KEY );
         addState( coLifecycle, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY, true );
-    }
-
-    // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
-    private void cleanupStateTestData( String state ) {
-        try {
-            stateService.deleteState( state, callContext );
-        } catch( Exception e ) { }
-    }
-
-    // TODO: temporary stop-gap because SS throws an error about duplicate-data; this cleans state from previous runs
-    private void cleanupLifecycleTestData( String name ) {
-        try {
-            stateService.deleteLifecycle( name, callContext );
-        } catch( Exception e ) { }
     }
 
     private LifecycleInfo addLifecycle( String name ) throws Exception {
@@ -198,24 +173,27 @@ public class TestCourseOfferingDeleteCascadedWithMocks {
         assertEquals(Boolean.TRUE, status.getIsSuccess());
 
         try {
-            ao = courseOfferingService.getActivityOffering(ao.getId(), callContext);
+            courseOfferingService.getActivityOffering(ao.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(ao.getId(), ex.getMessage());
         }
 
         try {
-            fo = courseOfferingService.getFormatOffering(fo.getId(), callContext);
+            courseOfferingService.getFormatOffering(fo.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(fo.getId(), ex.getMessage());
         }
 
         try {
-            co = courseOfferingService.getCourseOffering(co.getId(), callContext);
+            courseOfferingService.getCourseOffering(co.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(co.getId(), ex.getMessage());
         }
 
     }
@@ -225,11 +203,7 @@ public class TestCourseOfferingDeleteCascadedWithMocks {
             OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         // get course
         CourseInfo course;
-        try {
-            course = courseService.getCourse("COURSE1", ContextUtils.getContextInfo());
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        course = courseService.getCourse("COURSE1", ContextUtils.getContextInfo());
         // create co from course
         List<String> optionKeys = new ArrayList<String>();
         CourseOfferingInfo orig = new CourseOfferingInfo();

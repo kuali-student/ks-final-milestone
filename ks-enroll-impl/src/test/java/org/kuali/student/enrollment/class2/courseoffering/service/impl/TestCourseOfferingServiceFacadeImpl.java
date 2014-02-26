@@ -15,15 +15,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import junit.framework.Assert;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -73,11 +65,17 @@ import org.slf4j.Logger;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
 /**
  * A test case for the course offering service facade impl.
  * 
@@ -236,9 +234,10 @@ public class TestCourseOfferingServiceFacadeImpl {
         coServiceFacade.deleteActivityOfferingCluster(aocId, contextInfo);
         try {
             coService.getActivityOfferingCluster(aocId, contextInfo);
-            assert(false); // Shouldn't get here
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            // Should go here
+            assertNotNull(e.getMessage());
+            assertEquals("No ActivityOfferingCluster for id = " + aocId, e.getMessage());
         }
         List<ActivityOfferingInfo> activitiesByFo2 = coService.getActivityOfferingsByFormatOffering(foId, contextInfo);
         assertEquals(0, activitiesByFo2.size());
@@ -447,9 +446,7 @@ public class TestCourseOfferingServiceFacadeImpl {
     }
 
     @Test
-    public void copyCourseOfferingToTargetTerm() throws InvalidParameterException, PermissionDeniedException, DataValidationErrorException,
-            AlreadyExistsException, ReadOnlyException, OperationFailedException, MissingParameterException,
-            DoesNotExistException, UnsupportedActionException, DependentObjectsExistException, CircularRelationshipException, VersionMismatchException {
+    public void copyCourseOfferingToTargetTerm() throws Exception {
 
         // Create new Course Offering
         MockAcalTestDataLoader acalLoader = new MockAcalTestDataLoader(this.acalService);

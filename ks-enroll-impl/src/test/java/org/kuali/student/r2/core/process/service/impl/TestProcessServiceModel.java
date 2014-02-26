@@ -24,7 +24,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.process.dao.CheckDao;
 import org.kuali.student.r2.core.process.model.CheckEntity;
 import org.kuali.student.r2.core.process.service.ProcessService;
-import org.mortbay.log.Log;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -127,15 +126,9 @@ public class TestProcessServiceModel {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        try {
-            if (debugMode) { Log.warn ("Creating loader"); }
-            ProcessServiceModelTestDataLoader loader = new ProcessServiceModelTestDataLoader(checkDao, logger);
-            loader.setDebugMode(debugMode);
-            if (debugMode) { Log.warn("Calling loader.loadData()"); }
-            loader.loadData();
-        } catch (Exception ex) {
-            throw new RuntimeException (ex);
-        }
+        ProcessServiceModelTestDataLoader loader = new ProcessServiceModelTestDataLoader(checkDao, logger);
+        loader.setDebugMode(debugMode);
+        loader.loadData();
     }
 
     @Test
@@ -144,7 +137,6 @@ public class TestProcessServiceModel {
         List<CheckEntity> checks = checkDao.getByName("is alive");
         for (CheckEntity check: checks) {
             assertNotNull(check);
-            if (debugMode) { Log.warn("Retrieved: " + check) ; }
         }
         // check the schema
         validateSchemaAndContent("select * from KSEN_PROCESS_CHECK", 18);

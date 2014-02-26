@@ -66,11 +66,6 @@ public class TestAppointmentServiceMockPersistenceImpl {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-//        try {
-//            loadData();
-//        } catch (Exception ex) {
-//            throw new RuntimeException(ex);
-//        }
     }
 
     @Test
@@ -214,7 +209,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
             info = this.appointmentService.getAppointmentWindow(orig.getId(), callContext);
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(orig.getId(), ex.getMessage());
         }
     }
 
@@ -318,7 +314,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
             info = this.appointmentService.getAppointmentSlot(orig.getId(), callContext);
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(orig.getId(), ex.getMessage());
         }
     }
 
@@ -461,7 +458,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
             info = this.appointmentService.getAppointment(orig.getId(), callContext);
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(orig.getId(), ex.getMessage());
         }
     }
 
@@ -499,33 +497,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
 
         // test dependent objects exists exceptions (slot for window)
         StatusInfo status = null;
-//        try {
-//            status = appointmentService.deleteAppointmentWindowCascading(window.getId(), contextInfo);
-//
-//        } catch (DependentObjectsExistException ex) {
-//            // expected
-//            fail("should have thrown DependentObjectsExistException");
-//        }
-//
-//
-//        // create appointment
+        // create appointment
         AppointmentInfo appt = this.createAppointment(slot);
-//
-//        // test dependent objects exists exceptions appointment for slot
-//        try {
-//            status = appointmentService.deleteAppointmentSlot(slot.getId(), contextInfo);
-//            fail("should have thrown DependentObjectsExistException");
-//        } catch (DependentObjectsExistException ex) {
-//            // expected
-//        }
-//        // test dependent objects exists exceptions appointment for slot in bulk delete method
-//        try {
-//            status = appointmentService.deleteAppointmentSlotsByWindow(window.getId(), contextInfo);
-//            fail("should have thrown DependentObjectsExistException");
-//        } catch (DependentObjectsExistException ex) {
-//            // expected
-//        }
-
 
         // test bulk delete by slot
         status = appointmentService.deleteAppointmentsBySlot(slot.getId(), callContext);
@@ -535,7 +508,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
             appointmentService.getAppointment(appt.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(appt.getId(), ex.getMessage());
         }
 
         // create appointment again
@@ -549,7 +523,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
             appointmentService.getAppointment(appt.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(appt.getId(), ex.getMessage());
         }
         // should not have deleted the slot
         appointmentService.getAppointmentSlot(slot.getId(), callContext);
@@ -562,7 +537,8 @@ public class TestAppointmentServiceMockPersistenceImpl {
             appointmentService.getAppointmentSlot(appt.getId(), callContext);
             fail("should have thrown DoesNotExistException");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals(appt.getId(), ex.getMessage());
         }    
         
         // clean up

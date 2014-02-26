@@ -15,33 +15,22 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.log4j.Logger;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.core.api.config.property.Config;
-import org.kuali.rice.core.api.config.property.ConfigContext;
-import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +44,6 @@ import static org.junit.Assert.assertEquals;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-class2-mock-context.xml"})
 public class TestRiceDataDictionaryValidatorImplAgainstLui {
-    private static final Logger log = Logger.getLogger(TestRiceDataDictionaryValidatorImplAgainstLui.class);
     public ContextInfo callContext = null;
 
     @Resource
@@ -74,18 +62,12 @@ public class TestRiceDataDictionaryValidatorImplAgainstLui {
     public void tearDown() throws Exception {
     }
 
-    private Date parseDate(String str) {
+    private Date parseDate(String str) throws Exception {
         DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        Date date = null;
-        try {
-            date = df.parse(str);
-        } catch (ParseException ex) {
-            throw new IllegalArgumentException(str, ex);
-        }
-        return date;
+        return df.parse(str);
     }
 
-    private LuiInfo getDefaultLuiInfo() {
+    private LuiInfo getDefaultLuiInfo() throws Exception {
         LuiInfo lui = new LuiInfo();
         lui.setName("test lui");
         lui.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);

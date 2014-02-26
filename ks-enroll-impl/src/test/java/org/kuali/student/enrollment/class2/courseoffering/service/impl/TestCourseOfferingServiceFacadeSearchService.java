@@ -80,7 +80,7 @@ public class TestCourseOfferingServiceFacadeSearchService extends
     }
 
     @Test
-    public void testGetAoIdAndAoTypeByFO() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+    public void testGetAoIdAndAoTypeByFO() throws Exception {
 
         before();
 
@@ -103,7 +103,7 @@ public class TestCourseOfferingServiceFacadeSearchService extends
     }
     
     @Test
-    public void testSearchService() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
+    public void testSearchService() throws Exception {
         
         before();
 

@@ -121,18 +121,12 @@ public class TestLuiServiceImpl {
     public ContextInfo callContext = null;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        try {
-            new LuiTestDataLoader(luiDao, luiLuiRelationDao).loadData();
-            
-            luiDao.getEm().flush();
-            
-        } catch (Exception ex) {
-            throw new RuntimeException (ex);
-        }
+        new LuiTestDataLoader(luiDao, luiLuiRelationDao).loadData();
+        luiDao.getEm().flush();
     }
 
     @Test

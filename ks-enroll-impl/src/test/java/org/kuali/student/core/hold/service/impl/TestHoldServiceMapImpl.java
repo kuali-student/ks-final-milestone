@@ -192,10 +192,11 @@ public class TestHoldServiceMapImpl {
 
         // test for circular dependency when delete issue with a hold
         try {
-            StatusInfo status = holdService.deleteHoldIssue(actual.getId(), callContext);
+            holdService.deleteHoldIssue(actual.getId(), callContext);
             fail("Did not receive DependentObjectsExistException when attempting to delete an issue with a hold that exists");
-        } catch (DependentObjectsExistException dnee) {
-            // expected
+        } catch (DependentObjectsExistException doee) {
+            assertNotNull(doee.getMessage());
+            assertEquals("1 hold(s) with this issue", doee.getMessage());
         }
 
         // now test delete of hold
@@ -203,10 +204,11 @@ public class TestHoldServiceMapImpl {
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            holdInfo = holdService.getAppliedHold(holdInfo.getId(), callContext);
+            holdService.getAppliedHold(holdInfo.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted AppliedHoldEntity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(holdInfo.getId(), dnee.getMessage());
         }
 
         // test delete issue
@@ -217,7 +219,8 @@ public class TestHoldServiceMapImpl {
             actual = holdService.getHoldIssue(finAidIssue.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted IssueEntity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(finAidIssue.getId(), dnee.getMessage());
         }
 
     }

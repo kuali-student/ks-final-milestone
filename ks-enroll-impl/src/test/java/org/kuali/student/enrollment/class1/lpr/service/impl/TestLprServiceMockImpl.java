@@ -60,7 +60,7 @@ public class TestLprServiceMockImpl {
     public ContextInfo callContext = null;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
@@ -170,10 +170,11 @@ public class TestLprServiceMockImpl {
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = lprService.getLpr(expected.getId(), callContext);
+            lprService.getLpr(expected.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted LprEntity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(expected.getId(), dnee.getMessage());
         }
     }
 
@@ -270,10 +271,11 @@ public class TestLprServiceMockImpl {
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = lprService.getLprTransaction(expected.getId(), callContext);
+            lprService.getLprTransaction(expected.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted LprTransactionEntity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(expected.getId(), dnee.getMessage());
         }
     }
 
