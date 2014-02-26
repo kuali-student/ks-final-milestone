@@ -31,6 +31,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -174,7 +175,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
             assertNotNull(ex.getMessage());
-            assertEquals("No atp found for: " + orig.getId(), ex.getMessage());
+            assertTrue(ex.getMessage().contains(orig.getId()));
         }
     }
 
@@ -297,7 +298,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
             assertNotNull(ex.getMessage());
-            assertEquals("No milestone found for: " + orig.getId(), ex.getMessage());
+            assertTrue(ex.getMessage().contains(orig.getId()));
         }
     }
 
@@ -458,7 +459,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
             assertNotNull(ex.getMessage());
-            assertEquals("No atp found for: " + orig.getId(), ex.getMessage());
+            assertTrue(ex.getMessage().contains(orig.getId()));
         }
         // clean up hcals
         this.acalService.deleteHolidayCalendar(hcal1.getId(), callContext);
@@ -579,7 +580,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
             assertNotNull(ex.getMessage());
-            assertEquals("No milestone found for: " + orig.getId(), ex.getMessage());
+            assertTrue(ex.getMessage().contains(orig.getId()));
         }
     }
 
@@ -759,7 +760,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
             assertNotNull(ex.getMessage());
-            assertEquals("No atp found for: " + orig.getId(), ex.getMessage());
+            assertTrue(ex.getMessage().contains(orig.getId()));
         }
     }
 
@@ -876,7 +877,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
             fail("should have thrown does not exist exception");
         } catch (DoesNotExistException ex) {
             assertNotNull(ex.getMessage());
-            assertEquals("No milestone found for: " + orig.getId(), ex.getMessage());
+            assertTrue(ex.getMessage().contains(orig.getId()));
         }
     }
 
