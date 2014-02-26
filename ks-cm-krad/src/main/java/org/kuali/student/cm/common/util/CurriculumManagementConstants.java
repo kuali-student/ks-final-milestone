@@ -32,10 +32,6 @@ public class CurriculumManagementConstants {
 
         public final static String ERROR_COURSE_TITLE_REQUIRED = "error.course.title.required";
         public final static String ERROR_PROPOSAL_TITLE_REQUIRED = "error.proposal.title.required";
-
-        public final static String UNABLE_TO_ADD_LINE = "unable.to.add.line";
-        public final static String UNABLE_TO_DELETE_LINE = "unable.to.delete.line";
-        public final static String ERROR_CREATE_COMMENT = "error.create.comment";
     }
 
     public static class OrganizationMessageKeys{
