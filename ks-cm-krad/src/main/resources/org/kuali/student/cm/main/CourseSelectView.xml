@@ -78,7 +78,7 @@ limitations under the License.
                                         <property name="items">
                                             <list>
                                                 <bean parent="Uif-DataField" p:label="Proposal Status"
-                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="course.stateKey" />
+                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="dataObject.proposalInfo.stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Version History"
                                                       p:methodToCall="versionHistory" />
                                                 <bean parent="Uif-Space" />

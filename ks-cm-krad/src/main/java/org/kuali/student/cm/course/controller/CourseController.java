@@ -35,7 +35,6 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
@@ -609,7 +608,7 @@ public class CourseController extends CourseRuleEditorController {
         ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
         proposal.setWorkflowId(form.getDocument().getDocumentHeader().getDocumentNumber());
         if (StringUtils.isBlank(proposal.getId())){
-            proposal.setState(DtoConstants.STATE_DRAFT);
+            proposal.setState(DtoConstants.STATE_SAVED);
             proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
             proposal.setProposalReferenceType("kuali.proposal.referenceType.clu");
             proposal.getProposalReference().add(courseInfoWrapper.getCourseInfo().getId());
