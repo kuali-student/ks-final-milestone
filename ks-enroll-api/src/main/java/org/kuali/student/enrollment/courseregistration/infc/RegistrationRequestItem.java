@@ -80,6 +80,19 @@ public interface RegistrationRequestItem
     public String getRegistrationGroupId();
 
     /**
+     * The RegistrationGroup to which the student will be registered
+     * upon a successful submission of this item.
+     *
+     * This is populated for ADD, DROP, UPDATE and SWAP types of
+     * RegistrationRequestItems.
+     *
+     * @name Registration Group Id
+     * @impl LprTransactionItem.newLuiId
+     * @required
+     */
+    public String getMasterLprId();
+
+    /**
      * In the case of a DROP or SWAP or UPDATE, the "existing" course registration
      * Id in which the student is currently registered. 
      * 
