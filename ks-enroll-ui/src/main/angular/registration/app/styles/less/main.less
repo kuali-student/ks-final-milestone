@@ -61,10 +61,7 @@
 
 .kscr-searchTerm{
     padding-left: 0.5em;
-}
-
-#searchTerm{
-    padding: 0.6em 0.1em;
+    padding-right: 0.5em;
 }
 
 /******* End header *********/
@@ -94,6 +91,10 @@
       display: none;
     }
 }
+.kscr-header-filler{
+ height:12em;
+}
+
 /******* End Mobile Navigation  *********/
 
 /* Customize container */
@@ -154,10 +155,10 @@
 .kscr-cart-header{
 font-size: 0.9rem;
   background-color: @whiteBackground;
-  padding: 0.6em;
-    -webkit-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);
-    -moz-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);
-    box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);
+  padding: 10px;
+    /*-webkit-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
+    /*-moz-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
+    /*box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
 }
 
 .kscr-cart-course {
@@ -189,13 +190,17 @@ font-size: 0.9rem;
 /******* End Course Section  *********/
 
 /******* Additional Options Section  *********/
-.kscr-adding-header{
+.kscr-AdditionalOptions-header{
     background-color: @grayLighter;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    font-color:#666;
     padding: 0.1em 0.1em 0.1em 0.5em;
 }
 
 .kscr-AdditionalOptions{
-    padding-left: 1em;
+    padding: 10px;
 }
 
 .kscr-AdditionalOptions-buttons{
@@ -221,14 +226,19 @@ font-size: 0.9rem;
 }
 
 .kscr-registered{
-
-//border: 1px outset @grayLight;
-margin: 10px;
-padding: 0.2em;
-background-color: @whiteBackground;
-    -webkit-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);
-    -moz-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);
-    box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);
+    //border: 1px outset @grayLight;
+    margin: 10px;
+    padding: 0.2em;
+    background-color: @whiteBackground;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    font-color:#666;
+    cursor: pointer;
+    cursor: hand;
+    /*-webkit-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
+    /*-moz-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
+    /*box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
 }
 
 /*new needs code cleanup*/

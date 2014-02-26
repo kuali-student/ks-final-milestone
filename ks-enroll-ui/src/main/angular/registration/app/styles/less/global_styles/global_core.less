@@ -21,5 +21,71 @@ body{
 .kscr-support-heading{
     font-size: 14px !important;
     color: @supportHeading !important; //#666666
-    weight: normal !important;
+    weight: bold !important;
+}
+
+@buttonBackgroundColor:#F8F8F8;
+@buttonBorderColor:#BCBCBC;
+@buttonTextColor:#333;
+
+@buttonPrimaryBackgroundColor:#3366FF;
+@buttonPrimaryBorderColor:#3333CC;
+@buttonPrimaryTextColor:#F2F2F2;
+@buttonRadius:4px;
+
+@defaultRadius:30px;
+
+.util-Grid {
+    display: flex;
+}
+
+.util-Grid--center {
+    align-items: center;
+}
+
+.util-Grid-cell {
+    flex: 1;
+}
+
+.Rounded(@radius:@defaultRadius){
+    -webkit-border-radius:@radius;
+       -moz-border-radius:@radius;
+            border-radius:@radius;
+}
+.kscr-RegInput{
+    padding-left:10px;
+    padding-right:10px;
+}
+.kscr-RegInput-label{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    font-color:#666;
+}
+.kscr-RegInput-input{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    font-color:#666;
+    text-transform: uppercase;
+}
+
+.kscr-Button{
+    background-color:@buttonBackgroundColor;
+    border:1px solid @buttonBorderColor;
+    color: @buttonTextColor;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    .Rounded(@buttonRadius);
+}
+
+.kscr-Button-primary{
+    background-color:@buttonPrimaryBackgroundColor;
+    border:1px solid @buttonPrimaryBorderColor;
+    color: @buttonPrimaryTextColor;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    font-weight: normal;
+    .Rounded(@buttonRadius);
 }

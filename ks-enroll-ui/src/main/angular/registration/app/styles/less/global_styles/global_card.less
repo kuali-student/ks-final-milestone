@@ -10,11 +10,17 @@
     background-color: @cardBackgroundColor;
     border-color: @cardBorderColor;
     color: @cardTextColor;
+    cursor: pointer;
+    cursor: hand;
 }
 
 .panel {
     background-color: @cardBackgroundColor;
 
+}
+
+.panel-group .panel-heading + .panel-collapse .panel-body{
+    border-top:none;
 }
 
 .panel-title {
@@ -29,7 +35,15 @@
 
 .kscr-Card-text{
     color: #333333;
+}
+
+.kscr-CardDetails-text{
+    border-top:1px solid #F2F2F2;
+    color: #333333;
+    font-size: 14px;
+    font-family: 'Open Sans', sans-serif;
     font-weight: normal;
+    padding-top:5px;
 }
 
 .kscr-Card-supportText{
