@@ -376,20 +376,6 @@
                                 </property>
                             </bean> -->
                             <bean parent="KS-DurationTimeQuantity-Field" p:propertyName="duration.timeQuantity" />
-                            <bean parent="Uif-InputField-LabelTop" p:label="Anticipated Class Size"
-                                  p:propertyName="defaultEnrollmentEstimate">
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint" />
-                                </property>
-                                <property name="maxLength" value="3" />
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="3" p:maxLength="3" />
-                                </property>
-                                <!--<property name="help">
-                                    <bean parent="Uif-KS-Help"
-                                          p:tooltipHelpContent="This does not have to be exact - it will be used&lt;br&gt;as an estimate for evaluation purposes only." />
-                                </property>-->
-                            </bean>
                             <bean parent="Uif-HorizontalFieldGroup">
                                 <property name="items">
                                     <list>

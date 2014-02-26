@@ -81,9 +81,11 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
@@ -522,6 +524,21 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         form.getDocument().getDocumentHeader().setDocumentDescription(courseInfoWrapper.getProposalInfo().getName());
+
+        //Formats
+        for (FormatInfo format : courseInfoWrapper.getCourseInfo().getFormats()){
+            if (StringUtils.isBlank(format.getId())){ // If it's new
+                format.setState(DtoConstants.STATE_DRAFT);
+                if (StringUtils.isBlank(format.getTypeKey())){
+                    format.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
+                }
+            }
+            for (ActivityInfo activity : format.getActivities()){
+                if (StringUtils.isBlank(activity.getId())){ // If it's new
+                    activity.setState(DtoConstants.STATE_DRAFT);
+                }
+            }
+        }
 
         try {
 //            if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {

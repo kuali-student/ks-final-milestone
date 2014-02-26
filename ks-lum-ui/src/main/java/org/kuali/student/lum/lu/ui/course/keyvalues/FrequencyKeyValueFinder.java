@@ -36,9 +36,9 @@ public class FrequencyKeyValueFinder extends UifKeyValuesFinderBase {
         @Override
         public List<KeyValue> getKeyValues(ViewModel model) {
             List<KeyValue> labels = new ArrayList<KeyValue>();
-            labels.add(new ConcreteKeyValue("1", CourseServiceConstants.PER_DAY_FREQUENCY_KEY));
-            labels.add(new ConcreteKeyValue("2", CourseServiceConstants.PER_MONTH_FREQUENCY_KEY));
-            labels.add(new ConcreteKeyValue("3", CourseServiceConstants.PER_WEEK_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue("kuali.atp.duration.day", CourseServiceConstants.PER_DAY_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue("kuali.atp.duration.week", CourseServiceConstants.PER_WEEK_FREQUENCY_KEY));
+            labels.add(new ConcreteKeyValue("kuali.atp.duration.month", CourseServiceConstants.PER_MONTH_FREQUENCY_KEY));
             return labels;
         }
     
