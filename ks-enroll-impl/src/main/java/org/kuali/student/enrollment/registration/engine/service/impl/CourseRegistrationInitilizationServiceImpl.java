@@ -117,20 +117,22 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             List<String> coIds = luiServiceLocal.getLuiIdsByRelatedLuiAndRelationType(foId,
                     LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_CO_TO_FO_TYPE_KEY, context);
             String coId = KSCollectionUtils.getRequiredZeroElement(coIds);
+
+            // Create RG LPR
+            LprInfo rgLprCreated = makeLpr(LprServiceConstants.REGISTRANT_RG_TYPE_KEY, regGroupId, null, effDate, termId, credits, gradingOptionKey, context);
+            result.add(rgLprCreated);
+
             // Create CO LPR
-            LprInfo coLprCreated = makeLpr(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, coId, coId, effDate, termId, credits, gradingOptionKey, context);
+            LprInfo coLprCreated = makeLpr(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, coId, rgLprCreated.getMasterLprId(), effDate, termId, credits, gradingOptionKey, context);
             result.add(coLprCreated);
 
             // Create AO LPRs
             List<String> aoIds = luiServiceLocal.getLuiIdsByLuiAndRelationType(regGroupId,
                     LuiServiceConstants.LUI_LUI_RELATION_REGISTERED_FOR_VIA_RG_TO_AO_TYPE_KEY, context);
             for (String aoId : aoIds) {
-                LprInfo aoLprCreated = makeLpr(LprServiceConstants.REGISTRANT_AO_TYPE_KEY, aoId, coId, effDate, termId, credits, gradingOptionKey, context);
+                LprInfo aoLprCreated = makeLpr(LprServiceConstants.REGISTRANT_AO_TYPE_KEY, aoId, rgLprCreated.getMasterLprId(), effDate, termId, credits, gradingOptionKey, context);
                 result.add(aoLprCreated);
             }
-            // Create RG LPR
-            LprInfo rgLprCreated = makeLpr(LprServiceConstants.REGISTRANT_RG_TYPE_KEY, regGroupId, coId, effDate, termId, credits, gradingOptionKey, context);
-            result.add(rgLprCreated);
 
         } catch (Exception ex) {
             LOGGER.error("Error building LPR items", ex);
