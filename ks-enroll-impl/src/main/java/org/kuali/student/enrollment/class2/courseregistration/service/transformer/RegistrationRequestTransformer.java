@@ -173,7 +173,7 @@ public class RegistrationRequestTransformer {
             	// FIXME KSENROLL-11466
                 // requestItem.setCredits(s);
                 ResultValueInfo resultValueInfo = getLrcService().getResultValue(s, context);
-                String creditStr = resultValueInfo.getNumericValue();
+                String creditStr = resultValueInfo.getValue();
                 KualiDecimal credit = new KualiDecimal(creditStr);
                 requestItem.setCredits(credit);
             } else {
