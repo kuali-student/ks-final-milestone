@@ -8,6 +8,7 @@
 
 package org.kuali.student.common.ui.server.screenreport;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -18,6 +19,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
 import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 import org.kuali.student.r1.common.assembly.data.Data;
 
@@ -158,7 +160,7 @@ public class TestScreenReport {
     }
 
     @Test
-    public void testScreenReport() throws IOException {
+    public void testScreenReport() {
 
         ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
 
@@ -210,7 +212,7 @@ public class TestScreenReport {
     }
     
     @Test
-    public void testAnalysisReport() throws IOException {
+    public void testAnalysisReport() {
 
         ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
         
@@ -272,11 +274,25 @@ public class TestScreenReport {
 
     }
     
-    private void printToFile(byte[] bytes, String fileName) throws IOException {
+    private void removeEmptyElements(ExportElement parent, List<ExportElement> elements){
+        for (ExportElement element : elements){
+            if (element.isDataEmpty() && element.getSubset() != null && element.getSubset().size() == 1){
+                
+            }
+        }
+    }
+
+    private void printToFile(byte[] bytes, String fileName) {
         OutputStream out;
-        out = new FileOutputStream(fileName);
-        out.write(bytes);
-        out.close();
+        try {
+            out = new FileOutputStream(fileName);
+            out.write(bytes);
+            out.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
