@@ -8,28 +8,29 @@
 
 package org.kuali.student.common.ui.server.screenreport;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 import org.kuali.student.common.ui.client.util.ExportElement;
-import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
 import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 import org.kuali.student.r1.common.assembly.data.Data;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class TestScreenReport {
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
 
     private Data dataMap;
 
     private List<ExportElement> dataList;
-
-    private String basePath = "ks-core/ks-common/ks-common-ui/target/";
 
     @Before
     public void setup() {
@@ -160,59 +161,59 @@ public class TestScreenReport {
     }
 
     @Test
-    public void testScreenReport() {
+    public void testScreenReport() throws IOException {
 
         ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
 
         byte[] bytes = processor.createPdf(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataMap.pdf");
+        printToFile(bytes, "dataMap.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataMap.doc");
+        printToFile(bytes, "dataMap.doc");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createXls(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataMap.xls");
+        printToFile(bytes, "dataMap.xls");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createPdf(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataList.pdf");
+        printToFile(bytes, "dataList.pdf");
         Assert.assertTrue(bytes.length > 0);
         
         bytes = processor.createPdf(dataList, "proposal.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataList2.pdf");
+        printToFile(bytes, "dataList2.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataList.doc");
+        printToFile(bytes, "dataList.doc");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createXls(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataList.xls");
+        printToFile(bytes, "dataList.xls");
         Assert.assertTrue(bytes.length > 0);
         
         bytes = processor.createText(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataList.txt");
+        printToFile(bytes, "dataList.txt");
         Assert.assertTrue(bytes.length > 0);
         
         bytes = processor.createRtf(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "dataList.rtf");
+        printToFile(bytes, "dataList.rtf");
         Assert.assertTrue(bytes.length > 0);
 
     }
     
     @Test
-    public void testAnalysisReport() {
+    public void testAnalysisReport() throws IOException {
 
         ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
         
@@ -269,30 +270,17 @@ public class TestScreenReport {
         
         byte[] bytes = processor.createPdf(list, "analysis.template", "Dependency Analysis");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, basePath + "analysis.pdf");
+        printToFile(bytes, "analysis.pdf");
         Assert.assertTrue(bytes.length > 0);
 
     }
     
-    private void removeEmptyElements(ExportElement parent, List<ExportElement> elements){
-        for (ExportElement element : elements){
-            if (element.isDataEmpty() && element.getSubset() != null && element.getSubset().size() == 1){
-                
-            }
-        }
-    }
-
-    private void printToFile(byte[] bytes, String fileName) {
-        OutputStream out;
-        try {
-            out = new FileOutputStream(fileName);
-            out.write(bytes);
-            out.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void printToFile(byte[] bytes, String fileName) throws IOException {
+        File report = folder.newFile(fileName);
+        BufferedOutputStream bufferedOutputStream =
+                new BufferedOutputStream(new FileOutputStream(report));
+        bufferedOutputStream.write(bytes);
+        bufferedOutputStream.close();
     }
 
 }
