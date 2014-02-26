@@ -10,4 +10,13 @@ import org.kuali.rice.krad.web.form.UifFormBase;
  * To change this template use File | Settings | File Templates.
  */
 public class POCResourceBundleFormImpl extends UifFormBase {
+    private String locale;
+
+    public String getLocale() {
+        return this.locale;
+    }
+
+    public void setLocale(String locale) {
+        this.locale = locale;
+    }
 }
