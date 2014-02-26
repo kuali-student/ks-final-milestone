@@ -29,6 +29,7 @@ import java.util.List;
 
 import org.junit.FixMethodOrder;
 import org.junit.Test;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -133,36 +134,57 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         try {
             client.updateLo(loId, loInfo, contextInfo);
             fail("VersionMismatchException expected");
-        } catch (VersionMismatchException e) {}
+        } catch (VersionMismatchException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("LO to be updated is not the current version", e.getMessage());
+        }
 
         // Detecting expected errors
         loInfo = new LoInfo();
         try {
             client.createLo(null, "kuali.lo.type.singleUse", loInfo, contextInfo);
             fail("MissingParameterException expected for loRepositoryId");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("repositoryId can not be null", e.getMessage());
+        }
         try {
             client.createLo("kuali.loRepository.key.singleUse", null, loInfo, contextInfo);
             fail("MissingParameterException expected for loTypeId");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loType can not be null", e.getMessage());
+        }
         try {
             client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", null, contextInfo);
             fail("MissingParameterException expected for loInfo");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loInfo can not be null", e.getMessage());
+        }
         
         try {
             client.getLo(null, contextInfo);
             fail("MissingParameterException expected for loId");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loId can not be null", e.getMessage());
+        }
         
         try {
             client.updateLo(null, loInfo, contextInfo);
             fail("MissingParameterException expected for loId");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loId can not be null", e.getMessage());
+        }
         try {
             client.updateLo(loId, null, contextInfo);
             fail("MissingParameterException expected for loInfo");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loInfo can not be null", e.getMessage());
+        }
         
         StatusInfo statusInfo = client.deleteLo(loId, contextInfo);
         assertTrue(statusInfo.getIsSuccess());
@@ -174,11 +196,14 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     	llrInfo.setTypeKey ("kuali.lo.relation.type.includes");
 		llrInfo = client.createLoLoRelation(llrInfo.getTypeKey(), llrInfo, contextInfo);
     	assertNotNull(llrInfo);
-    	llrInfo = client.getLoLoRelation(llrInfo.getId(), contextInfo);
+    	client.getLoLoRelation(llrInfo.getId(), contextInfo);
     	try {
     		client.deleteLo("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", contextInfo);
     		fail("Deleted an LO which orphaned included LO(s)");
-    	} catch (DependentObjectsExistException doee) {}
+    	} catch (DependentObjectsExistException doee) {
+            assertNotNull(doee.getMessage());
+            assertEquals("Lo(7bcd7c0e-3e6b-4527-ac55-254c58cecc22) cannot be deleted without orphaning child Lo(s).", doee.getMessage());
+        }
     }
     
     @Test
@@ -212,17 +237,19 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		dupCatInfo.setTypeKey(catType);
 		dupCatInfo.setStateKey(catState);
 		dupCatInfo.setLoRepositoryKey(catRepo);
-		
-		
+
+
 		try {
-			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo,contextInfo);
-			// delete the two (one erroneously) created so as to not mess up other tests
-			client.deleteLoCategory(newCatInfo.getId(), contextInfo);
-			client.deleteLoCategory(dupCatInfo.getId(), contextInfo);
+			client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo,contextInfo);
             fail("DataValidationErrorException expected when creating LoCategory with the same name, type and state");
-		} catch (DataValidationErrorException e) {
-			// expected result
-		}
+		} catch (DataValidationErrorException dvee) {
+			assertNotNull(dvee.getMessage());
+            assertEquals("Validation error!", dvee.getMessage());
+            assertEquals(1, dvee.getValidationResults().size());
+            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
+            assertEquals("LO Category Name", resultInfo.getElement());
+            assertEquals("LO Category already exists", resultInfo.getMessage());
+        }
 		// delete the one created so as to not mess up other tests
 		client.deleteLoCategory(newCatInfo.getId(), contextInfo);
 	}	
@@ -249,16 +276,16 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         loInfo.setStateKey(DtoConstants.STATE_DRAFT);
 
         try {
-        	 LoInfo created = client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo, contextInfo);
-        	 assertNotNull(created);
-        	
-          // delete the one erroneously created so as to not mess up other tests
-        	 StatusInfo statusInfo = client.deleteLo(created.getId(), contextInfo);
-             assertTrue(statusInfo.getIsSuccess());            
-             fail("OperationFailedException expected when creating Lo with empty description");
-        } catch (DataValidationErrorException mpe) {
-			// expected result
-		}
+        	client.createLo("kuali.loRepository.key.singleUse", "kuali.lo.type.singleUse", loInfo, contextInfo);
+            fail("DataValidationErrorException expected when creating Lo with empty description");
+        } catch (DataValidationErrorException dvee) {
+            assertNotNull(dvee.getMessage());
+            assertEquals("Validation error!", dvee.getMessage());
+            assertEquals(1, dvee.getValidationResults().size());
+            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
+            assertEquals("descr/plain", resultInfo.getElement());
+            assertEquals("validation.required", resultInfo.getMessage());
+        }
       }
     
     @Test
@@ -281,18 +308,17 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	      richText.setPlain("  ");
 	      newCatInfo.setDescr(richText);
 		
-		try{
-				newCatInfo = client.createLoCategory(/*catRepo, catType,*/catType,  newCatInfo, contextInfo);
-				assertNotNull(newCatInfo);
-	        	
-	          // delete the one erroneously created so as to not mess up other tests
-	        	 StatusInfo statusInfo = client.deleteLoCategory(newCatInfo.getId(), contextInfo);
-	             assertTrue(statusInfo.getIsSuccess());            
-	             fail("OperationFailedException expected when creating LoCategory with empty description");
-		} catch (DataValidationErrorException mpe) {
-			// expected result
-		}
-			
+		try {
+            client.createLoCategory(/*catRepo, catType,*/catType, newCatInfo, contextInfo);
+            fail("DataValidationErrorException expected when creating Lo with empty name");
+        } catch (DataValidationErrorException dvee) {
+            assertNotNull(dvee.getMessage());
+            assertEquals("Validation error!", dvee.getMessage());
+            assertEquals(1, dvee.getValidationResults().size());
+            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
+            assertEquals("/name", resultInfo.getElement());
+            assertEquals("validation.required", resultInfo.getMessage());
+        }
     }
        
 	/*
@@ -312,17 +338,11 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		newCatInfo.setStateKey(catState);
 		newCatInfo.setLoRepositoryKey(catRepo);
 		
-		try{				
-			newCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, newCatInfo, contextInfo);
-			newCatInfo = client.getLoCategory(newCatInfo.getId(), contextInfo);
-			newCatInfo.getName();
-			catRepo = newCatInfo.getLoRepositoryKey();
-		} catch (OperationFailedException ofe) {
-			System.err.println(ofe.getMessage());
-		} catch (Exception e){
-			System.err.println(e.getMessage());
-		}
-		
+        newCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, newCatInfo, contextInfo);
+        newCatInfo = client.getLoCategory(newCatInfo.getId(), contextInfo);
+        newCatInfo.getName();
+        catRepo = newCatInfo.getLoRepositoryKey();
+
 		String dupCatName = "dontDupThisCategory";
 		LoCategoryInfo dupCatInfo = new LoCategoryInfo();
 		dupCatInfo.setName(dupCatName);
@@ -332,17 +352,16 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		
 		
 		try {
-			dupCatInfo = client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo, contextInfo);
-			dupCatInfo = client.getLoCategory(dupCatInfo.getId(), contextInfo);
-			dupCatName = dupCatInfo.getName();
-			
-			// delete the two (one erroneously) created so as to not mess up other tests
-			client.deleteLoCategory(newCatInfo.getId(), contextInfo);
-			client.deleteLoCategory(dupCatInfo.getId(), contextInfo);
+			client.createLoCategory(/*TODO KSCM catRepo, catType,*/catType, dupCatInfo, contextInfo);
             fail("DataValidationErrorException expected when creating LoCategory with the same name, type and state");
-		} catch (DataValidationErrorException e) {
-			// expected result
-		}
+		} catch (DataValidationErrorException dvee) {
+            assertNotNull(dvee.getMessage());
+            assertEquals("Validation error!", dvee.getMessage());
+            assertEquals(1, dvee.getValidationResults().size());
+            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
+            assertEquals("LO Category Name", resultInfo.getElement());
+            assertEquals("LO Category already exists", resultInfo.getMessage());
+        }
 		// delete the one created so as to not mess up other tests
 		client.deleteLoCategory(newCatInfo.getId(), contextInfo);
 	}	
@@ -352,12 +371,12 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	 */
 	
 	@Test
-	public void test06UpdateLoCategoryDuplicationCaseInsensitive() throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException, ReadOnlyException {
+	public void test06UpdateLoCategoryDuplicationCaseInsensitive() throws Exception {
 		String catState = "active";
 		String catType = "loCategoryType.accreditation";
 		String catRepo = "kuali.loRepository.key.singleUse";
-		String catId1 = null;
-		String catId2 = null;
+		String catId1;
+		String catId2;
 		
 		LoCategoryInfo catInfo1 = new LoCategoryInfo();
 		catInfo1.setName( "DontDupThisCategory");
@@ -371,30 +390,25 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 		catInfo2.setStateKey(catState);
 		catInfo2.setLoRepositoryKey(catRepo);
 		
-		try{				
-			catInfo1 = client.createLoCategory(catType, catInfo1, contextInfo);
-			catId1 = catInfo1.getId();
-			
-			catInfo2 = client.createLoCategory(catType, catInfo2, contextInfo);
-			catId2 = catInfo2.getId();
-		} catch (OperationFailedException ofe) {
-			System.err.println(ofe.getMessage());
-		} catch (Exception e){
-			System.err.println(e.getMessage());
-		}
-		
+        catInfo1 = client.createLoCategory(catType, catInfo1, contextInfo);
+        catId1 = catInfo1.getId();
+
+        catInfo2 = client.createLoCategory(catType, catInfo2, contextInfo);
+        catId2 = catInfo2.getId();
+
 		
 		try {
 			catInfo2.setName( "dontDupThisCategory");
 			client.updateLoCategory(catId2, catInfo2, contextInfo);
-			
-	
             fail("DataValidationErrorException expected when updating LoCategory with the same name, type and state");
-		} catch (DataValidationErrorException e) {
-			// expected result
-		}catch (VersionMismatchException e){
-			//expected for testing
-		}
+		} catch (DataValidationErrorException dvee) {
+            assertNotNull(dvee.getMessage());
+            assertEquals("Validation error!", dvee.getMessage());
+            assertEquals(1, dvee.getValidationResults().size());
+            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
+            assertEquals("LO Category Name", resultInfo.getElement());
+            assertEquals("LO Category already exists", resultInfo.getMessage());
+        }
 		
 		// delete the two created so as to not mess up other tests
 		client.deleteLoCategory(catId1, contextInfo);
@@ -402,36 +416,34 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
 	}	
 	
     @Test
-    public void test07GetRelatedLosByLoId() throws DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-    	List<LoInfo> relatedLos = null;
-    	try {
-    		relatedLos = client.getRelatedLosByLoId("81abea67-3bcc-4088-8348-e265f3670145", "kuali.lo.relation.type.includes", contextInfo);
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getRelatedLosByLoId(): " + e.getMessage());
-    	}
+    public void test07GetRelatedLosByLoId() throws Exception {
+    	List<LoInfo> relatedLos;
+        relatedLos = client.getRelatedLosByLoId("81abea67-3bcc-4088-8348-e265f3670145", "kuali.lo.relation.type.includes", contextInfo);
     	assertNotNull(relatedLos);
     	assertEquals(2, relatedLos.size());
 		assertTrue(relatedLos.get(0).getId().equals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf") || relatedLos.get(1).getId().equals("e0b456b2-62cb-4bd3-8867-a0d59fd8f2cf"));
 
         // Detecting expected errors
         try {
-    		relatedLos = client.getRelatedLosByLoId(null, "kuali.lo.relation.type.includes", contextInfo);
+    		client.getRelatedLosByLoId(null, "kuali.lo.relation.type.includes", contextInfo);
             fail("MissingParameterException expected for loId");
-        } catch (MissingParameterException e) {}
-        try {
-    		relatedLos = client.getRelatedLosByLoId("81abea67-3bcc-4088-8348-e265f3670145", null, contextInfo);
-            fail("MissingParameterException expected for loLoRelationTypeKey");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loId can not be null", e.getMessage());
         }
+        try {
+    		client.getRelatedLosByLoId("81abea67-3bcc-4088-8348-e265f3670145", null, contextInfo);
+            fail("MissingParameterException expected for loLoRelationTypeKey");
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loLoRelationTypeKey can not be null", e.getMessage());
+        }
+    }
     
     @Test
-    public void test08GetLoRepositories() throws DoesNotExistException, InvalidParameterException, OperationFailedException {
-    	List<LoRepositoryInfo> repos = null;
-    	try {
-    		repos = client.getLoRepositories(contextInfo);
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoRepositories(): " + e.getMessage());
-    	}
+    public void test08GetLoRepositories() throws Exception {
+    	List<LoRepositoryInfo> repos;
+        repos = client.getLoRepositories(contextInfo);
     	assertNotNull(repos);
     	assertEquals(3, repos.size());
     	
@@ -448,30 +460,25 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     }
     
     @Test
-    public void test09GetLoRepository() throws DoesNotExistException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
-    	LoRepositoryInfo repo = null;
-    	try {
-    		repo = client.getLoRepository("kuali.loRepository.key.state", contextInfo);
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoRepository(): " + e.getMessage());
-    	}
+    public void test09GetLoRepository() throws Exception {
+    	LoRepositoryInfo repo;
+        repo = client.getLoRepository("kuali.loRepository.key.state", contextInfo);
     	assertNotNull(repo);
     	assertEquals("Learning objectives mandated by the state", repo.getDescr().getPlain());
         // Detecting expected errors
         try {
     		client.getLoRepository(null, contextInfo);
             fail("MissingParameterException expected for loRepositoryKey");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loRepositoryKey can not be null", e.getMessage());
+        }
     }
     	
     @Test
-    public void test10GetLoLoRelation() throws OperationFailedException, DoesNotExistException, InvalidParameterException  {
+    public void test10GetLoLoRelation() throws Exception  {
     	LoLoRelationInfo llrInfo = null;
-    	try {
-    		llrInfo = client.getLoLoRelation("61ff5b2c-5d2f-464b-b6d8-082fbf671fcb", contextInfo);
-    	} catch (Exception e) {
-            fail("Exception caught when calling LearningObjectiveService.getLoLoRelation(): " + e.getMessage());
-    	}
+        llrInfo = client.getLoLoRelation("61ff5b2c-5d2f-464b-b6d8-082fbf671fcb", contextInfo);
     	assertNotNull(llrInfo);
     	assertEquals("81abea67-3bcc-4088-8348-e265f3670145", llrInfo.getLoId());
     	assertEquals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a", llrInfo.getRelatedLoId());
@@ -481,10 +488,12 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         try {
     		client.getLoLoRelation(null, contextInfo);
             fail("MissingParameterException expected for loLoRelationId");
-        } catch (MissingParameterException e) {            
-        } catch (PermissionDeniedException e) { }
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loLoRelationId can not be null", e.getMessage());
         }
-    
+    }
+
 	@Test
 	public void test11GetLoCategories() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		List<LoCategoryInfo> categories = client.getLoCategoriesByLoRepository("kuali.loRepository.key.singleUse", contextInfo);
@@ -532,13 +541,9 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
     public void test14CreateLoLoRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AlreadyExistsException, CircularReferenceException, DataValidationErrorException, PermissionDeniedException, CircularRelationshipException, ReadOnlyException {
     	LoLoRelationInfo llrInfo = new LoLoRelationInfo();
     	llrInfo.setLoId ("7bcd7c0e-3e6b-4527-ac55-254c58cecc22");
-     llrInfo.setRelatedLoId ("91a91860-d796-4a17-976b-a6165b1a0b05");
-     llrInfo.setTypeKey ("kuali.lo.relation.type.includes");
-    	try {
-    		llrInfo = client.createLoLoRelation(llrInfo.getTypeKey (), llrInfo, contextInfo);
-    	} catch (Exception e) {
-           fail("Exception caught when calling LearningObjectiveService.createLoLoRelation(): " + e.getMessage());
-    	}
+        llrInfo.setRelatedLoId ("91a91860-d796-4a17-976b-a6165b1a0b05");
+        llrInfo.setTypeKey ("kuali.lo.relation.type.includes");
+        llrInfo = client.createLoLoRelation(llrInfo.getTypeKey (), llrInfo, contextInfo);
     	assertNotNull(llrInfo);
     	llrInfo = client.getLoLoRelation(llrInfo.getId(), contextInfo);
     	assertEquals("7bcd7c0e-3e6b-4527-ac55-254c58cecc22", llrInfo.getLoId());
@@ -548,20 +553,32 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         // Detecting expected errors
         try {
     		client.createLoLoRelation("bar", null, contextInfo);
-            fail("MissingParameterException expected for loId");
-        } catch (MissingParameterException e) {}
+            fail("MissingParameterException expected for loLoRelationInfo");
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loLoRelationInfo can not be null", e.getMessage());
+        }
         try {
     		client.createLoLoRelation(null, llrInfo, contextInfo);
-            fail("MissingParameterException expected for relatedLoId");
-        } catch (MissingParameterException e) {}
+            fail("MissingParameterException expected for loLoRelationTypeKey");
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loLoRelationTypeKey can not be null", e.getMessage());
+        }
         try {
     		client.createLoLoRelation(null, llrInfo, contextInfo);
-            fail("MissingParameterException expected for loLoRelationType");
-        } catch (MissingParameterException e) {}
+            fail("MissingParameterException expected for loLoRelationTypeKey");
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loLoRelationTypeKey can not be null", e.getMessage());
+        }
         try {
     		client.createLoLoRelation("baz", null,  contextInfo);
             fail("MissingParameterException expected for loLoRelationInfo");
-        } catch (MissingParameterException e) {}
+        } catch (MissingParameterException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("loLoRelationInfo can not be null", e.getMessage());
+        }
     }
     
     /*
@@ -678,8 +695,14 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         try {
             client.updateLoCategory(categoryId, category, contextInfo);
             fail("DataValidationErrorException expected: LO Category already exists");
-        } catch (VersionMismatchException e) {}
-           catch (DataValidationErrorException e) {}
+        } catch (DataValidationErrorException dvee) {
+            assertNotNull(dvee.getMessage());
+            assertEquals("Validation error!", dvee.getMessage());
+            assertEquals(1, dvee.getValidationResults().size());
+            ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
+            assertEquals("LO Category Name", resultInfo.getElement());
+            assertEquals("LO Category already exists", resultInfo.getMessage());
+        }
            
         // switch to new LoCategory id; new one was created when we changed its type
         String newCategoryId = updated.getId();
@@ -711,9 +734,12 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         assertEquals(1, categories.size());
         
         try {
-            statusInfo = client.deleteLoCategory(categoryId, contextInfo);
+            client.deleteLoCategory(categoryId, contextInfo);
             fail("DependentObjectsExistException expected"); 
-        } catch(DependentObjectsExistException e) {}
+        } catch(DependentObjectsExistException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("LoCategory(" + categoryId + ") still has 1 Learning Objective(s) associated with it.", e.getMessage());
+        }
         
         statusInfo = client.removeLoCategoryFromLo(categoryId, "91a91860-d796-4a17-976b-a6165b1a0b05", contextInfo);
         assertTrue(statusInfo.getIsSuccess());

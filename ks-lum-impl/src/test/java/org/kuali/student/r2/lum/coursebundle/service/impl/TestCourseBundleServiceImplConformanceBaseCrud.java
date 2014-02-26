@@ -16,41 +16,30 @@
 package org.kuali.student.r2.lum.coursebundle.service.impl;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import javax.annotation.Resource;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.IdEntityTester;
-import org.kuali.student.common.test.util.KeyEntityTester;
 import org.kuali.student.common.test.util.MetaTester;
 import org.kuali.student.lum.coursebundle.dto.CourseBundleInfo;
 import org.kuali.student.lum.coursebundle.service.CourseBundleService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -65,8 +54,7 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 	@Resource
 	public CourseBundleService testService;
 	public CourseBundleService getCourseBundleService() { return testService; }
-	public void setCourseBundleService(CourseBundleService service) { testService = service; }
-	
+
 	public ContextInfo contextInfo = null;
 	public static String principalId = "123";
 	
@@ -86,16 +74,7 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 	//           CourseBundleInfo
 	// ****************************************************
 	@Test
-	public void testCrudCourseBundle() 
-		throws DataValidationErrorException,
-			DoesNotExistException,
-			InvalidParameterException,
-			MissingParameterException,
-			OperationFailedException,
-			PermissionDeniedException,
-			ReadOnlyException,
-			VersionMismatchException,
-			DependentObjectsExistException
+	public void testCrudCourseBundle() throws Exception
 	{
 			// -------------------------------------
 			// test create
@@ -157,16 +136,15 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 			new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
 			new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
 			
-			// Test that VersionMissmatchException's are being detected
-			boolean exception = false;
+			// Test that VersionMismatchException's are being detected
 			try {
-   			testService.updateCourseBundle ( original.getId(), original, contextInfo);
-			}
-			catch (VersionMismatchException e) { 
-   			exception = true;			}
-			
-			Assert.assertTrue("VersionMissmatchException was not detected!", exception);
-			
+       			testService.updateCourseBundle ( original.getId(), original, contextInfo);
+                fail("VersionMismatchException should have been thrown");
+			} catch (VersionMismatchException e) {
+                assertNotNull(e.getMessage());
+                assertEquals("1", e.getMessage());
+            }
+
 			// -------------------------------------
 			// test read after update
 			// -------------------------------------
@@ -252,12 +230,13 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 			assertTrue(status.getIsSuccess());
 			try
 			{
-					CourseBundleInfo record = testService.getCourseBundle ( actual.getId(), contextInfo);
+					testService.getCourseBundle ( actual.getId(), contextInfo);
 					fail("Did not receive DoesNotExistException when attempting to get already-deleted entity");
 			}
 			catch (DoesNotExistException dnee)
 			{
-					// expected
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getId(), dnee.getMessage());
 			}
 			
 	}
@@ -265,7 +244,7 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 	/*
 		A method to set the fields for a CourseBundle in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public abstract void testCrudCourseBundle_setDTOFieldsForTestCreate(CourseBundleInfo expected);
+	public abstract void testCrudCourseBundle_setDTOFieldsForTestCreate(CourseBundleInfo expected) throws ParseException;
 	
 	/*
 		A method to test the fields for a CourseBundle. This is called after:
@@ -278,7 +257,7 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 	/*
 		A method to set the fields for a CourseBundle in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public abstract void testCrudCourseBundle_setDTOFieldsForTestUpdate(CourseBundleInfo expected);
+	public abstract void testCrudCourseBundle_setDTOFieldsForTestUpdate(CourseBundleInfo expected) throws ParseException;
 	
 	/*
 		A method to test the fields for a CourseBundle after an update operation, followed by a read operation,
@@ -290,7 +269,7 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 		A method to set the fields for a CourseBundle in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public abstract void testCrudCourseBundle_setDTOFieldsForTestReadAfterUpdate(CourseBundleInfo expected);
+	public abstract void testCrudCourseBundle_setDTOFieldsForTestReadAfterUpdate(CourseBundleInfo expected) throws ParseException;
 	
 	
 	// ========================================
@@ -328,8 +307,7 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 	
 	/* Method Name: changeCourseBundleState */
 	@Test
-	public abstract void test_changeCourseBundleState() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	;
+	public abstract void test_changeCourseBundleState() throws Exception;
 	
 }
 

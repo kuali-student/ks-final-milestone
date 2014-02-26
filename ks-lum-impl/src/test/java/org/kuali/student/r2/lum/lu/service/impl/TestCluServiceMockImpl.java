@@ -89,18 +89,4 @@ public class TestCluServiceMockImpl {
         assertEquals(orig.getTypeKey(), info.getTypeKey());
         assertEquals(orig.getStateKey(), info.getStateKey());
     }
-
-    private CluInfo getCurrentCluInfoByVersionIndId(String id, ContextInfo contextInfo) {
-        VersionDisplayInfo versionDisplayInfo = null;
-        try {
-            versionDisplayInfo = this.cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, id, contextInfo);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException("Unexpected", ex);
-        }
-        try {
-            return this.cluService.getClu(versionDisplayInfo.getId(), contextInfo);
-        } catch (Exception ex) {
-            throw new IllegalArgumentException("Unexpected", ex);
-        }
-    }
 }

@@ -16,48 +16,26 @@
 package org.kuali.student.r2.lum.coursebundle.service.impl;
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import javax.annotation.Resource;
-
 import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.kuali.student.common.test.util.IdEntityTester;
-import org.kuali.student.common.test.util.KeyEntityTester;
 import org.kuali.student.common.test.util.RichTextTester;
 import org.kuali.student.lum.coursebundle.dto.CourseBundleInfo;
-import org.kuali.student.lum.coursebundle.service.CourseBundleService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 
 @Transactional
@@ -84,26 +62,22 @@ public abstract class TestCourseBundleServiceImplConformanceExtendedCrud extends
 	/*
 		A method to set the fields for a CourseBundle in a 'test create' section prior to calling the 'create' operation.
 	*/
-	public void testCrudCourseBundle_setDTOFieldsForTestCreate(CourseBundleInfo expected) 
+	public void testCrudCourseBundle_setDTOFieldsForTestCreate(CourseBundleInfo expected) throws ParseException
 	{
 		expected.setTypeKey("typeKey01");
 		expected.setStateKey("stateKey01");
 		expected.setName("name01");
 		expected.setDescr(RichTextHelper.buildRichTextInfo("descr01", "descr01"));
 
-        try {
-            expected.setEffectiveDate(dateFormat.parse("20130611"));
-            expected.setExpirationDate(dateFormat.parse("20500101"));
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("20130611"));
+        expected.setExpirationDate(dateFormat.parse("20500101"));
 		expected.setCourseBundleCode("courseBundleCode01");
 		expected.setStartTermId("startTermId01");
 		expected.setEndTermId("endTermId01");
 		expected.setSubjectAreaOrgId("subjectAreaOrgId01");
 		expected.setCourseBundleCodeSuffix("courseBundleCodeSuffix01");
-        expected.setAdminOrgIds(Arrays.asList(new String[] {"1", "2", "3", "4", "5", "6"}));
-        expected.setCourseIds(Arrays.asList(new String[] {"A", "B", "C"}));
+        expected.setAdminOrgIds(Arrays.asList("1", "2", "3", "4", "5", "6"));
+        expected.setCourseIds(Arrays.asList("A", "B", "C"));
 	}
 	
 	/*
@@ -138,25 +112,21 @@ public abstract class TestCourseBundleServiceImplConformanceExtendedCrud extends
 	/*
 		A method to set the fields for a CourseBundle in a 'test update' section prior to calling the 'update' operation.
 	*/
-	public void testCrudCourseBundle_setDTOFieldsForTestUpdate(CourseBundleInfo expected) 
+	public void testCrudCourseBundle_setDTOFieldsForTestUpdate(CourseBundleInfo expected) throws ParseException
 	{
 		expected.setTypeKey("typeKey_Updated");
 		expected.setStateKey("stateKey_Updated");
 		expected.setName("name_Updated");
 		expected.setDescr(RichTextHelper.buildRichTextInfo("descr_Updated", "descr_Updated"));
-        try {
-            expected.setEffectiveDate(dateFormat.parse("20200611"));
-            expected.setExpirationDate(dateFormat.parse("20550101"));
-        } catch (ParseException e) {
-        throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("20200611"));
+        expected.setExpirationDate(dateFormat.parse("20550101"));
 		expected.setCourseBundleCode("courseBundleCode_Updated");
 		expected.setStartTermId("startTermId_Updated");
 		expected.setEndTermId("endTermId_Updated");
 		expected.setSubjectAreaOrgId("subjectAreaOrgId_Updated");
 		expected.setCourseBundleCodeSuffix("courseBundleCodeSuffix_Updated");
-        expected.setAdminOrgIds(Arrays.asList(new String[] {"SINGLE_ID"}));
-        expected.setCourseIds(Arrays.asList(new String[] {"1", "2", "3"}));
+        expected.setAdminOrgIds(Arrays.asList("SINGLE_ID"));
+        expected.setCourseIds(Arrays.asList("1", "2", "3"));
 	}
 	
 	/*
@@ -191,23 +161,18 @@ public abstract class TestCourseBundleServiceImplConformanceExtendedCrud extends
 		A method to set the fields for a CourseBundle in the 'test read after update' section.
 		This dto is another (second) dto object being created for other tests.
 	*/
-	public void testCrudCourseBundle_setDTOFieldsForTestReadAfterUpdate(CourseBundleInfo expected) 
-	{
+	public void testCrudCourseBundle_setDTOFieldsForTestReadAfterUpdate(CourseBundleInfo expected) throws ParseException {
 		expected.setName("name_Updated");
-        try {
-            expected.setEffectiveDate(dateFormat.parse("19000611"));
-            expected.setExpirationDate(dateFormat.parse("30300101"));
-        } catch (ParseException e) {
-            throw new RuntimeException("Failed to parse date", e);
-        }
+        expected.setEffectiveDate(dateFormat.parse("19000611"));
+        expected.setExpirationDate(dateFormat.parse("30300101"));
 		expected.setCourseBundleCode("courseBundleCode_Updated");
 		expected.setStartTermId("startTermId_Updated");
 		expected.setEndTermId("endTermId_Updated");
 		expected.setSubjectAreaOrgId("subjectAreaOrgId_Updated");
 		expected.setCourseBundleCodeSuffix("courseBundleCodeSuffix_Updated");
 
-        expected.setAdminOrgIds(Arrays.asList(new String[] {"SINGLE_ID_UPDATED"}));
-        expected.setCourseIds(Arrays.asList(new String[] {"X", "Y", "Z"}));
+        expected.setAdminOrgIds(Arrays.asList("SINGLE_ID_UPDATED"));
+        expected.setCourseIds(Arrays.asList("X", "Y", "Z"));
 	}
 	
 	
@@ -235,8 +200,7 @@ public abstract class TestCourseBundleServiceImplConformanceExtendedCrud extends
 	
 	/* Method Name: changeCourseBundleState */
 	@Test
-	public void test_changeCourseBundleState() 
-	throws 	DoesNotExistException	,InvalidParameterException	,MissingParameterException	,OperationFailedException	,PermissionDeniedException	{
+	public void test_changeCourseBundleState() throws Exception	{
         loadData();
         List<String> infos = getCourseBundleService().getCourseBundleIdsByType(CourseBundleDataLoader.COURSE_BUNDLE_TYPE_KEY, contextInfo);
         assertTrue(infos.size() > 0);
@@ -244,22 +208,14 @@ public abstract class TestCourseBundleServiceImplConformanceExtendedCrud extends
         assertEquals(CourseBundleDataLoader.COURSE_BUNDLE_ACTIVE_STATE_KEY,original.getStateKey());
         original.setStateKey(CourseBundleDataLoader.COURSE_BUNDLE_INACTIVE_STATE_KEY);
 
-        try {
-            getCourseBundleService().updateCourseBundle(original.getId(), original, contextInfo);
-        } catch (Exception e){
-            throw new OperationFailedException(e);
-        }
+        getCourseBundleService().updateCourseBundle(original.getId(), original, contextInfo);
         CourseBundleInfo updated = getCourseBundleService().getCourseBundle(original.getId(), contextInfo);
         assertEquals(CourseBundleDataLoader.COURSE_BUNDLE_INACTIVE_STATE_KEY,updated.getStateKey());
 	}
 
 
-    private void loadData() throws OperationFailedException {
-        try {
-            dataLoader.beforeTest();
-        } catch (Exception e) {
-            throw new OperationFailedException("failed to load data", e);
-        }
+    private void loadData() throws Exception {
+        dataLoader.beforeTest();
     }
 }
 

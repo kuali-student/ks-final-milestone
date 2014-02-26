@@ -40,7 +40,7 @@ public class TestProgramInfoDictionary {
 	
     @Test
     public void testLoadProgramInfoDictionary() {
-        Set<String> startingClasses = new LinkedHashSet();
+        Set<String> startingClasses = new LinkedHashSet<String>();
         startingClasses.add(MajorDisciplineInfo.class.getName ());
         startingClasses.add(CoreProgramInfo.class.getName ());
         startingClasses.add(MinorDisciplineInfo.class.getName ());
@@ -74,8 +74,7 @@ public class TestProgramInfoDictionary {
 
 
     @Test
-    public void testMajorDisciplineInfoValidation() throws
-            OperationFailedException, DataValidationErrorException {
+    public void testMajorDisciplineInfoValidation() throws Exception {
         System.out.println("h1. Validation results");
         DefaultValidatorImpl val = new DefaultValidatorImpl();
         val.setValidatorFactory(new ValidatorFactory());
@@ -95,21 +94,7 @@ public class TestProgramInfoDictionary {
         message.setValue("validation.programManagingBodiesMatch");
         //message.setValue("validation.programManagingBodiesMatch");
         
-        try {
-			messageServiceMock.createMessage(l,message.getGroupName(), message.getMessageKey(), message, new ContextInfo());
-		} catch (DoesNotExistException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvalidParameterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MissingParameterException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (PermissionDeniedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        messageServiceMock.createMessage(l,message.getGroupName(), message.getMessageKey(), message, new ContextInfo());
         programManagingBodiesValidator.setMessageService(messageServiceMock);
         programManagingBodiesValidator.setSearchDispatcher(new MockSearchDispatcher());
         List<Validator> validatorList = new ArrayList<Validator>();
@@ -137,12 +122,7 @@ public class TestProgramInfoDictionary {
 //      /state validation.required
         assertEquals(5, validationResults.size());
 
-        try {
-            info = new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
-        }
-        catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        info = new MajorDisciplineDataGenerator().getMajorDisciplineInfoTestData();
         validationResults = val.validateObject(info, os, contextInfo);
         System.out.println("h2. with generated data");
         for (ValidationResultInfo vr : validationResults) {

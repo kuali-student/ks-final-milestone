@@ -76,7 +76,7 @@ public class TestCourseInfoDictionary {
  }
 
 	@Test
-	public void testCourseInfoValidation() throws OperationFailedException {
+	public void testCourseInfoValidation() throws Exception {
 		System.out.println("h1. Test Validation");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		ValidatorFactory vf = new ValidatorFactory();
@@ -110,11 +110,7 @@ public class TestCourseInfoDictionary {
 		}
 		assertEquals(3, validationResults.size());
 
-		try {
-			info = new CourseDataGenerator().getCourseTestData();
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
+        info = new CourseDataGenerator().getCourseTestData();
 
 		// Clean up revenues because of custom validation  
 		info.setRevenues(new ArrayList<CourseRevenueInfo>());
@@ -173,12 +169,8 @@ public class TestCourseInfoDictionary {
 
 		
 		// Test custom validation 
-        try {
-            info = new CourseDataGenerator().getCourseTestData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-        
+        info = new CourseDataGenerator().getCourseTestData();
+
         AffiliatedOrgInfo af1 = new AffiliatedOrgInfo();
         af1.setOrgId("orgId");
         af1.setPercentage(15l);
@@ -235,7 +227,7 @@ public class TestCourseInfoDictionary {
 
 	}
 
-	private Validator getActiveDatesValidator() {
+	private Validator getActiveDatesValidator() throws Exception {
 		ActiveDatesValidator adv = new ActiveDatesValidator();
 		MockProxyFactoryBean b = new MockProxyFactoryBean();
 		Map<String,Object> methodReturnMap = new HashMap<String,Object>(); 
@@ -246,12 +238,8 @@ public class TestCourseInfoDictionary {
 		b.setMethodReturnMap(methodReturnMap);
 		
 		b.setInterfaceClass(AtpService.class);
-		try {
-			adv.setAtpService((AtpService) b.getObject());
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		
+        adv.setAtpService((AtpService) b.getObject());
+
 		return adv;
 	}
 	

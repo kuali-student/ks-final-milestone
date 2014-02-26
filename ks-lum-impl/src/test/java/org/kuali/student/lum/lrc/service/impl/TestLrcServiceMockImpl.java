@@ -75,11 +75,6 @@ public class TestLrcServiceMockImpl {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-//        try {
-//            new LprTestDataLoader(lprDao).loadData();
-//        } catch (Exception ex) {
-//            throw new RuntimeException (ex);
-//        }
     }
 
     @Test
@@ -109,9 +104,7 @@ public class TestLrcServiceMockImpl {
             VersionMismatchException,
             AlreadyExistsException,
             DependentObjectsExistException {
-        System.out.println("started testing crud");
         if (this.getLRCService() instanceof MockService) {
-            System.out.println("clearing mock service");
             MockService mockService = (MockService) this.getLRCService();
             mockService.clear();
         }
@@ -140,7 +133,8 @@ public class TestLrcServiceMockImpl {
             lrcService.createResultScale(expected.getTypeKey(), expected, callContext);
             fail("should have gotten an already exists exception");
         } catch (AlreadyExistsException e) {
-            // ok expected
+            assertNotNull(e.getMessage());
+            assertEquals(expected.getKey(), e.getMessage());
         }
 
         // test read
@@ -275,28 +269,31 @@ public class TestLrcServiceMockImpl {
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = lrcService.getResultScale(letterGradedScale.getKey(), callContext);
+            lrcService.getResultScale(letterGradedScale.getKey(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted Entity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(letterGradedScale.getKey(), dnee.getMessage());
         }
         status = lrcService.deleteResultScale(percentScale.getKey(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = lrcService.getResultScale(percentScale.getKey(), callContext);
+            lrcService.getResultScale(percentScale.getKey(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted Entity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(percentScale.getKey(), dnee.getMessage());
         }
         status = lrcService.deleteResultScale(passFailScale.getKey(), callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = lrcService.getResultScale(passFailScale.getKey(), callContext);
+            lrcService.getResultScale(passFailScale.getKey(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted Entity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(passFailScale.getKey(), dnee.getMessage());
         }
 
     }
@@ -441,12 +438,6 @@ public class TestLrcServiceMockImpl {
         assertEquals(0, keys.size());
         // test by type
         keys = lrcService.getResultValueKeysByType(LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE, callContext);
-        if (keys.size() != 2) {
-            System.out.println("wrong number of keys");
-            for (String key : keys) {
-                System.out.println(key);
-            }
-        }
         assertEquals(2, keys.size());
         if (!keys.remove(actual.getKey())) {
             fail("does ot contain " + actual.getKey());
@@ -611,7 +602,8 @@ public class TestLrcServiceMockImpl {
             lrcService.createResultValuesGroup(expected.getResultScaleKey(), expected.getTypeKey(), expected, callContext);
             fail("should have gotten an already exists exception");
         } catch (AlreadyExistsException e) {
-            // ok expected
+            assertNotNull(e.getMessage());
+            assertEquals(expected.getKey(), e.getMessage());
         }
 
         // test read
@@ -827,35 +819,37 @@ public class TestLrcServiceMockImpl {
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = lrcService.getResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PASSING_TRANSLATION,
+            lrcService.getResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PASSING_TRANSLATION,
                     callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted Entity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER_PASSING_TRANSLATION, dnee.getMessage());
         }
 
         status = lrcService.deleteResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER, callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = lrcService.getResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER, callContext);
+            lrcService.getResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER, callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted Entity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER, dnee.getMessage());
         }
         status = lrcService.deleteResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL, callContext);
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            actual = lrcService.getResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL, callContext);
+            lrcService.getResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL, callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted Entity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL, dnee.getMessage());
         }
 
-        status = lrcService.deleteResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0, callContext);
-        status = lrcService.deleteResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS4, callContext);
-        System.out.println("finished testing crud");
+        lrcService.deleteResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0, callContext);
+        lrcService.deleteResultValuesGroup(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_1_MINUS4, callContext);
 
     }
 
@@ -869,9 +863,7 @@ public class TestLrcServiceMockImpl {
             ReadOnlyException,
             VersionMismatchException,
             AlreadyExistsException {
-        System.out.println("started testing business logic");
         if (this.getLRCService() instanceof MockService) {
-            System.out.println("Clearing mock service");
             MockService mockService = (MockService) this.getLRCService();
             mockService.clear();
         }
@@ -960,6 +952,5 @@ public class TestLrcServiceMockImpl {
         assertEquals(value, rv.getValue());
         new FloatAsStringTester().check(value, rv.getNumericValue());
 
-        System.out.println("finished testing business logic");
     }
 }
