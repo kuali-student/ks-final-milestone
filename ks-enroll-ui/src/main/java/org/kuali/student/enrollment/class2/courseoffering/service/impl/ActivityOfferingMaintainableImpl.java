@@ -23,6 +23,7 @@ import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ColocatedActivity;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingContextBar;
+import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.OfferingInstructorWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleComponentWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
@@ -33,6 +34,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingCon
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
+import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
@@ -40,6 +42,7 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -98,6 +101,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
             disassembleInstructorsWrapper(activityOfferingWrapper.getInstructors(), activityOfferingWrapper.getAoInfo());
             List<SeatPoolDefinitionInfo> seatPools = this.getSeatPoolDefinitions(activityOfferingWrapper.getSeatpools());
             CourseOfferingManagementUtil.getSeatPoolUtilityService().updateSeatPoolDefinitionList(seatPools, activityOfferingWrapper.getAoInfo().getId(), contextInfo);
+
 
             processEnrollmentDetail(activityOfferingWrapper);
 
@@ -205,6 +209,17 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                             activityOfferingWrapper.isColocatedAO(), activityOfferingWrapper.isMaxEnrollmentShared(), aoIdfoIdMap, contextInfo);
                     activityOfferingWrapper.setCourseWaitListInfo(courseWaitListInfo);
                 }
+
+                //To retrieve the ExamPeriodId that is on CourseOffering
+                String examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(activityOfferingInfo.getTermId(), contextInfo);
+
+                // generate exam offerings if exam period exists
+                ExamOfferingResult examOfferingResult;
+                if (!StringUtils.isEmpty(examPeriodId)) {
+                    examOfferingResult = CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(activityOfferingWrapper.getAoInfo(),
+                            activityOfferingWrapper.getAoInfo().getTermId(), examPeriodId, new ArrayList<String>(), contextInfo);
+                }
+
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }

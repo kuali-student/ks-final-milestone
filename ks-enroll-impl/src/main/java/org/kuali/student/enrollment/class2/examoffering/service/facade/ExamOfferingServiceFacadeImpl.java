@@ -148,27 +148,13 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         ExamOfferingResult statusInfo = new ExamOfferingResult();
         Driver driver = calculateEODriver(courseOfferingInfo);
         if (driver.equals(Driver.PER_AO)) {
-            String eoState = this.getExamOfferingStateForActivityOffering(activityOfferingInfo);
-            createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo, finalExamLevelTypeKey,
-                    examPeriodID, eoState, termType, context);
+
+            statusInfo =  generateFinalExamOfferingsPerAOOptimized(courseOfferingInfo.getId(), termId, examPeriodID, optionKeys, context, null);
+
         } else if (driver.equals(Driver.PER_CO)) {
-            List<ExamOfferingRelationInfo> eoRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
-                    activityOfferingInfo.getFormatOfferingId(), context);
 
-            //Create a new exam offering if this is the first AO linked to the CO.
-            if (eoRelations.size() == 0) {
-                //Create new Exam Offering and Relationship
-                String eoState = this.getExamOfferingStateForActivityOffering(activityOfferingInfo);
-                createFinalExamOfferingPerAO(activityOfferingInfo.getFormatOfferingId(), activityOfferingInfo,
-                        finalExamLevelTypeKey, examPeriodID, eoState, termType, context);
+            statusInfo =  generateFinalExamOfferingsPerCOOptimized(courseOfferingInfo, termId, examPeriodID, optionKeys, context, null);
 
-            } else {
-                for (ExamOfferingRelationInfo eoRelation : eoRelations) {
-                    eoRelation.getActivityOfferingIds().add(activityOfferingInfo.getId());
-                    this.getExamOfferingService().updateExamOfferingRelation(eoRelation.getId(), eoRelation, context);
-                    break; //There should only be one.
-                }
-            }
         } else if (driver.equals(Driver.NONE)) {
             // Final exam type is not STANDARD or no exam driver was selected. No exam offerings are generated
             statusInfo.getExamStatus().setSuccess(Boolean.FALSE);
