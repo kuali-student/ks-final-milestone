@@ -138,6 +138,7 @@ public interface CourseRegistrationClientService {
      * @param termId
      * @param courseCode
      * @param regGroupCode
+     * @param masterLprId
      * @param credits
      * @param gradingOption
      * @return
@@ -158,6 +159,7 @@ public interface CourseRegistrationClientService {
                                                  @QueryParam("termId") String termId,
                                                  @QueryParam("courseCode") String courseCode,
                                                  @QueryParam("regGroupCode") String regGroupCode,
+                                                 @QueryParam("regGroupId") String masterLprId,
                                                  @QueryParam("credits") String credits,
                                                  @QueryParam("gradingOptions") String gradingOption) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException;
 
@@ -170,6 +172,7 @@ public interface CourseRegistrationClientService {
      * @param courseCode
      * @param regGroupCode
      * @param regGroupId   optional, but the term, course, and reg group name are not checked if you supply the id
+     * @param masterLprId
      * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
      *         ansynchonous so the client will need to poll the system for status updates.
      * @throws InvalidParameterException
@@ -189,6 +192,7 @@ public interface CourseRegistrationClientService {
                                                  @QueryParam("termCode") String termCode,
                                                  @QueryParam("courseCode") String courseCode,
                                                  @QueryParam("regGroupCode") String regGroupCode,
-                                                 @QueryParam("regGroupId") String regGroupId);
+                                                 @QueryParam("regGroupId") String regGroupId,
+                                                 @QueryParam("regGroupId") String masterLprId);
 
 }

@@ -101,7 +101,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
     public static final class SearchResultColumns {
         public static final String LUI_ID = "luiId";
-        public static final String MASTER_LUI_ID = "masterLuiId";
+        public static final String MASTER_LPR_ID = "masterLprId";
         public static final String PERSON_LUI_TYPE = "personLuiType";
         public static final String LUI_NAME = "luiName";
         public static final String LUI_LONG_NAME = "luiLongName";
@@ -447,7 +447,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
 
         String queryStr =
-                "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, lpr.LUI_ID, lpr.MASTER_LUI_ID, lpr.LPR_TYPE, lpr.CREDITS, lpr.GRADING_OPT_ID, " +
+                "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.CREDITS, lpr.GRADING_OPT_ID, " +
                         "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
                         "luiRes.RESULT_VAL_GRP_ID, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
@@ -496,7 +496,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.ATP_CD, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.ATP_NAME, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_ID, (String) resultRow[i++]);
-            row.addCell(SearchResultColumns.MASTER_LUI_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.MASTER_LPR_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.PERSON_LUI_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CREDITS, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.GRADING_OPTION_ID, (String) resultRow[i++]);

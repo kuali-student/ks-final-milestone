@@ -20,6 +20,7 @@ public class StudentScheduleCourseResult {
     private String gradingOptionId;
     private String longName;
     private String regGroupCode;
+    private String masterLprId;
     private List<String> creditOptions;
     private Map<String, String> gradingOptions;
     private List<StudentScheduleActivityOfferingResult> activityOfferings;
@@ -74,6 +75,10 @@ public class StudentScheduleCourseResult {
     public String getRegGroupCode() { return regGroupCode; }
 
     public void setRegGroupCode(String regGroupCode) { this.regGroupCode = regGroupCode; }
+
+    public String getMasterLprId() { return masterLprId; }
+
+    public void setMasterLprId(String masterLprId) { this.masterLprId = masterLprId; }
 
     public List<String> getCreditOptions() {
         if(creditOptions == null){

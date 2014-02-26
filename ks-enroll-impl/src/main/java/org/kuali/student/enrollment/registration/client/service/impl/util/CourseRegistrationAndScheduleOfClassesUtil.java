@@ -396,17 +396,19 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
      * This method creates a registration request for the add operation of a single registration group.
      *
      * @param principalId     principal id
-     * @param regGroupid      Registration Group id
+     * @param regGroupId      Registration Group id
+     * @param masterLprId     masterLprId
      * @param credits         credits
      * @param gradingOptionId gradingOptionId
      * @return registration request
      */
-    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupid, String credits, String gradingOptionId, String typeKey, String stateKey) {
+    public static RegistrationRequestItemInfo createNewRegistrationRequestItem(String principalId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey) {
 
         RegistrationRequestItemInfo registrationRequestItem = new RegistrationRequestItemInfo();
         registrationRequestItem.setTypeKey(typeKey);
         registrationRequestItem.setStateKey(stateKey);
-        registrationRequestItem.setRegistrationGroupId(regGroupid);
+        registrationRequestItem.setRegistrationGroupId(regGroupId);
+        registrationRequestItem.setMasterLprId(masterLprId);
         registrationRequestItem.setPersonId(principalId);
         registrationRequestItem.setCredits(new KualiDecimal(credits));
         registrationRequestItem.setGradingOptionId(gradingOptionId);
