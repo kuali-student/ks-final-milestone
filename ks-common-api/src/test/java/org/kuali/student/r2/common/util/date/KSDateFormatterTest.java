@@ -54,28 +54,16 @@ public class KSDateFormatterTest {
     private void printFormatOnly(String format, Date dateTime){
         KSDateTimeFormatter kdf = new KSDateTimeFormatter(format);
 
-        try{
-            kdf.format(dateTime);
-        }catch (Exception ex){
-            throw new IllegalArgumentException("Could format["+format+"] " + dateTime.toString() );
-        }
+        kdf.format(dateTime);
     }
 
     private void printFormat(String format, Date dateTime)   {
 
         KSDateTimeFormatter kdf = new KSDateTimeFormatter(format);
 
-        try{
-            System.out.println(kdf.format(dateTime));
-        }catch (Exception ex){
-            throw new IllegalArgumentException("Could format["+format+"] " + dateTime.toString() );
-        }
+        kdf.format(dateTime);
 
-        try{
-            kdf.format(kdf.parse(kdf.format(dateTime)));
-        }catch (Exception ex){
-            throw new IllegalArgumentException("Could parse format["+format+"] with String input "+ kdf.format(dateTime) );
-        }
+        kdf.format(kdf.parse(kdf.format(dateTime)));
     }
 
 }

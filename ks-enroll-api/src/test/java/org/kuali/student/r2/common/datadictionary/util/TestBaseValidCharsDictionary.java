@@ -54,7 +54,7 @@ import static org.junit.Assert.assertNull;
 public class TestBaseValidCharsDictionary {
 
     @Before
-    public void setUp(){
+    public void setUp() throws Exception {
         Config config = new JAXBConfigImpl();
        config.putProperty(CoreConstants.Config.APPLICATION_ID, "test");
        ConfigContext.init(config);
@@ -63,13 +63,9 @@ public class TestBaseValidCharsDictionary {
                new BaseResourceLoader(
                        new QName("test", RiceConstants.DEFAULT_ROOT_RESOURCE_LOADER_NAME), new SimpleSpringResourceLoader());
 
-       try {
-           GlobalResourceLoader.stop();
-           GlobalResourceLoader.addResourceLoader(resourceLoader);
-           GlobalResourceLoader.start();
-       } catch (Exception e) {
-           throw new RuntimeException("Error initializing GRL", e);
-       }
+       GlobalResourceLoader.stop();
+       GlobalResourceLoader.addResourceLoader(resourceLoader);
+       GlobalResourceLoader.start();
     }
 
     private String test(ValidCharactersConstraintProcessor vccp, ValidCharactersConstraint vcc, String value) {

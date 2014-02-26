@@ -10,15 +10,10 @@ public class TestEncryptPassword {
 
     private EncryptionService service = null;
 
-    public EncryptionService getService() {
+    public EncryptionService getService() throws Exception {
         if (service == null) {
-            try {
-//                String encryptionKey = "7IC64w6ksLU";
-                ConfigContext.init(new MockConfig());
-                service = new DemonstrationGradeEncryptionServiceImpl();
-            } catch (Exception ex) {
-                throw new RuntimeException(ex);
-            }
+            ConfigContext.init(new MockConfig());
+            service = new DemonstrationGradeEncryptionServiceImpl();
         }
         return service;
     }
@@ -46,9 +41,7 @@ public class TestEncryptPassword {
     }
 
     private String hash(String clear) throws Exception {
-        String hashed = getService().hash(clear) + EncryptionService.HASH_POST_PREFIX;
-        System.out.println("hashed value for " + clear + "=[" + hashed + "]");
-        return hashed;
+        return getService().hash(clear) + EncryptionService.HASH_POST_PREFIX;
     }
 
     private String hashTest(String clear, String expectedHashed) throws Exception {
