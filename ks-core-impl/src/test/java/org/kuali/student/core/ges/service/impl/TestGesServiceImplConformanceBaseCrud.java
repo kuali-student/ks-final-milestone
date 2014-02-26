@@ -254,6 +254,8 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			catch (DoesNotExistException dnee)
 			{
 					// expected
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getKey(), dnee.getMessage());
 			}
 			
 	}
@@ -465,6 +467,8 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			catch (DoesNotExistException dnee)
 			{
 					// expected
+                assertNotNull(dnee.getMessage());
+                assertEquals(actual.getId(), dnee.getMessage());
 			}
 			
 	}

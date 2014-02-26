@@ -150,7 +150,8 @@ public class TestAtpServiceJpaPersistenceImpl {
             resultA = atpService.getAtp(origA.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(origA.getId(), dnee.getMessage());
         }
 
         // test milestone create
@@ -242,7 +243,8 @@ public class TestAtpServiceJpaPersistenceImpl {
             resultM = atpService.getMilestone(origM.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted Milestone");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(origM.getId(), dnee.getMessage());
         }
 
 
@@ -356,7 +358,8 @@ public class TestAtpServiceJpaPersistenceImpl {
             resultR = atpService.getAtpAtpRelation(origR.getId(), callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpAtpRelation");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(origR.getId(), dnee.getMessage());
         }
 
         // adding and removing milestones from types
@@ -395,7 +398,8 @@ public class TestAtpServiceJpaPersistenceImpl {
             status = atpService.addMilestoneToAtp(m1.getId(), atp1.getId(), callContext);
             fail("relationship should already exist");
         } catch (AlreadyExistsException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals("Milestone " + m1.getId() + " already exists for ATP " + atp1.getId(), ex.getMessage());
         }
 
         List<MilestoneInfo> milestones = atpService.getMilestonesForAtp(atp1.getId(), callContext);
@@ -410,7 +414,8 @@ public class TestAtpServiceJpaPersistenceImpl {
             status = atpService.addMilestoneToAtp(m2.getId(), atp1.getId(), callContext);
             fail("relationship should already exist");
         } catch (AlreadyExistsException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals("Milestone " + m2.getId() + " already exists for ATP " + atp1.getId(), ex.getMessage());
         }
         milestones = atpService.getMilestonesForAtp(atp1.getId(), callContext);
         assertNotNull(milestones);

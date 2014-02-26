@@ -97,9 +97,10 @@ public class TestScheduleRequest {
 
         try {
             schedulingService.getScheduleRequest("ScheduleRequest-blah", callContext);
-            fail("should not exist");
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException ex) {
-            // expected
+            assertNotNull(ex.getMessage());
+            assertEquals("ScheduleRequest-blah", ex.getMessage());
         }
 
         ScheduleRequestInfo obj = schedulingService.getScheduleRequest("schedReq-G", callContext);
@@ -177,7 +178,10 @@ public class TestScheduleRequest {
 
         try {
             schedulingService.getScheduleRequest("schedReq-D", callContext);
-        } catch (DoesNotExistException ee) {
+            fail("DoesNotExistException should have been thrown");
+        } catch (DoesNotExistException ex) {
+            assertNotNull(ex.getMessage());
+            assertEquals("schedReq-D", ex.getMessage());
         }
     }
 

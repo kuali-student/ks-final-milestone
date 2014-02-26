@@ -105,7 +105,8 @@ public class NaturalLanguageMessageBuilderTest {
     		String message = messageBuilder.buildMessage("xx", "A", messageContainer);
     		Assert.fail("NaturalLanguageMessageBuilder should have thrown an exception since language keys do not match");
     	} catch(MessageBuilderException e) {
-    		Assert.assertTrue(true);
+            Assert.assertNotNull(e.getMessage());
+            Assert.assertEquals("Message builder not found for language key 'xx'", e.getMessage());
     	}
 	}
 }

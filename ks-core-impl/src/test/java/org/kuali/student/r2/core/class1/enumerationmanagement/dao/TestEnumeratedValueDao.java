@@ -15,15 +15,6 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
@@ -36,6 +27,15 @@ import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedVa
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.persistence.NoResultException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence-test.xml")
 public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
@@ -263,7 +263,7 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
     }
     
     @Test
-    public void testUpdateEnumeratedValue() {
+    public void testUpdateEnumeratedValue() throws VersionMismatchException {
         
         EnumerationEntity existing = enumerationDao.find("kuali.lu.subjectArea");
         EnumerationEntity keyA = new EnumerationEntity();
@@ -301,16 +301,10 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         entity.setValue("newValue");
         
         EnumeratedValueEntity returnedEntity = null;
-        try {
-            returnedEntity = enumeratedValueDao.merge(entity);
-        } catch (VersionMismatchException e) {
-            log.error("unexpected version mismatch", e);
-            Assert.fail("unexpected version mismatch");
+        returnedEntity = enumeratedValueDao.merge(entity);
 
-        }
-        
-        Assert.assertNotNull(returnedEntity);
-        
+        assertNotNull(returnedEntity);
+
         assertEquals(returnedEntity.getAbbrevValue(), entity.getAbbrevValue());
         assertEquals(returnedEntity.getValue(), entity.getValue());
         
@@ -363,13 +357,14 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         EnumeratedValueEntity enumeratedValue = enumeratedValueDao.getByEnumerationKeyAndCode("Key3", "CodeB");
         assertNotNull(enumeratedValue);
         enumeratedValueDao.remove(enumeratedValue);
-        try{
+        try {
             enumeratedValueDao.getByEnumerationKeyAndCode("Key3", "CodeB");
-            assertTrue(false);
-        } catch (Exception e) {
-            assertTrue(true);
+            fail("NoResultException should have been thrown");
+        } catch(NoResultException nre) {
+            assertNotNull(nre.getMessage());
+            assertEquals("No entity found for query", nre.getMessage());
         }
-        
+
         List<EnumeratedValueEntity> enumeratedValueList =  enumeratedValueDao.getByContextAndDate(enumValue.getEnumeration().getId(), 
                 contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));
         assertEquals(enumeratedValueList.size(), 0);

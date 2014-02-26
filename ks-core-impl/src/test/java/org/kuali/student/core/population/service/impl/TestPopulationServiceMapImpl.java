@@ -14,8 +14,6 @@ package org.kuali.student.core.population.service.impl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -128,16 +126,12 @@ public class TestPopulationServiceMapImpl {
         return popList;
     }
 
-    private List<String> _makePopulationsAndReturnIds() {
+    private List<String> _makePopulationsAndReturnIds() throws Exception {
         List<PopulationInfo> popList = _constructPopulationList();
         List<String> popIdsList = new ArrayList<String>();
-        try {
-            for (PopulationInfo popInfo : popList) {
-                PopulationInfo created = populationService.createPopulation(popInfo.getTypeKey(), popInfo, contextInfo);
-                popIdsList.add(created.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (PopulationInfo popInfo : popList) {
+            PopulationInfo created = populationService.createPopulation(popInfo.getTypeKey(), popInfo, contextInfo);
+            popIdsList.add(created.getId());
         }
         return popIdsList;
     }
@@ -325,6 +319,8 @@ public class TestPopulationServiceMapImpl {
             fail("should have thrown exception");
         } catch (DoesNotExistException e) {
             // Should throw exception
+            assertNotNull(e.getMessage());
+            assertEquals(ruleInfoCreated.getId(), e.getMessage());
         }
     }
 
@@ -389,6 +385,8 @@ public class TestPopulationServiceMapImpl {
             fail("should have thrown exception");
         } catch (DoesNotExistException e) {
             // ok exepected
+            assertNotNull(e.getMessage());
+            assertEquals(created.getId(), e.getMessage());
         }
     }
 

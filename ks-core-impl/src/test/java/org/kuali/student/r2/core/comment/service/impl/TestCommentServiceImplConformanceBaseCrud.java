@@ -16,6 +16,7 @@
 package org.kuali.student.r2.core.comment.service.impl;
 
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -82,16 +83,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
     //           CommentInfo
     // ****************************************************
     @Test
-    public void testCrudComment()
-            throws DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException,
-            VersionMismatchException,
-            DependentObjectsExistException {
+    public void testCrudComment() throws Exception {
         // -------------------------------------
         // test create
         // -------------------------------------
@@ -152,17 +144,6 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
         new AttributeTester().check(expected.getAttributes(), actual.getAttributes());
         new MetaTester().checkAfterUpdate(expected.getMeta(), actual.getMeta());
 
-        // Test that VersionMissmatchException's are being detected
-        /*
-        boolean exception = false;
-        try {
-            testService.updateComment(original.getId(), original, contextInfo);
-        } catch (VersionMismatchException e) {
-            exception = true;
-        }
-
-        Assert.assertTrue("VersionMissmatchException was not detected!", exception);
-        */
         // -------------------------------------
         // test read after update
         // -------------------------------------
@@ -245,10 +226,11 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
         assertNotNull(status);
         assertTrue(status.getIsSuccess());
         try {
-            CommentInfo record = testService.getComment(actual.getId(), contextInfo);
+            testService.getComment(actual.getId(), contextInfo);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted entity");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals(actual.getId(), dnee.getMessage());
         }
 
     }
@@ -256,7 +238,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
     /*
         A method to set the fields for a Comment in a 'test create' section prior to calling the 'create' operation.
     */
-    public abstract void testCrudComment_setDTOFieldsForTestCreate(CommentInfo expected);
+    public abstract void testCrudComment_setDTOFieldsForTestCreate(CommentInfo expected) throws ParseException;
 
     /*
         A method to test the fields for a Comment. This is called after:
@@ -269,7 +251,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
     /*
         A method to set the fields for a Comment in a 'test update' section prior to calling the 'update' operation.
     */
-    public abstract void testCrudComment_setDTOFieldsForTestUpdate(CommentInfo expected);
+    public abstract void testCrudComment_setDTOFieldsForTestUpdate(CommentInfo expected) throws ParseException;
 
     /*
         A method to test the fields for a Comment after an update operation, followed by a read operation,
@@ -281,7 +263,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
         A method to set the fields for a Comment in the 'test read after update' section.
         This dto is another (second) dto object being created for other tests.
     */
-    public abstract void testCrudComment_setDTOFieldsForTestReadAfterUpdate(CommentInfo expected);
+    public abstract void testCrudComment_setDTOFieldsForTestReadAfterUpdate(CommentInfo expected) throws ParseException;
 
 
     // ========================================
@@ -304,8 +286,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
 
     /* Method Name: getCommentsByReferenceAndType */
     @Test
-    public abstract void test_getCommentsByReferenceAndType()
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public abstract void test_getCommentsByReferenceAndType() throws Exception;
 
     /* Method Name: searchForCommentIds */
     @Test
@@ -319,8 +300,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
 
     /* Method Name: deleteCommentsByReference */
     @Test
-    public abstract void test_deleteCommentsByReference()
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public abstract void test_deleteCommentsByReference() throws Exception;
 
     /* Method Name: validateComment */
     @Test

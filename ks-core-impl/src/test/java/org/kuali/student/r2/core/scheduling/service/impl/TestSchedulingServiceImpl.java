@@ -29,14 +29,11 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.atp.service.AtpService;
@@ -113,23 +110,17 @@ public class TestSchedulingServiceImpl {
     public static final TimeOfDayInfo TOD_8_AM = new TimeOfDayInfo(8, 0);
     public static final TimeOfDayInfo TOD_8_50_AM = new TimeOfDayInfo(8, 50);
     public static final TimeOfDayInfo TOD_9_10_AM = new TimeOfDayInfo(9, 10);
-    public static final TimeOfDayInfo TOD_10_AM = new TimeOfDayInfo(10, 0);
-    public static final TimeOfDayInfo TOD_10_50_AM = new TimeOfDayInfo(10, 50);
     public static final TimeOfDayInfo TOD_1_PM = new TimeOfDayInfo(13, 0);
     public static final TimeOfDayInfo TOD_2_10_PM = new TimeOfDayInfo(14, 10);
     public static final TimeOfDayInfo TOD_3_PM = new TimeOfDayInfo(15, 0);
     public static final TimeOfDayInfo TOD_3_50_PM = new TimeOfDayInfo(15, 50);
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
         initScheduleRequestByRefObj();
-        try {
-            loadData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        loadData();
     }
 
     public void initScheduleRequestByRefObj() {
@@ -149,7 +140,7 @@ public class TestSchedulingServiceImpl {
 
     }
 
-    private void loadData() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
+    private void loadData() throws Exception {
         createTypeData();
         SchedulingServiceDataLoader loader = new SchedulingServiceDataLoader(this.schedulingService);
         loader.setAtpService(atpService);
@@ -157,54 +148,30 @@ public class TestSchedulingServiceImpl {
         loader.loadData();
     }
 
-    private void createTypeData() throws PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, DoesNotExistException {
+    private void createTypeData() throws Exception {
 
         TypeInfo info =  createTypeInfo(requestType, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_REQUEST);
 
-        try {
-           typeService.createType(info.getKey(), info, contextInfo);
-        } catch (AlreadyExistsException e) {
-           throw new DataValidationErrorException(e);
-        }
+       typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL,
                "Fall Full", "Fall Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-        try {
-           typeService.createType(info.getKey(), info, contextInfo);
-        } catch (AlreadyExistsException e) {
-           throw new DataValidationErrorException(e);
-        }
+       typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_SPRING,
                "Spring Full", "Spring Full Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-        try {
-           typeService.createType(info.getKey(), info, contextInfo);
-        } catch (AlreadyExistsException e) {
-           throw new DataValidationErrorException(e);
-        }
+       typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_ADHOC,
                "Ad Hoc",  "Ad Hoc Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-        try {
-           typeService.createType(info.getKey(), info, contextInfo);
-        } catch (AlreadyExistsException e) {
-           throw new DataValidationErrorException(e);
-        }
+       typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_TBA,
                "TBA", "TBA Time Slot for testing", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE_TIME_SLOT);
-        try {
-           typeService.createType(info.getKey(), info, contextInfo);
-        } catch (AlreadyExistsException e) {
-           throw new DataValidationErrorException(e);
-        }
+       typeService.createType(info.getKey(), info, contextInfo);
 
         info =  createTypeInfo(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, "testType", "This is a test", SchedulingServiceConstants.REF_OBJECT_URI_SCHEDULE);
-        try {
-           typeService.createType(info.getKey(), info, contextInfo);
-        } catch (AlreadyExistsException e) {
-           throw new DataValidationErrorException(e);
-        }
+       typeService.createType(info.getKey(), info, contextInfo);
 
         // Create type type relationships.
         String tsGroupingType = SchedulingServiceConstants.TIME_SLOT_TYPE_GROUPING;
@@ -488,8 +455,10 @@ public class TestSchedulingServiceImpl {
         try {
             schedulingService.getTimeSlotsByIds(invalid_ids, contextInfo);
             fail("Should not be here - test invalid_ids");
-        } catch (DoesNotExistException e) {}
-        catch (Exception e) { fail("Should throw DoesNotExistException - invalid_ids"); }
+        } catch (DoesNotExistException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("No data was found for : bad1, bad2", e.getMessage());
+        }
 
         // test case: mixture of valid and invalid
         List<String> mix_ids = new ArrayList<String>();
@@ -498,8 +467,10 @@ public class TestSchedulingServiceImpl {
         try {
             schedulingService.getTimeSlotsByIds(mix_ids, contextInfo);
             fail("Should not be here - test mix_ids");
-        } catch (DoesNotExistException e) {}
-        catch (Exception e) { fail("Should throw DoesNotExistException - mix_ids"); }
+        } catch (DoesNotExistException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("Missing data for : bad1", e.getMessage());
+        }
     }
 
     @Test

@@ -42,7 +42,7 @@ public class FakeEnvResourceLoader implements ApplicationContextAware {
     private static final String MOCK_APP_ID = "mock-app.id";
     private ApplicationContext applicationContext;
 
-    public void init() {
+    public void init() throws Exception {
         Config config = new JAXBConfigImpl();
         config.putProperty(CoreConstants.Config.APPLICATION_ID, MOCK_APP_ID);
         ConfigContext.init(config);
@@ -51,13 +51,9 @@ public class FakeEnvResourceLoader implements ApplicationContextAware {
                 new BaseResourceLoader(
                         new QName(MOCK_APP_ID, RiceConstants.DEFAULT_ROOT_RESOURCE_LOADER_NAME), new SimpleSpringResourceLoader(applicationContext));
 
-        try {
-            GlobalResourceLoader.stop();
-            GlobalResourceLoader.addResourceLoader(resourceLoader);
-            GlobalResourceLoader.start();
-        } catch (Exception e) {
-            throw new RuntimeException("Error initializing GRL", e);
-        }
+        GlobalResourceLoader.stop();
+        GlobalResourceLoader.addResourceLoader(resourceLoader);
+        GlobalResourceLoader.start();
     }
 
     /* (non-Javadoc)

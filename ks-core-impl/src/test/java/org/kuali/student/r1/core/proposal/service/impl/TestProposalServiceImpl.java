@@ -16,6 +16,7 @@ package org.kuali.student.r1.core.proposal.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -99,16 +100,18 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
 
         try {
             client.getProposal("PROPOSAL-XXX", ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("No entity for key 'PROPOSAL-XXX'"));
         }
 
         try {
             client.getProposal(null, ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("MissingParameterException should have been thrown");
         } catch (MissingParameterException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("proposalId can not be null", e.getMessage());
         }
     }
 
@@ -124,24 +127,27 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         ids.add("PROPOSAL-XXX");
         try {
             client.getProposalsByIds(ids, ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("Fault occurred while processing.", e.getMessage());
         }
 
         try {
             ids.clear();
             client.getProposalsByIds(ids, ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("MissingParameterException should have been thrown");
         } catch (MissingParameterException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("proposalIdList can not be null", e.getMessage());
         }
 
         try {
             client.getProposalsByIds(null, ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("MissingParameterException should have been thrown");
         } catch (MissingParameterException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("proposalIdList can not be null", e.getMessage());
         }
     }
 
@@ -153,9 +159,10 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
 
         try {
             client.getProposalsByProposalType(null, ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("MissingParameterException should have been thrown");
         } catch (MissingParameterException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("proposalTypeKey can not be null", e.getMessage());
         }
     }
 
@@ -165,39 +172,26 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertNotNull(proposals);
         assertEquals(2, proposals.size());
 
-        try {
-            assertEquals(null, client.getProposalsByReference("REFTYPE-XXX", "REMOTEREF-1", ContextUtils.getContextInfo()));
-        } catch (DoesNotExistException e) {
-            assertTrue(false);
-        }
+        assertNull(client.getProposalsByReference("REFTYPE-XXX", "REMOTEREF-1", ContextUtils.getContextInfo()));
 
-        try {
-            assertEquals(null, client.getProposalsByReference("REFTYPE-1", "REMOTEREF-1XXX", ContextUtils.getContextInfo()));
-        } catch (DoesNotExistException e) {
-            assertTrue(false);
-        }
+        assertNull(client.getProposalsByReference("REFTYPE-1", "REMOTEREF-1XXX", ContextUtils.getContextInfo()));
 
         try {
             client.getProposalsByReference(null, "REMOTEREF-1", ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("MissingParameterException should have been thrown");
         } catch (MissingParameterException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("referenceTypeKey can not be null", e.getMessage());
         }
 
         try {
             client.getProposalsByReference("REFTYPE-1", null, ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("MissingParameterException should have been thrown");
         } catch (MissingParameterException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("referenceId can not be null", e.getMessage());
         }
     }
-//
-//    @Test
-//    public void getReferenceTypes() throws OperationFailedException {
-//        List<TypeInfo> referenceTypes = client.getReferenceTypes();
-//        assertNotNull(referenceTypes);
-//        assertEquals(1, referenceTypes.size());
-//    }
 
     @Test
     public void getProposalsByState() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -205,80 +199,29 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         assertNotNull(proposalInfos);
         assertEquals(2, proposalInfos.size());
 
-        try {
-            assertEquals(null, client.getProposalsByState("activeXXX", "proposalType.courseCorrection", ContextUtils.getContextInfo()));
-        } catch (DoesNotExistException e) {
-            assertTrue(false);
-        }
+        assertNull(client.getProposalsByState("activeXXX", "proposalType.courseCorrection", ContextUtils.getContextInfo()));
 
-        try {
-            assertEquals(null, client.getProposalsByState("active", "proposalType.courseCorrectionXXX", ContextUtils.getContextInfo()));
-        } catch (DoesNotExistException e) {
-            assertTrue(false);
-        }
+        assertNull(client.getProposalsByState("active", "proposalType.courseCorrectionXXX", ContextUtils.getContextInfo()));
 
         try {
             client.getProposalsByState(null, "proposalType.courseCorrection", ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("MissingParameterException should have been thrown");
         } catch (MissingParameterException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("proposalState can not be null", e.getMessage());
         }
 
         try {
             client.getProposalsByState("active", null, ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("MissingParameterException should have been thrown");
         } catch (MissingParameterException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertEquals("proposalTypeKey can not be null", e.getMessage());
         }
     }
 
-//    @Test
-//    public void getProposalTypesForReferenceType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-//        List<TypeInfo> proposalTypeInfos = client.getProposalTypesForReferenceType("REFTYPE-1", ContextUtils.getContextInfo());
-//        assertNotNull(proposalTypeInfos);
-//        assertEquals(2, proposalTypeInfos.size());
-//
-//        try {
-//        	assertEquals(null, client.getProposalTypesForReferenceType("REFTYPE-XXX", ContextUtils.getContextInfo()));
-//        } catch (DoesNotExistException e) {
-//            assertTrue(false);
-//        }
-//
-//        try {
-//            client.getProposalTypesForReferenceType(null);
-//            assertTrue(false);
-//        } catch (MissingParameterException e) {
-//            assertTrue(true);
-//        }
-//    }
-//    @Test
-//    public void getProposalType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-//        TypeInfo typeInfo = client.getProposalType("proposalType.courseCorrection");
-//        assertNotNull(typeInfo);
-//        try {
-//            client.getProposalType("proposalType.courseCorrectionXXX");
-//            assertTrue(false);
-//        } catch (DoesNotExistException e) {
-//            assertTrue(true);
-//        }
-//
-//        try {
-//            client.getProposalType(null);
-//            assertTrue(false);
-//        } catch (MissingParameterException e) {
-//            assertTrue(true);
-//        }
-//   }
     @Test
-    public void proposalCrud()
-            throws AlreadyExistsException,
-            DataValidationErrorException,
-            DoesNotExistException,
-            InvalidParameterException,
-            MissingParameterException,
-            OperationFailedException,
-            PermissionDeniedException,
-            ReadOnlyException {
+    public void proposalCrud() throws Exception {
         ProposalInfo proposalInfo = setupProposalInfo();
 
         ProposalInfo createdProposalInfo = client.createProposal("proposalType.courseCorrection", proposalInfo, ContextUtils.getContextInfo());
@@ -294,11 +237,10 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         createdProposalInfo.setProposerOrg(orgs);
         try {
            client.updateProposal(id, createdProposalInfo, ContextUtils.getContextInfo());
-            assertTrue(false); // Can't have both person and org proposers
+            fail("InvalidParameterException should have been thrown as you can't have both person and org proposers");
         } catch (InvalidParameterException e) {
-            assertTrue(true);
-        } catch (VersionMismatchException e) {
-            assertTrue(false);
+            assertNotNull(e.getMessage());
+            assertEquals("Not allowed to have both Person and Organization propsers", e.getMessage());
         }
         createdProposalInfo.setProposerPerson(null);
         Map<String,String> map = new HashMap<String,String> ();
@@ -306,43 +248,30 @@ public class TestProposalServiceImpl extends AbstractServiceTest {
         map.put ("key2", "value2");
         map.put ("key3", "value3");
         new AttributeHelper (createdProposalInfo.getAttributes()).putAll(map);
-        try {
-            ProposalInfo updatedProposalInfo = client.updateProposal(id, createdProposalInfo, ContextUtils.getContextInfo());
-            checkProposalCrud(createdProposalInfo, updatedProposalInfo);
-            ProposalInfo fetchedProposalInfo = client.getProposal(id, ContextUtils.getContextInfo());
-            checkProposalCrud(createdProposalInfo, fetchedProposalInfo);
+        ProposalInfo updatedProposalInfo = client.updateProposal(id, createdProposalInfo, ContextUtils.getContextInfo());
+        checkProposalCrud(createdProposalInfo, updatedProposalInfo);
+        ProposalInfo fetchedProposalInfo = client.getProposal(id, ContextUtils.getContextInfo());
+        checkProposalCrud(createdProposalInfo, fetchedProposalInfo);
 
-            List<String> proposalReferences = new ArrayList<String>();
-            proposalReferences.add("doc-2");
+        List<String> proposalReferences = new ArrayList<String>();
+        proposalReferences.add("doc-2");
 
-            fetchedProposalInfo.setProposalReference(proposalReferences);
-            client.updateProposal(id, fetchedProposalInfo, ContextUtils.getContextInfo());
-            ProposalInfo updatedProposalInfo2 = client.getProposal(id, ContextUtils.getContextInfo());
-            checkProposalCrud(fetchedProposalInfo, updatedProposalInfo2);
-        } catch (InvalidParameterException e) {
-            assertTrue(false);
-        } catch (VersionMismatchException e) {
-            assertTrue(false);
-        }
+        fetchedProposalInfo.setProposalReference(proposalReferences);
+        client.updateProposal(id, fetchedProposalInfo, ContextUtils.getContextInfo());
+        ProposalInfo updatedProposalInfo2 = client.getProposal(id, ContextUtils.getContextInfo());
+        checkProposalCrud(fetchedProposalInfo, updatedProposalInfo2);
 
-        try {
-            StatusInfo status = client.deleteProposal(id, ContextUtils.getContextInfo());
-            assertTrue(status.getIsSuccess());
-        } catch (DependentObjectsExistException e) {
-            assertTrue(false);
-        }
+        StatusInfo status = client.deleteProposal(id, ContextUtils.getContextInfo());
+        assertTrue(status.getIsSuccess());
 
-        try {
-            StatusInfo status = client.deleteProposal(id, ContextUtils.getContextInfo());
-            assertFalse(status.getIsSuccess());
-        } catch (DependentObjectsExistException e) {
-            assertTrue(false);
-        }
+        status = client.deleteProposal(id, ContextUtils.getContextInfo());
+        assertFalse(status.getIsSuccess());
         try {
             client.getProposal(id, ContextUtils.getContextInfo());
-            assertTrue(false);
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("No entity for key"));
         }
 
     }

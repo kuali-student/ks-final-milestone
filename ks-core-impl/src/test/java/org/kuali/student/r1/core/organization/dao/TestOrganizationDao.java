@@ -179,7 +179,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	}
 
 	@Test
-	public void testDeleteOrganizationByReference() {
+	public void testDeleteOrganizationByReference() throws DoesNotExistException {
 
 		OrgType orgType = new OrgType();
 		orgType.setId("kauli.org.TestOrgTypeKey1");
@@ -197,8 +197,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgAttribute orgAttr2 = new OrgAttribute();
 		orgAttr1.setValue("orgAttr2Value");
 
-		org.setAttributes(Arrays
-				.asList(new OrgAttribute[] { orgAttr1, orgAttr2 }));
+		org.setAttributes(Arrays.asList(orgAttr1, orgAttr2));
 
 		OrgHierarchy orgHierarchy = new OrgHierarchy();
 		orgHierarchy.setId("kuali.org.TestOrgHierarchy1");
@@ -212,12 +211,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 
 		String orgID = org.getId();
 
-		try {
-			assertNotNull(org = dao.fetch(Org.class, orgID));
-		} catch (DoesNotExistException dnee) {
-			fail("TestOrganizationDao#fetch(Org.class, <id>) failed: "
-					+ dnee.getMessage());
-		}
+        assertNotNull(org = dao.fetch(Org.class, orgID));
 		assertEquals(2, org.getAttributes().size());
 		List<String> attrIDs = new ArrayList<String>();
 		for (int i = 0; i < 2; i++) {
@@ -229,20 +223,24 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 			assertNull(dao.fetch(Org.class, orgID));
 			fail("OrganizationDAO#fetch(Org.class, <id>) of a deleted Org did not throw org.kuali.student.core.exceptions.DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
-		}
+            assertNotNull(dnee.getMessage());
+            assertTrue(dnee.getMessage().startsWith("No entity for key"));
+        }
 
 		// make sure Attrs were deleted
-		try {
-			for (String id : attrIDs) {
-				assertNull(dao.fetch(OrgAttribute.class, id));
-			}
-			fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.core.exceptions.DoesNotExistException");
-		} catch (DoesNotExistException dnee) {
-		}
+        for (String id : attrIDs) {
+            try {
+                assertNull(dao.fetch(OrgAttribute.class, id));
+                fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+            } catch (DoesNotExistException dnee) {
+                assertNotNull(dnee.getMessage());
+                assertTrue(dnee.getMessage().startsWith("No entity for key"));
+            }
+        }
 	}
 
 	@Test
-	public void testDeleteOrganizationByKey() {
+	public void testDeleteOrganizationByKey() throws DoesNotExistException {
 
 		OrgType orgType = new OrgType();
 		orgType.setId("kauli.org.TestOrgTypeKey1");
@@ -260,8 +258,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		OrgAttribute orgAttr2 = new OrgAttribute();
 		orgAttr1.setValue("orgAttr2Value");
 
-		org.setAttributes(Arrays
-				.asList(new OrgAttribute[] { orgAttr1, orgAttr2 }));
+		org.setAttributes(Arrays.asList(orgAttr1, orgAttr2));
 
 		OrgHierarchy orgHierarchy = new OrgHierarchy();
 		orgHierarchy.setId("kuali.org.TestOrgHierarchy1");
@@ -275,38 +272,31 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 
 		String orgID = org.getId();
 
-		try {
-			assertNotNull(org = dao.fetch(Org.class, orgID));
-		} catch (DoesNotExistException e) {
-			fail("TestOrganizationDao#fetch(Org.class, <id>) failed: "
-					+ e.getMessage());
-		}
+        assertNotNull(org = dao.fetch(Org.class, orgID));
 		assertEquals(2, org.getAttributes().size());
 		List<String> attrIDs = new ArrayList<String>();
 		for (int i = 0; i < 2; i++) {
 			attrIDs.add(org.getAttributes().get(i).getId());
 		}
-		try {
-			dao.delete(Org.class, orgID);
-		} catch (DoesNotExistException e) {
-			fail("TestOrganizationDao#deleteOrganizationByKey failed: "
-					+ e.getMessage());
-		}
+        dao.delete(Org.class, orgID);
 
 		try {
-			// assertNull(dao.fetch(Org.class, orgID));
 			dao.fetch(Org.class, orgID);
 			fail("OrganizationDAO#fetch(Org.class, <id>) of a deleted Org did not throw org.kuali.student.core.exceptions.DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
+            assertNotNull(dnee.getMessage());
+            assertTrue(dnee.getMessage().startsWith("No entity for key"));
 		}
 		// make sure Attrs were deleted
-		try {
-			for (String id : attrIDs) {
-				assertNull(dao.fetch(OrgAttribute.class, id));
-			}
-			fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.core.exceptions.DoesNotExistException");
-		} catch (DoesNotExistException dnee) {
-		}
+        for (String id : attrIDs) {
+            try {
+                assertNull(dao.fetch(OrgAttribute.class, id));
+                fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+            } catch (DoesNotExistException dnee) {
+                assertNotNull(dnee.getMessage());
+                assertTrue(dnee.getMessage().startsWith("No entity for key"));
+            }
+        }
 	}
 
 	@Test

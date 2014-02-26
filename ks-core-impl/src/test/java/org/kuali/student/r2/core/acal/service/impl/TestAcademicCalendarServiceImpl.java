@@ -99,16 +99,12 @@ public class TestAcademicCalendarServiceImpl {
     public ContextInfo callContext = null;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         principalId = "123";
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        try {
-            loadData();
-            createStateTestData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        loadData();
+        createStateTestData();
     }
 
     @After
@@ -198,16 +194,12 @@ public class TestAcademicCalendarServiceImpl {
         return examPeriodInfo;
     }
     
-    private void cleanupStateTestData( String state ) {
-        try {
-            stateService.deleteState( state, callContext );
-        } catch( Exception e ) { }
+    private void cleanupStateTestData( String state ) throws Exception {
+        stateService.deleteState( state, callContext );
     }
 
-    private void cleanupLifecycleTestData( String name ) {
-        try {
-            stateService.deleteLifecycle(name, callContext);
-        } catch( Exception e ) { }
+    private void cleanupLifecycleTestData( String name ) throws Exception {
+        stateService.deleteLifecycle(name, callContext);
     }
 
     private void loadData() throws DoesNotExistException, InvalidParameterException,
@@ -296,13 +288,9 @@ public class TestAcademicCalendarServiceImpl {
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         populateRequiredFields(acal);
-        try {
-            AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
-            assertNotNull(created);
-            assertNotNull(created.getId());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+        AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
+        assertNotNull(created);
+        assertNotNull(created.getId());
     }
 
     @Test
@@ -328,27 +316,27 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testDeleteAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testDeleteAcademicCalendar() throws Exception {
 
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
         acal.setName("testDeletedAcal");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         populateRequiredFields(acal);
+
+        AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
+        assertNotNull(created);
+        assertNotNull(created.getId());
+
+        StatusInfo ret = acalService.deleteAcademicCalendar(created.getId(), callContext);
+        assertTrue(ret.getIsSuccess());
+
         try {
-            AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
-            assertNotNull(created);
-            assertNotNull(created.getId());
-
-            StatusInfo ret = acalService.deleteAcademicCalendar(created.getId(), callContext);
-            assertTrue(ret.getIsSuccess());
-
-            AcademicCalendarInfo existed = acalService.getAcademicCalendar("testDeletedAcalId", callContext);
-            assertNull(existed);
+            acalService.getAcademicCalendar("testDeletedAcalId", callContext);
+            fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException dnee) {
-            // this is expected
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
+            assertNotNull(dnee.getMessage());
+            assertEquals("testDeletedAcalId", dnee.getMessage());
         }
     }
 
@@ -386,23 +374,15 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testValidateTerm() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public void testValidateTerm() throws Exception {
         TermInfo term = new TermInfo();
         term.setId("testTermId");
         term.setName("testTerm");
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
 
-        try {
-            List<ValidationResultInfo> vri = acalService.validateTerm("SKIP_REQUREDNESS_VALIDATIONS", null, term, callContext);
-            assertTrue(vri.isEmpty());
-        } catch (OperationFailedException ex) {
-            // dictionary not ready, this is expected
-        } catch (Exception ex) {
-            // fail("exception from service call :" + ex.getMessage());
-            // TODO: test exception aspect & get dictionary ready, this is
-            // expected
-        }
+        List<ValidationResultInfo> vri = acalService.validateTerm("SKIP_REQUREDNESS_VALIDATIONS", null, term, callContext);
+        assertTrue(vri.isEmpty());
     }
 
     @Test
@@ -446,19 +426,16 @@ public class TestAcademicCalendarServiceImpl {
             acalService.addTermToAcademicCalendar("testAtpId1", "testTermId1", callContext);
             fail("AlreadyExistsException should have been thrown");
         } catch (AlreadyExistsException ex) {
-            // expected);
+            assertNotNull(ex.getMessage());
+            assertEquals("Term with id = testTermId1 is already associated with academic calendar testAtpId1", ex.getMessage());
         }
     }
 
     @Test
     public void testAddTermToAcademicCalendar2() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             AlreadyExistsException {
-        try {
-            StatusInfo status = acalService.addTermToAcademicCalendar("testAtpId1", "testTermId2", callContext);
-            assertTrue(status.getIsSuccess());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+        StatusInfo status = acalService.addTermToAcademicCalendar("testAtpId1", "testTermId2", callContext);
+        assertTrue(status.getIsSuccess());
 
         List<TermInfo> terms = acalService.getTermsForAcademicCalendar("testAtpId1", callContext);
         assertEquals(2, terms.size());
@@ -467,30 +444,19 @@ public class TestAcademicCalendarServiceImpl {
     @Test
     public void testGetTermToAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             AlreadyExistsException {
-        try {
-            try {
-                acalService.getTermsForAcademicCalendar("testTermId1", callContext);
-            } catch (OperationFailedException ex) {
-                // expected because it's not an acal
+        List<TermInfo> terms = acalService.getTermsForAcademicCalendar("testAtpId1", callContext);
+        assertNotNull(terms);
+
+        // make sure an expected term is in the list of returned terms
+        boolean found = false;
+        for (TermInfo term : terms) {
+            if (term.getId().equals("testTermId1")) {
+                found = true;
+                break;
             }
-
-            List<TermInfo> terms = acalService.getTermsForAcademicCalendar("testAtpId1", callContext);
-            assertNotNull(terms);
-
-            // make sure an expected term is in the list of returned terms
-            boolean found = false;
-            for (TermInfo term : terms) {
-                if (term.getId().equals("testTermId1")) {
-                    found = true;
-                    break;
-                }
-            }
-
-            assertTrue(found);
-
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
         }
+
+        assertTrue(found);
     }
 
     @Test
@@ -510,13 +476,12 @@ public class TestAcademicCalendarServiceImpl {
 
         assertTrue(expectedIds.isEmpty());
 
-        List<TermInfo> fakeResults = null;
-
         try {
-            fakeResults = acalService.getContainingTerms("fakeKey", callContext);
+            acalService.getContainingTerms("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeResults);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
 
@@ -560,12 +525,14 @@ public class TestAcademicCalendarServiceImpl {
 
         List<String> fakeKeys = Arrays.asList("termRelationTestingTerm1", "fakeKey1", "fakeKey2");
 
-        List<TermInfo> shouldBeNull = null;
         try {
-            shouldBeNull = acalService.getTermsByIds(fakeKeys, callContext);
+            acalService.getTermsByIds(fakeKeys, callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("Missing data for :"));
+            assertTrue(e.getMessage().contains("fakeKey2"));
+            assertTrue(e.getMessage().contains("fakeKey1"));
         }
     }
 
@@ -586,14 +553,10 @@ public class TestAcademicCalendarServiceImpl {
 
         assertTrue(expectedIds.isEmpty());
 
-        List<TermInfo> fakeResults = null;
+        List<TermInfo> fakeResults;
 
-        try {
-            fakeResults = acalService.getTermsForAcademicCalendar("fakeKey", callContext);
-            assertEquals(0, fakeResults.size());
-        } catch (DoesNotExistException e) {
-            assertNull(fakeResults);
-        }
+        fakeResults = acalService.getTermsForAcademicCalendar("fakeKey", callContext);
+        assertEquals(0, fakeResults.size());
     }
 
     @Test
@@ -613,13 +576,12 @@ public class TestAcademicCalendarServiceImpl {
 
         assertTrue(expectedIds.isEmpty());
 
-        List<TermInfo> fakeResults = null;
-
         try {
-            fakeResults = acalService.getIncludedTermsInTerm("fakeKey", callContext);
+            acalService.getIncludedTermsInTerm("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeResults);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
 
@@ -628,18 +590,13 @@ public class TestAcademicCalendarServiceImpl {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"));
         QueryByCriteria qbc = qbcBuilder.build();
-        try {
-            List<TermInfo> terms = acalService.searchForTerms(qbc, callContext);
-            assertNotNull(terms);
-            assertEquals(1, terms.size());
-            TermInfo term = terms.get(0);
-            assertEquals("testAtpId1", term.getId());
-            assertEquals("testAtp1", term.getName());
-            assertEquals("Desc 101", term.getDescr().getPlain());
-
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        List<TermInfo> terms = acalService.searchForTerms(qbc, callContext);
+        assertNotNull(terms);
+        assertEquals(1, terms.size());
+        TermInfo term = terms.get(0);
+        assertEquals("testAtpId1", term.getId());
+        assertEquals("testAtp1", term.getName());
+        assertEquals("Desc 101", term.getDescr().getPlain());
     }
 
     @Test
@@ -649,12 +606,12 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(result);
         assertEquals(result.getName(), "Testing state");
 
-        StateInfo fakeState = null;
         try {
-            fakeState = acalService.getTermState("fakeKey", callContext);
+            acalService.getTermState("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeState);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
 
@@ -685,12 +642,12 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(result);
         assertEquals(result.getName(), "Fall Half-Semester 1");
 
-        TypeInfo fakeType = null;
         try {
-            fakeType = acalService.getTermType("fakeKey", callContext);
+            acalService.getTermType("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeType);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
 
@@ -717,12 +674,12 @@ public class TestAcademicCalendarServiceImpl {
 
         assertTrue(expectedIds.isEmpty());
 
-        List<TypeInfo> fakeTypes = null;
         try {
-            fakeTypes = acalService.getTermTypesForAcademicCalendarType("fakeKey", callContext);
+            acalService.getTermTypesForAcademicCalendarType("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeTypes);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
 
     }
@@ -743,12 +700,12 @@ public class TestAcademicCalendarServiceImpl {
 
         assertTrue(expectedIds.isEmpty());
 
-        List<TypeInfo> fakeTypes = null;
         try {
-            fakeTypes = acalService.getTermTypesForTermType("fakeKey", callContext);
+            acalService.getTermTypesForTermType("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeTypes);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
 
         List<TypeInfo> expectedEmpty = acalService.getTermTypesForTermType(AtpServiceConstants.ATP_SESSION_G2_TYPE_KEY, callContext);
@@ -773,12 +730,12 @@ public class TestAcademicCalendarServiceImpl {
             }
         }
 
-        StatusInfo noStatus = null;
         try {
-            noStatus = acalService.removeTermFromAcademicCalendar("termRelationTestingAcal2", "fakeKey", callContext);
+            acalService.removeTermFromAcademicCalendar("termRelationTestingAcal2", "fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(noStatus);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
 
@@ -796,20 +753,20 @@ public class TestAcademicCalendarServiceImpl {
         assertTrue(results == null || results.isEmpty());
 
         // try to remove the same term again, should get a DoesNotExistException
-        StatusInfo noRepeatStatus = null;
         try {
-            noRepeatStatus = acalService.removeTermFromTerm("termRelationTestingTerm3", "termRelationTestingTerm4", callContext);
+            acalService.removeTermFromTerm("termRelationTestingTerm3", "termRelationTestingTerm4", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(noRepeatStatus);
+            assertNotNull(e.getMessage());
+            assertEquals("No relationship exists between term: termRelationTestingTerm3 and included term: termRelationTestingTerm4", e.getMessage());
         }
 
-        StatusInfo noStatus = null;
         try {
-            noStatus = acalService.removeTermFromTerm("termRelationTestingTerm3", "fakeKey", callContext);
+            acalService.removeTermFromTerm("termRelationTestingTerm3", "fakeKey", callContext);
             fail("Did not get a InvalidParameterException when expected");
         } catch (InvalidParameterException e) {
-            assertNull(noStatus);
+            assertNotNull(e.getMessage());
+            assertEquals("Invalid childTermId: fakeKey", e.getMessage());
         }
     }
 
@@ -825,12 +782,12 @@ public class TestAcademicCalendarServiceImpl {
         blankTerm.setStartDate(new Date());
         blankTerm.setEndDate(new Date());
 
-        TermInfo fakeTerm = null;
         try {
-            fakeTerm = acalService.updateTerm("fakeKey", blankTerm, callContext);
+            acalService.updateTerm("fakeKey", blankTerm, callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeTerm);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
 
         TermInfo existing = acalService.getTerm("termRelationTestingTerm3", callContext);
@@ -860,21 +817,21 @@ public class TestAcademicCalendarServiceImpl {
 
         assertTrue(status.getIsSuccess());
 
-        StatusInfo noStatus = null;
         try {
-            noStatus = acalService.deleteTerm("fakeKey", callContext);
+            acalService.deleteTerm("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(noStatus);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
 
         // ensure the delete prevents future gets
-        TermInfo shouldBeNull = null;
         try {
-            shouldBeNull = acalService.getTerm("termRelationTestingTermDelete", callContext);
+            acalService.getTerm("termRelationTestingTermDelete", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
+            assertNotNull(e.getMessage());
+            assertEquals("termRelationTestingTermDelete", e.getMessage());
         }
     }
 
@@ -897,13 +854,12 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals("termRelationTestingTerm6", added.getId());
 
         // assert that we can't add the term to the same term twice
-        StatusInfo nullStatus = null;
-
         try {
-            nullStatus = acalService.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
+            acalService.addTermToTerm("termRelationTestingTerm5", "termRelationTestingTerm6", callContext);
             fail("Did not get an AlreadyExistsException when expected");
         } catch (AlreadyExistsException e) {
-            assertNull(nullStatus);
+            assertNotNull(e.getMessage());
+            assertEquals("A relationship already exists exists between parent term: termRelationTestingTerm5 and child term: termRelationTestingTerm6", e.getMessage());
         }
     }
 
@@ -926,14 +882,13 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals("termRelationTestingTerm6", added.getId());
 
         // assert that we can't add the term to the same term twice
-        StatusInfo nullStatus = null;
-
         // assert that adding an invalid term fails
         try {
-            nullStatus = acalService.addTermToTerm("termRelationTestingTerm5", "fakeKey", callContext);
+            acalService.addTermToTerm("termRelationTestingTerm5", "fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(nullStatus);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
     @Test
@@ -981,39 +936,34 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testCRUDExamPeriod() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, DoesNotExistException, ReadOnlyException {
+    public void testCRUDExamPeriod() throws Exception {
         
         ExamPeriodInfo examPeriodInfo = populateExamPeriod();
-        String examPeriodId = examPeriodInfo.getId();
+        String examPeriodId;
 
-        try {
-            //Create
-            ExamPeriodInfo created = acalService.createExamPeriod("termRelationTestingTerm1", examPeriodInfo, callContext);
-            assertNotNull(created);
-            examPeriodId = created.getId();
-            assertNotNull(examPeriodId);
-            assertEquals("testCreate", created.getName());
+        //Create
+        ExamPeriodInfo created = acalService.createExamPeriod("termRelationTestingTerm1", examPeriodInfo, callContext);
+        assertNotNull(created);
+        examPeriodId = created.getId();
+        assertNotNull(examPeriodId);
+        assertEquals("testCreate", created.getName());
 
-            //Get
-            ExamPeriodInfo retrieved = acalService.getExamPeriod(examPeriodId, callContext);
-            assertNotNull(retrieved);
-            assertEquals(examPeriodId, retrieved.getId());
-            assertEquals("testCreate", retrieved.getName());
+        //Get
+        ExamPeriodInfo retrieved = acalService.getExamPeriod(examPeriodId, callContext);
+        assertNotNull(retrieved);
+        assertEquals(examPeriodId, retrieved.getId());
+        assertEquals("testCreate", retrieved.getName());
 
-            //Update
-            retrieved.setName("testCreate_updated");
-            ExamPeriodInfo retrievedUpdated = acalService.updateExamPeriod(examPeriodId, retrieved, callContext);
-            assertNotNull(retrievedUpdated);
-            assertEquals(examPeriodId, retrievedUpdated.getId());
-            assertEquals("testCreate_updated", retrievedUpdated.getName());
+        //Update
+        retrieved.setName("testCreate_updated");
+        ExamPeriodInfo retrievedUpdated = acalService.updateExamPeriod(examPeriodId, retrieved, callContext);
+        assertNotNull(retrievedUpdated);
+        assertEquals(examPeriodId, retrievedUpdated.getId());
+        assertEquals("testCreate_updated", retrievedUpdated.getName());
 
-            //Delete
-            StatusInfo ret = acalService.deleteExamPeriod(examPeriodId, callContext);
-            assertTrue(ret.getIsSuccess());
-      } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+        //Delete
+        StatusInfo ret = acalService.deleteExamPeriod(examPeriodId, callContext);
+        assertTrue(ret.getIsSuccess());
     }
 
     @Test
@@ -1022,34 +972,30 @@ public class TestAcademicCalendarServiceImpl {
 
         ExamPeriodInfo examPeriodInfo = populateExamPeriod();
 
-        try {
-            //Create ExamPeriod
-            ExamPeriodInfo createdExam = acalService.createExamPeriod("termRelationTestingTerm1", examPeriodInfo, callContext);
-            //Create Term
-            TermInfo term = new TermInfo();
-            term.setName("testNewTerm");
-            term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-            term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-            populateRequiredFields(term);
-            term.setStartDate(new Date(term.getStartDate().getTime()));
-            TermInfo createdTerm = acalService.createTerm(AtpServiceConstants.ATP_FALL_TYPE_KEY, term, callContext);
+        //Create ExamPeriod
+        ExamPeriodInfo createdExam = acalService.createExamPeriod("termRelationTestingTerm1", examPeriodInfo, callContext);
+        //Create Term
+        TermInfo term = new TermInfo();
+        term.setName("testNewTerm");
+        term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        populateRequiredFields(term);
+        term.setStartDate(new Date(term.getStartDate().getTime()));
+        TermInfo createdTerm = acalService.createTerm(AtpServiceConstants.ATP_FALL_TYPE_KEY, term, callContext);
 
-            //Add
-            StatusInfo ret = acalService.addExamPeriodToTerm(createdTerm.getId(), createdExam.getId(), callContext);
-            assertTrue(ret.getIsSuccess());
+        //Add
+        StatusInfo ret = acalService.addExamPeriodToTerm(createdTerm.getId(), createdExam.getId(), callContext);
+        assertTrue(ret.getIsSuccess());
 
-            //Get
-            List<ExamPeriodInfo> examPeriodInfos = acalService.getExamPeriodsForTerm(createdTerm.getId(),callContext);
-            assertNotNull(examPeriodInfos);
-            assertEquals("Number of examPeriodInfos returned not as expected.", 1, examPeriodInfos.size());
+        //Get
+        List<ExamPeriodInfo> examPeriodInfos = acalService.getExamPeriodsForTerm(createdTerm.getId(),callContext);
+        assertNotNull(examPeriodInfos);
+        assertEquals("Number of examPeriodInfos returned not as expected.", 1, examPeriodInfos.size());
 
-            //Get exam types by term type
-            List<TypeInfo> examTypes = acalService.getExamPeriodTypesForTermType(createdTerm.getTypeKey(),callContext);
-            assertNotNull(examTypes);
+        //Get exam types by term type
+        List<TypeInfo> examTypes = acalService.getExamPeriodTypesForTermType(createdTerm.getTypeKey(),callContext);
+        assertNotNull(examTypes);
 
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
     }
 
     @Test
@@ -1070,6 +1016,9 @@ public class TestAcademicCalendarServiceImpl {
             acalService.getAcademicCalendarsByIds(calendarKeys, callContext);
             fail("Expected DoesNotExistException.");
         } catch (DoesNotExistException e) {
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("No data was found for : "));
+            assertTrue(e.getMessage().contains(calendarKeys.get(0)));
         }
     }
 
@@ -1113,18 +1062,14 @@ public class TestAcademicCalendarServiceImpl {
         qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
         QueryByCriteria qbc = qbcBuilder.build();
 
-        try {
-            List<AcademicCalendarInfo> calendars = acalService.searchForAcademicCalendars(qbc, callContext);
-            assertNotNull(calendars);
-            assertEquals(1, calendars.size());
-            AcademicCalendarInfo calendar = calendars.get(0);
-            assertEquals("testAtpId1", calendar.getId());
-            assertEquals("testAtp1", calendar.getName());
-            assertEquals("Desc 101", calendar.getDescr().getPlain());
+        List<AcademicCalendarInfo> calendars = acalService.searchForAcademicCalendars(qbc, callContext);
+        assertNotNull(calendars);
+        assertEquals(1, calendars.size());
+        AcademicCalendarInfo calendar = calendars.get(0);
+        assertEquals("testAtpId1", calendar.getId());
+        assertEquals("testAtp1", calendar.getName());
+        assertEquals("Desc 101", calendar.getDescr().getPlain());
 
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test
@@ -1136,13 +1081,8 @@ public class TestAcademicCalendarServiceImpl {
         Date startDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse("2008-09-01");
         Date endDate = DateFormatters.DEFAULT_DATE_FORMATTER.parse("2009-08-31");
 
-        AcademicCalendar copiedCalendar = null;
-        try {
-            copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
-        } catch (OperationFailedException e) {
-            log.error("copy Academic Calendar failed ", e);
-            throw e;
-        }
+        AcademicCalendar copiedCalendar;
+        copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
 
         assertNotNull(originalCalendar.getId());
         assertNotNull(copiedCalendar.getId());
@@ -1231,17 +1171,12 @@ public class TestAcademicCalendarServiceImpl {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"));
         QueryByCriteria qbc = qbcBuilder.build();
-        try {
-            List<AcalEventInfo> acalEventInfos = acalService.searchForAcalEvents(qbc, callContext);
-            assertNotNull(acalEventInfos);
-            assertEquals(1, acalEventInfos.size());
-            AcalEventInfo acalEventInfo = acalEventInfos.get(0);
-            assertEquals("testId2", acalEventInfo.getId());
-            assertEquals("testId2", acalEventInfo.getName());
-        } catch (Exception e) {
-            log.error("testSearchForAcalEvents failed", e);
-            fail(e.getMessage());
-        }
+        List<AcalEventInfo> acalEventInfos = acalService.searchForAcalEvents(qbc, callContext);
+        assertNotNull(acalEventInfos);
+        assertEquals(1, acalEventInfos.size());
+        AcalEventInfo acalEventInfo = acalEventInfos.get(0);
+        assertEquals("testId2", acalEventInfo.getId());
+        assertEquals("testId2", acalEventInfo.getName());
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2011, Calendar.JUNE, 1);
@@ -1251,13 +1186,9 @@ public class TestAcademicCalendarServiceImpl {
         qbcBuilder.setPredicates(startPredicate, endPredicate);
         qbc = qbcBuilder.build();
 
-        try {
-            List<AcalEventInfo> acalEventInfos = acalService.searchForAcalEvents(qbc, callContext);
-            assertNotNull(acalEventInfos);
-            assertEquals(2, acalEventInfos.size());
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        acalEventInfos = acalService.searchForAcalEvents(qbc, callContext);
+        assertNotNull(acalEventInfos);
+        assertEquals(2, acalEventInfos.size());
     }
 
     @Test
@@ -1267,18 +1198,12 @@ public class TestAcademicCalendarServiceImpl {
         qbcBuilder.setPredicates(PredicateFactory.equal("name", "testId2"));
         QueryByCriteria qbc = qbcBuilder.build();
 
-        try {
-            List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);
-            assertNotNull(holidayInfos);
-            assertEquals(1, holidayInfos.size());
-            HolidayInfo holidayInfo = holidayInfos.get(0);
-            assertEquals("testId2", holidayInfo.getId());
-            assertEquals("testId2", holidayInfo.getName());
-
-        } catch (Exception e) {
-            log.error("testSearchForHolidays failed", e);
-            fail(e.getMessage());
-        }
+        List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);
+        assertNotNull(holidayInfos);
+        assertEquals(1, holidayInfos.size());
+        HolidayInfo holidayInfo = holidayInfos.get(0);
+        assertEquals("testId2", holidayInfo.getId());
+        assertEquals("testId2", holidayInfo.getName());
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2011, Calendar.JUNE, 1);
@@ -1288,13 +1213,9 @@ public class TestAcademicCalendarServiceImpl {
         qbcBuilder.setPredicates(startPredicate, endPredicate);
         qbc = qbcBuilder.build();
 
-        try {
-            List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);
-            assertNotNull(holidayInfos);
-            assertEquals(2, holidayInfos.size());
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        holidayInfos = acalService.searchForHolidays(qbc, callContext);
+        assertNotNull(holidayInfos);
+        assertEquals(2, holidayInfos.size());
     }
 
     @Test
@@ -1304,12 +1225,12 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(result);
         assertEquals(result.getName(), "Labor Day");
 
-        TypeInfo fakeType = null;
         try {
-            fakeType = acalService.getHolidayType("fakeKey", callContext);
+            acalService.getHolidayType("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeType);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
 

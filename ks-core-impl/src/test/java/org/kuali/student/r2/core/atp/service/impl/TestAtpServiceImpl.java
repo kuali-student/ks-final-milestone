@@ -1,24 +1,5 @@
 package org.kuali.student.r2.core.atp.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,21 +25,29 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
-import org.mortbay.log.Log;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import org.springframework.transaction.support.TransactionTemplate;
+
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:atp-test-context.xml"})
@@ -90,14 +79,10 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        try {
-            loadData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        loadData();
     }
 
     @Test
@@ -126,7 +111,8 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
             atpService.getAtp("totallyBogusAtpId999", callContext);
             fail("AtpService did not throw DoesNotExistException on getAtp() of nonexistent ATP");
         } catch (DoesNotExistException dnee) {
-            // expected
+            assertNotNull(dnee.getMessage());
+            assertEquals("totallyBogusAtpId999", dnee.getMessage());
         }
     }
 
@@ -161,16 +147,14 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         
         Assert.assertNotEquals(atp.getMeta().getVersionInd(), updated.getMeta().getVersionInd());
         
-        // test version missmatch detection
-        boolean exception = false;
-        
+        // test version mismatch detection
         try {
             atpService.updateAtp(atpId, new AtpInfo(atp), callContext);
+            fail("VersionMismatchException should have been thrown");
         } catch (VersionMismatchException e) {
-            exception = true;
+            assertNotNull(e.getMessage());
+            assertEquals("Failed for entity.id = " + atpId, e.getMessage());
         }
-
-        Assert.assertTrue("failed to detect optimisitic lock error", exception);
     }
     
     private String testAtpCrudBase () throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
@@ -217,6 +201,8 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
             atpService.getAtp("testDeleteAtpId1", callContext);
             fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
         } catch (DoesNotExistException dnee) {
+            assertNotNull(dnee.getMessage());
+            assertEquals("testDeleteAtpId1", dnee.getMessage());
         }
         // undo the update done above
         updated = atpService.getAtp(updated.getId(), callContext);
@@ -286,15 +272,13 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertNotNull(atpInfo);
         assertEquals("testDeleteAtpId2", atpInfo.getId());
 
+        atpService.deleteAtp("testDeleteAtpId2", callContext);
         try {
-            atpService.deleteAtp("testDeleteAtpId2", callContext);
-            try {
-                atpService.getAtp("testDeleteAtpId2", callContext);
-                fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
-            } catch (DoesNotExistException dnee) {
-            }
-        } catch (Exception e) {
-            fail(e.getMessage());
+            atpService.getAtp("testDeleteAtpId2", callContext);
+            fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
+        } catch (DoesNotExistException dnee) {
+            assertNotNull(dnee.getMessage());
+            assertEquals("testDeleteAtpId2", dnee.getMessage());
         }
     }
 
@@ -330,18 +314,14 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"),
                 PredicateFactory.equal("attributes[CredentialProgramType]", "kuali.lu.type.credential.Baccalaureate"));
         QueryByCriteria qbc = qbcBuilder.build();
-        try {
-            List<AtpInfo> atpInfos = atpService.searchForAtps(qbc, callContext);
-            assertNotNull(atpInfos);
-            assertEquals(1, atpInfos.size());
-            AtpInfo atpInfo = atpInfos.get(0);
-            assertEquals("testAtpId1", atpInfo.getId());
-            assertEquals("testAtp1", atpInfo.getName());
-            assertEquals("Desc 101", atpInfo.getDescr().getPlain());
+        List<AtpInfo> atpInfos = atpService.searchForAtps(qbc, callContext);
+        assertNotNull(atpInfos);
+        assertEquals(1, atpInfos.size());
+        AtpInfo atpInfo = atpInfos.get(0);
+        assertEquals("testAtpId1", atpInfo.getId());
+        assertEquals("testAtp1", atpInfo.getName());
+        assertEquals("Desc 101", atpInfo.getDescr().getPlain());
 
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test
@@ -382,9 +362,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
     }
 
     @Test
-    public void testUpdateMilestone() throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, VersionMismatchException {
+    public void testUpdateMilestone() throws Exception {
         String milestoneId = null;
         MilestoneInfo milestone = new MilestoneInfo();
         milestone.setName("testCreate");
@@ -405,15 +383,11 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         milestone.setIsInstructionalDay(false);
         milestone.setIsRelative(false);
 
-        try {
-            MilestoneInfo created = atpService.createMilestone(milestone.getTypeKey(), milestone, callContext);
-            assertNotNull(created);
-            milestoneId = created.getId();
-            assertNotNull(milestoneId);
-            assertEquals("testCreate", created.getName());
-        } catch (ReadOnlyException e) {
-            fail(e.getMessage());
-        }
+        MilestoneInfo created = atpService.createMilestone(milestone.getTypeKey(), milestone, callContext);
+        assertNotNull(created);
+        milestoneId = created.getId();
+        assertNotNull(milestoneId);
+        assertEquals("testCreate", created.getName());
 
         MilestoneInfo updateData = atpService.getMilestone(milestoneId, callContext);
 
@@ -422,11 +396,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         updateData.setName(updatedName);
 
         MilestoneInfo updated = null;
-        try {
-            updated = atpService.updateMilestone(milestoneId, updateData, callContext);
-        } catch (ReadOnlyException e) {
-            fail(e.getMessage());
-        }
+        updated = atpService.updateMilestone(milestoneId, updateData, callContext);
         assertNotNull(updated);
         assertEquals(updated.getId(), milestoneId);
         assertEquals(updated.getName(), updatedName);
@@ -437,14 +407,12 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertEquals(updated.getId(), milestoneId);
         assertEquals(updated.getName(), updatedName);
 
-        MilestoneInfo shouldBeNull = null;
         try {
-            shouldBeNull = atpService.updateMilestone("fakeKey", updated, callContext);
+            atpService.updateMilestone("fakeKey", updated, callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
-        } catch (ReadOnlyException e) {
-            fail(e.getMessage());
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
 
@@ -456,21 +424,21 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
 
         assertTrue(status.getIsSuccess());
 
-        StatusInfo noStatus = null;
         try {
-            noStatus = atpService.deleteMilestone("fakeKey", callContext);
+            atpService.deleteMilestone("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(noStatus);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
 
         // ensure the delete prevents future gets
-        MilestoneInfo shouldBeNull = null;
         try {
-            shouldBeNull = atpService.getMilestone("testDeleteId", callContext);
+            atpService.getMilestone("testDeleteId", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
+            assertNotNull(e.getMessage());
+            assertEquals("testDeleteId", e.getMessage());
         }
 
     }
@@ -486,12 +454,12 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertEquals(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY, milestoneInfo.getStateKey());
         assertEquals("kuali.atp.milestone.AdvancedRegistrationPeriod", milestoneInfo.getTypeKey());
 
-        MilestoneInfo fakeMilestone = null;
         try {
-            fakeMilestone = atpService.getMilestone("fakeKey", callContext);
+            atpService.getMilestone("fakeKey", callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(fakeMilestone);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
     }
 
@@ -517,12 +485,14 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
 
         List<String> fakeKeys = Arrays.asList("testId", "fakeKey1", "fakeKey2");
 
-        List<MilestoneInfo> shouldBeNull = null;
         try {
-            shouldBeNull = atpService.getMilestonesByIds(fakeKeys, callContext);
+            atpService.getMilestonesByIds(fakeKeys, callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("Missing data for :"));
+            assertTrue(e.getMessage().contains("fakeKey2"));
+            assertTrue(e.getMessage().contains("fakeKey1"));
         }
 
     }
@@ -606,13 +576,12 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
 
         assertTrue(expectedIds.isEmpty());
 
-        List<MilestoneInfo> fakeMilestones = null;
-
         try {
-            fakeMilestones = atpService.getMilestonesForAtp("fakeKey", callContext);
+            atpService.getMilestonesForAtp("fakeKey", callContext);
             fail("Did not get a InvalidParameterException when expected");
         } catch (InvalidParameterException e) {
-            assertNull(fakeMilestones);
+            assertNotNull(e.getMessage());
+            assertEquals("fakeKey", e.getMessage());
         }
 
     }
@@ -624,17 +593,13 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"),
                 PredicateFactory.equal("typeKey", "kuali.atp.milestone.RegistrationPeriod"));
         QueryByCriteria qbc = qbcBuilder.build();
-        try {
-            List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
-            assertNotNull(milestoneInfos);
-            assertEquals(1, milestoneInfos.size());
-            MilestoneInfo milestoneInfo = milestoneInfos.get(0);
-            assertEquals("testId2", milestoneInfo.getId());
-            assertEquals("testId2", milestoneInfo.getName());
 
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
+        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
+        assertNotNull(milestoneInfos);
+        assertEquals(1, milestoneInfos.size());
+        MilestoneInfo milestoneInfo = milestoneInfos.get(0);
+        assertEquals("testId2", milestoneInfo.getId());
+        assertEquals("testId2", milestoneInfo.getName());
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, 2011);
@@ -651,15 +616,13 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
                 new Timestamp(cal.getTime().getTime()));
         qbcBuilder.setPredicates(startPredicate, endPredicate);
         qbc = qbcBuilder.build();
-        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
+        milestoneInfos = atpService.searchForMilestones(qbc, callContext);
         assertNotNull(milestoneInfos);
         assertEquals(2, milestoneInfos.size());
     }
 
     @Test
-    public void testValidateAtpAtpRelation()
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    public void testValidateAtpAtpRelation() throws Exception {
         AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
         atpRel.setAtpId("testAtp1");
         atpRel.setRelatedAtpId("testAtp2");
@@ -667,13 +630,9 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
         atpRel.setEffectiveDate(new Date());
 
-        try {
-            List<ValidationResultInfo> vri = atpService.validateAtpAtpRelation("FULL_VALIDATION", "testAtp1",
-                    "testAtp2", AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, atpRel, callContext);
-            assertTrue(vri.isEmpty());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+        List<ValidationResultInfo> vri = atpService.validateAtpAtpRelation("FULL_VALIDATION", "testAtp1",
+                "testAtp2", AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, atpRel, callContext);
+        assertTrue(vri.isEmpty());
     }
 
     @Test
@@ -720,12 +679,12 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertEquals(atpRel.getStateKey(), retrieved.getStateKey());
 
         // assert getting a bogus atp id throws exception
-        AtpAtpRelationInfo shouldBeNull = null;
         try {
-            shouldBeNull = atpService.getAtpAtpRelation("totallyBogusAtpAtpRelationId", callContext);
+            atpService.getAtpAtpRelation("totallyBogusAtpAtpRelationId", callContext);
             fail("Expected a DoesNotExistException");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
+            assertNotNull(e.getMessage());
+            assertEquals("totallyBogusAtpAtpRelationId", e.getMessage());
         }
     }
 
@@ -746,13 +705,13 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertEquals(newExpirationDate, result.getExpirationDate());
 
         // make sure expected failure happens if we update a non-existent Atp-Atp Relation
-        AtpAtpRelationInfo shouldBeNull = null;
         try {
-            shouldBeNull = atpService.updateAtpAtpRelation("totallMadeUpAtpAtpRelation", new AtpAtpRelationInfo(), callContext);
+            atpService.updateAtpAtpRelation("totallMadeUpAtpAtpRelation", new AtpAtpRelationInfo(), callContext);
             fail("Expecting a DoesNotExistException");
         }
         catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
+            assertNotNull(e.getMessage());
+            assertEquals("totallMadeUpAtpAtpRelation", e.getMessage());
         }
     }
 
@@ -781,21 +740,21 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         assertTrue(result.getIsSuccess());
 
         // assert the record is deleted
-        AtpAtpRelationInfo shouldBeNull = null;
         try {
-            shouldBeNull = atpService.getAtpAtpRelation(createdRel.getId(), callContext);
+            atpService.getAtpAtpRelation(createdRel.getId(), callContext);
             fail("Expecting a DoesNotExistException");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
+            assertNotNull(e.getMessage());
+            assertEquals(createdRel.getId(), e.getMessage());
         }
 
         // assert the same record cannot be deleted twice
-        StatusInfo shouldBeNullStatus = null;
         try {
-            shouldBeNullStatus = atpService.deleteAtpAtpRelation(createdRel.getId(), callContext);
+            atpService.deleteAtpAtpRelation(createdRel.getId(), callContext);
             fail("Expecting a DoesNotExistException");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNullStatus);
+            assertNotNull(e.getMessage());
+            assertEquals(createdRel.getId(), e.getMessage());
         }
 
 
@@ -872,12 +831,14 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
 
         // now make sure an exception is thrown for any not found keys
         List<String> fakeKeys = Arrays.asList("testAtpId1", "fakeKey1", "fakeKey2");
-        List<AtpInfo> shouldBeNull = null;
         try {
-            shouldBeNull = atpService.getAtpsByIds(fakeKeys, callContext);
+            atpService.getAtpsByIds(fakeKeys, callContext);
             fail("Did not get a DoesNotExistException when expected");
         } catch (DoesNotExistException e) {
-            assertNull(shouldBeNull);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("Missing data for :"));
+            assertTrue(e.getMessage().contains("fakeKey2"));
+            assertTrue(e.getMessage().contains("fakeKey1"));
         }
     }
 

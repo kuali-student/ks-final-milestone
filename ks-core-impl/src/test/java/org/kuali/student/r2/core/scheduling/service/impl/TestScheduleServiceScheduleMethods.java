@@ -92,43 +92,39 @@ public class TestScheduleServiceScheduleMethods {
 
     // ================================== TESTS =========================================
     @Test
-    public void testCreateReadSchedule() {
+    public void testCreateReadSchedule() throws Exception {
 
-        try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
 
-            ScheduleInfo info = new ScheduleInfo();
-            info.setStateKey(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
-            info.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
-            info.setAtpId("FakeAtpId");
+        ScheduleInfo info = new ScheduleInfo();
+        info.setStateKey(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE);
+        info.setTypeKey(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE);
+        info.setAtpId("FakeAtpId");
 
-            MeetingTimeInfo meetingTimeInfo1 = new MeetingTimeInfo();
-            meetingTimeInfo1.setRoomId("Room 1");
-            meetingTimeInfo1.setStartDate(df.parse("20120113"));
-            TimeAmountInfo timeAmountInfo1 = new TimeAmountInfo();
-            timeAmountInfo1.setAtpDurationTypeKey(AtpServiceConstants.DURATION_HOURS_TYPE_KEY);
-            timeAmountInfo1.setTimeQuantity(23);
-            meetingTimeInfo1.setDuration(timeAmountInfo1);
-            info.getAdditionalMeetingTimes().add(meetingTimeInfo1);
+        MeetingTimeInfo meetingTimeInfo1 = new MeetingTimeInfo();
+        meetingTimeInfo1.setRoomId("Room 1");
+        meetingTimeInfo1.setStartDate(df.parse("20120113"));
+        TimeAmountInfo timeAmountInfo1 = new TimeAmountInfo();
+        timeAmountInfo1.setAtpDurationTypeKey(AtpServiceConstants.DURATION_HOURS_TYPE_KEY);
+        timeAmountInfo1.setTimeQuantity(23);
+        meetingTimeInfo1.setDuration(timeAmountInfo1);
+        info.getAdditionalMeetingTimes().add(meetingTimeInfo1);
 
-            MeetingTimeInfo meetingTimeInfo2 = new MeetingTimeInfo();
-            meetingTimeInfo2.setRoomId("Room 2");
-            meetingTimeInfo2.setStartDate(df.parse("20120114"));
-            TimeAmountInfo timeAmountInfo2 = new TimeAmountInfo();
-            timeAmountInfo2.setAtpDurationTypeKey(AtpServiceConstants.DURATION_MINUTES_TYPE_KEY);
-            timeAmountInfo2.setTimeQuantity(44);
-            meetingTimeInfo2.setDuration(timeAmountInfo2);
-            info.getAdditionalMeetingTimes().add(meetingTimeInfo2);
-
+        MeetingTimeInfo meetingTimeInfo2 = new MeetingTimeInfo();
+        meetingTimeInfo2.setRoomId("Room 2");
+        meetingTimeInfo2.setStartDate(df.parse("20120114"));
+        TimeAmountInfo timeAmountInfo2 = new TimeAmountInfo();
+        timeAmountInfo2.setAtpDurationTypeKey(AtpServiceConstants.DURATION_MINUTES_TYPE_KEY);
+        timeAmountInfo2.setTimeQuantity(44);
+        meetingTimeInfo2.setDuration(timeAmountInfo2);
+        info.getAdditionalMeetingTimes().add(meetingTimeInfo2);
 
 
-            ScheduleInfo returned = schedulingService.createSchedule(info.getTypeKey(), info, callContext);
-            String id = returned.getId();
-            ScheduleInfo fetched = schedulingService.getSchedule(id, callContext);
-            assertEquals(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, fetched.getTypeKey());
-            assertEquals(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE, fetched.getStateKey());
-        } catch (Exception e) {
-            assert(false);
-        }
+
+        ScheduleInfo returned = schedulingService.createSchedule(info.getTypeKey(), info, callContext);
+        String id = returned.getId();
+        ScheduleInfo fetched = schedulingService.getSchedule(id, callContext);
+        assertEquals(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE, fetched.getTypeKey());
+        assertEquals(SchedulingServiceConstants.SCHEDULE_STATE_ACTIVE, fetched.getStateKey());
     }
 }

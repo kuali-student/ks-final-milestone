@@ -15,17 +15,11 @@
  */
 package org.kuali.student.r2.core.atp.service.impl;
 
-import java.util.Date;
-
-import javax.annotation.Resource;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -43,6 +37,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
+
+import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * Verifies that optimistic locking is working as it should for updating Atp's
@@ -94,54 +91,36 @@ public class TestAtpServiceOptimisticLocking {
  
     
     @Test
-    public void checkForOptomisticLockingException () throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public void checkForOptomisticLockingException () throws Exception {
         
         AtpInfo original = createAtp("A123", "A123");
         
         original = atpService.createAtp(original.getTypeKey(), original, callContext);
         
         AtpInfo copy = new AtpInfo (original);
-    
-        
+
         original.setCode("BBB");
         
-        AtpInfo updated = null;
-        
-        try {
-           
-            updated = atpService.updateAtp(original.getId(), original, callContext);
-        } catch (DoesNotExistException e) {
-            log.error ("Exception = ", e);
-        } catch (VersionMismatchException e) {
-            log.error ("Exception = ", e);
-        }
-        
+        atpService.updateAtp(original.getId(), original, callContext);
 
-        boolean versionMissmatchException = false;
-        
         try {
             atpService.updateAtp(copy.getId(), copy, callContext);
-        } catch (DoesNotExistException e) {
-            log.error ("Exception = ", e);
+            Assert.fail("VersionMismatchException should have been thrown");
         } catch (VersionMismatchException e) {
-            versionMissmatchException = true;
+            Assert.assertNotNull(e.getMessage());
+            Assert.assertEquals("Failed for entity.id = " + copy.getId(), e.getMessage());
         }
-        
-        Assert.assertTrue(versionMissmatchException);
         
         AtpInfo newAtp = createAtp("F1234", "F1234");
         
         newAtp.setId("aFakeId");
         
-        boolean updateFailed = false;
         try {
             atpService.updateAtp(newAtp.getId(), newAtp, callContext);
+            Assert.fail("DoesNotExistException should have been thrown");
         } catch (DoesNotExistException e) {
-            updateFailed = true;
-        } catch (VersionMismatchException e) {
-            log.error ("Exception = ", e);
+            Assert.assertNotNull(e.getMessage());
+            Assert.assertEquals("No existing Atp for id = " + newAtp.getId(), e.getMessage());
         }
-        
-        Assert.assertTrue(updateFailed);
     }
 }

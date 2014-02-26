@@ -38,6 +38,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.fail;
 
 /**
  * This class tests PopulationServiceImpl
@@ -116,16 +117,12 @@ public class TestPopulationServiceImpl {
         return popList;
     }
 
-    private List<String> _makePopulationsAndReturnIds() {
+    private List<String> _makePopulationsAndReturnIds() throws Exception {
         List<PopulationInfo> popList = _constructPopulationList();
         List<String> popIdsList = new ArrayList<String>();
-        try {
-            for (PopulationInfo popInfo: popList) {
-                PopulationInfo created = populationService.createPopulation(popInfo.getTypeKey (), popInfo, contextInfo);
-                popIdsList.add(created.getId());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        for (PopulationInfo popInfo: popList) {
+            PopulationInfo created = populationService.createPopulation(popInfo.getTypeKey (), popInfo, contextInfo);
+            popIdsList.add(created.getId());
         }
         return popIdsList;
     }
@@ -140,73 +137,63 @@ public class TestPopulationServiceImpl {
     }
     // ============================================== TESTS ======================================================
     @Test
-    public void testGetPopulationRuleForPopulation() {
+    public void testGetPopulationRuleForPopulation() throws Exception {
         before();
         List<PopulationInfo> popList = _constructPopulationList();
-        try {
-            // Create ref population and child population IDs
-            PopulationInfo refCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
-            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1).getTypeKey(), popList.get(1), contextInfo);
-            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2).getTypeKey(), popList.get(2), contextInfo);
-            PopulationRuleInfo ruleInfo = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 4);
-            List<String> childPopIds = new ArrayList<String>();
-            childPopIds.add(threeCreated.getId());
-            childPopIds.add(fourCreated.getId());
-            ruleInfo.setChildPopulationIds(childPopIds);
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
+        // Create ref population and child population IDs
+        PopulationInfo refCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
+        PopulationInfo threeCreated = populationService.createPopulation(popList.get(1).getTypeKey(), popList.get(1), contextInfo);
+        PopulationInfo fourCreated = populationService.createPopulation(popList.get(2).getTypeKey(), popList.get(2), contextInfo);
+        PopulationRuleInfo ruleInfo = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 4);
+        List<String> childPopIds = new ArrayList<String>();
+        childPopIds.add(threeCreated.getId());
+        childPopIds.add(fourCreated.getId());
+        ruleInfo.setChildPopulationIds(childPopIds);
+        PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
     }
 
     @Test
-    public void testGetPopulationsForPopulationRule() {
+    public void testGetPopulationsForPopulationRule() throws Exception {
         before();
         List<PopulationInfo> popList = _constructPopulationList();
-        try {
-            // Create ref population and child population IDs
-            PopulationInfo twoCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
-            PopulationInfo threeCreated = populationService.createPopulation(popList.get(1).getTypeKey(), popList.get(1), contextInfo);
-            PopulationInfo fourCreated = populationService.createPopulation(popList.get(2).getTypeKey(), popList.get(2), contextInfo);
-            // Now the pop rule
-            PopulationRuleInfo ruleInfo = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 2);
-            List<String> children = new ArrayList<String>();
-            children.add(twoCreated.getId());
-            ruleInfo.setChildPopulationIds(children);
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
-            // Now apply this rule to the other populations
-            populationService.applyPopulationRuleToPopulation(ruleInfoCreated.getId(),  threeCreated.getId(), contextInfo);
-            populationService.applyPopulationRuleToPopulation(ruleInfoCreated.getId(),  fourCreated.getId(), contextInfo);
-            // Create list of these IDs
-            List<String> appliedPopIds = new ArrayList<String>();
-            appliedPopIds.add(threeCreated.getId());
-            appliedPopIds.add(fourCreated.getId());
-            // And fetch it
-            List<PopulationInfo> popInfos =
-                    populationService.getPopulationsForPopulationRule(ruleInfoCreated.getId(), contextInfo);
-            assertEquals(2, popInfos.size());
-            // Make sure IDs are different
-            assert(!popInfos.get(0).getId().equals(popInfos.get(1).getId()));
-            // Check the ids that came back are the ones we applied it to
-            for (PopulationInfo info: popInfos) {
-                String infoId = info.getId();
-                assert(appliedPopIds.contains(infoId));
-            }
-            // Now remove one of them
-            populationService.removePopulationRuleFromPopulation(ruleInfoCreated.getId(), threeCreated.getId(), contextInfo);
-            // Fetch again
-            popInfos = populationService.getPopulationsForPopulationRule(ruleInfoCreated.getId(), contextInfo);
-            assertEquals(1, popInfos.size());
-            assertEquals(fourCreated.getId(), popInfos.get(0).getId());
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false);
+        // Create ref population and child population IDs
+        PopulationInfo twoCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
+        PopulationInfo threeCreated = populationService.createPopulation(popList.get(1).getTypeKey(), popList.get(1), contextInfo);
+        PopulationInfo fourCreated = populationService.createPopulation(popList.get(2).getTypeKey(), popList.get(2), contextInfo);
+        // Now the pop rule
+        PopulationRuleInfo ruleInfo = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 2);
+        List<String> children = new ArrayList<String>();
+        children.add(twoCreated.getId());
+        ruleInfo.setChildPopulationIds(children);
+        PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
+        // Now apply this rule to the other populations
+        populationService.applyPopulationRuleToPopulation(ruleInfoCreated.getId(),  threeCreated.getId(), contextInfo);
+        populationService.applyPopulationRuleToPopulation(ruleInfoCreated.getId(),  fourCreated.getId(), contextInfo);
+        // Create list of these IDs
+        List<String> appliedPopIds = new ArrayList<String>();
+        appliedPopIds.add(threeCreated.getId());
+        appliedPopIds.add(fourCreated.getId());
+        // And fetch it
+        List<PopulationInfo> popInfos =
+                populationService.getPopulationsForPopulationRule(ruleInfoCreated.getId(), contextInfo);
+        assertEquals(2, popInfos.size());
+        // Make sure IDs are different
+        assert(!popInfos.get(0).getId().equals(popInfos.get(1).getId()));
+        // Check the ids that came back are the ones we applied it to
+        for (PopulationInfo info: popInfos) {
+            String infoId = info.getId();
+            assert(appliedPopIds.contains(infoId));
         }
+        // Now remove one of them
+        populationService.removePopulationRuleFromPopulation(ruleInfoCreated.getId(), threeCreated.getId(), contextInfo);
+        // Fetch again
+        popInfos = populationService.getPopulationsForPopulationRule(ruleInfoCreated.getId(), contextInfo);
+        assertEquals(1, popInfos.size());
+        assertEquals(fourCreated.getId(), popInfos.get(0).getId());
     }
 
     @Test
-    public void testGetPopulationRuleIdsByType() {
+    public void testGetPopulationRuleIdsByType() throws Exception {
         before();
         List<PopulationRuleInfo> ruleInfos = new ArrayList<PopulationRuleInfo>();
         PopulationRuleInfo one = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 1);
@@ -215,254 +202,213 @@ public class TestPopulationServiceImpl {
         ruleInfos.add(two);
         PopulationRuleInfo three = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY, 3);
         ruleInfos.add(three);
-        try {
-            List<String> popRuleIds = new ArrayList<String>();
-            for (PopulationRuleInfo info: ruleInfos) {
-                PopulationRuleInfo result = populationService.createPopulationRule(info.getTypeKey(), info, contextInfo);
-                popRuleIds.add(result.getId());
-            }
-            // Check union types
-            List<String> unionIds = popRuleIds.subList(0, 2);
-            assertEquals(2, unionIds.size());
-            List<String> popRuleIdsFetched =
-                    populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, contextInfo);
-            assertEquals(2, popRuleIdsFetched.size());
-            checkSameIds(unionIds, popRuleIdsFetched);
-            // Check intersection types
-            List<String> intersectionIds = popRuleIds.subList(2, 3);
-            assertEquals(1, intersectionIds.size());
-            popRuleIdsFetched =
-                    populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY, contextInfo);
-            assertEquals(1, popRuleIdsFetched.size());
-            checkSameIds(intersectionIds, popRuleIdsFetched);
-            // Check exclusion types
-            popRuleIdsFetched =
-                    populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY, contextInfo);
-            assert(popRuleIdsFetched.isEmpty());
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false);
+        List<String> popRuleIds = new ArrayList<String>();
+        for (PopulationRuleInfo info: ruleInfos) {
+            PopulationRuleInfo result = populationService.createPopulationRule(info.getTypeKey(), info, contextInfo);
+            popRuleIds.add(result.getId());
         }
+        // Check union types
+        List<String> unionIds = popRuleIds.subList(0, 2);
+        assertEquals(2, unionIds.size());
+        List<String> popRuleIdsFetched =
+                populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, contextInfo);
+        assertEquals(2, popRuleIdsFetched.size());
+        checkSameIds(unionIds, popRuleIdsFetched);
+        // Check intersection types
+        List<String> intersectionIds = popRuleIds.subList(2, 3);
+        assertEquals(1, intersectionIds.size());
+        popRuleIdsFetched =
+                populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_INTERSECTION_KEY, contextInfo);
+        assertEquals(1, popRuleIdsFetched.size());
+        checkSameIds(intersectionIds, popRuleIdsFetched);
+        // Check exclusion types
+        popRuleIdsFetched =
+                populationService.getPopulationRuleIdsByType(PopulationServiceConstants.POPULATION_RULE_TYPE_EXCLUSION_KEY, contextInfo);
+        assert(popRuleIdsFetched.isEmpty());
     }
 
     @Test
-    public void testPopulationRuleCreateGet() {
+    public void testPopulationRuleCreateGet() throws Exception {
         before();
         List<PopulationInfo> popList = _constructPopulationList();
-        try {
-            // Create ref population and child population IDs
-            PopulationInfo refCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
-            PopulationInfo threeCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(1), contextInfo);
-            PopulationInfo fourCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(2), contextInfo);
-            // Now the pop rule
-            PopulationRuleInfo ruleInfo = _constructExclusionPopulationRuleInfo();
-            ruleInfo.setReferencePopulationId(refCreated.getId());
-            List<String> childIds = new ArrayList<String>();
-            childIds.add(threeCreated.getId());
-            childIds.add(fourCreated.getId());
-            ruleInfo.setChildPopulationIds(childIds);
-            // Create the rule info
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
-            // Fetch it
-            PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
-            assertEquals(ruleInfo.getName(), ruleInfoFetched.getName());
-            assertEquals(ruleInfo.getDescr().getPlain(), ruleInfoFetched.getDescr().getPlain());
-            assertEquals(ruleInfo.getDescr().getFormatted(), ruleInfoFetched.getDescr().getFormatted());
-            assertEquals(ruleInfo.getStateKey(), ruleInfoFetched.getStateKey());
-            assertEquals(ruleInfo.getTypeKey(), ruleInfoFetched.getTypeKey());
-            // Check ref population
-            assertNotNull(ruleInfo.getReferencePopulationId());
-            assertEquals(ruleInfo.getReferencePopulationId(), ruleInfoFetched.getReferencePopulationId());
-            // Check child populations are same
-            checkSameIds(ruleInfo.getChildPopulationIds(), ruleInfoFetched.getChildPopulationIds());
-        } catch (Exception e) {
-            assert(false);
-        }
+        // Create ref population and child population IDs
+        PopulationInfo refCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(0), contextInfo);
+        PopulationInfo threeCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(1), contextInfo);
+        PopulationInfo fourCreated = populationService.createPopulation(popList.get(0).getTypeKey(), popList.get(2), contextInfo);
+        // Now the pop rule
+        PopulationRuleInfo ruleInfo = _constructExclusionPopulationRuleInfo();
+        ruleInfo.setReferencePopulationId(refCreated.getId());
+        List<String> childIds = new ArrayList<String>();
+        childIds.add(threeCreated.getId());
+        childIds.add(fourCreated.getId());
+        ruleInfo.setChildPopulationIds(childIds);
+        // Create the rule info
+        PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
+        // Fetch it
+        PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
+        assertEquals(ruleInfo.getName(), ruleInfoFetched.getName());
+        assertEquals(ruleInfo.getDescr().getPlain(), ruleInfoFetched.getDescr().getPlain());
+        assertEquals(ruleInfo.getDescr().getFormatted(), ruleInfoFetched.getDescr().getFormatted());
+        assertEquals(ruleInfo.getStateKey(), ruleInfoFetched.getStateKey());
+        assertEquals(ruleInfo.getTypeKey(), ruleInfoFetched.getTypeKey());
+        // Check ref population
+        assertNotNull(ruleInfo.getReferencePopulationId());
+        assertEquals(ruleInfo.getReferencePopulationId(), ruleInfoFetched.getReferencePopulationId());
+        // Check child populations are same
+        checkSameIds(ruleInfo.getChildPopulationIds(), ruleInfoFetched.getChildPopulationIds());
     }
 
     @Test
-    public void testPopulationRuleUpdateDeleteAddChildPop() {
+    public void testPopulationRuleUpdateDeleteAddChildPop() throws Exception {
         // Checks for CRUD too
         // This tests to see if changing the child populations and updating is working
         before();
         List<String> popIds = _makePopulationsAndReturnIds();
+        PopulationRuleInfo ruleInfo = _constructExclusionPopulationRuleInfo();
+        ruleInfo.setReferencePopulationId(popIds.get(0));
+        List<String> childIds = new ArrayList<String>();
+        childIds.add(popIds.get(1));
+        childIds.add(popIds.get(2));
+        ruleInfo.setChildPopulationIds(childIds);
+        // Create the rule info
+        PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey (), ruleInfo, contextInfo);
+        // Fetch it
+        PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
+        // Now check if they have the same child Ids
+        checkSameIds(ruleInfo.getChildPopulationIds(), ruleInfoFetched.getChildPopulationIds());
+        // Now change child ids
+        childIds = new ArrayList<String>();
+        childIds.add(popIds.get(2));
+        childIds.add(popIds.get(3));
+        ruleInfoFetched.setChildPopulationIds(childIds);
+        // Update it
+        PopulationRuleInfo x = populationService.updatePopulationRule(ruleInfoFetched.getId(), ruleInfoFetched, contextInfo);
+        PopulationRuleInfo updatedFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
+        // Now check if they have the same child Ids
+        List<String> updatedFetchedIds = updatedFetched.getChildPopulationIds();
+        checkSameIds(childIds, updatedFetchedIds);
+        // Test delete
+        populationService.deletePopulationRule(ruleInfoCreated.getId(), contextInfo);
+        // Now try to get
         try {
-            PopulationRuleInfo ruleInfo = _constructExclusionPopulationRuleInfo();
-            ruleInfo.setReferencePopulationId(popIds.get(0));
-            List<String> childIds = new ArrayList<String>();
-            childIds.add(popIds.get(1));
-            childIds.add(popIds.get(2));
-            ruleInfo.setChildPopulationIds(childIds);
-            // Create the rule info
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey (), ruleInfo, contextInfo);
-            // Fetch it
-            PopulationRuleInfo ruleInfoFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
-            // Now check if they have the same child Ids
-            checkSameIds(ruleInfo.getChildPopulationIds(), ruleInfoFetched.getChildPopulationIds());
-            // Now change child ids
-            childIds = new ArrayList<String>();
-            childIds.add(popIds.get(2));
-            childIds.add(popIds.get(3));
-            ruleInfoFetched.setChildPopulationIds(childIds);
-            // Update it
-            PopulationRuleInfo x = populationService.updatePopulationRule(ruleInfoFetched.getId(), ruleInfoFetched, contextInfo);
-            PopulationRuleInfo updatedFetched = populationService.getPopulationRule(ruleInfoCreated.getId(), contextInfo);
-            // Now check if they have the same child Ids
-            List<String> updatedFetchedIds = updatedFetched.getChildPopulationIds();
-            checkSameIds(childIds, updatedFetchedIds);
-            // Test delete
-            populationService.deletePopulationRule(ruleInfoCreated.getId(), contextInfo);
-            // Now try to get
-            boolean exceptionThrown = false;
-            try {
-                populationService.getPopulation(ruleInfoCreated.getId(), contextInfo);
-            } catch (DoesNotExistException e) {
-                exceptionThrown = true;  // Should throw exception
-            }
-            if (!exceptionThrown) {
-                assert(false);
-            }
-        } catch (Exception e) {
-            assert(false);
+            populationService.getPopulation(ruleInfoCreated.getId(), contextInfo);
+            fail("DoesNotExistException should have been thrown");
+        } catch (DoesNotExistException e) {
+            assertNotNull(e.getMessage());
+            assertEquals(ruleInfoCreated.getId(), e.getMessage());
         }
     }
 
     @Test
-    public void testPopulationCreateGet() {
+    public void testPopulationCreateGet() throws Exception {
         before();
         PopulationInfo info = _constructPopulationInfo(null);
-        try {
-            PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
-            PopulationInfo fetched = populationService.getPopulation(created.getId(), contextInfo);
-            assertEquals(info.getName(), fetched.getName());
-            assertEquals(info.getDescr().getPlain(), fetched.getDescr().getPlain());
-            assertEquals(info.getDescr().getFormatted(), fetched.getDescr().getFormatted());
-            assertEquals(info.getStateKey(), fetched.getStateKey());
-            assertEquals(info.getTypeKey(), fetched.getTypeKey());
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
+        PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
+        PopulationInfo fetched = populationService.getPopulation(created.getId(), contextInfo);
+        assertEquals(info.getName(), fetched.getName());
+        assertEquals(info.getDescr().getPlain(), fetched.getDescr().getPlain());
+        assertEquals(info.getDescr().getFormatted(), fetched.getDescr().getFormatted());
+        assertEquals(info.getStateKey(), fetched.getStateKey());
+        assertEquals(info.getTypeKey(), fetched.getTypeKey());
     }
 
     @Test
-    public void testPopulationCreateUpdateGet() {
+    public void testPopulationCreateUpdateGet() throws Exception {
         before();
         PopulationInfo info = _constructPopulationInfo(null);
-        try {
-            String name = "TestPop2";
-            String plain = "plain2";
-            String formatted = "formatted2";
-            PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
-            created.setName(name);
-            RichTextInfo richTextInfo = new RichTextInfo();
-            richTextInfo.setPlain(plain);
-            richTextInfo.setFormatted(formatted);
-            created.setDescr(richTextInfo);
-            created.setStateKey(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY);
-            populationService.updatePopulation(created.getId(), created, contextInfo);
-            PopulationInfo fetched = populationService.getPopulation(created.getId(), contextInfo);
-            assertEquals(name, fetched.getName());
-            assertEquals(plain, fetched.getDescr().getPlain());
-            assertEquals(formatted, fetched.getDescr().getFormatted());
-            assertEquals(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY, fetched.getStateKey());
-            assertEquals(info.getTypeKey(), fetched.getTypeKey());
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false);
-        }
+        String name = "TestPop2";
+        String plain = "plain2";
+        String formatted = "formatted2";
+        PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
+        created.setName(name);
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain(plain);
+        richTextInfo.setFormatted(formatted);
+        created.setDescr(richTextInfo);
+        created.setStateKey(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY);
+        populationService.updatePopulation(created.getId(), created, contextInfo);
+        PopulationInfo fetched = populationService.getPopulation(created.getId(), contextInfo);
+        assertEquals(name, fetched.getName());
+        assertEquals(plain, fetched.getDescr().getPlain());
+        assertEquals(formatted, fetched.getDescr().getFormatted());
+        assertEquals(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY, fetched.getStateKey());
+        assertEquals(info.getTypeKey(), fetched.getTypeKey());
     }
 
     @Test
-    public void testPopulationCreateUpdateGetDelete() {
+    public void testPopulationCreateUpdateGetDelete() throws Exception {
         before();
         PopulationInfo info = _constructPopulationInfo(null);
+        String name = "TestPop2";
+        String plain = "plain2";
+        String formatted = "formatted2";
+        PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
+        created.setName(name);
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain(plain);
+        richTextInfo.setFormatted(formatted);
+        created.setDescr(richTextInfo);
+        created.setStateKey(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY);
+        populationService.updatePopulation(created.getId(), created, contextInfo);
+        PopulationInfo fetched = populationService.getPopulation(created.getId(), contextInfo);
+        assertEquals(name, fetched.getName());
+        assertEquals(plain, fetched.getDescr().getPlain());
+        assertEquals(formatted, fetched.getDescr().getFormatted());
+        assertEquals(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY, fetched.getStateKey());
+        assertEquals(info.getTypeKey(), fetched.getTypeKey());
+        populationService.deletePopulation(created.getId(), contextInfo);
         try {
-            String name = "TestPop2";
-            String plain = "plain2";
-            String formatted = "formatted2";
-            PopulationInfo created = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
-            created.setName(name);
-            RichTextInfo richTextInfo = new RichTextInfo();
-            richTextInfo.setPlain(plain);
-            richTextInfo.setFormatted(formatted);
-            created.setDescr(richTextInfo);
-            created.setStateKey(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY);
-            populationService.updatePopulation(created.getId(), created, contextInfo);
-            PopulationInfo fetched = populationService.getPopulation(created.getId(), contextInfo);
-            assertEquals(name, fetched.getName());
-            assertEquals(plain, fetched.getDescr().getPlain());
-            assertEquals(formatted, fetched.getDescr().getFormatted());
-            assertEquals(PopulationServiceConstants.POPULATION_INACTIVE_STATE_KEY, fetched.getStateKey());
-            assertEquals(info.getTypeKey(), fetched.getTypeKey());
-            populationService.deletePopulation(created.getId(), contextInfo);
-            boolean exceptionThrown = false;
-            try {
-                populationService.getPopulation(created.getId(), contextInfo);
-            } catch (DoesNotExistException e) {
-                assert(true);
-                exceptionThrown = true;
-            }
-            if (!exceptionThrown) {
-                assert(false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            assert(false);
+            populationService.getPopulation(created.getId(), contextInfo);
+            fail("DoesNotExistException should have been thrown");
+        } catch (DoesNotExistException e) {
+            assertNotNull(e.getMessage());
+            assertEquals(created.getId(), e.getMessage());
         }
     }
 
     @Test
-    public void testSearchForPopulations() {
+    public void testSearchForPopulations() throws Exception {
         before();
         PopulationInfo info = _constructPopulationInfo(null);
 
-        try {
-            // Create ref population and child population IDs
-            PopulationInfo infoCreated = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
+        // Create ref population and child population IDs
+        PopulationInfo infoCreated = populationService.createPopulation(info.getTypeKey(), info, contextInfo);
 
-            // Fetch it
-            PopulationInfo refFetched = populationService.getPopulation(infoCreated.getId(), contextInfo);
+        // Fetch it
+        PopulationInfo refFetched = populationService.getPopulation(infoCreated.getId(), contextInfo);
 
-            // Testing search
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.like("name", "Test%")));
-            QueryByCriteria criteria = qbcBuilder.build();
+        // Testing search
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.like("name", "Test%")));
+        QueryByCriteria criteria = qbcBuilder.build();
 
-            List<PopulationInfo> infos = populationService.searchForPopulations(criteria, contextInfo);
-            PopulationInfo infoTest = infos.get(0);
+        List<PopulationInfo> infos = populationService.searchForPopulations(criteria, contextInfo);
+        PopulationInfo infoTest = infos.get(0);
 
-            assertEquals(infos.size(), 1);
-            assertEquals(infoCreated.getName(), infoTest.getName());
-        } catch (Exception e) {
-            assert(false);
-        }
+        assertEquals(infos.size(), 1);
+        assertEquals(infoCreated.getName(), infoTest.getName());
     }
 
     @Test
-    public void testSearchForPopulationRules() {
+    public void testSearchForPopulationRules() throws Exception {
         before();
         PopulationRuleInfo ruleInfo = _constructPopulationRuleInfoByType(PopulationServiceConstants.POPULATION_RULE_TYPE_UNION_KEY, 4);
 
-        try {
-            // Create ref population and child population IDs
-            PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
+        // Create ref population and child population IDs
+        PopulationRuleInfo ruleInfoCreated = populationService.createPopulationRule(ruleInfo.getTypeKey(), ruleInfo, contextInfo);
 
-            // Testing search
-            QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-            qbcBuilder.setPredicates(PredicateFactory.and(
-                    PredicateFactory.like("name", "TestPop%")));
-            QueryByCriteria criteria = qbcBuilder.build();
+        // Testing search
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.and(
+                PredicateFactory.like("name", "TestPop%")));
+        QueryByCriteria criteria = qbcBuilder.build();
 
-            List<PopulationRuleInfo> rules = populationService.searchForPopulationRules(criteria, contextInfo);
-            PopulationRuleInfo ruleInfoTest = rules.get(0);
+        List<PopulationRuleInfo> rules = populationService.searchForPopulationRules(criteria, contextInfo);
+        PopulationRuleInfo ruleInfoTest = rules.get(0);
 
-            assertEquals(rules.size(), 1);
-            assertEquals(ruleInfoCreated.getName(), ruleInfoTest.getName());
-        } catch (Exception e) {
-            assert(false);
-        }
+        assertEquals(rules.size(), 1);
+        assertEquals(ruleInfoCreated.getName(), ruleInfoTest.getName());
     }
 
 }

@@ -198,7 +198,10 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         try {
             doc = client.updateDocument(id, doc, context);
             fail("Expected VersionMismatchException");
-        } catch(VersionMismatchException e) {}
+        } catch(VersionMismatchException e) {
+            assertNotNull(e.getMessage());
+            assertEquals("Document to be updated is not the current version", e.getMessage());
+        }
         
         status = client.deleteDocument(id, context);
         assertTrue(status.getIsSuccess());
@@ -309,8 +312,10 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
                         relation.getTypeKey(), 
                         relation,
                         context);
-        	assertTrue(false);
-        }catch(InvalidParameterException e){     	
+        	fail("InvalidParameterException should have been thrown");
+        }catch(InvalidParameterException e){
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("RefDocRelationType does not exist for key"));
         }
     	
         relation.setTypeKey("kuali.org.DocRelation.allObjectTypes");
@@ -321,8 +326,10 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
                         relation.getTypeKey(), 
                         relation,
                         context);
-	       	assertTrue(false);
-	    }catch(InvalidParameterException e){     	
+            fail("InvalidParameterException should have been thrown");
+        }catch(InvalidParameterException e){
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("RefObjectType: refObjectTypeKey does not exist or is invalid for relation type"));
 	    }
 	    
 	    relation.setRefObjectTypeKey("kuali.org.RefObjectType.CluInfo");
@@ -354,8 +361,10 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
         //Test version mismatch
         try{
         	updated = client.updateRefDocRelation(created.getId(), created, context);
-	       	assertTrue(false);
+            fail("InvalidParameterException should have been thrown");
         }catch(VersionMismatchException e){
+            assertNotNull(e.getMessage());
+            assertEquals("RefDocRelation to be updated is not the current version", e.getMessage());
         }
         assertRefDocRelationsEquals(created,updated);
 	    
@@ -388,8 +397,11 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
 	    
 	    try{
 	    	fetched = client.getRefDocRelation(updated.getId(), context);
-	    	assertTrue(false);
-	    }catch(DoesNotExistException e){}
+            fail("InvalidParameterException should have been thrown");
+        }catch(DoesNotExistException e){
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("No entity for key"));
+        }
     }
     
     private void assertRefDocRelationsEquals(RefDocRelationInfo ref1, RefDocRelationInfo ref2){

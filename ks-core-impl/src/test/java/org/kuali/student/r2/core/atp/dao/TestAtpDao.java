@@ -52,14 +52,10 @@ public class TestAtpDao {
     public AtpDao dao;
 
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
-        try {
-            loadData();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
+        loadData();
     }
 
     private void loadData() throws DoesNotExistException, InvalidParameterException,
@@ -119,19 +115,13 @@ public class TestAtpDao {
     }
 
     @Test
-    public void testUpdateAtp()
-    {
+    public void testUpdateAtp() throws VersionMismatchException {
         AtpEntity atp = dao.find("testAtpId2");
         assertNotNull(atp);
         AtpAttributeEntity attr = new AtpAttributeEntity(new AttributeInfo("foo", "bar"), atp);
         atp.getAttributes().add(attr);
         
-        try {
-            atp = dao.merge(atp);
-        } catch (VersionMismatchException e) {
-            log.error("unexpected version mismatch", e);
-            Assert.fail("unexpected version mismatch");
-        }
+        dao.merge(atp);
 
         AtpEntity atp2 = dao.find("testAtpId2");
         assertNotNull(atp2);

@@ -182,6 +182,7 @@ public class ReqComponentTranslatorTest {
 			Assert.fail("Requirement component translation should have failed since requirement component is null");
 		} catch (DoesNotExistException e) {
 			Assert.assertNotNull(e.getMessage());
+            Assert.assertEquals("ReqComponent cannot be null", e.getMessage());
 		}
 	}
 
@@ -195,7 +196,9 @@ public class ReqComponentTranslatorTest {
 			Assert.fail("Requirement component translation should have failed since 'KUALI.xxx.CATALOG' is not a valid nlUsageTypeKey");
 		} catch (DoesNotExistException e) {
 			Assert.assertNotNull(e.getMessage());
-		}
+            Assert.assertTrue(e.getMessage().startsWith("Natural language usage type key"));
+            Assert.assertTrue(e.getMessage().contains("template not found"));
+        }
 	}
 
 /*

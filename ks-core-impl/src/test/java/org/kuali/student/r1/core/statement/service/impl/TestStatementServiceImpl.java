@@ -782,9 +782,11 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertNotNull(si.getMessage());
 		try{
 			statementService.getStatement(stmt.getId());
-			assertTrue(false);
+            fail("DoesNotExistException should have been thrown");
 		}catch(DoesNotExistException e){
-			assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("No entity for key"));
+            assertTrue(e.getMessage().contains("org.kuali.student.r1.core.statement.entity.Statement"));
 		}
     }
 
@@ -1119,21 +1121,27 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
         StatusInfo status = statementService.deleteStatementTreeView(retrievedUpdatedTreeView.getId());
         try{
         	statementService.getStatementTreeView(returnedTreeView.getId());
-        	assertTrue(false);
+            fail("DoesNotExistException should have been thrown");
         }catch(DoesNotExistException e){
-        	assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("No entity for key"));
+            assertTrue(e.getMessage().contains("org.kuali.student.r1.core.statement.entity.Statement"));
         }
         try{
         	statementService.getStatementTreeView(returnedTreeView.getStatements().get(0).getId());
-        	assertTrue(false);
+            fail("DoesNotExistException should have been thrown");
         }catch(DoesNotExistException e){
-        	assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("No entity for key"));
+            assertTrue(e.getMessage().contains("org.kuali.student.r1.core.statement.entity.Statement"));
         }
         try{
         	statementService.getStatementTreeView(returnedTreeView.getStatements().get(1).getId());
-        	assertTrue(false);
+            fail("DoesNotExistException should have been thrown");
         }catch(DoesNotExistException e){
-        	assertTrue(true);
+            assertNotNull(e.getMessage());
+            assertTrue(e.getMessage().startsWith("No entity for key"));
+            assertTrue(e.getMessage().contains("org.kuali.student.r1.core.statement.entity.Statement"));
         }
     }
 

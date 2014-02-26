@@ -21,7 +21,6 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.core.statement.naturallanguage.translators.TemplateTranslator;
 
 public class TemplateTranslatorTest {
 
@@ -46,8 +45,10 @@ public class TemplateTranslatorTest {
 
 		try {
 			translator.translate(contextMap, template);
+            Assert.fail("OperationFailedException should have been thrown");
 		} catch (OperationFailedException e) {
 			Assert.assertNotNull(e.getMessage());
+            Assert.assertTrue(e.getMessage().startsWith("Generating template failed:"));
 		}
 	}
 	

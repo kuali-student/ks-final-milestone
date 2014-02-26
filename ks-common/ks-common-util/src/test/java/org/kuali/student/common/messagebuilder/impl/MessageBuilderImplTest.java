@@ -28,7 +28,6 @@ import org.kuali.student.common.messagebuilder.booleanmessage.BooleanMessage;
 import org.kuali.student.common.messagebuilder.booleanmessage.MessageContainer;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanFunctionResult;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanMessageImpl;
-import org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl;
 import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderException;
 
 public class MessageBuilderImplTest {
@@ -55,7 +54,8 @@ public class MessageBuilderImplTest {
 			builder.buildMessage("M1**M2**M3", messageContainer);
 			Assert.fail("Building message should have failed due to boolean expression syntax error");
 		} catch(MessageBuilderException e) {
-			Assert.assertTrue(e.getMessage().startsWith("Building message failed: Boolean Function Parser Error. Invalid Boolean Expression: 'M1**M2**M3'"));
+            Assert.assertNotNull(e.getMessage());
+            Assert.assertTrue(e.getMessage().startsWith("Building message failed: Boolean Function Parser Error. Invalid Boolean Expression: 'M1**M2**M3'"));
 		}
 	}
 
@@ -365,7 +365,8 @@ public class MessageBuilderImplTest {
 			builder.build("M1*M2", messageContainer, map);
 			Assert.fail("Building message should have failed due to VTL syntax error");
 		} catch(MessageBuilderException e) {
-			Assert.assertTrue(true);
+            Assert.assertNotNull(e.getMessage());
+            Assert.assertTrue(e.getMessage().startsWith("Building Velocity message failed"));
 		}
 	}
 }

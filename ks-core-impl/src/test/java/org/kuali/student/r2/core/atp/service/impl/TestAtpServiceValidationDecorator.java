@@ -15,8 +15,6 @@
  */
 package org.kuali.student.r2.core.atp.service.impl;
 
-import java.util.List;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -37,8 +35,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * This class holds tests for the validation methods in AtpService that are implemented in AtpServiceValidationDecorator
@@ -97,40 +97,25 @@ public class TestAtpServiceValidationDecorator {
 
     @Test
     @Ignore
-    public void testValidateAtp()
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+    public void testValidateAtp() throws Exception {
         AtpInfo atpInfo = new AtpInfo();
 
         // validation should have problems with a new, incomplete ATP
-        List<ValidationResultInfo> validationResults =
-                null;
-        try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
-        } catch (PermissionDeniedException e) {
-            fail(e.getMessage());
-        }
+        List<ValidationResultInfo> validationResults;
+        validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         assertEquals(4, validationResults.size());
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
         atpInfo.setId("newId");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
-        try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
-        } catch (PermissionDeniedException e) {
-            fail(e.getMessage());
-        }
+        validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         assertEquals(3, validationResults.size());
         assertEquals("stateKey", validationResults.get(0).getElement());
 
         // validation should pass once the stateKey is provided
         atpInfo.setStateKey("kuali.atp.state.Draft");
-        try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
-        } catch (PermissionDeniedException e) {
-            fail(e.getMessage());
-        }
+        validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         assertNotNull("validateAtp() should return an empty list, not null.", atpInfo);
         assertEquals("validateAtp() should have returned zero errors.", 2, validationResults.size());
     }
