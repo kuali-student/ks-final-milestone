@@ -30,9 +30,13 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.rice.krms.util.KRMSConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
@@ -369,7 +373,8 @@ public class CourseController extends CourseRuleEditorController {
 
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.UNABLE_TO_ADD_LINE);
+            return getUIFModelAndView(form);
         }
 
         String selectedLine = form.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
@@ -381,7 +386,8 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         if (selectedLineIndex == -1) {
-            throw new RuntimeException("Selected line index was not set for delete line action, cannot delete line");
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.UNABLE_TO_DELETE_LINE);
+            return getUIFModelAndView(form);
         }
         
         final DocumentInfo toRemove = courseInfoWrapper.getSupportingDocuments().remove(selectedLineIndex);
@@ -770,7 +776,9 @@ public class CourseController extends CourseRuleEditorController {
                         commentInfo.getReferenceTypeKey(), commentInfo.getTypeKey(), commentInfo,
                         ContextUtils.getContextInfo());
             } catch (Exception e) {
-                throw new RuntimeException("Error creating a new comment.", e);
+                error("Error creating a new comment. %s", e);
+                GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS,CurriculumManagementConstants.MessageKeys.ERROR_CREATE_COMMENT);
+                return getUIFModelAndView(form);
             }
             ittCommentInfo = newComment;
         }
