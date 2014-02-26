@@ -11,7 +11,6 @@ public class DtoConstants {
     public final static String STATE_SUPERSEDED  = "Superseded";
     public final static String STATE_SUSPENDED  = "Suspended";
     public final static String STATE_RETIRED = "Retired";
-    public final static String STATE_SAVED = "Saved";
 
    
     
