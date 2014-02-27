@@ -16,19 +16,18 @@
 package org.kuali.student.lum.lu.ui.krms.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.field.Field;
-import org.kuali.rice.krad.uif.util.ComponentUtils;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleUtils;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.rice.krms.api.repository.LogicalOperator;
-import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
+import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.dto.PropositionEditor;
 import org.kuali.rice.krms.dto.RuleEditor;
 import org.kuali.rice.krms.dto.TermEditor;
@@ -43,12 +42,12 @@ import org.kuali.student.core.krms.dto.KSPropositionEditor;
 import org.kuali.student.core.krms.tree.KSRuleEditTreeBuilder;
 import org.kuali.student.core.krms.tree.KSRulePreviewTreeBuilder;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
-import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
-import org.kuali.student.lum.lu.ui.krms.dto.KrmsSuggestDisplay;
-import org.kuali.student.lum.lu.ui.krms.tree.LURulePreviewTreeBuilder;
-import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.lum.lu.ui.krms.dto.CluSetInformation;
+import org.kuali.student.lum.lu.ui.krms.dto.KrmsSuggestDisplay;
+import org.kuali.student.lum.lu.ui.krms.dto.LUPropositionEditor;
+import org.kuali.student.lum.lu.ui.krms.tree.LURulePreviewTreeBuilder;
+import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
 import org.kuali.student.lum.lu.ui.krms.util.CluInformationHelper;
 import org.kuali.student.lum.lu.ui.krms.util.CluSearchUtil;
 import org.kuali.student.lum.lu.ui.krms.util.LUKRMSConstants;
@@ -99,11 +98,11 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     }
 
     @Override
-    public void performCustomApplyModel(Component component, Object model) {
-        super.performCustomApplyModel(component, model);
+    public void performCustomApplyModel(LifecycleElement element, Object model) {
+        super.performCustomApplyModel(element, model);
 
-        if(component instanceof Group) {
-            Group group = (Group) component;
+        if(element instanceof Group) {
+            Group group = (Group) element;
 
             if(group.isReadOnly()) {
                 processGroupItems(group);
@@ -112,12 +111,12 @@ public class LURuleViewHelperServiceImpl extends RuleViewHelperServiceImpl {
     }
 
     protected void processGroupItems(Group group) {
-        List<Field> fields = ComponentUtils.getComponentsOfType(group.getItems(), Field.class);
+        List<Field> fields = ViewLifecycleUtils.getElementsOfTypeDeep(group.getItems(), Field.class);
         for(Field field : fields) {
             field.setReadOnly(true);
         }
 
-        List<Action> actions = ComponentUtils.getComponentsOfTypeDeep(group.getItems(), Action.class);
+        List<Action> actions = ViewLifecycleUtils.getElementsOfTypeDeep(group.getItems(), Action.class);
         for(Action action : actions) {
             action.setRender(false);
         }
