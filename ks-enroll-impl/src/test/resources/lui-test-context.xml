@@ -21,7 +21,6 @@
         init-method="init" destroy-method="close" depends-on="systemPropertyConfigurer" autowire-candidate="false" autowire="no">
         <property name="forceShutdown" value="true" />
         <property name="startupTransactionService" value="true" />
-        <property name="transactionTimeout" value="600" />
     </bean>
 
     <bean id="AtomikosUsrTx"
