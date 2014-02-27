@@ -1,22 +1,5 @@
 package org.kuali.student.r2.core.room.service.impl;
 
-//import static junit.framework.Assert.assertEquals;
-//import static junit.framework.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-
-import javax.annotation.Resource;
-import javax.persistence.PersistenceException;
-
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,13 +20,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Created with IntelliJ IDEA.
- * User: Gordon
- * Date: 11/8/12
- * Time: 3:28 PM
- * To change this template use File | Settings | File Templates.
- */
+import javax.annotation.Resource;
+import javax.persistence.PersistenceException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:room-test-context.xml"})
@@ -250,7 +238,7 @@ public class TestRoomServiceImpl {
             assertEquals("id key is missing!", e.getMessage());
         }
 
-        BuildingInfo getBuildingInfo = null;
+        BuildingInfo getBuildingInfo;
 
         getBuildingInfo = roomService.getBuilding(buildingInfo.getId(), contextInfo);
 
@@ -259,14 +247,15 @@ public class TestRoomServiceImpl {
 
     @Test
     public void testUpdateBuilding() throws Exception {
-        contextInfo.setCurrentDate( new Date() );
+        final long currentTime = System.currentTimeMillis();
+        contextInfo.setCurrentDate(new Date(currentTime));
         contextInfo.setPrincipalId( "createBuilding" );
         BuildingInfo buildingInfo;
         buildingInfo = roomService.createBuilding("", createBuildingInfo(), contextInfo);
 
         assertEquals("0", buildingInfo.getMeta().getVersionInd());
         
-        BuildingInfo originalBuildingInfo = null;
+        BuildingInfo originalBuildingInfo;
         originalBuildingInfo = roomService.getBuilding(buildingInfo.getId(), contextInfo);
 
         assertEquals("0", buildingInfo.getMeta().getVersionInd());
@@ -316,9 +305,7 @@ public class TestRoomServiceImpl {
         buildingInfo.setTypeKey("org.kuali.building.type.Recreational");
 
         contextInfo.setPrincipalId("testUpdateBuilding");
-        //sleep for 1 sec to allow Time to change
-        Thread.sleep(1000);
-        contextInfo.setCurrentDate(new Date());
+        contextInfo.setCurrentDate(new Date(currentTime + 1000L));
 
 
         BuildingInfo newBuildingInfo;
@@ -344,10 +331,8 @@ public class TestRoomServiceImpl {
         assertFalse(originalBuildingInfo.getTypeKey().equals(buildingInfo.getTypeKey()));
 
         //ok if no Id specified
-        //sleep for 1 sec to allow Time to change
-        Thread.sleep(1000);
-        contextInfo.setCurrentDate(new Date());
-        BuildingInfo newNewBuildingInfo = null;
+        contextInfo.setCurrentDate(new Date(currentTime + 2000L));
+        BuildingInfo newNewBuildingInfo;
         newNewBuildingInfo = roomService.updateBuilding(newBuildingInfo.getId(), newBuildingInfo, contextInfo);
 
         assertEquals("2", newNewBuildingInfo.getMeta().getVersionInd());
@@ -355,10 +340,8 @@ public class TestRoomServiceImpl {
         assertFalse(newNewBuildingInfo.getMeta().getUpdateTime().equals(newBuildingInfo.getMeta().getUpdateTime()));
 
         //test ok if Id is blank
-        //sleep for 1 sec to allow Time to change
-        Thread.sleep(1000);
-        contextInfo.setCurrentDate(new Date());
-        BuildingInfo newNewNewBuildingInfo = null;
+        contextInfo.setCurrentDate(new Date(currentTime + 3000L));
+        BuildingInfo newNewNewBuildingInfo;
         newNewNewBuildingInfo = roomService.updateBuilding(newNewBuildingInfo.getId(), newNewBuildingInfo, contextInfo);
         assertFalse(newNewNewBuildingInfo.getMeta().getUpdateTime().equals(newNewBuildingInfo.getMeta().getUpdateTime()));
     }
@@ -368,8 +351,8 @@ public class TestRoomServiceImpl {
         BuildingInfo b1 = createBuildingInfo("ARM", "1", "Armory", "active", "recreation", "the armory", "the armory");
         BuildingInfo b2 = createBuildingInfo("MIT", "2", "Armory", "active", "administration", "Mitchell", "Mitchell");
 
-        b1 = roomService.createBuilding(null, b1, contextInfo);
-        b2 = roomService.createBuilding(null, b2, contextInfo);
+        roomService.createBuilding(null, b1, contextInfo);
+        roomService.createBuilding(null, b2, contextInfo);
 
         //test null contextInfo
         try {
@@ -571,7 +554,7 @@ public class TestRoomServiceImpl {
         BuildingInfo b2 = createBuildingInfo("MIT", "1", "Armory", "active", "administration", "Mitchell", "Mitchell");
 
         b1 = roomService.createBuilding(null, b1, contextInfo);
-        b2 = roomService.createBuilding(null, b2, contextInfo);
+        roomService.createBuilding(null, b2, contextInfo);
 
         //test null contextInfo
         try {
@@ -653,7 +636,7 @@ public class TestRoomServiceImpl {
         //remove attributes and update
         b2.setAttributes(new ArrayList<AttributeInfo>());
         b2 = addAttributeInfo(b2, "key3", "value3");
-        BuildingInfo b3 = null;
+        BuildingInfo b3;
         b3 = roomService.updateBuilding(b2.getId(), b2, contextInfo);
         assertEquals(b3.getAttributes().size(), 1);
         assertEquals(b3.getAttributes().get(0).getKey(), "key3");
@@ -724,7 +707,6 @@ public class TestRoomServiceImpl {
         assertEquals(r2.getDescr().getFormatted(), r.getDescr().getFormatted());
 
         //test blank typeKey
-        r2 = null;
         r2 = roomService.createRoom(b.getId(), "", r, contextInfo);
         assertEquals(r2.getTypeKey(), r.getTypeKey());
 
@@ -752,7 +734,7 @@ public class TestRoomServiceImpl {
         contextInfo.setPrincipalId("testGetRoom");
         contextInfo.setCurrentDate( new Date() );
 
-        BuildingInfo b = null;
+        BuildingInfo b;
         b = roomService.createBuilding("", createBuildingInfo("ADM", "umuc", "Administration Building", "active", "administration", "the administration building", "the administration building"), contextInfo);
 
         RoomInfo room = createRoomInfo(b, "1", "1234", "classroom 1", "org.kuali.room.state.Active", "org.kuali.room.type.Lecture", "classroom for lectures", "classroom for lectures");
@@ -813,7 +795,7 @@ public class TestRoomServiceImpl {
         }
 
         //normal use
-        RoomInfo r = null;
+        RoomInfo r;
         r = roomService.getRoom(room.getId(), contextInfo);
         assertNotNull(r);
         assertEquals(r.getId(), room.getId() );
@@ -826,7 +808,8 @@ public class TestRoomServiceImpl {
 
     @Test
     public void testUpdateRoom() throws Exception {
-        contextInfo.setCurrentDate( new Date() );
+        final long currentTime = System.currentTimeMillis();
+        contextInfo.setCurrentDate(new Date(currentTime));
         contextInfo.setPrincipalId( "testCreateRoom" );
 
         BuildingInfo b;
@@ -877,8 +860,7 @@ public class TestRoomServiceImpl {
 
         //test normal update
         contextInfo.setPrincipalId("testUpdateRoom");
-        Thread.sleep(1000);
-        contextInfo.setCurrentDate( new Date() );
+        contextInfo.setCurrentDate( new Date(currentTime + 1000L) );
         r.setBuildingId( r.getBuildingId() + "_new");
         r.setFloor( r.getFloor() + "_new");
         r.setRoomCode( r.getRoomCode() + "_new");
@@ -944,20 +926,20 @@ public class TestRoomServiceImpl {
         roomService.createRoom(r4.getBuildingId(), r4.getTypeKey(), r4, contextInfo);
 
 
-        testGetRoomIdsByBuilding(b1, b2, r1, r2, r3, r4);
+        testGetRoomIdsByBuilding(b1);
 
-        testGetRoomIdsByBuildingAndFloor(b1, b2, r1, r2, r3, r4);
+        testGetRoomIdsByBuildingAndFloor(b1, b2, r3, r4);
 
-        testGetRoomIdsByBuildingAndRoomType(b1, b2, r1, r2, r3, r4);
+        testGetRoomIdsByBuildingAndRoomType(b1, b2, r3, r4);
 
-        testGetRoomIdsByBuildingAndRoomTypes(b1, b2, r1, r2, r3, r4);
+        testGetRoomIdsByBuildingAndRoomTypes(b1, b2, r1, r2);
 
         testGetRoomIdsByType(r1, r2, r3, r4);
 
-        testGetRoomsByBuildingAndRoomCode(b1, b2, r1, r2, r3, r4);
+        testGetRoomsByBuildingAndRoomCode(b1, b2, r1, r2, r3);
     }
 
-    private void testGetRoomIdsByBuilding(BuildingInfo b1, BuildingInfo b2, RoomInfo r1, RoomInfo r2, RoomInfo r3, RoomInfo r4) throws Exception {
+    private void testGetRoomIdsByBuilding(BuildingInfo b1) throws Exception {
         //test for null context
         try {
             roomService.getRoomIdsByBuilding(b1.getId(), null);
@@ -1012,7 +994,7 @@ public class TestRoomServiceImpl {
         assertEquals(ids.size(), 2);
     }
 
-    private void testGetRoomIdsByBuildingAndFloor(BuildingInfo b1, BuildingInfo b2, RoomInfo r1, RoomInfo r2, RoomInfo r3, RoomInfo r4) throws Exception {
+    private void testGetRoomIdsByBuildingAndFloor(BuildingInfo b1, BuildingInfo b2, RoomInfo r3, RoomInfo r4) throws Exception {
         //test for NULL context
         try {
             roomService.getRoomIdsByBuildingAndFloor(b2.getId(), r3.getFloor(), null);
@@ -1087,7 +1069,7 @@ public class TestRoomServiceImpl {
 
     }
 
-    private void testGetRoomIdsByBuildingAndRoomType(BuildingInfo b1, BuildingInfo b2, RoomInfo r1, RoomInfo r2, RoomInfo r3, RoomInfo r4) throws Exception {
+    private void testGetRoomIdsByBuildingAndRoomType(BuildingInfo b1, BuildingInfo b2, RoomInfo r3, RoomInfo r4) throws Exception {
         //test for NULL context
         try {
             roomService.getRoomIdsByBuildingAndRoomType(b2.getId(), r4.getTypeKey(), null);
@@ -1160,12 +1142,12 @@ public class TestRoomServiceImpl {
         assertEquals(ids.size(), 1);
     }
 
-    private void testGetRoomIdsByBuildingAndRoomTypes(BuildingInfo b1, BuildingInfo b2, RoomInfo r1, RoomInfo r2, RoomInfo r3, RoomInfo r4) throws Exception {
+    private void testGetRoomIdsByBuildingAndRoomTypes(BuildingInfo b1, BuildingInfo b2, RoomInfo r1, RoomInfo r2) throws Exception {
         List<String> typeKeys = new ArrayList<String>(2);
         typeKeys.add(r1.getTypeKey());
         typeKeys.add(r2.getTypeKey());
 
-        List<String> ids = null;
+        List<String> ids;
 
         //test for NULL context
         try {
@@ -1205,7 +1187,7 @@ public class TestRoomServiceImpl {
 
         //test for empty typeKey
         try {
-            ids = roomService.getRoomIdsByBuildingAndRoomTypes(b2.getId(), new ArrayList<String>(0), contextInfo);
+            roomService.getRoomIdsByBuildingAndRoomTypes(b2.getId(), new ArrayList<String>(0), contextInfo);
             fail("Expected exception not thrown");
         } catch(MissingParameterException e) {
             assertNotNull(e.getMessage());
@@ -1295,7 +1277,7 @@ public class TestRoomServiceImpl {
         assertEquals(2, ids.size());
     }
 
-    private void testGetRoomsByBuildingAndRoomCode(BuildingInfo b1, BuildingInfo b2, RoomInfo r1, RoomInfo r2, RoomInfo r3, RoomInfo r4) throws Exception {
+    private void testGetRoomsByBuildingAndRoomCode(BuildingInfo b1, BuildingInfo b2, RoomInfo r1, RoomInfo r2, RoomInfo r3) throws Exception {
 
         //test for NULL context
         try {
@@ -1420,7 +1402,7 @@ public class TestRoomServiceImpl {
         }
 
         //test null typeKey
-        RoomResponsibleOrgInfo i2 = null;
+        RoomResponsibleOrgInfo i2;
         i2 = roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), null, i, contextInfo);
         assertEquals(i2.getOrgId(), i.getOrgId());
         assertEquals(i2.getTypeKey(), i.getTypeKey());
@@ -1489,9 +1471,9 @@ public class TestRoomServiceImpl {
 
         i = roomService.createRoomResponsibleOrg(i.getRoomId(), i.getOrgId(), i.getTypeKey(), i, contextInfo);
         //test null contextInfo
-        RoomResponsibleOrgInfo i2 = null;
+        RoomResponsibleOrgInfo i2;
         try {
-            i2 = roomService.getRoomResponsibleOrg(i.getId(), null);
+            roomService.getRoomResponsibleOrg(i.getId(), null);
             fail("Expected exception not thrown");
         } catch (MissingParameterException e) {
             assertNotNull(e.getMessage());
@@ -1500,7 +1482,7 @@ public class TestRoomServiceImpl {
 
         //test invalid principalId
         try {
-            i2 = roomService.getRoomResponsibleOrg(i.getId(), t1);
+            roomService.getRoomResponsibleOrg(i.getId(), t1);
             fail("Expected exception not thrown");
         } catch (InvalidParameterException e) {
             assertNotNull(e.getMessage());
@@ -1509,7 +1491,7 @@ public class TestRoomServiceImpl {
 
         //test invalid date
         try {
-            i2 = roomService.getRoomResponsibleOrg(i.getId(), t2);
+            roomService.getRoomResponsibleOrg(i.getId(), t2);
             fail("Expected exception not thrown");
         } catch (InvalidParameterException e) {
             assertNotNull(e.getMessage());
@@ -1548,15 +1530,16 @@ public class TestRoomServiceImpl {
 
     @Test
     public void testUpdateRoomResponsibleOrg() throws Exception {
-        contextInfo.setCurrentDate( new Date() );
+        final long currentTime = System.currentTimeMillis();
+        contextInfo.setCurrentDate( new Date(currentTime) );
         contextInfo.setPrincipalId( "createRoomResponsibleOrg" );
 
         String roomId = "roomId";
         String orgId = "orgId";
         String state = "state";
         String type = "type";
-        Date effDate = new Date( new Date().getTime() - 86400);
-        Date expDate = new Date( new Date().getTime() + 86400);
+        Date effDate = new Date( currentTime - 86400L);
+        Date expDate = new Date( currentTime + 86400L);
 
         RoomResponsibleOrgInfo i;
         i = roomService.createRoomResponsibleOrg("", "", "", createRoomResponsibleOrgInfo(roomId, orgId, state, type, effDate, expDate), contextInfo);
@@ -1605,13 +1588,11 @@ public class TestRoomServiceImpl {
         i.setStateKey(i.getStateKey() + "_new");
         i.setOrgId(i.getOrgId() + "_new");
         i.setRoomId(i.getRoomId() + "_new");
-        i.setEffectiveDate(new Date(i.getEffectiveDate().getTime() - 86400));
-        i.setExpirationDate(new Date(i.getExpirationDate().getTime() + 86400));
+        i.setEffectiveDate(new Date(i.getEffectiveDate().getTime() - 86400L));
+        i.setExpirationDate(new Date(i.getExpirationDate().getTime() + 86400L));
 
         contextInfo.setPrincipalId("testUpdateRoomResponsibleOrg");
-        //sleep for 1 sec to allow Time to change
-        Thread.sleep(1000);
-        contextInfo.setCurrentDate(new Date());
+        contextInfo.setCurrentDate(new Date(currentTime + 1000L));
 
         RoomResponsibleOrgInfo newInfo;
         newInfo = roomService.updateRoomResponsibleOrg(i.getId(), i, contextInfo);
@@ -1631,16 +1612,12 @@ public class TestRoomServiceImpl {
         assertFalse(originalInfo.getEffectiveDate().equals(i.getEffectiveDate()));
         assertFalse(originalInfo.getTypeKey().equals(i.getTypeKey()));
 
-        //sleep for 1 sec to allow Time to change
-        Thread.sleep(1000);
-        contextInfo.setCurrentDate(new Date());
+        contextInfo.setCurrentDate(new Date(currentTime + 2000L));
         RoomResponsibleOrgInfo newnewInfo;
         newnewInfo = roomService.updateRoomResponsibleOrg(newInfo.getId(), newInfo, contextInfo);
         assertFalse(newnewInfo.getMeta().getUpdateTime().equals(newInfo.getMeta().getUpdateTime()));
 
-        //sleep for 1 sec to allow Time to change
-        Thread.sleep(1000);
-        contextInfo.setCurrentDate(new Date());
+        contextInfo.setCurrentDate(new Date(currentTime + 3000L));
 
         RoomResponsibleOrgInfo newnewnewInfo;
         newnewnewInfo = roomService.updateRoomResponsibleOrg(newnewInfo.getId(), newnewInfo, contextInfo);
@@ -1704,7 +1681,7 @@ public class TestRoomServiceImpl {
             assertEquals("roomId key is missing!", e.getMessage());
         }
 
-        List<String> ids = null;
+        List<String> ids;
         ids = roomService.getRoomResponsibleOrgIdsByRoom("roomId1", contextInfo);
         assertEquals(2, ids.size());
 
