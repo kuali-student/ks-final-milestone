@@ -292,8 +292,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
             eoTermResolvers = new ArrayList<TermResolver<?>>();
             List<TermResolverDefinition> definitions = this.getTermRepositoryService().findTermResolversByNamespace(PermissionServiceConstants.KS_SYS_NAMESPACE);
             for (TermResolverDefinition definition : definitions) {
-                if (definition.getTypeId().equals(typeDefinition.getId()) ||
-                        definition.getName().equals(KSKRMSServiceConstants.TERM_RESOLVER_EXAM_FREEFORMTEXT)) {
+                if (definition.getTypeId().equals(typeDefinition.getId())) {
                     eoTermResolvers.add(termResolverTypeService.loadTermResolver(definition));
                 }
             }
