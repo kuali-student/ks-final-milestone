@@ -513,7 +513,7 @@ limitations under the License.
                 </entry>
                 <entry key="kuali.krms.proposition.type.final.exam.course">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="EnrolledCourses" p:value="true">
+                          p:termSpecName="MatchingCourses" p:value="true">
                         <property name="componentId" value="KRMS-SingleCourse-InputField"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
@@ -521,7 +521,7 @@ limitations under the License.
                 </entry>
                 <entry key="kuali.krms.proposition.type.final.exam.courseset">
                     <bean parent="TemplateInfo-parent"
-                          p:termSpecName="EnrolledCourses" p:value="true">
+                          p:termSpecName="MatchingCoursesSet" p:value="true">
                         <property name="componentId" value="KRMS-MultiCourse-Section"/>
                         <property name="componentBuilderClass"
                                   value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
