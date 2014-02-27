@@ -27,7 +27,7 @@
 			<list>
 				    <!-- rice and basic ks xmls -->
 				<value>classpath:org/kuali/rice/student/bo</value>
-                <value>${krad.js.scriptfiles}</value>
+                <value>classpath:UifKRADJavascriptFiles.xml</value>
                 <value>classpath:UifKRADOverrideDefinitions.xml</value>
                 <value>classpath:UifKradExtensionDefinitions.xml</value>
                 <value>classpath:org/kuali/student/rice/kim/KSPersonnelLookupView.xml</value>
