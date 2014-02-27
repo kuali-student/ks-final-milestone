@@ -66,24 +66,4 @@ public class FinalExamAgendaSection extends AgendaSection {
 
         return components;
     }
-
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
-
-        FinalExamAgendaSection agendaSectionCopy = (FinalExamAgendaSection) component;
-        if (this.agendaPrototypeMap != null) {
-            Map<String, Group> agendaPrototypeMapCopy = Maps.newHashMapWithExpectedSize(
-                    this.getAgendaPrototypeMap().size());
-            for (Map.Entry<String, Group> agendaPrototypeMapEntry : agendaPrototypeMap.entrySet()) {
-                Group prototypeCopy = (Group) agendaPrototypeMapEntry.getValue().copy();
-                agendaPrototypeMapCopy.put(agendaPrototypeMapEntry.getKey(), prototypeCopy);
-            }
-
-            agendaSectionCopy.setAgendaPrototypeMap(agendaPrototypeMapCopy);
-        }
-    }
 }
