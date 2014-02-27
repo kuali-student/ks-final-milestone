@@ -1,6 +1,6 @@
 package org.kuali.rice.krad.uif.container.extension;
 
-import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.container.CollectionGroupBase;
 import org.kuali.rice.krad.uif.widget.Tabs;
 
 /**
@@ -15,7 +15,7 @@ import org.kuali.rice.krad.uif.widget.Tabs;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *         Date: 2/13/13
  */
-public class TabCollectionGroup extends CollectionGroup {
+public class TabCollectionGroup extends CollectionGroupBase {
     private static final long serialVersionUID = 3L;
 
     private Tabs tabsWidget;
