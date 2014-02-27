@@ -1,18 +1,16 @@
 package org.kuali.rice.krad.uif.layout.extension;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.container.Group;
-import org.kuali.rice.krad.uif.layout.StackedLayoutManager;
+import org.kuali.rice.krad.uif.layout.StackedLayoutManagerBase;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
 
 /**
  * kmuthu Don't forget to add comment
  * 
  * @Author kmuthu Date: 2/14/13
  */
-public class TabbedLayoutManager extends StackedLayoutManager {
+public class TabbedLayoutManager extends StackedLayoutManagerBase {
 
 	/*
 	 * Builds the header text for the collection line
