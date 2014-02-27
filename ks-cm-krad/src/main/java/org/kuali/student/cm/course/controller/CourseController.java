@@ -366,7 +366,7 @@ public class CourseController extends CourseRuleEditorController {
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
         // final ModelAndView retval = super.deleteLine(form, result, request, response);
 
-        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for add line action, cannot add new line");
         }
