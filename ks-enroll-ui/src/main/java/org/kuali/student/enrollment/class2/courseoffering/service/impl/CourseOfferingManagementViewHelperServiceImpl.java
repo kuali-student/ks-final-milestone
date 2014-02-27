@@ -52,6 +52,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingMan
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingViewHelperUtil;
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroupConstants;
+import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.ActivityOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.dto.CourseOfferingDisplayWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
@@ -86,11 +87,14 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.permutation.PermutationUtils;
 import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
@@ -100,6 +104,7 @@ import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImp
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.room.dto.BuildingInfo;
@@ -109,6 +114,7 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
+import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -122,6 +128,7 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -2506,6 +2513,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
         List<ScheduleRequestInfo> scheduleRequestInfos = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestsByRefObject(
                 ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingInfo.getId(), ContextUtils.createDefaultContextInfo());
+        ExamPeriodInfo epInfo = CourseOfferingManagementUtil.getAcademicCalendarService().getExamPeriod(examOfferingInfo.getExamPeriodId() , ContextUtils.createDefaultContextInfo());
 
         for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
             for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
@@ -2527,7 +2535,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                     }
 
                     if (days != null && days.size() > 0) {
-                        eoWrapper.setDaysDisplayName(getDays(days));
+                       eoWrapper.setDaysDisplayName(examPeriodDaysDisplay(days, epInfo.getStartDate(), epInfo.getEndDate(),
+                               Boolean.parseBoolean(epInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR)), Boolean.parseBoolean(epInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR))));
                     }
                 }
 
@@ -2592,5 +2601,44 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         }
 
         return sb.toString();
+    }
+
+    public static String examPeriodDaysDisplay(List<Integer> weekdaysList, Date startTime,
+                                                       Date endTime, boolean excludeSundays, boolean excludeSaturday) {
+        StringBuilder result = new StringBuilder();
+        List<Date> dates = new ArrayList<Date>();
+        dates.addAll(getExamPeriodDates(startTime, endTime, excludeSundays, excludeSaturday ));
+        for(Integer weekday : weekdaysList) {
+          result.append(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(dates.get(weekday - 1)));
+        }
+
+        return result.toString();
+    }
+
+    public static List<Date> getExamPeriodDates(Date fechInitial, Date fechFinal, boolean excludeSundays, boolean excludeSaturday)
+    {
+        List<Date> dates = new ArrayList<Date>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechInitial);
+
+        while (calendar.getTime().before(fechFinal))
+        {
+            Date resultado = calendar.getTime();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(resultado);
+            int weekday = cal.get(Calendar.DAY_OF_WEEK);
+            if((weekday == Calendar.SATURDAY && !excludeSaturday) ||(weekday == Calendar.SUNDAY && !excludeSundays) ) {
+               dates.add(resultado);
+            }
+            else if((weekday != Calendar.SATURDAY)&&(weekday != Calendar.SUNDAY))  {
+               dates.add(resultado);
+            }
+
+            calendar.add(Calendar.DATE, 1);
+        }
+        calendar.setTime(fechFinal);
+        Date finalDate = calendar.getTime();
+        dates.add(finalDate);
+        return dates;
     }
 }
