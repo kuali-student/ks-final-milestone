@@ -101,34 +101,13 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         List<LprInfo> lprInfos = new ArrayList<LprInfo>();
 
         for (RegistrationRequestItem registrationRequestItem : registrationRequestInfo.getRegistrationRequestItems()) {
+            String creditStr = registrationRequestItem.getCredits()==null?"":registrationRequestItem.getCredits().bigDecimalValue().setScale(1).toPlainString();
             if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
-                String creditStr = registrationRequestItem.getCredits()==null?"":registrationRequestItem.getCredits().bigDecimalValue().setScale(1).toPlainString();
-                lprInfos.addAll(buildLprItems(registrationRequestItem.getRegistrationGroupId(), registrationRequestInfo.getTermId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo));
+                lprInfos.addAll(addLprInfo(registrationRequestItem.getRegistrationGroupId(), registrationRequestInfo.getTermId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo));
             } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
-                //get lpr ids based on master lpr id
-                List<String> lprIds = getLprIdsByMasterLprId(registrationRequestItem.getMasterLprId(), contextInfo);
-
-                lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
-                for (LprInfo lprInfo : lprInfos) {
-                    lprInfo.setStateKey(LprServiceConstants.DROPPED_STATE_KEY);
-                    lprInfo =  getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
-                }
+                lprInfos.addAll(dropLprInfos(registrationRequestItem.getMasterLprId(), contextInfo));
             } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY)) {
-                //get lpr ids based on master lpr id
-                List<String> lprIds = getLprIdsByMasterLprId(registrationRequestItem.getMasterLprId(), contextInfo);
-
-                lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
-                for (LprInfo lprInfo : lprInfos) {
-                    lprInfo.setResultValuesGroupKeys(new ArrayList<String>());
-                    String creditStr = registrationRequestItem.getCredits()==null?"":registrationRequestItem.getCredits().bigDecimalValue().setScale(1).toPlainString();
-                    if (!StringUtils.isEmpty(creditStr)) {
-                        lprInfo.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + creditStr);
-                    }
-                    if (!StringUtils.isEmpty(registrationRequestItem.getGradingOptionId())) {
-                        lprInfo.getResultValuesGroupKeys().add(registrationRequestItem.getGradingOptionId());
-                    }
-                    lprInfo =  getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
-                }
+                lprInfos.addAll(updateLprInfos(registrationRequestItem.getMasterLprId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo));
             }
         }
 
@@ -222,6 +201,44 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         }
 
         return lprIds;
+    }
+
+    private List<LprInfo> addLprInfo(String regGroupId, String termId, String credits, String gradingOptionId, ContextInfo contextInfo) {
+        List<LprInfo> lprInfos = new ArrayList<LprInfo>();
+        lprInfos.addAll(buildLprItems(regGroupId, termId, credits, gradingOptionId, contextInfo));
+        return lprInfos;
+    }
+
+    private List<LprInfo> updateLprInfos(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
+        //get lpr ids based on master lpr id
+        List<String> lprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
+
+        List<LprInfo> lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
+        for (LprInfo lprInfo : lprInfos) {
+            lprInfo.setResultValuesGroupKeys(new ArrayList<String>());
+            if (!StringUtils.isEmpty(credits)) {
+                lprInfo.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
+            }
+            if (!StringUtils.isEmpty(gradingOptionId)) {
+                lprInfo.getResultValuesGroupKeys().add(gradingOptionId);
+            }
+            lprInfo =  getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+        }
+
+        return lprInfos;
+    }
+
+    private List<LprInfo> dropLprInfos(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
+        //get lpr ids based on master lpr id
+        List<String> lprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
+
+        List<LprInfo> lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
+        for (LprInfo lprInfo : lprInfos) {
+            lprInfo.setStateKey(LprServiceConstants.DROPPED_STATE_KEY);
+            lprInfo =  getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+        }
+
+        return lprInfos;
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
