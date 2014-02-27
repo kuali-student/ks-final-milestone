@@ -134,11 +134,8 @@ public class CheckInfoController extends UifControllerBase {
         } catch (Exception e) {
             return getUIFModelAndView(form);
         }
-        if (form.getView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        } else if (form.getPostedView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        }
+        form.getView().setApplyDirtyCheck(false);
+
         GlobalVariables.getMessageMap().putInfo("Check Info", "info.enroll.save.success");
 
         return refresh(form, result, request, response);
@@ -167,14 +164,10 @@ public class CheckInfoController extends UifControllerBase {
             return getUIFModelAndView(createForm);
         }
 
-       if (form.getView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        } else if (form.getPostedView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        }
-       createForm.setStateKey(checkInfo.getStateKey());
-       createForm.setCheckInfo(checkInfo);
-       return back(createForm, result, request, response);
+        form.getView().setApplyDirtyCheck(false);
+        createForm.setStateKey(checkInfo.getStateKey());
+        createForm.setCheckInfo(checkInfo);
+        return back(createForm, result, request, response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=edit")
@@ -336,7 +329,7 @@ public class CheckInfoController extends UifControllerBase {
     }
 
     private CheckInfo getSelectedCheckInfo(CheckInfoForm form, String actionLink){
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }

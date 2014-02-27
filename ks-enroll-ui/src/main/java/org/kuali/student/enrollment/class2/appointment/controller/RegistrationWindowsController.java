@@ -390,7 +390,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     // this is a more generic way to get a selected window when the form contains more than one collection
     private AppointmentWindowWrapper _getSelectedWindow(RegistrationWindowsManagementForm theForm, String actionLink) {
-        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = theForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }
@@ -469,11 +469,7 @@ public class RegistrationWindowsController extends UifControllerBase {
 
     public AppointmentViewHelperService getViewHelperService(RegistrationWindowsManagementForm appointmentForm) {
         if (viewHelperService == null) {
-            if (appointmentForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (AppointmentViewHelperService) appointmentForm.getView().getViewHelperService();
-            } else {
-                viewHelperService = (AppointmentViewHelperService) appointmentForm.getPostedView().getViewHelperService();
-            }
+            viewHelperService = (AppointmentViewHelperService) appointmentForm.getViewHelperService();
         }
         return viewHelperService;
     }

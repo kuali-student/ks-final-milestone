@@ -204,12 +204,9 @@ public class TimeSlotController extends UifControllerBase {
     }
 
     private TimeSlotViewHelperService getViewHelperService(UifFormBase form) {
-        if (viewHelperService == null) {
-            if (form.getView().getViewHelperService() != null) {
-                viewHelperService = (TimeSlotViewHelperService) form.getView().getViewHelperService();
-            } else {
-                viewHelperService = (TimeSlotViewHelperService) form.getPostedView().getViewHelperService();
-            }
+        if (viewHelperService == null && form.getViewHelperService() != null) {
+            viewHelperService = (TimeSlotViewHelperService) form.getViewHelperService();
+
         }
         return viewHelperService;
     }

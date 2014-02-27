@@ -63,11 +63,7 @@ public class ScheduleOfClassesUtil {
 
     public static ScheduleOfClassesViewHelperService getViewHelperService(ScheduleOfClassesSearchForm theForm) {
         if (viewHelperService == null) {
-            if (theForm.getView().getViewHelperService() != null) {
-                viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getView().getViewHelperService();
-            } else {
-                viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getPostedView().getViewHelperService();
-            }
+            viewHelperService = (ScheduleOfClassesViewHelperService) theForm.getViewHelperService();
         }
         return viewHelperService;
     }

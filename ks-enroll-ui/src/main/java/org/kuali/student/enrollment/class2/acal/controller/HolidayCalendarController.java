@@ -471,7 +471,7 @@ public class HolidayCalendarController extends UifControllerBase {
     public ModelAndView deleteHoliday(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
 
-        String selectedCollectionPath = hcForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = hcForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("unable to determine the selected collection path");
         }
@@ -572,11 +572,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private HolidayCalendarViewHelperService getHolidayCalendarFormHelper(HolidayCalendarForm hcForm) {
-        if (hcForm.getView() != null && hcForm.getView().getViewHelperServiceClass() != null){
-            return (HolidayCalendarViewHelperService)hcForm.getView().getViewHelperService();
-        } else {
-            return (HolidayCalendarViewHelperService)hcForm.getPostedView().getViewHelperService();
-        }
+        return (HolidayCalendarViewHelperService)hcForm.getViewHelperService();
     }
 
 }

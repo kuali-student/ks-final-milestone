@@ -109,7 +109,7 @@ public class CourseOfferingBaseController extends MaintenanceDocumentController 
         boolean validAction = true;
         if (((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject() instanceof CourseOfferingEditWrapper){
             CourseOfferingEditWrapper dataObject = (CourseOfferingEditWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
-            String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+            String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
             if (StringUtils.endsWith(selectedCollectionPath, "formatOfferingList")) {
                 for (FormatOfferingWrapper foWrapper : dataObject.getFormatOfferingList()){
                     if (StringUtils.isBlank(foWrapper.getFormatOfferingInfo().getFormatId())){

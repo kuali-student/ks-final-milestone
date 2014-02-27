@@ -336,7 +336,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
     }
 
     private Object getSelectedObject(MaintenanceDocumentForm form){
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set");
         }

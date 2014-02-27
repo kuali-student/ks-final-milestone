@@ -122,11 +122,7 @@ public class TestStatePropagationController extends UifControllerBase {
 
     public TestStatePropagationViewHelperService getViewHelperService(TestStatePropagationForm serviceCallForm) {
         if (viewHelperService == null) {
-            if (serviceCallForm.getView().getViewHelperServiceClass() != null) {
-                viewHelperService = (TestStatePropagationViewHelperService) serviceCallForm.getView().getViewHelperService();
-            } else {
-                viewHelperService = (TestStatePropagationViewHelperService) serviceCallForm.getPostedView().getViewHelperService();
-            }
+            viewHelperService = (TestStatePropagationViewHelperService) serviceCallForm.getViewHelperService();
         }
         return viewHelperService;
     }

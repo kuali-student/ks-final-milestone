@@ -136,11 +136,8 @@ public class HoldIssueInfoController extends UifControllerBase {
             return getUIFModelAndView(form);
         }
 
-        if (form.getView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        } else if (form.getPostedView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        }
+        form.getView().setApplyDirtyCheck(false);
+
 
         form.setId(createHoldIssueInfo.getId());
         form.setStateKey(createHoldIssueInfo.getStateKey());
@@ -232,11 +229,8 @@ public class HoldIssueInfoController extends UifControllerBase {
             /*e.printStackTrace();
             throw new RuntimeException("Modify Hold failed. ", e);*/
         }
-        if (form.getView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        } else if (form.getPostedView() != null){
-            form.getView().setApplyDirtyCheck(false);
-        }
+        form.getView().setApplyDirtyCheck(false);
+
         GlobalVariables.getMessageMap().putInfo("Hold Issue Info", "info.enroll.save.success");
         form.setIsSaveSuccess(true);
         return refresh(form, result, request, response);
@@ -297,7 +291,7 @@ public class HoldIssueInfoController extends UifControllerBase {
     }
 
     private HoldIssueInfo getSelectedHoldIssue(HoldIssueInfoForm form, String actionLink){
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }

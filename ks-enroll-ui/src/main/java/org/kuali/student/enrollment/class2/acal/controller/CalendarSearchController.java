@@ -334,7 +334,7 @@ public class CalendarSearchController  extends UifControllerBase {
                                HttpServletRequest request, HttpServletResponse response) throws Exception {
         String dialog = CalendarConstants.SEARCH_DELETE_CONFIRMATION_DIALOG;
         if (!hasDialogBeenDisplayed(dialog, searchForm)) {
-            searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+            searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH));
             searchForm.setSelectedLineIndex(searchForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
             //redirect back to client to display lightbox
             return showDialog(dialog, searchForm, request, response);
@@ -346,13 +346,13 @@ public class CalendarSearchController  extends UifControllerBase {
                     return getUIFModelAndView(searchForm);
                 }
             } else {
-                searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH));
+                searchForm.setSelectedCollectionPath(searchForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH));
                 searchForm.setSelectedLineIndex(searchForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX));
                 //redirect back to client to display lightbox
                 return showDialog(dialog, searchForm, request, response);
             }
         }
-        searchForm.getActionParameters().put(UifParameters.SELLECTED_COLLECTION_PATH,searchForm.getSelectedCollectionPath());
+        searchForm.getActionParameters().put(UifParameters.SELECTED_COLLECTION_PATH,searchForm.getSelectedCollectionPath());
         searchForm.getActionParameters().put(UifParameters.SELECTED_LINE_INDEX,searchForm.getSelectedLineIndex());
 
         AcalSearchResult atp = getSelectedAtp(searchForm, "delete");
@@ -394,7 +394,7 @@ public class CalendarSearchController  extends UifControllerBase {
     }
 
     private AcalSearchResult getSelectedAtp(CalendarSearchForm searchForm, String actionLink){
-        String selectedCollectionPath = searchForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = searchForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for " + actionLink);
         }

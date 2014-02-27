@@ -124,7 +124,7 @@ public class RegistrationController extends UifControllerBase {
 
     protected RegistrationGroupWrapper findRegGroupByIndex(RegistrationForm registrationForm){
         // Code copied roughly from UifControllerBase.deleteLine() method
-        String selectedCollectionPath = registrationForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = registrationForm.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set for registration line action, cannot register line");
         }

@@ -176,8 +176,8 @@ public class KsViewAuthorizerBase extends ViewAuthorizerBase {
         if (component instanceof Action) {
             if (!((Action) component).getActionParameters().isEmpty() &&
                     (((Action) component).getActionParameters().get(UifParameters.SELECTED_LINE_INDEX) != null) && !((Action) component).getActionParameters().get(UifParameters.SELECTED_LINE_INDEX).equals("") &&
-                    (((Action) component).getActionParameters().get(UifParameters.SELLECTED_COLLECTION_PATH) != null && !((Action) component).getActionParameters().get(UifParameters.SELLECTED_COLLECTION_PATH).equals("")) ) {
-                String selectedCollectionPath = ((Action) component).getActionParameters().get(UifParameters.SELLECTED_COLLECTION_PATH);
+                    (((Action) component).getActionParameters().get(UifParameters.SELECTED_COLLECTION_PATH) != null && !((Action) component).getActionParameters().get(UifParameters.SELECTED_COLLECTION_PATH).equals("")) ) {
+                String selectedCollectionPath = ((Action) component).getActionParameters().get(UifParameters.SELECTED_COLLECTION_PATH);
 
                 int selectedLineIndex = -1;
                 String selectedLine = ((Action) component).getActionParameters().get(UifParameters.SELECTED_LINE_INDEX);
