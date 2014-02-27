@@ -48,9 +48,19 @@
                               value="Instructor @{(#index + 1)}" />
                     <!-- <property name="collectionLookup.quickfinderAction.render"
                         value="false" /> -->
-                    <property name="help">
-                        <bean parent="Uif-KS-Help"
-                              p:tooltipHelpContent="This is not a restrictive list - names here will not determine who will eventually teach this course." />
+                    <property name="header">
+                        <bean parent="KS-CourseView-TooltipHeader">
+                            <property name="rightGroup.items">
+                                <list>
+                                    <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                                        <property name="style" value="margin-left:5px;"/>
+                                        <property name="toolTip">
+                                            <bean parent="Uif-KS-Tooltip" p:tooltipContent="This is not a restrictive list - names here will not determine who will eventually teach this course."/>
+                                        </property>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
                     </property>
                     <property name="cssClasses">
                         <list merge="true">
@@ -202,16 +212,23 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:label="Proposal Title"   p:id="CreateCourseProposalTitleInputField"
-                      p:propertyName="dataObject.proposalInfo.name" p:required="true">
-                    <property name="instructionalText"
-                              value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
-                    <property name="control">
-                        <bean parent="Uif-TextControl" p:size="70" p:maxLength="150"/>
-                    </property>
-                    <property name="help">
-                        <bean parent="Uif-KS-Help"
-                              p:tooltipHelpContent="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later."/>
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:label="Proposal Title"   p:id="CreateCourseProposalTitleInputField"
+                                  p:propertyName="dataObject.proposalInfo.name" p:required="true">
+                                <property name="instructionalText"
+                                          value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="70" p:maxLength="150"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                                <property name="toolTip">
+                                    <bean parent="Uif-KS-Tooltip" p:tooltipContent="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later."/>
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="Course Title"
@@ -277,18 +294,25 @@
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="KS-CourseNumberSuffix-Field" parent="Uif-InputField-LabelTop"
-                                  p:label="Course Number" p:propertyName="dataObject.courseInfo.courseNumberSuffix">
-                                <property name="constraintText" value="Must be a 3 digit number"/>
-                                <property name="validCharactersConstraint">
-                                    <bean parent="NumericPatternConstraint"/>
-                                </property>
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="3" p:maxLength="3" p:watermarkText="111"/>
-                                </property>
-                                <property name="help">
-                                    <bean parent="Uif-KS-Help"
-                                          p:tooltipHelpContent="The department will determine the course number based on: course format, restrictions, available numbers, and other factors."/>
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean id="KS-CourseNumberSuffix-Field" parent="Uif-InputField-LabelTop"
+                                              p:label="Course Number" p:propertyName="dataObject.courseInfo.courseNumberSuffix">
+                                            <property name="constraintText" value="Must be a 3 digit number"/>
+                                            <property name="validCharactersConstraint">
+                                                <bean parent="NumericPatternConstraint"/>
+                                            </property>
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" p:size="3" p:maxLength="3" p:watermarkText="111"/>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="The department will determine the course number based on: course format, restrictions, available numbers, and other factors."/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>
@@ -337,52 +361,59 @@
                     <!-- <property name="collectionLookup.quickfinderAction.render" value="false" /> -->
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Course Number or Title"
-                                  p:propertyName="courseCode">
-                                <property name="instructionalText" value="Enter an existing course or proposal." />
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" />
-                                </property>
-                                <property name="suggest">
-                                    <!-- 									<bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
-                                    <bean parent="Uif-Suggest" p:render="true">
-                                        <property name="valuePropertyName" value="courseCode"/>
-                                        <property name="templateOptions" value="minLength:1,delay:0" />
-                                        <property name="suggestQuery">
-                                            <bean parent="Uif-AttributeQueryConfig"
-                                                  p:queryMethodToCall="searchForJointOfferingCourses" />
-                                            <!-- p:queryFieldMapping="#lp.courseCode:courseCode"
-                                            p:returnFieldMapping="courseId:#lp.courseId,courseCode:#lp.courseCode,subjectArea:#lp.subjectArea,courseNumberSuffix:#lp.courseNumberSuffix" /> -->
-                                        </property>
-                                    </bean>
-                                </property>
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
-                                        <property name="quickfinderAction">
-                                            <bean parent="Uif-ActionLink">
-                                                <property name="methodToCall" value="performLookup"/>
-                                                <property name="actionLabel" value="Advanced Search"/>
-                                                <property name="cssClasses">
-                                                    <list merge="true">
-                                                        <value>uif-actionLink-block</value>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                        </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
-                                        </property>
-                                        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
-                                        <property name="fieldConversions">
-                                            <map>
-                                                <entry key="courseCode" value="courseCode"/>
-                                            </map>
-                                        </property>
-                                    </bean>
-                                </property>
-                                <property name="help">
-                                    <bean parent="Uif-KS-Help"
-                                          p:tooltipHelpContent="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator." />
+                            <bean parent="Uif-HorizontalFieldGroup">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-InputField-LabelTop" p:label="Course Number or Title"
+                                              p:propertyName="courseCode">
+                                            <property name="instructionalText" value="Enter an existing course or proposal." />
+                                            <property name="control">
+                                                <bean parent="Uif-TextControl" />
+                                            </property>
+                                            <property name="suggest">
+                                                <!-- 									<bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
+                                                <bean parent="Uif-Suggest" p:render="true">
+                                                    <property name="valuePropertyName" value="courseCode"/>
+                                                    <property name="templateOptions" value="minLength:1,delay:0" />
+                                                    <property name="suggestQuery">
+                                                        <bean parent="Uif-AttributeQueryConfig"
+                                                              p:queryMethodToCall="searchForJointOfferingCourses" />
+                                                        <!-- p:queryFieldMapping="#lp.courseCode:courseCode"
+                                                        p:returnFieldMapping="courseId:#lp.courseId,courseCode:#lp.courseCode,subjectArea:#lp.subjectArea,courseNumberSuffix:#lp.courseNumberSuffix" /> -->
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                            <property name="quickfinder">
+                                                <bean parent="Uif-QuickFinder">
+                                                    <property name="quickfinderAction">
+                                                        <bean parent="Uif-ActionLink">
+                                                            <property name="methodToCall" value="performLookup"/>
+                                                            <property name="actionLabel" value="Advanced Search"/>
+                                                            <property name="cssClasses">
+                                                                <list merge="true">
+                                                                    <value>uif-actionLink-block</value>
+                                                                </list>
+                                                            </property>
+                                                        </bean>
+                                                    </property>
+                                                    <property name="lightBoxLookup">
+                                                        <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false"/>
+                                                    </property>
+                                                    <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseJointInfoWrapper"/>
+                                                    <property name="fieldConversions">
+                                                        <map>
+                                                            <entry key="courseCode" value="courseCode"/>
+                                                        </map>
+                                                    </property>
+                                                </bean>
+                                            </property>
+                                        </bean>
+                                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                                            <property name="toolTip">
+                                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="Can't find the course? If a course is still in proposal (pre-approval) stage, you may not be able to find it without being designated as a collaborator on that proposal. If you can't find a proposal you know exists, contact the author and ask them to make you a collaborator."/>
+                                            </property>
+                                        </bean>
+                                    </list>
                                 </property>
                             </bean>
                         </list>

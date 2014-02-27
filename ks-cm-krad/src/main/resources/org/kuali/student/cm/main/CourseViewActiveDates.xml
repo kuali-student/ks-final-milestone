@@ -15,60 +15,82 @@
         <property name="items">
             <list>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="startTerm" p:label="Start Term">
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" />
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
-                              p:addBlankOption="true" />
-                    </property>
-                    <property name="help">
-                        <bean parent="Uif-KS-Help"
-                              p:tooltipHelpContent="New Courses: This course will not neccessarily be acticated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications." />
-                    </property>
-                </bean>
-
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course"  p:id="CourseView-ActiveDatesPage-PilotCourse">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>admin-not-required-field</value>
-                        </list>
-                    </property>
-                    <property name="control">
-                        <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
-                    </property>
-                    <property name="help">
-                        <bean parent="Uif-KS-Help" p:tooltipHelpContent="If this is a pilot course, you must select an End Term" />
-                    </property>
-                </bean>
-
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"   p:id="CourseView-ActiveDatesPage-EndTerm"
-                      p:required="@{document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" >
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>admin-not-required-field</value>
-                        </list>
-                    </property>
-                    <property name="refreshWhenChangedPropertyNames">
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
                         <list>
-                            <value>document.newMaintainableObject.dataObject.courseInfo.pilotCourse</value>
-                            <value>document.newMaintainableObject.dataObject.courseInfo.startTerm</value>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="startTerm" p:label="Start Term">
+                                <property name="control">
+                                    <bean parent="Uif-DropdownControl" />
+                                </property>
+                                <property name="optionsFinder">
+                                    <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
+                                          p:addBlankOption="true" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                                <property name="toolTip">
+                                    <bean parent="Uif-KS-Tooltip" p:tooltipContent="New Courses: This course will not neccessarily be acticated or offered this term, but will be eligible for scheduling on or after this term. Course Modifications: Any instances of the course offered on or after this term will reflect modifications."/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
-                    <property name="instructionalText" value="Last term in which the course can be offered" />
-                    <property name="control">
-                        <bean parent="Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" />
-                    </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
-                              p:addBlankOption="true" />
-                    </property>
-                    <property name="help">
-                        <bean parent="Uif-KS-Help"
-                              p:tooltipHelpContent="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses" />
+                </bean>
+
+                <bean parent="Uif-HorizontalFieldGroup">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:propertyName="pilotCourse" p:label="Pilot Course"  p:id="CourseView-ActiveDatesPage-PilotCourse">
+                                <property name="cssClasses">
+                                    <list merge="true">
+                                        <value>admin-not-required-field</value>
+                                    </list>
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="Yes, this is a one-time/pilot course" />
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                                <property name="toolTip">
+                                    <bean parent="Uif-KS-Tooltip" p:tooltipContent="If this is a pilot course, you must select an End Term"/>
+                                </property>
+                            </bean>
+                        </list>
                     </property>
                 </bean>
+
+                <bean parent="Uif-HorizontalFieldGroup">
+                        <property name="items">
+                            <list>
+                                <bean parent="Uif-InputField-LabelTop" p:propertyName="endTerm" p:label="End Term"   p:id="CourseView-ActiveDatesPage-EndTerm"
+                                      p:required="@{document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" >
+                                    <property name="cssClasses">
+                                        <list merge="true">
+                                            <value>admin-not-required-field</value>
+                                        </list>
+                                    </property>
+                                    <property name="refreshWhenChangedPropertyNames">
+                                        <list>
+                                            <value>document.newMaintainableObject.dataObject.courseInfo.pilotCourse</value>
+                                            <value>document.newMaintainableObject.dataObject.courseInfo.startTerm</value>
+                                        </list>
+                                    </property>
+                                    <property name="instructionalText" value="Last term in which the course can be offered" />
+                                    <property name="control">
+                                        <bean parent="Uif-DropdownControl" p:disabled="@{!document.newMaintainableObject.dataObject.courseInfo.pilotCourse}" />
+                                    </property>
+                                    <property name="optionsFinder">
+                                        <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.DatesKeyValuesFinder"
+                                              p:addBlankOption="true" />
+                                    </property>
+                                </bean>
+                                <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                                    <property name="toolTip">
+                                        <bean parent="Uif-KS-Tooltip" p:tooltipContent="Most courses will not have an explicit end date. Exceptions are pilot courses or visiting instructor specific courses"/>
+                                    </property>
+                                </bean>
+                            </list>
+                        </property>
+                    </bean>
             </list>
         </property>
     </bean>
