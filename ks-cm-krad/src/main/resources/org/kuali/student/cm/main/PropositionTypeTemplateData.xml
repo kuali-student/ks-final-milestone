@@ -503,30 +503,6 @@ limitations under the License.
                                   value="org.kuali.student.core.krms.builder.PopulationComponentBuilder"/>
                     </bean>
                 </entry>
-                <entry key="kuali.krms.proposition.type.final.exam.timeslot">
-                    <bean parent="TemplateInfo-parent"
-                          p:termSpecName="MatchingTimeSlot" p:value="true">
-                        <property name="componentId" value="KSFE-FinalExam-DeliveryLogistic-Group"/>
-                        <property name="componentBuilderClass"
-                                  value="org.kuali.student.enrollment.class1.krms.builder.TimeSlotsComponentBuilder"/>
-                    </bean>
-                </entry>
-                <entry key="kuali.krms.proposition.type.final.exam.course">
-                    <bean parent="TemplateInfo-parent"
-                          p:termSpecName="MatchingCourses" p:value="true">
-                        <property name="componentId" value="KRMS-SingleCourse-InputField"/>
-                        <property name="componentBuilderClass"
-                                  value="org.kuali.student.lum.lu.ui.krms.builder.CourseComponentBuilder"/>
-                    </bean>
-                </entry>
-                <entry key="kuali.krms.proposition.type.final.exam.courseset">
-                    <bean parent="TemplateInfo-parent"
-                          p:termSpecName="MatchingCoursesSet" p:value="true">
-                        <property name="componentId" value="KRMS-MultiCourse-Section"/>
-                        <property name="componentBuilderClass"
-                                  value="org.kuali.student.lum.lu.ui.krms.builder.MultiCourseComponentBuilder"/>
-                    </bean>
-                </entry>
             </map>
         </property>
     </bean>
