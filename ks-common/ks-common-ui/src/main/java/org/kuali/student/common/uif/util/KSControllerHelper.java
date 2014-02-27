@@ -33,10 +33,8 @@ import java.util.List;
 public class KSControllerHelper {
 
     public static ViewHelperService getViewHelperService(UifFormBase form){
-        if (form.getView() != null && form.getView().getViewHelperService() != null){
-            return form.getView().getViewHelperService();
-        }else{
-            return form.getPostedView().getViewHelperService();
+        if (form.getViewHelperService() != null){
+            return form.getViewHelperService();
         }
     }
 
@@ -49,7 +47,7 @@ public class KSControllerHelper {
      */
     public static int getSelectedCollectionLineIndex(UifFormBase form){
 
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
 
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Unable to determine the selected collection path");
@@ -82,7 +80,7 @@ public class KSControllerHelper {
      */
     public static Object getSelectedCollectionItem(UifFormBase form) {
 
-        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
             throw new RuntimeException("Selected collection was not set");
         }
@@ -96,10 +94,6 @@ public class KSControllerHelper {
     }
     
     public static View getView(UifFormBase form){
-        if (form.getView() != null){
-            return form.getView();
-        }else{
-            return form.getPostedView();
-        }
+        return form.getView();
     }
 }

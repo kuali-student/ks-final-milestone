@@ -96,8 +96,8 @@ public class KSLookupController extends LookupController {
 
         ModelAndView modelAndView = super.search(lookupForm);
 
-        if(lookupForm.getPostedView() instanceof KSLookupView){
-            KSLookupView ksLookupView = (KSLookupView)lookupForm.getPostedView();
+        if(lookupForm.getView() instanceof KSLookupView){
+            KSLookupView ksLookupView = (KSLookupView)lookupForm.getView();
             String defaultAction = ksLookupView.getDefaultSingleLookupResultAction();
             if (StringUtils.isNotBlank(defaultAction) && lookupForm.getLookupResults() != null && lookupForm.getLookupResults().size() == 1){
                 Object object = lookupForm.getLookupResults().iterator().next();

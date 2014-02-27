@@ -40,15 +40,5 @@ public class KSLookupView extends LookupView {
         this.defaultSingleLookupResultAction = defaultSingleLookupResultAction;
     }
 
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
 
-        KSLookupView ksLookupViewCopy = (KSLookupView) component;
-
-        ksLookupViewCopy.setDefaultSingleLookupResultAction(this.defaultSingleLookupResultAction);
-    }
 }

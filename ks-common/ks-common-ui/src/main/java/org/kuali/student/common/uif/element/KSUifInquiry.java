@@ -33,15 +33,5 @@ public class KSUifInquiry extends Inquiry {
         this.title = title;
     }
 
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
 
-        KSUifInquiry ksUifInquiryCopy = (KSUifInquiry) component;
-
-        ksUifInquiryCopy.setTitle(this.title);
-    }
 }

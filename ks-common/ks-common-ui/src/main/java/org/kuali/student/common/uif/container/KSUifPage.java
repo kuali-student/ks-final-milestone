@@ -17,6 +17,7 @@
 package org.kuali.student.common.uif.container;
 
 import org.kuali.rice.krad.uif.container.PageGroup;
+import org.kuali.rice.krad.uif.container.PageGroupBase;
 import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
 
 /**
@@ -24,7 +25,7 @@ import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
  *
  * @author Kuali Student Team
  */
-public class KSUifPage extends PageGroup {
+public class KSUifPage extends PageGroupBase {
     private transient ExpressionEvaluator expressionEvaluator;
 
     public KSUifPage() {
@@ -40,15 +41,4 @@ public class KSUifPage extends PageGroup {
         this.pageSourceFile = pageSourceFile;
     }
 
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
-
-        KSUifPage ksUifPageCopy = (KSUifPage) component;
-
-        ksUifPageCopy.setPageSourceFile(this.pageSourceFile);
-    }
 }
