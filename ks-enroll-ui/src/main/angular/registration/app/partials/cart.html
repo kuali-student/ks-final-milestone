@@ -74,8 +74,8 @@
                 <!--course time, day, building-->
                 <div ng-repeat="item in cartItem.schedule">
                       <span class="kscr-register-courseTimes">
-                        <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}">{{item.activityOfferingType}} </div>
-                            <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}">{{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}
+                        <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" class="kscr-CartItem-activity">{{item.activityOfferingType}} </div>
+                            <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}"> {{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}
                                 {{scheduleItem.location.building}} {{scheduleItem.location.room}}
                             </div>
                       </span>

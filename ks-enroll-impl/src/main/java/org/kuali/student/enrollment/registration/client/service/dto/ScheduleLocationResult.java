@@ -16,7 +16,7 @@ public class ScheduleLocationResult {
 
     public void setBuilding(String building) { this.building = building; }
 
-    public String getRroom() { return room; }
+    public String getRoom() { return room; }
 
     public void setRoom(String room) {
         this.room = room;
