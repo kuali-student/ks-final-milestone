@@ -35,6 +35,8 @@ public class KSControllerHelper {
     public static ViewHelperService getViewHelperService(UifFormBase form){
         if (form.getViewHelperService() != null){
             return form.getViewHelperService();
+        } else {
+            return null;
         }
     }
 

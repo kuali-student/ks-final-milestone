@@ -22,9 +22,10 @@ import org.kuali.rice.core.api.util.tree.Node;
 import org.kuali.rice.core.api.util.tree.Tree;
 import org.kuali.rice.krad.bo.Note;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.KrmsConstants;
@@ -36,28 +37,44 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.rice.krms.api.repository.rule.RuleDefinition;
-import org.kuali.rice.krms.api.repository.term.TermDefinition;
 import org.kuali.rice.krms.api.repository.term.TermRepositoryService;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeDefinition;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
-import org.kuali.rice.krms.dto.*;
 import org.kuali.rice.krms.builder.ComponentBuilder;
+import org.kuali.rice.krms.dto.AgendaEditor;
+import org.kuali.rice.krms.dto.AgendaTypeInfo;
+import org.kuali.rice.krms.dto.PropositionEditor;
+import org.kuali.rice.krms.dto.PropositionParameterEditor;
+import org.kuali.rice.krms.dto.RuleEditor;
+import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.dto.RuleTypeInfo;
+import org.kuali.rice.krms.dto.TermEditor;
+import org.kuali.rice.krms.dto.TermParameterEditor;
+import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.rice.krms.service.TemplateRegistry;
 import org.kuali.rice.krms.tree.RuleCompareTreeBuilder;
 import org.kuali.rice.krms.tree.RuleViewTreeBuilder;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
-import org.kuali.rice.krms.service.RuleEditorMaintainable;
 import org.kuali.rice.krms.util.AlphaIterator;
-import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
+import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.springmodules.orm.ojb.OjbOperationException;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
 
 /**
  * {@link org.kuali.rice.krad.maintenance.Maintainable}
@@ -590,28 +607,30 @@ public class RuleEditorMaintainableImpl extends KSMaintainableImpl implements Ru
      * In the case of edit maintenance adds a new blank line to the old side
      * <p/>
      *
-     * @see org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl#processAfterAddLine(org.kuali.rice.krad.uif.view.View,
-     *      org.kuali.rice.krad.uif.container.CollectionGroup, Object,
-     *      Object, boolean)
+     * @see org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl#processAfterAddLine(org.kuali.rice.krad.uif.view.ViewModel, Object, String, String, boolean)
      */
     @Override
-    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
+    public void processAfterAddLine(ViewModel viewModel, Object addLine, String collectionId, String collectionPath, boolean isValidLine) {
         // Check for maintenance documents in edit but exclude notes
-        if (model instanceof MaintenanceDocumentForm && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocumentForm) model).getMaintenanceAction()) && !(addLine instanceof Note)) {
+        if (viewModel instanceof MaintenanceDocumentForm && KRADConstants.MAINTENANCE_EDIT_ACTION.equals(((MaintenanceDocumentForm) viewModel).getMaintenanceAction()) && !(addLine instanceof Note)) {
 
             // Figure out which rule is being edited
-            RuleEditor rule = getRuleEditor(model);
+            RuleEditor rule = getRuleEditor(viewModel);
             // Figure out which proposition is being edited
             Tree<RuleEditorTreeNode, String> propositionTree = rule.getEditTree();
             Node<RuleEditorTreeNode, String> editedPropositionNode = PropositionTreeUtil.findEditedProposition(propositionTree.getRootElement());
 
+            BindingInfo bindingInfo = (BindingInfo) viewModel.getViewPostMetadata().getComponentPostData(collectionId,
+                    UifConstants.PostMetadata.BINDING_INFO);
             // get the old object's collection
             Collection<Object> oldCollection = ObjectPropertyUtils
                     .getPropertyValue(editedPropositionNode.getData(),
-                            collectionGroup.getPropertyName());
+                            bindingInfo.getBindingName());
 
+            Class<?> collectionObjectClass = (Class<?>) viewModel.getViewPostMetadata().getComponentPostData(collectionId,
+                    UifConstants.PostMetadata.COLL_OBJECT_CLASS);
             try {
-                Object blankLine = collectionGroup.getCollectionObjectClass().newInstance();
+                Object blankLine = collectionObjectClass.newInstance();
                 //Add a blank line to the top of the collection
                 if (oldCollection instanceof List) {
                     ((List) oldCollection).add(0, blankLine);

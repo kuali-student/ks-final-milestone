@@ -25,6 +25,7 @@ import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.BeanPropertyComparator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
@@ -109,7 +110,7 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
     }
 
     @Override
-    public void addCustomContainerComponents(Object model, Container container) {
+    public void addCustomContainerComponents(ViewModel model, Container container) {
         if (KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID.equals(container.getId())) {
             customizePropositionEditSection(model, container);
         }
@@ -132,7 +133,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             if (template != null && template.getComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getComponentId());
-                ViewLifecycle.spawnSubLifecyle(model, component, container);
                 if(container.getId().equals(maintenanceDocumentForm.getUpdateComponentId())){
                     String nodePath = view.getDefaultBindingObjectPath() + "." + propEditor.getBindingPath();
                     ComponentUtils.pushObjectToContext(component, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
@@ -145,7 +145,6 @@ public class RuleViewHelperServiceImpl extends KSViewHelperServiceImpl implement
 
             if (template != null && template.getConstantComponentId() != null) {
                 Component component = ComponentFactory.getNewComponentInstance(template.getConstantComponentId());
-                ViewLifecycle.spawnSubLifecyle(model, component, container);
 
                 //Add Proposition Type FieldGroup to Tree Node
                 components.add(component);

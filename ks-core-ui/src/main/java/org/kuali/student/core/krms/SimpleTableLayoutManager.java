@@ -22,12 +22,14 @@ import org.kuali.rice.krad.uif.UifPropertyPaths;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
+import org.kuali.rice.krad.uif.container.collections.LineBuilderContext;
 import org.kuali.rice.krad.uif.element.Action;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.layout.CollectionLayoutManager;
 import org.kuali.rice.krad.uif.layout.CollectionLayoutUtils;
 import org.kuali.rice.krad.uif.layout.TableLayoutManager;
+import org.kuali.rice.krad.uif.layout.TableLayoutManagerBase;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
@@ -41,7 +43,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class SimpleTableLayoutManager extends TableLayoutManager {
+public class SimpleTableLayoutManager extends TableLayoutManagerBase {
 
     /**
      * Setup the column calculations functionality and components
@@ -64,12 +66,16 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
      * items for the action field. Finally the generated items are assembled
      * together into the allRowFields list with the given lineFields.
      *
-     * @see CollectionLayoutManager#buildLine(Object, CollectionGroup, List, List, String, List, String, Object, int)
+     * @see CollectionLayoutManager#buildLine(org.kuali.rice.krad.uif.container.collections.LineBuilderContext)
      */
     @Override
-    public void buildLine(Object model, CollectionGroup collectionGroup, List<Field> lineFields,
-                          List<FieldGroup> subCollectionFields, String bindingPath, List<? extends Component> actions, String idSuffix,
-                          Object currentLine, int lineIndex) {
+    public void buildLine(LineBuilderContext lineBuilderContext) {
+        List<Field> lineFields = lineBuilderContext.getLineFields();
+        CollectionGroup collectionGroup = lineBuilderContext.getCollectionGroup();
+        int lineIndex = lineBuilderContext.getLineIndex();
+        String idSuffix = lineBuilderContext.getIdSuffix();
+        Object currentLine = lineBuilderContext.getCurrentLine();
+        String bindingPath = lineBuilderContext.getBindingPath();
 
         View view = ViewLifecycle.getView();
 
@@ -110,7 +116,7 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
         boolean addLineInTable =
                 collectionGroup.isRenderAddLine() && !collectionGroup.isReadOnly() && !isSeparateAddLine();
 
-        if (collectionGroup.isHighlightNewItems() && ((UifFormBase) model).isAddedCollectionItem(currentLine)) {
+        if (collectionGroup.isHighlightNewItems() && ((UifFormBase) lineBuilderContext.getModel()).isAddedCollectionItem(currentLine)) {
             rowCss = collectionGroup.getNewItemsCssClass();
         } else if (isAddLine && addLineInTable) {
             rowCss = collectionGroup.getAddItemCssClass();
@@ -133,20 +139,16 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
             setCellAttributes(field);
         }
 
-        int rowCount = calculateNumberOfRows(lineFields);
-        int rowSpan = rowCount + subCollectionFields.size();
-
         // select field will come after sequence field (if enabled) or be first column
         if (collectionGroup.isIncludeLineSelectionField()) {
             Field selectField = ComponentUtils.copy(getSelectFieldPrototype(), idSuffix);
             CollectionLayoutUtils.prepareSelectFieldForLine(selectField, collectionGroup, bindingPath, currentLine);
 
-            ComponentUtils.updateContextForLine(selectField, currentLine, lineIndex, idSuffix);
+            ComponentUtils.updateContextForLine(selectField, collectionGroup, currentLine, lineIndex, idSuffix);
             setCellAttributes(selectField);
 
             this.getAllRowFields().add(selectField);
 
-            extraColumns++;
         }
 
         // now add the fields in the correct position
@@ -175,6 +177,6 @@ public class SimpleTableLayoutManager extends TableLayoutManager {
         }
 
         // add sub-collection fields to end of data fields
-        this.getAllRowFields().addAll(subCollectionFields);
+        this.getAllRowFields().addAll(lineBuilderContext.getSubCollectionFields());
     }
 }

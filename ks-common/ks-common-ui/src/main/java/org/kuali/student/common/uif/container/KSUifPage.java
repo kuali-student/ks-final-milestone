@@ -16,7 +16,6 @@
  */
 package org.kuali.student.common.uif.container;
 
-import org.kuali.rice.krad.uif.container.PageGroup;
 import org.kuali.rice.krad.uif.container.PageGroupBase;
 import org.kuali.rice.krad.uif.view.ExpressionEvaluator;
 

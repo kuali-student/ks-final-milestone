@@ -21,9 +21,11 @@ import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.component.DataBinding;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.container.collections.LineBuilderContext;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.layout.StackedLayoutManager;
+import org.kuali.rice.krad.uif.layout.StackedLayoutManagerBase;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -35,12 +37,16 @@ import java.util.Map;
 /**
  * @author Kuali Student Team
  */
-public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager {
+public class HorizontalActionsStackedLayoutManager extends StackedLayoutManagerBase {
 
     @Override
-    public void buildLine(Object model, CollectionGroup collectionGroup, List<Field> lineFields,
-                          List<FieldGroup> subCollectionFields, String bindingPath, List<? extends Component> actions, String idSuffix,
-                          Object currentLine, int lineIndex) {
+    public void buildLine(LineBuilderContext lineBuilderContext) {
+        List<Field> lineFields = lineBuilderContext.getLineFields();
+        CollectionGroup collectionGroup = lineBuilderContext.getCollectionGroup();
+        int lineIndex = lineBuilderContext.getLineIndex();
+        String idSuffix = lineBuilderContext.getIdSuffix();
+        Object currentLine = lineBuilderContext.getCurrentLine();
+        List<? extends Component> actions = lineBuilderContext.getLineActions();
 
         boolean isAddLine = lineIndex == -1;
 
@@ -68,11 +74,10 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
             lineGroup = ComponentUtils.copy(this.getLineGroupPrototype(), idSuffix);
         }
 
-        if (((UifFormBase) model).isAddedCollectionItem(currentLine)) {
+        if (((UifFormBase) lineBuilderContext.getModel()).isAddedCollectionItem(currentLine)) {
             lineGroup.addStyleClass(collectionGroup.getNewItemsCssClass());
         }
-
-        ComponentUtils.updateContextForLine(lineGroup, currentLine, lineIndex, idSuffix);
+        ComponentUtils.updateContextForLine(lineGroup, collectionGroup, currentLine, lineIndex, idSuffix);
 
         // build header text for group
         String headerText = "";
@@ -80,7 +85,7 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
             headerText = collectionGroup.getAddLabel();
         } else {
             // get the collection for this group from the model
-            List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
+            List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(lineBuilderContext.getModel(),
                     ((DataBinding) collectionGroup).getBindingInfo().getBindingPath());
 
             headerText = buildLineHeaderText(modelCollection.get(lineIndex), lineGroup);
@@ -101,12 +106,12 @@ public class HorizontalActionsStackedLayoutManager extends StackedLayoutManager 
             // add the actions to the line group if isActionsInLineGroup flag is true
             if (isActionsInLineGroup()) {
                 groupFields.addAll(actions);
-                groupFields.addAll(subCollectionFields);
+                groupFields.addAll(lineBuilderContext.getSubCollectionFields());
                 lineGroup.setRenderFooter(false);
             }else{
                 List<Component> footerFields = new ArrayList<Component>();
                 footerFields.addAll(actions);
-                footerFields.addAll(subCollectionFields);
+                footerFields.addAll(lineBuilderContext.getSubCollectionFields());
                 lineGroup.getFooter().setItems(footerFields);
             }
         }

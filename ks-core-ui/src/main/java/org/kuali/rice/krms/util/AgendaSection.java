@@ -18,7 +18,9 @@ package org.kuali.rice.krms.util;
 import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.Group;
+import org.kuali.rice.krad.uif.container.GroupBase;
 import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
+import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krms.dto.AgendaEditor;
@@ -30,7 +32,7 @@ import java.util.List;
 /**
  * @author Kuali Student Team
  */
-public class AgendaSection extends Group {
+public class AgendaSection extends GroupBase {
 
     private String propertyName;
     private BindingInfo bindingInfo;
@@ -59,7 +61,7 @@ public class AgendaSection extends Group {
     }
 
     @Override
-    public void performApplyModel(Object model, Component parent) {
+    public void performApplyModel(Object model, LifecycleElement parent) {
         // get the collection for this group from the model
         List<Object> modelCollection = ObjectPropertyUtils.getPropertyValue(model,
                 this.getBindingInfo().getBindingPath());
@@ -92,26 +94,6 @@ public class AgendaSection extends Group {
         components.add(this.getRulePrototype());
 
         return components;
-    }
-
-    /**
-     * @see org.kuali.rice.krad.uif.component.ComponentBase#copy()
-     */
-    @Override
-    protected <T> void copyProperties(T component) {
-        super.copyProperties(component);
-
-        AgendaSection agendaSectionCopy = (AgendaSection) component;
-        agendaSectionCopy.setPropertyName(this.propertyName);
-        if (this.agendaPrototype != null){
-            agendaSectionCopy.setAgendaPrototype((Group) this.agendaPrototype.copy());
-        }
-        if (this.rulePrototype != null){
-            agendaSectionCopy.setRulePrototype((Group) this.rulePrototype.copy());
-        }
-        if (this.bindingInfo != null) {
-            agendaSectionCopy.setBindingInfo((BindingInfo) this.bindingInfo.copy());
-        }
     }
 
     public AgendaBuilder getAgendaBuilder() {

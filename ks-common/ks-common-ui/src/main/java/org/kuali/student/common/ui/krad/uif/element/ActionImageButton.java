@@ -17,7 +17,6 @@
 package org.kuali.student.common.ui.krad.uif.element;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.element.Image;
 import org.kuali.rice.krad.uif.util.LifecycleElement;
 import org.kuali.rice.krad.uif.view.View;
