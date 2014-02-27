@@ -2,6 +2,9 @@ package org.kuali.student.enrollment.registration.engine.service.impl;
 
 import org.apache.cxf.common.util.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
@@ -13,6 +16,7 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.enrollment.registration.engine.service.RegistrationProcessService;
+import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -21,10 +25,17 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.core.constants.SearchServiceConstants;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -41,6 +52,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     private CourseRegistrationService courseRegistrationService;
     private LuiService luiService;
     private LprService lprService;
+    private SearchService searchService;
 
     @Override
     public RegistrationResponseInfo process(String registrationRequestId) {
@@ -74,7 +86,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
 
     private List<LprInfo> makeLprsFromRegRequest(RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+            OperationFailedException, PermissionDeniedException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         if (!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(registrationRequestInfo.getStateKey())) {
             // If this state is not new, then it's been processed, so skip.
             LOGGER.info("Request item already processed");
@@ -83,17 +95,43 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             // By changing to processing, we avoid reprocessing the request
             getCourseRegistrationService().changeRegistrationRequestState(registrationRequestInfo.getId(),
                     LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY, contextInfo);
-            registrationRequestInfo =
-                    getCourseRegistrationService().getRegistrationRequest(registrationRequestInfo.getId(), contextInfo);
+            registrationRequestInfo = getCourseRegistrationService().getRegistrationRequest(registrationRequestInfo.getId(), contextInfo);
         }
+
         List<LprInfo> lprInfos = new ArrayList<LprInfo>();
 
         for (RegistrationRequestItem registrationRequestItem : registrationRequestInfo.getRegistrationRequestItems()) {
             if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
                 String creditStr = registrationRequestItem.getCredits()==null?"":registrationRequestItem.getCredits().bigDecimalValue().setScale(1).toPlainString();
                 lprInfos.addAll(buildLprItems(registrationRequestItem.getRegistrationGroupId(), registrationRequestInfo.getTermId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo));
+            } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
+                //get lpr ids based on master lpr id
+                List<String> lprIds = getLprIdsByMasterLprId(registrationRequestItem.getMasterLprId(), contextInfo);
+
+                lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
+                for (LprInfo lprInfo : lprInfos) {
+                    lprInfo.setStateKey(LprServiceConstants.DROPPED_STATE_KEY);
+                    lprInfo =  getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+                }
+            } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY)) {
+                //get lpr ids based on master lpr id
+                List<String> lprIds = getLprIdsByMasterLprId(registrationRequestItem.getMasterLprId(), contextInfo);
+
+                lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
+                for (LprInfo lprInfo : lprInfos) {
+                    lprInfo.setResultValuesGroupKeys(new ArrayList<String>());
+                    String creditStr = registrationRequestItem.getCredits()==null?"":registrationRequestItem.getCredits().bigDecimalValue().setScale(1).toPlainString();
+                    if (!StringUtils.isEmpty(creditStr)) {
+                        lprInfo.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + creditStr);
+                    }
+                    if (!StringUtils.isEmpty(registrationRequestItem.getGradingOptionId())) {
+                        lprInfo.getResultValuesGroupKeys().add(registrationRequestItem.getGradingOptionId());
+                    }
+                    lprInfo =  getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+                }
             }
         }
+
         return lprInfos;
     }
 
@@ -164,6 +202,28 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         return lprCreated;
     }
 
+    private List<String> getLprIdsByMasterLprId (String masterLprId, ContextInfo contextInfo) throws OperationFailedException {
+        List<String> lprIds = new ArrayList<String>();
+
+        SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE.getKey());
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.MASTER_LPR_ID, masterLprId);
+        SearchResultInfo searchResult;
+        try {
+            searchResult = getSearchService().search(searchRequest, contextInfo);
+        } catch (Exception e) {
+            throw new OperationFailedException("Search of lpr ids for master lpr id " + masterLprId + " failed: ", e);
+        }
+
+        for (SearchResultRowInfo row : searchResult.getRows()) {
+            for (SearchResultCellInfo cellInfo : row.getCells()) {
+                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_ID.equals(cellInfo.getKey())) {
+                    lprIds.add(cellInfo.getValue());
+                }                    }
+        }
+
+        return lprIds;
+    }
+
     public CourseRegistrationService getCourseRegistrationService() {
         if (courseRegistrationService == null) {
             courseRegistrationService = (CourseRegistrationService) GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
@@ -198,5 +258,16 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
 
     public void setLprService(LprService lprService) {
         this.lprService = lprService;
+    }
+
+    public SearchService getSearchService() {
+        if (searchService == null) {
+            searchService = (SearchService) GlobalResourceLoader.getService(new QName(SearchServiceConstants.NAMESPACE, SearchService.class.getSimpleName()));
+        }
+        return searchService;
+    }
+
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
     }
 }

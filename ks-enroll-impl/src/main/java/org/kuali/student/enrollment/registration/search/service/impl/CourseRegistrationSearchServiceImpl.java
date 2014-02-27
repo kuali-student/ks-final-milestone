@@ -74,6 +74,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             "kuali.search.type.lui.searchTypeMaxSeatsByAoIds";
     public static final String LPRS_BY_AOIDS_LPR_STATE_KEY =
             "kuali.search.type.lui.searchTypeAoLprsByAoIdsAndLprStates";
+    public static final String LPRIDS_BY_MASTER_LPR_ID_SEARCH_KEY =
+            "kuali.search.type.lui.searchForLprIdsByMasterLprId";
+
     public static final TypeInfo REG_INFO_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo REG_CART_BY_PERSON_TERM_SEARCH_TYPE;
     public static final TypeInfo AO_SCHEDULES_CO_CREDITS_GRADING_OPTIONS_BY_IDS_SEARCH_TYPE;
@@ -82,6 +85,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
     public static final TypeInfo AOIDS_COUNT_SEARCH_TYPE;
     public static final TypeInfo AOIDS_TYPE_MAXSEATS_SEARCH_TYPE;
     public static final TypeInfo LPRS_BY_AOIDS_LPR_STATE_TYPE;
+    public static final TypeInfo LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE;
 
     public static final String DEFAULT_EFFECTIVE_DATE = "01/01/2012";
 
@@ -97,6 +101,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CART_ITEM_ID = "cartItemId";
         public static final String ATP_ID = "atpId";
         public static final String TYPE_KEY = "typeKey";
+        public static final String MASTER_LPR_ID = "masterLprId";
     }
 
     public static final class SearchResultColumns {
@@ -207,6 +212,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 createTypeInfo(LPRS_BY_AOIDS_LPR_STATE_KEY,
                         "(Id, type, state, lui, person) for a list of AO ids",
                         "Returns (Id, type, state, lui, person) for a list of AO ids");
+
+        LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE =
+                createTypeInfo(LPRIDS_BY_MASTER_LPR_ID_SEARCH_KEY,
+                        "(MasterLprId) for a list of LPR (AO, CO, RG) ids",
+                        "Returns (Id) for a list of LPR (AO, CO, RG) ids");
+
     }
 
     @Override
@@ -257,6 +268,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             return searchForAoIdsTypeAndMaxSeats(searchRequestInfo);
         } else if (LPRS_BY_AOIDS_LPR_STATE_TYPE.getKey().equals(searchKey)) {
             return searchForAoLprs(searchRequestInfo);
+        } else if (LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE.getKey().equals(searchKey)) {
+            return searchForLprIdsByMasterLprId(searchRequestInfo);
         } else {
             throw new OperationFailedException("Unsupported search type: " + searchRequestInfo.getSearchKey());
         }
@@ -715,6 +728,35 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.LPR_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.PERSON_ID, (String) resultRow[i++]);
+            resultInfo.getRows().add(row);
+        }
+
+        return resultInfo;
+    }
+
+    /**
+     * Returns list of Registration Info for the person: CO, AO, Schedules, etc.
+     *
+     * @throws OperationFailedException
+     */
+    private SearchResultInfo searchForLprIdsByMasterLprId(SearchRequestInfo searchRequestInfo) throws OperationFailedException {
+        SearchResultInfo resultInfo = new SearchResultInfo();
+        SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
+        String masterLprId = requestHelper.getParamAsString(SearchParameters.MASTER_LPR_ID);
+
+        String queryStr =
+                "SELECT lpr.ID " +
+                        "FROM KSEN_LPR lpr " +
+                        "WHERE lpr.MASTER_LPR_ID = :masterLprId ";
+
+        Query query = entityManager.createNativeQuery(queryStr);
+        query.setParameter(SearchParameters.MASTER_LPR_ID, masterLprId);
+        List<Object[]> results = query.getResultList();
+
+        for (Object[] resultRow : results) {
+            int i = 0;
+            SearchResultRowInfo row = new SearchResultRowInfo();
+            row.addCell(SearchResultColumns.LPR_ID, (String) resultRow[i++]);
             resultInfo.getRows().add(row);
         }
 
