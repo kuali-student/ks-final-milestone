@@ -6,15 +6,15 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -43,10 +43,8 @@ import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.CourseWaitListServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -828,26 +826,31 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
 
 
     @Override
-    public void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
-        if (!(collectionGroup.getPropertyName().equals("seatpools") || collectionGroup.getPropertyName().equals("instructors"))) {
-            super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
-        }  else if(collectionGroup.getPropertyName().equals("instructors")) {
+    public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
+
+        BindingInfo bindingInfo = (BindingInfo) model.getViewPostMetadata().getComponentPostData(collectionId,
+                UifConstants.PostMetadata.BINDING_INFO);
+
+        String propertyName = bindingInfo.getBindingName();
+        if (!(propertyName.equals("seatpools") || propertyName.equals("instructors"))) {
+            super.processAfterDeleteLine(model, collectionId, collectionPath, lineIndex);
+        }  else if(propertyName.equals("instructors")) {
             if (model instanceof MaintenanceDocumentForm) {
                 MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
                 MaintenanceDocument document = maintenanceForm.getDocument();
                 // get the old object's collection
                 Collection<Object> oldCollection = ObjectPropertyUtils.getPropertyValue(document.getOldMaintainableObject().getDataObject(),
-                        collectionGroup.getPropertyName());
+                        propertyName);
                 if(oldCollection.size() -1 >= lineIndex) {
-                    super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+                    super.processAfterDeleteLine(model, collectionId, collectionPath, lineIndex);
                 }
             }
         }
     }
 
     @Override
-    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
-        super.processAfterAddLine(view, collectionGroup, model, addLine, true);
+    public void processAfterAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath, boolean isValidLine) {
+        super.processAfterAddLine(model, addLine, collectionId, collectionPath, isValidLine);
 
         if (addLine instanceof ScheduleComponentWrapper) {
             ScheduleComponentWrapper scheduleComponentWrapper = (ScheduleComponentWrapper) addLine;
@@ -899,13 +902,13 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     @Override
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected boolean performAddLineValidation(ViewModel model, Object newLine, String collectionId, String collectionPath) {
 
         MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
         ActivityOfferingWrapper activityOfferingWrapper = (ActivityOfferingWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
 
-        if (addLine instanceof OfferingInstructorWrapper) {   //Personnel
-            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
+        if (newLine instanceof OfferingInstructorWrapper) {   //Personnel
+            OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) newLine;
 
             //check duplication
             List<OfferingInstructorWrapper> instructors = activityOfferingWrapper.getInstructors();
@@ -924,8 +927,8 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 GlobalVariables.getMessageMap().putErrorForSectionId("ao-personnelgroup", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructor.getOfferingInstructorInfo().getPersonId());
                 return false;
             }
-        } else if (addLine instanceof SeatPoolWrapper) {   //Seat Pool
-            SeatPoolWrapper seatPool = (SeatPoolWrapper) addLine;
+        } else if (newLine instanceof SeatPoolWrapper) {   //Seat Pool
+            SeatPoolWrapper seatPool = (SeatPoolWrapper) newLine;
 
             //check if a valid population is entered
             QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -958,12 +961,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                     }
                 }
             }
-        } else if (addLine instanceof ColocatedActivity){
-            ColocatedActivity colo = (ColocatedActivity)addLine;
+        } else if (newLine instanceof ColocatedActivity){
+            ColocatedActivity colo = (ColocatedActivity)newLine;
 
             return validateNewColocatedActivity(colo,activityOfferingWrapper);
         }
-        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+        return super.performAddLineValidation(model, newLine, collectionId, collectionPath);
     }
 
     protected boolean validateNewColocatedActivity(ColocatedActivity colo,ActivityOfferingWrapper activityOfferingWrapper){
@@ -1048,7 +1051,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     @Override
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
         if (addLine instanceof OfferingInstructorWrapper) {
             OfferingInstructorWrapper instructor = (OfferingInstructorWrapper) addLine;
             instructor.setOfferingInstructorInfo(disassembleInstructorWrapper(instructor));
@@ -1056,7 +1059,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
     }
 
     @Override
-    public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
+    public void processCollectionDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
 
         MaintenanceDocumentForm form = (MaintenanceDocumentForm)model;
         if (StringUtils.endsWith(collectionPath, "requestedScheduleComponents")) {
@@ -1078,7 +1081,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 scheduleWrapper.getColocatedAOs().remove(deleteCOLO.getEditRenderHelper().getCode());
             }
         } else {
-            super.processCollectionDeleteLine(view, model, collectionPath, lineIndex);
+            super.processCollectionDeleteLine(model, collectionId, collectionPath, lineIndex);
         }
     }
 

@@ -30,6 +30,7 @@ import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
@@ -136,7 +137,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
         }
 
         if (isSetOfficial){
-            StatusInfo statusInfo = null;
+            StatusInfo statusInfo;
             try {
                 statusInfo = getAcalService().changeHolidayCalendarState(hcForm.getHolidayCalendarInfo().getId(), AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY,createContextInfo());
                 if (!statusInfo.getIsSuccess()){
@@ -154,8 +155,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
     }
 
     public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception{
-        HolidayCalendarInfo retrievedHc = getAcalService().getHolidayCalendar(hcId, createContextInfo());
-        return retrievedHc;
+        return getAcalService().getHolidayCalendar(hcId, createContextInfo());
     }
 
     /**
@@ -452,7 +452,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
 
 
     @Override
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
         ContextInfo contextInfo = createContextInfo();
         if (addLine instanceof HolidayCalendarInfo) {
             HolidayCalendarInfo inputLine = (HolidayCalendarInfo)addLine;
@@ -505,7 +505,7 @@ public class HolidayCalendarViewHelperServiceImpl extends KSViewHelperServiceImp
                 throw new RuntimeException(e);
             }
         } else {
-            super.processBeforeAddLine(view, collectionGroup, model, addLine);
+            super.processBeforeAddLine(model, addLine, collectionId, collectionPath);
         }
     }
 

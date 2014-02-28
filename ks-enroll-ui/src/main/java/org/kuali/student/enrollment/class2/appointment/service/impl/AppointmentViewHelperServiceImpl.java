@@ -21,9 +21,8 @@ import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
@@ -430,9 +429,8 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-        QueryByCriteria qbc = qbcBuilder.build();
 
-        return qbc;
+        return qbcBuilder.build();
     }
 
     public boolean saveApptWindow(AppointmentWindowWrapper appointmentWindowWrapper) throws InvalidParameterException, DataValidationErrorException, MissingParameterException, DoesNotExistException, ReadOnlyException, PermissionDeniedException, OperationFailedException, VersionMismatchException {
@@ -500,7 +498,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     }
 
     @Override
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
         if (addLine instanceof AppointmentWindowWrapper) {
             RegistrationWindowsManagementForm form = (RegistrationWindowsManagementForm) model;
             List<KeyDateInfo> periodMilestones = form.getPeriodMilestones();
@@ -521,16 +519,15 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
     }
 
     @Override
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
-                                               Object addLine) {
+    protected boolean performAddLineValidation(ViewModel model, Object newLine, String collectionId, String collectionPath) {
         boolean isValid = true;
-        if (addLine instanceof AppointmentWindowWrapper) {
-            AppointmentWindowWrapper apptWindow = (AppointmentWindowWrapper) addLine;
+        if (newLine instanceof AppointmentWindowWrapper) {
+            AppointmentWindowWrapper apptWindow = (AppointmentWindowWrapper) newLine;
             isValid = validateApptWidnow(apptWindow);
             if (isValid) {
                 try {
                     //need to persist the window that has passed the validation to DB
-                    saveApptWindow((AppointmentWindowWrapper) addLine);
+                    saveApptWindow((AppointmentWindowWrapper) newLine);
                     //Add a success message
                     GlobalVariables.getMessageMap().addGrowlMessage("", AppointmentConstants.APPOINTMENT_MSG_INFO_SAVED);
                 } catch (Exception e) {
@@ -541,7 +538,7 @@ public class AppointmentViewHelperServiceImpl extends ViewHelperServiceImpl impl
             }
 
         } else {
-            super.performAddLineValidation(view, collectionGroup, model, addLine);
+            super.performAddLineValidation(model, newLine, collectionId, collectionPath);
         }
         return isValid;
     }

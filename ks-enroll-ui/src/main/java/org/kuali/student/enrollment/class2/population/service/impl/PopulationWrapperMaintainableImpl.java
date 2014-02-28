@@ -7,22 +7,23 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-
-import org.kuali.rice.krad.uif.container.CollectionGroup;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
 import org.kuali.student.enrollment.class2.population.util.PopulationConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.constants.PopulationServiceConstants;
-import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
-import org.kuali.student.enrollment.class2.population.dto.PopulationWrapper;
+import org.kuali.student.r2.core.population.service.PopulationService;
 
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class performs Population Maintenance
@@ -220,12 +221,12 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
 
 
     @Override
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    protected boolean performAddLineValidation(ViewModel model, Object newLine, String collectionId, String collectionPath) {
         ContextInfo context = ContextUtils.getContextInfo();
         Map<String, String> fieldValues = new HashMap<String, String>();
 
-        if (addLine instanceof PopulationInfo) {
-            PopulationInfo populationInfo = (PopulationInfo) addLine;
+        if (newLine instanceof PopulationInfo) {
+            PopulationInfo populationInfo = (PopulationInfo) newLine;
             fieldValues.put("name", populationInfo.getName());
 
             try {
@@ -245,7 +246,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
             }
         }
 
-        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+        return super.performAddLineValidation(model, newLine, collectionId, collectionPath);
     }
 
 
@@ -260,8 +261,7 @@ public class PopulationWrapperMaintainableImpl extends MaintainableImpl {
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
         qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
-        QueryByCriteria qbc = qbcBuilder.build();
 
-        return qbc;
+        return qbcBuilder.build();
     }
 }

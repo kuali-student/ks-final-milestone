@@ -23,9 +23,10 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
 import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
@@ -55,7 +56,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -433,12 +433,12 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     @Override
-    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        if (addLine instanceof OfferingInstructorInfo) {
-            OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo) addLine;
+    protected boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId, String collectionPath) {
+        if (newLine instanceof OfferingInstructorInfo) {
+            OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo) newLine;
 
             //check duplication
-            MaintenanceDocumentForm form = (MaintenanceDocumentForm) model;
+            MaintenanceDocumentForm form = (MaintenanceDocumentForm) viewModel;
             CourseOfferingEditWrapper coEditWrapper = (CourseOfferingEditWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
             List<OfferingInstructorInfo> instructors = coEditWrapper.getCourseOfferingInfo().getInstructors();
             if (instructors != null && !instructors.isEmpty()) {
@@ -456,19 +456,19 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                 GlobalVariables.getMessageMap().putErrorForSectionId("KS-CourseOfferingEdit-PersonnelSection", ActivityOfferingConstants.MSG_ERROR_INSTRUCTOR_NOTFOUND, instructorInfo.getPersonId());
                 return false;
             }
-        } else if (addLine instanceof OrganizationInfoWrapper) {
-            OrganizationInfoWrapper org = (OrganizationInfoWrapper) addLine;
+        } else if (newLine instanceof OrganizationInfoWrapper) {
+            OrganizationInfoWrapper org = (OrganizationInfoWrapper) newLine;
             if (StringUtils.isEmpty(org.getId())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(collectionGroup.getId(), ActivityOfferingConstants.MSG_ERROR_ORGANIZATION_ID_REQUIRED);
+                GlobalVariables.getMessageMap().putErrorForSectionId(collectionId, ActivityOfferingConstants.MSG_ERROR_ORGANIZATION_ID_REQUIRED);
                 return false;
             }
         }
 
-        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+        return super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
     }
 
     @Override
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
         if (addLine instanceof FormatOfferingInfo) {
             FormatOfferingInfo newLine = (FormatOfferingInfo) addLine;
             String formatId = newLine.getFormatId();
@@ -498,7 +498,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     @Override
-    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine, boolean isValidLine) {
+    public void processAfterAddLine(ViewModel viewModel, Object addLine, String collectionId, String collectionPath, boolean isValidLine) {
         if (addLine instanceof OfferingInstructorInfo) {
             // set the person name if it's null, in the case of user-input personell id
             OfferingInstructorInfo instructorInfo = (OfferingInstructorInfo) addLine;
@@ -518,25 +518,29 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
     }
 
     @Override
-    public void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
+    public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
 
         MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
         MaintenanceDocument document = maintenanceForm.getDocument();
 
-        if (collectionGroup.getPropertyName().endsWith("instructors")) {
+        BindingInfo bindingInfo = (BindingInfo) model.getViewPostMetadata().getComponentPostData(collectionId,
+                UifConstants.PostMetadata.BINDING_INFO);
+
+        String propertyName = bindingInfo.getBindingName();
+        if (propertyName.endsWith("instructors")) {
             if (model instanceof MaintenanceDocumentForm) {
                 // get the old object's collection
                 Collection<Object> oldCollection = ObjectPropertyUtils.getPropertyValue(document.getOldMaintainableObject().getDataObject(),
-                        collectionGroup.getPropertyName());
+                        propertyName);
                 if (oldCollection.size() - 1 >= lineIndex) {
-                    super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+                    super.processAfterDeleteLine(model, collectionId, collectionPath, lineIndex);
                 }
             }
-        } else if (collectionGroup.getPropertyName().endsWith("formatOfferingList")) {
+        } else if (propertyName.endsWith("formatOfferingList")) {
             CourseOfferingEditWrapper coWrapper = (CourseOfferingEditWrapper) document.getNewMaintainableObject().getDataObject();
             populateFormatNames(coWrapper);
         } else {
-            super.processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+            super.processAfterDeleteLine(model, collectionId, collectionPath, lineIndex);
         }
     }
 
@@ -872,8 +876,8 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
         formObject.setTermName(termInfo.getName());
 
         // Setting term string: Fall 2012 (09/28/2012 to 12/15/2012)
-        String termStartDate = new String(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getStartDate()));
-        String termEndDate = new String(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getEndDate()));
+        String termStartDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getStartDate());
+        String termEndDate = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(termInfo.getEndDate());
         StringBuilder termStartEnd = new StringBuilder();
         termStartEnd.append(termInfo.getName());
         termStartEnd.append(" (");

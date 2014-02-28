@@ -24,25 +24,22 @@ import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.UifConstants;
-import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.component.BindingInfo;
 import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
-import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.FormatOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingCrossListingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
@@ -99,7 +96,7 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
     }
 
     @Override
-    public void processCollectionAddBlankLine(View view, Object model, String collectionPath) {
+    public void processCollectionAddBlankLine(ViewModel model, String collectionId, String collectionPath) {
 
         if (StringUtils.endsWith(collectionPath,"formatOfferingList")){
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
@@ -119,12 +116,16 @@ public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl im
             }
         }
 
-        super.processCollectionAddBlankLine(view,model,collectionPath);
+        super.processCollectionAddBlankLine(model, collectionId, collectionPath);
     }
 
     @Override
-    public void processAfterDeleteLine(View view, CollectionGroup collectionGroup, Object model, int lineIndex) {
-        if (StringUtils.equals(collectionGroup.getPropertyName(),"formatOfferingList")){
+    public void processAfterDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
+
+        BindingInfo bindingInfo = (BindingInfo) model.getViewPostMetadata().getComponentPostData(collectionId,
+                UifConstants.PostMetadata.BINDING_INFO);
+
+        if (StringUtils.equals(bindingInfo.getBindingName(),"formatOfferingList")){
             MaintenanceDocumentForm maintenanceForm = (MaintenanceDocumentForm) model;
             MaintenanceDocument document = maintenanceForm.getDocument();
 

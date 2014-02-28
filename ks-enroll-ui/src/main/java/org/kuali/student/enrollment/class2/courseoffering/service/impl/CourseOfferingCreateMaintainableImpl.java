@@ -24,7 +24,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.uif.util.GrowlIcon;
@@ -497,7 +497,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      * overriding this method completely as we dont need any validation or pre/post event for this action
      */
     @Override
-    public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex){
+    public void processCollectionDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
         Collection<Object> collection = ObjectPropertyUtils.getPropertyValue(model, collectionPath);
         FormatOfferingWrapper deleteLine = (FormatOfferingWrapper)((List<Object>) collection).get(lineIndex);
         if (deleteLine.isJointOffering()){
