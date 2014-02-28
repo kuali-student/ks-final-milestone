@@ -407,8 +407,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             if (fo.getFinalExamLevelTypeKey() != null) {
                 TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
                 if (typeAO.getName().equals(typeFEO.getName())){
-                    ExamOfferingResult statusInfo = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, aoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
-                    aoResult.getExamOfferingsGenerated().setSuccess(statusInfo.getExamStatus().getIsSuccess());
+                    this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(created, aoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
                 } else {
                     aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
                 }
