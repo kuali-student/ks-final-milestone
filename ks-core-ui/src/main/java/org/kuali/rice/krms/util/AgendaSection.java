@@ -82,19 +82,6 @@ public class AgendaSection extends GroupBase {
         super.performApplyModel(model, parent);
     }
 
-    @Override
-    public List<Component> getComponentsForLifecycle() {
-        return super.getComponentsForLifecycle();
-    }
-
-    @Override
-    public List<Component> getComponentPrototypes() {
-        List<Component> components = super.getComponentPrototypes();
-        components.add(this.getAgendaPrototype());
-        components.add(this.getRulePrototype());
-
-        return components;
-    }
 
     public AgendaBuilder getAgendaBuilder() {
         if (this.agendaBuilder == null) {

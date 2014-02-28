@@ -16,6 +16,8 @@
 package org.kuali.rice.krms.util;
 
 import org.kuali.rice.krad.uif.component.Component;
+import org.kuali.rice.krad.uif.container.CollectionGroupBase;
+import org.kuali.rice.krad.uif.container.CollectionGroupBuilder;
 import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.TreeGroup;
 import org.kuali.rice.krad.uif.element.Action;
@@ -79,7 +81,7 @@ public class AgendaBuilder {
             actionLink.getActionParameters().put("ruleType", rule.getRuleTypeInfo().getType());
         }
 
-        ComponentUtils.updateContextForLine(group, rule, 0, ruleSuffix);
+        ComponentUtils.updateContextForLine(group, null, rule, 0, ruleSuffix);
 
         String bindingPath = bindingPrefix + "ruleEditors[" + rule.getKey() + "].";
         this.setPropertyBindingPaths(group, bindingPath);
