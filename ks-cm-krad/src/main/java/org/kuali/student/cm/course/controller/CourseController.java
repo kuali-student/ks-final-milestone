@@ -375,7 +375,7 @@ public class CourseController extends CourseRuleEditorController {
 
         final String selectedCollectionPath = form.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
         if (StringUtils.isBlank(selectedCollectionPath)) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.UNABLE_TO_ADD_LINE);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CourseViewSections.SUPPORTING_DOCUMENTS.getSectionId(), CurriculumManagementConstants.MessageKeys.UNABLE_TO_ADD_LINE);
             return getUIFModelAndView(form);
         }
 
@@ -388,7 +388,7 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         if (selectedLineIndex == -1) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.UNABLE_TO_DELETE_LINE);
+            GlobalVariables.getMessageMap().putErrorForSectionId(CourseViewSections.SUPPORTING_DOCUMENTS.getSectionId(), CurriculumManagementConstants.MessageKeys.UNABLE_TO_DELETE_LINE);
             return getUIFModelAndView(form);
         }
         
@@ -1005,7 +1005,7 @@ public class CourseController extends CourseRuleEditorController {
         info("Adding ", toAdd);
         courseInfoWrapper.getUnitsContentOwner().add(getOrganizationBy(courseInfoWrapper.getCourseInfo().getSubjectArea(), toAdd));
         courseInfoWrapper.setUnitsContentOwnerToAdd("");
-        
+
         return getUIFModelAndView(form);
     }
 
