@@ -440,8 +440,7 @@
 
     <bean id="ruleManagementService" class="org.kuali.rice.krms.impl.repository.KSRuleManagementServiceImpl">
         <property name="templater" ref="propositionTemplater"/>
-        <property name="businessObjectService" ref="businessObjectService"/>
-        <property name="criteriaLookupService" ref="criteriaLookupService" />
+        <property name="dataObjectService" ref="dataObjectService"/>
     </bean>
 
 </beans>
