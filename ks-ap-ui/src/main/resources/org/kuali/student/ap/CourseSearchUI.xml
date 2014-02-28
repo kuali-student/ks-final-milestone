@@ -294,8 +294,10 @@
 					value="function() {
                             if (Math.ceil((this.fnSettings().fnRecordsDisplay()) / this.fnSettings()._iDisplayLength) > 1)  {
                                 jQuery('.dataTables_paginate span').not('.first, .last').show();
+                                jQuery('#course_search_results_length').removeClass('invisible');
                             } else {
                                 jQuery('.dataTables_paginate span').hide();
+                                jQuery('#course_search_results_length').addClass('invisible');
                             }
                        }" />
 			</map>
