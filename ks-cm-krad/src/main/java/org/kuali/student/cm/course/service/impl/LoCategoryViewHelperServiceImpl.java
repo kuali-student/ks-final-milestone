@@ -6,10 +6,10 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
-import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.logging.FormattedLogger;
+import org.kuali.student.lum.lu.util.CurriculumManagementConstants;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
@@ -29,7 +29,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
 
 
     @Override
-    public void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+    public void processBeforeAddLine(ViewModel model, Object addLine, String collectionId, String collectionPath) {
         LoCategoryInfo loCategory = (LoCategoryInfo) addLine;
         loCategory.setStateKey(ACTIVE);
         loCategory.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
@@ -46,8 +46,8 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
     }
 
     @Override
-    public void processBeforeSaveLine(View view, CollectionGroup collectionGroup, Object model, Object updateLine) {
-        LoCategoryInfo loCategory = (LoCategoryInfo) updateLine;
+    public void processBeforeSaveLine(ViewModel model, Object lineObject, String collectionId, String collectionPath) {
+        LoCategoryInfo loCategory = (LoCategoryInfo) lineObject;
         //The 'loRepositoryKey' is not retrieved on the initial load of the existing Categories, so we are setting it again.
         loCategory.setLoRepositoryKey(CurriculumManagementConstants.KUALI_LO_REPOSITORY_KEY_SINGLE_USE);
         try {
@@ -68,13 +68,12 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
      * contain the deleted item anymore, the original method was copied and the database
      * delete method call was inserted.
      * 
-     * @see org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl#processCollectionDeleteLine(org.kuali.rice.krad.uif.view.View,
-     * java.lang.Object, java.lang.String, int)
+     * @see org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl#processCollectionDeleteLine(org.kuali.rice.krad.uif.view.ViewModel, String, String, int)
      */
     @Override
-    public void processCollectionDeleteLine(View view, Object model, String collectionPath, int lineIndex) {
+    public void processCollectionDeleteLine(ViewModel model, String collectionId, String collectionPath, int lineIndex) {
         // get the collection group from the view
-        CollectionGroup collectionGroup = view.getViewIndex().getCollectionGroupByPath(collectionPath);
+        CollectionGroup collectionGroup = model.getView().getViewIndex().getCollectionGroupByPath(collectionPath);
         if (collectionGroup == null) {
             logAndThrowRuntime(CurriculumManagementConstants.ConfigProperties.UNABLE_TO_GET_COLLECTION_GROUP + collectionPath);
         }
@@ -91,7 +90,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
             Object deleteLine = ((List<Object>) collection).get(lineIndex);
 
             // validate the delete action is allowed for this line
-            boolean isValid = performDeleteLineValidation(view, collectionGroup, deleteLine);
+            boolean isValid = performDeleteLineValidation(model, collectionId, collectionPath, deleteLine);
             if (isValid) {
                 //This part was altered to include the database delete method call.
                 LoCategoryInfo loCategory = (LoCategoryInfo) deleteLine;
@@ -102,7 +101,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
                             e.getMessage());
                 }
                 ((List<Object>) collection).remove(lineIndex);
-                processAfterDeleteLine(view, collectionGroup, model, lineIndex);
+                processAfterDeleteLine(model, collectionId, collectionPath, lineIndex);
             }
         } else {
             logAndThrowRuntime(CurriculumManagementConstants.ConfigProperties.LIST_COLLECTION_IMPLEMENTATIONS_SUPPORTED_FOR_DELETE_INDEX);
