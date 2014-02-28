@@ -24,6 +24,7 @@ import org.kuali.rice.krad.uif.container.Group;
 import org.kuali.rice.krad.uif.container.NodePrototype;
 import org.kuali.rice.krad.uif.container.TreeGroup;
 import org.kuali.rice.krad.uif.element.Message;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycleUtils;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
@@ -99,7 +100,7 @@ public class ViewTreeGroup extends TreeGroup {
         ComponentUtils.pushObjectToContext(nodeGroup, UifConstants.ContextVariableNames.NODE_PATH, nodePath);
 
         /*Overridden section*/
-        List<CollectionGroup> components = ComponentUtils.getComponentsOfTypeShallow(nodeGroup, CollectionGroup.class);
+        List<CollectionGroup> components = ViewLifecycleUtils.getElementsOfTypeShallow(nodeGroup, CollectionGroup.class);
         for (CollectionGroup fieldCollectionGroup : components) {
             fieldCollectionGroup.setSubCollectionSuffix(parentNode);
         }
