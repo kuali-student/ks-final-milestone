@@ -96,25 +96,16 @@
             <bean parent="Uif-KS-Help"
                   p:tooltipHelpContent= />
         </property>-->
-        <property name="header">
-            <bean parent="KS-CourseView-TooltipHeader">
-                <property name="rightGroup.items">
-                    <list>
-                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
-                            <property name="style" value="margin-left:5px;"/>
-                            <property name="toolTip">
-                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
-                                                        A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
-                                                        Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
-                                                        ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
-                                                        ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
-                                                        Notation&lt;b&gt;&lt;br&gt;complete,incomplete "/>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
+        <!--<property name="header">
+            <bean parent="Uif-KS-IconHeader">
+                <property name="richHeaderMessage.iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
+                                                                        A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
+                                                                        Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
+                                                                        ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
+                                                                        ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
+                                                                        Notation&lt;b&gt;&lt;br&gt;complete,incomplete "/>
             </bean>
-        </property>
+        </property>-->
         <property name="items">
             <list>
 
@@ -122,7 +113,18 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Assessment Scale" p:renderColon="false"/>
-                            <bean parent="Uif-Label" p:labelText="Required on Submit" p:renderColon="false" p:additionalCssClasses="cm-form-required-for-submit"/>
+                            <bean parent="Uif-Label" p:labelText="Required on Submit" p:renderColon="false" p:additionalCssClasses="cm-form-required-for-submit">
+                                <property name="richLabelMessage">
+                                    <bean parent="Uif-KS-IconLabelMessage">
+                                        <property name="iconToolTipText" value="&lt;b&gt;Letter, Standard Values&lt;b&gt;&lt;br&gt;
+                                                                A,B,C,D,F&lt;br&gt;&lt;br&gt;&lt;b&gt;Satisfactory, unsatisfactory&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital
+                                                                Values&lt;b&gt; >60% pass&lt;br&gt;&lt;br&gt;&lt;b&gt;Recital Review&lt;b&gt;&lt;br&gt;Lorem
+                                                                ipsum description of recital review&lt;br&gt;&lt;br&gt;&lt;b&gt;Design Review&lt;b&gt;&lt;br&gt;Lorem
+                                                                ipsum description of design review&lt;br&gt;&lt;br&gt;&lt;b&gt;Completed
+                                                                Notation&lt;b&gt;&lt;br&gt;complete,incomplete "/>
+                                    </bean>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>
@@ -278,17 +280,8 @@
                   p:tooltipHelpContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats." />
         </property>-->
         <property name="header">
-            <bean parent="KS-CourseView-TooltipHeader">
-                <property name="rightGroup.items">
-                    <list>
-                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
-                            <property name="style" value="margin-left:5px;"/>
-                            <property name="toolTip">
-                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
+            <bean parent="Uif-KS-IconHeader">
+                <property name="richHeaderMessage.iconToolTipText" value="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats."/>
             </bean>
         </property>
         <property name="addLinePlacement" value="BOTTOM" />

@@ -31,4 +31,46 @@
 
   <bean id="Uif-CancelAction" parent="Uif-CancelActionButton" p:methodToCall="cancel"
         p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="cancel"/>
+
+  <bean id="Uif-KS-IconInputField" parent="Uif-KS-IconInputField-parentBean" abstract="true"/>
+
+  <bean id="Uif-KS-IconInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
+      <property name="requiredMessage.messageText" value=""/>
+      <property name="fieldLabel.labelText" value="test"/> <!-- This is a workaround needed as KRAD not rendering the label if this is empty -->
+      <property name="fieldLabel.richLabelMessage">
+          <bean parent="Uif-KS-IconLabelMessage"/>
+      </property>
+  </bean>
+
+  <bean id="Uif-KS-IconInputField-LabelTop" parent="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true"/>
+
+  <bean id="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true" parent="Uif-InputField-LabelTop-parentBean" scope="prototype">
+      <property name="fieldLabel.requiredMessage.messageText" value=""/>
+      <property name="fieldLabel.labelText" value="test"/> <!-- This is a workaround needed as KRAD not rendering the label if it is empty -->
+      <property name="fieldLabel.richLabelMessage">
+            <bean parent="Uif-KS-IconLabelMessage"/>
+      </property>
+  </bean>
+
+  <bean id="Uif-KS-IconHeader" parent="Uif-SectionHeader">
+      <property name="richHeaderMessage">
+          <bean parent="Uif-KS-IconLabelMessage"/>
+      </property>
+  </bean>
+
+  <bean id="Uif-KS-IconLabelMessage" parent="Uif-KS-IconLabelMessage-parentBean"/>
+
+  <bean id="Uif-KS-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true" class="org.kuali.student.cm.uif.element.KSIconLabelMessage" scope="prototype">
+      <property name="inlineComponents">
+          <list>
+              <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
+                  <property name="image.style" value="vertical-align:top;"/>
+                  <property name="toolTip">
+                      <bean parent="Uif-KS-Tooltip"/>
+                  </property>
+              </bean>
+          </list>
+      </property>
+  </bean>
+
 </beans>

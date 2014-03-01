@@ -108,17 +108,8 @@
                   p:tooltipHelpContent="This is not a restrictive list - organizations here are additional organizations that can administer this course." />
         </property>-->
         <property name="header">
-            <bean parent="KS-CourseView-TooltipHeader">
-                <property name="rightGroup.items">
-                    <list>
-                        <bean parent="Uif-ImageField" p:source="@{#ConfigProperties['ks.externalizable.images.url']}/validation/info.png">
-                            <property name="style" value="margin-left:5px;"/>
-                            <property name="toolTip">
-                                <bean parent="Uif-KS-Tooltip" p:tooltipContent="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
+            <bean parent="Uif-KS-IconHeader">
+                <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - organizations here are additional organizations that can administer this course."/>
             </bean>
         </property>
         <property name="cssClasses">
