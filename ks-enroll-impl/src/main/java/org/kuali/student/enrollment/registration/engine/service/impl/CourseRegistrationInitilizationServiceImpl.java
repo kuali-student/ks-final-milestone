@@ -15,6 +15,7 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.lui.service.LuiService;
+import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.engine.service.RegistrationProcessService;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -194,11 +195,8 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             throw new OperationFailedException("Search of lpr ids for master lpr id " + masterLprId + " failed: ", e);
         }
 
-        for (SearchResultRowInfo row : searchResult.getRows()) {
-            for (SearchResultCellInfo cellInfo : row.getCells()) {
-                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_ID.equals(cellInfo.getKey())) {
-                    lprIds.add(cellInfo.getValue());
-                }                    }
+        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
+            lprIds.add(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_ID);
         }
 
         return lprIds;

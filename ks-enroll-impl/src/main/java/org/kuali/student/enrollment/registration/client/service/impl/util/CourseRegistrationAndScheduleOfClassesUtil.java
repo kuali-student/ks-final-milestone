@@ -418,11 +418,11 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
 
     public static String translateGradingOptionKeyToName(String gradingOptionKey) {
         if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)) {
-            return "Audit";
+            return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_AUDIT;
         } else if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER)) {
-            return "Letter";
+            return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_LETTER;
         } else if (StringUtils.equals(gradingOptionKey, LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)) {
-            return "Pass/Fail";
+            return LrcServiceConstants.RESULT_GROUP_VALUE_GRADE_PASSFAIL;
         }
         return null;
     }

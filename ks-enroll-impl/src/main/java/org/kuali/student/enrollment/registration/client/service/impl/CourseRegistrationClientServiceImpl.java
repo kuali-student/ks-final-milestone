@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.registration.client.service.dto.StudentSched
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.enrollment.registration.client.service.dto.TermSearchResult;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
+import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.client.service.impl.util.statistics.RegEngineMqStatisticsGenerator;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
@@ -341,52 +342,26 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             throw new OperationFailedException("Search of registration schedule for person " + userId + " and term " + termId + " failed: ", e);
         }
 
-        for (SearchResultRowInfo row : searchResult.getRows()) {
-            String atpId = "", atpCode = "", atpName = "", resultValuesGroupKey = "",
-                   luiId = "", masterLprId = "", personLuiType = "", credits = "", gradingOptionId = "",
-                   luiCode = "", luiName = "", luiDesc = "", luiType = "", luiLongName = "",
-                   roomCode = "", buildingCode = "", weekdays = "", startTimeMs = "", endTimeMs = "";
-            for (SearchResultCellInfo cellInfo : row.getCells()) {
-                if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID.equals(cellInfo.getKey())) {
-                    atpId = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_CD.equals(cellInfo.getKey())) {
-                    atpCode = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_NAME.equals(cellInfo.getKey())) {
-                    atpName = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID.equals(cellInfo.getKey())) {
-                    luiId = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID.equals(cellInfo.getKey())) {
-                    masterLprId = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_LUI_TYPE.equals(cellInfo.getKey())) {
-                    personLuiType = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS.equals(cellInfo.getKey())) {
-                    credits = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID.equals(cellInfo.getKey())) {
-                    gradingOptionId = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE.equals(cellInfo.getKey())) {
-                    luiCode = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_NAME.equals(cellInfo.getKey())) {
-                    luiName = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC.equals(cellInfo.getKey())) {
-                    luiDesc = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_TYPE.equals(cellInfo.getKey())) {
-                    luiType = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME.equals(cellInfo.getKey())) {
-                    luiLongName = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE.equals(cellInfo.getKey())) {
-                    roomCode = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE.equals(cellInfo.getKey())) {
-                    buildingCode = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS.equals(cellInfo.getKey())) {
-                    weekdays = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS.equals(cellInfo.getKey())) {
-                    startTimeMs = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS.equals(cellInfo.getKey())) {
-                    endTimeMs = cellInfo.getValue();
-                } else if (CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY.equals(cellInfo.getKey())) {
-                    resultValuesGroupKey = cellInfo.getValue();
-                }
-            }
+        for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
+            String atpId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_ID);
+            String atpCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_CD);
+            String atpName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ATP_NAME);
+            String luiId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_ID);
+            String masterLprId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.MASTER_LPR_ID);
+            String personLuiType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.PERSON_LUI_TYPE);
+            String credits = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CREDITS);
+            String gradingOptionId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.GRADING_OPTION_ID);
+            String luiCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_CODE);
+            String luiName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_NAME);
+            String luiDesc = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_DESC);
+            String luiType = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_TYPE);
+            String luiLongName = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME);
+            String roomCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
+            String buildingCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
+            String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
+            String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
+            String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
+            String resultValuesGroupKey = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RES_VAL_GROUP_KEY);
             String aoName = (luiName!=null&&luiName.length()>=3?luiName.substring(0,3).toUpperCase():"");
 
             // running over the list of results returned. One CO can have multiple AOs
@@ -399,8 +374,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     studentScheduleCourseResult.setMasterLprId(masterLprId);
-                    if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
-                        studentScheduleCourseResult.setCreditOptions(setCourseOfferingCreditOptions(resultValuesGroupKey, contextInfo));
+                    if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+                        studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
                     } else {
                         if (!studentScheduleCourseResult.getGradingOptions().containsKey(resultValuesGroupKey)) {
                             String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
@@ -463,8 +438,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                     studentScheduleCourseResult.setGradingOptionId(gradingOptionId);
                     studentScheduleCourseResult.setLongName(luiLongName);
                     studentScheduleCourseResult.setMasterLprId(masterLprId);
-                    if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith("kuali.creditType.credit")) {
-                        studentScheduleCourseResult.setCreditOptions(setCourseOfferingCreditOptions(resultValuesGroupKey, contextInfo));
+                    if (resultValuesGroupKey != null && resultValuesGroupKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE_OLD)) {
+                        studentScheduleCourseResult.setCreditOptions(getCourseOfferingCreditOptionValues(resultValuesGroupKey, contextInfo));
                     } else {
                         studentScheduleCourseResult.setGradingOptions(new HashMap<String, String>());
                         String gradingOptionName = CourseRegistrationAndScheduleOfClassesUtil.translateGradingOptionKeyToName(resultValuesGroupKey);
@@ -687,7 +662,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return scheduleItemResult;
     }
 
-    private List<String> setCourseOfferingCreditOptions(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    private List<String> getCourseOfferingCreditOptionValues(String creditOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         int firstValue = 0;
         List<String> creditOptions = new ArrayList<String>();
 
@@ -703,13 +678,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             if (!resultValueInfos.isEmpty()) {
                 if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                     creditOptions.add(resultValueInfos.get(firstValue).getValue()); // fixed credits
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // range
-                    int minValue = Integer.parseInt(resultValuesGroupInfo.getResultValueRange().getMinValue());
-                    int maxValue = Integer.parseInt(resultValuesGroupInfo.getResultValueRange().getMaxValue());
-                    for (int i = minValue; i <= maxValue; i++) {
-                        creditOptions.add(Integer.toString(i));
-                    }
-                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {  // multiple
+                } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE) ||
+                        typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // multiple or range
                     for (ResultValueInfo resultValueInfo : resultValueInfos) {
                         creditOptions.add(resultValueInfo.getValue());
                     }
