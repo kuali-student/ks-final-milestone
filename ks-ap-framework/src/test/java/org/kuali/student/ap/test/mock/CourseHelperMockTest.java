@@ -1,7 +1,6 @@
 package org.kuali.student.ap.test.mock;
 
 import org.kuali.student.ap.framework.context.CourseHelper;
-import org.kuali.student.ap.framework.context.DeconstructedCourseCode;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
@@ -39,11 +38,6 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public DeconstructedCourseCode getCourseDivisionAndNumber(String courseCode) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public String getLastOfferedTermId(Course course) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -54,27 +48,7 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public String getCourseId(String subjectArea, String number) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public String getCourseIdForTerm(String subjectArea, String number, String termId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public String buildActivityRefObjId(String atpId, String subject, String number, String activityCd) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public String getSLN(String year, String term, String subject, String number, String activityCd) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public String joinStringsByDelimiter(char delimiter, String... list) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -85,11 +59,6 @@ public class CourseHelperMockTest implements CourseHelper {
 
     @Override
     public String getCourseCdFromActivityId(String activityId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public String getCodeFromActivityId(String activityId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

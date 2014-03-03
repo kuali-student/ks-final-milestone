@@ -1,26 +1,17 @@
 package org.kuali.student.ap.framework.context.support;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.context.DeconstructedCourseCode;
-import org.kuali.student.ap.framework.context.YearTerm;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -31,18 +22,19 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.infc.SearchRequest;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
-import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.infc.Clu;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 //
 public class DefaultCourseHelper implements CourseHelper, Serializable {
@@ -482,65 +474,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			return null;
 	}
 
-	/**
-	 * Used to Split the course code into division and Code. eg: "COM 243" is
-	 * returned as CourseCode with division=COM and number=243 and section=null.
-	 * eg: "COM 243 A" is returned as CourseCode with division=COM , number=243
-	 * and section=A.
-	 * 
-	 * @param courseCode
-	 * @return
-	 */
-	@Override
-	public DeconstructedCourseCode getCourseDivisionAndNumber(String courseCode) {
-		String subject = null;
-		String number = null;
-		String activityCd = null;
-        courseCode=courseCode.toUpperCase();
-        try{
-            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(PredicateFactory.equal("officialIdentifier.code", courseCode));
-            List<CluInfo> clus = KsapFrameworkServiceLocator.getCluService().searchForClus(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
-            CluInfo clu = KSCollectionUtils.getOptionalZeroElement(clus);
-            if(clu!=null){
-                subject = clu.getOfficialIdentifier().getDivision();
-                number = clu.getOfficialIdentifier().getSuffixCode();
-                activityCd ="";
-            }else{
-                SearchRequestInfo luiQuery = new SearchRequestInfo("ksap.course.lui.code.find");
-                luiQuery.addParam("courseCd",courseCode);
-                SearchResultInfo results = KsapFrameworkServiceLocator.getCluService().search(luiQuery, KsapFrameworkServiceLocator.getContext().getContextInfo());
-                SearchResultRow row = KSCollectionUtils.getOptionalZeroElement(results.getRows());
-                subject = getCellValue(row,"ksap.course.lui.code.find.result.division");
-                number = getCellValue(row,"ksap.course.lui.code.find.result.code");
-                activityCd = courseCode.replace(subject,"").replace(number,"").trim();
-            }
-        }catch (MissingParameterException e) {
-           throw new RuntimeException("Course code not found", e);
-        } catch (InvalidParameterException e) {
-            throw new RuntimeException("Course code not found", e);
-        } catch (OperationFailedException e) {
-            throw new RuntimeException("Course code not found", e);
-        } catch (PermissionDeniedException e) {
-            throw new RuntimeException("Course code not found", e);
-        }
-
-        return new DefaultDeconstructedCourseCode(subject, number, activityCd);
-	}
-
-	/**
-	 * Used to get the course Id for the given subject area and course number
-	 * (CHEM, 120) Uses last scheduled term to calculate the course Id
-	 * 
-	 * @param subjectArea
-	 * @param number
-	 * @return
-	 */
-	@Override
-	public String getCourseId(String subjectArea, String number) {
-		return getCourseIdForTerm(subjectArea, number, KsapFrameworkServiceLocator.getTermHelper()
-				.getLastScheduledTerm().getId());
-	}
-
 	@Override
 	public List<Course> getCoursesByCode(String courseCd) {
 		try {
@@ -559,51 +492,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("Course lookup error", e);
 		}
-	}
-
-	/**
-	 * Used to get the course Id for the given subject area and course number
-	 * (CHEM, 120) for a given term
-	 * 
-	 * @param subjectArea
-	 * @param number
-	 * @return
-	 */
-	@Override
-	public String getCourseIdForTerm(String subjectArea, String number, String termId) {
-		List<SearchRequest> requests = new ArrayList<SearchRequest>();
-		SearchRequestInfo request = new SearchRequestInfo(CourseSearchConstants.COURSE_SEARCH_FOR_COURSE_ID);
-		request.addParam(CourseSearchConstants.SEARCH_REQUEST_SUBJECT_PARAM, subjectArea.trim());
-		request.addParam(CourseSearchConstants.SEARCH_REQUEST_NUMBER_PARAM, number.trim());
-		request.addParam(CourseSearchConstants.SEARCH_REQUEST_LAST_SCHEDULED_PARAM, termId);
-		requests.add(request);
-		SearchResultInfo searchResult = new SearchResultInfo();
-		try {
-			searchResult = KsapFrameworkServiceLocator.getCluService().search(request,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		}
-		try{
-            return KSCollectionUtils.getRequiredZeroElement(KSCollectionUtils.getRequiredZeroElement(searchResult.getRows()).getCells()).getValue();
-        }catch (OperationFailedException e){
-            return null;
-        }
-	}
-
-	/**
-	 * @param delimiter
-	 * @param list
-	 * @return
-	 */
-	public String joinStringsByDelimiter(char delimiter, String... list) {
-		return StringUtils.join(list, delimiter);
 	}
 
 	/**
@@ -650,7 +538,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	 * @return
 	 */
 	public String getSLN(String year, String term, String subject, String number, String activityCd) {
-		String activityId = joinStringsByDelimiter(':', year, term, subject, number, activityCd);
+		String activityId = StringUtils.join(new Object[]{year, term, subject, number, activityCd}, ":");
 		ActivityOfferingDisplayInfo activityOfferingInfo = null;
 		try {
 			activityOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService().getActivityOfferingDisplay(
@@ -671,21 +559,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalStateException("CO lookup error", e);
 		}
-	}
-
-	/**
-	 * builds the refObjId for activity PlanItems (eg: '2013:2:CHEM:152:A')
-	 * 
-	 * @param atpId
-	 * @param subject
-	 * @param number
-	 * @param activityCd
-	 * @return
-	 */
-	public String buildActivityRefObjId(String atpId, String subject, String number, String activityCd) {
-		YearTerm yearTerm = KsapFrameworkServiceLocator.getTermHelper().getYearTerm(atpId);
-		return joinStringsByDelimiter(':', Integer.toString(yearTerm.getYear()), yearTerm.getTermName(), subject,
-				number, activityCd);
 	}
 
 	/**
@@ -724,32 +597,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 			CourseOfferingInfo courseOfferingInfo = KsapFrameworkServiceLocator.getCourseOfferingService()
 					.getCourseOffering(courseOfferingId, KsapFrameworkServiceLocator.getContext().getContextInfo());
 			return courseOfferingInfo != null ? courseOfferingInfo.getCourseCode() : null;
-		} catch (DoesNotExistException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CO lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CO lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CO lookup error", e);
-		}
-	}
-
-	/**
-	 * returns the section code from given activityId
-	 * 
-	 * eg: for activityId '2013:2:CHEM:152:A' section code A is returned
-	 * 
-	 * @param activityId
-	 * @return
-	 */
-	public String getCodeFromActivityId(String activityId) {
-		try {
-			ActivityOfferingDisplayInfo activityDisplayInfo = KsapFrameworkServiceLocator.getCourseOfferingService()
-					.getActivityOfferingDisplay(activityId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-			return activityDisplayInfo != null ? activityDisplayInfo.getActivityOfferingCode() : null;
 		} catch (DoesNotExistException e) {
 			throw new IllegalArgumentException("CO lookup error", e);
 		} catch (MissingParameterException e) {
