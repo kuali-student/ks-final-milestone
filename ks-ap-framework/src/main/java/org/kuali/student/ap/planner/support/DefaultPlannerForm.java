@@ -1,18 +1,5 @@
 package org.kuali.student.ap.planner.support;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
-import java.util.UUID;
-
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
@@ -43,6 +30,19 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueRangeInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.springframework.util.StringUtils;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.UUID;
 
 /**
  * KSAP planner form.
@@ -442,8 +442,8 @@ public class DefaultPlannerForm extends AbstractPlanItemForm implements
             }
 			termHelper.frontLoadForPlanner(firstTermId);
 
-			List<Term> calendarTerms = KsapFrameworkServiceLocator.getPlanHelper().getCalendarTerms(firstTerm);
-			String focusTermId = KsapFrameworkServiceLocator.getPlanHelper().getStartTermId();
+			List<Term> calendarTerms = KsapFrameworkServiceLocator.getPlanHelper().getPlannerCalendarTerms(firstTerm);
+			String focusTermId = KsapFrameworkServiceLocator.getPlanHelper().getPlannerFirstTermId();
 
 			Calendar cal = Calendar.getInstance();
 			cal.setTime(firstTerm.getStartDate());

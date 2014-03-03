@@ -16,9 +16,9 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
-import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -77,6 +77,8 @@ public class TermAndCalDataLoader {
         loadAtp("ksapAtpNow2", "ksapAtpNow2", yesterday, tomorrow, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Now Term");
         loadSoc("ksapAtpNow2");
 
+        loadTypeTypeRelation(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, 0, AtpServiceConstants.ATP_FALL_TYPE_KEY,"kuali.type.type.relation.state.active", TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY);
+
         loadAtp("ksapAtpFuture", "ksapAtpFuture", tomorrow, dayAfterTomorrow, AtpServiceConstants.ATP_FALL_TYPE_KEY, AtpServiceConstants.ATP_OFFICIAL_STATE_KEY, "Next Term");
         loadSoc("ksapAtpFuture");
 
@@ -91,6 +93,9 @@ public class TermAndCalDataLoader {
         loadType("Fall Term", "", "http://student.kuali.org/wsdl/atp/AtpInfo", "http://student.kuali.org/wsdl/atp/AtpService", AtpServiceConstants.ATP_FALL_TYPE_KEY);
         loadType("Spring Term", "", "http://student.kuali.org/wsdl/atp/AtpInfo", "http://student.kuali.org/wsdl/atp/AtpService", AtpServiceConstants.ATP_SPRING_TYPE_KEY);
         loadType("Winter Term", "", "http://student.kuali.org/wsdl/atp/AtpInfo", "http://student.kuali.org/wsdl/atp/AtpService", AtpServiceConstants.ATP_WINTER_TYPE_KEY);
+
+        loadAtpAtpRel("ksapAtpNow-ksapAtpNow2", yesterday, tomorrow, AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY, "ksapAtpNow", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, "ksapAtpNow2");
+
     }
 
 
@@ -166,5 +171,25 @@ public class TermAndCalDataLoader {
         relation.setServiceUri(service);
         relation.setKey(type);
         typeService.createType(type, relation, KsapFrameworkServiceLocator.getContext().getContextInfo());
+    }
+
+    private void loadAtpAtpRel(String id,
+                               Date effectiveDate,
+                               Date expirationDate,
+                               String state,
+                               String atpId,
+                               String type,
+                               String relatedAtpId)
+            throws Exception {
+        AtpAtpRelationInfo info = new AtpAtpRelationInfo();
+        info.setId(id);
+        info.setEffectiveDate(effectiveDate);
+        info.setExpirationDate(expirationDate);
+        info.setTypeKey(type);
+        info.setStateKey(state);
+        info.setAtpId(atpId);
+        info.setRelatedAtpId(relatedAtpId);
+
+        this.atpService.createAtpAtpRelation(atpId, relatedAtpId, type, info, KsapFrameworkServiceLocator.getContext().getContextInfo());
     }
 }

@@ -1,10 +1,10 @@
 package org.kuali.student.ap.framework.context;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.student.r2.core.acal.infc.AcademicCalendar;
 import org.kuali.student.r2.core.acal.infc.Term;
+
+import java.util.Date;
+import java.util.List;
 /**
  * Provides access to common ATP functionality.
  */
@@ -234,4 +234,10 @@ public interface TermHelper {
      * @return - A list of future terms
      */
     public List<Term> getFutureTermsWithPublishedSOC ();
+
+    /**
+     * Get the term id that is at the beginning of the current academic year
+     * @return The term id
+     */
+    public String getFirstTermIdOfCurrentAcademicYear();
 }

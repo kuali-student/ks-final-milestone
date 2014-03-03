@@ -1,11 +1,5 @@
 package org.kuali.student.ap.framework.context.support;
 
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
@@ -21,6 +15,12 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.infc.Term;
+
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Default implementation of the PlanHelper
@@ -89,14 +89,8 @@ public class DefaultPlanHelper implements PlanHelper {
      * @return Term Id
      */
     @Override
-    public String getStartTermId() {
-        List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getTermsInAcademicYear();
-        if(terms.size()>0){
-            return terms.get(0).getId();
-        }
-
-        // If start id can not be found start at beginning of calendar.
-        return "";
+    public String getPlannerFirstTermId() {
+        return KsapFrameworkServiceLocator.getTermHelper().getFirstTermIdOfCurrentAcademicYear();
     }
 
     /**
@@ -106,7 +100,7 @@ public class DefaultPlanHelper implements PlanHelper {
      * @return A full List of terms to display in the calendar.
      */
     @Override
-    public List<Term> getCalendarTerms(Term startTerm) {
+    public List<Term> getPlannerCalendarTerms(Term startTerm) {
         Calendar c = Calendar.getInstance();
         Date startDate = startTerm.getStartDate();
 

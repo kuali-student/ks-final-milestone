@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -98,6 +99,13 @@ public class TestTermHelper {
         List<Term> terms = th.getFutureTermsWithPublishedSOC();
         assertNotNull(terms);
         assertTrue(terms.size() > 0);
+    }
+
+    @Test
+    public void testGetFirstTermIdOfCurrentAcademicYear() throws Exception {
+        String termId = th.getFirstTermIdOfCurrentAcademicYear();
+        assertNotNull(termId);
+        assertEquals("ksapAtpNow2", termId);
     }
 
 }

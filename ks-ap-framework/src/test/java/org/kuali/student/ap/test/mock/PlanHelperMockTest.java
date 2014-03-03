@@ -30,7 +30,7 @@ public class PlanHelperMockTest implements PlanHelper{
      * @return Term Id
      */
     @Override
-    public String getStartTermId() {
+    public String getPlannerFirstTermId() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -41,7 +41,7 @@ public class PlanHelperMockTest implements PlanHelper{
      * @return A full List of terms to display in the calendar.
      */
     @Override
-    public List<Term> getCalendarTerms(Term startTerm) {
+    public List<Term> getPlannerCalendarTerms(Term startTerm) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
