@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 
 import java.util.ArrayList;
@@ -77,8 +76,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
     private String selectedJointCourseCode;
     private List<FormatOfferingWrapper> dialogFormatOfferingWrapperList;
 
-    private ExamOfferingResult examOfferingResult;
-
     public CourseOfferingCreateWrapper(){
         showTermOfferingLink = true;
         formatOfferingWrappers = new ArrayList<FormatOfferingWrapper>();
@@ -92,7 +89,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
         showCreateFormatSection = true;
         dialogFormatOfferingWrapperList = new ArrayList<FormatOfferingWrapper>();
         createFromCatalog = true;
-        examOfferingResult = new ExamOfferingResult();
     }
 
     public String getTargetTermCode() {
@@ -475,14 +471,6 @@ public class CourseOfferingCreateWrapper extends CourseOfferingWrapper {
 
     public void setViewId(String viewId) {
         this.viewId = viewId;
-    }
-
-    public ExamOfferingResult getExamOfferingResult() {
-        return examOfferingResult;
-    }
-
-    public void setExamOfferingResult(ExamOfferingResult examOfferingResult) {
-        this.examOfferingResult = examOfferingResult;
     }
 
     /**

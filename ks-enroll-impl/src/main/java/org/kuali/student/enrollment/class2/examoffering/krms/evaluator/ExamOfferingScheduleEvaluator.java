@@ -15,7 +15,6 @@
 
 package org.kuali.student.enrollment.class2.examoffering.krms.evaluator;
 
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -38,7 +37,7 @@ public interface ExamOfferingScheduleEvaluator {
      * @param context
      * @throws OperationFailedException
      */
-    public ExamOfferingResult executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
+    public void executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
                                     ContextInfo context) throws OperationFailedException;
 
     /**
@@ -50,6 +49,6 @@ public interface ExamOfferingScheduleEvaluator {
      * @param context
      * @throws OperationFailedException
      */
-    public ExamOfferingResult executeRuleForCOScheduling(CourseOffering courseOffering,String examOfferingId, String termType,
+    public void executeRuleForCOScheduling(CourseOffering courseOffering,String examOfferingId, String termType,
                                     ContextInfo context) throws OperationFailedException;
 }

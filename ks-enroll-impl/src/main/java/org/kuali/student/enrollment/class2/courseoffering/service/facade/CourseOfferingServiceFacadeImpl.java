@@ -33,7 +33,6 @@ import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.F
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.InvalidRegGroupSubissue;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.issue.RegGroupNotGeneratedByAocSubissue;
 import org.kuali.student.enrollment.class2.coursewaitlist.service.facade.CourseWaitListServiceFacade;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingServiceFacade;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -516,8 +515,8 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
             if (fo.getFinalExamLevelTypeKey() != null) {
                 TypeInfo typeFEO = getTypeService().getType(fo.getFinalExamLevelTypeKey(), context);
                 if (typeAO.getName().equals(typeFEO.getName())){
-                    ExamOfferingResult statusInfo = this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(copyAoInfo, copyAoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
-                    aoResult.getExamOfferingsGenerated().setSuccess(statusInfo.getExamStatus().getIsSuccess());
+                    this.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(copyAoInfo, copyAoInfo.getTermId(), examPeriodID, new ArrayList<String>(), context);
+                    aoResult.getExamOfferingsGenerated().setSuccess(Boolean.TRUE);
                 } else {
                     aoResult.getExamOfferingsGenerated().setSuccess(Boolean.FALSE);
                 }

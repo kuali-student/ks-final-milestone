@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.dto;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CreditOptionInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -89,8 +88,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
     //this field is used for CO inquiry page to display all associated AOs
     private List<ActivityOfferingWrapper> aoWrapperList;
 
-    private ExamOfferingResult examOfferingResult;
-
     public CourseOfferingEditWrapper() {
         formatOfferingList = new ArrayList<FormatOfferingWrapper>();
         studentRegOptions = new ArrayList<String>();
@@ -102,7 +99,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         FormatOfferingWrapper defaultFO = new FormatOfferingWrapper();
         formatOfferingList.add(defaultFO);
         aoWrapperList = new ArrayList<ActivityOfferingWrapper>();
-        examOfferingResult = new ExamOfferingResult();
     }
 
     public CourseOfferingEditWrapper(CourseOfferingInfo info) {
@@ -451,14 +447,6 @@ public class CourseOfferingEditWrapper extends CourseOfferingWrapper {
         this.hasWaitlist = hasWaitlist;
     }
 
-
-    public ExamOfferingResult getExamOfferingResult() {
-        return examOfferingResult;
-    }
-
-    public void setExamOfferingResult(ExamOfferingResult examOfferingResult) {
-        this.examOfferingResult = examOfferingResult;
-    }
     /**
      * This method returns a list of crosslisted/official course code for a course. This will
      * be displayed as the tooltip (if crosslisted cos exists) at Copy CO Screen.

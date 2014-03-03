@@ -15,6 +15,7 @@
 
 package org.kuali.student.enrollment.class2.examoffering.krms.evaluator;
 
+import org.apache.activemq.command.ActiveMQMapMessage;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.engine.EngineResults;
@@ -30,9 +31,9 @@ import org.kuali.rice.krms.framework.engine.Agenda;
 import org.kuali.rice.krms.framework.type.TermResolverTypeService;
 import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.PermissionServiceConstants;
-import org.kuali.student.enrollment.class2.examoffering.service.facade.ExamOfferingResult;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
+import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.r2.common.dto.BulkStatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -50,7 +51,15 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
+import org.springframework.util.StringUtils;
 
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,15 +86,16 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     private SchedulingService schedulingService;
     private CourseService courseService;
 
+    private JmsTemplate jmsTemplate;  // needed to call ActiveMQ based Messenger Service
+
     /**
      * @see ExamOfferingScheduleEvaluator
      */
-    public ExamOfferingResult executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
+    public void executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
                                            ContextInfo context) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_STANDARD);
-        ExamOfferingResult eoResult = new   ExamOfferingResult();
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
 
         if (agenda != null) {
@@ -93,9 +103,11 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
             executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
             executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, this.getTimeSlotsForAO(activityOffering, context));
 
-            eoResult =  executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+            executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+        } else {
+            sendMessageToUser("warning.enroll.examoffering.finalexam.matrix.not.found", "WARNING", null);
         }
-       return eoResult;
+
     }
 
     /**
@@ -129,12 +141,11 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     /**
      * @see ExamOfferingScheduleEvaluator
      */
-    public ExamOfferingResult executeRuleForCOScheduling(CourseOffering courseOffering,String examOfferingId, String termType,
+    public void executeRuleForCOScheduling(CourseOffering courseOffering,String examOfferingId, String termType,
                                            ContextInfo context) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_COMMON);
-        ExamOfferingResult eoResult = new   ExamOfferingResult();
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
 
         if (agenda != null) {
@@ -148,15 +159,12 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
                 throw new OperationFailedException("Unable to retrieve course version independent id.", e);
             }
 
-            eoResult = executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+            executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
         }
         else{
-                eoResult.setExamMatrixStatus(new BulkStatusInfo());
-                eoResult.getExamMatrixStatus().setSuccess(Boolean.FALSE);
-                eoResult.getExamMatrixStatus().setMessage("Warning: Exam matrix doesn't exist for the relevant term type");
-                eoResult.getExamMatrixStatus().setId("manageTheCourseOfferingPage");
+            sendMessageToUser("warning.enroll.examoffering.finalexam.matrix.not.found", "WARNING", null);
         }
-      return eoResult;
+
     }
 
     /**
@@ -171,12 +179,11 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
      * @param examOfferingId
      * @param context
      */
-    private ExamOfferingResult executeRuleForScheduling(Agenda agenda, String typeId, Map<String, Object> executionFacts,
+    private void executeRuleForScheduling(Agenda agenda, String typeId, Map<String, Object> executionFacts,
                                           String examOfferingId,ContextInfo context) {
 
         Map<String, String> agendaQualifiers = new HashMap<String, String>();
         agendaQualifiers.put("typeId", typeId);
-        ExamOfferingResult eoResult = new   ExamOfferingResult();
         EngineResults results = this.evaluateAgenda(agenda, executionFacts, agendaQualifiers);
 
         //Check if action inserted a schedule request component.
@@ -186,12 +193,9 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
         }
         else{
-            eoResult.setMatrixMatchStatus(new BulkStatusInfo());
-            eoResult.getMatrixMatchStatus().setSuccess(Boolean.FALSE);
-            eoResult.getMatrixMatchStatus().setMessage("Warning: No match found on the Matrix");
-            eoResult.getMatrixMatchStatus().setId("manageTheCourseOfferingPage");
+            this.sendMessageToUser("warning.enroll.examoffering.finalexam.matrix.match.not.found", "WARNING", null);
         }
-        return eoResult;
+
     }
 
     /**
@@ -300,6 +304,22 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
         return eoTermResolvers;
     }
 
+    private void sendMessageToUser(final String messageKey, final String theme, final String[] parameters) {
+        // Back to the main code if reg request is not a cart
+        jmsTemplate.send("org.kuali.student.user.message", new MessageCreator() {
+            public Message createMessage(Session session) throws JMSException {
+
+                MapMessage message = session.createMapMessage();
+                message.setString("userKey", "Ekke");
+                message.setString("theme", theme);
+                message.setString("messageKey", messageKey);
+                message.setString("messageParameters", StringUtils.arrayToCommaDelimitedString(parameters));
+
+                return message;
+            }
+        });
+    }
+
     public RuleManagementService getRuleManagementService() {
         if (ruleManagementService == null) {
             ruleManagementService = GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
@@ -349,4 +369,11 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
         this.courseService = courseService;
     }
 
+    public JmsTemplate getJmsTemplate() {
+        return jmsTemplate;
+    }
+
+    public void setJmsTemplate(JmsTemplate jmsTemplate) {
+        this.jmsTemplate = jmsTemplate;
+    }
 }

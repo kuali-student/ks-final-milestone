@@ -47,6 +47,7 @@
         <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initilizationListenerQueue" ref="registrationInitilizationListener" />
         <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
         <jms:listener id="regSeatCheckListener" destination="org.kuali.student.enrollment.registration.seatCheckQueue" ref="registrationSeatCheckListener" />
+        <jms:listener id="userMsgListener" destination="org.kuali.student.user.message" ref="userMessageListener" />
     </jms:listener-container>
 
 
@@ -83,5 +84,8 @@
     <bean id="courseRegistratoinVerificationService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationVerificationServiceImpl"/>
     <bean id="courseRegistratoinSeatCheckService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationSeatCheckServiceImpl"/>
 
+    <bean id="userMessageListener" class="org.kuali.student.r2.common.messenger.UserMessageListener">
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
 
 </beans>
