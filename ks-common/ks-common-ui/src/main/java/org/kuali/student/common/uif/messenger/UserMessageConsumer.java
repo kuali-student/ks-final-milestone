@@ -1,9 +1,11 @@
 package org.kuali.student.common.uif.messenger;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.GrowlMessage;
 import org.kuali.student.r2.common.messenger.UserMessage;
+import org.kuali.student.r2.common.messenger.util.MessengerConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -18,36 +20,44 @@ import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
 
+/**
+ * This class ...
+ *
+ * @author Kuali Student Team
+ */
 public class UserMessageConsumer {
 
     private static final Logger logger = LoggerFactory.getLogger(UserMessageConsumer.class);
 
     public static final String MQ_CONNECTION_BASE_URL = "vm://localhost";
 
-    public static final String USERMESSAGE_QUEUE_NAME = "org.kuali.student.user.message";
-
     public void publish() {
 
         logger.info("Publishing messages for user.");
+        UserSession userSession = GlobalVariables.getUserSession();
+        if (userSession == null) {
+            return;
+        }
 
         // create the request components
         try {
             Session session = createSession();
-            sendReceive(session);
+            sendReceive(session, userSession.getPrincipalId());
         } catch (JMSException e) {
             throw new RuntimeException(e);
         }
 
     }
 
-    private static void sendReceive(Session session) throws JMSException {
+    private static void sendReceive(Session session, final String user) throws JMSException {
 
         Queue replyTo = session.createTemporaryQueue();
 
         MessageConsumer consumer = session.createConsumer(replyTo);
         Message msg = createMessage(session, replyTo);
+        msg.setStringProperty(MessengerConstants.USER_MESSAGE_USER, user);
 
-        Queue query = session.createQueue(USERMESSAGE_QUEUE_NAME);
+        Queue query = session.createQueue(MessengerConstants.USER_MESSAGE_DESTINATION);
         MessageProducer producer = session.createProducer(query);
         producer.send(msg);
 
@@ -65,7 +75,7 @@ public class UserMessageConsumer {
 
             logger.info("Messages added to global variables.");
             if(userMessage.hasMore()){
-                sendReceive(session);
+                sendReceive(session, user);
             }
 
         }

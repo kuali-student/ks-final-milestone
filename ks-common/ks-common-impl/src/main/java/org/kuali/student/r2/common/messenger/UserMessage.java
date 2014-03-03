@@ -3,7 +3,9 @@ package org.kuali.student.r2.common.messenger;
 import java.io.Serializable;
 
 /**
- * Created by SW Genis on 2014/02/28.
+ * This class represents a message for the user.
+ *
+ * @author Kuali Student Team
  */
 public class UserMessage implements Serializable {
 

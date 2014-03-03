@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.Queue;
 
 /**
- * Singleton counter class.
+ * This class ...
+ *
+ * @author Kuali Student Team
  */
 public class UserMessageMap {
 
@@ -30,6 +32,11 @@ public class UserMessageMap {
     protected UserMessageMap() {
     }
 
+    /**
+     *
+     * @param key
+     * @param userMessage
+     */
     public synchronized void addMessageForKey(String key, UserMessage userMessage) {
         if(!messageMap.containsKey(key)){
             messageMap.put(key, new LinkedList<UserMessage>());
@@ -39,6 +46,11 @@ public class UserMessageMap {
 
     }
 
+    /**
+     *
+     * @param key
+     * @return
+     */
     public synchronized UserMessage getMessagesForKey(String key) {
         List<UserMessage> messages = new ArrayList<UserMessage>();
         if(messageMap.containsKey(key)){
