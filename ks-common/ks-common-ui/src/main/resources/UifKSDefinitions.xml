@@ -504,44 +504,44 @@
     <bean id="Unified-Right-Header-Group-Action-Copy" parent="KS-Uif-ActionLink" p:actionLabel="Copy"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:style="ks-fontello-icon-docs"/>
+            <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:source="ks-fontello-icon-docs"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Comment" parent="KS-Uif-ActionLink" p:actionLabel="Comment"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:style="ks-fontello-icon-comment"/>
+            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:source="ks-fontello-icon-comment"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Print" parent="KS-Uif-ActionLink" p:actionLabel="Print"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:style="ks-fontello-icon-print"/>
+            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:source="ks-fontello-icon-print"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Delete" parent="KS-Uif-ActionLink" p:actionLabel="Delete"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="ks-fontello-icon-cancel"/>
+            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:source="ks-fontello-icon-cancel"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Edit" parent="KS-Uif-ActionLink" p:actionLabel="Edit"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:style="ks-fontello-icon-pencil"/>
+            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:source="ks-fontello-icon-pencil"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-Manage" parent="KS-Uif-ActionLink" p:actionLabel="Manage"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:style="ks-fontello-icon-wrench"/>
+            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:source="ks-fontello-icon-wrench"/>
         </property>
     </bean>
     <bean id="Unified-Right-Header-Group-Action-MakeOfficial" parent="KS-Uif-ActionLink" p:actionLabel="Make Official"
           p:actionImagePlacement="LEFT">
         <property name="actionImage">
             <bean parent="Uif-Image" p:altText="Make Official" p:title="Make Official"
-                  p:style="ks-fontello-icon-check"/>
+                  p:source="ks-fontello-icon-check"/>
         </property>
     </bean>
 
@@ -599,48 +599,48 @@
 
     <bean id="KS-Uif-View-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="View">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-eye"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-eye"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
     <bean id="KS-Uif-Edit-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Edit">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-pencil"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-pencil"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
     <bean id="KS-Uif-Copy-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Copy">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-docs"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-docs" />
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
     <bean id="KS-Uif-Delete-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Delete">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
     <bean id="KS-Uif-Manage-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Manage">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-wrench"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-wrench"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>
 
     <bean id="KS-Uif-Requisite-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-clipboard"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-clipboard"/>
         </property>
     </bean>
 
     <bean id="KS-Uif-Delete-ActionLink" parent="KS-Uif-ActionLink" p:title="Delete">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
         </property>
         <property name="actionImagePlacement" value="IMAGE_ONLY"/>
     </bean>

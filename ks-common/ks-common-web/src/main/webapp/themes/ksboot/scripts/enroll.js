@@ -494,14 +494,12 @@ function rgbToHex(r, g, b) {
  This function changes the UifImage components to bootsrtap links
  It only converts images that have their styles starting with the word icon
 
- It was originally using the src attribute but according to Cody this might cause a problem
- with KRAD. I think if using the src attribute is not causing any problem for the KRAD we should
- go back to using the src attribute.
+ I went back to using src since the style is not rendered in IE.
  */
 function addBootstrapImageToLink() {
-    jQuery("img[style^=ks-fontello-icon-]").each(function () {
-        /*Style is used instead of src to prevent errors in krad*/
-        var src = jQuery(this).attr('style');
+    jQuery("img[src^=ks-fontello-icon-]").each(function () {
+        /*Style is not rendered in IE in krad. Use src*/
+        var src = jQuery(this).attr('src');
         var parent = jQuery(this).parent();
         if (jQuery(parent).is("span")) {
             parent.addClass(src);
@@ -904,10 +902,10 @@ function handleEventforDisabledElements() {
         if (jQuery(div).length == 0) {
             div = jQuery('<div id="' + divId + '" class="tree-bar-button-container uif-boxLayoutHorizontalItem" />');
             jQuery(this).after(div);
-            jQuery('[data-for=' + id + ']').each(function(){
+            jQuery('[data-for=' + id + ']').each(function () {
                 var dataValue = jQuery(this).val();
                 dataValue = dataValue.replace(id, divId);
-                    eval(dataValue);
+                eval(dataValue);
             });
         }
         jQuery(div).css({"position": "absolute", "top": jQuery(this).offset(top) + "px", "left": jQuery(this).offset().left + "px"});
