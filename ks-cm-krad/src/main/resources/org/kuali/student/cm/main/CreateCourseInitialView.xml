@@ -24,9 +24,10 @@
         p:headerText="Create Course"
         p:disclosure.render="false">
         <property name="header" ref="KS-CourseView-InitialPage-Header" />
-        <property name="breadcrumbOptions.breadcrumbOverrides">
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
              <list>
-                  <ref bean="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page"/>
+                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                 <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
              </list>
         </property>
 

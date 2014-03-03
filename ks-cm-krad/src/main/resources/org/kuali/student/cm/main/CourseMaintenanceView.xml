@@ -40,6 +40,7 @@
         This view has couple of pages (edit and copy) with all the beans defined at 1. CourseViewCourseInfoPage.xml -->
 
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
+        <property name="id" value="CourseView" />
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
         <property name="formClass" value="org.kuali.student.cm.course.form.CreateCourseForm"/>
         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
@@ -55,6 +56,8 @@
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse-information"/>
             </list>
         </property>
         <!--<property name="stateMapping">
@@ -477,6 +480,16 @@
                 </bean>
             </list>
         </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-NewCourse-information" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Course Information"></property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-NewCourse" parent="Uif-BreadcrumbItem">
+        <property name="label" value="@{(#form.curriculumSpecialist) ? 'New Course(Admin Proposal)': 'New Course(   Proposal)'}" />
+        <property name="url.baseUrl" value="curriculumHomeView"/>
+        <property name="url.viewId" value="CourseView"/>
     </bean>
 
 </beans>
