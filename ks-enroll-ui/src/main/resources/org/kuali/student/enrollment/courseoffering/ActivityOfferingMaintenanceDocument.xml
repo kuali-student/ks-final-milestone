@@ -208,7 +208,7 @@
                       </map>
                     </property>
                     <property name="actionImage">
-                      <bean parent="Uif-Image" p:altText="" p:style="ks-fontello-icon-angle-left"/>
+                      <bean parent="Uif-Image" p:altText="" p:source="ks-fontello-icon-angle-left"/>
                     </property>
                 </bean>
                 <bean id="edit_ao_select" parent="Uif-InputField" p:propertyName="editRenderHelper.selectedAO" >
@@ -233,7 +233,7 @@
                         </map>
                     </property>
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:altText="" p:style="ks-fontello-icon-angle-right"/>
+                        <bean parent="Uif-Image" p:altText="" p:source="ks-fontello-icon-angle-right"/>
                     </property>
                 </bean>
             </list>

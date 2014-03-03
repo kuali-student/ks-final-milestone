@@ -523,7 +523,7 @@ limitations under the License.
                                               p:render="@{!#view.readOnly}"
                                               p:additionalCssClasses="right-aligned">
                                             <property name="actionImage">
-                                                <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
+                                                <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
                                             </property>
                                         </bean>
                                     </list>

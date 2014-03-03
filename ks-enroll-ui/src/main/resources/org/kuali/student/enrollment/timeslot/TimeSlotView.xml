@@ -251,7 +251,7 @@
         <property name="actionLabel" value="Add Time Slot"/>
         <property name="actionScript" value="showTimeSlotLightBox(e,'ADD');"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-plus-1"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-plus-1"/>
         </property>
     </bean>
 
@@ -259,7 +259,7 @@
         <property name="actionScript" value="showTimeSlotDeleteConfirmation();"/>
         <property name="actionLabel" value="Delete"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="" p:style="ks-fontello-icon-cancel"/>
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
         </property>
     </bean>
 

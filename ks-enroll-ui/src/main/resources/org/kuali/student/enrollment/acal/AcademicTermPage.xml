@@ -404,7 +404,7 @@
                       p:additionalCssClasses="right-aligned"
                       p:render="@{!#view.readOnly}">
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:style="ks-fontello-icon-cancel"/>
+                        <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:source="ks-fontello-icon-cancel"/>
                     </property>
                 </bean>
                 <!--<bean id="key_date_group_delete_button" parent="Uif-SecondaryActionButton-Small"-->
