@@ -53,4 +53,10 @@ public class ExamOfferingServiceConstants {
     public static final String FINAL_EXAM_DRIVER_ATTR = "kuali.attribute.final.exam.driver";
     public static final String FINAL_EXAM_ACTIVITY_DRIVER_ATTR = "kuali.attribute.final.exam.activity.driver";
 
+    /////////////////
+    // MESSAGES
+    /////////////////
+    public static final String EXAM_OFFERING_MATRIX_NOT_FOUND = "warning.enroll.examoffering.finalexam.matrix.not.found";
+    public static final String EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND = "warning.enroll.examoffering.finalexam.matrix.match.not.found";
+
 }
