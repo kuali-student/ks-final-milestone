@@ -88,4 +88,8 @@
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
+    <bean id="userMessenger" class="org.kuali.student.r2.common.messenger.impl.JMSMessengerImpl">
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+
 </beans>

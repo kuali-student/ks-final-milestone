@@ -243,9 +243,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 //Create a new Exam Offering
                 eo = createExamOffering(examPeriodId, ExamOfferingServiceConstants.EXAM_OFFERING_DRAFT_STATE_KEY, Driver.PER_CO.name(),
                         context);
-                if(this.getScheduleEvaluator()!=null){
-                    this.getScheduleEvaluator().executeRuleForCOScheduling(courseOffering, eo.getId(), termType, context);
-                }
+            }
+
+            if(this.getScheduleEvaluator()!=null){
+                this.getScheduleEvaluator().executeRuleForCOScheduling(courseOffering, eo.getId(), termType, context);
             }
 
             //Create new Exam Offering Relationship
@@ -443,11 +444,9 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo, foEntry.getKey().getFinalExamLevelTypeKey(),
                             examPeriodId, eoState, termType, context);
                 }
-                if (hasEo) {
 
-                    if (this.getScheduleEvaluator() != null) {
-                        this.getScheduleEvaluator().executeRuleForAOScheduling(aoInfo, eo.getId(), termType, context);
-                    }
+                if (this.getScheduleEvaluator() != null) {
+                    this.getScheduleEvaluator().executeRuleForAOScheduling(aoInfo, eo.getId(), termType, context);
                 }
 
             }
@@ -589,9 +588,6 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         attributes.add(attribute);
 
         ExamOfferingInfo eo = this.createExamOffering(examPeriodId, stateKey, attributes, context);
-        if(this.getScheduleEvaluator()!=null){
-            this.getScheduleEvaluator().executeRuleForAOScheduling(activityOffering, eo.getId(), termType, context);
-        }
 
         //Create new Exam Offering Relationship
         List<String> aoIds = new ArrayList<String>();

@@ -668,7 +668,7 @@
     <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluatorImpl">
         <property name="schedulingService" ref="SchedulingService"/>
         <property name="courseService" ref="courseServiceImpl"/>
-        <property name="jmsTemplate" ref="jmsTemplate"/>
+        <property name="userMessenger" ref="userMessenger"/>
     </bean>
 
     <!-- Put facade on the bus -->
