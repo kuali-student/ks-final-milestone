@@ -884,6 +884,10 @@ public class LrcServiceConstants {
     public static final String RESULT_GROUP_KEY_STUDENT_YEAR_LOCKSTEP_MED = "kuali.result.group.student.year.lockstep.med";
     public static final String RESULT_GROUP_KEY_HONOR_DEANS_LIST = "kuali.result.group.honor.deans.list";
     public static final String RESULT_GROUP_KEY_HONOR_DEGREE_LATIN = "kuali.result.group.honor.degree.latin";
+    public static final String RESULT_GROUP_VALUE_GRADE_AUDIT = "Audit";
+    public static final String RESULT_GROUP_VALUE_GRADE_LETTER = "Letter";
+    public static final String RESULT_GROUP_VALUE_GRADE_PASSFAIL = "Pass/Fail";
+
     // grade values group type keys
 //    public static final String RESULT_VALUE_NUMBER_GRADE_TYPE = "kuali.lrc.type.number.grade";
 //    public static final String RESULT_VALUE_LETTER_GRADE_TYPE = "kuali.lrc.type.letter.grade";
