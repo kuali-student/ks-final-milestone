@@ -37,7 +37,7 @@
     <strong>Course Registration</strong>
     <ul class="chan">
         <li><a class="portal_link" title="POC Search" href="${ConfigProperties.lum.application.url}/kscr-poc/index.jsp">POC Search</a></li>
-        <li><a class="portal_link" title="Reg Cart" href="${ConfigProperties.lum.application.url}/registration/index.jsp">Reg Cart</a></li>
+        <li><a class="portal_link" title="Reg Cart" href="${ConfigProperties.lum.application.url}/registration/">Reg Cart</a></li>
         <li><a class="portal_link" title="Performance Test" href="${ConfigProperties.lum.application.url}/kr-krad/courseRegistrationKrad?viewId=CourseRegistrationKrad-FormView&methodToCall=start&hideReturnLink=true">Performance Test</a></li>
     </ul>
 </div>
