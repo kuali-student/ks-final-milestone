@@ -42,6 +42,12 @@ angular.module('regCartApp')
         });
     };
 
+    this.dropRegistrationGroup = function () {
+        return $resource(APP_URL + 'CourseRegistrationClientService/dropRegistrationGroup', {}, {
+            query:{method:'GET', cache:false, isArray:false}
+        });
+    };
+
     this.populateSchedule = function(userIdInput, termIdInput){
         this.setStudentSchedule(this.getScheduleFromServer().query({ userId:userIdInput, termId:termIdInput }, function (result) {
             console.log('called rest service to get schedule data');

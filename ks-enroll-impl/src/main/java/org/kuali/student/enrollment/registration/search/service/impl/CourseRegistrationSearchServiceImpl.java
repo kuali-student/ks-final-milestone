@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -489,7 +490,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                         "  AND atp.ID = lpr.ATP_ID " +
                         "  AND lui.ID = lpr.LUI_ID " +
                         "  AND lui.ATP_ID = lpr.ATP_ID " +
-                        "  AND luiId.LUI_ID = lui.ID ";
+                        "  AND luiId.LUI_ID = lui.ID " +
+                        "  AND lpr.LPR_STATE in ('" + LprServiceConstants.PLANNED_STATE_KEY + "', '" + LprServiceConstants.REGISTERED_STATE_KEY + "') ";
 
         if (!StringUtils.isEmpty(atpId)) {
             queryStr = queryStr + " AND lpr.ATP_ID = :atpId ";
@@ -751,12 +753,11 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.MASTER_LPR_ID, masterLprId);
-        List<Object[]> results = query.getResultList();
+        List<String> results = query.getResultList();
 
-        for (Object[] resultRow : results) {
-            int i = 0;
+        for (String resultRow : results) {
             SearchResultRowInfo row = new SearchResultRowInfo();
-            row.addCell(SearchResultColumns.LPR_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.LPR_ID, resultRow);
             resultInfo.getRows().add(row);
         }
 

@@ -408,7 +408,7 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
         registrationRequestItem.setTypeKey(typeKey);
         registrationRequestItem.setStateKey(stateKey);
         registrationRequestItem.setRegistrationGroupId(regGroupId);
-        registrationRequestItem.setMasterLprId(masterLprId);
+        registrationRequestItem.setExistingCourseRegistrationId(masterLprId);
         registrationRequestItem.setPersonId(principalId);
         registrationRequestItem.setCredits(new KualiDecimal(credits));
         registrationRequestItem.setGradingOptionId(gradingOptionId);

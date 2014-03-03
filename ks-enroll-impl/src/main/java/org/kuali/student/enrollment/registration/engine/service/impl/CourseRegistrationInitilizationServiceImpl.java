@@ -87,7 +87,8 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     private List<LprInfo> makeLprsFromRegRequest(RegistrationRequestInfo registrationRequestInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
-        if (!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(registrationRequestInfo.getStateKey())) {
+        if (!LprServiceConstants.LPRTRANS_NEW_STATE_KEY.equals(registrationRequestInfo.getStateKey()) &&
+                !LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY.equals(registrationRequestInfo.getStateKey())) {
             // If this state is not new, then it's been processed, so skip.
             LOGGER.info("Request item already processed");
             return null;
@@ -105,9 +106,9 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_ADD_TYPE_KEY)) {
                 lprInfos.addAll(addLprInfo(registrationRequestItem.getRegistrationGroupId(), registrationRequestInfo.getTermId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo));
             } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
-                lprInfos.addAll(dropLprInfos(registrationRequestItem.getMasterLprId(), contextInfo));
+                lprInfos.addAll(dropLprInfos(registrationRequestItem.getExistingCourseRegistrationId(), contextInfo));
             } else if (registrationRequestItem.getTypeKey().equals(LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY)) {
-                lprInfos.addAll(updateLprInfos(registrationRequestItem.getMasterLprId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo));
+                lprInfos.addAll(updateLprInfos(registrationRequestItem.getExistingCourseRegistrationId(), creditStr, registrationRequestItem.getGradingOptionId(), contextInfo));
             }
         }
 

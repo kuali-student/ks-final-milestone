@@ -159,7 +159,7 @@ public interface CourseRegistrationClientService {
                                                  @QueryParam("termId") String termId,
                                                  @QueryParam("courseCode") String courseCode,
                                                  @QueryParam("regGroupCode") String regGroupCode,
-                                                 @QueryParam("regGroupId") String masterLprId,
+                                                 @QueryParam("masterLprId") String masterLprId,
                                                  @QueryParam("credits") String credits,
                                                  @QueryParam("gradingOptions") String gradingOption) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException;
 
@@ -168,10 +168,6 @@ public interface CourseRegistrationClientService {
      * request to the registration engine.
      *
      * @param userId       user id of the person you want to register in a course. This is for POC testing only and needs to be removed post POC for secuirty
-     * @param termCode
-     * @param courseCode
-     * @param regGroupCode
-     * @param regGroupId   optional, but the term, course, and reg group name are not checked if you supply the id
      * @param masterLprId
      * @return The response should be instant and give a handle to the registrationRequestId. The registration engine is
      *         ansynchonous so the client will need to poll the system for status updates.
@@ -189,10 +185,6 @@ public interface CourseRegistrationClientService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/dropRegistrationGroup")
     public Response dropRegistrationGroup(@QueryParam("userId") String userId,
-                                                 @QueryParam("termCode") String termCode,
-                                                 @QueryParam("courseCode") String courseCode,
-                                                 @QueryParam("regGroupCode") String regGroupCode,
-                                                 @QueryParam("regGroupId") String regGroupId,
-                                                 @QueryParam("regGroupId") String masterLprId);
+                                                 @QueryParam("masterLprId") String masterLprId);
 
 }

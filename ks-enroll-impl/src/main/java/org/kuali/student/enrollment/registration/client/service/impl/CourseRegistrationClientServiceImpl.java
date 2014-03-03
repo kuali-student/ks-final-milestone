@@ -72,11 +72,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response dropRegistrationGroup(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId, String masterLprId) {
+    public Response dropRegistrationGroup(String userId, String masterLprId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(dropRegistrationGroupLocal(userId, termCode, courseCode, regGroupCode, regGroupId, masterLprId));
+            response = Response.ok(dropRegistrationGroupLocal(userId, masterLprId));
         } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
@@ -117,9 +117,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
       
     }
 
-    public RegistrationResponseInfo dropRegistrationGroupLocal(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId, String masterLprId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+    public RegistrationResponseInfo dropRegistrationGroupLocal(String userId, String masterLprId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
         //
-        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupCode));
+        LOGGER.debug(String.format("REGISTRATION: user[%s] masterLprId[%s]", userId, masterLprId));
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         if (!StringUtils.isEmpty(userId)) {
@@ -128,11 +128,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal]User must be logged in to access this service");
         }
 
-        // get the regGroup
-        RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
-
         //Create the request object
-        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), rg.getTermId(), rg.getRegGroupId(), masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY);
+        RegistrationRequestInfo regReqInfo = createRegistrationRequest(contextInfo.getPrincipalId(), null, null, masterLprId, null, null, LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, LprServiceConstants.LPRTRANS_DISCARDED_STATE_KEY, LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY, LprServiceConstants.LPRTRANS_ITEM_DELETE_TYPE_KEY);
 
         // persist the request object in the service
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
