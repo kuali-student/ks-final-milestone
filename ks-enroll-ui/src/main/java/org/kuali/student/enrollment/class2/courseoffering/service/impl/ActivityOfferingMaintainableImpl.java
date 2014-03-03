@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -45,6 +46,7 @@ import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
@@ -89,6 +91,7 @@ import java.util.Map;
 public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl implements ActivityOfferingMaintainable {
 
     private static final long serialVersionUID = 1L;
+    private static final Logger LOGGER = Logger.getLogger(ActivityOfferingMaintainableImpl.class);
 
     @Override
     public void saveDataObject() {
@@ -210,7 +213,12 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
 
                 //To retrieve the ExamPeriodId that is on CourseOffering
-                String examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(activityOfferingInfo.getTermId(), contextInfo);
+                String examPeriodId = null;
+                try {
+                    examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(activityOfferingInfo.getTermId(), contextInfo);
+                } catch (DoesNotExistException e) {
+                    LOGGER.info("The term " + activityOfferingInfo.getTermId() + " doesn't have an exam period.");
+                }
 
                 // generate exam offerings if exam period exists
                 if (!StringUtils.isEmpty(examPeriodId)) {
