@@ -38,6 +38,7 @@
                 <bean parent="Uif-HorizontalBoxSection"
                       p:headerText="Curriculum Oversight"
                       p:instructionalText="This is the organization(s) responsible for the content of the course. This selection will determine the workflow/approval process for this proposal.">
+                    <property name="refreshWhenChangedPropertyNames" value="#dp.dataObject.courseInfo.subjectArea"/>
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField-LabelTop"
