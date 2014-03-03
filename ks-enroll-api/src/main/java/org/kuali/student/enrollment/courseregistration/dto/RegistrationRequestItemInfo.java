@@ -37,8 +37,7 @@ import java.util.List;
                 "registrationRequestId", 
                 "personId", 
                 "registrationGroupId",
-                "masterLprId",
-                "existingCourseRegistrationId", 
+                "existingCourseRegistrationId",
                 "credits", 
                 "gradingOptionId", 
                 "okToWaitlist", 
@@ -56,9 +55,6 @@ public class RegistrationRequestItemInfo
 
     @XmlElement
     private String personId;
-
-    @XmlElement
-    private String masterLprId;
 
     @XmlElement
     private String registrationGroupId;
@@ -102,7 +98,6 @@ public class RegistrationRequestItemInfo
             this.registrationRequestId = registrationRequestItem.getRegistrationRequestId();
             this.personId = registrationRequestItem.getPersonId();
             this.registrationGroupId = registrationRequestItem.getRegistrationGroupId();
-            this.masterLprId = registrationRequestItem.getMasterLprId();
             this.existingCourseRegistrationId = registrationRequestItem.getExistingCourseRegistrationId();
             if (registrationRequestItem.getCredits() != null) {
                 this.credits = new KualiDecimal(registrationRequestItem.getCredits().bigDecimalValue());
@@ -139,11 +134,6 @@ public class RegistrationRequestItemInfo
     public void setRegistrationGroupId(String registrationGroupId) {
         this.registrationGroupId = registrationGroupId;
     }
-
-    @Override
-    public String getMasterLprId() { return masterLprId; }
-
-    public void setMasterLprId(String masterLprId) { this.masterLprId = masterLprId; }
 
     @Override
     public String getExistingCourseRegistrationId() {
