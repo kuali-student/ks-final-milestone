@@ -437,11 +437,10 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                     }
                 }
 
-
                 if (!hasEo) {
                     //Retrieve corresponding eo state for ao.
                     String eoState = this.getExamOfferingStateForActivityOffering(aoInfo);
-                    createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo, foEntry.getKey().getFinalExamLevelTypeKey(),
+                    eo = createFinalExamOfferingPerAO(foEntry.getKey().getId(), aoInfo, foEntry.getKey().getFinalExamLevelTypeKey(),
                             examPeriodId, eoState, termType, context);
                 }
 
@@ -569,7 +568,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         createExamOfferingRelation(foId, eoId, aoIds, context);
     }
 
-    private void createFinalExamOfferingPerAO(String foId, ActivityOfferingInfo activityOffering, String activityDriver, String examPeriodId,
+    private ExamOfferingInfo createFinalExamOfferingPerAO(String foId, ActivityOfferingInfo activityOffering, String activityDriver, String examPeriodId,
                                               String stateKey, String termType, ContextInfo context)
             throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException,
             DoesNotExistException, DataValidationErrorException, ReadOnlyException {
@@ -593,6 +592,8 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         List<String> aoIds = new ArrayList<String>();
         aoIds.add(activityOffering.getId());
         createExamOfferingRelation(foId, eo.getId(), aoIds, context);
+
+        return eo;
     }
 
     @Override
