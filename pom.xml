@@ -87,6 +87,7 @@
         <openjpa.version>1.2.1</openjpa.version>
         <opensaml.version>1.1</opensaml.version>
         <org.apache.poi.version>3.6</org.apache.poi.version>
+        <activemq.version>5.9.0</activemq.version>
         <!-- Oracle values sync'd with the deploy environments -->
         <oracle.version>11.2.0.2</oracle.version>
         <oracle.artifactId>ojdbc6_g</oracle.artifactId>
