@@ -19,6 +19,26 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage"  p:style="margin-left: -18px;"
+          p:headerText="Review Proposal"
+          p:disclosure.render="false">
+        <property name="header" ref="KS-CourseView-ReviewProposal-Header" />
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page"/>
+            </list>
+        </property>
+
+        <property name="items">
+            <list>
+                <ref bean="KS-CourseView-ReviewProposal-Section"/>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-CourseView-ReviewProposal-Footer"/>
+        </property>
+    </bean>
+
     <bean id="KS-CourseView-ReviewProposal-Section" parent="KS-CourseView-VerticalBoxSection"
           p:headerText="Review Proposal">
         <property name="items">
@@ -29,6 +49,7 @@
                 <ref bean="KS-CourseView-ActiveDates-ReviewWidgets" />
                 <ref bean="KS-CourseView-LearningObjectives-ReviewWidgets" />
                 <ref bean="KS-CourseView-Financials-ReviewWidgets" />
+                <ref bean="KS-CourseView-AuthorsAndCollaborators-ReviewWidgets" />
                 <ref bean="KS-CourseView-SupportingDocuments-ReviewWidgets" />
             </list>
         </property>
@@ -43,10 +64,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:methodToCall="navigate"
-                                          p:navigateToPageId="KS-CourseView-CourseInfoPage" 
+                                    <bean parent="Uif-ActionLink"  p:ajaxSubmit="false" p:id="CourseInfo-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
@@ -74,10 +93,9 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:methodToCall="navigate"
-                                          p:navigateToPageId="KS-CourseView-CourseInfoPage" 
+                                    <bean parent="Uif-ActionLink"  p:id="CrossListedCourses-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-CourseInfo-Section');"
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
@@ -98,10 +116,9 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:methodToCall="navigate"
-                                          p:navigateToPageId="KS-CourseView-GovernancePage" 
+                                    <bean parent="Uif-ActionLink"  p:id="Governance-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Governance-Section');"
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
@@ -124,9 +141,9 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:navigateToPageId="KS-CourseView-CourseLogisticsPage" 
+                                    <bean parent="Uif-ActionLink"  p:id="CourseLogistics-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Logistics-Section');"
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
@@ -157,11 +174,11 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:navigateToPageId="KS-CourseView-LearningObjectivesPage" 
+                                    <bean parent="Uif-ActionLink"  p:id="LearningObjectives-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-LearningObjectives-Section');"
                                           p:actionLabel="Edit"/>
-                                </list> 
+                                </list>
                             </property>
                         </bean>
                     </property>
@@ -180,9 +197,9 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:navigateToPageId="KS-CourseView-CourseRequisitesPage" 
+                                    <bean parent="Uif-ActionLink"  p:id="CourseRequisites-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-CourseRequisites-Section');"
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
@@ -208,9 +225,9 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:navigateToPageId="KS-CourseView-ActiveDatesPage" 
+                                    <bean parent="Uif-ActionLink"  p:id="ActiveDates-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-ActiveDates-Section');"
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
@@ -228,14 +245,14 @@
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
-                    <property name="headerText" value="Authors and Collaborators"/>
+                    <property name="headerText" value="Financials"/>
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:navigateToPageId="KS-CourseView-FinancialsPage" 
+                                    <bean parent="Uif-ActionLink"  p:id="Financials-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Financials-Section');"
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
@@ -243,9 +260,29 @@
                     </property>
                 </bean>
                 <bean parent="Uif-DataField" p:label="Justification of Fees" p:propertyName="dataObject.reviewInfo.financialsInfo.justificationOfFees" />
-                <bean parent="Uif-DataField" p:label="Fee" p:propertyName="dataObject.reviewInfo.financialsInfo.fee" />
-                <bean parent="Uif-DataField" p:label="Revenue Source" p:propertyName="dataObject.reviewInfo.financialsInfo.revenueSource" />
-                <bean parent="Uif-DataField" p:label="Expending Organization" p:propertyName="dataObject.reviewInfo.financialsInfo.expendingOrganization" />
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-CourseView-AuthorsAndCollaborators-ReviewWidgets"  parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Authors and Collaborators"/>
+                    <property name="rightGroup">
+                        <bean parent="KS-CourseView-ReviewLink">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-ActionLink"  p:id="AuthorsAndCollaborators-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-AuthorsAndCollaborators-Section');"
+                                          p:actionLabel="Edit"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+                <bean parent="Uif-DataField" p:label="Name" p:propertyName="dataObject.reviewInfo.collaboratorInfo.name" />
             </list>
         </property>
     </bean>
@@ -259,9 +296,9 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-NavigationActionLink" 
-                                          p:ajaxSubmit="false" 
-                                          p:navigateToPageId="KS-CourseView-SupportingDocumentsPage" 
+                                    <bean parent="Uif-ActionLink"  p:id="SupportingDocuments-Review-Edit-link"
+                                          p:methodToCall="editCourseProposalPage"
+                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-SupportingDocuments-Section');"
                                           p:actionLabel="Edit"/>
                                 </list> 
                             </property>
@@ -272,4 +309,54 @@
             </list>
         </property>
     </bean>
+
+    <bean id="KS-CourseView-ReviewProposal-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;">
+        <property name="upperGroup">
+            <bean parent="Uif-VerticalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-VerticalBoxGroup" >
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-HeaderOne" p:style="margin-top: 20px; margin-left: -4px; min-height: 46px;">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>uif-viewHeader-contentWrapper</value>
+                                                <value>uif-create-course-initial-page-header-contentWrapper</value>
+                                            </list>
+                                        </property>
+                                        <property name="headerText" value="Review Proposal"/>
+                                    </bean>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-CourseView-ReviewProposal-Footer" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+<!--
+                <bean id="CourseView-ReviewProposal-edit-action"
+                      parent="Uif-PrimaryActionButton"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="editCourseProposalPage"
+                      p:actionLabel="Edit"/>
+-->
+                <bean id="CourseView-ReviewProposal-cancel"
+                      parent="Uif-CancelAction"
+                      p:ajaxSubmit="false"
+                      p:methodToCall="cancel"  p:style="margin-right: 100px;"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
+        <property name="label" value="Review Proposal"></property>
+    </bean>
+
 </beans>

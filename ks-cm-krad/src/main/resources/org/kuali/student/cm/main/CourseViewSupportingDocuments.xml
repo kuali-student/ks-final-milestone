@@ -46,6 +46,7 @@
 
           </property>
   -->
+        <property name="style" value="margin-bottom: 120px;" />
         <property name="addLineLabel.messageText" value="Add a Supporting Document" />
         <property name="layoutManager.lineGroupPrototype.header.headerText"
                   value="Document @{(#index + 1)}" />

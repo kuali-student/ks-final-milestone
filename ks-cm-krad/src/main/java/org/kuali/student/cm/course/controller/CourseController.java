@@ -147,7 +147,7 @@ public class CourseController extends CourseRuleEditorController {
         FINANCIALS("KS-CourseView-Financials-Section"),
         AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaborators-Section"),
         SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocuments-Section"),
-        REVIEW_PROPOSAL("KS-CourseView-ReviewProposal-Section");
+        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
         
         private String sectionId;
         
@@ -230,6 +230,26 @@ public class CourseController extends CourseRuleEditorController {
         }
 
         return retval;
+    }
+
+    /**
+     * load the course proposal review page
+     */
+    @RequestMapping(params = "methodToCall=reviewCourseProposal")
+    public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        return getUIFModelAndView(form, "KS-CourseView-ReviewProposalPage");
+    }
+
+    /**
+     * load the course proposal review page
+     */
+    @RequestMapping(params = "methodToCall=editCourseProposalPage")
+    public ModelAndView editCourseProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
+                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        return getUIFModelAndView(form, "KS-CourseView-CoursePage");
     }
 
     /**
@@ -552,6 +572,8 @@ public class CourseController extends CourseRuleEditorController {
 
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId=" + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
 
+        // After saving successfully update the reviewInfo
+        updateReview(form);
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
         if (StringUtils.equalsIgnoreCase(nextOrCurrentPage,"NEXT")){
             if ( ((CreateCourseForm)form).getSelectedTabIndex() < 10){

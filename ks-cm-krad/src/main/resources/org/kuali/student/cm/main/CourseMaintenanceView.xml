@@ -81,6 +81,7 @@
             <list>
                 <ref bean="KS-CourseView-createCourseInitialPage" />
                 <ref bean="KS-CourseView-CoursePage"/>
+                <ref bean="KS-CourseView-ReviewProposalPage" />
                 <ref bean="KS-RuleMaintenance-Page-Parent" />
             </list>
         </property>
@@ -176,7 +177,7 @@
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>
                 </bean>
-
+                <ref bean="KS-CourseView-ReviewLink"/>
                 <ref bean="KS-CourseView-UnSavedChangesConfirmation"/>
             </list>
         </property>
@@ -192,8 +193,8 @@
             <list>
                 <bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false"
-                      p:methodToCall="navigate&amp;pageId=KS-CourseView-CourseInfoPage"
-                      p:actionLabel="Edit"/>
+                      p:methodToCall="reviewCourseProposal"
+                      p:actionLabel="Review Proposal"/>
             </list>
         </property>
     </bean>
@@ -233,7 +234,7 @@
                                     <bean parent="Uif-LinkGroup" p:linkSeparator="|">
                                         <property name="items">
                                             <list>
-                                                <bean parent="Uif-DataField" p:label="Proposal Status"
+                                                <bean parent="Uif-DataField" p:label="Proposal Status"   p:id="CourseView-Header-Proposal-Status-ID"
                                                       p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="dataObject.proposalInfo.stateKey" />
                                                 <bean parent="Uif-ActionLink" p:actionLabel="Comments"
                                                       p:methodToCall="showComment" />

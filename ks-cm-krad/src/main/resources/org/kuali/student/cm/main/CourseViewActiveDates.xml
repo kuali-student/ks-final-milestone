@@ -42,6 +42,7 @@
                             <value>admin-not-required-field</value>
                         </list>
                     </property>
+                    <property name="style" value="margin-bottom: 80px;" />
                     <property name="refreshWhenChangedPropertyNames">
                         <list>
                             <value>document.newMaintainableObject.dataObject.courseInfo.pilotCourse</value>

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.course.form;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class ReviewInfo implements java.io.Serializable {
     private CourseRequisitesInfoWrapper courseRequisitesInfo;
     private ActiveDatesInfoWrapper activeDatesInfo;
     private FinancialsInfoWrapper financialsInfo;
+    private CollaboratorInfoWrapper collaboratorInfo;
     private SupportingDocumentsInfoWrapper supportingDocumentsInfo;
 
     public CourseInfoWrapper getCourseInfo() {
@@ -84,6 +86,13 @@ public class ReviewInfo implements java.io.Serializable {
         }
         return financialsInfo;
     
+    }
+
+    public CollaboratorInfoWrapper getCollaboratorInfo() {
+        if(this.collaboratorInfo == null) {
+            collaboratorInfo = new CollaboratorInfoWrapper();
+        }
+        return collaboratorInfo;
     }
 
     public SupportingDocumentsInfoWrapper getSupportingDocumentsInfo() {
@@ -321,8 +330,19 @@ public class ReviewInfo implements java.io.Serializable {
             return expendingOrganization;
         }
     }
-
     public class SupportingDocumentsInfoWrapper implements java.io.Serializable {
         
+    }
+
+    public class CollaboratorInfoWrapper implements Serializable {
+        private String name;
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
     }
 }

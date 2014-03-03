@@ -273,3 +273,8 @@ function createCourseShowHideObjectiveElements(hideId, showId) {
     jQuery("#"+showId).show();
 
 }
+
+function navigateToTheRightTab(isCurriculumSpecialist, tabId) {
+    var tabPanelId = "#course_tabs_tabs";
+    jQuery(tabPanelId).tabs("select", tabId + "_tab").click();
+}
