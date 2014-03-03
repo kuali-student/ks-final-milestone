@@ -17,7 +17,10 @@
 package org.kuali.student.common.uif.form;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.GrowlMessage;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.common.uif.messenger.UserMessageConsumer;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -25,6 +28,7 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * KS form class that extends UifFormBase. It contains properties that are shared
@@ -115,6 +119,9 @@ public class KSUifForm extends UifFormBase {
         if (growlMessage != null) {
               KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage, growlMessageParams);
         }
+
+        UserMessageConsumer consumer = new UserMessageConsumer();
+        consumer.publish();
 
         super.postBind(request);
     }
