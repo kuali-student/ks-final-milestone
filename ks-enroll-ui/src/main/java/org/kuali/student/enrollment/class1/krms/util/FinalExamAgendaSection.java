@@ -57,13 +57,4 @@ public class FinalExamAgendaSection extends AgendaSection {
         this.agendaPrototypeMap = agendaPrototypeMap;
     }
 
-    @Override
-    public List<Component> getComponentPrototypes() {
-        List<Component> components = super.getComponentPrototypes();
-        for (Map.Entry<String, Group> agendaPrototypeMapEntry : this.getAgendaPrototypeMap().entrySet()) {
-            components.add(agendaPrototypeMapEntry.getValue());
-        }
-
-        return components;
-    }
 }
