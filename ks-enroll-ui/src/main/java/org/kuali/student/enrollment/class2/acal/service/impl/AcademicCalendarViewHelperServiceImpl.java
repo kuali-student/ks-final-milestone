@@ -38,6 +38,9 @@ import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.GrowlMessage;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krms.api.KrmsConstants;
+import org.kuali.rice.krms.api.repository.RuleManagementService;
+import org.kuali.rice.krms.api.repository.reference.ReferenceObjectBinding;
 import org.kuali.student.common.uif.service.impl.KSViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
@@ -52,6 +55,7 @@ import org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
@@ -102,6 +106,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     private TypeService typeService;
     private AtpService atpService;
     private TermCodeGenerator termCodeGenerator;
+    private transient RuleManagementService ruleManagementService;
 
     public AcademicCalendarViewHelperServiceImpl getInstance(){
         return this;
@@ -1570,22 +1575,24 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             throw new Exception("term wrapper is null");
         }
 
-        String finalExamSectionName="acal-term-examdates_line"+afterSortingIndex;
+        List<ReferenceObjectBinding> refObjectsBindings = this.getRuleManagementService().findReferenceObjectBindingsByReferenceObject(TypeServiceConstants.REF_OBJECT_URI_TYPE, termWrapperToValidate.getTypeInfo().getKey());
+        if(refObjectsBindings.size() > 0){
+            String finalExamSectionName="acal-term-examdates_line"+afterSortingIndex;
 
-        SelectControl select = (SelectControl) ComponentFactory.getNewComponentInstance("KSFE-FinalExam-ExamDaysDropdown");
-        int maxday = 0;
-        for(KeyValue value : select.getOptions()){
-            maxday = Math.max(Integer.valueOf(value.getKey()), maxday);
-        }
+            SelectControl select = (SelectControl) ComponentFactory.getNewComponentInstance("KSFE-FinalExam-ExamDaysDropdown");
+            int maxday = 0;
+            for(KeyValue value : select.getOptions()){
+                maxday = Math.max(Integer.valueOf(value.getKey()), maxday);
+            }
 
-        if (termWrapperToValidate.getExamdates()!=null && !termWrapperToValidate.getExamdates().isEmpty()) {
-            for (ExamPeriodWrapper examPeriodWrapper : termWrapperToValidate.getExamdates()){
-                if (getDaysForExamPeriod(examPeriodWrapper, holidayInfos, createContextInfo()) < maxday) {
-                    GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION);
+            if (termWrapperToValidate.getExamdates()!=null && !termWrapperToValidate.getExamdates().isEmpty()) {
+                for (ExamPeriodWrapper examPeriodWrapper : termWrapperToValidate.getExamdates()){
+                    if (getDaysForExamPeriod(examPeriodWrapper, holidayInfos, createContextInfo()) < maxday) {
+                        GlobalVariables.getMessageMap().putErrorForSectionId(finalExamSectionName, CalendarConstants.MessageKeys.ERROR_EXAM_PERIOD_DAYS_VALIDATION);
+                    }
                 }
             }
         }
-
     }
 
     /**
@@ -1717,5 +1724,12 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             this.parentTerm = academicTermWrapper.getParentTerm();
             this.parentTermInfo = academicTermWrapper.getParentTermInfo();
         }
+    }
+
+    public RuleManagementService getRuleManagementService() {
+        if (ruleManagementService == null) {
+            ruleManagementService = (RuleManagementService) GlobalResourceLoader.getService(new QName(KrmsConstants.Namespaces.KRMS_NAMESPACE_2_0, "ruleManagementService"));
+        }
+        return ruleManagementService;
     }
 }
