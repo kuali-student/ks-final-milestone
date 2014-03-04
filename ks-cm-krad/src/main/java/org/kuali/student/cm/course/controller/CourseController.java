@@ -140,7 +140,7 @@ public class CourseController extends CourseRuleEditorController {
         CREATE_COURSE_ENTRY("KS-CourseView-createCourseInitialPage"),
         COURSE_INFO("KS-CourseView-CourseInfo-Section"),
         GOVERNANCE("KS-CourseView-Governance-Section"),
-        COURSE_LOGISTICS("KS-CourseView-CourseLogistics-Section"),
+        COURSE_LOGISTICS("KS-CourseView-Logistics-Section"),
         LEARNING_OBJECTIVES("KS-CourseView-LearningObjectives-Section"),
         COURSE_REQUISITES("KS-CourseView-CourseRequisites-Section"),
         ACTIVE_DATES("KS-CourseView-ActiveDates-Section"),
@@ -158,6 +158,15 @@ public class CourseController extends CourseRuleEditorController {
         String getSectionId() {
             return this.sectionId;
         }
+    }
+
+    private Integer getSectionOrdinal(String selectedSection) {
+        for(int idx = 1; idx <= CourseViewSections.values().length; idx++) {
+            if(CourseViewSections.values()[idx].getSectionId().equalsIgnoreCase(selectedSection)) {
+                return idx-1;
+            }
+        }
+        return 0;
     }
 
     @Override
@@ -249,6 +258,14 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView editCourseProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        String displaySectionIdex = form.getActionParameters().get("displaySection");
+
+        if (StringUtils.isBlank(displaySectionIdex)){
+            ((CreateCourseForm)form).setSelectedTabIndex(0);
+        }  else {
+            Integer idx = getSectionOrdinal(displaySectionIdex);
+            ((CreateCourseForm)form).setSelectedTabIndex(idx);
+        }
         return getUIFModelAndView(form, "KS-CourseView-CoursePage");
     }
 

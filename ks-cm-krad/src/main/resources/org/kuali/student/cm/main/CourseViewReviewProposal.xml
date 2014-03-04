@@ -119,7 +119,13 @@
                                     <bean parent="Uif-ActionLink"  p:id="Governance-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
                                           p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Governance-Section');"
-                                          p:actionLabel="Edit"/>
+                                          p:actionLabel="Edit" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-Governance-Section"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </list> 
                             </property>
                         </bean>
@@ -144,7 +150,13 @@
                                     <bean parent="Uif-ActionLink"  p:id="CourseLogistics-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
                                           p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Logistics-Section');"
-                                          p:actionLabel="Edit"/>
+                                          p:actionLabel="Edit" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-Logistics-Section"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </list> 
                             </property>
                         </bean>
@@ -177,7 +189,13 @@
                                     <bean parent="Uif-ActionLink"  p:id="LearningObjectives-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
                                           p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-LearningObjectives-Section');"
-                                          p:actionLabel="Edit"/>
+                                          p:actionLabel="Edit" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-LearningObjectives-Section"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </list>
                             </property>
                         </bean>
@@ -200,7 +218,13 @@
                                     <bean parent="Uif-ActionLink"  p:id="CourseRequisites-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
                                           p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-CourseRequisites-Section');"
-                                          p:actionLabel="Edit"/>
+                                          p:actionLabel="Edit" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-CourseRequisites-Section"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </list> 
                             </property>
                         </bean>
@@ -228,7 +252,13 @@
                                     <bean parent="Uif-ActionLink"  p:id="ActiveDates-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
                                           p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-ActiveDates-Section');"
-                                          p:actionLabel="Edit"/>
+                                          p:actionLabel="Edit" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-ActiveDates-Section"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </list> 
                             </property>
                         </bean>
@@ -253,7 +283,13 @@
                                     <bean parent="Uif-ActionLink"  p:id="Financials-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
                                           p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Financials-Section');"
-                                          p:actionLabel="Edit"/>
+                                          p:actionLabel="Edit"  >
+                                          <property name="actionParameters">
+                                              <map>
+                                                  <entry key="displaySection" value="KS-CourseView-Financials-Section"/>
+                                              </map>
+                                          </property>
+                                    </bean>
                                 </list> 
                             </property>
                         </bean>
@@ -276,7 +312,13 @@
                                     <bean parent="Uif-ActionLink"  p:id="AuthorsAndCollaborators-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
                                           p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-AuthorsAndCollaborators-Section');"
-                                          p:actionLabel="Edit"/>
+                                          p:actionLabel="Edit" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-AuthorsAndCollaborators-Section"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </list>
                             </property>
                         </bean>
@@ -299,7 +341,13 @@
                                     <bean parent="Uif-ActionLink"  p:id="SupportingDocuments-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
                                           p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-SupportingDocuments-Section');"
-                                          p:actionLabel="Edit"/>
+                                          p:actionLabel="Edit" >
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-SupportingDocuments-Section"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </list> 
                             </property>
                         </bean>
