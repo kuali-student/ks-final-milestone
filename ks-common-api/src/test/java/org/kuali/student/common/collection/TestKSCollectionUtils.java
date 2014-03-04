@@ -23,6 +23,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
+
 /**
  * @author Kuali Student Team
  *
@@ -36,90 +40,60 @@ public class TestKSCollectionUtils {
 	}
 	
 	@Test
-	public void testRequiredZeroElement () {
+	public void testRequiredZeroElement () throws OperationFailedException {
 
-		boolean failed = false;
+        String results;
+        try {
+            KSCollectionUtils.getRequiredZeroElement(Arrays.asList(new String[]{}));
+            fail("OperationFailedException should have been thrown as empty list should fail");
+        } catch (OperationFailedException ofe) {
+            assertNotNull(ofe.getMessage());
+            assertEquals("list cannot be empty", ofe.getMessage());
+        }
+
 		try {
-			String results = KSCollectionUtils.getOptionalZeroElement(Arrays.asList(new String [] {}));
-			
-			Assert.assertNull("results should be null", results);
-			
-		} catch (OperationFailedException e) {
-			failed = true;
+			KSCollectionUtils.getRequiredZeroElement(Arrays.asList("A", "B"));
+            fail("OperationFailedException should have been thrown as two element list should fail");
+		} catch (OperationFailedException ofe) {
+            assertNotNull(ofe.getMessage());
+            assertEquals("list size exceeds limit of 1", ofe.getMessage());
 		}
-		
-		Assert.assertFalse("an empty list should succeed.", failed);
-		
-		failed = false;
+
+	    results = KSCollectionUtils.getRequiredZeroElement(Arrays.asList("A"));
+        Assert.assertEquals("A", results);
+
 		try {
-			KSCollectionUtils.getOptionalZeroElement(Arrays.asList(new String[] {"A", "B"}));
-		} catch (OperationFailedException e) {
-			failed = true;
+			KSCollectionUtils.getRequiredZeroElement(null);
+            fail("OperationFailedException should have been thrown as null list should fail");
+        } catch (OperationFailedException ofe) {
+            assertNotNull(ofe.getMessage());
+            assertEquals("list cannot be null", ofe.getMessage());
 		}
-		
-		Assert.assertTrue("two element list should fail", failed);
-		
-		
-		failed = false;
-		try {
-			KSCollectionUtils.getOptionalZeroElement(Arrays.asList(new String[] {"A"}));
-		} catch (OperationFailedException e) {
-			failed = true;
-		}
-		
-		Assert.assertFalse("single element list should not fail", failed);
-		
-		failed = false;
-		try {
-			KSCollectionUtils.getOptionalZeroElement(null);
-		} catch (OperationFailedException e) {
-			failed = true;
-		}
-		
-		Assert.assertTrue("null list should fail", failed);
-		
 	}
 	
 	@Test
-	public void testOptionalZeroElement () {
-		
-		boolean failed = false;
+	public void testOptionalZeroElement () throws OperationFailedException {
+        String result = KSCollectionUtils.getOptionalZeroElement(Arrays.asList(new String [] {}));
+        Assert.assertNull("An empty list should not fail", result);
+
 		try {
-			KSCollectionUtils.getOptionalZeroElement(Arrays.asList(new String [] {}));
-		} catch (OperationFailedException e) {
-			failed = true;
-		}
-		
-		Assert.assertFalse("an empty list should fail.", failed);
-		
-		failed = false;
-		try {
-			KSCollectionUtils.getOptionalZeroElement(Arrays.asList(new String[] {"A", "B"}));
-		} catch (OperationFailedException e) {
-			failed = true;
-		}
-		
-		Assert.assertTrue("two element list should fail", failed);
-		
-		
-		failed = false;
-		try {
-			KSCollectionUtils.getOptionalZeroElement(Arrays.asList(new String[] {"A"}));
-		} catch (OperationFailedException e) {
-			failed = true;
-		}
-		
-		Assert.assertFalse("single element list should not fail", failed);
-		
-		failed = false;
-		try {
-			KSCollectionUtils.getOptionalZeroElement(null);
-		} catch (OperationFailedException e) {
-			failed = true;
-		}
-		
-		Assert.assertTrue("null list should fail", failed);
-		
+			KSCollectionUtils.getOptionalZeroElement(Arrays.asList("A", "B"));
+            fail("OperationFailedException should have been thrown as two element list should fail");
+        } catch (OperationFailedException ofe) {
+            assertNotNull(ofe.getMessage());
+            assertEquals("list size exceeds limit of 1", ofe.getMessage());
+        }
+
+        result = KSCollectionUtils.getOptionalZeroElement(Arrays.asList("A"));
+		Assert.assertEquals("single element list should not fail", "A", result);
+
+        try {
+            KSCollectionUtils.getOptionalZeroElement(null);
+            fail("OperationFailedException should have been thrown as null list should fail");
+        } catch (OperationFailedException ofe) {
+            assertNotNull(ofe.getMessage());
+            assertEquals("list cannot be null", ofe.getMessage());
+        }
 	}
 	
 	@Test
@@ -129,17 +103,17 @@ public class TestKSCollectionUtils {
 		
 		Assert.assertTrue (KSCollectionUtils.areCollectionContentsEqual(nullList, null));
 		
-		List<String>abcList = Arrays.asList(new String[]{"A", "B", "C"});
+		List<String>abcList = Arrays.asList("A", "B", "C");
 		
 		Assert.assertFalse("null is not equal to abc", KSCollectionUtils.areCollectionContentsEqual(nullList, abcList));
 		Assert.assertFalse("abc is not equal to null", KSCollectionUtils.areCollectionContentsEqual(abcList, nullList));
 		
-		List<String>xyzList = Arrays.asList(new String[]{"X", "Y", "Z"});
+		List<String>xyzList = Arrays.asList("X", "Y", "Z");
 		
 		Assert.assertFalse("xyz is not equal to abc", KSCollectionUtils.areCollectionContentsEqual(xyzList, abcList));
 		Assert.assertFalse("abc is not equal to xyz", KSCollectionUtils.areCollectionContentsEqual(abcList, xyzList));
 		
-		List<String>abList = Arrays.asList(new String[]{"A", "B"});
+		List<String>abList = Arrays.asList("A", "B");
 		
 		Assert.assertFalse("ab is not equal to abc", KSCollectionUtils.areCollectionContentsEqual(abList, abcList));
 		Assert.assertFalse("abc is not equal to ab", KSCollectionUtils.areCollectionContentsEqual(abcList, abList));
@@ -147,7 +121,7 @@ public class TestKSCollectionUtils {
 		List<String>abcCopy = new ArrayList<String>(abcList);
 		
 		for (int i = 0; i < abcCopy.size(); i++) {
-			abcCopy.set(i, new String (abcList.get(i)));
+			abcCopy.set(i, abcList.get(i));
 		}
 		
 		Assert.assertTrue ("abc should be equal to abc", KSCollectionUtils.areCollectionContentsEqual(abcList, abcCopy));
@@ -155,14 +129,14 @@ public class TestKSCollectionUtils {
 		List<String>xyzCopy = new ArrayList<String>(xyzList);
 		
 		for (int i = 0; i < xyzCopy.size(); i++) {
-			xyzCopy.set(i, new String (xyzList.get(i)));
+			xyzCopy.set(i, xyzList.get(i));
 		}
 		
 		Assert.assertTrue ("xyz should be equal to xyz", KSCollectionUtils.areCollectionContentsEqual(xyzList, xyzCopy));
 		
-		List<String>aabList = Arrays.asList(new String[] {"A", "A", "B"});
-		List<String>abaList = Arrays.asList(new String[] {"A", "B", "A"});
-		List<String>baaList = Arrays.asList(new String[] {"B", "A", "A"});
+		List<String>aabList = Arrays.asList("A", "A", "B");
+		List<String>abaList = Arrays.asList("A", "B", "A");
+		List<String>baaList = Arrays.asList("B", "A", "A");
 		
 		Assert.assertTrue("aab should be equal to aba", KSCollectionUtils.areCollectionContentsEqual(aabList, abaList));
 		Assert.assertTrue("aab should be equal to baa", KSCollectionUtils.areCollectionContentsEqual(aabList, baaList));
