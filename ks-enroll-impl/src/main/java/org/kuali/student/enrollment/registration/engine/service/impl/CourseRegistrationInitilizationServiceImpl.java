@@ -196,7 +196,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         }
 
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
-            lprIds.add(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_ID);
+            lprIds.add(row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_ID));
         }
 
         return lprIds;
