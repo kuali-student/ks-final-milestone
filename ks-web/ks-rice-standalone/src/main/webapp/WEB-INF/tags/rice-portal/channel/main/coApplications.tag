@@ -34,5 +34,11 @@
     <ul class="chan">
         <li><a class="portal_link" title="Manage Populations" href="${ConfigProperties.lum.application.url}/kr-krad/lookup?viewId=KS-Population-LookupView&methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.population.dto.PopulationWrapper&hideReturnLink=true&showMaintenanceLinks=true&viewName=Manage Populations">Manage Populations</a></li>
     </ul>
+    <strong>Course Registration</strong>
+    <ul class="chan">
+        <li><a class="portal_link" title="POC Search" href="${ConfigProperties.lum.application.url}/kscr-poc/index.jsp">POC Search</a></li>
+        <li><a class="portal_link" title="Reg Cart" href="${ConfigProperties.lum.application.url}/registration/">Reg Cart</a></li>
+        <li><a class="portal_link" title="Performance Test" href="${ConfigProperties.lum.application.url}/kr-krad/courseRegistrationKrad?viewId=CourseRegistrationKrad-FormView&methodToCall=start&hideReturnLink=true">Performance Test</a></li>
+    </ul>
 </div>
 <channel:portalChannelBottom />
