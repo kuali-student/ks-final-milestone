@@ -177,8 +177,8 @@
                 <value>themes/ksboot/stylesheets/ksboot.css</value>
                 <value>ks-ap/scripts/jquery-popover/jquery.popover.css</value>
                 <value>ks-ap/jquery-ui/jquery-ui.css</value>
-                <value>ks-ap/css/myplan.css</value>
                 <value>themes/ksboot/stylesheets/enroll.css</value>
+                <value>ks-ap/css/myplan.css</value>
             </list>
         </property>
         <property name="scriptFiles">

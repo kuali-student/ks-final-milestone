@@ -168,7 +168,7 @@ function searchForCourses(id, parentId) {
 						bAutoWidth : false,
 						bDeferRender : true,
 						bDestroy : true,
-						bJQueryUI : true,
+						bJQueryUI : false,
 						bProcessing : false,
 						bScrollCollapse : true,
 						bServerSide : true,
