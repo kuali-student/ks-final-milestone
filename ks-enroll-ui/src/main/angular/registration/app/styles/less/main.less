@@ -10,6 +10,7 @@
 @import 'global_styles/global_card.less';
 @import 'global_styles/global_core.less';
 
+@import 'kscr/additionalOptions.less';
 @import 'kscr/button.less';
 @import 'kscr/cart.less';
 @import 'kscr/edit.less';
@@ -42,28 +43,15 @@
   border-top: 1px solid #e5e5e5;
 }
 
-.ks-mobile-remove-icon {
-    border-left: @dottedLineBorder;
-    font-size: 2.2em;
-    margin-right: 0.3em;
-    padding: 0.1em;
-    color: @gray;
-    cursor: pointer;
-        &:hover{
-        color: @grayDark;
-        text-decoration: none;
-        }
-}
-
 /******* Mobile header  *********/
 
 /* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
-}
+//.header h3 {
+//  margin-top: 0;
+//  margin-bottom: 0;
+//  line-height: 40px;
+//  padding-bottom: 19px;
+//}
 
 .kscr-searchTerm{
     padding-left: 0.5em;
@@ -73,13 +61,6 @@
 /******* End header *********/
 
 
-/******* Mobile Navigation  *********/
-
-.kscr-header-filler{
- height:12em;
-}
-
-/******* End Mobile Navigation  *********/
 
 /* Customize container */
 @media (min-width: 768px) {
@@ -129,92 +110,22 @@
   }
 }
 
-/******* My Cart Section  *********/
-
- //My Cart Input Boxes and Add to Cart Button
-.kscr-cart{
-    padding: 1em 0.7em 0;
-}
-
-.kscr-cart-course {
-    background-color: @grayLighter;
-    margin: 10px;
-}
-
-.kscr-cart-input {
-    text-transform:uppercase;
-}
-
-/******* End My Cart Section  *********/
-
 
 /******* Course Section  *********/
-.kscr-course-header {
+//.kscr-course-header {
   //  background-color: @whiteBackground;
-    margin: -28px 0 5px 25px;
-    padding-left: 0.5em;
-    border-bottom: @dottedLineBorder;
-    white-space:nowrap;
-}
+//    margin: -28px 0 5px 25px;
+//    padding-left: 0.5em;
+//    border-bottom: @dottedLineBorder;
+//    white-space:nowrap;
+//}
 
-.kscr-course-info {
-    border-bottom: @dottedLineBorder;
-    padding: 5px;
-}
+//.kscr-course-info {
+//    border-bottom: @dottedLineBorder;
+//    padding: 5px;
+//}
 
 /******* End Course Section  *********/
 
-/******* Additional Options Section  *********/
-.kscr-AdditionalOptions-header{
-    background-color: @grayLighter;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 13px;
-    font-weight: normal;
-    font-color:#666;
-    padding: 0.1em 0.1em 0.1em 0.5em;
-}
 
-.kscr-AdditionalOptions{
-    padding: 10px;
-}
-
-.kscr-AdditionalOptions-buttons{
-   float: right;
-   padding-right: 1em;
-}
-/******* End Additional Options Section  *********/
-
-/******* Registered Section   *********/
-.kscr-register{
-    padding: 0 0.5em 0 0.5em;
-    a {text-decoration:none;}
-}
-
-.kscr-register-buttons{
-   border-top: @horizontalLineBorder;
-   padding: 0.5em;
-}
-
-.kscr-register-icon{
-   position: absolute;
-   padding-top: 0.4em;
-}
-
-.kscr-registered{
-    //border: 1px outset @grayLight;
-    margin: 10px;
-    padding: 0.2em;
-    background-color: @whiteBackground;
-    font-family: 'Open Sans', sans-serif;
-    font-size: 13px;
-    font-weight: normal;
-    font-color:#666;
-    cursor: pointer;
-    cursor: hand;
-    /*-webkit-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
-    /*-moz-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
-    /*box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
-}
-
-/******* End Registered Section  *********/
 
