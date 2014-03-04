@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +18,7 @@ import org.kuali.student.ap.framework.context.support.DefaultKsapContext;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
-import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
-import org.kuali.student.ap.framework.context.support.TermAndCalDataLoader;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -34,9 +31,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
-import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lu.service.impl.CluDataLoader;
-import org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -48,16 +43,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class AcademicPlanServiceImplTest {
 
-    private CluService cluService = null;
-
 
     @Before
 	public void setUp() throws Exception {
 		DefaultKsapContext.before("student1");
 
-        this.cluService = KsapFrameworkServiceLocator.getCluService();
         CluDataLoader cluDataLoader = new CluDataLoader();
-        cluDataLoader.setCluService(cluService);
+        cluDataLoader.setCluService(KsapFrameworkServiceLocator.getCluService());
 
         //the following actually returns the context of current thread
         cluDataLoader.setContextInfo(new DefaultKsapContext().getContextInfo());
@@ -474,7 +466,7 @@ public class AcademicPlanServiceImplTest {
             fail("DataValidationErrorException should have been thrown");
         } catch (DataValidationErrorException dvee) {
             dvee.printStackTrace();
-            assertTrue("validation messages should not be null", dvee.getValidationResults().size() > 0);
+            assertTrue("validation messages should not be empty", !dvee.getValidationResults().isEmpty());
             ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
             assertEquals("refObjectType", resultInfo.getElement());
             assertEquals("error.required", resultInfo.getMessage());
@@ -511,7 +503,7 @@ public class AcademicPlanServiceImplTest {
             fail("InvalidParameterException should have been thrown as learning plan id was null");
         } catch (DataValidationErrorException dvee) {
             dvee.printStackTrace();
-            assertTrue("validation messages should not be null", dvee.getValidationResults().size() > 0);
+            assertTrue("validation messages should not be empty", !dvee.getValidationResults().isEmpty());
             ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
             assertEquals("learningPlanId", resultInfo.getElement());
             assertEquals("error.required", resultInfo.getMessage());
@@ -549,7 +541,7 @@ public class AcademicPlanServiceImplTest {
             dvee.printStackTrace();
             assertEquals("Error(s) validating plan item.",dvee.getMessage());
             ValidationResultInfo resultInfo = dvee.getValidationResults().get(0);
-            assertTrue("validation results should not be empty",dvee.getValidationResults().size()>0);
+            assertTrue("validation results should not be empty", !dvee.getValidationResults().isEmpty());
             assertEquals("refObjectId", resultInfo.getElement());
             assertEquals("error.required", resultInfo.getMessage());
         }
@@ -605,11 +597,11 @@ public class AcademicPlanServiceImplTest {
         planItem.setTypeKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_TYPE);
         planItem.setStateKey(AcademicPlanServiceConstants.LEARNING_PLAN_ITEM_ACTIVE_STATE_KEY);
         planItem.setCategory(AcademicPlanServiceConstants.ItemCategory.PLANNED);
-		List<ValidationResultInfo> validationResultInfos=null;
+		List<ValidationResultInfo> validationResultInfos;
         validationResultInfos = KsapFrameworkServiceLocator.getAcademicPlanService().validatePlanItem(
                 "FULL_VALIDATION", planItem,
                 KsapFrameworkServiceLocator.getContext().getContextInfo());
-        assertTrue("validationResultsInfos should not be empty",validationResultInfos.size()>0);
+        assertTrue("validationResultsInfos should not be empty", !validationResultInfos.isEmpty());
         assertEquals("Could not find course with ID [XX].",validationResultInfos.get(0).getMessage());
 	}
 

@@ -77,28 +77,28 @@ public class TestTermHelper {
     public void testGetCurrentTerms() throws Exception {
         List<Term> terms = th.getCurrentTerms();
         assertNotNull(terms);
-        assertTrue(terms.size() > 0);
+        assertTrue(!terms.isEmpty());
     }
 
     @Test
     public void testGetCurrentTermsBasedOnKeyDate() throws Exception {
         List<Term> terms = th.getCurrentTermsBasedOnKeyDate();
         assertNotNull(terms);
-        assertTrue(terms.size() > 0);
+        assertTrue(!terms.isEmpty());
     }
 
     @Test
     public void testGetCurrentTermsWithPublishedSOC() throws Exception {
         List<Term> terms = th.getCurrentTermsWithPublishedSOC();
         assertNotNull(terms);
-        assertTrue(terms.size() > 0);
+        assertTrue(!terms.isEmpty());
     }
 
     @Test
     public void testGetFutureTermsWithPublishedSOC() throws Exception {
         List<Term> terms = th.getFutureTermsWithPublishedSOC();
         assertNotNull(terms);
-        assertTrue(terms.size() > 0);
+        assertTrue(!terms.isEmpty());
     }
 
     @Test

@@ -2,6 +2,7 @@ package org.kuali.student.ap.coursesearch.controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +13,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.coursesearch.form.CourseSearchFormImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
@@ -38,7 +38,6 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testFetchCourseDivisions() throws Exception {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
 		Map<String, String> divisionsMap = strategy.fetchCourseDivisions();
 		assertFalse(divisionsMap.isEmpty());
 	}
@@ -145,7 +144,6 @@ public class CourseSearchStrategyTest {
 	@Test
 	public void testAddDivisionSearchesNothing() {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
 		ArrayList<String> divisions = new ArrayList<String>();
 		ArrayList<String> levels = new ArrayList<String>();
 		ArrayList<String> codes = new ArrayList<String>();
@@ -154,13 +152,12 @@ public class CourseSearchStrategyTest {
         ArrayList<String> completeLevels = new ArrayList<String>();
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 		strategy.addComponentSearches(divisions, levels, codes,incompleteCodes, completeCodes, completeLevels, requests);
-		assertEquals(0, requests.size());
+		assertTrue(requests.isEmpty());
 	}
 
 	@Test
 	public void testAddDivisionSearchesJustDivision() {
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
 		ArrayList<String> divisions = new ArrayList<String>();
 		divisions.add("DIVISION");
 		ArrayList<String> codes = new ArrayList<String>();
@@ -711,9 +708,8 @@ public class CourseSearchStrategyTest {
 		form.setCampusSelect(campusParams);
 		form.setSearchTerm("");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
 		List<SearchRequestInfo> requests = strategy.queryToRequests(form);
-		assertEquals(0, requests.size());
+		assertTrue(requests.isEmpty());
 	}
 
 	/*
@@ -1152,9 +1148,8 @@ public class CourseSearchStrategyTest {
 		form.setCampusSelect(campusParams);
 		form.setSearchTerm("");
 		CourseSearchStrategyImpl strategy = new CourseSearchStrategyImpl();
-		;
 		strategy.processRequests(requests, form);
-		assertEquals(0, requests.size());
+		assertTrue(requests.isEmpty());
 
 	}
 }

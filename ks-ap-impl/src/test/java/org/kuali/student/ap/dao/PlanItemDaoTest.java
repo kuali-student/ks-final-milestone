@@ -117,7 +117,7 @@ public class PlanItemDaoTest extends AbstractTransactionalDaoTest {
         assertNotNull(pie);
         assertEquals(id, pie.getId());
         assertNotNull(pie.getPlanPeriods());
-        assertEquals(0, pie.getPlanPeriods().size());
+        assertTrue(pie.getPlanPeriods().isEmpty());
     }
 
     @Test
