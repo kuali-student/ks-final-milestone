@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service;
 
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ScheduleItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleTermResult;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -134,13 +133,13 @@ public interface CourseRegistrationClientService {
      * Creates a new RegistrationRequest with type Update
      * and submits it to be processed
      *
-     * @param userId
-     * @param termId
-     * @param courseCode
-     * @param regGroupCode
-     * @param masterLprId
-     * @param credits
-     * @param gradingOption
+     * @param userId - userId of the person updating their schedule
+     * @param termId - term the registration to be updated is in
+     * @param courseCode - course code for the selected course
+     * @param regGroupCode  - Reg Group code for the selected course
+     * @param masterLprId - Master LPR Id for the selected course
+     * @param credits - current credits registered for
+     * @param gradingOptionId - current grading option registered for
      * @return
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -155,13 +154,13 @@ public interface CourseRegistrationClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/updateScheduleItem")
-    public ScheduleItemResult updateScheduleItem(@QueryParam("userId") String userId,
+    public Response updateScheduleItem(@QueryParam("userId") String userId,
                                                  @QueryParam("termId") String termId,
                                                  @QueryParam("courseCode") String courseCode,
                                                  @QueryParam("regGroupCode") String regGroupCode,
                                                  @QueryParam("masterLprId") String masterLprId,
                                                  @QueryParam("credits") String credits,
-                                                 @QueryParam("gradingOptions") String gradingOption) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException;
+                                                 @QueryParam("gradingOptionId") String gradingOptionId);
 
     /**
      * This is the "one click" registration method. It will first create a registration request then submit that

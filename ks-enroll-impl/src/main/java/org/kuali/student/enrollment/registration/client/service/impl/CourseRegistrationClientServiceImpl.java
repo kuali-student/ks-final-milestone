@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
-import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
@@ -33,12 +32,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
-import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -627,12 +623,25 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return credits;
     }
 
-    public ScheduleItemResult updateScheduleItem(String userId, String termId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    @Override
+    public Response updateScheduleItem(String userId, String termId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(updateScheduleItemHelper(userId, termId, courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
+        } catch (Throwable t) {
+            LOGGER.warn(t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
+    }
+
+    public ScheduleItemResult updateScheduleItemHelper(String userId, String termId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
         RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-        String regGroupId = "";
         //Get RegGroupId
-        regGroupId = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, CourseRegistrationAndScheduleOfClassesUtil.getAtpService().getAtp(termId, contextInfo).getCode(), courseCode, regGroupCode, regGroupId, contextInfo).getRegGroupId();
+        String regGroupId = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(termId, null, courseCode, regGroupCode, "", contextInfo).getRegGroupId();
         //Populate Fields for RegRequestInfo object
         registrationRequestInfo.setTermId(termId);
         registrationRequestInfo.setRequestorId(userId);
@@ -648,7 +657,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, registrationRequestInfo, contextInfo);
 
         // submit the request to the registration engine.
-        RegistrationResponseInfo registrationResponseInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
+        CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
 
         //Build Result object
         ScheduleItemResult scheduleItemResult = new ScheduleItemResult();
