@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="KS-CM-ProposalLookup" parent="KS-Uif-LookupView">
+        <property name="viewName" value="ProposalLookup"/>
+        <property name="headerText" value="Find a Proposal" />
+        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
+        <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.ProposalLookupableImpl" />
+        <property name="additionalCssFiles">
+            <list>
+                <value>ks-cm-krad/css/cm.css</value>
+            </list>
+        </property>
+
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-cm-find-course-remove-table</value>
+                <value>ks-cm-find-course-remove-row-col</value>
+                <value>ks-cm-find-course-remove-grid</value>
+                <value>ks-cm-find-course-input-field</value>
+                <value>ks-cm-find-course-grid-row</value>
+
+            </list>
+        </property>
+
+
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+            <list>
+                <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+            </list>
+        </property>
+
+        <property name="page">
+            <bean parent="Uif-LookupPage">
+                <property name="header">
+                    <null/>
+                </property>
+                <property name="instructionalMessage">
+                    <bean parent="Uif-Message" p:width="auto">
+                        <property name="cssClasses">
+                            <list merge="true">
+                                <value>ks-cm-find-course-InstructionalMessage</value>
+                            </list>
+                        </property>
+                        <property name="messageText"
+                                  value=" Enter search terms" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+
+        <property name="criteriaFields">
+            <list>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Name" p:fieldLabel.renderColon="true"/>
+            </list>
+        </property>
+        <property name="resultFields">
+            <list>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Name"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="type" p:label="Type"/>
+            </list>
+        </property>
+
+        <property name="criteriaGroup.footer.items">
+            <list>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find a Proposal">
+                    <property name="cssClasses">
+                        <list merge="true">
+                            <value>ks-cm-find-course-button-centre</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+
+        <property name="footer.items">
+            <list>
+            </list>
+        </property>
+    </bean>
+</beans>

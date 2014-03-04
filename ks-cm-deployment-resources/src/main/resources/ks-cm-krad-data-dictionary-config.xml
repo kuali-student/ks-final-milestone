@@ -55,6 +55,7 @@
                 <value>classpath:org/kuali/student/cm/main/CourseSelectView.xml</value>
                 <value>classpath:org/kuali/student/cm/main/FindCourseLookupView.xml</value>
                 <value>classpath:org/kuali/student/cm/main/CMLUCustomComponents.xml</value>
+                <value>classpath:org/kuali/student/cm/lookup/ProposalLookup.xml</value>
 			</list>
 			</constructor-arg>
 		</bean>  
