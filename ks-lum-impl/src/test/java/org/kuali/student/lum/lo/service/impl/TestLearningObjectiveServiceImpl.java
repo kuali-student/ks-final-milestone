@@ -676,7 +676,7 @@ public class TestLearningObjectiveServiceImpl extends AbstractServiceTest {
         category.setTypeKey("loCategoryType.accreditation");
         
         List<LoInfo> twoLos = client.getLosByLoCategory(categoryId, contextInfo);
-        assertTrue(null != twoLos);
+        assertNotNull(twoLos);
         assertEquals(2, twoLos.size());
         assertTrue(twoLos.get(0).getId().equals("81abea67-3bcc-4088-8348-e265f3670145") ||
         			twoLos.get(0).getId().equals("dd0658d2-fdc9-48fa-9578-67a2ce53bf8a"));

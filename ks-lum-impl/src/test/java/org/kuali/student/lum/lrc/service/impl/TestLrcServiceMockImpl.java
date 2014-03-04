@@ -237,7 +237,7 @@ public class TestLrcServiceMockImpl {
                 fail(info.getKey() + " was not in the return list");
             }
         }
-        assertEquals(0, keys.size());
+        assertTrue(keys.isEmpty());
 
 
         // test by type
@@ -435,7 +435,7 @@ public class TestLrcServiceMockImpl {
                 fail(info.getKey() + " was not in the return list");
             }
         }
-        assertEquals(0, keys.size());
+        assertTrue(keys.isEmpty());
         // test by type
         keys = lrcService.getResultValueKeysByType(LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE, callContext);
         assertEquals(2, keys.size());
@@ -726,7 +726,7 @@ public class TestLrcServiceMockImpl {
                 fail(info.getKey() + " was not in the return list");
             }
         }
-        assertEquals(0, keys.size());
+        assertTrue(keys.isEmpty());
 
         // test by type
         keys = lrcService.getResultValuesGroupKeysByType(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE, callContext);
@@ -758,7 +758,7 @@ public class TestLrcServiceMockImpl {
                 fail(rv.getKey() + " was not expected");
             }
         }
-        assertEquals(0, expectedKeys.size());
+        assertTrue(expectedKeys.isEmpty());
 
 
         expectedKeys = new ArrayList<String>();
@@ -781,7 +781,7 @@ public class TestLrcServiceMockImpl {
                 fail(rv.getKey() + " was not expected");
             }
         }
-        assertEquals(0, expectedKeys.size());
+        assertTrue(expectedKeys.isEmpty());
 
 
         // check that I can get the RVGs by grade related
@@ -796,7 +796,7 @@ public class TestLrcServiceMockImpl {
                 fail(rvg.getKey() + " was not expected");
             }
         }
-        assertEquals(0, expectedKeys.size());
+        assertTrue(expectedKeys.isEmpty());
 
         // check that I can get the RVGs that are credit related
         expectedKeys.add(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_2_0);
@@ -809,7 +809,7 @@ public class TestLrcServiceMockImpl {
                 fail(rvg.getKey() + " was not expected");
             }
         }
-        assertEquals(0, expectedKeys.size());
+        assertTrue(expectedKeys.isEmpty());
 
 
 

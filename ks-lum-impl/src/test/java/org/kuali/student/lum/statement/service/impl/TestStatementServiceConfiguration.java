@@ -554,7 +554,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
         @Test
         public void testReqComponentFieldTypeCountForReqComponentType_kuali_reqCompType_course_permission_instructor_required() throws DoesNotExistException {
             ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.course.permission.instructor.required");
-            Assert.assertEquals(0, reqComponentType.getReqCompFieldTypes().size());
+            Assert.assertTrue(reqComponentType.getReqCompFieldTypes().isEmpty());
         }
 
         /*@Test
@@ -644,7 +644,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
         @Test
         public void testReqComponentFieldTypeCountForReqComponentType_kuali_reqComponent_type_course_org_program_admitted() throws DoesNotExistException {
             ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.course.org.program.admitted");
-            Assert.assertEquals(0, reqComponentType.getReqCompFieldTypes().size());
+            Assert.assertTrue(reqComponentType.getReqCompFieldTypes().isEmpty());
         }
 
         @Test
@@ -883,7 +883,7 @@ public class TestStatementServiceConfiguration extends AbstractTransactionalDaoT
         @Test
         public void testReqComponentFieldTypeCountForReqComponentType_kuali_reqComponent_type_program_minor_admitted_classstanding() throws DoesNotExistException {
             ReqComponentType reqComponentType = this.dao.fetch(ReqComponentType.class, "kuali.reqComponent.type.program.minor.admitted.classstanding");
-            Assert.assertEquals(0, reqComponentType.getReqCompFieldTypes().size());
+            Assert.assertTrue(reqComponentType.getReqCompFieldTypes().isEmpty());
         }
 
         @Test

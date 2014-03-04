@@ -729,7 +729,7 @@ public class TestCourseServiceImpl{
         Metadata metadata = metadataService.getMetadata("org.kuali.student.r2.lum.course.dto.CourseInfo");
 
         Map<String, Metadata> properties = metadata.getProperties();
-        assertTrue(properties.size() > 0);
+        assertTrue(!properties.isEmpty());
 
         assertTrue(properties.containsKey("stateKey"));
         assertTrue(properties.containsKey("campusLocations"));

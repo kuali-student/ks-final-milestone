@@ -203,7 +203,7 @@ public abstract class TestCourseBundleServiceImplConformanceExtendedCrud extends
 	public void test_changeCourseBundleState() throws Exception	{
         loadData();
         List<String> infos = getCourseBundleService().getCourseBundleIdsByType(CourseBundleDataLoader.COURSE_BUNDLE_TYPE_KEY, contextInfo);
-        assertTrue(infos.size() > 0);
+        assertTrue(!infos.isEmpty());
         CourseBundleInfo original = getCourseBundleService().getCourseBundle(infos.get(0), contextInfo);
         assertEquals(CourseBundleDataLoader.COURSE_BUNDLE_ACTIVE_STATE_KEY,original.getStateKey());
         original.setStateKey(CourseBundleDataLoader.COURSE_BUNDLE_INACTIVE_STATE_KEY);

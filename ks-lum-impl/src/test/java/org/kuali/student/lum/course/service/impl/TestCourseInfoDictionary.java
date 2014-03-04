@@ -121,13 +121,13 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(0, validationResults.size());
+        assertTrue(validationResults.isEmpty());
 
 		System.out.println("testCourseDescrRequiredBasedOnState");
 		info.setStateKey("DRAFT");
 		info.setDescr(null);
 		validationResults = val.validateObject(info, os, contextInfo);
-		assertEquals(0, validationResults.size());
+        assertTrue(validationResults.isEmpty());
 
 		info.setStateKey("ACTIVE");
 		info.setDescr(null);

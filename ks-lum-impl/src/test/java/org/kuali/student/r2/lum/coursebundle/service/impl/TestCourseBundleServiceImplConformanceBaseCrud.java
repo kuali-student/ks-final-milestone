@@ -183,7 +183,7 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 			List<CourseBundleInfo> records = testService.getCourseBundlesByIds ( courseBundleIds, contextInfo);
 			
 			assertEquals(courseBundleIds.size(), records.size());
-			assertEquals(0, courseBundleIds.size());
+        assertTrue(courseBundleIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -202,8 +202,9 @@ public abstract class TestCourseBundleServiceImplConformanceBaseCrud {
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, courseBundleIds.size());
-			
+        assertTrue(courseBundleIds.isEmpty());
+
+
 			// -------------------------------------
 			// test get by type
 			// -------------------------------------

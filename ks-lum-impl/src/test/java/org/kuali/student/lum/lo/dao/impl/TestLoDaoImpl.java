@@ -103,7 +103,7 @@ public class TestLoDaoImpl extends AbstractTransactionalDaoTest {
 		// Bogus LoCategory
 		los= dao.getLosByLoCategory("Not a valid UUID");
 		assertNotNull(los);
-		assertEquals(0, los.size());
+		assertTrue(los.isEmpty());
 	}
 
 	@Test

@@ -37,6 +37,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 //import org.kuali.student.r2.lum.lu.entity.Lui;
 
@@ -85,7 +86,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
 
         assertEquals("searchKey1", mq.getSearchTypeKey());
         assertNotNull(mq.getSearchParameters());
-        assertEquals(0, mq.getSearchParameters().size());
+        assertTrue(mq.getSearchParameters().isEmpty());
     }
 
     @Test
@@ -155,7 +156,7 @@ public class TestLuDaoImpl extends AbstractTransactionalDaoTest {
         assertEquals(2, versions.size());
 
         versions = dao.getVersionsInDateRange("CLU-VERSIONTEST-IND", "foo.com", DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20090310"), DateFormatters.YEAR_MONTH_DAY_CONCAT_DATE_FORMATTER.parse("20090410"));
-        assertEquals(0, versions.size());
+        assertTrue(versions.isEmpty());
 
     }
 
