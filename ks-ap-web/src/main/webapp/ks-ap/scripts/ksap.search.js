@@ -222,7 +222,7 @@ function searchForCourses(id, parentId) {
 
                             var newheader = jQuery("#termsOfferedPlaceholder").clone(true);
                             var oldheader = jQuery("[aria-label='Terms Offered']");
-                            oldheader.children().remove();
+                            oldheader.empty();
                             newheader.removeClass("ksap-hide");
                             oldheader.append(newheader);
 
