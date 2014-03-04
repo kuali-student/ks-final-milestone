@@ -19,6 +19,7 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 import javax.jms.Session;
+import java.util.List;
 
 /**
  * This class ...
@@ -41,16 +42,15 @@ public class UserMessageConsumer {
 
         // create the request components
         try {
-            Session session = createSession();
-            sendReceive(session, userSession.getPrincipalId());
+            sendReceive(userSession.getPrincipalId());
         } catch (JMSException e) {
-            throw new RuntimeException(e);
+            logger.error("Exception while retrieving messages for user. ", e);
         }
 
     }
 
-    private static void sendReceive(Session session, final String user) throws JMSException {
-
+    private static void sendReceive(final String user) throws JMSException {
+        Session session = createSession();
         Queue replyTo = session.createTemporaryQueue();
 
         MessageConsumer consumer = session.createConsumer(replyTo);
@@ -64,19 +64,16 @@ public class UserMessageConsumer {
         Message returnMsg = consumer.receive();
         if (returnMsg instanceof ObjectMessage) {
 
-            UserMessage userMessage = (UserMessage) ((ObjectMessage) returnMsg).getObject();
-
-            GrowlMessage growlMessage = new GrowlMessage();
-            growlMessage.setTitle("");
-            growlMessage.setMessageKey(userMessage.getKey());
-            growlMessage.setMessageParameters(StringUtils.commaDelimitedListToStringArray(userMessage.getParameters()));
-            growlMessage.setTheme(userMessage.getTheme());
-            GlobalVariables.getMessageMap().addGrowlMessage(growlMessage);
-
-            logger.info("Messages added to global variables.");
-            if(userMessage.hasMore()){
-                sendReceive(session, user);
+            List<UserMessage> userMessages = (List<UserMessage>) ((ObjectMessage) returnMsg).getObject();
+            for(UserMessage userMessage : userMessages){
+                GrowlMessage growlMessage = new GrowlMessage();
+                growlMessage.setTitle("");
+                growlMessage.setMessageKey(userMessage.getKey());
+                growlMessage.setMessageParameters(StringUtils.commaDelimitedListToStringArray(userMessage.getParameters()));
+                growlMessage.setTheme(userMessage.getTheme());
+                GlobalVariables.getMessageMap().addGrowlMessage(growlMessage);
             }
+            logger.info("Messages added to global variables.");
 
         }
     }

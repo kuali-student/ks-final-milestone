@@ -51,18 +51,16 @@ public class UserMessageMap {
      * @param key
      * @return
      */
-    public synchronized UserMessage getMessagesForKey(String key) {
+    public synchronized List<UserMessage> getMessagesForKey(String key) {
         List<UserMessage> messages = new ArrayList<UserMessage>();
         if(messageMap.containsKey(key)){
 
             Queue<UserMessage> queue = messageMap.get(key);
-            if(!queue.isEmpty()){
-                UserMessage userMessage = queue.poll();
-                userMessage.setHasMore(!queue.isEmpty());
-                return userMessage;
+            while(!queue.isEmpty()){
+                messages.add(queue.poll());
             }
         }
-        return null;
+        return messages;
 
     }
 

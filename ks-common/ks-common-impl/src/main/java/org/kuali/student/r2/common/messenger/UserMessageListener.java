@@ -14,6 +14,8 @@ import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import javax.jms.TextMessage;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class is an implementaton of the JMS Message Listener and can add a message to the queue for a specific
@@ -38,11 +40,11 @@ public class UserMessageListener implements MessageListener {
             if (message.getJMSReplyTo() != null) { // this is used for getting current stats
                 // send mq message. use singlton perf counter
                 String user = message.getStringProperty(MessengerConstants.USER_MESSAGE_USER);
-                UserMessage msg = UserMessageMap.INSTANCE.getMessagesForKey(user);
+                ArrayList<UserMessage> msgs = (ArrayList)UserMessageMap.INSTANCE.getMessagesForKey(user);
 
-                if(msg != null){
+                if((msgs != null) && (!msgs.isEmpty())){
                     ObjectMessage objectMessage = new ActiveMQObjectMessage();
-                    objectMessage.setObject(msg);
+                    objectMessage.setObject(msgs);
 
                     jmsTemplate.convertAndSend(message.getJMSReplyTo(), objectMessage);
                 } else {
