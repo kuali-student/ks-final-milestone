@@ -172,7 +172,7 @@ public class SuccessFailureMessageBuilderTest {
 			successFailureMessageBuilder.buildMessage(list);
 			Assert.fail("buildMessage should have failed since list has 2 root nodes");
 		} catch (MessageBuilderException e) {
-			Assert.assertTrue(e.getMessage() != null);
+			Assert.assertNotNull(e.getMessage());
 			Assert.assertTrue(e.getMessage().contains("label=+"));
 			Assert.assertTrue(e.getMessage().contains("label=*"));
 		}

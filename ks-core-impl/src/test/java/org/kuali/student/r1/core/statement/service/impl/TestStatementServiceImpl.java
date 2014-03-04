@@ -312,7 +312,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@Test
     public void test12GetNlUsageTypes() throws OperationFailedException {
 		List<NlUsageTypeInfo> infoList = statementService.getNlUsageTypes();
-		assertTrue(infoList.size() > 0);
+		assertTrue(!infoList.isEmpty());
 	}
 
 	private boolean containsTypeId(List<? extends TypeInfo> types, String id) {
@@ -342,8 +342,8 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		assertEquals("kuali.statement.type.course", type.getId());
 		assertNotNull(type.getAllowedStatementTypes());
 		assertEquals(2, type.getAllowedStatementTypes().size());
-		assertEquals(0, type.getAllowedReqComponentTypes().size());
-		assertEquals(0, type.getAttributes().size());
+        assertTrue(type.getAllowedReqComponentTypes().isEmpty());
+        assertTrue(type.getAttributes().isEmpty());
 		assertEquals("Rules used in the evaluation of a person's academic readiness for enrollment in a LU.", type.getDescr());
 		assertEquals(effDate.getTime(), type.getEffectiveDate());
 		assertEquals(expDate.getTime(), type.getExpirationDate());
@@ -1311,7 +1311,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 
         assertNotNull(type);
     	assertEquals("clu.prerequisites", type.getId());
-    	assertEquals(0, type.getAttributes().size());
+        assertTrue(type.getAttributes().isEmpty());
     	assertEquals("CLU Prerequisites", type.getDesc());
     	assertEquals(effDate.getTime(), type.getEffectiveDate());
     	assertEquals(expDate.getTime(), type.getExpirationDate());
@@ -1468,7 +1468,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 			System.out.println(vri.getErrorLevel() + " " + vri.getElement()
 					+ " " + vri.getMessage());
 		}
-		assertEquals(0, resultInfo.size());
+        assertTrue(resultInfo.isEmpty());
     	}
     	
 		
@@ -1483,7 +1483,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		List<ValidationResultInfo> resultInfo = statementService.validateRefStatementRelation("SYSTEM", refRelation);
 		if (resultInfo != null){
 		assertNull(resultInfo);
-		assertEquals(0, resultInfo.size());
+            assertTrue(resultInfo.isEmpty());
 		}
     }
 

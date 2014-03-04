@@ -16,6 +16,7 @@
 package org.kuali.student.r1.core.messages.dao.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -117,6 +118,6 @@ public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
 		assertEquals(result.getValue(), me.getValue());
 		assertEquals(result.getGroupName(), me.getGroupName());
 		result = messageManagementDAO.getMessage("US", "Name", "Last");
-		assertTrue(result == null);
+		assertNull(result);
 	}
 }

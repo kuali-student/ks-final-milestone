@@ -31,6 +31,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -253,7 +254,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getTypeKey(), info.getTypeKey());
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
-        assertEquals(null, info.getEndDate());
+        assertNull(info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
         assertEquals(orig.getIsInstructionalDay(), info.getIsInstructionalDay());
@@ -537,7 +538,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getTypeKey(), info.getTypeKey());
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
-        assertEquals(null, info.getEndDate());
+        assertNull(info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
         new AttributeTester().check(orig.getAttributes(), info.getAttributes());
@@ -710,7 +711,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         status = this.acalService.removeTermFromAcademicCalendar(acalInfo.getId(), info.getId(), callContext);
         assertEquals(Boolean.TRUE, status.getIsSuccess());
         terms = this.acalService.getTermsForAcademicCalendar(acalInfo.getId(), callContext);
-        assertEquals(0, terms.size());
+        assertTrue(terms.isEmpty());
 
         // test adding term to term
         TermInfo subTerm = new TermInfo();
@@ -745,9 +746,9 @@ public class TestAcademicCalendarServiceImplWithMocks {
         status = this.acalService.removeTermFromTerm(info.getId(), subTerm.getId(), callContext);
         assertEquals(Boolean.TRUE, status.getIsSuccess());
         terms = this.acalService.getIncludedTermsInTerm(info.getId(), callContext);
-        assertEquals(0, terms.size());
+        assertTrue(terms.isEmpty());
         terms = this.acalService.getContainingTerms(subTerm.getId(), callContext);
-        assertEquals(0, terms.size());
+        assertTrue(terms.isEmpty());
 
         // delete
         orig = info;
@@ -834,7 +835,7 @@ public class TestAcademicCalendarServiceImplWithMocks {
         assertEquals(orig.getTypeKey(), info.getTypeKey());
         assertEquals(orig.getStateKey(), info.getStateKey());
         assertEquals(orig.getStartDate(), info.getStartDate());
-        assertEquals(null, info.getEndDate());
+        assertNull(info.getEndDate());
         assertEquals(orig.getIsAllDay(), info.getIsAllDay());
         assertEquals(orig.getIsDateRange(), info.getIsDateRange());
         new AttributeTester().check(orig.getAttributes(), info.getAttributes());

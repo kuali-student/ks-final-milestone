@@ -80,7 +80,7 @@ public class TestDocumentServiceImpl extends AbstractServiceTest {
 //    public void testDocTypes() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 //        List<TypeInfo> types = client.getDocumentTypes();
 //        assertNotNull(types);
-//        assertTrue(types.size() > 0);
+//        assertTrue(!types.isEmpty());
 //        
 //        TypeInfo type = client.getDocumentType(types.get(0).getId());
 //        assertEquals(types.get(0).getId(), type.getId());

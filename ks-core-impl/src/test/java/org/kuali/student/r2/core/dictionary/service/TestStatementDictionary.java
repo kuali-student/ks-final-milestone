@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.dictionary.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
@@ -98,7 +99,7 @@ public class TestStatementDictionary {
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-		assertEquals(0, validationResults.size());
+     assertTrue(validationResults.isEmpty());
 
   ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo ();
   fieldInfo.setTypeKey ("kuali.reqComponent.field.type.gradeType.id");
@@ -110,7 +111,7 @@ public class TestStatementDictionary {
   {
    System.out.println (vr.getElement () + " " + vr.getMessage ());
   }
-		assertEquals(0, validationResults.size());
+     assertTrue(validationResults.isEmpty());
 
 //  commented out this test because the gradeType.id was changed to be name that allows spaces
 //             <!-- Note: the grade.id is really a key so it should coform to the baseKualiType 

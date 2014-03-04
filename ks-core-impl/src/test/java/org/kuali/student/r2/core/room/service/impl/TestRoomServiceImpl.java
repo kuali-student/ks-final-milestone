@@ -402,11 +402,11 @@ public class TestRoomServiceImpl {
 
         //test no results
         List<String> ids = roomService.getBuildingIdsByCampus("3", contextInfo);
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
 
         //test normal search
         ids = roomService.getBuildingIdsByCampus("1", contextInfo);
-        assertEquals(ids.size(), 1);
+        assertEquals(1, ids.size());
     }
 
     @Test
@@ -541,7 +541,7 @@ public class TestRoomServiceImpl {
 
         //test when not found
         List<BuildingInfo> list = roomService.getBuildingsByBuildingCode("ADM", contextInfo);
-        assertEquals(0, list.size());
+        assertTrue(list.isEmpty());
 
         //test normal search
         list = roomService.getBuildingsByBuildingCode(b2.getBuildingCode(), contextInfo);
@@ -987,7 +987,7 @@ public class TestRoomServiceImpl {
 
         //test for no matches
         List<String> ids = roomService.getRoomIdsByBuilding("doesnotmatch", contextInfo);
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
 
         //test for matches
         ids = roomService.getRoomIdsByBuilding(b1.getId(), contextInfo);
@@ -1061,11 +1061,11 @@ public class TestRoomServiceImpl {
         List<String> ids;
         //test for no matches
         ids = roomService.getRoomIdsByBuildingAndFloor(b1.getId(), r3.getFloor(), contextInfo);
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
 
         //test normal
         ids = roomService.getRoomIdsByBuildingAndFloor(b2.getId(), r4.getFloor(), contextInfo);
-        assertEquals(ids.size(), 1);
+        assertEquals(1, ids.size());
 
     }
 
@@ -1136,10 +1136,10 @@ public class TestRoomServiceImpl {
         List<String> ids;
         //test for no matches
         ids = roomService.getRoomIdsByBuildingAndRoomType(b1.getId(), r3.getTypeKey(), contextInfo);
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
 
         ids = roomService.getRoomIdsByBuildingAndRoomType(b2.getId(), r4.getTypeKey(), contextInfo);
-        assertEquals(ids.size(), 1);
+        assertEquals(1, ids.size());
     }
 
     private void testGetRoomIdsByBuildingAndRoomTypes(BuildingInfo b1, BuildingInfo b2, RoomInfo r1, RoomInfo r2) throws Exception {
@@ -1214,11 +1214,11 @@ public class TestRoomServiceImpl {
 
         //test for no results
         ids = roomService.getRoomIdsByBuildingAndRoomTypes(b2.getId(), typeKeys, contextInfo);
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
 
         //normal use
         ids = roomService.getRoomIdsByBuildingAndRoomTypes(b1.getId(), typeKeys, contextInfo);
-        assertEquals(ids.size(), 2);
+        assertEquals(2, ids.size());
     }
 
     private void testGetRoomIdsByType(RoomInfo r1, RoomInfo r2, RoomInfo r3, RoomInfo r4) throws Exception {
@@ -1270,7 +1270,7 @@ public class TestRoomServiceImpl {
 
         //test for no results
         List<String> ids = roomService.getRoomIdsByType(r4.getTypeKey() + "_not", contextInfo);
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
 
         //normal use
         ids = roomService.getRoomIdsByType(r1.getTypeKey(), contextInfo);
@@ -1344,7 +1344,7 @@ public class TestRoomServiceImpl {
 
         //test for no results
         List<RoomInfo> rooms = roomService.getRoomsByBuildingAndRoomCode(b2.getBuildingCode(), r2.getRoomCode(), contextInfo);
-        assertEquals(0, rooms.size());
+        assertTrue(rooms.isEmpty());
 
 
         //normal use

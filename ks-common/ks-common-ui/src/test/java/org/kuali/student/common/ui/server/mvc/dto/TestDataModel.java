@@ -128,7 +128,7 @@ public class TestDataModel {
 		//Test valid id
 		dataModel.set(QueryPath.parse("id"), "0123456890");
 		validationResults = validator.validate(dataModel);		
-		assertEquals(0, validationResults.size());
+		assertTrue(validationResults.isEmpty());
 		
 		//Test invalid format title
 		dataModel.set(QueryPath.parse("formats/0/title"), "Format 1");

@@ -325,7 +325,7 @@ public class TestSchedulingServiceImpl {
                 false,
                 8);
 
-        ScheduleRequestSetInfo retSRSInfo = schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+        schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
                 refObjectType, scheduleRequestSetInfo, contextInfo);
         // create a ScheduleRequestInfo 1
         ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
@@ -399,8 +399,8 @@ public class TestSchedulingServiceImpl {
         assertTrue(l_actoff.contains("ts101"));
         assertTrue(l_actoff.contains("ts116"));
 
-        List l_final = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, contextInfo);
-        assertEquals(0, l_final.size());
+        List<String> l_final = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, contextInfo);
+        assertTrue(l_final.isEmpty());
     }
 
     @Test
@@ -424,6 +424,7 @@ public class TestSchedulingServiceImpl {
             }
         }
 
+        assertNotNull(ts2);
         assertEquals("ts102", ts2.getId());
         List<Integer> dow = ts2.getWeekdays();
         // should contain Monday, Wednesday, Friday
@@ -436,6 +437,7 @@ public class TestSchedulingServiceImpl {
         assertEquals(ts2.getStartTime(), TOD_8_AM);
         assertEquals(ts2.getEndTime(), TOD_9_10_AM);
 
+        assertNotNull(ts15);
         assertEquals("ts115", ts15.getId());
         dow = ts15.getWeekdays();
         // should not contain Monday, Wednesday, Friday
@@ -502,7 +504,7 @@ public class TestSchedulingServiceImpl {
         List<Integer> dow = new ArrayList<Integer>();
         dow.add(Calendar.TUESDAY);
         dow.add(Calendar.THURSDAY);
-        TimeOfDayInfo startTime = new TimeOfDayInfo();
+        TimeOfDayInfo startTime;
         startTime = SchedulingServiceDataLoader.TOD_8_00_AM;
         List<TimeSlotInfo> tsi = schedulingService
             .getTimeSlotsByDaysAndStartTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, contextInfo);
@@ -574,9 +576,7 @@ public class TestSchedulingServiceImpl {
         dow.add(Calendar.MONDAY);
         dow.add(Calendar.WEDNESDAY);
         dow.add(Calendar.FRIDAY);
-        startTime = new TimeOfDayInfo();
         startTime = SchedulingServiceDataLoader.TOD_1_00_PM;
-        endTime = new TimeOfDayInfo();
         endTime = SchedulingServiceDataLoader.TOD_2_10_PM;
         tsi = schedulingService.getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_ACTIVITY_OFFERING_STANDARD_FULLTERM_FALL, dow, startTime, endTime, contextInfo);
         assertEquals(1, tsi.size());
@@ -905,7 +905,7 @@ public class TestSchedulingServiceImpl {
                                                                                                                     maxEnrFlag,
                                                                                                                     maxEnr);
 
-        ScheduleRequestSetInfo retSRSInfo = schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+        schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
                 refObjectType, scheduleRequestSetInfo, contextInfo);
         // create a ScheduleRequestInfo 1
         ScheduleRequestInfo scheduleRequestInfo = SchedulingServiceDataLoader.setupScheduleRequestInfo(scheduleRequestInfoId,
@@ -1170,10 +1170,10 @@ public class TestSchedulingServiceImpl {
         assertNotNull(displayInfo);
         assertEquals(displayInfo.getId(), scheduleRequestInfo.getId());
         assertEquals(displayInfo.getName(), scheduleRequestInfo.getName());
-        assertTrue(displayInfo.getScheduleRequestComponentDisplays().size() > 0);
-        assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().size() > 0);
-        assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().size() > 0);
-        assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().size()>0);
+        assertTrue(!displayInfo.getScheduleRequestComponentDisplays().isEmpty());
+        assertTrue(!displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().isEmpty());
+        assertTrue(!displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().isEmpty());
+        assertTrue(!displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().isEmpty());
     }
 
     @Test
@@ -1211,16 +1211,16 @@ public class TestSchedulingServiceImpl {
         List<ScheduleRequestDisplayInfo> displayInfoList = getSchedulingService().getScheduleRequestDisplaysByIds(requestIdList, contextInfo);
 
         assertNotNull(displayInfoList);
-        assertTrue(displayInfoList.size() > 0);
+        assertTrue(!displayInfoList.isEmpty());
         assertEquals(displayInfoList.get(0).getId(), scheduleRequestInfo.getId());
         assertEquals(displayInfoList.get(0).getName(), scheduleRequestInfo.getName());
 
         for (ScheduleRequestDisplayInfo displayInfo : displayInfoList) {
             assertNotNull(displayInfo);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().size() > 0);
+            assertTrue(!displayInfo.getScheduleRequestComponentDisplays().isEmpty());
+            assertTrue(!displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().isEmpty());
+            assertTrue(!displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().isEmpty());
+            assertTrue(!displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().isEmpty());
         }
     }
 
@@ -1229,11 +1229,10 @@ public class TestSchedulingServiceImpl {
 
         // create a ScheduleRequestInfo
         String scheduleRequestInfoId = "ScheduleRequestsByRefObject-Id1";
-        String scheduleRequestInfoRefObjectId = "getRequestsByRefObject-RefObjectId";
         String scheduleRequestComponentInfoId = "scheduleRequest-ComponentInfoId1";
         String scheduleRequestInfoName = "testGetScheduleRequestByRefObject";
         String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
-        List<String> refObjectIds = new ArrayList();
+        List<String> refObjectIds = new ArrayList<String>();
         refObjectIds.add("Ao1");
         refObjectIds.add("Ao2");
         ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
@@ -1254,28 +1253,26 @@ public class TestSchedulingServiceImpl {
 
         // get schedule request display info
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        List<Predicate> pList = new ArrayList<Predicate>();
-        Predicate p = null;
+        Predicate p;
 
         qBuilder.setPredicates();
         p = equal("name", scheduleRequestInfoName);
-        pList.add(p);
 
         qBuilder.setPredicates(p);
 
         List<ScheduleRequestDisplayInfo> displayInfoList = getSchedulingService().searchForScheduleRequestDisplays(qBuilder.build(), contextInfo);
 
         assertNotNull(displayInfoList);
-        assertTrue(displayInfoList.size() > 0);
+        assertTrue(!displayInfoList.isEmpty());
         assertEquals(displayInfoList.get(0).getId(), scheduleRequestInfo.getId());
         assertEquals(displayInfoList.get(0).getName(), scheduleRequestInfo.getName());
 
         for (ScheduleRequestDisplayInfo displayInfo : displayInfoList) {
             assertNotNull(displayInfo);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().size() > 0);
-            assertTrue(displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().size() > 0);
+            assertTrue("Schedule Request Component Ids should be non-empty", !displayInfo.getScheduleRequestComponentDisplays().isEmpty());
+            assertTrue("Buildings should be non-empty", !displayInfo.getScheduleRequestComponentDisplays().get(0).getBuildings().isEmpty());
+            assertTrue("Rooms should be non-empty", !displayInfo.getScheduleRequestComponentDisplays().get(0).getRooms().isEmpty());
+            assertTrue("Orgs should be non-empty", !displayInfo.getScheduleRequestComponentDisplays().get(0).getOrgs().isEmpty());
         }
     }
 
@@ -1305,11 +1302,9 @@ public class TestSchedulingServiceImpl {
     @Test
     public void testSearchForScheduleDisplays() throws Exception {
         QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        List<Predicate> pList = new ArrayList<Predicate>();
 
         qBuilder.setPredicates();
         Predicate p = equal("atpId", SchedulingServiceDataLoader.ATP_ID);
-        pList.add(p);
 
         qBuilder.setPredicates(p);
 

@@ -17,6 +17,7 @@ import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Test that the authorization decorator works against CourseOfferingService
@@ -36,7 +37,7 @@ public class TestRuleLogicExpressionParser {
 
         parser.setExpression("E AND (C AND D)");
         parser.validateExpression(errorMessages, Arrays.asList(array));
-        assertEquals(0, errorMessages.size());
+        assertTrue(errorMessages.isEmpty());
 
         parser.setExpression("A AND (E AND C OR D)");
         parser.validateExpression(errorMessages, Arrays.asList(array));

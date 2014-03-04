@@ -768,11 +768,11 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
 
         // should return empty list for bogus atp id
         aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("totallyBogusAtpIdJustMadeUpForTesting", AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, callContext);
-        assertEquals(0, aaRelInfos.size());
+        assertTrue(aaRelInfos.isEmpty());
 
         // should return empty list for bogus relation type
         aaRelInfos = atpService.getAtpAtpRelationsByTypeAndAtp("testAtpId1", "totallyBogusRelationTypeJustMadeUpForTesting", callContext);
-        assertEquals(0, aaRelInfos.size());
+        assertTrue(aaRelInfos.isEmpty());
     }
 
     @Test
@@ -808,7 +808,7 @@ public class TestAtpServiceImpl implements ApplicationContextAware {
         // assert that searching for a bogus atp id returns an empty list
         results = atpService.getAtpAtpRelationsByAtp("bogusAtpMadeUpForTesting", callContext);
 
-        assertEquals(0, results.size());
+        assertTrue(results.isEmpty());
     }
 
     @Test

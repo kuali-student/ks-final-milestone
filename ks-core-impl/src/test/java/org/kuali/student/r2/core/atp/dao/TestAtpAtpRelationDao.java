@@ -42,7 +42,7 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest {
         // testAtpId2 is relatedAtp's ID
         rels = dao.getAtpAtpRelationsByAtp("testAtpId2");
         assertNotNull(rels);
-        assertEquals(0, rels.size());
+        assertTrue(rels.isEmpty());
     }
 
     @Test

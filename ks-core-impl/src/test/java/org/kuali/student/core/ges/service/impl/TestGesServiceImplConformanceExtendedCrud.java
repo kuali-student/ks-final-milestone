@@ -289,7 +289,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         assertTrue(containsValue(122L, values));
 
         values = testService.getValuesByParameter("A_BAD_PARAMETER_ID", contextInfo);
-        assertEquals(0, values.size());
+        assertTrue(values.isEmpty());
 	}
 	
 	/* Method Name: evaluateValuesByParameterAndPerson */
@@ -322,7 +322,7 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         criteriaInfo.setPersonId("SOME_RANDOM_ID_THAT_DOES_NOT_EXIST");
         criteriaInfo.setAtpId(null);
         values = testService.evaluateValues(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, contextInfo);
-        assertEquals(0, values.size());
+        assertTrue(values.isEmpty());
 	}
 
 
@@ -336,10 +336,10 @@ public abstract class TestGesServiceImplConformanceExtendedCrud extends TestGesS
         criteriaInfo.setPersonId(PopulationTestStudentEnum.STUDENT1.getPersonId());
         criteriaInfo.setAtpId(dataLoader.getFallAtp().getId());
         List<ValueInfo> values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2051-01-01"), contextInfo);
-        assertEquals(0, values.size());
+        assertTrue(values.isEmpty());
 
         values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-11"), contextInfo);
-        assertEquals(0, values.size());
+        assertTrue(values.isEmpty());
 
         values = testService.evaluateValuesOnDate(dataLoader.getMaxCreditsParameter().getKey(), criteriaInfo, DateFormatters.DEFAULT_DATE_FORMATTER.parse("2010-06-12"), contextInfo);
         assertEquals(2, values.size());

@@ -160,7 +160,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
         GregorianCalendar gregExp = new GregorianCalendar(2000, 11, 31, 0, 0, 0);
         
         assertNotNull(nlUsageTypeList);
-        assertTrue(nlUsageTypeList.size() > 0);
+        assertTrue(!nlUsageTypeList.isEmpty());
         NlUsageType nlUsageType = nlUsageTypeList.get(3);
         assertEquals("KUALI.COURSE.CATALOG", nlUsageType.getId());
         assertEquals("Kuali Course Catalog", nlUsageType.getName());
@@ -204,7 +204,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
 
         assertEquals(templates.size(), 3);
         
-        ReqComponentTypeNLTemplate template = null;
+        ReqComponentTypeNLTemplate template;
         if (templates.get(0).getNlUsageTypeKey().equals("KUALI.RULE")) {
             template = templates.get(0);
         } else {
@@ -232,7 +232,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
 
     @Test
     public void testGetReqComponents() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        List<String> reqComponentIdList = Arrays.asList(new String[] {"REQCOMP-NL-1","REQCOMP-NL-2", "REQCOMP-NL-3", "REQCOMP-NL-4"});
+        List<String> reqComponentIdList = Arrays.asList("REQCOMP-NL-1","REQCOMP-NL-2", "REQCOMP-NL-3", "REQCOMP-NL-4");
         List<ReqComponent> reqCompList = dao.getReqComponents(reqComponentIdList);
         
         assertNotNull(reqCompList);
@@ -241,7 +241,7 @@ public class TestStatementDao extends AbstractTransactionalDaoTest {
     
     @Test
     public void testGetStatements() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-        List<String> statementIdList = Arrays.asList(new String[] {"STMT-1","STMT-2"});
+        List<String> statementIdList = Arrays.asList("STMT-1","STMT-2");
         List<Statement> stmtList = dao.getStatements(statementIdList);
         
         assertNotNull(stmtList);

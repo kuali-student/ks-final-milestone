@@ -556,7 +556,7 @@ public class TestAcademicCalendarServiceImpl {
         List<TermInfo> fakeResults;
 
         fakeResults = acalService.getTermsForAcademicCalendar("fakeKey", callContext);
-        assertEquals(0, fakeResults.size());
+        assertTrue(fakeResults.isEmpty());
     }
 
     @Test

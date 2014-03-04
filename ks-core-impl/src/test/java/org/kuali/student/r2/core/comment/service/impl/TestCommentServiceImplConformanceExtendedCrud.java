@@ -34,6 +34,7 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 @Transactional
@@ -173,7 +174,7 @@ public abstract class TestCommentServiceImplConformanceExtendedCrud extends Test
         testService.deleteCommentsByReference("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
 
         comments = testService.getCommentsByReferenceAndType("5", CommentDataLoader.REF_OBJECT_TWO_COMMENT_TYPE, contextInfo);
-        assertEquals(0, comments.size());
+        assertTrue(comments.isEmpty());
     }
 
     /* Method Name: validateComment */

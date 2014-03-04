@@ -201,7 +201,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			List<ParameterInfo> records = testService.getParametersByKeys ( parameterIds, contextInfo);
 			
 			assertEquals(parameterIds.size(), records.size());
-			assertEquals(0, parameterIds.size());
+			assertTrue(parameterIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -220,7 +220,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 							fail(record.getKey());
 					}
 			}
-			assertEquals(0, parameterIds.size());
+        assertTrue(parameterIds.isEmpty());
 			
 			// -------------------------------------
 			// test get by type
@@ -414,7 +414,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 			List<ValueInfo> records = testService.getValuesByIds ( valueIds, contextInfo);
 			
 			assertEquals(valueIds.size(), records.size());
-			assertEquals(0, valueIds.size());
+			assertTrue(valueIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -433,7 +433,7 @@ public abstract class TestGesServiceImplConformanceBaseCrud {
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, valueIds.size());
+			assertTrue(valueIds.isEmpty());
 			
 			// -------------------------------------
 			// test get by type

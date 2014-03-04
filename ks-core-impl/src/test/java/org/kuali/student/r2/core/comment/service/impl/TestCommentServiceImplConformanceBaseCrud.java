@@ -182,7 +182,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
         List<CommentInfo> records = testService.getCommentsByIds(commentIds, contextInfo);
 
         assertEquals(commentIds.size(), records.size());
-        assertEquals(0, commentIds.size());
+        assertTrue(commentIds.isEmpty());
 
         // -------------------------------------
         // test bulk get
@@ -199,7 +199,7 @@ public abstract class TestCommentServiceImplConformanceBaseCrud {
                 fail(record.getId());
             }
         }
-        assertEquals(0, commentIds.size());
+        assertTrue(commentIds.isEmpty());
 
         // -------------------------------------
         // test get by type

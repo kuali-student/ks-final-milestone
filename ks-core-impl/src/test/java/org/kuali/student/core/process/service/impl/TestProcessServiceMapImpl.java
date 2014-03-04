@@ -264,10 +264,10 @@ public class TestProcessServiceMapImpl {
         assertTrue(status.getIsSuccess());
 
         processes = processService.getProcessesForProcessCategory(category.getId(), contextInfo);
-        assertEquals(0, processes.size());
+        assertTrue(processes.isEmpty());
 
         processCategories = processService.getProcessCategoriesForProcess(process.getKey(), contextInfo);
-        assertEquals(0, processCategories.size());
+        assertTrue(processCategories.isEmpty());
     }
 
     private ProcessInfo testCrudProcess()
@@ -627,7 +627,7 @@ public class TestProcessServiceMapImpl {
         }
         List<String> processCategoryIdsByType2 = processService.getProcessCategoryIdsByType(ProcessServiceConstants.PROCESS_CATEGORY_TYPE_KEY_CATEGORY +
                 "2", contextInfo);
-        assertEquals(0, processCategoryIdsByType2.size());
+        assertTrue(processCategoryIdsByType2.isEmpty());
 
         List<ProcessCategoryInfo> catInfosForProcess = processService.getProcessCategoriesForProcess(
                 ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, contextInfo);
@@ -652,7 +652,7 @@ public class TestProcessServiceMapImpl {
                 ProcessServiceDataLoader.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, contextInfo);
         catInfosForProcess = processService.getProcessCategoriesForProcess(
                 ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM, contextInfo);
-        assertEquals(0, catInfosForProcess.size());
+        assertTrue(catInfosForProcess.isEmpty());
         processService.addProcessToProcessCategory(ProcessServiceConstants.PROCESS_KEY_VIEW_GRADES_FOR_TERM,
                 ProcessServiceDataLoader.PROCESS_CATEGORY_ID_ACADEMIC_RECORD, contextInfo);
         catInfosForProcess = processService.getProcessCategoriesForProcess(
