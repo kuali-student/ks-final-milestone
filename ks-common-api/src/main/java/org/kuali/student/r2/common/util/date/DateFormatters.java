@@ -58,6 +58,7 @@ public class DateFormatters {
     public static final String DAY_MONTH_DATE_FORMAT = "EEEE, MMMM d";                                // Thursday, November 8
     public static final String DAY_MONTH_DATE_YEAR_FORMAT = "EEEE, MMMM d YYYY";                      // Thursday, November 8 2012
     public static final String MONTH_DAY_FORMAT = "M/d";                                              // 11/8
+    public static final String EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMAT = "MMMMM d, yyyy";        // November 8, 2012
 
     // Fast Thread Safe Formatter. Use this instead of SimpleDateFormat
     public static final KSDateTimeFormatter STATE_CHANGE_DATE_FORMATTER = new KSDateTimeFormatter(STATE_CHANGE_DATE_FORMAT);
@@ -88,4 +89,5 @@ public class DateFormatters {
     public static final KSDateTimeFormatter DAY_MONTH_DATE_YEAR_FORMATTER = new KSDateTimeFormatter(DAY_MONTH_DATE_YEAR_FORMAT);
     public static final KSDateTimeFormatter MONTH_DAY_FORMATTER = new KSDateTimeFormatter(MONTH_DAY_FORMAT);
     public static final KSDateTimeFormatter MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMATTER = new KSDateTimeFormatter(MONTH_DATE_YEAR_HOUR_MIN_CONCAT_AMPM_FORMAT);
+    public static final KSDateTimeFormatter EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER = new KSDateTimeFormatter(EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMAT);
 }
