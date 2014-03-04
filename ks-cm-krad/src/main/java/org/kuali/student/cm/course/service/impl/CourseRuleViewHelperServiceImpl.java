@@ -24,6 +24,7 @@ import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentFactory;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krms.api.repository.proposition.PropositionType;
 import org.kuali.rice.krms.api.repository.term.TermDefinition;
@@ -132,7 +133,7 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
     }
     
     @Override
-    public void addCustomContainerComponents(Object model, Container container) {
+    public void addCustomContainerComponents(ViewModel model, Container container) {
         if (KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID.equals(container.getId())) {
             customizePropositionEditSection(((MaintenanceDocumentForm)model).getView(), model, container);
         }
@@ -183,14 +184,15 @@ public class CourseRuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl
     
     
     @Override
-    public boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
-        return super.performAddLineValidation(view, collectionGroup, model, addLine);
+    public boolean performAddLineValidation(ViewModel viewModel, Object newLine, String collectionId,
+                                            String collectionPath) {
+        return super.performAddLineValidation(viewModel, newLine, collectionId, collectionPath);
     }
 
     @Override
-    public void processAfterAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine,
-            boolean isValidLine) {
-        super.processAfterAddLine(view, collectionGroup, model, addLine, isValidLine);
+    public void processAfterAddLine(ViewModel model, Object lineObject, String collectionId, String collectionPath,
+                                    boolean isValidLine) {
+        super.processAfterAddLine(model, lineObject, collectionId, collectionPath, isValidLine);
     }
     
     @Override
