@@ -45,8 +45,8 @@
             <div class="kscr-register-buttons">
                       <span class="pull-right">
                         <!--<button class="btn">Details</button>-->
-                        <button class="btn" id="edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editItem(course)"ng-show="course.creditOptions.length > 1 || course.gradingOptions">Edit</button>
-                        <button class="btn" id="remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="dropRegistrationGroup($index, course.courseCode, course.credits, course.masterLprId)">Remove</button>
+                        <button class="btn" id="edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editItem(course) "ng-show="course.creditOptions.length > 1 || course.gradingOptions">Edit</button>
+                        <button class="btn" id="remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="openDropConfirmation($index, course)">Remove</button>
                       </span>
             </div>
         </div>

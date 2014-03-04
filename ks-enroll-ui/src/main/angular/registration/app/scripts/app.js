@@ -29,5 +29,13 @@ angular.module('regCartApp', [
             .state('root.additionalOptions', {
                 url:'/options',
                 templateUrl:'partials/additionalOptions.html'
+            })
+            .state('root.dropCourse', {
+                url:'/options',
+                templateUrl:'partials/dropCourse.html'
+            })
+            .state('root.editCourseOptions', {
+                url:'/options',
+                templateUrl:'partials/editCourseOptions.html'
             });
     });
