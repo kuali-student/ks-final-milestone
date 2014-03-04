@@ -53,7 +53,12 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public String getVerifiedCourseId(String courseId) {
+    public String getCurrentVersionIdOfCourse(String courseId) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Course getCurrentVersionOfCourse(String courseId) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

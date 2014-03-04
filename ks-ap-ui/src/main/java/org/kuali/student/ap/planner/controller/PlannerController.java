@@ -1,17 +1,5 @@
 package org.kuali.student.ap.planner.controller;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.json.Json;
-import javax.json.JsonObjectBuilder;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
@@ -42,9 +30,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
-import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -52,6 +38,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.json.Json;
+import javax.json.JsonObjectBuilder;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Fix under KSAP-265
@@ -964,26 +961,10 @@ public class PlannerController extends KsapControllerBase {
         }
 
         // Retrieve course information using the course code entered by the user
-        Course course;
-        try {
-            course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, KsapFrameworkServiceLocator.getContext().getContextInfo());
-            VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, course.getVersion().getVersionIndId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
-            course = KsapFrameworkServiceLocator.getCourseService().getCourse((String) currentVersion.getId(), KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-            if(!course.getStateKey().equals("Active")){
-                PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " not active", response, eventList);
-                return null;
-            }
-        } catch (PermissionDeniedException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalArgumentException("Course service failure", e);
-        } catch (DoesNotExistException e) {
-            throw new IllegalArgumentException("Course service failure", e);
+        Course course = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionOfCourse(courseId);
+        if(course != null && !course.getStateKey().equals("Active")){
+            PlanEventUtils.sendJsonEvents(false, "Course " + course.getCode() + " not active", response, eventList);
+            return null;
         }
 
         // Add the course to the plan

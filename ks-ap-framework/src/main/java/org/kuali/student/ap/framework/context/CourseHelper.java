@@ -27,7 +27,9 @@ public interface CourseHelper {
 	String getSLN(String year, String term, String subject, String number,
 			String activityCd);
 
-	String getVerifiedCourseId(String courseId);
+	String getCurrentVersionIdOfCourse(String courseId);
+
+    Course getCurrentVersionOfCourse(String courseId);
 
 	String getCourseCdFromActivityId(String activityId);
 

@@ -21,13 +21,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
-import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -288,8 +288,8 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	 */
 	public CourseInfo getCourseInfo(String courseId) {
 		CourseMarker cm = getCourseMarker();
-		// call through service locator to facilitate proxying delegate override of getVerifiedCourseId
-		String verifiedCourseId = KsapFrameworkServiceLocator.getCourseHelper().getVerifiedCourseId(courseId);
+		// call through service locator to facilitate proxying delegate override of getCurrentVersionIdOfCourse
+		String verifiedCourseId = KsapFrameworkServiceLocator.getCourseHelper().getCurrentVersionIdOfCourse(courseId);
 		CourseInfo rv = cm.coursesById.get(verifiedCourseId);
 		if (rv == null)
 			try {
@@ -503,29 +503,35 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	 * @return
 	 */
 	@Override
-	public String getVerifiedCourseId(String courseId) {
-		SearchRequestInfo req = new SearchRequestInfo("ksap.course.version.id");
-		req.addParam("courseId", courseId);
-		req.addParam("lastScheduledTerm", KsapFrameworkServiceLocator.getTermHelper().getLastScheduledTerm().getId());
-		SearchResult result;
-		try {
-			result = KsapFrameworkServiceLocator.getCluService().search(req,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
-		} catch (MissingParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (InvalidParameterException e) {
-			throw new IllegalArgumentException("CLU lookup error", e);
-		} catch (OperationFailedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		} catch (PermissionDeniedException e) {
-			throw new IllegalStateException("CLU lookup error", e);
-		}
-		for (SearchResultRow row : result.getRows())
-			for (SearchResultCell cell : row.getCells())
-				if ("lu.resultColumn.cluId".equals(cell.getKey()))
-					return cell.getValue();
-		return null;
+	public String getCurrentVersionIdOfCourse(String courseId) {
+		Course course = getCurrentVersionOfCourse(courseId);
+        if (course != null)
+            return course.getId();
+        return null;
 	}
+
+    @Override
+    public Course getCurrentVersionOfCourse(String courseId) {
+        // Retrieve course information using the course code entered by the user
+        Course course;
+        try {
+            ContextInfo contextInfo = KsapFrameworkServiceLocator.getContext().getContextInfo();
+            course = KsapFrameworkServiceLocator.getCourseService().getCourse(courseId, contextInfo);
+            VersionDisplayInfo currentVersion = KsapFrameworkServiceLocator.getCluService().getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, course.getVersion().getVersionIndId(), contextInfo);
+            course = KsapFrameworkServiceLocator.getCourseService().getCourse(currentVersion.getId(), contextInfo);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("Course service failure", e);
+        }
+        return course;
+    }
 
 	/**
 	 * retuns a SLN for given params
