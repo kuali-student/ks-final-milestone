@@ -4,10 +4,14 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.container.collections.LineBuilderContext;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
 import org.kuali.rice.krad.uif.layout.TableLayoutManager;
+import org.kuali.rice.krad.uif.layout.TableLayoutManagerBase;
+import org.kuali.rice.krad.uif.lifecycle.ViewLifecycle;
 import org.kuali.rice.krad.uif.util.ComponentUtils;
+import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
@@ -21,7 +25,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
+public class ScheduleOfClassesTableLayoutManager extends TableLayoutManagerBase {
 
     private Field requisitesField;
     private Field commonRequisiteField;
@@ -29,10 +33,14 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
     private boolean requisite = true;
 
     @Override
-    public void buildLine(Object model, CollectionGroup collectionGroup, List<Field> lineFields, List<FieldGroup> subCollectionFields,
-                          String bindingPath, List<? extends Component> actions, String idSuffix, Object currentLine, int lineIndex) {
-        super.buildLine(model, collectionGroup, lineFields, subCollectionFields, bindingPath, actions, idSuffix,
-                currentLine, lineIndex);
+    public void buildLine(LineBuilderContext lineBuilderContext) {
+        super.buildLine(lineBuilderContext);
+
+        ViewModel model = lineBuilderContext.getModel();
+        List<Field> lineFields = lineBuilderContext.getLineFields();
+        Object currentLine = lineBuilderContext.getCurrentLine();
+        int lineIndex = lineBuilderContext.getLineIndex();
+        String idSuffix = lineBuilderContext.getIdSuffix();
 
         if (currentLine instanceof ActivityOfferingWrapper) {
             ActivityOfferingWrapper aoWrapper = (ActivityOfferingWrapper) currentLine;
@@ -186,14 +194,6 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
         return spanSize;
     }
 
-    @Override
-    public List<Component> getComponentPrototypes() {
-        List<Component> components = super.getComponentPrototypes();
-        components.add(this.getRequisitesField());
-        components.add(this.getCommonRequisiteField());
-        return components;
-    }
-
     public Field getRequisitesField() {
         return requisitesField;
     }
@@ -208,18 +208,5 @@ public class ScheduleOfClassesTableLayoutManager extends TableLayoutManager {
 
     public void setCommonRequisiteField(Field commonRequisiteField) {
         this.commonRequisiteField = commonRequisiteField;
-    }
-
-    @Override
-    protected <T> void copyProperties(T layoutManager) {
-        super.copyProperties(layoutManager);
-
-        ScheduleOfClassesTableLayoutManager tableLayoutManagerCopy = (ScheduleOfClassesTableLayoutManager) layoutManager;
-        if (this.getRequisitesField() != null) {
-            tableLayoutManagerCopy.setRequisitesField((Field) this.getRequisitesField().copy());
-        }
-        if (this.getCommonRequisiteField() != null) {
-            tableLayoutManagerCopy.setCommonRequisiteField((Field) this.getCommonRequisiteField().copy());
-        }
     }
 }
