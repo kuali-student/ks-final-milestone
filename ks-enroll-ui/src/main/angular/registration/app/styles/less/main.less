@@ -13,10 +13,13 @@
 @import 'kscr/cart.less';
 @import 'kscr/edit.less';
 @import 'kscr/header.less';
+@import 'kscr/MainHeading.less';
+@import 'kscr/navigation.less';
 @import 'kscr/register.less';
 
 
 @import 'util/alert.less';
+@import 'util/visibility.less';
 
 /* Space out content a bit */
 
@@ -69,28 +72,6 @@
 
 /******* Mobile Navigation  *********/
 
-.navigation{
-   float: right;
-    a{
-      font-size: 1.7em;
-      flex: auto;
-      color: @white;
-
-    }
-    a:hover, a:focus{
-       color: tint(@grayLight, 4%);
-       outline: none;
-       text-decoration:none;
-    }
-}
-@media all and (max-width: 700px) and (min-width: 200px) {
-    .kscr-item-mobileDisplay{
-        display: none;
-    }
-    .kscr-header-title{
-      display: none;
-    }
-}
 .kscr-header-filler{
  height:12em;
 }
@@ -150,15 +131,6 @@
  //My Cart Input Boxes and Add to Cart Button
 .kscr-cart{
     padding: 1em 0.7em 0;
-}
-
-.kscr-cart-header{
-font-size: 0.9rem;
-  background-color: @whiteBackground;
-  padding: 10px;
-    /*-webkit-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
-    /*-moz-box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
-    /*box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
 }
 
 .kscr-cart-course {
@@ -241,43 +213,5 @@ font-size: 0.9rem;
     /*box-shadow: 0px 1px 5px 0px rgba(89,163,151,0.72);*/
 }
 
-/*new needs code cleanup*/
-.kscr-support-heading{
-  font-size: 14px;
-  color: @grayDark;
-  font-weight: normal;
-}
-
-.panel-default > .panel-heading {
-    background-color: @cardBackgroundColor;
-    border-color: @cardBorderColor;
-    color: @cardTextColor;
-}
-
-.panel {
-    background-color: @cardBackgroundColor;
-}
 /******* End Registered Section  *********/
 
-/*
-.util-Alert {
-  border: 1px solid;
-  border-radius: 2px;
-  margin: 0.5rem;
-  padding: 0.5rem 0;
-}
-
-.util-Alert--success {
-  background-color: #cce5cc;
-  border-color: #99cc99;
-  color: #004c00;
-  text-shadow: 0 .5px #fff;
-}
-
-.util-Alert--error {
-    background-color: #e59999;
-    border-color: #cc6666;
-    color: #4c0000;
-    text-shadow: 0 .5px #fff;
-}
-*/
