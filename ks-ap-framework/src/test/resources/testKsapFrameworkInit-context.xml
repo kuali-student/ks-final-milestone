@@ -71,7 +71,7 @@
     <bean id="enumerationManagementService" class="org.kuali.student.ap.test.mock.EnumerationManagementServiceMockTest"/>
     <bean id="courseService" class="org.kuali.student.ap.test.mock.CourseServiceMockTest"/>
     <bean id="programService" class="org.kuali.student.ap.test.mock.ProgramServiceMockTest"/>
-    <bean id="cluService" class="org.kuali.student.ap.test.mock.CluServiceMockTest"/>
+    <bean id="cluService" class="org.kuali.student.r2.lum.lu.service.impl.CluServiceMockImpl"/>
     <bean id="lrcService" class="org.kuali.student.ap.test.mock.LRCServiceMockTest"/>
     <bean id="organizationService" class="org.kuali.student.ap.test.mock.OrganizationServiceMockTest"/>
     <bean id="messageService" class="org.kuali.student.ap.test.mock.MessageServiceMockTest"/>

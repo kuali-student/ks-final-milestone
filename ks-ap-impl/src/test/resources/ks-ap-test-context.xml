@@ -22,15 +22,17 @@
 
     <context:annotation-config/>
 
-    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml" />
 
+    <import resource="classpath:ks-core-api-dictionary-file-locations.xml"/>
+    <import resource="classpath:ks-academic-plan-data-dictionary-services-configuration.xml"/>
+    <import resource="classpath:ks-academic-plan-data-dictionary-validator-configuration.xml"/>
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:testKsapFrameworkInit-context.xml"/>
 
-    <bean id="systemPropertyConfigurer"
-          class="org.kuali.student.common.util.SystemPropertyConfigurer">
-        <property name="properties" value="${propertiesPrefix.systemProperties}"/>
-    </bean>
+    <!--<bean id="systemPropertyConfigurer"-->
+          <!--class="org.kuali.student.common.util.SystemPropertyConfigurer">-->
+        <!--<property name="properties" value="${propertiesPrefix.systemProperties}"/>-->
+    <!--</bean>-->
 
     <bean id="dataSource"
           class="org.kuali.student.common.test.spring.UniqueResourceAtomikosDataSourceBean" init-method="init"

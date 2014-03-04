@@ -269,17 +269,8 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 
 		pie.setRefObjectId(planItem.getRefObjectId());
 		pie.setRefObjectTypeKey(planItem.getRefObjectType());
-        if (planItem.getCategory()==null) {
-            throw new MissingParameterException("Plan item category is missing(/null)");
-        }
         pie.setCategory(planItem.getCategory().toString());
 
-        TypeInfo type = null;
-        try {
-            KsapFrameworkServiceLocator.getTypeService().getType(planItem.getTypeKey(), context);
-        } catch (DoesNotExistException e) {
-			throw new InvalidParameterException(String.format("Unknown plan item type id [%s].", planItem.getTypeKey()));
-		}
 		pie.setTypeId(planItem.getTypeKey());
 
 		//  Convert the List of plan periods to a Set.
@@ -610,10 +601,6 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 				throw new OperationFailedException("Failed to merge new plan for id = " + newPlan.getId());
 			}
 		}
-		
-		
-
-
 
 		return planItemDao.find(updatePlanItemId).toDto();
 	}
@@ -690,70 +677,7 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			@WebParam(name = "planItemInfo") PlanItemInfo planItemInfo, @WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 			OperationFailedException, AlreadyExistsException {
-
-		List<ValidationResultInfo> validationResultInfos = new ArrayList<ValidationResultInfo>();
-
-		/*
-		 * Validate that the course exists. TODO: KSAP-752 Move this validation to the
-		 * data dictionary.
-		 */
-		try {
-			if (KsapFrameworkServiceLocator.getCourseHelper().getCourseInfo(planItemInfo.getRefObjectId()) == null) {
-				validationResultInfos.add(makeValidationResultInfo(
-						String.format("Could not find course with ID [%s].", planItemInfo.getRefObjectId()),
-						"refObjectId", ValidationResult.ErrorLevel.ERROR));
-			}
-		} catch (RuntimeException e) {
-			validationResultInfos.add(makeValidationResultInfo(e.getLocalizedMessage(), "refObjectId",
-					ValidationResult.ErrorLevel.ERROR));
-		}
-
-		//  TODO: KSAP-752 This validation should be implemented in the data dictionary when that possibility manifests.
-		//  Make sure a plan period exists if category is planned course.
-        if (planItemInfo.getCategory()==null) {
-            throw new MissingParameterException("plan item category is missing (should be PLANNED, BACKUP,...");
-        }
-		if (planItemInfo.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)
-				|| planItemInfo.getCategory().equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)) {
-			if (planItemInfo.getPlanPeriods() == null || planItemInfo.getPlanPeriods().size() == 0) {
-				validationResultInfos.add(makeValidationResultInfo(
-						String.format("Plan Item category was [%s], but no plan periods were defined.",
-								planItemInfo.getCategory()), "category", ValidationResult.ErrorLevel.ERROR));
-			} else {
-				//  Make sure the plan periods are valid. Note: There should never be more than one item in the collection.
-				for (String atpId : planItemInfo.getPlanPeriods()) {
-					boolean valid = false;
-					try {
-						valid = isValidTerm(atpId);
-						if (!valid) {
-							validationResultInfos.add(makeValidationResultInfo(
-									String.format("ATP ID [%s] was not valid.", atpId), "atpId",
-									ValidationResult.ErrorLevel.ERROR));
-						}
-					} catch (Exception e) {
-						validationResultInfos.add(makeValidationResultInfo("ATP ID lookup failed.", "typeKey",
-								ValidationResult.ErrorLevel.ERROR));
-					}
-				}
-			}
-		}
-
-		/*
-		 * Check for duplicate list items: Make sure a saved courses item with
-		 * this course id doesn't already exist in the plan. Make sure a planned
-		 * course item with the same ATP id doesn't exist in the plan.
-		 * 
-		 * Note: This validation is last to insure that all of the other
-		 * validations are performed on "update" operations. The duplicate check
-		 * throw an AlreadyExistsException on updates.
-		 * 
-		 *
-		 * 
-		 * TODO: KSAP-752 Move these validations to the data dictionary.
-		 */
-		checkPlanItemDuplicate(planItemInfo);
-
-		return validationResultInfos;
+        return new ArrayList<ValidationResultInfo>();
 	}
 
 	@Override
@@ -762,60 +686,6 @@ public class AcademicPlanServiceImpl implements AcademicPlanService {
 			@WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		return new ArrayList<ValidationResultInfo>();
-	}
-
-	/**
-	 * @throws AlreadyExistsException
-	 *             If the plan item is a duplicate.
-	 */
-	private void checkPlanItemDuplicate(PlanItemInfo planItem) throws AlreadyExistsException {
-
-		String planItemId = planItem.getLearningPlanId();
-		String courseId = planItem.getRefObjectId();
-		AcademicPlanServiceConstants.ItemCategory category = planItem.getCategory();
-
-		/**
-		 * See if a duplicate item exits in the plan. If the type is wishlist
-		 * then only the course id has to match to make it a duplicate. If the
-		 * type is planned course then the ATP must match as well.
-		 */
-		List<PlanItemEntity> planItems = this.planItemDao.getLearningPlanItems(planItemId, category);
-		for (PlanItemEntity p : planItems) {
-			if (p.getRefObjectId().equals(courseId)) {
-				if (category.equals(AcademicPlanServiceConstants.ItemCategory.PLANNED)
-						|| category.equals(AcademicPlanServiceConstants.ItemCategory.BACKUP)
-						|| category.equals(AcademicPlanServiceConstants.ItemCategory.CART)) {
-					for (String atpId : planItem.getPlanPeriods()) {
-						if (p.getPlanPeriods().contains(atpId)) {
-							throw new AlreadyExistsException(String.format(
-									"A plan item for plan [%s], course id [%s], and term [%s] already exists.", p
-											.getLearningPlan().getId(), courseId, atpId));
-						}
-					}
-				} else {
-					throw new AlreadyExistsException(String.format(
-							"A plan item for plan [%s] and course id [%s] already exists.",
-							p.getLearningPlan().getId(), courseId));
-				}
-			}
-		}
-	}
-
-	private ValidationResultInfo makeValidationResultInfo(String errorMessage, String element,
-			ValidationResult.ErrorLevel errorLevel) {
-		ValidationResultInfo vri = new ValidationResultInfo();
-		vri.setError(errorMessage);
-		vri.setElement(element);
-		vri.setLevel(errorLevel);
-		return vri;
-	}
-
-	private boolean isValidTerm(String atpId) {
-		try {
-			return KsapFrameworkServiceLocator.getTermHelper().getTerm(atpId) != null;
-		} catch (Exception e) {
-			throw new RuntimeException("Query to ATP service failed.", e);
-		}
 	}
 
 }

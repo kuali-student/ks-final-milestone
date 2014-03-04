@@ -179,6 +179,7 @@
     </bean>
 
     <bean id="academicPlanServiceValidator" class="org.kuali.student.ap.academicplan.service.AcademicPlanServiceValidationDecorator">
+        <property name="planItemDao" ref="planItemDao"/>
         <property name="nextDecorator" ref="academicPlanServicePersistence"/>
         <property name="validator" ref="validator"/>
         <property name="dataDictionaryService" ref="dataDictionaryServiceForAcademicPlanService"/>
