@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 /**
  * Created with IntelliJ IDEA.
  * User: gtaylor
@@ -55,34 +54,22 @@ public class LRCServiceCacheDecorator extends LRCServiceDecorator {
 
     @Override
     public ResultValuesGroupInfo getCreateFixedCreditResultValuesGroup(@WebParam(name = "creditValue") String creditValue, @WebParam(name = "scaleKey") String scaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey("getCreateFixedCreditResultValuesGroup", creditValue, scaleKey);
+        ResultValuesGroupInfo result = getNextDecorator().getCreateFixedCreditResultValuesGroup(creditValue, scaleKey, contextInfo);
 
-        Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
-        Object result = null;
-        if (cachedResult == null) {
-            result = getNextDecorator().getCreateFixedCreditResultValuesGroup(creditValue, scaleKey, contextInfo);
-            cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
-        } else {
-            result = cachedResult.getValue();
-        }
+        MultiKey cacheKey = new MultiKey("getResultValuesGroup", result.getResultScaleKey());
+        cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
 
-        return   (ResultValuesGroupInfo)result;
+        return result;
     }
 
     @Override
     public ResultValuesGroupInfo getCreateRangeCreditResultValuesGroup(@WebParam(name = "creditValueMin") String creditValueMin, @WebParam(name = "creditValueMax") String creditValueMax, @WebParam(name = "creditValueIncrement") String creditValueIncrement, @WebParam(name = "scaleKey") String scaleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MultiKey cacheKey = new MultiKey("getCreateRangeCreditResultValuesGroup", creditValueMin, creditValueMax, creditValueIncrement, scaleKey);
+        ResultValuesGroupInfo result = getNextDecorator().getCreateRangeCreditResultValuesGroup(creditValueMin, creditValueMax, creditValueIncrement, scaleKey, contextInfo);
 
-        Element cachedResult = cacheManager.getCache(cacheName).get(cacheKey);
-        Object result = null;
-        if (cachedResult == null) {
-            result = getNextDecorator().getCreateRangeCreditResultValuesGroup(creditValueMin, creditValueMax, creditValueIncrement, scaleKey, contextInfo);
-            cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
-        } else {
-            result = cachedResult.getValue();
-        }
+        MultiKey cacheKey = new MultiKey("getResultValuesGroup", result.getResultScaleKey());
+        cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
 
-        return   (ResultValuesGroupInfo)result;
+        return result;
     }
 
     @Override
@@ -129,7 +116,7 @@ public class LRCServiceCacheDecorator extends LRCServiceDecorator {
         if (cachedResult == null) {
             result = getNextDecorator().getResultValuesGroup(resultValuesGroupId, context);
             cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
-        } else {
+        } else { 
             result = cachedResult.getValue();
         }
 
@@ -244,6 +231,24 @@ public class LRCServiceCacheDecorator extends LRCServiceDecorator {
         cacheManager.getCache(cacheName).remove(cacheKey);
 
         return getNextDecorator().deleteResultScale(resultScaleKey,contextInfo);
+    }
+
+    @Override
+    public ResultValuesGroupInfo updateResultValuesGroup(String resultValuesGroupKey, ResultValuesGroupInfo gradeValuesGroupInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        ResultValuesGroupInfo updatedRVGInfo = super.updateResultValuesGroup(resultValuesGroupKey, gradeValuesGroupInfo, context);
+
+        MultiKey cacheKey = new MultiKey("getResultValuesGroup", resultValuesGroupKey);
+        cacheManager.getCache(cacheName).put(new Element(cacheKey, updatedRVGInfo));
+
+        return updatedRVGInfo;
+    }
+
+    @Override
+    public StatusInfo deleteResultValuesGroup(String resultValuesGroupId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        MultiKey cacheKey = new MultiKey("getResultValuesGroup", resultValuesGroupId);
+        cacheManager.getCache(cacheName).remove(cacheKey);
+
+        return super.deleteResultValuesGroup(resultValuesGroupId, context);
     }
 
     public CacheManager getCacheManager() {

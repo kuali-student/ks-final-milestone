@@ -13,10 +13,7 @@
 
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
 
-    <bean id="systemPropertyConfigurer"
-          class="org.kuali.student.common.util.SystemPropertyConfigurer">
-        <property name="properties" value="${propertiesPrefix.systemProperties}"/>
-    </bean>
+	<import resource="classpath:ks-test-system-property-configurer.xml" />
 
     <bean id="AtomikosTxMgr"
           class="com.atomikos.icatch.jta.UserTransactionManager"
@@ -75,13 +72,15 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="lrcService" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
+    <bean id="lrcServiceImpl" class="org.kuali.student.r2.lum.lrc.service.impl.LRCServiceImpl">
         <property name="resultScaleDao" ref="resulsScaleDao"/>
         <property name="resultValueDao" ref="resultValueDao"/>
         <property name="resultValuesGroupDao" ref="resultValuesGroupDao"/>
         <property name="lrcServiceBusinessLogic" ref="lrcServiceBusinessLogic" />
     </bean>
 
+	<alias name="lrcServiceImpl" alias="lrcService"/>
+	<alias name="lrcService" alias="LRCService"/>
 
 
     <bean id="resulsScaleDao" class="org.kuali.student.r2.lum.lrc.dao.ResultScaleDao">
