@@ -32,8 +32,7 @@ limitations under the License.
           p:readOnly="@{#view.readOnly}"
           p:componentSecurity.viewAuthz="true" p:stickyFooter="@{!#view.readOnly}">
         <property name="id" value="academicCalendarEditPage"/>
-        <property name="headerText"
-                  value="@{!newCalendar ? !#view.readOnly ? 'Edit Academic Calendar' : 'Academic Calendar' : 'Academic Calendar'}"/>
+        <property name="headerText" value="&#160;"/>
         <property name="pageSourceFile" value="AcademicCalendarEditPage.xml"/>
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
