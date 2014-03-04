@@ -1256,7 +1256,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query,divisions);
 
-        for(String division : divisions) query = query.replace(division,"");
+        for(String division : divisions) query = query.replace(division+" "," ");
 
         completedCodes = QueryTokenizer.extractCompleteCourseCodes(pureQuery,divisions,codes);
         completedLevels = QueryTokenizer.extractCompleteCourseLevels(pureQuery,divisions,levels);
