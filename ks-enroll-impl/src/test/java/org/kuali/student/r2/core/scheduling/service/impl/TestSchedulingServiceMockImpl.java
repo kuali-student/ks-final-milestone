@@ -288,14 +288,7 @@ public class TestSchedulingServiceMockImpl {
 
     // test crud Schedule
     @Test
-    public void testCrudSchedule () throws DataValidationErrorException
-            ,DoesNotExistException
-            ,InvalidParameterException
-            ,MissingParameterException
-            ,OperationFailedException
-            ,PermissionDeniedException
-            ,ReadOnlyException
-            ,Exception {
+    public void testCrudSchedule () throws Exception {
 
         // test data
         // -------------------------
@@ -319,8 +312,6 @@ public class TestSchedulingServiceMockImpl {
         sci_scheduleInfo2.setId("77");
         sci_scheduleInfo2.setRoomId("r77");
         sci_scheduleInfo2.setTimeSlotIds(timeSlotIds_scheduleInfo2);
-        List<ScheduleComponentInfo> scheduleComponentInfos_scheduleInfo2 = new ArrayList<ScheduleComponentInfo>();
-        scheduleComponentInfos_scheduleInfo2.add(sci_scheduleInfo2);
 
         // test create
         // ----------------
@@ -380,7 +371,7 @@ public class TestSchedulingServiceMockImpl {
                 fail(scheduleInfo.getId());
             }
         }
-        assertEquals(0, IDS_SCHEDULE_INFO.size());
+        assertTrue(IDS_SCHEDULE_INFO.isEmpty());
 
         // test get by type
         // -------------------
@@ -391,7 +382,7 @@ public class TestSchedulingServiceMockImpl {
         assertEquals(actual_scheduleInfo1.getId(), IDS_SCHEDULE_INFO.get(0));
         assertEquals(actual_scheduleInfo2.getId(), IDS_SCHEDULE_INFO.get(1));
         IDS_SCHEDULE_INFO = schedulingService.getScheduleIdsByType(SchedulingServiceConstants.SCHEDULE_TYPE_SCHEDULE + "324", callContext);
-        assertEquals(0, IDS_SCHEDULE_INFO.size());
+        assertTrue(IDS_SCHEDULE_INFO.isEmpty());
 
         // test delete
         // -----------------
@@ -613,7 +604,7 @@ public class TestSchedulingServiceMockImpl {
                 fail(scheduleRequestInfo.getId());
             }
         }
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test get by type
         // -------------------
@@ -624,7 +615,7 @@ public class TestSchedulingServiceMockImpl {
         assertEquals(actual.getId(), IDS.get(0));
         assertEquals(actual2.getId(), IDS.get(1));
         IDS = schedulingService.getScheduleRequestIdsByType(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST + "123", callContext);
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test get ids by ref object type key
         // --------------------------------------
@@ -770,7 +761,7 @@ public class TestSchedulingServiceMockImpl {
                 fail(scheduleTransactionInfo.getId());
             }
         }
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test get by type
         // -------------------
@@ -781,7 +772,7 @@ public class TestSchedulingServiceMockImpl {
         assertEquals(actual.getId(), IDS.get(0));
         assertEquals(actual2.getId(), IDS.get(1));
         IDS = schedulingService.getScheduleTransactionIdsByType(SchedulingServiceConstants.SCHEDULE_TRANSACTION_TYPE_REQUEST_TRANSACTION + "123", callContext);
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test delete
         // -----------------
@@ -868,7 +859,7 @@ public class TestSchedulingServiceMockImpl {
                 fail(info.getId());
             }
         }
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test get by type
         // -------------------
@@ -879,7 +870,7 @@ public class TestSchedulingServiceMockImpl {
         assertEquals(actual.getId(), IDS.get(0));
         assertEquals(actual2.getId(), IDS.get(1));
         IDS = schedulingService.getScheduleBatchIdsByType(SchedulingServiceConstants.SCHEDULE_BATCH_TYPE_BATCH + "123", callContext);
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test delete
         // -----------------
@@ -981,7 +972,7 @@ public class TestSchedulingServiceMockImpl {
                 fail(info.getId());
             }
         }
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test get by type
         // -------------------
@@ -1121,7 +1112,7 @@ public class TestSchedulingServiceMockImpl {
         assertTrue(l_actoff.contains("16"));
 
         List l_final = schedulingService.getTimeSlotIdsByType(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, callContext);
-        assertEquals(0, l_final.size());
+        assertTrue(l_final.isEmpty());
 
         // test case: all valid ids
         List<String> valid_ids = new ArrayList<String>();
@@ -1333,8 +1324,6 @@ public class TestSchedulingServiceMockImpl {
         BUILDING.setTypeKey("TEST BLD");
         crudInfoTester.initializeInfoForTestCreate(BUILDING, BUILDING.getTypeKey(), BUILDING.getStateKey());
         BUILDING = roomService.createBuilding(BUILDING.getTypeKey(), BUILDING, callContext);
-        List<BuildingInfo> BUILDINGS = new ArrayList<BuildingInfo>();
-        BUILDINGS.add(BUILDING);
         List<String> BLD_IDS = new ArrayList<String>();
         BLD_IDS.add(BUILDING.getId());
 
@@ -1350,14 +1339,10 @@ public class TestSchedulingServiceMockImpl {
         ROOM.setRoomUsages(new ArrayList<RoomUsageInfo>());
         ROOM.setBuildingId(BUILDING.getId());
         ROOM = roomService.createRoom(BUILDING.getId(), ROOM.getTypeKey(), ROOM, callContext);
-        List<RoomInfo> ROOMS = new ArrayList<RoomInfo>();
-        ROOMS.add(ROOM);
         List<String> ROOM_IDS = new ArrayList<String>();
         ROOM_IDS.add(ROOM.getId());
 
         // create TimeSlot TIME_SLOT
-        Long START_TIME_MILLIS_8_00_AM = (long) (8 * 60 * 60 * 1000);
-        Long END_TIME_MILLIS_8_50_AM = (long) (8 * 60 * 60 * 1000 + 50 * 60 * 1000);
         List<Integer> DOW_T_TH = new ArrayList<Integer>();
         DOW_T_TH.add(Calendar.TUESDAY);
         DOW_T_TH.add(Calendar.THURSDAY);
@@ -1408,14 +1393,14 @@ public class TestSchedulingServiceMockImpl {
         SCHEDULE_REQUEST_CMPS.add(SCHEDULE_REQUEST_CMP);
 
         String scheduleRequestSetId = "searchForScheduleRequestDisplaySetId";
-        List<String> refObjectIds = new ArrayList();
+        List<String> refObjectIds = new ArrayList<String>();
         refObjectIds.add("Ao1");
         refObjectIds.add("Ao2");
         ScheduleRequestSetInfo setInfo =  SchedulingServiceDataLoader.setupScheduleRequestSetInfo(scheduleRequestSetId, refObjectIds,
                 "REF_OBJECT_URI_GLOBAL_PREFIX",
                 false, 168);
 
-        ScheduleRequestSetInfo returnSetInfo = schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+        schedulingService.createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
                 "REF_OBJECT_URI_GLOBAL_PREFIX", setInfo, callContext );
 
         ScheduleRequestInfo SCHEDULE_REQUEST = new ScheduleRequestInfo();

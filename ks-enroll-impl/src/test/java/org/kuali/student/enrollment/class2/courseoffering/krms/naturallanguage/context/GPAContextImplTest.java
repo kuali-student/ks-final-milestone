@@ -54,7 +54,7 @@ public class GPAContextImplTest extends AbstractServiceTest {
         String gpa = (String) contextMap.get(GpaContextImpl.GPA_TOKEN);
 
         Assert.assertNotNull(contextMap);
-        Assert.assertEquals(null, gpa);
+        Assert.assertNull(gpa);
 
 	}
 

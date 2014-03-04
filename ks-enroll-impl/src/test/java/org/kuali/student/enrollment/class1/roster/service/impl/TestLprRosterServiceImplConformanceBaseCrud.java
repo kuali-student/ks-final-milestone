@@ -187,7 +187,7 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 			List<LprRosterInfo> records = testService.getLprRostersByIds ( lprRosterIds, contextInfo);
 			
 			assertEquals(lprRosterIds.size(), records.size());
-			assertEquals(0, lprRosterIds.size());
+        assertTrue(lprRosterIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -206,7 +206,7 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, lprRosterIds.size());
+        assertTrue(lprRosterIds.isEmpty());
 			
 			// -------------------------------------
 			// test get by type
@@ -381,7 +381,7 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 			List<LprRosterEntryInfo> records = testService.getLprRosterEntriesByIds(lprRosterEntryIds, contextInfo);
 			
 			assertEquals(lprRosterEntryIds.size(), records.size());
-			assertEquals(0, lprRosterEntryIds.size());
+        assertTrue(lprRosterEntryIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -400,7 +400,7 @@ public abstract class TestLprRosterServiceImplConformanceBaseCrud {
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, lprRosterEntryIds.size());
+        assertTrue(lprRosterEntryIds.isEmpty());
 			
 			// -------------------------------------
 			// test get by type

@@ -32,10 +32,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.Query;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
@@ -251,10 +248,6 @@ public class TestLuiServiceImpl {
             while(it.hasNext()) {
                 Object[] result = (Object[])it.next();
                 int length = result.length;
-                String[] resultsString = new String[length];
-                for (int i = 0; i < length; i++) {
-                    resultsString[i] = result[i].toString();
-                }
                 assertTrue(length==2);
             }
         }   catch (Exception e){
@@ -363,7 +356,7 @@ public class TestLuiServiceImpl {
     @Test
     public void  testGetLuisByAtpAndClu() throws Exception{
         List<LuiInfo> luis =  luiService.getLuisByAtpAndClu("cluId1", "atpId1", callContext)  ;
-        assertTrue(luis.size()>0);
+        assertTrue("Luis should be non-empty", !luis.isEmpty());
         assertNotNull(luis);
         assertEquals(1, luis.size());
         LuiInfo onlyLui = luis.get(0);
@@ -533,7 +526,7 @@ public class TestLuiServiceImpl {
         info.setDescr(rtInfo);
 
         LuiInfo newLui = luiService.createLui(info.getCluId(), info.getAtpId(), info.getTypeKey(), info, callContext);
-        LuiLuiRelationInfo created = null;
+        LuiLuiRelationInfo created;
         LuiLuiRelationInfo rel = new LuiLuiRelationInfo();
         rel.setLuiId("Lui-1");
         rel.setRelatedLuiId(newLui.getId());
@@ -604,7 +597,7 @@ public class TestLuiServiceImpl {
 
         try{
             luiIds.add("Lui-3b");
-            luis =  luiService.getLuisByIds(luiIds, callContext);
+            luiService.getLuisByIds(luiIds, callContext);
         }catch (DoesNotExistException ex) {
             assertNotNull(ex.getMessage());
         }
@@ -761,7 +754,7 @@ public class TestLuiServiceImpl {
         assertEquals(1,luiSetInfos.size());
 
         luiSetInfos = luiService.getLuiSetsByLui("Lui-5",callContext);
-        assertEquals(0,luiSetInfos.size());
+        assertTrue(luiSetInfos.isEmpty());
     }
 
     @Test
@@ -774,7 +767,7 @@ public class TestLuiServiceImpl {
         assertEquals(1,luiSetIdsByType.size());
 
         luiSetIdsByType = luiService.getLuiSetIdsByType("test.type.invalid",callContext);
-        assertEquals(0,luiSetIdsByType.size());
+        assertTrue(luiSetIdsByType.isEmpty());
     }
 
     @Test

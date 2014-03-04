@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -91,7 +92,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
         AtpInfo atp = this.getDefaultAtpInfo();
 
         List<ValidationResultInfo> result = validator.validate(validationType, atp, callContext);
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
 
         // check that type key is required
         atp.setTypeKey(null);
@@ -104,6 +105,6 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
         //test a config option
         validationType = DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = validator.validate(validationType, atp, callContext);
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
     }
 }

@@ -417,7 +417,7 @@ public class TestCourseOfferingServiceImplM4 {
         // Now remove the reg groups
         coServiceImpl.deleteRegistrationGroupsByFormatOffering(foId, contextInfo);
         List<RegistrationGroupInfo> rgInfos2 = coServiceImpl.getRegistrationGroupsByFormatOffering(foId, contextInfo);
-        assertEquals(0, rgInfos2.size());
+        assertTrue(rgInfos2.isEmpty());
         for (RegistrationGroupInfo rgInfo : rgInfos) {
             try {
                 coServiceImpl.getRegistrationGroup(rgInfo.getId(), contextInfo);
@@ -613,7 +613,7 @@ public class TestCourseOfferingServiceImplM4 {
 
         //test getRegistrationGroupsByActivityOfferingCluster
         List<RegistrationGroupInfo> rgList = coServiceImpl.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), contextInfo);
-        assertEquals(0, rgList.size());
+        assertTrue(rgList.isEmpty());
 
         //test generateRegistrationGroupsForCluster and deleteRegistrationGroupsForCluster
         coServiceImpl.generateRegistrationGroupsForCluster(actual.getId(), contextInfo);

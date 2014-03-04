@@ -52,6 +52,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -170,7 +171,7 @@ public class TestExamOfferingServiceFacadeImpl {
 
         List<ExamOfferingRelationInfo> newRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
-        assertEquals(0, newRelations.size());
+        assertTrue(newRelations.isEmpty());
 
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
             try{
@@ -209,7 +210,7 @@ public class TestExamOfferingServiceFacadeImpl {
 
         List<ExamOfferingRelationInfo> newRelations = this.getExamOfferingService().getExamOfferingRelationsByFormatOffering(
                 CourseOfferingServiceTestDataLoader.CHEM123_LEC_AND_LAB_FORMAT_OFFERING_ID, contextInfo);
-        assertEquals(0, newRelations.size());
+        assertTrue(newRelations.isEmpty());
 
         for(ExamOfferingRelationInfo eoRelation : eoRelations){
             try{

@@ -101,7 +101,7 @@ public class ProcessIntegrationTest {
         results = courseRegistrationService.checkStudentEligibility(ProcessIntegrationTestConstants.PERSON_ID_BARBARA_HARRIS_2016,
                 getContextInfoAsOf12302011());
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
-        assertEquals(0, errors.size());
+        assertTrue(errors.isEmpty());
     }
 
     @Test
@@ -173,7 +173,7 @@ public class ProcessIntegrationTest {
         results = courseRegistrationService.checkStudentEligibilityForTerm(ProcessIntegrationTestConstants.PERSON_ID_BARBARA_HARRIS_2016,
                 ProcessIntegrationTestConstants.FALL_2011_TERM_KEY, getContextInfoAsOf12302011());
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
-        assertEquals(0, errors.size());
+        assertTrue(errors.isEmpty());
     }
 
     @Test
@@ -248,7 +248,7 @@ public class ProcessIntegrationTest {
         results = courseRegistrationService.checkStudentEligibilityForTerm(ProcessIntegrationTestConstants.PERSON_ID_AMBER_HOPKINS_2155,
                 ProcessIntegrationTestConstants.SUMMER_2011_TERM_KEY, getContextInfoAsOf12302011());
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
-        assertEquals(0, errors.size());
+        assertTrue(errors.isEmpty());
     }
 
     @Test
@@ -259,7 +259,7 @@ public class ProcessIntegrationTest {
         results = courseRegistrationService.checkStudentEligibilityForTerm(ProcessIntegrationTestConstants.PERSON_ID_JOHNNY_MANNING_2374,
                 ProcessIntegrationTestConstants.SPRING_2012_TERM_KEY, getContextInfoAsOf12302011());
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
-        assertEquals(0, errors.size());
+        assertTrue(errors.isEmpty());
     }
 
     @Test
@@ -270,7 +270,7 @@ public class ProcessIntegrationTest {
         results = courseRegistrationService.checkStudentEligibilityForTerm(ProcessIntegrationTestConstants.PERSON_ID_EDDIE_PITTMAN_2406,
                 ProcessIntegrationTestConstants.SPRING_2011_TERM_KEY, getContextInfoAsOf12302011());
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
-        assertEquals(0, errors.size());
+        assertTrue(errors.isEmpty());
     }
 
     @Test
@@ -349,6 +349,6 @@ public class ProcessIntegrationTest {
         List<ValidationResultInfo> results = null;
         results = courseRegistrationService.verifyRegistrationRequestForSubmission(req.getId(), contextInfo);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
-        assertEquals(0, errors.size());
+        assertTrue(errors.isEmpty());
     }
 }

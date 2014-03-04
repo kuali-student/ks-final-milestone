@@ -142,7 +142,7 @@ public class TestHoldServiceMapImpl {
         List<String> ids = new ArrayList<String>();
         List<HoldIssueInfo> issues = holdService.getHoldIssuesByIds(ids, callContext);
         assertEquals(ids.size(), issues.size());
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
 
          // test bulk get
         ids = new ArrayList<String>();
@@ -155,7 +155,7 @@ public class TestHoldServiceMapImpl {
                 fail(issue.getId());
             }
         }
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
         
         
         // test get by type
@@ -170,7 +170,7 @@ public class TestHoldServiceMapImpl {
 
         // test get by org1
         issues = holdService.getHoldIssuesByOrg("org1", callContext);
-        assertEquals(0, issues.size());
+        assertTrue(issues.isEmpty());
 
         // test get by org2
         issues = holdService.getHoldIssuesByOrg("org2", callContext);
@@ -184,7 +184,7 @@ public class TestHoldServiceMapImpl {
                 fail(issue.getId());
             }
         }// here
-        assertEquals(0, ids.size());
+        assertTrue(ids.isEmpty());
 
 
         //TODO: check that service throws dependent object exception propertly
@@ -357,7 +357,7 @@ public class TestHoldServiceMapImpl {
                 fail(issue.getId());
             }
         }
-        assertEquals(0, expIds.size());
+        assertTrue(expIds.isEmpty());
 
         // test get by type
         List<String> actIds = holdService.getAppliedHoldIdsByType(HoldServiceConstants.INTRUCTOR_HOLD_TYPE_KEY, callContext);
@@ -383,7 +383,7 @@ public class TestHoldServiceMapImpl {
                 fail(hold.getId());
             }
         }
-        assertEquals(0, expIds.size());
+        assertTrue(expIds.isEmpty());
 
         // test get by instructor1
         holds = holdService.getAppliedHoldsByPerson("instructor1", callContext);
@@ -402,7 +402,7 @@ public class TestHoldServiceMapImpl {
                 fail(hold.getId());
             }
         }
-        assertEquals(0, expIds.size());
+        assertTrue(expIds.isEmpty());
 
         //  getHoldsByIssue
         actIds = holdService.getAppliedHoldIdsByIssue(acadIssue.getId(), callContext);
@@ -415,8 +415,8 @@ public class TestHoldServiceMapImpl {
                 fail(id);
             }
         }
-        assertEquals(0, expIds.size());
-        
+        assertTrue(expIds.isEmpty());
+
 //        getHoldsByIssueAndPerson
         holds = holdService.getAppliedHoldsByIssueAndPerson(acadIssue.getId(), "student1", callContext);
         expIds = new ArrayList<String>();
@@ -427,8 +427,8 @@ public class TestHoldServiceMapImpl {
                 fail(hold.getId());
             }
         }
-        assertEquals(0, expIds.size());
-        
+        assertTrue(expIds.isEmpty());
+
 //        getActiveHoldsByIssueAndPerson
         holds = holdService.getActiveAppliedHoldsByIssueAndPerson(acadIssue.getId(), "student1", callContext);
         expIds = new ArrayList<String>();
@@ -438,8 +438,8 @@ public class TestHoldServiceMapImpl {
                 fail(hold.getId());
             }
         }
-        assertEquals(0, expIds.size());
-        
+        assertTrue(expIds.isEmpty());
+
         // now test delete all but one hold      
         StatusInfo status = holdService.deleteAppliedHold(acadHoldActiveStudent1.getId(), callContext);
         assertNotNull(status);

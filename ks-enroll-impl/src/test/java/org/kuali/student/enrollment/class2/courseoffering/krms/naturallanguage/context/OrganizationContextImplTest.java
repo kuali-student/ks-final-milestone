@@ -64,7 +64,7 @@ public class OrganizationContextImplTest extends AbstractServiceTest {
         OrgInfo org = (OrgInfo) contextMap.get(OrganizationContextImpl.ORG_TOKEN);
 
         Assert.assertNotNull(contextMap);
-        Assert.assertEquals(null, org);
+        Assert.assertNull(org);
 	}
 
 }

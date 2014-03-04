@@ -536,10 +536,10 @@ public class TestCourseOfferingServiceImpl {
         assertTrue(status.getIsSuccess());
 
         List<FormatOfferingInfo> formats = coService.getFormatOfferingsByCourseOffering(courseOffering.getId(), callContext);
-        assertEquals(0, formats.size());
+        assertTrue(formats.isEmpty());
 
         List<ActivityOfferingInfo> activities = coService.getActivityOfferingsByCourseOffering(courseOffering.getId(), callContext);
-        assertEquals(0, activities.size());
+        assertTrue(activities.isEmpty());
 
         try {
             coService.getCourseOffering(courseOffering.getId(), callContext);
@@ -632,7 +632,7 @@ public class TestCourseOfferingServiceImpl {
 
         List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
 
-        assertEquals(0, rgList.size());
+        assertTrue(rgList.isEmpty());
 
         coService.generateRegistrationGroupsForCluster(actual.getId(), callContext);
 

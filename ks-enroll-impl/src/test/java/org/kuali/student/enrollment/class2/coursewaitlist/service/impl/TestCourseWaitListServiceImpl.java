@@ -37,6 +37,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -142,7 +143,7 @@ public class TestCourseWaitListServiceImpl {
         String id = returned.getId();
         CourseWaitListInfo fetched = cwlService.getCourseWaitList(id, contextInfo);
 
-        assertTrue(null == fetched.getStateKey());
+        assertNull(fetched.getStateKey());
 
         StatusInfo statusInfo = cwlService.changeCourseWaitListState(fetched.getId(),CourseWaitListServiceConstants.COURSE_WAIT_LIST_INACTIVE_STATE_KEY,contextInfo);
         assertTrue(statusInfo.getIsSuccess());

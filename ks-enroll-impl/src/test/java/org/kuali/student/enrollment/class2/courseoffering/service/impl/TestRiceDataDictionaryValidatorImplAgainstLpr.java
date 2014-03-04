@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -83,7 +84,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
         lpri.setEffectiveDate(parseDate("2010-01-01"));
 
         List<ValidationResultInfo> result = validator.validate(validationType, lpri, callContext);
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
 
         lpri.setTypeKey(null);
         result = validator.validate(validationType, lpri, callContext);
@@ -93,6 +94,6 @@ public class TestRiceDataDictionaryValidatorImplAgainstLpr {
 
         validationType = DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = validator.validate(validationType, lpri, callContext);
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
     }
 }

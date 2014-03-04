@@ -119,8 +119,8 @@ public abstract class TestBundledOfferingServiceImplConformanceExtendedCrud exte
 		expected.setBundledOfferingCode("bundledOfferingCode_Updated");
 		expected.setSubjectAreaOrgId("subjectAreaOrgId_Updated");
 		expected.setBundledOfferingCodeSuffix("bundledOfferingCodeSuffix_Updated");
-        expected.setAdminOrgIds(Arrays.asList(new String[]{"UPDATED"}));
-        expected.setFormatOfferingIds(Arrays.asList(new String[] {"Q"}));
+        expected.setAdminOrgIds(Arrays.asList("UPDATED"));
+        expected.setFormatOfferingIds(Arrays.asList("Q"));
         expected.setRegistrationGroupIds(Arrays.asList(new String[] {}));
 	}
 	
@@ -166,9 +166,9 @@ public abstract class TestBundledOfferingServiceImplConformanceExtendedCrud exte
 		expected.setBundledOfferingCode("bundledOfferingCode_Updated");
 		expected.setSubjectAreaOrgId("subjectAreaOrgId_Updated");
 		expected.setBundledOfferingCodeSuffix("bundledOfferingCodeSuffix_Updated");
-        expected.setAdminOrgIds(Arrays.asList(new String[]{"1"}));
-        expected.setFormatOfferingIds(Arrays.asList(new String[] {"2"}));
-        expected.setRegistrationGroupIds(Arrays.asList(new String[] {"3"}));
+        expected.setAdminOrgIds(Arrays.asList("1"));
+        expected.setFormatOfferingIds(Arrays.asList("2"));
+        expected.setRegistrationGroupIds(Arrays.asList("3"));
 	}
 	
 	
@@ -186,7 +186,7 @@ public abstract class TestBundledOfferingServiceImplConformanceExtendedCrud exte
         assertEquals(infos.get(0).getName(), "NAME0");
 
         infos = getBundledOfferingService().getBundledOfferingsByCourseBundle("COURSE_BUNDLEXXX", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 	}
 	
 	/* Method Name: getBundledOfferingsByTerm */
@@ -199,8 +199,8 @@ public abstract class TestBundledOfferingServiceImplConformanceExtendedCrud exte
         assertEquals(infos.get(0).getName(), "NAME1");
 
         infos = getBundledOfferingService().getBundledOfferingsByTerm("BAD_ID", contextInfo);
-        assertEquals(0, infos.size());
-	}
+        assertTrue(infos.isEmpty());
+    }
 	
 	/* Method Name: getBundledOfferingsByCourseBundleAndTerm */
 	@Test
@@ -214,17 +214,17 @@ public abstract class TestBundledOfferingServiceImplConformanceExtendedCrud exte
         assertEquals(infos.get(0).getName(), "NAME1");
 
         infos = getBundledOfferingService().getBundledOfferingsByCourseBundleAndTerm("BAD_ID1", "BAD_ID2", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByCourseBundleAndTerm("BAD_ID1", "1", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByCourseBundleAndTerm("COURSE_BUNDLE1", "BAD_ID2", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByCourseBundleAndTerm("COURSE_BUNDLE1", "0", contextInfo);
-        assertEquals(0, infos.size());
-	}
+        assertTrue(infos.isEmpty());
+    }
 	
 	/* Method Name: getBundledOfferingsByRegistrationGroup */
 	@Test
@@ -239,7 +239,7 @@ public abstract class TestBundledOfferingServiceImplConformanceExtendedCrud exte
         assertEquals(infos.get(0).getName(), "NAME9");
 
         infos = getBundledOfferingService().getBundledOfferingsByRegistrationGroup("XXX",contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByRegistrationGroup("1",contextInfo);
         assertEquals(9, infos.size());
@@ -258,17 +258,17 @@ public abstract class TestBundledOfferingServiceImplConformanceExtendedCrud exte
         assertEquals(infos.get(0).getName(), "NAME1");
 
         infos = getBundledOfferingService().getBundledOfferingsByTermAndCode("BAD_ID1", "BAD_ID2", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByTermAndCode("BAD_ID1", "BO_CODE1", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByTermAndCode("1", "BAD_ID2", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByTermAndCode("1", "BO_CODE2", contextInfo);
-        assertEquals(0, infos.size());
-	}
+        assertTrue(infos.isEmpty());
+    }
 	
 	/* Method Name: getBundledOfferingsByTermAndSubjectAreaOrg */
 	@Test
@@ -281,17 +281,17 @@ public abstract class TestBundledOfferingServiceImplConformanceExtendedCrud exte
         assertEquals(infos.get(0).getName(), "NAME1");
 
         infos = getBundledOfferingService().getBundledOfferingsByTermAndSubjectAreaOrg("BAD_ID1", "BAD_ID2", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByTermAndSubjectAreaOrg("BAD_ID1", "SUBJECT_AREA_ORG_ID1", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByTermAndSubjectAreaOrg("1", "BAD_ID2", contextInfo);
-        assertEquals(0, infos.size());
+        assertTrue(infos.isEmpty());
 
         infos = getBundledOfferingService().getBundledOfferingsByTermAndSubjectAreaOrg("1", "SUBJECT_AREA_ORG_ID2", contextInfo);
-        assertEquals(0, infos.size());
-	}
+        assertTrue(infos.isEmpty());
+    }
 	
 	/* Method Name: searchForBundledOfferingIds */
 	@Test

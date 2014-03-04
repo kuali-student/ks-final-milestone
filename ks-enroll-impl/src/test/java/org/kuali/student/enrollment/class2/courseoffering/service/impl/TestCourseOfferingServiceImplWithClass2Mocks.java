@@ -20,7 +20,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.common.test.spring.log4j.KSLog4JConfigurer;
 import org.kuali.student.common.test.util.AttributeTester;
 import org.kuali.student.common.test.util.ListOfStringTester;
 import org.kuali.student.common.test.util.MetaTester;
@@ -59,7 +58,6 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.slf4j.Logger;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -71,7 +69,6 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -84,9 +81,6 @@ import static org.junit.Assert.fail;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:co-test-with-class2-mock-context.xml"})
 public class TestCourseOfferingServiceImplWithClass2Mocks {
-
-    private static final Logger log = KSLog4JConfigurer
-            .getLogger(TestCourseOfferingServiceImplWithClass2Mocks.class);
 
     @Resource(name = "CourseOfferingService")
     protected CourseOfferingService coService;
@@ -228,7 +222,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsByActivityOfferingCluster(actual.getId(), callContext);
 
-        assertEquals(0, rgList.size());
+        assertTrue(rgList.isEmpty());
 
         coService.generateRegistrationGroupsForCluster(actual.getId(), callContext);
 
@@ -321,7 +315,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         List<RegistrationGroupInfo> rgList = coService.getRegistrationGroupsForCourseOffering("CO-1", callContext);
 
-        assertEquals(0, rgList.size());
+        assertTrue(rgList.isEmpty());
 
         List<BulkStatusInfo> status = coService
                 .generateRegistrationGroupsForFormatOffering(
@@ -353,9 +347,8 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         Assert.assertEquals(6, ao.size());
 
-        status = coService
-                    .generateRegistrationGroupsForFormatOffering(
-                            "CO-1:LEC-AND-LAB", callContext);
+        coService.generateRegistrationGroupsForFormatOffering(
+                "CO-1:LEC-AND-LAB", callContext);
 
         ao = coService.getActivityOfferingsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 
@@ -364,11 +357,10 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         status = coService.deleteGeneratedRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 
-        assertTrue("Failed to delete existing generated registration groups", status.size() > 0);
+        assertTrue("Failed to delete existing generated registration groups", !status.isEmpty());
 
-        status = coService
-                .generateRegistrationGroupsForFormatOffering(
-                        "CO-1:LEC-AND-LAB", callContext);
+        coService.generateRegistrationGroupsForFormatOffering(
+                "CO-1:LEC-AND-LAB", callContext);
 
         rgList = coService.getRegistrationGroupsByFormatOffering("CO-1:LEC-AND-LAB", callContext);
 
@@ -429,11 +421,11 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         List<String> offerings = coService.getCourseOfferingIdsByTerm(
                 "TermId-blah", true, callContext);
 
-        assertEquals(0, offerings.size());
+        assertTrue("Course offerings should be empty", offerings.isEmpty());
 
-        List<String> idList = coService.getCourseOfferingIdsByTerm("2012FA",
+        offerings = coService.getCourseOfferingIdsByTerm("2012FA",
                 true, callContext);
-        assertTrue(idList.size() > 0);
+        assertTrue("Course offerings should be non-empty", !offerings.isEmpty());
     }
 
     @Test
@@ -479,14 +471,14 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
                 .getCourseOfferingsByCourseAndTerm("Lui-blah",
                         "TermId-blah", callContext);
 
-        assertEquals(0, offerings.size());
+        assertTrue("Course offerings should be empty", offerings.isEmpty());
 
-        List<CourseOfferingInfo> co = coService
+        offerings = coService
                 .getCourseOfferingsByCourseAndTerm("CLU-1", "2012FA",
                         callContext);
-        assertTrue(co.size() > 0);
+        assertTrue("Course offerings should be non-empty", !offerings.isEmpty());
 
-        for (CourseOfferingInfo coItem : co) {
+        for (CourseOfferingInfo coItem : offerings) {
             assertEquals(LuiServiceConstants.COURSE_OFFERING_LIFECYCLE_STATE_KEYS[0],
                     coItem.getStateKey());
             assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY,
@@ -676,7 +668,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         // verify no activity offerings remain
         List<ActivityOfferingInfo> aos = coService.getActivityOfferingsByFormatOffering(formatOfferingId, callContext);
 
-        assertEquals(0, aos.size());
+        assertTrue(aos.isEmpty());
     }
 
 
@@ -778,7 +770,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         List<RegistrationGroupInfo> rgs = coService.getRegistrationGroupsByFormatOffering("CO-2:LEC-ONLY", callContext);
 
-        assertTrue(rgs.size() > 0);
+        assertTrue("Registration groups should be non-empty", !rgs.isEmpty());
 
         StatusInfo status = coService.deleteCourseOfferingCascaded("CO-2", callContext);
 
@@ -786,11 +778,11 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
 
         List<FormatOfferingInfo> formats = coService.getFormatOfferingsByCourseOffering("CO-2", callContext);
 
-        assertEquals(0, formats.size());
+        assertTrue(formats.isEmpty());
 
         rgs = coService.getRegistrationGroupsForCourseOffering("CO-2", callContext);
 
-        assertEquals(0, rgs.size());
+        assertTrue(rgs.isEmpty());
 
     }
 
@@ -800,7 +792,7 @@ public class TestCourseOfferingServiceImplWithClass2Mocks {
         List<CourseOfferingInfo> coList = coService
                 .getCourseOfferingsByCourse("CLU-1", callContext);
 
-        assertTrue(coList.size() > 0);
+        assertTrue("Course Offerings should be non-empty", !coList.isEmpty());
 
         CourseOfferingInfo co = coList.get(0);
 

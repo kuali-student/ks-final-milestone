@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -90,7 +91,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstLui {
         for (ValidationResultInfo r : result) {
             System.out.println(r.getElement() + ", " + r.getLevel() + ", " + r.getMessage());
         }
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
 
         lui.setTypeKey("");
         result = validator.validate(validationType, lui, callContext);
@@ -100,6 +101,6 @@ public class TestRiceDataDictionaryValidatorImplAgainstLui {
 
         validationType = DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = validator.validate(validationType, lui, callContext);
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
     }
 }

@@ -192,7 +192,7 @@ public abstract class TestExamServiceImplConformanceBaseCrud {
         List<ExamInfo> records = testService.getExamsByIds ( examIds, contextInfo);
 
         assertEquals(examIds.size(), records.size());
-        assertEquals(0, examIds.size());
+        assertTrue(examIds.isEmpty());
 
         // -------------------------------------
         // test bulk get
@@ -211,7 +211,7 @@ public abstract class TestExamServiceImplConformanceBaseCrud {
                 fail(record.getId());
             }
         }
-        assertEquals(0, examIds.size());
+        assertTrue(examIds.isEmpty());
 
         // -------------------------------------
         // test get by type

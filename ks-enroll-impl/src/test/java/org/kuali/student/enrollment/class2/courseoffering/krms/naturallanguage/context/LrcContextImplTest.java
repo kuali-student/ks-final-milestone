@@ -109,8 +109,8 @@ public class LrcContextImplTest extends AbstractServiceTest {
         ResultScaleInfo gradeType = (ResultScaleInfo) contextMap.get(LrcContextImpl.GRADE_TYPE_TOKEN);
 
         Assert.assertNotNull(contextMap);
-        Assert.assertEquals(null, grade);
-        Assert.assertEquals(null, gradeType);
+        Assert.assertNull(grade);
+        Assert.assertNull(gradeType);
 
 	}
 

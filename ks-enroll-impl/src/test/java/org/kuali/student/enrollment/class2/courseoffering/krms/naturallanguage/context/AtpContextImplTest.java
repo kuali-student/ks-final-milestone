@@ -85,8 +85,8 @@ public class AtpContextImplTest extends AbstractServiceTest {
         TypeInfo durationType = (TypeInfo) contextMap.get(AtpContextImpl.DURATION_TYPE_TOKEN);
 
         Assert.assertNotNull(contextMap);
-        Assert.assertEquals(null, duration);
-        Assert.assertEquals(null, durationType);
+        Assert.assertNull(duration);
+        Assert.assertNull(durationType);
 
 	}
 

@@ -183,7 +183,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 			List<CourseWaitListInfo> records = testService.getCourseWaitListsByIds ( courseWaitListIds, contextInfo);
 			
 			assertEquals(courseWaitListIds.size(), records.size());
-			assertEquals(0, courseWaitListIds.size());
+        assertTrue(courseWaitListIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -202,7 +202,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, courseWaitListIds.size());
+        assertTrue(courseWaitListIds.isEmpty());
 			
 			// -------------------------------------
 			// test get by type
@@ -375,7 +375,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 			List<CourseWaitListEntryInfo> records = testService.getCourseWaitListEntriesByIds(courseWaitListEntryIds, contextInfo);
 			
 			assertEquals(courseWaitListEntryIds.size(), records.size());
-			assertEquals(0, courseWaitListEntryIds.size());
+        assertTrue(courseWaitListEntryIds.isEmpty());
 			
 			// -------------------------------------
 			// test bulk get
@@ -394,7 +394,7 @@ public abstract class TestCourseWaitListServiceImplConformanceBaseCrud {
 							fail(record.getId());
 					}
 			}
-			assertEquals(0, courseWaitListEntryIds.size());
+        assertTrue(courseWaitListEntryIds.isEmpty());
 			
 			// -------------------------------------
 			// test get by type

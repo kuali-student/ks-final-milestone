@@ -110,7 +110,7 @@ public class TestFeeServiceImpl {
         List<EnrollmentFeeInfo> fetchDiff = feeService.getFeesByReference(diffUri, diffRefId, contextInfo);
         assertEquals(1, fetchDiff.size());
         List<EnrollmentFeeInfo> fetchZero = feeService.getFeesByReference(sameUri, diffRefId, contextInfo);
-        assertEquals(0, fetchZero.size());
+        assertTrue(fetchZero.isEmpty());
     }
     @Test
     public void testCrud() throws Exception {

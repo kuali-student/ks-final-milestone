@@ -748,8 +748,8 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertNotNull(propBldr.getCompoundOpCode());
         assertEquals(propBldr.getCompoundOpCode(), prop.getCompoundOpCode());
         // should not have parameters those are for simple propositions
-        assertEquals(0, propBldr.getParameters().size());
-        assertEquals(0, prop.getParameters().size());
+        assertTrue(propBldr.getParameters().isEmpty());
+        assertTrue(prop.getParameters().isEmpty());
         assertEquals(propBldr.getCompoundComponents().size(), prop.getCompoundComponents().size());
 
         if (propBldr.getCompoundComponents().size() < 2) {
@@ -770,8 +770,8 @@ public class RuleManagementServiceImplTest extends KSKRMSTestCase {
         assertNull(propBldr.getCompoundOpCode());
         assertNull(prop.getCompoundOpCode());
         if (propBldr.getCompoundComponents() != null) {
-            assertEquals(0, propBldr.getCompoundComponents().size());
-            assertEquals(0, prop.getCompoundComponents().size());
+            assertTrue(propBldr.getCompoundComponents().isEmpty());
+            assertTrue(prop.getCompoundComponents().isEmpty());
         }
         assertEquals(propBldr.getParameters().size(),
                 prop.getParameters().size());

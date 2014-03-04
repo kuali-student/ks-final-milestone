@@ -23,13 +23,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
@@ -81,17 +76,15 @@ public class TestAppointmentServiceImpl {
     private AppointmentWindowInfo apptWindowInfo;
     private AppointmentSlotRuleInfo rule; // not a resource
     private Long startInMillis; // start of appointment slot
-    private Long endInMillis; // end of appointment slot
     // For use with AppointmentSlot testing
     private AppointmentSlotInfo apptSlotInfo;
 //    private String slotId;
     private Date startDate;
-    private String principalId = "123";
 
     // No longer @Before
     public void before() {
         contextInfo = new ContextInfo();
-        contextInfo.setPrincipalId(principalId);
+        contextInfo.setPrincipalId("123");
         contextInfo.setCurrentDate(new Date());
         
         makeAppointmentWindowInfo();
@@ -111,14 +104,6 @@ public class TestAppointmentServiceImpl {
         apptWindowInfo.setStartDate(startDate);
         apptWindowInfo.setEndDate(endDate);
         apptWindowInfo.setAssignedPopulationId(ATHLETES_ONLY_STUDENTS);
-    }
-
-    private AppointmentSlotInfo createAppointmentSlotInfo(String apptWinId) {
-        AppointmentSlotInfo apptSlotInfo = new AppointmentSlotInfo();
-        Date startDate = createDate(2012, 3, 5, 12, 0);
-        apptSlotInfo.setStartDate(startDate);
-        apptSlotInfo.setAppointmentWindowId(apptWinId);
-        return apptSlotInfo;
     }
 
     private AppointmentWindowInfo createAppoinmentWindowInfo(String milestoneId, int offset) {
@@ -179,13 +164,12 @@ public class TestAppointmentServiceImpl {
         TimeOfDayInfo startInfo = makeTimeOfDayInfo(SLOT_RULE_START_OF_DAY);
         startInMillis = TimeOfDayHelper.getMillis(startInfo);
         TimeOfDayInfo endInfo = makeTimeOfDayInfo(SLOT_RULE_END_OF_DAY); // 5pm
-        endInMillis = TimeOfDayHelper.getMillis(endInfo);
         rule.setStartTimeOfDay(startInfo);
         rule.setEndTimeOfDay(endInfo);
         // TODO: Eventually set the type once there is a type to set to
         TimeAmountInfo tao = new TimeAmountInfo();
         tao.setTimeQuantity(15); // Every fifteen minutes
-        tao.setAtpDurationTypeKey(new String(AtpServiceConstants.DURATION_MINUTES_TYPE_KEY));
+        tao.setAtpDurationTypeKey(AtpServiceConstants.DURATION_MINUTES_TYPE_KEY);
         rule.setSlotStartInterval(tao);
     }
     // ---------------------------------- IN SUPPORT OF TEST ---------------------------------------
@@ -246,9 +230,6 @@ public class TestAppointmentServiceImpl {
             assert(!slotStartCal.after(endCal));
         }
     }
-    private static String _copy(String s) {
-        return new String(s);
-    }
 
     // --------------------------------------------------- TESTS ------------------------------------------------------
 //    @Test
@@ -272,7 +253,7 @@ public class TestAppointmentServiceImpl {
         // in uniform slot allocation
         before();
         // Test uniform slot
-        apptWindowInfo.setTypeKey(_copy(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY));
+        apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY);
         AppointmentWindowInfo windowInfo =
                 appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
         // Use windowInfo afterwards since it has the ID
@@ -326,7 +307,7 @@ public class TestAppointmentServiceImpl {
         // Change slot generation type
         apptWindowInfo.setTypeKey(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY);
         AppointmentSlotRuleInfo slotRuleInfo = apptWindowInfo.getSlotRule();
-        slotRuleInfo.getSlotStartInterval().setAtpDurationTypeKey(_copy(AtpServiceConstants.DURATION_HOURS_TYPE_KEY));
+        slotRuleInfo.getSlotStartInterval().setAtpDurationTypeKey(AtpServiceConstants.DURATION_HOURS_TYPE_KEY);
         AppointmentWindowInfo windowInfo =
                 appointmentService.createAppointmentWindow(apptWindowInfo.getTypeKey(), apptWindowInfo, contextInfo);
         try {
@@ -498,7 +479,7 @@ public class TestAppointmentServiceImpl {
         // Now check to make sure no assignments were made
         for (AppointmentSlotInfo slotInfo: slotInfoList) {
             List<AppointmentInfo> apptList = appointmentService.getAppointmentsBySlot(slotInfo.getId(), contextInfo);
-            assertEquals(0, apptList.size());
+            assertTrue(apptList.isEmpty());
         }
     }
     @Test
@@ -537,11 +518,11 @@ public class TestAppointmentServiceImpl {
                 slotSizeVsFrequency.put(apptList.size(), slotSizeVsFrequency.get(apptList.size()) + 1);
             }
         }
-        // Should have same number of students as appointments (thus, we didn't duplicate any studnets)
+        // Should have same number of students as appointments (thus, we didn't duplicate any students)
         assertEquals(studentIdsCount, studentIdSet.size());
         // Should either be all the same size, or all but 1 the same size (thus two distinct sizes)
-        assert(slotSizeVsFrequency.size() <= 2);
-        assert(slotSizeVsFrequency.size() > 0);
+        assertFalse(slotSizeVsFrequency.isEmpty());
+        assertTrue(slotSizeVsFrequency.size() <= 2);
         // Make sure one of them is unique
         if (slotSizeVsFrequency.size() == 2) {
             boolean found = false;
@@ -569,9 +550,9 @@ public class TestAppointmentServiceImpl {
         String slotId = slotInfoList.get(0).getId();
         List<AppointmentInfo> apptList =
                 appointmentService.getAppointmentsBySlot(slotId, contextInfo);
-        assert(apptList.size() > 0);
+        assertTrue("Appointment list should be non-empty", !apptList.isEmpty());
         // Now, generate appointment slots a second time
-        slotInfoList = appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
+        appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
         // Then, check if we still only have one slot
         List<AppointmentSlotInfo> fetchedSlotList =
                 appointmentService.generateAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
@@ -579,7 +560,7 @@ public class TestAppointmentServiceImpl {
         // And check we have no assignments
         List<AppointmentInfo> fetchedApptList =
                 appointmentService.getAppointmentsBySlot(slotId, contextInfo);
-        assertEquals(0, fetchedApptList.size());
+        assertTrue("Appointment list should be empty", fetchedApptList.isEmpty());
     }
     @Test
     public void testDeleteAppointmentSlotsByWindowWithAssign() throws Exception {
@@ -601,7 +582,7 @@ public class TestAppointmentServiceImpl {
         String slotId = slotInfoList.get(0).getId();
         List<AppointmentInfo> apptList =
                 appointmentService.getAppointmentsBySlot(slotId, contextInfo);
-        assert(apptList.size() > 0);
+        assertTrue("Appointment list should be non-empty", !apptList.isEmpty());
         appointmentService.deleteAppointmentSlotsByWindowCascading(windowInfo.getId(), contextInfo);
         // Testing we're back in DRAFT mode
         fetchedWindowInfo =
@@ -609,10 +590,10 @@ public class TestAppointmentServiceImpl {
         assertEquals(AppointmentServiceConstants.APPOINTMENT_WINDOW_STATE_DRAFT_KEY, fetchedWindowInfo.getStateKey());
         List<AppointmentSlotInfo> fetchedSlotInfoList =
                 appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
-        assertEquals(0, fetchedSlotInfoList.size());
+        assertTrue("Slot list should be empty", fetchedSlotInfoList.isEmpty());
         List<AppointmentInfo> fetchedApptList =
                 appointmentService.getAppointmentsBySlot(slotId, contextInfo);
-        assertEquals(0, fetchedApptList.size());
+        assertTrue("Appointment list should be empty", fetchedApptList.isEmpty());
         // Make sure slot is really gone
         try {
             appointmentService.getAppointmentSlot(slotId, contextInfo);
@@ -643,7 +624,7 @@ public class TestAppointmentServiceImpl {
         appointmentService.deleteAppointmentSlotsByWindowCascading(windowInfo.getId(), contextInfo);
         List<AppointmentSlotInfo> fetchedSlotInfoList =
                 appointmentService.getAppointmentSlotsByWindow(windowInfo.getId(), contextInfo);
-        assertEquals(0, fetchedSlotInfoList.size());
+        assertTrue(fetchedSlotInfoList.isEmpty());
     }
     @Test
     public void testDeleteAppointmentsByWindow() throws Exception {
@@ -659,12 +640,12 @@ public class TestAppointmentServiceImpl {
         String slotId = slotInfoList.get(0).getId();
         List<AppointmentInfo> apptList =
                 appointmentService.getAppointmentsBySlot(slotId, contextInfo);
-        assert(apptList.size() > 0);
+        assertTrue("Appointment list should be non-empty", !apptList.isEmpty());
         // And now delete the appointments, by window
         appointmentService.deleteAppointmentsByWindow(windowInfo.getId(), contextInfo);
         // Try fetching it again
         apptList = appointmentService.getAppointmentsBySlot(slotId, contextInfo);
-        assertEquals(0, apptList.size());
+        assertTrue("Appointment list should be empty", apptList.isEmpty());
     }
 
     @Test
@@ -681,12 +662,12 @@ public class TestAppointmentServiceImpl {
         String slotId = slotInfoList.get(0).getId();
         List<AppointmentInfo> apptList =
                 appointmentService.getAppointmentsBySlot(slotId, contextInfo);
-        assert(apptList.size() > 0);
+        assertTrue("Appointment list should be non-empty", !apptList.isEmpty());
         // And now delete the appointments
         appointmentService.deleteAppointmentsBySlot(slotId, contextInfo);
         // Try fetching it again
         apptList = appointmentService.getAppointmentsBySlot(slotId, contextInfo);
-        assertEquals(0, apptList.size());
+        assertTrue("Appointment list should be empty", apptList.isEmpty());
     }
 
     @Test

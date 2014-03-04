@@ -286,7 +286,7 @@ public class TestLprRosterServiceImplConformanceExtendedCrud extends TestLprRost
         assertContainsId("B", rosters);
 
         rosters = testService.getLprRostersByLui("DOES_NOT_EXIST", contextInfo);
-        assertEquals(0, rosters.size());
+        assertTrue(rosters.isEmpty());
 
         rosters = testService.getLprRostersByLui("2", contextInfo);
         assertEquals(1, rosters.size());
@@ -304,15 +304,15 @@ public class TestLprRosterServiceImplConformanceExtendedCrud extends TestLprRost
         assertContainsId("B", rosters);
 
         rosters = testService.getLprRostersByTypeAndLui(LprServiceConstants.LPRROSTER_COURSE_MIDTERM_GRADE_TYPE_KEY, "DOES_NOT_EXIST", contextInfo);
-        assertEquals(0, rosters.size());
+        assertTrue(rosters.isEmpty());
 
         rosters = testService.getLprRostersByTypeAndLui(LprServiceConstants.LPRROSTER_COURSE_FINAL_GRADE_TYPE_KEY, "1", contextInfo);
         assertEquals(1, rosters.size());
         assertContainsId("A", rosters);
 
         rosters = testService.getLprRostersByTypeAndLui("SOME_TYPE_KEY_THAT_DOES_NOT_EXIST", "1", contextInfo);
-        assertEquals(0, rosters.size());
-	}
+        assertTrue(rosters.isEmpty());
+    }
 	
 	/* Method Name: searchForLprRosterIds */
 	@Test
@@ -350,7 +350,7 @@ public class TestLprRosterServiceImplConformanceExtendedCrud extends TestLprRost
         }
 
         entries = testService.getLprRosterEntriesByLprRoster("D", contextInfo);
-        assertEquals(0, entries.size());
+        assertTrue(entries.isEmpty());
 	}
 	
 	/* Method Name: getLprRosterEntriesByLprRosterAndLpr */
@@ -363,8 +363,8 @@ public class TestLprRosterServiceImplConformanceExtendedCrud extends TestLprRost
         assertContainsId("20", entries);
 
         entries = testService.getLprRosterEntriesByLprRosterAndLpr("C", "1", contextInfo);
-        assertEquals(0, entries.size());
-	}
+        assertTrue(entries.isEmpty());
+    }
 	
 	/* Method Name: searchForLprRosterEntryIds */
 	@Test

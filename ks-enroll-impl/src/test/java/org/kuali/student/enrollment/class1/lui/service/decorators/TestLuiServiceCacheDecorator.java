@@ -24,6 +24,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 /**
@@ -115,6 +116,6 @@ public class TestLuiServiceCacheDecorator {
 
         objs = this.getLuiService().getLuiLuiRelationsByLui("Lui-1", callContext);
         assertNotNull(objs);
-        assertEquals(0, objs.size());
+        assertTrue(objs.isEmpty());
     }
 }

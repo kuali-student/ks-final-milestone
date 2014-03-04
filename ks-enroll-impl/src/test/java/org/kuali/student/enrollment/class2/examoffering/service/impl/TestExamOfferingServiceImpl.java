@@ -25,8 +25,6 @@ import org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceDataLoader
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
 import org.kuali.student.enrollment.examoffering.service.ExamOfferingService;
-import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -45,10 +43,7 @@ import org.kuali.student.r2.core.atp.service.impl.AtpTestDataLoader;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
-import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,16 +55,14 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:examoffering-test-context.xml"})
 @Transactional
 public class TestExamOfferingServiceImpl {
-
-    private static final Logger log = LoggerFactory.getLogger(TestExamOfferingServiceImpl.class);
 
     @Resource
     private ExamOfferingService examOfferingService;
@@ -179,7 +172,7 @@ public class TestExamOfferingServiceImpl {
         //Create
         ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
                 LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
-        ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
+        examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
                             LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
 
         examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByType(LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, callContext);
@@ -203,9 +196,9 @@ public class TestExamOfferingServiceImpl {
         ExamOfferingRelationInfo eoRelInfo2 = createExamOfferingRelationInfo();
         eoRelInfo2.setExamOfferingId("Lui-10");
         //Create
-        ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+        examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
                 LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
-        ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
+        examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
                             LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
 
         List<ExamOfferingRelationInfo> examOfferingRelationInfos = examOfferingService.getExamOfferingRelationsByFormatOffering("Lui-6", callContext);
@@ -265,9 +258,9 @@ public class TestExamOfferingServiceImpl {
         eoRelInfo2.setFormatOfferingId("Lui-7");
 
         //Create
-        ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+        examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
                 LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
-        ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-7", "Lui-9",
+        examOfferingService.createExamOfferingRelation("Lui-7", "Lui-9",
                             LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
 
         List<ExamOfferingRelationInfo> examOfferingRelationInfos = examOfferingService.getExamOfferingRelationsByExamOffering("Lui-9", callContext);
@@ -309,7 +302,7 @@ public class TestExamOfferingServiceImpl {
         type1.setDescr(new RichTextHelper().fromPlain("A canonical exam that will be used to instantiate final exam offerings."));
         type1.setEffectiveDate(new Date());
         type1.setRefObjectUri("http://student.kuali.org/wsdl/exam/ExamInfo");
-        TypeInfo type1Created = typeService.createType(type1.getKey(), type1, callContext);
+        typeService.createType(type1.getKey(), type1, callContext);
 
         TypeInfo type2 = new TypeInfo();
         type2.setKey("kuali.lui.type.exam.offering.final");
@@ -317,7 +310,7 @@ public class TestExamOfferingServiceImpl {
         type2.setDescr(new RichTextHelper().fromPlain("Final Exam Offering"));
         type2.setEffectiveDate(new Date());
         type2.setRefObjectUri("http://student.kuali.org/wsdl/lui/LuiInfo");
-        TypeInfo type2Created = typeService.createType(type2.getKey(), type2, callContext);
+        typeService.createType(type2.getKey(), type2, callContext);
 
         TypeTypeRelationInfo origRel = new TypeTypeRelationInfo();
         origRel.setEffectiveDate(new Date());
@@ -330,7 +323,7 @@ public class TestExamOfferingServiceImpl {
         attr.setKey("attribute.key");
         attr.setValue("attribute value");
         origRel.getAttributes().add(attr);*/
-        TypeTypeRelationInfo infoRel = typeService.createTypeTypeRelation(origRel.getTypeKey(),
+        typeService.createTypeTypeRelation(origRel.getTypeKey(),
                 origRel.getOwnerTypeKey(),
                 origRel.getRelatedTypeKey(),
                 origRel,
@@ -344,13 +337,13 @@ public class TestExamOfferingServiceImpl {
         ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
         //Create
         eoRelInfo.setActivityOfferingIds(Arrays.asList("AO-01","AO-02","AO-03","Lui-2"));
-        ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+        examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
                 LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
 
         //Retrieve IDs
         List<String> examOfferingRelationIds = examOfferingService.getExamOfferingRelationIdsByActivityOffering("Lui-2", callContext);
         assertNotNull(examOfferingRelationIds);
-        assertTrue(examOfferingRelationIds.size() > 0);
+        assertTrue("Relation IDs should be non-empty", !examOfferingRelationIds.isEmpty());
         //test for aoId match
         for (String examOfferingRelationId : examOfferingRelationIds) {
             ExamOfferingRelationInfo retrieved = examOfferingService.getExamOfferingRelation(examOfferingRelationId, callContext);
@@ -373,9 +366,9 @@ public class TestExamOfferingServiceImpl {
         eoRelInfo2.setExamOfferingId("Lui-10");
 
         //Create
-        ExamOfferingRelationInfo created1 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+        examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
                 LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo1, callContext);
-        ExamOfferingRelationInfo created2 = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
+        examOfferingService.createExamOfferingRelation("Lui-6", "Lui-10",
                             LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo2, callContext);
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
@@ -403,7 +396,7 @@ public class TestExamOfferingServiceImpl {
     @Test
     public void testSearchForExamOfferingRelations() throws Exception {
         ExamOfferingRelationInfo eoRelInfo = createExamOfferingRelationInfo();
-        ExamOfferingRelationInfo created = examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
+        examOfferingService.createExamOfferingRelation("Lui-6", "Lui-9",
                 LuiServiceConstants.LUI_LUI_RELATION_DELIVERED_VIA_FO_TO_EO_TYPE_KEY, eoRelInfo, callContext);
 
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();

@@ -35,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -94,7 +95,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         AcademicCalendarInfo acal = this.getDefaultAcademicCalendarInfo();
 
         List<ValidationResultInfo> result = validator.validate(validationType, acal, callContext);
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
     }
 
     /**
@@ -154,7 +155,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         System.out.println("check that we can skip the requiredness checks");
         validationType = DataDictionaryValidator.ValidationType.SKIP_REQUREDNESS_VALIDATIONS;
         result = validator.validate(validationType, acal, callContext);
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
     }
 
 }

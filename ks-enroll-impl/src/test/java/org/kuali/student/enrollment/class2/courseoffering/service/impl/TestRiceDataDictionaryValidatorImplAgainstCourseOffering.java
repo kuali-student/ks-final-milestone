@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  *
@@ -121,7 +122,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
         for (ValidationResult vri : result) {
             System.out.println(vri.getElement() + " " + vri.getLevel() + " " + vri.getMessage());
         }
-        assertEquals(0, result.size());
+        assertTrue(result.isEmpty());
 
         co.setGradingOptionId(null);
         co.setCreditOptionId(null);

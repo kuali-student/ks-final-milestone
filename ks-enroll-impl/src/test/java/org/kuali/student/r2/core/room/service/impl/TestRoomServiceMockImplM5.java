@@ -149,7 +149,7 @@ public class TestRoomServiceMockImplM5 {
                 fail(info.getId());
             }
         }
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test get by type
         // -------------------
@@ -162,7 +162,7 @@ public class TestRoomServiceMockImplM5 {
         assertEquals(1, IDS.size());
         assertEquals(actual2.getId(), IDS.get(0));
         IDS = roomService.getRoomIdsByType(TEST_TYPE + "123", callContext);
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test delete
         // -----------------
@@ -225,7 +225,7 @@ public class TestRoomServiceMockImplM5 {
                 fail(info.getId());
             }
         }
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test get by campus key
         // -------------------
@@ -238,7 +238,7 @@ public class TestRoomServiceMockImplM5 {
         assertEquals(1, IDS.size());
         assertEquals(actual2.getId(), IDS.get(0));
         IDS = roomService.getBuildingIdsByCampus("300", callContext);
-        assertEquals(0, IDS.size());
+        assertTrue(IDS.isEmpty());
 
         // test delete
         // -----------------

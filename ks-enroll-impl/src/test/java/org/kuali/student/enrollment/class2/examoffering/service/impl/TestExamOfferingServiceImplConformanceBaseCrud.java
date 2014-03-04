@@ -189,7 +189,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
         List<ExamOfferingInfo> records = testService.getExamOfferingsByIds ( examOfferingIds, contextInfo);
 
         assertEquals(examOfferingIds.size(), records.size());
-        assertEquals(0, examOfferingIds.size());
+        assertTrue(examOfferingIds.isEmpty());
 
         // -------------------------------------
         // test bulk get
@@ -208,7 +208,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
                 fail(record.getId());
             }
         }
-        assertEquals(0, examOfferingIds.size());
+        assertTrue(examOfferingIds.isEmpty());
 
         // -------------------------------------
         // test get by type
@@ -390,7 +390,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
         List<ExamOfferingRelationInfo> records = testService.getExamOfferingRelationsByIds ( examOfferingRelationIds, contextInfo);
 
         assertEquals(examOfferingRelationIds.size(), records.size());
-        assertEquals(0, examOfferingRelationIds.size());
+        assertTrue(examOfferingRelationIds.isEmpty());
 
         // -------------------------------------
         // test bulk get
@@ -409,7 +409,7 @@ public abstract class TestExamOfferingServiceImplConformanceBaseCrud {
                 fail(record.getId());
             }
         }
-        assertEquals(0, examOfferingRelationIds.size());
+        assertTrue(examOfferingRelationIds.isEmpty());
 
         // -------------------------------------
         // test get by type

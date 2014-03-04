@@ -54,7 +54,7 @@ public class PersonContextImplTest extends AbstractServiceTest {
         String person = (String) contextMap.get(PersonContextImpl.PERSON_TOKEN);
 
         Assert.assertNotNull(contextMap);
-        Assert.assertEquals(null, person);
+        Assert.assertNull(person);
 
 	}
 
