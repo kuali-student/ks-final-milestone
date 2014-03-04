@@ -16,9 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
-import org.kuali.student.r2.common.util.TimeOfDayHelper;
-import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
-import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -2609,7 +2606,9 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         List<Date> dates = new ArrayList<Date>();
         dates.addAll(getExamPeriodDates(startTime, endTime, excludeSundays, excludeSaturday ));
         for(Integer weekday : weekdaysList) {
-          result.append(DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER.format(dates.get(weekday - 1)));
+          result.append("Day "+weekday);
+          result.append(" - ");
+          result.append(DateFormatters.EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER.format(dates.get(weekday - 1)));
         }
 
         return result.toString();
