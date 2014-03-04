@@ -162,17 +162,16 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Term" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
-                <bean parent="Uif-DataField" p:label="Assessment Scale" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" p:required="true" />
-                <bean parent="Uif-DataField" p:label="Duration Type" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
-                <bean parent="Uif-DataField" p:label="Duration Count" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
-                <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
-                <bean parent="Uif-DataField" p:label="Audit" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
-                <bean parent="Uif-DataField" p:label="Final Exam Status" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" p:required="true" />
-
-                <bean parent="Uif-DataField" p:label="Outcome 1" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
-                <bean parent="Uif-DataField" p:label="Type" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
-                <bean parent="Uif-DataField" p:label="Course Format" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Terms" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.terms" />
+                <bean parent="Uif-DataField" p:label="Assessment Scale" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.gradingOptions" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Duration Type" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.atpDurationType" />
+                <bean parent="Uif-DataField" p:label="Duration Count" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.timeQuantity" />
+                <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.passFail" />
+                <bean parent="Uif-DataField" p:label="Audit" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.audit" />
+                <bean parent="Uif-DataField" p:label="Final Exam Status" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.finalExamStatus" p:required="true" />
+                <bean parent="Uif-DataField" p:label="Outcome 1" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.terms" />
+                <bean parent="Uif-DataField" p:label="Type" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.terms" />
+                <bean parent="Uif-DataField" p:label="Course Format" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.terms" />
             </list>
         </property>
     </bean>
@@ -201,11 +200,12 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Learning Objectives" p:propertyName="dataObject.reviewInfo.courseLogisticsInfo.term" />
+                <bean parent="Uif-DataField" p:label="Learning Objectives" p:propertyName="dataObject.reviewInfo.learningObjectivesInfo.learningObjectives" />
             </list>
         </property>
     </bean>
 
+<!--
     <bean name="KS-CourseView-CourseRequisitesPage-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
@@ -239,6 +239,7 @@
             </list> 
        </property>
     </bean>
+-->
 
     <bean name="KS-CourseView-ActiveDates-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">

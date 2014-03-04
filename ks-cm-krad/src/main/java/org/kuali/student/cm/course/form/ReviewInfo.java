@@ -16,8 +16,11 @@
 package org.kuali.student.cm.course.form;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Marker interface for having arbitrary course data in a collection displayed in stacks.
@@ -184,6 +187,14 @@ public class ReviewInfo implements java.io.Serializable {
         public String getRationale() {
             return rationale;
         }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public void setRationale(String rationale) {
+            this.rationale = rationale;
+        }
     }
 
     public class GovernanceInfoWrapper implements java.io.Serializable {
@@ -215,15 +226,19 @@ public class ReviewInfo implements java.io.Serializable {
     
 
     public class CourseLogisticsInfoWrapper implements java.io.Serializable {
-        private String term;
+        private List<String> terms;
         private String gradingOptions;
         private String atpDurationType;
-        private String timeQuantity;
+        private Integer timeQuantity;
         private String passFail;
         private String audit;
+        private String finalExamStatus;
 
-        public String getTerm() {
-            return term;
+        public List<String> getTerms() {
+            if(terms == null) {
+                terms = new ArrayList<String>();
+            }
+            return terms;
         }
 
         public String getGradingOptions() {
@@ -234,9 +249,6 @@ public class ReviewInfo implements java.io.Serializable {
             return atpDurationType;
         }
 
-        public String getTimeQuantity() {
-            return timeQuantity;
-        }
 
         public String getPassFail() {
             return passFail;
@@ -249,10 +261,45 @@ public class ReviewInfo implements java.io.Serializable {
         public String getAudit() {
             return audit;
         }
+
+        public void setGradingOptions(String gradingOptions) {
+            this.gradingOptions = gradingOptions;
+        }
+
+        public void setAtpDurationType(String atpDurationType) {
+            this.atpDurationType = atpDurationType;
+        }
+
+        public Integer getTimeQuantity() {
+            return timeQuantity;
+        }
+
+        public void setTimeQuantity(Integer timeQuantity) {
+            this.timeQuantity = timeQuantity;
+        }
+
+        public void setPassFail(String passFail) {
+            this.passFail = passFail;
+        }
+
+        public String getFinalExamStatus() {
+            return finalExamStatus;
+        }
+
+        public void setFinalExamStatus(String finalExamStatus) {
+            this.finalExamStatus = finalExamStatus;
+        }
     }
 
     public class LearningObjectivesInfoWrapper implements java.io.Serializable {
+        private List<String> learningObjectives;
 
+        public List<String> getLearningObjectives() {
+            if(learningObjectives == null) {
+                learningObjectives = new ArrayList<String>();
+            }
+            return learningObjectives;
+        }
 
     }
 
@@ -330,8 +377,16 @@ public class ReviewInfo implements java.io.Serializable {
             return expendingOrganization;
         }
     }
+
     public class SupportingDocumentsInfoWrapper implements java.io.Serializable {
-        
+        private Map<String, String> supportingDocInfo;
+
+        public Map<String, String> getSupportingDocInfo() {
+            if(supportingDocInfo == null) {
+                supportingDocInfo = new HashMap();
+            }
+            return supportingDocInfo;
+        }
     }
 
     public class CollaboratorInfoWrapper implements Serializable {

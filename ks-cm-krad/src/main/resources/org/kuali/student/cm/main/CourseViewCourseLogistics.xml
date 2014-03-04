@@ -36,7 +36,7 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.termsOffered"
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.courseInfo.termsOffered"
                       p:label="Term"
                       p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the
 								course to be offered&lt;br&gt;in any term that matches the duration selected below.">
@@ -64,14 +64,14 @@
         <property name="items">
             <list>
                 <bean id="KS-DurationTypeDropDown" parent="Uif-InputField-LabelTop"
-                      p:propertyName="course.duration.atpDurationTypeKey" p:label="Duration Type"
+                      p:propertyName="dataObject.courseInfo.duration.atpDurationTypeKey" p:label="Duration Type"
                       p:optionsFinderClass="org.kuali.student.lum.lu.ui.course.keyvalues.DurationTypeKeyValueFinder">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
                 </bean>
                 <bean id="KS-DurationTimeQuantity-Field" parent="Uif-InputField-LabelTop"
-                      p:label="Durantion Count" p:propertyName="course.duration.timeQuantity">
+                      p:label="Durantion Count" p:propertyName="dataObject.courseInfo.duration.timeQuantity">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
@@ -129,7 +129,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="course.gradingOptions" p:showLabel="false">
+                <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.courseInfo.gradingOptions" p:showLabel="false">
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
