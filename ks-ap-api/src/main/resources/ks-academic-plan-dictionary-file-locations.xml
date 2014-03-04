@@ -44,4 +44,13 @@
             </list>
         </constructor-arg>
     </bean>
+
+    <bean id="allDictionaryFileLocations" class="org.kuali.student.common.spring.CollectionAggregatingFactoryBean">
+        <property name="collectionBeanReferences" >
+            <list>
+                <value>ks-core-dictionary-file-locations</value>
+                <value>ks-ap-dictionary-file-locations</value>
+            </list>
+        </property>
+    </bean>
 </beans>

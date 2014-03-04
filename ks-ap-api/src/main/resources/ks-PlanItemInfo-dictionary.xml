@@ -78,6 +78,7 @@
     <bean id="PlanItemInfo.category" parent="PlanItemInfo.category-parent"/>
     <bean id="PlanItemInfo.category-parent" abstract="true" parent="PlanItemInfo.category-generated">
         <!-- Overrides here -->
+        <property name="required" value="true"/>
     </bean>
 
 	<bean id="PlanItemInfo.typeKey" parent="PlanItemInfo.typeKey-parent"/>

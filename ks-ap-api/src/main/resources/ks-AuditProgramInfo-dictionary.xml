@@ -38,7 +38,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
 	<!-- AuditProgramInfo-->
 	<bean id="AuditProgramInfo.programId" parent="AuditProgramInfo.programId-parent"/>
-	<bean id="AuditProgramInfo.programId-parent" abstract="true" parent="AuditProgramInfo.programId-generated">
+	<bean id="AuditProgramInfo.programId-parent" abstract="true" parent="AuditProgramInfo.programId-generated"/>
 
     <bean id="AuditProgramInfo.programTitle" parent="AuditProgramInfo.programTitle-parent"/>
     <bean id="AuditProgramInfo.programTitle-parent" abstract="true" parent="AuditProgramInfo.programTitle-generated">

@@ -12,4 +12,9 @@
         <property name="serviceNamespaceSuffix" value="AcademicPlanService" />
         <property name="dictionaryLocations" ref="academicPlanServiceDictionaryLocations" />
     </bean>
+
+    <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
+        <property name="dictionaryLocations" ref="allDictionaryFileLocations" />
+    </bean>
 </beans>

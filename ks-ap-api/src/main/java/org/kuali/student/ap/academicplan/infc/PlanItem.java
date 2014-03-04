@@ -53,7 +53,9 @@ public interface PlanItem extends HasId, TypeStateEntity {
 
     /**
      * Category of item:  BOOKMARKED, BACKUP, PLANNED, CART,...
-     * @return
+     * @required
+     * @name Item Category
+     * @return category of item
      */
     public AcademicPlanServiceConstants.ItemCategory getCategory();
 
