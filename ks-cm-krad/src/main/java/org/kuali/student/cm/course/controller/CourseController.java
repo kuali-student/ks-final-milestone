@@ -19,6 +19,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
+import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -64,6 +65,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
@@ -71,6 +74,7 @@ import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.constants.DocumentServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
@@ -135,7 +139,8 @@ public class CourseController extends CourseRuleEditorController {
     private IdentityService identityService;
     private CluService cluService;
     private ProposalService proposalService;
-    
+    private TypeService typeService;
+
     private enum CourseViewSections {
         CREATE_COURSE_ENTRY("KS-CourseView-createCourseInitialPage"),
         COURSE_INFO("KS-CourseView-CourseInfo-Section"),
@@ -641,8 +646,23 @@ public class CourseController extends CourseRuleEditorController {
         reviewData.getgovernanceSection().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
 
         // update course logistics section
-        reviewData.getcourseLogisticsSection().getTerms().addAll(savedCourseInfo.getTermsOffered());
-        reviewData.getcourseLogisticsSection().setAtpDurationType(savedCourseInfo.getDuration().getAtpDurationTypeKey());
+        reviewData.getcourseLogisticsSection().getTerms().clear();
+        try {
+            for(String termType : savedCourseInfo.getTermsOffered())  {
+                TypeInfo term = getTypeService().getType(termType, ContextUtils.getContextInfo());
+                reviewData.getcourseLogisticsSection().getTerms().add(term.getName());
+            }
+        } catch (Exception e) {
+            throw new RiceIllegalStateException(e);
+        }
+
+        try{
+            TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
+            reviewData.getcourseLogisticsSection().setAtpDurationType(term.getName());
+        } catch (Exception e) {
+            throw new RiceIllegalStateException(e);
+        }
+
         reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
 
         // update learning Objectives Section;
@@ -1239,5 +1259,13 @@ public class CourseController extends CourseRuleEditorController {
 			subjectCodeService = GlobalResourceLoader.getService(new QName(CourseServiceConstants.NAMESPACE_SUBJECTCODE, SubjectCodeService.class.getSimpleName()));
 		}
 		return subjectCodeService;
-	}	
+	}
+
+    protected TypeService getTypeService() {
+        if(typeService == null) {
+            typeService =  (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+
+        return typeService;
+    }
 }
