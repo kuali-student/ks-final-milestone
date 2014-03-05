@@ -71,7 +71,7 @@
             <div class="kscr-Register-cardText kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
 
         </accordion-heading>
-            <div ng-hide="cartItem.editing" class="kscr-CardDetails-text">
+            <div ng-hide="cartItem.editing" class="kscr-Card-detailsText">
                 <!--course time, day, building-->
                 <div ng-repeat="item in cartItem.schedule">
                       <span class="kscr-Register-courseTimes">
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <!-- Cart Change Section: Credits, Grading, and Save -->
-            <div class="kscr-edit" class="kscr-CardDetails-text" ng-show="cartItem.editing">
+            <div class="kscr-edit" class="kscr-Card-detailsText" ng-show="cartItem.editing">
                 <form ng-submit="updateCartItem(cartItem, newCredits, newGrading)">
                     <div>
                         <label class="kscr-RegInput-label" for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
