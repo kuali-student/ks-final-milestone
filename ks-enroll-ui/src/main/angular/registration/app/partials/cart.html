@@ -14,7 +14,7 @@
     </div>
 
     <div>
-        <button id="register" class="kscr-Button" type="submit" ng-click="register()">Register</button>
+        <button id="register" class="kscr-Button--primary" type="submit" ng-click="register()">Register</button>
     </div>
 </div>
 
@@ -108,8 +108,8 @@
                     <!--Edit buttons-->
                     <div class="kscr-Card-buttons">
                         <span>
-                          <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Button-primary" type="submit">Save Changes</button>
-                          <button class="kscr-Button" id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" type="button" ng-click="cancelEditItem(cartItem)">Cancel</button>
+                          <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Button--primary" type="submit">Save Changes</button>
+                          <button class="Button" id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" type="button" ng-click="cancelEditItem(cartItem)">Cancel</button>
                         </span>
                     </div>
                 </form>
