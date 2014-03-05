@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2007-2013 The Kuali Foundation
+
+Licensed under the Educational Community License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.opensource.org/licenses/ecl2.php
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean id="KRMS-Rules-ManageSection" parent="Uif-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-RuleHeader-BoxSection"/>
+                <ref bean="KRMS-RuleEdit-TabSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleHeader-BoxSection" parent="Uif-HorizontalBoxSection" p:width="90%">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-RuleHeader-Section"/>
+                <bean parent="KRMS-RulePreview-Links" p:id="KRMS-RulePreview-ActionLinks" p:style="float: right"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RuleHeader-Section" parent="Uif-VerticalBoxSection" p:style="max-width: 54em%;">
+        <property name="instructionalText" value="@{#dp.ruleEditor.ruleTypeInfo.instruction}"/>
+    </bean>
+
+    <bean id="KRMS-RuleEdit-TabSection" parent="Uif-TabSection">
+        <property name="forceSessionPersistence" value="true"/>
+        <property name="items">
+            <list>
+                <bean id="KRMS-EditWithObject-EditSection" parent="KRMS-EditWithObject-EditSection-parent"/>
+                <bean id="KRMS-EditWithLogic-EditSection" parent="KRMS-EditWithLogic-EditSection-parent"/>
+            </list>
+        </property>
+        <property name="tabsWidget">
+            <ref bean="KRMS-TabsWidget"/>
+        </property>
+    </bean>
+
+    <bean id="KRMS-TabsWidget" parent="Uif-Tabs">
+        <property name="templateOptions">
+            <map>
+                <entry key="selected" value="0"/>
+                <entry key="select"
+                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KRMS-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KRMS-EditWithObject-EditSection-parent" parent="Uif-VerticalBoxSection"
+          p:headerText="Edit Rule" p:header.render="false">
+        <property name="items">
+            <list>
+                <bean parent="KRMS-EditWithObject-EditGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-EditWithLogic-EditSection-parent" parent="Uif-VerticalBoxSection"
+          p:headerText="Edit Rule Logic" p:header.render="false">
+        <property name="validationMessages.displayMessages" value="true"/>
+        <property name="items">
+            <list>
+                <ref bean="KRMS-EditWithLogic-EditGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-RulePreview-Links" parent="Uif-LinkGroup">
+        <property name="linkSeparator" value=" "/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-ActionLink" p:actionLabel="Compare Rules" p:methodToCall="compareRules"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="propositionGroup" parent="Uif-GridGroup">
+        <property name="headerText" value="Rule"/>
+    </bean>
+
+    <bean id="KRMS-VerticalBoxSubSection" parent="Uif-VerticalBoxSubSection">
+        <property name="header">
+            <bean parent="Uif-SubSectionHeader" p:additionalCssClasses="krms-rulesubsection">
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KRMS-VerticalBoxSection" parent="Uif-VerticalBoxSection">
+        <property name="header">
+            <bean parent="Uif-SectionHeader" p:additionalCssClasses="krms-rulesection">
+            </bean>
+        </property>
+    </bean>
+
+    <!-- View only Tree -->
+    <bean id="KRMS-Tree-parent" parent="Uif-Tree">
+        <property name="template" value="/ks-common/WEB-INF/ftl/rulePreviewTree.ftl"/>
+        <property name="templateName" value="uif_rulePreviewTree"/>
+        <property name="templateOptions">
+            <map>
+                <entry key="themes" value="{'theme' : 'viewrule', 'dots' : 'true', 'icons' : 'false'}"/>
+                <entry key="plugins" value="[ 'themes','html_data' ]"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="KRMS-Tree" parent="KRMS-Tree-parent"/>
+
+    <bean id="KRMS-Tree-Section-parent" parent="Uif-TreeSection" class="org.kuali.rice.krms.util.ViewTreeGroup">
+        <property name="template" value="/ks-common/WEB-INF/ftl/ruleTreeGroup.ftl"/>
+        <property name="templateName" value="uif_ruleTreeGroup"/>
+        <property name="tree">
+            <bean parent="KRMS-Tree"/>
+        </property>
+    </bean>
+    <bean id="KRMS-Tree-Section" parent="KRMS-Tree-Section-parent"/>
+
+    <bean id="KRMS-ViewTree-Section-parent" parent="KRMS-Tree-Section" >
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <ref bean="KRMS-ListItems-DataGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="layoutManager">
+            <bean parent="Uif-GridLayoutBase"/>
+        </property>
+    </bean>
+    <bean id="KRMS-ViewTree-Section" parent="KRMS-ViewTree-Section-parent"/>
+
+    <bean id="KRMS-ListItems-DataGroup-parent" parent="Uif-StackedCollectionGroup"
+          p:style="width: 600px; padding: 0; margin-bottom: 0px;">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems" p:additionalCssClasses="krms-stackedCollectionLayout">
+                <property name="lineGroupPrototype">
+                    <bean parent="Uif-CollectionHorizontalBoxItem" p:additionalCssClasses="krms-stackedPreviewItem">
+                        <property name="renderFooter" value="false"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="lineActions">
+            <list></list>
+        </property>
+        <property name="renderAddLine" value="false"/>
+        <property name="propertyName" value="listItems"/>
+        <property name="collectionObjectClass" value="java.lang.String"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-MessageField" p:messageText="@{#line}"
+                      p:style="width: 290px; margin: 0px;"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-ListItems-DataGroup" parent="KRMS-ListItems-DataGroup-parent"/>
+
+    <bean id="KRMS-View-Section-parent" parent="KRMS-ViewTree-Section">
+        <property name="propertyName" value="viewTree"/>
+    </bean>
+    <bean id="KRMS-View-Section" parent="KRMS-View-Section-parent"/>
+
+    <bean id="KRMS-CompareTree-Section-parent" parent="KRMS-Tree-Section" p:style="width: 790px; min-height:100px;"
+          p:additionalCssClasses="compareTree">
+        <property name="tree"><null/></property>
+        <property name="propertyName" value="compareTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <bean parent="Uif-GroupBase" p:style="margin-left: 2em;">
+                        <property name="layoutManager">
+                            <bean p:id="compare_msgs" parent="Uif-BoxLayoutBase" p:style="display: table; width: 760px; margin: 1px;"/>
+                        </property>
+                        <property name="items">
+                            <list>
+                                <bean p:id="left_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.firstElement}"
+                                      p:style="display: table-cell; width: @{#np.width}px;"/>
+                                <bean p:id="right_compare_msg" parent="Uif-MessageField" p:messageText="@{#np.secondElement}"
+                                      p:style="display: table-cell; width: @{#np.width}px; margin-left: @{350-#np.width}px;"/>
+                            </list>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KRMS-CompareTree-Section" parent="KRMS-CompareTree-Section-parent"/>
+
+    <!--Compare Link-->
+    <bean id="KRMS-CompareRule-parent" parent="Uif-VerticalBoxSection" p:style="width: 850px;">
+        <property name="hidden" value="true"/>
+        <property name="items">
+            <list>
+                <bean parent="KRMS-VerticalBoxSection">
+                    <property name="headerText" value="@{#dp.compareLightBoxHeader}"/>
+                    <property name="items">
+                        <list>
+                            <ref bean="KRMS-CompareTree-Section"/>
+                        </list>
+                    </property>
+
+                    <property name="footer">
+                        <bean parent="Uif-FooterBase">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Close"
+                                          p:actionScript="jQuery.fancybox.close();"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+    <bean id="KRMS-CompareRule" parent="KRMS-CompareRule-parent"/>
+
+    <bean id="KRMS-PreviewTree-Section-parent" parent="KRMS-Tree-Section" >
+        <property name="propertyName" value="previewTree"/>
+        <property name="defaultNodePrototype">
+            <bean class="org.kuali.rice.krad.uif.container.NodePrototype">
+                <property name="labelPrototype">
+                    <bean parent="Uif-Message"/>
+                </property>
+                <property name="dataGroupPrototype">
+                    <ref bean="KRMS-PreviewPrototype-BoxGroup"/>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    <bean id="KRMS-PreviewTree-Section" parent="KRMS-PreviewTree-Section-parent"/>
+
+    <bean id="KRMS-PreviewPrototype-BoxGroup" parent="Uif-VerticalBoxGroup">
+        <property name="items">
+            <list>
+                <ref bean="KRMS-PrototypeHeader-BoxGroup"/>
+                <ref bean="KRMS-ListItems-DataGroup"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KRMS-PrototypeHeader-BoxGroup" parent="Uif-HorizontalBoxGroup" p:render="@{#np.data != null}"
+          p:additionalCssClasses="krms-editVerticalBox">
+        <property name="items">
+        <list>
+            <bean parent="Uif-MessageField" p:messageText="@{#np.data}"/>
+            <bean parent="Uif-SpaceField"/>
+            <bean parent="KS-Uif-ActionLink" p:actionLabel="Edit" p:align="right" p:methodToCall="getSelectedKey" p:render="@{!#np.compound}">
+                <property name="additionalSubmitData" value="selectedKey:@{#np.key != null ? #np.key : -1}"/>
+                <property name="toolTip">
+                    <bean parent="Uif-KS-TooltipFocus" p:onMouseHover="true"
+                          p:tooltipContent="Edit Prerequisite Rule"/>
+                </property>
+            </bean>
+        </list>
+    </property>
+    </bean>
+</beans>

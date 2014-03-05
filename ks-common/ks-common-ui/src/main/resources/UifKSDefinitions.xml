@@ -1,0 +1,946 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd"
+        >
+    <!--
+    Copyright 2007-2009 The Kuali Foundation
+
+    Licensed under the Educational Community License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+    http://www.opensource.org/licenses/ecl2.php
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+    -->
+
+    <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
+    <bean id="KSTheme-parentBean" parent="Uif-BaseTheme">
+        <property name="usesThemeBuilder" value="false"/>
+        <property name="minCssFile" value="themes/ksboot/stylesheets/ksboot.@{#ConfigProperties['project.version']}.min.css"/>
+        <property name="minCssSourceFiles">
+            <list merge="true">
+                <value>plugins/tooltip/ks.jquery.bubblepopup.css</value>
+                <value>themes/ksboot/stylesheets/enroll.css</value>
+                <value>themes/ksboot/stylesheets/link-tabs.css</value>
+            </list>
+        </property>
+        <!--TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
+        <!--We need to remove <value>themes/ksboot/scripts/krad.request.js</value> from the cript files after the rice fix-->
+        <property name="minScriptFile" value="themes/ksboot/scripts/ksboot.@{#ConfigProperties['project.version']}.min.js"/>
+        <property name="minScriptSourceFiles">
+            <list merge="true">
+                <value>themes/ksboot/scripts/bootstrap.js</value>
+                <value>themes/ksboot/scripts/enroll.js</value>
+                <value>krad/scripts/ks.krad.override.js</value>
+                <value>themes/ksboot/scripts/krad.request.js</value>
+                <value>krad/scripts/ks.krad.widget.js</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Page" parent="Uif-Page" class="org.kuali.student.common.uif.container.KSUifPage"/>
+
+    <bean id="KS-Uif-EmptyFooter" parent="Uif-FooterBase">
+        <property name="items">
+            <list>
+            </list>
+        </property>
+    </bean>
+
+    <!--TODO: KSENROLL-9721: Need to create a confirmation dialog in browser as opposed to make a server side round trip-->
+    <bean id="KS-Uif-Confirmation-Dialog" parent="Uif-Yes-No-DialogGroup">
+        <property name="onDialogResponseScript">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-FormView" abstract="true" parent="Uif-FormView"
+          class="org.kuali.student.common.uif.view.KSUifFormView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="stickyTopGroup" value="false"/>
+        <property name="stickyBreadcrumbs" value="false"/>
+        <property name="stickyApplicationHeader" value="false"/>
+        <property name="stickyHeader" value="true"/>
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+        <property name="dialogs">
+            <list>
+                <ref bean="KS-Uif-Confirmation-Dialog"/>
+            </list>
+        </property>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="onLoadScript"
+                  value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
+    </bean>
+
+
+    <bean id="KS-Uif-HorizontalBoxGroup-TopGroup" abstract="true" parent="Uif-HorizontalBoxGroup">
+        <!--KSENROLL-9951 - Rice Trackback - topGroup should only be displayed when there are items to show-->
+        <!--<property name="cssClasses">-->
+        <!--<list merge="true">-->
+        <!--<value>ks-topGroup</value>-->
+        <!--</list>-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="KS-Uif-VerticalBoxGroup-TopGroup"
+          abstract="true"
+          parent="Uif-VerticalBoxGroup"
+          p:additionalCssClasses="ks-topGroup">
+    </bean>
+
+    <bean id="KS-Uif-LookupView" abstract="true"
+          class="org.kuali.student.common.uif.view.KSLookupView" parent="Uif-LookupView" p:stickyFooter="true">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="onLoadScript"
+                  value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
+        <property name="rangeFieldGroupPrototype">
+            <null/>
+        </property>
+        <!-- In KS, we need only the return value, not any other maintenance actions in lookup.-->
+        <property name="resultsGroup.lineActions">
+            <list>
+                <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Return Value"/>
+                    <property name="finalizeMethodToCall" value="getReturnUrlForResults"/>
+                    <property name="render"
+                              value="@{!#empty(returnFormKey) and !#empty(returnLocation) and !view.hideReturnLinks}"/>
+                </bean>
+            </list>
+        </property>
+        <property name="resultsGroup.layoutManager.richTable.showSearchAndExportOptions" value="true"/>
+        <property name="resultsGroup.layoutManager.richTable.templateOptions">
+            <map merge="true">
+                <entry key="sDom" value="iltp"/>
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="resultsGroup.collectionLookup">
+            <null/>
+        </property>
+        <property name="criteriaGroup.footer.items">
+          <list>
+          </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean id="button_search" parent="Uif-PrimaryActionButton" p:methodToCall="search" p:actionLabel="Search"/>
+                                    <bean parent="Uif-ActionLink" p:actionLabel="Cancel"
+                                          p:render="@{#form.renderedInLightBox}"
+                                          p:onClickScript="e.preventDefault();closeLightbox();return false;"
+                                          p:additionalCssClasses="cancel_link"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-InquiryView" abstract="true" parent="Uif-InquiryView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="stickyFooter" value="true"/>
+        <!-- UX wants all Inquiries to have Sticky Footers -->
+        <!--TODO: check with UX, do we need to set page.header as KS-Uif-HeaderOne-Empty by default? -->
+        <!--<property name="page.header">-->
+        <!--<ref bean="KS-Uif-HeaderOne-Empty" />-->
+        <!--</property>-->
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="onLoadScript"
+                  value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
+    </bean>
+
+    <bean id="KS-Uif-HeaderOne-Empty" parent="Uif-HeaderOne">
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-MaintenanceView" abstract="true" parent="Uif-MaintenanceView">
+        <property name="theme">
+            <bean parent="KSTheme"/>
+        </property>
+        <property name="stickyTopGroup" value="false"/>
+        <property name="stickyBreadcrumbs" value="false"/>
+        <property name="stickyApplicationHeader" value="false"/>
+        <property name="stickyHeader" value="true"/>
+        <property name="applicationHeader">
+            <bean parent="Uif-GlobalApplicationHeader-parentBean"
+                  p:template="/ks-common/WEB-INF/ftl/ksApplicationHeader.ftl" p:render="true"
+                  p:templateName="ks_applicationHeader"/>
+        </property>
+        <property name="header.cssClasses">
+            <list merge="true">
+                <value>ks-unified-header</value>
+            </list>
+        </property>
+        <property name="header.rightGroup.items">
+            <!-- In KS, document overview section not needed(document status, create time, doc number etc)-->
+            <list/>
+        </property>
+        <property name="page.header.lowerGroup.items">
+            <!-- In KS, expandall/collapseall not needed-->
+            <list/>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-EmptyFooter"/>
+        </property>
+        <property name="stickyFooter" value="true"/>
+
+
+        <!-- Need Krad Fix to work see KULRICE-9578, work around inplace-->
+        <!--<property name="page.breadcrumbOptions.renderHomewardPathBreadcrumbs" value="@{!#form.renderedInLightBox}"/>-->
+        <property name="onLoadScript"
+                  value="@{#form.renderedInLightBox ? 'jQuery(&quot;#Uif-BreadcrumbWrapper&quot;).remove();' : ''}"/>
+    </bean>
+
+
+    <bean id="KS-Uif-FooterBase" parent="Uif-FooterBase"/>
+
+
+    <bean id="KS-Uif-DocumentPageFooter" parent="Uif-DocumentPageFooter" abstract="true"/>
+
+    <!--This footer can be used for maintenance views: create a new or edit when we only want to see submit and cancel buttons -->
+    <bean id="KS-Uif-DocumentPageFooter-SubmitCancel" parent="KS-Uif-DocumentPageFooter-SubmitCancel-parent"/>
+    <bean id="KS-Uif-DocumentPageFooter-SubmitCancel-parent" parent="KS-Uif-DocumentPageFooter" abstract="true">
+        <property name="items">
+            <list>
+                <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="route"
+                      p:actionLabel="submit" p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
+                <bean parent="Uif-ActionLink" p:ajaxSubmit="false" p:methodToCall="cancel" p:actionLabel="cancel"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Disclosure" abstract="true" parent="Uif-Disclosure">
+        <property name="collapseImageSrc"
+                  value="@{#ConfigProperties['krad.externalizable.images.url']}h3_collapse-back-ks.png"/>
+        <property name="expandImageSrc"
+                  value="@{#ConfigProperties['krad.externalizable.images.url']}h3_expand-back-ks.png"/>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-VerticalBoxSection-Disclosure" abstract="true" parent="Uif-VerticalBoxSection">
+        <property name="disclosure">
+            <bean parent="KS-Uif-Disclosure"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+    <bean id="KS-Uif-StackedCollectionSection-VerticalSubCollectionFieldGroup" parent="Uif-StackedCollectionSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-VerticalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroupWithDisclosure"
+          parent="KS-Uif-StackedCollectionSection-HorizontalSubCollectionFieldGroup">
+        <property name="disclosure.render" value="true"/>
+        <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
+        <!--<property name="disclosure">-->
+        <!--<bean parent="KS-Uif-Disclosure"/>-->
+        <!--</property>-->
+    </bean>
+
+    <bean id="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup"
+          parent="Uif-StackedCollectionSubSection">
+        <property name="layoutManager">
+            <bean parent="Uif-StackedCollectionLayout-WithBoxItems">
+                <property name="subCollectionFieldGroupPrototype">
+                    <bean parent="Uif-HorizontalFieldGroup"/>
+                </property>
+            </bean>
+        </property>
+        <property name="items">
+            <list/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroupWithDisclosure"
+          parent="KS-Uif-StackedCollectionSubSection-HorizontalSubCollectionFieldGroup">
+        <property name="disclosure.render" value="true"/>
+        <!-- TODO: check with UX, do we need to set disclosure as KS-Uif-Disclosure by default? -->
+        <!--<property name="disclosure">-->
+        <!--<bean parent="KS-Uif-Disclosure"/>-->
+        <!--</property>-->
+    </bean>
+
+    <!--Note: This is a tab group with link based look and feel. It is not used in any code so far. -->
+    <bean id="KS-Uif-TabGroup-LinkTab"
+          parent="Uif-TabGroup"
+          p:additionalCssClasses="ks-uif-tabSection">
+    </bean>
+
+    <bean id="KS-Uif-InputField-Simple" parent="KS-Uif-InputField-Simple-parent"/>
+    <bean id="KS-Uif-InputField-Simple-parent" abstract="true" parent="Uif-InputField" scope="prototype">
+        <property name="template" value="/ks-common/WEB-INF/ftl/ksSimpleDataField.ftl"/>
+        <property name="templateName" value="ks_SimpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+        <property name="quickfinder">
+            <null/>
+        </property>
+        <property name="validationMessages">
+            <null/>
+        </property>
+        <property name="constraintMessage">
+            <null/>
+        </property>
+        <property name="instructionalMessage">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-DataField-Simple" parent="KS-Uif-DataField-Simple-parentBean"/>
+    <bean id="KS-Uif-DataField-Simple-parentBean" abstract="true" parent="Uif-DataField" scope="prototype">
+        <property name="template" value="/ks-common/WEB-INF/ftl/ksSimpleDataField.ftl"/>
+        <property name="templateName" value="ks_SimpleDataField"/>
+        <property name="inquiry">
+            <null/>
+        </property>
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <!-- Opens an inquiry lightbox with a "Loading ..." pacifier message -->
+    <bean id="KS-Uif-InquiryLink" parent="KS-Uif-InquiryLink-parentBean"/>
+    <bean id="KS-Uif-InquiryLink-parentBean" abstract="true" parent="KS-Uif-DataField-Simple" scope="prototype">
+        <property name="inquiry">
+            <!-- Children need to provide dataObjectClassName and inquiryParameters values -->
+            <bean parent="KS-Uif-Inquiry"/>
+        </property>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-Link-DisplayInLightBox" parent="Uif-Link">
+        <property name="lightBox">
+            <bean parent="Uif-LightBox"/>
+        </property>
+        <property name="target" value="_blank"/>
+    </bean>
+
+    <!--Note by bonnie: Not used in any code -->
+    <bean id="KS-Uif-Link-Edit" parent="KS-Uif-Link-DisplayInLightBox" p:order="10">
+        <property name="linkText" value="Edit"/>
+        <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+        <property name="finalizeMethodAdditionalArguments">
+            <list>
+                <value>maintenanceEdit</value>
+            </list>
+        </property>
+        <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line)}"/>
+    </bean>
+
+    <!--p:onDocumentReadyScript="decorateToolbar();-->
+
+    <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection" parent="KS-Uif-HorizontalBoxSection-ToolbarSection-parent"/>
+    <bean id="KS-Uif-HorizontalBoxSection-ToolbarSection-parent"
+          abstract="true"
+          parent="Uif-HorizontalBoxSection"
+          scope="prototype"
+          p:additionalCssClasses="ks-toolbar">
+    </bean>
+
+    <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup" parent="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent"/>
+    <bean id="KS-Uif-HorizontalBoxGroup-ToolbarGroup-parent"
+          parent="Uif-HorizontalBoxGroup"
+          class="org.kuali.student.common.uif.container.KSToolbarGroup"
+          abstract="true"
+          scope="prototype"
+          p:additionalCssClasses="ks-toolbar-group-padded">
+        <property name="template" value="/ks-common/WEB-INF/ftl/ksToolbarGroup.ftl"/>
+        <property name="templateName" value="ks_ToolbarGroup"/>
+    </bean>
+
+    <bean id="KS-Uif-ToolBar-Button"
+          parent="Uif-SecondaryActionButton"
+          p:disabled="true"
+          abstract="true">
+        <property name="actionImagePlacement" value="TOP"/>
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>tree-bar-button</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Suggest" parent="KS-Uif-Suggest-parentBean"/>
+    <bean id="KS-Uif-Suggest-parentBean" abstract="true" scope="prototype"
+          class="org.kuali.rice.krad.uif.widget.Suggest2" parent="Uif-WidgetBase">
+        <property name="template" value="/ks-krad/WEB-INF/ftl/suggest2.ftl"/>
+        <property name="templateName" value="uif_suggest2"/>
+        <property name="customEntryAllowed" value="true"/>
+        <property name="comboboxButtonEnabled" value="false"/>
+        <property name="loadingImageEnabled" value="true"/>
+        <property name="templateOptions">
+            <map>
+                <entry key="minLength" value="2"/>
+                <entry key="delay" value="300"/>
+            </map>
+        </property>
+        <property name="suggestQuery">
+            <bean parent="Uif-AttributeQueryConfig"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Combobox" parent="KS-Uif-Combobox-parentBean"/>
+    <bean id="KS-Uif-Combobox-parentBean" parent="KS-Uif-Suggest" abstract="true" scope="prototype">
+        <property name="comboboxButtonEnabled" value="true"/>
+    </bean>
+
+    <bean id="KS-Lozenge-Grey-Uif-DataField" parent="Uif-DataField" p:additionalCssClasses="state-draft"/>
+
+    <bean id="KS-Lozenge-Grey-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-draft"/>
+
+    <bean id="KS-Lozenge-Grey-Uif-InputField" parent="Uif-InputField" p:additionalCssClasses="state-draft"
+          p:fieldLabel.renderColon="false" p:fieldLabel.cssClasses="labelTop"
+          p:labelPlacement="TOP" p:fieldLabel.requiredMessagePlacement="LEFT"
+          p:instructionalMessage.render="false">
+        <property name="instructionalMessage">
+            <bean parent="Uif-InstructionalMessage"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Lozenge-Green-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-completed"/>
+
+    <bean id="KS-Lozenge-Orange-Uif-Message" parent="Uif-Message" p:additionalCssClasses="state-suspended"/>
+
+    <bean id="KS-Unified-Uif-FormView" parent="KS-Uif-FormView">
+        <property name="headerText" value="Unified Header - View Title"/>
+        <property name="header.rightGroup">
+            <ref bean="KS-Unified-Header-Right-Group"/>
+        </property>
+    </bean>
+    <bean id="KS-Unified-Header-Right-Group" parent="Uif-VerticalBoxGroup"
+          p:cssClasses="ks-unified-header-rightGroup-container">
+        <property name="items">
+            <list>
+                <ref bean="KS-Unified-Header-Action-Group"/>
+                <ref bean="KS-Unified-Right-Header-Group-Status"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-Unified-Header-Action-Group" parent="Uif-HorizontalBoxGroup"
+          p:cssClasses="ks-unified-header-rightGroup-action">
+        <property name="items">
+            <list>
+                <ref bean="Unified-Right-Header-Group-Action-Copy"/>
+                <ref bean="Unified-Right-Header-Group-Action-Comment"/>
+                <ref bean="Unified-Right-Header-Group-Action-Print"/>
+                <ref bean="Unified-Right-Header-Group-Action-Delete"/>
+                <ref bean="Unified-Right-Header-Group-Action-Edit"/>
+                <ref bean="Unified-Right-Header-Group-Action-Manage"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="KS-Unified-Right-Header-Group-Status" parent="Uif-HorizontalBoxSection"
+          p:cssClasses="ks-unified-header-rightGroup-status">
+        <property name="items">
+            <list>
+                <ref bean="Unified-Right-Header-Group-Status-Modified"/>
+                <ref bean="Unified-Right-Header-Group-Status-Lozenge"/>
+            </list>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Copy" parent="KS-Uif-ActionLink" p:actionLabel="Copy"
+          p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Copy" p:title="Copy" p:source="ks-fontello-icon-docs"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Comment" parent="KS-Uif-ActionLink" p:actionLabel="Comment"
+          p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Comment" p:title="Comment" p:source="ks-fontello-icon-comment"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Print" parent="KS-Uif-ActionLink" p:actionLabel="Print"
+          p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Print" p:title="Print" p:source="ks-fontello-icon-print"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Delete" parent="KS-Uif-ActionLink" p:actionLabel="Delete"
+          p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Delete" p:title="Delete" p:source="ks-fontello-icon-cancel"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Edit" parent="KS-Uif-ActionLink" p:actionLabel="Edit"
+          p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Edit" p:title="Edit" p:source="ks-fontello-icon-pencil"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-Manage" parent="KS-Uif-ActionLink" p:actionLabel="Manage"
+          p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Manage" p:title="Manage" p:source="ks-fontello-icon-wrench"/>
+        </property>
+    </bean>
+    <bean id="Unified-Right-Header-Group-Action-MakeOfficial" parent="KS-Uif-ActionLink" p:actionLabel="Make Official"
+          p:actionImagePlacement="LEFT">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:altText="Make Official" p:title="Make Official"
+                  p:source="ks-fontello-icon-check"/>
+        </property>
+    </bean>
+
+    <!-- Note: The static text is only here as an example. In the future we will have standard context variables for the User and the Update Date -->
+    <bean id="Unified-Right-Header-Group-Status-Modified" parent="Uif-Message"
+          p:messageText="Last modified by USER on Friday, May 17 at 05:15a.m."/>
+    <!-- Note: This is only here for an example. Each page will need to display a different status / color -->
+    <bean id="Unified-Right-Header-Group-Status-Lozenge" parent="KS-Lozenge-Orange-Uif-Message"
+          p:messageText="Detail Status"/>
+
+    <bean id="KS-Uif-ContextBar" parent="Uif-HorizontalBoxGroup" p:additionalCssClasses="ks-topGroup">
+    </bean>
+
+    <bean id="Uif-AddLineAction-Link" parent="Uif-ActionLink" p:methodToCall="addLine" p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:id="@{#collectionGroup.id}_add"/>
+
+    <bean id="Uif-AddLineAction-CapitalButtonLabel" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addLine"
+          p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:id="@{#collectionGroup.id}_add"/>
+
+    <bean id="Uif-AddLineAction-SecondaryButton" parent="Uif-SecondaryActionButton" p:methodToCall="addLine"
+          p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:id="@{#collectionGroup.id}_add"/>
+
+    <bean id="KS-Uif-PrimaryActionButton" abstract="true" parent="KS-Uif-PrimaryActionButton-parentBean"/>
+    <bean id="KS-Uif-PrimaryActionButton-parentBean" parent="Uif-PrimaryActionButton"/>
+
+    <bean id="KS-Uif-ActionLink" parent="KS-Uif-ActionLink-parentBean" abstract="true"/>
+    <bean id="KS-Uif-ActionLink-parentBean" parent="Uif-ActionLink"
+          class="org.kuali.student.common.uif.element.KSUifActionButton">
+        <property name="cssClasses">
+            <list merge="false">
+                <value>btn</value>
+                <value>btn-link</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-NavigationActionLink" parent="KS-Uif-NavigationActionLink-parentBean" abstract="true"/>
+    <bean id="KS-Uif-NavigationActionLink-parentBean" parent="Uif-NavigationActionLink"
+          class="org.kuali.student.common.uif.element.KSUifActionButton">
+        <property name="cssClasses">
+            <list merge="false">
+                <value>btn</value>
+                <value>btn-link</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-SecondaryActionButton" abstract="true" parent="KS-Uif-SecondaryActionButton-parentBean"/>
+    <bean id="KS-Uif-SecondaryActionButton-parentBean" parent="Uif-SecondaryActionButton"/>
+
+    <bean id="KS-Uif-View-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="View">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-eye"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Edit-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Edit">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-pencil"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Copy-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Copy">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-docs" />
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Delete-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Delete">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Manage-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true" p:title="Manage">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-wrench"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <bean id="KS-Uif-Requisite-NavigationActionLink" parent="Uif-KS-NavigationActionLink-parentBean" abstract="true">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-clipboard"/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Delete-ActionLink" parent="KS-Uif-ActionLink" p:title="Delete">
+        <property name="actionImage">
+            <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
+        </property>
+        <property name="actionImagePlacement" value="IMAGE_ONLY"/>
+    </bean>
+
+    <!-- This is used to display the view and page files names in the HTML so devs can find them -->
+    <bean id="KS-SourceFile-Comment-Group" parent="Uif-HorizontalBoxGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="[!--ViewSourceFile: @{#view.viewSourceFile}--]"/>
+                <bean parent="Uif-Message"
+                      p:messageText="[!--PageSourceFile: @{(#view.currentPage.pageSourceFile eq null) ? 'Not Defined' : #view.currentPage.pageSourceFile}--]"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod"
+          parent="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod-parent"/>
+    <bean id="KS-Uif-Disclosure-TableSubCollection-WithinSubSection-BottomAddLine-ExamPeriod-parent"
+          parent="Uif-Disclosure-TableSubCollection-WithinSubSection" abstract="true" scope="prototype">
+        <property name="collectionLookup">
+            <null/>
+        </property>
+        <property name="headerText" value=""/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="renderAddBlankLineButton" value="true"/>
+        <property name="addLinePlacement" value="BOTTOM"/>
+        <property name="layoutManager.style" value="width: 100%; display:block;"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine">
+                <!--<property name="style" value="margin-top:20px;"/>-->
+            </bean>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="KS-TableCollectionSubSection-BottomAddLine" parent="KS-TableCollectionSubSection-BottomAddLine-parent"/>
+
+    <bean id="KS-TableCollectionSubSection-BottomAddLine-parent" parent="Uif-TableCollectionSection" abstract="true"
+          scope="prototype">
+        <property name="collectionLookup">
+            <null/>
+        </property>
+        <property name="headerText" value=""/>
+        <property name="layoutManager.renderSequenceField" value="false"/>
+        <property name="layoutManager.separateAddLine" value="false"/>
+        <property name="layoutManager.applyDefaultCellWidths" value="false"/>
+        <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+        <property name="renderAddBlankLineButton" value="true"/>
+        <property name="addLinePlacement" value="BOTTOM"/>
+        <property name="layoutManager.style" value="width: 100%; display:block;"/>
+        <property name="layoutManager.richTable.render" value="false"/>
+        <!--<property name="addLineActions">
+            <list>
+                <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="addLine" p:actionLabel="add"
+                      p:actionEvent="addLine"/>
+            </list>
+        </property>-->
+        <property name="addBlankLineAction">
+            <bean parent="KS-BottomAddLine"/>
+        </property>
+        <property name="lineActions">
+            <list>
+                <bean parent="Uif-DeleteLineAction"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-BottomAddLine" parent="KS-BottomAddLine-parent"/>
+
+    <bean id="KS-BottomAddLine-parent" parent="Uif-SecondaryActionButton" abstract="true" scope="prototype">
+        <property name="hidden" value="@{#parent.readOnly}"/>
+        <property name="actionLabel" value="Add"/>
+        <property name="actionImagePlacement" value="LEFT"/>
+        <property name="methodToCall" value="addBlankLine"/>
+        <property name="actionEvent" value="addBlankLine"/>
+        <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+    </bean>
+
+    <!-- TODO: KSENROLL-8478 temporarily overriding KRAD's Inquiry as it was messing up the hover over. should be resolved in Rice 2.3.1 -->
+    <bean id="KS-Uif-Inquiry" parent="KS-Uif-Inquiry-parent"/>
+    <bean id="KS-Uif-Inquiry-parent" parent="Uif-Inquiry" abstract="true" scope="prototype"
+          class="org.kuali.student.common.uif.element.KSUifInquiry"/>
+
+
+    <bean id="KS-Uif-RichTable" parent="KS-Uif-RichTable-parent"/>
+    <bean id="KS-Uif-RichTable-parent" parent="Uif-RichTable-parentBean" abstract="true"
+          class="org.kuali.student.common.uif.widget.KSRichTable" scope="prototype">
+        <property name="templateOptions">
+            <map merge="true">
+                <entry key="bPaginate" value="false"/>
+            </map>
+        </property>
+        <property name="showExportOption" value="false"/>
+    </bean>
+
+    <bean id="KS-Uif-PagedRichTable" parent="KS-Uif-PagedRichTable-parent"/>
+    <bean id="KS-Uif-PagedRichTable-parent" parent="Uif-PagedRichTable-parentBean" abstract="true" scope="prototype">
+        <property name="templateOptions">
+            <map merge="true">
+                <!--<entry key="aaSorting" value="[[1,'asc']]"/>-->
+                <entry key="bPaginate" value="true"/>
+                <entry key="sPaginationType" value="full_numbers"/>
+                <!-- bFilter removes "Search" field: -->
+                <entry key="bFilter" value="false"/>
+                <!-- bInfo removes "Page x of y" text: -->
+                <entry key="bInfo" value="false"/>
+                <!-- bLengthChange removes "Show [10 v] entries" drop-down: -->
+                <entry key="bLengthChange" value="false"/>
+                <entry key="oLanguage" value="
+                            {
+                                'oPaginate':
+                                {
+                                    'sFirst' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;First&lt;/i&gt;',
+                                    'sPrevious' : '&amp;#8249; &lt;i class=&#34;visually-hidden&#34;&gt;Previous&lt;/i&gt;',
+                                    'sNext' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Next&lt;/i&gt;',
+                                    'sLast' : '&amp;#8250; &lt;i class=&#34;visually-hidden&#34;&gt;Last&lt;/i&gt;'
+                                }
+                            }"
+                        />
+            </map>
+        </property>
+        <property name="showExportOption" value="false"/>
+    </bean>
+
+
+    <bean id="KS-Uif-InputField" parent="KS-Uif-InputField-parent"/>
+    <bean id="KS-Uif-InputField-parent" abstract="true" parent="Uif-InputField">
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-CheckboxControl" parent="KS-Uif-CheckboxControl-parent"/>
+    <bean id="KS-Uif-CheckboxControl-parent" parent="Uif-CheckboxControl">
+        <property name="toolTip">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-HiddenControl" parent="KS-Uif-HiddenControl-parent"/>
+    <bean id="KS-Uif-HiddenControl-parent" parent="Uif-HiddenControl">
+        <property name="toolTip">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-TextControl" parent="KS-Uif-TextControl-parent"/>
+    <bean id="KS-Uif-TextControl-parent" parent="Uif-TextControl">
+        <property name="toolTip">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-InputField-LabelTop" parent="KS-Uif-InputField-LabelTop-parent"/>
+    <bean id="KS-Uif-InputField-LabelTop-parent" parent="Uif-InputField-LabelTop">
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-DataField" parent="KS-Uif-DataField-parent"/>
+    <bean id="KS-Uif-DataField-parent" parent="Uif-DataField">
+        <property name="help">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-DropdownControl" parent="KS-Uif-DropdownControl-parent"/>
+    <bean id="KS-Uif-DropdownControl-parent" parent="Uif-DropdownControl">
+        <property name="toolTip">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-VerticalRadioControl" parent="KS-Uif-VerticalRadioControl-parent"/>
+    <bean id="KS-Uif-VerticalRadioControl-parent" parent="Uif-VerticalRadioControl">
+        <property name="toolTip">
+            <null/>
+        </property>
+    </bean>
+
+    <bean id="KS-BasicDatePatternConstraint" parent="KS-BasicDatePatternConstraint-parent"/>
+    <bean id="KS-BasicDatePatternConstraint-parent" parent="BasicDatePatternConstraint">
+        <property name="value" value="(^(0[1-9]|1[012])[\-/](0[1-9]|[12][0-9]|3[01])[\-/]((19|2[0-9])?[0-9]{2})$)"/>
+    </bean>
+
+    <bean id="KS-Uif-Dynamic-BreadCrumb" parent="Uif-InputField" p:propertyName="viewId">
+        <property name="control">
+            <bean parent="Uif-OptionListControl">
+                <property name="options">
+                    <list>
+                        <bean parent="Uif-KeyValueLocation" p:key="enrollmentHomeView"
+                              p:location.viewId="enrollmentHomeView" p:value="Enrollment"
+                              p:location.controllerMapping="/launch"/>
+                        <bean parent="Uif-KeyValueLocation" p:key="2" p:value="Curriculum Management"
+                              p:location.href="../org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp?view=CURRICULUM_MANAGEMENT"/>
+                        <bean parent="Uif-KeyValueLocation" p:key="curriculumHomeView"
+                              p:location.viewId="curriculumHomeView" p:value="Curriculum Management KRAD"
+                              p:location.controllerMapping="/cmHome"/>
+                        <bean parent="Uif-KeyValueLocation" p:key="4" p:value="KS Maintenance">
+                            <property name="location">
+                                <bean class="org.kuali.rice.krad.uif.util.UrlInfo" scope="prototype">
+                                    <property name="href" value="@{#ConfigProperties['ks.rice.url']}/portal.do"/>
+                                    <property name="expressionGraph">
+                                        <map>
+                                            <entry key="href" value="@{#ConfigProperties['ks.rice.url']}/portal.do"/>
+                                        </map>
+                                    </property>
+                                </bean>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-Uif-AddLineAction" parent="Uif-SecondaryActionButton" p:methodToCall="addLine" p:actionLabel="Add"
+          p:actionEvent="addLine" p:loadingMessageText="Adding Line..." p:focusOnIdAfterSubmit="LINE_FIRST"
+          p:performClientSideValidation="true" p:dirtyOnAction="true" p:id="@{#collectionGroup.id}_add"/>
+
+    <bean id="KS-Uif-DeleteLineAction" parent="Uif-SecondaryActionButton" p:methodToCall="deleteLine"
+          p:actionLabel="Delete"
+          p:onMouseOverScript="deleteLineMouseOver(this, 'uif-collectionDeleteHighlight');"
+          p:onMouseOutScript="deleteLineMouseOut(this, 'uif-collectionDeleteHighlight');"
+          p:onClickScript="writeCurrentPageToSession(this);" p:dirtyOnAction="true"
+          p:loadingMessageText="Deleting Line..." p:id="@{#collectionGroup.id}_del@{#lineSuffix}"/>
+
+
+
+    <bean id="KS-Uif-Inline-WarningMessageGroup" parent="Uif-VerticalBoxSection"
+          p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
+        <property name="style" value="display: inline-block;" />
+    </bean>
+
+
+    <bean id="KS-OptimisticLock-Page" parent="KS-Uif-Page" p:disclosure.render="false">
+        <property name="items">
+            <list>
+                <bean parent="Uif-HorizontalBoxSection"
+                      p:style="width: 600px; border: 1px solid black; padding: 10px; margin: 100px auto;">
+                    <property name="items">
+                        <list>
+
+                            <bean parent="Uif-ImageField" p:image.altText="Conflicting Changes"
+                                  p:source="@{#ConfigProperties['ks.externalizable.images.url']}/error_icon.png">
+                            </bean>
+
+                            <bean parent="Uif-VerticalBoxSection">
+                                <property name="items">
+                                    <list>
+                                        <bean parent="Uif-HeaderTwo"
+                                              p:headerText="Conflicting Changes"/>
+                                        <bean parent="Uif-MessageField" p:style="font-weight:bold;"
+                                              p:messageText="Someone else has edited this rule."/>
+                                        <bean parent="Uif-MessageField"
+                                              p:messageText="Your changes could not be saved because someone else has submitted changes to the rule while you were still busy editing it. Please reload the rule and attempt to make your changes again."/>
+                                    </list>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
+                    <property name="additionalCssClasses" value="uif-validationMessages"/>
+                </bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="KS-Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-HorizontalBoxGroup">
+                            <property name="items">
+                                <list>
+                                    <bean parent="Uif-Link" p:linkText="Continue"
+                                          p:href="@{returnLocation}">
+                                        <property name="cssClasses">
+                                            <list merge="false">
+                                                <value>btn</value>
+                                                <value>btn-primary</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                    <bean parent="KS-Uif-NavigationActionLink" p:ajaxSubmit="false"
+                                          p:methodToCall="cancel" p:actionLabel="Cancel"/>
+                                </list>
+                            </property>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+</beans>

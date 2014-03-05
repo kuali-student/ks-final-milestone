@@ -1,0 +1,6 @@
+insert into KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE) values ('TEST-MSG1','City','US','Address','Enter the US city where you live:')
+insert into KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE) values ('TEST-MSG2','State','US','Address','State:')
+insert into KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE) values ('TEST-MSG3','Last','US','Name','Enter your last name:')
+insert into KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE) values ('TEST-MSG4','City','CA','Address','Enter the Canadian city where you live:')
+insert into KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE) values ('TEST-MSG5','State','CA','Address','Province:')
+insert into KSMG_MESSAGE (ID, MSG_ID, LOCALE, GRP_NAME, MSG_VALUE) values ('TEST-MSG6','Last','CA','Name','Enter your surName:')

@@ -1,0 +1,4 @@
+insert into KSEN_STATE_LIFECYCLE (ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, OBJ_ID, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.scheduling.schedule.transaction.group.lifecycle', 'kuali.scheduling.schedule.transaction.group.lifecycle', 'Schedule Transaction Group Lifecycle', 'Schedule Transaction Group Lifecycle', null, null, 0, TO_DATE ('12/10/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER', TO_DATE ('12/10/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER' )
+/
+insert into KSEN_STATE_LIFECYCLE (ID, NAME, DESCR_PLAIN, DESCR_FORMATTED, OBJ_ID, REF_OBJECT_URI, VER_NBR, CREATETIME, CREATEID, UPDATETIME, UPDATEID) values ('kuali.scheduling.schedule.request.group.constraint.lifecycle', 'kuali.scheduling.schedule.request.group.constraint.lifecycle', 'Schedule Request Group Lifecycle', 'Schedule Request Group Lifecycle', null, null, 0, TO_DATE ('12/10/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER', TO_DATE ('12/10/2013', 'MM/DD/YYYY'), 'SYSTEMLOADER' )
+/

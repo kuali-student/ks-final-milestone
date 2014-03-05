@@ -6,11 +6,11 @@
         <artifactId>student</artifactId>
         <version>2.1.1-FR2-M1-SNAPSHOT</version>
     </parent>
-    <groupId>org.kuali.student.api</groupId>
-    <artifactId>ks-api</artifactId>
+    <groupId>org.kuali.student.core</groupId>
+    <artifactId>ks-core</artifactId>
     <version>2.1.1-FR2-M1-SNAPSHOT</version>
+    <name>KS Core</name>
     <packaging>pom</packaging>
-    <name>KS API</name>
     <profiles>
         <profile>
             <id>default</id>
@@ -18,18 +18,50 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <modules>
-                <module>ks-common-api</module>
-                <module>ks-core-api</module>
-                <module>ks-lum-api</module>
-                <module>ks-enroll-api</module>
-                <module>ks-ap-api</module>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>sql-only</id>
+            <modules>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-all-wars</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>skip-ui</id>
+            <modules>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-sql</module>
+                <module>ks-rice-sql</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
         <profile>
             <id>skip-surefire-tests</id>
             <activation>
                 <property>
-                    <name>skip.api.tests</name>
+                    <name>skip.core.tests</name>
                 </property>
             </activation>
             <build>
@@ -42,13 +74,13 @@
                     </plugin>
                 </plugins>
             </build>
-            <!-- include all the modules from the default profile -->
+            <!-- include all the modules from the default profile (except SQL modules) -->
             <modules>
-                <module>ks-common-api</module>
-                <module>ks-core-api</module>
-                <module>ks-lum-api</module>
-                <module>ks-enroll-api</module>
-                <module>ks-ap-api</module>
+                <module>ks-common</module>
+                <module>ks-security</module>
+                <module>ks-core-impl</module>
+                <module>ks-core-ui</module>
+                <module>ks-core-krms</module>
             </modules>
         </profile>
     </profiles>
