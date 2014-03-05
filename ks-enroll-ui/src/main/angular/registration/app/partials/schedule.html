@@ -9,72 +9,73 @@
     <a id="userMessageInvoke" ng-click="invokeActionLink(userMessage.actionLink);" ng-if="userMessage.linkText">{{userMessage.linkText}}</a>
 </div>
 
-<div ng-repeat="schedule in schedules">
-<accordion close-others="oneAtATime">
-    <accordion-group  ng-repeat="course in schedule.courseOfferings" is-open="isopen">
-        <accordion-heading>
-            <!--credits-->
-            <div id="course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="pull-right" ng-hide="cartItem.editing">
-                <ng-pluralize count="course.credits"
-                              when="{'1'    : '{} credit',
-                                     'other': '{} credits'}">
-                </ng-pluralize>, {{course.gradingOptions[course.gradingOptionId]}}
-            </div>
+<div class="kscr-Register">
+    <div ng-repeat="schedule in schedules">
+    <accordion close-others="oneAtATime">
+        <accordion-group  ng-repeat="course in schedule.courseOfferings" is-open="isopen">
+            <accordion-heading>
+                <!--credits-->
+                <div id="course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="pull-right" ng-hide="cartItem.editing">
+                    <ng-pluralize count="course.credits"
+                                  when="{'1'    : '{} credit',
+                                         'other': '{} credits'}">
+                    </ng-pluralize>, {{course.gradingOptions[course.gradingOptionId]}}
+                </div>
 
-            <!--Course Header Section-->
-            <div>
-                <span class="kscr-Register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
-                <span class="kscr-Register-header kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
-            </div>
-            <!--Course Title and description-->
-            <div class="kscr-Register-cardText kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
-
-        </accordion-heading>
-        <div ng-hide="course.editing">
-            <!--course time, day, building-->
-            <div ng-repeat="ao in course.activityOfferings">
-                      <span class="kscr-Register-courseTimes">
-                        <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{ao.activityOfferingTypeShortName}} &nbsp;</div>
-                            <div ng-repeat='scheduleComponent in ao.scheduleComponents'>{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
-                                {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
-                            </div>
-                      </span>
-            </div>
-            <!--Course Registration Buttons-->
-            <div class="kscr-Register-buttons">
-                      <span class="pull-right">
-                        <!--<button class="btn">Details</button>-->
-                        <button class="btn" id="edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editScheduleItem(course)" ng-show="course.creditOptions.length > 1 || course.gradingOptions">Edit</button>
-                        <button class="btn" id="remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="openDropConfirmation($index, course)">Remove</button>
-                      </span>
-            </div>
-        </div>
-        <!-- Cart Change Section: Credits, Grading, and Save -->
-        <div class="kscrCard-detailsText" ng-show="course.editing">
-            <form ng-submit="updateScheduleItem(course, newCredits, newGrading)">
+                <!--Course Header Section-->
                 <div>
-                    <label for="credits_{{course.courseCode}}_{{course.regGroupCode}}">Credits</label>
-                    <select id="credits_{{course.courseCode}}_{{course.regGroupCode}}" ng-model="newCredits"
-                            ng-options="creditOption for creditOption in course.creditOptions"></select>
+                    <span class="kscr-Register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
+                    <span class="kscr-Register-header kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
                 </div>
-                <div>
-                    <label for="grading_{{course.courseCode}}_{{course.regGroupCode}}">Registration Options</label>
-                    <select id="grading_{{course.courseCode}}_{{course.regGroupCode}}" ng-model="newGrading"
-                            ng-options="key as value for (key, value) in course.gradingOptions"></select>
+                <!--Course Title and description-->
+                <div class="kscr-Register-cardText kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
 
+            </accordion-heading>
+            <div ng-hide="course.editing" class="kscr-Card-detailsText">
+                <!--course time, day, building-->
+                <div ng-repeat="ao in course.activityOfferings">
+                          <span class="kscr-Card-courseTimes">
+                            <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{ao.activityOfferingTypeShortName}} &nbsp;</div>
+                                <div ng-repeat='scheduleComponent in ao.scheduleComponents'>{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
+                                    {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
+                                </div>
+                          </span>
                 </div>
-                <!--Edit buttons-->
-                <div class="kscr-Register-buttons">
-                    <span class="pull-right">
-                        <button id="saveScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="btn btn-primary" type="submit">Save Changes</button>
-                        <button id="cancelEditScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="btn" type="button" ng-click="cancelEditScheduleItem(course)">Cancel</button>
-                    </span>
+                <!--Course Registration Buttons-->
+                <div class="kscr-Card-buttons">
+                          <span>
+                            <!--<button class="btn">Details</button>-->
+                            <button class="btn" id="edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editScheduleItem(course)" ng-show="course.creditOptions.length > 1 || course.gradingOptions">Edit</button>
+                            <button class="btn" id="remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="openDropConfirmation($index, course)">Remove</button>
+                          </span>
                 </div>
-            </form>
-        </div>
-    </accordion-group>
-</accordion>
+            </div>
+            <!-- Cart Change Section: Credits, Grading, and Save -->
+            <div class="kscr-Card-detailsText" ng-show="course.editing">
+                <form ng-submit="updateScheduleItem(course, newCredits, newGrading)">
+                    <div>
+                        <label class="kscr-Edit-details" for="credits_{{course.courseCode}}_{{course.regGroupCode}}">Credits</label>
+                        <select class="kscr-Edit-details" id="credits_{{course.courseCode}}_{{course.regGroupCode}}" ng-model="newCredits"
+                                ng-options="creditOption for creditOption in course.creditOptions"></select>
+                    </div>
+                    <div>
+                        <label class="kscr-Edit-details" for="grading_{{course.courseCode}}_{{course.regGroupCode}}">Registration Options</label>
+                        <select class="kscr-Edit-details" id="grading_{{course.courseCode}}_{{course.regGroupCode}}" ng-model="newGrading"
+                                ng-options="key as value for (key, value) in course.gradingOptions"></select>
 
+                    </div>
+                    <!--Edit buttons-->
+                    <div class="kscr-Card-buttons">
+                        <span>
+                            <button id="saveScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="btn btn-primary" type="submit">Save Changes</button>
+                            <button id="cancelEditScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="btn" type="button" ng-click="cancelEditScheduleItem(course)">Cancel</button>
+                        </span>
+                    </div>
+                </form>
+            </div>
+        </accordion-group>
+    </accordion>
+    </div>
 </div>
 
 

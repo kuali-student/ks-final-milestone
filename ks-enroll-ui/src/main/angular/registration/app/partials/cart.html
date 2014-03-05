@@ -65,7 +65,7 @@
             <!--Course Header Section-->
             <div>
                  <span class="kscr-Register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
-                 <span class="kscr-Register-header kscr-Card-title" id="course_code_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}"><strong>{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</strong></span>
+                 <span class="kscr-Register-header kscr-Card-title" id="course_code_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</span>
             </div>
             <!--Course Title and description-->
             <div class="kscr-Register-cardText kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
@@ -74,8 +74,8 @@
             <div ng-hide="cartItem.editing" class="kscr-Card-detailsText">
                 <!--course time, day, building-->
                 <div ng-repeat="item in cartItem.schedule">
-                      <span class="kscr-Register-courseTimes">
-                        <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" class="kscr-CartItem-activity">{{item.activityOfferingType}} </div>
+                      <span class="kscr-Card-courseTimes">
+                        <div id="ao_type_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}">{{item.activityOfferingType}} </div>
                             <div ng-repeat="scheduleItem in item.activityOfferingLocationTime" id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$parent.$index}}_{{$index}}"> {{scheduleItem.time.days}} {{scheduleItem.time.startTime}} - {{scheduleItem.time.endTime}}
                                 {{scheduleItem.location.building}} {{scheduleItem.location.room}}
                             </div>
@@ -83,8 +83,8 @@
                 </div>
 
                 <!--Course Registration Buttons-->
-                <div class="kscr-Register-buttons">
-                      <span class="pull-right">
+                <div class="kscr-Card-buttons">
+                      <span>
                         <!--<button class="btn">Details</button>-->
                         <button class="kscr-Button" id="edit_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="editItem(cartItem)"ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptionCount > 1">Edit</button>
                         <button class="kscr-Button" id="remove_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="delete($index)">Remove</button>
@@ -95,19 +95,19 @@
             <div class="kscr-Card-detailsText" ng-show="cartItem.editing">
                 <form ng-submit="updateCartItem(cartItem, newCredits, newGrading)">
                     <div>
-                        <label class="kscr-RegInput-label" for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
-                        <select class="kscr-RegInput-label" id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
+                        <label class="kscr-Edit-details" for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
+                        <select class="kscr-Edit-details" id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
                                 ng-options="creditOption for creditOption in cartItem.creditOptions"></select>
                     </div>
                     <div>
-                        <label class="kscr-RegInput-label" for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Registration Options</label>
-                        <select class="kscr-RegInput-label" id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newGrading"
+                        <label class="kscr-Edit-details" for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Registration Options</label>
+                        <select class="kscr-Edit-details" id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newGrading"
                                 ng-options="key as value for (key, value) in cartItem.gradingOptions"></select>
 
                     </div>
                     <!--Edit buttons-->
-                    <div class="kscr-Register-buttons">
-                        <span class="pull-right">
+                    <div class="kscr-Card-buttons">
+                        <span>
                           <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Button-primary" type="submit">Save Changes</button>
                           <button class="kscr-Button" id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" type="button" ng-click="cancelEditItem(cartItem)">Cancel</button>
                         </span>
