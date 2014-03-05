@@ -55,7 +55,7 @@
     <accordion-group  ng-repeat="cartItem in cart.items" is-open="isopen">
         <accordion-heading>
             <!--credits-->
-            <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="pull-right" ng-hide="cartItem.editing">
+            <div id="course_info_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing">
                 <ng-pluralize count="cartItem.credits"
                               when="{'1'    : '{} credit',
                                      'other': '{} credits'}">
@@ -109,7 +109,7 @@
                     <div class="kscr-Card-buttons">
                         <span>
                           <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Button--primary" type="submit">Save Changes</button>
-                          <button class="Button" id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" type="button" ng-click="cancelEditItem(cartItem)">Cancel</button>
+                          <button id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancelEditItem(cartItem)">Cancel</button>
                         </span>
                     </div>
                 </form>
