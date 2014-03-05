@@ -38,7 +38,7 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public String getLastOfferedTermId(Course course) {
+    public String getLastOfferedTermIdForCourse(Course course) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

@@ -53,7 +53,7 @@ public interface CourseHelper {
      * @param course
      * @return
      */
-	String getLastOfferedTermId(Course course);
+	String getLastOfferedTermIdForCourse(Course course);
 
     /**
      * Get a list of term ids where the given course is scheduled

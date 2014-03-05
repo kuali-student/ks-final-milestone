@@ -420,7 +420,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	}
 
 	@Override
-	public String getLastOfferedTermId(Course course) {
+	public String getLastOfferedTermIdForCourse(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
 		List<CourseOfferingInfo> courseOfferingInfo = null;
 		try {
