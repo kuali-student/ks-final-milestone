@@ -30,7 +30,7 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.Map;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 
 /**
  * This class creates the template context for grade condition type.

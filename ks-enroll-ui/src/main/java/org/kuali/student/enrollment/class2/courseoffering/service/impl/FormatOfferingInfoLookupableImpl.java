@@ -26,7 +26,7 @@ import org.kuali.student.enrollment.class2.courseoffering.util.FormatOfferingCon
 import org.kuali.student.common.util.ContextBuilder;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 
 import java.util.ArrayList;
 import java.util.Iterator;

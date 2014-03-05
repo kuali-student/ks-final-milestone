@@ -11,7 +11,7 @@ import org.kuali.student.enrollment.registration.client.service.ScheduleOfClasse
 import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;

@@ -5,7 +5,7 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
