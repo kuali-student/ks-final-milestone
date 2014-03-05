@@ -34,8 +34,4 @@ angular.module('regCartApp', [
                 url:'/options',
                 templateUrl:'partials/dropCourse.html'
             })
-            .state('root.editCourseOptions', {
-                url:'/options',
-                templateUrl:'partials/editCourseOptions.html'
-            });
     });

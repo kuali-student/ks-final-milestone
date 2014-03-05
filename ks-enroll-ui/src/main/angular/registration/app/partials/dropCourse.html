@@ -1,12 +1,15 @@
-<div class="kscr-AdditionalOptions">
+<form ng-submit="dropRegistrationGroup()">
+  <div class="kscr-AdditionalOptions">
     <div class="kscr-AdditionalOptions-header">
         Drop Course <b>{{course.courseCode}} ({{course.regGroupCode}})</b>?
     </div>
 
     <div class="kscr-AdditionalOptions-content">
         <div class="kscr-AdditionalOpions-buttons">
-            <button class="btn btn-primary" id="dropRegGroup_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="dropRegistrationGroup()">Confirm Drop</button>
+            <button id="dropRegGroup_{{course.courseCode}}_{{course.regGroupCode}}" class="btn btn-primary" type="submit">Confirm Drop</button>
+            <!-- button class="btn btn-primary" id="dropRegGroup_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="dropRegistrationGroup()">Confirm Drop</button-->
             <button id="dropRegGroupCancel" class="btn" type="button" ng-click="dismiss()">Cancel</button>
         </div>
     </div>
-</div>
+  </div>
+</form>

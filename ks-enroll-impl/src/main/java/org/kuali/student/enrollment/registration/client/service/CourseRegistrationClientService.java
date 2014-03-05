@@ -134,7 +134,6 @@ public interface CourseRegistrationClientService {
      * and submits it to be processed
      *
      * @param userId - userId of the person updating their schedule
-     * @param termId - term the registration to be updated is in
      * @param courseCode - course code for the selected course
      * @param regGroupCode  - Reg Group code for the selected course
      * @param masterLprId - Master LPR Id for the selected course
@@ -155,7 +154,6 @@ public interface CourseRegistrationClientService {
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/updateScheduleItem")
     public Response updateScheduleItem(@QueryParam("userId") String userId,
-                                                 @QueryParam("termId") String termId,
                                                  @QueryParam("courseCode") String courseCode,
                                                  @QueryParam("regGroupCode") String regGroupCode,
                                                  @QueryParam("masterLprId") String masterLprId,

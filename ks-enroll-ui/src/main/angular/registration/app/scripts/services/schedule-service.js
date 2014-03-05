@@ -42,6 +42,12 @@ angular.module('regCartApp')
         });
     };
 
+    this.updateScheduleItem = function () {
+        return $resource(APP_URL + 'CourseRegistrationClientService/updateScheduleItem', {}, {
+            query:{method:'GET', cache:false, isArray:false}
+        });
+    };
+
     this.dropRegistrationGroup = function () {
         return $resource(APP_URL + 'CourseRegistrationClientService/dropRegistrationGroup', {}, {
             query:{method:'GET', cache:false, isArray:false}

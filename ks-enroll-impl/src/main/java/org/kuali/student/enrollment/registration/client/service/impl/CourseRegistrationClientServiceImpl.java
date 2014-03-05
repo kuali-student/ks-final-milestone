@@ -624,11 +624,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response updateScheduleItem(String userId, String termId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
+    public Response updateScheduleItem(String userId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateScheduleItemHelper(userId, termId, courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
+            response = Response.ok(updateScheduleItemHelper(userId, courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
         } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
@@ -637,12 +637,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    public ScheduleItemResult updateScheduleItemHelper(String userId, String termId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    public ScheduleItemResult updateScheduleItemHelper(String userId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
         RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
         //Populate Fields for RegRequestInfo object
-        registrationRequestInfo.setTermId(termId);
         registrationRequestInfo.setRequestorId(userId);
         registrationRequestInfo.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
         registrationRequestInfo.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
@@ -665,7 +664,6 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         scheduleItemResult.setCredits(credits);
         scheduleItemResult.setGradingOptions(gradingOptionId);
         scheduleItemResult.setRegGroupId(regGroupCode);
-        scheduleItemResult.setTermId(termId);
         scheduleItemResult.setUserId(userId);
 
         return scheduleItemResult;

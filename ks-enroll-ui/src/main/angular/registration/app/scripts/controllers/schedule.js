@@ -50,14 +50,43 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         function dropRegistrationGroup(index, courseCode, regGroupCode, credits, masterLprId) {
             console.log('Calling service to drop registration group');
             ScheduleService.dropRegistrationGroup().query({
+                userId:'admin',
                 masterLprId:masterLprId
-            }, function (response) {
-                console.log('response: ' + JSON.stringify(response));
+            }, function () {
                 $scope.schedules[0].courseOfferings.splice(index, 1);
                 ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(credits));
                 $scope.userMessage = {txt:'Dropped ' + courseCode + ' (' + regGroupCode + ') successfully', type:'success'};
             });
         }
 
+        $scope.editScheduleItem = function (course) {
+            $scope.newCredits = course.credits;
+            $scope.newGrading = course.gradingOptionId;
+            course.editing = true;
+        };
 
-            }]);
+        $scope.cancelEditScheduleItem = function (course) {
+            course.editing = false;
+        };
+
+        $scope.updateScheduleItem = function (course, newCredits, newGrading) {
+            console.log('Updating:');
+            console.log(newCredits);
+            console.log(newGrading);
+            ScheduleService.updateScheduleItem().query({
+                userId:'admin',
+                courseCode:course.courseCode,
+                cartItemId:course.regGroupCode,
+                masterLprId:course.masterLprId,
+                credits:newCredits,
+                gradingOptionId:newGrading
+            }, function (scheduleItemResult) {
+                console.log(scheduleItemResult);
+                course.credits = scheduleItemResult.credits;
+                course.gradingOptionId = scheduleItemResult.gradingOptionId;
+                course.editing = false;
+                $scope.userMessage = {txt:'Updated Successfully', type:'success'};
+            });
+        };
+
+    }]);
