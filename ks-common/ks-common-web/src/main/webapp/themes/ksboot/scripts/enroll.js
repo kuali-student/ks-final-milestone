@@ -905,14 +905,10 @@ function handleEventforDisabledElements() {
             jQuery('[data-for=' + id + ']').each(function () {
                 var dataValue = jQuery(this).val();
                 dataValue = dataValue.replace(id, divId);
-                if (jQuery.browser.msie) {
-                    eval("new " + dataValue + ";");
-                } else {
-                    eval(dataValue);
-                }
+                eval(dataValue);
             });
         }
-        jQuery(div).css({"position": "absolute", "top": jQuery(this).offset(top) + "px", "left": jQuery(this).offset().left + "px", "background": "transparent"});
+        jQuery(div).css({"position": "absolute", "top": jQuery(this).offset(top) + "px", "left": jQuery(this).offset().left + "px"});
         jQuery(div).height(jQuery(this).height());
         jQuery(div).width(jQuery(this).width());
         if (jQuery(this).is(':disabled')) {
