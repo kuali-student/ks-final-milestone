@@ -626,25 +626,31 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
 
-        // Update course info
+        // Update course section
         final ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
-        reviewData.getCourseInfo().setProposalName(courseInfoWrapper.getProposalInfo().getName());
-        reviewData.getCourseInfo().setCourseTitle(savedCourseInfo.getCourseTitle());
-        reviewData.getCourseInfo().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
-        reviewData.getCourseInfo().setSubjectArea(savedCourseInfo.getSubjectArea());
-        reviewData.getCourseInfo().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
+        reviewData.getcourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        reviewData.getcourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
+        reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
+        reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
+        reviewData.getcourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
 
-        // Update governance info
-        reviewData.getGovernanceInfo().getCampusLocations().clear();
-        reviewData.getGovernanceInfo().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
-        reviewData.getGovernanceInfo().getCurriculumOversight().clear();
-        reviewData.getGovernanceInfo().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
+        // Update governance section
+        reviewData.getgovernanceSection().getCampusLocations().clear();
+        reviewData.getgovernanceSection().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
+        reviewData.getgovernanceSection().getCurriculumOversight().clear();
+        reviewData.getgovernanceSection().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
 
-        // update course logic info
-        reviewData.getCourseLogisticsInfo().getTerms().addAll(savedCourseInfo.getTermsOffered());
-        reviewData.getCourseLogisticsInfo().setAtpDurationType(savedCourseInfo.getDuration().getAtpDurationTypeKey());
-        reviewData.getCourseLogisticsInfo().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
+        // update course logistics section
+        reviewData.getcourseLogisticsSection().getTerms().addAll(savedCourseInfo.getTermsOffered());
+        reviewData.getcourseLogisticsSection().setAtpDurationType(savedCourseInfo.getDuration().getAtpDurationTypeKey());
+        reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
 
+        // update learning Objectives Section;
+        // update  course Requisites Section;
+        // update  active Dates Section;
+        // update  financials Section;
+        // update  collaborator Section;
+        // update  supporting Documents Section;
     }
 
 

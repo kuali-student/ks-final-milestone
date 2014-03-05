@@ -29,84 +29,84 @@ import java.util.Map;
  */
 public class ReviewProposalDisplay implements java.io.Serializable {
 
-    private CourseInfoWrapper courseInfo;
-    private GovernanceInfoWrapper governanceInfo;
-    private CourseLogisticsInfoWrapper courseLogisticsInfo;
-    private LearningObjectivesInfoWrapper learningObjectivesInfo;
-    private CourseRequisitesInfoWrapper courseRequisitesInfo;
-    private ActiveDatesInfoWrapper activeDatesInfo;
-    private FinancialsInfoWrapper financialsInfo;
-    private CollaboratorInfoWrapper collaboratorInfo;
-    private SupportingDocumentsInfoWrapper supportingDocumentsInfo;
+    private CourseSectionWrapper courseSection;
+    private GovernanceSectionWrapper governanceSection;
+    private CourseLogisticsSectionWrapper courseLogisticsSection;
+    private LearningObjectivesSectionWrapper learningObjectivesSection;
+    private CourseRequisitesSectionWrapper courseRequisitesSection;
+    private ActiveDatesSectionWrapper activeDatesSection;
+    private FinancialsSectionWrapper financialsSection;
+    private CollaboratorSectionWrapper collaboratorSection;
+    private SupportingDocumentsSectionWrapper supportingDocumentsSection;
 
-    public CourseInfoWrapper getCourseInfo() {
-        if (this.courseInfo == null) {
-            courseInfo = new CourseInfoWrapper();
+    public CourseSectionWrapper getcourseSection() {
+        if (this.courseSection == null) {
+            courseSection = new CourseSectionWrapper();
         }
-        return courseInfo;
+        return courseSection;
     }
 
-    public GovernanceInfoWrapper getGovernanceInfo() {
-        if (this.governanceInfo == null) {
-            governanceInfo = new GovernanceInfoWrapper();
+    public GovernanceSectionWrapper getgovernanceSection() {
+        if (this.governanceSection == null) {
+            governanceSection = new GovernanceSectionWrapper();
         }
-        return governanceInfo;
+        return governanceSection;
     }
 
-    public CourseLogisticsInfoWrapper getCourseLogisticsInfo() {
-        if (this.courseLogisticsInfo == null) {
-            courseLogisticsInfo = new CourseLogisticsInfoWrapper();
+    public CourseLogisticsSectionWrapper getcourseLogisticsSection() {
+        if (this.courseLogisticsSection == null) {
+            courseLogisticsSection = new CourseLogisticsSectionWrapper();
         }
-        return courseLogisticsInfo;
+        return courseLogisticsSection;
     }
 
 
-    public LearningObjectivesInfoWrapper getLearningObjectivesInfo() {
-        if (this.learningObjectivesInfo == null) {
-            learningObjectivesInfo = new LearningObjectivesInfoWrapper();
+    public LearningObjectivesSectionWrapper getlearningObjectivesSection() {
+        if (this.learningObjectivesSection == null) {
+            learningObjectivesSection = new LearningObjectivesSectionWrapper();
         }
-        return learningObjectivesInfo;
+        return learningObjectivesSection;
     }
 
-    public ActiveDatesInfoWrapper getActiveDatesInfo() {
-        if (this.activeDatesInfo == null) {
-            activeDatesInfo = new ActiveDatesInfoWrapper();
+    public ActiveDatesSectionWrapper getactiveDatesSection() {
+        if (this.activeDatesSection == null) {
+            activeDatesSection = new ActiveDatesSectionWrapper();
         }
-        return activeDatesInfo;
+        return activeDatesSection;
     }
 
-    public CourseRequisitesInfoWrapper getCourseRequisitesInfo() {
-        if (this.courseRequisitesInfo == null) {
-            courseRequisitesInfo = new CourseRequisitesInfoWrapper();
+    public CourseRequisitesSectionWrapper getcourseRequisitesSection() {
+        if (this.courseRequisitesSection == null) {
+            courseRequisitesSection = new CourseRequisitesSectionWrapper();
         }
-        return courseRequisitesInfo;
+        return courseRequisitesSection;
     
     }
 
-    public FinancialsInfoWrapper getFinancialsInfo() {
-        if (this.financialsInfo == null) {
-            financialsInfo = new FinancialsInfoWrapper();
+    public FinancialsSectionWrapper getfinancialsSection() {
+        if (this.financialsSection == null) {
+            financialsSection = new FinancialsSectionWrapper();
         }
-        return financialsInfo;
+        return financialsSection;
     
     }
 
-    public CollaboratorInfoWrapper getCollaboratorInfo() {
-        if(this.collaboratorInfo == null) {
-            collaboratorInfo = new CollaboratorInfoWrapper();
+    public CollaboratorSectionWrapper getcollaboratorSection() {
+        if(this.collaboratorSection == null) {
+            collaboratorSection = new CollaboratorSectionWrapper();
         }
-        return collaboratorInfo;
+        return collaboratorSection;
     }
 
-    public SupportingDocumentsInfoWrapper getSupportingDocumentsInfo() {
-        if (this.supportingDocumentsInfo == null) {
-            supportingDocumentsInfo = new SupportingDocumentsInfoWrapper();
+    public SupportingDocumentsSectionWrapper getsupportingDocumentsSection() {
+        if (this.supportingDocumentsSection == null) {
+            supportingDocumentsSection = new SupportingDocumentsSectionWrapper();
         }
-        return supportingDocumentsInfo;
+        return supportingDocumentsSection;
     
     }
 
-    public class CourseInfoWrapper implements java.io.Serializable {
+    public class CourseSectionWrapper implements java.io.Serializable {
         private String proposalName;
         private String courseTitle;
         private String transcriptTitle;
@@ -197,7 +197,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class GovernanceInfoWrapper implements java.io.Serializable {
+    public class GovernanceSectionWrapper implements java.io.Serializable {
         private List<String> campusLocations;
         private List<String> curriculumOversight;
         private List<String> administeringOrganization;
@@ -225,7 +225,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
     }
     
 
-    public class CourseLogisticsInfoWrapper implements java.io.Serializable {
+    public class CourseLogisticsSectionWrapper implements java.io.Serializable {
         private List<String> terms;
         private String gradingOptions;
         private String atpDurationType;
@@ -291,7 +291,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class LearningObjectivesInfoWrapper implements java.io.Serializable {
+    public class LearningObjectivesSectionWrapper implements java.io.Serializable {
         private List<String> learningObjectives;
 
         public List<String> getLearningObjectives() {
@@ -303,11 +303,11 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
     }
 
-    public class CourseRequisitesInfoWrapper implements java.io.Serializable {
+    public class CourseRequisitesSectionWrapper implements java.io.Serializable {
 
     }
 
-    public class ActiveDatesInfoWrapper implements java.io.Serializable {
+    public class ActiveDatesSectionWrapper implements java.io.Serializable {
         private String startTerm;
         private String endTerm;
         private String pilotCourse;
@@ -338,7 +338,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         
     }
 
-    public class FinancialsInfoWrapper implements java.io.Serializable {
+    public class FinancialsSectionWrapper implements java.io.Serializable {
         private String justificationOfFees;
         private String fee;
         private String revenueSource;
@@ -378,18 +378,19 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         }
     }
 
-    public class SupportingDocumentsInfoWrapper implements java.io.Serializable {
-        private Map<String, String> supportingDocInfo;
+    public class SupportingDocumentsSectionWrapper implements java.io.Serializable {
+        private String supportingDoc;
 
-        public Map<String, String> getSupportingDocInfo() {
-            if(supportingDocInfo == null) {
-                supportingDocInfo = new HashMap();
-            }
-            return supportingDocInfo;
+        public String getSupportingDoc() {
+            return supportingDoc;
+        }
+
+        public void setSupportingDoc(String supportingDoc) {
+            this.supportingDoc = supportingDoc;
         }
     }
 
-    public class CollaboratorInfoWrapper implements Serializable {
+    public class CollaboratorSectionWrapper implements Serializable {
         private String name;
 
         public String getName() {
