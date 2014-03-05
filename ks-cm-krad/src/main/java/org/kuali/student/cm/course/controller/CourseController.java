@@ -50,6 +50,7 @@ import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
 import org.kuali.student.r1.core.proposal.ProposalConstants;
@@ -62,7 +63,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
@@ -638,7 +638,9 @@ public class CourseController extends CourseRuleEditorController {
         reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
         reviewData.getcourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
+        if(savedCourseInfo.getInstructors().size() > 0)  {
 
+        }
         // Update governance section
         reviewData.getgovernanceSection().getCampusLocations().clear();
         reviewData.getgovernanceSection().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
@@ -656,12 +658,14 @@ public class CourseController extends CourseRuleEditorController {
             throw new RiceIllegalStateException(e);
         }
 
+      if(savedCourseInfo.getDuration() != null &&  StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
         try{
-            TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
-            reviewData.getcourseLogisticsSection().setAtpDurationType(term.getName());
-        } catch (Exception e) {
-            throw new RiceIllegalStateException(e);
-        }
+                TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
+                reviewData.getcourseLogisticsSection().setAtpDurationType(term.getName());
+            } catch (Exception e) {
+                throw new RiceIllegalStateException(e);
+            }
+    }
 
         reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
 

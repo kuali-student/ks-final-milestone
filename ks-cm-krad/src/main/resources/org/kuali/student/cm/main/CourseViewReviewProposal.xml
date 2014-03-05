@@ -44,6 +44,8 @@
         <property name="items">
             <list>
                 <ref bean="KS-CourseView-CourseInfo-ReviewWidgets" />
+                <ref bean="KS-CourseView-CrossListedCourses-ReviewWidgets"/>
+                <ref bean="KS-CourseView-DescriptionRationale-ReviewWidgets" />
                 <ref bean="KS-CourseView-Governance-ReviewWidgets" />
                 <ref bean="KS-CourseView-CourseLogistics-ReviewWidgets" />
                 <ref bean="KS-CourseView-ActiveDates-ReviewWidgets" />
@@ -77,9 +79,7 @@
                 <bean parent="Uif-DataField" p:label="Transcript Course Title" p:propertyName="dataObject.reviewProposalDisplay.courseSection.transcriptTitle" />
                 <bean parent="Uif-DataField" p:label="Subject Code" p:propertyName="dataObject.reviewProposalDisplay.courseSection.subjectArea" p:required="true" />
                 <bean parent="Uif-DataField" p:label="Course Number" p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix" />
-                <!--
-                <bean parent="Uif-DataField" p:label="Instructor(s)" p:propertyName="reviewProposalDisplay.courseSection.courseNumberSuffix" />
-                -->
+                <bean parent="Uif-DataField" p:label="Instructor(s)" p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors" />
             </list>                        
         </property>
     </bean>
@@ -88,7 +88,7 @@
         <property name="items">
             <list>
                 <bean parent="KS-CourseView-SectionHeader">
-                    <property name="headerText" value="Cross Listed Courses" />
+                    <property name="headerText" value="Cross List, Offer Jointly, Add Version Codes" />
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
@@ -102,7 +102,25 @@
                         </bean>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Course Listing" p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix" />
+
+                <bean parent="Uif-DataField" p:label="Cross Listing Subject Code" p:propertyName="dataObject.reviewProposalDisplay.courseSection.subjectArea" />
+                <bean parent="Uif-DataField" p:label="Cross Listing Course Number" p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix" />
+                <bean parent="Uif-DataField" p:label="Joint Offered Course Number" p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix" />
+                <bean parent="Uif-DataField" p:label="Version Codes" p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix" />
+                <bean parent="Uif-DataField" p:label="Joint Offered Course Title" p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseTitle" />
+
+            </list>
+        </property>
+    </bean>
+
+    <bean name="KS-CourseView-DescriptionRationale-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
+        <property name="items">
+            <list>
+                <bean parent="KS-CourseView-SectionHeader">
+                    <property name="headerText" value="Description and Rationale" />
+                </bean>
+                <bean parent="Uif-DataField" p:label="Description" p:propertyName="dataObject.reviewProposalDisplay.courseSection.description" />
+                <bean parent="Uif-DataField" p:label="Proposal Rationale" p:propertyName="dataObject.reviewProposalDisplay.courseSection.rationale" />
             </list>
         </property>
     </bean>
