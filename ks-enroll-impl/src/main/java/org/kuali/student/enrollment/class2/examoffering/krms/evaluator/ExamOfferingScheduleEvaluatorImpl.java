@@ -35,6 +35,7 @@ import org.kuali.student.enrollment.courseoffering.infc.CourseOffering;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.messenger.Messenger;
+import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.ExamOfferingServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
@@ -49,6 +50,7 @@ import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
+
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -87,11 +89,17 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_STANDARD);
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
+        List<TimeSlotInfo> timeSlotsForAO = this.getTimeSlotsForAO(activityOffering, context);
+
+        if (timeSlotsForAO == null || timeSlotsForAO.isEmpty()){
+            userMessenger.sendWarningMessage(context.getPrincipalId(), ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, null);
+            return;
+        }
 
         if (agenda != null) {
             Map<String, Object> executionFacts = new HashMap<String, Object>();
             executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
-            executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, this.getTimeSlotsForAO(activityOffering, context));
+            executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS,timeSlotsForAO);
 
             executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
         } else {
@@ -112,12 +120,30 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     private List<TimeSlotInfo> getTimeSlotsForAO(ActivityOffering activityOffering, ContextInfo context) throws OperationFailedException {
         try {
             List<TimeSlotInfo> timeSlotInfos = new ArrayList<TimeSlotInfo>();
-            List<ScheduleInfo> schedules = this.getSchedulingService().getSchedulesByIds(activityOffering.getScheduleIds(), context);
-            for (ScheduleInfo schedule : schedules) {
-                for (ScheduleComponentInfo scheduleComponent : schedule.getScheduleComponents()) {
-                    List<TimeSlotInfo> timeSlots = this.getSchedulingService().getTimeSlotsByIds(scheduleComponent.getTimeSlotIds(), context);
-                    for (TimeSlotInfo timeSlot : timeSlots) {
-                        timeSlotInfos.add(timeSlot);
+            if (!activityOffering.getScheduleIds().isEmpty()) {
+                //Checking for ASI
+                List<ScheduleInfo> schedules = this.getSchedulingService().getSchedulesByIds(activityOffering.getScheduleIds(), context);
+
+                //populate the ASI timeslots
+                for (ScheduleInfo schedule : schedules) {
+                    for (ScheduleComponentInfo scheduleComponent : schedule.getScheduleComponents()) {
+                        List<TimeSlotInfo> timeSlots = this.getSchedulingService().getTimeSlotsByIds(scheduleComponent.getTimeSlotIds(), context);
+                        for (TimeSlotInfo timeSlot : timeSlots) {
+                            timeSlotInfos.add(timeSlot);
+                        }
+                    }
+                }
+
+            } else {
+                //Collect the RSI
+                List<ScheduleRequestInfo> scheduleRequestInfos = this.getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOffering.getId(), context);
+                //populate the RSI timeSlots
+                for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
+                    for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
+                        List<TimeSlotInfo> timeSlots = this.getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), context);
+                        for (TimeSlotInfo timeSlot : timeSlots) {
+                            timeSlotInfos.add(timeSlot);
+                        }
                     }
                 }
             }
