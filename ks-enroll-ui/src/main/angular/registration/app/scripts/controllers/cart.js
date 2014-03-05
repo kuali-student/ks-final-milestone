@@ -40,6 +40,8 @@ angular.module('regCartApp')
                 console.log('Searched for course: ' + $scope.courseCode + ' Term: ' + $scope.termId);
                 console.log('Added item:');
                 $scope.userMessage = {txt:'Course Added Successfully', type:'success'};
+                $scope.courseCode = '';
+                $scope.regCode = '';
                 $scope.cart.items.unshift(response);
 
             }, function (error) {
