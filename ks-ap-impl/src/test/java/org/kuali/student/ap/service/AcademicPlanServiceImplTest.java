@@ -237,6 +237,7 @@ public class AcademicPlanServiceImplTest {
 		assertEquals(refObjectType, planItems.get(0).getRefObjectType());
 	}
 
+//TODO: KSAP-888 rework AcademicPlanServiceTest to use realistic mock objects
 //	@Test
 //	public void addAndGetPlanItemWishlist() throws Throwable {
 //		String planId = "lp1";
@@ -289,6 +290,7 @@ public class AcademicPlanServiceImplTest {
 //		assertEquals(courseType, fetchedPlanItem.getRefObjectType());
 //	}
 
+//TODO: KSAP-888 rework AcademicPlanServiceTest to use realistic mock objects
 //	@Test
 //	public void addAndGetPlanItemPlannedCourse() throws Throwable {
 //		String planId = "lp1";
@@ -353,6 +355,7 @@ public class AcademicPlanServiceImplTest {
 //		assertEquals(2, fetchedPlanItem.getPlanPeriods().size());
 //	}
 
+//TODO: KSAP-888 rework AcademicPlanServiceTest to use realistic mock objects
 //	@Test
 //	public void updatePlanItemPlannedCoursePlanPeriods() throws Throwable {
 //
