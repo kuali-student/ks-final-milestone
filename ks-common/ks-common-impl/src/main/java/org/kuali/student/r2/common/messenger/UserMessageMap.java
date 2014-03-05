@@ -55,7 +55,7 @@ public class UserMessageMap {
         List<UserMessage> messages = new ArrayList<UserMessage>();
         if(messageMap.containsKey(key)){
 
-            Queue<UserMessage> queue = messageMap.get(key);
+            Queue<UserMessage> queue = messageMap.remove(key);
             while(!queue.isEmpty()){
                 messages.add(queue.poll());
             }

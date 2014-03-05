@@ -45,7 +45,6 @@ public class UserMessageListener implements MessageListener {
                 if((msgs != null) && (!msgs.isEmpty())){
                     ObjectMessage objectMessage = new ActiveMQObjectMessage();
                     objectMessage.setObject(msgs);
-
                     jmsTemplate.convertAndSend(message.getJMSReplyTo(), objectMessage);
                 } else {
                     TextMessage textMessage = new ActiveMQTextMessage();

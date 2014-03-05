@@ -10,6 +10,9 @@ public class MessengerConstants {
     //Destination
     public static final String USER_MESSAGE_DESTINATION = "org.kuali.student.user.message";
 
+    //Process Key
+    public static final String USER_MESSAGE_PROCESS_ID = "org.kuali.student.messenger.process.id";
+
     //Message themes
     public static final String WARNING_MESSAGE = "WARNING";
     public static final String INFO_MESSAGE = "INFORMATION";
