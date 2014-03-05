@@ -136,6 +136,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
      */
     protected CourseOfferingInfo createCourseOfferingInfo(String termId, CourseInfo courseInfo, String courseOfferingSuffix,CourseOfferingInfo courseOffering) throws Exception {
 
+        ContextInfo context = createContextInfo();
         List<String> optionKeys = CourseOfferingManagementUtil.getDefaultOptionKeysService().getDefaultOptionKeysForCreateCourseOfferingFromCanonical();
 
         courseOffering.setTermId(termId);
@@ -181,11 +182,11 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             }
         }
 
-        CourseOfferingInfo info = CourseOfferingManagementUtil.getCourseOfferingService().createCourseOffering(courseInfo.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, ContextUtils.createDefaultContextInfo());
+        CourseOfferingInfo info = CourseOfferingManagementUtil.getCourseOfferingService().createCourseOffering(courseInfo.getId(), termId, LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, courseOffering, optionKeys, context);
 
         try {
-            String examPeriodID = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(info.getTermId(), ContextUtils.createDefaultContextInfo());
-            CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, info.getTermId(), examPeriodID, new ArrayList<String>(), ContextUtils.createDefaultContextInfo());
+            String examPeriodID = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(info.getTermId(), context);
+            CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOffering(info, info.getTermId(), examPeriodID, new ArrayList<String>(), context);
         }  catch (Exception e){
             KSUifUtils.addGrowlMessageIcon(GrowlIcon.ERROR, CourseOfferingConstants.COURSEOFFERING_EXAMPERIOD_MISSING);
         }

@@ -61,7 +61,7 @@ import java.util.Map;
 /**
  * This class is an implementation of the ExamOfferingScheduleEvaluator interface. It uses an abstract evaluator
  * class to execute the exam offering matrix that is saved as KRMS agendas.
- *
+ * <p/>
  * On a successful execution of a rule it will create the schedule request component and link it to the given
  * exam offering id.
  *
@@ -86,25 +86,27 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     public void executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
                                            ContextInfo context) throws OperationFailedException {
 
+        //Retrieve the matrix for the specific term type.
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
                 PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_STANDARD);
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
-        List<TimeSlotInfo> timeSlotsForAO = this.getTimeSlotsForAO(activityOffering, context);
-
-        if (timeSlotsForAO == null || timeSlotsForAO.isEmpty()){
-            userMessenger.sendWarningMessage(context.getPrincipalId(), ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, null);
+        if (agenda == null) {
+            userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, null, context);
             return;
         }
 
-        if (agenda != null) {
-            Map<String, Object> executionFacts = new HashMap<String, Object>();
-            executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
-            executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS,timeSlotsForAO);
-
-            executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
-        } else {
-            userMessenger.sendWarningMessage(context.getPrincipalId(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, null);
+        //Retrieve the timeslots for the specific activity offering.
+        List<TimeSlotInfo> timeSlotsForAO = this.getTimeSlotsForAO(activityOffering, context);
+        if (timeSlotsForAO == null || timeSlotsForAO.isEmpty()) {
+            userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_ACTIVITY_OFFERING_TIMESLOTS_NOT_FOUND, null, context);
+            return;
         }
+
+        //Execute the matrix.
+        Map<String, Object> executionFacts = new HashMap<String, Object>();
+        executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
+        executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, timeSlotsForAO);
+        executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
 
     }
 
@@ -152,7 +154,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     /**
      * @see ExamOfferingScheduleEvaluator
      */
-    public void executeRuleForCOScheduling(CourseOffering courseOffering,String examOfferingId, String termType,
+    public void executeRuleForCOScheduling(CourseOffering courseOffering, String examOfferingId, String termType,
                                            ContextInfo context) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
@@ -171,16 +173,15 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
             }
 
             executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
-        }
-        else{
-            userMessenger.sendWarningMessage(context.getPrincipalId(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, null);
+        } else {
+            userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, null, context);
         }
 
     }
 
     /**
      * Execute the rule for the given agenda.
-     *
+     * <p/>
      * This method also perform the persisting of the schedule request and timeslot if the execution of the rule
      * was successful.
      *
@@ -191,7 +192,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
      * @param context
      */
     private void executeRuleForScheduling(Agenda agenda, String typeId, Map<String, Object> executionFacts,
-                                          String examOfferingId,ContextInfo context) {
+                                          String examOfferingId, ContextInfo context) {
 
         Map<String, String> agendaQualifiers = new HashMap<String, String>();
         agendaQualifiers.put("typeId", typeId);
@@ -199,12 +200,11 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
 
         //Check if action inserted a schedule request component.
         ScheduleRequestComponentInfo componentInfo = (ScheduleRequestComponentInfo) results.getAttribute("scheduleRequestComponentInfo");
-        if(componentInfo != null){
+        if (componentInfo != null) {
             TimeSlotInfo timeslot = (TimeSlotInfo) results.getAttribute("timeslotInfo");
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
-        }
-        else{
-            userMessenger.sendWarningMessage(context.getPrincipalId(), ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, null);
+        } else {
+            userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, null, context);
         }
 
     }

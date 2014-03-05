@@ -127,7 +127,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
             CourseOfferingInfo coInfo = coEditWrapper.getCourseOfferingInfo();
             coInfo.setUnitsDeploymentOrgIds(unitDeploymentOrgIds);
 
-            ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+            ContextInfo contextInfo = createContextInfo();
 
             // Credit Options (also creates extra-line)
             if (coEditWrapper.getCreditOption().getTypeKey().equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED) &&

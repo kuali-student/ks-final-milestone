@@ -29,6 +29,7 @@ import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.common.uif.service.impl.KSMaintainableImpl;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingEditWrapper;
@@ -59,7 +60,7 @@ import java.util.Set;
  * Base view helper service for both create and edit course offering presentations.
  *
  */
-public abstract class CourseOfferingMaintainableImpl extends MaintainableImpl implements Maintainable {
+public abstract class CourseOfferingMaintainableImpl extends KSMaintainableImpl implements Maintainable {
 
     /**
      * Returns the format long name short name as a string array  by concatenation all the shortened activity names with / seperated
