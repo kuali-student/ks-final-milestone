@@ -22,13 +22,13 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
-import org.kuali.student.r2.lum.clu.service.CluService;
-import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
     private static final long serialVersionUID = 1L;
 
-    private transient CluService cluService;
+    private transient ProposalService proposalService;
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -67,7 +67,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         searchRequest.setSortColumn("proposal.queryParam.proposalOptionalName");
 
         try {
-            SearchResultInfo searchResult = getCluService().search(searchRequest, ContextUtils.getContextInfo());
+            SearchResultInfo searchResult = getProposalService().search(searchRequest, ContextUtils.getContextInfo());
             return resolveProposalSearchResultSet(searchResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -97,11 +97,11 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         return clus;
     }
 
-    protected CluService getCluService() {
-        if (cluService == null) {
-            cluService = GlobalResourceLoader.getService(new QName(CluServiceConstants.CLU_NAMESPACE, CluServiceConstants.SERVICE_NAME_LOCAL_PART));
+    protected ProposalService getProposalService() {
+        if (proposalService == null) {
+            proposalService = GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
-        return cluService;
+        return proposalService;
     }
 
 }
