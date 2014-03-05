@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.course.keyvalues;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.xml.namespace.QName;
 
@@ -29,11 +28,8 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;

@@ -22,7 +22,7 @@ import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;

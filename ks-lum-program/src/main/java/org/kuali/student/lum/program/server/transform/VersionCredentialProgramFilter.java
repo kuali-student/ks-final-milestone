@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 

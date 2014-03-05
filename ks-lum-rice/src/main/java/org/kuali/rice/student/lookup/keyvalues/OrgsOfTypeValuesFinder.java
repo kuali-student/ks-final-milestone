@@ -6,7 +6,7 @@ import java.util.List;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.r2.core.search.dto.*;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 
 public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 

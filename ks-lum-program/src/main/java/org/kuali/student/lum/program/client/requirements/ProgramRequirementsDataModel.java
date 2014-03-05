@@ -17,7 +17,6 @@ package org.kuali.student.lum.program.client.requirements;
 import java.util.*;
 
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;

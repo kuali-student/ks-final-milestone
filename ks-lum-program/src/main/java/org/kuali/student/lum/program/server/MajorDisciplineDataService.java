@@ -7,7 +7,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;

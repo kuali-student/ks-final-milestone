@@ -3,8 +3,7 @@ package org.kuali.student.lum.lu.ui.dependency.server;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.service.StatementService;

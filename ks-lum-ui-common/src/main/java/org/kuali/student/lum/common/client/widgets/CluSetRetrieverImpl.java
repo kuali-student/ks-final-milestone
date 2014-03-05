@@ -4,7 +4,6 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r2.common.util.ContextUtils;
 
 
 import com.google.gwt.core.client.GWT;

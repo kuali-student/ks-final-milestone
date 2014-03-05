@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 
 public class OrgCocValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);

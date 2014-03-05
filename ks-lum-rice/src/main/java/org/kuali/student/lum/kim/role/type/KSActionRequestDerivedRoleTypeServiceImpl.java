@@ -28,7 +28,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.kim.KimQualificationHelper;
 
 import java.util.*;

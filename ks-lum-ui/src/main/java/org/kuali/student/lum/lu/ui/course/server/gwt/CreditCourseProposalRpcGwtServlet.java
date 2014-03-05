@@ -25,7 +25,7 @@ import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirements
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 
 public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
         CreditCourseProposalRpcService {

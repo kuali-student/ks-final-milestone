@@ -11,7 +11,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.logging.FormattedLogger;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
