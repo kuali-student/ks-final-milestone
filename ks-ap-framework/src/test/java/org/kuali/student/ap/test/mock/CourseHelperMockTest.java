@@ -72,13 +72,6 @@ public class CourseHelperMockTest implements CourseHelper {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    /**
-     * Determines whether a course is in a specific term.
-     *
-     * @param term
-     * @param course
-     * @return
-     */
     @Override
     public boolean isCourseOffered(Term term, Course course) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.

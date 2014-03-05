@@ -279,13 +279,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		}
 	}
 
-	/**
-	 * returns the courseInfo for the given courseId by verifying the courId to
-	 * be a verifiedcourseId
-	 * 
-	 * @param courseId
-	 * @return
-	 */
+    @Override
 	public CourseInfo getCourseInfo(String courseId) {
 		CourseMarker cm = getCourseMarker();
 		// call through service locator to facilitate proxying delegate override of getCurrentVersionIdOfCourse
@@ -389,6 +383,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		return status;
 	}
 
+    @Override
 	public List<String> getScheduledTermsForCourse(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
         List<String> scheduledTerms = new java.util.LinkedList<String>();
@@ -500,14 +495,6 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		}
 	}
 
-	/**
-	 * Takes a courseId that can be either a version independent Id or a version
-	 * dependent Id and returns a version dependent Id. In case of being passed
-	 * in a version depend
-	 * 
-	 * @param courseId
-	 * @return
-	 */
 	@Override
 	public String getCurrentVersionIdOfCourse(String courseId) {
 		Course course = getCurrentVersionOfCourse(courseId);
@@ -539,16 +526,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
         return course;
     }
 
-	/**
-	 * retuns a SLN for given params
-	 * 
-	 * @param year
-	 * @param term
-	 * @param subject
-	 * @param number
-	 * @param activityCd
-	 * @return
-	 */
+    @Override
 	public String getSLN(String year, String term, String subject, String number, String activityCd) {
 		String activityId = StringUtils.join(new Object[]{year, term, subject, number, activityCd}, ":");
 		ActivityOfferingDisplayInfo activityOfferingInfo = null;
@@ -573,14 +551,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		}
 	}
 
-	/**
-	 * returns the course code from given activityId
-	 * <p/>
-	 * eg: for activityId '2013:2:CHEM:152:A' course code CHEM 152 is returned
-	 * 
-	 * @param activityId
-	 * @return
-	 */
+    @Override
 	public String getCourseCdFromActivityId(String activityId) {
 		ActivityOfferingDisplayInfo activityDisplayInfo;
 		try {
