@@ -1,8 +1,8 @@
-<div class="kscr-header-container">
-    <div class="kscr-header">
-        <div class="kscr-header-logo">
-            <span class="kscr-header-title kscr-Visibility-mobileElement">COURSE REGISTRATION</span>
-            <span class="kscr-header-filler">&nbsp;</span>
+
+    <div class="kscr-Header">
+        <div class="kscr-Header-logo">
+            <span class="kscr-Header-title kscr-Visibility-mobileElement">COURSE REGISTRATION</span>
+            <span class="kscr-Header-filler">&nbsp;</span>
             <nav class="Navigation">
                 <div>
                     <a id="goToSearch" href="{{appUrl}}kscr-poc/index.jsp" class="glyphicon glyphicon-search"><span class="kscr-Visibility-mobileElement">Search</span></a>
@@ -19,6 +19,6 @@
         <!-- Defaults to the current term-->
         <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
     </div>
-</div>
+
 
 <div ui-view/>
