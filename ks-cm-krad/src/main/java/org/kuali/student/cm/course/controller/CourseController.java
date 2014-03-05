@@ -45,7 +45,7 @@ import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
-import org.kuali.student.cm.course.form.ReviewInfo;
+import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
@@ -589,7 +589,7 @@ public class CourseController extends CourseRuleEditorController {
 
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId=" + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
 
-        // After saving successfully update the reviewInfo
+        // After saving successfully update the reviewProposalDisplay
         updateReview(form);
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
         if (StringUtils.equalsIgnoreCase(nextOrCurrentPage,"NEXT")){
@@ -627,7 +627,7 @@ public class CourseController extends CourseRuleEditorController {
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
 
         // Update course info
-        final ReviewInfo reviewData = courseInfoWrapper.getReviewInfo();
+        final ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
         reviewData.getCourseInfo().setProposalName(courseInfoWrapper.getProposalInfo().getName());
         reviewData.getCourseInfo().setCourseTitle(savedCourseInfo.getCourseTitle());
         reviewData.getCourseInfo().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());

@@ -47,7 +47,7 @@ public class CourseInfoWrapper implements Serializable {
     private List<CollaboratorWrapper> collaboratorWrappers;
     private List<SupportingDocumentInfoWrapper> documentsToAdd;
     private List<DocumentInfo> supportingDocuments;
-    private ReviewInfo reviewInfo;
+    private ReviewProposalDisplay reviewProposalDisplay;
     private CourseInfo courseInfo;
 
     private String crossListingDisclosureSection;
@@ -165,7 +165,7 @@ public class CourseInfoWrapper implements Serializable {
         collaboratorWrappers = new ArrayList<CollaboratorWrapper>();
         documentsToAdd = new ArrayList<SupportingDocumentInfoWrapper>();
         supportingDocuments = new ArrayList<DocumentInfo>();
-        reviewInfo = new ReviewInfo();
+        reviewProposalDisplay = new ReviewProposalDisplay();
         courseInfo = new CourseInfo();
 
         userId = "";
@@ -396,14 +396,11 @@ public class CourseInfoWrapper implements Serializable {
         this.supportingDocuments = supportingDocuments;
     }
 
-    public ReviewInfo getReviewInfo() {
-        if (this.reviewInfo == null) {
-            reviewInfo = new ReviewInfo();
-        }
-        return reviewInfo;
+    public ReviewProposalDisplay getReviewProposalDisplay() {
+        return reviewProposalDisplay;
     }
 
-    public void setReviewInfo(ReviewInfo reviewInfo) {
-        this.reviewInfo = reviewInfo;
+    public void setReviewProposalDisplay(ReviewProposalDisplay reviewProposalDisplay) {
+        this.reviewProposalDisplay = reviewProposalDisplay;
     }
 }

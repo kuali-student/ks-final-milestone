@@ -27,7 +27,7 @@ import java.util.Map;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class ReviewInfo implements java.io.Serializable {
+public class ReviewProposalDisplay implements java.io.Serializable {
 
     private CourseInfoWrapper courseInfo;
     private GovernanceInfoWrapper governanceInfo;
