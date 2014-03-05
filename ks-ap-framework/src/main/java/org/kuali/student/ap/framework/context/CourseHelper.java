@@ -22,7 +22,7 @@ public interface CourseHelper {
 
 	String getLastOfferedTermId(Course course);
 	
-	List<String> getScheduledTerms(Course course);
+	List<String> getScheduledTermsForCourse(Course course);
 
 	String getSLN(String year, String term, String subject, String number,
 			String activityCd);

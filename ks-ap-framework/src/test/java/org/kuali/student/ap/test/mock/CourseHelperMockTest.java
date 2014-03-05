@@ -43,7 +43,7 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public List<String> getScheduledTerms(Course course) {
+    public List<String> getScheduledTermsForCourse(Course course) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

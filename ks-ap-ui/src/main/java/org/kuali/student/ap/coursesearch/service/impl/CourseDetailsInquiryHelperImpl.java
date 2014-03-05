@@ -1,42 +1,31 @@
 package org.kuali.student.ap.coursesearch.service.impl;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
-import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
-import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
-import org.kuali.student.ap.framework.context.CourseSearchConstants;
-import org.kuali.student.ap.framework.context.PlanConstants;
-import org.kuali.student.ap.framework.context.TermHelper;
-import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.ap.framework.course.CreditsFormatter;
-import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
-import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
-import org.kuali.student.r2.core.acal.infc.Term;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
+import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseDetails;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingInstitution;
 import org.kuali.student.ap.coursesearch.dataobject.CourseOfferingTerm;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
 import org.kuali.student.ap.coursesearch.dataobject.MeetingDetails;
+import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.context.CourseSearchConstants;
+import org.kuali.student.ap.framework.context.PlanConstants;
+import org.kuali.student.ap.framework.context.TermHelper;
+import org.kuali.student.ap.framework.context.YearTerm;
+import org.kuali.student.ap.framework.course.CreditsFormatter;
+import org.kuali.student.ap.utils.CourseLinkBuilder;
+import org.kuali.student.enrollment.academicrecord.dto.StudentCourseRecordInfo;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedCourseSummary;
-import org.kuali.student.ap.utils.CourseLinkBuilder;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -46,6 +35,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.room.infc.Building;
@@ -55,6 +46,15 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
@@ -209,7 +209,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		courseDetails.setCurriculumTitle(subjectAreaMap.get(course.getSubjectArea().trim()));
 
 		// -- Scheduled Terms
-		courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper().getScheduledTerms(course));
+		courseDetails.setScheduledTerms(KsapFrameworkServiceLocator.getCourseHelper().getScheduledTermsForCourse(course));
 		if (courseDetails.getScheduledTerms() == null)
 			courseDetails.setScheduledTerms(new ArrayList<String>());
 		if (courseDetails.getScheduledTerms().size() == 0)

@@ -389,12 +389,18 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 		return status;
 	}
 
-	public List<String> getScheduledTerms(Course course) {
+	public List<String> getScheduledTermsForCourse(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
         List<String> scheduledTerms = new java.util.LinkedList<String>();
 		try {
             List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService().getCourseOfferingsByCourse(course.getId(),ctx);
-            List<Term> terms = KsapFrameworkServiceLocator.getTermHelper().getOfficialTerms();
+
+            List<Term> terms = new ArrayList<Term>();
+            List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
+            List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
+            if(currentScheduled!=null) terms.addAll(currentScheduled);
+            if(futureScheduled!=null) terms.addAll(futureScheduled);
+
             for(CourseOfferingInfo offering : offerings){
                 for(Term t : terms) {
                     if(offering.getTermId().equals(t.getId())){
