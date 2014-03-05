@@ -119,35 +119,30 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
      */
     private List<TimeSlotInfo> getTimeSlotsForAO(ActivityOffering activityOffering, ContextInfo context) throws OperationFailedException {
         try {
-            List<TimeSlotInfo> timeSlotInfos = new ArrayList<TimeSlotInfo>();
+            List<String> timeSlotIDs = new ArrayList<String>();
             if (!activityOffering.getScheduleIds().isEmpty()) {
-                //Checking for ASI
+                //Retrieve the ASI
                 List<ScheduleInfo> schedules = this.getSchedulingService().getSchedulesByIds(activityOffering.getScheduleIds(), context);
-
                 //populate the ASI timeslots
                 for (ScheduleInfo schedule : schedules) {
                     for (ScheduleComponentInfo scheduleComponent : schedule.getScheduleComponents()) {
-                        List<TimeSlotInfo> timeSlots = this.getSchedulingService().getTimeSlotsByIds(scheduleComponent.getTimeSlotIds(), context);
-                        for (TimeSlotInfo timeSlot : timeSlots) {
-                            timeSlotInfos.add(timeSlot);
-                        }
+                        timeSlotIDs.addAll(scheduleComponent.getTimeSlotIds());
                     }
                 }
-
             } else {
-                //Collect the RSI
+                //Retrieve the RSI
                 List<ScheduleRequestInfo> scheduleRequestInfos = this.getSchedulingService().getScheduleRequestsByRefObject(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING, activityOffering.getId(), context);
                 //populate the RSI timeSlots
                 for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
                     for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
-                        List<TimeSlotInfo> timeSlots = this.getSchedulingService().getTimeSlotsByIds(componentInfo.getTimeSlotIds(), context);
-                        for (TimeSlotInfo timeSlot : timeSlots) {
-                            timeSlotInfos.add(timeSlot);
-                        }
+                        timeSlotIDs.addAll(componentInfo.getTimeSlotIds());
                     }
                 }
             }
-            return timeSlotInfos;
+            if (!timeSlotIDs.isEmpty()) {
+                return this.getSchedulingService().getTimeSlotsByIds(timeSlotIDs, context);
+            }
+            return null;
         } catch (Exception e) {
             throw new OperationFailedException("Unable to retrieve timeslots for ao.", e);
         }
