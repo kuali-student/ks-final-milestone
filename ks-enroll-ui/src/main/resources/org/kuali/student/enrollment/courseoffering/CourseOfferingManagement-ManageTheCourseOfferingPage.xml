@@ -131,7 +131,7 @@
         <property name="style" value="background-color: #f8f8f8; padding-left: 10px;"/>
         <property name="items">
             <list>
-                <bean parent="Uif-DataField" p:label="Title" p:propertyName="currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle"
+                <bean parent="Uif-DataField" p:label="Title" p:escapeHtmlInPropertyValue="false" p:propertyName="currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle"
                       p:labelPlacement="LEFT" p:style="padding-left: 61px;" p:readOnly="true"/>
                 <bean parent="Uif-DataField" p:label="Crosslisted as" p:labelPlacement="LEFT" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
                       p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>

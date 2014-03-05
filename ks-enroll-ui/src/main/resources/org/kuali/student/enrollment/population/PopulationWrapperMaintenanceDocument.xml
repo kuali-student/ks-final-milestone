@@ -119,13 +119,13 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="populationInfo.name" p:label="Name"
+                <bean parent="Uif-InputField-LabelTop" p:escapeHtmlInPropertyValue="false" p:propertyName="populationInfo.name" p:label="Name"
                       p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="40" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField-LabelTop" p:propertyName="populationInfo.descr.plain" p:label="Description"
+                <bean parent="Uif-InputField-LabelTop" p:escapeHtmlInPropertyValue="false" p:propertyName="populationInfo.descr.plain" p:label="Description"
                       p:required="true">
                     <property name="control">
                         <bean parent="Uif-TextAreaControl" p:rows="5" p:cols="43" />
