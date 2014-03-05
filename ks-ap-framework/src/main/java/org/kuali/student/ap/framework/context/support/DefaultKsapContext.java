@@ -5,7 +5,7 @@ import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.i18n.LocaleUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;

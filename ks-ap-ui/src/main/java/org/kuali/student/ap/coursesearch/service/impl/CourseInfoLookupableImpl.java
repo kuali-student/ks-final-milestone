@@ -8,7 +8,7 @@ import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
