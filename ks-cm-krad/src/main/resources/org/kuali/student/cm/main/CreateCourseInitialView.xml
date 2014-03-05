@@ -26,10 +26,11 @@
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
         </property>
-        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+        <property name="breadcrumbOptions.breadcrumbOverrides">
              <list>
                  <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                  <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+                 <ref bean="KS-HomewardPathBreadcrumbs-CreateCourseInitial-Page"/>
              </list>
         </property>
 

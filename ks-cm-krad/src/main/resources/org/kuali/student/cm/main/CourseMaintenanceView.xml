@@ -51,7 +51,7 @@
         <property name="entryPageId" value="KS-CourseView-createCourseInitialPage" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
-        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
+        <property name="breadcrumbOptions.breadcrumbOverrides">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
