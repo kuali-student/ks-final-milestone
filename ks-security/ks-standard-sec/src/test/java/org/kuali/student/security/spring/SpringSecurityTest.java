@@ -156,4 +156,46 @@ public class SpringSecurityTest {
         mockMvc.perform(get(adminUrl).with(user("admin").roles("ROLE_KS_ADMIN")))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void testAccessToScheduleOfClasses() throws Exception {
+        final String url = "/services/ScheduleOfClassesService/A";
+
+
+        mockMvc.perform(get(url))
+                .andExpect(status().isMovedTemporarily());
+
+        // user fred is not allowed to access admin URLs
+        mockMvc.perform(get(url).with(user("fred").roles("ROLE_KS_USER")))
+                .andExpect(status().isNotFound());
+
+    }
+
+    @Test
+    public void testAccessToCourseRegistrationClientService() throws Exception {
+        final String url = "/services/CourseRegistrationClientService/A";
+
+        mockMvc.perform(get(url))
+                .andExpect(status().isMovedTemporarily());
+
+        // user fred is not allowed to access admin URLs
+        mockMvc.perform(get(url).with(user("fred").roles("ROLE_KS_USER")))
+                .andExpect(status().isNotFound());
+
+
+    }
+
+    @Test
+    public void testAccessToCourseRegistrationCartClientService() throws Exception {
+        final String url = "/services/CourseRegistrationCartClientService/A";
+
+        mockMvc.perform(get(url))
+                .andExpect(status().isMovedTemporarily());
+
+        // user fred is not allowed to access admin URLs
+        mockMvc.perform(get(url).with(user("fred").roles("ROLE_KS_USER")))
+                .andExpect(status().isNotFound());
+
+
+    }
 }
