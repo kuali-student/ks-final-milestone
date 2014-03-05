@@ -275,19 +275,20 @@
 
     <bean id="KS-EditCourseOffering-AliasMessageSection" parent="Uif-HorizontalBoxSection">
         <property name="render" value="@{document.newMaintainableObject.dataObject.editCrossListedCoAlias}"/>
-        <property name="style" value="background-color:#DDECFF;padding-top: 5px; border: 1px solid #9CC4F9;"/>
         <property name="disclosure.render" value="false"/>
         <property name="items" >
             <list>
-                <bean parent="Uif-ImageField" p:image.altText="information"
-                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/information.png">
-                    <property name="style" value="padding-right:10px;padding-left:10px"/>
-                </bean>
-                <bean id="KS-EditCourseOffering-AliasMessage" parent="Uif-MessageField"
-                      p:messageText="@{document.newMaintainableObject.dataObject.alternateCOCodesUIList} is a crosslisted alias
-                                            for: @{document.newMaintainableObject.dataObject.courseOfferingCode}(Owner). Changes made on
-                                            this page to @{document.newMaintainableObject.dataObject.courseOfferingCode}(Owner) will be applied to all
+                <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="KS-EditCourseOffering-AliasMessage" parent="Uif-Message"
+                                  p:messageText="@{document.newMaintainableObject.dataObject.alternateCOCodesUIList} is a crosslisted alias
+                                            for: @{document.newMaintainableObject.dataObject.courseOfferingCode}. Changes made on
+                                            this page to @{document.newMaintainableObject.dataObject.courseOfferingCode} will be applied to all
                                             aliases, including @{document.newMaintainableObject.dataObject.alternateCOCodesUIList}." />
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>

@@ -83,19 +83,20 @@
 
     <bean id="KS-CourseOfferingManagement-AliasMessageSection" parent="Uif-HorizontalBoxSection">
         <property name="render" value="@{currentCourseOfferingWrapper.crossListed}"/>
-        <property name="style" value="background-color:#DDECFF;padding-top: 5px; border: 1px solid #9CC4F9;"/>
         <property name="disclosure.render" value="false"/>
         <property name="items" >
             <list>
-                <bean parent="Uif-ImageField" p:image.altText="information"
-                      p:source="@{#ConfigProperties['ks.externalizable.images.url']}/information.png">
-                    <property name="style" value="padding-right:10px;padding-left:10px"/>
-                </bean>
-                <bean id="KS-CourseOfferingManagement-AliasMessage" parent="Uif-MessageField"
-                      p:messageText="@{currentCourseOfferingWrapper.courseOfferingCode} is a crosslisted alias
+                <bean parent="KS-Uif-Inline-WarningMessageGroup">
+                    <property name="items">
+                        <list>
+                            <bean id="KS-CourseOfferingManagement-AliasMessage" parent="Uif-Message"
+                                  p:messageText="@{currentCourseOfferingWrapper.courseOfferingCode} is a crosslisted alias
                                             for: @{currentCourseOfferingWrapper.alternateCOCodesUIList}. Changes made on
                                             this page to @{currentCourseOfferingWrapper.alternateCOCodesUIList} will be applied to all
                                             aliases, including @{currentCourseOfferingWrapper.courseOfferingCode}." />
+                        </list>
+                    </property>
+                </bean>
             </list>
         </property>
     </bean>
