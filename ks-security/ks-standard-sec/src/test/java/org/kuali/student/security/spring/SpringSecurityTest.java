@@ -161,7 +161,7 @@ public class SpringSecurityTest {
     public void testAccessToScheduleOfClasses() throws Exception {
         final String url = "/services/ScheduleOfClassesService/A";
 
-
+        // if you have not logged in, you get redirected to the login page
         mockMvc.perform(get(url))
                 .andExpect(status().isMovedTemporarily());
 
@@ -175,6 +175,7 @@ public class SpringSecurityTest {
     public void testAccessToCourseRegistrationClientService() throws Exception {
         final String url = "/services/CourseRegistrationClientService/A";
 
+        // if you have not logged in, you get redirected to the login page
         mockMvc.perform(get(url))
                 .andExpect(status().isMovedTemporarily());
 
@@ -189,6 +190,7 @@ public class SpringSecurityTest {
     public void testAccessToCourseRegistrationCartClientService() throws Exception {
         final String url = "/services/CourseRegistrationCartClientService/A";
 
+        // if you have not logged in, you get redirected to the login page
         mockMvc.perform(get(url))
                 .andExpect(status().isMovedTemporarily());
 
