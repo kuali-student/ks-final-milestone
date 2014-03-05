@@ -23,17 +23,17 @@
 
             <!--Course Header Section-->
             <div>
-                <span class="kscr-register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
-                <span class="kscr-register-header kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
+                <span class="kscr-Register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
+                <span class="kscr-Register-header kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
             </div>
             <!--Course Title and description-->
-            <div class="kscr-register-cardText kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
+            <div class="kscr-Register-cardText kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
 
         </accordion-heading>
         <div ng-hide="cartItem.editing" >
             <!--course time, day, building-->
             <div ng-repeat="ao in course.activityOfferings">
-                      <span class="kscr-register-courseTimes">
+                      <span class="kscr-Register-courseTimes">
                         <div id="schedule_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}_{{$index}}" >{{ao.activityOfferingTypeShortName}} &nbsp;</div>
                             <div ng-repeat='scheduleComponent in ao.scheduleComponents'>{{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
                                 {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
@@ -42,7 +42,7 @@
             </div>
 
             <!--Course Registration Buttons-->
-            <div class="kscr-register-buttons">
+            <div class="kscr-Register-buttons">
                       <span class="pull-right">
                         <!--<button class="btn">Details</button>-->
                         <button class="btn" id="edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editItem(course) "ng-show="course.creditOptions.length > 1 || course.gradingOptions">Edit</button>
@@ -65,7 +65,7 @@
 
                 </div>
                 <!--Edit buttons-->
-                <div class="kscr-register-buttons">
+                <div class="kscr-Register-buttons">
                         <span class="pull-right">
                           <button id="save_{{course.courseCode}}_{{course.regGroupCode}}" class="btn btn-primary" type="submit">Save Changes</button>
                           <button class="btn" id="cancel_{{course.courseCode}}_{{course.regGroupCode}}" type="button" ng-click="cancelEditItem(course)">Cancel</button>
