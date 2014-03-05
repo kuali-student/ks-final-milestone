@@ -1,19 +1,5 @@
 package org.kuali.student.ap.coursesearch.controller;
 
-import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
-import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
-
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
@@ -56,9 +42,21 @@ import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
-import org.kuali.student.r2.lum.clu.infc.Clu;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
@@ -274,7 +272,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 					}
 					CreditImpl credit = new CreditImpl();
 					credit.id = id;
-					credit.display = display.replace("Credits","").replace(" ","");
+					credit.display = display.replace("Credits","").replace(" ","").replace(".0", "");
 					credit.type = CourseSearchItem.CreditType.valueOf(type);
 
 					Float tempValueHolder = 0F;
