@@ -169,7 +169,6 @@ public class FERuleViewHelperServiceImpl extends LURuleViewHelperServiceImpl {
 
             //Set actionEditor required fields from rule
             action.setName("day" + rule.getDay() + rule.getTimePeriodToDisplay());
-            action.setName("day" + rule.getDay() + rule.getTimePeriodToDisplay());
 
         } catch (Exception e) {
             throw new RuntimeException(e);

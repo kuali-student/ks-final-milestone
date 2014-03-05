@@ -22,7 +22,6 @@ import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.util.KRMSConstants;
 import org.kuali.rice.krms.util.PropositionTreeUtil;
 import org.kuali.student.enrollment.class1.krms.dto.FEPropositionEditor;
-import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -30,7 +29,6 @@ import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.scheduling.util.SchedulingServiceUtil;
 
 import java.text.ParseException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +50,6 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
 
         String weekDay = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_WEEKDAY_STRING);
         String startTime = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START);
-        String endTime = termParameters.get(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_END);
 
         if (weekDay != null) {
             propositionEditor.setWeekdays(weekDay);
@@ -64,12 +61,6 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
             propositionEditor.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(formatStartTime, " "));
             propositionEditor.setStartTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(formatStartTime, " "));
 
-        }
-        if (endTime != null) {
-            TimeOfDayInfo end = TimeOfDayHelper.setMillis(Long.parseLong(endTime));
-            String formatEndTime = TimeOfDayHelper.makeFormattedTimeForAOSchedules(end);
-            propositionEditor.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(formatEndTime, " "));
-            propositionEditor.setEndTimeAMPM(org.apache.commons.lang.StringUtils.substringAfter(formatEndTime, " "));
         }
     }
 
@@ -89,12 +80,6 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
                 termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_START, startTime);
             }
 
-            if (StringUtils.isNotEmpty(propositionEditor.getEndTime())) {
-                String endTimeAMPM = new StringBuilder(propositionEditor.getEndTime()).append(" ").append(propositionEditor.getEndTimeAMPM()).toString();
-                TimeOfDayInfo endTimeOfDayInfo = TimeOfDayHelper.makeTimeOfDayInfoFromTimeString(endTimeAMPM);
-                String endTime = String.valueOf(TimeOfDayHelper.getMillis(endTimeOfDayInfo));
-                termParameters.put(KSKRMSServiceConstants.TERM_PARAMETER_TYPE_TIMESLOT_END, endTime);
-            }
 
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -135,21 +120,6 @@ public class TimeSlotsComponentBuilder implements ComponentBuilder<FEProposition
         if (propositionEditor.getStartTimeAMPM() == null || propositionEditor.getStartTimeAMPM().isEmpty()) {
             String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "startTimeAMPM");
             GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_STARTTIME_AMPM);
-        }
-        if (propositionEditor.getEndTime() == null || propositionEditor.getEndTime().isEmpty()) {
-            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "endTime");
-            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME);
-        }
-        if (propositionEditor.getEndTimeAMPM() == null || propositionEditor.getEndTimeAMPM().isEmpty()) {
-            String propName = PropositionTreeUtil.getBindingPath(propositionEditor, "endTimeAMPM");
-            GlobalVariables.getMessageMap().putError(propName, KRMSConstants.KRMS_MSG_ERROR_RDL_ENDTIME_AMPM);
-        }
-
-        //Only perform this validation once all other have passed.
-        if(!GlobalVariables.getMessageMap().hasErrors()) {
-            if (compareTime(propositionEditor.getStartTime(), propositionEditor.getStartTimeAMPM(), propositionEditor.getEndTime(), propositionEditor.getEndTimeAMPM())) {
-                GlobalVariables.getMessageMap().putErrorForSectionId(KRMSConstants.KRMS_PROPOSITION_DETAILSECTION_ID, ActivityOfferingConstants.MSG_ERROR_INVALID_START_TIME);
-            }
         }
     }
 
