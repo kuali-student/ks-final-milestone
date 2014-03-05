@@ -47,7 +47,7 @@
         commenting below code in case required in future.
          @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
         <!--<property name="headerText" value="@{(document.newMaintainableObject.proposal != null and !#empty(document.newMaintainableObject.proposal.name)) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />-->
-        <property name="header.render" value="false" />
+        <property name="headerText" value="@{(#form.pageId eq 'KS-CourseView-CoursePage') ? #form.headerText : 'Create Course'}" />
         <property name="entryPageId" value="KS-CourseView-createCourseInitialPage" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
@@ -58,6 +58,23 @@
                 <ref bean="KS-HomewardPathBreadcrumbs-NewCourse"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-NewCourse-information"/>
             </list>
+        </property>
+        <property name="header.lowerGroup" >
+            <bean parent="Uif-LinkGroup" p:linkSeparator="|" p:render="@{#form.pageId eq 'KS-CourseView-CoursePage'}">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-DataField" p:label="Proposal Status"
+                              p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="dataObject.proposalInfo.stateKey" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Comments"
+                              p:methodToCall="showComment" />
+                        <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
+                              p:methodToCall="showDecisions" />
+                        <bean parent="Uif-Space" />
+                        <bean parent="Uif-DataField" p:label="Last Updated"
+                              p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="dataObject.lastUpdated" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <!--<property name="stateMapping">
             <bean parent="WorkflowStateMapping">
@@ -142,20 +159,15 @@
     <bean id="KS-CourseView-BasePage" parent="Uif-MaintenancePage" p:disclosure.render="false"/>
 
     <bean id="KS-CourseView-CoursePage" parent="Uif-MaintenancePage" p:disclosure.render="false">
+        <property name="headerText" value="Create Course"/>
         <property name="header" ref="KS-CourseView-Header" />
-        <property name="footer">
-            <bean parent="KS-CourseView-Footer"/>
-        </property>
-        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist});"/>
-        <property name="propertyReplacers">
+        <property name="footer.items">
             <list>
-                <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="#form.curriculumSpecialist">
-                    <property name="replacement">
-                        <bean parent="KS-CourseView-CurriculumSpecialistFooter"/>
-                    </property>
-                </bean>
+                <bean parent="KS-CourseView-Footer" p:render="@{!#form.curriculumSpecialist}"/>
+                <bean parent="KS-CourseView-CurriculumSpecialistFooter" p:render="@{#form.curriculumSpecialist}"/>
             </list>
         </property>
+        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist});"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
@@ -216,40 +228,6 @@
             <bean parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-VerticalBoxGroup">
-                            <property name="cssClasses">
-                                <list merge="true">
-                                    <value>ks-cm-page-header</value>
-                                </list>
-                            </property>
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-HeaderTwo">
-                                        <property name="headerText" value="@{#form.headerText}" />
-                                        <property name="cssClasses">
-                                            <list merge="true">
-                                                <value>ks-header</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                    <bean parent="Uif-LinkGroup" p:linkSeparator="|">
-                                        <property name="items">
-                                            <list>
-                                                <bean parent="Uif-DataField" p:label="Proposal Status"   p:id="CourseView-Header-Proposal-Status-ID"
-                                                      p:shortLabel="Status" p:labelPlacement="LEFT" p:propertyName="dataObject.proposalInfo.stateKey" />
-                                                <bean parent="Uif-ActionLink" p:actionLabel="Comments"
-                                                      p:methodToCall="showComment" />
-                                                <bean parent="Uif-ActionLink" p:actionLabel="Decisions"
-                                                      p:methodToCall="showDecisions" />
-                                                <bean parent="Uif-Space" />
-                                                <bean parent="Uif-DataField" p:label="Last Updated"
-                                                      p:shortLabel="Updated" p:labelPlacement="LEFT" p:propertyName="dataObject.lastUpdated" />
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
                         <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
                               p:showLabel="false" p:render="@{#form.curriculumSpecialist}"
                               p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
@@ -354,7 +332,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CourseView-Footer" parent="Uif-FooterBase" p:layoutManager.style="float:none;">
+    <bean id="KS-CourseView-Footer" parent="Uif-FooterBase">
         <property name="items">
             <list>
                 <bean parent="Uif-HorizontalBoxGroup">

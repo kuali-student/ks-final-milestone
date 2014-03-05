@@ -21,9 +21,11 @@
 
 
     <bean id="KS-CourseView-createCourseInitialPage" parent="Uif-MaintenancePage"  p:style="margin-left: -18px;"
-        p:headerText="Create Course"
+
         p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-InitialPage-Header" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo"/>
+        </property>
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
              <list>
                  <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -113,33 +115,6 @@
                     </property>
                 </bean>
             </list>
-        </property>
-    </bean>
-
-
-    <bean id="KS-CourseView-InitialPage-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;">
-        <property name="upperGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-VerticalBoxGroup" >
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-HeaderOne" p:style="margin-top: 20px; margin-left: -4px; min-height: 46px;">
-                                        <property name="cssClasses">
-                                            <list merge="true">
-                                                <value>uif-viewHeader-contentWrapper</value>
-                                                <value>uif-create-course-initial-page-header-contentWrapper</value>
-                                            </list>
-                                        </property>
-                                        <property name="headerText" value="Create Course"/>
-                                    </bean>
-                                 </list>
-                            </property>
-                        </bean>
-                     </list>
-                </property>
-            </bean>
         </property>
     </bean>
 
