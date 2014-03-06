@@ -23,6 +23,7 @@ public class ActivityOfferingScheduleComponentResult {
     private String days;
     private String buildingCode;
     private String roomCode;
+    private Boolean isTBA;
 
     public String getDays() { return days; }
 
@@ -114,6 +115,14 @@ public class ActivityOfferingScheduleComponentResult {
 
     public void setWed(boolean wed) {
         this.wed = wed;
+    }
+
+    public Boolean getIsTBA() {
+        return isTBA;
+    }
+
+    public void setIsTBA(Boolean isTBA) {
+        this.isTBA = isTBA;
     }
 
     public void setBooleanSchedules(String daysOfTheWeek) {

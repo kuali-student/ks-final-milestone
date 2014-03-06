@@ -1,4 +1,4 @@
-<div class="util-Text--center kscr-MainHeading-header">My Schedule</div>
+<div class="util-Grid--center kscr-MainHeading-header">My Schedule</div>
 <div ng-controller="ScheduleCtrl">
     <span>
         <span class="kscr-Heading-sub">Enrolled </span>
@@ -34,14 +34,18 @@
             <div class="kscr-Register-cardText kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
 
         </accordion-heading>
+
             <div ng-hide="course.editing" class="kscr-Card-detailsText">
                 <!--course time, day, building-->
                 <div ng-repeat="ao in course.activityOfferings">
                           <span class="kscr-Card-courseTimes">
                             <div id="ao_type_{{course.courseCode}}_{{course.regGroupCode}}_{{$index}}" >{{ao.activityOfferingTypeShortName}} &nbsp;</div>
                                 <div ng-repeat='scheduleComponent in ao.scheduleComponents' id="schedule_{{course.courseCode}}_{{course.regGroupCode}}_{{$parent.$index}}_{{$index}}">
-                                    {{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
-                                    {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
+                                    <span ng-hide="scheduleComponent.isTBA">
+                                        {{scheduleComponent.days}} {{scheduleComponent.startTime}} - {{scheduleComponent.endTime}}
+                                        {{scheduleComponent.buildingCode}} {{scheduleComponent.roomCode}}
+                                    </span>
+                                    <span ng-show="scheduleComponent.isTBA">TBA</span>
                                 </div>
                           </span>
                 </div>

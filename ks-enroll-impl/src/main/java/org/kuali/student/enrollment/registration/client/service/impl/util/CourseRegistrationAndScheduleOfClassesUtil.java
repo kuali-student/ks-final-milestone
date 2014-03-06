@@ -185,12 +185,18 @@ public class CourseRegistrationAndScheduleOfClassesUtil {
     /* This method transforms start/end time from MS to user-friendly presentation, and set days of the week for
        schedule component for Activity Offering
      */
-    public static ActivityOfferingScheduleComponentResult getActivityOfferingScheduleComponent(String roomCode, String buildingCode,
+    public static ActivityOfferingScheduleComponentResult getActivityOfferingScheduleComponent(String isTBA, String roomCode, String buildingCode,
                                                                                                String weekdays, String startTimeMs, String endTimeMs) throws InvalidParameterException {
         ActivityOfferingScheduleComponentResult scheduleComponent = new ActivityOfferingScheduleComponentResult();
         scheduleComponent.setRoomCode(roomCode);
         scheduleComponent.setBuildingCode(buildingCode);
         scheduleComponent.setDays(weekdays);
+
+        if (StringUtils.equals(isTBA, "1")) {
+            scheduleComponent.setIsTBA(true);
+        } else {
+            scheduleComponent.setIsTBA(false);
+        }
 
         List<TimeOfDayFormattingEnum> options = new ArrayList<TimeOfDayFormattingEnum>();
         options.add(TimeOfDayFormattingEnum.USE_MILITARY_TIME);

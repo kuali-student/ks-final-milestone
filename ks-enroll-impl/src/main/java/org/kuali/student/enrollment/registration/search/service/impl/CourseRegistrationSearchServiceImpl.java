@@ -117,6 +117,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String RES_VAL_GROUP_KEY = "resultValuesGroupKey";
         public static final String CREDITS = "credits";
         public static final String GRADING_OPTION_ID = "gradingOptionId";
+        public static final String TBA_IND = "isTBA";
         public static final String ROOM_CODE = "roomCode";
         public static final String BUILDING_CODE = "buildingCode";
         public static final String WEEKDAYS = "weekdays";
@@ -339,6 +340,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "    ao.NAME                   aoName, " +
                 "    ao.LUI_TYPE               luiType, " +
                 "    coId.LNG_NAME             coTitle, " +
+                "    schedCmp.TBA_IND          isTBA, " +
                 "    room.ROOM_CD              room, " +
                 "    room2bldg.BUILDING_CD     building, " +
                 "    schedTmslt.WEEKDAYS       weekdays, " +
@@ -432,6 +434,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
 //            row.addCell(SearchResultColumns.LUI_DESC, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.AO_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
+            BigDecimal tbaInd = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.TBA_IND, (tbaInd == null) ? "" : tbaInd.toString());
             row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);
@@ -463,7 +467,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         String queryStr =
                 "SELECT atp.ID, atp.ATP_CD, atp.NAME as atp_name, lpr.LUI_ID, lpr.MASTER_LPR_ID, lpr.LPR_TYPE, lpr.CREDITS, lpr.GRADING_OPT_ID, " +
                         "luiId.LUI_CD, lui.NAME as lui_name, lui.DESCR_FORMATTED, lui.LUI_TYPE, luiId.LNG_NAME, " +
-                        "luiRes.RESULT_VAL_GRP_ID, " +
+                        "luiRes.RESULT_VAL_GRP_ID, schedCmp.TBA_IND, " +
                         "room.ROOM_CD, rBldg.BUILDING_CD, " +
                         "schedTmslt.WEEKDAYS, schedTmslt.START_TIME_MS, schedTmslt.END_TIME_MS " +
                         "FROM KSEN_ATP atp, " +
@@ -521,6 +525,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             row.addCell(SearchResultColumns.LUI_TYPE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.LUI_LONG_NAME, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RES_VAL_GROUP_KEY, (String) resultRow[i++]);
+            BigDecimal tbaInd = (BigDecimal) resultRow[i++];
+            row.addCell(SearchResultColumns.TBA_IND, (tbaInd == null) ? "" : tbaInd.toString());
             row.addCell(SearchResultColumns.ROOM_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.BUILDING_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.WEEKDAYS, (String) resultRow[i++]);

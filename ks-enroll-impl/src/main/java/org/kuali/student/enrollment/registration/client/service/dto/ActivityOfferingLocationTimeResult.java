@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 public class ActivityOfferingLocationTimeResult {
     private ScheduleLocationResult location;
     private ScheduleTimeResult time;
+    private Boolean isTBA;
 
     public ScheduleLocationResult getLocation() { return location; }
 
@@ -34,4 +35,12 @@ public class ActivityOfferingLocationTimeResult {
     public ScheduleTimeResult getTime() { return time; }
 
     public void setTime(ScheduleTimeResult time) { this.time = time; }
+
+    public Boolean getIsTBA() {
+        return isTBA;
+    }
+
+    public void setIsTBA(Boolean isTBA) {
+        this.isTBA = isTBA;
+    }
 }

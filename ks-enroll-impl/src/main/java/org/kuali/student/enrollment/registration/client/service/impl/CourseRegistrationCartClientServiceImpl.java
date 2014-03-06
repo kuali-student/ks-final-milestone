@@ -516,6 +516,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             String courseTitle = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LUI_LONG_NAME);
             String room = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.ROOM_CODE);
             String building = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.BUILDING_CODE);
+            String isTBA = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.TBA_IND);
             String weekdays = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.WEEKDAYS);
             String startTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.START_TIME_MS);
             String endTimeMs = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.END_TIME_MS);
@@ -551,6 +552,11 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
             //The rest of the information (schedule) is repeated for each AO on each cart Item.
             ActivityOfferingLocationTimeResult locationTimeResult = new ActivityOfferingLocationTimeResult();
+            if (StringUtils.equals(isTBA, "1")) {
+                locationTimeResult.setIsTBA(true);
+            } else {
+                locationTimeResult.setIsTBA(false);
+            }
 
             ScheduleLocationResult locationResult = new ScheduleLocationResult();
             locationResult.setBuilding(building);
