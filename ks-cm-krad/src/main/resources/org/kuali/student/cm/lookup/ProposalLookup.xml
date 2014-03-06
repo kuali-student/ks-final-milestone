@@ -61,7 +61,7 @@ limitations under the License.
             <null/>
         </property>
 
-        <property name="page.instructionalMessage">
+        <!--<property name="page.instructionalMessage">
             <bean parent="Uif-Message" p:width="auto">
                 <property name="cssClasses">
                     <list merge="true">
@@ -71,7 +71,7 @@ limitations under the License.
                 <property name="messageText"
                           value=" Enter search terms" />
             </bean>
-        </property>
+        </property>-->
 
         <property name="criteriaFields">
             <list>

@@ -120,6 +120,10 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         props.put(UifParameters.PAGE_ID, "KS-CourseView-ReviewProposalPage");
 
         try {
+            /**
+             * This is to get the workflow id. But, this will be gone once we implement the criteria search. This is
+             * to avoid adding new fields at the CM search xmls.
+             */
             ProposalInfo proposalInfo = getProposalService().getProposal(((ProposalInfo) dataObject).getId(), ContextUtils.getContextInfo());
             props.put(KRADConstants.PARAMETER_DOC_ID, proposalInfo.getWorkflowId());
         } catch (Exception e) {
