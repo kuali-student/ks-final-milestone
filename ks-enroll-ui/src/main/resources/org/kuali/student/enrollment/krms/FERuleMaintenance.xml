@@ -659,8 +659,6 @@ limitations under the License.
                             <ref bean="KSFE_days"/>
                             <ref bean="KSFE_starttime"/>
                             <ref bean="KSFE_starttime_ampm"/>
-                            <ref bean="KSFE_endtime"/>
-                            <ref bean="KSFE_endtime_ampm"/>
                         </list>
                     </property>
                 </bean>
