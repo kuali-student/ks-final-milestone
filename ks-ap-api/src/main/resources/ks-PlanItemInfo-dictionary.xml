@@ -78,6 +78,7 @@
     <bean id="PlanItemInfo.category" parent="PlanItemInfo.category-parent"/>
     <bean id="PlanItemInfo.category-parent" abstract="true" parent="PlanItemInfo.category-generated">
         <!-- Overrides here -->
+        //TODO: ksap-922  remove this when the service DD generation tool works for KSAP
         <property name="required" value="true"/>
     </bean>
 
