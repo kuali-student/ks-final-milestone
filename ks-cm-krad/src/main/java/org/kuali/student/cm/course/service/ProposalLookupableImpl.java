@@ -114,10 +114,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
-
-        if (StringUtils.isNotBlank(lookupForm.getReturnLocation())) {
-            props.put(KRADConstants.RETURN_LOCATION_PARAMETER, lookupForm.getReturnLocation());
-        }
+        props.put(KRADConstants.RETURN_LOCATION_PARAMETER, "cmHome?methodToCall=start&viewId=curriculumHomeView");
 
         props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.toString());
         props.put(UifParameters.PAGE_ID, "KS-CourseView-ReviewProposalPage");
