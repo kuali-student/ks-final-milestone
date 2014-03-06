@@ -227,3 +227,24 @@
 	float: right;
 	padding-right: 5px;
 }
+
+#course_review_details-panel  {
+    border: none;
+    padding: 10px;
+}
+
+#course_review_details-table table {
+    border: none;
+}
+
+#course_review_details-th th {
+    background-color: #ffffff;
+    border: none;
+}
+#course_review_details-td td {
+    border: none;
+}
+
+#cm_dottedHeaderActions {
+    margin-bottom: 10px;
+}
