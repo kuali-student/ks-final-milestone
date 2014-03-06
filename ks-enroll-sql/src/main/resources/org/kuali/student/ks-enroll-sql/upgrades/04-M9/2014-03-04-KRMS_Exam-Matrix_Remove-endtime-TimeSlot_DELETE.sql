@@ -9,7 +9,7 @@ UPDATE KRMS_NL_TMPL_T NL
         (SELECT NL_USAGE_ID
            FROM KRMS_NL_USAGE_T
           where NM like 'kuali.krms.catalog')
-/        
+/
 UPDATE KRMS_NL_TMPL_T NL
     SET NL.TMPL = '$weekdays at $startTime'
   where NL.TYP_ID =
