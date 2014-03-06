@@ -69,7 +69,9 @@ public class JMSMessengerImpl implements Messenger {
     }
 
     private void sendMessage(final String user, final String key, final String theme, final String[] parameters) {
-        jmsTemplate.send(MessengerConstants.USER_MESSAGE_DESTINATION, new MessageCreator() {
+
+        //Comment out for now to make sure this is not the cause for the memory leaks.
+        /*jmsTemplate.send(MessengerConstants.USER_MESSAGE_DESTINATION, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
 
                 MapMessage message = session.createMapMessage();
@@ -80,7 +82,7 @@ public class JMSMessengerImpl implements Messenger {
 
                 return message;
             }
-        });
+        });*/
     }
 
     public JmsTemplate getJmsTemplate() {

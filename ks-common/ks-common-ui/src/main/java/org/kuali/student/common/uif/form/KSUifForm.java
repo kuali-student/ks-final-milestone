@@ -120,8 +120,9 @@ public class KSUifForm extends UifFormBase {
               KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, growlMessage, growlMessageParams);
         }
 
-        UserMessageConsumer consumer = new UserMessageConsumer();
-        consumer.publish();
+        //Uncomment out for now to make sure this is not the cause of the memory leak.
+        //UserMessageConsumer consumer = new UserMessageConsumer();
+        //consumer.publish();
 
         super.postBind(request);
     }
