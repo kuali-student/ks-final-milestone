@@ -190,9 +190,12 @@ function searchForCourses(id, parentId) {
 						fnDrawCallback : function() {
                             // Create search summary line
                             if(this.fnSettings().aoData.length){
-                                var searchKeyword = jQuery('#text_searchQuery_control').val();
-                                jQuery('<span/>', {text: ' for '}).appendTo('#course_search_results_info');
-                                jQuery('<span/>', {text: searchKeyword, class: 'search_keyword'}).appendTo('#course_search_results_info');
+                                if (jQuery('#course_search_results_info span[class=search_keyword]').size()==0) {
+                                    // fnDrawCallback seems to get called multiple times on occasion, so only append the search_keyword once
+                                    var searchKeyword = jQuery('#text_searchQuery_control').val();
+                                    jQuery('<span/>', {text: ' for '}).appendTo('#course_search_results_info');
+                                    jQuery('<span/>', {text: searchKeyword, class: 'search_keyword'}).appendTo('#course_search_results_info');
+                                }
                                 jQuery("#course_search_results_facets").removeClass("invisible");
                             }
 
