@@ -72,7 +72,7 @@
         <property name="url.viewId" value="ksFunctionalHomeView"/>
     </bean>
 
-    <bean id="KS-HomewardPathBreadcrumbs-CMKRAD" parent="Uif-BreadcrumbItem">
+    <bean id="KS-HomewardPathBreadcrumbs-CurriculumManagement" parent="Uif-BreadcrumbItem">
         <property name="label" value="Curriculum Management KRAD"/>
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>

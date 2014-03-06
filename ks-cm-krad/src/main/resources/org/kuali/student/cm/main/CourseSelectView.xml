@@ -33,7 +33,7 @@ limitations under the License.
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-CMKRAD"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
             </list>
         </property>
         <property name="stateMapping">
