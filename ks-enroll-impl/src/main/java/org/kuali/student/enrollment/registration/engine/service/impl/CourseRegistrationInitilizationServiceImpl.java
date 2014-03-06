@@ -33,6 +33,7 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -50,6 +51,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     private LprService lprService;
     private SearchService searchService;
 
+    @Transactional
     @Override
     public RegistrationResponseInfo process(String registrationRequestId) {
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();

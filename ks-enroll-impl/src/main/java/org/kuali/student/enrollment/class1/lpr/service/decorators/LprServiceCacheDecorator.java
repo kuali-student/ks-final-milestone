@@ -439,9 +439,9 @@ public class LprServiceCacheDecorator extends LprServiceDecorator {
 
         }
 
-        cache.put(new Element(lprIdCacheKey,lprInfo));
+        cache.put(new Element(lprIdCacheKey, result));
 
-        lstMultiKeys = _getMultiKeyByLprInfo(lprInfo);
+        lstMultiKeys = _getMultiKeyByLprInfo(result);
 
         for(MultiKey cacheKey: lstMultiKeys) {
 
