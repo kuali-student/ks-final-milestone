@@ -158,46 +158,26 @@ public class SpringSecurityTest {
     }
 
     @Test
-    public void testAccessToScheduleOfClasses() throws Exception {
-        final String url = "/services/ScheduleOfClassesService/A";
+    public void testAccessToProtectedServices() throws Exception {
+        List<String> servicesToTest = Arrays.asList("/services/ScheduleOfClassesService/A",
+                "/services/CourseRegistrationClientService/A",
+                "/services/CourseRegistrationCartClientService/A");
 
-        // if you have not logged in, you get redirected to the login page
-        mockMvc.perform(get(url))
-                .andExpect(status().isMovedTemporarily());
+        // test each of the services
+        for (String service: servicesToTest) {
+            // if you are not logged in, you get redirected to the login page
+            mockMvc.perform(get(service))
+                    .andExpect(redirectedUrl("http://localhost/login.jsp"));
 
-        // user fred is not allowed to access admin URLs
-        mockMvc.perform(get(url).with(user("fred").roles("ROLE_KS_USER")))
-                .andExpect(status().isNotFound());
+            // user fred (with ROLE_KS_USER) is allowed access to the service URL
+            // Content will be 404 Not Found as we are only testing Spring Security and not
+            // the MVC layer
+            mockMvc.perform(get(service).with(user("fred").roles("ROLE_KS_USER")))
+                    .andExpect(status().isNotFound());
 
-    }
-
-    @Test
-    public void testAccessToCourseRegistrationClientService() throws Exception {
-        final String url = "/services/CourseRegistrationClientService/A";
-
-        // if you have not logged in, you get redirected to the login page
-        mockMvc.perform(get(url))
-                .andExpect(status().isMovedTemporarily());
-
-        // user fred is not allowed to access admin URLs
-        mockMvc.perform(get(url).with(user("fred").roles("ROLE_KS_USER")))
-                .andExpect(status().isNotFound());
-
-
-    }
-
-    @Test
-    public void testAccessToCourseRegistrationCartClientService() throws Exception {
-        final String url = "/services/CourseRegistrationCartClientService/A";
-
-        // if you have not logged in, you get redirected to the login page
-        mockMvc.perform(get(url))
-                .andExpect(status().isMovedTemporarily());
-
-        // user fred is not allowed to access admin URLs
-        mockMvc.perform(get(url).with(user("fred").roles("ROLE_KS_USER")))
-                .andExpect(status().isNotFound());
-
-
+            // user joe (with ROLE_KS_BLAH) is not allowed access to the service URL
+            mockMvc.perform(get(service).with(user("joe").roles("ROLE_KS_BLAH")))
+                    .andExpect(status().isForbidden());
+        }
     }
 }

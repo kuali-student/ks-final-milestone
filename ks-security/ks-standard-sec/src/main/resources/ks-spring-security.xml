@@ -17,7 +17,6 @@
     <import resource="ksss-auth-common.xml" />
 
     <security:http pattern="/logout.html*" security="none" />
-    <!--<security:http pattern="/services/**" security="none" />-->
     <security:http pattern="/favicon.ico" security="none" />
     <security:http pattern="/login.jsp*" security="none" />
     <security:http pattern="/index.jsp*" security="none"/>
