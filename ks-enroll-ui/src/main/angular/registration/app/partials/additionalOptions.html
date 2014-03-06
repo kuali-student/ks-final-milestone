@@ -1,5 +1,5 @@
 
-<form ng-submit="save()">
+<form>
 <div class="kscr-AdditionalOptions">
     <div class="kscr-Card">
         Adding {{newCartItem.courseCode}} ({{newCartItem.regGroupCode}}) to cart
@@ -23,8 +23,8 @@
         </div>
 
         <div class="kscr-AdditionalOpions-buttons">
-            <button id="newItemSave" type="submit" class="kscr-Button">Save</button>
-            <button id="newItemCancel" class="kscr-Button-primary" type="button" ng-click="dismiss()">Cancel</button>
+            <button id="newItemCancel"  class="kscr-Button" ng-click="dismiss()">Cancel</button>
+            <button id="newItemSave" class="kscr-Button--primary" ng-click="save()">Save</button>
         </div>
     </div>
 </div>
