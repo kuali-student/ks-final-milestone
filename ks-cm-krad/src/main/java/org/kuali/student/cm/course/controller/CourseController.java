@@ -241,6 +241,7 @@ public class CourseController extends CourseRuleEditorController {
             catch (Exception e) {
                 warn("Unable to retrieve the proposal: %s", e.getMessage());
             }
+            updateReview(form);
         }
 
         return retval;
@@ -252,7 +253,7 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=reviewCourseProposal")
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-
+        updateReview(form);
         return getUIFModelAndView(form, "KS-CourseView-ReviewProposalPage");
     }
 

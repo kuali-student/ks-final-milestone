@@ -18,11 +18,16 @@ package org.kuali.student.cm.course.service;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.view.LookupView;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
-import org.kuali.student.lum.lu.ui.krms.dto.CluInformation;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -34,6 +39,7 @@ import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  *
@@ -53,7 +59,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         String fieldValue = fieldValues.get("title");
 
         if (StringUtils.isBlank(fieldValue)){
-            return new ArrayList<CluInformation>();
+            return new ArrayList<ProposalInfo>();
         }
 
         SearchParamInfo qpv = new SearchParamInfo();
@@ -74,27 +80,56 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         }
     }
 
-    public static List<CluInformation> resolveProposalSearchResultSet(SearchResultInfo searchResult) {
-        List<CluInformation> clus = new ArrayList<CluInformation>();
+    public static List<ProposalInfo> resolveProposalSearchResultSet(SearchResultInfo searchResult) {
+        List<ProposalInfo> clus = new ArrayList<ProposalInfo>();
         List<SearchResultRowInfo> rows = searchResult.getRows();
         for (SearchResultRowInfo row : rows) {
             List<SearchResultCellInfo> cells = row.getCells();
-            CluInformation cluInformation = new CluInformation();
+            ProposalInfo proposalInfo = new ProposalInfo();
             for (SearchResultCellInfo cell : cells) {
                 if (cell.getKey().equals("proposal.resultColumn.proposalId")) {
-                    cluInformation.setCluId(cell.getValue());
+                    proposalInfo.setId(cell.getValue());
                 } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalName")) {
-                    cluInformation.setTitle(cell.getValue());
+                    proposalInfo.setName(cell.getValue());
                 } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalTypeName")) {
 
-                    cluInformation.setType(cell.getValue());
+                    proposalInfo.setType(cell.getValue());
                 } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalStatus")) {
-                    cluInformation.setState(cell.getValue());
+                    proposalInfo.setState(cell.getValue());
                 }
             }
-            clus.add(cluInformation);
+            clus.add(proposalInfo);
         }
         return clus;
+    }
+
+    protected String getActionUrlHref(LookupForm lookupForm, Object dataObject, String methodToCall, List<String> pkNames) {
+
+        if (dataObject == null){
+            return super.getActionUrlHref(lookupForm,dataObject,methodToCall,pkNames);
+        }
+
+        LookupView lookupView = (LookupView) lookupForm.getView();
+
+        Properties props = new Properties();
+        props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
+        props.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
+
+        if (StringUtils.isNotBlank(lookupForm.getReturnLocation())) {
+            props.put(KRADConstants.RETURN_LOCATION_PARAMETER, lookupForm.getReturnLocation());
+        }
+
+        props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.toString());
+        props.put(UifParameters.PAGE_ID, "KS-CourseView-ReviewProposalPage");
+
+        try {
+            ProposalInfo proposalInfo = getProposalService().getProposal(((ProposalInfo) dataObject).getId(), ContextUtils.getContextInfo());
+            props.put(KRADConstants.PARAMETER_DOC_ID, proposalInfo.getWorkflowId());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return UrlFactory.parameterizeUrl("courses", props);
     }
 
     protected ProposalService getProposalService() {

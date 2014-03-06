@@ -23,8 +23,9 @@ limitations under the License.
     <bean id="KS-CM-ProposalLookup" parent="KS-Uif-LookupView">
         <property name="viewName" value="ProposalLookup"/>
         <property name="headerText" value="Find a Proposal" />
-        <property name="dataObjectClassName" value="org.kuali.student.lum.lu.ui.krms.dto.CluInformation" />
+        <property name="dataObjectClassName" value="org.kuali.student.r2.core.proposal.dto.ProposalInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.ProposalLookupableImpl" />
+        <property name="showMaintenanceLinks" value="true"/>
         <property name="additionalCssFiles">
             <list>
                 <value>ks-cm-krad/css/cm.css</value>
@@ -56,22 +57,19 @@ limitations under the License.
             </list>
         </property>
 
-        <property name="page">
-            <bean parent="Uif-LookupPage">
-                <property name="header">
-                    <null/>
+        <property name="page.header">
+            <null/>
+        </property>
+
+        <property name="page.instructionalMessage">
+            <bean parent="Uif-Message" p:width="auto">
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>ks-cm-find-course-InstructionalMessage</value>
+                    </list>
                 </property>
-                <property name="instructionalMessage">
-                    <bean parent="Uif-Message" p:width="auto">
-                        <property name="cssClasses">
-                            <list merge="true">
-                                <value>ks-cm-find-course-InstructionalMessage</value>
-                            </list>
-                        </property>
-                        <property name="messageText"
-                                  value=" Enter search terms" />
-                    </bean>
-                </property>
+                <property name="messageText"
+                          value=" Enter search terms" />
             </bean>
         </property>
 
@@ -82,7 +80,7 @@ limitations under the License.
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="KS-Uif-DataField-Simple" p:propertyName="title" p:label="Name"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="name" p:label="Name"/>
                 <bean parent="KS-Uif-DataField-Simple" p:propertyName="type" p:label="Type"/>
             </list>
         </property>
@@ -98,6 +96,23 @@ limitations under the License.
                 </bean>
             </list>
         </property>
+
+        <property name="resultsGroup.renderLineActions" value="true"/>
+        <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
+
+        <property name="resultsGroup.lineActions">
+                <list>
+                  <bean parent="Uif-ActionLink">
+                    <property name="actionLabel" value="Review Proposal"/>
+                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                      <list>
+                        <value>docHandler</value>
+                      </list>
+                    </property>
+                  </bean>
+            </list>
+          </property>
 
         <property name="footer.items">
             <list>
