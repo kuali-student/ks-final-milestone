@@ -23,13 +23,13 @@
     <form novalidate name="form" ng-submit="add();">
         <fieldset>
             <div class="util-Grid">
-                <div class="util-Grid-cell"><label for="courseCode" class="kscr-RegInput-label" placeholder="MATH100">Course Code</label></div>
+                <div class="util-Grid-cell"><label for="courseCode" class="kscr-RegInput-label" >Course Code</label></div>
                 <div class="util-Grid-cell"><label for="regCode" class="kscr-RegInput-label">Reg Group</label></div>
                 <div class="util-Grid-cell"></div>
             </div>
             <div class="util-Grid">
-                <div class="util-Grid-cell"><input id="courseCode" class="kscr-RegInput-input" type="text" size="8" maxlength="8" ng-model="courseCode" /></div>
-                <div class="util-Grid-cell"><input id="regCode" class="kscr-RegInput-input" type="text" size="4" maxlength="4" ng-model="regCode" /></div>
+                <div class="util-Grid-cell"><input placeholder="CHEM237" id="courseCode" class="kscr-RegInput-input" type="text" size="8" maxlength="8" ng-model="courseCode" /></div>
+                <div class="util-Grid-cell"><input placeholder="1001" id="regCode" class="kscr-RegInput-input" type="text" size="4" maxlength="4" ng-model="regCode" /></div>
                 <div class="util-Grid-cell"><button id="submit" name="submit" class="kscr-Button">Add to Cart</button></div>
             </div>
         </fieldset>
