@@ -11,15 +11,10 @@
     eternal:            If the cache’s eternal flag is set, it overrides any finite TTI/TTL values that have been set.
     -->
     <defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="300" />
-    <cache name="enumCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
-    <cache name="atpSearchCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
-    <cache name="orgCache" maxElementsInMemory="300" eternal="true" />
-    <cache name="lrcCache" maxElementsInMemory="200" eternal="true" />
     <cache name="luiCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
     <cache name="scheduleCache" maxElementsInMemory="1000" eternal="true" />
     <cache name="scheduleDisplayCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="100"/>
     <cache name="lprCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
-    <cache name="statementCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
     <cache name="roomCache" maxElementsInMemory="2000" eternal="true" />
     <cache name="buildingCache" maxElementsInMemory="200" eternal="true" />
     <cache name="roomRespOrgCache" maxElementsInMemory="2000" eternal="true" />
