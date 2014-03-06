@@ -9,14 +9,14 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-AuthorsAndCollaborators-Section" parent="KS-CourseView-HorizontalBoxSection"
-          p:fieldBindingObjectPath="document.newMaintainableObject">
+    <bean id="KS-CourseView-AuthorsAndCollaborators-Section" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-section">
         <property name="headerText" value="Authors &amp; Collaborators"/>
+        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <ref bean="AuthorsAndCollaborators-NoRequiredMessageLink" />
-                <bean parent="Uif-TableCollectionSection" lazy-init="false" p:layoutManager.numberOfColumns="4"
-                    p:id="CourseView-AuthorsAndCollaborators-TableCollectionSection">
+                <bean id="KS-CourseCreate-AuthorsAndCollaboratorsTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
+                      p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>admin-not-required-field</value>
@@ -25,24 +25,19 @@
                     <property name="style" value="margin-bottom: 180px;" />
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
                     <property name="propertyName" value="dataObject.collaboratorWrappers" />
-                    <property name="layoutManager.separateAddLine" value="true" />
-                    <!-- <property name="collectionLookup.quickfinderAction.render" value="false" /> -->
-                    <property name="addLineLabel.messageText" value=" " />
-                    <property name="layoutManager.renderSequenceField" value="false" />
-                    <property name="layoutManager.richTable.render" value="true" />
-                    <property name="layoutManager.addLineGroup">
-                        <bean parent="Uif-CollectionHorizontalBoxItem" p:cssClasses="uif-collectionItem,uif-tableCollectionItem,uif-collectionAddItem">
-                            <property name="header">
-                                <bean parent="Uif-HeaderOne" p:render="false" />
-                            </property>
-                        </bean>
-                    </property>
-                    <property name="addLineItems">
+                    <property name="layoutManager.renderSequenceField" value="false"/>
+                    <property name="layoutManager.generateAutoSequence" value="false"/>
+                    <property name="layoutManager.separateAddLine" value="false"/>
+                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
+                    <property name="layoutManager.richTable.render" value="false"/>
+                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
+                    <property name="addBlankLineAction.actionLabel" value="Add Person"/>
+                    <property name="addBlankLineAction.id" value="KS-CourseView-AuthorsAndCollaborators-Section_add"/>
+                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
+                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="Items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Name" p:propertyName="displayName" p:labelPlacement="TOP">
-                                <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="20" />
-                                </property>
+                            <bean parent="Uif-InputField" p:label="Name" p:propertyName="displayName" p:additionalCssClasses="id_search_course_offering">
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                                         <property name="valuePropertyName" value="displayName" />
@@ -60,13 +55,6 @@
                                                         }
                                                     </value>
                                                 </entry>
-                                                <!-- <entry key="formatResult">
-                                                    <value>
-                                                        function(data) {
-
-                                                        }
-                                                    </value>
-                                                </entry> -->
                                             </map>
                                         </property>
                                         <property name="suggestQuery">
@@ -75,75 +63,48 @@
                                         </property>
                                     </bean>
                                 </property>
-                                <property name="quickfinder">
-                                    <bean parent="Uif-QuickFinder">
-                                        <property name="quickfinderAction">
-                                            <bean parent="Uif-ActionLink">
-                                                <property name="methodToCall" value="performLookup" />
-                                                <property name="actionLabel" value="Advanced Search" />
-                                                <property name="cssClasses">
-                                                    <list merge="true">
-                                                        <value>uif-actionLink-block</value>
-                                                    </list>
-                                                </property>
-                                            </bean>
-                                        </property>
-                                        <property name="lightBoxLookup">
-                                            <bean parent="Uif-LightBoxPost" p:lookupReturnByScript="false" />
-                                        </property>
-                                        <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
-                                        <property name="fieldConversions">
-                                            <map>
-                                                <entry key="displayName" value="displayName" />
-                                            </map>
-                                        </property>
-                                    </bean>
-                                </property>
                             </bean>
-                            <bean id="KS-PermissionDropDown" parent="Uif-InputField-LabelTop" p:propertyName="permission" p:labelPlacement="TOP"
+                            <bean id="KS-PermissionDropDown" parent="Uif-InputField" p:propertyName="permission" p:labelPlacement="TOP"
                                   p:label="Permission" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
                                             <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="" p:value="" />
+                                                <bean parent="Uif-KeyLabelPair" p:key="view" p:value="View" />
                                                 <bean parent="Uif-KeyLabelPair" p:key="edit" p:value="Edit, Comments, View" />
                                                 <bean parent="Uif-KeyLabelPair" p:key="comment" p:value="Comments, View" />
-                                                <bean parent="Uif-KeyLabelPair" p:key="view" p:value="View" />
                                             </list>
                                         </property>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean id="KS-ActionRequestDropDown" parent="Uif-InputField-LabelTop" p:propertyName="action" p:labelPlacement="TOP"
+                            <bean id="KS-ActionRequestDropDown" parent="Uif-InputField" p:propertyName="action" p:labelPlacement="TOP"
                                   p:label="Action Request" p:required="true">
                                 <property name="control">
                                     <bean parent="Uif-DropdownControl">
                                         <property name="options">
                                             <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="" p:value="" />
                                                 <bean parent="Uif-KeyLabelPair" p:key="fyi" p:value="FYI" />
                                             </list>
                                         </property>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField-LabelTop" p:propertyName="author" p:label="Author Notation" p:labelPlacement="TOP">
+                            <bean parent="Uif-InputField" p:propertyName="author" p:label="Author Notation" p:labelPlacement="TOP">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" />
                                 </property>
                             </bean>
                         </list>
                     </property>
-                    <property name="items">
+                    <property name="lineActions">
                         <list>
-                            <bean parent="Uif-DataField" p:label="Name" p:propertyName="displayName" p:readOnly="true" />
-                            <bean parent="Uif-DataField" p:label="Permission" p:propertyName="permission"
-                                  p:readOnly="true" />
-                            <bean parent="Uif-DataField" p:label="Action Request" p:propertyName="action"
-                                  p:readOnly="true" />
-                            <bean parent="Uif-DataField" p:label="Author Notation" p:propertyName="author"
-                                  p:readOnly="true" />
+                            <bean parent="KS-Uif-Delete-ActionLink"
+                                  p:methodToCall="deleteLine"
+                                  p:actionLabel="Delete"
+                                  p:actionEvent="deleteLine"
+                                  p:dirtyOnAction="true"
+                                  p:additionalCssClasses="delete_course_offering"  />
                         </list>
                     </property>
                 </bean>
