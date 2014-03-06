@@ -461,9 +461,8 @@
     <bean id="KS-HomewardPathBreadcrumbs-NewCourse-information" parent="Uif-BreadcrumbItem">
         <property name="label" value="Course Information"></property>
     </bean>
-
     <bean id="KS-HomewardPathBreadcrumbs-NewCourse" parent="Uif-BreadcrumbItem">
-        <property name="label" value="@{(#form.curriculumSpecialist) ? 'New Course(Admin Proposal)': 'New Course(   Proposal)'}" />
+        <property name="label" value=" @{(#form.pageId eq 'KS-CourseView-CoursePage') ? #form.headerText : 'Create Course'}" />
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>
     </bean>
