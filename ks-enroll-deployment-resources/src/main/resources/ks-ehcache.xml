@@ -1,0 +1,39 @@
+<ehcache name="ks-ehcache">
+    <!--
+    Explanation of expiration parameters:
+
+    timeToIdleSeconds:  The maximum number of seconds an element can exist in the cache without being accessed.
+                        The element expires at this limit and will no longer be returned from the cache.
+                        The default value is 0, which means no TTI eviction takes place (infinite lifetime).
+    timeToLiveSeconds:  The maximum number of seconds an element can exist in the cache regardless of use.
+                        The element expires at this limit and will no longer be returned from the cache.
+                        The default value is 0, which means no TTL eviction takes place (infinite lifetime).
+    eternal:            If the cache’s eternal flag is set, it overrides any finite TTI/TTL values that have been set.
+    -->
+    <defaultCache maxElementsInMemory="10" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="300" />
+    <cache name="enumCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="atpSearchCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="orgCache" maxElementsInMemory="300" eternal="true" />
+    <cache name="lrcCache" maxElementsInMemory="200" eternal="true" />
+    <cache name="luiCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="600" />
+    <cache name="scheduleCache" maxElementsInMemory="1000" eternal="true" />
+    <cache name="scheduleDisplayCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="100"/>
+    <cache name="lprCache" maxElementsInMemory="500" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="statementCache" maxElementsInMemory="100" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+    <cache name="roomCache" maxElementsInMemory="2000" eternal="true" />
+    <cache name="buildingCache" maxElementsInMemory="200" eternal="true" />
+    <cache name="roomRespOrgCache" maxElementsInMemory="2000" eternal="true" />
+    <cache name="buildingRoomCodeCache" maxElementsInMemory="2000" eternal="true" />
+    <cache name="buildingCodeCache" maxElementsInMemory="2000" eternal="true" />
+    <cache name="atpCache" maxElementsInMemory="500" eternal="true" />
+    <cache name="milestoneCache" maxElementsInMemory="500" eternal="true" />
+    <cache name="cluCache" maxElementsInMemory="100" eternal="true" />
+
+    <!-- This is for the Course Code Lookup Cache.  -->
+    <cache name="CourseOfferingMaintainableImplCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
+
+    <!-- These caches do no refresh. These are for objects that do not change after startup -->
+    <cache name="LRCServiceCache" maxElementsInMemory="1000" eternal="true" />
+    <cache name="TypeServiceCache" maxElementsInMemory="1000" eternal="true" />
+    <cache name="StateServiceCache" maxElementsInMemory="1000" eternal="true" />
+</ehcache>
