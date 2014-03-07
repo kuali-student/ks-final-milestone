@@ -36,7 +36,7 @@ function onCourseLoad(isCurriculumSpecialist) {
                     jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
                     //  Scroll to the selected tab.
                     jQuery('html,body').animate({
-                        scrollTop: (jQuery(sectionId).offset().top - 150)
+                        scrollTop: (jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").height())
                     }, 750);
                 }
             }
@@ -67,7 +67,7 @@ function onCourseLoad(isCurriculumSpecialist) {
 function isAboveFocusPoint(e) {
     var docViewTop = jQuery(window).scrollTop();
     //var mid = docViewTop + (jQuery(window).height() * .4);
-    var focusPoint = docViewTop + 170;
+    var focusPoint = docViewTop + jQuery(".uif-viewHeader-contentWrapper").height();
     var elemTop = jQuery(e).offset().top;
     var elemBottom = elemTop + jQuery(e).height();
     return elemTop <= focusPoint && elemBottom >= focusPoint;
