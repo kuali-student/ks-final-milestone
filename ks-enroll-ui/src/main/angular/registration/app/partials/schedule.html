@@ -12,7 +12,7 @@
     <a id="userMessageInvoke" ng-click="invokeActionLink(userMessage.actionLink);" ng-if="userMessage.linkText">{{userMessage.linkText}}</a>
 </div>
 
-<div class="kscr-Register">
+<div class="kscr-Card">
     <div ng-repeat="schedule in schedules">
     <accordion close-others="oneAtATime">
         <accordion-group  ng-repeat="course in schedule.courseOfferings" is-open="isopen">
@@ -27,12 +27,12 @@
 
             <!--Course Header Section-->
             <div>
-                <span class="kscr-Register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
-                <span class="kscr-Register-header kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
+                <span class="kscr-Card-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
+                <span class="kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
                 <span class="kscr-Card-badge" id="grading_badge_{{course.courseCode}}_{{course.regGroupCode}}" ng-show="{{course.gradingOptions[course.gradingOptionId] != 'Letter'}}">{{course.gradingOptions[course.gradingOptionId]}}</span>
             </div>
             <!--Course Title and description-->
-            <div class="kscr-Register-cardText kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
+            <div class="kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
 
         </accordion-heading>
 
