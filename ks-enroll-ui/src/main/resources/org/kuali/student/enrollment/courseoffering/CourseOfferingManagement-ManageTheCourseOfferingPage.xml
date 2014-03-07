@@ -132,7 +132,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-DataField" p:label="Title" p:escapeHtmlInPropertyValue="false" p:propertyName="currentCourseOfferingWrapper.courseOfferingInfo.courseOfferingTitle"
-                      p:labelPlacement="LEFT" p:style="padding-left: 61px;" p:readOnly="true"/>
+                      p:labelPlacement="LEFT" p:readOnly="true"/>
                 <bean parent="Uif-DataField" p:label="Crosslisted as" p:labelPlacement="LEFT" p:propertyName="currentCourseOfferingWrapper.alternateCOCodes"
                       p:render="@{currentCourseOfferingWrapper.alternateCOCodes.size() > 0 }" p:readOnly="true"/>
             </list>
