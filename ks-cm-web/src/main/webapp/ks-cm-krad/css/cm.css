@@ -233,15 +233,8 @@
     padding: 10px;
 }
 
-#course_review_details-table table {
-    border: none;
-}
-
-#course_review_details-th th {
-    background-color: #ffffff;
-    border: none;
-}
-#course_review_details-td td {
+.course_review_details-table table, .course_review_details-table table th, .course_review_details-table table td {
+    background-color: #ffffff !important;
     border: none;
 }
 
