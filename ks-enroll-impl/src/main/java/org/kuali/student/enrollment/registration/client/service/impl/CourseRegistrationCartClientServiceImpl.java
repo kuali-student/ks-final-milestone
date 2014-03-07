@@ -234,7 +234,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         }
 
         //Get the cart result with the item id to trim it down and no reg options since we know these already
-        CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), newCartItemId, false, contextInfo);
+        CartResult cartResult = getCartForUserAndTerm(cart.getRequestorId(), cart.getTermId(), null,  newCartItemId, false, contextInfo);
         CartItemResult cartItemResult = KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
 
         //populate the options we have already calculated
@@ -338,7 +338,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 cartRegistrationRequest = getCourseRegistrationService().updateRegistrationRequest(cartRegistrationRequest.getId(), cartRegistrationRequest, contextInfo);
 
                 //Look up the newly updated information
-                CartResult cartResult = getCartForUserAndTerm(contextInfo.getPrincipalId(), cartRegistrationRequest.getTermId(), cartItemId, true, contextInfo);
+                CartResult cartResult = getCartForUserAndTerm(contextInfo.getPrincipalId(), cartRegistrationRequest.getTermId(), null, cartItemId, true, contextInfo);
                 return KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
             }
         }
@@ -396,7 +396,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         getAtpService().getAtp(termId, contextInfo);
 
         //Perform the actual search (this requires user id and term id)
-        CartResult cartResult = getCartForUserAndTerm(userId, termId, null, true, contextInfo);
+        CartResult cartResult = getCartForUserAndTerm(userId, termId, null,  null, true, contextInfo);
 
         //If nothing was found, this could mean there is an empty cart or no cart at all
         if (cartResult == null) {
@@ -439,6 +439,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
      *
      * @param userId          the student id who wons the cart
      * @param termId          the term for the cart
+     * @param cartIdParam     An optional parameter if you are looking for a single reg request
      * @param cartItemIdParam An optional parameter if you are looking for schedule information for just one cart item
      * @param populateOptions flag if the credit/grading options should be populated
      * @param contextInfo     the context of the call
@@ -446,13 +447,17 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
      * @throws OperationFailedException
      * @throws InvalidParameterException
      */
-    private CartResult getCartForUserAndTerm(String userId, String termId, String cartItemIdParam, boolean populateOptions, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
+    private CartResult getCartForUserAndTerm(String userId, String termId, String cartIdParam, String cartItemIdParam, boolean populateOptions, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException {
         //Create a search request that finds cart information for a given user and term, or alternatively for a single specific cart item.
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.REG_CART_BY_PERSON_TERM_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.ATP_ID, termId);
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.PERSON_ID, userId);
+        searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LPRT_TYPE, LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY);
         if (!StringUtils.isEmpty(cartItemIdParam)) {
             searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.CART_ITEM_ID, cartItemIdParam);
+        }
+        if (!StringUtils.isEmpty(cartIdParam)) {
+            searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.CART_ID, cartIdParam);
         }
 
         SearchResultInfo searchResult;
@@ -470,6 +475,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         String lastCartItemId = "";
         String lastAoName = "";
         String lastCartId = "";
+        String lastCartState = "";
         CartItemResult currentCartItem = new CartItemResult();
         ActivityOfferingScheduleResult aoSched = new ActivityOfferingScheduleResult();
         CartResult cartResult = new CartResult();
@@ -478,6 +484,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             //Parse information from the flat search results
             String cartId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ID);
             String cartItemId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ITEM_ID);
+            String cartState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_STATE);
+            String cartItemState = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.CART_ITEM_STATE);
             String courseCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_CODE);
             String courseId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.COURSE_ID);
             String rgCode = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.RG_CODE);
@@ -506,6 +514,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 currentCartItem.setGrading(grading);
                 currentCartItem.setRegGroupCode(rgCode);
                 currentCartItem.getActionLinks().add(buildDeleteLink(cartId, cartItemId, grading, creditsStr));
+                currentCartItem.setState(cartItemState);
                 cartResult.getItems().add(currentCartItem);
                 //Reset the lastAO Name
                 lastAoName = "";
@@ -545,6 +554,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             lastAoName = aoName;
             lastCartId = cartId;
             lastCartItemId = cartItemId;
+            lastCartState = cartState;
         }
 
         //Now we need grading and credit options in a new search
@@ -553,6 +563,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         }
         cartResult.setCartId(lastCartId);
         cartResult.setTermId(termId);
+        cartResult.setState(lastCartState);
 
         return cartResult;
     }

@@ -11,12 +11,13 @@ import java.util.List;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CartResult", propOrder = {
-        "cartId", "termId", "items"})
+        "cartId", "termId", "items", "state"})
 public class CartResult {
 
     private String cartId;
     private String termId;
     private List<CartItemResult> items;
+    private String state;
 
     public String getCartId() {
         return cartId;
@@ -43,5 +44,13 @@ public class CartResult {
 
     public void setTermId(String termId) {
         this.termId = termId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

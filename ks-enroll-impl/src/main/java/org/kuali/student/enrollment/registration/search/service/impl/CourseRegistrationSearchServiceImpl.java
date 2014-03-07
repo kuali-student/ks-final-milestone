@@ -99,10 +99,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String CO_ID = "courseOfferingId";
         public static final String RG_ID = "regGroupId";
         public static final String PERSON_ID = "personId";
+        public static final String CART_ID = "cartId";
         public static final String CART_ITEM_ID = "cartItemId";
         public static final String ATP_ID = "atpId";
         public static final String TYPE_KEY = "typeKey";
         public static final String MASTER_LPR_ID = "masterLprId";
+        public static final String LPRT_TYPE = "lprtType";
     }
 
     public static final class SearchResultColumns {
@@ -130,6 +132,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         
         public static final String CART_ID = "cartId";
         public static final String CART_ITEM_ID = "cartItemId";
+        public static final String CART_STATE = "cartState";
+        public static final String CART_ITEM_STATE = "cartItemState";
         public static final String COURSE_CODE = "courseCode";
         public static final String COURSE_ID = "courseId";
         public static final String RG_CODE = "regGroupCode";
@@ -329,11 +333,18 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String atpId = requestHelper.getParamAsString(SearchParameters.ATP_ID);
         String personId = requestHelper.getParamAsString(SearchParameters.PERSON_ID);
+        String cartId = requestHelper.getParamAsString(SearchParameters.CART_ID);
         String cartItemId = requestHelper.getParamAsString(SearchParameters.CART_ITEM_ID);
+        String lprtType = requestHelper.getParamAsString(SearchParameters.LPRT_TYPE);
+        if(StringUtils.isEmpty(lprtType)){
+            lprtType = LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY;
+        }
 
         String queryStr ="SELECT " +
                 "    lprt.id                   cartId, " +
                 "    lprti.ID                  cartItemId, " +
+                "    lprt.LPR_TRANS_STATE       cartState, " +
+                "    lprti.LPR_TRANS_ITEM_STATE cartItemState, " +
                 "    coId.LUI_CD               courseCode, " +
                 "    co.ID                     courseId, " +
                 "    rg.NAME                   rgName, " +
@@ -394,7 +405,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
                 "WHERE " +
                 "    lprt.REQUESTING_PERS_ID = :personId " +
-                "AND lprt.LPR_TRANS_TYPE='kuali.lpr.trans.type.registration.cart' " +
+                "AND lprt.LPR_TRANS_TYPE= :lprtType " +
                 "AND lprt.ATP_ID = :atpId " +
                 "AND lprti.LPR_TRANS_ID=lprt.ID " +
                 "AND rg2ao.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
@@ -408,6 +419,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "AND rg.id = lprti.NEW_LUI_ID " +
                 "AND coId.LUI_ID = co.id " +
                 (StringUtils.isEmpty(cartItemId)?" ":"AND lprti.ID = :cartItemId ") +
+                (StringUtils.isEmpty(cartId)?" ":"AND lprt.ID = :cartId ") +
                 "ORDER BY " +
                 "    lprt.ID, " +
                 "    lprti.ID, " +
@@ -416,8 +428,12 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.PERSON_ID, personId);
         query.setParameter(SearchParameters.ATP_ID, atpId);
+        query.setParameter(SearchParameters.LPRT_TYPE, lprtType);
         if(!StringUtils.isEmpty(cartItemId)){
             query.setParameter(SearchParameters.CART_ITEM_ID, cartItemId);
+        }
+        if(!StringUtils.isEmpty(cartId)){
+            query.setParameter(SearchParameters.CART_ID, cartId);
         }
 
         List<Object[]> results = query.getResultList();
@@ -427,6 +443,8 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
             SearchResultRowInfo row = new SearchResultRowInfo();
             row.addCell(SearchResultColumns.CART_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.CART_ITEM_ID, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CART_STATE, (String) resultRow[i++]);
+            row.addCell(SearchResultColumns.CART_ITEM_STATE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.COURSE_CODE, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.COURSE_ID, (String) resultRow[i++]);
             row.addCell(SearchResultColumns.RG_CODE, (String) resultRow[i++]);
