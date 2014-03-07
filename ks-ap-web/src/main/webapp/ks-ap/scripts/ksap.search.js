@@ -51,7 +51,7 @@ function ksapCourseSearchColumns() {
         'bSearchable' : true,
         'sTitle' : 'Title',
         'sClass' : 'sortable details_link',
-        'sWidth' : '160px'
+        'sWidth' : '170px'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
@@ -78,13 +78,13 @@ function ksapCourseSearchColumns() {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Gen Ed',
-        'sWidth' : '50px'
+        'sWidth' : '55px'
     }, {
         'bSortable' : false,
         'bSearchable' : true,
         'sTitle' : 'Actions',
         'sClass' : 'ksap-status-column',
-        'sWidth' : '59px'
+        'sWidth' : '45px'
     } ];
 }
 

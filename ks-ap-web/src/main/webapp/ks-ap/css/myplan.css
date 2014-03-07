@@ -1,3 +1,31 @@
+@font-face {
+    font-family: 'fontello';
+    src: url('../../themes/ksboot/fonts/glyphicons/fontello.eot?91773533');
+    src: url('../../themes/ksboot/fonts/glyphicons/fontello.eot?91773533#iefix') format('embedded-opentype'),
+    url('../../themes/ksboot/fonts/glyphicons/fontello.woff?91773533') format('woff'),
+    url('../../themes/ksboot/fonts/glyphicons/fontello.ttf?91773533') format('truetype'),
+    url('../../themes/ksboot/fonts/glyphicons/fontello.svg?91773533#fontello') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/**/
+
+
+@font-face {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Lato Regular'), local('Lato-Regular'), url('../../themes/ksboot/fonts/lato/Lato-Reg-webfont.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 700;
+    src: local('Lato Bold'), local('Lato-Bold'), url('../../themes/ksboot/fonts/lato/Lato-Bol-webfont.woff') format('woff');
+}
+
 *,
 *:active,
 *:focus {
@@ -410,19 +438,35 @@ button img.rightArrowSmall {
     vertical-align: -1px;
 }
 
-input.ksap-add,
-.uif-imageField.ksap-add img.uif-image {
-    width: 16px;
+table.ksap-course-search-results-datatable tbody tr td.ksap-status-column {
+    padding: 0 0 0 20px;
+}
+.ksap-status-column span {
+    color: #0088cc;
+    font-size: 16px;
+    position: relative;
     height: 16px;
-    background: url('../images/ksap_icon_sprites.png') no-repeat 0px 0px;
-    vertical-align: middle;
+    width: 16px;
 }
-
-input.ksap-add:hover,
-.uif-imageField.ksap-add img.uif-image:hover {
-    background-position: -16px 0px;
+.ksap-status-column span:hover {
+    color: #005590;
+    cursor: pointer;
 }
-
+.ksap-status-column span.bookmarked, .ksap-status-column span.planned {
+    color: #ccc;
+    font-size:10px;
+    font-style: italic;
+    margin-left: -20px;
+}
+.ksap-status-column span.bookmarked:before, .ksap-status-column span.planned:before{
+    display:none;
+}
+.ksap-status-column input.ksap-add {
+    position: absolute;
+    left: 3px;
+    height: 30px;
+    width: 30px;
+}
 input.ksap-delete,
 .uif-imageField.ksap-delete img.uif-image {
     width: 16px;
@@ -1250,11 +1294,10 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 
 .ksap-course-search-results .dataTables_wrapper .dataTables_info {
-    float: left;
-    font-size: 150%;
-    margin: 0;
     width: 70%;
     padding-top: 3px;
+    font-family: "Lato", sans-serif;
+    font-size: 1em;
 }
 
 .ksap-course-search-results .dataTables_wrapper .dataTables_length {
@@ -1273,42 +1316,24 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     content: close-quote;
 }
 
-.ksap-course-search-results .dataTables_wrapper .ksap-course-search-results-datatable {
-    border: solid 1px #ddd;
-    -webkit-border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    border-radius: 5px 5px 0 0;
-    margin: 0;
-    clear: both;
-    font-family: Helvetica, Arial, Verdana, sans-serif;
-}
+
 
 table.ksap-course-search-results-datatable thead tr {
-    background-image: -ms-linear-gradient(top, #F7F7F7 0%, #E9E9E9 100%);
-    background-image: -moz-linear-gradient(top, #F7F7F7 0%, #E9E9E9 100%);
-    background-image: -o-linear-gradient(top, #F7F7F7 0%, #E9E9E9 100%);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F7F7F7), color-stop(1, #E9E9E9));
-    background-image: -webkit-linear-gradient(top, #F7F7F7 0%, #E9E9E9 100%);
-    background-image: linear-gradient(to bottom, #F7F7F7 0%, #E9E9E9 100%);
-    -webkit-box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 1);
-    -moz-box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 1);
-    box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 1);
-    border: none;
-    border-bottom: solid 1px #e4e4e4;
-    -webkit-border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    border-radius: 5px 5px 0 0;
+
 }
 
 table.ksap-course-search-results-datatable thead tr th {
     border: none;
-    padding: 8px 0 8px 10px;
+    padding: 12px 0 12px 10px;
     font-weight: bold;
     color: #333;
     font-size: 1em;
     text-transform: none;
-    background: transparent;
+    background-color: #eee;
     cursor: default;
+    font-family: "Lato", sans-serif;
+    font-size:1em;
+    font-weight: bold;
 }
 
 table.ksap-course-search-results-datatable thead tr th[aria-sort='ascending'],
@@ -1328,8 +1353,8 @@ table.ksap-course-search-results-datatable thead tr th.sortable .DataTables_sort
 
 table.ksap-course-search-results-datatable thead tr th.sortable:hover,
 table.ksap-course-search-results-datatable thead tr th.sortable .DataTables_sort_wrapper:hover {
-    color: #06c;
-    text-decoration: underline;
+    /*color: #06c;
+    text-decoration: underline;*/
 }
 
 table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon {
@@ -1360,12 +1385,10 @@ table.ksap-course-search-results-datatable tbody tr {
 table.ksap-course-search-results-datatable tbody tr th,
 table.ksap-course-search-results-datatable tbody tr td {
     vertical-align: middle;
-    border: none;
 }
 
 table.ksap-course-search-results-datatable tbody tr td {
-    padding: 6px 0 6px 10px;
-    font-size: 12px;
+    padding: 10px 15px;
 }
 
 table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
@@ -1414,18 +1437,8 @@ table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.project
 }
 
 table.ksap-course-search-results-datatable tbody tr td.ksap-status-column {
-    text-align: right;
-    padding: 0 10px 0 0;
-    font-size: 10px;
-    font-style: italic;
-}
-
-table.ksap-course-search-results-datatable tbody tr td.ksap-status-column .planned {
-    color: #06c;
-}
-
-table.ksap-course-search-results-datatable tbody tr td.ksap-status-column .bookmarked {
-    color: #060;
+    /*position: relative;
+    padding-left:0;*/
 }
 
 table.ksap-course-search-results-datatable .odd,
@@ -1436,10 +1449,6 @@ table.ksap-course-search-results-datatable .odd td[class^='sorting_'] {
 table.ksap-course-search-results-datatable .even,
 table.ksap-course-search-results-datatable .even td[class^='sorting_'] {
     background-color: #f7f7f7;
-}
-
-table.ksap-course-search-results-datatable tbody tr:hover {
-    background-color: #e3f0fe;
 }
 
 table.ksap-course-search-results-datatable tbody tr:hover td.dataTables_empty {

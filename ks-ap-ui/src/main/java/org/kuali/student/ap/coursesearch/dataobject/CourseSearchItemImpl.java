@@ -475,6 +475,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 		Element stsp = DocumentHelper.createElement("span");
 		stsp.addAttribute("id", cid + "_status");
+        stsp.addAttribute("class", "ks-fontello-icon-plus-circled");
 		if (statusLabel.length() > 0) {
 			stsp.addAttribute("class", statusLabel.toLowerCase());
 			stsp.setText(statusLabel);
