@@ -15,6 +15,7 @@
  */
 package org.kuali.student.enrollment.academicrecord.service.decorators;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.core.constants.GesServiceConstants;
 import org.kuali.student.core.ges.dto.ValueInfo;
@@ -39,6 +40,8 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class AcademicRecordClassStandingCalculationDecorator extends AcademicRecordServiceDecorator {
+
+    private static final Logger logger = Logger.getLogger(AcademicRecordClassStandingCalculationDecorator.class);
 
     private GesService gesService;
 
@@ -117,6 +120,8 @@ public class AcademicRecordClassStandingCalculationDecorator extends AcademicRec
             OperationFailedException,
             PermissionDeniedException {
 
+        ValueInfo threshold = new ValueInfo();
+
         List<ValueInfo> values = gesService.getValuesByParameter(classStandingThresholdName, contextInfo);
         if(values == null || values.size() < 1) {
             throw new OperationFailedException("AcademicRecordService could not calculate class standing because class" +
@@ -124,8 +129,15 @@ public class AcademicRecordClassStandingCalculationDecorator extends AcademicRec
                     + classStandingThresholdName + "'");
         }
 
-        //should only be one value per threshold so return the first one; ignore the rest if any
-        return values.get(0);
+        //should only be one value per threshold
+        if(values.size() > 1) {
+            logger.warn("AcademicRecordService found " + values.size() +
+                    " class standing threshold values in GES when only 1 was expected for " + classStandingThresholdName);
+        }
+        for(ValueInfo value : values) {
+            threshold = value;
+        }
+        return threshold;
     }
 
     /*
