@@ -186,7 +186,7 @@ public class CourseSearchStrategyTest {
         ArrayList<String> completeLevels = new ArrayList<String>();
         ArrayList<String> completeCodes = new ArrayList<String>();
 		strategy.addComponentSearches(divisions, codes, levels, incompleteCodes, completeCodes, completeLevels, requests);
-		assertEquals(1, requests.size());
+		assertEquals(3, requests.size());
 		SearchRequestInfo request = requests.get(0);
 		assertEquals("ksap.lu.search.divisionAndCode", request.getSearchKey());
 		assertEquals("DIVISION", request.getParams().get(0).getValues().get(0));
@@ -207,7 +207,7 @@ public class CourseSearchStrategyTest {
         ArrayList<String> completeCodes = new ArrayList<String>();
 		ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
 		strategy.addComponentSearches(divisions, codes, levels, incompleteCodes, completeCodes, completeLevels, requests);
-		assertEquals(1, requests.size());
+		assertEquals(3, requests.size());
 		SearchRequestInfo request = requests.get(0);
 		assertEquals("ksap.lu.search.divisionAndLevel",
 				request.getSearchKey());
@@ -229,7 +229,7 @@ public class CourseSearchStrategyTest {
         ArrayList<String> completeLevels = new ArrayList<String>();
         ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
         strategy.addComponentSearches(divisions, codes, levels, incompleteCodes, completeCodes, completeLevels, requests);
-        assertEquals(1, requests.size());
+        assertEquals(2, requests.size());
         SearchRequestInfo request = requests.get(0);
         assertEquals("ksap.lu.search.courseCode",
                 request.getSearchKey());
