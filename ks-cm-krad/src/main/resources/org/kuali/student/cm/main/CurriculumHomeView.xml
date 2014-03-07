@@ -136,8 +136,8 @@
             <list>
                 <bean parent="Uif-HeaderFive" p:headerText="Courses" />
                 <bean parent="Uif-Link" p:linkText="Find a Course"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Course-FindACourse&amp;dataObjectClassName=org.kuali.student.lum.lu.ui.krms.dto.CluInformation&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true" />
-                <bean parent="Uif-Link" p:linkText="Find a Course Proposal"  p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-CM-ProposalLookup&amp;dataObjectClassName=org.kuali.student.lum.lu.ui.krms.dto.CluInformation&amp;showMaintenanceLinks=true&amp;returnLocation=@{#ConfigProperties['application.url']}/portal.do&amp;hideReturnLink=true"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-Course-FindACourse&amp;showMaintenanceLinks=true&amp;hideReturnLink=true" />
+                <bean parent="Uif-Link" p:linkText="Find a Course Proposal"  p:href="@{#ConfigProperties['application.url']}/kr-krad/lookup?viewId=KS-CM-ProposalLookup&amp;showMaintenanceLinks=true&amp;hideReturnLink=true"/>
             </list>
         </property>
     </bean>
