@@ -22,13 +22,14 @@
                     <ng-pluralize count="course.credits"
                                   when="{'1'    : '{} credit',
                                          'other': '{} credits'}">
-                    </ng-pluralize>, {{course.gradingOptions[course.gradingOptionId]}}
+                    </ng-pluralize>
                 </div>
 
             <!--Course Header Section-->
             <div>
                 <span class="kscr-Register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
                 <span class="kscr-Register-header kscr-Card-title" id="course_code_{{course.courseCode}}_{{course.regGroupCode}}"><strong>{{course.courseCode}} ({{course.regGroupCode}})</strong></span>
+                <span class="kscr-Card-badge" ng-show="{{course.gradingOptions[course.gradingOptionId] != 'Letter'}}">{{course.gradingOptions[course.gradingOptionId]}}</span>
             </div>
             <!--Course Title and description-->
             <div class="kscr-Register-cardText kscr-Card-text" id="title_{{course.courseCode}}_{{course.regGroupCode}}">{{course.longName}}</div>
