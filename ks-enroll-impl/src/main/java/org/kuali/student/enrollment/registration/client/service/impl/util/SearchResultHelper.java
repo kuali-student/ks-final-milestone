@@ -6,6 +6,7 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -65,6 +66,9 @@ public class SearchResultHelper implements Iterable<SearchResultHelper.KeyValue>
         @Override
         public Object next() {
             index++;
+            if (index >= searchResultInfo.getRows().size()){
+                throw new NoSuchElementException();
+            }
             return keyValue;  //To change body of implemented methods use File | Settings | File Templates.
         }
 

@@ -4,6 +4,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseI
 import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -38,13 +39,12 @@ public interface CourseRegistrationCartClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/submitCart")
-    public Response submitCartRS(@QueryParam("userId") String userId,
-                                 @QueryParam("cartId") String cartId);
+    public Response submitCartRS(                                 @QueryParam("cartId") String cartId);
 
     /**
      * This method takes a cart and calls submit on the course registration service
      *
-     * @param userId override of principal ID
+     * @param contextInfo context of the call
      * @param cartId ID of the registrationRequest representing the cart
      * @return A Response with the Boolean value of TRUE
      * @throws InvalidParameterException
@@ -55,7 +55,7 @@ public interface CourseRegistrationCartClientService {
      * @throws AlreadyExistsException
      * @throws LoginException
      */
-    public RegistrationResponseInfo submitCart(String userId, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException;
+    public RegistrationResponseInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException;
 
     /**
      * The REST version of addCourseToCart
@@ -71,7 +71,7 @@ public interface CourseRegistrationCartClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/addCourseToCart")
-    public Response addCourseToCartRS(@QueryParam("userId") String userId,
+    public Response addCourseToCartRS(
                                       @QueryParam("cartId") String cartId,
                                       @QueryParam("courseCode") String courseCode,
                                       @QueryParam("regGroupId") String regGroupId,
@@ -80,27 +80,39 @@ public interface CourseRegistrationCartClientService {
                                       @QueryParam("credits") String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
 
     /**
-     * Rest method that removes an item from the cart.
+     * The REST version of removeItemFromCart
      *
-     * @param cartId          ID of the registrationRequest representing the cart
-     * @param cartItemId      id of the item to delete from the cart.
-     * @param gradingOptionId the RVG key of grading student registration option. (org.kuali.rvg.grading.PassFail, org.kuali.rvg.grading.Letter)
-     * @param credits         The numeric string value of credit student registration option. Must convert to KualiDecimal.
+     * @param cartId     ID of the registrationRequest representing the cart
+     * @param cartItemId id of the item to delete from the cart.
      * @return Response(with add action link) containing the cart item that was updated or a server error response. As Well as action links to undo the removal.
      */
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/removeItemFromCart")
     public Response removeItemFromCartRS(@QueryParam("cartId") String cartId,
-                                         @QueryParam("cartItemId") String cartItemId,
-                                         @QueryParam("gradingOptionId") String gradingOptionId,
-                                         @QueryParam("credits") String credits);
+                                         @QueryParam("cartItemId") String cartItemId);
+
+    /**
+     * Removes item from cart
+     *
+     * @param cartId     ID of the registrationRequest representing the cart
+     * @param cartItemId id of the item to delete from the cart.
+     * @return removed item so that the action can be undone
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     * @throws ReadOnlyException
+     * @throws DataValidationErrorException
+     * @throws VersionMismatchException
+     */
+    public CartItemResult removeItemFromCart(String cartId, String cartItemId) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException;
 
 
     /**
      * The REST version of updateCartItem
      *
-     * @param userId     override of principal ID
      * @param cartId     ID of the registrationRequest representing the cart
      * @param cartItemId ID of the specific item being updated
      * @param credits    The numeric string value of credit student registration option. Must convert to KualiDecimal.
@@ -110,8 +122,7 @@ public interface CourseRegistrationCartClientService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/updateCartItem")
-    public Response updateCartItemRS(@QueryParam("userId") String userId,
-                                     @QueryParam("cartId") String cartId,
+    public Response updateCartItemRS(                                     @QueryParam("cartId") String cartId,
                                      @QueryParam("cartItemId") String cartItemId,
                                      @QueryParam("credits") String credits,
                                      @QueryParam("grading") String grading);
@@ -120,7 +131,7 @@ public interface CourseRegistrationCartClientService {
      * This method allows users to set credit and grading options on an item in their cart using the course registration
      * service's update method.
      *
-     * @param userId     override of principal ID
+     * @param contextInfo     context of the call
      * @param cartId     ID of the registrationRequest representing the cart
      * @param cartItemId ID of the specific item being updated
      * @param credits    The numeric string value of credit student registration option. Must convert to KualiDecimal.
@@ -136,19 +147,18 @@ public interface CourseRegistrationCartClientService {
      * @throws ReadOnlyException
      * @throws VersionMismatchException
      */
-    public CartItemResult updateCartItem(String userId, String cartId, String cartItemId, String credits, String grading) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException;
+    public CartItemResult updateCartItem(ContextInfo contextInfo, String cartId, String cartItemId, String credits, String grading) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException;
 
 
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/searchForCart")
-    public Response searchForCartRS(@QueryParam("userId") String userId,
-                                    @QueryParam("termId") String termId);
+    public Response searchForCartRS(@QueryParam("termId") String termId);
 
     /**
      * Looks up cart information for the given user and term. if no cart exists, one is created
      *
-     * @param userId student id that owns the cart
+     * @param contextInfo context of the call
      * @param termId term for the cart
      * @return a Cart Result that contains the courses a student is intending to enroll in for the given term.
      * @throws LoginException
@@ -160,7 +170,7 @@ public interface CourseRegistrationCartClientService {
      * @throws DataValidationErrorException
      * @throws ReadOnlyException
      */
-    public CartResult searchForCart(String userId, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException;
+    public CartResult searchForCart(ContextInfo contextInfo, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException;
 
 
     /**

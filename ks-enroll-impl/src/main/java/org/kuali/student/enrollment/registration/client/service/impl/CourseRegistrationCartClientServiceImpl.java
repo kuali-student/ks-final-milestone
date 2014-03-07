@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -14,32 +15,14 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientServiceConstants;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingLocationTimeResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
-import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.Link;
-import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
-import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ScheduleLocationResult;
-import org.kuali.student.enrollment.registration.client.service.dto.ScheduleTimeResult;
+import org.kuali.student.enrollment.registration.client.service.dto.*;
 import org.kuali.student.enrollment.registration.client.service.exception.MissingOptionException;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
@@ -54,12 +37,7 @@ import javax.security.auth.login.LoginException;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -72,11 +50,11 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     private AtpService atpService;
 
     @Override
-    public Response submitCartRS(String userId, String cartId) {
+    public Response submitCartRS(String cartId) {
         Response.ResponseBuilder response;
 
         try {
-            submitCart(userId, cartId);
+            submitCart(ContextUtils.createDefaultContextInfo(), cartId);
             response = Response.ok(Boolean.TRUE);
         } catch (Exception e) {
             LOGGER.warn("Error submitting cart", e);
@@ -87,8 +65,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
-    public RegistrationResponseInfo submitCart(String userId, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
-        ContextInfo contextInfo = getContextAndCheckLogin(userId);
+    public RegistrationResponseInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
 
         //Make sure that the user is the owner of the cart!
         RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
@@ -97,17 +74,15 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         }
 
         //Call submit on the registration service
-        RegistrationResponseInfo registrationResponse = getCourseRegistrationService().submitRegistrationRequest(cartId, contextInfo);
-
-        return registrationResponse;
+        return getCourseRegistrationService().submitRegistrationRequest(cartId, contextInfo);
     }
 
     @Override
-    public Response addCourseToCartRS(String userId, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+    public Response addCourseToCartRS(String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
         Response.ResponseBuilder response;
 
         try {
-            CartItemResult result = addCourseToCart(userId, cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
+            CartItemResult result = addCourseToCart(ContextUtils.createDefaultContextInfo(), cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
             // build the link to delete this item.
             result.getActionLinks().add(buildDeleteLink(cartId, result.getCartItemId(), result.getGrading(), result.getCredits()));
 
@@ -152,26 +127,27 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
-    public Response removeItemFromCartRS(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId, @QueryParam("gradingOptionId") String gradingOptionId, @QueryParam("credits") String credits) {
+    public Response removeItemFromCartRS(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId) {
         Response.ResponseBuilder response;
 
         try {
-            CartItemResult result = removeItemFromCart(cartId, cartItemId, gradingOptionId, credits);
+            CartItemResult result = removeItemFromCart(cartId, cartItemId);
             // build the link to add this item.
             result.getActionLinks().add(buildAddLink(cartId, result.getRegGroupId(), result.getGrading(), result.getCredits()));
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
-        } catch (Throwable t) {
-            LOGGER.warn(t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Error with removing item from cart", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
     }
 
     @Transactional
-    public CartItemResult removeItemFromCart(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId, @QueryParam("gradingOptionId") String gradingOptionId, @QueryParam("credits") String credits) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+    @Override
+    public CartItemResult removeItemFromCart(@QueryParam("cartId") String cartId, @QueryParam("cartItemId") String cartItemId) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
 
@@ -192,8 +168,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 //Create a result as a return value of what was deleted
                 CartItemResult cartItemInfo = new CartItemResult();
                 cartItemInfo.setRegGroupId(requestItem.getRegistrationGroupId());
-                cartItemInfo.setCredits(credits);
-                cartItemInfo.setGrading(gradingOptionId);
+                cartItemInfo.setCredits(requestItem.getCredits() == null ? "" : requestItem.getCredits().bigDecimalValue().setScale(1).toPlainString());
+                cartItemInfo.setGrading(requestItem.getGradingOptionId());
 
                 return cartItemInfo;
             }
@@ -204,8 +180,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Transactional
-    protected CartItemResult addCourseToCart(String userId, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException {
-        ContextInfo contextInfo = getContextAndCheckLogin(userId);
+    protected CartItemResult addCourseToCart(ContextInfo contextInfo, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException {
 
         RegGroupSearchResult rg = null;
         //If only the user and regGroupId was passed in, we need to look up the RG and find the term to get the cart ID
@@ -326,12 +301,12 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
-    public Response updateCartItemRS(String userId, String cartId, String cartItemId, String credits, String grading) {
+    public Response updateCartItemRS(String cartId, String cartItemId, String credits, String grading) {
         Response.ResponseBuilder response;
 
         try {
             //This will need to be changed to the cartItemResponse object in the future!
-            response = Response.ok(updateCartItem(userId, cartId, cartItemId, credits, grading));
+            response = Response.ok(updateCartItem(ContextUtils.createDefaultContextInfo(), cartId, cartItemId, credits, grading));
         } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
@@ -342,8 +317,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     @Override
     //This will need to be changed to the cartItemResponse object in the future!
-    public CartItemResult updateCartItem(String userId, String cartId, String cartItemId, String credits, String grading) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
-        ContextInfo contextInfo = getContextAndCheckLogin(userId);
+    public CartItemResult updateCartItem(ContextInfo contextInfo, String cartId, String cartItemId, String credits, String grading) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
 
         //Get the Cart from services
         RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
@@ -364,7 +338,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
                 cartRegistrationRequest = getCourseRegistrationService().updateRegistrationRequest(cartRegistrationRequest.getId(), cartRegistrationRequest, contextInfo);
 
                 //Look up the newly updated information
-                CartResult cartResult = getCartForUserAndTerm(userId, cartRegistrationRequest.getTermId(), cartItemId, true, contextInfo);
+                CartResult cartResult = getCartForUserAndTerm(contextInfo.getPrincipalId(), cartRegistrationRequest.getTermId(), cartItemId, true, contextInfo);
                 return KSCollectionUtils.getRequiredZeroElement(cartResult.getItems());
             }
         }
@@ -373,7 +347,6 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     @Override
     public RegistrationOptionResult getStudentRegistrationOptions(String courseCode, String termId, String regGroupId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        ContextInfo context = ContextUtils.createDefaultContextInfo();
         List<CourseSearchResult> courses = CourseRegistrationAndScheduleOfClassesUtil.getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode);
         CourseSearchResult exactMatch = new CourseSearchResult();
         for (CourseSearchResult courseSearchResult : courses) {
@@ -382,7 +355,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             }
         }
 
-        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(exactMatch.getCourseOfferingId(), courseCode, termId, CourseRegistrationAndScheduleOfClassesUtil.getAtpService().getAtp(termId, context).getCode());
+        CourseOfferingInfo courseOfferingInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseOfferingIdCreditGrading(exactMatch.getCourseOfferingId(), courseCode, termId, null);
         RegistrationOptionResult registrationOptionResult = new RegistrationOptionResult();
         registrationOptionResult.setCourseCode(courseCode);
         registrationOptionResult.setTermId(termId);
@@ -396,12 +369,12 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
-    public Response searchForCartRS(String userId, String termId) {
+    public Response searchForCartRS(String termId) {
         Response.ResponseBuilder response;
 
         try {
             //This will need to be changed to the cartItemResponse object in the future!
-            response = Response.ok(searchForCart(userId, termId));
+            response = Response.ok(searchForCart(ContextUtils.createDefaultContextInfo(), termId));
         } catch (Exception e) {
             LOGGER.warn("Error", e);
             response = Response.serverError().entity(e.getMessage());
@@ -412,12 +385,12 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     @Override
     @Transactional
-    public CartResult searchForCart(String userId, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
+    public CartResult searchForCart(ContextInfo contextInfo, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         if (termId == null) {
             throw new InvalidParameterException("Term Id cannot be null.");
         }
 
-        ContextInfo contextInfo = getContextAndCheckLogin(userId);
+        String userId = contextInfo.getPrincipalId();
 
         //Verify that the Atp exists.
         getAtpService().getAtp(termId, contextInfo);
@@ -456,9 +429,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         }
 
         for (SearchResultHelper.KeyValue row : SearchResultHelper.wrap(searchResult)) {
-            String cartId = row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TRANS_ID);
-            return cartId;
-
+            return row.get(CourseRegistrationSearchServiceImpl.SearchResultColumns.LPR_TRANS_ID);
         }
         return null;
     }
@@ -565,8 +536,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
             ScheduleTimeResult scheduleTimeResult = new ScheduleTimeResult();
             scheduleTimeResult.setDays(weekdays);
-            scheduleTimeResult.setStartTime(StringUtils.isEmpty(startTimeMs)?"":TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs))));
-            scheduleTimeResult.setEndTime(StringUtils.isEmpty(endTimeMs)?"":TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs))));
+            scheduleTimeResult.setStartTime(StringUtils.isEmpty(startTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(startTimeMs))));
+            scheduleTimeResult.setEndTime(StringUtils.isEmpty(endTimeMs) ? "" : TimeOfDayHelper.formatTimeOfDay(TimeOfDayHelper.setMillis(Long.valueOf(endTimeMs))));
             locationTimeResult.setTime(scheduleTimeResult);
 
             aoSched.getActivityOfferingLocationTime().add(locationTimeResult);
@@ -637,20 +608,6 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         registrationRequest.setTypeKey(LprServiceConstants.LPRTRANS_REG_CART_TYPE_KEY);
         RegistrationRequestInfo created = getCourseRegistrationService().createRegistrationRequest(registrationRequest.getTypeKey(), registrationRequest, contextInfo);
         return created;
-    }
-
-    private ContextInfo getContextAndCheckLogin(String userId) throws LoginException {
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-        if (!StringUtils.isEmpty(userId)) {
-            contextInfo.setPrincipalId(userId);
-        }
-
-        if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
-            throw new LoginException("User must be logged in to access this service");
-        }
-
-        return contextInfo;
     }
 
     public CourseRegistrationService getCourseRegistrationService() {

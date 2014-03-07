@@ -204,5 +204,10 @@
             <artifactId>activemq-spring</artifactId>
             <version>5.9.0</version>
         </dependency>
+        <!-- for HttpRequest in JAXRS services -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
     </dependencies>
 </project>

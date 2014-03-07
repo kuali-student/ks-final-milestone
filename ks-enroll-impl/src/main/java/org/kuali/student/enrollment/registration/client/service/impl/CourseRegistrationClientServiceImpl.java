@@ -55,11 +55,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     public static final Logger LOGGER = Logger.getLogger(CourseRegistrationClientServiceImpl.class);
 
     @Override
-    public Response registerForRegistrationGroup(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) {
+    public Response registerForRegistrationGroupRS(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(registerForRegistrationGroupLocal(userId, termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId));
+            response = Response.ok(registerForRegistrationGroupLocal(ContextUtils.createDefaultContextInfo(), termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId));
         } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
@@ -69,11 +69,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response dropRegistrationGroup(String userId, String masterLprId) {
+    public Response dropRegistrationGroupRS(String masterLprId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(dropRegistrationGroupLocal(userId, masterLprId));
+            response = Response.ok(dropRegistrationGroup(ContextUtils.createDefaultContextInfo(), masterLprId));
         } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
@@ -82,15 +82,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    public RegistrationResponseInfo registerForRegistrationGroupLocal(String userId, String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
-        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", userId, termCode, courseCode, regGroupCode));
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
-
-        if (!StringUtils.isEmpty(userId)) {
-            contextInfo.setPrincipalId(userId);
-        }  else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
-            throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal]User must be logged in to access this service");
-        }
+    public RegistrationResponseInfo registerForRegistrationGroupLocal(ContextInfo contextInfo, String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", contextInfo.getPrincipalId(), termCode, courseCode, regGroupCode));
 
         // get the regGroup
         RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
@@ -108,20 +101,19 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
 
         // submit the request to the registration engine.
-        RegistrationResponseInfo registrationResponseInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
-
-        return registrationResponseInfo;
-      
+        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
     }
 
-    public RegistrationResponseInfo dropRegistrationGroupLocal(String userId, String masterLprId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
-        //
+    public RegistrationResponseInfo dropRegistrationGroup(ContextInfo contextInfo, String masterLprId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
+
+        String userId = contextInfo.getPrincipalId();
+
         LOGGER.debug(String.format("REGISTRATION: user[%s] masterLprId[%s]", userId, masterLprId));
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+
 
         if (!StringUtils.isEmpty(userId)) {
             contextInfo.setPrincipalId(userId);
-        }  else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
+        } else if (StringUtils.isEmpty(contextInfo.getPrincipalId())) {
             throw new LoginException("[CourseRegistrationClientServiceImpl::registerForRegistrationGroupLocal]User must be logged in to access this service");
         }
 
@@ -132,15 +124,12 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         RegistrationRequestInfo newRegReq = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().createRegistrationRequest(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY, regReqInfo, contextInfo);
 
         // submit the request to the registration engine.
-        RegistrationResponseInfo registrationResponseInfo = CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
-
-        return registrationResponseInfo;
-
+        return CourseRegistrationAndScheduleOfClassesUtil.getCourseRegistrationService().submitRegistrationRequest(newRegReq.getId(), contextInfo);
     }
 
 
     @Override
-    public Response getRegEngineStats() {
+    public Response getRegEngineStatsRS() {
         Response.ResponseBuilder response;
 
         try {
@@ -155,7 +144,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response clearRegEngineStats() {
+    public Response clearRegEngineStatsRS() {
 
         Response.ResponseBuilder response;
 
@@ -165,7 +154,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             // this is incredibly easy.
             MQPerformanceCounter.INSTANCE.clearPerformanceStats();
 
-            response = Response.fromResponse(getRegEngineStats());
+            response = Response.fromResponse(getRegEngineStatsRS());
         } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
@@ -195,15 +184,16 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * SEARCH for STUDENT REGISTRATION INFO based on person and termCode *
      */
     @Override
-    public List<StudentScheduleTermResult> searchForScheduleByPersonAndTerm(String userId, String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public List<StudentScheduleTermResult> searchForScheduleByPersonAndTermRS(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        String userId = contextInfo.getPrincipalId();
 
         if (StringUtils.isEmpty(userId)) {
             userId = contextInfo.getPrincipalId();
         }
 
-        if(StringUtils.isEmpty(userId)){
+        if (StringUtils.isEmpty(userId)) {
             throw new LoginException("[CourseRegistrationClientServiceImpl::searchForScheduleByPersonAndTerm] User must be logged in to access this service");
         }
 
@@ -216,7 +206,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTerm(String userId, String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public List<List<ScheduleCalendarEventResult>> searchForScheduleCalendarByPersonAndTermRS(String termId, String termCode) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+
         //Colours this is just a poc!
         String[] colours = new String[]{"#BDF", "#DFB", "#FBD", "#FDB", "#DBF", "#BFD",
                 "#DDF", "#DFD", "#FDD",
@@ -228,7 +219,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         int colourIndex = 0;
 
         //Use existing services to get the schedule
-        List<StudentScheduleTermResult> schedule = searchForScheduleByPersonAndTerm(userId, termId, termCode);
+        List<StudentScheduleTermResult> schedule = searchForScheduleByPersonAndTermRS(termId, termCode);
 
         //Initialize a map with lists for each day of the week
         Map<String, List<ScheduleCalendarEventResult>> dayToEventListMap = new HashMap<String, List<ScheduleCalendarEventResult>>();
@@ -241,16 +232,16 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         dayToEventListMap.put("U", new ArrayList<ScheduleCalendarEventResult>());
 
         //Create events per day from the schedule
-        for(StudentScheduleTermResult scheduleItem : schedule){
-            for(StudentScheduleCourseResult course:scheduleItem.getCourseOfferings()){
+        for (StudentScheduleTermResult scheduleItem : schedule) {
+            for (StudentScheduleCourseResult course : scheduleItem.getCourseOfferings()) {
                 String colour = colours[colourIndex++];
-                for(StudentScheduleActivityOfferingResult ao : course.getActivityOfferings()){
-                    for(ActivityOfferingScheduleComponentResult component : ao.getScheduleComponents()){
-                        if(component.getStartTime() != null){
+                for (StudentScheduleActivityOfferingResult ao : course.getActivityOfferings()) {
+                    for (ActivityOfferingScheduleComponentResult component : ao.getScheduleComponents()) {
+                        if (component.getStartTime() != null) {
                             //Calculate the text and start time/end time in minutes
-                            String text = course.getCourseCode() + " " + (ao.getActivityOfferingTypeShortName()!=null&&ao.getActivityOfferingTypeShortName().length()>=3?ao.getActivityOfferingTypeShortName().substring(0,3).toUpperCase():"");
+                            String text = course.getCourseCode() + " " + (ao.getActivityOfferingTypeShortName() != null && ao.getActivityOfferingTypeShortName().length() >= 3 ? ao.getActivityOfferingTypeShortName().substring(0, 3).toUpperCase() : "");
                             int startTimeMin = toMins(component.getStartTime());
-                            int duration = toMins(component.getEndTime()) - startTimeMin ;
+                            int duration = toMins(component.getEndTime()) - startTimeMin;
                             if(component.isMon()){dayToEventListMap.get("M").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
                             if(component.isTue()){dayToEventListMap.get("T").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
                             if(component.isWed()){dayToEventListMap.get("W").add(new ScheduleCalendarEventResult(duration, text, startTimeMin, colour));}
@@ -265,10 +256,10 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         //Sort each day's list by start time
-        Comparator<ScheduleCalendarEventResult> comparator = new Comparator<ScheduleCalendarEventResult>(){
+        Comparator<ScheduleCalendarEventResult> comparator = new Comparator<ScheduleCalendarEventResult>() {
             @Override
             public int compare(ScheduleCalendarEventResult event1, ScheduleCalendarEventResult event2) {
-                return  event1.getStartTimeMin() - event2.getStartTimeMin();
+                return event1.getStartTimeMin() - event2.getStartTimeMin();
             }
         };
         Collections.sort(dayToEventListMap.get("M"), comparator);
@@ -280,9 +271,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         Collections.sort(dayToEventListMap.get("U"), comparator);
 
         //Sum up the offset (setSumPrecedingDurations) (and calculate time conflicts in the future)
-        for(List<ScheduleCalendarEventResult> events : dayToEventListMap.values()){
+        for (List<ScheduleCalendarEventResult> events : dayToEventListMap.values()) {
             int offset = 0;
-            for(ScheduleCalendarEventResult event : events){
+            for (ScheduleCalendarEventResult event : events) {
                 event.setSumPrecedingDurations(offset);
                 offset += event.getDurationMin();
             }
@@ -303,7 +294,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     private static int toMins(String s) {
         String[] hourMin = s.split(":");
-        if(hourMin.length == 2){
+        if (hourMin.length == 2) {
             int hour = Integer.parseInt(hourMin[0]);
             int mins = Integer.parseInt(hourMin[1]);
             int hoursInMins = hour * 60;
@@ -314,12 +305,13 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
     /**
      * This method call search service to retrieve registration schedule data for the person
-     * @param userId
-     * @param termId
+     *
+     * @param userId Person Id
+     * @param termId Term Key
      * @return StudentScheduleCourseResults
      * @throws OperationFailedException
      * @throws InvalidParameterException
-     **/
+     */
     private List<StudentScheduleTermResult> getRegistrationScheduleByPersonAndTerm(String userId, String termId, ContextInfo contextInfo) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         List<StudentScheduleTermResult> studentScheduleTermResults = new ArrayList<StudentScheduleTermResult>();
         List<String> activityOfferingList = new ArrayList<String>();
@@ -536,7 +528,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
      * @throws PermissionDeniedException
      * @throws DoesNotExistException
      */
-    public Response clearLPRsByPerson(String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public Response clearLPRsByPersonRS(String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         Response.ResponseBuilder response;
         try {
             ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
@@ -557,16 +549,16 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     /**
      * This method creates a registration request for the add operation of a single registration group.
      *
-     * @param principalId principal id
-     * @param termId      term id
-     * @param regGroupId  Registration Group id
-     * @param masterLprId  masterLprId
-     * @param credits      credits
-     * @param gradingOptionId  gradingOptionId
-     * @param typeKey  typeKey
-     * @param stateKey  stateKey
+     * @param principalId     principal id
+     * @param termId          term id
+     * @param regGroupId      Registration Group id
+     * @param masterLprId     masterLprId
+     * @param credits         credits
+     * @param gradingOptionId gradingOptionId
+     * @param typeKey         typeKey
+     * @param stateKey        stateKey
      * @param reqItemTypeKey  reqItemTypeKey
-     * @param reqItemStateKey  reqItemStateKey
+     * @param reqItemStateKey reqItemStateKey
      * @return registration request
      */
     private RegistrationRequestInfo createRegistrationRequest(String principalId, String termId, String regGroupId, String masterLprId, String credits, String gradingOptionId, String typeKey, String stateKey, String reqItemTypeKey, String reqItemStateKey) {
@@ -583,13 +575,13 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return regReqInfo;
     }
 
-    private String verifyRegistrationRequestCreditsGradingOption(CourseOfferingInfo courseOfferingInfo, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,  DoesNotExistException {
+    private String verifyRegistrationRequestCreditsGradingOption(CourseOfferingInfo courseOfferingInfo, String credits, String gradingOptionId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         int firstValue = 0;
 
         // checking grading option. If null - just keep it that way
         if (!StringUtils.isEmpty(gradingOptionId) && (courseOfferingInfo.getStudentRegistrationGradingOptions().isEmpty() ||
-                    !courseOfferingInfo.getStudentRegistrationGradingOptions().contains(gradingOptionId))) {
-                throw new InvalidParameterException("Grading option doesn't match");
+                !courseOfferingInfo.getStudentRegistrationGradingOptions().contains(gradingOptionId))) {
+            throw new InvalidParameterException("Grading option doesn't match");
         }
 
         //Lookup the selected credit option and set from persisted values
@@ -605,8 +597,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)) {
                     credits = resultValueInfos.get(firstValue).getValue(); // fixed credits
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)) {  // range
-                    if (credits.isEmpty() || (Float.valueOf(credits).floatValue() < Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMinValue()).floatValue()) ||
-                            (Float.valueOf(credits).floatValue() > Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMaxValue()).floatValue())) {
+                    if (credits.isEmpty() || (Float.valueOf(credits) < Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMinValue())) ||
+                            (Float.valueOf(credits) > Float.valueOf(resultValuesGroupInfo.getResultValueRange().getMaxValue()))) {
                         throw new InvalidParameterException("Credits are incorrect");
                     }
                 } else if (typeKey.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)) {  // multiple
@@ -625,11 +617,11 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
-    public Response updateScheduleItem(String userId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
+    public Response updateScheduleItemRS(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
-            response = Response.ok(updateScheduleItemHelper(userId, courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
+            response = Response.ok(updateScheduleItem(ContextUtils.createDefaultContextInfo(), courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
         } catch (Throwable t) {
             LOGGER.warn(t);
             response = Response.serverError().entity(t.getMessage());
@@ -638,9 +630,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         return response.build();
     }
 
-    public ScheduleItemResult updateScheduleItemHelper(String userId, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
+    public ScheduleItemResult updateScheduleItem(ContextInfo contextInfo, String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, AlreadyExistsException {
         RegistrationRequestInfo registrationRequestInfo = new RegistrationRequestInfo();
-        ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
+        String userId = contextInfo.getPrincipalId();
 
         //Populate Fields for RegRequestInfo object
         registrationRequestInfo.setRequestorId(userId);

@@ -4,7 +4,7 @@ var cartServiceModule = angular.module('regCartApp');
 
 cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService',
     function ($scope, $modal, ScheduleService) {
-        ScheduleService.populateSchedule('admin', $scope.termId);
+        ScheduleService.populateSchedule($scope.termId);
         $scope.schedules = ScheduleService.getStudentSchedule();
         $scope.registeredCredits = ScheduleService.getRegisteredCredits;
         $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
@@ -17,17 +17,17 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         $scope.openDropConfirmation = function (index, course) {
             console.log('Open drop confirmation');
             $modal.open({
-                backdrop:'static',
-                templateUrl:'partials/dropCourse.html',
-                resolve:{
-                     index:function () {
-                         return index;
-                     },
-                     course:function () {
+                backdrop: 'static',
+                templateUrl: 'partials/dropCourse.html',
+                resolve: {
+                    index: function () {
+                        return index;
+                    },
+                    course: function () {
                         return course;
                     }
                 },
-                controller:['$rootScope', '$scope', 'index', 'course', function ($rootScope, $scope, index, course) {
+                controller: ['$rootScope', '$scope', 'index', 'course', function ($rootScope, $scope, index, course) {
                     console.log('in controller');
                     console.log($scope);
                     console.log(index);
@@ -45,17 +45,17 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                     };
                 }]
             });
-        }
+        };
 
         function dropRegistrationGroup(index, courseCode, regGroupCode, credits, masterLprId) {
             console.log('Calling service to drop registration group');
             ScheduleService.dropRegistrationGroup().query({
-                userId:'admin',
-                masterLprId:masterLprId
+                userId: 'admin',
+                masterLprId: masterLprId
             }, function () {
                 $scope.schedules[0].courseOfferings.splice(index, 1);
                 ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(credits));
-                $scope.userMessage = {txt:'Dropped ' + courseCode + ' (' + regGroupCode + ') successfully', type:'success'};
+                $scope.userMessage = {txt: 'Dropped ' + courseCode + ' (' + regGroupCode + ') successfully', type: 'success'};
             });
         }
 
@@ -74,18 +74,18 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             console.log(newCredits);
             console.log(newGrading);
             ScheduleService.updateScheduleItem().query({
-                userId:'admin',
-                courseCode:course.courseCode,
-                cartItemId:course.regGroupCode,
-                masterLprId:course.masterLprId,
-                credits:newCredits,
-                gradingOptionId:newGrading
+                userId: 'admin',
+                courseCode: course.courseCode,
+                cartItemId: course.regGroupCode,
+                masterLprId: course.masterLprId,
+                credits: newCredits,
+                gradingOptionId: newGrading
             }, function (scheduleItemResult) {
                 console.log(scheduleItemResult);
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
                 course.editing = false;
-                $scope.userMessage = {txt:'Updated Successfully', type:'success'};
+                $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
             });
         };
 
