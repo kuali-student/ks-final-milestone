@@ -1,4 +1,4 @@
-
+<div class="kscr-Header-container">
     <div class="kscr-Header">
         <div class="kscr-Header-logo">
             <span class="kscr-Header-title kscr-Visibility-mobileElement">COURSE REGISTRATION</span>
@@ -15,10 +15,13 @@
             <!--</span>-->
         </div>
     </div>
+</div>
+<div class="kscr-Body-container">
     <div class="kscr-Menu-searchTerm">
         <!-- Defaults to the current term-->
         <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
     </div>
 
 
-<div ui-view/>
+    <div ui-view/>
+</div>
