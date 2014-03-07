@@ -282,3 +282,7 @@ function navigateToTheRightTab(isCurriculumSpecialist, tabId) {
     var tabPanelId = "#course_tabs_tabs";
     jQuery(tabPanelId).tabs("select", tabId + "_tab").click();
 }
+
+function updateStickyHeaderText() {
+    jQuery("#KS-CourseView").find('.uif-viewHeader-supportTitle').text("Review Proposal");
+}
