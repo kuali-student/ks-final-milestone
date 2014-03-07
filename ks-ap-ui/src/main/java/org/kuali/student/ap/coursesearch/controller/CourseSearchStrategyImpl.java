@@ -1071,7 +1071,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             if(seenDivisions.contains(division)) continue;
 
             seenDivisions.add(division);
-			boolean needDivisionQuery = true;
 
             // Create code searches for that division
             List<String> seenCodes = new ArrayList<String>();
@@ -1080,7 +1079,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 if(seenCodes.contains(code)) continue;
 
                 seenCodes.add(code);
-				needDivisionQuery = false;
 
                 SearchRequestInfo request = new SearchRequestInfo(
                         CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISIONANDCODE);
@@ -1096,7 +1094,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 if(seenLevels.contains(level)) continue;
 
                 seenLevels.add(level);
-                needDivisionQuery = false;
 
 				// Converts "1XX" to "100"
 				level = level.substring(0, 1) + "00";
@@ -1115,7 +1112,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 if(seenIncompleteCodes.contains(incompleteCode)) continue;
 
                 seenIncompleteCodes.add(incompleteCode);
-                needDivisionQuery = false;
 
                 SearchRequestInfo request = new SearchRequestInfo(
                         CourseSearchConstants.COURSE_SEARCH_TYPE_COURSECODE);
@@ -1123,34 +1119,29 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 requests.add(request);
             }
 
-            // If no other searches are created create a general division search.
-			if (needDivisionQuery) {
-				SearchRequestInfo request = new SearchRequestInfo(
-                        CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISION);
-				request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
-				requests.add(request);
-			}
+            // Always create a division search
+            SearchRequestInfo request = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISION);
+            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_DIVISION, division);
+            requests.add(request);
 		}
 
-        // Code only searches
-        if (divisions == null || divisions.isEmpty()) {
-            // Create course code only search
-            for (String code : codes) {
-                SearchRequestInfo request = new SearchRequestInfo(
-                        CourseSearchConstants.COURSE_SEARCH_TYPE_EXACTCODE);
-                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
-                requests.add(request);
-            }
+        // Create course code only search
+        for (String code : codes) {
+            SearchRequestInfo request = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_EXACTCODE);
+            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, code);
+            requests.add(request);
+        }
 
-            // Create level only search
-            for (String level : levels) {
-                // Converts "1XX" to "100"
-                level = level.substring(0, 1) + "00";
-                SearchRequestInfo request = new SearchRequestInfo(
-                        CourseSearchConstants.COURSE_SEARCH_TYPE_EXACTLEVEL);
-                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
-                requests.add(request);
-            }
+        // Create level only search
+        for (String level : levels) {
+            // Converts "1XX" to "100"
+            level = level.substring(0, 1) + "00";
+            SearchRequestInfo request = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_EXACTLEVEL);
+            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
+            requests.add(request);
         }
 
 
@@ -1250,14 +1241,23 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         // remove found levels and codes to find incomplete code components
         for(String level : levels) query = query.replace(level,"");
         for(String code : codes) query = query.replace(code,"");
-        // wait to remove divisions after finding incomplete codes
-
         incompleteCodes = QueryTokenizer.extractIncompleteCourseCodes(query,divisions);
 
-        for(String division : divisions) query = query.replace(division+" "," ");
 
         completedCodes = QueryTokenizer.extractCompleteCourseCodes(pureQuery,divisions,codes);
         completedLevels = QueryTokenizer.extractCompleteCourseLevels(pureQuery,divisions,levels);
+
+        for(String completedLevel : completedLevels){
+            String division = completedLevel.substring(0,completedLevel.indexOf(','));
+            String level = completedLevel.substring(completedLevel.indexOf(',')+1);
+            pureQuery = pureQuery.replace(division+level,"");
+        }
+
+        for(String completedCode : completedCodes){
+            String division = completedCode.substring(0,completedCode.indexOf(','));
+            String code = completedCode.substring(completedCode.indexOf(',')+1);
+            pureQuery = pureQuery.replace(division+code,"");
+        }
 
 		LOG.info("Start of method addComponentSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
@@ -1267,7 +1267,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
 		LOG.info("Start of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
-		addFullTextSearches(query, requests, form.getSearchTerm());
+		addFullTextSearches(pureQuery, requests, form.getSearchTerm());
 		LOG.info("End of method addFullTextSearches of CourseSearchStrategy:"
 				+ System.currentTimeMillis());
 
