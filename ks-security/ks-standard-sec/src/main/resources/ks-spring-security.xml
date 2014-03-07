@@ -58,7 +58,7 @@
     <!-- List of Custom Providers that can be registered with the default authentication
         manager -->
 
-    <security:authentication-manager>
+	<security:authentication-manager alias="authenticationManager">
         <security:authentication-provider ref="daoAuthenticationProvider" />
         <security:authentication-provider ref="daoAuthenticationProvider2" />
     </security:authentication-manager>
