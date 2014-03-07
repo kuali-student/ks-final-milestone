@@ -195,12 +195,22 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
      @RequestMapping(params = "methodToCall=route")
      public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                HttpServletRequest request, HttpServletResponse response) {
+
+          /*
+            Let's remove the lingering growl messages created in the copy CO.
+            Or they show if an activity is edited right after it's CO is created by copy.
+            See jira KSENROLL-11964.
+         */
+         String returnLocation = form.getReturnLocation();
+         returnLocation =  returnLocation.replaceAll(EnrollConstants.GROWL_MESSAGE + ".*?&" ,"");
+
         /**
          * The route method will call ActivityOfferingRule#isDocumentValidForSave() followed by
          * ActivityOfferingMaintainableImpl#saveDataObject(). Validation will happen in isDocumentValidForSave() and
          * stored in the message map. Any problems which happen in saveDataObject() have to be thrown, caught here, unwrapped
          * and put in the message map.
          */
+
         try {
             //Call the transaction helper to eventually call super.route, but with a new transaction
             //This way if the super.route transaction fails, the current transaction will still succeed and errors can
@@ -217,7 +227,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         }
 
         String loadNewAO = form.getActionParameters().get("aoId");
-        String returnLocation = form.getReturnLocation();
 
         String url;
         if (StringUtils.contains(returnLocation,"viewId=courseOfferingManagementView") ||
