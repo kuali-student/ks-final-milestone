@@ -68,6 +68,16 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
+    public LprTransactionItemInfo updateLprTransactionItem(String lprTransactionItemId, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        return getNextDecorator().updateLprTransactionItem(lprTransactionItemId, lprTransactionItemInfo, contextInfo);
+    }
+
+    @Override
+    public StatusInfo changeLprTransactionItemState(String lprTransactionItemId, String nextStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().changeLprTransactionItemState(lprTransactionItemId, nextStateKey, contextInfo);
+    }
+
+    @Override
     public LprInfo updateLpr(String lprId, LprInfo lprInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return getNextDecorator().updateLpr(lprId, lprInfo, contextInfo);
     }

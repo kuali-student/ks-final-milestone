@@ -1010,6 +1010,68 @@ public interface LprService {
                VersionMismatchException;
 
     /**
+     * Updates an existing LprTransactionItem. The
+     * LprTransactionItem Id, Type, State and Meta information may not be
+     * changed.
+     *
+     * @param lprTransactionItemId the identifier for the
+     *        LprTransaction to be updated
+     * @param lprTransactionItemInfo the new data for the LprTransaction
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of the service
+     *        operation
+     * @return the updated LprTransactionItem
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException lprTransactionId is not found
+     * @throws InvalidParameterException lprTransactionInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException lprTransactionId,
+     *         lprTransactionInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     * @throws VersionMismatchException an optimistic locking failure
+     *         or the action was attempted on an out of date version
+     */
+    public LprTransactionItemInfo updateLprTransactionItem(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId,
+                                                   @WebParam(name = "lprTransactionItemInfo") LprTransactionItemInfo lprTransactionItemInfo,
+                                                   @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException,
+            DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException,
+            VersionMismatchException;
+    /**
+     * Updates the state of an existing LprTransactionItem to another state
+     * provided that it is valid to do so.
+     *
+     * @param lprTransactionItemId the identifier of the LprTransactionItem to
+     *        be updated
+     * @param nextStateKey the State Key into which the identified
+     *        lprTransactionItem will be placed if the operation succeeds
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return status of the operation. This must be true.
+     * @throws DoesNotExistException lprTransatcionId is not found
+     * @throws InvalidParameterException the contextInfo object is invalid
+     * @throws MissingParameterException lprTransactionId,
+     *         nextStateKey, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo changeLprTransactionItemState(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId,
+                                                @WebParam(name = "nextStateKey") String nextStateKey,
+                                                @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Updates the state of an existing LprTransaction to another state
      * provided that it is valid to do so.
      *
@@ -1022,7 +1084,7 @@ public interface LprService {
      * @return status of the operation. This must be true.
      * @throws DoesNotExistException lprTransatcionId is not found
      * @throws InvalidParameterException the contextInfo object is invalid
-     * @throws MissingParameterExceptionlprTransactionId,
+     * @throws MissingParameterException lprTransactionId,
      *         nextStateKey, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
