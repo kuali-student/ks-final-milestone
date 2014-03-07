@@ -67,7 +67,7 @@
             <div>
                  <span class="kscr-Register-icon"><i class="glyphicon" ng-class="{'glyphicon-chevron-down': isopen, 'glyphicon-chevron-right': !isopen}"></i></span>
                  <span class="kscr-Register-header kscr-Card-title" id="course_code_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseCode}} ({{cartItem.regGroupCode}})</span>
-                 <span class="kscr-Card-badge" ng-show="{{cartItem.gradingOptions[cartItem.grading] != 'Letter'}}">{{cartItem.gradingOptions[cartItem.grading]}}</span>
+                 <span class="kscr-Card-badge" id="grading_badge_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-show="{{cartItem.gradingOptions[cartItem.grading] != 'Letter'}}">{{cartItem.gradingOptions[cartItem.grading]}}</span>
             </div>
             <!--Course Title and description-->
             <div class="kscr-Register-cardText kscr-Card-text" id="title_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">{{cartItem.courseTitle}}</div>
