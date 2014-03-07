@@ -604,6 +604,8 @@ public class CourseController extends CourseRuleEditorController {
             }
 //            return getUIFModelAndView(form, getNextSectionId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
             return getUIFModelAndView(form);
+        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage,"KS-CourseView-ReviewLink")) {
+            return getUIFModelAndView(form, "KS-CourseView-ReviewProposalPage");
         } else {
             return getUIFModelAndView(form);
         }

@@ -61,7 +61,7 @@
     <bean name="KS-CourseView-CourseInfo-ReviewWidgets" parent="Uif-Disclosure-VerticalBoxSection">
         <property name="items">
             <list>
-                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions">
+                <bean parent="KS-CourseView-SectionHeader" p:additionalCssClasses="ks-dottedHeaderActions, cm_dottedHeaderActions" p:style="margin-top: 30px;">
                     <property name="headerText" value="Course Information" />
                     <property name="rightGroup">
                         <bean parent="KS-CourseView-ReviewLink">

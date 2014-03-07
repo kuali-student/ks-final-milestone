@@ -192,7 +192,7 @@
                     <property name="tabsWidget.position" value="LEFT"/>
                 </bean>
                 <ref bean="KS-CourseView-ReviewLink"/>
-                <ref bean="KS-CourseView-UnSavedChangesConfirmation"/>
+                <ref bean="KS-CreateCourse-NavigationConfirmation"/>
             </list>
         </property>
     </bean>
@@ -207,7 +207,8 @@
             <list>
                 <bean parent="Uif-ActionLink"
                       p:methodToCall="reviewCourseProposal"
-                      p:actionLabel="Review Proposal"/>
+                      p:actionLabel="Review Proposal"
+                      p:preSubmitCall="return onCourseCancel();"/>
             </list>
         </property>
     </bean>
@@ -289,10 +290,8 @@
                       p:actionLabel="Reload"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_RELOAD]}"/> -->
                 <bean parent="Uif-ActionLink"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="back"
                       p:actionLabel="Cancel"
-                      p:preSubmitCall="return onCourseCancel();"
+                      p:actionScript="stepBrowserBackTwoPages()"
                       p:style="margin-top:5px;"
                       p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                 <!--<bean parent="Uif-PrimaryActionButton"
@@ -358,10 +357,8 @@
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_SAVE]}">
                             </bean>
                             <bean parent="Uif-ActionLink"
-                                  p:ajaxSubmit="false"
-                                  p:methodToCall="back"
                                   p:actionLabel="Cancel"
-                                  p:preSubmitCall="return onCourseCancel();"
+                                  p:actionScript="stepBrowserBackTwoPages()"
                                   p:style="margin-top:5px;"
                                   p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
                         </list>
@@ -373,21 +370,24 @@
 
     <!-- Dialogs -->
 
-    <bean id="KS-CourseView-UnSavedChangesConfirmation" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
-        <property name="headerText" value="Warning"/>
+    <bean id="KS-CreateCourse-NavigationConfirmation" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="VERTICAL">
+        <property name="headerText" value="Unsaved Changes"/>
         <property name="hidden" value="true"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Message" p:messageText="You may have unsaved changes. Save changes?" p:style="margin-bottom:10px;margin-top:10px;"/>
+                <bean parent="Uif-Message" p:messageText="You are about to leave this page and any unsaved changes will not be retained?"/>
 
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveProposal" p:preSubmitCall="closeLightbox(); return validateForm();" p:actionLabel="Yes"/>
-                            <bean parent="Uif-SecondaryActionButton"
-                                  p:ajaxSubmit="false"
-                                  p:methodToCall="cancel"
-                                  p:actionLabel="No"/>
+                            <bean id="create_course_save_and_continue" parent="Uif-PrimaryActionButton" p:ajaxSubmit="false" p:methodToCall="saveProposal" p:actionLabel="Save and Continue">
+                                <property name="actionParameters">
+                                    <map>
+                                        <entry key="displayPage" value="KS-CourseView-ReviewLink"/>
+                                    </map>
+                                </property>
+                            </bean>
+                            <bean id="create_course_cancel" parent="Uif-SecondaryActionButton" p:ajaxSubmit="false" p:methodToCall="reviewCourseProposal" p:actionLabel="Continue Without Saving"/>
                             <bean parent="Uif-ActionLink" p:actionScript="closeLightbox();" p:ajaxSubmit="false" p:actionLabel="Cancel"/>
                         </list>
                     </property>

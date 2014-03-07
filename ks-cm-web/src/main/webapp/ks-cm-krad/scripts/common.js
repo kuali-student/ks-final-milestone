@@ -75,10 +75,14 @@ function isAboveFocusPoint(e) {
 
 function onCourseCancel(){
     if(dirtyFormState.isDirty()) {
-        showLightboxComponent('KS-CourseView-UnSavedChangesConfirmation');
+        showLightboxComponent('KS-CreateCourse-NavigationConfirmation');
     } else {
         return true;
     }
+}
+
+function stepBrowserBackTwoPages() {
+    window.history.back(-2);
 }
 
 /**
