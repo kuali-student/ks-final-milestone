@@ -205,11 +205,14 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         return lprInfos;
     }
 
-    private List<LprInfo> updateLprInfos(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
+    private List<LprInfo> updateLprInfos(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo)
+            throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
+            InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         //get lpr ids based on master lpr id
         List<String> lprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
 
         List<LprInfo> lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
+        List<LprInfo> updatedLprInfos = new ArrayList<LprInfo>();
         for (LprInfo lprInfo : lprInfos) {
             lprInfo.setResultValuesGroupKeys(new ArrayList<String>());
             if (!StringUtils.isEmpty(credits)) {
@@ -218,23 +221,30 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             if (!StringUtils.isEmpty(gradingOptionId)) {
                 lprInfo.getResultValuesGroupKeys().add(gradingOptionId);
             }
-            lprInfo =  getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+            lprInfo = getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+            updatedLprInfos.add(lprInfo);
         }
 
-        return lprInfos;
+        return updatedLprInfos;
     }
 
-    private List<LprInfo> dropLprInfos(String masterLprId, ContextInfo contextInfo) throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
+    private List<LprInfo> dropLprInfos(String masterLprId, ContextInfo contextInfo)
+            throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
+            InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         //get lpr ids based on master lpr id
         List<String> lprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
 
         List<LprInfo> lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
+        List<LprInfo> resultLprInfos = new ArrayList<LprInfo>();
+        Date now = new Date();
         for (LprInfo lprInfo : lprInfos) {
             lprInfo.setStateKey(LprServiceConstants.DROPPED_STATE_KEY);
-            lprInfo =  getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+            lprInfo.setExpirationDate(now); // KSENROLL-12155
+            lprInfo = getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
+            resultLprInfos.add(lprInfo);
         }
 
-        return lprInfos;
+        return resultLprInfos;
     }
 
     public CourseRegistrationService getCourseRegistrationService() {
