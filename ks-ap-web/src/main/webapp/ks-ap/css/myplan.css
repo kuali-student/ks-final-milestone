@@ -2485,3 +2485,20 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 .ksap-view .uif-boxLayoutHorizontalItem.uif-tooltip {
     border-bottom: 1px dotted rgb(119, 119, 119);
 }
+/*
+    Course Search
+    KSAP-886
+    input min character error messaging overrides
+    Candidate for LESS refactoring
+*/
+#text_searchQuery.uif-inputField { position: relative; }
+#text_searchQuery.uif-inputField .uif-validationMessages {
+    position: absolute;
+    top: -25px;
+    left: 64px;
+    background: transparent;
+    border: none;
+}
+#text_searchQuery.uif-inputField .uif-validationMessages ul {border: none; color:red;}
+#text_searchQuery.uif-inputField .uif-validationMessages ul .uif-errorMessageItem-field .uif-validationImage {display: none;}
+/* --end KSAP-886-- */

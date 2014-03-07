@@ -49,35 +49,35 @@
         <property name="onDocumentReadyScript" value="registerClosePopups();"/>
 		<property name="items">
 			<list>
-                <bean p:id="searchValidationMessages" parent="Uif-HorizontalBoxGroup">
-                    <property name="cssClasses">
-                        <list>
-                            <value>uif-validationMessages</value>
-                            <value>uif-groupValidationMessages</value>
-                            <value>uif-pageValidationMessages</value>
-                            <value>uif-pageValidationMessages-error</value>
-                            <value>ksap-hide</value>
-                        </list>
-                    </property>
-                    <property name="items">
-                        <list>
-                            <bean parent="Uif-Image"
-                                  p:source="../themes/ksboot/images/validation/error.png">
-                                <property name="cssClasses">
-                                    <list merge="true">
-                                        <value>uif-validationImage</value>
-                                    </list>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-Message">
-                                <property name="messageText" value="There was a problem with your submission. Errors are highlighted below."/>
-                            </bean>
-                        </list>
-                    </property>
-                </bean>
-                <bean parent="Uif-Message">
-                    <property name="messageText" value="Enter a department, course code, title, or a keyword to search the Course Catalog and Schedule of Classes."/>
-                </bean>
+                <!--<bean p:id="searchValidationMessages" parent="Uif-HorizontalBoxGroup">-->
+                    <!--<property name="cssClasses">-->
+                        <!--<list>-->
+                            <!--<value>uif-validationMessages</value>-->
+                            <!--<value>uif-groupValidationMessages</value>-->
+                            <!--<value>uif-pageValidationMessages</value>-->
+                            <!--<value>uif-pageValidationMessages-error</value>-->
+                            <!--<value>ksap-hide</value>-->
+                        <!--</list>-->
+                    <!--</property>-->
+                    <!--<property name="items">-->
+                        <!--<list>-->
+                            <!--<bean parent="Uif-Image"-->
+                                  <!--p:source="../themes/ksboot/images/validation/error.png">-->
+                                <!--<property name="cssClasses">-->
+                                    <!--<list merge="true">-->
+                                        <!--<value>uif-validationImage</value>-->
+                                    <!--</list>-->
+                                <!--</property>-->
+                            <!--</bean>-->
+                            <!--<bean parent="Uif-Message">-->
+                                <!--<property name="messageText" value="There was a problem with your submission. Errors are highlighted below."/>-->
+                            <!--</bean>-->
+                        <!--</list>-->
+                    <!--</property>-->
+                <!--</bean>-->
+                <!--<bean parent="Uif-Message">-->
+                    <!--<property name="messageText" value="Enter a department, course code, title, or a keyword to search the Course Catalog and Schedule of Classes."/>-->
+                <!--</bean>-->
 				<ref bean="ksap_dialog_anchor" />
 				<ref bean="course_search_result_section" />
                 <bean p:id="termsOfferedPlaceholder" parent="Uif-HorizontalBoxGroup" p:cssClasses="ksap-hide">
@@ -147,6 +147,11 @@
 		</property>
         <property name="simpleConstraint.minLength" value="3"/>
         <property name="simpleConstraint.maxLength" value="30"/>
+        <property name="validationMessages">
+            <bean parent="Uif-FieldValidationMessages">
+                <property name="useTooltip" value="false"/>
+            </bean>
+        </property>
 	</bean>
 
 	<bean id="hidden_savedCourses" parent="Uif-InputField" p:propertyName="savedCourses"
