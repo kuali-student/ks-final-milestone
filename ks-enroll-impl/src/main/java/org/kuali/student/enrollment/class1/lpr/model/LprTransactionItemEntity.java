@@ -94,9 +94,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 	@Column(name="RESULT_VAL_GRP_ID")
 	private final Set<String>resultValueGroupIds = new HashSet<String>();
 	
-	@ManyToOne
-	@JoinColumn(name="LPR_TRANS_ID")
-	private LprTransactionEntity owner;
+    @Column(name="LPR_TRANS_ID", updatable = false)
+	private String owner;
 
 	public LprTransactionItemEntity() {
 	}
@@ -174,11 +173,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		lprTransItemInfo.setLuiId(this.getNewLuiId());
 		lprTransItemInfo.setPersonId(this.getPersonId());
 		
-		if (this.owner != null)
-			lprTransItemInfo.setTransactionId(this.owner.getId());
-		else
-			lprTransItemInfo.setTransactionId(null);
-		
+		lprTransItemInfo.setTransactionId(this.owner);
+
 		lprTransItemInfo.setMeta(super.toDTO());
 		
 		lprTransItemInfo.setDescr(new RichTextHelper().toRichTextInfo(
@@ -332,11 +328,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		this.name = name;
 	}
 
-	public LprTransactionEntity getOwner() {
+	public String getOwner() {
 		return owner;
 	}
 
-	public void setOwner(LprTransactionEntity owner) {
+	public void setOwner(String owner) {
 		this.owner = owner;
 	}
 

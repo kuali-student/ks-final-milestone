@@ -20,12 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
@@ -66,7 +61,8 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
     private final Set<LprTransactionAttributeEntity> attributes = new HashSet<LprTransactionAttributeEntity>();
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval=true)
+    @JoinColumn(name="LPR_TRANS_ID")
     private final Set<LprTransactionItemEntity> lprTransactionItems = new HashSet<LprTransactionItemEntity>();
    
 
@@ -117,7 +113,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
 			
         	 LprTransactionItemEntity item;
 			 this.lprTransactionItems.add(item = new LprTransactionItemEntity(lprTransactionItem));
-        	 item.setOwner(this);
+        	 item.setOwner(this.getId());
 		}
          
     }

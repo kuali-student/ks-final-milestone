@@ -41,6 +41,7 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -630,6 +631,57 @@ public class LprServiceImpl implements LprService {
         }
     }
 
+    @Transactional
+    @Override
+    public LprTransactionItemInfo updateLprTransactionItem(String lprTransactionItemId, LprTransactionItemInfo lprTransactionItemInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        LprTransactionItemEntity lprTransItem = lprTransactionItemDao.find(lprTransactionItemId);
+
+        if (null != lprTransItem) {
+
+            lprTransItem.fromDto(lprTransactionItemInfo);
+
+            lprTransItem.setEntityUpdated(contextInfo);
+
+            try {
+                lprTransItem = lprTransactionItemDao.merge(lprTransItem);
+            } catch (VersionMismatchException e) {
+                // TODO KSENROLL-9296 remove this exception translation once
+                // version mismatch exception is added to the updateLprTransaction method
+                throw new OperationFailedException("Version Mismatch", e);
+            }
+
+            lprTransactionItemDao.getEm().flush();
+
+            return lprTransItem.toDto();
+
+        } else {
+            throw new DoesNotExistException(lprTransactionItemId);
+        }
+    }
+
+    @Transactional
+    @Override
+    public StatusInfo changeLprTransactionItemState(@WebParam(name = "lprTransactionItemId") String lprTransactionItemId, @WebParam(name = "nextStateKey") String nextStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        LprTransactionItemEntity lprTransItem = lprTransactionItemDao.find(lprTransactionItemId);
+
+        if (nextStateKey != null) {
+            lprTransItem.setLprTransactionItemState(nextStateKey);
+        }
+        lprTransItem.setEntityUpdated(contextInfo);
+
+        try {
+            lprTransactionItemDao.merge(lprTransItem);
+        } catch (VersionMismatchException e) {
+            throw new OperationFailedException("changeLprTransactionItemState failed", e);
+        }
+
+        lprTransactionItemDao.getEm().flush();
+
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(Boolean.TRUE);
+        return statusInfo;
+    }
+
     private LprTransactionItemEntity createLprTransactionItem(LprTransactionItemInfo lprTransactionItemInfo, LprTransactionEntity owner, ContextInfo context) {
 
         LprTransactionItemEntity lprTransItemEntity = new LprTransactionItemEntity(lprTransactionItemInfo);
@@ -652,7 +704,7 @@ public class LprServiceImpl implements LprService {
 
         lprTransItemEntity.setEntityCreated(context);
 
-        lprTransItemEntity.setOwner(owner);
+        lprTransItemEntity.setOwner(owner.getId());
 
         return lprTransItemEntity;
     }
