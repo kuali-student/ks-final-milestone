@@ -1,6 +1,5 @@
 package org.kuali.student.ap.i18n.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -8,6 +7,8 @@ import org.kuali.student.ap.framework.context.KsapContext;
 import org.kuali.student.ap.i18n.LocaleUtil;
 import org.kuali.student.ap.i18n.form.POCResourceBundleFormImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -32,7 +33,7 @@ import java.util.Locale;
 @RequestMapping(value = "/rb/**")
 public class POCResourceBundleController extends KsapControllerBase {
 
-    private static final Logger LOG = Logger.getLogger(POCResourceBundleController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(POCResourceBundleController.class);
 
     private static final String RB_FORM = "POCResourceBundle-FormView";
 

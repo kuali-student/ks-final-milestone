@@ -27,7 +27,6 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.WordUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.mail.MailMessage;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -48,6 +47,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -58,7 +59,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/comment")
 public class CommentController extends UifControllerBase {
 
-	private final Logger logger = Logger.getLogger(CommentController.class);
+	private static final Logger logger = LoggerFactory.getLogger(CommentController.class);
 
 	private transient CommentService commentService;
 
@@ -189,7 +190,7 @@ public class CommentController extends UifControllerBase {
 		try {
 			pro.load(file);
 		} catch (Exception e) {
-			logger.error("Could not find the properties file" + e);
+			logger.error("Could not find the properties file", e);
 		}
 
 		String toId, toAddress, toName, fromId, fromAddress, fromName;
@@ -235,8 +236,8 @@ public class CommentController extends UifControllerBase {
 		if (StringUtils.isNotEmpty(toAddress)) {
 			try {
 				sendMessage(fromAddress, toAddress, subject, body);
-				logger.info("Sent comment email (" + messageText + ") to: "
-						+ toAddress + " From: " + fromAddress);
+				logger.info("Sent comment email ({}) to: {} From: {}",
+                        messageText, toAddress, fromAddress);
 			} catch (Exception e) {
 				logger.error(String.format(
 						"Could not send e-mail from [%s] to [%s].",
@@ -344,7 +345,7 @@ public class CommentController extends UifControllerBase {
 		try {
 			pro.load(file);
 		} catch (Exception e) {
-			logger.error("Could not find the properties file" + e);
+			logger.error("Could not find the properties file", e);
 
 		}
 		String studentName = KsapFrameworkServiceLocator.getUserSessionHelper().getStudentName();
@@ -370,9 +371,8 @@ public class CommentController extends UifControllerBase {
 		if (StringUtils.isNotEmpty(toAddress)) {
 			try {
 				sendMessage(fromAddress, toAddress, subject, body);
-				logger.info("Sent message email (" + messageText
-						+ ") to student:" + studentName + "from adviser :"
-						+ adviserName);
+				logger.info("Sent message email ({}) to student: {} from adviser: {}",
+                        messageText, studentName, adviserName);
 
 			} catch (Exception e) {
 				logger.error(String.format(

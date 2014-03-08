@@ -1,6 +1,5 @@
 package org.kuali.student.ap.audit.service;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -15,8 +14,6 @@ import java.util.Map;
  *  Provides the data object for the DegreeAuditDetails-InquiryView view.
  */
 public class DegreeAuditInquiryViewHelperServiceImpl extends KualiInquirableImpl {
-
-    private final Logger logger = Logger.getLogger(DegreeAuditInquiryViewHelperServiceImpl.class);
 
     private transient DegreeAuditService degreeAuditService;
 

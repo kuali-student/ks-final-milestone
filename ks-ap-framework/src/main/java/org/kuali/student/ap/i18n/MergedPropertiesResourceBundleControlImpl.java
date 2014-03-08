@@ -1,6 +1,7 @@
 package org.kuali.student.ap.i18n;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Collections;
@@ -9,7 +10,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class MergedPropertiesResourceBundleControlImpl extends ResourceBundle.Control {
-    private static final Logger LOG = Logger.getLogger(MergedPropertiesResourceBundleControlImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MergedPropertiesResourceBundleControlImpl.class);
     public static final String FORMAT_PROPS_MERGED = "kuali.properties.merged";
     List<ResourceBundle> bundles;
 
@@ -25,7 +26,7 @@ public class MergedPropertiesResourceBundleControlImpl extends ResourceBundle.Co
 
     @Override
     public ResourceBundle newBundle(String baseName, Locale locale, String format, ClassLoader loader, boolean reload) throws IllegalAccessException, InstantiationException, IOException {
-        LOG.debug("MergedPropertiesResourceBundleControlImpl.newBundle with format: " + format);
+        LOG.debug("MergedPropertiesResourceBundleControlImpl.newBundle with format: {}", format);
         if ((baseName == null) || (locale == null) || (format == null) || (loader == null)) {
             throw new NullPointerException();
         }
@@ -33,7 +34,7 @@ public class MergedPropertiesResourceBundleControlImpl extends ResourceBundle.Co
             return null;
         }
 
-        LOG.debug("Creating a new MergedPropertiesResourceBundleImpl with locale: " + locale.toString());
+        LOG.debug("Creating a new MergedPropertiesResourceBundleImpl with locale: {}", locale);
         return new MergedPropertiesResourceBundleImpl(bundles, locale);
     }
 }

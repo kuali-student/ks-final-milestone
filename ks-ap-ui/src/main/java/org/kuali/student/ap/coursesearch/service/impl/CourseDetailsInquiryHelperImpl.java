@@ -1,6 +1,5 @@
 package org.kuali.student.ap.coursesearch.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
@@ -46,6 +45,8 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleDisplayInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleComponentDisplay;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -60,7 +61,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 
 	private static final long serialVersionUID = 4933435913745621395L;
 
-	private static final Logger LOG = Logger.getLogger(CourseDetailsInquiryHelperImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CourseDetailsInquiryHelperImpl.class);
 
 	public static final String NOT_OFFERED_IN_LAST_TEN_YEARS = "Not offered for more than 10 years.";
 
@@ -319,7 +320,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		} catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
 			// Ignore and not load any plan data
 		} catch (Exception e1) {
-			LOG.error(" Error loading plan information for course :" + course.getCode() + " " + e1.getMessage());
+			LOG.error(String.format("Error loading plan information for course: %s", course.getCode()), e1);
 		}
 
 		// Get Academic Record Data from the SWS and set that to CourseDetails
@@ -406,7 +407,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 				}
 			}
 		} catch (DoesNotExistException e) {
-			LOG.warn("Student " + studentId + " has not plan", e);
+			LOG.warn(String.format("Student %s has not plan", studentId), e);
 			return Collections.emptyMap();
 		} catch (InvalidParameterException e) {
 			throw new IllegalArgumentException("LP lookup failure ", e);
@@ -611,7 +612,7 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 						activityOfferingItemsByPrimary.put(paoid,
 								aol = new java.util.LinkedList<ActivityOfferingItem>());
 					aol.add(activityOfferingItem);
-					LOG.debug("primary " + paoid + ", ao " + activityOfferingItem.getLuiId());
+					LOG.debug("primary {}, ao {}", paoid, activityOfferingItem.getLuiId());
 					c++;
 					if (plannedSections.contains(planRefObjId))
 						plannedSections.remove(planRefObjId);

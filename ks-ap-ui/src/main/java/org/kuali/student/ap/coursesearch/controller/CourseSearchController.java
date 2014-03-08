@@ -34,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -62,6 +61,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -74,8 +75,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/course/**")
 public class CourseSearchController extends UifControllerBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(CourseSearchController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CourseSearchController.class);
 
 	/**
 	 * HTTP session attribute key for holding recent search results.
@@ -623,7 +623,7 @@ public class CourseSearchController extends UifControllerBase {
 							getFacetState(fci, fce.getKey()).count++;
 			}
 			if (LOG.isDebugEnabled())
-				LOG.debug("Pruned facet entry " + pruned.count);
+				LOG.debug("Pruned facet entry {}", pruned.count);
 		}
 
 		/**
@@ -636,7 +636,7 @@ public class CourseSearchController extends UifControllerBase {
 		 *            The facet column the click is related to.
 		 */
 		private void facetClick(String key, String fcol) {
-			LOG.debug("Facet click " + key + " " + fcol);
+			LOG.debug("Facet click {} {}", key, fcol);
 			Map<String, FacetState> fsm = facetState.get(fcol);
 			if (fsm == null)
 				return;
@@ -1099,10 +1099,10 @@ public class CourseSearchController extends UifControllerBase {
 		// Parse incoming jQuery datatables inputs
 		final DataTablesInputs dataTablesInputs = new DataTablesInputs(request);
 		if (LOG.isDebugEnabled())
-			LOG.debug(dataTablesInputs);
+			LOG.debug(dataTablesInputs.toString());
 
 		if (LOG.isDebugEnabled())
-			LOG.debug("Search form : " + form);
+			LOG.debug("Search form: {}", form);
 
         // Run search and retrieve results in the table
 		SessionSearchInfo table = getSearchResults(new FormKey(form),
@@ -1159,14 +1159,12 @@ public class CourseSearchController extends UifControllerBase {
 		ArrayNode aaData = mapper.createArrayNode();
 		int rsize = Math.min(filteredResults.size(),
 				dataTablesInputs.iDisplayLength);
-		final List<String> courseIds = new java.util.ArrayList<String>(rsize);
 		for (int i = 0; i < rsize; i++) {
 			int resultsIndex = dataTablesInputs.iDisplayStart + i;
 			if (resultsIndex >= filteredResults.size())
 				break;
 			ArrayNode cs = mapper.createArrayNode();
 			CourseSearchItem item = filteredResults.get(resultsIndex).item;
-			courseIds.add(item.getCourseId());
 			String[] scol = item.getSearchColumns();
 			for (String col : scol)
 				cs.add(col);
@@ -1179,9 +1177,9 @@ public class CourseSearchController extends UifControllerBase {
         // Write Json string
         String jsonString = mapper.writeValueAsString(json);
 		if (LOG.isDebugEnabled())
-			LOG.debug("JSON output : "
-					+ (jsonString.length() < 8192 ? jsonString : jsonString
-							.substring(0, 8192)));
+			LOG.debug("JSON output: {}", jsonString.length() < 8192
+                    ? jsonString
+                    : jsonString.substring(0, 8192));
 
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "No-cache");
@@ -1204,7 +1202,7 @@ public class CourseSearchController extends UifControllerBase {
 			final HttpServletRequest request) throws IOException {
 
 		if (LOG.isDebugEnabled())
-			LOG.debug("Search form : " + form);
+			LOG.debug("Search form: {}", form);
 
         // Run search and retrieve results in the table
 		SessionSearchInfo table = getSearchResults(new FormKey(form),
@@ -1249,9 +1247,9 @@ public class CourseSearchController extends UifControllerBase {
         // Write json string
 		String jsonString = mapper.writeValueAsString(oFacets);
 		if (LOG.isDebugEnabled())
-			LOG.debug("JSON output : "
-					+ (jsonString.length() < 8192 ? jsonString : jsonString
-							.substring(0, 8192)));
+			LOG.debug("JSON output: {}", jsonString.length() < 8192
+                    ? jsonString
+                    : jsonString.substring(0, 8192));
 
 		response.setContentType("application/json");
 		response.setHeader("Cache-Control", "No-cache");

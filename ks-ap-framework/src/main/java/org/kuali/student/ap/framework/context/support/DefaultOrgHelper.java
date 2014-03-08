@@ -1,6 +1,5 @@
 package org.kuali.student.ap.framework.context.support;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseSearchConstants;
 import org.kuali.student.ap.framework.context.OrgHelper;
@@ -10,12 +9,13 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
-import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +24,7 @@ import java.util.Map;
 
 public class DefaultOrgHelper implements OrgHelper{
 
-    private final Logger logger = Logger.getLogger(DefaultOrgHelper.class);
-    public OrganizationService organizationService;
+    private static final Logger logger = LoggerFactory.getLogger(DefaultOrgHelper.class);
 
     public HashMap<String, List<OrgInfo>> orgTypeCache;
 

@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.namespace.QName;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.inquiry.KualiInquirableImpl;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -33,6 +32,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -44,8 +45,7 @@ public class SingleQuarterInquiryHelperImpl extends KualiInquirableImpl {
 
 	private static final long serialVersionUID = 5553434195657521320L;
 
-	private final Logger logger = Logger
-			.getLogger(SingleQuarterInquiryHelperImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(SingleQuarterInquiryHelperImpl.class);
 
 	private transient AcademicRecordService academicRecordService;
 

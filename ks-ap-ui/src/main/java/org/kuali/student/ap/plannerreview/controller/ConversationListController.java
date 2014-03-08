@@ -1,6 +1,5 @@
 package org.kuali.student.ap.plannerreview.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.plannerreview.infc.Conversation;
 import org.kuali.student.ap.plannerreview.infc.ConversationComment;
@@ -8,6 +7,8 @@ import org.kuali.student.ap.plannerreview.dto.ConversationInfo;
 import org.kuali.student.ap.plannerreview.dto.ConversationYearInfo;
 import org.kuali.student.ap.plannerreview.form.ConversationListForm;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -33,7 +34,7 @@ import java.util.Map.Entry;
 @RequestMapping(value = "/reviewList")
 public class ConversationListController  extends ConversationControllerBase {
 	
-	private static final Logger LOG = Logger.getLogger(ConversationListController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ConversationListController.class);
 	
 	public static final String CONVO_FORM = "Conversation-list-FormView";
 	
@@ -52,16 +53,11 @@ public class ConversationListController  extends ConversationControllerBase {
 		try {
 			initialize(form);
 		} catch (PermissionDeniedException e) {
-			LOG.warn(
-					"User " + request.getRemoteUser()
-							+ " is not permitted to retrieve conversations.",
-					e);
-			response.sendError(
-					HttpServletResponse.SC_FORBIDDEN,
-					"User " + request.getRemoteUser()
-							+ " is not permitted to retreive conversations.");
+            String errorMessage = String.format("User %s is not permitted to retrieve conversations.", request.getRemoteUser());
+            LOG.warn(errorMessage, e);
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, errorMessage);
 		}
-		LOG.debug("CONVO_FORM: " + form);
+		LOG.debug("CONVO_FORM: {}", form);
 		form.setViewId(CONVO_FORM);
 		form.setView(super.getViewService().getViewById(CONVO_FORM));
 		return getUIFModelAndView(form);
@@ -75,14 +71,9 @@ public class ConversationListController  extends ConversationControllerBase {
     	try {
 			initialize(form);
 		} catch (PermissionDeniedException e) {
-			LOG.warn(
-					"User " + request.getRemoteUser()
-							+ " is not permitted to retrieve conversations.",
-					e);
-			response.sendError(
-					HttpServletResponse.SC_FORBIDDEN,
-					"User " + request.getRemoteUser()
-							+ " is not permitted to retreive conversations.");
+            String errorMessage = String.format("User %s is not permitted to retrieve conversations.", request.getRemoteUser());
+			LOG.warn(errorMessage, e);
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, errorMessage);
 		}
 		form.setViewId(CONVO_FORM);
 		form.setView(super.getViewService().getViewById(CONVO_FORM));

@@ -1,13 +1,10 @@
 package org.kuali.student.ap.framework.context.support;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.YearTerm;
-import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Data Storage for the Term and Year of a single atp. Formats different output
@@ -15,7 +12,7 @@ import org.kuali.student.r2.core.acal.infc.Term;
  */
 public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 
-	private static final Logger LOG = Logger.getLogger(DefaultYearTerm.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DefaultYearTerm.class);
 
 	private final String termId;
 	private final String termType;
@@ -55,7 +52,7 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 		if (rv != null && rv.length() > 7
 				&& rv.endsWith(" " + Integer.toString(year)))
 			return rv.substring(0, rv.length() - 5);
-		LOG.warn("Not sure how to extract term name " + rv);
+		LOG.warn("Not sure how to extract term name {}", rv);
 		return rv;
 	}
 
@@ -65,7 +62,7 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
 		if (rv != null && rv.length() > 7
 				&& rv.endsWith(" " + Integer.toString(year)))
 			return rv.substring(0, 2).toUpperCase() + " " + year;
-		LOG.warn("Not sure how to shorten term name " + rv);
+		LOG.warn("Not sure how to shorten term name {}", rv);
 		return rv;
 	}
 
@@ -86,7 +83,7 @@ public class DefaultYearTerm implements YearTerm, Comparable<YearTerm> {
         if (rv != null && rv.length() > 7
                 && rv.endsWith(" " + Integer.toString(year)))
             return rv.substring(0, 2).toUpperCase() + " " + Integer.toString(year).substring(2);
-        LOG.warn("Not sure how to shorten term name " + rv);
+        LOG.warn("Not sure how to shorten term name {}", rv);
         return rv;
     }
 

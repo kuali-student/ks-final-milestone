@@ -1,7 +1,6 @@
 package org.kuali.student.ap.framework.context.support;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -28,6 +27,8 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -41,8 +42,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 
 	private static final long serialVersionUID = 8000868050066661992L;
 
-	private static final Logger LOG = Logger.getLogger(DefaultCourseHelper.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultCourseHelper.class);
 	private static final CourseMarkerKey COURSE_MARKER_KEY = new CourseMarkerKey();
 
 	private static class CourseMarkerKey {
@@ -201,7 +201,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 				CourseTermKey k = new CourseTermKey(co.getCourseId(), co.getTermId());
 				coid2key.put(co.getId(), k);
 				List<ActivityOfferingDisplayInfo> orm = cm.activityOfferingDisplaysByCourseAndTerm.remove(k);
-				LOG.warn("Cleared stale AO display key " + k + " " + orm);
+				LOG.warn("Cleared stale AO display key {} {}", k, orm);
 			}
 
 			if (!additionalCourseIds.isEmpty()){
@@ -332,7 +332,7 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 					}
 				}
 				if (msg != null)
-					LOG.debug(msg);
+					LOG.debug(msg.toString());
 				cm.activityOfferingDisplaysByCourseAndTerm.put(k, rv);
 			} catch (DoesNotExistException e) {
 				throw new IllegalArgumentException("CO lookup failure");

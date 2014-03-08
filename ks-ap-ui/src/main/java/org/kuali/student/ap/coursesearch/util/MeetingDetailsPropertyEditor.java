@@ -2,13 +2,13 @@ package org.kuali.student.ap.coursesearch.util;
 
 import java.beans.PropertyEditorSupport;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.coursesearch.dataobject.ActivityOfferingItem;
 import org.kuali.student.ap.coursesearch.dataobject.MeetingDetails;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MeetingDetailsPropertyEditor extends PropertyEditorSupport {
-	private final static Logger logger = Logger
-			.getLogger(MeetingDetailsPropertyEditor.class);
+	private final static Logger logger = LoggerFactory.getLogger(MeetingDetailsPropertyEditor.class);
 
 	public final static String TO_BE_ARRANGED = "To be arranged";
 

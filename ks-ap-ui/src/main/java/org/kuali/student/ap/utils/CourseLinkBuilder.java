@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -25,6 +24,8 @@ import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Helper class to parse lines of text and create links where course codes are
@@ -32,8 +33,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
  */
 public class CourseLinkBuilder {
 
-	private static final Logger logger = Logger
-			.getLogger(CourseLinkBuilder.class);
+	private static final Logger logger = LoggerFactory.getLogger(CourseLinkBuilder.class);
 
 	private transient static CluService cluService;
 

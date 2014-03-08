@@ -6,6 +6,8 @@ import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.InvalidAddressException;
 
 import org.kuali.rice.krad.util.GlobalVariables;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.mail.MessagingException;
 import java.util.ArrayList;
@@ -13,7 +15,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 
 /**
  * Wrapper service for the Rice mailer which allows the mailer to be put
@@ -21,7 +22,7 @@ import org.apache.log4j.Logger;
  */
 public class MyPlanMailServiceImpl implements MyPlanMailService {
 
-    private final Logger logger = Logger.getLogger(MyPlanMailServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(MyPlanMailServiceImpl.class);
 
     static final boolean IS_EMAIL_TEST_MODE_DEFAULT = true;
     private Mailer mailer;
@@ -56,7 +57,7 @@ public class MyPlanMailServiceImpl implements MyPlanMailService {
             toAddress.add(ConfigContext.getCurrentContextConfig().getProperty(TEST_MODE_TO_ADDRESS));
             to.setToAddress(toAddress);
         } else {
-            logger.info(String.format("Sending e-mail with no address substitutions in message [%s] from [%s].", message.getSubject(), message.getFromAddress()));
+            logger.info("Sending e-mail with no address substitutions in message [{}] from [{}].", message.getSubject(), message.getFromAddress());
         }
         mailer.sendEmail(from, to, subject, body, cc, bcc, true);
     }

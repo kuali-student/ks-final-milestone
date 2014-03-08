@@ -16,7 +16,6 @@
 package org.kuali.student.ap.adviser.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
@@ -31,6 +30,8 @@ import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.service.AcademicPlanService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +47,7 @@ import java.util.List;
 @RequestMapping(value = "/advise/**")
 public class AdviserController extends UifControllerBase {
 
-    private final Logger logger = Logger.getLogger(AdviserController.class);
+    private static final Logger logger = LoggerFactory.getLogger(AdviserController.class);
 
     private transient PersonService personService;
 
@@ -161,7 +162,7 @@ public class AdviserController extends UifControllerBase {
                 break;
             }
 
-            logger.info("Adviser authz failed for " + session.getPrincipalName() + " Data|" + session.getPrincipalId() + "|" + ADVISE_NM_CODE + "|" + adviseNm );
+            logger.info("Adviser authz failed for {} Data|{}|{}|{}", session.getPrincipalName(), session.getPrincipalId(), ADVISE_NM_CODE, adviseNm);
         }
 
         if (!authorized) {

@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -50,6 +49,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.core.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -61,8 +62,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping(value = "/reviewCreate")
 public class ConversationCreateController extends ConversationControllerBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(ConversationCreateController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ConversationCreateController.class);
 
 	public static final String CREATE_FORM = "Conversation-create-FormView";
 
@@ -161,7 +161,7 @@ public class ConversationCreateController extends ConversationControllerBase {
 				String reviewId = getLearningPlanReviewStrategy()
 						.createLearningPlanReview(lprr);
 				form.setComplete(true);
-				LOG.debug("Review created: " + reviewId);
+				LOG.debug("Review created: {}", reviewId);
 			} catch (PermissionDeniedException e) {
 				throw new ServletException("Unexpected authorization failure",
 						e);
@@ -236,9 +236,9 @@ public class ConversationCreateController extends ConversationControllerBase {
 	private ModelAndView changeStep(int newStep, ConversationCreateForm form,
 			BindingResult result, HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		LOG.debug("IN changeStep(" + newStep + ")");
+		LOG.debug("IN changeStep({})", newStep);
 		super.start(form, result, request, response);
-		LOG.debug("CREATE_FORM: " + form);
+		LOG.debug("CREATE_FORM: {}", form);
 
 		if (ConversationConstants.CREATE_CONV_WIZARD_STEP3 == newStep) {
 			determineSelectedCourses(form);
@@ -592,7 +592,7 @@ public class ConversationCreateController extends ConversationControllerBase {
 
 		ayi.setTerms(pTerms);
 		acadYears.add(ayi);
-		LOG.debug(ayi.toString());
+		LOG.debug("{}", ayi);
 
 		ayi = new AcademicYearInfo("year2", "2011-2012");
 		pTerms = new ArrayList<PlanTermInfo>();
@@ -608,7 +608,7 @@ public class ConversationCreateController extends ConversationControllerBase {
 
 		ayi.setTerms(pTerms);
 		acadYears.add(ayi);
-		LOG.debug(ayi.toString());
+		LOG.debug("{}", ayi);
 
 		return acadYears;
 	}

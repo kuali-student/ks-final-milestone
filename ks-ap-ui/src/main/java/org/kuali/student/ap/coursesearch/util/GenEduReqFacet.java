@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
@@ -19,8 +18,6 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
  * Logic for building list of FacetItems and coding CourseSearchItems.
  */
 public class GenEduReqFacet extends AbstractFacet {
-
-	private final Logger logger = Logger.getLogger(GenEduReqFacet.class);
 
 	public GenEduReqFacet() {
 		super();

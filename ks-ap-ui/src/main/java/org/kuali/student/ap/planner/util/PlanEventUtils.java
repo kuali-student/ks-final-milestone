@@ -11,7 +11,6 @@ import javax.json.JsonWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.PlanItem;
@@ -30,6 +29,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -40,7 +41,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
  * @version 0.7.6
  */
 public class PlanEventUtils {
-    private static final Logger LOG = Logger.getLogger(PlanEventUtils.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PlanEventUtils.class);
 
 	private static class EventsKey {
 		@Override

@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -20,6 +19,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by IntelliJ IDEA. User: hemanthg Date: 4/13/12 Time: 1:49 PM To
@@ -30,8 +31,7 @@ public class FullPlanItemsLookupableHelperImpl extends
 
 	private static final long serialVersionUID = -2081050491075600747L;
 
-	private static final Logger LOG = Logger
-			.getLogger(FullPlanItemsLookupableHelperImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(FullPlanItemsLookupableHelperImpl.class);
 
 
 	@Override

@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.PlanConstants;
@@ -19,14 +18,15 @@ import org.kuali.student.myplan.plan.dataobject.AcademicRecordDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlanItemDataObject;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by IntelliJ IDEA. User: hemanthg Date: 5/3/12 Time: 10:46 AM To
  * change this template use File | Settings | File Templates.
  */
 public class CrudMessageMatrixFormatter extends PropertyEditorSupport {
-	private final static Logger logger = Logger
-			.getLogger(CrudMessageMatrixFormatter.class);
+	private final static Logger logger = LoggerFactory.getLogger(CrudMessageMatrixFormatter.class);
 
 	private transient CourseOfferingService courseOfferingService;
 

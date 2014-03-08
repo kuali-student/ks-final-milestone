@@ -2,7 +2,6 @@ package org.kuali.student.myplan.main.service;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
 
@@ -16,9 +15,6 @@ import org.kuali.rice.krad.web.form.LookupForm;
 public class MyPlanLookupableImpl extends LookupableImpl {
 
 	private static final long serialVersionUID = -6792581759887618976L;
-
-	private static final Logger LOG = Logger
-			.getLogger(MyPlanLookupableImpl.class);
 
 	/**
 	 * Override and ignore criteria validation

@@ -1,6 +1,5 @@
 package org.kuali.student.ap.planner.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.uif.view.ViewAuthorizerBase;
 import org.kuali.rice.krad.web.controller.extension.KsapControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -31,6 +30,8 @@ import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.lum.course.infc.Course;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
@@ -60,7 +61,7 @@ import java.util.List;
 @RequestMapping(value = "/planner/**")
 public class PlannerController extends KsapControllerBase {
 
-	private static final Logger LOG = Logger.getLogger(PlannerController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PlannerController.class);
 
 	private static final String PLANNER_FORM = "Planner-FormView";
 	private static final String DIALOG_FORM = "PlannerDialog-FormView";
@@ -171,7 +172,7 @@ public class PlannerController extends KsapControllerBase {
 
 		} else if (!termRequired && !courseRequired) {
             // If term or course information are not required then a plan item should be found.
-			LOG.warn("Missing plan item for loading page " + pageId);
+			LOG.warn("Missing plan item for loading page {}", pageId);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing plan item for loading page " + pageId);
 			return null;
 		}
@@ -179,7 +180,7 @@ public class PlannerController extends KsapControllerBase {
         // Retrieve course information if possible
 		Course course = form.getCourse();
 		if (course == null && courseRequired) {
-			LOG.warn("Missing course for summary " + pageId);
+			LOG.warn("Missing course for summary {}", pageId);
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing course for summary " + pageId);
 			return null;
 		}
@@ -356,7 +357,7 @@ public class PlannerController extends KsapControllerBase {
                 return null;
             }
 		} catch (IllegalArgumentException e) {
-			LOG.error("Invalid course code " + courseCd, e);
+			LOG.error(String.format("Invalid course code %s", courseCd), e);
 			PlanEventUtils.sendJsonEvents(false, "Course " + courseCd + " not found", response, eventList);
 			return null;
 		}
@@ -441,8 +442,8 @@ public class PlannerController extends KsapControllerBase {
 		
 		BigDecimal oldCredit = planItemInfo.getCredit();
 		
-		LOG.debug("In PlannerController: oldCredit is " + oldCredit);
-		LOG.debug("form.getCreditsForPlanItem() is " + form.getCreditsForPlanItem());
+		LOG.debug("In PlannerController: oldCredit is {}", oldCredit);
+		LOG.debug("form.getCreditsForPlanItem() is {}", form.getCreditsForPlanItem());
 		
 		planItemInfo.setCredit(form.getCreditsForPlanItem());
 		BigDecimal newCredit = planItemInfo.getCredit();
@@ -779,7 +780,7 @@ public class PlannerController extends KsapControllerBase {
                         planItemInfo.getId(), planItemInfo, KsapFrameworkServiceLocator.getContext().getContextInfo());
             }
         } catch (AlreadyExistsException e) {
-            LOG.warn("Course " + course.getCode() + " is already planned for " + term.getName(), e);
+            LOG.warn(String.format("Course %s is already planned for %s", course.getCode(), term.getName()), e);
             PlanEventUtils.sendJsonEvents(false,
                     "Course " + course.getCode() + " is already planned for " + term.getName(), response, eventList);
             return;
@@ -916,7 +917,7 @@ public class PlannerController extends KsapControllerBase {
             newBookmark = KsapFrameworkServiceLocator.getAcademicPlanService().createPlanItem(newBookmark,
                         KsapFrameworkServiceLocator.getContext().getContextInfo());
         } catch (AlreadyExistsException e) {
-            LOG.warn("Course " + course.getCode() + " is already bookmarked", e);
+            LOG.warn(String.format("Course %s is already bookmarked", course.getCode()), e);
             PlanEventUtils.sendJsonEvents(false,
                     "Course " + course.getCode() + " is already bookmarked", response, eventList);
             return null;

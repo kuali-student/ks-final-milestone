@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.TermHelper;
 import org.kuali.student.ap.framework.context.YearTerm;
@@ -19,6 +18,8 @@ import org.kuali.student.myplan.plan.dataobject.PlannedCourseDataObject;
 import org.kuali.student.myplan.plan.dataobject.PlannedTerm;
 import org.kuali.student.myplan.plan.dataobject.TermNoteDataObject;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by IntelliJ IDEA. User: hemanthg Date: 5/16/12 Time: 3:49 PM To
@@ -26,7 +27,7 @@ import org.kuali.student.r2.core.acal.infc.Term;
  */
 public class PlannedTermsHelperBase {
 
-	private static final Logger LOG = Logger.getLogger(PlannedTermsHelperBase.class);
+	private static final Logger LOG = LoggerFactory.getLogger(PlannedTermsHelperBase.class);
 
 	public static List<PlannedTerm> populatePlannedTerms(List<PlannedCourseDataObject> plannedCoursesList,
 			List<PlannedCourseDataObject> backupCoursesList, List<StudentCourseRecordInfo> studentCourseRecordInfos,
@@ -70,7 +71,7 @@ public class PlannedTermsHelperBase {
 			String atp = plan.getPlanItemDataObject().getAtp();
 			PlannedTerm pt = termsList.get(atp);
 			if (pt == null)
-				LOG.warn("Course is not planned for a planning term " + plan.getCourseDetails() + " " + atp);
+				LOG.warn("Course is not planned for a planning term {} {}", plan.getCourseDetails(), atp);
 			else
 				pt.getPlannedList().add(plan);
 		}
@@ -80,7 +81,7 @@ public class PlannedTermsHelperBase {
 				String atp = bl.getPlanItemDataObject().getAtp();
 				PlannedTerm pt = termsList.get(atp);
 				if (pt == null)
-					LOG.warn("Backup course is not planned for a planning term " + bl.getCourseDetails() + " " + atp);
+					LOG.warn("Backup course is not planned for a planning term {} {}", bl.getCourseDetails(), atp);
 				else
 					pt.getBackupList().add(bl);
 			}
@@ -90,7 +91,7 @@ public class PlannedTermsHelperBase {
 				String atp = bl.getPlanItemDataObject().getAtp();
 				PlannedTerm pt = termsList.get(atp);
 				if (pt == null)
-					LOG.warn("Cart course is not planned for a planning term " + bl.getCourseDetails() + " " + atp);
+					LOG.warn("Cart course is not planned for a planning term {} {}", bl.getCourseDetails(), atp);
 				else
 					pt.getCartList().add(bl);
 			}

@@ -7,7 +7,6 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.academicplan.service.AcademicPlanServiceConstants;
@@ -28,6 +27,8 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Base lookup helper for plan items.
@@ -36,8 +37,7 @@ public class PlanItemLookupableHelperBase extends MyPlanLookupableImpl {
 	
 	private static final long serialVersionUID = -6762982255633597470L;
 
-	private final static Logger LOG = Logger
-			.getLogger(PlanItemLookupableHelperBase.class);
+	private final static Logger LOG = LoggerFactory.getLogger(PlanItemLookupableHelperBase.class);
 	
 	private transient AcademicPlanService academicPlanService;
     private transient CourseDetailsInquiryHelperImpl courseDetailsInquiryHelper;

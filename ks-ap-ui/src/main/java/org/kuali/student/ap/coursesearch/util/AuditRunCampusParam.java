@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -20,8 +19,6 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
  * Logic for building list of FacetItems and coding CourseSearchItems.
  */
 public class AuditRunCampusParam extends KeyValuesBase {
-
-    private final Logger logger = Logger.getLogger(AuditRunCampusParam.class);
 
     private boolean blankOption;
 

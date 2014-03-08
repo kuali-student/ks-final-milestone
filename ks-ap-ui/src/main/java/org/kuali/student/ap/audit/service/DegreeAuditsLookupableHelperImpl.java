@@ -9,7 +9,6 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
@@ -23,8 +22,6 @@ import org.springframework.dao.DataRetrievalFailureException;
 public class DegreeAuditsLookupableHelperImpl extends MyPlanLookupableImpl {
 
 	private static final long serialVersionUID = 5470488652754576047L;
-
-	private final static Logger LOG = Logger.getLogger(CourseDetailsInquiryHelperImpl.class);
 
     private transient DegreeAuditService degreeAuditService;
 

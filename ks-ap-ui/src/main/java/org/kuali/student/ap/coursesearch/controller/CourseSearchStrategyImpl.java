@@ -1,6 +1,5 @@
 package org.kuali.student.ap.coursesearch.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -44,6 +43,8 @@ import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -60,8 +61,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
-	private static final Logger LOG = Logger
-			.getLogger(CourseSearchStrategyImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CourseSearchStrategyImpl.class);
 
 	private static final Map<String, Comparator<String>> FACET_SORT;
 	private static final int MAX_HITS = 1000;
@@ -136,8 +136,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
 	public List<Hit> processSearchRequests(List<SearchRequestInfo> requests) {
-		LOG.info("Start of processSearchRequests of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of processSearchRequests of CourseSearchController: {}",
+				System.currentTimeMillis());
 		List<Hit> hits = new java.util.LinkedList<Hit>();
 		Set<String> seen = new java.util.HashSet<String>();
 		String id;
@@ -161,8 +161,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			} catch (PermissionDeniedException e) {
 				throw new IllegalArgumentException("CLU lookup error", e);
 			}
-		LOG.info("End of processSearchRequests of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("End of processSearchRequests of CourseSearchController: {}",
+				System.currentTimeMillis());
 		return hits;
 	}
 
@@ -300,8 +300,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	}
 
 	private List<CourseSearchItemImpl> getCoursesInfo(List<String> courseIDs) {
-		LOG.info("Start of method getCourseInfo of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of method getCourseInfo of CourseSearchController: {}",
+				System.currentTimeMillis());
 		List<CourseSearchItemImpl> listOfCourses = new ArrayList<CourseSearchItemImpl>();
 		SearchRequestInfo request = new SearchRequestInfo("ksap.course.info");
 		request.addParam("courseIDs", courseIDs);
@@ -343,8 +343,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			}
 		}
 
-		LOG.info("End of method getCourseInfo of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("End of method getCourseInfo of CourseSearchController: {}",
+				System.currentTimeMillis());
 		return listOfCourses;
 	}
 
@@ -362,8 +362,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @return A list of course ids with offerings matching the selected filter
      */
     private List<String> termfilterCourseIds(List<String> courseIds, String termFilter){
-        LOG.info("Start of method termfilterCourseIds of CourseSearchController:"
-                + System.currentTimeMillis());
+        LOG.info("Start of method termfilterCourseIds of CourseSearchController: {}",
+                System.currentTimeMillis());
 
         // If any term option is select return list as is, no filtering needed.
         if(termFilter.equals(CourseSearchForm.SEARCH_TERM_ANY_ITEM)){
@@ -417,8 +417,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         } catch (PermissionDeniedException e) {
             throw new IllegalStateException("ATP lookup failed", e);
         }
-        LOG.info("End of method termfilterCourseIds of CourseSearchController:"
-                + System.currentTimeMillis());
+        LOG.info("End of method termfilterCourseIds of CourseSearchController: {}",
+                System.currentTimeMillis());
         return filteredIds;
 
     }
@@ -450,8 +450,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @param courses - List of courses to load information for.
      */
 	private void loadScheduledTerms(List<CourseSearchItemImpl> courses) {
-		LOG.info("Start of method loadScheduledTerms of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of method loadScheduledTerms of CourseSearchController: {}",
+				System.currentTimeMillis());
 
         // Load list of terms to find offerings in
 		List<Term> terms = new ArrayList<Term>();
@@ -492,8 +492,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             throw new IllegalStateException("ATP lookup failed", e);
         }
 
-		LOG.info("End of method loadScheduledTerms of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("End of method loadScheduledTerms of CourseSearchController: {}",
+				System.currentTimeMillis());
 	}
 
     /**
@@ -568,8 +568,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
 	private void loadTermsOffered(List<CourseSearchItemImpl> courses,
 			final List<String> courseIDs) {
-		LOG.info("Start of method loadTermsOffered of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of method loadTermsOffered of CourseSearchController: {}",
+				System.currentTimeMillis());
 
         // Search for projected offered terms for the courses
 		SearchRequestInfo request = new SearchRequestInfo(
@@ -618,8 +618,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             }
         }
 
-		LOG.info("End of method loadTermsOffered of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("End of method loadTermsOffered of CourseSearchController: {}",
+				System.currentTimeMillis());
 	}
 
     /**
@@ -657,8 +657,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
 	private void loadGenEduReqs(List<CourseSearchItemImpl> courses,
 			final List<String> courseIDs) {
-		LOG.info("Start of method loadGenEduReqs of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of method loadGenEduReqs of CourseSearchController: {}",
+				System.currentTimeMillis());
 
         // Search for gen ed requirements
 		SearchRequestInfo request = new SearchRequestInfo(
@@ -699,8 +699,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				}
 			}
 		}
-		LOG.info("End of method loadGenEduReqs of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("End of method loadGenEduReqs of CourseSearchController: {}",
+				System.currentTimeMillis());
 	}
 
     private void loadCampuses(List<CourseSearchItemImpl> courses, List<String> courseIds){
@@ -727,8 +727,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      */
 	private Map<String, CourseSearchItem.PlanState> getCourseStatusMap(
 			String studentID) {
-		LOG.info("Start of method getCourseStatusMap of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of method getCourseStatusMap of CourseSearchController: {}",
+				System.currentTimeMillis());
 		AcademicPlanService academicPlanService = KsapFrameworkServiceLocator
 				.getAcademicPlanService();
 
@@ -798,15 +798,15 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				savedCourseSet.put(courseID, state);
 			}
 		}
-		LOG.info("End of method getCourseStatusMap of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("End of method getCourseStatusMap of CourseSearchController: {}",
+				System.currentTimeMillis());
 		return savedCourseSet;
 	}
 
 	public void populateFacets(CourseSearchForm form,
 			List<CourseSearchItem> courses) {
-		LOG.info("Start of method populateFacets of CourseSearchController:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of method populateFacets of CourseSearchController: {}",
+				System.currentTimeMillis());
 		// Initialize facets.
 		CurriculumFacet curriculumFacet = new CurriculumFacet();
 		CreditsFacet creditsFacet = new CreditsFacet();
@@ -1213,8 +1213,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
      * @return The list of search requests to be ran.
      */
 	public List<SearchRequestInfo> queryToRequests(CourseSearchForm form) {
-		LOG.info("Start Of Method queryToRequests in CourseSearchStrategy:"
-				+ System.currentTimeMillis());
+		LOG.info("Start Of Method queryToRequests in CourseSearchStrategy: {}",
+				System.currentTimeMillis());
 
         // To keep search from being case specific all text is uppercased
 		String query = form.getSearchQuery().toUpperCase();
@@ -1259,26 +1259,26 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             pureQuery = pureQuery.replace(division+code,"");
         }
 
-		LOG.info("Start of method addComponentSearches of CourseSearchStrategy:"
-				+ System.currentTimeMillis());
+        LOG.info("Start of method addComponentSearches of CourseSearchStrategy: {}",
+                System.currentTimeMillis());
 		addComponentSearches(divisions, codes, levels, incompleteCodes, completedCodes, completedLevels, requests);
-		LOG.info("End of method addComponentSearches of CourseSearchStrategy:"
-				+ System.currentTimeMillis());
+		LOG.info("End of method addComponentSearches of CourseSearchStrategy: {}",
+				System.currentTimeMillis());
 
-		LOG.info("Start of method addFullTextSearches of CourseSearchStrategy:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of method addFullTextSearches of CourseSearchStrategy: {}",
+				System.currentTimeMillis());
 		addFullTextSearches(pureQuery, requests, form.getSearchTerm());
-		LOG.info("End of method addFullTextSearches of CourseSearchStrategy:"
-				+ System.currentTimeMillis());
+		LOG.info("End of method addFullTextSearches of CourseSearchStrategy: {}",
+				System.currentTimeMillis());
 
         // Process Current list of Requests into direct search queries
-		LOG.info("Count of No of Query Tokens:" + requests.size());
+		LOG.info("Count of No of Query Tokens: {}", requests.size());
 		requests = processRequests(requests, form);
-		LOG.info("No of Requests after processRequest method:"
-				+ requests.size());
+		LOG.info("No of Requests after processRequest method: {}",
+				requests.size());
 
-		LOG.info("End Of Method queryToRequests in CourseSearchStrategy:"
-				+ System.currentTimeMillis());
+		LOG.info("End Of Method queryToRequests in CourseSearchStrategy: {}",
+				System.currentTimeMillis());
 
 		return requests;
 	}
@@ -1291,8 +1291,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	 */
 	public List<SearchRequestInfo> processRequests(List<SearchRequestInfo> requests,
 			CourseSearchForm form) {
-		LOG.info("Start of method processRequests in CourseSearchStrategy:"
-				+ System.currentTimeMillis());
+		LOG.info("Start of method processRequests in CourseSearchStrategy: {}",
+				System.currentTimeMillis());
         // Process search requests
 
         // Remove Duplicates
@@ -1302,8 +1302,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		}
         requests = prunedRequests;
 
-		LOG.info("End of processRequests method in CourseSearchStrategy:"
-				+ System.currentTimeMillis());
+		LOG.info("End of processRequests method in CourseSearchStrategy: {}",
+				System.currentTimeMillis());
 
         return requests;
 	}

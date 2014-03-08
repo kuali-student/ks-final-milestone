@@ -31,7 +31,6 @@ import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
@@ -59,6 +58,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -75,7 +76,7 @@ import org.xml.sax.InputSource;
 @RequestMapping(value = "/audit/**")
 public class DegreeAuditController extends UifControllerBase {
 
-	private final Logger logger = Logger.getLogger(DegreeAuditController.class);
+	private static final Logger logger = LoggerFactory.getLogger(DegreeAuditController.class);
 
 	private transient DegreeAuditService degreeAuditService;
 
@@ -141,7 +142,7 @@ public class DegreeAuditController extends UifControllerBase {
 				// retrieved from the database - given the Person's ID
 				// (AdviserID or StudentID).
 				// form.setCampusParam(campusMap.get("0"));
-				logger.info("audit systemkey " + systemKey);
+				logger.info("audit systemkey {}", systemKey);
 				List<AuditReportInfo> auditReportInfoList = degreeAuditService
 						.getAuditsForStudentInDateRange(systemKey, startDate,
 								endDate, contextInfo);

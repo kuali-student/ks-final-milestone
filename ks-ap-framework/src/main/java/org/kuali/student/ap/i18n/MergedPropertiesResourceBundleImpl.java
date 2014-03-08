@@ -1,6 +1,8 @@
 package org.kuali.student.ap.i18n;
 
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -23,14 +25,14 @@ public class MergedPropertiesResourceBundleImpl extends ResourceBundle {
     List<ResourceBundle> bundles;
     private Locale locale;
 
-    private static final Logger LOG = Logger.getLogger(MergedPropertiesResourceBundleImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MergedPropertiesResourceBundleImpl.class);
 
     public MergedPropertiesResourceBundleImpl(List<ResourceBundle> bundles, Locale locale) {
         this.bundles = bundles;
         this.locale = locale;
         validateKeys();
         validateLocales();
-        LOG.debug("MergedPropertiesResourceBundleImpl(" + bundles.size() + ", " + locale.toString() + ")");
+        LOG.debug("MergedPropertiesResourceBundleImpl({}, {})", bundles.size(), locale);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class MergedPropertiesResourceBundleImpl extends ResourceBundle {
                 //Swallowing this for now since we are looping through multiple bundles...
             }
             if (retVal != null) {
-                LOG.debug("Key(" + key + ") found in bundle with locale:'" + bundle.getLocale().toString() + "'");
+                LOG.debug("Key({}) found in bundle with locale:'{}'", key, bundle.getLocale());
                 break;
             }
         }
@@ -112,10 +114,10 @@ public class MergedPropertiesResourceBundleImpl extends ResourceBundle {
         String bundle_locale = bundle.getLocale().toString();
         if (!expected.equals(bundle_locale) && !bundle_locale.equals("")) {
             //throw new RuntimeException("Mismatched locales.  Expected '" + the_locale + "' but got '" + bundle_locale + "' from " + bundle);
-            LOG.warn("Mismatched locales.  Expected '" + expected + "' but got '" + bundle_locale + "' from " + bundle);
+            LOG.warn("Mismatched locales.  Expected '{}' but got '{}' from {}", expected, bundle_locale, bundle);
         }
         else {
-            LOG.debug("Expected '" + expected + "' and got '" + bundle_locale + "' from " + bundle);
+            LOG.debug("Expected '{}' and got '{}' from {}", expected, bundle_locale, bundle);
         }
     }
 }

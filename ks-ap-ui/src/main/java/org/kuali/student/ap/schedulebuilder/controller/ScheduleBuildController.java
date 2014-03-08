@@ -1,7 +1,6 @@
 package org.kuali.student.ap.schedulebuilder.controller;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.log4j.Logger;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.kuali.rice.krad.UserSession;
@@ -20,6 +19,8 @@ import org.kuali.student.ap.schedulebuilder.infc.ScheduleBuildEvent;
 import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,8 +48,7 @@ import java.util.TreeSet;
 @RequestMapping(value = "/sb")
 public class ScheduleBuildController extends UifControllerBase {
 
-	private static final Logger LOG = Logger
-			.getLogger(ScheduleBuildController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ScheduleBuildController.class);
 
 	private static String EVENT_CSS_PREFIX = "ks-schedule-Color";
 

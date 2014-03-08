@@ -1,6 +1,5 @@
 package org.kuali.student.ap.audit.util;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -11,6 +10,8 @@ import org.kuali.student.ap.audit.service.DegreeAuditConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 public class DegreeAuditRunProgramParam extends UifKeyValuesFinderBase implements Serializable {
    //public class DegreeAuditRunProgramParam extends KeyValuesBase {
 
-    private final Logger logger = Logger.getLogger(DegreeAuditRunProgramParam.class);
+    private static final Logger logger = LoggerFactory.getLogger(DegreeAuditRunProgramParam.class);
 
     private boolean blankOption;
     private ProgramService programService;

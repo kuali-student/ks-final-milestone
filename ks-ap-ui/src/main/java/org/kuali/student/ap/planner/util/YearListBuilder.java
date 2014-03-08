@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
@@ -13,8 +12,6 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
  *  Assembles a list of published terms.
  */
 public class YearListBuilder extends KeyValuesBase {
-
-    private final Logger logger = Logger.getLogger(YearListBuilder.class);
 
     private int yearCount = 5;
 

@@ -5,10 +5,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSearchItemImpl;
 import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Logic for building list of Course Level FacetItems and coding
@@ -16,7 +17,7 @@ import org.kuali.student.ap.coursesearch.dataobject.FacetItem;
  */
 public class CourseLevelFacet extends AbstractFacet {
 
-	private static final Logger LOG = Logger.getLogger(CourseLevelFacet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CourseLevelFacet.class);
 
 	private HashSet<Integer> courseFacetSet = new HashSet<Integer>();
 
@@ -54,7 +55,7 @@ public class CourseLevelFacet extends AbstractFacet {
 		try {
 			level = key == null ? 0 : Integer.valueOf(key);
 		} catch (NumberFormatException e) {
-			LOG.warn("Invalid number in course level " + key, e);
+			LOG.warn(String.format("Invalid number in course level %s", key), e);
 			level = 0;
 		}
 		courseFacetSet.add(level);
