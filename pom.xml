@@ -96,7 +96,7 @@
         <project.jdk.min.version>1.7.0-21</project.jdk.min.version>
         <selenium.version>2.7.0</selenium.version>
         <servlet.api.version>2.5</servlet.api.version>
-        <slf4j.version>1.6.2</slf4j.version>
+        <slf4j.version>1.7.6</slf4j.version>
         <spring.security.version>3.1.0.RELEASE</spring.security.version>
         <spring.security.javadoc.version>3.1.x</spring.security.javadoc.version>
         <spring.security-cas.version>3.1.0.RELEASE</spring.security-cas.version>
