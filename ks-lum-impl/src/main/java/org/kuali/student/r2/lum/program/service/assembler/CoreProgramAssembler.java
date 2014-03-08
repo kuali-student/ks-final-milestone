@@ -17,13 +17,11 @@ package org.kuali.student.r2.lum.program.service.assembler;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r2.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramBasicOrgAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCodeAssembly;
@@ -42,13 +40,15 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author KS
  *
  */
 public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInfo> {
-    final static Logger LOG = Logger.getLogger(CourseAssembler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseAssembler.class);
 
     private CluService cluService;
     private ProgramAssemblerUtils programAssemblerUtils;

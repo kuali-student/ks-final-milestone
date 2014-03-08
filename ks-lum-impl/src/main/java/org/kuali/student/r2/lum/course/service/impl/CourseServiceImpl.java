@@ -1,6 +1,5 @@
 package org.kuali.student.r2.lum.course.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.common.assembly.BOAssembler;
@@ -46,6 +45,8 @@ import org.kuali.student.r2.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ import java.util.List;
  */
 public class CourseServiceImpl implements CourseService {
 
-    final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseServiceImpl.class);
 
     private CluService cluService;
     private CourseAssembler courseAssembler;

@@ -15,7 +15,6 @@
  */
 package org.kuali.student.r2.lum.course.service.assembler;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
@@ -49,7 +48,6 @@ import java.util.Map.Entry;
  * 
  */
 public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
-	final static Logger LOG = Logger.getLogger(FormatAssembler.class);
 
 	private BOAssembler<ActivityInfo, CluInfo> activityAssembler;
 	private CluService cluService;

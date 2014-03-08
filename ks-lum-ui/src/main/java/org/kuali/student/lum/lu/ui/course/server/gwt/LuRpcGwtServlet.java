@@ -17,7 +17,6 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -25,6 +24,8 @@ import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to
@@ -37,7 +38,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 		implements LuRpcService {
 
 	private static final long serialVersionUID = 1L;
-	final static Logger LOG = Logger.getLogger(LuRpcGwtServlet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LuRpcGwtServlet.class);
 	/**
 	 * @see org.kuali.student.lum.lu.ui.course.client.service.LuRemoteService#createClu(java.lang.String,
 	 *      org.kuali.student.lum.lu.dto.CluInfo)
@@ -47,7 +48,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 		try {
 			return service.createClu(luTypeKey, cluInfo, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Exception occurred", e);
 		}
 		return null;
 	}
@@ -61,7 +62,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 		try {
 			return service.updateClu(cluId, cluInfo, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Exception occurred", e);
 		}
 		return null;
 	}
@@ -71,7 +72,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 		try {
 			return service.getCluLoRelationsByClu(cluId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Exception occurred", e);
 		}
 		return null;
 	}
@@ -81,7 +82,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 		try {
 			return service.getClu(cluId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Exception occurred", e);
 		}
 		return null;
 	}
@@ -93,7 +94,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 			return service.getCurrentVersion(refObjectTypeURI, refObjectId, ContextUtils.getContextInfo());
 			
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Exception occurred", e);
 		}
 		return null;
     }

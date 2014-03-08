@@ -21,7 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
@@ -54,13 +53,15 @@ import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
 public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 //  TODO Split out CluInfo assembly to its own class
 
-    final Logger LOG = Logger.getLogger(CluSetManagementAssembler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CluSetManagementAssembler.class);
 
     public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 // FIXME: should have it's own proposal types

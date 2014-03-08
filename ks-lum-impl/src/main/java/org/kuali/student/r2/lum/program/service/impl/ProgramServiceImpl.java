@@ -1,6 +1,5 @@
 package org.kuali.student.r2.lum.program.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
@@ -45,6 +44,8 @@ import org.kuali.student.r2.lum.program.service.assembler.CredentialProgramAssem
 import org.kuali.student.r2.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.r2.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -58,7 +59,7 @@ import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
 
 public class ProgramServiceImpl implements ProgramService{
-	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ProgramServiceImpl.class);
 
     private CluService cluService;
     private ValidatorFactory validatorFactory;

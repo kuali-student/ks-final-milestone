@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -35,6 +34,8 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ import java.util.Map;
 
 public class CourseDataService extends AbstractDataService {
 
-    final static Logger LOG = Logger.getLogger(CourseDataService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseDataService.class);
 
     private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 
@@ -59,7 +60,7 @@ public class CourseDataService extends AbstractDataService {
         try {
             courseInfo = courseService.getCourse(id, contextInfo);
         } catch (DoesNotExistException dne) {
-            LOG.info("Course not found for key " + id + ". Course loaded from proposal instead.");
+            LOG.info("Course not found for key {}. Course loaded from proposal instead.", id);
         }
         //Strip the key prefix from the resultValueKeys
         String resultValueKeyPrefix = "kuali.result.value.credit.degree.";

@@ -4,7 +4,6 @@
  */
 package org.kuali.student.r2.lum.lrc.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -21,6 +20,8 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.lrc.service.LrcServiceBusinessLogic;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ import java.util.List;
  */
 public class LrcServiceBusinessLogicImpl implements LrcServiceBusinessLogic {
 
-    private static final Logger LOG = Logger.getLogger(LrcServiceBusinessLogicImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LrcServiceBusinessLogicImpl.class);
 
     private LRCService lrcService;
 

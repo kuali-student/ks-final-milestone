@@ -1,6 +1,5 @@
 package org.kuali.student.r2.lum.service.assembler;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
@@ -38,11 +37,13 @@ import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
-	final Logger LOG = Logger.getLogger(LumServiceMethodInvoker.class);
+	private static final Logger LOG = LoggerFactory.getLogger(LumServiceMethodInvoker.class);
 	private CluService cluService;
 	private StatementService statementService;
 	private LearningObjectiveService loService;
@@ -112,9 +113,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			return;
 		}
 
-		if (LOG.isDebugEnabled()) {
-			LOG.debug(results.getOperation() + ": " + nodeData);
-		}
+        LOG.debug("{}: {}", results.getOperation(), nodeData);
 
 		if(nodeData instanceof CluInfo){
 			CluInfo clu = (CluInfo) nodeData;

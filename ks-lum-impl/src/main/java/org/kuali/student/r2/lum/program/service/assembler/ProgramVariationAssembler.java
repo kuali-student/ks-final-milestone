@@ -17,7 +17,6 @@ package org.kuali.student.r2.lum.program.service.assembler;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
@@ -40,13 +39,15 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author KS
  *
  */
 public class ProgramVariationAssembler implements BOAssembler<ProgramVariationInfo, CluInfo> {
-    final static Logger LOG = Logger.getLogger(ProgramVariationAssembler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProgramVariationAssembler.class);
 
     private CluService cluService;
     private CluAssemblerUtils cluAssemblerUtils;

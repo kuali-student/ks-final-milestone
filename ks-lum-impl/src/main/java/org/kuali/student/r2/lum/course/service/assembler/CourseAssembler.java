@@ -17,7 +17,6 @@ package org.kuali.student.r2.lum.course.service.assembler;
 
 
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
@@ -63,6 +62,8 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -87,7 +88,7 @@ import java.util.Set;
 
 public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
-    final static Logger LOG = Logger.getLogger(CourseAssembler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseAssembler.class);
     private CluService cluService;
     private FormatAssembler formatAssembler;
     private CourseJointAssembler courseJointAssembler;
@@ -1006,7 +1007,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         .disassemble(loDisplayToDelete, NodeOperation.DELETE,contextInfo);
                 results.add(loNode);
             } catch (DoesNotExistException e){
-                LOG.warn("Trying to delete non exsistant LO:"+entry.getKey());
+                LOG.warn("Trying to delete non exsistant LO: {}", entry.getKey());
             } catch (Exception e) {
                 throw new AssemblyException("Error disassembling LOs",e);
             }

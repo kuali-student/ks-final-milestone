@@ -16,7 +16,6 @@
 package org.kuali.student.lum.kim.role.type;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
 import org.kuali.rice.kew.api.action.ActionRequestStatus;
@@ -30,6 +29,8 @@ import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.lum.kim.KimQualificationHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -37,7 +38,7 @@ import java.util.*;
  *
  */
 public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
-    protected final Logger LOG = Logger.getLogger(getClass());
+    private static final Logger LOG = LoggerFactory.getLogger(KSActionRequestDerivedRoleTypeServiceImpl.class);
 
 	private static final String APPROVE_REQUEST_RECIPIENT_ROLE_CONTENT = "Approve";
 	private static final String ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT = "Acknowledge";
@@ -118,8 +119,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
         if (StringUtils.isNotEmpty(documentId)) {
             return documentId;
         } else {
-            LOG.warn("Could not find workflow document id in qualification list:");
-            LOG.warn(qualification);
+            LOG.warn("Could not find workflow document id in qualification list: {}", qualification);
             return null;
         }
 //		if (StringUtils.isNotEmpty(documentId)) {
@@ -190,7 +190,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 			}
 			return members;
 		} catch (WorkflowException e) {
-			LOG.error("Workflow Error: " + e.getLocalizedMessage(), e);
+			LOG.error("Workflow Error: ", e);
 			throw new RuntimeException("Unable to load route header", e);
 		}
 	}
@@ -212,7 +212,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 			}
 			return false;
 		} catch (WorkflowException e) {
-			LOG.error("Workflow Error: " + e.getLocalizedMessage(), e);
+			LOG.error("Workflow Error: ", e);
 			throw new RuntimeException("Unable to load route header", e);
 		}
 	}

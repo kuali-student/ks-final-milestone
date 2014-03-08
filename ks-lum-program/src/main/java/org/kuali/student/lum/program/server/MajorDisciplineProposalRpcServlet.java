@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
@@ -27,12 +26,14 @@ import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.service.ProgramService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements MajorDisciplineProposalRpcService {
 
     public static final String PREVIOUS_VERSION_INFO = "previousVersionInfo";
 
-    final Logger LOG = Logger.getLogger(MajorDisciplineProposalRpcServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MajorDisciplineProposalRpcServlet.class);
 
     private static final long serialVersionUID = 1L;
 

@@ -19,7 +19,6 @@
 package org.kuali.student.lum.kim;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentDetail;
@@ -32,6 +31,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -50,7 +51,7 @@ import java.util.Set;
  *
  */
 public class KimQualificationHelper {
-    protected static final Logger LOG = Logger.getLogger(KimQualificationHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KimQualificationHelper.class);
 
 	private static UniqueMap translationMap = new UniqueMap();
 
@@ -108,7 +109,7 @@ public class KimQualificationHelper {
             	errorMessage.append(")");
             }
         }
-		LOG.info("Found missing attributes: " + errorMessage.toString());
+		LOG.info("Found missing attributes: {}", errorMessage.toString());
         throw new RuntimeException (errorMessage.toString());
     }
 
@@ -159,12 +160,12 @@ public class KimQualificationHelper {
 					}
 					else {
 						// if neither Document Type Name nor KS object type is found then KEW document instance cannot be retrieved
-						LOG.warn("Could not find valid document type name or KS object type using qualifications: " + qualification);
+						LOG.warn("Could not find valid document type name or KS object type using qualifications: {}", qualification);
 					}
 				}
 				else {
 					// if application id is not found then KEW document instance cannot be retrieved
-					LOG.warn("Could not find valid document id or application id using qualifications: " + qualification);
+					LOG.warn("Could not find valid document id or application id using qualifications: {}", qualification);
 				}
 			}
 
@@ -205,13 +206,13 @@ public class KimQualificationHelper {
 				}
 			}
 			else {
-				String errorMsg = "Could not find valid KEW document type for document id " + docDetail.getDocument().getDocumentId();
+				String errorMsg = String.format("Could not find valid KEW document type for document id %s", docDetail.getDocument().getDocumentId());
 				LOG.error(errorMsg);
 				throw new RuntimeException(errorMsg);
 			}
 		}
 		else {
-			LOG.warn("Could not find KEW document instance for qualifications: " + qualifications);
+			LOG.warn("Could not find KEW document instance for qualifications: {}", qualifications);
 			// add KS object type code if necessary
 			if ((!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) &&
 					qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {

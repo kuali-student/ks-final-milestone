@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
@@ -41,12 +40,14 @@ import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author KS TODO - Much of this should be shared with ProgramVariationAssembler (and probably other Program Assemblers to come). AssemblerUtils?
  */
 public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo, CluInfo> {
-    final static Logger LOG = Logger.getLogger(CourseAssembler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseAssembler.class);
 
     private CluService cluService;
 

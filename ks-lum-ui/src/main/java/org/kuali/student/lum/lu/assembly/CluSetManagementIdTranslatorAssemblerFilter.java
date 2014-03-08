@@ -3,7 +3,6 @@ package org.kuali.student.lum.lu.assembly;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
@@ -16,10 +15,12 @@ import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 import org.kuali.student.r1.common.assembly.util.IdTranslation;
 import org.kuali.student.r1.common.assembly.util.IdTranslator;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CluSetManagementIdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data, Void> {
 
-    final Logger LOG = Logger.getLogger(CluSetManagementIdTranslatorAssemblerFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CluSetManagementIdTranslatorAssemblerFilter.class);
 
     private IdTranslator idTranslator;
     private MetadataServiceImpl metadataService;

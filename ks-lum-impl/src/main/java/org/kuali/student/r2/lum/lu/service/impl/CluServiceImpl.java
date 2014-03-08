@@ -14,7 +14,6 @@
  */
 package org.kuali.student.r2.lum.lu.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
@@ -43,6 +42,8 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.lu.entity.*;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -67,7 +68,7 @@ public class CluServiceImpl implements CluService {
     private static final String SEARCH_KEY_CLUSET_SEARCH_GENERIC = "cluset.search.generic";
     private static final String SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS = "cluset.search.genericWithClus";
 
-    final Logger logger = Logger.getLogger(CluServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(CluServiceImpl.class);
     private LuDao luDao;
     private ValidatorFactory validatorFactory;
     private DictionaryService dictionaryServiceDelegate;
@@ -722,7 +723,7 @@ public class CluServiceImpl implements CluService {
             if (cluId != null) {
                 //Optimized version of clu translation. It seems like for now we only need the following information.
                 //If more information is needed, then appropriate method in assembler has to be used.
-                logger.info("CluID: " + cluId);
+                logger.info("CluID: {}", cluId);
                 Clu clu = luDao.getCurrentCluVersion(cluId);
                 CluInfo cluInfo = new CluInfo();
                 cluInfo.setId(clu.getId());
@@ -1462,7 +1463,7 @@ public class CluServiceImpl implements CluService {
         try {
             updated = luDao.update(clu);
         } catch (Exception e) {
-            logger.error("Exception occured: ", e);
+            logger.error("Exception occurred: ", e);
         }
         return CluServiceAssembler.toCluInfo(updated);
     }
@@ -3324,11 +3325,8 @@ public class CluServiceImpl implements CluService {
 				clu = luDao.fetch(Clu.class, refObjId);
 			} catch (DoesNotExistException e) {
 
-				logger.warn(
-						"Does Not Exist Exception occured, Dependency Analysis Tried to load a dependency from a clu with clu Id: "
-								+ refObjId
-								+ " which does not exist.  Removing dependency from results. Does not exist Exception follows: ",
-						e);
+                String msg = String.format("Does Not Exist Exception occurred, Dependency Analysis Tried to load a dependency from a clu with clu Id: %s which does not exist.  Removing dependency from results. Does not exist Exception follows: ", refObjId);
+                logger.warn(msg, e);
 
 				// skipping loop
 				continue;

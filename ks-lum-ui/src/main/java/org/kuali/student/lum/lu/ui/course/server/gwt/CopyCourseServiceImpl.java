@@ -3,7 +3,6 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.r1.common.assembly.data.Data;
@@ -41,11 +40,13 @@ import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class CopyCourseServiceImpl {
-    final static Logger LOG = Logger.getLogger(CopyCourseServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CopyCourseServiceImpl.class);
 
     private DataService courseDataService;
     private DataService courseProposalDataService;
@@ -104,12 +105,11 @@ public class CopyCourseServiceImpl {
             originalProposal.setName(null);
 
             //Create the proposal
-            ProposalInfo copiedProposal = proposalService.createProposal(documentType, originalProposal, ContextUtils.getContextInfo());
 
-            return copiedProposal;
+            return proposalService.createProposal(documentType, originalProposal, ContextUtils.getContextInfo());
 
         } catch (Exception e) {
-            LOG.error("Error copying proposal id:" + originalProposalId, e);
+            LOG.error(String.format("Error copying proposal id: %s", originalProposalId), e);
             throw e;
         }
     }

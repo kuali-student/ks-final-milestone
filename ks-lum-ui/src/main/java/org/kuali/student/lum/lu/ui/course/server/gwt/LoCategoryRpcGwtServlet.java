@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -24,6 +23,8 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -31,7 +32,7 @@ import java.util.List;
 public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategoryRpcService {
     private LearningObjectiveService loService;
 
-    final static Logger LOG = Logger.getLogger(LoCategoryRpcGwtServlet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(LoCategoryRpcGwtServlet.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -49,7 +50,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
         try {
             return loService.getLoCategoryTypes();
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
         }
         return null;
     }
@@ -65,7 +66,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
             return loService.getLoCategoryType(loCategoryTypeKey, ContextUtils.getContextInfo());
 
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
         }
         return null;
     }
@@ -76,7 +77,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
             return loService.getLoCategoriesByLoRepository(loRepositoryKey, ContextUtils.getContextInfo());
 
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
         }
         return null;
     }
@@ -86,7 +87,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
         try {
             return loService.deleteLoCategory(loCategoryId, ContextUtils.getContextInfo());
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
         }
         return null;
     }

@@ -3,7 +3,6 @@ package org.kuali.student.lum.lu.ui.tools.server.gwt;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.common.ui.shared.IdAttributes;
@@ -23,10 +22,12 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CluSetDataService  implements DataService{
 
-    final static Logger LOG = Logger.getLogger(CluSetDataService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CluSetDataService.class);
     private Assembler<Data, Void> assembler;
     private MetadataServiceImpl metadataService;
     

@@ -3,7 +3,6 @@ package org.kuali.student.r2.lum.program.service.assembler;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.lum.service.assembler.CluAssemblerUtils;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
@@ -24,9 +23,11 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CredentialProgramAssembler implements BOAssembler<CredentialProgramInfo, CluInfo> {
-    final static Logger LOG = Logger.getLogger(CredentialProgramAssembler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CredentialProgramAssembler.class);
 
     private ProgramAssemblerUtils programAssemblerUtils;
     private CluAssemblerUtils cluAssemblerUtils;

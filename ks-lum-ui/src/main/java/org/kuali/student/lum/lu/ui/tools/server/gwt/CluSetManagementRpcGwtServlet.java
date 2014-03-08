@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.ui.tools.server.gwt;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
@@ -36,6 +35,8 @@ import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +46,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
 
 	private static final long serialVersionUID = 1L;
-	final static Logger LOG = Logger.getLogger(CluSetManagementRpcGwtServlet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CluSetManagementRpcGwtServlet.class);
 	private CluService cluService;
 	private LRCService lrcService;
     

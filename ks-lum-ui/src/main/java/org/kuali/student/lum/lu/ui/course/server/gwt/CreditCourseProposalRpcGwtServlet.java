@@ -18,7 +18,6 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -26,11 +25,13 @@ import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpc
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
         CreditCourseProposalRpcService {
 
-	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(CreditCourseProposalRpcGwtServlet.class);
 
 	private static final long serialVersionUID = 1L;
 	private CopyCourseServiceImpl copyCourseService;
@@ -41,7 +42,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 		try {
 			return copyCourseService.createCopyCourse(originalCluId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-			LOG.error("Error copying course with id:" + originalCluId, e);
+			LOG.error(String.format("Error copying course with id: %s", originalCluId), e);
 			throw e;
 		}
 	}
@@ -52,7 +53,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 		try {
 			return copyCourseService.createCopyCourseProposal(originalProposalId, documentType, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-			LOG.error("Error copying proposal with id:" + originalProposalId, e);
+			LOG.error(String.format("Error copying proposal with id: %s", originalProposalId), e);
 			throw e;
 		}
 

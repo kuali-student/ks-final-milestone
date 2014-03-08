@@ -9,7 +9,6 @@ import static org.apache.commons.lang.StringUtils.isEmpty;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.lum.course.service.assembler.LoAssembler;
@@ -35,6 +34,8 @@ import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import org.kuali.student.r2.lum.program.service.assembler.ProgramAssemblerUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -42,7 +43,7 @@ import org.kuali.student.r2.lum.program.service.assembler.ProgramAssemblerUtils;
  *
  */
 public class ProgramRequirementAssembler implements BOAssembler<ProgramRequirementInfo, CluInfo> {
-    final static Logger LOG = Logger.getLogger(ProgramRequirementAssembler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProgramRequirementAssembler.class);
 
 	private StatementService statementService;
 	private StatementTreeViewAssembler statementTreeViewAssembler;

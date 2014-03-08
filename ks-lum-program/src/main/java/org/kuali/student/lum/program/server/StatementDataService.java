@@ -1,6 +1,5 @@
 package org.kuali.student.lum.program.server;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
@@ -16,13 +15,15 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class StatementDataService implements StatementRpcService{
-	final static Logger LOG = Logger.getLogger(StatementDataService.class);
+	private final static Logger LOG = LoggerFactory.getLogger(StatementDataService.class);
     
     protected StatementService statementService;
 	protected CluService cluService;
@@ -72,7 +73,7 @@ public class StatementDataService implements StatementRpcService{
         	reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
   
         } catch (Exception ex) {
-            LOG.error(ex);
+            LOG.error("Exception occurred", ex);
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
         }
         

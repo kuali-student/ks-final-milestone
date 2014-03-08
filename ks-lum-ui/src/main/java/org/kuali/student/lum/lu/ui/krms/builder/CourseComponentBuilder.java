@@ -15,7 +15,6 @@
  */
 package org.kuali.student.lum.lu.ui.krms.builder;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -49,15 +48,13 @@ import java.util.Map;
  */
 public class CourseComponentBuilder extends CluComponentBuilder {
 
-    private final static Logger LOG = Logger.getLogger(CourseComponentBuilder.class);
-
     private CourseService courseService;
     private AcademicCalendarService acalService = null;
     private SearchService searchService = null;
 
     @Override
     public List<String> getComponentIds() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @Override
