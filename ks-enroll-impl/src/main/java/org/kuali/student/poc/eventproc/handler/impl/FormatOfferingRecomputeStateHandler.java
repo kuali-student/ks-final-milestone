@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc.handler.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
@@ -38,6 +37,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class FormatOfferingRecomputeStateHandler implements KSHandler {
-    public static final Logger LOGGER = Logger.getLogger(FormatOfferingRecomputeStateHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(FormatOfferingRecomputeStateHandler.class);
     KSInternalEventProcessor processor;
 
     public FormatOfferingRecomputeStateHandler(KSInternalEventProcessor processor) {
@@ -84,13 +85,13 @@ public class FormatOfferingRecomputeStateHandler implements KSHandler {
         LuiInfo foLui = processor.getLuiService().getLui(foId, context);
         String fromFoState = foLui.getStateKey();
         if (fromFoState.equals(toFoState)) {
-            LOGGER.info("FO state unchanged (fromState = " + fromFoState + ", toState = " + toFoState + ")");
+            LOGGER.info("FO state unchanged (fromState = {}, toState = {})", fromFoState, toFoState);
             return new KSHandlerResult(KSHandlerResult.FAIL_STATE_UNCHANGED, FormatOfferingRecomputeStateHandler.class);
         }
         foLui.setStateKey(toFoState);
 
         LuiInfo modifiedFoLui = processor.getLuiService().updateLui(foLui.getId(), foLui, context);
-        LOGGER.info("Setting FO to state: " + modifiedFoLui.getStateKey());
+        LOGGER.info("Setting FO to state: {}", modifiedFoLui.getStateKey());
 
         // Fire compute CO event
         KSHandlerResult eventResult = new KSHandlerResult(KSHandlerResult.SUCCESS, FormatOfferingRecomputeStateHandler.class);

@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
@@ -55,6 +54,8 @@ import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.acal.service.impl.AcademicCalendarServiceImpl;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -67,7 +68,7 @@ import java.util.Map;
 import java.util.Set;
 
 public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
-    final static Logger LOG = Logger.getLogger(CourseOfferingSetServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingSetServiceImpl.class);
 
     @Resource
     private SocDao socDao;
@@ -809,7 +810,7 @@ public class CourseOfferingSetServiceImpl implements CourseOfferingSetService {
                 // Log the state change
                 contextInfo.setCurrentDate(new Date());
                 logStateChange(entity, nextStateKey, contextInfo);
-                LOG.warn(String.format("Updated SOC [%s] state to [%s].", socId, nextStateKey));
+                LOG.warn("Updated SOC [{}] state to [{}].", socId, nextStateKey);
 
                 entity.setEntityUpdated(contextInfo);
                 

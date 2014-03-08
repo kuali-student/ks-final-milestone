@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -26,6 +25,8 @@ import org.kuali.student.enrollment.class2.courseoffering.form.DeleteTargetTermF
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -47,7 +48,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/deleteTargetTerm")
 public class DeleteTargetTermController extends UifControllerBase {
-    private final static Logger LOGGER = Logger.getLogger(DeleteTargetTermForm.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(DeleteTargetTermForm.class);
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
@@ -63,8 +64,7 @@ public class DeleteTargetTermController extends UifControllerBase {
         }
         DeleteTargetTermForm theForm = (DeleteTargetTermForm) form;
         Date date = Calendar.getInstance().getTime();
-        LOGGER.error(date.toString() + " ");
-        LOGGER.error(theForm);
+        LOGGER.error("{} {}", date, theForm);
         return getUIFModelAndView(theForm);
     }
 

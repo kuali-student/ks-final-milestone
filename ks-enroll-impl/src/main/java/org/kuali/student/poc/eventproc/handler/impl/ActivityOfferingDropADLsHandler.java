@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc.handler.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
@@ -38,6 +37,8 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class ActivityOfferingDropADLsHandler implements KSHandler {
-    public static final Logger LOGGER = Logger.getLogger(ActivityOfferingDropADLsHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ActivityOfferingDropADLsHandler.class);
     KSInternalEventProcessor processor;
 
     public ActivityOfferingDropADLsHandler(KSInternalEventProcessor processor) {

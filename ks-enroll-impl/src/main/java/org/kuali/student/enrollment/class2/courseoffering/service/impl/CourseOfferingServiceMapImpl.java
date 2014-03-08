@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.courseoffering.dto.AOClusterVerifyResultsInfo;
@@ -67,12 +66,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.kuali.student.common.UUIDHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CourseOfferingServiceMapImpl implements CourseOfferingService,
         MockService {
 
-    private static Logger log = Logger
-            .getLogger(CourseOfferingServiceMapImpl.class);
+    private static final Logger log = LoggerFactory.getLogger(CourseOfferingServiceMapImpl.class);
 
     @Override
     public void clear() {
@@ -310,8 +310,8 @@ public class CourseOfferingServiceMapImpl implements CourseOfferingService,
         copy.setHasWaitlist(true);
         courseOfferingMap.put(copy.getId(), copy);
         log.info(
-                "CourseOfferingMakImpl: created course offering: " + copy.getId() + "term=" + copy.getTermId() + " for course =" + copy.
-                getCourseId());
+                "CourseOfferingMakImpl: created course offering: {} term={} for course ={}",
+                copy.getId(), copy.getTermId(), copy.getCourseId());
         return new CourseOfferingInfo(copy);
     }
 
@@ -536,10 +536,8 @@ public class CourseOfferingServiceMapImpl implements CourseOfferingService,
         copy.setTermId(co.getTermId());
         copy.setMeta(newMeta(context));
         formatOfferingMap.put(copy.getId(), copy);
-        log.debug("CourseOfferingMockImpl: created format offering: "
-                + copy.getId() + "term=" + copy.getTermId() + " for format ="
-                + copy.getFormatId() + " and course offering="
-                + copy.getCourseOfferingId());
+        log.debug("CourseOfferingMockImpl: created format offering: {} term={} for format={} and course offering={}",
+                copy.getId(), copy.getTermId(), copy.getFormatId(), copy.getCourseOfferingId());
         return new FormatOfferingInfo(copy);
     }
 
@@ -829,10 +827,8 @@ public class CourseOfferingServiceMapImpl implements CourseOfferingService,
         copy.setTermId(fo.getTermId());
         copy.setMeta(newMeta(context));
         activityOfferingMap.put(copy.getId(), copy);
-        log.debug("CourseOfferingMockImpl: created activity offering: "
-                + copy.getId() + "term=" + copy.getTermId()
-                + " for activity " + copy.getActivityId()
-                + " and format offering=" + copy.getFormatOfferingId());
+        log.debug("CourseOfferingMockImpl: created activity offering: {} term={} for activity={} and format offering={}",
+                copy.getId(), copy.getTermId(), copy.getActivityId(), copy.getFormatOfferingId());
         return new ActivityOfferingInfo(copy);
     }
 

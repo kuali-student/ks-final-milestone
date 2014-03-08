@@ -16,7 +16,6 @@ package org.kuali.student.enrollment.class1.timeslot.keyvalue;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -29,6 +28,8 @@ import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -40,7 +41,7 @@ import java.util.List;
  */
 public class TimeSlotTypeOptionsFinder extends UifKeyValuesFinderBase implements Serializable {
 
-    private static final Logger LOGGER = Logger.getLogger(TimeSlotTypeOptionsFinder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TimeSlotTypeOptionsFinder.class);
 
     private transient TypeService typeService;
 

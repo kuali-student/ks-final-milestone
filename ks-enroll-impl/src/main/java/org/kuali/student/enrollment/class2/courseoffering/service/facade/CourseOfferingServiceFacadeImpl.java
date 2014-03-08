@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.facade;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -76,6 +75,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import javax.xml.namespace.QName;
@@ -94,7 +95,7 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFacade {
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceFacadeImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingServiceFacadeImpl.class);
 
     @Resource (name="CourseOfferingService")
     private CourseOfferingService coService;
@@ -262,7 +263,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         List<KeyValue> aoKVList = getAoIdAndAoTypeByFO(foId, context);
 
         if (aoKVList != null && !aoKVList.isEmpty()) {
-            LOGGER.warn("There are AOs without an AOC for this format (" + foId + ").  Indicates bad ref data.");
+            LOGGER.warn("There are AOs without an AOC for this format ({}).  Indicates bad ref data.", foId);
         }
         // Now we're good...create the AOC
         ActivityOfferingClusterInfo clusterInfo = new ActivityOfferingClusterInfo();
@@ -397,7 +398,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         try {
             examPeriodID = this.getExamOfferingServiceFacade().getExamPeriodId(aoInfo.getTermId(), context);
         } catch (DoesNotExistException e) {
-            LOGGER.warn("The Term " + aoInfo.getTermId() + " doesn't have an exam period to create exam offerings.");
+            LOGGER.warn("The Term {} doesn't have an exam period to create exam offerings.", aoInfo.getTermId());
         }
         if (examPeriodID != null) {
             //create if Final Exam Driver has been selected for the FO
@@ -506,7 +507,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
         try {
             examPeriodID = this.getExamOfferingServiceFacade().getExamPeriodId(copyAoInfo.getTermId(), context);
         } catch (DoesNotExistException e) {
-            LOGGER.warn("The Term " + copyAoInfo.getTermId() + " doesn't have an exam period to create exam offerings.");
+            LOGGER.warn("The Term {} doesn't have an exam period to create exam offerings.", copyAoInfo.getTermId());
         }
         if (examPeriodID != null) {
             //create if Final Exam Driver has been selected for the FO
@@ -742,7 +743,7 @@ public class CourseOfferingServiceFacadeImpl implements CourseOfferingServiceFac
                             // if that doesn't work, the state change has failed and log. (suspended aos should not get moved.
                             if (!(coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY, context).getIsSuccess()
                                     || coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_PENDING_STATE_KEY, context).getIsSuccess())) {
-                                LOGGER.warn("State change failed for RG: " + rgInfo.getId() + "From state:" + rgInfo.getStateKey());
+                                LOGGER.warn("State change failed for RG: {} From state: {}", rgInfo.getId(), rgInfo.getStateKey());
                             }
                         } else {
                             coService.changeRegistrationGroupState(rgInfo.getId(), LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY, context);

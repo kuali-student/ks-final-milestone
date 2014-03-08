@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
@@ -38,6 +37,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jms.JMSException;
 import javax.security.auth.login.LoginException;
@@ -52,7 +53,7 @@ import java.util.Map;
 
 public class CourseRegistrationClientServiceImpl implements CourseRegistrationClientService {
 
-    public static final Logger LOGGER = Logger.getLogger(CourseRegistrationClientServiceImpl.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationClientServiceImpl.class);
 
     @Override
     public Response registerForRegistrationGroupRS(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) {
@@ -61,7 +62,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         try {
             response = Response.ok(registerForRegistrationGroupLocal(ContextUtils.createDefaultContextInfo(), termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId));
         } catch (Throwable t) {
-            LOGGER.warn(t);
+            LOGGER.warn("Exception occurred", t);
             response = Response.serverError().entity(t.getMessage());
         }
 
@@ -75,7 +76,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         try {
             response = Response.ok(dropRegistrationGroup(ContextUtils.createDefaultContextInfo(), masterLprId));
         } catch (Throwable t) {
-            LOGGER.warn(t);
+            LOGGER.warn("Exception occurred", t);
             response = Response.serverError().entity(t.getMessage());
         }
 
@@ -83,7 +84,8 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     public RegistrationResponseInfo registerForRegistrationGroupLocal(ContextInfo contextInfo, String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException, AlreadyExistsException, LoginException {
-        LOGGER.debug(String.format("REGISTRATION: user[%s] termCode[%s] courseCode[%s] regGroup[%s]", contextInfo.getPrincipalId(), termCode, courseCode, regGroupCode));
+        LOGGER.debug("REGISTRATION: user[{}] termCode[{}] courseCode[{}] regGroup[{}]",
+                contextInfo.getPrincipalId(), termCode, courseCode, regGroupCode);
 
         // get the regGroup
         RegGroupSearchResult rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(null, termCode, courseCode, regGroupCode, regGroupId, contextInfo);
@@ -108,7 +110,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         String userId = contextInfo.getPrincipalId();
 
-        LOGGER.debug(String.format("REGISTRATION: user[%s] masterLprId[%s]", userId, masterLprId));
+        LOGGER.debug("REGISTRATION: user[{}] masterLprId[{}]", userId, masterLprId);
 
 
         if (!StringUtils.isEmpty(userId)) {
@@ -136,7 +138,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             Map<String, List> stats = getStatsFromRegEngine();
             response = Response.ok(stats);
         } catch (Throwable t) {
-            LOGGER.warn(t);
+            LOGGER.warn("Exception occurred", t);
             response = Response.serverError().entity(t.getMessage());
         }
 
@@ -156,7 +158,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
             response = Response.fromResponse(getRegEngineStatsRS());
         } catch (Throwable t) {
-            LOGGER.warn(t);
+            LOGGER.warn("Exception occurred", t);
             response = Response.serverError().entity(t.getMessage());
         }
 
@@ -538,7 +540,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             }
             response = Response.noContent();
         } catch (Throwable t) {
-            LOGGER.warn(t);
+            LOGGER.warn("Exception occurred", t);
             response = Response.serverError().entity(t.getMessage());
         }
 
@@ -623,7 +625,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         try {
             response = Response.ok(updateScheduleItem(ContextUtils.createDefaultContextInfo(), courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
         } catch (Throwable t) {
-            LOGGER.warn(t);
+            LOGGER.warn("Exception occurred", t);
             response = Response.serverError().entity(t.getMessage());
         }
 

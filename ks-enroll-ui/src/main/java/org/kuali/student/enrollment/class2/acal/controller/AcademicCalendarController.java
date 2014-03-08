@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class2.acal.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
@@ -59,6 +58,8 @@ import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.acal.service.facade.AcademicCalendarServiceFacade;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -92,7 +93,7 @@ import java.util.Properties;
 @RequestMapping(value = "/academicCalendar")
 public class AcademicCalendarController extends UifControllerBase {
 
-    private static final Logger LOG = Logger.getLogger(AcademicCalendarController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AcademicCalendarController.class);
 
     private AcademicCalendarService acalService;
     private AcademicCalendarServiceFacade academicCalendarServiceFacade;
@@ -1110,7 +1111,7 @@ public class AcademicCalendarController extends UifControllerBase {
 
             } else {
                 // Signal that there is an unknown field found.
-                LOG.warn("Unknown field encounter during save: "+field);
+                LOG.warn("Unknown field encounter during save: {}", field);
             }
         }
         return form;

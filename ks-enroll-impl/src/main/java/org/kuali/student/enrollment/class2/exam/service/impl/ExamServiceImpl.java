@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.exam.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.exam.service.transformer.ExamTransformer;
@@ -59,8 +58,6 @@ public class ExamServiceImpl implements ExamService {
     private CluService cluService;
 
     private ExamTransformer examTransformer;
-
-    private static final Logger LOGGER = Logger.getLogger(ExamServiceImpl.class);
 
     @Override
     public List<ValidationResultInfo> validateExam(String validationTypeKey, String examTypeKey, ExamInfo examInfo, ContextInfo contextInfo)

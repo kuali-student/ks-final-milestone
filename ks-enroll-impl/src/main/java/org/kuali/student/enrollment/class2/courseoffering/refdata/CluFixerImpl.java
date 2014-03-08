@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.refdata;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -44,6 +43,8 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,7 +75,7 @@ public class CluFixerImpl implements CluFixer {
     private CourseOfferingService coService;
     private CourseService courseService;
     private LRCService lrcService;
-    private static final Logger LOGGER = Logger.getLogger(CluFixer.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CluFixer.class);
     private String pathPrefix = "";
 
     private ContextInfo context = new ContextInfo();
@@ -143,10 +144,10 @@ public class CluFixerImpl implements CluFixer {
                 CourseInfo info = courseService.getCourse(courseId, context);
                 results.add(info.getCode() + "/" + info.getId());
             } catch (DoesNotExistException e) {
-                LOGGER.warn("DoesNotExist: Skipping " + courseId);
+                LOGGER.warn("DoesNotExist: Skipping {}", courseId);
                 skipOut.println(courseId);
             } catch (Exception e) {
-                LOGGER.warn("OtherException (" + e.getClass().toString() + "): Skipping " + courseId);
+                LOGGER.warn("OtherException ({}): Skipping {}", e.getClass(), courseId);
                 skipOut.println("(" + e.getClass().toString() + ") " + courseId);
             }
         }
@@ -582,7 +583,7 @@ public class CluFixerImpl implements CluFixer {
             scanner = new Scanner(new File(pathPrefix, fileName));
 
         } catch (FileNotFoundException e) {
-            LOGGER.warn("No file found at: " + filePath);
+            LOGGER.warn("No file found at: {}", filePath);
             return null;
         }
         List<String> courseData = new ArrayList<String>();
@@ -631,10 +632,10 @@ public class CluFixerImpl implements CluFixer {
                 }
                 validCourseInfo.add(course.getCode() + "/" + course.getId() + "/" + course.getVersion().getVersionIndId());
             } catch (Exception ex) {
-                LOGGER.info("Exception thrown on: " + courseId);
+                LOGGER.info("Exception thrown on: {}", courseId);
             }
             if (count % 50 == 1) {
-                LOGGER.warn("count = " + count);
+                LOGGER.warn("count = {}", count);
             }
         }
         // Print info
@@ -736,8 +737,8 @@ public class CluFixerImpl implements CluFixer {
             pOut.println(entry.getKey() + "/" + entry.getValue());
         }
         pOut.close();
-        LOGGER.info("Total courses: " + courseIds.size());
-        LOGGER.info("Courses with COs: " + count);
+        LOGGER.info("Total courses: {}", courseIds.size());
+        LOGGER.info("Courses with COs: {}", count);
     }
 
     private String _findNewCourseCode(String codePrefix, Map<String, String> courseCodeToCourseId) {

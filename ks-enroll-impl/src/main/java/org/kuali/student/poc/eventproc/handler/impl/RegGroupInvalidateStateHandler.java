@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc.handler.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.poc.eventproc.api.KSHandler;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
@@ -35,6 +34,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class RegGroupInvalidateStateHandler implements KSHandler {
-    public static final Logger LOGGER = Logger.getLogger(RegGroupInvalidateStateHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegGroupInvalidateStateHandler.class);
     KSInternalEventProcessor processor;
 
     public RegGroupInvalidateStateHandler(KSInternalEventProcessor processor) {
@@ -65,7 +66,7 @@ public class RegGroupInvalidateStateHandler implements KSHandler {
         if (!handlesEvent(event)) {
             return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, RegGroupInvalidateStateHandler.class);
         }
-        LOGGER.info(">>> " + getName() + " handling " + event.toString());
+        LOGGER.info(">>> {} handling {}", getName(), event);
         KSInvalidateRGStateEvent invalidateEvent = (KSInvalidateRGStateEvent) event;
         String rgId = invalidateEvent.getRgId();
         LuiInfo rgLui = processor.getLuiService().getLui(rgId, context);
@@ -76,10 +77,9 @@ public class RegGroupInvalidateStateHandler implements KSHandler {
         rgLui.setStateKey(LuiServiceConstants.REGISTRATION_GROUP_INVALID_STATE_KEY);
         LuiInfo modifiedRgLui =
                 processor.getLuiService().updateLui(rgLui.getId(), rgLui, context);
-        LOGGER.info("RG state change to: " + modifiedRgLui.getStateKey());
+        LOGGER.info("RG state change to: {}", modifiedRgLui.getStateKey());
         // RG doesn't fire an event, but one could add a RG modified state event
-        KSHandlerResult eventResult = new KSHandlerResult(KSHandlerResult.SUCCESS, RegGroupInvalidateStateHandler.class);
-        return eventResult;
+        return new KSHandlerResult(KSHandlerResult.SUCCESS, RegGroupInvalidateStateHandler.class);
     }
 
     @Override

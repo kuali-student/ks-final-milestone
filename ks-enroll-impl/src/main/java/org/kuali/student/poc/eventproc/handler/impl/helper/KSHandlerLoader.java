@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc.handler.impl.helper;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.poc.eventproc.KSEventProcessorImpl;
 import org.kuali.student.poc.eventproc.handler.impl.ActivityOfferingDropADLsHandler;
 import org.kuali.student.poc.eventproc.handler.impl.ActivityOfferingStateChangeHandler;
@@ -24,6 +23,8 @@ import org.kuali.student.poc.eventproc.handler.impl.CourseOfferingRecomputeState
 import org.kuali.student.poc.eventproc.handler.impl.FormatOfferingRecomputeStateHandler;
 import org.kuali.student.poc.eventproc.handler.impl.RegGroupInvalidateStateHandler;
 import org.kuali.student.poc.eventproc.handler.impl.RegGroupRecomputeStateHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Loads handlers into the EventProcessor
@@ -31,7 +32,7 @@ import org.kuali.student.poc.eventproc.handler.impl.RegGroupRecomputeStateHandle
  * @author Kuali Student Team
  */
 public class KSHandlerLoader {
-    public static final Logger LOGGER = Logger.getLogger(KSHandlerLoader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KSHandlerLoader.class);
     public static void loadHandlersIntoEventProcessor(KSEventProcessorImpl processor) {
         LOGGER.info("========== Loading handlers");
         ActivityOfferingStateChangeHandler aoHandler = new ActivityOfferingStateChangeHandler(processor);

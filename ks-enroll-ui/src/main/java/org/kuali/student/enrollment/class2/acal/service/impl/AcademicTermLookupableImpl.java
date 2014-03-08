@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.lookup.LookupableImpl;
 import org.kuali.rice.krad.web.form.LookupForm;
@@ -26,6 +25,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.List;
@@ -38,7 +39,7 @@ public class AcademicTermLookupableImpl  extends LookupableImpl {
     private transient AtpService atpService;
     private transient TypeService typeService;
 
-    private final static Logger LOG = Logger.getLogger(AcademicTermLookupableImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AcademicTermLookupableImpl.class);
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -50,7 +51,7 @@ public class AcademicTermLookupableImpl  extends LookupableImpl {
         try{
             rList = CalendarSearchViewHelperUtil.searchForTerms(name, year, ContextUtils.createDefaultContextInfo(), getAtpService(), getTypeService());
         }   catch (Exception ex){
-            LOG.error(ex);
+            LOG.error("Exception occurred", ex);
             throw new RuntimeException("Error in AcademicTermLookupableImpl searching for term. name[" + name +"] year["+year +"]", ex);
         }
 

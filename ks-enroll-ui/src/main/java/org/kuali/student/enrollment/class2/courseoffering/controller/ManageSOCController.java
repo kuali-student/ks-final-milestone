@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -28,6 +27,8 @@ import org.kuali.student.enrollment.class2.courseoffering.service.ManageSOCViewH
 import org.kuali.student.enrollment.class2.courseoffering.util.ManageSocConstants;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,7 +49,7 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping(value = "/manageSOC")
 public class ManageSOCController extends UifControllerBase {
 
-    private final static Logger LOG = Logger.getLogger(ManageSOCController.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ManageSOCController.class);
 
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {

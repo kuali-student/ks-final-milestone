@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.keyvalue;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
@@ -36,7 +35,6 @@ import java.util.List;
  */
 public class SeatPoolExpirationMilestoneTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
-    private static final Logger LOG = Logger.getLogger(SeatPoolExpirationMilestoneTypeKeyValues.class);
     private static final long serialVersionUID = 1L;
 
     @Override

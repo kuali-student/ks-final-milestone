@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -31,6 +30,8 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.security.auth.login.LoginException;
@@ -44,7 +45,7 @@ import java.util.*;
  */
 public class CourseRegistrationCartClientServiceImpl implements CourseRegistrationCartClientService {
 
-    public static final Logger LOGGER = Logger.getLogger(CourseRegistrationCartClientServiceImpl.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationCartClientServiceImpl.class);
     private CourseRegistrationService courseRegistrationService;
     private LprService lprService;
     private AtpService atpService;
@@ -308,7 +309,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(updateCartItem(ContextUtils.createDefaultContextInfo(), cartId, cartItemId, credits, grading));
         } catch (Throwable t) {
-            LOGGER.warn(t);
+            LOGGER.warn("Exception occurred", t);
             response = Response.serverError().entity(t.getMessage());
         }
 

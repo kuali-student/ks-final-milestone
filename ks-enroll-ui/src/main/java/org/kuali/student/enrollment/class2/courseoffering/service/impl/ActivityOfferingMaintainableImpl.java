@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -69,6 +68,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ import java.util.Map;
 public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl implements ActivityOfferingMaintainable {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger LOGGER = Logger.getLogger(ActivityOfferingMaintainableImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ActivityOfferingMaintainableImpl.class);
 
     @Override
     public void saveDataObject() {
@@ -212,7 +213,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 try {
                     examPeriodId = CourseOfferingManagementUtil.getExamOfferingServiceFacade().getExamPeriodId(activityOfferingInfo.getTermId(), contextInfo);
                 } catch (DoesNotExistException e) {
-                    LOGGER.info("The term " + activityOfferingInfo.getTermId() + " doesn't have an exam period.");
+                    LOGGER.info("The term {} doesn't have an exam period.", activityOfferingInfo.getTermId());
                 }
 
                 // generate exam offerings if exam period exists

@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
@@ -25,6 +24,8 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -32,7 +33,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl implements CalendarSearchViewHelperService {
-    private final static Logger LOG = Logger.getLogger(CalendarSearchViewHelperServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CalendarSearchViewHelperServiceImpl.class);
     private static final long serialVersionUID = 1L;
     private transient AcademicCalendarService academicCalendarService;
     private transient AtpService atpService;
@@ -162,10 +163,7 @@ public class CalendarSearchViewHelperServiceImpl extends KSViewHelperServiceImpl
                 acalId = atps.get(firstValue).getId();
             }
         } catch (Exception e) {
-           if (LOG.isDebugEnabled()){
-                LOG.debug("Error calling getAcademicCalendarsForTerm - " + term.getId());
-
-            }
+            LOG.debug("Error calling getAcademicCalendarsForTerm - {}", term.getId());
             convertServiceExceptionsToUI(e);
         }
 

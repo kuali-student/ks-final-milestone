@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.courseofferingset.model;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseofferingset.dto.SocRolloverResultInfo;
 import org.kuali.student.enrollment.courseofferingset.infc.SocRolloverResult;
 import org.kuali.student.r1.common.entity.KSEntityConstants;
@@ -10,6 +9,8 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -60,7 +61,7 @@ public class SocRolloverResultEntity extends MetaEntity implements AttributeOwne
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private final Set<SocRolloverResultAttributeEntity> attributes = new HashSet<SocRolloverResultAttributeEntity>();
 
-    private static Logger LOGGER = Logger.getLogger(SocRolloverResultEntity.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SocRolloverResultEntity.class);
 
     public SocRolloverResultEntity() {
     }

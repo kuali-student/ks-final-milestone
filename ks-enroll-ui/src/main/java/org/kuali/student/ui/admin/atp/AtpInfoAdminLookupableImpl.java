@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -36,7 +35,6 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 public class AtpInfoAdminLookupableImpl extends LookupableImpl
 {
-	private static final Logger LOG = Logger.getLogger(AtpInfoAdminLookupableImpl.class);
 	private transient AtpService atpService;
     private static final long serialVersionUID = 1L;
 	@Override

@@ -17,7 +17,6 @@ package org.kuali.student.enrollment.class2.courseoffering.util;
  */
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -30,6 +29,8 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -37,13 +38,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class contains mehtods to handle CO and AO toolbars matrix
+ * This class contains methods to handle CO and AO toolbars matrix
  *
  * @author Kuali Student Team
  */
 public class CourseOfferingManagementToolbarUtil {
 
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingManagementToolbarUtil.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingManagementToolbarUtil.class);
 
     public static void processCoToolbarForUser(List<CourseOfferingListSectionWrapper> coListWrapperList, CourseOfferingManagementForm form){
 
@@ -159,7 +160,7 @@ public class CourseOfferingManagementToolbarUtil {
 
             }
         }
-        LOGGER.info("******** CO Toolbar AuthZ Check *********" + (System.currentTimeMillis()-startTime) + "ms");
+        LOGGER.info("******** CO Toolbar AuthZ Check *********{}ms", System.currentTimeMillis()-startTime);
     }
 
     public static void processAoToolbarForUser(List<ActivityOfferingWrapper> activityWrapperList, CourseOfferingManagementForm form){

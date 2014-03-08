@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.UnhandledException;
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -46,6 +45,8 @@ import org.kuali.student.r2.common.util.date.DateFormatters;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -71,7 +72,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 @RequestMapping(value = "/courseOfferingRollover")
 public class CourseOfferingRolloverController extends UifControllerBase {
 
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingRolloverController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingRolloverController.class);
     public static final String ROLLOVER_DETAILS_PAGEID = "selectTermForRolloverDetails";
 
     @Override
@@ -666,7 +667,7 @@ public class CourseOfferingRolloverController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=checkApproval")
     public ModelAndView checkApproval(@ModelAttribute("KualiForm") CourseOfferingRolloverManagementForm form, @SuppressWarnings("unused") BindingResult result,
                                       @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
-        LOGGER.info("checkApproval " + form.getAcceptIndicator());
+        LOGGER.info("checkApproval {}", form.getAcceptIndicator());
         return getUIFModelAndView(form);
     }
 

@@ -7,7 +7,6 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.UnhandledException;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.EqualPredicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
@@ -28,6 +27,8 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jws.WebParam;
 import java.text.SimpleDateFormat;
@@ -38,7 +39,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetService, MockService {
-    final static Logger LOG = Logger.getLogger(CourseOfferingSetServiceMockImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingSetServiceMockImpl.class);
 
     private CourseOfferingSetServiceBusinessLogic businessLogic;
     private CourseOfferingService coService;
@@ -719,34 +720,26 @@ public class CourseOfferingSetServiceMockImpl implements CourseOfferingSetServic
                         }
                         StatusInfo statusInfo = coService.changeActivityOfferingState(ao.getId(), aoOfferedKey, contextInfo);
                         if ( ! statusInfo.getIsSuccess()) {
-                            LOG.error(String.format("State change failed for AO [%s]: %s", ao.getId(), statusInfo.getMessage()));
+                            LOG.error("State change failed for AO [{}]: {}", ao.getId(), statusInfo.getMessage());
                         } else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug(String.format("Updating AO [%s] state to [%s].", ao.getId(), aoState));
-                            }
+                            LOG.debug("Updating AO [{}] state to [{}].", ao.getId(), aoState);
                         }
                         //  Change the FO state to offered.
                         statusInfo = coService.changeFormatOfferingState(ao.getFormatOfferingId(), foOfferedKey, contextInfo);
                         if ( ! statusInfo.getIsSuccess()) {
                             LOG.error(String.format("State change failed for FO [%s]: %s", ao.getFormatOfferingId(), statusInfo.getMessage()));
                         }  else {
-                            if (LOG.isDebugEnabled()) {
-                                LOG.debug(String.format("Updating FO [%s] state to [%s].", ao.getFormatOfferingId(), foOfferedKey));
-                            }
+                            LOG.debug("Updating FO [{}] state to [{}].", ao.getFormatOfferingId(), foOfferedKey);
                         }
                     } else {
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug(String.format("CO [%s] AO [%s] doesn't need a state change.", coId, ao.getId()));
-                        }
+                        LOG.debug("CO [{}] AO [{}] doesn't need a state change.", coId, ao.getId());
                     }
                 }
 
                // If an AO changed state then state change the CO.
                if (hasAOStateChange) {
                     coService.changeCourseOfferingState(coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY, contextInfo);
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug(String.format("Updating CO [%s] state to [%s].", coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY));
-                    }
+                    LOG.debug("Updating CO [{}] state to [{}].", coId, LuiServiceConstants.LUI_CO_STATE_OFFERED_KEY);
                 }
             }
         }

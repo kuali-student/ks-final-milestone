@@ -30,11 +30,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 
@@ -49,7 +50,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
  */
 public class ScheduleOfClassesUtil {
 
-    private static final Logger LOG = Logger.getLogger(ScheduleOfClassesUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ScheduleOfClassesUtil.class);
 
     private static ScheduleOfClassesViewHelperService viewHelperService;
     private static AcademicCalendarService acalService;
@@ -209,7 +210,7 @@ public class ScheduleOfClassesUtil {
         if (atp != null && atp.getStartDate() != null && atp.getEndDate() != null) {
             return true;
         } else {
-            LOG.error(String.format("ATP %s has a null start or end date.", atp.getId()));
+            LOG.error("ATP {} has a null start or end date.", atp.getId());
             return false;
         }
     }

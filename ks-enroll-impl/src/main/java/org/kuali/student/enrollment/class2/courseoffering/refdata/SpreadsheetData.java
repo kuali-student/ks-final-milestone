@@ -16,8 +16,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.refdata;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -32,7 +33,7 @@ import java.util.TreeMap;
  * @author Kuali Student Team
  */
 public class SpreadsheetData implements Iterable<SpreadsheetRowData> {
-    private static Logger LOGGER = Logger.getLogger(SpreadsheetData.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SpreadsheetData.class);
     List<String> fieldNames;
     Map<String, List<String>> headerToValueList;
     boolean isValid = false;

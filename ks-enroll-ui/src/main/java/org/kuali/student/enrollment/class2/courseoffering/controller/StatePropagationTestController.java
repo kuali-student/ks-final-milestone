@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
@@ -33,6 +32,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,7 +53,7 @@ import java.util.List;
 @RequestMapping(value = "/statusview/**")
 public class StatePropagationTestController extends UifControllerBase {
 
-    private static final Logger LOG = Logger.getLogger(StatePropagationTestController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StatePropagationTestController.class);
 
     public ContextInfo getContextInfo() {
          return ContextUtils.createDefaultContextInfo();
@@ -83,7 +84,7 @@ public class StatePropagationTestController extends UifControllerBase {
         try{
             termList = findTermByTermCode(termCode);
         } catch (Exception e) {
-            LOG.error("Error calling findTermByTermCode - " + termCode);
+            LOG.error("Error calling findTermByTermCode - {}", termCode);
             return "Error calling findTermByTermCode - " + termCode + " " + e.getMessage();
         }
 
@@ -110,16 +111,16 @@ public class StatePropagationTestController extends UifControllerBase {
                     }
                     stringBuilder.append("</table>");
                  } catch (Exception e) {
-                    LOG.error("Error calling loadCourseOfferingByTermAndCoCode - " + termCode + "/" + coCode);
+                    LOG.error("Error calling loadCourseOfferingByTermAndCoCode - {}/{}", termCode, coCode);
                     return "Error calling loadCourseOfferingByTermAndCoCode - " + termCode + "/" + coCode + " " + e.getMessage();
                  }
 
             } else {
-                LOG.error("Error: Found more than one Term for term code: " + termCode);
+                LOG.error("Error: Found more than one Term for term code: {}", termCode);
                 return "Error: Found more than one Term for term code: " + termCode;
              }
         } else {
-            LOG.error("Error: Can't find any Term for term code: " + termCode);
+            LOG.error("Error: Can't find any Term for term code: {}", termCode);
             return "Error: Can't find any Term for term code: " + termCode;
         }
 

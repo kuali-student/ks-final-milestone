@@ -1,7 +1,8 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.registration.client.service.DevelopmentLoginClientService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,7 +18,7 @@ import javax.ws.rs.core.Response;
 
 public class DevelopmentLoginClientServiceImpl implements DevelopmentLoginClientService {
 
-    private static final Logger LOGGER = Logger.getLogger(DevelopmentLoginClientServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DevelopmentLoginClientServiceImpl.class);
 
     private AuthenticationManager authenticationManager;
 

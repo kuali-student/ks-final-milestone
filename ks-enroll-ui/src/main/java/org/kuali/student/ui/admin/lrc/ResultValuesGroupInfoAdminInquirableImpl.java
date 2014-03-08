@@ -18,7 +18,6 @@ package org.kuali.student.ui.admin.lrc;
 
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.common.util.ContextBuilder;
@@ -30,7 +29,6 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 public class ResultValuesGroupInfoAdminInquirableImpl extends InquirableImpl
 {
-	private static final Logger LOG = Logger.getLogger(ResultValuesGroupInfoAdminInquirableImpl.class);
 	private transient LRCService lRCService;
 	private final static String PRIMARY_KEY = "key";
     private static final long serialVersionUID = 1L;
@@ -40,8 +38,7 @@ public class ResultValuesGroupInfoAdminInquirableImpl extends InquirableImpl
 		String key = parameters.get(PRIMARY_KEY);
 		try
 		{
-			ResultValuesGroupInfo info = this.getLRCService().getResultValuesGroup(key, getContextInfo());
-			return info;
+            return this.getLRCService().getResultValuesGroup(key, getContextInfo());
 		}
 		catch (Exception ex) {
 		    throw new RuntimeException(ex);

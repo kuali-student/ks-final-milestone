@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -86,8 +85,6 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class TestStatePropagationViewHelperServiceImpl extends ViewHelperServiceImpl implements TestStatePropagationViewHelperService {
-
-    private static Logger LOGGER = Logger.getLogger(TestStatePropagationViewHelperServiceImpl.class);
 
     // List of objects used in test
     private SocInfo socInfo;
@@ -467,7 +464,6 @@ public class TestStatePropagationViewHelperServiceImpl extends ViewHelperService
         sampleAO = ksEventProcessor.getCoService().getActivityOffering(sampleAO.getId(), CONTEXT);
         KSEvent changeAOState = KSEventFactory.createChangeActivityOfferingStateEvent(sampleAO.getId(), LuiServiceConstants.LUI_AO_STATE_CANCELED_KEY);
         ksEventProcessor.fireEvent(changeAOState, CONTEXT);
-        LOGGER.info("Hi");
     }
 
     private void _runTimings() throws Exception {

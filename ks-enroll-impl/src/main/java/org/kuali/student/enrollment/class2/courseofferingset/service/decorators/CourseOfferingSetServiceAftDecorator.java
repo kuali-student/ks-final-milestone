@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseofferingset.service.decorators
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.class2.courseofferingset.dao.SocDao;
 import org.kuali.student.enrollment.class2.courseofferingset.model.SocEntity;
 import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceDecorator;
@@ -18,6 +17,8 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 
@@ -29,7 +30,7 @@ import javax.annotation.Resource;
 public class CourseOfferingSetServiceAftDecorator
         extends CourseOfferingSetServiceDecorator {
 
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingSetServiceAftDecorator.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingSetServiceAftDecorator.class);
 
     @Resource
     private SocDao socDao;
@@ -44,7 +45,7 @@ public class CourseOfferingSetServiceAftDecorator
             this.getNextDecorator().updateSoc( socId, socInfo, context );
         }
 
-        LOGGER.info( "bypassing business logic to change state(" + socInfo.getStateKey() + ") for SOC(" + socId + ")" );
+        LOGGER.info( "bypassing business logic to change state({}) for SOC({})" , socInfo.getStateKey(), socId);
 
         SocEntity entity = this.socDao.find(socId);
         entity.setSocState( socInfo.getStateKey() );

@@ -17,14 +17,12 @@
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.TestStatePropagationForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.TestStatePropagationViewHelperService;
-import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.class2.courseofferingset.service.decorators.CourseOfferingSetServiceAftDecorator;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -42,6 +40,8 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -68,7 +68,7 @@ import java.util.Map;
 public class TestStatePropagationController extends UifControllerBase {
     private TestStatePropagationViewHelperService viewHelperService;
 
-    private static final Logger LOGGER = Logger.getLogger(TestStatePropagationController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TestStatePropagationController.class);
 
     public static final String PAGE_ID = "pageId";
 

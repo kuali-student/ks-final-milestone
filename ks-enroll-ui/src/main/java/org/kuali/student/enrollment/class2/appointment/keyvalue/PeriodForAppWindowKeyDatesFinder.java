@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.appointment.keyvalue;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
@@ -17,6 +16,8 @@ import org.kuali.student.r2.core.class1.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.io.Serializable;
@@ -26,7 +27,7 @@ import java.util.List;
 public class PeriodForAppWindowKeyDatesFinder extends UifKeyValuesFinderBase implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOG = Logger.getLogger(PeriodForAppWindowKeyDatesFinder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(PeriodForAppWindowKeyDatesFinder.class);
 
     private transient AcademicCalendarService acalService;
     private transient TypeService typeService;

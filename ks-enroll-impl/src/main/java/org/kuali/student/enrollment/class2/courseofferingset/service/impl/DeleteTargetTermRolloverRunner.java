@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
@@ -39,8 +38,6 @@ public class DeleteTargetTermRolloverRunner implements Runnable {
     CourseOfferingSetService socService;
     CourseOfferingService coService;
     String termId;
-
-    final static Logger LOGGER = Logger.getLogger(DeleteTargetTermRolloverRunner.class);
 
     public CourseOfferingSetService getSocService() {
         return socService;

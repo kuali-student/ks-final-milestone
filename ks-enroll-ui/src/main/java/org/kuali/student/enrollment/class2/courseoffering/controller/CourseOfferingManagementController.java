@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -45,6 +44,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -66,7 +67,7 @@ import java.util.Properties;
 @RequestMapping(value = "/courseOfferingManagement")
 public class CourseOfferingManagementController extends UifControllerBase {
 
-    private static final Logger LOG = Logger.getLogger(CourseOfferingManagementController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingManagementController.class);
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {
@@ -122,7 +123,7 @@ public class CourseOfferingManagementController extends UifControllerBase {
                 CourseOfferingListSectionWrapper coListWrapper = KSCollectionUtils.getRequiredZeroElement(form.getCourseOfferingResultList());
                 CourseOfferingManagementUtil.prepareManageAOsModelAndView(form, coListWrapper);
                 } catch (Exception e) {
-                LOG.error(e);
+                LOG.error("Exception occurred", e);
                 throw new RuntimeException(e);
                 }
                 return getUIFModelAndView(form, CourseOfferingConstants.MANAGE_THE_CO_PAGE);

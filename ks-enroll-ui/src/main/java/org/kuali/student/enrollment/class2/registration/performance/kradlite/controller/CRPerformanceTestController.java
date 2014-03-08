@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.registration.performance.kradlite.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.util.security.SecurityUtils;
@@ -13,6 +12,8 @@ import org.kuali.student.enrollment.registration.engine.service.CourseRegistrati
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,7 +31,7 @@ import java.util.Map;
 @RequestMapping("/action")
 public class CRPerformanceTestController {
 
-    private static final Logger LOG = Logger.getLogger(CRPerformanceTestController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CRPerformanceTestController.class);
 
     public static final String KUALI_ATP_2012_FALL = "kuali.atp.2012Fall";
 

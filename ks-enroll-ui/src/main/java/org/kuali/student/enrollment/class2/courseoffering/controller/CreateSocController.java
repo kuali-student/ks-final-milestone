@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.CreateSocForm;
@@ -24,6 +23,8 @@ import org.kuali.student.enrollment.class2.courseoffering.service.CreateSocViewH
 import org.kuali.student.enrollment.class2.courseoffering.util.CourseOfferingManagementUtil;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -44,7 +45,7 @@ import java.util.Map;
 @RequestMapping(value = "/createSoc")
 public class CreateSocController extends UifControllerBase {
 
-    private static final Logger LOGGER = Logger.getLogger(CreateSocController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CreateSocController.class);
 
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {

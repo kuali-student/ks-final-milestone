@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseofferingset.service.CourseOfferingSetService;
@@ -44,6 +43,8 @@ import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.constants.StateServiceConstants;
 import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -57,7 +58,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class KSEventProcessorImpl implements KSEventProcessor, KSInternalEventProcessor {
-    private static Logger LOGGER = Logger.getLogger(KSEventProcessorImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KSEventProcessorImpl.class);
 
     private CourseOfferingService coService;
     private LuiService luiService;
@@ -88,10 +89,10 @@ public class KSEventProcessorImpl implements KSEventProcessor, KSInternalEventPr
         if (eventTypeToHandlers.isEmpty()) {
             KSHandlerLoader.loadHandlersIntoEventProcessor(this);
         }
-        LOGGER.info("========== Received external event: " + event.toString());
+        LOGGER.info("========== Received external event: {}", event);
         // Create a way to prevent infinite looping (e.g. store set of events
         internalFireEvent(event, context);
-        LOGGER.info("========== Finished external event: " + event.toString());
+        LOGGER.info("========== Finished external event: {}", event);
     }
 
     @Override
@@ -99,12 +100,13 @@ public class KSEventProcessorImpl implements KSEventProcessor, KSInternalEventPr
             throws DataValidationErrorException, PermissionDeniedException, OperationFailedException,
             VersionMismatchException, InvalidParameterException, ReadOnlyException,
             MissingParameterException, DoesNotExistException {
-        LOGGER.info("....Internal event: " + event.toString());
+        LOGGER.info("....Internal event: {}", event);
         List<KSHandler> handlers = eventTypeToHandlers.get(event.getEventType());
         int count = 0;
         for (KSHandler handler: handlers) {
             count++;
-            LOGGER.info("Handler (" + count + " of " + handlers.size() + "), " + handler.getName() + ", processing event: " + event.toString());
+            LOGGER.info("Handler ({} of {}), {}, processing event: {}",
+                    count, handlers.size(), handler.getName(), event);
             KSHandlerResult handlerResult = handler.processEvent(event, context);
             // Helps track results
             event.addHandlerResult(handlerResult);

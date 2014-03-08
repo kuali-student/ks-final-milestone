@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class1.krms.builder;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.util.KRMSConstants;
@@ -43,7 +42,6 @@ import java.util.Map;
  */
 public class EnrolCourseComponentBuilder extends CourseComponentBuilder {
 
-    private final static Logger LOG = Logger.getLogger(EnrolCourseComponentBuilder.class);
     private transient AtpService atpService;
     private transient CourseOfferingService courseOfferingService;
     private AcademicCalendarService acalService = null;

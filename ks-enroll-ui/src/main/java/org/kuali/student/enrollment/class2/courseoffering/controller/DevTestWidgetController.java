@@ -16,11 +16,12 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.courseoffering.form.DevTestWidgetForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.DevTestWidgetViewHelperService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -41,7 +42,7 @@ import java.util.Map;
 @RequestMapping(value = "/devTestWidget")
 public class DevTestWidgetController extends UifControllerBase {
 
-    private static final Logger LOGGER = Logger.getLogger(DevTestWidgetController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DevTestWidgetController.class);
 
     public static final String PAGE_ID = "pageId";
     private DevTestWidgetViewHelperService viewHelperService;

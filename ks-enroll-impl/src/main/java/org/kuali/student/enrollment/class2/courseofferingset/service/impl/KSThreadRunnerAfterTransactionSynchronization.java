@@ -16,7 +16,8 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -31,7 +32,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class KSThreadRunnerAfterTransactionSynchronization implements TransactionSynchronization {
-    final static Logger LOGGER = Logger.getLogger(KSThreadRunnerAfterTransactionSynchronization.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KSThreadRunnerAfterTransactionSynchronization.class);
 
     public static final String THREAD_LIST_KEY ="org.kuali.student.ThreadList";
 

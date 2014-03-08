@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc.handler.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -40,6 +39,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class RegGroupRecomputeStateHandler implements KSHandler {
-    public static final Logger LOGGER = Logger.getLogger(RegGroupRecomputeStateHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(RegGroupRecomputeStateHandler.class);
     KSInternalEventProcessor processor;
 
     public RegGroupRecomputeStateHandler(KSInternalEventProcessor processor) {
@@ -70,7 +71,7 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
             OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException,
             VersionMismatchException {
         if (!handlesEvent(event)) {
-            LOGGER.info(getName() + " does not accept event: " + event.toString());
+            LOGGER.info("{} does not accept event: {}", getName(), event);
             return new KSHandlerResult(KSHandlerResult.FAIL_HANDLER_WONT_PROCESS, RegGroupRecomputeStateHandler.class);
         }
         KSHandlerResult eventResult = null;
@@ -126,9 +127,8 @@ public class RegGroupRecomputeStateHandler implements KSHandler {
         }
         rgLui.setStateKey(toRgState);
         LuiInfo modifiedRgLui = processor.getLuiService().updateLui(rgLui.getId(), rgLui, context);
-        LOGGER.info("RG state change to: " + modifiedRgLui.getStateKey());
-        KSHandlerResult result = new KSHandlerResult(KSHandlerResult.SUCCESS, RegGroupRecomputeStateHandler.class);
-        return result;  //To change body of created methods use File | Settings | File Templates.
+        LOGGER.info("RG state change to: {}", modifiedRgLui.getStateKey());
+        return new KSHandlerResult(KSHandlerResult.SUCCESS, RegGroupRecomputeStateHandler.class);
     }
 
     private KSHandlerResult _processAoStateModifiedEvent(String aoId, KSEvent event, ContextInfo context)

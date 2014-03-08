@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc.handler.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.poc.eventproc.api.KSHandler;
@@ -38,6 +37,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class CourseOfferingRecomputeStateHandler implements KSHandler {
-    public static final Logger LOGGER = Logger.getLogger(CourseOfferingRecomputeStateHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingRecomputeStateHandler.class);
     KSInternalEventProcessor processor;
 
     public CourseOfferingRecomputeStateHandler(KSInternalEventProcessor processor) {
@@ -84,7 +85,7 @@ public class CourseOfferingRecomputeStateHandler implements KSHandler {
         LuiInfo coLui = processor.getLuiService().getLui(coId, context);
         coLui.setStateKey(toCoState);
         LuiInfo modifiedCoLui = processor.getLuiService().updateLui(coLui.getId(), coLui, context);
-        LOGGER.info("Setting CO to state: " + modifiedCoLui.getStateKey());
+        LOGGER.info("Setting CO to state: {}", modifiedCoLui.getStateKey());
 
         // No further propagation
         KSHandlerResult eventResult = new KSHandlerResult(KSHandlerResult.SUCCESS, CourseOfferingRecomputeStateHandler.class);

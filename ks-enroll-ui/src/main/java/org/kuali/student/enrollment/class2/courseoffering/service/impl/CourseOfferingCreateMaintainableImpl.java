@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import net.sf.ehcache.Element;
 import org.apache.commons.collections.keyvalue.MultiKey;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.maintenance.Maintainable;
@@ -61,6 +60,8 @@ import org.kuali.student.r2.lum.course.dto.CourseJointInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,7 +79,7 @@ import java.util.Set;
  */
 public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintainableImpl implements Maintainable {
 
-    private static final Logger LOG = org.apache.log4j.Logger.getLogger(CourseOfferingCreateMaintainableImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingCreateMaintainableImpl.class);
     private final static String CACHE_NAME = "CourseOfferingMaintainableImplCache";
 
     /**
@@ -248,7 +249,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
          for (JointCourseWrapper jointWrapper : wrapper.getJointCourses()){
              if (jointWrapper.isSelectedToJointlyOfferred()){
-                 LOG.debug("Creating offerings for the joint course " + jointWrapper.getCourseCode());
+                 LOG.debug("Creating offerings for the joint course {}", jointWrapper.getCourseCode());
                   CourseOfferingInfo coInfo = createCourseOfferingInfo(wrapper.getTerm().getId(), jointWrapper.getCourseInfo(), StringUtils.EMPTY, new CourseOfferingInfo());
                   for (FormatOfferingWrapper foWrapper : jointWrapper.getFormatOfferingWrappers()){
                       foWrapper.getFormatOfferingInfo().setStateKey(LuiServiceConstants.LUI_FO_STATE_DRAFT_KEY);
@@ -297,7 +298,7 @@ public class CourseOfferingCreateMaintainableImpl extends CourseOfferingMaintain
             List<CourseOfferingInfo> cos = CourseOfferingManagementUtil.getCourseOfferingService().getCourseOfferingsByCourseAndTerm(joint.getCourseId(),wrapper.getTerm().getId(),contextInfo);
 
             if (!cos.isEmpty()){
-                LOG.debug("For the joint course " + jointCourse.getCode() + ", it already has the offerings created.");
+                LOG.debug("For the joint course {}, it already has the offerings created.", jointCourse.getCode());
                 jointCourseWrapper.setAlreadyOffered(true);
             }
 

@@ -16,7 +16,6 @@
 package org.kuali.student.enrollment.class1.krms.builder;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krms.builder.ComponentBuilder;
 import org.kuali.rice.krms.util.KRMSConstants;
@@ -37,8 +36,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class TimeSlotsComponentBuilder implements ComponentBuilder<FEPropositionEditor> {
-
-    private final static Logger LOG = Logger.getLogger(TimeSlotsComponentBuilder.class);
 
     @Override
     public List<String> getComponentIds() {

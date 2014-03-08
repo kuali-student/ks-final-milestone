@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.controller;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
@@ -27,6 +26,8 @@ import org.kuali.student.enrollment.class2.courseoffering.service.DiagnoseRollov
 import org.kuali.student.enrollment.class2.courseoffering.service.impl.DiagnoseRolloverViewHelperServiceImpl;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,7 +49,7 @@ import java.util.Map;
 @RequestMapping(value = "/diagnoseRollover")
 public class DiagnoseRolloverController extends UifControllerBase {
 
-    private static final Logger LOGGER = Logger.getLogger(DiagnoseRolloverController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DiagnoseRolloverController.class);
 
     @Override
     protected UifFormBase createInitialForm(@SuppressWarnings("unused") HttpServletRequest request) {

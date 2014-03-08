@@ -1,7 +1,8 @@
 package org.kuali.student.enrollment.registration.engine.util;
 
 import org.apache.activemq.command.ActiveMQMapMessage;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jms.JMSException;
 import javax.jms.MapMessage;
@@ -13,7 +14,7 @@ import java.util.Map;
  */
 public class MQPerformanceCounter {
 
-    private static final Logger LOG = Logger.getLogger(MQPerformanceCounter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MQPerformanceCounter.class);
 
     // this is the more performent way to access a thread safe singleton
     public static final MQPerformanceCounter INSTANCE = new MQPerformanceCounter();
@@ -43,10 +44,10 @@ public class MQPerformanceCounter {
      */
     public synchronized void updateCounts(String regReqId, long startTime, long endTime) {
         if (!performanceMap.containsKey(regReqId)) { // first pass
-            LOG.debug(String.format("START [%s]:[%s]", regReqId, startTime));
+            LOG.debug("START [{}]:[{}]", regReqId, startTime);
             performanceMap.put(regReqId, startTime);
         } else { // second pass
-            LOG.debug(String.format("END   [%s]:[%s]", regReqId, endTime));
+            LOG.debug("END   [{}]:[{}]", regReqId, endTime);
             long storedStart = performanceMap.remove(regReqId);
             long delta = endTime - storedStart;   // calculation
 

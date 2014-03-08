@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -74,6 +73,8 @@ import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstant
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -92,7 +93,7 @@ import java.util.Set;
  */
 public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainableImpl implements Maintainable {
     private static final long serialVersionUID = 1L;
-    private final static Logger LOG = Logger.getLogger(CourseOfferingEditMaintainableImpl.class);
+    private final static Logger LOG = LoggerFactory.getLogger(CourseOfferingEditMaintainableImpl.class);
 
     //TODO : implement the functionality for Personnel section and its been delayed now since the backend implementation is not yet ready (06/06/2012). KSENROLL-1375
 
@@ -780,7 +781,7 @@ public class CourseOfferingEditMaintainableImpl extends CourseOfferingMaintainab
                         formObject.setExamPeriodId(examPeriodId);
                     }
                 } catch (DoesNotExistException e) {
-                    LOG.warn("The Term " + formObject.getTermName() + " that the course offering " + formObject.getCourseOfferingCode() + " is attached to doesn't have an exam period to create exam offerings.");
+                    LOG.warn("The Term {} that the course offering {} is attached to doesn't have an exam period to create exam offerings.", formObject.getTermName(), formObject.getCourseOfferingCode());
                 }
 
                 return formObject;

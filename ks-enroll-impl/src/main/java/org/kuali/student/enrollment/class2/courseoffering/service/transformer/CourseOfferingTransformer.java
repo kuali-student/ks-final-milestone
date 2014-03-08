@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.transformer;
 
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.kim.api.identity.PersonService;
@@ -40,6 +39,8 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class CourseOfferingTransformer {
     private LuiService luiService;
     private KrmsRuleManagementCopyMethods krmsRuleManagementCopyMethods;
 
-    final Logger LOG = Logger.getLogger(CourseOfferingTransformer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CourseOfferingTransformer.class);
 
     /**
      * Transform a list of LuiInfos into CourseOfferingInfos. It is the bulk version of lui2CourseOffering transformer
@@ -641,7 +642,7 @@ public class CourseOfferingTransformer {
                     }
                 } else {
                     //no credit option
-                    LOG.info("Credit is missing for course id" + courseId);
+                    LOG.info("Credit is missing for course id {}", courseId);
                     creditCount = "N/A";
                 }
             }
@@ -830,17 +831,21 @@ public class CourseOfferingTransformer {
         try {
             lprs = lprService.getLprsByLui(luiId, context);
         } catch (InvalidParameterException e) {
-            LOG.error("Error getting instructors for LuiId: " + luiId + " Invalid Parameter ", e);
-            throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Invalid Parameter ", e);
+            String errorMessage = String.format("Error getting instructors for LuiId: %s Invalid Parameter ", luiId);
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
         } catch (MissingParameterException e) {
-            LOG.error("Error getting instructors for LuiId: " + luiId + " Missing Parameter ", e);
-            throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Missing Parameter ", e);
+            String errorMessage = String.format("Error getting instructors for LuiId: %s Missing Parameter ", luiId);
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
         } catch (OperationFailedException e) {
-            LOG.error("Error getting instructors for LuiId: " + luiId + " Operation Failed ", e);
-            throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Operation Failed ", e);
+            String errorMessage = String.format("Error getting instructors for LuiId: %s Operation Failed ", luiId);
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
         } catch (PermissionDeniedException e) {
-            LOG.error("Error getting instructors for LuiId: " + luiId + " Permission Denied ", e);
-            throw new RuntimeException("Error getting instructors for LuiId: " + luiId + " Permission Denied ", e);
+            String errorMessage = String.format("Error getting instructors for LuiId: %s Permission Denied ", luiId);
+            LOG.error(errorMessage, e);
+            throw new RuntimeException(errorMessage, e);
         }
 
         assembleInstructorsByLprs(co, lprs);

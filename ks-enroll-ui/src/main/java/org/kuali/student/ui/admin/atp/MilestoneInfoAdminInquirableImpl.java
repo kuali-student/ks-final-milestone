@@ -18,7 +18,6 @@ package org.kuali.student.ui.admin.atp;
 
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.common.util.ContextBuilder;
@@ -30,7 +29,6 @@ import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
 public class MilestoneInfoAdminInquirableImpl extends InquirableImpl
 {
-	private static final Logger LOG = Logger.getLogger(MilestoneInfoAdminInquirableImpl.class);
 	private transient AtpService atpService;
 	private final static String PRIMARY_KEY = "id";
     private static final long serialVersionUID = 1L;
@@ -40,8 +38,7 @@ public class MilestoneInfoAdminInquirableImpl extends InquirableImpl
 		String key = parameters.get(PRIMARY_KEY);
 		try
 		{
-			MilestoneInfo info = this.getAtpService().getMilestone(key, getContextInfo());
-			return info;
+            return this.getAtpService().getMilestone(key, getContextInfo());
 		}
 		catch (Exception ex) {
 		    throw new RuntimeException(ex);

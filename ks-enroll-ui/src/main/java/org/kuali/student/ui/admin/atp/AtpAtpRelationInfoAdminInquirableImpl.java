@@ -18,7 +18,6 @@ package org.kuali.student.ui.admin.atp;
 
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.common.util.ContextBuilder;
@@ -27,10 +26,8 @@ import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
-
 public class AtpAtpRelationInfoAdminInquirableImpl extends InquirableImpl
 {
-	private static final Logger LOG = Logger.getLogger(AtpAtpRelationInfoAdminInquirableImpl.class);
 	private transient AtpService atpService;
 	private final static String PRIMARY_KEY = "id";
     private static final long serialVersionUID = 1L;
@@ -40,8 +37,7 @@ public class AtpAtpRelationInfoAdminInquirableImpl extends InquirableImpl
 		String key = parameters.get(PRIMARY_KEY);
 		try
 		{
-			AtpAtpRelationInfo info = this.getAtpService().getAtpAtpRelation(key, getContextInfo());
-			return info;
+            return this.getAtpService().getAtpAtpRelation(key, getContextInfo());
 		}
 		catch (Exception ex) {
 		    throw new RuntimeException(ex);

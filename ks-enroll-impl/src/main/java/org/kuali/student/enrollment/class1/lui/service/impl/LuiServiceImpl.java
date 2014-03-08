@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
@@ -54,7 +53,6 @@ import java.util.List;
 
 public class LuiServiceImpl 
     implements LuiService {
-    Logger LOGGER = Logger.getLogger(LuiServiceImpl.class);
 
     private CriteriaLookupService criteriaLookupService;
 

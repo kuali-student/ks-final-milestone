@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DurationFormatUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -41,6 +40,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.*;
@@ -53,7 +54,7 @@ import java.util.*;
  */
 public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl implements ManageSOCViewHelperService {
     private static final long serialVersionUID = 1L;
-    private final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
+    private final static Logger LOG = LoggerFactory.getLogger(ManageSOCViewHelperServiceImpl.class);
 
     public TermInfo getTermByCode(String termCode) {
 
@@ -77,10 +78,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             }
             return terms.get(firstTerm);
         }catch (Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Error getting term for the code - " + termCode);
-
-            }
+            LOG.debug("Error getting term for the code - {}", termCode);
             convertServiceExceptionsToUI(e);
         }
         return null;
@@ -98,17 +96,13 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      */
     public void buildModel(ManageSOCForm socForm){
 
-        if (LOG.isInfoEnabled()){
-            LOG.info("Building Manage SOC model for the term " + socForm.getTermCode());
-        }
+        LOG.info("Building Manage SOC model for the term {}", socForm.getTermCode());
 
         SocInfo socInfo;
         try {
             socInfo = CourseOfferingSetUtil.getMainSocForTermId(socForm.getTermInfo().getId(), createContextInfo());
         } catch (Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Error getting soc");
-            }
+            LOG.debug("Error getting soc");
             throw convertServiceExceptionsToUI(e);
         }
 
@@ -164,19 +158,14 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
             socForm.setContextBar( CourseOfferingContextBar.NEW_INSTANCE(socForm.getTermInfo(), socForm.getSocInfo(),
                     CourseOfferingManagementUtil.getStateService(), CourseOfferingManagementUtil.getAcademicCalendarService(), createContextInfo()) );
         } catch (Exception e){
-            if (LOG.isDebugEnabled()){
-                LOG.debug( "Error building CourseOfferingContextBar for SocForm" );
-            }
+            LOG.debug( "Error building CourseOfferingContextBar for SocForm" );
             throw convertServiceExceptionsToUI(e);
         }
 
     }
 
     protected void buildStatusHistory(ManageSOCForm socForm){
-
-        if (LOG.isInfoEnabled()){
-            LOG.info("Building Status history model");
-        }
+        LOG.info("Building Status history model");
 
         SocInfo socInfo = socForm.getSocInfo();
         String stateName;
@@ -272,7 +261,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
     protected String getTimeDiffUI(Date dateOne, Date dateTwo, boolean roundUpMinute) {
 
         if (LOG.isDebugEnabled()){
-            LOG.debug("Get time difference between " + dateOne + " and " + dateTwo + " with roundUpMinute=" + roundUpMinute);
+            LOG.debug("Get time difference between {} and {} with roundUpMinute={}", dateOne, dateTwo, roundUpMinute);
         }
 
         Long millisDuration = dateOne.getTime() - dateTwo.getTime();
@@ -316,9 +305,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      */
     public void publishSOC(ManageSOCForm socForm) {
 
-        if (LOG.isInfoEnabled()){
-            LOG.info("Publishing SOC for the term - " + socForm.getTermCode());
-        }
+        LOG.info("Publishing SOC for the term - {}", socForm.getTermCode());
 
         ContextInfo contextInfo = createContextInfo();
 //        CourseOfferingSetPublishingHelper mpeHelper = (CourseOfferingSetPublishingHelper)getHelper("org.kuali.student.enrollment.class2.courseofferingset.service.impl.CourseOfferingSetPublishingHelper");
@@ -357,9 +344,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
      */
     public void changeSOCState(SocInfo socInfo,String stateKey,String message){
 
-        if (LOG.isInfoEnabled()){
-            LOG.info("Changing SOC state to " + stateKey);
-        }
+        LOG.info("Changing SOC state to {}", stateKey);
 
         try {
             StatusInfo status = CourseOfferingManagementUtil.getCourseOfferingSetService().changeSocState(socInfo.getId(), stateKey, createContextInfo());
@@ -372,9 +357,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, ManageSocConstants.MessageKeys.ERROR_STATUS_CHANGE_FAILED,status.getMessage());
             }
         } catch (Exception e) {
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Error Changing SOC State - " + e.getMessage());
-            }
+            LOG.debug("Error Changing SOC State - {}", e.getMessage());
             throw convertServiceExceptionsToUI(e);
         }
     }
@@ -399,9 +382,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
         ContextInfo contextInfo = createContextInfo();
 
-        if (LOG.isInfoEnabled()){
-            LOG.info("Mass scheduling method called.");
-        }
+        LOG.info("Mass scheduling method called.");
 
         try {
             //  First state change the SOC to state "inprogress".
@@ -417,9 +398,7 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
                 GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_INFO, ManageSocConstants.MessageKeys.ERROR_SEND_TO_SCHEDULER,status.getMessage());
             }
         } catch (Exception e) {
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Error starting Mass Scheduler - " + e.getMessage());
-            }
+            LOG.debug("Error starting Mass Scheduler - {}", e.getMessage());
             throw convertServiceExceptionsToUI(e);
         }
 
@@ -442,18 +421,14 @@ public class ManageSOCViewHelperServiceImpl extends KSViewHelperServiceImpl impl
 
     private void reload(ManageSOCForm socForm, ContextInfo contextInfo)  {
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Reloading the form");
-        }
+        LOG.debug("Reloading the form");
 
         SocInfo socInfo;
 
         try {
             socInfo = CourseOfferingManagementUtil.getCourseOfferingSetService().getSoc(socForm.getSocInfo().getId(), contextInfo);
         } catch (Exception e) {
-            if (LOG.isDebugEnabled()){
-                LOG.debug("Error getting SOC - " + e.getMessage());
-            }
+            LOG.debug("Error getting SOC - {}", e.getMessage());
             throw convertServiceExceptionsToUI(e);
         }
 

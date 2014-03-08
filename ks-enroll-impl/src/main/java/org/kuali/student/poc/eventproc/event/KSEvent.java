@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc.event;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.poc.eventproc.api.KSEventAuditTrail;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
@@ -31,8 +30,6 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public abstract class KSEvent implements KSEventAuditTrail {
-    private static final Logger LOGGER = Logger.getLogger(KSEvent.class);
-
     private KSEventType eventType;
     private Map<KSEventAttributeKey, String> eventAttributeKeyValueMap;
 

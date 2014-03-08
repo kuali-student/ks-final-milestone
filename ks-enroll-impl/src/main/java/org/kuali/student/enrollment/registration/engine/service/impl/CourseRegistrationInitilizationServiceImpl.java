@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.registration.engine.service.impl;
 
 import org.apache.cxf.common.util.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
@@ -33,6 +32,8 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.namespace.QName;
@@ -44,7 +45,7 @@ import java.util.List;
  * Created by swedev on 12/20/13.
  */
 public class CourseRegistrationInitilizationServiceImpl implements RegistrationProcessService {
-    public static final Logger LOGGER = Logger.getLogger(CourseRegistrationInitilizationServiceImpl.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationInitilizationServiceImpl.class);
 
     private CourseRegistrationService courseRegistrationService;
     private LuiService luiService;

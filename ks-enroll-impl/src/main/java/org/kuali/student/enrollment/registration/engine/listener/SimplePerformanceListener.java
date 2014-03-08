@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.registration.engine.listener;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.util.MQPerformanceCounter;
 import org.springframework.jms.core.JmsTemplate;
@@ -18,8 +17,6 @@ import javax.jms.MessageListener;
 public class SimplePerformanceListener implements MessageListener {
 
     public static final String QUEUE_NAME = "org.kuali.student.enrollment.registration.performanceStatsQueue";
-
-    private static final Logger LOG = Logger.getLogger(SimplePerformanceListener.class);
 
     private JmsTemplate jmsTemplate;
 

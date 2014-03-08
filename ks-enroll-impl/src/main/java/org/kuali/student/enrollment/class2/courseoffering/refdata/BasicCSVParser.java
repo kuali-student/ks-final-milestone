@@ -16,8 +16,9 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.refdata;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,7 +33,7 @@ import java.util.Scanner;
  * @author Kuali Student Team
  */
 public class BasicCSVParser {
-    private static final Logger LOGGER = Logger.getLogger(BasicCSVParser.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BasicCSVParser.class);
 
     /**
      * Assumes splitting each row based on
@@ -44,7 +45,7 @@ public class BasicCSVParser {
         if (filename == null) {
             return null;
         } else if (!filename.toLowerCase().endsWith(".csv")) {
-            LOGGER.warn(filename +  " does not end in .csv");
+            LOGGER.warn("{} does not end in .csv", filename);
             return null;
         }
         File file = new File(filename);

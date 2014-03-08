@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.enrollment.class2.acal.util.AcalCommonUtils;
@@ -16,6 +15,8 @@ import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.class1.state.dto.StateInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.Map;
 
 public class HolidayCalendarWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
     private static final long serialVersionUID = 1L;
-    private final static Logger LOG = Logger.getLogger(ManageSOCViewHelperServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ManageSOCViewHelperServiceImpl.class);
     private final static String exceptionComment1 = "call getAcademicCalendarService().getHolidaysForHolidayCalendar(holidayCalendarId, context), and get ";
     private final static String exceptionComment2 = "call getAcademicCalendarService().getHolidayCalendar(holidayCalendarId, context), and get ";
     //	 public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
@@ -42,11 +43,11 @@ public class HolidayCalendarWrapperInquiryViewHelperServiceImpl extends Inquirab
             //need to retrieve HolidayCalendarInfo and all Holidays to form the HolidayCalendarWrapper.
             String holidayCalendarKey = parameters.get(HOLIDAY_CALENDAR_WRAPPER_KEY);
             if(holidayCalendarKey == null){
-                AcalCommonUtils.logDebugMsg(LOG, ">>>holidayCalendarKey is null");
+                LOG.debug(">>>holidayCalendarKey is null");
                 return null;
             }
             else {
-                AcalCommonUtils.logDebugMsg(LOG, ">>>holidayCalendarKey =" + holidayCalendarKey);
+                LOG.debug(">>>holidayCalendarKey = {}", holidayCalendarKey);
             }
             HolidayCalendarInfo holidayCalendarInfo = getAcademicCalendarService().getHolidayCalendar(holidayCalendarKey, context);
             holidayCalendarWrapper.setHolidayCalendarInfo(holidayCalendarInfo);
@@ -66,28 +67,28 @@ public class HolidayCalendarWrapperInquiryViewHelperServiceImpl extends Inquirab
                 }
                 holidayCalendarWrapper.setHolidays(holidays);
             }catch (DoesNotExistException dnee){
-                AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + "DoesNotExistException:      " + dnee.toString());
+                LOG.debug("{}{}{}", exceptionComment1, "DoesNotExistException:      ", dnee);
             }catch (InvalidParameterException ipe){
-                AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + "InvalidParameterException:  " + ipe.toString());
+                LOG.debug("{}{}{}", exceptionComment1, "InvalidParameterException:  ", ipe);
             }catch (MissingParameterException mpe){
-                AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + "MissingParameterException:  " + mpe.toString());
+                LOG.debug("{}{}{}", exceptionComment1, "MissingParameterException:  ", mpe);
             }catch (OperationFailedException ofe){
-                AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + "OperationFailedException:   " + ofe.toString());
+                LOG.debug("{}{}{}", exceptionComment1, "OperationFailedException:   ", ofe);
             }catch (PermissionDeniedException pde){
-                AcalCommonUtils.logDebugMsg(LOG, exceptionComment1 + "PermissionDeniedException:  " + pde.toString());
+                LOG.debug("{}{}{}", exceptionComment1, "PermissionDeniedException:  ", pde);
             }
             return holidayCalendarWrapper;
 
         }catch (DoesNotExistException dnee){
-            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + "DoesNotExistException:      " + dnee.toString());
+            LOG.debug("{}{}{}", exceptionComment2, "DoesNotExistException:      ", dnee);
         }catch (InvalidParameterException ipe){
-            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + "InvalidParameterException:  " + ipe.toString());
+            LOG.debug("{}{}{}", exceptionComment2, "InvalidParameterException:  ", ipe);
         }catch (MissingParameterException mpe){
-            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + "MissingParameterException:  " + mpe.toString());
+            LOG.debug("{}{}{}", exceptionComment2, "MissingParameterException:  ", mpe);
         }catch (OperationFailedException ofe){
-            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + "OperationFailedException:   " + ofe.toString());
+            LOG.debug("{}{}{}", exceptionComment2, "OperationFailedException:   ", ofe);
         }catch (PermissionDeniedException pde){
-            AcalCommonUtils.logDebugMsg(LOG, exceptionComment2 + "PermissionDeniedException:  " + pde.toString());
+            LOG.debug("{}{}{}", exceptionComment2, "PermissionDeniedException:  ", pde);
         }
         return null;
     }

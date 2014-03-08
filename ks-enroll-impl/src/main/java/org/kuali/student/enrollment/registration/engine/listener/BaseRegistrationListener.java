@@ -2,10 +2,11 @@ package org.kuali.student.enrollment.registration.engine.listener;
 
 
 import org.apache.activemq.command.ActiveMQMapMessage;
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.registration.engine.service.CourseRegistrationConstants;
 import org.kuali.student.enrollment.registration.engine.service.RegistrationProcessService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.JMSException;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 public class BaseRegistrationListener implements MessageListener {
 
-    private static final Logger LOG = Logger.getLogger(BaseRegistrationListener.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BaseRegistrationListener.class);
 
 
     /**
@@ -58,7 +59,7 @@ public class BaseRegistrationListener implements MessageListener {
             }
         }
 
-        LOG.debug("Received Message from user id: " + userId);
+        LOG.debug("Received Message from user id: {}", userId);
         try {
 
             // hook point before the process call
@@ -105,7 +106,7 @@ public class BaseRegistrationListener implements MessageListener {
         // Processing can generate n messages. iterate through the messages, sending them to the user's queue
         for (String regMessage : regInfo.getMessages()) {
             final String destination = CourseRegistrationConstants.USER_MESSAGE_QUEUE_PREFIX + userId;
-            LOG.debug("Reg Request Message" + regMessage);  // debugging message
+            LOG.debug("Reg Request Message: {}", regMessage);  // debugging message
             getJmsTemplate().convertAndSend(destination, regMessage);   // sends message to user queue
         }
     }

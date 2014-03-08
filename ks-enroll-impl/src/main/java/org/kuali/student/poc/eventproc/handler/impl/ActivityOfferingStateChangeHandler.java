@@ -16,7 +16,6 @@
  */
 package org.kuali.student.poc.eventproc.handler.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.poc.eventproc.api.KSInternalEventProcessor;
@@ -38,6 +37,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class ActivityOfferingStateChangeHandler implements KSHandler {
-    public static final Logger LOGGER = Logger.getLogger(ActivityOfferingStateChangeHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ActivityOfferingStateChangeHandler.class);
     KSInternalEventProcessor processor;
 
     public ActivityOfferingStateChangeHandler(KSInternalEventProcessor processor) {
@@ -83,7 +84,7 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
             aoLui.setStateKey(toState);
             LuiInfo modifiedAoLui = processor.getLuiService().updateLui(aoLui.getId(), aoLui, context);
             String newToState = modifiedAoLui.getStateKey();
-            LOGGER.info("Setting AO to state: " + newToState);
+            LOGGER.info("Setting AO to state: {}", newToState);
             // Get ready to send AO state modified event
             KSEvent aoModifiedEvent = KSEventFactory.createActivityOfferingStateModifiedEvent(aoId, fromState, newToState);
 
@@ -91,11 +92,10 @@ public class ActivityOfferingStateChangeHandler implements KSHandler {
             // Add aoModifiedEvent to event (helps track what happens
             event.addDownstreamEvent(aoModifiedEvent);
             // Result
-            KSHandlerResult result = new KSHandlerResult(KSHandlerResult.SUCCESS, ActivityOfferingStateChangeHandler.class);
-            return result;
+            return new KSHandlerResult(KSHandlerResult.SUCCESS, ActivityOfferingStateChangeHandler.class);
         } else if (constraintResult.isNoStateChange()) {
             // Didn't pass, but no state change is special case
-            LOGGER.info("AO state unchanged (fromState = " + fromState + ", toState = " + toState + ")");
+            LOGGER.info("AO state unchanged (fromState = {}, toState = {})", fromState, toState);
             return new KSHandlerResult(KSHandlerResult.FAIL_STATE_UNCHANGED, ActivityOfferingStateChangeHandler.class);
         } else {
             // Doesn't satisfy constraint

@@ -5,7 +5,6 @@
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.decorators.R1CourseServiceHelper;
@@ -61,6 +60,8 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
@@ -79,7 +80,7 @@ import java.util.Set;
  */
 public class CourseOfferingServiceBusinessLogicImpl implements CourseOfferingServiceBusinessLogic {
 
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingServiceBusinessLogicImpl.class);
 
     public static final String FIRST_REG_GROUP_CODE = "firstRegGroupCode";
     // ----------------------------------------------------------------

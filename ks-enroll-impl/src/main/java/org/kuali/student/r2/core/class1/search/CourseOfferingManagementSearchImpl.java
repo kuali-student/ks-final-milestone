@@ -17,7 +17,6 @@ package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -35,6 +34,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
@@ -58,7 +59,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
 
     private static final String OWNER_UI_SUFFIX = " (Owner)";
 
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingManagementSearchImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingManagementSearchImpl.class);
 
     public static final class SearchParameters {
         public static final String CO_ID = "courseOfferingId";
@@ -358,7 +359,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
          */
         long startQ1 = System.currentTimeMillis();
         List<Object[]> results = getEntityManager().createQuery(query).getResultList();
-        LOGGER.info("*********BigQueryTime**********"+(System.currentTimeMillis()-startQ1) + " ms");
+        LOGGER.info("*********BigQueryTime**********{} ms", System.currentTimeMillis()-startQ1);
 
         SearchResultInfo resultInfo = new SearchResultInfo();
         resultInfo.setTotalResults(results.size());
@@ -386,7 +387,8 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         }
 
         long end = System.currentTimeMillis();
-        LOGGER.info("******TIME TAKEN TO SEARCH CO FOR (Subject Area=" + searchSubjectArea + ",Term=" + searchAtpId + ",Course=" + searchCourseCode + ")*************"+(end-start) + " ms");
+        LOGGER.info("******TIME TAKEN TO SEARCH CO FOR (Subject Area={},Term={},Course={})*************{} ms",
+                searchSubjectArea, searchAtpId, searchCourseCode, end-start);
 
         resultInfo.setStartAt(0);
         luiIds2AlternateCodes.clear();
@@ -608,7 +610,7 @@ public class CourseOfferingManagementSearchImpl extends SearchServiceAbstractHar
         }
         long startTime = System.currentTimeMillis();
         TypedQuery query = getEntityManager().createQuery(crossListedLuiIdsQuery, String.class);
-        LOGGER.info("******Time For Crosslist search******* " + (System.currentTimeMillis()-startTime) +"ms");
+        LOGGER.info("******Time For Crosslist search******* {}ms", System.currentTimeMillis()-startTime);
         return query.getResultList();
     }
 

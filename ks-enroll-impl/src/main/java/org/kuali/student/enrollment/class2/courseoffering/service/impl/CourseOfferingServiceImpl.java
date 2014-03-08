@@ -16,7 +16,6 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -117,11 +116,13 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 public class CourseOfferingServiceImpl implements CourseOfferingService {
 
-    private static final Logger LOGGER = Logger.getLogger(CourseOfferingServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseOfferingServiceImpl.class);
 
     private static final String FAILED_TO_UPDATE_LUI_STATE_ERROR_MESSAGE = "Failed to update State";
 
@@ -1891,7 +1892,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
         }
         if (exceptionThrown) {
             // Avoids catching all exceptions
-            LOGGER.warn("Unable to find AO: " + activityOfferingId);
+            LOGGER.warn("Unable to find AO: {}", activityOfferingId);
         }
     }
 
@@ -3320,7 +3321,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService {
                     }
                 }
             } else{
-                LOGGER.warn("State Constraints failed for AO id " + activityOfferingId + " to state " + nextStateKey);
+                LOGGER.warn("State Constraints failed for AO id {} to state {}", activityOfferingId, nextStateKey);
                 return scStatus;
             }
         }

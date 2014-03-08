@@ -19,7 +19,6 @@ import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.commons.lang.time.DateFormatUtils;
-import org.apache.log4j.Logger;
 import org.joda.time.DateMidnight;
 import org.joda.time.DateTimeConstants;
 import org.kuali.rice.core.api.criteria.Predicate;
@@ -77,6 +76,8 @@ import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -100,7 +101,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equalIgnoreCase;
  */
 public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceImpl implements AcademicCalendarViewHelperService {
 
-    private final static Logger LOG = Logger.getLogger(AcademicCalendarViewHelperServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AcademicCalendarViewHelperServiceImpl.class);
 
     private AcademicCalendarService acalService;
     private TypeService typeService;
@@ -121,9 +122,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     public void populateAcademicCalendar(String acalId, AcademicCalendarForm acalForm){
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Loading Academic calendar for the id " + acalId);
-        }
+        LOG.debug("Loading Academic calendar for the id {}", acalId);
 
         try{
 
@@ -152,7 +151,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
         }catch(Exception e){
             if (LOG.isDebugEnabled()){
-                LOG.debug("Error loading academic calendar [id=" + acalId + "] - " + e.getMessage());
+                LOG.debug(String.format("Error loading academic calendar [id=%s]", acalId), e);
             }
             throw convertServiceExceptionsToUI(e);
         }
@@ -168,9 +167,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      */
     protected List<HolidayCalendarWrapper> populateHolidayCalendars(List<String> holidayCalendarIds) throws Exception {
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Loading all the holiday calendars associated with the Acal");
-        }
+        LOG.debug("Loading all the holiday calendars associated with the Acal");
 
         List<HolidayCalendarWrapper> holidayCalendarWrapperList = new ArrayList<HolidayCalendarWrapper>();
 
@@ -240,9 +237,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
     public List<AcademicTermWrapper> populateTermWrappers(String acalId, boolean isCopy, boolean calculateInstrDays){
         ContextInfo contextInfo = createContextInfo();
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Loading all the terms associated with an acal [id=" + acalId + "]");
-        }
+        LOG.debug("Loading all the terms associated with an acal [id={}]", acalId);
 
         List<AcademicTermWrapper> termWrappers = new ArrayList<AcademicTermWrapper>();
 
@@ -306,9 +301,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
 
     public AcademicTermWrapper populateTermWrapper(TermInfo termInfo, boolean isCopy, boolean calculateInstrDays) throws Exception {
 
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Populating Term - " + termInfo.getId());
-        }
+        LOG.debug("Populating Term - {}", termInfo.getId());
 
         TypeInfo type = getAcalService().getTermType(termInfo.getTypeKey(),createContextInfo());
 
@@ -366,9 +359,7 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
      * @param keyDateGroup
      */
     protected void addKeyDateGroup(List<TypeInfo> keyDateTypes,KeyDateWrapper keyDateWrapper,Map<String,KeyDatesGroupWrapper> keyDateGroup){
-        if (LOG.isDebugEnabled()){
-            LOG.debug("Adding key date to a group");
-        }
+        LOG.debug("Adding key date to a group");
         for (TypeInfo keyDateType : keyDateTypes) {
             try {
                 List<TypeInfo> allowedTypes = getTypeService().getTypesForGroupType(keyDateType.getKey(), createContextInfo());

@@ -18,7 +18,6 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
@@ -56,6 +55,8 @@ import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstant
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -73,7 +74,7 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class CourseOfferingControllerPopulateUIForm {
-    private final static Logger LOG = Logger.getLogger(CourseOfferingControllerPopulateUIForm.class);
+    private final static Logger LOG = LoggerFactory.getLogger(CourseOfferingControllerPopulateUIForm.class);
 
     protected static void populateCreateCourseOfferingForm(MaintenanceDocumentForm form, HttpServletRequest request) {
         int firstValue = 0;
@@ -198,7 +199,7 @@ public class CourseOfferingControllerPopulateUIForm {
                     formObject.setExamPeriodId(examPeriodId);
                 }
             } catch (DoesNotExistException e) {
-                LOG.warn("The Term " + formObject.getCourseOfferingInfo().getTermId() + " that the course offering " + formObject.getCourseOfferingCode() + " is attached to doesn't have an exam period to create exam offerings.");
+                LOG.warn("The Term {} that the course offering {} is attached to doesn't have an exam period to create exam offerings.", formObject.getCourseOfferingInfo().getTermId(), formObject.getCourseOfferingCode());
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

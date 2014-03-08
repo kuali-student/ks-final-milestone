@@ -16,7 +16,6 @@
 package org.kuali.student.ui.admin.type;
 
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -37,7 +36,6 @@ import java.util.Map;
 
 public class TypeTypeRelationInfoAdminLookupableImpl extends LookupableImpl
 {
-	private static final Logger LOG = Logger.getLogger(TypeTypeRelationInfoAdminLookupableImpl.class);
 	private transient TypeService typeService;
     private static final long serialVersionUID = 1L;
 	@Override
@@ -65,8 +63,7 @@ public class TypeTypeRelationInfoAdminLookupableImpl extends LookupableImpl
 		}
 		try
 		{
-			List<TypeTypeRelationInfo> list = this.getTypeService().searchForTypeTypeRelations(qBuilder.build(), getContextInfo());
-			return list;
+            return this.getTypeService().searchForTypeTypeRelations(qBuilder.build(), getContextInfo());
 		}
 		catch (Exception ex) {
 		    throw new RuntimeException(ex);

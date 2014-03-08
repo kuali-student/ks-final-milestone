@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.collection.KSCollectionUtils;
@@ -39,6 +38,8 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
@@ -53,7 +54,7 @@ import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
 
 public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
 
-    public static final Logger LOGGER = Logger.getLogger(ScheduleOfClassesServiceImpl.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(ScheduleOfClassesServiceImpl.class);
 
     private static final Comparator<RegGroupSearchResult> regResultComparator = new RegResultComparator();
 

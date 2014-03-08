@@ -17,7 +17,6 @@
 package org.kuali.student.enrollment.class2.examoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.examoffering.service.transformer.ExamOfferingTransformer;
@@ -76,8 +75,6 @@ public class ExamOfferingServiceImpl implements ExamOfferingService {
     private ExamOfferingTransformer examOfferingTransformer;
     private StateTransitionsHelper stateTransitionsHelper;
     private static final String OPERATION_FAILED_EXCEPTION_ERROR_MESSAGE = "unexpected";
-
-    private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceImpl.class);
 
     @Override
     @Transactional(readOnly = true)

@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.extender;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.class2.courseoffering.service.helper.CourseOfferingServiceScheduleHelper;
 import org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer;
@@ -81,7 +80,6 @@ import java.util.Set;
  * @author Kuali Student Team
  */
 public class CourseOfferingServiceExtenderImpl implements CourseOfferingServiceExtender {
-    private static Logger LOGGER = Logger.getLogger(CourseOfferingServiceExtenderImpl.class);
     public static final String COPY_OPERATION_COPY_AO = "copyAO";
     public static final String COPY_OPERATION_COPY_CO = "copyCO";
     public static final String COPY_OPERATION_ROLLOVER = "rollover";

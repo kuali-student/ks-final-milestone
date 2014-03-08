@@ -24,7 +24,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.student.common.mock.MockService;
@@ -57,12 +56,14 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CourseRegistrationServiceMockImpl
     extends AbstractCourseRegistrationService
     implements CourseRegistrationService, MockService {
 
-    private static final Logger LOGGER = Logger.getLogger(CourseRegistrationServiceMockImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationServiceMockImpl.class);
 
     private final Map<String, CourseRegistrationInfo> crMap   = new LinkedHashMap<String, CourseRegistrationInfo>();
     private final Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
@@ -699,14 +700,17 @@ public class CourseRegistrationServiceMockImpl
                 response.getRegistrationResponseItems().add(responseItem);
 
             } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
-                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
-                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
+                String msg = String.format("Empty If Statement: No action defined for %s", LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
+                LOGGER.debug(msg);
+                throw new UnsupportedOperationException(msg);
             } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY)) {
-                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY);
-                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY);
+                String msg = String.format("Empty If Statement: No action defined for %s", LprServiceConstants.REQ_ITEM_SWAP_TYPE_KEY);
+                LOGGER.debug(msg);
+                throw new UnsupportedOperationException(msg);
             } else if (item.getTypeKey().equals(LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY)) {
-                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY);
-                throw new UnsupportedOperationException("Empty If Statement: No action defined for " + LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY);
+                String msg = String.format("Empty If Statement: No action defined for %s", LprServiceConstants.LPRTRANS_ITEM_UPDATE_TYPE_KEY);
+                LOGGER.debug(msg);
+                throw new UnsupportedOperationException(msg);
             } 
         }
 
@@ -812,7 +816,7 @@ public class CourseRegistrationServiceMockImpl
             	
                 load.setAdditionalCredits(additionalCredits);
             } else if (item.getTypeKey().equals(LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY)) {
-                LOGGER.debug("Empty If Statement: No action defined for " + LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
+                LOGGER.debug("Empty If Statement: No action defined for {}", LprServiceConstants.REQ_ITEM_DROP_TYPE_KEY);
                 // TODO: figure out credits
             }
         }

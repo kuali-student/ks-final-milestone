@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
@@ -36,7 +35,6 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 public class ResultValueInfoAdminLookupableImpl extends LookupableImpl
 {
-	private static final Logger LOG = Logger.getLogger(ResultValueInfoAdminLookupableImpl.class);
 	private transient LRCService lRCService;
     private static final long serialVersionUID = 1L;
 	@Override
@@ -64,8 +62,7 @@ public class ResultValueInfoAdminLookupableImpl extends LookupableImpl
 		}
 		try
 		{
-			List<ResultValueInfo> list = this.getLRCService().searchForResultValues(qBuilder.build(), getContextInfo());
-			return list;
+            return this.getLRCService().searchForResultValues(qBuilder.build(), getContextInfo());
 		}
 		catch (Exception ex) {
 		    throw new RuntimeException(ex);

@@ -18,7 +18,6 @@ package org.kuali.student.ui.admin.state;
 
 import java.util.Map;
 import javax.xml.namespace.QName;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.inquiry.InquirableImpl;
 import org.kuali.student.common.util.ContextBuilder;
@@ -30,7 +29,6 @@ import org.kuali.student.r2.core.constants.StateServiceConstants;
 
 public class StateInfoAdminInquirableImpl extends InquirableImpl
 {
-	private static final Logger LOG = Logger.getLogger(StateInfoAdminInquirableImpl.class);
 	private transient StateService stateService;
 	private final static String PRIMARY_KEY = "key";
     private static final long serialVersionUID = 1L;
@@ -40,8 +38,7 @@ public class StateInfoAdminInquirableImpl extends InquirableImpl
 		String key = parameters.get(PRIMARY_KEY);
 		try
 		{
-			StateInfo info = this.getStateService().getState(key, getContextInfo());
-			return info;
+            return this.getStateService().getState(key, getContextInfo());
 		}
 		catch (Exception ex) {
 		    throw new RuntimeException(ex);

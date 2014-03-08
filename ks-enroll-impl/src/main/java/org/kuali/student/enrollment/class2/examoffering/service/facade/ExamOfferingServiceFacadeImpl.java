@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class2.examoffering.service.facade;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
@@ -40,6 +39,8 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.class1.type.service.TypeService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -56,7 +57,7 @@ import java.util.Set;
  */
 public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade {
 
-    private static final Logger LOGGER = Logger.getLogger(ExamOfferingServiceFacadeImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ExamOfferingServiceFacadeImpl.class);
 
     private AtpService atpService;
     private ExamService examService;

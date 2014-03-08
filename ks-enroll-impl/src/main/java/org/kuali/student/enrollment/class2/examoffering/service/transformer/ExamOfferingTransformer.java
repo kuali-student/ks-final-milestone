@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.examoffering.service.transformer;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
@@ -24,6 +23,8 @@ import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class ExamOfferingTransformer {
 
     private LuiService luiService;
 
-    final Logger LOG = Logger.getLogger(ExamOfferingTransformer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ExamOfferingTransformer.class);
 
     /**
      * Transform a list of LuiInfos into ExamOfferingInfos. It is the bulk version of lui2ExamOffering transformer

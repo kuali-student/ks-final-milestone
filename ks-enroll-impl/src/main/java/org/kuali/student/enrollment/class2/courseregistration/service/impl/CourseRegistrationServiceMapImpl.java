@@ -15,7 +15,6 @@
  */
 package org.kuali.student.enrollment.class2.courseregistration.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -39,7 +38,6 @@ import org.kuali.student.enrollment.rules.credit.limit.RegistrationRequestMerger
 public class CourseRegistrationServiceMapImpl
         implements CourseRegistrationService, MockService {
 
-    private static final Logger LOGGER = Logger.getLogger(CourseRegistrationServiceMapImpl.class);
     private final Map<String, CourseRegistrationInfo> crMap = new LinkedHashMap<String, CourseRegistrationInfo>();
     private final Map<String, ActivityRegistrationInfo> arMap = new LinkedHashMap<String, ActivityRegistrationInfo>();
     private final Map<String, RegistrationRequestInfo> rrMap = new LinkedHashMap<String, RegistrationRequestInfo>();
