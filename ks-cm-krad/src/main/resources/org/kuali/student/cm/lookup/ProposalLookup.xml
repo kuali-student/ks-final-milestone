@@ -61,33 +61,32 @@ limitations under the License.
             <null/>
         </property>
 
-        <!--<property name="page.instructionalMessage">
+        <property name="page.instructionalMessage">
             <bean parent="Uif-Message" p:width="auto">
                 <property name="cssClasses">
                     <list merge="true">
                         <value>ks-cm-find-course-InstructionalMessage</value>
                     </list>
                 </property>
-                <property name="messageText"
-                          value=" Enter search terms" />
+                <property name="messageText" value="Search for keywords found within the title of a proposal." />
             </bean>
-        </property>-->
+        </property>
 
         <property name="criteriaFields">
             <list>
-                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Name" p:fieldLabel.renderColon="true"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Title" p:fieldLabel.renderColon="true"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="KS-Uif-DataField-Simple" p:propertyName="name" p:label="Name"/>
-                <bean parent="KS-Uif-DataField-Simple" p:propertyName="type" p:label="Type"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="name" p:label="Title"/>
+                <bean parent="KS-Uif-DataField-Simple" p:propertyName="meta.createId" p:label="Author"/>
             </list>
         </property>
 
         <property name="criteriaGroup.footer.items">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find a Proposal">
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find Course Proposal">
                     <property name="cssClasses">
                         <list merge="true">
                             <value>ks-cm-find-course-button-centre</value>
@@ -102,7 +101,7 @@ limitations under the License.
 
         <property name="resultsGroup.lineActions">
                 <list>
-                  <bean parent="Uif-ActionLink">
+                  <bean parent="KS-Uif-View-NavigationActionLink">
                     <property name="actionLabel" value="Review Proposal"/>
                     <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
                     <property name="finalizeMethodAdditionalArguments">

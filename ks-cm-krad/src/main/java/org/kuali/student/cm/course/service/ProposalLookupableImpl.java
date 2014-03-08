@@ -16,10 +16,14 @@
  */
 package org.kuali.student.cm.course.service;
 
-import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.uif.UifParameters;
-import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
@@ -37,6 +41,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -58,10 +64,6 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         String fieldValue = fieldValues.get("title");
 
-        if (StringUtils.isBlank(fieldValue)){
-            return new ArrayList<ProposalInfo>();
-        }
-
         SearchParamInfo qpv = new SearchParamInfo();
         qpv.setKey("proposal.queryParam.proposalOptionalName");
         qpv.getValues().add(fieldValue);
@@ -80,27 +82,75 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         }
     }
 
-    public static List<ProposalInfo> resolveProposalSearchResultSet(SearchResultInfo searchResult) {
-        List<ProposalInfo> clus = new ArrayList<ProposalInfo>();
+    public List<ProposalInfo> resolveProposalSearchResultSet(SearchResultInfo searchResult) {
+        List<ProposalInfo> proposals = new ArrayList<ProposalInfo>();
         List<SearchResultRowInfo> rows = searchResult.getRows();
+        List<String> proposalIds = new ArrayList<String>();
+
         for (SearchResultRowInfo row : rows) {
             List<SearchResultCellInfo> cells = row.getCells();
             ProposalInfo proposalInfo = new ProposalInfo();
             for (SearchResultCellInfo cell : cells) {
                 if (cell.getKey().equals("proposal.resultColumn.proposalId")) {
-                    proposalInfo.setId(cell.getValue());
-                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalName")) {
-                    proposalInfo.setName(cell.getValue());
-                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalTypeName")) {
-
-                    proposalInfo.setType(cell.getValue());
-                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalStatus")) {
-                    proposalInfo.setState(cell.getValue());
+                    proposalIds.add(cell.getValue());
+//                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalName")) {
+//                    proposalInfo.setName(cell.getValue());
+//                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalTypeName")) {
+//
+//                    proposalInfo.setType(cell.getValue());
+//                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalStatus")) {
+//                    proposalInfo.setState(cell.getValue());
                 }
             }
-            clus.add(proposalInfo);
         }
-        return clus;
+
+        if (!proposalIds.isEmpty()){
+            try {
+                proposals = getProposalService().getProposalsByIds(proposalIds,ContextUtils.getContextInfo());
+                populateProposalCreatorName(proposals);
+            } catch (Exception e) {
+                throw new RuntimeException("Error searching for proposal",e);
+            }
+        }
+
+        return Collections.unmodifiableList(proposals);
+    }
+
+    protected void populateProposalCreatorName(List<ProposalInfo> proposals) {
+
+        if (proposals.isEmpty()){
+            return;
+        }
+
+        List<String> principalIds = new ArrayList<String>();
+        for (ProposalInfo proposal : proposals){
+            principalIds.add(proposal.getMeta().getCreateId());
+        }
+
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.in("principals.principalId", principalIds.toArray()));
+
+        QueryByCriteria criteria = qbcBuilder.build();
+
+        EntityDefaultQueryResults entityResults = KimApiServiceLocator.getIdentityService().findEntityDefaults(criteria);
+
+        Map<String,String> principalId2Name = new HashMap<String, String>();
+
+        for (EntityDefault entity : entityResults.getResults()) {
+            for (Principal principal : entity.getPrincipals()) {
+                principalId2Name.put(principal.getPrincipalId(), entity.getName().getCompositeName());
+            }
+        }
+
+        for (ProposalInfo proposal : proposals) {
+            String principalName = principalId2Name.get(proposal.getMeta().getCreateId());
+            /** A hacky way to display the user full name at the UI to avoid creating a new wrapper class.
+             * And, we're returning an unmodifiable list from the search method to make sure it's not
+             * possible to change this object.
+             */
+            proposal.getMeta().setCreateId(principalName);
+        }
+
     }
 
     protected String getActionUrlHref(LookupForm lookupForm, Object dataObject, String methodToCall, List<String> pkNames) {
@@ -109,8 +159,6 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
             return super.getActionUrlHref(lookupForm,dataObject,methodToCall,pkNames);
         }
 
-        LookupView lookupView = (LookupView) lookupForm.getView();
-
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put(KRADConstants.PARAMETER_COMMAND, KRADConstants.METHOD_DISPLAY_DOC_SEARCH_VIEW);
@@ -118,17 +166,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.toString());
         props.put(UifParameters.PAGE_ID, "KS-CourseView-ReviewProposalPage");
-
-        try {
-            /**
-             * This is to get the workflow id. But, this will be gone once we implement the criteria search. This is
-             * to avoid adding new fields at the CM search xmls.
-             */
-            ProposalInfo proposalInfo = getProposalService().getProposal(((ProposalInfo) dataObject).getId(), ContextUtils.getContextInfo());
-            props.put(KRADConstants.PARAMETER_DOC_ID, proposalInfo.getWorkflowId());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        props.put(KRADConstants.PARAMETER_DOC_ID, ((ProposalInfo)dataObject).getWorkflowId());
 
         return UrlFactory.parameterizeUrl("courses", props);
     }
