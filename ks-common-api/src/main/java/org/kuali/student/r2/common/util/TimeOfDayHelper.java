@@ -17,10 +17,11 @@
 package org.kuali.student.r2.common.util;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.infc.TimeOfDay;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class TimeOfDayHelper {
-    public static Logger LOGGER = Logger.getLogger(TimeOfDayHelper.class);
+    public static final Logger LOGGER = LoggerFactory.getLogger(TimeOfDayHelper.class);
 
     public static TimeOfDay createTimeOfDay(int normalHours, int minutes, TimeOfDayAmPmEnum amOrPm) throws InvalidParameterException {
         if (normalHours < 1 || normalHours > 12 || minutes < 0 || minutes > 59) {
@@ -107,7 +108,7 @@ public class TimeOfDayHelper {
             options.add(TimeOfDayFormattingEnum.USE_TWO_DIGITS_FOR_HOURS);
             result = formatTimeOfDay(tod, options);
         } catch (InvalidParameterException e) {
-            LOGGER.warn("Unable to format: " + e.getMessage());
+            LOGGER.warn("Unable to format: ", e);
             e.printStackTrace();
         }
         return result;
