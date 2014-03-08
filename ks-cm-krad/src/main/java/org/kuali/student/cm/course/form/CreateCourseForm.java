@@ -41,6 +41,8 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     private int selectedTabIndex = 0;
 
+    private String proposalName;
+
     public CreateCourseForm(){
         Map<String,String> permDetails = new HashMap<String, String>();
         permDetails.put(KewApiConstants.DOCUMENT_TYPE_NAME_DETAIL, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
@@ -73,6 +75,14 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     public boolean isCurriculumSpecialist() {
         return isCurriculumSpecialist;
+    }
+
+    public String getProposalName() {
+        return proposalName;
+    }
+
+    public void setProposalName(String proposalName) {
+        this.proposalName = proposalName;
     }
 
     public String getHeaderText() {

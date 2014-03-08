@@ -630,13 +630,14 @@ public class CourseController extends CourseRuleEditorController {
      * @param form
      */
     protected void updateReview(final DocumentFormBase form) {
-
+        final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
 
         // Update course section
         final ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
         reviewData.getcourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        maintenanceDocForm.setProposalName(courseInfoWrapper.getProposalInfo().getName());
         reviewData.getcourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
         reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
