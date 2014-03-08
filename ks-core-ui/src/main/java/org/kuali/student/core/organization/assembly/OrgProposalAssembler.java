@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.organization.assembly;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
@@ -45,6 +44,8 @@ import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.setUpdate
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
 @Deprecated
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
-	final Logger LOG = Logger.getLogger(OrgProposalAssembler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(OrgProposalAssembler.class);
     private OrganizationService orgService;
     public static  String PROPOSAL_TYPE_CREATE_ORG = "kuali.proposal.type.org.create";
     public static  String ORG_PROPOSAL_DATA_TYPE = "OrgProposal";
@@ -82,7 +83,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
         try {
             this.metadata=getMetadata(QUALIFICATION_ORG_ID, orgId, null, null);
         } catch (AssemblyException e) {
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
         }
     }
     @Override
@@ -139,7 +140,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
             
         }
         catch(Exception e){
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
         }
         
         return result;
@@ -192,7 +193,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper> {
             result.setValue((orgId == null) ? null : get(orgId));
             
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
             throw(new AssemblyException());
         }
         

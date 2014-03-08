@@ -15,7 +15,6 @@
 
 package org.kuali.student.r1.common.assembly.dictionary.old;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
@@ -31,6 +30,8 @@ import org.kuali.student.r1.common.dictionary.old.dto.State;
 import org.kuali.student.r1.common.dictionary.old.dto.Type;
 import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
@@ -53,7 +54,7 @@ import java.util.Map;
  */
 @Deprecated
 public class MetadataServiceImpl {
-    final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MetadataServiceImpl.class);
     
     private Map<String, Object> metadataRepository = null;
     

@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -32,12 +31,14 @@ import org.kuali.student.r1.common.entity.MetaEntity;
 import org.kuali.student.r1.common.entity.RichText;
 import org.kuali.student.r1.common.entity.Type;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 @Deprecated
 public class BaseAssembler {
     
-    final static Logger logger = Logger.getLogger(BaseAssembler.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseAssembler.class);
 
 	public static Map<String, String> toAttributeMap(
 			List<? extends Attribute<?>> attributes) {

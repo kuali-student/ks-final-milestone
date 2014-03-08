@@ -14,7 +14,6 @@
  */
 package org.kuali.student.r2.core.service.assembly;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r1.common.entity.*;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -24,6 +23,8 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ import java.util.Map;
 
 public class BaseAssembler {
 
-    final static Logger logger = Logger.getLogger(BaseAssembler.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseAssembler.class);
 
     public static List<AttributeInfo> toAttributeList(List<? extends Attribute<?>> attributes) {
 

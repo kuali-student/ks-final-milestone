@@ -18,7 +18,6 @@ package org.kuali.student.r1.common.assembly.old;
 import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
@@ -27,6 +26,8 @@ import org.kuali.student.r1.common.assembly.data.Data.Property;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 import org.kuali.student.r1.common.assembly.util.IdTranslation;
 import org.kuali.student.r1.common.assembly.util.IdTranslator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Intercepts the result of the target Assembler's get(...) method and translates IDs
@@ -36,7 +37,7 @@ import org.kuali.student.r1.common.assembly.util.IdTranslator;
 @Deprecated
 public class IdTranslatorAssemblerFilter extends PassThroughAssemblerFilter<Data, Void> {
     
-    final Logger LOG = Logger.getLogger(IdTranslatorAssemblerFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IdTranslatorAssemblerFilter.class);
 
 	
 	private IdTranslator idTranslator;

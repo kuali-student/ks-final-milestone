@@ -17,7 +17,6 @@
 package org.kuali.student.r2.core.room.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -40,8 +39,6 @@ import org.kuali.student.r2.core.room.dto.RoomResponsibleOrgInfo;
 import org.kuali.student.r2.core.room.dto.RoomUsageInfo;
 import org.kuali.student.r2.core.room.service.RoomService;
 
-import javax.jws.WebParam;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -53,25 +50,15 @@ import java.util.List;
  */
 
 public class RoomServiceMockImpl implements RoomService {
-    private static Logger log = Logger.getLogger(RoomServiceMockImpl.class);
 
-    private RoomInfo room1;
-    private RoomInfo room2;
-    private RoomInfo room3;
-    private BuildingInfo building1;
-    private BuildingInfo building2;
-    private BuildingInfo building3;
-    private RoomResponsibleOrgInfo responsibleInfo1;
-    private RoomResponsibleOrgInfo responsibleInfo2;
-    private RoomResponsibleOrgInfo responsibleInfo3;
     private List<RoomInfo> roomList;
     private List<BuildingInfo> buildingList;
     private List<RoomResponsibleOrgInfo>  responsibleInfoList;
 
 
     public RoomServiceMockImpl() {
-        roomList = new ArrayList();
-        buildingList = new ArrayList();
+        roomList = new ArrayList<RoomInfo>();
+        buildingList = new ArrayList<BuildingInfo>();
         createRooms();
         createBuildings();
         createRespOrgs();
@@ -372,10 +359,9 @@ public class RoomServiceMockImpl implements RoomService {
 
     @Override
     public List<BuildingInfo> searchForBuildings(QueryByCriteria criteria,  ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        BuildingInfo info;
 
-        info = createBuildingInfo("searchForBuildings1","testCode1", "testCampus", "testName1", "This is building 1 for method searchForBuildings ");
-        info = createBuildingInfo("searchForBuildings2","testCode2", "testCampus", "testName2", "This is building 2 for method searchForBuildings ");
+        createBuildingInfo("searchForBuildings1", "testCode1", "testCampus", "testName1", "This is building 1 for method searchForBuildings ");
+        createBuildingInfo("searchForBuildings2", "testCode2", "testCampus", "testName2", "This is building 2 for method searchForBuildings ");
 
         return buildingList;
     }
@@ -700,19 +686,19 @@ public class RoomServiceMockImpl implements RoomService {
         String roomName = "CCC 1115";
         String typeKey = "kuali.room.type.classroom.general";
         String stateKey = "kuali.room.room.state.active";
-        room1 = createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
+        createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
         roomId = "2118406";
         buildingId = "406";
         floor = "2";
         roomCode = "2118";
         roomName = "CSI 2118";
-        room2 = createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
+        createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
         roomId = "1505039";
         buildingId = "039";
         floor = "1";
         roomCode = "1505";
         roomName = "VMH 1505";
-        room3 = createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
+        createRoomInfo(roomId, buildingId, floor, roomCode, roomName, typeKey, stateKey);
     }
 
     private void createBuildings() {
@@ -721,19 +707,19 @@ public class RoomServiceMockImpl implements RoomService {
         String campusKey = "MAIN";
         String buildingName = "CAMBRIDGE COMMUNITY CENTER";
         String desc = "CCC - CAMBRIDGE COMMUNITY CENTER";
-        building1 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        BuildingInfo building1 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
         buildingId = "406";
         buildingCode = "CSI";
         campusKey = "MAIN";
         buildingName = "COMPUTER SCIENCE INSTRUCTIONAL";
         desc = "CSI - COMPUTER SCIENCE INSTRUCTIONAL";
-        building2 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        BuildingInfo building2 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
         buildingId = "039";
         buildingCode = "VMH";
         campusKey = "MAIN";
         buildingName = "VAN MUNCHING HALL";
         desc = "VMH - VAN MUNCHING HALL";
-        building3 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
+        BuildingInfo building3 = createBuildingInfo(buildingId, buildingCode, campusKey, buildingName, desc);
         buildingList = new ArrayList<BuildingInfo>();
         buildingList.add(building1);
         buildingList.add(building2);
@@ -746,19 +732,19 @@ public class RoomServiceMockImpl implements RoomService {
         String orgId = "102";
         Date effectiveDate = new Date(1344398400000L);
         Date expirationDate = new Date(1345176000000L);
-        responsibleInfo1 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
+        RoomResponsibleOrgInfo responsibleInfo1 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
         id = "1010";
         roomId = "2118406";
         orgId = "102";
         effectiveDate = new Date(1344398400000L);
         expirationDate = new Date(1345176000000L);
-        responsibleInfo2 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
+        RoomResponsibleOrgInfo responsibleInfo2 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
         id = "1168";
         roomId = "1505039";
         orgId = "102";
         effectiveDate = new Date(1344398400000L);
         expirationDate = new Date(1345176000000L);
-        responsibleInfo3 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
+        RoomResponsibleOrgInfo responsibleInfo3 = createResponsibleInfo(id, roomId, orgId, effectiveDate, expirationDate);
         responsibleInfoList = new ArrayList<RoomResponsibleOrgInfo>();
         responsibleInfo1.setStateKey("kuali.room.room.state.active");
         responsibleInfo1.setTypeKey("kuali.room.type.classroom.general");

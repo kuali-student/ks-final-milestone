@@ -1,11 +1,12 @@
 package org.kuali.student.r2.common.validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 
 /**
  * ValidatorFactory provides a mechanism to 
@@ -21,7 +22,7 @@ import org.apache.log4j.Logger;
 //BaseAbstractValidator, BaseAbstractValidator, Validator, ValidatorFactory
 
 public class ValidatorFactory {
-	private static final Logger LOG = Logger.getLogger(ValidatorFactory.class);
+	private static final Logger LOG = LoggerFactory.getLogger(ValidatorFactory.class);
 	private volatile Map<String,Validator> customValidators = null; 
 	private DefaultValidatorImpl defaultValidator = new DefaultValidatorImpl();
 	
@@ -56,7 +57,7 @@ public class ValidatorFactory {
 	
 	public Validator getValidator(String customValidator) {
 	
-		LOG.info("Retrieving validatior:" + customValidator);
+		LOG.info("Retrieving validatior: {}", customValidator);
 	    
 	    Validator v = getCustomValidators().get(customValidator); 
 	    

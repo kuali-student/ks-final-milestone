@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.organization.assembly;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
@@ -36,6 +35,8 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -49,7 +50,7 @@ import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isModifie
 import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isUpdated;
 
 public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPositionHelper> {
-	final Logger LOG = Logger.getLogger(OrgPositionRestrictionAssembler.class);
+	private static final Logger LOG = LoggerFactory.getLogger(OrgPositionRestrictionAssembler.class);
     private OrganizationService orgService;
     private Metadata metadata;
     public static final String POSITION_PATH                  = "OrgPositionRestrictionInfo";
@@ -85,7 +86,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
             
         }
         catch(Exception e){
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
         }
         return orgPositionMap;
     }
@@ -149,7 +150,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     }
                 }
                 catch(Exception e ){
-                    LOG.error(e);
+                    LOG.error("Exception occurred", e);
                     throw(new AssemblyException());
                 }
             }
@@ -163,7 +164,7 @@ public class OrgPositionRestrictionAssembler implements Assembler<Data, OrgPosit
                     addVersionIndicator(orgPositionHelper.getData(),OrgPositionRestrictionInfo.class.getName(),result.getId(),result.getMeta().getVersionInd());
                 }
                 catch(Exception e ){
-                    LOG.error(e);
+                    LOG.error("Exception occurred", e);
                     throw new AssemblyException();
                 }
                 //Clear flag to avoid multiple creates

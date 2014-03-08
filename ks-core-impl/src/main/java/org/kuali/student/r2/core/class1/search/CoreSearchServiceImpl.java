@@ -1,7 +1,6 @@
 package org.kuali.student.r2.core.class1.search;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.class1.search.SearchServiceAbstractHardwiredImplBase;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -17,6 +16,8 @@ import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.util.SearchRequestHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
@@ -38,7 +39,7 @@ import java.util.Set;
  */
 public class CoreSearchServiceImpl extends SearchServiceAbstractHardwiredImplBase {
 
-    private static Logger LOG = Logger.getLogger(CoreSearchServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CoreSearchServiceImpl.class);
 
     public static final TypeInfo SCH_AND_ROOM_SEARH_BY_ID_SEARCH_TYPE;
     public static final TypeInfo SCH_RQST_TIMESLOT_BY_REF_ID_AND_TYPE_SEARCH_TYPE;

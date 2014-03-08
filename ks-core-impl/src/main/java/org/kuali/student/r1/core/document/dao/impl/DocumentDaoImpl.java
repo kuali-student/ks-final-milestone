@@ -23,13 +23,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dao.impl.AbstractCrudDaoImpl;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.core.document.dao.DocumentDao;
 import org.kuali.student.r1.core.document.entity.Document;
 import org.kuali.student.r1.core.document.entity.DocumentCategory;
 import org.kuali.student.r1.core.document.entity.RefDocRelation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -39,7 +40,7 @@ import org.kuali.student.r1.core.document.entity.RefDocRelation;
 @Deprecated
 public class DocumentDaoImpl extends AbstractCrudDaoImpl implements DocumentDao {
     
-    final Logger logger = Logger.getLogger(DocumentDaoImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(DocumentDaoImpl.class);
     
     @PersistenceContext(unitName = "Document")
     @Override

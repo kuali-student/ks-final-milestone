@@ -4,7 +4,6 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
@@ -13,9 +12,11 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.util.IdTranslation;
 import org.kuali.student.r1.common.assembly.util.IdTranslator;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class IdTranslatorFilter extends AbstractDataFilter {
-    final static Logger LOG = Logger.getLogger(IdTranslatorFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(IdTranslatorFilter.class);
 
     private IdTranslator idTranslator;
 

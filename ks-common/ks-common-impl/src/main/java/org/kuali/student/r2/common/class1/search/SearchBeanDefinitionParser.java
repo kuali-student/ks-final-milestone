@@ -15,13 +15,14 @@
 
 package org.kuali.student.r2.common.class1.search;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
 import org.kuali.student.r2.core.search.dto.*;
 import org.kuali.student.r2.core.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.r2.core.search.dto.QueryParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultTypeInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -37,7 +38,7 @@ import java.util.List;
 
 public class SearchBeanDefinitionParser extends
 		AbstractSingleBeanDefinitionParser {
-    private static final Logger logger = Logger.getLogger(SearchBeanDefinitionParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(SearchBeanDefinitionParser.class);
 
 	@Override
 	protected Class<?> getBeanClass(Element element) {

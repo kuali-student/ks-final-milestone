@@ -15,7 +15,6 @@
 
 package org.kuali.student.r2.core.class1.organization.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
 import org.kuali.student.r1.core.organization.entity.*;
@@ -33,8 +32,6 @@ import java.util.List;
 
 public class OrganizationAssembler extends BaseAssembler {
     
-    final static Logger logger = Logger.getLogger(OrganizationAssembler.class);
-
     public static List<OrgHierarchyInfo> toOrgHierarchyInfos(List<OrgHierarchy> orgHierarchys) {
         List<OrgHierarchyInfo> orgHierarchyInfos = new ArrayList<OrgHierarchyInfo>(orgHierarchys.size());
         for(OrgHierarchy orgHierarchy:orgHierarchys) {

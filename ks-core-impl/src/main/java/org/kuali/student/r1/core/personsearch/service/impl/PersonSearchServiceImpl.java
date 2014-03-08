@@ -15,7 +15,6 @@
 
 package org.kuali.student.r1.core.personsearch.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -44,7 +43,6 @@ import java.util.Map;
  */
 @WebService(endpointInterface = "org.kuali.student.r2.core.search.service.SearchService", name = "PersonSearchService", serviceName = "PersonSearchService", portName = "PersonSearchService", targetNamespace = "http://student.kuali.org/wsdl/personsearch")
 public class PersonSearchServiceImpl implements SearchService {
-    protected static final Logger LOG = Logger.getLogger(PersonSearchServiceImpl.class);
 
     private IdentityService identityService;
 

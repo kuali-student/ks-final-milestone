@@ -13,7 +13,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
@@ -44,6 +43,8 @@ import org.kuali.student.r2.common.util.AttributeHelper;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -67,7 +68,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
     // below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME   = "info";
 
-    final Logger LOG = Logger.getLogger(ProposalWorkflowFilter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ProposalWorkflowFilter.class);
     
     //Services used by this filter
     private WorkflowDocumentService workflowDocumentService;
@@ -357,7 +358,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
             
             LOG.debug("Generated workflow doc content: " + docContentString);
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Exception creating document content", e);
             throw new FilterException("Error creating document content",e);
         }
         

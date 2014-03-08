@@ -24,7 +24,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -45,21 +46,21 @@ public class ServletWrappingController extends AbstractController implements
 	private String beanName;
 	private Servlet servletInstance;
 
-	private static org.apache.log4j.Logger log = Logger.getLogger(ServletWrappingController.class);
+	private static final Logger log = LoggerFactory.getLogger(ServletWrappingController.class);
 
 	
 	public void setServletClass(Class<? extends Servlet> servletClass) {
-		log.info("setServletClass : " + servletClass);
+		log.info("setServletClass: {}", servletClass);
 		this.servletClass = servletClass;
 	}
 
 	public void setServletName(String servletName) {
-		log.info("setServletName : " + servletName);
+		log.info("setServletName: {}", servletName);
 		this.servletName = servletName;
 	}
 
 	public void setInitParameters(Properties initParameters) {
-		log.info("setInitParameters : " + initParameters);
+		log.info("setInitParameters: {}", initParameters);
 		this.initParameters = initParameters;
 	}
 
@@ -69,7 +70,7 @@ public class ServletWrappingController extends AbstractController implements
 	}
 
 	public void setServletInstance(Servlet servletInstance) {
-		log.info("setServletInstance : " + servletInstance);
+		log.info("setServletInstance: {}", servletInstance);
 		this.servletInstance = servletInstance;
 	}
 
@@ -91,7 +92,7 @@ public class ServletWrappingController extends AbstractController implements
 
 	protected ModelAndView handleRequestInternal(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		log.info("handleRequestInternal : " + servletName);
+		log.info("handleRequestInternal: {}", servletName);
 		try{
 			this.servletInstance.service(request, response);
 		}catch(Exception e){
@@ -103,7 +104,7 @@ public class ServletWrappingController extends AbstractController implements
 	}
 
 	public void destroy() {
-		log.info("destroy : " + servletName);
+		log.info("destroy: {}", servletName);
 		this.servletInstance.destroy();
 	}
 

@@ -15,12 +15,13 @@
 
 package org.kuali.student.core.proposal.ui.server.gwt;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * For now this servlet just exposes the dictionary and search methods of the Proposal Service 
@@ -32,14 +33,14 @@ public class ProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<ProposalSer
 
     private static final long serialVersionUID = 1L;
 
-    private final static Logger LOGGER = Logger.getLogger(ProposalRpcGwtServlet.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(ProposalRpcGwtServlet.class);
 
     @Override
     public ProposalInfo getProposalByWorkflowId(String workflowId) throws Exception {
         try {
             return service.getProposalByWorkflowId(workflowId, ContextUtils.getContextInfo());
         } catch (Exception e) {
-            LOGGER.error(e);
+            LOGGER.error("Exception occurred", e);
             throw e;
         }
     }

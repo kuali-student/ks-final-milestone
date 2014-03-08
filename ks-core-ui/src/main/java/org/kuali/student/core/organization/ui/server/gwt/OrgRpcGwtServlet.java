@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.organization.ui.server.gwt;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
@@ -32,6 +31,8 @@ import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.organization.dto.*;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -46,7 +47,7 @@ import java.util.List;
 import java.util.Map;
 
 public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet implements OrgRpcService{
-	final Logger LOG = Logger.getLogger(OrgRpcGwtServlet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(OrgRpcGwtServlet.class);
 	private static final long serialVersionUID = 1L;
 	public static final String CONFIGURE_XML_PATH = "C:/org_configure.xml";
 	private IdentityService identityServiceNonCached;
@@ -65,7 +66,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.deleteOrgPositionRestriction(orgPositionRestrictionId, ContextUtils.getContextInfo());
         } catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -75,7 +76,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.deleteOrgOrgRelation(orgOrgRelationId, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -87,7 +88,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             orgHierarchies.addAll(service.getOrgHierarchies(ContextUtils.getContextInfo()));
         	return orgHierarchies;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;    
     }
@@ -99,7 +100,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             orgOrgRelations.addAll(service.getOrgOrgRelationsByOrg(orgId,ContextUtils.getContextInfo()));
             return orgOrgRelations;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -112,7 +113,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             orgOrgRelations.addAll(service.getOrgOrgRelationsByOrg(orgId, ContextUtils.getContextInfo()));
         	return orgOrgRelations;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -124,7 +125,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             orgs.addAll(service.getOrgsByIds(orgIdList, ContextUtils.getContextInfo()));
         	return orgs;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -136,7 +137,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             descendants.addAll(service.getAllDescendants(orgId, orgHierarchy, ContextUtils.getContextInfo()));
         	return descendants;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -146,7 +147,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.createOrgPositionRestriction(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo.getOrgPersonRelationTypeKey(), orgPositionRestrictionInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -156,7 +157,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
             return service.createOrg(orgInfo.getTypeKey(), orgInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
         }
         return null;
     }
@@ -167,7 +168,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             return service.createOrgOrgRelation(orgOrgRelationInfo.getOrgId(), orgOrgRelationInfo.getRelatedOrgId(),
                     orgOrgRelationInfo.getTypeKey(), orgOrgRelationInfo,ContextUtils.getContextInfo());
         } catch (Exception e) {
-            LOG.error(e);
+            LOG.error("Exception occurred", e);
         }
         return null;
     }
@@ -179,7 +180,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             types.addAll(service.getOrgPersonRelationTypes(ContextUtils.getContextInfo()));
         	return types;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -190,7 +191,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         	types.addAll(service.getOrgTypes(ContextUtils.getContextInfo()));
         	return types;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -202,7 +203,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             types.addAll(service.getOrgOrgRelationTypes(ContextUtils.getContextInfo()));
         	return types;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -221,7 +222,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             }
 
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -232,7 +233,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         	orgTrees.addAll(service.getOrgTree(orgId, orgHierarchy, maxLevels, ContextUtils.getContextInfo()));
         	return orgTrees;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -241,7 +242,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.getOrg(orgId, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -256,7 +257,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         	orgPosRestrictions.addAll(service.getOrgPositionRestrictionsByIds(ids, ContextUtils.getContextInfo()));
         	return orgPosRestrictions;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -266,7 +267,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.updateOrg(orgInfo.getId(), orgInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -276,7 +277,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.updateOrgPositionRestriction(orgPositionRestrictionInfo.getOrgId(), orgPositionRestrictionInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -286,7 +287,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -299,7 +300,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.createOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey, orgPersonRelationInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -312,7 +313,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             types.addAll(service.getOrgPersonRelationTypesForOrgType(orgTypeKey, ContextUtils.getContextInfo()));
             return types;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -324,7 +325,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             orgPersonRelations.addAll(service.getOrgPersonRelationsByOrg(orgId, ContextUtils.getContextInfo()));
             return orgPersonRelations;
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -334,7 +335,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.deleteOrgPersonRelation(orgPersonRelationId, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }
@@ -346,7 +347,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
         try {
         	return service.updateOrgPersonRelation(orgPersonRelationId, orgPersonRelationInfo, ContextUtils.getContextInfo());
         } catch (Exception e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
 		}
         return null;
     }	
@@ -439,7 +440,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
            sectionConfigInfo.setSectionViewInfoList(sectionViewInfoList);
             
         } catch (JAXBException e) {
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
             throw new org.kuali.student.common.ui.client.service.exceptions.OperationFailedException("Org Screen XML Cnfig file: recources/org_configure.xml parse exception");
         } 
 
@@ -452,7 +453,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             return (Data)this.getData(orgId);
         }
         catch(Exception e){
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
         }
         return null;
     }
@@ -487,7 +488,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             
         }
         catch(Exception e){
-        	LOG.error(e);
+        	LOG.error("Exception occurred", e);
         }
         return relations;
     }

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.core.messages.entity.MessageEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
@@ -32,6 +31,8 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.messages.service.MessageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.xml.XmlBeanFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
@@ -45,7 +46,7 @@ import org.springframework.core.io.Resource;
  */
 public class MessageServiceMock implements MessageService {
 
-    final Logger logger = Logger.getLogger(MessageServiceMock.class);
+    private static final Logger logger = LoggerFactory.getLogger(MessageServiceMock.class);
 
     List<String> messageFiles;
 
@@ -115,7 +116,7 @@ public class MessageServiceMock implements MessageService {
                         putMessage(m.getLocale(), m.getGroupName(), m.getMessageId(), m.getValue());
                     }
                 } catch (Exception e) {
-                    logger.debug(e);
+                    logger.debug("Exception occurred", e);
                 }
             }
         }

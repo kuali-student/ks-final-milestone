@@ -24,11 +24,12 @@ import net.sf.ehcache.ObjectExistsException;
 
 import org.aopalliance.aop.Advice;
 import org.apache.commons.collections.keyvalue.MultiKey;
-import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MethodArgsToObjectEhcacheAdvice implements Advice {
-	final Logger LOG = Logger.getLogger(getClass());
+	private static final Logger LOG = LoggerFactory.getLogger(MethodArgsToObjectEhcacheAdvice.class);
 
 	private CacheManager cacheManager;
 	private String cacheName;
@@ -60,7 +61,7 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 	
 				}
 			}
-			LOG.info("Invalidating Cache: " + cacheName);
+			LOG.info("Invalidating Cache: {}", cacheName);
 			cacheManager.getCache(cacheName).removeAll();
 		}
 		return result;
@@ -85,10 +86,10 @@ public class MethodArgsToObjectEhcacheAdvice implements Advice {
 		Object result = null;
 		if (cachedResult == null) {
 			result = pjp.proceed();
-			LOG.info("Storing to Cache: " + cacheName);
+			LOG.info("Storing to Cache: {}", cacheName);
 			cacheManager.getCache(cacheName).put(new Element(cacheKey, result));
 		} else {
-			LOG.info("Found in Cache: " + cacheName);
+			LOG.info("Found in Cache: {}", cacheName);
 			result = cachedResult.getValue();
 		}
 

@@ -23,12 +23,13 @@ import net.sf.ehcache.Element;
 import net.sf.ehcache.ObjectExistsException;
 
 import org.aopalliance.aop.Advice;
-import org.apache.log4j.Logger;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Deprecated
 public class IdToObjectEhcacheAdvice implements Advice {
-	final Logger LOG = Logger.getLogger(IdToObjectEhcacheAdvice.class);
+	private static final Logger LOG = LoggerFactory.getLogger(IdToObjectEhcacheAdvice.class);
 	
 	private CacheManager cacheManager;
 	private String cacheName;

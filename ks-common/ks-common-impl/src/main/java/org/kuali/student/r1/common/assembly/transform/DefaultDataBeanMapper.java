@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
 import org.kuali.student.r1.common.assembly.data.Data.DataValue;
@@ -30,10 +29,12 @@ import org.kuali.student.r1.common.assembly.data.Data.StringKey;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.infc.HasAttributes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultDataBeanMapper implements DataBeanMapper {
     public static DataBeanMapper INSTANCE = new DefaultDataBeanMapper();
-    final Logger LOG = Logger.getLogger(DefaultDataBeanMapper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultDataBeanMapper.class);
 
     /*
      * (non-Javadoc)
@@ -306,7 +307,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
                     fieldMetadata = metadata.getProperties().get(entry.getKey());
                 } else {
                     // FIXME: Fix this so this warning never happens !!
-                    LOG.warn("Metadata was null while processing property " + entry.getKey());
+                    LOG.warn("Metadata was null while processing property {}", entry.getKey());
                 }
                 if (fieldMetadata != null && DataType.LIST.equals(fieldMetadata.getDataType())) {
                     data.set(entry.getKey(), convertStringToDataValue(entry.getValue()));
@@ -326,7 +327,7 @@ public class DefaultDataBeanMapper implements DataBeanMapper {
                     fieldMetadata = metadata.getProperties().get(entry.getKey());
                 } else {
                     // FIXME: Fix this so this warning never happens !!
-                    LOG.warn("Metadata was null while processing property " + entry.getKey());
+                    LOG.warn("Metadata was null while processing property {}", entry.getKey());
                 }
                 if (fieldMetadata != null && DataType.LIST.equals(fieldMetadata.getDataType())) {
                     data.set(entry.getKey(), convertStringToDataValue(entry.getValue()));

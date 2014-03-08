@@ -15,11 +15,12 @@
 
 package org.kuali.student.r2.common.dao.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.core.search.dto.QueryParamInfo;
 import org.kuali.student.r2.core.search.dto.ResultColumnInfo;
 import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.core.search.dto.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -30,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SearchableCrudDaoImpl {
-	final Logger LOG = Logger.getLogger(SearchableCrudDaoImpl.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SearchableCrudDaoImpl.class);
 
     protected EntityManager em;
 
@@ -61,7 +62,7 @@ public class SearchableCrudDaoImpl {
 		String queryString = queryMap.get(searchKey);
 		String optionalQueryString = "";
 		if(null == queryString){
-			LOG.error("No SQL query was found for searchKey:"+searchKey);
+			LOG.error("No SQL query was found for searchKey: {}", searchKey);
 		}
 		
 		if(queryString.toUpperCase().startsWith("NATIVE:")){
@@ -192,10 +193,10 @@ public class SearchableCrudDaoImpl {
 		
 		Query query;
 		if(isNative){
-			LOG.info("Native Query:"+finalQueryString);
+			LOG.info("Native Query: {}", finalQueryString);
 			query = em.createNativeQuery(finalQueryString);
 		}else{
-			LOG.info("JPQL Query:"+finalQueryString);
+			LOG.info("JPQL Query: {}", finalQueryString);
 			query = em.createQuery(finalQueryString);
 		}
 		
@@ -282,7 +283,7 @@ public class SearchableCrudDaoImpl {
             queryString = queryString.replaceAll("([Dd][Ii][Ss][Tt][Ii][Nn][Cc][Tt])", "");
 			String countQueryString = (queryString + optionalQueryString).replaceFirst(regex, replacement);
 
-			LOG.info("Executing query: "+countQueryString);
+			LOG.info("Executing query: {}", countQueryString);
 			Query countQuery;
 			if(isNative){
 				countQuery = em.createNativeQuery(countQueryString);

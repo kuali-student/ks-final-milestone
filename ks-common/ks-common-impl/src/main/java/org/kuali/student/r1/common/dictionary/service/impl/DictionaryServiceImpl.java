@@ -5,9 +5,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
@@ -16,7 +17,7 @@ import org.springframework.util.StringUtils;
 public class DictionaryServiceImpl implements DictionaryService{
 	private String[] dictionaryContext;
 	private Map<String, ObjectStructureDefinition> objectStructures;
-    final static Logger LOG = Logger.getLogger(DictionaryServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DictionaryServiceImpl.class);
     
 	public DictionaryServiceImpl() {
 		super();
@@ -45,7 +46,7 @@ public class DictionaryServiceImpl implements DictionaryService{
 		objectStructures = new HashMap<String, ObjectStructureDefinition>();
 		for (ObjectStructureDefinition objStr : beansOfType.values()){
 			if(objectStructures.containsKey(objStr.getName())){
-				LOG.warn("Repeated dictionary structure with the name '"+objStr.getName()+"'.");
+				LOG.warn("Repeated dictionary structure with the name '{}'.", objStr.getName());
 			}
 			objectStructures.put(objStr.getName(), objStr);
 		}

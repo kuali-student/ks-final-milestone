@@ -15,7 +15,6 @@
 
 package org.kuali.student.r2.common.class1.search;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dao.impl.SearchableCrudDaoImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -32,6 +31,8 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r2.core.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.core.search.service.SearchManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
@@ -47,7 +48,7 @@ import java.util.Map;
  */
 public class SearchManagerImpl implements SearchManager {
 
-	final Logger logger = Logger.getLogger(SearchManagerImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(SearchManagerImpl.class);
 
     private SearchableCrudDaoImpl dao;
 
@@ -137,10 +138,10 @@ public class SearchManagerImpl implements SearchManager {
 		//If no type was found for the key, try to dispatch the search
 		if(searchType == null){
 			if(crossSearchManager!=null && crossSearchManager.getSearchDispatcher()!=null){
-				logger.info("Search type '"+searchKey+"' is not known to this service's search manager, attempting to dispatch search.");
+				logger.info("Search type '{}' is not known to this service's search manager, attempting to dispatch search.", searchKey);
 				return crossSearchManager.getSearchDispatcher().search(searchRequestInfo, contextInfo);
 			}else{
-				logger.error("Search type '"+searchKey+"' is not known to this service's search manager.");
+				logger.error("Search type '{}' is not known to this service's search manager.", searchKey);
 				throw new RuntimeException("Search type '"+searchKey+"' is not known to this service's search manager.");
 			}
 		}
@@ -158,8 +159,9 @@ public class SearchManagerImpl implements SearchManager {
 		try{
 			return dao.search(searchRequestInfo, queryMap, searchType);
 		}catch (Exception e){
-			logger.error("Search Failed for searchKey:"+searchKey,e);
-			throw new RuntimeException("Search Failed for searchKey:"+searchKey, e);
+            String errorMessage = String.format("Search Failed for searchKey: %s", searchKey);
+            logger.error(errorMessage,e);
+			throw new RuntimeException(errorMessage, e);
 		}
 	}
 

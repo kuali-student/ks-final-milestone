@@ -8,7 +8,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.action.ActionRequest;
@@ -34,6 +33,8 @@ import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r1.core.workflow.dto.WorkflowPersonInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CollaboratorHelper implements Serializable {
 	protected IdentityService identityService;
@@ -44,7 +45,7 @@ public class CollaboratorHelper implements Serializable {
 	private PermissionService permissionService;
 	
 	private static final long serialVersionUID = 1L;
-	final static Logger LOG = Logger.getLogger(CollaboratorHelper.class);
+	private final static Logger LOG = LoggerFactory.getLogger(CollaboratorHelper.class);
 	
     public Boolean addCollaborator(String docId, String dataId, String dataTitle, String recipientPrincipalId, String selectedPermissionCode, String actionRequestTypeCode, boolean participationRequired, String respondBy) throws OperationFailedException {
         if(getWorkflowDocumentActionsService()==null){
@@ -153,7 +154,7 @@ public class CollaboratorHelper implements Serializable {
 			return Collections.<WorkflowPersonInfo>emptyList();
 		}
     	try{
-			LOG.info("Getting collaborators for docId: "+docId);
+			LOG.info("Getting collaborators for docId: {}", docId);
 
 	        if(getWorkflowDocumentService()==null){
 	        	LOG.error("No workflow Utility Service is available.");
@@ -217,7 +218,7 @@ public class CollaboratorHelper implements Serializable {
 	        	}
 	        }
 	
-	        LOG.info("Returning collaborators: "+ people.toString());
+	        LOG.info("Returning collaborators: {}", people);
 	        return people;
 		}catch(Exception e){
 			LOG.error("Error getting actions Requested.",e);

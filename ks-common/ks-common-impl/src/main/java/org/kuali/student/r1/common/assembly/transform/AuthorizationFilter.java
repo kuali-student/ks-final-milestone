@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.r1.common.assembly.data.Data;
@@ -19,6 +18,8 @@ import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The AuthorizationFilter is used to filter both metadata and data structures based
@@ -33,7 +34,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         
     public static final String DOC_LEVEL_PERM_CHECK = "AuthorizationFilter.DocLevelPermCheck";
     	
-	final Logger LOG = Logger.getLogger(AuthorizationFilter.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AuthorizationFilter.class);
     
     public enum PermissionEnum {
         EDIT("edit"), VIEW("view"), UNMASK("unmask"), PARTIAL_UNMASK("partialunmask");
@@ -153,10 +154,10 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         	//If doc level permissions are enabled, lookup "Edit Document" permission for this object for this user. 
             Map<String, String> qualification = getQualification(idType, id, docType);
         	String currentUser = SecurityUtils.getCurrentUserId();
-        	editDocumentAllowed = Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
-	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
-			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
-					+ "' for user '" + currentUser + "': " + editDocumentAllowed);	        
+        	editDocumentAllowed = permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+                    PermissionType.EDIT.getPermissionTemplateName(), null, qualification);
+			LOG.info("Permission '{}/{}' for user '{}': {}",
+                    PermissionType.EDIT.getPermissionNamespace(), PermissionType.EDIT.getPermissionTemplateName(), currentUser, editDocumentAllowed);
         }  else {
         	//Doc level permissions not enabled, by default allow user to edit
         	editDocumentAllowed = true;

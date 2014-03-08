@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Stack;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.r1.common.dictionary.dto.CaseConstraint;
 import org.kuali.student.r1.common.dictionary.dto.CommonLookupParam;
@@ -53,6 +52,8 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.messages.service.MessageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 
 // This class is a special case, this class/equivelent doesn't exist in R2
@@ -61,7 +62,7 @@ import org.springframework.beans.BeanUtils;
 // BaseAbstractValidator, BaseAbstractValidator, Validator, ValidatorFactory
 
 public class DefaultValidatorImpl extends BaseAbstractValidator {
-    final static Logger LOG = Logger.getLogger(DefaultValidatorImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultValidatorImpl.class);
 
     private MessageService messageService = null;
 

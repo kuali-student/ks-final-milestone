@@ -15,9 +15,11 @@
 
 package org.kuali.student.common.ws.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.xml.ws.WebServiceContext;
 
-import org.apache.log4j.Logger;
 
 /**
  * 
@@ -26,7 +28,7 @@ import org.apache.log4j.Logger;
  */
 public class PrincipalAccessor {
     
-    final static Logger logger = Logger.getLogger(PrincipalAccessor.class);
+    private final static Logger logger = LoggerFactory.getLogger(PrincipalAccessor.class);
     
     public static PrincipalWrapper getPrincipalFromWebServiceContext(WebServiceContext wsContext){
         Class<?> principalWrapperImpl = null;
@@ -48,7 +50,7 @@ public class PrincipalAccessor {
             principal = (PrincipalWrapper)principalWrapperImpl.newInstance();
             principal.setPrincipal(wsContext);
         } catch (Exception e){
-            logger.error("Exception occured: ", e);            
+            logger.error("Exception occurred: ", e);
         }
             
         return principal;

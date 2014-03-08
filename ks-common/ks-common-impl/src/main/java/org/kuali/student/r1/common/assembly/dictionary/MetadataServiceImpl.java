@@ -8,7 +8,6 @@
 
 package org.kuali.student.r1.common.assembly.dictionary;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Data.DataType;
@@ -31,6 +30,8 @@ import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -48,7 +49,7 @@ import java.util.Map;
  * @author Kuali Student Team
  */
 public class MetadataServiceImpl {
-    final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MetadataServiceImpl.class);
 
     //private Map<String, DictionaryService> dictionaryServiceMap = new HashMap<String, DictionaryService>();
     private List<DictionaryService> dictionaryServices;

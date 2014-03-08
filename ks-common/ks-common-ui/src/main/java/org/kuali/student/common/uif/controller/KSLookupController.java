@@ -16,7 +16,6 @@
 package org.kuali.student.common.uif.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
@@ -51,8 +50,6 @@ import java.util.Properties;
 @Controller
 @RequestMapping(value = "/lookup")
 public class KSLookupController extends LookupController {
-
-    private static final Logger LOG = Logger.getLogger(KSLookupController.class);
 
     @RequestMapping(params = "methodToCall=start")
     @Override

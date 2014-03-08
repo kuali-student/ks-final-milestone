@@ -1,7 +1,6 @@
 package org.kuali.student.r2.common.messenger;
 
 import org.apache.activemq.command.ActiveMQMapMessage;
-import org.apache.log4j.Logger;
 
 import javax.jms.MapMessage;
 import java.util.ArrayList;
@@ -17,8 +16,6 @@ import java.util.Queue;
  * @author Kuali Student Team
  */
 public class UserMessageMap {
-
-    private static final Logger LOG = Logger.getLogger(UserMessageMap.class);
 
     // this is the more performent way to access a thread safe singleton
     public static final UserMessageMap INSTANCE = new UserMessageMap();

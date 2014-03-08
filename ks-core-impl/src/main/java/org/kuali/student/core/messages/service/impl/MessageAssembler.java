@@ -18,15 +18,12 @@ package org.kuali.student.core.messages.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.core.messages.entity.MessageEntity;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 
 public class MessageAssembler {
 
-    final static Logger logger = Logger.getLogger(MessageAssembler.class);
-    
 	public static void toMessageEntity(MessageInfo message,
 			MessageEntity messageEntity) {
 		messageEntity.setGroupName(message.getGroupName());

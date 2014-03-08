@@ -5,15 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TransformationManager {
-	final Logger LOG = Logger.getLogger(TransformationManager.class);
+	private static final Logger LOG = LoggerFactory.getLogger(TransformationManager.class);
 
 	private MetadataServiceImpl metadataService;
 	private DataBeanMapper mapper = new DefaultDataBeanMapper();
@@ -106,7 +107,7 @@ public class TransformationManager {
 				} else {
 					((AbstractDTOFilter)filter).applyInboundDtoFilter(value, properties);
 				}
-				LOG.info(filter.getClass().getName() + ": Filter Applied");
+				LOG.info("{}: Filter Applied", filter.getClass().getName());
 			}
 		}
 	}
@@ -129,7 +130,7 @@ public class TransformationManager {
 				} else {
 					((AbstractDTOFilter)filter).applyOutboundDtoFilter(value, properties);
 				}
-				LOG.info(filter.getClass().getName() + ": Filter Applied");
+				LOG.info("{}: Filter Applied", filter.getClass().getName());
 			}
 		}
 	}

@@ -15,8 +15,9 @@
 
 package org.kuali.student.r1.common.validator;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
@@ -27,7 +28,7 @@ import java.util.List;
 import java.util.Map;
 
 public class BeanConstraintDataProvider implements ConstraintDataProvider {
-    final static Logger LOG = Logger.getLogger(BeanConstraintDataProvider.class);
+    private static final Logger LOG = LoggerFactory.getLogger(BeanConstraintDataProvider.class);
     
     private static final String DYNAMIC_ATTRIBUTE = "attributes";
     private static final String PARENT = "parent";

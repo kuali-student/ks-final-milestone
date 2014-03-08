@@ -15,7 +15,6 @@
 
 package org.kuali.student.r1.common.dictionary.service.impl.old;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.old.dto.CaseConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.ConstraintDescriptor;
 import org.kuali.student.r1.common.dictionary.old.dto.ConstraintSelector;
@@ -35,6 +34,8 @@ import org.kuali.student.r1.common.dictionary.old.dto.TypeStateWhenConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.ValidCharsConstraint;
 import org.kuali.student.r1.common.dictionary.old.dto.WhenConstraint;
 import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -57,7 +58,7 @@ import java.util.Map;
 @Deprecated
 public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinitionParser{
     
-    final Logger logger = Logger.getLogger(DictionaryBeanDefinitionParser.class);
+    private static final Logger logger = LoggerFactory.getLogger(DictionaryBeanDefinitionParser.class);
 
 	//Resolves the tag name to an actual class
     @Override
@@ -191,7 +192,7 @@ public class DictionaryBeanDefinitionParser extends AbstractSingleBeanDefinition
 	                			try {
 									builder.addPropertyValue(fieldName, DateFormatters.DEFAULT_DATE_FORMATTER.parse(node.getTextContent()));
 								} catch (Exception e) {
-									logger.error("Cannot convert date, must be in format 'YYYY-MM-DD' :"+node.getTextContent(),e);
+									logger.error(String.format("Cannot convert date, must be in format 'YYYY-MM-DD' : %s", node.getTextContent()), e);
 								}
 	                		}else{
 	                			builder.addPropertyValue(fieldName, node.getTextContent());

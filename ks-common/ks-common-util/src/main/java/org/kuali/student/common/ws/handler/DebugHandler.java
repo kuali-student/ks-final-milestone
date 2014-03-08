@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 
 public class DebugHandler implements SOAPHandler<SOAPMessageContext> {
 
-    final Logger logger = Logger.getLogger(DebugHandler.class);
+    private static final Logger logger = Logger.getLogger(DebugHandler.class);
     
 	private PrintStream err;
 	private PrintStream out;

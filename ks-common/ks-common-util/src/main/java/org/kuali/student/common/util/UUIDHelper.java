@@ -16,14 +16,15 @@
 package org.kuali.student.common.util;
 
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UUIDHelper {
 	
-    private static final Logger LOG = Logger.getLogger(UUIDHelper.class);
+    private static final Logger LOG = LoggerFactory.getLogger(UUIDHelper.class);
 	private static final String UUID_PATTERN = "^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
 	public static String genStringUUID() {
 		return java.util.UUID.randomUUID().toString();
@@ -34,7 +35,7 @@ public class UUIDHelper {
 			try {
 				return java.util.UUID.fromString(originalUUID).toString();
 			} catch (IllegalArgumentException e) {
-				LOG.info("Given ID \""+originalUUID+"\" is not a valid UUID. ");
+				LOG.info("Given ID \"{}\" is not a valid UUID.", originalUUID);
 			}
 			return originalUUID;
 		}

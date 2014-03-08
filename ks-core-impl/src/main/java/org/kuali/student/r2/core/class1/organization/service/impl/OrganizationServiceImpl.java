@@ -8,7 +8,6 @@
 
 package org.kuali.student.r2.core.class1.organization.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
@@ -29,6 +28,8 @@ import org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.organization.dto.*;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebService;
@@ -38,7 +39,7 @@ import java.util.*;
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class OrganizationServiceImpl implements OrganizationService {
 
-    final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(OrganizationServiceImpl.class);
 
     private OrganizationDao organizationDao;
     private ExtendedOrgDao extendedOrgDao;

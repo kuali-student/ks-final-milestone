@@ -17,7 +17,6 @@
 package org.kuali.student.common.uif.controller;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.exception.AuthorizationException;
@@ -32,6 +31,8 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.IncidentReportForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.krms.exceptions.KRMSOptimisticLockingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,7 +45,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class KsHandlerExceptionResolver extends UifHandlerExceptionResolver {
 
-    private static final Logger LOG = Logger.getLogger(KsHandlerExceptionResolver.class);
+    private static final Logger LOG = LoggerFactory.getLogger(KsHandlerExceptionResolver.class);
 
     @Override
     public ModelAndView resolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {

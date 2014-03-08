@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateUtils;
@@ -42,6 +41,8 @@ import org.kuali.rice.kim.impl.identity.PersonServiceImpl;
 import org.kuali.rice.kns.service.BusinessObjectMetaDataService;
 import org.kuali.rice.kns.service.MaintenanceDocumentDictionaryService;
 import org.kuali.rice.krad.util.KRADPropertyConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility methods for dealing with Person searches
@@ -51,7 +52,7 @@ import org.kuali.rice.krad.util.KRADPropertyConstants;
  */
 public class PersonSearch {
     
-    private static Logger LOG = Logger.getLogger( PersonSearch.class );
+    private static final Logger LOG = LoggerFactory.getLogger(PersonSearch.class);
     protected static final String ENTITY_EXT_ID_PROPERTY_PREFIX = "externalIdentifiers.";
     protected static final String ENTITY_AFFILIATION_PROPERTY_PREFIX = "affiliations.";
     protected static final String ENTITY_TYPE_PROPERTY_PREFIX = "entityTypeContactInfos.";
@@ -178,9 +179,7 @@ public class PersonSearch {
     
     
     public Map<String,String> convertPersonPropertiesToEntityProperties( Map<String,String> criteria ) {
-        if ( LOG.isDebugEnabled() ) {
-            LOG.debug( "convertPersonPropertiesToEntityProperties: " + criteria );
-        }
+        LOG.debug( "convertPersonPropertiesToEntityProperties: {}", criteria );
         boolean nameCriteria = false;
         boolean addressCriteria = false;
         boolean externalIdentifierCriteria = false;
@@ -228,7 +227,7 @@ public class PersonSearch {
                                             CoreApiServiceLocator.getEncryptionService().encrypt(criteria.get(key))
                                             );
                                 } catch (GeneralSecurityException ex) {
-                                    LOG.error("Unable to encrypt value for external ID search of type " + extIdTypeCode, ex );
+                                    LOG.error(String.format("Unable to encrypt value for external ID search of type %s", extIdTypeCode), ex );
                                 }                               
                             }
                         }
@@ -302,10 +301,8 @@ public class PersonSearch {
             } 
         }   
         
-        if ( LOG.isDebugEnabled() ) {
-            LOG.debug( "Converted: " + newCriteria );
-        }
-        return newCriteria;     
+        LOG.debug( "Converted: {}", newCriteria );
+        return newCriteria;
     }
 
     protected boolean isNameEntityCriteria( String propertyName ) {

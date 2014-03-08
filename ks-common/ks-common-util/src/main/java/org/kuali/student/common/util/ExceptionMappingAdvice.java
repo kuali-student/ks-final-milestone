@@ -85,11 +85,12 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 				.get(ex.getClass());
 
 		if (mappedExceptionClass != null) {
-	        logger.debug("Mapping exception "+ex.getClass()+" to "+mappedExceptionClass);
-	        Constructor<? extends Exception> c = mappedExceptionClass
+            if (logger.isDebugEnabled()) {
+                logger.debug(String.format("Mapping exception %s to %s", ex.getClass(), mappedExceptionClass));
+            }
+            Constructor<? extends Exception> c = mappedExceptionClass
 					.getConstructor(String.class);
-			Exception mappedException = c.newInstance(ex.getMessage());
-			throw mappedException;
+            throw c.newInstance(ex.getMessage());
 		}
 		
 		//Throw a default exception if this is a runtime exception
@@ -115,8 +116,10 @@ public class ExceptionMappingAdvice implements ThrowsAdvice, Ordered {
 				}
 			}
 			//Check if no default was defined
-			logger.debug("No mapping or default exception available. Exception "+ex.getClass());
-			throw new RuntimeException("Could Not Map Exception: " + ex.toString());
+            if (logger.isDebugEnabled()) {
+                logger.debug(String.format("No mapping or default exception available. Exception %s", ex.getClass()));
+            }
+            throw new RuntimeException("Could Not Map Exception: " + ex.toString());
 		}
 	}
 

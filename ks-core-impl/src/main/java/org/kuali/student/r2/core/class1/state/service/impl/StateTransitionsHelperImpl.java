@@ -16,6 +16,8 @@ import org.kuali.student.r2.core.class1.state.service.RelatedObjectHelper;
 import org.kuali.student.r2.core.class1.state.service.StateHelper;
 import org.kuali.student.r2.core.class1.state.service.StateService;
 import org.kuali.student.r2.core.class1.state.service.StateTransitionsHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 
 /**
  *  Business logic for StateService constraints and propagations.
@@ -33,7 +34,7 @@ import org.apache.log4j.Logger;
  */
 public class StateTransitionsHelperImpl implements StateTransitionsHelper {
 
-    private static final Logger LOGGER = Logger.getLogger(StateTransitionsHelperImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StateTransitionsHelperImpl.class);
      /**
       * The following are Maps injected via Spring config.
       *
@@ -152,7 +153,7 @@ public class StateTransitionsHelperImpl implements StateTransitionsHelper {
         List<StateChangeInfo> stateChanges = this.stateService.getStateChangesByFromStateAndToState(fromStateKey, nextStateKey, context);
         //  If no StateChange is defined here just log and return.
         if (stateChanges.size() == 0) {
-            LOGGER.warn(String.format("No state change was defined from [%s] to [%s].", fromStateKey, nextStateKey));
+            LOGGER.warn("No state change was defined from [{}] to [{}].", fromStateKey, nextStateKey);
             return resultMap;
         } else if (stateChanges.size() > 1) {
             throw new OperationFailedException("Multiple StateChanges between two states is unsupported.");

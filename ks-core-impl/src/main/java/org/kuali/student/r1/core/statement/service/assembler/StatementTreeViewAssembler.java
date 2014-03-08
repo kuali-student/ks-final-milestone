@@ -1,7 +1,6 @@
 package org.kuali.student.r1.core.statement.service.assembler;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
@@ -9,6 +8,8 @@ import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -21,7 +22,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
  */
 @Deprecated
 public class StatementTreeViewAssembler extends BaseAssembler implements BOAssembler<StatementTreeViewInfo, StatementTreeViewInfo>{
-    final static Logger LOG = Logger.getLogger(StatementTreeViewAssembler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StatementTreeViewAssembler.class);
 
 
 	@Override

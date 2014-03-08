@@ -8,7 +8,6 @@ import java.util.UUID;
 import java.net.URLDecoder;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
@@ -36,6 +35,8 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -43,7 +44,7 @@ public abstract class AbstractDataService implements DataService{
 
 	private static final long serialVersionUID = 1L;
 
-	final Logger LOG = Logger.getLogger(AbstractDataService.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractDataService.class);
 
 	private TransformationManager transformationManager;
 	
@@ -237,11 +238,11 @@ public abstract class AbstractDataService implements DataService{
                 roleQuals.putAll(attributes);
             }
             if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
-                LOG.info("Checking Permission '" + namespaceCode + "/" + permissionTemplateName + "' for user '" + user + "'");
+                LOG.info("Checking Permission '{}/{}' for user '{}'", namespaceCode, permissionTemplateName, user);
                 result = getPermissionService().isAuthorizedByTemplate(user, namespaceCode, permissionTemplateName, new LinkedHashMap<String,String>(), roleQuals);
             }
             else {
-                LOG.info("Can not check Permission with namespace '" + namespaceCode + "' and template name '" + permissionTemplateName + "' for user '" + user + "'");
+                LOG.info("Can not check Permission with namespace '{}' and template name '{}' for user '{}'", namespaceCode, permissionTemplateName, user);
                 return Boolean.TRUE;
             }
         }
@@ -249,8 +250,8 @@ public abstract class AbstractDataService implements DataService{
             LOG.info("Will not check for document level permissions. Defaulting authorization to true.");
             result = true;
         }
-        LOG.info("Result of authorization check for user '" + user + "': " + result);
-        return Boolean.valueOf(result);
+        LOG.info("Result of authorization check for user '{}': {}", user, result);
+        return result;
     }
 	
 	protected void addAdditionalAttributes(Map<String, String> attributes,

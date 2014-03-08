@@ -16,9 +16,10 @@
 package org.kuali.student.common.test.spring;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -126,7 +127,7 @@ import java.util.List;
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager")
 public abstract class AbstractTransactionalDaoTest {
-	final Logger LOG = Logger.getLogger(AbstractTransactionalDaoTest.class);
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractTransactionalDaoTest.class);
 	@PersistenceContext
 	protected EntityManager em;
 
@@ -207,14 +208,14 @@ public abstract class AbstractTransactionalDaoTest {
 			}
 			jtaTxManager.commit(txStatus);
 		} catch (Exception e) {
-			LOG.error(e);
+			LOG.error("Exception occurred", e);
 			jtaTxManager.rollback(txStatus);
 		}
 		finally{
 			try {
 				in.close();
 			} catch (IOException e) {
-				LOG.error("IO Stream closed " + e);
+				LOG.error("IO Stream closed ", e);
 			}
 		}
 	}

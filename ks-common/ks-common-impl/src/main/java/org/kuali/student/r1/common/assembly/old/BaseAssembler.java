@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.permission.Permission;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
@@ -32,10 +31,12 @@ import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Deprecated
 public abstract class BaseAssembler<TargetType, SourceType> implements Assembler<TargetType, SourceType> {
-    protected final Logger LOG = Logger.getLogger(getClass());
+    protected static final Logger LOG = LoggerFactory.getLogger(BaseAssembler.class);
 
     protected PermissionService permissionService;
     protected MetadataServiceImpl metadataService;
@@ -115,11 +116,11 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
             Map<String,String> qualification = getQualification(idType, id);
         	String currentUser = SecurityUtils.getCurrentUserId();
-	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
-	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
-			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName()
-					+ "' for user '" + currentUser + "': " + authorized);
-	        metadata.setCanEdit(authorized.booleanValue());
+	        authorized = permissionService.isAuthorizedByTemplate(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+                    PermissionType.EDIT.getPermissionTemplateName(), null, qualification);
+			LOG.info("Permission '{}/{}' for user '{}': {}",
+                    PermissionType.EDIT.getPermissionNamespace(), PermissionType.EDIT.getPermissionTemplateName(), currentUser, authorized);
+	        metadata.setCanEdit(authorized);
         }  
         if(metadata != null && metadata.getProperties() != null) {
             for(Metadata child : metadata.getProperties().values()) {

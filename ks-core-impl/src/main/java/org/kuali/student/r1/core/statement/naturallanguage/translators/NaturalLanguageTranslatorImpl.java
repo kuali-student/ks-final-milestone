@@ -15,12 +15,13 @@
 
 package org.kuali.student.r1.core.statement.naturallanguage.translators;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.Statement;
 import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageTranslator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class translates requirement components and LU (learning unit) 
@@ -30,7 +31,7 @@ import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageTransl
 @Deprecated
 public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator {
 
-	private final static Logger logger = Logger.getLogger(NaturalLanguageTranslatorImpl.class);
+	private final static Logger logger = LoggerFactory.getLogger(NaturalLanguageTranslatorImpl.class);
 	
 	private ReqComponentTranslator reqComponentTranslator;
 	private StatementTranslator statementTranslator;
@@ -86,20 +87,18 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 * @param reqComponent Requirement component to be translated
 	 * @param nlUsageTypeKey Natural language usage type key (context)
 	 * @param language Translation language
-	 * @return
+	 * @return Natural language requirement component translation
 	 * @throws DoesNotExistException
 	 * @throws OperationFailedException
 	 */
 	public synchronized String translateReqComponent(final ReqComponent reqComponent, final String nlUsageTypeKey, final String language) throws DoesNotExistException, OperationFailedException {
-		String nl = null;
+		String nl;
 		if(language == null) {
 			nl = this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey);
 		} else {
 			nl = this.reqComponentTranslator.translate(reqComponent, nlUsageTypeKey, language);
 		}
-		if(logger.isInfoEnabled()) {
-			logger.info("ReqComponent translation="+nl);
-		}
+        logger.info("ReqComponent translation={}", nl);
 		return nl;
 	}
 	
@@ -115,9 +114,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 	 */
 	public synchronized String translateStatement(final Statement statement, final String nlUsageTypeKey) throws DoesNotExistException, OperationFailedException {
 		String nl = this.statementTranslator.translate(statement, nlUsageTypeKey);
-		if(logger.isInfoEnabled()) {
-			logger.info("Statement translation="+nl);
-		}
+        logger.info("Statement translation={}", nl);
 		return nl;
 	}
 
@@ -139,9 +136,7 @@ public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator 
 		} else {
 			nl = this.statementTranslator.translate(statement, nlUsageTypeKey, language);
 		}
-		if(logger.isInfoEnabled()) {
-			logger.info("Statement translation="+nl);
-		}
+        logger.info("Statement translation={}", nl);
 		return nl;
 	}
 }

@@ -35,7 +35,6 @@ import org.apache.commons.fileupload.ProgressListener;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.dto.FileStatus;
@@ -47,9 +46,11 @@ import org.kuali.student.r2.core.document.dto.DocumentBinaryInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.document.service.DocumentService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UploadServlet extends HttpServlet{
-	final Logger LOG = Logger.getLogger(UploadServlet.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UploadServlet.class);
 	private static final long serialVersionUID = 1L;
 	DocumentService documentService;
 	
@@ -189,7 +190,7 @@ public class UploadServlet extends HttpServlet{
                                                 ContextUtils.getContextInfo());
 		    		}catch(Exception e){
 		    			fileError = true;
-		    			LOG.error(e);
+		    			LOG.error("Exception occurred", e);
 		    			fileStatus.setStatus(FileTransferStatus.ERROR);
 		    		}
 		    		info = new DocumentInfo();
@@ -206,7 +207,7 @@ public class UploadServlet extends HttpServlet{
 			
 		} catch (Exception e) {
 			status.setStatus(UploadTransferStatus.ERROR);
-			LOG.error(e);
+			LOG.error("Exception occurred", e);
 		}
 			
 	}
@@ -218,7 +219,7 @@ public class UploadServlet extends HttpServlet{
 			try {
 				info = documentService.getDocument(request.getParameter("docId"), ContextUtils.getContextInfo());
 			} catch (Exception e) {
-				LOG.error(e);
+				LOG.error("Exception occurred", e);
 			}
 			
 			if(info != null 
@@ -244,7 +245,7 @@ public class UploadServlet extends HttpServlet{
 			        //
 			        op.write(fileBytes,0,length);
 				} catch (Exception e) {
-					LOG.error(e);
+					LOG.error("Exception occurred", e);
 				}
 				finally{
 			        op.flush();
