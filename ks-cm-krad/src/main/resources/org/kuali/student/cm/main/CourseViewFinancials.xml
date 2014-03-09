@@ -9,18 +9,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-FinancialsPage" parent="KS-CourseView-BasePage" p:headerText="Financials">
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseView-FinancialsPage-CourseFees-Widgets" />
-                <ref bean="KS-CourseView-FinancialsPage-Widgets" />
-            </list>
-        </property>
-    </bean>
-
     <bean id="KS-CourseView-Financials-Section" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Financials"/>
-        <property name="header.render" value="@{#form.curriculumSpecialist}"/>
         <property name="items">
             <list>
                 <ref bean="CourseView-Financials-NoRequiredMessageLink" />

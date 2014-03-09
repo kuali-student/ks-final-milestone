@@ -23,8 +23,8 @@
         <property name="headerText" value="Supporting Documents"/>
         <property name="header">
             <bean parent="Uif-KS-IconHeader">
-                <property name="richHeaderMessage.iconToolTipText" value="Files that will be submitted
-                                                                  with the Course Proposal that support it."/>
+                <property name="richHeaderMessage.iconToolTipText"
+                          value="Files that will be submitted with the Course Proposal that support it."/>
             </bean>
         </property>
         <property name="items">

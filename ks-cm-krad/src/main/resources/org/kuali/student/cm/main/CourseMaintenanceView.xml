@@ -25,8 +25,7 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <property name="titleAttribute" value="courseInfo.id"/>
         <property name="attributes">
-            <list>
-            </list>
+            <list />
         </property>
         <property name="objectLabel" value="Course info wrapper"/>
         <property name="primaryKeys">
@@ -92,8 +91,10 @@
                 <!-- <bean id="compareRuleLightBox" parent="KS-KRMS-CompareRule">
                     <property name="headerText" value="Compare Catalog and Course Offering Rules"/>
                 </bean> -->
-                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup-CM" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.courseRuleManagementWrapper"/>
-                <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo" p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.courseRuleManagementWrapper"/>
+                <bean id="courseRangeLookup" parent="KRMS-CourseRangeResult-Lookup-CM"
+                      p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.courseRuleManagementWrapper"/>
+                <bean id="warningMessagedYesNo" parent="KRMS-WarningMessagedYesNo"
+                      p:fieldBindingObjectPath="document.newMaintainableObject.dataObject.courseRuleManagementWrapper"/>
             </list>
         </property>
         <property name="items">
@@ -109,7 +110,6 @@
                 <value>ks-cm-krad/scripts/jquery.jqEasyCharCounter.custom.js</value>
                 <value>ks-cm-krad/scripts/common.js</value>
                 <value>themes/ksboot/scripts/ruleMaintenance.js</value>
-                <value>themes/ksboot/scripts/toolbar.js</value>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -146,21 +146,22 @@
         </property>
     </bean>
 
+    <!-- Each course details tab/section extends this -->
     <bean id="KS-CourseView-VerticalBoxSection" parent="Uif-VerticalBoxSection" abstract="true">
         <property name="cssClasses">
             <list merge="true">
-                <value>create_course_tab_section</value>
+                <value>course_details_tab_section</value>
             </list>
         </property>
+        <!--  Turn off validation messages for the tab sections -->
+        <property name="validationMessages.displayMessages" value="false" />
     </bean>
 
     <bean id="KS-CourseView-HorizontalBoxSection" parent="Uif-HorizontalBoxSection" abstract="true" />
 
-    <bean id="KS-CourseView-BasePage" parent="Uif-MaintenancePage" p:disclosure.render="false"/>
-
     <bean id="KS-CourseView-CoursePage" parent="Uif-MaintenancePage" p:disclosure.render="false">
-        <property name="headerText" value="Create Course"/>
         <property name="header" ref="KS-CourseView-Header" />
+        <property name="headerText" value="Create Course"/>
         <property name="footer.items">
             <list>
                 <bean parent="KS-CourseView-Footer" p:render="@{!#form.curriculumSpecialist}"/>

@@ -9,9 +9,9 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-AuthorsAndCollaborators-Section" parent="Uif-VerticalBoxSection" p:additionalCssClasses="ks-section">
+    <bean id="KS-CourseView-AuthorsAndCollaborators-Section" parent="KS-CourseView-HorizontalBoxSection"
+          p:additionalCssClasses="ks-section">
         <property name="headerText" value="Authors &amp; Collaborators"/>
-        <property name="validationMessages.displayMessages" value="false"/>
         <property name="items">
             <list>
                 <ref bean="AuthorsAndCollaborators-NoRequiredMessageLink" />

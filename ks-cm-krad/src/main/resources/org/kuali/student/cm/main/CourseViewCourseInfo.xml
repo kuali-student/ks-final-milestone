@@ -20,20 +20,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-CourseInfoPage" parent="KS-CourseView-BasePage"
-          p:headerText="Course Information">
-        <property name="items">
-            <list>
-                <ref bean="KS-CourseView-CourseInfo-Section" />
-            </list>
-        </property>
-        <!--         DOn't forget about this !!!! -->
-        <property name="onDocumentReadyScript" value="setupCharCounters()" />
-    </bean>
-
-    <bean id="KS-CourseView-CourseInfo-Section" parent="Uif-VerticalBoxSection">
+    <bean id="KS-CourseView-CourseInfo-Section" parent="KS-CourseView-VerticalBoxSection">
+        <!-- The header text for this section has to be set for the tabs to initialize properly.
+             And, we don't want "KS-CourseInfoData-Section" (aka the Titles) sub-section to have a header.
+             But since the validation messaging is weird in the sub-section without a header we are actually
+             displaying this header in the sub-section. -->
         <property name="headerText" value="Course Information"/>
-        <property name="header.render" value="false"/>
+        <property name="header.render" value="false" />
         <property name="items">
             <list>
                 <ref bean="KS-CourseInfoData-Section" /> <!-- Course Information -->
@@ -44,13 +37,11 @@
                       p:headerText="Instructor(s)" p:propertyName="dataObject.instructorWrappers"
                       p:collectionObjectClass="org.kuali.student.cm.course.form.CluInstructorInfoWrapper">
                     <property name="addLineLabel.messageText" value="Add An Instructor" />
-                    <property name="layoutManager.lineGroupPrototype.header.headerText"
-                              value="Instructor @{(#index + 1)}" />
-                    <!-- <property name="collectionLookup.quickfinderAction.render"
-                        value="false" /> -->
+                    <property name="layoutManager.lineGroupPrototype.header.headerText" value="Instructor @{(#index + 1)}" />
                     <property name="header">
                         <bean parent="Uif-KS-IconHeader">
-                            <property name="richHeaderMessage.iconToolTipText" value="This is not a restrictive list - names here will not determine who will eventually teach this course."/>
+                            <property name="richHeaderMessage.iconToolTipText"
+                                value="This is not a restrictive list - names here will not determine who will eventually teach this course."/>
                         </bean>
                     </property>
                     <property name="cssClasses">
@@ -80,10 +71,10 @@
                                                 <entry key="change">
                                                     <value>
                                                         function(event, ui) {
-                                                        if (ui.item==null) {
-                                                        jQuery(this).val('');
-                                                        jQuery(this).focus();
-                                                        }
+                                                            if (ui.item==null) {
+                                                                jQuery(this).val('');
+                                                                jQuery(this).focus();
+                                                            }
                                                         }
                                                     </value>
                                                 </entry>
@@ -194,6 +185,8 @@
     </bean>
 
     <bean id="KS-CourseInfoData-Section" parent="Uif-VerticalBoxSubSection">
+        <!-- The validation messaging is weird if this sub-section doesn't have a header, so we are displaying the
+             tab/section header here. -->
         <property name="headerText" value="Course Information" />
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="cssClasses">

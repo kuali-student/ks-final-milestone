@@ -19,9 +19,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
     <bean id="KS-CourseView-createCourseInitialPage" parent="Uif-MaintenancePage"  p:style="margin-left: -18px;"
-
         p:disclosure.render="false">
         <property name="header">
             <bean parent="Uif-HeaderTwo"/>
