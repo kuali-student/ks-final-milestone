@@ -283,11 +283,8 @@ function navigateToTheRightTab(isCurriculumSpecialist, tabId) {
     jQuery(tabPanelId).tabs("select", tabId + "_tab").click();
 }
 
-function updateStickyHeaderText(msg, cmadmin ) {
+function updateStickyHeaderText(header ) {
     jQuery("#KS-CourseView").find('.uif-viewHeader-supportTitle').text("Review Proposal");
-    if(cmadmin) {
-        jQuery("#KS-CourseView").find('.uif-sticky').find('.uif-headerText-span').text(msg+" (Admin Proposal)");
-    }  else {
-        jQuery("#KS-CourseView").find('.uif-sticky').find('.uif-headerText-span').text(msg+" (Proposal)");
-    }
+    jQuery("#KS-CourseView").find('.uif-sticky').find('.uif-headerText-span').text(header);
+
 }
