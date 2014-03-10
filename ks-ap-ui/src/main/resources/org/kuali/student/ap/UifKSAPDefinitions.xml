@@ -178,6 +178,7 @@
                 <value>ks-ap/scripts/jquery-popover/jquery.popover.css</value>
                 <value>ks-ap/jquery-ui/jquery-ui.css</value>
                 <value>themes/ksboot/stylesheets/enroll.css</value>
+                <value>themes/ksboot/stylesheets/fontello.css</value>
                 <value>ks-ap/css/myplan.css</value>
             </list>
         </property>
