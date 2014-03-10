@@ -283,8 +283,6 @@ function navigateToTheRightTab(isCurriculumSpecialist, tabId) {
     jQuery(tabPanelId).tabs("select", tabId + "_tab").click();
 }
 
-function updateStickyHeaderText(header ) {
+function updateStickyHeaderText() {
     jQuery("#KS-CourseView").find('.uif-viewHeader-supportTitle').text("Review Proposal");
-    jQuery("#KS-CourseView").find('.uif-sticky').find('.uif-headerText-span').text(header);
-
 }

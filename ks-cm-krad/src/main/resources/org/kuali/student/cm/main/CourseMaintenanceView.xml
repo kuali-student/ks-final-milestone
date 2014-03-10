@@ -46,7 +46,7 @@
         commenting below code in case required in future.
          @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
         <!--<property name="headerText" value="@{(document.newMaintainableObject.proposal != null and !#empty(document.newMaintainableObject.proposal.name)) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />-->
-        <property name="headerText" value="@{(#form.pageId eq 'KS-CourseView-CoursePage') ? #form.headerText : 'Create Course'}" />
+        <property name="headerText" value="@{(#form.headerText eq null or #form.headerText.length() lt 1) ? 'Create Course': #form.headerText }" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
         <property name="applyDirtyCheck" value="true" />
