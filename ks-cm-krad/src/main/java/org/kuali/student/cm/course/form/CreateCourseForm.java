@@ -61,8 +61,8 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         return useReviewProcess;
     }
 
-    public void setUseReviewProcess(boolean useCMreviewProcess) {
-        this.useReviewProcess = useCMreviewProcess;
+    public void setUseReviewProcess(boolean useReviewProcess) {
+        this.useReviewProcess = useReviewProcess;
     }
 
     public int getSelectedTabIndex() {
@@ -77,6 +77,15 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         return isCurriculumSpecialist;
     }
 
+    /**
+     * A CS not using workflow gets an admin workflow document type. Some UI elements/behavior are conditional based on doc type.
+     *
+     * @return True if an admin doc type is being used. Otherwise, false.
+     */
+    public boolean isAdminProposal() {
+        return isCurriculumSpecialist() && ! isUseReviewProcess();
+    }
+
     public String getProposalName() {
         return proposalName;
     }
@@ -88,12 +97,13 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
     public String getHeaderText() {
         String headerSuffixText;
 
-        if (isCurriculumSpecialist() && !isUseReviewProcess()){
+        if (isAdminProposal()){
             headerSuffixText = " (Admin Proposal)";
         } else {
             headerSuffixText = " (Proposal)";
         }
-        ProposalInfo proposalInfo = ((CourseInfoWrapper) getDocument().getNewMaintainableObject().getDataObject()).getProposalInfo();
+        ProposalInfo proposalInfo = ((CourseInfoWrapper)
+                getDocument().getNewMaintainableObject().getDataObject()).getProposalInfo();
 
         if (proposalInfo != null && StringUtils.isNotBlank(proposalInfo.getName())){
             return proposalInfo.getName() + headerSuffixText;
