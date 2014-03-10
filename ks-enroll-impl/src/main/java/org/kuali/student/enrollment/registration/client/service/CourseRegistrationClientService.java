@@ -175,4 +175,14 @@ public interface CourseRegistrationClientService {
     @Path("/dropRegistrationGroup")
     public Response dropRegistrationGroupRS(@QueryParam("masterLprId") String masterLprId);
 
+    /**
+     * Gets the current registration status for a particular registration request
+     * @param regReqId
+     * @return
+     */
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    @Path("/getRegistrationStatus")
+    public Response getRegistrationStatusRS(@QueryParam("regReqId") String regReqId);
+
 }

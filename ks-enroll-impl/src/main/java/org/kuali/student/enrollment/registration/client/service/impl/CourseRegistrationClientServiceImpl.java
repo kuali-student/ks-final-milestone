@@ -1,15 +1,23 @@
 package org.kuali.student.enrollment.registration.client.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestItemInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
+import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationClientService;
 import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleComponentResult;
 import org.kuali.student.enrollment.registration.client.service.dto.InstructorSearchResult;
 import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseItemResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationResponseResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleCalendarEventResult;
 import org.kuali.student.enrollment.registration.client.service.dto.ScheduleItemResult;
 import org.kuali.student.enrollment.registration.client.service.dto.StudentScheduleActivityOfferingResult;
@@ -30,7 +38,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -42,7 +49,9 @@ import org.slf4j.LoggerFactory;
 
 import javax.jms.JMSException;
 import javax.security.auth.login.LoginException;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
+import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -54,6 +63,8 @@ import java.util.Map;
 public class CourseRegistrationClientServiceImpl implements CourseRegistrationClientService {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(CourseRegistrationClientServiceImpl.class);
+
+    private LprService lprService;
 
     @Override
     public Response registerForRegistrationGroupRS(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) {
@@ -690,6 +701,76 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         }
 
         return creditOptions;
+    }
+
+    @Override
+    public Response getRegistrationStatusRS(@QueryParam("regReqId") String regReqId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(getRegistrationStatus(regReqId, ContextUtils.createDefaultContextInfo()));
+        } catch (Throwable t) {
+            LOGGER.warn("Exception occurred", t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
+    }
+
+    /**
+     * All info about a registration request can be found in the LprTransaction. get the lpr transaction and transform
+     * it into something useful.
+     * @param regReqId
+     * @param contextInfo
+     * @throws PermissionDeniedException
+     * @throws MissingParameterException
+     * @throws InvalidParameterException
+     * @throws OperationFailedException
+     * @throws DoesNotExistException
+     */
+    public RegistrationResponseResult getRegistrationStatus(String regReqId, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException {
+
+        RegistrationResponseResult result = new RegistrationResponseResult();
+
+        LprTransactionInfo lprTransactionInfo = getLprService().getLprTransaction(regReqId, contextInfo);
+
+        result.setRegistrationRequestId(lprTransactionInfo.getId());
+        result.setState(lprTransactionInfo.getStateKey());
+        result.setStatus(lprTransactionInfo.getStateKey()); // use state for now until we come up with something better
+
+        for(LprTransactionItemInfo lprTransactionItemInfo :  lprTransactionInfo.getLprTransactionItems()){
+            RegistrationResponseItemResult resultItem = new RegistrationResponseItemResult();
+            LprTransactionItemResultInfo lprTransactionItemResultInfo = lprTransactionItemInfo.getLprTransactionItemResult();
+
+            resultItem.setRegistrationRequestItemId(lprTransactionItemInfo.getId());
+            resultItem.setRegistrationRequestId(lprTransactionInfo.getId());
+            resultItem.setState(lprTransactionItemInfo.getStateKey());
+            resultItem.setStatus(lprTransactionItemInfo.getStateKey()); // we should be useing the result state, but that is currently a boolean and not useful
+            resultItem.setNewLuiId(lprTransactionItemInfo.getLuiId());
+
+            if(lprTransactionItemResultInfo != null){
+                //resultItem.setStatus(lprTransactionItemResultInfo.getStatus()); // the status is currently boolean. not usable. use state for now
+                resultItem.setMessage(lprTransactionItemResultInfo.getMessage());
+                resultItem.setResultingLprId(lprTransactionItemResultInfo.getResultingLprId());
+
+            }
+
+            result.getResponseItemResults().add(resultItem);
+        }
+
+
+        return result;
+    }
+
+    protected LprService getLprService() {
+        if (lprService == null) {
+            lprService = (LprService) GlobalResourceLoader.getService(new QName(LprServiceConstants.NAMESPACE, LprServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return lprService;
+    }
+
+    public void setLprService(LprService lprService) {
+        this.lprService = lprService;
     }
 
 }
