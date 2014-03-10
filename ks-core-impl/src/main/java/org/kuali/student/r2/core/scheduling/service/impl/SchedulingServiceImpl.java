@@ -958,6 +958,9 @@ public class SchedulingServiceImpl implements SchedulingService {
         entity.setEntityCreated(contextInfo);
 
         scheduleRequestSetDao.persist(entity);
+        
+        scheduleRequestSetDao.getEm().flush();
+        
         return entity.toDto();
     }
 
