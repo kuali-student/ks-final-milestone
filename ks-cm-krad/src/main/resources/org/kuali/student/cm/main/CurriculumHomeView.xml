@@ -109,7 +109,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Create a Course"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/courses?methodToCall=docHandler&amp;command=initiate&amp;dataObjectClassName=org.kuali.student.cm.course.form.CourseInfoWrapper&amp;hideReturnLink=true"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/createcourse?viewId=createCourseInitialView&amp;methodtocall=start"/>
             </list>
         </property>
     </bean>

@@ -47,7 +47,6 @@
          @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
         <!--<property name="headerText" value="@{(document.newMaintainableObject.proposal != null and !#empty(document.newMaintainableObject.proposal.name)) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />-->
         <property name="headerText" value="@{(#form.pageId eq 'KS-CourseView-CoursePage') ? #form.headerText : 'Create Course'}" />
-        <property name="entryPageId" value="KS-CourseView-createCourseInitialPage" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
         <property name="breadcrumbOptions.breadcrumbOverrides">
@@ -99,7 +98,6 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-CourseView-createCourseInitialPage" />
                 <ref bean="KS-CourseView-CoursePage"/>
                 <ref bean="KS-CourseView-ReviewProposalPage" />
                 <ref bean="KS-RuleMaintenance-Page-Parent" />

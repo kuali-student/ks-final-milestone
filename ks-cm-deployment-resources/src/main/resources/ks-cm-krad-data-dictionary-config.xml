@@ -26,6 +26,7 @@
 				<!-- KSCM Application Bean Files -->
 				<!-- Curriculum Management Course Info -->
 				<value>classpath:org/kuali/student/cm/main/CourseMaintenanceView.xml</value>
+                <value>classpath:org/kuali/student/cm/main/CreateCourseInitialView.xml</value>
                 <value>classpath:org/kuali/student/cm/main/CourseRuleMaintenance.xml</value>
 				<value>classpath:org/kuali/student/cm/main/CourseViewCourseInfo.xml</value>
 				<value>classpath:org/kuali/student/cm/main/CourseViewGovernance.xml</value>
