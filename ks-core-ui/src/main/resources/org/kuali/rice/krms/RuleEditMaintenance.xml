@@ -206,21 +206,21 @@ limitations under the License.
           p:actionLabel="Add Statement" p:actionScript="ajaxCallPropositionTree('addProposition','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-add-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-plus-1"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-plus-1"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-EditButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Edit" p:actionScript="ajaxCallPropositionTree('goToEditProposition', 'KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-pencil"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
         </property>
     </bean>
 
     <bean id="KRMS-RuleEditorView-GroupButton" parent="KRMS-RuleEditorView-Button"
           p:actionLabel="Create Group" p:actionScript="ajaxCallPropositionTree('togglePropositionSimpleCompound','KRMS-RuleEditor-TreeGroup');">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-fork"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-fork"/>
         </property>
     </bean>
 
@@ -228,7 +228,7 @@ limitations under the License.
           p:actionLabel="Move Out" p:actionScript="ajaxCallPropositionTree('movePropositionLeft','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-left-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-left"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-left"/>
         </property>
     </bean>
 
@@ -236,7 +236,7 @@ limitations under the License.
           p:actionLabel="Move In" p:actionScript="ajaxCallPropositionTree('movePropositionRight','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-right-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-right"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-right"/>
         </property>
     </bean>
 
@@ -244,7 +244,7 @@ limitations under the License.
           p:actionLabel="Move Up" p:actionScript="ajaxCallPropositionTree('movePropositionUp','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-up-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-up"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-up"/>
         </property>
     </bean>
 
@@ -252,7 +252,7 @@ limitations under the License.
           p:actionLabel="Move Down" p:actionScript="ajaxCallPropositionTree('movePropositionDown','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-move-button,kr-down-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-down"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-down"/>
         </property>
     </bean>
 
@@ -260,7 +260,7 @@ limitations under the License.
           p:actionLabel="Copy" p:actionScript="ajaxCopyPropositionTree();"
           p:additionalCssClasses="kr-cut-button,kr-copy-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-docs"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-docs"/>
         </property>
     </bean>
 
@@ -268,7 +268,7 @@ limitations under the License.
           p:actionLabel="Cut" p:actionScript="ajaxCutPropositionTree();"
           p:additionalCssClasses="kr-cut-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-scissors"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-scissors"/>
         </property>
     </bean>
 
@@ -276,7 +276,7 @@ limitations under the License.
           p:actionScript="ajaxPastePropositionTree('pasteProposition', 'KRMS-RuleEditor-TreeGroup');" p:actionLabel="Paste"
           p:additionalCssClasses="kr-paste-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-paste"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-paste"/>
         </property>
     </bean>
 
@@ -284,7 +284,7 @@ limitations under the License.
           p:actionLabel="Delete" p:actionScript="ajaxCallPropositionTree('deleteProposition','KRMS-RuleEditor-TreeGroup');"
           p:additionalCssClasses="kr-delete-button">
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
         </property>
     </bean>
 

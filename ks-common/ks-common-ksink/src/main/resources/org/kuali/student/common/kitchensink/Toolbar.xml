@@ -113,38 +113,38 @@
     <bean id="KS-KitchenSink-ToolBar-Add-parent" parent="KS-Uif-ToolBar-Button">
         <property name="actionLabel" value="Add Course"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-plus-1"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-plus-1"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-ToolBar-Approve-parent" parent="KS-Uif-ToolBar-Button">
         <property name="actionLabel" value="Approve"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-ok"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-ok"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-ToolBar-Delete-parent" parent="KS-Uif-ToolBar-Button">
         <property name="actionLabel" value="Delete"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
         </property>
     </bean>
 
     <bean id="KS-KitchenSink-ToolBar-Draft-parent" parent="KS-Uif-ToolBar-Button">
         <property name="actionLabel" value="Set as Draft"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-doc-text"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-doc-text"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-ToolBar-AddCluster-parent" parent="KS-Uif-ToolBar-Button">
         <property name="actionLabel" value="Add Cluster"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-doc-add"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-doc-add"/>
         </property>
     </bean>
     <bean id="KS-KitchenSink-ToolBar-MoveTo-parent" parent="KS-Uif-ToolBar-Button">
         <property name="actionLabel" value="Move Activity"/>
         <property name="actionImage">
-            <bean parent="Uif-Image" p:source="ks-fontello-icon-right-small"/>
+            <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-right-small"/>
         </property>
     </bean>
 

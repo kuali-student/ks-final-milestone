@@ -494,12 +494,14 @@ function rgbToHex(r, g, b) {
  This function changes the UifImage components to bootsrtap links
  It only converts images that have their styles starting with the word icon
 
- I went back to using src since the style is not rendered in IE.
+ I am now using class since the style is not rendered in IE.
  */
 function addBootstrapImageToLink() {
-    jQuery("img[src^=ks-fontello-icon-]").each(function () {
-        /*Style is not rendered in IE in krad. Use src*/
-        var src = jQuery(this).attr('src');
+    jQuery("img[class*=ks-fontello-icon-]").each(function () {
+        /*Style is not rendered in IE in krad. Use class*/
+        var src = jQuery.grep(this.className.split(" "), function(v, i){
+            return v.indexOf('ks-fontello-icon-') === 0;
+        }).join();
         var parent = jQuery(this).parent();
         if (jQuery(parent).is("span")) {
             parent.addClass(src);
@@ -905,10 +907,14 @@ function handleEventforDisabledElements() {
             jQuery('[data-for=' + id + ']').each(function () {
                 var dataValue = jQuery(this).val();
                 dataValue = dataValue.replace(id, divId);
+                if (jQuery.browser.msie) {
+                    eval("new " + dataValue + ";");
+                } else {
                 eval(dataValue);
+                }
             });
         }
-        jQuery(div).css({"position": "absolute", "top": jQuery(this).offset(top) + "px", "left": jQuery(this).offset().left + "px"});
+        jQuery(div).css({"position": "absolute", "top": jQuery(this).offset(top) + "px", "left": jQuery(this).offset().left + "px", "background": "transparent"});
         jQuery(div).height(jQuery(this).height());
         jQuery(div).width(jQuery(this).width());
         if (jQuery(this).is(':disabled')) {
