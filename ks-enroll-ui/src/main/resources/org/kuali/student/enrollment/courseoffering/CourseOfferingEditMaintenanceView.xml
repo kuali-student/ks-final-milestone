@@ -274,7 +274,7 @@
     </bean>
 
     <bean id="KS-EditCourseOffering-AliasMessageSection" parent="Uif-HorizontalBoxSection">
-        <property name="render" value="@{document.newMaintainableObject.dataObject.editCrossListedCoAlias}"/>
+        <property name="render" value="@{document.newMaintainableObject.dataObject.crossListed}"/>
         <property name="disclosure.render" value="false"/>
         <property name="items" >
             <list>
@@ -282,10 +282,10 @@
                     <property name="items">
                         <list>
                             <bean id="KS-EditCourseOffering-AliasMessage" parent="Uif-Message"
-                                  p:messageText="@{document.newMaintainableObject.dataObject.ownerCode} is a crosslisted alias
+                                  p:messageText="@{document.newMaintainableObject.dataObject.alternateCourseCodesSuffixStripped} is a crosslisted alias
                                             for: @{document.newMaintainableObject.dataObject.courseOfferingCode}. Changes made on
                                             this page to @{document.newMaintainableObject.dataObject.courseOfferingCode} will be applied to all
-                                            aliases, including @{document.newMaintainableObject.dataObject.ownerCode}." />
+                                            aliases, including @{document.newMaintainableObject.dataObject.alternateCourseCodesSuffixStripped}." />
                         </list>
                     </property>
                 </bean>
