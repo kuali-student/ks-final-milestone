@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector) {
+angular.module('regCartApp').factory('loginInterceptor', function ($q, $injector, $window) {
     return {
         'responseError': function (rejection) {
             if (rejection.status === 0) {
