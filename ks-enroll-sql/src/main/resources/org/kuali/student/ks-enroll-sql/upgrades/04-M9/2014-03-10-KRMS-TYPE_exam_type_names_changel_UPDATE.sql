@@ -105,5 +105,4 @@ UPDATE KRMS_TYP_T
  WHERE TYP_ID = (Select TYP_ID
           from krms_typ_t
          where NM = 'kuali.krms.rule.type.final.exam.common')
-/ 
-                      
+/
