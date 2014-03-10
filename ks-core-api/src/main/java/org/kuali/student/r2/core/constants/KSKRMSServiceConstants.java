@@ -43,8 +43,8 @@ public class KSKRMSServiceConstants {
     public static final String AGENDA_TYPE_COURSE_ENROLLMENTELIGIBILITY = "kuali.krms.agenda.type.course.enrollmentEligibility";
     public static final String AGENDA_TYPE_COURSE_CREDITCONSTRAINTS = "kuali.krms.agenda.type.course.creditConstraints";
     public static final String AGENDA_TYPE_SCHEDULE_ELIGIBILITY = "kuali.krms.agenda.type.schedule.eligibility";
-    public static final String AGENDA_TYPE_FINAL_EXAM_STANDARD = "kuali.krms.agenda.type.final.exam.standard";
-    public static final String AGENDA_TYPE_FINAL_EXAM_COMMON = "kuali.krms.agenda.type.final.exam.common";
+    public static final String AGENDA_TYPE_FINAL_EXAM_AO_DRIVEN= "kuali.krms.agenda.type.final.exam.activity.offering.driven";
+    public static final String AGENDA_TYPE_FINAL_EXAM_CO_DRIVEN = "kuali.krms.agenda.type.final.exam.course.offering.driven";
 
     public static final String AGENDA_ATTRIBUTE_FINAL_EXAM_OWNER_TERM_TYPE = "kuali.krms.agenda.attribute.owner.term.type";
 
@@ -64,8 +64,8 @@ public class KSKRMSServiceConstants {
     public static final String RULE_TYPE_PROGRAM_ENTRANCE = "kuali.krms.rule.type.program.entrance";
     public static final String RULE_TYPE_PROGRAM_SATISFACTORYPROGRESS = "kuali.krms.rule.type.program.satisfactoryProgress";
     public static final String RULE_TYPE_SCHEDULE_ELIGIBILITY = "kuali.krms.rule.type.schedule.eligibility";
-    public static final String RULE_TYPE_FINAL_EXAM_STANDARD = "kuali.krms.rule.type.final.exam.standard";
-    public static final String RULE_TYPE_FINAL_EXAM_COMMON = "kuali.krms.rule.type.final.exam.common";
+    public static final String RULE_TYPE_FINAL_EXAM_AO_DRIVEN = "kuali.krms.rule.type.final.exam.activity.offering.driven";
+    public static final String RULE_TYPE_FINAL_EXAM_CO_DRIVEN = "kuali.krms.rule.type.final.exam.course.offering.driven";
 
     // proposition types
     public static final String PROPOSITION_TYPE_SUCCESS_COMPL_COURSE = "kuali.krms.proposition.type.success.compl.course";
