@@ -9,12 +9,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         $scope.registeredCredits = ScheduleService.getRegisteredCredits;
         $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
 
-        $scope.dropRegGroup = function (index) {
-            console.log('Test !!! ' + index);
-            $scope.schedules[0].courseOfferings.splice(index, 1);
-        };
-
-        $scope.openDropConfirmation = function (index, course) {
+/*        $scope.openDropConfirmation = function (index, course) {
             console.log('Open drop confirmation');
             $modal.open({
                 backdrop: 'static',
@@ -57,7 +52,31 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(credits));
                 $scope.userMessage = {txt: 'Dropped ' + courseCode + ' (' + regGroupCode + ') successfully', type: 'success'};
             });
-        }
+        }           */
+
+        $scope.openDropConfirmation = function (index, course) {
+            console.log('Open drop confirmation');
+            course.dropping = true;
+            $scope.index = index;
+            $scope.course = course;
+        };
+
+        $scope.cancelDropConfirmation = function (course) {
+            course.dropping = false;
+        };
+
+        $scope.dropRegistrationGroup = function (index, course) {
+            console.log('Open drop confirmation');
+            ScheduleService.dropRegistrationGroup().query({
+                userId: 'admin',
+                masterLprId: course.masterLprId
+            }, function () {
+                course.dropping = false;
+                $scope.schedules[0].courseOfferings.splice(index, 1);
+                ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(course.credits));
+                $scope.userMessage = {txt:course.courseCode + ' dropped Successfully', type:'success'};
+            });
+        };
 
         $scope.editScheduleItem = function (course) {
             $scope.newCredits = course.credits;

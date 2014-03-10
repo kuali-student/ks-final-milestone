@@ -16,6 +16,16 @@
     <div ng-repeat="schedule in schedules">
     <accordion close-others="oneAtATime">
         <accordion-group  ng-repeat="course in schedule.courseOfferings" is-open="isopen">
+            <div class="__Container" style="position: relative;">
+                <div class="__Background" ng-show="course.dropping" style="position:absolute;
+            width:55em;
+            height:15em;
+                                                top:-90px;
+                                                left:-15px;
+                                                bottom:0px;
+                                                background-color: red;
+                                                opacity: .25;
+                                                z-index:90;"></div>
             <accordion-heading>
                 <!--credits-->
                 <div id="course_info_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Card-supportText" ng-hide="cartItem.editing">
@@ -59,7 +69,8 @@
                           </span>
                 </div>
             </div>
-            <!-- Cart Change Section: Credits, Grading, and Save -->
+
+            <!-- Schedule Item Change Section: Credits, Grading, and Save -->
             <div class="kscr-Card-detailsText" ng-show="course.editing">
                 <form ng-submit="updateScheduleItem(course, newCredits, newGrading)">
                     <div>
@@ -82,6 +93,30 @@
                     </div>
                 </form>
             </div>
+
+            <!--  Schedule Item Drop Section -->
+            <div class="kscr-DropCourse" ng-show="course.dropping" style="
+                position: absolute;
+                width:100%;
+                top:0px;
+                left:0px;
+                bottom:0px;
+                background-color: white;
+                z-index:100;">
+                <form ng-submit="dropRegistrationGroup(index, course)">
+                    <div class="kscr-DropCourse-content" ng-show="course.dropping">
+                        <div>
+                            Drop Course <b>{{course.courseCode}} ({{course.regGroupCode}})</b>?
+                        </div>
+                        <div class="kscr-DropCourse-buttons">
+                            <button id="dropRegGroup_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="submit">Confirm Drop</button>
+                            <button id="dropRegGroupCancel" class="kscr-Button" type="button" ng-click="cancelDropConfirmation(course)">Cancel</button>
+                        </div>
+                    </div>
+                </form>
+              </div>
+
+                </div>
         </accordion-group>
     </accordion>
     </div>
