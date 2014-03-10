@@ -111,6 +111,16 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
                     if(aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)) {
                         StatusInfo status = coService.scheduleActivityOffering(aoInfo.getId(), contextInfo);
                         log("\t...scheduleActivityOffering returned with a status of ", status.getIsSuccess(), " , message=", status.getMessage());
+
+                        //perform AO state change
+                        if (status.getIsSuccess()){
+                            StatusInfo statusInfo = coService.changeActivityOfferingState(aoInfo.getId(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, contextInfo);
+                            if (!statusInfo.getIsSuccess()){
+                                log("\t...Error updating Activity offering state to " + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + " " + statusInfo);
+                            }
+                        } else {
+                            log("\t...Error scheduling Activity offering: " + aoInfo.getActivityCode() + " " + status);
+                        }
                     }
                     else {
                         log("\t...Activity Offering not sent to scheduler, not in a valid state to schedule: ", aoInfo.getStateKey());
