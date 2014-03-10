@@ -314,10 +314,8 @@ public class CourseOfferingManagementToolbarUtil {
     private static boolean checkBzLogicForCOButtons(String socState, String socSchedulingState, String coStateKey, String actionEvent){
         boolean bzEnableButton = false;
         if(StringUtils.equals(actionEvent, "approveCO")) {
-            if((StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) || StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY)) &&
-                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                            StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                            isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
+            //Approve CO button is enabled under all SOC states as long as CO is in Draft/Planned state
+            if((StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_DRAFT_KEY) || StringUtils.equals(coStateKey, LuiServiceConstants.LUI_CO_STATE_PLANNED_KEY))){
                 bzEnableButton = true;
             }
         } else if (StringUtils.equals(actionEvent, "addCO")) {
@@ -332,16 +330,17 @@ public class CourseOfferingManagementToolbarUtil {
     private static boolean checkBzLogicForAOButtons(String socState, String socSchedulingState, String aoStateKey, String actionEvent){
         boolean bzEnableButton = false;
         if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_APPROVE)) {
-            if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) &&
-                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
-                            StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY) ||
-                            isSOCLockedAndMSEInProgress(socState, socSchedulingState))){
+            //Approve AO button is enabled under all SOC states as long as AO is in Draft state
+            if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY)){
                 bzEnableButton = true;
             }
         } else if (StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_ADD)) {
             bzEnableButton = true;
         } else if (StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SET_DRAFT)) {
-            if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)){
+            if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) &&
+                    (StringUtils.equals(socState, CourseOfferingSetServiceConstants.OPEN_SOC_STATE_KEY) ||
+                            StringUtils.equals(socState, CourseOfferingSetServiceConstants.DRAFT_SOC_STATE_KEY)||
+                            isSOCLockedPreMSE(socState, socSchedulingState))){
                 bzEnableButton = true;
             }
         } else if (StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_DELETE)) {
@@ -352,9 +351,9 @@ public class CourseOfferingManagementToolbarUtil {
             bzEnableButton = true;
         } else if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_CANCEL)){
             if(StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY) ||
-               StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
-               StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
-               StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)){
+                    StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_DRAFT_KEY) ||
+                    StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY) ||
+                    StringUtils.equals(aoStateKey, LuiServiceConstants.LUI_AO_STATE_SUSPENDED_KEY)){
                 bzEnableButton = true;
             }
         } else if(StringUtils.equals(actionEvent, ActivityOfferingConstants.ACTIVITYOFFERING_ACTION_SUSPEND)){
@@ -392,5 +391,14 @@ public class CourseOfferingManagementToolbarUtil {
             socLockedAndMSEInProgress = true;
         }
         return socLockedAndMSEInProgress;
+    }
+
+    private static boolean isSOCLockedPreMSE(String socState, String socSchedulingState){
+        boolean socLockedPreMSE = false;
+        if(StringUtils.equals(socState, CourseOfferingSetServiceConstants.LOCKED_SOC_STATE_KEY) &&
+                StringUtils.equals(socSchedulingState, CourseOfferingSetServiceConstants.SOC_SCHEDULING_STATE_NOT_STARTED)){
+            socLockedPreMSE = true;
+        }
+        return socLockedPreMSE;
     }
 }
