@@ -44,7 +44,7 @@ limitations under the License.
                   value="org.kuali.student.enrollment.class1.krms.dto.FERuleManagementWrapper"/>
         <property name="viewHelperServiceClass"
                   value="org.kuali.student.enrollment.class1.krms.service.impl.FERuleViewHelperServiceImpl"/>
-        <property name="headerText" value="Final Exam Matrix"/>
+        <property name="headerText" value="Standard Final Exam Matrix"/>
         <property name="authorizer">
             <bean class="org.kuali.student.enrollment.main.view.KsViewAuthorizerBase"/>
         </property>
@@ -202,9 +202,9 @@ limitations under the License.
                       p:style="margin-top:-25px" p:forceSessionPersistence="true">
                     <property name="agendaPrototypeMap">
                         <map>
-                            <entry key="kuali.krms.agenda.type.final.exam.standard"
+                            <entry key="kuali.krms.agenda.type.final.exam.activity.offering.driven"
                                    value-ref="KSFE-RuleTable-Standard"/>
-                            <entry key="kuali.krms.agenda.type.final.exam.common" value-ref="KSFE-RuleTable-Common"/>
+                            <entry key="kuali.krms.agenda.type.final.exam.course.offering.driven" value-ref="KSFE-RuleTable-Common"/>
                         </map>
                     </property>
                 </bean>

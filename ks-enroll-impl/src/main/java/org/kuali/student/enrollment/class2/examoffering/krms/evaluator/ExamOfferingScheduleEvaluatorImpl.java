@@ -88,7 +88,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
 
         //Retrieve the matrix for the specific term type.
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
-                PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_STANDARD);
+                PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_AO_DRIVEN);
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
         if (agenda == null) {
             userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, null, context);
@@ -158,7 +158,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
                                            ContextInfo context) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
-                PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_COMMON);
+                PermissionServiceConstants.KS_SYS_NAMESPACE, KSKRMSServiceConstants.AGENDA_TYPE_FINAL_EXAM_CO_DRIVEN);
         Agenda agenda = getAgendaForRefObjectId(termType, typeDefinition);
 
         if (agenda != null) {
