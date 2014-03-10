@@ -49,12 +49,14 @@
         <property name="headerText" value="@{(#form.pageId eq 'KS-CourseView-CoursePage') ? #form.headerText : 'Create Course'}" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
-        <property name="breadcrumbOptions.breadcrumbOverrides">
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
+<!--
                 <ref bean="KS-HomewardPathBreadcrumbs-NewCourse"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-NewCourse-information"/>
+-->
             </list>
         </property>
         <property name="header.lowerGroup" >
@@ -191,7 +193,7 @@
                     <property name="tabsWidget.position" value="LEFT"/>
                 </bean>
                 <ref bean="KS-CourseView-ReviewLink"/>
-                <ref bean="KS-CreateCourse-NavigationConfirmation"/>
+                <!--<ref bean="KS-CreateCourse-NavigationConfirmation"/>-->
             </list>
         </property>
     </bean>
@@ -206,8 +208,7 @@
             <list>
                 <bean parent="Uif-ActionLink"
                       p:methodToCall="reviewCourseProposal"
-                      p:actionLabel="Review Proposal"
-                      p:preSubmitCall="return onCourseCancel();"/>
+                      p:actionLabel="Review Proposal" />
             </list>
         </property>
     </bean>

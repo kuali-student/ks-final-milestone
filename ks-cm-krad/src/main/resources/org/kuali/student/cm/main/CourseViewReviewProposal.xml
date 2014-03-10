@@ -22,16 +22,21 @@
     <bean id="KS-CourseView-ReviewProposalPage" parent="Uif-MaintenancePage"  p:style="margin-left: -18px;"
           p:headerText="Review Proposal"
           p:disclosure.render="false">
-        <property name="header" ref="KS-CourseView-ReviewProposal-Header" />
-        <property name="breadcrumbOptions.breadcrumbOverrides">
+        <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse-information"/>
+            </list>
+        </property>
+        <property name="breadcrumbOptions.breadcrumbOverrides">
+            <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-ReviewProposal-Page"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="updateStickyHeaderText('@{#form.proposalName}', '@{#form.curriculumSpecialist}');"/>
 
+        <property name="onDocumentReadyScript" value="updateStickyHeaderText('@{#form.proposalName}', '@{#form.curriculumSpecialist}');"/>
+        <property name="header" ref="KS-CourseView-ReviewProposal-Header" />
         <property name="items">
             <list>
                 <ref bean="KS-CourseView-ReviewProposal-Section"/>
@@ -544,29 +549,6 @@
     </bean>
 
     <bean id="KS-CourseView-ReviewProposal-Header" parent="Uif-HeaderOne" p:style="margin-bottom: 20px;" p:render="false">
-        <property name="upperGroup">
-            <bean parent="Uif-VerticalBoxGroup">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-VerticalBoxGroup" >
-                            <property name="items">
-                                <list>
-                                    <bean parent="Uif-HeaderOne" p:style="margin-top: 20px; margin-left: -4px; min-height: 46px;">
-                                        <property name="cssClasses">
-                                            <list merge="true">
-                                                <value>uif-viewHeader-contentWrapper</value>
-                                                <value>uif-create-course-initial-page-header-contentWrapper</value>
-                                            </list>
-                                        </property>
-                                        <property name="headerText" value="Review Proposal"/>
-                                    </bean>
-                                </list>
-                            </property>
-                        </bean>
-                    </list>
-                </property>
-            </bean>
-        </property>
     </bean>
 
     <bean id="KS-CourseView-ReviewProposal-Footer" parent="Uif-FooterBase">
@@ -589,7 +571,7 @@
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
-        <property name="label" value="Review Proposal"></property>
+        <property name="label" value="@{#form.proposalName}: Review Proposal"></property>
     </bean>
 
 </beans>
