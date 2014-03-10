@@ -642,9 +642,7 @@ public class CourseController extends CourseRuleEditorController {
         reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
         reviewData.getcourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
-        if(savedCourseInfo.getInstructors().size() > 0)  {
 
-        }
         // Update governance section
         reviewData.getgovernanceSection().getCampusLocations().clear();
         reviewData.getgovernanceSection().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
