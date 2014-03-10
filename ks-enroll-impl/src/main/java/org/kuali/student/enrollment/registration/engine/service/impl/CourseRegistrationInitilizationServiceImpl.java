@@ -240,7 +240,10 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         Date now = new Date();
         for (LprInfo lprInfo : lprInfos) {
             lprInfo.setStateKey(LprServiceConstants.DROPPED_STATE_KEY);
-            lprInfo.setExpirationDate(now); // KSENROLL-12155
+            if (lprInfo.getExpirationDate() == null) {
+                // Only update expiration if it's not already set
+                lprInfo.setExpirationDate(now); // KSENROLL-12155
+            }
             lprInfo = getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
             resultLprInfos.add(lprInfo);
         }
