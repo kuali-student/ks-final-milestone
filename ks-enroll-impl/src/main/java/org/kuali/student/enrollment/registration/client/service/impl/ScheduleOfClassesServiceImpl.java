@@ -63,7 +63,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public Response restfulSearchForCourseOfferings(String termId, String termCode, String courseCode) {
+    public Response searchForCourseOfferingsRS(String termId, String termCode, String courseCode) {
         Response.ResponseBuilder response;
 
         try {
@@ -88,7 +88,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
     }
 
     @Override
-    public Response restfulSearchForCourseOfferingsAndPrimaryAosByTermAndCourse(String termId, String termCode, String courseCode) {
+    public Response searchForCourseOfferingsAndPrimaryAosByTermAndCourseRS(String termId, String termCode, String courseCode) {
         Response.ResponseBuilder response;
 
         try {
@@ -108,7 +108,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public Response restfulSearchForRegistrationGroups(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) {
+    public Response searchForRegistrationGroupsRS(String courseOfferingId, String termId, String termCode, String courseCode, String regGroupName) {
         Response.ResponseBuilder response;
 
         try {
@@ -139,7 +139,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public Response restfulSearchForActivityOfferings(String courseOfferingId, String termId, String termCode, String courseCode) {
+    public Response searchForActivityOfferingsRS(String courseOfferingId, String termId, String termCode, String courseCode) {
         Response.ResponseBuilder response;
 
         try {
@@ -159,7 +159,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public Response restfulSearchForActivityTypes(String courseOfferingId, String termId, String termCode, String courseCode) {
+    public Response searchForActivityTypesRS(String courseOfferingId, String termId, String termCode, String courseCode) {
         Response.ResponseBuilder response;
 
         try {
@@ -179,7 +179,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public Response restfulSearchForInstructors(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) {
+    public Response searchForInstructorsRS(String courseOfferingId, String activityOfferingId, String termId, String termCode, String courseCode) {
         Response.ResponseBuilder response;
 
         try {
@@ -199,7 +199,7 @@ public class ScheduleOfClassesServiceImpl implements ScheduleOfClassesService {
      */
 
     @Override
-    public Response restfulSearchForTerms(String termCode, boolean isActiveTerms) {
+    public Response searchForTermsRS(String termCode, boolean isActiveTerms) {
         Response.ResponseBuilder response;
 
         try {

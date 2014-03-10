@@ -64,7 +64,7 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/courseofferings")
-    public Response restfulSearchForCourseOfferings(@QueryParam("termId") String termId,
+    public Response searchForCourseOfferingsRS(@QueryParam("termId") String termId,
                                                     @QueryParam("termCode") String termCode,
                                                     @QueryParam("courseCode") String courseCode);
 
@@ -107,7 +107,7 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/courseofferings/primaryactivities")
-    public Response restfulSearchForCourseOfferingsAndPrimaryAosByTermAndCourse(@QueryParam("termId") String termId,
+    public Response searchForCourseOfferingsAndPrimaryAosByTermAndCourseRS(@QueryParam("termId") String termId,
                                                                                 @QueryParam("termCode") String termCode,
                                                                                 @QueryParam("courseCode") String courseCode);
 
@@ -132,7 +132,7 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/reggroups")
-    public Response restfulSearchForRegistrationGroups(@QueryParam("courseOfferingId") String courseOfferingId,
+    public Response searchForRegistrationGroupsRS(@QueryParam("courseOfferingId") String courseOfferingId,
                                                        @QueryParam("termId") String termId,
                                                        @QueryParam("termCode") String termCode,
                                                        @QueryParam("courseCode") String courseCode,
@@ -172,7 +172,7 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/activityofferings")
-    public Response restfulSearchForActivityOfferings(@QueryParam("courseOfferingId") String courseOfferingId,
+    public Response searchForActivityOfferingsRS(@QueryParam("courseOfferingId") String courseOfferingId,
                                                       @QueryParam("termId") String termId,
                                                       @QueryParam("termCode") String termCode,
                                                       @QueryParam("courseCode") String courseCode);
@@ -194,7 +194,7 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/activitytypes")
-    public Response restfulSearchForActivityTypes(@QueryParam("courseOfferingId") String courseOfferingId,
+    public Response searchForActivityTypesRS(@QueryParam("courseOfferingId") String courseOfferingId,
                                                   @QueryParam("termId") String termId,
                                                   @QueryParam("termCode") String termCode,
                                                   @QueryParam("courseCode") String courseCode);
@@ -220,7 +220,7 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/instructors")
-    public Response restfulSearchForInstructors(@QueryParam("courseOfferingId") String courseOfferingId,
+    public Response searchForInstructorsRS(@QueryParam("courseOfferingId") String courseOfferingId,
                                                 @QueryParam("activityOfferingId") String activityOfferingId,
                                                 @QueryParam("termId") String termId,
                                                 @QueryParam("termCode") String termCode,
@@ -239,7 +239,7 @@ public interface ScheduleOfClassesService {
     @GET
     @Produces({MediaType.APPLICATION_JSON})
     @Path("/terms")
-    public Response restfulSearchForTerms(@QueryParam("termCode") String termCode,
+    public Response searchForTermsRS(@QueryParam("termCode") String termCode,
                                           @QueryParam("active") boolean isActiveTerms);
 
     /**

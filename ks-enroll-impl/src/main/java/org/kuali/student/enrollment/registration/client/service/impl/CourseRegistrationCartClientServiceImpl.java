@@ -302,12 +302,12 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
-    public Response updateCartItemRS(String cartId, String cartItemId, String credits, String grading) {
+    public Response updateCartItemRS(String cartId, String cartItemId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
         try {
             //This will need to be changed to the cartItemResponse object in the future!
-            response = Response.ok(updateCartItem(ContextUtils.createDefaultContextInfo(), cartId, cartItemId, credits, grading));
+            response = Response.ok(updateCartItem(ContextUtils.createDefaultContextInfo(), cartId, cartItemId, credits, gradingOptionId));
         } catch (Throwable t) {
             LOGGER.warn("Exception occurred", t);
             response = Response.serverError().entity(t.getMessage());
@@ -318,7 +318,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
     @Override
     //This will need to be changed to the cartItemResponse object in the future!
-    public CartItemResult updateCartItem(ContextInfo contextInfo, String cartId, String cartItemId, String credits, String grading) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
+    public CartItemResult updateCartItem(ContextInfo contextInfo, String cartId, String cartItemId, String credits, String gradingOptionId) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
 
         //Get the Cart from services
         RegistrationRequestInfo cartRegistrationRequest = getCourseRegistrationService().getRegistrationRequest(cartId, contextInfo);
@@ -333,7 +333,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             if (StringUtils.equals(cartItemId, requestItem.getId())) {
                 //Set the Item registration options
                 requestItem.setCredits(new KualiDecimal(credits));
-                requestItem.setGradingOptionId(grading);
+                requestItem.setGradingOptionId(gradingOptionId);
 
                 //Save the newly updated cart
                 cartRegistrationRequest = getCourseRegistrationService().updateRegistrationRequest(cartRegistrationRequest.getId(), cartRegistrationRequest, contextInfo);
@@ -347,6 +347,19 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
+    public Response getStudentRegistrationOptionsRS(String courseCode, String termId, String regGroupId) {
+        Response.ResponseBuilder response;
+
+        try {
+            response = Response.ok(getStudentRegistrationOptions(courseCode, termId, regGroupId));
+        } catch (Throwable t) {
+            LOGGER.warn("Exception occurred", t);
+            response = Response.serverError().entity(t.getMessage());
+        }
+
+        return response.build();
+    }
+
     public RegistrationOptionResult getStudentRegistrationOptions(String courseCode, String termId, String regGroupId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<CourseSearchResult> courses = CourseRegistrationAndScheduleOfClassesUtil.getScheduleOfClassesService().searchForCourseOfferingsByTermIdAndCourse(termId, courseCode);
         CourseSearchResult exactMatch = new CourseSearchResult();
@@ -366,7 +379,6 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
         return registrationOptionResult;
 
-
     }
 
     @Override
@@ -384,7 +396,6 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return response.build();
     }
 
-    @Override
     @Transactional
     public CartResult searchForCart(ContextInfo contextInfo, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         if (termId == null) {
