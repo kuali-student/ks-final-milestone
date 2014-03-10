@@ -66,6 +66,7 @@ public class CreateCourseInitialController  extends UifControllerBase {
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
+        Boolean isUseReviewProcess = maintenanceDocForm.isUseReviewProcess();
         Properties urlParameters = new Properties();
         if (maintenanceDocForm.isCurriculumSpecialist() && !maintenanceDocForm.isUseReviewProcess()){
             urlParameters.put(KRADConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
@@ -75,7 +76,7 @@ public class CreateCourseInitialController  extends UifControllerBase {
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, RETURN_LOCATION_PARAMETER );
-
+        urlParameters.put("UseReviewProcess",isUseReviewProcess.toString() );
         String uri = request.getRequestURL().toString().replace("createcourse","courses");
 
         return performRedirect(form, uri, urlParameters);

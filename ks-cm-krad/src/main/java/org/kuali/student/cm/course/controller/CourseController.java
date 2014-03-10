@@ -176,7 +176,10 @@ public class CourseController extends CourseRuleEditorController {
 
     @Override
     protected CreateCourseForm createInitialForm(HttpServletRequest request) {
-        return new CreateCourseForm();
+        Boolean isUseReviewProcess = new Boolean(request.getParameter("UseReviewProcess")) ;
+        CreateCourseForm courseForm= new CreateCourseForm();
+        courseForm.setUseReviewProcess(isUseReviewProcess);
+        return courseForm;
     }
     
     /**
