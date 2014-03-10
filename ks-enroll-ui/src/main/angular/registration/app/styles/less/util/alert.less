@@ -6,11 +6,12 @@
   cursor: hand;
 }
 
+
 .util-Alert {
     border: 1px solid;
     border-radius: 2px;
 //    padding: 0.5rem 0;
-    padding: 10px;
+    padding: 10px 10px 10px 25px;
     margin: .5em;
     //color: #3B723B;
     font-family: 'Open Sans', sans-serif;
@@ -19,13 +20,20 @@
 }
 
 .util-Alert--success {
+    background-image: url("../images/validation/success.png");
+    background-repeat: no-repeat;
+    background-position: calc(1%) center;
     background-color: @successBackground;   // #dff0d8;
     border-color: @successBorder;  //#D6E9C6;
     color: @successText; // #3B723B;
     text-shadow: 0 .5px #fff;
+
 }
 
 .util-Alert--information {
+    background-image: url("../images/validation/info.png");
+    background-repeat: no-repeat;
+    background-position: calc(1%) center;
     background-color: @infoText; //#D9EDF7;
     border-color: @infoText;  //#BCE8F1;
     color: @infoText; //#2A617D;
@@ -33,6 +41,10 @@
 }
 
 .util-Alert--warning {
+    background-image: url("../images/validation/warning.png");
+    background-repeat: no-repeat;
+     background-position: calc(1%) center;
+    //background-position: left center;
     background-color: @warningBackground; //#FCF8E3;
     border-color: @warningBorder;  //#FBEED5;
     color: @warningText; //#83652E;
@@ -41,6 +53,9 @@
 
 
 .util-Alert--error {
+    background-image: url("../images/validation/error.png");
+    background-repeat: no-repeat;
+    background-position: calc(1%) center;
     background-color: @errorBackground; //#F2DEDE;
     border-color: @errorBorder;  //#EFD3D7;
     color: @errorText; //#A3403C;
