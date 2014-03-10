@@ -26,7 +26,7 @@
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
                 <ref bean="KS-HomewardPathBreadcrumbs-CurriculumManagement"/>
-                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse-information"/>
+                <ref bean="KS-HomewardPathBreadcrumbs-NewCourse"/>
             </list>
         </property>
         <property name="breadcrumbOptions.breadcrumbOverrides">

@@ -49,6 +49,7 @@
         <property name="headerText" value="@{(#form.pageId eq 'KS-CourseView-CoursePage') ? #form.headerText : 'Create Course'}" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
+        <property name="applyDirtyCheck" value="true" />
         <property name="breadcrumbOptions.homewardPathBreadcrumbs">
             <list>
                 <ref bean="KS-HomewardPathBreadcrumbs-Home"/>
@@ -208,7 +209,8 @@
             <list>
                 <bean parent="Uif-ActionLink"
                       p:methodToCall="reviewCourseProposal"
-                      p:actionLabel="Review Proposal" />
+                      p:actionLabel="Review Proposal"
+                      p:performDirtyValidation="true"  />
             </list>
         </property>
     </bean>
