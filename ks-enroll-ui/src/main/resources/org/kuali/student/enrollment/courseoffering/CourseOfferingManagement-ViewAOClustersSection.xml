@@ -76,7 +76,7 @@
                       p:errorCallback="jQuery('div[id=KS-CourseOfferingManagement-RenameAOCPopupForm]:gt(0)').detach();"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="renameCluster">
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="ks-fontello-icon-pencil"/>
+                        <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-pencil"/>
                     </property>
                 </bean>
                 <!--<bean parent="Uif-Label" p:labelText="&#160;&#160;|&#160;&#160;" p:renderColon="false" p:style="float:right"/>-->
@@ -86,7 +86,7 @@
                       p:actionLabel="Delete"  p:style="float:right;"
                       p:componentSecurity.performActionAuthz="true" p:actionEvent="deleteCluster">
                     <property name="actionImage">
-                        <bean parent="Uif-Image" p:source="ks-fontello-icon-cancel"/>
+                        <bean parent="Uif-Image" p:source="" p:cssClasses="ks-fontello-icon-cancel"/>
                     </property>
                 </bean>
             </list>

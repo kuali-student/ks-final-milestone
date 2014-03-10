@@ -181,7 +181,7 @@
                                   p:actionLabel="@{previousCourseOfferingWrapper != null ? previousCourseOfferingWrapper.courseOfferingCode : ''}"
                                   p:render="@{previousCourseOfferingWrapper != null}" p:id="LoadPrev">
                                 <property name="actionImage">
-                                    <bean parent="Uif-Image" p:altText="" p:source="ks-fontello-icon-angle-left"/>
+                                    <bean parent="Uif-Image" p:altText="" p:source="" p:cssClasses="ks-fontello-icon-angle-left"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-Label" p:labelText="|" p:renderColon="false" p:render="@{previousCourseOfferingWrapper != null}"/>
@@ -197,7 +197,7 @@
                                     </map>
                                 </property>
                                 <property name="actionImage">
-                                    <bean parent="Uif-Image" p:altText="" p:source="ks-fontello-icon-angle-right"/>
+                                    <bean parent="Uif-Image" p:altText="" p:source="" p:cssClasses="ks-fontello-icon-angle-right"/>
                                 </property>
                             </bean>
                         </list>
