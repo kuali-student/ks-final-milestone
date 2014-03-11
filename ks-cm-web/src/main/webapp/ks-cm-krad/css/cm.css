@@ -149,7 +149,6 @@
     margin-left: 20px;
 }
 
-
 /*
  *   Create Course tab styling
  */
@@ -167,7 +166,69 @@
     border: 0;  /* Remove the border/line from the top of the sections */
 }
 
- #course_tabs_tabs .ui-tabs-nav li {
+.course_tabs_header_text {
+    font-family: 'Lato', sans-serif;
+}
+
+/* The words at the top of the tab panel */
+#course_tabs_header {
+    position: fixed;
+    margin-top: 15px;
+}
+#course_tabs_header h4 {
+	padding: 0px;
+}
+
+/* Arrange the words at the bottom of the tab panel */
+#course_tabs_footer_header {
+    margin-top: 20px;
+}
+
+#KS-CourseView-ReviewProposalLink a {
+	margin-left: 22px;
+}
+
+/*
+ * Make the yellow bar that the CS gets and the validation messages only extend across the top of the tap and
+ * not the tab panel itself.
+ */
+#KS-CourseView-AdminMessageGroup, #KS-CourseView-CoursePage > .uif-validationMessages {
+    margin-left: 240px;
+}
+#KS-CourseView-CoursePage > .uif-validationMessages {
+    margin-bottom: 0px;
+}
+#S-CourseView-AdminMessageGroup {
+    margin-top: 12px;
+    margin-bottom: 0px;
+}
+
+#KS-CourseView-Admin-Message-TreeExpandCollapse {
+    margin-left: 0px;
+}
+
+#course_tabs .ks-uif-footer div {
+	float: none;
+}
+
+/**
+ * Fix positions of nav elements
+ */
+#KS-CourseView-ReviewProposalLink {
+    position: fixed;
+}
+
+#course_tabs_tabList {
+    position: fixed;
+    margin-top: 12px;
+}
+
+/* The background hides the TabGroup Header when it's position: fixed; */
+#course_tabs_tabs {
+    background: none;
+}
+
+#course_tabs_tabs .ui-tabs-nav li {
     /* Make the left corners round the the right ones square*/
 	-moz-border-radius-bottomleft: 5px;
     -moz-border-radius-topleft: 5px;

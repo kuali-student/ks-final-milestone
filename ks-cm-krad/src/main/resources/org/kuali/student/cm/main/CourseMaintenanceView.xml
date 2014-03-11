@@ -61,7 +61,7 @@
             </list>
         </property>
         <property name="header.lowerGroup" >
-            <bean parent="Uif-LinkGroup" p:linkSeparator="|" p:render="@{#form.pageId eq 'KS-CourseView-CoursePage'}">
+            <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|" p:render="@{#form.pageId eq 'KS-CourseView-CoursePage'}">
                 <property name="items">
                     <list>
                         <bean parent="Uif-DataField" p:label="Proposal Status"
@@ -169,7 +169,7 @@
                 <bean parent="KS-CourseView-CurriculumSpecialistFooter" p:render="@{#form.curriculumSpecialist}"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist});"/>
+        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist})"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
@@ -192,17 +192,49 @@
                         </value>
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>
+                    <property name="propertyReplacers">
+                        <list>
+                            <!-- Only render the tab group header for regular (non-admin) proposals -->
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="header" p:condition="@{! #form.adminProposal}">
+                                <property name="replacement">
+                                    <bean id="course_tabs_header" parent="Uif-HeaderFour">
+                                        <property name="headerText" value="1. Define Course" />
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>course_tabs_header_text</value>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="@{! #form.adminProposal}">
+                                <property name="replacement">
+                                    <bean parent="Uif-FooterBase">
+                                        <property name="items">
+                                            <list>
+                                                <ref bean="KS-CourseView-ReviewProposalLink"/>
+                                            </list>
+                                        </property>
+                                    </bean>
+                                </property>
+                            </bean>
+                        </list>
+                    </property>
                 </bean>
-                <ref bean="KS-CourseView-ReviewLink"/>
             </list>
         </property>
     </bean>
 
-    <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
-        <property name="cssClasses">
-            <list merge="true">
-                <value>ks-header</value>
-            </list>
+    <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{! #form.adminProposal}">
+        <property name="header">
+            <bean id="course_tabs_footer_header" parent="Uif-HeaderFour">
+                <property name="headerText" value="2. Review and Submit" />
+                <property name="cssClasses">
+                    <list merge="true">
+                        <value>course_tabs_header_text</value>
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
@@ -227,13 +259,12 @@
             <ref bean="Uif-HeaderLowerGroup"/>
         </property>
         <property name="upperGroup">
-            <bean parent="Uif-VerticalBoxGroup">
+            <bean id="KS-CourseView-AdminMessageGroup" parent="Uif-VerticalBoxGroup">
                 <property name="items">
                     <list>
                         <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
                               p:showLabel="false" p:render="@{#form.curriculumSpecialist}"
                               p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
-                            <property name="style" value="display: inline-block; margin: 10px; width: 94%;" />
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-Message" p:id="Create-CourseView-Admin-Message"

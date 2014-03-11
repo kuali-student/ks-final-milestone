@@ -1,62 +1,119 @@
 /**
  * SCRIPT METHODS USED BY MULTIPLE .JS FILES
  */
+function onCourseLoad(isCurriculumSpecialist) {
+    if (isCurriculumSpecialist) {
+        initializeForCurriculumSpecialist();
+    }
+
+    fixLeftNavElementPositioning();
+}
+
+/**
+ * Do fixed positioning of left nav elements.
+ */
+function fixLeftNavElementPositioning() {
+
+    // First find the lowest element.
+    var anchorElement = getAnchorElement();
+
+    if (anchorElement.length == 0) {
+        console.error('Unable to find an anchor element. Nav elements were not positioned correctly.');
+        return;
+    }
+
+    var anchorBottom = getBottom(anchorElement);
+
+    var tabPanelHeader = jQuery("#course_tabs_header");
+    var tabPanel = jQuery("#course_tabs_tabList");
+    var tabPanelFooter = jQuery("#KS-CourseView-ReviewProposalLink");
+
+    if (tabPanel.length == 0) {
+        console.error('Unable to find the tab panel. Nav elements were not positioned correctly.');
+        return;
+    }
+
+    if (tabPanelHeader.length != 0) {
+        tabPanelHeader.css({ top: anchorBottom });
+        anchorElement = tabPanelHeader;
+        anchorBottom = getBottom(anchorElement);
+    }
+
+    tabPanel.css({top: anchorBottom});
+
+    if (tabPanelFooter.length != 0) {
+        anchorBottom = getBottom(tabPanel);
+        tabPanelFooter.css({ top: anchorBottom });
+    }
+}
+
+/**
+ * Determine the position of the bottom of an element.
+ * @param e An element.
+ * @returns The bottom position of the given element.
+ */
+function getBottom(e) {
+    return e.offset().top + parseInt(e.css( "height" ).replace('px', ''));
+}
+
+/**
+ * The element to align the left nav under.
+ * @returns The element.
+ */
+function getAnchorElement() {
+   return jQuery("#KS-CourseView-LinkGroup");
+}
 
 /*
  * Used to keep track of the currently selected tab when scrolling in Curriculum Specialist view.
  */
 var focusedTab;
 
-function onCourseLoad(isCurriculumSpecialist) {
-    //  Make the tab panel fixed/sticky.
-    jQuery("#course_tabs_tabList").css("position", "fixed");
+/**
+ * Hacks for Curriculum Specialist single-page view.
+ */
+function initializeForCurriculumSpecialist() {
+    var tabPanelId = "#course_tabs_tabs";
 
-    /**
-     *  Hacks for Curriculum Specialist single-page view.
-     */
-    if (isCurriculumSpecialist) {
-        var tabPanelId = "#course_tabs_tabs";
+    //  Add a CSS class that prevents the tabs from being hidden.
+    jQuery("div[data-type='TabWrapper']").addClass('never_hide');
 
-        //  Add a CSS class that prevents the tabs from being hidden.
-        jQuery("div[data-type='TabWrapper']").addClass('never_hide');
+    //  Register a handler for tab clicks
+    jQuery(tabPanelId).on( "tabsactivate",
+        function(event, ui) {
+            //  Find the id of the section corresponding to the clicked tab.
+            var sectionId = "#" + ui.newPanel.attr('id').replace('_tab','');
 
-        //  Register a handler for tab clicks
-        jQuery(tabPanelId).on( "tabsactivate",
-            function(event, ui) {
-                //  Find the id of the section corresponding to the clicked tab.
-                var sectionId = "#" + ui.newPanel.attr('id').replace('_tab','');
-
-                /*
-                 * Only scroll and change focused widget if the tab was activated by a mouse click.
-                 * Tabs can also be activated when the window is scrolled by the user.
-                 */
-                if ( typeof event.originalEvent.originalEvent !== 'undefined'
-                        && event.originalEvent.originalEvent.type == "click") {
-                    //  Give focus to the first input widget. Had problems doing this after the scroll.
-                    jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
-                    //  Scroll to the selected tab.
-                    jQuery('html,body').animate({
-                        scrollTop: (jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").height())
-                    }, 750);
-                }
+            /*
+             * Only scroll and change focused widget if the tab was activated by a mouse click.
+             * Tabs can also be activated when the window is scrolled by the user.
+             */
+            if ( typeof event.originalEvent.originalEvent !== 'undefined'
+                    && event.originalEvent.originalEvent.type == "click") {
+                //  Give focus to the first input widget. Had problems doing this after the scroll.
+                jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
+                //  Scroll to the selected tab.
+                jQuery('html,body').animate({
+                    scrollTop: (jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").height())
+                }, 750);
             }
-        );
+        }
+    );
 
-        /*
-         * When the window is scrolled, once a tab has passed the midway point in the window select/activate it.
-         * This will cause the 'tabsactivate' handler above to get called.
-         */
-        jQuery(window).scroll(function() {
-            jQuery("div[data-type='TabWrapper']").each(function() {
-                var tab = this;
-                if (isAboveFocusPoint(tab) && focusedTab !== tab) {
-                    focusedTab = tab;
-                    jQuery(tabPanelId).tabs("select", "#" + tab.id);
-                    return false;
-                }
-            });
+    /*
+     * When the window is scrolled, once a tab has passed the midway point in the window select/activate it.
+     * This will cause the 'tabsactivate' handler above to get called.
+     */
+    jQuery(window).scroll(function() {
+        jQuery("div[data-type='TabWrapper']").each(function() {
+            var tab = this;
+            if (isAboveFocusPoint(tab) && focusedTab !== tab) {
+                focusedTab = tab;
+                jQuery(tabPanelId).tabs("select", "#" + tab.id);
+                return false;
+            }
         });
-    }
+    });
 }
 
 /**

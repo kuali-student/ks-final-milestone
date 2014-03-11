@@ -97,7 +97,7 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
     public String getHeaderText() {
         String headerSuffixText;
 
-        if (isAdminProposal()){
+        if (isAdminProposal()) {
             headerSuffixText = " (Admin Proposal)";
         } else {
             headerSuffixText = " (Proposal)";

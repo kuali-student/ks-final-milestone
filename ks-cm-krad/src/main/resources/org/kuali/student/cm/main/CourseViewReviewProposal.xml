@@ -574,4 +574,11 @@
         <property name="label" value="@{#form.proposalName}: Review Proposal"></property>
     </bean>
 
+     <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">
+        <property name="cssClasses">
+            <list merge="true">
+                <value>ks-header</value>
+            </list>
+        </property>
+    </bean>
 </beans>
