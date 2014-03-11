@@ -61,4 +61,8 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             });
         };
 
+        $scope.showBadge = function (course) {
+            return course.gradingOptions[course.gradingOptionId] != 'Letter';
+        }
+
     }]);

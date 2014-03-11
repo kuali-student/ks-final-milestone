@@ -148,8 +148,11 @@ angular.module('regCartApp')
                 grading: newGrading
             }, function (newCartItem) {
                 console.log($scope);
+                console.log(JSON.stringify(newCartItem));
                 cartItem.credits = newCartItem.credits;
+                console.log("old: " + cartItem.grading + " To: " + newCartItem.grading);
                 cartItem.grading = newCartItem.grading;
+                console.log("old: " + cartItem.grading + " To: " + newCartItem.grading);
                 cartItem.editing = false;
                 cartItem.actionLinks = newCartItem.actionLinks;
                 $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
@@ -184,6 +187,11 @@ angular.module('regCartApp')
         $scope.$watchCollection('cart.items', function () {
             $scope.creditTotal = creditTotal();
         });
+
+        $scope.showBadge = function (cartItem) {
+            //console.log("Cart Item Grading: " + JSON.stringify(cartItem));
+            return cartItem.gradingOptions[cartItem.grading] != 'Letter';
+        }
 
     });
 
