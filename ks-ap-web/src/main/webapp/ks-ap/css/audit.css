@@ -80,6 +80,7 @@
 	clear: both;
 	border-top: dotted 1px #e4e3e3;
 	padding: 10px;
+    /*@TODO ksap-961 Use CSS gradient instead of an image for this*/
     background: url('../images/ksap_audit_req_gradient.png') repeat-x;
 	overflow: hidden;
 	height: auto;
@@ -122,6 +123,9 @@
     width: 20px;
 }
 .ksap-audit-report .requirement .header .toggle {
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
 	background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
 	width: 16px;
 	height: 16px;

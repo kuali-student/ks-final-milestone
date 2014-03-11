@@ -184,6 +184,7 @@ a:focus {
 #applicationHeading #applicationUser a.name {
     display: inline-block;
     padding: 0 12px 0 0;
+    /*@TODO ksap-961 Convert to icon font instead of image*/
     background: url('../images/ksap_icon_id_arrow.png') no-repeat center right;
 }
 /*"W" banner, deleted*/
@@ -426,6 +427,9 @@ button img.rightArrowLarge {
     width: 8px;
     height: 12px;
     margin: 0 0 0 2px;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat -42px -101px;
     vertical-align: -1px;
 }
@@ -434,6 +438,9 @@ button img.rightArrowSmall {
     width: 7px;
     height: 10px;
     margin: 0 0 0 2px;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat -55px -102px;
     vertical-align: -1px;
 }
@@ -471,6 +478,9 @@ input.ksap-delete,
 .uif-imageField.ksap-delete img.uif-image {
     width: 16px;
     height: 16px;
+    /*
+        @TODO: ksap-961 fix path to point at ksboot provided validation message icon
+    */
     background: url('../images/iconError16.png') no-repeat 0px 0px;
     vertical-align: middle;
 }
@@ -597,6 +607,9 @@ button.uif-primaryActionButton.ksap-carousel-next img {
     width: 9px;
     height: 15px;
     margin: 0;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat;
 }
 
@@ -689,6 +702,9 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 
 .ksap-carousel-list ul li > .uif-group > .uif-verticalBoxLayout {
+    /*
+        @TODO KSAP-961 Convert to a border style instead of an image
+    */
     background: url('../images/bkgrdDotted.gif');
     min-height: 519px;
     border: solid 1px #dfdfdf;
@@ -767,6 +783,9 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 .ksap-carousel-list ul li .ksap-carousel-term .uif-header .uif-header-lowerGroup .ksap-registration-status {
     width: 9px;
     height: 11px;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
 }
 
@@ -827,6 +846,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 
 .ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-valid.not-scheduled,
 .ksap-carousel-list ul li .ksap-carousel-term .uif-stackedCollectionLayout .uif-collectionItem .ksap-course-invalid.not-scheduled {
+    /*@TODO: ksap-961 Use icon font or point to ksboot resource instead*/
     background: url('../images/iconWarning.png') no-repeat 4px;
 }
 
@@ -838,6 +858,9 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     width: 18px;
     height: 18px;
     vertical-align: middle;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
 }
 
@@ -970,6 +993,9 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 .ksap-status img.icon,
 .ksap-feedback .icon .uif-image,
 .ksap-status .icon .uif-image {
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
     width: 18px;
     height: 18px;
@@ -1021,7 +1047,8 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 
 .ksap-audit-message-info {
-    background: #F4F8FD url('../images/Iconinfo16x.png') no-repeat 5px center;
+    /*@TODO: ksap-961 convert to icon font instead of image*/
+    background: #F4F8FD url('../images/iconInfo.png') no-repeat 5px center;
     padding-left: 26px !important;
 }
 
@@ -1199,6 +1226,9 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
     position: absolute;
     top: 9px;
     right: 10px;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat 0px -16px;
     margin: 0;
     padding: 0;
@@ -1244,6 +1274,9 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 .ksap-facets-panel .ksap-facets-group ul li {
     padding: 0 0 0 19px;
     margin: 4px 0 4px 0;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat 0px -64px transparent;
     min-height: 18px;
     line-height: 18px;
@@ -1363,6 +1396,9 @@ table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper 
     margin: 0 0 0 5px;
     width: 16px;
     height: 16px;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat 0px -48px transparent;
 }
 
@@ -1985,6 +2021,9 @@ table.ksap-course-search-results-datatable .blockUI {
     margin: 0 0 0 5px;
     width: 16px;
     height: 16px;
+    /*
+        @TODO ksap-961 use icon font instead of images
+    */
     background: url('../images/ksap_icon_sprites.png') no-repeat 0px -48px transparent;
 }
 
@@ -2060,6 +2099,9 @@ table.ksap-course-search-results-datatable .blockUI {
 }
 
 .ksap-comment-bubble {
+    /*
+        @TODO KSAP-961 convert to icon font instead of image
+    */
     background: url('../images/bkgrdCommentBubble.png') no-repeat;
     width: 25px;
     height: 22px;

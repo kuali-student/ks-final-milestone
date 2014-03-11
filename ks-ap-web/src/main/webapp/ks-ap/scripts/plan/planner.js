@@ -113,7 +113,7 @@ function ksapPlannerSubmitDialog(e) {
 	var button = jQuery(e.currentTarget);
 
 	button.block({
-		message : '<img src="../ks-ap/images/btnLoader.gif"/>',
+		message : '<img src="../ks-ap/images/ajaxLoader.gif"/>',
 		css : {
 			width : '100%',
 			border : 'none',
@@ -350,9 +350,11 @@ function ksapPlannerUpdateCredits (data) {
 function ksapPlannerUpdateTermNote (data) {
     if (data.termNote == null || data.termNote == "") {
         jQuery("#"+data.uniqueId+"_termNote").attr("title","");
+        //@TODO: ksap-961 convert to icon font instead of image
         jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/btnAdd.png");
     } else {
         jQuery("#"+data.uniqueId+"_termNote").attr("title",data.termNote);
+        //@TODO: ksap-961 convert to icon font instead of image
         jQuery("#"+data.uniqueId+"_termNote").attr("src","../ks-ap/images/iconInfo.png");
     }
 

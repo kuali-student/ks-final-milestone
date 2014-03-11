@@ -265,6 +265,7 @@
     </bean>
 
     <bean id="KSAPHelpImage" parent="KSAPHelpImage-parent"/>
+    <!--@TODO: ksap-961 Convert to icon font instead of image-->
     <bean id="KSAPHelpImage-parent" abstract="true" parent="Uif-HelpImage"
           p:source="@{#ConfigProperties['ks.ap.externalizable.images.url']}iconHelp.png" p:altText="" p:title="">
     </bean>

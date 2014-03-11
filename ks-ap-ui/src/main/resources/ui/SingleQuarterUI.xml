@@ -348,6 +348,7 @@
                                     <list>
                                         <bean parent="Uif-HorizontalBoxGroup">
                                             <property name="validationMessages.render" value="false"/>
+                                            <!-- @TODO KSAP-961 Remove direct styles, use border style instead of image -->
                                             <property name="style"
                                                       value="margin:0; background:url('../ks-ap/images/bkgrdDottedCCC.png') 353px 0px repeat-y;"/>
                                             <property name="items">
