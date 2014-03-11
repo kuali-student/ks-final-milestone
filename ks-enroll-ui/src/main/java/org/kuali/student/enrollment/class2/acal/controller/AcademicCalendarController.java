@@ -1235,8 +1235,19 @@ public class AcademicCalendarController extends UifControllerBase {
 
                 // Check if Parent term exists
                 if(parentTermInfo == null){
-                    // If not throw exception
-                    throw new Exception("Parent Term does not exist. Therefor unable to save subterm.");
+                    termWrapper.setParentTermInfo(null); //fix for ac copy
+                    for (AcademicTermWrapper acTermWrapper : form.getTermWrapperList() ) {
+                        if (acTermWrapper.getTermType().equals(parentTermTypeKey)) {
+                            termWrapper.setParentTermInfo(acTermWrapper.getTermInfo());
+                            termWrapper.setParentTerm(acTermWrapper.getTermCode());
+                            termWrapper.setParentTermName(acTermWrapper.getName());
+                            break;
+                        }
+                    }
+                    // If null throw exception
+                    if(termWrapper.getParentTermInfo() == null) {
+                        throw new Exception("Parent Term does not exist. Therefor unable to save subterm.");
+                    }
                 }else{
                     // If parent exist fill in parent information in term.
                     termWrapper.setParentTermInfo(parentTermInfo);
