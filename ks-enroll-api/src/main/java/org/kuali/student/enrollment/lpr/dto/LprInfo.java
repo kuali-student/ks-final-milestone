@@ -87,7 +87,9 @@ public class LprInfo
             this.personId = lpr.getPersonId();
             this.atpId = lpr.getAtpId();
             this.masterLprId = lpr.getMasterLprId();
-            this.commitmentPercent = new KualiDecimal(lpr.getCommitmentPercent().bigDecimalValue());
+            if (lpr.getCommitmentPercent() != null) {
+                this.commitmentPercent = new KualiDecimal(lpr.getCommitmentPercent().bigDecimalValue());
+            }
             if (lpr.getResultValuesGroupKeys() != null) {
                 this.resultValuesGroupKeys = new ArrayList<String>(lpr.getResultValuesGroupKeys());
             }
