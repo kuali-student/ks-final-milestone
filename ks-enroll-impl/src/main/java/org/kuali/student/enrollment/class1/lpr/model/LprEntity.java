@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class1.lpr.model;
 
 import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.infc.Lpr;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -109,7 +108,6 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
     }
 
     public void fromDto(Lpr dto) {
-
         super.fromDTO(dto);
 
         if (dto.getCommitmentPercent() != null) {
@@ -120,27 +118,23 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         this.setPersonRelationStateId(dto.getStateKey());
         this.setMasterLprId(dto.getMasterLprId());
 
-        //Set these fields on the LPR (makes access easier).
-        for(String rvgKey:dto.getResultValuesGroupKeys()){
-            if(rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)){
-                this.setGradingOptionId(rvgKey);
-            }else if(rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)){
-                this.setCredits(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length()+1));
+        // Set these fields on the LPR (makes access easier).
+        for (String rvgKey:dto.getResultValuesGroupKeys()) {
+            if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_BASE)) {
+                setGradingOptionId(rvgKey);
+            } else if (rvgKey.startsWith(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE)) {
+                setCredits(rvgKey.substring(LrcServiceConstants.RESULT_GROUP_KEY_KUALI_CREDITTYPE_CREDIT_BASE.length() + 1));
             }
         }
 
         this.attributes.clear();
 
         for (Attribute attr : dto.getAttributes()) {
-
             this.attributes.add(new LprAttributeEntity(attr, this));
-
         }
 
         this.resultValueGroups.clear();
-
         this.resultValueGroups.addAll(dto.getResultValuesGroupKeys());
-
     }
 
     public String getPersonId() {
@@ -204,6 +198,7 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         lprInfo.setTypeKey(personRelationTypeId);
         lprInfo.setStateKey(personRelationStateId);
         lprInfo.setMasterLprId(masterLprId);
+        lprInfo.setAtpId(atpId);
 
         // instead need to create a new JPA entity to hold the lpr to rvg
         // mapping
@@ -215,15 +210,11 @@ public class LprEntity extends MetaEntity implements AttributeOwner<LprAttribute
         }
 
         lprInfo.setResultValuesGroupKeys(rvGroupIds);
-
         lprInfo.setMeta(super.toDTO());
-
         List<AttributeInfo> atts = lprInfo.getAttributes();
 
         if (getAttributes() != null) {
-
             for (LprAttributeEntity lprAttr : getAttributes()) {
-
                 atts.add(lprAttr.toDto());
             }
         }

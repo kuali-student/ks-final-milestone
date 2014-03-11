@@ -209,22 +209,44 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
     private List<LprInfo> updateLprInfos(String masterLprId, String credits, String gradingOptionId, ContextInfo contextInfo)
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
-        //get lpr ids based on master lpr id
-        List<String> lprIds = getLprIdsByMasterLprId(masterLprId, contextInfo);
+        // KSENROLL-12144
+        // Only update the master LPR since this is updating credit/reg options
+        Date now = new Date();
+        LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
+        if (masterLpr.getExpirationDate() != null) {
+            throw new OperationFailedException("Master LPR should have null expiration date");
 
-        List<LprInfo> lprInfos = getLprService().getLprsByIds(lprIds, contextInfo);
-        List<LprInfo> updatedLprInfos = new ArrayList<LprInfo>();
-        for (LprInfo lprInfo : lprInfos) {
-            lprInfo.setResultValuesGroupKeys(new ArrayList<String>());
-            if (!StringUtils.isEmpty(credits)) {
-                lprInfo.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
-            }
-            if (!StringUtils.isEmpty(gradingOptionId)) {
-                lprInfo.getResultValuesGroupKeys().add(gradingOptionId);
-            }
-            lprInfo = getLprService().updateLpr(lprInfo.getId(), lprInfo, contextInfo);
-            updatedLprInfos.add(lprInfo);
         }
+        // Make a copy of the original master LPR.  This copy will store the original master LPR's info
+        // while the original master LPR will be updated.  This is a "trick" to avoid creating new master LPR
+        // IDs whenever the master LPR is updated.
+        LprInfo masterLprCopy = null;
+        try {
+            masterLprCopy = new LprInfo(masterLpr);
+        } catch (Exception e) {
+            LOGGER.warn("Exception");
+        }
+        masterLprCopy.setId(null);
+        masterLprCopy.setMeta(null);
+        masterLprCopy.setExpirationDate(now); // Set its expiration date
+        masterLprCopy.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY); // Put it expired state
+
+        masterLpr.setResultValuesGroupKeys(new ArrayList<String>());
+        if (!StringUtils.isEmpty(credits)) {
+            masterLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
+        }
+        if (!StringUtils.isEmpty(gradingOptionId)) {
+            masterLpr.getResultValuesGroupKeys().add(gradingOptionId);
+        }
+        // Update the master LPR
+        masterLpr = getLprService().updateLpr(masterLpr.getId(), masterLpr, contextInfo);
+        // Then, create the copy LPR
+        masterLprCopy =
+                getLprService().createLpr(masterLprCopy.getPersonId(),
+                        masterLprCopy.getLuiId(), masterLprCopy.getTypeKey(), masterLprCopy, contextInfo);
+
+        List<LprInfo> updatedLprInfos = new ArrayList<LprInfo>();
+        updatedLprInfos.add(masterLpr);
 
         return updatedLprInfos;
     }

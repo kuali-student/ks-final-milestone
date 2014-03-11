@@ -28,6 +28,7 @@ import org.kuali.student.enrollment.courseregistration.dto.RegistrationRequestIt
 import org.kuali.student.enrollment.courseregistration.dto.RegistrationResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
+import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -40,6 +41,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
@@ -62,6 +64,7 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
 
     private ContextInfo CONTEXT;
     private List<String> regRequestIds = new ArrayList<String>();
+    private RegistrationRequestInfo updateRegRequest = null;
 
     public DevTestWidgetViewHelperServiceImpl() {
         CONTEXT = ContextUtils.createDefaultContextInfo();
@@ -84,12 +87,13 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
     @Override
     public void runGammaTest(DevTestWidgetForm form) throws Exception {
         LOGGER.info("Running Gamma test");
-        testSeatCountService();
+        runCreateUpdateLpr();
     }
 
     @Override
     public void runDeltaTest(DevTestWidgetForm form) throws Exception {
         LOGGER.info("Running Delta test");
+        runSubmitUpdateLpr();
     }
 
     private void persistRegRequests() throws DataValidationErrorException, PermissionDeniedException,
@@ -102,7 +106,7 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
         }
         regRequestIds.clear();
         persistRegRequestsFor("admin");
-        persistRegRequestsFor("carol");
+//        persistRegRequestsFor("carol");
         System.err.println("DONE");
     }
 
@@ -164,6 +168,54 @@ public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl im
         System.err.println("DONE");
     }
 
+    private void runCreateUpdateLpr() throws MissingParameterException, InvalidParameterException,
+            OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException,
+            ReadOnlyException {
+        String personId = "admin";
+        List<LprInfo> lprs = CourseOfferingManagementUtil.getLprService().getLprsByPerson(personId, CONTEXT);
+        String masterLprId = null;
+        for (LprInfo lpr: lprs) {
+            masterLprId = lpr.getMasterLprId();
+            break;
+        }
+
+        RegistrationRequestItemInfo itemInfo = new RegistrationRequestItemInfo();
+        itemInfo.setPersonId(personId);
+        itemInfo.setRegistrationGroupId("647a2b36-af91-456a-8ff2-a4cd51fcdcb5");
+        itemInfo.setTypeKey(LprServiceConstants.REQ_ITEM_UPDATE_TYPE_KEY);
+        itemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
+        itemInfo.setCredits(new KualiDecimal("3.0"));
+        itemInfo.setGradingOptionId(LETTER_GRADE); // Fill in
+        itemInfo.setExistingCourseRegistrationId(masterLprId);
+
+        RegistrationRequestInfo request = new RegistrationRequestInfo();
+        request.setTermId(SPRING_2012_TERM);
+        request.setRequestorId(personId);
+        request.setTypeKey(LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        request.setStateKey(LprServiceConstants.LPRTRANS_NEW_STATE_KEY);
+
+        // Add the item
+        request.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
+        request.getRegistrationRequestItems().add(itemInfo);
+
+        // Now create and test
+        CourseRegistrationService courseRegistrationService =
+                CourseOfferingManagementUtil.getCourseRegistrationService();
+        updateRegRequest =
+                courseRegistrationService.createRegistrationRequest(request.getTypeKey(),
+                        request, CONTEXT);
+    }
+
+    private void runSubmitUpdateLpr() throws DoesNotExistException, PermissionDeniedException,
+            OperationFailedException, VersionMismatchException, InvalidParameterException,
+            ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
+        CourseRegistrationService courseRegistrationService =
+                CourseOfferingManagementUtil.getCourseRegistrationService();
+        RegistrationResponseInfo response =
+                courseRegistrationService.submitRegistrationRequest(updateRegRequest.getId(),
+                        CONTEXT);
+        LOGGER.info("Done");
+    }
 
     private void testRegRequest() throws DoesNotExistException, PermissionDeniedException, OperationFailedException, InvalidParameterException, ReadOnlyException, MissingParameterException, DataValidationErrorException, AlreadyExistsException {
         String regGroupId = "647a2b36-af91-456a-8ff2-a4cd51fcdcb5";
