@@ -8,21 +8,22 @@
 
 
 .util-Alert {
-    border: 1px solid;
     border-radius: 2px;
-//    padding: 0.5rem 0;
-    padding: 10px 10px 10px 25px;
+    padding: 10px 10px 10px 35px;
     margin: .5em;
     //color: #3B723B;
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: normal;
+    border-width:1px 1px 2px 1px;
+    border-style: solid;
+
 }
 
 .util-Alert--success {
     background-image: url("../images/validation/success.png");
     background-repeat: no-repeat;
-    background-position: calc(1%) center;
+    background-position: calc(2%) center;
     background-color: @successBackground;   // #dff0d8;
     border-color: @successBorder;  //#D6E9C6;
     color: @successText; // #3B723B;
@@ -33,7 +34,7 @@
 .util-Alert--information {
     background-image: url("../images/validation/info.png");
     background-repeat: no-repeat;
-    background-position: calc(1%) center;
+    background-position: calc(2%) center;
     background-color: @infoText; //#D9EDF7;
     border-color: @infoText;  //#BCE8F1;
     color: @infoText; //#2A617D;
@@ -43,7 +44,7 @@
 .util-Alert--warning {
     background-image: url("../images/validation/warning.png");
     background-repeat: no-repeat;
-     background-position: calc(1%) center;
+     background-position: calc(2%) center;
     //background-position: left center;
     background-color: @warningBackground; //#FCF8E3;
     border-color: @warningBorder;  //#FBEED5;
@@ -55,7 +56,7 @@
 .util-Alert--error {
     background-image: url("../images/validation/error.png");
     background-repeat: no-repeat;
-    background-position: calc(1%) center;
+    background-position: calc(2%) center;
     background-color: @errorBackground; //#F2DEDE;
     border-color: @errorBorder;  //#EFD3D7;
     color: @errorText; //#A3403C;
