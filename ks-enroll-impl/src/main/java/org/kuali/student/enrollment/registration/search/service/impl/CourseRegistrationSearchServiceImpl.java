@@ -105,6 +105,7 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         public static final String TYPE_KEY = "typeKey";
         public static final String MASTER_LPR_ID = "masterLprId";
         public static final String LPRT_TYPE = "lprtType";
+        public static final String LPR_TYPE = "lprType";
     }
 
     public static final class SearchResultColumns {
@@ -769,14 +770,27 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         SearchResultInfo resultInfo = new SearchResultInfo();
         SearchRequestHelper requestHelper = new SearchRequestHelper(searchRequestInfo);
         String masterLprId = requestHelper.getParamAsString(SearchParameters.MASTER_LPR_ID);
+        String lprType = requestHelper.getParamAsString(SearchParameters.LPR_TYPE);
+        List<String> lprStateList = requestHelper.getParamAsList(SearchParameters.LPR_STATES);
 
         String queryStr =
                 "SELECT lpr.ID " +
                         "FROM KSEN_LPR lpr " +
                         "WHERE lpr.MASTER_LPR_ID = :masterLprId ";
-
+        if (lprType != null) {
+            queryStr += " AND lpr.LPR_TYPE = :lprType ";
+        }
+        if (lprStateList != null && !lprStateList.isEmpty()) {
+            queryStr += " AND lpr.LPR_STATE IN (:lprStates) ";
+        }
         Query query = entityManager.createNativeQuery(queryStr);
         query.setParameter(SearchParameters.MASTER_LPR_ID, masterLprId);
+        if (lprType != null) {
+            query.setParameter(SearchParameters.LPR_TYPE, lprType);
+        }
+        if (lprStateList != null && !lprStateList.isEmpty()) {
+            query.setParameter(SearchParameters.LPR_STATES, lprStateList);
+        }
         List<String> results = query.getResultList();
 
         for (String resultRow : results) {

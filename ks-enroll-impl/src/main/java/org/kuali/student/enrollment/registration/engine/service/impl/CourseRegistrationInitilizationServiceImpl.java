@@ -139,13 +139,13 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             LprInfo rgLprCreated = makeLpr(LprServiceConstants.REGISTRANT_RG_TYPE_KEY, regGroupId, null, effDate, termId, credits, gradingOptionKey, context);
             result.add(rgLprCreated);
 
-            // Set credits and gradingOptionsKey to null so only the RG LPR (masterLpr) has those values set.
-            credits = null;
-            gradingOptionKey = null;
-
             // Create CO LPR
             LprInfo coLprCreated = makeLpr(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, coId, rgLprCreated.getMasterLprId(), effDate, termId, credits, gradingOptionKey, context);
             result.add(coLprCreated);
+
+            // Set credits and gradingOptionsKey to null so only the RG LPR (masterLpr) and CO LPR have those values set.
+            credits = null;
+            gradingOptionKey = null;
 
             // Create AO LPRs
             List<String> aoIds = luiServiceLocal.getLuiIdsByLuiAndRelationType(regGroupId,
@@ -186,11 +186,25 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         return lprCreated;
     }
 
-    private List<String> getLprIdsByMasterLprId (String masterLprId, ContextInfo contextInfo) throws OperationFailedException {
+    private List<String> getLprIdsByMasterLprId (String masterLprId,
+                                                 ContextInfo contextInfo) throws OperationFailedException {
+        return getLprIdsByMasterLprId(masterLprId, null, null, contextInfo);
+    }
+
+    private List<String> getLprIdsByMasterLprId (String masterLprId,
+                                                 String lprType,
+                                                 List<String> lprStates,
+                                                 ContextInfo contextInfo) throws OperationFailedException {
         List<String> lprIds = new ArrayList<String>();
 
         SearchRequestInfo searchRequest = new SearchRequestInfo(CourseRegistrationSearchServiceImpl.LPRIDS_BY_MASTER_LPR_ID_SEARCH_TYPE.getKey());
         searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.MASTER_LPR_ID, masterLprId);
+        if (lprType != null) {
+            searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LPR_TYPE, lprType);
+        }
+        if (lprStates != null && !lprStates.isEmpty()) {
+            searchRequest.addParam(CourseRegistrationSearchServiceImpl.SearchParameters.LPR_STATES, lprStates);
+        }
         SearchResultInfo searchResult;
         try {
             searchResult = getSearchService().search(searchRequest, contextInfo);
@@ -215,8 +229,35 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             throws OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException,
             InvalidParameterException, ReadOnlyException, MissingParameterException, DoesNotExistException {
         // KSENROLL-12144
-        // Only update the master LPR since this is updating credit/reg options
+        // Record the current time
         Date now = new Date();
+        // Fetch the CO LPR
+        // Comment out state fetches for now
+//        List<String> lprStates = new ArrayList<String>();
+//        lprStates.add(LprServiceConstants.REGISTERED_STATE_KEY);
+        List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, LprServiceConstants.REGISTRANT_CO_TYPE_KEY,
+                null, contextInfo);
+        String coLprId = KSCollectionUtils.getRequiredZeroElement(coLprIds);
+        LprInfo origCoLpr = getLprService().getLpr(coLprId, contextInfo);
+        LprInfo updatedCoLpr = new LprInfo(origCoLpr); // Make a copy
+        updatedCoLpr.setId(null);
+        updatedCoLpr.setMeta(null);
+        updatedCoLpr.setEffectiveDate(now);
+        origCoLpr.setExpirationDate(now);
+        origCoLpr.setStateKey(LprServiceConstants.EXPIRED_LPR_STATE_KEY);
+        updatedCoLpr.setResultValuesGroupKeys(new ArrayList<String>());
+        if (!StringUtils.isEmpty(credits)) {
+            updatedCoLpr.getResultValuesGroupKeys().add(LrcServiceConstants.RESULT_VALUE_KEY_CREDIT_DEGREE_PREFIX + credits);
+        }
+        if (!StringUtils.isEmpty(gradingOptionId)) {
+            updatedCoLpr.getResultValuesGroupKeys().add(gradingOptionId);
+        }
+        // Update the orig
+        getLprService().updateLpr(coLprId, origCoLpr, contextInfo);
+        // Create the new one
+        getLprService().createLpr(updatedCoLpr.getPersonId(), updatedCoLpr.getLuiId(), updatedCoLpr.getTypeKey(), updatedCoLpr, contextInfo);
+
+        // Also update the master LPR since this is updating credit/reg options
         LprInfo masterLpr = getLprService().getLpr(masterLprId, contextInfo);
         if (masterLpr.getExpirationDate() != null) {
             throw new OperationFailedException("Master LPR should have null expiration date");
