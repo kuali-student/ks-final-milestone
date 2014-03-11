@@ -81,7 +81,7 @@
                         </bean>
                     </property>-->
                     <property name="control">
-                        <bean parent="Uif-LargeTextAreaControl" p:onChangeScript="jQuery('#dirtyForm').val(true);" />
+                        <bean parent="Uif-LargeTextAreaControl" />
                     </property>
                 </bean>
             </list>

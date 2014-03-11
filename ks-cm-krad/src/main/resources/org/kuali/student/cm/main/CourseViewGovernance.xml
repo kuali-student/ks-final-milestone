@@ -24,7 +24,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.courseInfo.campusLocations" p:label="Campus Locations"
-                      p:instructionalText="" p:width="auto" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                      p:instructionalText="" p:width="auto" >
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
@@ -42,7 +42,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField-LabelTop"
-                                  p:propertyName="dataObject.unitsContentOwnerToAdd" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:propertyName="dataObject.unitsContentOwnerToAdd" >
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.lum.lu.ui.course.keyvalues.OrgsBySubjectCodeValuesFinder"
                                           p:blankOption="true" />
@@ -86,7 +86,7 @@
                     </property>
                     <property name="items">
                         <list>
-                            <bean parent="Uif-DataField" p:labelRendered="false" p:propertyName="key" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                            <bean parent="Uif-DataField" p:labelRendered="false" p:propertyName="key" />
                         </list>
                     </property>
                 </bean>
@@ -126,10 +126,10 @@
         </property>
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="organizationName" p:id="organizationName" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                <bean parent="Uif-InputField" p:propertyName="organizationName" p:id="organizationName" >
                     <property name="refreshWhenChangedPropertyNames" value="organizationName"/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="50" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                        <bean parent="Uif-TextControl" p:size="50" />
                     </property>
                     <property name="quickfinder">
                         <bean parent="Uif-QuickFinder">

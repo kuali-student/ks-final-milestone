@@ -37,7 +37,7 @@
                     <property name="validationMessages.displayMessages" value="false"/>
                     <property name="Items">
                         <list>
-                            <bean parent="Uif-InputField" p:label="Name" p:propertyName="displayName" p:additionalCssClasses="id_search_course_offering" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                            <bean parent="Uif-InputField" p:label="Name" p:propertyName="displayName" p:additionalCssClasses="id_search_course_offering" >
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
                                         <property name="valuePropertyName" value="displayName" />
@@ -65,9 +65,9 @@
                                 </property>
                             </bean>
                             <bean id="KS-PermissionDropDown" parent="Uif-InputField" p:propertyName="permission" p:labelPlacement="TOP"
-                                  p:label="Permission" p:required="true" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:label="Permission" p:required="true" >
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                    <bean parent="Uif-DropdownControl" >
                                         <property name="options">
                                             <list>
                                                 <bean parent="Uif-KeyLabelPair" p:key="view" p:value="View" />
@@ -79,9 +79,9 @@
                                 </property>
                             </bean>
                             <bean id="KS-ActionRequestDropDown" parent="Uif-InputField" p:propertyName="action" p:labelPlacement="TOP"
-                                  p:label="Action Request" p:required="true" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:label="Action Request" p:required="true" >
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                    <bean parent="Uif-DropdownControl" >
                                         <property name="options">
                                             <list>
                                                 <bean parent="Uif-KeyLabelPair" p:key="fyi" p:value="FYI" />
@@ -92,7 +92,7 @@
                             </bean>
                             <bean parent="Uif-InputField" p:propertyName="author" p:label="Author Notation" p:labelPlacement="TOP">
                                 <property name="control">
-                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                                    <bean parent="Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" />
                                 </property>
                             </bean>
                         </list>

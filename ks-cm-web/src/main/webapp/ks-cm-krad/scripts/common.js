@@ -73,18 +73,6 @@ function isAboveFocusPoint(e) {
     return elemTop <= focusPoint && elemBottom >= focusPoint;
 }
 
-function onCourseCancel(){
-    if(dirtyFormState.isDirty()) {
-        showLightboxComponent('KS-CreateCourse-NavigationConfirmation');
-    } else {
-        return true;
-    }
-}
-
-function stepBrowserBackTwoPages() {
-    window.history.back(-2);
-}
-
 /**
  * Enter key causes next action button to fire, so this routine turns the Enter
  * keypress into a Tab keypress, essentially

@@ -90,7 +90,7 @@
 				<bean id="KS-LoDisplayInfoWrapper-descr" parent="Uif-InputField"
 					p:propertyName="loInfo.descr.plain" p:showLabel="false">
 					<property name="control">
-						<bean parent="Uif-TextAreaControl" p:cols="60" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+						<bean parent="Uif-TextAreaControl" p:cols="60" >
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>cm-charcount-max-500</value>
@@ -117,12 +117,12 @@
                         </bean>
 					</property>
 				</bean>
-                <bean id="KS-LoDisplayInfoWrapper-selected" parent="Uif-InputField" p:propertyName="selected" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                <bean id="KS-LoDisplayInfoWrapper-selected" parent="Uif-InputField" p:propertyName="selected" >
                     <property name="control">
                         <bean parent="Uif-HiddenControl" />
                     </property>
                 </bean>
-                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="Uif-InputField" p:propertyName="indentLevel" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                <bean id="KS-LoDisplayInfoWrapper-indentLevel" parent="Uif-InputField" p:propertyName="indentLevel" >
                     <property name="control">
                         <bean parent="Uif-HiddenControl" />
                     </property>
@@ -152,7 +152,7 @@
                                         <bean parent="Uif-InputField-LabelTop" p:label="Category"
                                             p:propertyName="name">
                                             <property name="control">
-                                                <bean parent="Uif-TextControl" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                                                <bean parent="Uif-TextControl" />
                                             </property>
                                             <property name="suggest">
                                                 <bean parent="Uif-Suggest">

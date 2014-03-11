@@ -80,9 +80,9 @@
                       <bean parent="Uif-FileControl" p:size="30"/>
                   </property>
               </bean>    -->
-                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                <bean parent="Uif-InputField" p:label="Description" p:propertyName="description" >
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                        <bean parent="Uif-TextControl" />
                     </property>
                 </bean>
             </list>

@@ -59,7 +59,7 @@
                         <list>
                             <bean id="KS-Instructor-displayName" parent="Uif-InputField" p:propertyName="displayName">
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="50" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                                    <bean parent="Uif-TextControl" p:size="50" />
                                 </property>
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true" p:returnFullQueryObject="true">
@@ -127,7 +127,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField-LabelTop" p:label="Description"
-                                  p:propertyName="dataObject.courseInfo.descr.plain"  p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:propertyName="dataObject.courseInfo.descr.plain" >
                                 <property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.dataObject.requiredWorkflowMode}" />
                                 </property>
@@ -152,7 +152,7 @@
                                 </property>
                             </bean>
                             <bean id="KS-ProposalRationale" parent="Uif-InputField-LabelTop" p:label="Proposal Rationale"
-                                  p:propertyName="dataObject.proposalInfo.rationale.plain"  p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:propertyName="dataObject.proposalInfo.rationale.plain">
                                 <property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.dataObject.requiredWorkflowMode}" />
                                 </property>
@@ -197,20 +197,20 @@
         <property name="items">
             <list>
                 <bean parent="Uif-KS-IconInputField-LabelTop" p:label="Proposal Title"   p:id="CreateCourseProposalTitleInputField"
-                      p:propertyName="dataObject.proposalInfo.name" p:required="true"  p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                      p:propertyName="dataObject.proposalInfo.name" p:required="true" >
                     <property name="instructionalText"
                               value="This title is used for identifying the proposal through the approval process. It is highly recommended that you use the same name for the course and proposal title."/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="70" p:maxLength="150" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                        <bean parent="Uif-TextControl" p:size="70" p:maxLength="150"/>
                     </property>
                     <property name="fieldLabel.richLabelMessage.iconToolTipText" value="Avoid naming your proposal &quot;my proposal&quot; or &quot;Sarah's Proposal&quot; so that it can be easily identified later."/>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="Course Title"
-                      p:propertyName="dataObject.courseInfo.courseTitle" p:required="true"  p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                      p:propertyName="dataObject.courseInfo.courseTitle" p:required="true" >
                     <property name="instructionalText"
                               value="It is highly recommended that you use the same name for the course and proposal title."/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="70" p:maxLength="150" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                        <bean parent="Uif-TextControl" p:size="70" p:maxLength="150" />
                     </property>
                     <property name="validCharactersConstraint">
                         <bean parent="AnyCharacterPatternConstraint" p:allowWhitespace="true"/>
@@ -218,11 +218,11 @@
                 </bean>
 
                 <bean id="KS-TranscriptTitle" parent="Uif-InputField-LabelTop" p:label="Transcript Course Title"
-                      p:propertyName="dataObject.courseInfo.transcriptTitle"  p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                      p:propertyName="dataObject.courseInfo.transcriptTitle" >
                     <property name="instructionalText"
                               value="This is the truncated title that will appear on the printed transcript."/>
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="24" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                        <bean parent="Uif-TextControl" p:size="24" >
                             <property name="cssClasses">
                                 <list merge="true">
                                     <value>cm-charcount-max-24</value>
@@ -236,7 +236,7 @@
                     <property name="items">
                         <list>
                             <bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop"
-                                  p:label="Subject Code" p:propertyName="dataObject.courseInfo.subjectArea"  p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:label="Subject Code" p:propertyName="dataObject.courseInfo.subjectArea" >
                                 <property name="fieldLabel.requiredMessage">
                                     <bean parent="Uif-RequiredMessage"
                                           p:messageText="Required on @{document.newMaintainableObject.dataObject.requiredWorkflowMode}"/>
@@ -269,7 +269,7 @@
                                 </property>
                             </bean>
                             <bean id="KS-CourseNumberSuffix-Field" parent="Uif-KS-IconInputField-LabelTop"
-                                  p:label="Course Number" p:propertyName="dataObject.courseInfo.courseNumberSuffix"  p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:label="Course Number" p:propertyName="dataObject.courseInfo.courseNumberSuffix" >
                                 <property name="constraintText" value="Must be a 3 digit number"/>
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint"/>
@@ -298,7 +298,7 @@
         <property name="items">
             <list>
                 <bean id="KS-CrossListed-Section" parent="Uif-StackedCollectionSubSection"
-                      p:headerText="Cross Listed Courses" p:propertyName="dataObject.courseInfo.crossListings"  p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                      p:headerText="Cross Listed Courses" p:propertyName="dataObject.courseInfo.crossListings"
                       p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo">
                     <property name="layoutManager.lineGroupPrototype.header.headerText" value="Course Listing @{(#index + 1)}" />
                     <property name="renderAddBlankLineButton" value="true" />
@@ -314,7 +314,7 @@
                     </property>
                 </bean>
                 <bean id="KS-JointlyOffered-Section" parent="Uif-StackedCollectionSubSection"
-                      p:headerText="Jointly Offered Courses" p:propertyName="dataObject.courseJointWrappers"  p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                      p:headerText="Jointly Offered Courses" p:propertyName="dataObject.courseJointWrappers"
                       p:collectionObjectClass="org.kuali.student.cm.course.form.CourseJointInfoWrapper">
                     <property name="layoutManager.lineGroupPrototype.header.headerText" value="Joint Offering @{(#index + 1)}" />
                     <property name="renderAddBlankLineButton" value="true" />
@@ -329,7 +329,7 @@
                                   p:propertyName="courseCode">
                                 <property name="instructionalText" value="Enter an existing course or proposal." />
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                                    <bean parent="Uif-TextControl" />
                                 </property>
                                 <property name="suggest">
                                     <!-- 									<bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
@@ -374,7 +374,7 @@
                     </property>
                 </bean>
                 <bean id="KS-VersionCodes-Section" parent="Uif-StackedCollectionSubSection"
-                      p:headerText="Version Codes" p:propertyName="dataObject.courseInfo.variations"  p:onChangeScript="jQuery('#dirtyForm').val(true);"
+                      p:headerText="Version Codes" p:propertyName="dataObject.courseInfo.variations"
                       p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.CourseVariationInfo">
                     <property name="layoutManager.lineGroupPrototype.header.headerText" value="Version Code @{(#index + 1)}" />
                     <property name="renderAddBlankLineButton" value="true" />
@@ -385,19 +385,19 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-InputField-LabelTop" p:label="Version Code"
-                                  p:propertyName="variationCode" p:uppercaseValue="true" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:propertyName="variationCode" p:uppercaseValue="true" >
                                 <property name="constraintText" value="Code must be a capital letter." />
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="1" p:maxLength="1" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                                    <bean parent="Uif-TextControl" p:size="1" p:maxLength="1" />
                                 </property>
                                 <property name="validCharactersConstraint">
                                     <bean parent="AlphaPatternConstraint"/>
                                 </property>
                             </bean>
                             <bean parent="Uif-InputField-LabelTop" p:label="Course Title"
-                                  p:propertyName="variationTitle" p:required="true" p:onChangeScript="jQuery('#dirtyForm').val(true);">
+                                  p:propertyName="variationTitle" p:required="true" >
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:onChangeScript="jQuery('#dirtyForm').val(true);"/>
+                                    <bean parent="Uif-TextControl" />
                                 </property>
                             </bean>
                         </list>
