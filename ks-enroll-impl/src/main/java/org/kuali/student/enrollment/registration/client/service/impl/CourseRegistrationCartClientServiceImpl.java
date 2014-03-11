@@ -14,17 +14,38 @@ import org.kuali.student.enrollment.courseregistration.service.CourseRegistratio
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientService;
 import org.kuali.student.enrollment.registration.client.service.CourseRegistrationCartClientServiceConstants;
-import org.kuali.student.enrollment.registration.client.service.dto.*;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingLocationTimeResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ActivityOfferingScheduleResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CartItemResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CartResult;
+import org.kuali.student.enrollment.registration.client.service.dto.CourseSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.Link;
+import org.kuali.student.enrollment.registration.client.service.dto.RegGroupSearchResult;
+import org.kuali.student.enrollment.registration.client.service.dto.RegistrationOptionResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleLocationResult;
+import org.kuali.student.enrollment.registration.client.service.dto.ScheduleTimeResult;
+import org.kuali.student.enrollment.registration.client.service.dto.UserMessageResult;
+import org.kuali.student.enrollment.registration.client.service.exception.GenericUserException;
 import org.kuali.student.enrollment.registration.client.service.exception.MissingOptionException;
 import org.kuali.student.enrollment.registration.client.service.impl.util.CourseRegistrationAndScheduleOfClassesUtil;
 import org.kuali.student.enrollment.registration.client.service.impl.util.SearchResultHelper;
 import org.kuali.student.enrollment.registration.search.service.impl.CourseRegistrationSearchServiceImpl;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.TimeOfDayHelper;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LprServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
@@ -38,7 +59,12 @@ import javax.security.auth.login.LoginException;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.xml.namespace.QName;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -59,7 +85,14 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             response = Response.ok(Boolean.TRUE);
         } catch (Exception e) {
             LOGGER.warn("Error submitting cart", e);
-            response = Response.serverError().entity(e.getMessage());
+            // Convert the generic user message into something useful to the UI.
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Error submitting cart");
+            String technicalInfo = String.format("Technical Info:(cartId:[%s])",
+                    cartId);
+
+            userMessage.setConsoleMessage(technicalInfo);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
         }
 
         return response.build();
@@ -94,9 +127,20 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         } catch (DoesNotExistException e) {
             //The reg request does not exist (HTTP status 404 Not Found)
             response = getResponse(Response.Status.NOT_FOUND, e.getMessage());
+        }catch (GenericUserException e) {
+            LOGGER.warn("Error adding to cart", e);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, e.getUserMessage());
         } catch (Exception e) {
             LOGGER.warn("Error adding to cart", e);
-            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, e.getMessage());
+
+            // Convert the generic user message into something useful to the UI.
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Unable to add item to cart.");
+            String technicalInfo = String.format("Technical Info:(cartId:[%s] courseCode[%s] regGroupId[%s] gradingOptionId[%s] credits:[%s] )",
+                    cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
+
+            userMessage.setConsoleMessage(technicalInfo);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
         }
 
         return response.build();
@@ -140,7 +184,13 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             response = Response.ok(result);
         } catch (Exception e) {
             LOGGER.warn("Error with removing item from cart", e);
-            response = Response.serverError().entity(e.getMessage());
+            // Convert the generic user message into something useful to the UI.
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Error removing item from cart. ");
+            String technicalInfo = String.format("Technical Info:(cartId:[%s] cartItemId[%s])",cartId, cartItemId);
+
+            userMessage.setConsoleMessage(technicalInfo);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
         }
 
         return response.build();
@@ -181,7 +231,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Transactional
-    protected CartItemResult addCourseToCart(ContextInfo contextInfo, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException {
+    protected CartItemResult addCourseToCart(ContextInfo contextInfo, String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException, LoginException, MissingOptionException, GenericUserException {
 
         RegGroupSearchResult rg = null;
         //If only the user and regGroupId was passed in, we need to look up the RG and find the term to get the cart ID
@@ -207,6 +257,20 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         // get the regGroup if it was not already found
         if (rg == null) {
             rg = CourseRegistrationAndScheduleOfClassesUtil.getRegGroup(cart.getTermId(), null, courseCode, regGroupCode, regGroupId, contextInfo);
+        }
+
+        ValidationResultInfo regGroupValidation = validateRegGroupSearchResult(rg);
+
+        if(regGroupValidation.isError()){
+            String technicalInfo = String.format("Technical Info:(term:[%s] id:[%s] state:[%s] )",
+                    rg.getTermId(), rg.getRegGroupId(), rg.getRegGroupState());
+
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Unable to add item to cart.");
+            userMessage.setDetailedMessage(regGroupValidation.getMessage());
+            userMessage.setConsoleMessage(regGroupValidation.getMessage() + " " + technicalInfo);
+            userMessage.setType(UserMessageResult.MessageTypes.ERROR);
+            throw new GenericUserException(userMessage);
         }
 
         //Look up and validate the student grading/credit options
@@ -244,6 +308,16 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
         //Return just the item
         return cartItemResult;
+    }
+
+    protected ValidationResultInfo validateRegGroupSearchResult(RegGroupSearchResult regGroupSearchResult){
+
+        ValidationResultInfo resultInfo = new ValidationResultInfo();
+        if(!LuiServiceConstants.REGISTRATION_GROUP_OFFERED_STATE_KEY.equals(regGroupSearchResult.getRegGroupState())){
+            resultInfo.setError("The Registration Group you selected is not in an Offered State. You can only add offered registration groups to cart.");
+        }
+
+        return  resultInfo;
     }
 
     /**
@@ -310,7 +384,14 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             response = Response.ok(updateCartItem(ContextUtils.createDefaultContextInfo(), cartId, cartItemId, credits, gradingOptionId));
         } catch (Throwable t) {
             LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+            // Convert the generic user message into something useful to the UI.
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Unable to update item in cart");
+            String technicalInfo = String.format("Technical Info:(cartId:[%s] cartItemId[%s] gradingOptionId[%s] credits:[%s] )",
+                    cartId, cartItemId, gradingOptionId, credits);
+
+            userMessage.setConsoleMessage(technicalInfo);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
         }
 
         return response.build();
@@ -354,7 +435,13 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             response = Response.ok(getStudentRegistrationOptions(courseCode, termId, regGroupId));
         } catch (Throwable t) {
             LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+            // Convert the generic user message into something useful to the UI.
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Unable to get student registration options.");
+            String technicalInfo = String.format("Technical Info:(termId:[%s] courseCode[%s] regGroupId[%s] )",termId, courseCode, regGroupId);
+
+            userMessage.setConsoleMessage(technicalInfo);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
         }
 
         return response.build();
@@ -390,7 +477,13 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
             response = Response.ok(searchForCart(ContextUtils.createDefaultContextInfo(), termId));
         } catch (Exception e) {
             LOGGER.warn("Error", e);
-            response = Response.serverError().entity(e.getMessage());
+            // Convert the generic user message into something useful to the UI.
+            UserMessageResult userMessage = new UserMessageResult();
+            userMessage.setGenericMessage("Error while searching for Cart.");
+            String technicalInfo = String.format("Technical Info:(termId:[%s])", termId);
+
+            userMessage.setConsoleMessage(technicalInfo);
+            response = getResponse(Response.Status.INTERNAL_SERVER_ERROR, userMessage);
         }
 
         return response.build();

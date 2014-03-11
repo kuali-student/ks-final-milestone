@@ -83,8 +83,8 @@ angular.module('regCartApp')
                         }]
                     });
                 } else {
-                    console.log('Error with adding course', error);
-                    $scope.userMessage = {txt: 'There was an error processing your request', type: 'error'};
+                    console.log('Error with adding course', error.data.consoleMessage);
+                    $scope.userMessage = {txt: error.data.genericMessage, type: error.data.type, detail: error.data.detailedMessage};
                 }
 
             });
