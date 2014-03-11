@@ -239,6 +239,8 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         if (!StringUtils.isEmpty(gradingOptionId)) {
             masterLpr.getResultValuesGroupKeys().add(gradingOptionId);
         }
+        // Set effective date
+        masterLpr.setEffectiveDate(now);
         // Update the master LPR
         masterLpr = getLprService().updateLpr(masterLpr.getId(), masterLpr, contextInfo);
         // Then, create the copy LPR
