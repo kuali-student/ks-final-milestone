@@ -26,6 +26,7 @@
                                 <div class="kscr-DropCourse-buttons util-Grid"><div class="util-Grid-cell"></div>
                                     <span>
                                         <button id="dropRegGroup_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="submit">Confirm Drop</button>
+                                          <div class="global-Base-divider"/>
                                         <button id="dropRegGroupCancel" class="kscr-Button" type="button" ng-click="cancelDropConfirmation(course)">Cancel</button>
                                     </span>
                                 </div>
@@ -77,6 +78,7 @@
                           <span>
                             <!--<button class="btn">Details</button>-->
                             <button class="kscr-Button" id="edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editScheduleItem(course)" ng-show="course.creditOptions.length > 1 || course.gradingOptionCount > 1">Edit</button>
+                              <div class="global-Base-divider"/>
                             <button class="kscr-Button" id="remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="openDropConfirmation($index, course)">Drop</button>
                           </span>
                         </div>
@@ -100,6 +102,7 @@
                             <div class="kscr-Card-buttons">
                                 <span>
                                     <button id="saveScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button--primary" type="submit">Save Changes</button>
+                                      <div class="global-Base-divider"/>
                                     <button id="cancelEditScheduleItem_{{course.courseCode}}_{{course.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancelEditScheduleItem(course)">Cancel</button>
                                 </span>
                             </div>

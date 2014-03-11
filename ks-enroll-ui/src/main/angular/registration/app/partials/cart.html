@@ -93,6 +93,7 @@
                       <span>
                         <!--<button class="btn">Details</button>-->
                         <button class="kscr-Button" id="edit_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="editCartItem(cartItem)" ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptionCount > 1">Edit</button>
+                          <div class="global-Base-divider"/>
                         <button class="kscr-Button" id="remove_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="deleteCartItem($index)">Remove</button>
                       </span>
                 </div>
@@ -115,6 +116,7 @@
                     <div class="kscr-Card-buttons">
                         <span>
                           <button id="save_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Button--primary" type="submit">Save Changes</button>
+                            <div class="global-Base-divider"/>
                           <button id="cancel_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" class="kscr-Button" type="button" ng-click="cancelEditItem(cartItem)">Cancel</button>
                         </span>
                     </div>
