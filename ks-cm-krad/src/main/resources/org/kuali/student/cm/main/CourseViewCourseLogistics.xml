@@ -198,7 +198,11 @@
           p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper">
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add Outcome" />
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Outcome" >
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']+'/plus_grey.png'}"/>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="layoutManager.lineGroupPrototype.header.headerText"
@@ -288,7 +292,11 @@
         <!--<property name="renderAddBlankLineButton" value="true" />-->
         <property name="addLineActions">
             <list>
-                <bean parent="Uif-AddLineAction" p:actionLabel="Add Additional Format" />
+                <bean parent="Uif-AddLineAction" p:actionLabel="Add Additional Format">
+                    <property name="actionImage">
+                        <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']+'/plus_grey.png'}"/>
+                    </property>
+                </bean>
             </list>
         </property>
         <property name="addLineLabel.messageText" value=" " />

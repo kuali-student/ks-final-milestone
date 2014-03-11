@@ -78,7 +78,7 @@
                 <property name="actionLabel" value="Add Learning Objective"/>
                 <property name="actionImagePlacement" value="LEFT"/>
                 <property name="actionImage">
-                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['cm.krad.externalizable.images.url']+'/plus_gray_13px.png'}"/>
+                    <bean parent="Uif-Image" p:source="@{#ConfigProperties['ks.externalizable.images.url']+'/plus_grey.png'}"/>
                 </property>
                 <property name="style" value="margin-top:5px;"/>
             </bean>
