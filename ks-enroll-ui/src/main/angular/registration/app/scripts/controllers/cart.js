@@ -3,8 +3,6 @@
 angular.module('regCartApp')
     .controller('CartCtrl',
     function ($scope, $modal, CartService) {
-        console.log('CartController!');
-        console.log($scope.termId);
         $scope.oneAtATime = false;
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
@@ -16,12 +14,13 @@ angular.module('regCartApp')
             }
         });
 
-        $scope.add = function () {
+        $scope.addRegGroupToCart = function () {
             $scope.courseCode = $scope.courseCode.toUpperCase();
             addCourseToCart($scope.cart.cartId, $scope.courseCode, $scope.termId, $scope.regCode, null, null, null, null);
         };
+
         $scope.$on('addCourseToCart', function (event, cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits) {
-            console.log('receiveing event addCourseToCart', event);
+            console.log('Received event addCourseToCart ', event);
             addCourseToCart(cartId, courseCode, termId, regGroupCode, regGroupId, gradingOptionId, credits);
         });
 
@@ -35,21 +34,18 @@ angular.module('regCartApp')
                 gradingOptionId: gradingOptionId,
                 credits: credits
             }, function (response) {
-                console.log('response: ' + JSON.stringify(response));
-                console.log('Searched for course: ' + $scope.courseCode + ' Term: ' + $scope.termId);
-                console.log('Added item:');
+                console.log('Searched for course: ' + $scope.courseCode + ', Term: ' + $scope.termId);
                 $scope.userMessage = {txt: 'Course Added Successfully', type: 'success'};
                 $scope.courseCode = '';
                 $scope.regCode = '';
                 $scope.cart.items.unshift(response);
-
             }, function (error) {
                 console.log('CartId:', cartId);
                 if (error.status === 404) {
                     //Reg group was not found
                     $scope.userMessage = {txt: error.data, type: 'error'};
                 } else if (error.status === 400) {
-                    console.log('CartId:', cartId);
+                    console.log('CartId: ', cartId);
                     //Additional options are required
                     $modal.open({
                         backdrop: 'static',
@@ -63,19 +59,17 @@ angular.module('regCartApp')
                             }
                         },
                         controller: ['$rootScope', '$scope', 'item', 'cartId', function ($rootScope, $scope, item, cartId) {
-                            console.log('in controller');
-                            console.log($scope);
-                            console.log(item);
+                            console.log('Controller for modal... Item: ', item);
                             $scope.newCartItem = item;
                             $scope.newCartItem.credits = $scope.newCartItem.creditOptions[0];
                             $scope.newCartItem.grading = 'kuali.resultComponent.grade.letter';
-                            $scope.dismiss = function () {
-                                console.log('dismiss');
+                            $scope.dismissAdditionalOptions = function () {
+                                console.log('Dismissing credits and grading');
                                 $scope.$close(true);
                             };
 
-                            $scope.save = function () {
-                                console.log('save', cartId);
+                            $scope.saveAdditionalOptions = function () {
+                                console.log('Save credits and grading for cartId:', cartId);
                                 $rootScope.$broadcast('addCourseToCart', cartId, $scope.newCartItem.courseCode, $scope.newCartItem.termId, $scope.newCartItem.regGroupCode, $scope.newCartItem.regGroupId, $scope.newCartItem.grading, $scope.newCartItem.credits);
                                 $scope.$close(true);
 
@@ -90,12 +84,12 @@ angular.module('regCartApp')
             });
         }
 
-        $scope.cancelNew = function () {
+        $scope.cancelNewCartItem = function () {
             $scope.newCcartItem = null;
             $scope.showNew = false;
         };
 
-        $scope.delete = function (index) {
+        $scope.deleteCartItem = function (index) {
             var item = $scope.cart.items[index];
             var actionLinks = item.actionLinks;
             var deleteUri;
@@ -117,7 +111,7 @@ angular.module('regCartApp')
                         }
                     });
 
-                    $scope.userMessage = {'txt': item.courseCode + '(' + item.regGroupCode + ') ' + 'has been successfully removed from your cart.   ',
+                    $scope.userMessage = {'txt': item.courseCode + '(' + item.regGroupCode + ') ' + 'has been successfully removed from your cart.',
                         'actionLink': actionUri,
                         'linkText': 'Undo',
                         'type': 'success'};
@@ -135,7 +129,7 @@ angular.module('regCartApp')
                 });
         };
 
-        $scope.editItem = function (cartItem) {
+        $scope.editCartItem = function (cartItem) {
             $scope.newCredits = cartItem.credits;
             $scope.newGrading = cartItem.grading;
             cartItem.editing = true;
@@ -146,8 +140,7 @@ angular.module('regCartApp')
         };
 
         $scope.updateCartItem = function (cartItem, newCredits, newGrading) {
-            console.log('Updating:');
-            console.log(newGrading);
+            console.log('Updating cart item. Grading: ' + newGrading + ', credits: ' + newCredits);
             CartService.updateCartItem().query({
                 cartId: $scope.cart.cartId,
                 cartItemId: cartItem.cartItemId,
@@ -191,7 +184,6 @@ angular.module('regCartApp')
         $scope.$watchCollection('cart.items', function () {
             $scope.creditTotal = creditTotal();
         });
-
 
     });
 

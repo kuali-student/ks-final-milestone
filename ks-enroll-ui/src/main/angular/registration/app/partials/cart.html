@@ -21,7 +21,7 @@
 
 <!--My Cart Input Boxes and Add to Cart Button -->
 <div class="kscr-RegInput">
-    <form novalidate name="form" ng-submit="add();">
+    <form novalidate name="form" ng-submit="addRegGroupToCart();">
         <fieldset>
             <div class="util-Grid">
                 <div class="util-Grid-cell"><label for="courseCode" class="kscr-RegInput-label" >Course Code</label></div>
@@ -92,8 +92,8 @@
                 <div class="kscr-Card-buttons">
                       <span>
                         <!--<button class="btn">Details</button>-->
-                        <button class="kscr-Button" id="edit_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="editItem(cartItem)" ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptionCount > 1">Edit</button>
-                        <button class="kscr-Button" id="remove_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="delete($index)">Remove</button>
+                        <button class="kscr-Button" id="edit_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="editCartItem(cartItem)" ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptionCount > 1">Edit</button>
+                        <button class="kscr-Button" id="remove_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="deleteCartItem($index)">Remove</button>
                       </span>
                 </div>
             </div>
