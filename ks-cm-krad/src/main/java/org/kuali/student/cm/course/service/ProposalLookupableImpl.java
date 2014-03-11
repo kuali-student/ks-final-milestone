@@ -16,20 +16,33 @@
  */
 package org.kuali.student.cm.course.service;
 
+import org.apache.commons.lang.BooleanUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.document.Document;
+import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.uif.element.Action;
+import org.kuali.rice.krad.uif.util.LookupInquiryUtils;
+import org.kuali.rice.krad.uif.view.LookupView;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
@@ -93,13 +106,6 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
             for (SearchResultCellInfo cell : cells) {
                 if (cell.getKey().equals("proposal.resultColumn.proposalId")) {
                     proposalIds.add(cell.getValue());
-//                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalName")) {
-//                    proposalInfo.setName(cell.getValue());
-//                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalTypeName")) {
-//
-//                    proposalInfo.setType(cell.getValue());
-//                } else if (cell.getKey().equals("proposal.resultColumn.proposalOptionalStatus")) {
-//                    proposalInfo.setState(cell.getValue());
                 }
             }
         }
@@ -108,6 +114,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
             try {
                 proposals = getProposalService().getProposalsByIds(proposalIds,ContextUtils.getContextInfo());
                 populateProposalCreatorName(proposals);
+                populateProposalAllowedActions(proposals);
             } catch (Exception e) {
                 throw new RuntimeException("Error searching for proposal",e);
             }
@@ -153,10 +160,101 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
     }
 
-    protected String getActionUrlHref(LookupForm lookupForm, Object dataObject, String methodToCall, List<String> pkNames) {
+    protected void populateProposalAllowedActions(List<ProposalInfo> proposals){
+
+        if (proposals.isEmpty()){
+            return;
+        }
+
+        List<String> workflowIds = new ArrayList<String>();
+        for (ProposalInfo proposal : proposals){
+            workflowIds.add(proposal.getWorkflowId());
+        }
+
+        List<Document> documents = null;
+        try {
+            documents = KRADServiceLocatorWeb.getDocumentService().getDocumentsByListOfDocumentHeaderIds(MaintenanceDocumentBase.class,workflowIds);
+        } catch (WorkflowException e) {
+            throw new RuntimeException("Error loading maintenance document",e);
+        }
+
+        Map<String,Document> workflowId2Doc = new HashMap<String, Document>();
+
+        for (Document document : documents){
+            workflowId2Doc.put(document.getDocumentNumber(),document);
+        }
+
+        for (ProposalInfo proposal : proposals){
+
+            boolean canEdit;
+            boolean canOpen;
+
+            Document document = workflowId2Doc.get(proposal.getWorkflowId());
+            String docTypeName = document.getDocumentHeader().getWorkflowDocument().getDocumentTypeName();
+
+            canEdit = KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentAuthorizer(docTypeName).canEdit(document,
+                    GlobalVariables.getUserSession().getPerson());
+
+            canOpen = KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentAuthorizer(docTypeName).canOpen(document,
+                    GlobalVariables.getUserSession().getPerson());
+
+            AttributeInfo editAttribute = new AttributeInfo("canEdit", BooleanUtils.toStringTrueFalse(canEdit));
+            AttributeInfo openAttribute = new AttributeInfo("canOpen", BooleanUtils.toStringTrueFalse(canOpen));
+            proposal.getAttributes().add(editAttribute);
+            proposal.getAttributes().add(openAttribute);
+        }
+    }
+
+    /**
+     * Determines if given data object has associated maintenance document that allows edit maintenance
+     * actions
+     *
+     * @return boolean true if the maintenance edit action is allowed for the data object instance, false otherwise
+     */
+    @Override
+    public boolean allowsMaintenanceEditAction(Object dataObject) {
+
+        ProposalInfo proposalInfo = (ProposalInfo)dataObject;
+
+        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue("canEdit"));
+    }
+
+    /**
+     * Determines if given data object has associated maintenance document that allows edit maintenance
+     * actions
+     *
+     * @return boolean true if the maintenance edit action is allowed for the data object instance, false otherwise
+     */
+    public boolean allowsMaintenanceOpenAction(Object dataObject) {
+
+        ProposalInfo proposalInfo = (ProposalInfo)dataObject;
+
+        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue("canOpen"));
+    }
+
+
+    public void getProposalActionLink(Action actionLink, Object model, String maintenanceMethodToCall,String pageId) {
+        LookupForm lookupForm = (LookupForm) model;
+        Object dataObject = actionLink.getContext().get(UifConstants.ContextVariableNames.LINE);
+
+        // build maintenance link href
+        String href = getProposalUrl(lookupForm, dataObject, maintenanceMethodToCall, pageId);
+
+        if (StringUtils.isBlank(href)) {
+            actionLink.setRender(false);
+            return;
+        }
+
+        // TODO: need to handle returning anchor
+        actionLink.setActionScript("window.open('" + href + "', '_self');");
+
+        lookupForm.setAtLeastOneRowHasActions(true);
+    }
+
+    protected String getProposalUrl(LookupForm lookupForm, Object dataObject, String methodToCall, String pageId) {
 
         if (dataObject == null){
-            return super.getActionUrlHref(lookupForm,dataObject,methodToCall,pkNames);
+            return "";
         }
 
         Properties props = new Properties();
@@ -165,7 +263,9 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         props.put(KRADConstants.RETURN_LOCATION_PARAMETER, "cmHome?methodToCall=start&viewId=curriculumHomeView");
 
         props.put(UifParameters.DATA_OBJECT_CLASS_NAME, CourseInfoWrapper.class.toString());
-        props.put(UifParameters.PAGE_ID, "KS-CourseView-ReviewProposalPage");
+        if (StringUtils.isNotBlank(pageId)){
+            props.put(UifParameters.PAGE_ID, pageId);
+        }
         props.put(KRADConstants.PARAMETER_DOC_ID, ((ProposalInfo)dataObject).getWorkflowId());
 
         return UrlFactory.parameterizeUrl("courses", props);

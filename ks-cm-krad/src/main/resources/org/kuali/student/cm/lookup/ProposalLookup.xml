@@ -94,7 +94,7 @@ limitations under the License.
                 <property name="items">
                     <list>
                         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="title" p:label="Title" p:required="true"/>
-                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find Course Proposal">
+                        <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find Course Proposal" p:performClientSideValidation="true">
                             <!--<property name="cssClasses">
                                 <list merge="true">
                                     <value>ks-cm-find-course-button-centre</value>
@@ -132,12 +132,35 @@ limitations under the License.
                 <list>
                   <bean parent="KS-Uif-View-NavigationActionLink">
                     <property name="actionLabel" value="Review Proposal"/>
-                    <property name="finalizeMethodToCall" value="getMaintenanceActionLink"/>
+                    <property name="finalizeMethodToCall" value="getProposalActionLink"/>
                     <property name="finalizeMethodAdditionalArguments">
                       <list>
                         <value>docHandler</value>
+                        <value>KS-CourseView-ReviewProposalPage</value>
                       </list>
                     </property>
+                    <property name="actionParameters">
+                        <map>
+                          <entry key="pageId" value="KS-CourseView-ReviewProposalPage"/>
+                        </map>
+                    </property>
+                    <property name="render" value="@{#ViewHelper.allowsMaintenanceOpenAction(#line)}"/>
+                  </bean>
+                  <bean parent="KS-Uif-Edit-NavigationActionLink">
+                    <property name="actionLabel" value="Edit"/>
+                    <property name="finalizeMethodToCall" value="getProposalActionLink"/>
+                    <property name="finalizeMethodAdditionalArguments">
+                      <list>
+                        <value>docHandler</value>
+                        <value>KS-CourseView-CoursePage</value>
+                      </list>
+                    </property>
+                    <!--<property name="actionParameters">
+                       <map>
+                          <entry key="pageId" value="KS-CourseView-ReviewProposalPage"/>
+                       </map>
+                    </property>-->
+                    <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
                   </bean>
             </list>
           </property>
