@@ -20,13 +20,20 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.component.Component;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.control.CheckboxControl;
+import org.kuali.rice.krad.uif.control.CheckboxGroupControl;
+import org.kuali.rice.krad.uif.control.Control;
+import org.kuali.rice.krad.uif.control.RadioGroupControl;
+import org.kuali.rice.krad.uif.control.SelectControl;
 import org.kuali.rice.krad.uif.field.DataField;
 import org.kuali.rice.krad.uif.field.Field;
 import org.kuali.rice.krad.uif.field.FieldGroup;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.field.LinkField;
 import org.kuali.rice.krad.uif.field.MessageField;
 import org.kuali.rice.krad.uif.layout.LayoutManager;
 import org.kuali.rice.krad.uif.layout.TableLayoutManager;
+import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.widget.RichTable;
 
 import java.util.HashMap;
@@ -313,6 +320,60 @@ public class KSRichTable extends RichTable {
                         tableToolsColumnOptions.toString());
             }
         }
+    }
+
+    /**
+     * Construct the column options for a data field
+     *
+     * @param collectionGroup the collectionGroup in which the data field is defined
+     * @param field the field to construction options for
+     * @return options as valid for datatable
+     */
+    protected String getDataFieldColumnOptions(int target, CollectionGroup collectionGroup, DataField field) {
+        String sortType = null;
+
+        if (!collectionGroup.isReadOnly()
+                && (field instanceof InputField)
+                && ((InputField) field).getControl() != null) {
+            Control control = ((InputField) field).getControl();
+            if (control instanceof SelectControl) {
+                sortType = UifConstants.TableToolsValues.DOM_SELECT;
+            } else if (control instanceof CheckboxControl || control instanceof CheckboxGroupControl) {
+                sortType = UifConstants.TableToolsValues.DOM_CHECK;
+            } else if (control instanceof RadioGroupControl) {
+                sortType = UifConstants.TableToolsValues.DOM_RADIO;
+            } else {
+                sortType = UifConstants.TableToolsValues.DOM_TEXT;
+            }
+        } else {
+            sortType = UifConstants.TableToolsValues.DOM_TEXT;
+        }
+
+        Class<?> dataTypeClass = ObjectPropertyUtils.getPropertyType(collectionGroup.getCollectionObjectClass(),
+                field.getPropertyName());
+
+        //This is a workaround for BeanWrapperImpl.getPropertyType() returning null for nested properties.
+        /**
+         * Use case: For a.x, BeanWrapperImpl.getPropertyType() cant able to find the property type of x
+         * directly because of nesting. Here we're trying to get the property type of 'a' first and
+         * from that, we get the property type of 'x'
+         */
+        if (dataTypeClass == null && StringUtils.contains(field.getPropertyName(),".")){
+            Class<?> sourcePropertyClass = collectionGroup.getCollectionObjectClass();
+            for (String nestedProperty : StringUtils.split(field.getPropertyName(),".")){
+                sourcePropertyClass = ObjectPropertyUtils.getPropertyType(sourcePropertyClass,
+                        nestedProperty);
+            }
+            dataTypeClass = sourcePropertyClass;
+        }
+
+        boolean isSortable = true;
+        if (field.isApplyMask()) {
+            isSortable = false;
+        }
+
+        return constructTableColumnOptions(target, isSortable, collectionGroup.isUseServerPaging(), dataTypeClass,
+                sortType);
     }
 
 }
