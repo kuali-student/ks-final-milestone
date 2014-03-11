@@ -129,39 +129,36 @@ limitations under the License.
         <property name="resultsGroup.layoutManager.actionColumnPlacement" value="RIGHT"/>
 
         <property name="resultsGroup.lineActions">
-                <list>
-                  <bean parent="KS-Uif-View-NavigationActionLink">
-                    <property name="actionLabel" value="Review Proposal"/>
-                    <property name="finalizeMethodToCall" value="getProposalActionLink"/>
-                    <property name="finalizeMethodAdditionalArguments">
-                      <list>
-                        <value>docHandler</value>
-                        <value>KS-CourseView-ReviewProposalPage</value>
-                      </list>
-                    </property>
-                    <property name="actionParameters">
-                        <map>
-                          <entry key="pageId" value="KS-CourseView-ReviewProposalPage"/>
-                        </map>
-                    </property>
-                    <property name="render" value="@{#ViewHelper.allowsMaintenanceOpenAction(#line)}"/>
-                  </bean>
-                  <bean parent="KS-Uif-Edit-NavigationActionLink">
-                    <property name="actionLabel" value="Edit"/>
-                    <property name="finalizeMethodToCall" value="getProposalActionLink"/>
-                    <property name="finalizeMethodAdditionalArguments">
-                      <list>
-                        <value>docHandler</value>
-                        <value>KS-CourseView-CoursePage</value>
-                      </list>
-                    </property>
-                    <!--<property name="actionParameters">
-                       <map>
-                          <entry key="pageId" value="KS-CourseView-ReviewProposalPage"/>
-                       </map>
-                    </property>-->
-                    <property name="render" value="@{#ViewHelper.allowsMaintenanceEditAction(#line) and view.showMaintenanceLinks}"/>
-                  </bean>
+            <list>
+              <bean parent="KS-Uif-View-NavigationActionLink">
+                <property name="id" value="@{#lp.name}_view"/>
+                <property name="actionLabel" value="Review Proposal"/>
+                <property name="finalizeMethodToCall" value="getProposalActionLink"/>
+                <property name="finalizeMethodAdditionalArguments">
+                  <list>
+                    <value>docHandler</value>
+                    <value>KS-CourseView-ReviewProposalPage</value>
+                  </list>
+                </property>
+                <property name="actionParameters">
+                    <map>
+                      <entry key="pageId" value="KS-CourseView-ReviewProposalPage"/>
+                    </map>
+                </property>
+                <property name="render" value="@{#ViewHelper.allowsProposalOpenAction(#line)}"/>
+              </bean>
+              <bean parent="KS-Uif-Edit-NavigationActionLink">
+                <property name="id" value="@{#lp.name}_edit"/>
+                <property name="actionLabel" value="Edit"/>
+                <property name="finalizeMethodToCall" value="getProposalActionLink"/>
+                <property name="finalizeMethodAdditionalArguments">
+                  <list>
+                    <value>docHandler</value>
+                    <value>KS-CourseView-CoursePage</value>
+                  </list>
+                </property>
+                <property name="render" value="@{#ViewHelper.allowsProposalEditAction(#line) and view.showMaintenanceLinks}"/>
+              </bean>
             </list>
           </property>
 

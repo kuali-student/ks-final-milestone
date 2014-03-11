@@ -36,6 +36,8 @@ public class CurriculumManagementConstants {
         public final static String UNABLE_TO_ADD_LINE = "unable.to.add.line";
         public final static String UNABLE_TO_DELETE_LINE = "unable.to.delete.line";
         public final static String ERROR_CREATE_COMMENT = "error.create.comment";
+
+        public final static String ERROR_NO_RESULTS_FOUND = "error.search.result.notfound";
     }
 
     public static class OrganizationMessageKeys{

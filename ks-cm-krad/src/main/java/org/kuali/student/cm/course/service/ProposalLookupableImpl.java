@@ -32,13 +32,11 @@ import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.uif.element.Action;
-import org.kuali.rice.krad.uif.util.LookupInquiryUtils;
-import org.kuali.rice.krad.uif.view.LookupView;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
@@ -87,12 +85,19 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         searchRequest.setSearchKey("proposal.search.generic");
         searchRequest.setSortColumn("proposal.queryParam.proposalOptionalName");
 
+        List<ProposalInfo> proposalInfos;
         try {
             SearchResultInfo searchResult = getProposalService().search(searchRequest, ContextUtils.getContextInfo());
-            return resolveProposalSearchResultSet(searchResult);
+            proposalInfos = resolveProposalSearchResultSet(searchResult);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+        if (proposalInfos.isEmpty()){
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, CurriculumManagementConstants.MessageKeys.ERROR_NO_RESULTS_FOUND);
+        }
+
+        return proposalInfos;
     }
 
     public List<ProposalInfo> resolveProposalSearchResultSet(SearchResultInfo searchResult) {
@@ -211,8 +216,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
      *
      * @return boolean true if the maintenance edit action is allowed for the data object instance, false otherwise
      */
-    @Override
-    public boolean allowsMaintenanceEditAction(Object dataObject) {
+    public boolean allowsProposalEditAction(Object dataObject) {
 
         ProposalInfo proposalInfo = (ProposalInfo)dataObject;
 
@@ -225,7 +229,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
      *
      * @return boolean true if the maintenance edit action is allowed for the data object instance, false otherwise
      */
-    public boolean allowsMaintenanceOpenAction(Object dataObject) {
+    public boolean allowsProposalOpenAction(Object dataObject) {
 
         ProposalInfo proposalInfo = (ProposalInfo)dataObject;
 
@@ -245,7 +249,6 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
             return;
         }
 
-        // TODO: need to handle returning anchor
         actionLink.setActionScript("window.open('" + href + "', '_self');");
 
         lookupForm.setAtLeastOneRowHasActions(true);
