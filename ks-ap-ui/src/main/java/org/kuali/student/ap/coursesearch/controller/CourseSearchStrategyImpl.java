@@ -1063,6 +1063,30 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
         }
 
+        // Create course code only search
+        List<String> seenIncompleteCodes = new ArrayList<String>();
+        for (String incompleteCode : incompleteCodes) {
+            // Skip if already seen
+            if(seenIncompleteCodes.contains(incompleteCode)) continue;
+
+            seenIncompleteCodes.add(incompleteCode);
+
+            // Remove an entry from the lists of pieces since were using one
+            for(int i = 0; i<divisions.size();i++){
+                String division = divisions.get(0);
+                if(incompleteCode.matches(division+"[0-9]+")){
+                    divisions.remove(i);
+                    break;
+                }
+            }
+
+            SearchRequestInfo request = new SearchRequestInfo(
+                    CourseSearchConstants.COURSE_SEARCH_TYPE_COURSECODE);
+            request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, incompleteCode);
+            requests.add(request);
+        }
+
+
         // for each division found determine the search types needed
         List<String> seenDivisions = new ArrayList<String>();
 		for (String division : divisions) {
@@ -1105,20 +1129,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 				requests.add(request);
 			}
 
-            // Create course code only search
-            List<String> seenIncompleteCodes = new ArrayList<String>();
-            for (String incompleteCode : incompleteCodes) {
-                // Skip if already seen
-                if(seenIncompleteCodes.contains(incompleteCode)) continue;
-
-                seenIncompleteCodes.add(incompleteCode);
-
-                SearchRequestInfo request = new SearchRequestInfo(
-                        CourseSearchConstants.COURSE_SEARCH_TYPE_COURSECODE);
-                request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_CODE, incompleteCode);
-                requests.add(request);
-            }
-
             // Always create a division search
             SearchRequestInfo request = new SearchRequestInfo(
                     CourseSearchConstants.COURSE_SEARCH_TYPE_DIVISION);
@@ -1143,8 +1153,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             request.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_LEVEL, level);
             requests.add(request);
         }
-
-
 	}
 
     /**

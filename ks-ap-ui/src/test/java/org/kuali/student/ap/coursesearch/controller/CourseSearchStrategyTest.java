@@ -229,7 +229,7 @@ public class CourseSearchStrategyTest {
         ArrayList<String> completeLevels = new ArrayList<String>();
         ArrayList<SearchRequestInfo> requests = new ArrayList<SearchRequestInfo>();
         strategy.addComponentSearches(divisions, codes, levels, incompleteCodes, completeCodes, completeLevels, requests);
-        assertEquals(2, requests.size());
+        assertEquals(1, requests.size());
         SearchRequestInfo request = requests.get(0);
         assertEquals("ksap.lu.search.courseCode",
                 request.getSearchKey());
