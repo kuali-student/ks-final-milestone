@@ -92,7 +92,7 @@
                 <div class="kscr-Card-buttons">
                       <span>
                         <!--<button class="btn">Details</button>-->
-                        <button class="kscr-Button" id="edit_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="editItem(cartItem)"ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptionCount > 1">Edit</button>
+                        <button class="kscr-Button" id="edit_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="editItem(cartItem)" ng-show="cartItem.creditOptions.length > 1 || cartItem.gradingOptionCount > 1">Edit</button>
                         <button class="kscr-Button" id="remove_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-click="delete($index)">Remove</button>
                       </span>
                 </div>
@@ -100,12 +100,12 @@
             <!-- Cart Change Section: Credits, Grading, and Save -->
             <div class="kscr-Card-detailsText" ng-show="cartItem.editing">
                 <form ng-submit="updateCartItem(cartItem, newCredits, newGrading)">
-                    <div>
+                    <div ng-show="cartItem.creditOptions.length > 1">
                         <label class="kscr-Edit-details" for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
                         <select class="kscr-Edit-details" id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
                                 ng-options="creditOption for creditOption in cartItem.creditOptions"></select>
                     </div>
-                    <div>
+                    <div ng-show="cartItem.gradingOptionCount > 1">
                         <label class="kscr-Edit-details" for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Registration Options</label>
                         <select class="kscr-Edit-details" id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newGrading"
                                 ng-options="key as value for (key, value) in cartItem.gradingOptions"></select>

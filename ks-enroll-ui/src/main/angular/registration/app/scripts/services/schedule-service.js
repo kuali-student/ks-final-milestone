@@ -57,12 +57,19 @@ angular.module('regCartApp')
         this.populateSchedule = function (termIdInput) {
             this.setStudentSchedule(this.getScheduleFromServer().query({termId: termIdInput }, function (result) {
                 console.log('called rest service to get schedule data');
+                //Calculate credit count, course count and grading option count
                 var creditCount = 0;
                 var courses = 0;
                 angular.forEach(result, function (schedule) {
                     angular.forEach(schedule.courseOfferings, function (course) {
                         creditCount += parseFloat(course.credits);
                         courses++;
+                        var gradingOptionCount = 0;
+                        //grading options are an object (map) so there's no easy way to get the object size without this code
+                        angular.forEach(course.gradingOptions, function(){
+                            gradingOptionCount++;
+                        })
+                        course.gradingOptionCount = gradingOptionCount;
                     });
                 });
 

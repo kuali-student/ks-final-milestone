@@ -76,7 +76,7 @@
                         <div class="kscr-Card-buttons">
                           <span>
                             <!--<button class="btn">Details</button>-->
-                            <button class="kscr-Button" id="edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editScheduleItem(course)" ng-show="course.creditOptions.length > 1 || course.gradingOptions">Edit</button>
+                            <button class="kscr-Button" id="edit_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="editScheduleItem(course)" ng-show="course.creditOptions.length > 1 || course.gradingOptionCount > 1">Edit</button>
                             <button class="kscr-Button" id="remove_{{course.courseCode}}_{{course.regGroupCode}}" ng-click="openDropConfirmation($index, course)">Drop</button>
                           </span>
                         </div>
@@ -85,12 +85,12 @@
                     <!-- Schedule Item Change Section: Credits, Grading, and Save -->
                     <div class="kscr-Card-detailsText" ng-show="course.editing">
                         <form ng-submit="updateScheduleItem(course, newCredits, newGrading)">
-                            <div>
+                            <div ng-show="course.creditOptions.length > 1">
                                 <label class="kscr-Edit-details" for="credits_{{course.courseCode}}_{{course.regGroupCode}}">Credits</label>
                                 <select class="kscr-Edit-details" id="credits_{{course.courseCode}}_{{course.regGroupCode}}" ng-model="newCredits"
                                         ng-options="creditOption for creditOption in course.creditOptions"></select>
                             </div>
-                            <div>
+                            <div ng-show="course.gradingOptionCount > 1">
                                 <label class="kscr-Edit-details" for="grading_{{course.courseCode}}_{{course.regGroupCode}}">Registration Options</label>
                                 <select class="kscr-Edit-details" id="grading_{{course.courseCode}}_{{course.regGroupCode}}" ng-model="newGrading"
                                         ng-options="key as value for (key, value) in course.gradingOptions"></select>

@@ -11,12 +11,12 @@
     </div>
 
     <div class="kscr-AdditionalOptions-content">
-        <div>
+        <div ng-show="newCartItem.creditOptions.length > 1">
             <label for="newItemCredits" class="kscr-RegInput-label" >Credits</label>
             <select id="newItemCredits" class="kscr-RegInput-label" ng-model="newCartItem.credits"
                     ng-options="creditOption for creditOption in newCartItem.creditOptions"></select>
         </div>
-        <div>
+        <div ng-show="newCartItem.gradingOptionCount > 1">
             <label for="newItemGrading" class="kscr-RegInput-label">Grading</label>
             <select id="newItemGrading" class="kscr-RegInput-label" ng-model="newCartItem.grading"
                     ng-options="key as value for (key, value) in newCartItem.gradingOptions"></select>
