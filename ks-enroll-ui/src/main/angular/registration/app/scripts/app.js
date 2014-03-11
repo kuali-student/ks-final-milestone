@@ -30,10 +30,6 @@ angular.module('regCartApp', [
                 url: '/options',
                 templateUrl: 'partials/additionalOptions.html'
             })
-            .state('root.dropCourse', {
-                url: '/options',
-                templateUrl: 'partials/dropCourse.html'
-            });
 
         //Add the  login interceptor to all service calls
         $httpProvider.interceptors.push('loginInterceptor');
