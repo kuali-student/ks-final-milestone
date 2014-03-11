@@ -139,6 +139,10 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             LprInfo rgLprCreated = makeLpr(LprServiceConstants.REGISTRANT_RG_TYPE_KEY, regGroupId, null, effDate, termId, credits, gradingOptionKey, context);
             result.add(rgLprCreated);
 
+            // Set credits and gradingOptionsKey to null so only the RG LPR (masterLpr) has those values set.
+            credits = null;
+            gradingOptionKey = null;
+
             // Create CO LPR
             LprInfo coLprCreated = makeLpr(LprServiceConstants.REGISTRANT_CO_TYPE_KEY, coId, rgLprCreated.getMasterLprId(), effDate, termId, credits, gradingOptionKey, context);
             result.add(coLprCreated);
@@ -158,7 +162,8 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         return result;
     }
 
-    private LprInfo makeLpr(String lprType, String luiId, String masterLuiId, Date effDate, String atpId, String credits, String gradingOptionKey, ContextInfo context)
+    private LprInfo makeLpr(String lprType, String luiId, String masterLprId, Date effDate,
+                            String atpId, String credits, String gradingOptionKey, ContextInfo context)
             throws DoesNotExistException, PermissionDeniedException, OperationFailedException,
             InvalidParameterException, ReadOnlyException, MissingParameterException,
             DataValidationErrorException {
@@ -167,7 +172,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         lpr.setStateKey(LprServiceConstants.PLANNED_STATE_KEY);
         lpr.setPersonId(context.getPrincipalId());
         lpr.setLuiId(luiId);
-        lpr.setMasterLprId(masterLuiId);
+        lpr.setMasterLprId(masterLprId);
         lpr.setEffectiveDate(effDate);
         lpr.setAtpId(atpId);
         if (!StringUtils.isEmpty(credits)) {
