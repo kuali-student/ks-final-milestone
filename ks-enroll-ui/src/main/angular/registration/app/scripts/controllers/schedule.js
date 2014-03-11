@@ -23,7 +23,6 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
         $scope.dropRegistrationGroup = function (index, course) {
             console.log('Open drop confirmation');
             ScheduleService.dropRegistrationGroup().query({
-                userId: 'admin',
                 masterLprId: course.masterLprId
             }, function () {
                 course.dropping = false;
@@ -48,7 +47,6 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             console.log(newCredits);
             console.log(newGrading);
             ScheduleService.updateScheduleItem().query({
-                userId: 'admin',
                 courseCode: course.courseCode,
                 cartItemId: course.regGroupCode,
                 masterLprId: course.masterLprId,
