@@ -225,12 +225,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         // Make a copy of the original master LPR.  This copy will store the original master LPR's info
         // while the original master LPR will be updated.  This is a "trick" to avoid creating new master LPR
         // IDs whenever the master LPR is updated.
-        LprInfo masterLprCopy = null;
-        try {
-            masterLprCopy = new LprInfo(masterLpr);
-        } catch (Exception e) {
-            LOGGER.warn("Exception");
-        }
+        LprInfo masterLprCopy = new LprInfo(masterLpr);
         masterLprCopy.setId(null);
         masterLprCopy.setMeta(null);
         masterLprCopy.setExpirationDate(now); // Set its expiration date
