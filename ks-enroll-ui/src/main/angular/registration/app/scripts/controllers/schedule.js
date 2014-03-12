@@ -2,12 +2,16 @@
 
 var cartServiceModule = angular.module('regCartApp');
 
-cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService',
-    function ($scope, $modal, ScheduleService) {
-        ScheduleService.populateSchedule($scope.termId);
-        $scope.schedules = ScheduleService.getStudentSchedule();
-        $scope.registeredCredits = ScheduleService.getRegisteredCredits;
-        $scope.registeredCourseCount = ScheduleService.getRegisteredCourseCount;
+cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleService', 'GlobalVarsService',
+    function ($scope, $modal, ScheduleService, GlobalVarsService) {
+        ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
+            console.log('called rest service to get schedule data - in schedule.js');
+            $scope.schedules = result;
+            GlobalVarsService.updateScheduleCounts($scope.schedules);
+            $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;
+            $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount;
+
+        });
 
         $scope.openDropConfirmation = function (index, course) {
             console.log('Open drop confirmation');
@@ -27,7 +31,8 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             }, function () {
                 course.dropping = false;
                 $scope.schedules[0].courseOfferings.splice(index, 1);
-                ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(course.credits));
+                GlobalVarsService.updateScheduleCounts($scope.schedules);
+                //ScheduleService.setRegisteredCredits(parseFloat(ScheduleService.getRegisteredCredits()) - parseFloat(course.credits));
                 $scope.userMessage = {txt:course.courseCode + ' dropped Successfully', type:'success'};
             });
         };
@@ -56,6 +61,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
                 console.log(scheduleItemResult);
                 course.credits = scheduleItemResult.credits;
                 course.gradingOptionId = scheduleItemResult.gradingOptionId;
+                GlobalVarsService.updateScheduleCounts($scope.schedules);
                 course.editing = false;
                 $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
             });
@@ -63,6 +69,6 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
 
         $scope.showBadge = function (course) {
             return course.gradingOptions[course.gradingOptionId] != 'Letter';
-        }
+        };
 
     }]);

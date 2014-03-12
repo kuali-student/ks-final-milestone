@@ -29,7 +29,7 @@ angular.module('regCartApp', [
             .state('root.additionalOptions', {
                 url: '/options',
                 templateUrl: 'partials/additionalOptions.html'
-            })
+            });
 
         //Add the  login interceptor to all service calls
         $httpProvider.interceptors.push('loginInterceptor');

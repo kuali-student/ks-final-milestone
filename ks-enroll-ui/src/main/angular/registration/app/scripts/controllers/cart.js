@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('CartCtrl',
-    function ($scope, $modal, CartService) {
+    function ($scope, $modal, CartService, ScheduleService, GlobalVarsService) {
         $scope.oneAtATime = false;
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
@@ -150,9 +150,9 @@ angular.module('regCartApp')
                 console.log($scope);
                 console.log(JSON.stringify(newCartItem));
                 cartItem.credits = newCartItem.credits;
-                console.log("old: " + cartItem.grading + " To: " + newCartItem.grading);
+                console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
                 cartItem.grading = newCartItem.grading;
-                console.log("old: " + cartItem.grading + " To: " + newCartItem.grading);
+                console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
                 cartItem.editing = false;
                 cartItem.actionLinks = newCartItem.actionLinks;
                 $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
@@ -161,6 +161,13 @@ angular.module('regCartApp')
         };
 
         $scope.register = function () {
+
+            // We are updating the counts here, but in the future we will be polling for the updates.
+            var currentCartCreditCount = creditTotal();
+            var currentCartCourseCount = $scope.cart.items.length;
+            var currentScheduleCreditCount = GlobalVarsService.getRegisteredCredits();
+            var currentScheduleCourseCount = GlobalVarsService.getRegisteredCourseCount();
+
             CartService.submitCart().query({
                 cartId: $scope.cart.cartId
             }, function () {
@@ -168,6 +175,8 @@ angular.module('regCartApp')
                 CartService.getCart().query({termId: $scope.termId}, function (theCart) {
                     $scope.cart = theCart;
                     $scope.userMessage = {txt: 'Cart was submitted.', type: 'success'};
+                    GlobalVarsService.setRegisteredCourseCount(currentCartCourseCount + currentScheduleCourseCount);
+                    GlobalVarsService.setRegisteredCredits(currentCartCreditCount + currentScheduleCreditCount);
                 });
             });
         };
@@ -191,7 +200,7 @@ angular.module('regCartApp')
         $scope.showBadge = function (cartItem) {
             //console.log("Cart Item Grading: " + JSON.stringify(cartItem));
             return cartItem.gradingOptions[cartItem.grading] != 'Letter';
-        }
+        };
 
     });
 
