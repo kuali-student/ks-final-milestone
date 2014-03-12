@@ -69,6 +69,10 @@ public class ScheduleWrapper implements Serializable{
     private boolean modified;
     private List<String> endTimes;
 
+    private String startTimeAmPm;
+    private String endTimeAmPm;
+    private String dayInExamPeriod;
+
     public ScheduleWrapper(){
         features = new ArrayList<String>();
         this.colocatedAOs = new ArrayList<String>();
@@ -377,6 +381,30 @@ public class ScheduleWrapper implements Serializable{
 
     public void setEndTimes(List<String> endTimes) {
         this.endTimes = endTimes;
+    }
+
+    public String getStartTimeAmPm() {
+        return startTimeAmPm;
+    }
+
+    public void setStartTimeAmPm(String startTimeAmPm) {
+        this.startTimeAmPm = startTimeAmPm;
+    }
+
+    public String getEndTimeAmPm() {
+        return endTimeAmPm;
+    }
+
+    public void setEndTimeAmPm(String endTimeAmPm) {
+        this.endTimeAmPm = endTimeAmPm;
+    }
+
+    public String getDayInExamPeriod() {
+        return dayInExamPeriod;
+    }
+
+    public void setDayInExamPeriod(String dayInExamPeriod) {
+        this.dayInExamPeriod = dayInExamPeriod;
     }
 
     public String[] getEndTimesArray(){

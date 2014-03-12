@@ -40,6 +40,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrappe
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleCalcContainer;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleRequestCalcContainer;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.facade.ActivityOfferingResult;
@@ -2400,7 +2401,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 new ArrayList<String>(examOfferingIds), ContextUtils.createDefaultContextInfo());
 
         for (ExamOfferingInfo examOfferingInfo : examOfferingInfos) {
-            ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo);
+            ExamOfferingWrapper examOfferingWrapper = createWrapperFromExamOffering(examOfferingInfo, theForm);
 
             if (isDriverPerAO(examOfferingInfo)) {
 
@@ -2473,6 +2474,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
 
                     examOfferingWrapper.setAoInfo(wrapper.getAoInfo());
                     examOfferingWrapper.setActivityCode(wrapper.getActivityCode());
+                    examOfferingWrapper.setDriverPerAO(true);
                     eoClusterWrapper.getEoWrapperList().add(examOfferingWrapper);
 
                     return;
@@ -2500,7 +2502,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
 
-    private ExamOfferingWrapper createWrapperFromExamOffering(ExamOfferingInfo examOfferingInfo) throws Exception {
+    private ExamOfferingWrapper createWrapperFromExamOffering(ExamOfferingInfo examOfferingInfo, CourseOfferingManagementForm theForm) throws Exception {
         ExamOfferingWrapper eoWrapper = new ExamOfferingWrapper();
         eoWrapper.setEoInfo(examOfferingInfo);
 
@@ -2511,6 +2513,13 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         List<ScheduleRequestInfo> scheduleRequestInfos = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestsByRefObject(
                 ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingInfo.getId(), ContextUtils.createDefaultContextInfo());
         ExamPeriodInfo epInfo = CourseOfferingManagementUtil.getAcademicCalendarService().getExamPeriod(examOfferingInfo.getExamPeriodId() , ContextUtils.createDefaultContextInfo());
+        Date epStartDate = epInfo.getStartDate();
+        Date epEndDate = epInfo.getEndDate();
+        boolean epExcludeSaturdays = Boolean.parseBoolean(epInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR));
+        boolean epExcludeSundays = Boolean.parseBoolean(epInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR));
+
+        theForm.setExamPeriodDays(getExamPeriodDates(epStartDate, epEndDate, epExcludeSaturdays, epExcludeSundays).size());
+        ScheduleWrapper scheduleWrapper = new ScheduleWrapper();
 
         for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
             for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
@@ -2518,22 +2527,33 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 String timeSlotId = KSCollectionUtils.getOptionalZeroElement(componentInfo.getTimeSlotIds());
                 TimeSlotInfo timeSlot = CourseOfferingManagementUtil.getSchedulingService().getTimeSlot(timeSlotId, ContextUtils.createDefaultContextInfo());
                 if (timeSlot != null) {
+                    scheduleWrapper.setTimeSlot(timeSlot);
 
                     TimeOfDayInfo startTime = timeSlot.getStartTime();
                     TimeOfDayInfo endTime = timeSlot.getEndTime();
                     List<Integer> days = timeSlot.getWeekdays();
 
                     if (startTime != null && startTime.getHour() != null) {
-                        eoWrapper.setStartTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime));
+                        String startTimeDisplay = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
+                        eoWrapper.setStartTimeDisplay(startTimeDisplay);
+
+                        scheduleWrapper.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(startTimeDisplay, " "));
+                        scheduleWrapper.setStartTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(startTimeDisplay, " "));
                     }
 
                     if (endTime != null && endTime.getHour() != null) {
-                        eoWrapper.setEndTimeDisplay(TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime));
+                        String endTimeDisplay = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
+                        eoWrapper.setEndTimeDisplay(endTimeDisplay);
+
+                        scheduleWrapper.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(endTimeDisplay, " "));
+                        scheduleWrapper.setEndTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(endTimeDisplay, " "));
                     }
 
                     if (days != null && days.size() > 0) {
-                       eoWrapper.setDaysDisplayName(examPeriodDaysDisplay(days, epInfo.getStartDate(), epInfo.getEndDate(),
-                               Boolean.parseBoolean(epInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR)), Boolean.parseBoolean(epInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR))));
+                        String daysDisplayName = examPeriodDaysDisplay(days, epInfo.getStartDate(), epInfo.getEndDate(),
+                                epExcludeSaturdays, epExcludeSundays);
+                        eoWrapper.setDaysDisplayName(daysDisplayName);
+                        scheduleWrapper.setDayInExamPeriod(KSCollectionUtils.getOptionalZeroElement(days).toString());
                     }
                 }
 
@@ -2544,10 +2564,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                             ContextUtils.createDefaultContextInfo());
                     eoWrapper.setBuildingName(buildingInfo.getName());
                     eoWrapper.setRoomName(roomInfo.getRoomCode());
+
+                    scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                    scheduleWrapper.setRoomCode(roomInfo.getRoomCode());
                 }
             }
         }
 
+        eoWrapper.setScheduleRequest(scheduleWrapper);
         return eoWrapper;
     }
 
@@ -2601,10 +2625,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     public static String examPeriodDaysDisplay(List<Integer> weekdaysList, Date startTime,
-                                                       Date endTime, boolean excludeSundays, boolean excludeSaturday) {
+                                                       Date endTime, boolean excludeSaturdays, boolean excludeSundays) {
         StringBuilder result = new StringBuilder();
         List<Date> dates = new ArrayList<Date>();
-        dates.addAll(getExamPeriodDates(startTime, endTime, excludeSundays, excludeSaturday ));
+        dates.addAll(getExamPeriodDates(startTime, endTime, excludeSaturdays, excludeSundays));
         for(Integer weekday : weekdaysList) {
           result.append("Day "+weekday);
           result.append(" - ");
@@ -2614,7 +2638,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         return result.toString();
     }
 
-    public static List<Date> getExamPeriodDates(Date fechInitial, Date fechFinal, boolean excludeSundays, boolean excludeSaturday)
+    public static List<Date> getExamPeriodDates(Date fechInitial, Date fechFinal, boolean excludeSaturdays, boolean excludeSundays)
     {
         List<Date> dates = new ArrayList<Date>();
         Calendar calendar = Calendar.getInstance();
@@ -2626,7 +2650,7 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             Calendar cal = Calendar.getInstance();
             cal.setTime(resultado);
             int weekday = cal.get(Calendar.DAY_OF_WEEK);
-            if((weekday == Calendar.SATURDAY && !excludeSaturday) ||(weekday == Calendar.SUNDAY && !excludeSundays) ) {
+            if((weekday == Calendar.SATURDAY && !excludeSaturdays) ||(weekday == Calendar.SUNDAY && !excludeSundays) ) {
                dates.add(resultado);
             }
             else if((weekday != Calendar.SATURDAY)&&(weekday != Calendar.SUNDAY))  {
@@ -2639,5 +2663,12 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         Date finalDate = calendar.getTime();
         dates.add(finalDate);
         return dates;
+    }
+
+    /**
+     * A pass-thru to the building info search in the schedule helper.
+     */
+    public List<BuildingInfo> retrieveBuildingInfoByCode(String buildingCode) throws Exception {
+        return CourseOfferingManagementUtil.getScheduleHelper().retrieveBuildingInfoByCode(buildingCode, false);
     }
 }

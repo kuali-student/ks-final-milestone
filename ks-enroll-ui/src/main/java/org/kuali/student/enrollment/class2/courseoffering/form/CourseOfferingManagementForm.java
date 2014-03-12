@@ -27,6 +27,7 @@ import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingList
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ScheduleWrapper;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferingDisplayUI;
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
@@ -209,6 +210,7 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
     private List<ExamOfferingClusterWrapper> eoClusterResultList;
     private List<ExamOfferingClusterWrapper> eoCancelClusterList;
 
+    private int examPeriodDays;
 
     public boolean getHasAOCluster() {
         return hasAOCluster;
@@ -875,5 +877,13 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
 
     public void setEoCancelClusterList(List<ExamOfferingClusterWrapper> eoCancelClusterList) {
         this.eoCancelClusterList = eoCancelClusterList;
+    }
+
+    public int getExamPeriodDays() {
+        return examPeriodDays;
+    }
+
+    public void setExamPeriodDays(int examPeriodDays) {
+        this.examPeriodDays = examPeriodDays;
     }
 }

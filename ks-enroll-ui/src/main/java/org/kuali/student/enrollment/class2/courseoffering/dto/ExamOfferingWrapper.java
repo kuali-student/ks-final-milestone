@@ -33,6 +33,8 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private List<String> endTime;
     private List<String> weekDays;
     private ActivityOfferingInfo aoInfo;
+    private ScheduleWrapper scheduleRequest;
+    private boolean driverPerAO;
 
     public ExamOfferingWrapper(){
         startTime = new ArrayList<String>();
@@ -189,5 +191,21 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
 
     public void setAoInfo(ActivityOfferingInfo aoInfo) {
         this.aoInfo = aoInfo;
+    }
+
+    public ScheduleWrapper getScheduleRequest() {
+        return scheduleRequest;
+    }
+
+    public void setScheduleRequest(ScheduleWrapper scheduleRequest) {
+        this.scheduleRequest = scheduleRequest;
+    }
+
+    public boolean isDriverPerAO() {
+        return driverPerAO;
+    }
+
+    public void setDriverPerAO(boolean driverPerAO) {
+        this.driverPerAO = driverPerAO;
     }
 }
