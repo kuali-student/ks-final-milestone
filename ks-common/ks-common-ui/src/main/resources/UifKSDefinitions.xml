@@ -725,7 +725,7 @@
         <property name="actionImagePlacement" value="LEFT"/>
         <property name="methodToCall" value="addBlankLine"/>
         <property name="actionEvent" value="addBlankLine"/>
-        <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+        <property name="additionalCssClasses" value="ks-fontello-icon-plus-1"/>
     </bean>
 
     <!-- TODO: KSENROLL-8478 temporarily overriding KRAD's Inquiry as it was messing up the hover over. should be resolved in Rice 2.3.1 -->
