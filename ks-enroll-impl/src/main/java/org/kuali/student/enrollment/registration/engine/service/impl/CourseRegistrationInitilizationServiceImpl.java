@@ -169,7 +169,7 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
             DataValidationErrorException {
         LprInfo lpr = new LprInfo();
         lpr.setTypeKey(lprType);
-        lpr.setStateKey(LprServiceConstants.PLANNED_STATE_KEY);
+        lpr.setStateKey(LprServiceConstants.REGISTERED_STATE_KEY);
         lpr.setPersonId(context.getPrincipalId());
         lpr.setLuiId(luiId);
         lpr.setMasterLprId(masterLprId);
@@ -232,11 +232,10 @@ public class CourseRegistrationInitilizationServiceImpl implements RegistrationP
         // Record the current time
         Date now = new Date();
         // Fetch the CO LPR
-        // Comment out state fetches for now
-//        List<String> lprStates = new ArrayList<String>();
-//        lprStates.add(LprServiceConstants.REGISTERED_STATE_KEY);
+        List<String> lprStates = new ArrayList<String>();
+        lprStates.add(LprServiceConstants.REGISTERED_STATE_KEY);
         List<String> coLprIds = getLprIdsByMasterLprId(masterLprId, LprServiceConstants.REGISTRANT_CO_TYPE_KEY,
-                null, contextInfo);
+                lprStates, contextInfo);
         String coLprId = KSCollectionUtils.getRequiredZeroElement(coLprIds);
         LprInfo origCoLpr = getLprService().getLpr(coLprId, contextInfo);
         LprInfo updatedCoLpr = new LprInfo(origCoLpr); // Make a copy
