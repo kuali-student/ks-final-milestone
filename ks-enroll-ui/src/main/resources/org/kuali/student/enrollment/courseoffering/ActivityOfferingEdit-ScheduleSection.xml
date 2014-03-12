@@ -184,7 +184,7 @@
                       p:ajaxSubmit="false"
                       p:successCallback="reDisplayNewRDSection(); reDisplayRDLSection();"
                       p:dirtyOnAction="true"
-                      p:additionalCssClasses="ks-fontello-icon-plus-1 ks-manage-scheduling-request-form-field-top-aligned"
+                      p:additionalCssClasses="@{!#dp.editRenderHelper.scheduleEditInProgress ? 'ks-fontello-icon-plus-1' : 'ks-fontello-icon-ok'} ks-manage-scheduling-request-form-field-top-aligned"
                       p:onDocumentReadyScript="jQuery('#add_rdl_button').removeClass('clearfix');"/>
 
             </list>
