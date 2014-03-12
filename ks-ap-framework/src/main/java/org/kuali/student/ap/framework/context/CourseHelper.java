@@ -1,6 +1,8 @@
 package org.kuali.student.ap.framework.context;
 
+import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -61,6 +63,13 @@ public interface CourseHelper {
      * @return
      */
 	List<String> getScheduledTermsForCourse(Course course);
+
+    /**
+     * Get a list of offerings for a list of courses in a given list of terms
+     * @param courses - List of courses
+     * @return List of all offerings for each course id that occurs during one of the listed terms
+     */
+    List<CourseOfferingInfo> getCourseOfferingsForCourses(List<CourseSearchItem> courses);
 
     /**
      * returns a SLN for given params

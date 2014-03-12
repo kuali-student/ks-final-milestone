@@ -23,6 +23,7 @@ import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.Credit;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -386,8 +387,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         try {
 
             // Search for all course offerings of search results in terms
-            Predicate termPredicates[] = getTermPredicates(terms);
-            Predicate coursePredicates[] = getCourseIdPredicates(courseIds);
+            Predicate termPredicates[] = KsapHelperUtil.getTermPredicates(terms);
+            Predicate coursePredicates[] = KsapHelperUtil.getCourseIdPredicates(courseIds);
             QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
                     or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
             List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
@@ -453,110 +454,27 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		LOG.info("Start of method loadScheduledTerms of CourseSearchController: {}",
 				System.currentTimeMillis());
 
-        // Load list of terms to find offerings in
-		List<Term> terms = new ArrayList<Term>();
-        List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
-        List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
-        if(currentScheduled!=null) terms.addAll(currentScheduled);
-        if(futureScheduled!=null) terms.addAll(futureScheduled);
+        List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseHelper()
+                .getCourseOfferingsForCourses(new ArrayList<CourseSearchItem>(courses));
 
-        try {
-
-            // Search for all course offerings of search results in terms
-            Predicate termPredicates[] = getTermPredicates(terms);
-            Predicate coursePredicates[] = getCoursePredicates(courses);
-            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
-                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
-            List<CourseOfferingInfo> offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
-                    .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
-
-            // Load scheduling data into course results from there course offerings
-            for(CourseOfferingInfo offering : offerings){
-                for(CourseSearchItemImpl course : courses){
-                    if(course.getCourseId().equals(offering.getCourseId())){
-                        // Avoid Duplicates
-                        if(!course.getScheduledTermsList().contains(offering.getTermId())){
-                            course.addScheduledTerm(offering.getTermId());
-                            course.addCampuses(offering.getCampusLocations());
-                        }
+        // Load scheduling data into course results from there course offerings
+        for(CourseOfferingInfo offering : offerings){
+            for(CourseSearchItemImpl course : courses){
+                if(course.getCourseId().equals(offering.getCourseId())){
+                    // Avoid Duplicates
+                    if(!course.getScheduledTermsList().contains(offering.getTermId())){
+                        course.addScheduledTerm(offering.getTermId());
+                        course.addCampuses(offering.getCampusLocations());
                     }
                 }
             }
-        } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("ATP lookup failed", e);
-        } catch (MissingParameterException e) {
-            throw new IllegalArgumentException("ATP lookup failed", e);
-        } catch (OperationFailedException e) {
-            throw new IllegalStateException("ATP lookup failed", e);
-        } catch (PermissionDeniedException e) {
-            throw new IllegalStateException("ATP lookup failed", e);
         }
 
 		LOG.info("End of method loadScheduledTerms of CourseSearchController: {}",
 				System.currentTimeMillis());
 	}
 
-    /**
-     * Build an array of equal predicates for a list of terms.
-     * Filters terms by the SOC state of published
-     *
-     * @param terms - List of terms to be in predicate
-     * @return An array of equal predicates of ("atpId',termId)
-     */
-    private Predicate[] getTermPredicates(List<Term> terms) {
-        // Build predicate based on term id
-        Predicate termPredicates[] = new Predicate[terms.size()];
-        for(int i=0;i<terms.size();i++){
-            termPredicates[i]=equal("termId", terms.get(i).getId());
-        }
-        try {
-            // Get Published Soc states based on term predicates
-            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(
-                    or(termPredicates), equal("socState", CourseOfferingSetServiceConstants.PUBLISHED_SOC_STATE_KEY));
-            List<SocInfo> socs = KsapFrameworkServiceLocator.getCourseOfferingSetService().searchForSocs(query,
-                            KsapFrameworkServiceLocator.getContext().getContextInfo());
 
-            // Create term predicates based on published soc states
-            Predicate predicates[] = new Predicate[socs.size()];
-            for(int j=0;j<socs.size();j++){
-                predicates[j]=equal("atpId", socs.get(j).getTermId());
-            }
-            return predicates;
-        } catch (Exception e) {
-            LOG.warn("Unable to build term list for scheduling", e);
-        }
-
-        // If predicate list can not be created return empty
-        return new Predicate[0];
-    }
-
-    /**
-     * Build an array of equal predicates for a list of courses
-     *
-     * @param courses - List of courses to be in the predicate
-     * @return An array of equal predicates of ("cluId",courseId)
-     */
-    private Predicate[] getCoursePredicates(List<CourseSearchItemImpl> courses) {
-        Predicate predicates[] = new Predicate[courses.size()];
-        for(int i=0;i<courses.size();i++){
-            predicates[i]=equal("cluId", courses.get(i).getCourseId());
-        }
-        return predicates;
-    }
-
-    /**
-     * Build an array of equal predicates for a list of course ids
-     *
-     * @param courses - List of course ids to be in the predicate
-     * @return An array of equal predicates of ("cluId",courseId)
-     */
-    private Predicate[] getCourseIdPredicates(List<String> courses) {
-        Predicate predicates[] = new Predicate[courses.size()];
-        for(int i=0;i<courses.size();i++){
-            predicates[i]=equal("cluId", courses.get(i));
-        }
-        return predicates;
-    }
 
     // This needs rewrote.  Looks like an incomplete translation of a single course entry into a list of courses
     /**

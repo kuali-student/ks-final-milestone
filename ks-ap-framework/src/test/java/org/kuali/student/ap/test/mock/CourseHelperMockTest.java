@@ -1,7 +1,9 @@
 package org.kuali.student.ap.test.mock;
 
 import org.kuali.student.ap.framework.context.CourseHelper;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.infc.Course;
@@ -44,6 +46,17 @@ public class CourseHelperMockTest implements CourseHelper {
 
     @Override
     public List<String> getScheduledTermsForCourse(Course course) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Get a list of offerings for a list of courses in a given list of terms
+     *
+     * @param courseIds - List of courses
+     * @return List of all offerings for each course id that occurs during one of the listed terms
+     */
+    @Override
+    public List<CourseOfferingInfo> getCourseOfferingsForCourses(List<CourseSearchItem> courses) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

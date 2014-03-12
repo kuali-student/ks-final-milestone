@@ -1,10 +1,13 @@
 package org.kuali.student.ap.framework.context.support;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
 import org.kuali.student.ap.framework.context.CourseHelper;
+import org.kuali.student.ap.framework.course.CourseSearchItem;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingDisplayInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -18,6 +21,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.search.infc.SearchResultCell;
@@ -36,6 +40,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import static org.kuali.rice.core.api.criteria.PredicateFactory.equal;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.or;
 
 //
 public class DefaultCourseHelper implements CourseHelper, Serializable {
@@ -418,6 +425,37 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             throw new IllegalStateException("CO lookup failure", e);
         }
 	}
+
+    @Override
+    public List<CourseOfferingInfo> getCourseOfferingsForCourses(List<CourseSearchItem> courses){
+        List<CourseOfferingInfo> offerings = new ArrayList<CourseOfferingInfo>();
+        try {
+            // Load list of terms to find offerings in
+            List<Term> terms = new ArrayList<Term>();
+            List<Term> currentScheduled = KsapFrameworkServiceLocator.getTermHelper().getCurrentTermsWithPublishedSOC();
+            List<Term> futureScheduled = KsapFrameworkServiceLocator.getTermHelper().getFutureTermsWithPublishedSOC();
+            if(currentScheduled!=null) terms.addAll(currentScheduled);
+            if(futureScheduled!=null) terms.addAll(futureScheduled);
+            // Search for all course offerings of search results in terms
+            Predicate termPredicates[] = KsapHelperUtil.getTermPredicates(terms);
+            List<CourseSearchItem> tempCourses = new ArrayList<CourseSearchItem>(courses);
+            Predicate coursePredicates[] = KsapHelperUtil.getCoursePredicates(tempCourses);
+            QueryByCriteria query = QueryByCriteria.Builder.fromPredicates(or(coursePredicates),
+                    or(termPredicates), equal("luiType", LuiServiceConstants.COURSE_OFFERING_TYPE_KEY));
+            offerings = KsapFrameworkServiceLocator.getCourseOfferingService()
+                    .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("ATP lookup failed", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("ATP lookup failed", e);
+        }
+
+        return offerings;
+    }
 
 	@Override
 	public String getLastOfferedTermIdForCourse(Course course) {
