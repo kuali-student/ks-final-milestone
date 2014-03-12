@@ -50,6 +50,8 @@ import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
+import org.kuali.student.common.uif.util.GrowlIcon;
+import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities.DecisionRationaleDetail;
@@ -490,6 +492,18 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
+     * Here we remove the info messages added to message map in super class. Purpose is not to display it in View's validation messages section.
+     * @param form
+     * @param action
+     * @param checkSensitiveData
+     */
+    @Override
+    protected void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
+        super.performWorkflowAction(form, action, checkSensitiveData);
+        GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
+    }
+
+    /**
      * This will save the Course Proposal.
      * @param form {@link MaintenanceDocumentForm} instance used for this action
      * @param result
@@ -596,6 +610,10 @@ public class CourseController extends CourseRuleEditorController {
             error("Unable to save document: %s", e.getMessage());
         }
 
+        if (GlobalVariables.getMessageMap().hasNoErrors() && !form.getMethodToCall().equals("blanketApprove")) {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CurriculumManagementConstants.MessageKeys.INFO_COURSE_SAVE_SUCCESS, courseInfoWrapper.getProposalInfo().getName());
+        }
+
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId=" + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
 
         // After saving successfully update the reviewProposalDisplay
@@ -620,7 +638,11 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         saveProposal((MaintenanceDocumentForm)form,result,request,response);
-        return super.blanketApprove(form,result,request,response);
+        ModelAndView modelAndView = super.blanketApprove(form,result,request,response);
+        if (GlobalVariables.getMessageMap().hasNoErrors()) {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CurriculumManagementConstants.MessageKeys.INFO_COURSE_APPROVE_SUCCESS, ((CreateCourseForm)form).getProposalName());
+        }
+        return modelAndView;
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=previousPage")
