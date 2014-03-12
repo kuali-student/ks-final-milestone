@@ -356,6 +356,41 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
 	}
 
 	@Override
+	public Map<String, Map<String, Object>> getAllSectionStatus(Map<String, Map<String, Object>> status,
+			String courseId, String termId) {
+		try {
+			String xtermId = termId.replace('.', '-').intern();
+			for (CourseOfferingInfo co : KsapFrameworkServiceLocator.getCourseOfferingService()
+					.getCourseOfferingsByCourseAndTerm(courseId, termId,
+							KsapFrameworkServiceLocator.getContext().getContextInfo()))
+				for (ActivityOfferingInfo ao : KsapFrameworkServiceLocator.getCourseOfferingService()
+						.getActivityOfferingsByCourseOffering(co.getId(),
+								KsapFrameworkServiceLocator.getContext().getContextInfo())) {
+					Map<String, Object> enrl = new java.util.LinkedHashMap<String, Object>();
+					enrl.put("enrollMaximum", ao.getMaximumEnrollment());
+					// TODO: KSAP-755 convert remaining attributes to service lookup
+					// bean properties
+					enrl.put("enrollCount", ao.getAttributeValue("enrollCount"));
+					enrl.put("enrollOpen", ao.getAttributeValue("enrollOpen"));
+					enrl.put("enrollEstimate", ao.getAttributeValue("enrollEstimate"));
+					String key = "enrl_" + xtermId + "_" + ao.getActivityCode();
+					status.put(key, enrl);
+				}
+		} catch (DoesNotExistException e) {
+			throw new IllegalArgumentException("CO lookup failure", e);
+		} catch (InvalidParameterException e) {
+			throw new IllegalArgumentException("CO lookup failure", e);
+		} catch (MissingParameterException e) {
+			throw new IllegalArgumentException("CO lookup failure", e);
+		} catch (OperationFailedException e) {
+			throw new IllegalStateException("CO lookup failure", e);
+		} catch (PermissionDeniedException e) {
+			throw new IllegalStateException("CO lookup failure", e);
+		}
+		return status;
+	}
+
+    @Override
 	public List<String> getScheduledTermsForCourse(Course course) {
 		ContextInfo ctx = KsapFrameworkServiceLocator.getContext().getContextInfo();
         List<String> scheduledTerms = new java.util.LinkedList<String>();

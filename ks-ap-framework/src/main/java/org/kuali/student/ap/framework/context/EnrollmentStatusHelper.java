@@ -1,45 +1,58 @@
 package org.kuali.student.ap.framework.context;
 
-import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
-import org.kuali.student.r2.core.acal.infc.Term;
-
 public interface EnrollmentStatusHelper {
 
     /**
      * This was changed form taking an ActivityOfferingItem to simply returning a string array.
      * Prevents a dependency on ks-ap-ui and the use of pass by ref.
-     * @param offering
+     * @param year
+     * @param quarter
+     * @param curric
+     * @param num
+     * @param sectionID
      * @return
      * @throws Exception
      */
-    public String[] populateEnrollmentFields(ActivityOffering offering);
+    public String[] populateEnrollmentFields(String year, String quarter, String curric, String num, String sectionID) throws Exception;
 
     /**
      * Finds and returns the max. enrollment value for a class section of a course.
      *
-     * @param offering
+     * @param year
+     * @param quarter
+     * @param curric
+     * @param num
+     * @param sectionID
      * @return
      * @throws Exception
      */
-    public String populateMaxEnrollmentField(ActivityOffering offering);
+    public String populateMaxEnrollmentField(String year, String quarter, String curric, String num, String sectionID) throws Exception;
 
     /**
      * Finds and returns the current enrollment value for a class section of a course.
      *
-     * @param offering
+     * @param year
+     * @param quarter
+     * @param curric
+     * @param num
+     * @param sectionID
      * @return
      * @throws Exception
      */
-    public String populateCurrentEnrollmentField(ActivityOffering offering);
+    public String populateCurrentEnrollmentField(String year, String quarter, String curric, String num, String sectionID) throws Exception;
 
     /**
      * Finds and returns the estimated enrollment value for a class section of a course.
      *
-     * @param offering
+     * @param year
+     * @param quarter
+     * @param curric
+     * @param num
+     * @param sectionID
      * @return
      * @throws Exception
      */
-    public String populateEstimatedEnrollmentField(ActivityOffering offering);
+    public String populateEstimatedEnrollmentField(String year, String quarter, String curric, String num, String sectionID) throws Exception;
 
     /**
      * @param courseCode
