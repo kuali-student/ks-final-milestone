@@ -28,10 +28,12 @@ limitations under the License.
 
 
     <bean id="KS-CM-ProposalLookup" parent="Uif-ProposalLookupView">
+        <property name="id" value="ksCMProposalLookup"/>
         <property name="viewName" value="ProposalLookup"/>
         <property name="headerText" value="Find a Proposal" />
         <property name="dataObjectClassName" value="org.kuali.student.r2.core.proposal.dto.ProposalInfo" />
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.ProposalLookupableImpl" />
+        <property name="authorizerClass" value="org.kuali.student.cm.course.auth.ProposalLookupViewAuthorizerBase"/>
         <property name="showMaintenanceLinks" value="true"/>
 
         <property name="applicationHeader">
