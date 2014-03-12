@@ -193,58 +193,44 @@
                         </value>
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>
-                    <property name="propertyReplacers">
-                        <list>
-                            <!-- Only render the tab group header for regular (non-admin) proposals -->
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="header" p:condition="@{! #form.adminProposal}">
-                                <property name="replacement">
-                                    <bean id="course_tabs_header" parent="Uif-HeaderFour">
-                                        <property name="headerText" value="1. Define Course" />
+                </bean>
 
-                                        <property name="cssClasses">
-                                            <list merge="true">
-                                                <value>course_tabs_header_text</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
-                            <bean parent="Uif-ConditionalBeanPropertyReplacer" p:propertyName="footer" p:condition="@{! #form.adminProposal}">
-                                <property name="replacement">
-                                    <bean parent="Uif-FooterBase">
-                                        <property name="items">
-                                            <list>
-                                                <ref bean="KS-CourseView-ReviewProposalLink"/>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>
-                            </bean>
+                <!-- The text above the tab panel. This gets fixed positioning via JS. -->
+                <bean id="course_tabs_header" parent="Uif-VerticalBoxGroup" p:render="@{! #form.adminProposal}">
+                    <property name="header">
+                        <bean parent="Uif-HeaderFour">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>course_tabs_header_text</value>
+                                </list>
+                            </property>
+                            <property name="headerText" value="1. Define Course" />
+                        </bean>
+                    </property>
+                </bean>
+
+                <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
+                <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{! #form.adminProposal}">
+                    <property name="header">
+                        <bean id="course_tabs_footer_header" parent="Uif-HeaderFour">
+                            <property name="cssClasses">
+                                <list merge="true">
+                                    <value>course_tabs_header_text</value>
+                                </list>
+                            </property>
+                            <property name="headerText" value="2. Review and Submit" />
+                        </bean>
+                    </property>
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-ActionLink"
+                                  p:methodToCall="reviewCourseProposal"
+                                  p:actionLabel="Review Proposal"
+                                  p:performDirtyValidation="true"
+                                  p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}" />
                         </list>
                     </property>
                 </bean>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{! #form.adminProposal}">
-        <property name="header">
-            <bean id="course_tabs_footer_header" parent="Uif-HeaderFour">
-                <property name="headerText" value="2. Review and Submit" />
-                <property name="cssClasses">
-                    <list merge="true">
-                        <value>course_tabs_header_text</value>
-                    </list>
-                </property>
-            </bean>
-        </property>
-        <property name="items">
-            <list>
-                <bean parent="Uif-ActionLink"
-                      p:methodToCall="reviewCourseProposal"
-                      p:actionLabel="Review Proposal"
-                      p:performDirtyValidation="true"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}" />
             </list>
         </property>
     </bean>
