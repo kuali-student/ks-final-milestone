@@ -127,6 +127,8 @@
 			<list>
 				<value>org.kuali.rice.student.</value>
 				<value>org.kuali.student.enrollment.</value>
+                <!-- added below item for CM screen Find a Course Proposal -->
+                <value>org.kuali.student.r2.core</value>
 			</list>
 		</property>
 	</bean>
