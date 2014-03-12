@@ -65,8 +65,13 @@ import java.util.Properties;
 public class ProposalLookupableImpl extends KSLookupableImpl {
 
     private static final long serialVersionUID = 1L;
-
     private transient ProposalService proposalService;
+
+    protected final String PROPOSAL_TITLE_LEY = "proposal.queryParam.proposalOptionalName";
+    protected final String SEARCH_KEY = "proposal.search.generic";
+    protected final String PROPOSAL_ID_KEY = "proposal.resultColumn.proposalId";
+    protected final String CAN_EDIT_KEY = "canEdit";
+    protected final String CAN_OPEN_KEY = "canOpen";
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -76,14 +81,14 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
         String fieldValue = fieldValues.get("title");
 
         SearchParamInfo qpv = new SearchParamInfo();
-        qpv.setKey("proposal.queryParam.proposalOptionalName");
+        qpv.setKey(PROPOSAL_TITLE_LEY);
         qpv.getValues().add(fieldValue);
         searchParams.add(qpv);
 
         SearchRequestInfo searchRequest = new SearchRequestInfo();
         searchRequest.setParams(searchParams);
-        searchRequest.setSearchKey("proposal.search.generic");
-        searchRequest.setSortColumn("proposal.queryParam.proposalOptionalName");
+        searchRequest.setSearchKey(SEARCH_KEY);
+        searchRequest.setSortColumn(PROPOSAL_TITLE_LEY);
 
         List<ProposalInfo> proposalInfos;
         try {
@@ -109,7 +114,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
             List<SearchResultCellInfo> cells = row.getCells();
             ProposalInfo proposalInfo = new ProposalInfo();
             for (SearchResultCellInfo cell : cells) {
-                if (cell.getKey().equals("proposal.resultColumn.proposalId")) {
+                if (cell.getKey().equals(PROPOSAL_ID_KEY)) {
                     proposalIds.add(cell.getValue());
                 }
             }
@@ -203,8 +208,8 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
             canOpen = KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentAuthorizer(docTypeName).canOpen(document,
                     GlobalVariables.getUserSession().getPerson());
 
-            AttributeInfo editAttribute = new AttributeInfo("canEdit", BooleanUtils.toStringTrueFalse(canEdit));
-            AttributeInfo openAttribute = new AttributeInfo("canOpen", BooleanUtils.toStringTrueFalse(canOpen));
+            AttributeInfo editAttribute = new AttributeInfo(CAN_EDIT_KEY, BooleanUtils.toStringTrueFalse(canEdit));
+            AttributeInfo openAttribute = new AttributeInfo(CAN_OPEN_KEY, BooleanUtils.toStringTrueFalse(canOpen));
             proposal.getAttributes().add(editAttribute);
             proposal.getAttributes().add(openAttribute);
         }
@@ -220,7 +225,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         ProposalInfo proposalInfo = (ProposalInfo)dataObject;
 
-        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue("canEdit"));
+        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue(CAN_EDIT_KEY));
     }
 
     /**
@@ -233,7 +238,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         ProposalInfo proposalInfo = (ProposalInfo)dataObject;
 
-        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue("canOpen"));
+        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue(CAN_OPEN_KEY));
     }
 
 
