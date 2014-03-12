@@ -54,6 +54,9 @@ import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.FacetKeyValue;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -1338,8 +1341,36 @@ public class CourseSearchController extends UifControllerBase {
 
 		CourseHelper ch = KsapFrameworkServiceLocator.getCourseHelper();
 		Map<String, Map<String, Object>> payload = new java.util.LinkedHashMap<String, Map<String, Object>>();
-		for (String termId : termIds)
-			ch.getAllSectionStatus(payload, courseId, termId);
+
+        try {
+            for (String termId : termIds){
+                for (CourseOfferingInfo co : KsapFrameworkServiceLocator.getCourseOfferingService()
+                        .getCourseOfferingsByCourseAndTerm(courseId, termId,
+                                KsapFrameworkServiceLocator.getContext().getContextInfo())) {
+                    for (ActivityOfferingInfo ao : KsapFrameworkServiceLocator.getCourseOfferingService()
+                            .getActivityOfferingsByCourseOffering(co.getId(),
+                                    KsapFrameworkServiceLocator.getContext().getContextInfo())) {
+                        Map<String, Object> enrl = new java.util.LinkedHashMap<String, Object>();
+                        enrl.put("enrollMaximum", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateMaxEnrollmentField(ao));
+                        enrl.put("enrollCount", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateCurrentEnrollmentField(ao));
+                        enrl.put("enrollOpen", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateCurrentEnrollmentField(ao));
+                        enrl.put("enrollEstimate", KsapFrameworkServiceLocator.getEnrollmentStatusHelper().populateEstimatedEnrollmentField(ao));
+                        String key = "enrl_" + termId.replace('.', '-').intern() + "_" + ao.getActivityCode();
+                        payload.put(key, enrl);
+                    }
+                }
+            }
+        } catch (DoesNotExistException e) {
+            throw new IllegalArgumentException("CO lookup failure", e);
+        } catch (InvalidParameterException e) {
+            throw new IllegalArgumentException("CO lookup failure", e);
+        } catch (MissingParameterException e) {
+            throw new IllegalArgumentException("CO lookup failure", e);
+        } catch (OperationFailedException e) {
+            throw new IllegalStateException("CO lookup failure", e);
+        } catch (PermissionDeniedException e) {
+            throw new IllegalStateException("CO lookup failure", e);
+        }
 
 		String json;
 		try {

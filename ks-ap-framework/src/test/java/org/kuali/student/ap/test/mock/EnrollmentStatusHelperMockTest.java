@@ -1,6 +1,8 @@
 package org.kuali.student.ap.test.mock;
 
 import org.kuali.student.ap.framework.context.EnrollmentStatusHelper;
+import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
+import org.kuali.student.r2.core.acal.infc.Term;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +25,7 @@ public class EnrollmentStatusHelperMockTest implements EnrollmentStatusHelper {
      * @throws Exception
      */
     @Override
-    public String[] populateEnrollmentFields(String year, String quarter, String curric, String num, String sectionID) throws Exception {
+    public String[] populateEnrollmentFields(Term term, ActivityOffering offering) throws Exception {
         return new String[0];  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -39,7 +41,7 @@ public class EnrollmentStatusHelperMockTest implements EnrollmentStatusHelper {
      * @throws Exception
      */
     @Override
-    public String populateMaxEnrollmentField(String year, String quarter, String curric, String num, String sectionID) throws Exception {
+    public String populateMaxEnrollmentField(Term term, ActivityOffering offering) throws Exception {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -55,7 +57,7 @@ public class EnrollmentStatusHelperMockTest implements EnrollmentStatusHelper {
      * @throws Exception
      */
     @Override
-    public String populateCurrentEnrollmentField(String year, String quarter, String curric, String num, String sectionID) throws Exception {
+    public String populateCurrentEnrollmentField(Term term, ActivityOffering offering) throws Exception {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -71,7 +73,7 @@ public class EnrollmentStatusHelperMockTest implements EnrollmentStatusHelper {
      * @throws Exception
      */
     @Override
-    public String populateEstimatedEnrollmentField(String year, String quarter, String curric, String num, String sectionID) throws Exception {
+    public String populateEstimatedEnrollmentField(Term term, ActivityOffering offering) throws Exception {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 

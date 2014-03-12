@@ -133,6 +133,9 @@ public class CourseDetailsInquiryHelperImpl extends KualiInquirableImpl {
 		String str = null;
 		if (course.getDescr() != null) {
 			str = course.getDescr().getFormatted();
+            if(str == null){
+                str = course.getDescr().getPlain();
+            }
 		}
 		if (str != null && str.contains("Offered:")) {
 			str = str.substring(0, str.indexOf("Offered"));
