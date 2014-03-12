@@ -842,7 +842,7 @@ function fixActionLinkJumpToIds(actionLinksId, jumpToElementId) {
  Capture click events on rows in datatables
  */
 jQuery(document).on("click", ".dataTable tbody tr", function (e) {
-    if (jQuery(e.target).is(":checkbox") || jQuery(e.target).is("a")) {
+    if (jQuery(e.target).is(":checkbox") || jQuery(e.target).is("a") || jQuery(e.target).is("i")) {
 
         // stop the bubbling to prevent firing the row's click event
         e.stopPropagation();
