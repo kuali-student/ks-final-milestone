@@ -145,7 +145,7 @@ angular.module('regCartApp')
                 cartId: $scope.cart.cartId,
                 cartItemId: cartItem.cartItemId,
                 credits: newCredits,
-                grading: newGrading
+                gradingOptionId: newGrading
             }, function (newCartItem) {
                 console.log($scope);
                 console.log(JSON.stringify(newCartItem));

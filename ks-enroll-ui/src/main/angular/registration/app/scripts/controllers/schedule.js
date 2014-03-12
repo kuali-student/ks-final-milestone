@@ -53,7 +53,7 @@ cartServiceModule.controller('ScheduleCtrl', ['$scope', '$modal', 'ScheduleServi
             console.log(newGrading);
             ScheduleService.updateScheduleItem().query({
                 courseCode: course.courseCode,
-                cartItemId: course.regGroupCode,
+                regGroupCode: course.regGroupCode,
                 masterLprId: course.masterLprId,
                 credits: newCredits,
                 gradingOptionId: newGrading
