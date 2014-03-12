@@ -173,6 +173,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
+                    <property name="validationMessages.displayMessages" value="false" />
                     <property name="items">
                         <list>
                             <ref bean="KS-CourseView-CourseInfo-Section"/>
@@ -199,6 +200,7 @@
                                 <property name="replacement">
                                     <bean id="course_tabs_header" parent="Uif-HeaderFour">
                                         <property name="headerText" value="1. Define Course" />
+
                                         <property name="cssClasses">
                                             <list merge="true">
                                                 <value>course_tabs_header_text</value>

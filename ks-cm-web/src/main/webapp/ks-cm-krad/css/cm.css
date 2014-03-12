@@ -166,10 +166,6 @@
     border: 0;  /* Remove the border/line from the top of the sections */
 }
 
-.course_tabs_header_text {
-    font-family: 'Lato', sans-serif;
-}
-
 /* The words at the top of the tab panel */
 #course_tabs_header {
     position: fixed;
@@ -196,15 +192,15 @@
     margin-left: 240px;
 }
 #KS-CourseView-CoursePage > .uif-validationMessages {
-    margin-bottom: 0px;
+    margin-bottom: 8px;
 }
-#S-CourseView-AdminMessageGroup {
+#KS-CourseView-AdminMessageGroup {
     margin-top: 12px;
     margin-bottom: 0px;
 }
 
 #KS-CourseView-Admin-Message-TreeExpandCollapse {
-    margin-left: 0px;
+    margin-bottom: 8px;
 }
 
 #course_tabs .ks-uif-footer div {
