@@ -163,7 +163,7 @@ function searchForCourses(id, parentId) {
 			.dataTable(
 					{
 						aLengthMenu : [ 20, 50, 100 ],
-						aaSorting : [[0,'asc']],
+						aaSorting : [],
 						aoColumns : ksapCourseSearchColumns(),
 						bAutoWidth : false,
 						bDeferRender : true,
@@ -175,10 +175,17 @@ function searchForCourses(id, parentId) {
 						bSortClasses : false,
 						bStateSave : true,     // Turn save state on to allow for saving pagination when moving between pages
                         "fnStateSave": function (oSettings, oData) {
-                            sessionStorage.setItem( 'DataTables_'+jQuery('#text_searchQuery_control').val(), JSON.stringify(oData) );
+                            jQuery.extend(oData,{searchQuery: jQuery('#text_searchQuery_control').val()})
+                            sessionStorage.setItem( 'DataTables_SearchQuery', JSON.stringify(oData) );
                         },
                         "fnStateLoad": function (oSettings) {
-                            return JSON.parse( sessionStorage.getItem('DataTables_'+jQuery('#text_searchQuery_control').val()) );
+                            var oData = JSON.parse( sessionStorage.getItem('DataTables_SearchQuery') );
+                            if(oData!=null){
+                                if(oData.searchQuery!=jQuery('#text_searchQuery_control').val()){
+                                    sessionStorage.removeItem('DataTables_SearchQuery');
+                                }
+                            }
+                            return JSON.parse( sessionStorage.getItem('DataTables_SearchQuery') );
                         },
 						iCookieDuration : 600,
 						iDisplayLength : 20,
@@ -229,6 +236,7 @@ function searchForCourses(id, parentId) {
                             newheader.removeClass("ksap-hide");
                             oldheader.append(newheader);
 
+                            sessionStorage.removeItem('DataTables_SearchQuery');
 							ksapSearchComplete();
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
