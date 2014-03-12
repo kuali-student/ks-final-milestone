@@ -243,7 +243,8 @@
                 <bean parent="Uif-ActionLink"
                       p:methodToCall="reviewCourseProposal"
                       p:actionLabel="Review Proposal"
-                      p:performDirtyValidation="true"/>
+                      p:performDirtyValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}" />
             </list>
         </property>
     </bean>
