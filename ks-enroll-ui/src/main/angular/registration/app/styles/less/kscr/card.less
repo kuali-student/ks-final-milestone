@@ -45,7 +45,6 @@
     padding:0 10px;
 }
 
-
 .kscr-Card-courseTimes{
    display: inline-flex;
    padding-left: 1em;
@@ -112,5 +111,27 @@
 .panel-group  .panel{
     margin-bottom: 10px;
     border-width: 1px 1px 2px 1px;
+
 }
+
+.kscr-course-container {
+    position:relative;
+    width:100%;
+    -webkit-transition:all linear .25s;
+    transition:all linear .25s;
+    opacity:1;
+}
+
+.kscr-course-container.ng-leave {
+    display:block!important;
+}
+
+.kscr-course-container.ng-leave-active {
+    line-height:0;
+    opacity:0;
+    padding:0 10px;
+}
+
+
+
 /**** End ****/
