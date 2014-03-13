@@ -58,7 +58,6 @@
     </bean>
 
     <bean id="KS-CourseView-Financials-Widgets" parent="Uif-VerticalBoxSection">
-        <property name="style" value="margin-bottom: 80px;" />
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:label="Justification of Fees" p:propertyName="course.feeJustification.plain">

@@ -1,12 +1,19 @@
 /**
  * SCRIPT METHODS USED BY MULTIPLE .JS FILES
  */
-function onCourseLoad(isCurriculumSpecialist) {
+
+var tabPanelId = "#course_tabs_tabs";
+
+function onCourseLoad(isCurriculumSpecialist, currentSectionId) {
     if (isCurriculumSpecialist) {
         initializeForCurriculumSpecialist();
     }
 
     fixLeftNavElementPositioning();
+
+    if (currentSectionId) {
+        jQuery(tabPanelId).tabs("select", "#" + currentSectionId + "_tab");
+    }
 }
 
 /**
@@ -73,7 +80,6 @@ var focusedTab;
  * Hacks for Curriculum Specialist single-page view.
  */
 function initializeForCurriculumSpecialist() {
-    var tabPanelId = "#course_tabs_tabs";
 
     //  Add a CSS class that prevents the tabs from being hidden.
     jQuery("div[data-type='TabWrapper']").addClass('never_hide');

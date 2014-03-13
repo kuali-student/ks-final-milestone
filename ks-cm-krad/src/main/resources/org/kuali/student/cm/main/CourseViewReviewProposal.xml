@@ -74,8 +74,14 @@
                             <property name="items">
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:ajaxSubmit="false" p:id="CourseInfo-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit"/>
+                                        p:methodToCall="editCourseProposalPage"
+                                        p:actionLabel="Edit">
+                                        <property name="actionParameters">
+                                            <map>
+                                                <entry key="displaySection" value="KS-CourseView-CourseInfo-Section"/>
+                                            </map>
+                                        </property>
+                                    </bean>
                                 </list> 
                             </property>
                         </bean>
@@ -102,28 +108,28 @@
                         <list>
                             <bean parent="Uif-DataField" p:label="Proposal Title" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.proposalName"
+                                  p:propertyName="dataObject.proposalInfo.name"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:label="Course Title" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseTitle"
+                                  p:propertyName="dataObject.courseInfo.courseTitle"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:label="Transcript Course Title" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.transcriptTitle"/>
+                                  p:propertyName="dataObject.courseInfo.transcriptTitle"/>
                             <bean parent="Uif-DataField" p:label="Subject Code" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.subjectArea"
+                                  p:propertyName="dataObject.courseInfo.subjectArea"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:label="Course Number" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix"/>
+                                  p:propertyName="dataObject.courseInfo.courseNumberSuffix"/>
                             <bean parent="Uif-DataField" p:label="Cross Listed Courses" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Jointly Offered Courses" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix"/>
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Version Codes" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
@@ -132,10 +138,10 @@
                                   p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Description" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix"/>
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Proposal Rationale" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.courseNumberSuffix"/>
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                         </list>
                     </property>
                 </bean>
@@ -154,7 +160,6 @@
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:id="Governance-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
-                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Governance-Section');"
                                           p:actionLabel="Edit" >
                                         <property name="actionParameters">
                                             <map>
@@ -203,7 +208,6 @@
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:id="CourseLogistics-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
-                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Logistics-Section');"
                                           p:actionLabel="Edit" >
                                         <property name="actionParameters">
                                             <map>
@@ -264,7 +268,6 @@
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:id="LearningObjectives-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
-                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-LearningObjectives-Section');"
                                           p:actionLabel="Edit" >
                                         <property name="actionParameters">
                                             <map>
@@ -310,7 +313,6 @@
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:id="CourseRequisites-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
-                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-CourseRequisites-Section');"
                                           p:actionLabel="Edit" >
                                         <property name="actionParameters">
                                             <map>
@@ -365,7 +367,6 @@
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:id="ActiveDates-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
-                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-ActiveDates-Section');"
                                           p:actionLabel="Edit" >
                                         <property name="actionParameters">
                                             <map>
@@ -415,7 +416,6 @@
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:id="Financials-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
-                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-Financials-Section');"
                                           p:actionLabel="Edit"  >
                                           <property name="actionParameters">
                                               <map>
@@ -461,7 +461,6 @@
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:id="AuthorsAndCollaborators-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
-                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-AuthorsAndCollaborators-Section');"
                                           p:actionLabel="Edit" >
                                         <property name="actionParameters">
                                             <map>
@@ -507,7 +506,6 @@
                                 <list>
                                     <bean parent="Uif-ActionLink"  p:id="SupportingDocuments-Review-Edit-link"
                                           p:methodToCall="editCourseProposalPage"
-                                          p:onDocumentReadyScript="navigateToTheRightTab(@{#form.curriculumSpecialist}, 'KS-CourseView-SupportingDocuments-Section');"
                                           p:actionLabel="Edit" >
                                         <property name="actionParameters">
                                             <map>

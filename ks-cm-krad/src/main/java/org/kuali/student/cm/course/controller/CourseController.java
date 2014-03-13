@@ -37,6 +37,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
@@ -143,39 +144,6 @@ public class CourseController extends CourseRuleEditorController {
     private ProposalService proposalService;
     private TypeService typeService;
 
-    private enum CourseViewSections {
-        CREATE_COURSE_ENTRY("KS-CourseView-createCourseInitialPage"),
-        COURSE_INFO("KS-CourseView-CourseInfo-Section"),
-        GOVERNANCE("KS-CourseView-Governance-Section"),
-        COURSE_LOGISTICS("KS-CourseView-Logistics-Section"),
-        LEARNING_OBJECTIVES("KS-CourseView-LearningObjectives-Section"),
-        COURSE_REQUISITES("KS-CourseView-CourseRequisites-Section"),
-        ACTIVE_DATES("KS-CourseView-ActiveDates-Section"),
-        FINANCIALS("KS-CourseView-Financials-Section"),
-        AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaborators-Section"),
-        SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocuments-Section"),
-        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
-        
-        private String sectionId;
-        
-        CourseViewSections(String sectionId) {
-            this.sectionId = sectionId;
-        }
-        
-        String getSectionId() {
-            return this.sectionId;
-        }
-    }
-
-    private Integer getSectionOrdinal(String selectedSection) {
-        for(int idx = 1; idx <= CourseViewSections.values().length; idx++) {
-            if(CourseViewSections.values()[idx].getSectionId().equalsIgnoreCase(selectedSection)) {
-                return idx-1;
-            }
-        }
-        return 0;
-    }
-
     @Override
     protected CreateCourseForm createInitialForm(HttpServletRequest request) {
         Boolean isUseReviewProcess = new Boolean(request.getParameter("UseReviewProcess")) ;
@@ -269,13 +237,13 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView editCourseProposalPage(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        String displaySectionIdex = form.getActionParameters().get("displaySection");
+        String displaySectionId = form.getActionParameters().get("displaySection");
 
-        if (StringUtils.isBlank(displaySectionIdex)){
-            ((CreateCourseForm)form).setSelectedTabIndex(0);
+        if (displaySectionId == null) {
+            ((CreateCourseForm) form).setSelectedSection(CourseViewSections.COURSE_INFO);
         }  else {
-            Integer idx = getSectionOrdinal(displaySectionIdex);
-            ((CreateCourseForm)form).setSelectedTabIndex(idx);
+            CourseViewSections section = CourseViewSections.getSection(displaySectionId);
+            ((CreateCourseForm) form).setSelectedSection(section);
         }
         return getUIFModelAndView(form, "KS-CourseView-CoursePage");
     }
@@ -619,18 +587,19 @@ public class CourseController extends CourseRuleEditorController {
         // After saving successfully update the reviewProposalDisplay
         updateReview(form);
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
-        if (StringUtils.equalsIgnoreCase(nextOrCurrentPage,"NEXT")){
-            if ( ((CreateCourseForm)form).getSelectedTabIndex() < 10){
-                ((CreateCourseForm)form).setSelectedTabIndex(((CreateCourseForm) form).getSelectedTabIndex() + 1);
+
+        if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
+            CourseViewSections currentSection = ((CreateCourseForm)form).getSelectedSection();
+            if (currentSection.ordinal() < CourseViewSections.values().length) {
+                 CourseViewSections nextSection = CourseViewSections.values()[currentSection.ordinal() + 1];
+                ((CreateCourseForm)form).setSelectedSection(nextSection);
             }
-//            return getUIFModelAndView(form, getNextSectionId(request.getParameter(VIEW_CURRENT_PAGE_ID)));
             return getUIFModelAndView(form);
-        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage,"KS-CourseView-ReviewProposalLink")) {
+        } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "KS-CourseView-ReviewProposalLink")) {
             return getUIFModelAndView(form, "KS-CourseView-ReviewProposalPage");
         } else {
             return getUIFModelAndView(form);
         }
-
     }
 
     @Override

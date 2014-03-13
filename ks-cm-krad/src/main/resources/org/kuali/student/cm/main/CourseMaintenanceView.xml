@@ -172,7 +172,7 @@
                 <bean parent="KS-CourseView-CurriculumSpecialistFooter" p:render="@{#form.curriculumSpecialist}"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist})"/>
+        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist}, '@{#form.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
@@ -192,7 +192,7 @@
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
                         <value>
-                            { selected: @{selectedTabIndex} }
+                            { selected: @{selectedSection.ordinal()} }
                         </value>
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>

@@ -22,6 +22,7 @@ import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
 
@@ -39,11 +40,11 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     private boolean isCurriculumSpecialist = false;
 
-    private int selectedTabIndex = 0;
+    private CourseViewSections selectedSection = CourseViewSections.COURSE_INFO;
 
     private String proposalName;
 
-    public CreateCourseForm(){
+    public CreateCourseForm() {
         Map<String,String> permDetails = new HashMap<String, String>();
         permDetails.put(KewApiConstants.DOCUMENT_TYPE_NAME_DETAIL, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
         isCurriculumSpecialist = KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION, permDetails);
@@ -65,14 +66,6 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         this.useReviewProcess = useReviewProcess;
     }
 
-    public int getSelectedTabIndex() {
-        return selectedTabIndex;
-    }
-
-    public void setSelectedTabIndex(int selectedTabIndex) {
-        this.selectedTabIndex = selectedTabIndex;
-    }
-
     public boolean isCurriculumSpecialist() {
         return isCurriculumSpecialist;
     }
@@ -92,6 +85,14 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     public void setProposalName(String proposalName) {
         this.proposalName = proposalName;
+    }
+
+    public CourseViewSections getSelectedSection() {
+        return selectedSection;
+    }
+
+    public void setSelectedSection(CourseViewSections selectedSection) {
+        this.selectedSection = selectedSection;
     }
 
     public String getHeaderText() {

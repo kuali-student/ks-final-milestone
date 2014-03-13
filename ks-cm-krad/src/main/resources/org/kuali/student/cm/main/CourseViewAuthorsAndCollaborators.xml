@@ -22,7 +22,6 @@
                             <value>admin-not-required-field</value>
                         </list>
                     </property>
-                    <property name="style" value="margin-bottom: 180px;" />
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
                     <property name="propertyName" value="dataObject.collaboratorWrappers" />
                     <property name="layoutManager.renderSequenceField" value="false"/>

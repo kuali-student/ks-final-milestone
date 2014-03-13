@@ -17,10 +17,52 @@
 
 package org.kuali.student.cm.common.util;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * This class defines constants used in the Curriculum Management UI
  */
 public class CurriculumManagementConstants {
+    /**
+     * The bean ids of the tab sections.
+     */
+    public enum CourseViewSections {
+        CREATE_COURSE_ENTRY("KS-CourseView-createCourseInitialPage"),
+        COURSE_INFO("KS-CourseView-CourseInfo-Section"),
+        GOVERNANCE("KS-CourseView-Governance-Section"),
+        COURSE_LOGISTICS("KS-CourseView-Logistics-Section"),
+        LEARNING_OBJECTIVES("KS-CourseView-LearningObjectives-Section"),
+        COURSE_REQUISITES("KS-CourseView-CourseRequisites-Section"),
+        ACTIVE_DATES("KS-CourseView-ActiveDates-Section"),
+        FINANCIALS("KS-CourseView-Financials-Section"),
+        AUTHORS_AND_COLLABORATORS("KS-CourseView-AuthorsAndCollaborators-Section"),
+        SUPPORTING_DOCUMENTS("KS-CourseView-SupportingDocuments-Section"),
+        REVIEW_PROPOSAL("KS-CourseView-ReviewProposalPage");
+
+        private String sectionId;
+
+        CourseViewSections(String sectionId) {
+            this.sectionId = sectionId;
+        }
+
+        public String getSectionId() {
+            return this.sectionId;
+        }
+
+        /**
+         * Gets a CourseViewSections given a sectionId (aka bean name).
+         * @param id The sectionId of the CourseViewSections.
+         * @return The corresponding CourseViewSections if one matches. Otherwise, null.
+         */
+        public static CourseViewSections getSection(String id) {
+            for(CourseViewSections section : CourseViewSections.values()) {
+                if (StringUtils.equalsIgnoreCase(section.getSectionId(), id)) {
+                    return section;
+                }
+            }
+            return null;
+        }
+    }
 
     // message keys
     public static class MessageKeys {
