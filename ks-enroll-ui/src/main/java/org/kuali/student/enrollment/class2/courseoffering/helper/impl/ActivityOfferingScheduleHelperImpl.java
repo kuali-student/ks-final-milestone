@@ -662,12 +662,12 @@ public class ActivityOfferingScheduleHelperImpl implements ActivityOfferingSched
                             scheduleWrapper.setTimeSlot(timeSlotInfos.get(firstTimeSlotInfo));
 
                             TimeOfDayInfo startTime = scheduleWrapper.getTimeSlot().getStartTime();
-                            if (startTime != null){
+                            if (startTime != null && !startTime.equals(new TimeOfDayInfo(0,0,0))){
                                 scheduleWrapper.setStartTime(TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime));
                             }
 
                             TimeOfDayInfo endTime = scheduleWrapper.getTimeSlot().getEndTime();
-                            if (endTime != null){
+                            if (endTime != null && !endTime.equals(new TimeOfDayInfo(0,0,0))){
                                 scheduleWrapper.setEndTime(TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime));
                             }
                             scheduleWrapper.setDaysUI(SchedulingServiceUtil.weekdaysList2WeekdaysString(scheduleWrapper.getTimeSlot().getWeekdays()));
