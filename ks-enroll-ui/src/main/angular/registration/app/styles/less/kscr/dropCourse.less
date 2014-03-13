@@ -28,7 +28,19 @@
 }
 
 .kscr-dropCourse-container{
+    -webkit-transition:all linear 0.25s;
+    transition:all linear 0.25s;
+    opacity:1;
+}
 
+.kscr-dropCourse-container.ng-hide-add,
+.kscr-dropCourse-container.ng-hide-remove {
+    display:block!important;
+}
+
+.kscr-dropCourse-container.ng-hide {
+    line-height:0;
+    opacity:0;
 }
 
 .kscr-dropCourse-background{
@@ -45,5 +57,5 @@
     position: absolute;
     width:100%;
     z-index:100;
-    top: 25%
+    top: 25%;
 }
