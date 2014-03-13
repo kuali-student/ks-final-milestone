@@ -8,6 +8,7 @@ import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.infc.SearchResult;
@@ -46,7 +47,7 @@ public class CoursePreReqSearch {
             req.addParam( "subject", subject );
             SearchResult result = getCluService().search( req, context );
             for (SearchResultRow row : result.getRows()) {
-                String cluid = getCellValue( row, "lu.resultColumn.cluId");
+                String cluid = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId");
                 courseList.add( cluid );
             }
             return courseList;
@@ -74,7 +75,7 @@ public class CoursePreReqSearch {
             req.addParam( "range", range );
             SearchResult result = getCluService().search( req, context );
             for (SearchResultRow row : result.getRows()) {
-                String cluid = getCellValue( row, "lu.resultColumn.cluId");
+                String cluid = KsapHelperUtil.getCellValue( row, "lu.resultColumn.cluId");
                 courseList.add( cluid );
             }
             return courseList;
@@ -102,8 +103,8 @@ public class CoursePreReqSearch {
             req.addParam( "range", range );
             SearchResult result = getCluService().search( req, context );
             for (SearchResultRow row : result.getRows()) {
-                String cluid = getCellValue( row, "lu.resultColumn.cluId");
-                String code = getCellValue( row, "lu.resultColumn.luOptionalCode");
+                String cluid = KsapHelperUtil.getCellValue( row, "lu.resultColumn.cluId");
+                String code = KsapHelperUtil.getCellValue( row, "lu.resultColumn.luOptionalCode");
                 if( !excludeList.contains( code ))
                 {
                     courseList.add( cluid );
@@ -115,14 +116,4 @@ public class CoursePreReqSearch {
             throw new RuntimeException(e);
         }
     }
-
-    private String getCellValue( SearchResultRow row, String key ) {
-        for( SearchResultCell cell : row.getCells() ) {
-            if( key.equals( cell.getKey() )) {
-                return cell.getValue();
-            }
-        }
-        throw new RuntimeException( "cell result '" + key + "' not found" );
-    }
-
 }

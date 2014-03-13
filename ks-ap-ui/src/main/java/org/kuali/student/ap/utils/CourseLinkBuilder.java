@@ -13,6 +13,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.ap.framework.config.KsapFrameworkServiceLocator;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -357,15 +358,6 @@ public class CourseLinkBuilder {
 		return link;
 	}
 
-	private static String getCellValue(SearchResultRow row, String key) {
-		for (SearchResultCell cell : row.getCells()) {
-			if (key.equals(cell.getKey())) {
-				return cell.getValue();
-			}
-		}
-		throw new RuntimeException("cell result '" + key + "' not found");
-	}
-
 	private static synchronized Map<String, String> getCourseInfo(
 			String curriculumCode, String courseNumber, ContextInfo context) {
 		SearchRequestInfo searchRequest = new SearchRequestInfo(
@@ -389,8 +381,8 @@ public class CourseLinkBuilder {
 
 		Map<String, String> result = new HashMap<String, String>();
 		for (SearchResultRow row : searchResult.getRows()) {
-			String courseId = getCellValue(row, "lu.resultColumn.cluId");
-			String courseTitle = getCellValue(row, "id.lngName");
+			String courseId = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId");
+			String courseTitle = KsapHelperUtil.getCellValue(row, "id.lngName");
 			result.put("courseId", courseId);
 			result.put("courseTitle", courseTitle);
 		}

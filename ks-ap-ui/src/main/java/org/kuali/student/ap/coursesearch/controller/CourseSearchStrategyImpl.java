@@ -91,20 +91,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		return rv;
 	}
 
-	public String getCellValue(SearchResultRow row, String key) {
-		String value = null;
-		for (SearchResultCell cell : row.getCells()) {
-			if (key.equals(cell.getKey())) {
-				// return cell.getValue();
-				value = cell.getValue();
-				break;
-			}
-		}
-		assert value == null : "cell result '" + key + "' not found";
-		return value;
-		// throw new RuntimeException("cell result '" + key + "' not found");
-	}
-
 	public static class Hit {
 		public String courseID;
 		public int count = 0;
@@ -149,7 +135,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 						.search(request,
 								KsapFrameworkServiceLocator.getContext()
 										.getContextInfo()).getRows())
-					if (seen.add(id = getCellValue(row, "lu.resultColumn.cluId")))
+					if (seen.add(id = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId")))
 						hits.add(new Hit(id));
 			} catch (MissingParameterException e) {
 				throw new IllegalArgumentException(
@@ -325,14 +311,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		if ((result != null) && (!result.getRows().isEmpty())) {
 			for (SearchResultRow row : result.getRows()) {
 				CourseSearchItemImpl course = new CourseSearchItemImpl();
-				course.setCourseId(getCellValue(row, "course.id"));
-				course.setSubject(getCellValue(row, "course.subject"));
-				course.setNumber(getCellValue(row, "course.number"));
-				course.setLevel(getCellValue(row, "course.level"));
-				course.setCourseName(getCellValue(row, "course.name"));
-				course.setCode(getCellValue(row, "course.code"));
+				course.setCourseId(KsapHelperUtil.getCellValue(row, "course.id"));
+				course.setSubject(KsapHelperUtil.getCellValue(row, "course.subject"));
+				course.setNumber(KsapHelperUtil.getCellValue(row, "course.number"));
+				course.setLevel(KsapHelperUtil.getCellValue(row, "course.level"));
+				course.setCourseName(KsapHelperUtil.getCellValue(row, "course.name"));
+				course.setCode(KsapHelperUtil.getCellValue(row, "course.code"));
 
-				String cellValue = getCellValue(row, "course.credits");
+				String cellValue = KsapHelperUtil.getCellValue(row, "course.credits");
 				Credit credit = getCreditByID(cellValue);
 				if (credit != null) {
 					course.setCreditMin(credit.getMin());
@@ -518,8 +504,8 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         Map<String, List<String>> offeredMap = new HashMap<String,List<String>>();
 
         for (SearchResultRow row : result.getRows()) {
-            String courseId = getCellValue(row, "course.key");
-            String type = getCellValue(row, "atp.id");
+            String courseId = KsapHelperUtil.getCellValue(row, "course.key");
+            String type = KsapHelperUtil.getCellValue(row, "atp.id");
             if(offeredMap.containsKey(courseId)){
                 offeredMap.get(courseId).add(type);
             }else{
@@ -603,12 +589,12 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			return;
 		}
 		for (SearchResultRow row : result.getRows()) {
-			String genEd = getCellValue(row, "gened.name");
+			String genEd = KsapHelperUtil.getCellValue(row, "gened.name");
 			reqs.add(genEd);
 		}
 		String courseId = null;
 		for (SearchResultRow row : result.getRows()) {
-			courseId = getCellValue(row, "course.owner");
+			courseId = KsapHelperUtil.getCellValue(row, "course.owner");
 			for (CourseSearchItemImpl course : courses) {
 				if (courseId.equals(course.getCourseId())) {
 					String formatted = formatGenEduReq(reqs);

@@ -650,13 +650,4 @@ public class DefaultCourseHelper implements CourseHelper, Serializable {
             throw new IllegalStateException("CO lookup failure", e);
         }
     }
-
-    private String getCellValue(SearchResultRow row, String key) {
-        for (SearchResultCell cell : row.getCells()) {
-            if (key.equals(cell.getKey())) {
-                return cell.getValue();
-            }
-        }
-        return "";
-    }
 }

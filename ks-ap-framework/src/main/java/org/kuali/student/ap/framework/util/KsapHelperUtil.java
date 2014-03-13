@@ -8,6 +8,8 @@ import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,5 +104,15 @@ public class KsapHelperUtil {
             predicates[i]=equal("cluId", courses.get(i));
         }
         return predicates;
+    }
+
+    public static String getCellValue(SearchResultRow row, String key) {
+        for (SearchResultCell cell : row.getCells()) {
+            if (key.equals(cell.getKey())) {
+                return cell.getValue();
+            }
+        }
+        LOG.warn("cell result '" + key + "' not found...returning ");
+        return "";
     }
 }

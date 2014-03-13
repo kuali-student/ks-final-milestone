@@ -168,16 +168,6 @@ public interface CourseSearchStrategy {
 	 */
 	CourseSearchForm createSearchForm();
 
-	/**
-	 * Get a specific cell value for a search row.
-	 * 
-	 * @param row
-	 *            The search result row.
-	 * @param key
-	 *            The column key.
-	 */
-	String getCellValue(SearchResultRow row, String key);
-
 	Map<String, Credit> getCreditMap();
 
 	Credit getCreditByID(String id);

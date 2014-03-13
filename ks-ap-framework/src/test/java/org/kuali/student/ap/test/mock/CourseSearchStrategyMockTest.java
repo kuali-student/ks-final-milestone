@@ -28,17 +28,6 @@ public class CourseSearchStrategyMockTest implements CourseSearchStrategy {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    /**
-     * Get a specific cell value for a search row.
-     *
-     * @param row The search result row.
-     * @param key The column key.
-     */
-    @Override
-    public String getCellValue(SearchResultRow row, String key) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     @Override
     public Map<String, Credit> getCreditMap() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.

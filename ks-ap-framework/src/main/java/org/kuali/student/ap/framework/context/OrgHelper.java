@@ -47,11 +47,4 @@ public interface OrgHelper {
     /* Used for the subjects area's with trimmed key value */
     public Map<String, String> getTrimmedSubjectAreas();
 
-    /**
-     * Gets an individual value of a search result entry.
-     *
-     * @return Entry's value
-     */
-    public String getCellValue(SearchResultRow row, String key);
-
 }

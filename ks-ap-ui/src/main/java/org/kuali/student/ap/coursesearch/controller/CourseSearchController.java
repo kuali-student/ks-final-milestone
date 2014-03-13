@@ -53,6 +53,7 @@ import org.kuali.student.ap.framework.course.CourseSearchForm;
 import org.kuali.student.ap.framework.course.CourseSearchItem;
 import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.FacetKeyValue;
+import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -1043,7 +1044,7 @@ public class CourseSearchController extends UifControllerBase {
 			throw new RuntimeException(e);
 		}
 		for (SearchResultRow row : searchResult.getRows()) {
-			courseId = searcher.getCellValue(row, "lu.resultColumn.cluId");
+			courseId = KsapHelperUtil.getCellValue(row, "lu.resultColumn.cluId");
 		}
 		if (courseId.equalsIgnoreCase("")) {
 			response.sendRedirect("../course?searchQuery=" + courseCd
@@ -1309,7 +1310,7 @@ public class CourseSearchController extends UifControllerBase {
 		List<String> results = new ArrayList<String>(searchResult.getRows()
 				.size());
 		for (SearchResultRow row : searchResult.getRows())
-			results.add(searcher.getCellValue(row, "courseCode"));
+			results.add(KsapHelperUtil.getCellValue(row, "courseCode"));
 		return results;
 	}
 
