@@ -163,7 +163,7 @@ function searchForCourses(id, parentId) {
 			.dataTable(
 					{
 						aLengthMenu : [ 20, 50, 100 ],
-						aaSorting : [[0,'asc']],
+						aaSorting : [],
 						aoColumns : ksapCourseSearchColumns(),
 						bAutoWidth : false,
 						bDeferRender : true,
