@@ -104,6 +104,7 @@ public class KimPermissionConstants {
     public static final String VIEW_LINE_FIELD_TEMPLATE_NAME = "View Line Field";
     public static final String EDIT_LINE_FIELD_TEMPLATE_NAME = "Edit Line Field";
     public static final String PERFORM_LINE_ACTION_TEMPLATE_NAME = "Perform Line Action";
+    public static final String KS_OPEN_DOCUMENT_BY_DOC_TYPE_AND_ROUTE_STATUS = "Open Document";
     
     /**
      * Role Names
