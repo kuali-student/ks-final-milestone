@@ -8,6 +8,7 @@
     "jquery": "~1.10.2",
     "bootstrap": "~3.0.3",
     "angular-bootstrap":"0.10.0",
+    "angular-animate": "1.2.6",
     "angular-resource": "1.2.6",
     "angular-cookies": "1.2.6",
     "angular-sanitize": "1.2.6",

@@ -28,7 +28,23 @@
     font-weight: normal;
     padding-bottom:10px;
     padding-top:10px;
+
+    -webkit-transition:all linear 0.25s;
+    transition:all linear 0.25s;
+    opacity:1;
 }
+
+.kscr-Card-detailsText.ng-hide-add,
+.kscr-Card-detailsText.ng-hide-remove {
+    display:block!important;
+}
+
+.kscr-Card-detailsText.ng-hide {
+    line-height:0;
+    opacity:0;
+    padding:0 10px;
+}
+
 
 .kscr-Card-courseTimes{
    display: inline-flex;

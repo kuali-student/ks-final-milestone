@@ -2,6 +2,7 @@
 
 angular.module('regCartApp', [
         'configuration',
+        'ngAnimate',
         'ngCookies',
         'ngResource',
         'ngSanitize',
