@@ -212,6 +212,9 @@ Mozilla Public License - Version 1.1 :
 Public Domain : 
   * AOP alliance (aopalliance:aopalliance:1.0 - http://aopalliance.sourceforge.net)
 
-Sun Binary License : 
+SIL Open Font License : (http://scripts.sil.org/OFL)
+  * Font packages included in codebase from http://themes.googleusercontent.com/static/fonts/
+
+Sun Binary License :
   * connector-api (javax.resource:connector-api:1.5 - no url defined)
   * Java Transaction API (javax.transaction:jta:1.1 - http://java.sun.com/products/jta)
