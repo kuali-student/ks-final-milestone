@@ -709,13 +709,15 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
                 List<ScheduleCalcContainer> schedList = ao2sch.get(aoId);
                 boolean newRow = false;
                 for (ScheduleCalcContainer sched : schedList) {
+                    // Start and End are assigned a value of TimeOfDayInfo(0,0,0)). Perhaps this code can be cleaned up.
+                    // The same thing is repeated in a few places. See jira  KSENROLL-11518
                     TimeOfDayInfo start = sched.getStart().isEmpty() ? null
                             : TimeOfDayHelper.setMillis(Long.parseLong(sched.getStart()));
-                    aoWrapper.setStartTimeDisplay(start == null ? ""
+                    aoWrapper.setStartTimeDisplay((start == null || start.equals(new TimeOfDayInfo(0,0,0))) ? ""
                             : TimeOfDayHelper.makeFormattedTimeForAOSchedules(start), newRow);
                     TimeOfDayInfo end = sched.getEnd().isEmpty() ? null
                             : TimeOfDayHelper.setMillis(Long.parseLong(sched.getEnd()));
-                    aoWrapper.setEndTimeDisplay(end == null ? ""
+                    aoWrapper.setEndTimeDisplay((end == null || end.equals(new TimeOfDayInfo(0,0,0))) ? ""
                             : TimeOfDayHelper.makeFormattedTimeForAOSchedules(end), newRow);
                     aoWrapper.setBuildingName(sched.getBldgName(), newRow);
                     aoWrapper.setBuildingCode(sched.getBldgCode(), newRow);
