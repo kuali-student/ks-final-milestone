@@ -18,7 +18,7 @@
                         ng-options="creditOption for creditOption in newCartItem.creditOptions"></select>
             </div>
             <div class="kscr-Edit" ng-show="newCartItem.gradingOptionCount > 1">
-                <label for="newItemGrading" class="kscr-RegInput-label">Grading</label>
+                <label for="newItemGrading" class="kscr-RegInput-label">Registration Options</label>
                 <!--<select id="newItemGrading" class="kscr-RegInput-label" ng-model="newCartItem.grading"-->
                         <!--ng-options="key as value for (key, value) in newCartItem.gradingOptions"></select>-->
                 <div ng-repeat="(key, value) in newCartItem.gradingOptions">
