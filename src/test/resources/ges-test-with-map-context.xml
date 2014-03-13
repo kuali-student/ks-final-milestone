@@ -28,7 +28,7 @@
     <bean id="gesBaseImpl" class="org.kuali.student.core.ges.service.impl.GesServiceMapImpl" />
     <bean id="propositionFactory" class="org.kuali.student.core.process.evaluator.PropositionFactoryHardwiredImpl" />
     <bean id="krmsEvaluator" class="org.kuali.student.core.process.evaluator.KRMSEvaluator" />
-   <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
+    <bean id="ksCacheManager" class="net.sf.ehcache.CacheManager">
         <constructor-arg index="0" type="java.net.URL" value="classpath:ks-ehcache.xml" />
     </bean>
 
