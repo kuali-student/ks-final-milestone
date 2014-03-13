@@ -77,15 +77,18 @@
                 </property>
             </bean>
         </property>
-        <!--<property name="stateMapping">
+<!--
+        <property name="stateMapping">
             <bean parent="WorkflowStateMapping">
                 <property name="customClientSideValidationStates">
                     <map>
-                        <entry key="I" value="A"/>
+                        <entry key="I" value="S"/>
+                        <entry key="S" value="S"/>
                     </map>
                 </property>
             </bean>
-        </property>-->
+        </property>
+-->
         <property name="dialogs">
             <list>
                 <ref bean="commentsLightBox" />

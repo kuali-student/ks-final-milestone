@@ -16,16 +16,13 @@
  */
 package org.kuali.student.cm.course.auth;
 
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.identity.Person;
 import org.kuali.rice.krad.lookup.LookupViewAuthorizerBase;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.rice.krad.util.KRADConstants;
-import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.form.LookupForm;
-import org.kuali.student.kim.permission.map.KimPermissionConstants;
 
 import java.util.HashMap;
 import java.util.Map;

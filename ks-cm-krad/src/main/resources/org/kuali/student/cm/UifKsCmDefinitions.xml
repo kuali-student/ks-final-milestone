@@ -32,21 +32,37 @@
   <bean id="Uif-CancelAction" parent="Uif-CancelActionButton" p:methodToCall="cancel"
         p:actionLabel="Cancel" p:performDirtyValidation="true" p:id="cancel"/>
 
-  <bean id="Uif-KS-IconInputField" parent="Uif-KS-IconInputField-parentBean" abstract="true"/>
+  <bean id="KS-Uif-InputField-LabelTop-RequiredForEnrouteState" parent="KS-Uif-InputField-LabelTop-RequiredForEnrouteState-parent"/>
+  <bean id="KS-Uif-InputField-LabelTop-RequiredForEnrouteState-parent" parent="KS-Uif-InputField-LabelTop">
+      <property name="fieldLabel.requiredMessage">
+          <!-- if the KEW status is INITIATED or SAVED this field should have double asterisks '**', otherwise just a single one '*' -->
+          <bean parent="Uif-RequiredMessage"
+                p:messageText="*@{((document.documentHeader.workflowDocument.initiated) or (document.documentHeader.workflowDocument.saved)) ? '*' : ''}"/>
+      </property>
+      <property name="simpleConstraint">
+          <bean parent="RequiredConstraint">
+              <property name="states">
+                  <list>
+                      <value>R+</value>
+                  </list>
+              </property>
+          </bean>
+      </property>
+  </bean>
 
+  <bean id="Uif-KS-IconInputField" parent="Uif-KS-IconInputField-parentBean" abstract="true"/>
   <bean id="Uif-KS-IconInputField-parentBean" abstract="true" parent="Uif-InputField-parentBean" scope="prototype">
       <property name="requiredMessage.messageText" value=""/>
-      <property name="fieldLabel.labelText" value="test"/> <!-- This is a workaround needed as KRAD not rendering the label if this is empty -->
+      <property name="fieldLabel.labelText" value="test"/> <!-- TODO: This is a workaround needed as KRAD not rendering the label if this is empty -->
       <property name="fieldLabel.richLabelMessage">
           <bean parent="Uif-KS-IconLabelMessage"/>
       </property>
   </bean>
 
   <bean id="Uif-KS-IconInputField-LabelTop" parent="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true"/>
-
   <bean id="Uif-KS-IconInputField-LabelTop-parentBean" abstract="true" parent="Uif-InputField-LabelTop-parentBean" scope="prototype">
       <property name="fieldLabel.requiredMessage.messageText" value=""/>
-      <property name="fieldLabel.labelText" value="test"/> <!-- This is a workaround needed as KRAD not rendering the label if it is empty -->
+      <property name="fieldLabel.labelText" value="test"/> <!-- TODO: (KSCM-) This is a workaround needed as KRAD not rendering the label if it is empty -->
       <property name="fieldLabel.richLabelMessage">
             <bean parent="Uif-KS-IconLabelMessage"/>
       </property>
@@ -59,7 +75,6 @@
   </bean>
 
   <bean id="Uif-KS-IconLabelMessage" parent="Uif-KS-IconLabelMessage-parentBean"/>
-
   <bean id="Uif-KS-IconLabelMessage-parentBean" parent="Uif-Message-parentBean" abstract="true" class="org.kuali.student.cm.uif.element.KSIconLabelMessage" scope="prototype">
       <property name="inlineComponents">
           <list>

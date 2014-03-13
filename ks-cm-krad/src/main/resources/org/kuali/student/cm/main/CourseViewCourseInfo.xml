@@ -126,47 +126,33 @@
                 <bean parent="Uif-VerticalBoxSubSection" p:headerText="Description and Rationale">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Description"
-                                  p:propertyName="dataObject.courseInfo.descr.plain" >
-                                <property name="fieldLabel.requiredMessage">
-                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.dataObject.requiredWorkflowMode}" />
-                                </property>
+<!--
+                            THIS IS FOR USE WITH THE REQUIRED BY STATE STUFF
+                            <bean parent="KS-Uif-InputField-LabelTop-RequiredForEnrouteState"
+-->
+                            <bean parent="KS-Uif-InputField-LabelTop"
+                                  p:label="Description" p:propertyName="dataObject.courseInfo.descr.plain" >
                                 <property name="cssClasses">
                                     <list>
                                         <value>uif-label</value>
                                     </list>
                                 </property>
-                                <!--<property name="simpleConstraint">
-                                    <bean parent="RequiredConstraint">
-                                        <property name="states">
-                                            <list>
-                                                <value>S+</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>-->
                                 <property name="instructionalText"
                                           value="This description will appear in the catalog." />
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl" />
                                 </property>
                             </bean>
-                            <bean id="KS-ProposalRationale" parent="Uif-InputField-LabelTop" p:label="Proposal Rationale"
+<!--
+                            THIS IS FOR USE WITH THE REQUIRED BY STATE STUFF
+                            <bean parent="KS-Uif-InputField-LabelTop-RequiredForEnrouteState"
+-->
+                            <bean parent="KS-Uif-InputField-LabelTop"
+                                  id="KS-ProposalRationale"
+                                  p:label="Proposal Rationale"
                                   p:propertyName="dataObject.proposalInfo.rationale.plain">
-                                <property name="fieldLabel.requiredMessage">
-                                    <bean parent="Uif-RequiredMessage" p:messageText="Required on @{document.newMaintainableObject.dataObject.requiredWorkflowMode}" />
-                                </property>
                                 <property name="instructionalText"
                                           value="This will be used in evaluating the proposal. It will not be published in the catalog." />
-                                <!--<property name="simpleConstraint">
-                                    <bean parent="RequiredConstraint">
-                                        <property name="states">
-                                            <list>
-                                                <value>S>R</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>-->
                                 <property name="control">
                                     <bean parent="Uif-LargeTextAreaControl">
                                         <property name="cssClasses">
@@ -235,25 +221,17 @@
                 <bean parent="Uif-HorizontalBoxSection">
                     <property name="items">
                         <list>
-                            <bean id="KS-SubjectArea-Field" parent="Uif-InputField-LabelTop"
+<!--
+                            THIS IS FOR USE WITH THE REQUIRED BY STATE STUFF
+                            <bean parent="KS-Uif-InputField-LabelTop-RequiredForEnrouteState"
+-->
+                            <bean parent="KS-Uif-InputField-LabelTop"
+                                  id="KS-SubjectArea-Field"
                                   p:label="Subject Code" p:propertyName="dataObject.courseInfo.subjectArea" >
-                                <property name="fieldLabel.requiredMessage">
-                                    <bean parent="Uif-RequiredMessage"
-                                          p:messageText="Required on @{document.newMaintainableObject.dataObject.requiredWorkflowMode}"/>
-                                </property>
                                 <property name="constraintText" value="Must be a 4 letter code"/>
                                 <property name="validCharactersConstraint">
                                     <bean parent="AlphaPatternConstraint"/>
                                 </property>
-                                <!--<property name="simpleConstraint">
-                                    <bean parent="RequiredConstraint">
-                                        <property name="states">
-                                            <list>
-                                                <value>S+</value>
-                                            </list>
-                                        </property>
-                                    </bean>
-                                </property>-->
                                 <property name="control">
                                     <bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA"/>
                                 </property>
@@ -332,7 +310,7 @@
                                     <bean parent="Uif-TextControl" />
                                 </property>
                                 <property name="suggest">
-                                    <!-- 									<bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
+                                    <!-- <bean parent="Uif-Suggest" p:render="true" p:sourceQueryMethodResults="true"> -->
                                     <bean parent="Uif-Suggest" p:render="true">
                                         <property name="valuePropertyName" value="courseCode"/>
                                         <property name="templateOptions" value="minLength:1,delay:0" />
