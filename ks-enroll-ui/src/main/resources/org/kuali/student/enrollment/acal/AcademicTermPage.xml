@@ -129,7 +129,7 @@
                  since the first field is a validated dropdown -->
                 <bean parent="Uif-AddLineAction-SecondaryButton" p:focusOnIdAfterSubmit="SELF" p:actionLabel="Add Term"
                       p:onClickScript="findDirtyFields('AcalEdit-DirtyFields');">
-                    <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus-1"/>
                 </bean>
             </list>
         </property>
@@ -377,7 +377,7 @@
                 since the first field is a validated dropdown -->
                 <bean parent="Uif-AddLineAction-SecondaryButton" p:actionLabel="Add Key Date Group" p:focusOnIdAfterSubmit="SELF">
                     <property name="disabled" value="@{(#lp.keyDateGroupType == null) or (#lp.keyDateGroupType == '')}"/>
-                    <property name="additionalCssClasses" value="ks-fontello-icon-plus"/>
+                    <property name="additionalCssClasses" value="ks-fontello-icon-plus-1"/>
                     <property name="refreshWhenChangedPropertyNames" value="@{#lp.keyDateGroupType}"/>
                 </bean>
             </list>
