@@ -214,7 +214,8 @@
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="typeKey"
                       p:label="Type" p:required="true" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl">
+                        <bean parent="Uif-DropdownControl"
+                            p:onChangeScript="reDrawOutcomeComponent();">
                             <property name="options">
                                 <list>
                                     <bean parent="Uif-KeyLabelPair" p:key="1" p:value="" />
@@ -230,21 +231,21 @@
                     </property>
                 </bean>
                 <bean id="fixedCreditVale" parent="Uif-InputField-LabelTop"
-                      p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.fixed'"
+                      p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.fixed'}"
                       p:label="Credit Value" p:propertyName="resultValueRange.minValue">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
                 </bean>
                 <bean  id="MinRangeCreditVale" parent="Uif-InputField-LabelTop"
-                       p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.range'"
+                       p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
                        p:label="Minimum Credit Value" p:propertyName="resultValueRange.minValue">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />
                     </property>
                 </bean>
                 <bean id="MaxRangeCreditVale" parent="Uif-InputField-LabelTop"
-                      p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.range'"
+                      p:render="@{#lp.typeKey eq 'kuali.result.values.group.type.range'}"
                       p:label="Maximum Credit Value" p:propertyName="resultValueRange.maxValue">
                     <property name="validCharactersConstraint">
                         <bean parent="NumericPatternConstraint" />

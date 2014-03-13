@@ -337,3 +337,7 @@ function navigateToTheRightTab(isCurriculumSpecialist, tabId) {
 function updateStickyHeaderText() {
     jQuery("#KS-CourseView").find('.uif-viewHeader-supportTitle').text("Review Proposal");
 }
+
+function reDrawOutcomeComponent() {
+    retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets');
+}
