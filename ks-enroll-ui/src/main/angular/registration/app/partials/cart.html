@@ -98,19 +98,22 @@
                       </span>
                 </div>
             </div>
+
             <!-- Cart Change Section: Credits, Grading, and Save -->
             <div class="kscr-Card-detailsText" ng-show="cartItem.editing">
                 <form ng-submit="updateCartItem(cartItem, newCredits, newGrading)">
-                    <div ng-show="cartItem.creditOptions.length > 1">
-                        <label class="kscr-Edit-details" for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
-                        <select class="kscr-Edit-details" id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
-                                ng-options="creditOption for creditOption in cartItem.creditOptions"></select>
-                    </div>
-                    <div ng-show="cartItem.gradingOptionCount > 1">
-                        <label class="kscr-Edit-details" for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Registration Options</label>
-                        <select class="kscr-Edit-details" id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newGrading"
-                                ng-options="key as value for (key, value) in cartItem.gradingOptions"></select>
-
+                    <div class="util-Grid">
+                        <div class="kscr-Edit" ng-show="cartItem.creditOptions.length > 1">
+                            <label class="kscr-Edit-details" for="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Credits</label>
+                            <select class="kscr-Edit-details" id="credits_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}" ng-model="newCredits"
+                                    ng-options="creditOption for creditOption in cartItem.creditOptions"></select>
+                        </div>
+                        <div class="kscr-Edit" ng-show="cartItem.gradingOptionCount > 1">
+                            <label class="kscr-Edit-details" for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Registration Options</label>
+                            <div ng-repeat="(key, value) in cartItem.gradingOptions">
+                                <input id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}"  type="radio" name="newGrading" value="{{key}}" ng-model="$parent.newGrading"/>{{value}}
+                            </div>
+                        </div>
                     </div>
                     <!--Edit buttons-->
                     <div class="kscr-Card-buttons">
