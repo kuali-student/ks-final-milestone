@@ -72,9 +72,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         try {
             response = Response.ok(registerForRegistrationGroupLocal(ContextUtils.createDefaultContextInfo(), termCode, courseCode, regGroupCode, regGroupId, credits, gradingOptionId));
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -86,9 +86,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         try {
             response = Response.ok(dropRegistrationGroup(ContextUtils.createDefaultContextInfo(), masterLprId));
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -148,9 +148,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
         try {
             Map<String, List> stats = getStatsFromRegEngine();
             response = Response.ok(stats);
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -168,9 +168,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
             MQPerformanceCounter.INSTANCE.clearPerformanceStats();
 
             response = Response.fromResponse(getRegEngineStatsRS());
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -550,9 +550,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
                 CourseRegistrationAndScheduleOfClassesUtil.getLprService().deleteLpr(lprInfo.getId(), contextInfo);
             }
             response = Response.noContent();
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -635,9 +635,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         try {
             response = Response.ok(updateScheduleItem(ContextUtils.createDefaultContextInfo(), courseCode, regGroupCode, masterLprId, credits, gradingOptionId));
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();
@@ -709,9 +709,9 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
 
         try {
             response = Response.ok(getRegistrationStatus(regReqId, ContextUtils.createDefaultContextInfo()));
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
-            response = Response.serverError().entity(t.getMessage());
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
+            response = Response.serverError().entity(e.getMessage());
         }
 
         return response.build();

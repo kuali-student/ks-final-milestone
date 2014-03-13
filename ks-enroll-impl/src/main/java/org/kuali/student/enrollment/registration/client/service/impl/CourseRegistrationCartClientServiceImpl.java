@@ -382,8 +382,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         try {
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(updateCartItem(ContextUtils.createDefaultContextInfo(), cartId, cartItemId, credits, gradingOptionId));
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Unable to update item in cart");
@@ -433,8 +433,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
 
         try {
             response = Response.ok(getStudentRegistrationOptions(courseCode, termId, regGroupId));
-        } catch (Throwable t) {
-            LOGGER.warn("Exception occurred", t);
+        } catch (Exception e) {
+            LOGGER.warn("Exception occurred", e);
             // Convert the generic user message into something useful to the UI.
             UserMessageResult userMessage = new UserMessageResult();
             userMessage.setGenericMessage("Unable to get student registration options.");
