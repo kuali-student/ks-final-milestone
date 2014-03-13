@@ -23,7 +23,7 @@ package org.kuali.student.r1.common.rice.authorization;
  */
 public enum PermissionType {
 	INITIATE("Initiate","KR-SYS","Initiate Document"),
-	OPEN("View","KS-SYS","Open Document"),
+	OPEN("View","KS-SYS","Open Document (GWT)"),
 	EDIT("Edit","KS-SYS","Edit Document"),
 	ADD_COMMENT("Comment","KS-SYS","Comment on Document"),
 	ADD_ADHOC_REVIEWER("Add Reviewer","KS-SYS","Add Adhoc Reviewer"), 
