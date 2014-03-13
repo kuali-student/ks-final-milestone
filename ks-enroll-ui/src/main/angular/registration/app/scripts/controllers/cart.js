@@ -155,6 +155,7 @@ angular.module('regCartApp')
                 console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
                 cartItem.editing = false;
                 cartItem.actionLinks = newCartItem.actionLinks;
+                $scope.creditTotal = creditTotal();
                 $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
             });
 
