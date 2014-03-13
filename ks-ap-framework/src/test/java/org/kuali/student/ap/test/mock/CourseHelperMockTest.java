@@ -35,11 +35,6 @@ public class CourseHelperMockTest implements CourseHelper {
     }
 
     @Override
-    public Map<String, Map<String, Object>> getAllSectionStatus(Map<String, Map<String, Object>> mapmap, String termId, String courseId) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public String getLastOfferedTermIdForCourse(Course course) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }

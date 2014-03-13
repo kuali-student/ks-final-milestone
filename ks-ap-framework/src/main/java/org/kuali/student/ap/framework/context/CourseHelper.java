@@ -40,17 +40,6 @@ public interface CourseHelper {
 	List<ActivityOfferingDisplayInfo> getActivityOfferingDisplaysByCourseAndTerm(String courseId, String term);
 
     /**
-     * Get enrollment related information for the given courseId in the given termId
-     * @param mapmap
-     * @param termId
-     * @param courseId
-     * @return
-     */
-	Map<String, Map<String, Object>> getAllSectionStatus(
-			Map<String, Map<String, Object>> mapmap, String termId,
-			String courseId);
-
-    /**
      *
      * @param course
      * @return
