@@ -654,14 +654,14 @@ public class CourseController extends CourseRuleEditorController {
             throw new RiceIllegalStateException(e);
         }
 
-      /*if(savedCourseInfo.getDuration() != null &&  StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
+      if(savedCourseInfo.getDuration() != null &&  StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
         try{
                 TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
                 reviewData.getcourseLogisticsSection().setAtpDurationType(term.getName());
             } catch (Exception e) {
                 throw new RiceIllegalStateException(e);
             }
-      }*/
+      }
 
         reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
 
