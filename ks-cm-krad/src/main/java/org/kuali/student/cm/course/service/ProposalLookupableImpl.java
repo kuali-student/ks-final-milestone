@@ -70,8 +70,8 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
     protected final String PROPOSAL_TITLE_LEY = "proposal.queryParam.proposalOptionalName";
     protected final String SEARCH_KEY = "proposal.search.generic";
     protected final String PROPOSAL_ID_KEY = "proposal.resultColumn.proposalId";
-    protected final String CAN_EDIT_KEY = "canEdit";
-    protected final String CAN_OPEN_KEY = "canOpen";
+    protected final String CAN_EDIT_PROPOSAL_KEY = "canEditProposal";
+    protected final String CAN_OPEN_PROPOSAL_KEY = "canOpenProposal";
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
@@ -208,8 +208,8 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
             canOpen = KRADServiceLocatorWeb.getDocumentDictionaryService().getDocumentAuthorizer(docTypeName).canOpen(document,
                     GlobalVariables.getUserSession().getPerson());
 
-            AttributeInfo editAttribute = new AttributeInfo(CAN_EDIT_KEY, BooleanUtils.toStringTrueFalse(canEdit));
-            AttributeInfo openAttribute = new AttributeInfo(CAN_OPEN_KEY, BooleanUtils.toStringTrueFalse(canOpen));
+            AttributeInfo editAttribute = new AttributeInfo(CAN_EDIT_PROPOSAL_KEY, BooleanUtils.toStringTrueFalse(canEdit));
+            AttributeInfo openAttribute = new AttributeInfo(CAN_OPEN_PROPOSAL_KEY, BooleanUtils.toStringTrueFalse(canOpen));
             proposal.getAttributes().add(editAttribute);
             proposal.getAttributes().add(openAttribute);
         }
@@ -225,7 +225,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         ProposalInfo proposalInfo = (ProposalInfo)dataObject;
 
-        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue(CAN_EDIT_KEY));
+        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue(CAN_EDIT_PROPOSAL_KEY));
     }
 
     /**
@@ -238,7 +238,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         ProposalInfo proposalInfo = (ProposalInfo)dataObject;
 
-        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue(CAN_OPEN_KEY));
+        return BooleanUtils.toBoolean(proposalInfo.getAttributeValue(CAN_OPEN_PROPOSAL_KEY));
     }
 
 
