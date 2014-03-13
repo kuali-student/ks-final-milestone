@@ -14,11 +14,8 @@ public class CMMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthoriz
 
     @Override
     public boolean canOpen(Document document, Person user) {
-        Map<String, String> permDetails = getPermissionDetailValues(document);
-        Map<String, String> roleQuals = getRoleQualification(document, user.getPrincipalId());
-        boolean result = isAuthorizedByTemplate(document, KimPermissionConstants.KS_SYS_NAMESPACE,
+        return isAuthorizedByTemplate(document, KimPermissionConstants.KS_SYS_NAMESPACE,
                 KimPermissionConstants.KS_OPEN_DOCUMENT_BY_DOC_TYPE_AND_ROUTE_STATUS, user.getPrincipalId());
-        return result;
     }
 
     @Override
