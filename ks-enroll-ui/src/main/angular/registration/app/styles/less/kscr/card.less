@@ -29,8 +29,8 @@
     padding-bottom:10px;
     padding-top:10px;
 
-    -webkit-transition:all linear 0.25s;
-    transition:all linear 0.25s;
+    -webkit-transition: @transition
+    transition: @transition;
     opacity:1;
 }
 
@@ -42,7 +42,7 @@
 .kscr-Card-detailsText.ng-hide {
     line-height:0;
     opacity:0;
-    padding:0 10px;
+    //padding:0 10px;
 }
 
 .kscr-Card-courseTimes{
@@ -117,8 +117,8 @@
 .kscr-course-container {
     position:relative;
     width:100%;
-    -webkit-transition:all linear .25s;
-    transition:all linear .25s;
+    -webkit-transition:  @transition;
+    transition:  @transition;
     opacity:1;
 }
 
