@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.kuali.student.logging.FormattedLogger.debug;
+import static org.kuali.student.logging.FormattedLogger.error;
 import static org.kuali.student.logging.FormattedLogger.info;
 
 
@@ -102,7 +103,7 @@ public class OrganizationInfoLookupableImpl extends LookupableImpl {
         try {
         	searchResult = getOrganizationService().search(searchRequest, ContextUtils.getContextInfo());
 		} catch (Exception e) {
-			e.printStackTrace();
+            error("An error occurred in getting search result. %s", e.getMessage());
 		}
 
         for (final SearchResultRowInfo result : searchResult.getRows()) {

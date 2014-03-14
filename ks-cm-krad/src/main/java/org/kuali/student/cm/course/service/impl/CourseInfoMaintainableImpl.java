@@ -170,7 +170,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 cluInstructorInfoDisplays.add(cluInstructorInfoDisplay);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            error("An error occurred in the getInstructorsForSuggest method. %s", e.getMessage());
         }
 
         return cluInstructorInfoDisplays;

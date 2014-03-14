@@ -1,13 +1,10 @@
 package org.kuali.student.cm.course.service.util;
 
-import static org.kuali.student.logging.FormattedLogger.error;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
+import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -16,6 +13,11 @@ import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.kuali.student.logging.FormattedLogger.error;
 
 public class CourseCodeSearchUtil {
     
@@ -97,8 +99,12 @@ public class CourseCodeSearchUtil {
     public static CourseJointInfoWrapper getCourseJointInfoWrapper(String courseNumber, CluService cluService) {
         List<CourseCodeSearchWrapper> searchWrappers = searchForCourseNumbers(courseNumber, cluService);
         CourseJointInfoWrapper courseJointInfoWrapper = null;
-        if (searchWrappers != null) {
-            courseJointInfoWrapper = convertToCourseJointInfoWrapper(searchWrappers.get(0));
+        try {
+            if (searchWrappers != null) {
+                courseJointInfoWrapper = convertToCourseJointInfoWrapper(KSCollectionUtils.getRequiredZeroElement(searchWrappers));
+            }
+        } catch(OperationFailedException e){
+            return courseJointInfoWrapper;
         }
         return courseJointInfoWrapper;
     }
