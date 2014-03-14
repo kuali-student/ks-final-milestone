@@ -80,9 +80,6 @@ public class CurriculumManagementConstants {
         public final static String ERROR_CREATE_COMMENT = "error.create.comment";
 
         public final static String ERROR_NO_RESULTS_FOUND = "error.search.result.notfound";
-
-        public final static String INFO_COURSE_SAVE_SUCCESS = "info.course.save.successful";
-        public final static String INFO_COURSE_APPROVE_SUCCESS = "info.course.approve.successful";
     }
 
     public static class OrganizationMessageKeys{

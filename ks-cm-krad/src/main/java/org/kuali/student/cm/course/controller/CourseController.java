@@ -31,6 +31,7 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.ErrorMessage;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
@@ -98,6 +99,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.AutoPopulatingList;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -460,7 +462,7 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Here we remove the info messages added to message map in super class. Purpose is not to display it in View's validation messages section.
+     * Here we move the success messages displayed in UI from header to growl.
      * @param form
      * @param action
      * @param checkSensitiveData
@@ -468,6 +470,10 @@ public class CourseController extends CourseRuleEditorController {
     @Override
     protected void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
         super.performWorkflowAction(form, action, checkSensitiveData);
+        AutoPopulatingList<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
+        for (ErrorMessage message : infoMessages) {
+            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, message.getErrorKey(), message.getMessageParameters());
+        }
         GlobalVariables.getMessageMap().removeAllInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
     }
 
@@ -578,10 +584,6 @@ public class CourseController extends CourseRuleEditorController {
             error("Unable to save document: %s", e.getMessage());
         }
 
-        if (GlobalVariables.getMessageMap().hasNoErrors() && !form.getMethodToCall().equals("blanketApprove")) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CurriculumManagementConstants.MessageKeys.INFO_COURSE_SAVE_SUCCESS, courseInfoWrapper.getProposalInfo().getName());
-        }
-
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId=" + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
 
         // After saving successfully update the reviewProposalDisplay
@@ -607,11 +609,7 @@ public class CourseController extends CourseRuleEditorController {
     public ModelAndView blanketApprove(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         saveProposal((MaintenanceDocumentForm)form,result,request,response);
-        ModelAndView modelAndView = super.blanketApprove(form,result,request,response);
-        if (GlobalVariables.getMessageMap().hasNoErrors()) {
-            KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, CurriculumManagementConstants.MessageKeys.INFO_COURSE_APPROVE_SUCCESS, ((CreateCourseForm)form).getProposalName());
-        }
-        return modelAndView;
+        return super.blanketApprove(form,result,request,response);
     }
 
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=previousPage")
