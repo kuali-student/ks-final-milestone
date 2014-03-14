@@ -39,7 +39,7 @@
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.courseInfo.termsOffered"
                       p:label="Term"
                       p:instructionalText="Selecting a single term will restrict this course to only that term. Any will allow the
-								course to be offered&lt;br&gt;in any term that matches the duration selected below.">
+								course to be offered in any term that matches the duration selected below.">
                     <property name="control">
                         <bean parent="Uif-VerticalCheckboxesControl" />
                     </property>
@@ -55,7 +55,7 @@
     <bean id="KS-CourseView-CourseLogisticsPage-DurationCount-Widgets"
           parent="Uif-HorizontalBoxSection" p:headerText="Duration Count"
           p:instructionalText="First select the duration type (term, month, week, weekend, day) then select the count of the duration for the course.
-			Most courses will have 1 or 2&lt;br&gt;terms, for example.">
+			Most courses will have 1 or 2 terms, for example.">
         <property name="cssClasses">
             <list merge="true">
                 <value>admin-not-required-field</value>
@@ -86,7 +86,7 @@
     <bean id="KS-CourseView-CourseLogisticsPage-LearningResults-Widgets"
           parent="Uif-HorizontalBoxSection" p:headerText="Learning Results">
         <property name="instructionalText"
-                  value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options&lt;br&gt;
+                  value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options
 			for either type, which can be used for multiple course formats, or to account for variations in course offerings." />
     </bean>
 
@@ -279,7 +279,7 @@
           parent="Uif-StackedCollectionSection" p:headerText="Course Format(s)"
           p:propertyName="dataObject.courseInfo.formats" p:collectionObjectClass="org.kuali.student.r2.lum.course.dto.FormatInfo">
         <property name="instructionalText"
-                  value="Each course format can consist of any number of activities, and you may have more than one course format for this&lt;br&gt;course." />
+                  value="Each course format can consist of any number of activities, and you may have more than one course format for this course." />
         <!--<property name="help">
             <bean parent="Uif-KS-Help"
                   p:tooltipHelpContent="Is your course taught differently in the school&lt;br&gt;year than it is in the summer? For example,&lt;br&gt;online in the summer, lecture/lab in the fall. If&lt;br&gt;so, you will need two course formats." />
