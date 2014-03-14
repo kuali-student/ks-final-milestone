@@ -62,12 +62,8 @@ td.jquerybubblepopup-innerHtml {
 }
 
 pre {
-  overflow-x: auto; /* Use horizontal scroller if needed; for Firefox 2, not needed in Firefox 3 */
-  white-space: pre-wrap; /* css-3 */
-  white-space: -moz-pre-wrap !important; /* Mozilla, since 1999 */
-  white-space: -pre-wrap; /* Opera 4-6 */
-  white-space: -o-pre-wrap; /* Opera 7 */
-  word-wrap: break-word; /* Internet Explorer 5.5+ */
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 /*Link Defaults*/
 a,
@@ -259,10 +255,6 @@ a:focus {
   margin: 0 0 1em 0;
 }
 
-.ksap-view #Uif-ViewContentWrapper {
-  /*min-height: 450px;*/
-}
-
 .backdoor,
 .adviser-banner {
   width: 930px;
@@ -271,8 +263,6 @@ a:focus {
   background-color: #f4f8fd;
   padding: 8px;
   border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   text-shadow: 1px 1px 1px #ffffff;
   display: block;
   border: solid 1px #daeaff;
@@ -450,8 +440,6 @@ input.ksap-delete,
   background: #ccc;
   color: #333;
   border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   font-weight: bold;
   font-size: 80%;
   padding: 0 4px;
@@ -509,14 +497,10 @@ button.uif-primaryActionButton.ksap-carousel-next {
 }
 
 button.uif-primaryActionButton.ksap-carousel-prev {
-  -moz-border-radius: 15px 0px 0px 15px;
-  -webkit-border-radius: 15px 0px 0px 15px;
   border-radius: 15px 0px 0px 15px;
 }
 
 button.uif-primaryActionButton.ksap-carousel-next {
-  -moz-border-radius: 0px 15px 15px 0px;
-  -webkit-border-radius: 0px 15px 15px 0px;
   border-radius: 0px 15px 15px 0px;
 }
 
@@ -598,8 +582,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   text-align: center;
   padding: 9px 0;
   border: solid 1px #000000;
-  -webkit-border-radius: 5px 5px 0px 0px;
-  -moz-border-radius: 5px 5px 0px 0px;
   border-radius: 5px 5px 0px 0px;
 
 }
@@ -633,8 +615,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   min-height: 519px;
   border: solid 1px #dfdfdf;
   border-top: none;
-  -webkit-border-radius: 0px 0px 5px 5px;
-  -moz-border-radius: 0px 0px 5px 5px;
   border-radius: 0px 0px 5px 5px;
 }
 
@@ -649,13 +629,7 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   height: 25px;
   line-height: 25px;
   background-color: #F5F5F5;
-  background-image: -ms-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
-  background-image: -moz-linear-gradient(center top, #F5F5F5 0%, #EBEBEB 100%);
-  background-image: -o-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F5F5F5), color-stop(1, #EBEBEB));
-  background-image: -webkit-linear-gradient(top, #F5F5F5 0%, #EBEBEB 100%);
   background-image: linear-gradient(to bottom, #F5F5F5 0%, #EBEBEB 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#F5F5F5', endColorstr = '#EBEBEB');
   border-top: solid 1px #e2e2e2;
   border-bottom: solid 1px #e2e2e2;
   margin-bottom: -1px;
@@ -831,12 +805,8 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 /*Course Search, Search Box*/
 .ksap-course-search-panel {
-  /*background: #fcf9f0;
-  border: solid 1px #e1e1e0;    */
   padding: 20px 10px 10px 20px;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   overflow: hidden;
 }
 
@@ -844,9 +814,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   background: #ffffff;
   border: solid 1px #a9a9a9;
   padding: 10px 0 0 10px;
-  border-radius: 8px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
   overflow: hidden;
 }
 
@@ -870,8 +837,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 
 .ksap-status {
   border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   text-shadow: 1px 1px 1px #ffffff;
 }
 
@@ -1030,8 +995,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
   border: solid 1px #dddddd;
   padding: 5px 10px;
   border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   vertical-align: middle;
 }
 
@@ -1067,8 +1030,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 .ksap-facets-panel {
   border: solid 1px #ddd;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
 }
 
 .ksap-facets-panel a, .ksap-facets-panel a:hover {
@@ -1094,8 +1055,6 @@ button.uif-primaryActionButton.ksap-carousel-next.disabled img {
 }
 
 .ksap-facets-panel .uif-header.primary {
-  -webkit-box-shadow: inset 0px 1px 1px 0px rgba(242, 237, 220, 1);
-  -moz-box-shadow: inset 0px 1px 1px 0px rgba(242, 237, 220, 1);
   box-shadow: inset 0px 1px 1px 0px rgba(242, 237, 220, 1);
   border-bottom: solid 1px #ddd;
   background: #efe8d3;
@@ -1457,70 +1416,6 @@ table.ksap-course-search-results-datatable .blockUI {
   margin: 0;
 }
 
-// .ksap-course-sections .ui-tabs .ui-widget-header,
-// .ksap-course-sections .ui-tabs .ui-tabs-nav li.ui-state-active a,
-// .ksap-course-sections .ui-tabs .ui-tabs-nav li.ui-state-default a,
-// .ksap-course-sections .ui-tabs .ui-tabs-panel,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-default,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-active,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-hover,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-focus,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-hover a,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-focus a,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-active a,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-hover a:hover,
-// .ksap-course-sections .ui-tabs-nav li.ui-state-focus a:hover,
-// .ksap-course-sections .tab-navigation-block li,
-// .ksap-course-sections .tab-navigation-block a:focus,
-// .ksap-course-sections .tab-navigation-block li.ui-state-active,
-// .ksap-course-sections .tab-navigation-block li a:hover,
-// .ksap-course-sections .tab-navigation-block li.ui-state-active a,
-// .ksap-course-sections .tab-navigation-block li.ui-state-hover a,
-// .ksap-course-sections .tab-navigation-block li.ui-state-focus a,
-// .ksap-course-sections .tab-navigation-block li.ui-state-hover a:hover,
-// .ksap-course-sections .tab-navigation-block li.ui-state-focus a:hover {
-//     margin: 0;
-//     padding: 0;
-//     border: none;
-//     font-weight: normal;
-//     color: inherit;
-//     background: none;
-//     border-radius: 0px;
-// }
-
-// .ksap-course-sections .ui-widget-content a {
-//     color: #0066cc;
-// }
-
-// .ksap-course-sections .ui-tabs .ui-tabs-nav li {
-//     border-radius: 0px;
-//     height: 40px;
-//     line-height: 40px;
-//     padding: 0 20px;
-//     top: 0px;
-//     margin-bottom: -1px;
-// }
-
-// .ksap-course-sections .ui-tabs .ui-tabs-nav li a {
-//     font-size: 1.15em;
-// }
-
-// .ksap-course-sections .ui-tabs .ui-tabs-nav li.ui-tabs-selected.ui-state-active {
-//     border-right: solid 1px #ddd;
-//     border-left: solid 1px #ddd;
-//     background: #fff;
-//     border-bottom: solid 1px #fff;
-// }
-
-// .ksap-course-sections .ui-tabs .ui-tabs-nav li:first-child {
-//     border-left: solid 1px #ddd;
-// }
-
-// .ksap-course-sections .ui-tabs .ui-tabs-nav li.ui-tabs-selected.ui-state-active a {
-//     font-weight: 700;
-//     font-size: 1.25em;
-// }
-
 .ksap-course-sections h5.uif-headerText {
   text-transform: uppercase;
   color: #666;
@@ -1655,8 +1550,6 @@ table.ksap-course-search-results-datatable .blockUI {
 .ksap-widget {
   border: solid 1px #dddddd;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   line-height: 16px;
 }
 
@@ -1871,28 +1764,16 @@ table.ksap-course-search-results-datatable .blockUI {
   border-bottom: none;
   margin: 0;
   clear: both;
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
   width: 710px;
   table-layout: fixed;
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
-  border-radius: 5px 5px 0 0;
 }
 
 .ksap-messages-detail .dataTables_wrapper table thead tr {
   background: #F6F6F6;
   border: none;
   border-bottom: solid 1px #ddd;
-  background-image: -ms-linear-gradient(top, #F6F6F6 0%, #EBEBEB 100%);
-  background-image: -moz-linear-gradient(top, #F6F6F6 0%, #EBEBEB 100%);
-  background-image: -o-linear-gradient(top, #F6F6F6 0%, #EBEBEB 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #F6F6F6), color-stop(1, #EBEBEB));
-  background-image: -webkit-linear-gradient(top, #F6F6F6 0%, #EBEBEB 100%);
   background-image: linear-gradient(to bottom, #F6F6F6 0%, #EBEBEB 100%);
-  -webkit-border-radius: 5px 5px 0 0;
-  -moz-border-radius: 5px 5px 0 0;
   border-radius: 5px 5px 0 0;
 }
 
@@ -2022,8 +1903,6 @@ label.scheduled {
   background: #ccc;
   color: #333;
   border-radius: 3px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
   font-weight: bold;
   font-size: 80%;
   padding: 0 4px;
@@ -2038,10 +1917,8 @@ label.scheduled {
 }
 
 .ksap-full-plan-detail > .uif-verticalBoxLayout {
-  border: solid 1px #a9a9a9;
+  border: 1px solid #a9a9a9;
   border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
   font-size: 90%;
   width: 618px;
   margin: 0 20px;
@@ -2154,9 +2031,7 @@ label.scheduled {
 
 .ksap-run-audit-panel select {
   font-size: 13px;
-  border: solid 1px #dddddd;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
+  border: 1px solid #dddddd;
   border-radius: 3px;
   vertical-align: middle;
   background: #fff;
@@ -2174,8 +2049,6 @@ label.scheduled {
 
 .ksap-audit-report .blockUI.blockOverlay {
   background-color: #fff;
-  -moz-opacity: .85 !important;
-  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity = 85) !important;
   opacity: .85 !important;
 }
 
@@ -2312,8 +2185,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
   background-color: #fffdd7 !important;
   border: 1px solid #ffd14c !important;
   border-radius: 15px !important;
-  -webkit-border-radius: 15px !important;
-  -moz-border-radius: 15px !important;
   padding: 20px !important;
   text-align: center !important;
   width: 230px !important;
@@ -2416,8 +2287,6 @@ div.jGrowl div.jGrowl-notification div.jGrowl-close {
 
 .ksap-view .uif-viewHeader-contentWrapper {
   padding-bottom: 0px;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
   box-shadow: none;
 }
 .ksap-view .uif-boxLayoutVerticalItem.bold {
