@@ -1119,7 +1119,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 
             // Remove an entry from the lists of pieces since were using one
             for(int i = 0; i<divisions.size();i++){
-                String division = divisions.get(0);
+                String division = divisions.get(i);
                 if(incompleteCode.matches(division+"[0-9]+")){
                     divisions.remove(i);
                     break;
@@ -1148,21 +1148,30 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         //find all tokens in the query string
 		List<QueryTokenizer.Token> tokens = QueryTokenizer.tokenize(query);
 
-        // Create a search for each token found
-		for (QueryTokenizer.Token token : tokens) {
+        List<SearchRequestInfo> titleSearches = addTitleSearches(tokens,searchTerm);
+        List<SearchRequestInfo> descriptionSearches = addDescriptionSearches(tokens,searchTerm);
+
+        requests.addAll(titleSearches);
+        requests.addAll(descriptionSearches);
+	}
+
+    private List<SearchRequestInfo> addTitleSearches(List<QueryTokenizer.Token> tokens, String searchTerm){
+        List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
+
+        for (QueryTokenizer.Token token : tokens) {
             // Convert token to its correct text
-			String queryText = null;
-			switch (token.rule) {
-			case WORD:
-				queryText = token.value;
-				break;
-			case QUOTED:
-				queryText = token.value;
-				queryText = queryText.substring(1, queryText.length() - 1);
-				break;
-			default:
-				break;
-			}
+            String queryText = null;
+            switch (token.rule) {
+                case WORD:
+                    queryText = token.value;
+                    break;
+                case QUOTED:
+                    queryText = token.value;
+                    queryText = queryText.substring(1, queryText.length() - 1);
+                    break;
+                default:
+                    break;
+            }
 
             // Skip if query is less than 3 characters
             if(queryText.length() < 3) continue;
@@ -1171,29 +1180,55 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             SearchRequestInfo requestTitle = new SearchRequestInfo(
                     CourseSearchConstants.COURSE_SEARCH_TYPE_TITLE);
             requestTitle.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
-            requests.add(requestTitle);
+            searches.add(requestTitle);
 
             // Add course offering title search
             SearchRequestInfo requestOffering = new SearchRequestInfo(
                     CourseSearchConstants.COURSE_SEARCH_TYPE_CO_TITLE);
             requestOffering.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
             requestOffering.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_TERMLIST,getTermsToFilterOn(searchTerm));
-            requests.add(requestOffering);
+            searches.add(requestOffering);
+        }
+
+        return searches;
+    }
+    private List<SearchRequestInfo> addDescriptionSearches(List<QueryTokenizer.Token> tokens, String searchTerm){
+        List<SearchRequestInfo> searches = new ArrayList<SearchRequestInfo>();
+
+        for (QueryTokenizer.Token token : tokens) {
+            // Convert token to its correct text
+            String queryText = null;
+            switch (token.rule) {
+                case WORD:
+                    queryText = token.value;
+                    break;
+                case QUOTED:
+                    queryText = token.value;
+                    queryText = queryText.substring(1, queryText.length() - 1);
+                    break;
+                default:
+                    break;
+            }
+
+            // Skip if query is less than 3 characters
+            if(queryText.length() < 3) continue;
 
             // Add course description search
             SearchRequestInfo requestDescription = new SearchRequestInfo(
                     CourseSearchConstants.COURSE_SEARCH_TYPE_DESCRIPTION);
             requestDescription.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
-            requests.add(requestDescription);
+            searches.add(requestDescription);
 
             // Add course offering description search
             SearchRequestInfo requestOfferingDescr = new SearchRequestInfo(
                     CourseSearchConstants.COURSE_SEARCH_TYPE_CO_DESCRIPTION);
             requestOfferingDescr.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_QUERYTEXT, queryText.trim());
             requestOfferingDescr.addParam(CourseSearchConstants.COURSE_SEARCH_PARAM_TERMLIST,getTermsToFilterOn(searchTerm));
-            requests.add(requestOfferingDescr);
-		}
-	}
+            searches.add(requestOfferingDescr);
+        }
+
+        return searches;
+    }
 
     /**
      * Creates a list of search requests from the search information supplied by the user

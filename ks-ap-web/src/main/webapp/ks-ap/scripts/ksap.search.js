@@ -235,8 +235,6 @@ function searchForCourses(id, parentId) {
                             oldheader.empty();
                             newheader.removeClass("ksap-hide");
                             oldheader.append(newheader);
-
-                            sessionStorage.removeItem('DataTables_SearchQuery');
 							ksapSearchComplete();
 						},
 						fnServerData : function(sSource, aoData, fnCallback) {
