@@ -143,6 +143,12 @@ public class LprServiceDecorator implements LprService {
     }
 
     @Override
+    public List<LprInfo> getLprsByMasterLprId (String masterLprId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprsByMasterLprId(masterLprId, contextInfo);
+    }
+
+
+    @Override
     public List<LprInfo> getLprsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getLprsByPerson(personId, contextInfo);
     }

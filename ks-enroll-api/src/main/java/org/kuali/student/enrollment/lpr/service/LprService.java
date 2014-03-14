@@ -188,6 +188,27 @@ public interface LprService {
                PermissionDeniedException;
 
     /**
+     * Retrieve a list of LPRs that share a common master LPR id. The returned
+     * list may be in any order.
+     *
+     * @param masterLprId a master LPR id
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of LPRs that share the master LPR id, or an empty list if none found.
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException masterLprId or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<LprInfo> getLprsByMasterLprId (@WebParam(name = "masterLprId") String masterLprId,
+                                               @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException;
+
+    /**
      * Retrieves the LUI Ids for Person, type and state.
      * 
      * Example Use Case: This would allow you to get all the active
