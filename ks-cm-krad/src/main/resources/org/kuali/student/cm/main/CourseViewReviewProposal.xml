@@ -73,9 +73,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:ajaxSubmit="false" p:id="CourseInfo-Review-Edit-link"
-                                        p:methodToCall="editCourseProposalPage"
-                                        p:actionLabel="Edit">
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                        p:id="CourseInfo-Review-Edit-link" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-CourseInfo-Section"/>
@@ -158,9 +157,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:id="Governance-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit" >
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                          p:id="Governance-Review-Edit-link" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-Governance-Section"/>
@@ -206,9 +204,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:id="CourseLogistics-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit" >
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                          p:id="CourseLogistics-Review-Edit-link" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-Logistics-Section"/>
@@ -266,9 +263,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:id="LearningObjectives-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit" >
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                        p:id="LearningObjectives-Review-Edit-link" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-LearningObjectives-Section"/>
@@ -311,9 +307,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:id="CourseRequisites-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit" >
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                          p:id="CourseRequisites-Review-Edit-link" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-CourseRequisites-Section"/>
@@ -365,9 +360,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:id="ActiveDates-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit" >
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                        p:id="ActiveDates-Review-Edit-link" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-ActiveDates-Section"/>
@@ -414,9 +408,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:id="Financials-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit"  >
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                          p:id="Financials-Review-Edit-link" >
                                           <property name="actionParameters">
                                               <map>
                                                   <entry key="displaySection" value="KS-CourseView-Financials-Section"/>
@@ -459,9 +452,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:id="AuthorsAndCollaborators-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit" >
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                          p:id="AuthorsAndCollaborators-Review-Edit-link" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-AuthorsAndCollaborators-Section"/>
@@ -504,9 +496,8 @@
                         <bean parent="KS-CourseView-ReviewLink">
                             <property name="items">
                                 <list>
-                                    <bean parent="Uif-ActionLink"  p:id="SupportingDocuments-Review-Edit-link"
-                                          p:methodToCall="editCourseProposalPage"
-                                          p:actionLabel="Edit" >
+                                    <bean parent="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link"
+                                          p:id="SupportingDocuments-Review-Edit-link" >
                                         <property name="actionParameters">
                                             <map>
                                                 <entry key="displaySection" value="KS-CourseView-SupportingDocuments-Section"/>
@@ -553,17 +544,19 @@
         <property name="items">
             <list>
 <!--
-                <bean id="CourseView-ReviewProposal-edit-action"
-                      parent="Uif-PrimaryActionButton"
+                <bean parent="Uif-PrimaryActionButton"
                       p:ajaxSubmit="false"
-                      p:methodToCall="editCourseProposalPage"
-                      p:actionLabel="Edit"/>
+                      p:methodToCall="route"
+                      p:actionLabel="Submit"
+                      p:performClientSideValidation="true"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_ROUTE]}"/>
 -->
                 <bean id="CourseView-ReviewProposal-cancel"
-                      parent="Uif-CancelAction"
-                      p:ajaxSubmit="false"
-                      p:methodToCall="cancel"  p:style="margin-right: 100px;"
-                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CANCEL]}"/>
+                      parent="Uif-ActionLink"
+                      p:actionLabel="Cancel"
+                      p:methodToCall="back"
+                      p:style="margin-right: 100px;"
+                      p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_CLOSE]}"/>
             </list>
         </property>
     </bean>
@@ -579,4 +572,11 @@
             </list>
         </property>
     </bean>
+
+    <bean id="Uif-ActionLink-Course-Proposal-Review-Page-Edit-Link" parent="Uif-ActionLink" abstract="true"
+          p:ajaxSubmit="false"
+          p:methodToCall="editCourseProposalPage"
+          p:actionLabel="Edit"
+          p:render="@{#actionFlags[#Constants.KUALI_ACTION_CAN_EDIT]}" />
+
 </beans>
