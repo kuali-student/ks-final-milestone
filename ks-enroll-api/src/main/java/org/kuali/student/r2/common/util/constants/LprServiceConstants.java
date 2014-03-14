@@ -14,6 +14,8 @@ import org.kuali.student.enrollment.lpr.dto.LprInfo;
 import org.kuali.student.enrollment.lpr.service.LprService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
+import javax.xml.namespace.QName;
+
 /**
  * Constants used by for LprService
  * 
@@ -28,6 +30,10 @@ public class LprServiceConstants {
     public static final String SERVICE_NAME_LOCAL_PART = LprService.class.getSimpleName();
     public static final String REF_OBJECT_URI_LUI_PERSON_RELATION = NAMESPACE + "/"
             + LprInfo.class.getSimpleName();
+    // Called as
+    // CourseRegistrationService service =
+    //     (CourseRegistrationService) GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
+    public static final QName Q_NAME = new QName(NAMESPACE, SERVICE_NAME_LOCAL_PART);
     /**
      * Types and known groups of types
      */

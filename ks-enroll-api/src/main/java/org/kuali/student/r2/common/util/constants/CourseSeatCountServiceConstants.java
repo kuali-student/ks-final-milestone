@@ -19,6 +19,8 @@ package org.kuali.student.r2.common.util.constants;
 import org.kuali.student.enrollment.courseseatcount.service.CourseSeatCountService;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
+import javax.xml.namespace.QName;
+
 /**
  * Mostly provides queries to find seat counts.
  *
@@ -28,4 +30,8 @@ public class CourseSeatCountServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseSeatCount";
     public static final String SERVICE_NAME_LOCAL_PART = CourseSeatCountService.class.getSimpleName();
     public static final String REF_OBJECT_URI_EXAM_OFFERING = NAMESPACE + "/" + CourseSeatCountService.class.getSimpleName();
+    // Called as
+    // CourseRegistrationService service =
+    //     (CourseRegistrationService) GlobalResourceLoader.getService(CourseRegistrationServiceConstants.Q_NAME);
+    public static final QName Q_NAME = new QName(NAMESPACE, SERVICE_NAME_LOCAL_PART);
 }

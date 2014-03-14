@@ -290,7 +290,10 @@ public class LprServiceDecorator implements LprService {
 		return getNextDecorator().changeLprTransactionState(lprTransactionId, nextStateKey, contextInfo);
 	}
 
-   
-    
-    
+    @Override
+    public LprTransactionItemInfo getLprTransactionItem(String lprTransactionItemId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getLprTransactionItem(lprTransactionItemId, context);
+    }
+
+
 }
