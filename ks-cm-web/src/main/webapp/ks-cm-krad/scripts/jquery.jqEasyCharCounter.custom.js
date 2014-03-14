@@ -40,7 +40,7 @@ $.fn.extend({
 				'font-family' : options.msgFontFamily,
 				'color' : options.msgFontColor,
 				'text-align' : options.msgTextAlign,
-				'width' : $this.width(),
+				'width' : 'auto',
 				'opacity' : 0
 			};
 			jqEasyCounterMsg.css(jqEasyCounterMsgStyle);
