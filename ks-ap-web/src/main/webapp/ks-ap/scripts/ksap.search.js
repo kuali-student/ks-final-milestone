@@ -82,7 +82,7 @@ function ksapCourseSearchColumns() {
     }, {
         'bSortable' : false,
         'bSearchable' : true,
-        'sTitle' : 'Actions',
+        'sTitle' : '',
         'sClass' : 'ksap-status-column',
         'sWidth' : '45px'
     } ];
