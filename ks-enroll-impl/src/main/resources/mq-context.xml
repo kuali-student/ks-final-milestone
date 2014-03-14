@@ -43,45 +43,69 @@
     </bean>
 
     <jms:listener-container concurrency="1" >
+        <!-- This is used for performance monitoring of queues -->
         <jms:listener id="regPerfListener" destination="org.kuali.student.enrollment.registration.performanceStatsQueue" ref="performanceStatsListener" />
+        <!-- These listeners are the nodes in the registration engine -->
         <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initilizationListenerQueue" ref="registrationInitilizationListener" />
         <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
-        <jms:listener id="regSeatCheckListener" destination="org.kuali.student.enrollment.registration.seatCheckQueue" ref="registrationSeatCheckListener" />
+        <jms:listener id="regSplitByItemListener" destination="org.kuali.student.enrollment.registration.splitByItemQueue" ref="registrationSplitByItemListener" />
+        <jms:listener id="regLprActionListener" destination="org.kuali.student.enrollment.registration.lprActionQueue" ref="registrationLprActionListener" />
     </jms:listener-container>
 
-
+    <!--Used to collect performance statistics -->
     <bean id="performanceStatsListener" class="org.kuali.student.enrollment.registration.engine.listener.SimplePerformanceListener">
         <property name="jmsTemplate" ref="jmsTemplate"/>
     </bean>
 
-    <bean id="registrationInitilizationListener" class="org.kuali.student.enrollment.registration.engine.listener.FirstNodeRegistrationListener">
+    <!-- Starts the registration process for adds/drops/updates/swaps/etc. -->
+    <bean id="registrationInitilizationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationInitializationNode">
         <property name="jmsTemplate" ref="jmsTemplate"/>
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
         <property name="destinations">
             <list>
                 <value>org.kuali.student.enrollment.registration.verificationQueue</value>
             </list>
         </property>
-        <property name="registrationProcessService" ref="courseRegistratoinInitilizationService"/>
+        <property name="filters">
+            <list>
+                <bean class="org.kuali.student.enrollment.registration.engine.node.filter.PerformanceStartNodeFilter"/>
+            </list>
+        </property>
     </bean>
 
-    <bean id="registrationVerificationListener" class="org.kuali.student.enrollment.registration.engine.listener.BaseRegistrationListener">
+    <!-- Verifies the reg request -->
+    <bean id="registrationVerificationListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationVerifyRegRequestNode">
         <property name="jmsTemplate" ref="jmsTemplate"/>
         <property name="destinations">
             <list>
-                <value>org.kuali.student.enrollment.registration.seatCheckQueue</value>
+                <value>org.kuali.student.enrollment.registration.splitByItemQueue</value>
             </list>
         </property>
-        <property name="registrationProcessService" ref="courseRegistratoinVerificationService"/>
     </bean>
 
-    <bean id="registrationSeatCheckListener" class="org.kuali.student.enrollment.registration.engine.listener.LastNodeRegistrationListener">
+    <!-- splits the reg request into multiple queues, one for each item, with a group id of the item's FO -->
+    <bean id="registrationSplitByItemListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationSplitRequestItemsNode">
         <property name="jmsTemplate" ref="jmsTemplate"/>
-        <property name="registrationProcessService" ref="courseRegistratoinSeatCheckService"/>
+        <property name="destinations">
+            <list>
+                <value>org.kuali.student.enrollment.registration.lprActionQueue</value>
+            </list>
+        </property>
     </bean>
 
-    <bean id="courseRegistratoinInitilizationService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationInitilizationServiceImpl"/>
-    <bean id="courseRegistratoinVerificationService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationVerificationServiceImpl"/>
-    <bean id="courseRegistratoinSeatCheckService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationSeatCheckServiceImpl"/>
+    <!-- performs the update/drop/(waitlist check + seat check + add) -->
+    <bean id="registrationLprActionListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationLprActionNode">
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+        <property name="filters">
+            <list>
+                <bean class="org.kuali.student.enrollment.registration.engine.node.filter.PerformanceEndNodeFilter"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- Groups common registration functions into a single service -->
+    <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl"/>
 
     <bean id="userMessenger" class="org.kuali.student.r2.common.messenger.impl.JMSMessengerImpl">
         <property name="jmsTemplate" ref="jmsTemplate"/>

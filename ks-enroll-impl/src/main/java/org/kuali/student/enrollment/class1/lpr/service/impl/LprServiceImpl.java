@@ -346,6 +346,18 @@ public class LprServiceImpl implements LprService {
         return transactionEntity.toDto();
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public LprTransactionItemInfo getLprTransactionItem(String lprTransactionItemId, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+        LprTransactionItemEntity transactionItemEntity = lprTransactionItemDao.find(lprTransactionItemId);
+
+        if (transactionItemEntity == null)
+            throw new DoesNotExistException("No LprTransactionItemEntity for id = " + transactionItemEntity);
+
+        return transactionItemEntity.toDto();
+    }
 
     @Override
     @Transactional
@@ -640,6 +652,10 @@ public class LprServiceImpl implements LprService {
 
             lprTransItem.fromDto(lprTransactionItemInfo);
 
+            if (null != lprTransactionItemInfo.getStateKey()) {
+                lprTransItem.setLprTransactionItemState(lprTransactionItemInfo.getStateKey());
+            }
+
             lprTransItem.setEntityUpdated(contextInfo);
 
             try {
@@ -888,6 +904,17 @@ public class LprServiceImpl implements LprService {
         // KSENROLL-8714
         LprTransactionInfo lprTransaction = getLprTransaction(lprTransactionId, contextInfo);
         lprTransaction.setStateKey(nextStateKey);
+
+        //Do some manual state propagation
+        if(LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY.equals(nextStateKey)){
+            for(LprTransactionItemInfo lprTransactionItemInfo:lprTransaction.getLprTransactionItems()){
+                //If the Transaction is now processing, set the child items that were new to processing
+                if(LprServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY.equals(lprTransactionItemInfo.getStateKey())){
+                    lprTransactionItemInfo.setStateKey(LprServiceConstants.LPRTRANS_ITEM_PROCESSING_STATE_KEY);
+                }
+            }
+        }
+
         try {
             updateLprTransaction(lprTransactionId, lprTransaction, contextInfo);
         } catch (DataValidationErrorException e) {

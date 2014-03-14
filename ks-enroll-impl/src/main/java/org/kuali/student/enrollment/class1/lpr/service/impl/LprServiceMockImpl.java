@@ -643,7 +643,12 @@ public class LprServiceMockImpl implements LprService, MockService {
 		throw new UnsupportedOperationException("not implemented");
 	}
 
-	@Override
+    @Override
+    public LprTransactionItemInfo getLprTransactionItem(String lprTransactionItemId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("not implemented");
+    }
+
+    @Override
 	public List<LprInfo> getLprsByPersonAndAtp(String personId, String atpId,
 			ContextInfo contextInfo) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
