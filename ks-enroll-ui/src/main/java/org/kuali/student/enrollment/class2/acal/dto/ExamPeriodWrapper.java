@@ -24,7 +24,10 @@ import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.core.constants.AtpServiceConstants;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Wrapper class for <code>ExamPeriodInfo</code> dto.
@@ -158,6 +161,11 @@ public class ExamPeriodWrapper {
         this.excludeSunday = excludeSunday;
     }
 
+    public int getNumberOfDays() {
+        return getExamPeriodDates().size();
+    }
+
+
     //This is for UI display purpose
     protected String formatStartEndDateUI(Date date){
         if (date != null) {
@@ -166,6 +174,33 @@ public class ExamPeriodWrapper {
             return StringUtils.EMPTY;
         }
 
+    }
+
+    public List<Date> getExamPeriodDates()
+    {
+        List<Date> dates = new ArrayList<Date>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(this.examPeriodInfo.getStartDate());
+
+        while (calendar.getTime().before(this.examPeriodInfo.getEndDate()))
+        {
+            Date resultado = calendar.getTime();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(resultado);
+            int weekday = cal.get(Calendar.DAY_OF_WEEK);
+            if((weekday == Calendar.SATURDAY && !this.excludeSaturday) ||(weekday == Calendar.SUNDAY && !this.excludeSunday) ) {
+                dates.add(resultado);
+            }
+            else if((weekday != Calendar.SATURDAY)&&(weekday != Calendar.SUNDAY))  {
+                dates.add(resultado);
+            }
+
+            calendar.add(Calendar.DATE, 1);
+        }
+        calendar.setTime(this.examPeriodInfo.getEndDate());
+        Date finalDate = calendar.getTime();
+        dates.add(finalDate);
+        return dates;
     }
 
 }

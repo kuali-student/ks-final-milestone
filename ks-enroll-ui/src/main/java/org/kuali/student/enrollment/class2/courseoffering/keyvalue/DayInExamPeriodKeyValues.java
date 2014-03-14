@@ -39,8 +39,8 @@ public class DayInExamPeriodKeyValues extends UifKeyValuesFinderBase implements 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
         CourseOfferingManagementForm form = (CourseOfferingManagementForm)model;
 
-        if (form.getExamPeriodDays() > 0) {
-            for(int day=1; day<=form.getExamPeriodDays(); day++) {
+        if (form.getExamPeriodWrapper().getNumberOfDays() > 0) {
+            for(int day=1; day<=form.getExamPeriodWrapper().getNumberOfDays(); day++) {
                 String key = "Day " + Integer.toString(day);
                 String value = Integer.toString(day);
                 keyValues.add(new ConcreteKeyValue(value, key));

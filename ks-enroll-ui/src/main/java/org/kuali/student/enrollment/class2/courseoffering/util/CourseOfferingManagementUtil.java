@@ -19,6 +19,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.rice.krms.api.KrmsConstants;
 import org.kuali.rice.krms.api.repository.RuleManagementService;
 import org.kuali.student.common.uif.form.KSUifForm;
+import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.controller.ActivityOfferingControllerTransactionHelper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -31,6 +32,7 @@ import org.kuali.student.enrollment.class2.courseoffering.form.CreateSocForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DevTestWidgetForm;
 import org.kuali.student.enrollment.class2.courseoffering.form.DiagnoseRolloverForm;
 import org.kuali.student.enrollment.class2.courseoffering.helper.impl.ActivityOfferingScheduleHelperImpl;
+import org.kuali.student.enrollment.class2.courseoffering.helper.impl.ExamOfferingScheduleHelperImpl;
 import org.kuali.student.enrollment.class2.courseoffering.refdata.CluFixer;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingManagementViewHelperService;
 import org.kuali.student.enrollment.class2.courseoffering.service.CourseOfferingViewHelperService;
@@ -106,7 +108,9 @@ import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
@@ -261,6 +265,10 @@ public class CourseOfferingManagementUtil {
 
     public static ActivityOfferingScheduleHelperImpl getScheduleHelper(){
         return new ActivityOfferingScheduleHelperImpl();
+    }
+
+    public static ExamOfferingScheduleHelperImpl getExamOfferingScheduleHelper(){
+        return new ExamOfferingScheduleHelperImpl();
     }
 
     public static SeatPoolUtilityService getSeatPoolUtilityService(){
@@ -980,4 +988,19 @@ public class CourseOfferingManagementUtil {
         }
         return scheduleStateHm;
     }
+
+    public static String examPeriodDaysDisplay(List<Integer> weekdaysList, ExamPeriodWrapper examPeriodWrapper) {
+        StringBuilder result = new StringBuilder();
+        List<Date> dates = new ArrayList<Date>();
+        dates.addAll(examPeriodWrapper.getExamPeriodDates());
+        for(Integer weekday : weekdaysList) {
+            result.append("Day "+weekday);
+            result.append(" - ");
+            result.append(DateFormatters.EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER.format(dates.get(weekday - 1)));
+        }
+
+        return result.toString();
+    }
+
+
 }

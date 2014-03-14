@@ -48,8 +48,14 @@ public class ScheduleWrapper implements Serializable{
 
     //Properties
     private String days;
+    private String daysUI;
     private String startTime;
+    private String startTimeUI;
     private String endTime;
+    private String endTimeUI;
+    private String startTimeAmPm;
+    private String endTimeAmPm;
+
 
     private boolean tba;
 
@@ -60,17 +66,12 @@ public class ScheduleWrapper implements Serializable{
 
     private List<String> features;
 
-    //For informational display only
-    private String daysUI;
-
     private List<String> colocatedAOs;
 
     private EditRenderHelper editRenderHelper;
     private boolean modified;
     private List<String> endTimes;
 
-    private String startTimeAmPm;
-    private String endTimeAmPm;
     private String dayInExamPeriod;
 
     public ScheduleWrapper(){
@@ -401,6 +402,22 @@ public class ScheduleWrapper implements Serializable{
 
     public String getDayInExamPeriod() {
         return dayInExamPeriod;
+    }
+
+    public String getStartTimeUI() {
+        return startTimeUI;
+    }
+
+    public void setStartTimeUI(String startTimeUI) {
+        this.startTimeUI = startTimeUI;
+    }
+
+    public String getEndTimeUI() {
+        return endTimeUI;
+    }
+
+    public void setEndTimeUI(String endTimeUI) {
+        this.endTimeUI = endTimeUI;
     }
 
     public void setDayInExamPeriod(String dayInExamPeriod) {

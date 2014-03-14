@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.controller;
 
 import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -27,11 +28,14 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingCreateWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingListSectionWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.CourseOfferingWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper;
+import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.RegistrationGroupWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.form.CourseOfferingManagementForm;
 import org.kuali.student.enrollment.class2.courseoffering.util.ActivityOfferingConstants;
@@ -42,7 +46,9 @@ import org.kuali.student.enrollment.class2.courseoffering.util.RegistrationGroup
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingClusterInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.class1.search.CourseOfferingManagementSearchImpl;
+import org.kuali.student.r2.core.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +60,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -876,6 +883,14 @@ public class CourseOfferingManagementController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=viewExamOfferings")
     public ModelAndView viewExamOfferings(@ModelAttribute("KualiForm") CourseOfferingManagementForm theForm, @SuppressWarnings("unused") BindingResult result,
                                           @SuppressWarnings("unused") HttpServletRequest request, @SuppressWarnings("unused") HttpServletResponse response) throws Exception {
+        List<ExamPeriodInfo> examPeriodInfos = CourseOfferingManagementUtil.getAcademicCalendarService().getExamPeriodsForTerm(theForm.getTermInfo().getId(),ContextUtils.createDefaultContextInfo());
+        if (!examPeriodInfos.isEmpty()) {
+            ExamPeriodInfo examPeriodInfo = KSCollectionUtils.getOptionalZeroElement(examPeriodInfos);
+            ExamPeriodWrapper examPeriodWrapper = new ExamPeriodWrapper(examPeriodInfo, false);
+            examPeriodWrapper.setExcludeSaturday(Boolean.parseBoolean(examPeriodInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR)));
+            examPeriodWrapper.setExcludeSunday(Boolean.parseBoolean(examPeriodInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR)));
+            theForm.setExamPeriodWrapper(examPeriodWrapper);
+        }
 
         CourseOfferingManagementUtil.getViewHelperService(theForm).loadExamOfferings(theForm);
         return getUIFModelAndView(theForm, "viewExamOfferingsPage");

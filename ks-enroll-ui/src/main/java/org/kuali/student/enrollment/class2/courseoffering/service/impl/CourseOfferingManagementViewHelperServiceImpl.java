@@ -2511,69 +2511,8 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
         StateInfo state = getStateService().getState(examOfferingInfo.getStateKey(),
                 ContextUtils.createDefaultContextInfo());
         eoWrapper.setStateName(state.getName());
+        CourseOfferingManagementUtil.getExamOfferingScheduleHelper().loadScheduleRequests(eoWrapper, theForm, ContextUtils.createDefaultContextInfo());
 
-        List<ScheduleRequestInfo> scheduleRequestInfos = CourseOfferingManagementUtil.getSchedulingService().getScheduleRequestsByRefObject(
-                ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingInfo.getId(), ContextUtils.createDefaultContextInfo());
-        ExamPeriodInfo epInfo = CourseOfferingManagementUtil.getAcademicCalendarService().getExamPeriod(examOfferingInfo.getExamPeriodId() , ContextUtils.createDefaultContextInfo());
-        Date epStartDate = epInfo.getStartDate();
-        Date epEndDate = epInfo.getEndDate();
-        boolean epExcludeSaturdays = Boolean.parseBoolean(epInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SATURDAY_ATTR));
-        boolean epExcludeSundays = Boolean.parseBoolean(epInfo.getAttributeValue(AcademicCalendarServiceConstants.EXAM_PERIOD_EXCLUDE_SUNDAY_ATTR));
-
-        theForm.setExamPeriodDays(getExamPeriodDates(epStartDate, epEndDate, epExcludeSaturdays, epExcludeSundays).size());
-        ScheduleWrapper scheduleWrapper = new ScheduleWrapper();
-
-        for (ScheduleRequestInfo scheduleRequestInfo : scheduleRequestInfos) {
-            for (ScheduleRequestComponentInfo componentInfo : scheduleRequestInfo.getScheduleRequestComponents()) {
-
-                String timeSlotId = KSCollectionUtils.getOptionalZeroElement(componentInfo.getTimeSlotIds());
-                TimeSlotInfo timeSlot = CourseOfferingManagementUtil.getSchedulingService().getTimeSlot(timeSlotId, ContextUtils.createDefaultContextInfo());
-                if (timeSlot != null) {
-                    scheduleWrapper.setTimeSlot(timeSlot);
-
-                    TimeOfDayInfo startTime = timeSlot.getStartTime();
-                    TimeOfDayInfo endTime = timeSlot.getEndTime();
-                    List<Integer> days = timeSlot.getWeekdays();
-
-                    if (startTime != null && startTime.getHour() != null) {
-                        String startTimeDisplay = TimeOfDayHelper.makeFormattedTimeForAOSchedules(startTime);
-                        eoWrapper.setStartTimeDisplay(startTimeDisplay);
-
-                        scheduleWrapper.setStartTime(org.apache.commons.lang.StringUtils.substringBefore(startTimeDisplay, " "));
-                        scheduleWrapper.setStartTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(startTimeDisplay, " "));
-                    }
-
-                    if (endTime != null && endTime.getHour() != null) {
-                        String endTimeDisplay = TimeOfDayHelper.makeFormattedTimeForAOSchedules(endTime);
-                        eoWrapper.setEndTimeDisplay(endTimeDisplay);
-
-                        scheduleWrapper.setEndTime(org.apache.commons.lang.StringUtils.substringBefore(endTimeDisplay, " "));
-                        scheduleWrapper.setEndTimeAmPm(org.apache.commons.lang.StringUtils.substringAfter(endTimeDisplay, " "));
-                    }
-
-                    if (days != null && days.size() > 0) {
-                        String daysDisplayName = examPeriodDaysDisplay(days, epInfo.getStartDate(), epInfo.getEndDate(),
-                                epExcludeSaturdays, epExcludeSundays);
-                        eoWrapper.setDaysDisplayName(daysDisplayName);
-                        scheduleWrapper.setDayInExamPeriod(KSCollectionUtils.getOptionalZeroElement(days).toString());
-                    }
-                }
-
-                String roomId = KSCollectionUtils.getOptionalZeroElement(componentInfo.getRoomIds());
-                if (StringUtils.isNotBlank(roomId)) {
-                    RoomInfo roomInfo = CourseOfferingManagementUtil.getRoomService().getRoom(roomId, ContextUtils.createDefaultContextInfo());
-                    BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(roomInfo.getBuildingId(),
-                            ContextUtils.createDefaultContextInfo());
-                    eoWrapper.setBuildingName(buildingInfo.getName());
-                    eoWrapper.setRoomName(roomInfo.getRoomCode());
-
-                    scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
-                    scheduleWrapper.setRoomCode(roomInfo.getRoomCode());
-                }
-            }
-        }
-
-        eoWrapper.setScheduleRequest(scheduleWrapper);
         return eoWrapper;
     }
 
@@ -2627,14 +2566,14 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
     }
 
     public static String examPeriodDaysDisplay(List<Integer> weekdaysList, Date startTime,
-                                                       Date endTime, boolean excludeSaturdays, boolean excludeSundays) {
+                                               Date endTime, boolean excludeSaturdays, boolean excludeSundays) {
         StringBuilder result = new StringBuilder();
         List<Date> dates = new ArrayList<Date>();
         dates.addAll(getExamPeriodDates(startTime, endTime, excludeSaturdays, excludeSundays));
         for(Integer weekday : weekdaysList) {
-          result.append("Day "+weekday);
-          result.append(" - ");
-          result.append(DateFormatters.EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER.format(dates.get(weekday - 1)));
+            result.append("Day "+weekday);
+            result.append(" - ");
+            result.append(DateFormatters.EXAM_OFFERING_VIEW_EXAM_OFFERING_DATE_FORMATTER.format(dates.get(weekday - 1)));
         }
 
         return result.toString();
@@ -2653,10 +2592,10 @@ public class CourseOfferingManagementViewHelperServiceImpl extends CO_AO_RG_View
             cal.setTime(resultado);
             int weekday = cal.get(Calendar.DAY_OF_WEEK);
             if((weekday == Calendar.SATURDAY && !excludeSaturdays) ||(weekday == Calendar.SUNDAY && !excludeSundays) ) {
-               dates.add(resultado);
+                dates.add(resultado);
             }
             else if((weekday != Calendar.SATURDAY)&&(weekday != Calendar.SUNDAY))  {
-               dates.add(resultado);
+                dates.add(resultado);
             }
 
             calendar.add(Calendar.DATE, 1);

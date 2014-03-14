@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.class2.scheduleofclasses.sort.ComparatorModel;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestSetInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -33,7 +34,12 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
     private List<String> endTime;
     private List<String> weekDays;
     private ActivityOfferingInfo aoInfo;
+
+    private List<ScheduleWrapper> requestedScheduleComponents;
+    private List<ScheduleWrapper> deletedRequestedScheduleComponents;
+    private ScheduleWrapper requestedSchedule;
     private ScheduleWrapper scheduleRequest;
+    private ScheduleRequestSetInfo scheduleRequestSetInfo;
     private boolean driverPerAO;
 
     public ExamOfferingWrapper(){
@@ -41,6 +47,8 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         endTime = new ArrayList<String>();
         weekDays = new ArrayList<String>();
         aoInfo = new ActivityOfferingInfo();
+        requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
+        deletedRequestedScheduleComponents = new ArrayList<ScheduleWrapper>();
     }
 
     public ExamOfferingWrapper(ExamOfferingInfo info){
@@ -49,6 +57,8 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         startTime = new ArrayList<String>();
         endTime = new ArrayList<String>();
         weekDays = new ArrayList<String>();
+        requestedScheduleComponents = new ArrayList<ScheduleWrapper>();
+        deletedRequestedScheduleComponents = new ArrayList<ScheduleWrapper>();
 
     }
 
@@ -193,12 +203,44 @@ public class ExamOfferingWrapper implements Serializable, ComparatorModel{
         this.aoInfo = aoInfo;
     }
 
+    public List<ScheduleWrapper> getRequestedScheduleComponents() {
+        return requestedScheduleComponents;
+    }
+
+    public void setRequestedScheduleComponents(List<ScheduleWrapper> requestedScheduleComponents) {
+        this.requestedScheduleComponents = requestedScheduleComponents;
+    }
+
+    public List<ScheduleWrapper> getDeletedRequestedScheduleComponents() {
+        return deletedRequestedScheduleComponents;
+    }
+
+    public void setDeletedRequestedScheduleComponents(List<ScheduleWrapper> deletedRequestedScheduleComponents) {
+        this.deletedRequestedScheduleComponents = deletedRequestedScheduleComponents;
+    }
+
+    public ScheduleWrapper getRequestedSchedule() {
+        return requestedSchedule;
+    }
+
+    public void setRequestedSchedule(ScheduleWrapper requestedSchedule) {
+        this.requestedSchedule = requestedSchedule;
+    }
+
     public ScheduleWrapper getScheduleRequest() {
         return scheduleRequest;
     }
 
     public void setScheduleRequest(ScheduleWrapper scheduleRequest) {
         this.scheduleRequest = scheduleRequest;
+    }
+
+    public ScheduleRequestSetInfo getScheduleRequestSetInfo() {
+        return scheduleRequestSetInfo;
+    }
+
+    public void setScheduleRequestSetInfo(ScheduleRequestSetInfo scheduleRequestSetInfo) {
+        this.scheduleRequestSetInfo = scheduleRequestSetInfo;
     }
 
     public boolean isDriverPerAO() {

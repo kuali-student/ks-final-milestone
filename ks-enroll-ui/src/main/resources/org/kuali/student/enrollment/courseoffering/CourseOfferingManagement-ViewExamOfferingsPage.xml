@@ -166,11 +166,11 @@
                 </bean>
                 <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity"
                       p:render="@{#lp.driverPerAO}"/>
-                <bean parent="Uif-DataField" p:label="Days" p:propertyName="daysDisplayName"/>
-                <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="startTimeDisplay"/>
-                <bean parent="Uif-DataField" p:label="End Time" p:propertyName="endTimeDisplay"/>
-                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="buildingName"/>
-                <bean parent="Uif-DataField" p:label="Room" p:propertyName="roomName"/>
+                <bean parent="Uif-DataField" p:label="Days" p:propertyName="requestedSchedule.daysUI"/>
+                <bean parent="Uif-DataField" p:label="Start Time" p:propertyName="requestedSchedule.startTimeUI"/>
+                <bean parent="Uif-DataField" p:label="End Time" p:propertyName="requestedSchedule.endTimeUI"/>
+                <bean parent="Uif-DataField" p:label="Facility" p:propertyName="requestedSchedule.building.name"/>
+                <bean parent="Uif-DataField" p:label="Room" p:propertyName="requestedSchedule.room.roomCode"/>
             </list>
         </property>
     </bean>
@@ -213,7 +213,7 @@
                 </bean>
                 <bean parent="Uif-DataField-LabelTop" p:propertyName="typeName" p:label="Final Exam Driver Activity" p:render="@{#lp.driverPerAO}"/>
 
-                <bean id="eoRsiDayInExamPeriod" parent="Uif-InputField" p:propertyName="scheduleRequest.dayInExamPeriod" p:label="Day" p:required="true">
+                <bean id="eoRsiDayInExamPeriod" parent="Uif-InputField" p:propertyName="requestedSchedule.dayInExamPeriod" p:label="Day" p:required="false">
                     <property name="readOnly" value="false"/>
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
@@ -223,7 +223,7 @@
                     </property>
                 </bean>
                 <bean id="eoRsiStartTime" parent="Uif-InputField"
-                      p:propertyName="scheduleRequest.startTime" p:cssClasses="new_ts"
+                      p:propertyName="requestedSchedule.startTime" p:cssClasses="new_ts"
                       p:label="Start Time">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" p:maxLength="5"
@@ -234,18 +234,18 @@
                         <bean parent="TimePatternConstraint" />
                     </property>
                 </bean>
-                <bean id="eoRsiStartTimeAmPm" parent="Uif-InputField" p:propertyName="scheduleRequest.startTimeAmPm" p:render="@{!#view.readOnly}"
+                <bean id="eoRsiStartTimeAmPm" parent="Uif-InputField" p:propertyName="requestedSchedule.startTimeAmPm" p:render="@{!#view.readOnly}"
                       p:defaultValue="AM">
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
-                              p:refreshWhenChangedPropertyNames="#lp.scheduleRequest.startTime" p:evaluateDisabledOnKeyUp="true">
-                            <property name="disabled" value="@{#empty(#lp.scheduleRequest.startTime)}"/>
+                              p:refreshWhenChangedPropertyNames="#lp.requestedSchedule.startTime" p:evaluateDisabledOnKeyUp="true">
+                            <property name="disabled" value="@{#empty(#lp.requestedSchedule.startTime)}"/>
                         </bean>
                     </property>
                 </bean>
 
                 <bean id="eoRsiEndTime" parent="Uif-InputField"
-                      p:propertyName="scheduleRequest.endTime" p:cssClasses="new_ts"
+                      p:propertyName="requestedSchedule.endTime" p:cssClasses="new_ts"
                       p:label="End Time">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" p:maxLength="5"
@@ -257,18 +257,18 @@
                     </property>
                 </bean>
 
-                <bean id="eoRsiEndTimeAmPm" parent="Uif-InputField"  p:propertyName="scheduleRequest.endTimeAmPm" p:render="@{!#view.readOnly}"
+                <bean id="eoRsiEndTimeAmPm" parent="Uif-InputField"  p:propertyName="requestedSchedule.endTimeAmPm" p:render="@{!#view.readOnly}"
                       p:defaultValue="AM">
                     <property name="control">
                         <bean parent="KS-Uif-VerticalRadioControl" p:options-ref="hctime-options"
-                              p:refreshWhenChangedPropertyNames="#lp.scheduleRequest.endTime" p:evaluateDisabledOnKeyUp="true">
-                            <property name="disabled" value="@{#empty(#lp.scheduleRequest.endTime)}"/>
+                              p:refreshWhenChangedPropertyNames="#lp.requestedSchedule.endTime" p:evaluateDisabledOnKeyUp="true">
+                            <property name="disabled" value="@{#empty(#lp.requestedSchedule.endTime)}"/>
                         </bean>
                     </property>
                 </bean>
 
                 <bean id="eoRsiBuilding" parent="Uif-InputField" p:label="Facility" p:labelPlacement="TOP"
-                      p:propertyName="scheduleRequest.buildingCode" p:uppercaseValue="true">
+                      p:propertyName="requestedSchedule.buildingCode" p:uppercaseValue="true">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
@@ -283,7 +283,7 @@
                             <property name="dataObjectClassName" value="org.kuali.student.r2.core.room.dto.BuildingInfo"/>
                             <property name="fieldConversions">
                                 <map>
-                                    <entry key="buildingCode" value="scheduleRequest.buildingCode"/>
+                                    <entry key="buildingCode" value="requestedSchedule.buildingCode"/>
                                 </map>
                             </property>
                         </bean>
@@ -295,8 +295,8 @@
                             <property name="suggestQuery">
                                 <bean parent="Uif-AttributeQueryConfig"
                                       p:queryMethodToCall="retrieveBuildingInfoByCode"
-                                      p:queryFieldMapping="scheduleRequest.buildingCode:buildingCode"
-                                      p:returnFieldMapping="buildingCode:scheduleRequest.buildingCode,name:scheduleRequest.editRenderHelper.buildingName"/>
+                                      p:queryFieldMapping="requestedSchedule.buildingCode:buildingCode"
+                                      p:returnFieldMapping="buildingCode:requestedSchedule.buildingCode,name:requestedSchedule.editRenderHelper.buildingName"/>
                             </property>
                             <property name="templateOptions">
                                 <map merge="true">
@@ -308,7 +308,7 @@
                 </bean>
 
                 <bean id="eoRsiRoom" parent="Uif-InputField" p:label="Room"
-                      p:propertyName="scheduleRequest.roomCode">
+                      p:propertyName="requestedSchedule.room.roomCode">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="20" p:cssClasses="new_rdl_components"/>
                     </property>
@@ -323,12 +323,12 @@
                             <property name="autoSearch" value="true"/>
                             <property name="fieldConversions">
                                 <map>
-                                    <entry key="roomCode" value="scheduleRequest.roomCode"/>
+                                    <entry key="roomCode" value="requestedSchedule.room.roomCode"/>
                                 </map>
                             </property>
                             <property name="lookupParameters">
                                 <map>
-                                    <entry key="scheduleRequest.buildingCode" value="buildingCode"/>
+                                    <entry key="requestedSchedule.buildingCode" value="buildingCode"/>
                                 </map>
                             </property>
                         </bean>
@@ -336,7 +336,7 @@
                     <property name="dependencyConstraints">
                         <list>
                             <bean parent="PrerequisiteConstraint"
-                                  p:propertyName="scheduleRequest.buildingCode"/>
+                                  p:propertyName="requestedSchedule.buildingCode"/>
                         </list>
                     </property>
                 </bean>

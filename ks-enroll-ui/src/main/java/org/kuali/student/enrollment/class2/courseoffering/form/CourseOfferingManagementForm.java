@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.courseoffering.form;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.kuali.student.common.uif.form.KSUifForm;
+import org.kuali.student.enrollment.class2.acal.dto.ExamPeriodWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingClusterWrapper;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ActivityOfferingWrapper;
@@ -32,6 +33,7 @@ import org.kuali.student.enrollment.class2.scheduleofclasses.form.ActivityOfferi
 import org.kuali.student.enrollment.class2.scheduleofclasses.form.CourseOfferingDisplayUI;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.examoffering.dto.ExamOfferingRelationInfo;
+import org.kuali.student.r2.core.acal.dto.ExamPeriodInfo;
 import org.kuali.student.r2.core.acal.dto.TermInfo;
 
 import java.util.ArrayList;
@@ -210,7 +212,7 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
     private List<ExamOfferingClusterWrapper> eoClusterResultList;
     private List<ExamOfferingClusterWrapper> eoCancelClusterList;
 
-    private int examPeriodDays;
+    private ExamPeriodWrapper examPeriodWrapper;
 
     public boolean getHasAOCluster() {
         return hasAOCluster;
@@ -879,11 +881,11 @@ public class CourseOfferingManagementForm extends KSUifForm implements ActivityO
         this.eoCancelClusterList = eoCancelClusterList;
     }
 
-    public int getExamPeriodDays() {
-        return examPeriodDays;
+    public ExamPeriodWrapper getExamPeriodWrapper() {
+        return examPeriodWrapper;
     }
 
-    public void setExamPeriodDays(int examPeriodDays) {
-        this.examPeriodDays = examPeriodDays;
+    public void setExamPeriodWrapper(ExamPeriodWrapper examPeriodWrapper) {
+        this.examPeriodWrapper = examPeriodWrapper;
     }
 }
