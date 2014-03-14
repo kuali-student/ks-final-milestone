@@ -219,7 +219,7 @@
                         <bean parent="Uif-DropdownControl" p:disabled="@{!#root.editAuthz}"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DayInExamPeriodKeyValues" p:addBlankOption="false" />
+                        <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.DayInExamPeriodKeyValues" p:addBlankOption="true" />
                     </property>
                 </bean>
                 <bean id="eoRsiStartTime" parent="Uif-InputField"
