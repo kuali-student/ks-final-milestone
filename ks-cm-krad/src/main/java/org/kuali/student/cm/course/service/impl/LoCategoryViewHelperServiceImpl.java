@@ -82,7 +82,7 @@ public class LoCategoryViewHelperServiceImpl extends ViewHelperServiceImpl {
             logAndThrowRuntime(CurriculumManagementConstants.MessageKeys.ERROR_UNABLE_TO_GET_COLLECTION_PROPERTY + collectionPath);
         }
 
-        // TODO: look into other ways of identifying a line so we can deal with
+        // TODO KSCM-1736: look into other ways of identifying a line so we can deal with
         // unordered collections
         if (collection instanceof List) {
             Object deleteLine = ((List<Object>) collection).get(lineIndex);
