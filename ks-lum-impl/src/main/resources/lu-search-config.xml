@@ -2788,13 +2788,16 @@
                         clu.ID
                         FROM
                         KSEN_LUI lui,
-                        KSLU_CLU clu
+                        KSLU_CLU clu,
+                        KSEN_LUI_IDENT ident
                         WHERE
                         UPPER( ' ' || lui.DESCR_PLAIN || ' ' ) LIKE '%' || :queryText || '%'
                         AND lui.CLU_ID = clu.ID
                         AND clu.ST = 'Active'
                         AND lui.ATP_ID IN :termList
                         AND lui.LUI_STATE = 'kuali.lui.course.offering.state.offered'
+                        AND lui.ID = ident.LUI_ID
+                        ORDER BY ident.LUI_CD
                     </value>
                 </entry>
 
@@ -2840,7 +2843,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.suffixCode
+                        ORDER BY ident.code
                     </value>
                 </entry>
 
@@ -2862,7 +2865,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.suffixCode
+                        ORDER BY ident.code
                     </value>
                 </entry>
                 <entry key="ksap.lu.search.courseCode">
@@ -2881,7 +2884,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.suffixCode
+                        ORDER BY ident.code
                     </value>
                 </entry>
                 <entry key="ksap.lu.search.exactCode">
@@ -2900,7 +2903,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.suffixCode
+                        ORDER BY ident.code
                     </value>
                 </entry>
                 <entry key="ksap.lu.search.exactLevel">
@@ -2919,7 +2922,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.suffixCode
+                        ORDER BY ident.code
                     </value>
                 </entry>
                 <entry key="ksap.lu.search.additionalDivision">
@@ -2938,7 +2941,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.suffixCode
+                        ORDER BY ident.code
                     </value>
                 </entry>
                 <entry key="ksap.lu.search.division">
@@ -2957,7 +2960,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.suffixCode
+                        ORDER BY ident.code
                     </value>
                 </entry>
                 <!--<entry key="ksap.course.info">-->
@@ -3195,7 +3198,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.division, ident.suffixCode
+                        ORDER BY ident.division, ident.code
                     </value>
                 </entry>
 
@@ -3215,7 +3218,7 @@
                         AND clu.id NOT IN (SELECT att.owner FROM CluAttribute att where
                         att.name='course.catalogOmit_ind' and att.value='Y')
                         AND clu.state='Active'
-                        ORDER BY ident.division, ident.suffixCode
+                        ORDER BY ident.division, ident.code
                     </value>
                 </entry>
                 <entry key="ksap.course.version.id">
