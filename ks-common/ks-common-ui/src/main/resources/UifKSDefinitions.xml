@@ -41,6 +41,9 @@
                 <value>krad/scripts/ks.krad.override.js</value>
                 <value>themes/ksboot/scripts/krad.request.js</value>
                 <value>krad/scripts/ks.krad.widget.js</value>
+                <value>themes/ksboot/scripts/amq_jquery_adapter.js</value>
+                <value>themes/ksboot/scripts/amq.js</value>
+                <value>themes/ksboot/scripts/behaviour.js</value>
             </list>
         </property>
     </bean>
