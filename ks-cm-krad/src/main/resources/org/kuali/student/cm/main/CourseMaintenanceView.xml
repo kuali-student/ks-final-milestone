@@ -60,6 +60,7 @@
 -->
             </list>
         </property>
+        <property name="header.id" value="KS-CourseView-Header"/>
         <property name="header.lowerGroup" >
             <bean id="KS-CourseView-LinkGroup" parent="Uif-LinkGroup" p:linkSeparator="|" p:render="@{#form.pageId eq 'KS-CourseView-CoursePage'}">
                 <property name="items">
@@ -192,7 +193,7 @@
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
                         <value>
-                            { selected: @{selectedSection.ordinal()} }
+                            { selected: @{selectedSection.ordinal() - 1} }
                         </value>
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>

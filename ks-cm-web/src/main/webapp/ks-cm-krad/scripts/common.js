@@ -3,51 +3,109 @@
  */
 
 var tabPanelId = "#course_tabs_tabs";
+var activateTabEventNamespace = "leftNavActiveTab";
+var leftNavPositioningEventNamespace = "leftNavPositioning";
 
+/**
+ * Initialize the Course Details page.
+ *
+ * The course details page has two modes of operation ... "normal" and Curriculum Specialist (CS). Normal mode has a tab
+ * group with the tab panel on the left and a tab for each course details section. CS mode displays all of the sections
+ * on a single page and clicking the tab panel scrolls the page to the corresponding section. The
+ * initializeForCurriculumSpecialist() function basically overrides the normal tab group functionality. This includes
+ * registering a handler for window scroll events so that the active tab will change as the window scrolls, a click handler
+ * on the tab panel to scroll the window to the corresponding tab. Unfortunately, these two operations don't play nicely
+ * together so the window scroll handler has to be turned off when the click scroll is happening.
+ *
+ * There is also a window scroll handler to reposition the tab panel when the sticky header changes size. This is active
+ * in both modes.
+ *
+ * The tab panel is initialized to the current panel (meaning the correct item in the tab panel will be active) in the
+ * KRAD markup for the tab group. In addition to that CS mode requires a scrollToSection() call to position the page on
+ * the correct section.
+ *
+ * @param isCurriculumSpecialist True if the user is a CS.
+ * @param currentSectionId The DOM id of the required tab section.
+ */
 function onCourseLoad(isCurriculumSpecialist, currentSectionId) {
+    /*
+     * Handler for fixing nav position when the window is scrolled (because the sticky header changes).
+     *
+     */
+    if (! hasScrollEvent(leftNavPositioningEventNamespace)) {
+       jQuery(window).on('scroll.' + leftNavPositioningEventNamespace, handleNavPanelRepositioningOnWindowScroll);
+    }
+
     if (isCurriculumSpecialist) {
-        initializeForCurriculumSpecialist();
+        initializeForCurriculumSpecialist(currentSectionId);
     }
 
-    fixLeftNavElementPositioning();
-
-    if (currentSectionId) {
-        jQuery(tabPanelId).tabs("select", "#" + currentSectionId + "_tab");
-    }
+    fixLeftNavElementPositioning(true);
 }
 
 /**
- * Do fixed positioning of left nav elements.
+ * Initialize the Review Course Proposal page.
  */
-function fixLeftNavElementPositioning() {
+function onProposalReviewLoad() {
+    updateStickyHeaderText();
+    /* The window scroll listeners on for the Course Details page will continue to exist when the Review Proposal page
+     * is loaded so remove them if they exist.
+     */
+    if (hasScrollEvent(activateTabEventNamespace)) {
+        jQuery(window).off('scroll.' + activateTabEventNamespace);
+    }
+    if (hasScrollEvent(leftNavPositioningEventNamespace)) {
+        jQuery(window).off('scroll.' + leftNavPositioningEventNamespace);
+    }
+}
 
-    // First find the lowest element.
-    var anchorElement = getAnchorElement();
-
+var previousAnchorBottom = 0;
+/**
+ * Do fixed positioning of left nav elements.
+ *
+ * Some elements are only present for certain proposal doc types, so the presence of each element it checked except the
+ * tab panel itself and the elements are positioned to the bottom of the previous element, starting at the bottom of the
+ * sticky header.
+ */
+function fixLeftNavElementPositioning(initial) {
+    //  Get the position of the element that the nav components need to align under.
+    var anchorElement = jQuery( "#KS-CourseView > div.uif-viewHeader-contentWrapper" );
     if (anchorElement.length == 0) {
         console.error('Unable to find an anchor element. Nav elements were not positioned correctly.');
         return;
     }
 
     var anchorBottom = getBottom(anchorElement);
-
-    var tabPanelHeader = jQuery("#course_tabs_header");
-    var tabPanel = jQuery("#course_tabs_tabList");
-    var tabPanelFooter = jQuery("#KS-CourseView-ReviewProposalLink");
-
-    if (tabPanel.length == 0) {
-        console.error('Unable to find the tab panel. Nav elements were not positioned correctly.');
-        return;
+    if (! initial) {
+        //  If we are repositioning then see if the view header has moved. If it hasn't then no need to proceed.
+        if (anchorBottom != previousAnchorBottom) {
+             previousAnchorBottom = anchorBottom;
+        } else {
+            return;
+        }
     }
 
+    var tabListId = "#course_tabs_tabList";
+
+    var tabPanelHeader = jQuery("#course_tabs_header");
+    var tabPanel = jQuery(tabListId);
+    if (tabPanel.length == 0) {
+        console.error('Unable to find the tab panel. Nav elements may not be positioned correctly.');
+        return;
+    }
+    var tabPanelFooter = jQuery("#KS-CourseView-ReviewProposalLink");
+
+    //  If the header text for the tab exists then position it.
     if (tabPanelHeader.length != 0) {
         tabPanelHeader.css({ top: anchorBottom });
         anchorElement = tabPanelHeader;
         anchorBottom = getBottom(anchorElement);
     }
 
+    //  Position the tab panel.
     tabPanel.css({top: anchorBottom});
 
+    //  Position the text under the tab panel if it exists.
     if (tabPanelFooter.length != 0) {
         anchorBottom = getBottom(tabPanel);
         tabPanelFooter.css({ top: anchorBottom });
@@ -55,20 +113,31 @@ function fixLeftNavElementPositioning() {
 }
 
 /**
+ * Checks if a particular scroll event handler has been bound to the window.
+ * @param namespace The scroll event namespace.
+ * @returns {boolean} True if a scroll event was found with the given namespace, otherwise false.
+ */
+function hasScrollEvent(namespace) {
+    var scrollEvents = jQuery._data(jQuery(window)[0], 'events').scroll;
+    var rVal = false;
+    jQuery.each(scrollEvents, function(index, event) {
+        if (event.namespace == namespace) {
+            rVal = true;
+            return false; // Break the each loop
+        }
+    });
+    return rVal;
+}
+
+/**
  * Determine the position of the bottom of an element.
+ * Using .css(top) instead of .offset().top because offset wasn't providing sane results.
+ *
  * @param e An element.
  * @returns The bottom position of the given element.
  */
 function getBottom(e) {
-    return e.offset().top + parseInt(e.css( "height" ).replace('px', ''));
-}
-
-/**
- * The element to align the left nav under.
- * @returns The element.
- */
-function getAnchorElement() {
-   return jQuery("#KS-CourseView-LinkGroup");
+    return parseInt(e.css("top").replace('px', '')) + e.outerHeight(true);
 }
 
 /*
@@ -79,60 +148,94 @@ var focusedTab;
 /**
  * Hacks for Curriculum Specialist single-page view.
  */
-function initializeForCurriculumSpecialist() {
-
+function initializeForCurriculumSpecialist(currentSectionId) {
     //  Add a CSS class that prevents the tabs from being hidden.
     jQuery("div[data-type='TabWrapper']").addClass('never_hide');
 
-    //  Register a handler for tab clicks
+    //  Register a handler for tab clicks.
     jQuery(tabPanelId).on( "tabsactivate",
         function(event, ui) {
-            //  Find the id of the section corresponding to the clicked tab.
-            var sectionId = "#" + ui.newPanel.attr('id').replace('_tab','');
-
-            /*
-             * Only scroll and change focused widget if the tab was activated by a mouse click.
-             * Tabs can also be activated when the window is scrolled by the user.
-             */
-            if ( typeof event.originalEvent.originalEvent !== 'undefined'
-                    && event.originalEvent.originalEvent.type == "click") {
-                //  Give focus to the first input widget. Had problems doing this after the scroll.
-                jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
-                //  Scroll to the selected tab.
-                jQuery('html,body').animate({
-                    scrollTop: (jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").height())
-                }, 750);
+            //  Checking the event type to make sure it's a click.
+            if (typeof event.originalEvent.originalEvent !== 'undefined'
+                && event.originalEvent.originalEvent.type == "click") {
+                //  Scroll to the section corresponding to the clicked tab.
+                scrollToSection("#" + ui.newPanel.attr('id').replace('_tab',''), true);
             }
         }
     );
 
     /*
-     * When the window is scrolled, once a tab has passed the midway point in the window select/activate it.
+     * Scroll to the appropriate section unless it is the top one. Scrolling in that case causes the top part of the
+     * header to disappear
+     */
+    if (currentSectionId && currentSectionId !== "KS-CourseView-CourseInfo-Section") {
+        scrollToSection("#" + currentSectionId, true);
+    }
+}
+
+/**
+ * Window scroll handler for tab panel positioning.
+ */
+function handleNavPanelRepositioningOnWindowScroll() {
+    //  Fix the position of the nav elements if the header changes.
+    fixLeftNavElementPositioning(false);
+}
+
+/**
+ * Window scroll handler to change the active tab.
+ */
+function handleActiveTabOnWindowScroll() {
+    /*
+     * When the window is scrolled, once a tab has a "focus point" in the window select/activate it.
      * This will cause the 'tabsactivate' handler above to get called.
      */
-    jQuery(window).scroll(function() {
-        jQuery("div[data-type='TabWrapper']").each(function() {
-            var tab = this;
-            if (isAboveFocusPoint(tab) && focusedTab !== tab) {
-                focusedTab = tab;
-                jQuery(tabPanelId).tabs("select", "#" + tab.id);
-                return false;
-            }
-        });
+    jQuery("div[data-type='TabWrapper']").each(function() {
+        var tab = this;
+        if (isOnFocusPoint(tab) && focusedTab !== tab) {
+            focusedTab = tab;
+            jQuery(tabPanelId).tabs("select", "#" + tab.id);
+            return false;
+        }
     });
 }
 
 /**
- * Determine if an element is on the screen and above a particular point (the focus point).
- * @param e The element to test.
- * @returns {boolean} True is the element is on the screen and above the focus point. Otherwise, false.
+ * Scolls the page to the given section.
+ * @param sectionId  The DOM id of the section.
+ * @param focus If true gives focus to the first input element in the section.
  */
-function isAboveFocusPoint(e) {
+function scrollToSection(sectionId, focus) {
+    //  Remove the window scroll handler. Will re-enable when the animation completes.
+    jQuery(window).off('scroll.' + activateTabEventNamespace);
+
+    //  Scroll to the selected tab.
+    jQuery('html body').animate(
+        { scrollTop: (jQuery(sectionId).offset().top - jQuery(".uif-viewHeader-contentWrapper").outerHeight(true))},
+		{
+            duration: 750,
+            queue: false,
+            complete: function() {
+                //  Re-bind window scroll handler for active tab.
+            	jQuery(window).on('scroll.' + activateTabEventNamespace, handleActiveTabOnWindowScroll);
+                //  Give focus to the first input widget.
+                if (focus) {
+                    //jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
+                }
+        	}
+    	}
+	);
+}
+
+/**
+ * Determine if an element is on a particular point (the focus point).
+ * @param e The element to test.
+ * @returns {boolean} True is the element is on the focus point. Otherwise, false.
+ */
+function isOnFocusPoint(e) {
     var docViewTop = jQuery(window).scrollTop();
-    //var mid = docViewTop + (jQuery(window).height() * .4);
-    var focusPoint = docViewTop + jQuery(".uif-viewHeader-contentWrapper").height();
+    var focusPoint = docViewTop + jQuery(".uif-viewHeader-contentWrapper").outerHeight(true);
     var elemTop = jQuery(e).offset().top;
-    var elemBottom = elemTop + jQuery(e).height();
+    var elemBottom = elemTop + jQuery(e).outerHeight(true);
     return elemTop <= focusPoint && elemBottom >= focusPoint;
 }
 
@@ -327,11 +430,6 @@ function createCourseShowHideObjectiveElements(hideId, showId) {
     jQuery("#"+hideId).hide();
     jQuery("#"+showId).show();
 
-}
-
-function navigateToTheRightTab(isCurriculumSpecialist, tabId) {
-    var tabPanelId = "#course_tabs_tabs";
-    jQuery(tabPanelId).tabs("select", tabId + "_tab").click();
 }
 
 function updateStickyHeaderText() {

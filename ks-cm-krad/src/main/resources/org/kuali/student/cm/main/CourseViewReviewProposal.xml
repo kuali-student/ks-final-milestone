@@ -35,7 +35,7 @@
             </list>
         </property>
 
-        <property name="onDocumentReadyScript" value="updateStickyHeaderText();"/>
+        <property name="onDocumentReadyScript" value="onProposalReviewLoad();"/>
         <property name="header" ref="KS-CourseView-ReviewProposal-Header" />
         <property name="items">
             <list>
