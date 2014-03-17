@@ -12,6 +12,9 @@
     <bean id="KS-CourseView-ActiveDates-Section" parent="KS-CourseView-VerticalBoxSection"
             p:fieldBindingObjectPath="document.newMaintainableObject.dataObject">
         <property name="headerText" value="Active Dates"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-KS-IconInputField-LabelTop" p:propertyName="startTerm" p:label="Start Term" >

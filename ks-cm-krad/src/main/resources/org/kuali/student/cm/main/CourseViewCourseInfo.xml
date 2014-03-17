@@ -26,6 +26,9 @@
              But since the validation messaging is weird in the sub-section without a header we are actually
              displaying this header in the sub-section. -->
         <property name="headerText" value="Course Information"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
         <property name="header.render" value="false" />
         <property name="items">
             <list>
@@ -124,6 +127,9 @@
                 </bean>
 
                 <bean parent="Uif-VerticalBoxSubSection" p:headerText="Description and Rationale">
+                    <property name="header">
+                        <bean parent="Uif-HeaderThree" />
+                    </property>
                     <property name="items">
                         <list>
 <!--
@@ -174,6 +180,9 @@
         <!-- The validation messaging is weird if this sub-section doesn't have a header, so we are displaying the
              tab/section header here. -->
         <property name="headerText" value="Course Information" />
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
         <property name="validationMessages.displayMessages" value="false"/>
         <property name="cssClasses">
             <list merge="true">
@@ -267,6 +276,9 @@
     <bean id="KS-CrossListingEtcDisclosure-Section" parent="Uif-Disclosure-VerticalBoxSubSection">
         <property name="disclosure.defaultOpen" value="@{document.newMaintainableObject.dataObject.crossListingDisclosureSection}"/>
         <property name="headerText" value="Cross List, Offer Jointly, Add Version Codes" />
+        <property name="header">
+            <bean parent="Uif-HeaderThree" />
+        </property>
         <property name="cssClasses">
             <list merge="true">
                 <value>cm-collection-width</value>

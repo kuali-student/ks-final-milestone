@@ -27,6 +27,7 @@
                           value="Files that will be submitted with the Course Proposal that support it."/>
             </bean>
         </property>
+        <property name="header.headerLevel" value="h2"/>
         <property name="items">
             <list>
                 <ref bean="SupportingDocuments-NoRequiredMessageLink" />

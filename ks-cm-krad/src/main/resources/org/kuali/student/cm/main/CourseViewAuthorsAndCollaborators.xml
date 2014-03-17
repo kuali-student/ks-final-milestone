@@ -12,6 +12,9 @@
     <bean id="KS-CourseView-AuthorsAndCollaborators-Section" parent="KS-CourseView-HorizontalBoxSection"
           p:additionalCssClasses="ks-section">
         <property name="headerText" value="Authors &amp; Collaborators"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
         <property name="items">
             <list>
                 <ref bean="AuthorsAndCollaborators-NoRequiredMessageLink" />

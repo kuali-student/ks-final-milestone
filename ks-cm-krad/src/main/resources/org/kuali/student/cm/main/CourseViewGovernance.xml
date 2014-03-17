@@ -21,6 +21,9 @@
 
     <bean id="KS-CourseView-Governance-Section" parent="KS-CourseView-VerticalBoxSection">
         <property name="headerText" value="Governance"/>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
         <property name="items">
             <list>
                 <bean parent="Uif-InputField-LabelTop" p:propertyName="dataObject.courseInfo.campusLocations" p:label="Campus Locations"
