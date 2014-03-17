@@ -123,9 +123,6 @@
                             <label class="kscr-Edit-details" for="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}">Registration Options</label>
                             <div ng-repeat="(key, value) in cartItem.gradingOptions">
                                 <input id="grading_{{cartItem.courseCode}}_{{cartItem.regGroupCode}}"  type="radio" name="newGrading" value="{{key}}" ng-model="$parent.newGrading"/>{{value}}
-                                <ng-pluralize count="gradingOptionCount"  when="{'0': 'something', 'kuali.resultComponent.grade.letter': 'Default'}">
-
-                                </ng-pluralize>
                             </div>
                         </div>
                     </div>
