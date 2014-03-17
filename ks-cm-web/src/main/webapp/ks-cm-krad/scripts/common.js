@@ -164,6 +164,9 @@ function initializeForCurriculumSpecialist(currentSectionId) {
         }
     );
 
+    //  Bind window scroll handler for active tab.
+    jQuery(window).on('scroll.' + activateTabEventNamespace, handleActiveTabOnWindowScroll);
+
     /*
      * Scroll to the appropriate section unless it is the top one. Scrolling in that case causes the top part of the
      * header to disappear
@@ -219,7 +222,7 @@ function scrollToSection(sectionId, focus) {
             	jQuery(window).on('scroll.' + activateTabEventNamespace, handleActiveTabOnWindowScroll);
                 //  Give focus to the first input widget.
                 if (focus) {
-                    //jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focus();
+                    jQuery(sectionId).find("input[type!='hidden'],textarea,button,select,a").first().focusWithoutScrolling();
                 }
         	}
     	}
@@ -238,6 +241,18 @@ function isOnFocusPoint(e) {
     var elemBottom = elemTop + jQuery(e).outerHeight(true);
     return elemTop <= focusPoint && elemBottom >= focusPoint;
 }
+
+/**
+ * Give focus to an element without scrolling the page.
+ *
+ * @returns {jQuery.fn} 'this' for chaining.
+ */
+jQuery.fn.focusWithoutScrolling = function() {
+    var x = window.scrollX, y = window.scrollY;
+    this.focus();
+    window.scrollTo(x, y);
+    return this;
+};
 
 /**
  * Enter key causes next action button to fire, so this routine turns the Enter
