@@ -9,34 +9,45 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="KS-CourseView-AuthorsAndCollaborators-Section" parent="KS-CourseView-HorizontalBoxSection"
-          p:additionalCssClasses="ks-section">
-        <property name="headerText" value="Authors &amp; Collaborators"/>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo" />
+
+
+
+    <bean id="KS-CourseView-AuthorsAndCollaborators-Section" parent="KS-CourseView-AuthorsAndCollaborators-parent"/>
+    <bean id="KS-CourseView-AuthorsAndCollaborators-parent" parent="Uif-VerticalBoxSubSection" abstract="true">
+        <property name="additionalCssClasses">
+            <list merge="true">
+                <value>ks-section</value>
+            </list>
         </property>
+        <property name="header.headerText" value="Authors &amp; Collaborators"/>
+        <property name="header.style" value="font-weight:bold;"/>
         <property name="items">
             <list>
-                <ref bean="AuthorsAndCollaborators-NoRequiredMessageLink" />
-                <bean id="KS-CourseCreate-AuthorsAndCollaboratorsTableSection" parent="KS-TableCollectionSubSection-BottomAddLine"
-                      p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>admin-not-required-field</value>
-                        </list>
-                    </property>
+                <ref bean="KS-CourseView-AuthorsAndCollaboratorsSubSection"/>
+            </list>
+        </property>
+    </bean>
+
+
+
+    <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection" parent="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent"/>
+     <bean id="KS-CourseView-AuthorsAndCollaboratorsSubSection-parent" parent="KS-TableCollectionSubSection-BottomAddLine"   abstract="true"
+           p:layoutManager.id="cc-authorsandcollaboratorsgroup-table" p:layoutManager.style="width: 60em;">
+                    <property name="addBlankLineAction.actionLabel" value="Add Person"/>
+                    <property name="addBlankLineAction.render" value="true"/>
+                    <property name="addBlankLineAction.id" value="KS-CourseView-AuthorsAndCollaborators-Section_add"/>
                     <property name="collectionObjectClass" value="org.kuali.student.cm.course.form.CollaboratorWrapper" />
                     <property name="propertyName" value="dataObject.collaboratorWrappers" />
-                    <property name="layoutManager.renderSequenceField" value="false"/>
-                    <property name="layoutManager.generateAutoSequence" value="false"/>
-                    <property name="layoutManager.separateAddLine" value="false"/>
-                    <property name="layoutManager.richTable.disableTableSort" value="true"/>
-                    <property name="layoutManager.richTable.render" value="false"/>
-                    <property name="layoutManager.applyAlternatingRowStyles" value="false"/>
-                    <property name="addBlankLineAction.actionLabel" value="Add Person"/>
-                    <property name="addBlankLineAction.id" value="KS-CourseView-AuthorsAndCollaborators-Section_add"/>
-                    <property name="addBlankLineAction.dirtyOnAction" value="true"/>
-                    <property name="validationMessages.displayMessages" value="false"/>
+                    <property name="lineActions">
+                         <list>
+                             <bean parent="KS-Uif-Delete-ActionLink"
+                                   p:methodToCall="deleteLine"
+                                   p:actionLabel="Delete"
+                                   p:actionEvent="deleteLine"
+                                   p:dirtyOnAction="true"
+                                   p:additionalCssClasses="delete_course_offering"  />
+                         </list>
+                    </property>
                     <property name="Items">
                         <list>
                             <bean parent="Uif-InputField" p:label="Name" p:propertyName="displayName" p:additionalCssClasses="id_search_course_offering" >
@@ -81,38 +92,27 @@
                                 </property>
                             </bean>
                             <bean id="KS-ActionRequestDropDown" parent="Uif-InputField" p:propertyName="action" p:labelPlacement="TOP"
-                                  p:label="Action Request" p:required="true" >
+                                  p:label="Action Required" p:required="true" p:style="width:10em" >
                                 <property name="control">
-                                    <bean parent="Uif-DropdownControl" >
+                                    <bean parent="Uif-DropdownControl"  >
                                         <property name="options">
                                             <list>
-                                                <bean parent="Uif-KeyLabelPair" p:key="fyi" p:value="FYI" />
+                                                <bean parent="Uif-KeyLabelPair" p:key="fyi" p:value="FYI"  />
                                             </list>
                                         </property>
                                     </bean>
                                 </property>
                             </bean>
-                            <bean parent="Uif-InputField" p:propertyName="author" p:label="Author Notation" p:labelPlacement="TOP">
+                            <bean parent="Uif-InputField" p:propertyName="author" p:label="Author Notation" p:labelPlacement="TOP" p:style="width:9em">
                                 <property name="control">
                                     <bean parent="Uif-CheckboxControl" p:checkboxLabel="Add Author Notation" />
                                 </property>
                             </bean>
                         </list>
                     </property>
-                    <property name="lineActions">
-                        <list>
-                            <bean parent="KS-Uif-Delete-ActionLink"
-                                  p:methodToCall="deleteLine"
-                                  p:actionLabel="Delete"
-                                  p:actionEvent="deleteLine"
-                                  p:dirtyOnAction="true"
-                                  p:additionalCssClasses="delete_course_offering"  />
-                        </list>
-                    </property>
+
                 </bean>
-            </list>
-        </property>
-    </bean>
+
 
     <bean id="AuthorsAndCollaborators-NoRequiredMessageLink" parent="Uif-HorizontalFieldGroup" >
         <property name="style" value="display: none;" />
