@@ -38,11 +38,11 @@
 </div>
 
 <div class="kscr-Registered" ui-sref="root.schedule">
-    <span>
+    <span id="reg_course_count">
         Registered for
         <ng-pluralize count="registeredCourseCount()"
-                                    when="{'1'    : '{} course',
-                                     'other': '{} courses'}">
+                                    when="{'1'    : ' {} course ',
+                                     'other': ' {} courses '}">
         </ng-pluralize>
         (<ng-pluralize count="registeredCredits()"
                            when="{'1'    : '{} credit',
