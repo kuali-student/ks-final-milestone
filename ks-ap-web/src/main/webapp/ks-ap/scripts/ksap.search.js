@@ -175,13 +175,13 @@ function searchForCourses(id, parentId) {
 						bSortClasses : false,
 						bStateSave : true,     // Turn save state on to allow for saving pagination when moving between pages
                         "fnStateSave": function (oSettings, oData) {
-                            jQuery.extend(oData,{searchQuery: jQuery('#text_searchQuery_control').val()})
+                            jQuery.extend(oData,{searchQuery: jQuery('#text_searchQuery_control').val(), searchTerm: jQuery("select[name='searchTerm'] option:selected").val()});
                             sessionStorage.setItem( 'DataTables_SearchQuery', JSON.stringify(oData) );
                         },
                         "fnStateLoad": function (oSettings) {
                             var oData = JSON.parse( sessionStorage.getItem('DataTables_SearchQuery') );
                             if(oData!=null){
-                                if(oData.searchQuery!=jQuery('#text_searchQuery_control').val()){
+                                if(oData.searchQuery!=jQuery('#text_searchQuery_control').val() || oData.searchTerm!=jQuery("select[name='searchTerm'] option:selected").val()){
                                     sessionStorage.removeItem('DataTables_SearchQuery');
                                 }
                             }

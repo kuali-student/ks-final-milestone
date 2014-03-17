@@ -387,20 +387,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                     .searchForCourseOfferings(query,KsapFrameworkServiceLocator.getContext().getContextInfo());
 
             // Fill filtered id list
-            for(CourseOfferingInfo offering : offerings){
-                for(int i=0;i<courseIds.size();i++){
-                    String courseId = courseIds.get(i);
+            for(String courseId : courseIds){
+                for(CourseOfferingInfo offering : offerings){
                     if(courseId.equals(offering.getCourseId())){
-                        if(!filteredIds.contains(courseId)){
-                            filteredIds.add(courseId);
-                            courseIds.remove(i);
-                            break;
-                        }
+                        filteredIds.add(courseId);
+                        break;
                     }
-
                 }
             }
-
         } catch (InvalidParameterException e) {
             throw new IllegalArgumentException("ATP lookup failed", e);
         } catch (MissingParameterException e) {
