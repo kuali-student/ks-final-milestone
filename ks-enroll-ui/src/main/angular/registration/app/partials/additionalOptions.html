@@ -22,7 +22,8 @@
                 <!--<select id="newItemGrading" class="kscr-RegInput-label" ng-model="newCartItem.grading"-->
                         <!--ng-options="key as value for (key, value) in newCartItem.gradingOptions"></select>-->
                 <div ng-repeat="(key, value) in newCartItem.gradingOptions">
-                    <input id="newItemGrading"  type="radio" name="newGrading" value="{{key}}" ng-model="newCartItem.grading"/>{{value}}
+                    <input id="newItemGrading"  type="radio" name="newGrading" value="{{key}}" ng-model="newCartItem.grading"/>
+                        {{value}} <span ng-show="'{{value}}' === 'Letter' ">(Default)</span>
                 </div>
             </div>
         </div>

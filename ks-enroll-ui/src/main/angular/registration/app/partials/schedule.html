@@ -98,7 +98,8 @@
                                     <!--<select class="kscr-Edit-details" id="grading_{{course.courseCode}}_{{course.regGroupCode}}" ng-model="newGrading"-->
                                             <!--ng-options="key as value for (key, value) in course.gradingOptions"></select>-->
                                     <div ng-repeat="(key, value) in course.gradingOptions">
-                                    <input id="grading_{{course.courseCode}}_{{course.regGroupCode}}"  type="radio" name="newGrading" value="{{key}}" ng-model="$parent.newGrading"/>{{value}}
+                                        <input id="grading_{{course.courseCode}}_{{course.regGroupCode}}"  type="radio" name="newGrading" value="{{key}}" ng-model="$parent.newGrading"/>
+                                        {{value}} <span ng-show="'{{value}}' === 'Letter' ">(Default)</span>
                                     </div>
                                 </div>
                             </div>
