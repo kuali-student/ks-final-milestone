@@ -165,7 +165,7 @@
                                               p:actionScript = "showLightboxComponent( 'KS-CourseOfferingManagement-AllRegistrationGroupsForACourseOffering' );"/>
                                         <bean parent="Uif-Link" p:linkText="| Course Offering Requisites "
                                               p:href="@{#ConfigProperties['application.url']}/kr-krad/courseOfferingRules?methodToCall=maintenanceEdit&amp;viewTypeName=MAINTENANCE&amp;viewName=COAgendaManagementView&amp;dataObjectClassName=org.kuali.student.enrollment.class1.krms.dto.CORuleManagementWrapper&amp;refObjectId=@{currentCourseOfferingWrapper.courseOfferingId}"/>
-                                        <bean id="view_eo" parent="Uif-ActionLink" p:methodToCall="viewExamOfferings" p:actionLabel=" | View Exam Offerings"
+                                        <bean id="view_eo" parent="Uif-ActionLink" p:methodToCall="viewExamOfferings" p:actionLabel=" | Manage Exam Offerings"
                                               p:render="@{currentCourseOfferingWrapper.examPeriodId?.length() &gt; 0 and eoRelations.size() gt 0}"/>
                                     </list>
                                 </property>
