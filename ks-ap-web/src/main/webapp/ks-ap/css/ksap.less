@@ -10,45 +10,22 @@
 :active, :focus {outline: 0;}
 ::-moz-focus-inner {border: 0;}
 /*Link Defaults*/
-a, a:hover,a:active,a:visited,a:focus {
-  outline: 0;
-  border: none;
+a {
+  &:active,
+  &:hover,
+  &:visited,
+  &:focus {
+    outline: 0;
+    border: none;
+  }
 }
+
 /* Common and utility Styles */
-.ksap-section { width: 230px;}
-.ksap-no-margin {margin: 0;}
-.ksap-hide {display:none;}
-.invisible {visibility: hidden;}
-.ksap-view .uif-viewHeader-contentWrapper {
-  padding-bottom: 0px;
-  box-shadow: none;
-}
-.ksap-view .uif-boxLayoutVerticalItem.bold {
-  font-weight: bold;
-}
-.ksap-view .uif-boxLayoutVerticalItem.uif-link {
-  display: inline;
-}
-.ksap-view .uif-boxLayoutHorizontalItem.uif-tooltip {
-  border-bottom: 1px dotted rgb(119, 119, 119);
-}
+.ksap-section         { width: 230px;}
+.ksap-no-margin       { margin: 0; }
+.ksap-hide            { display:none; }
+.invisible            { visibility: hidden; }
 
-.uif-pageContentWrapper,
-.uif-viewHeader,
-.uif-header {
-  margin: 0;
-}
-
-.uif-application,
-#applicationFooter {
-  background: #fff;
-  width: 100%;
-  min-width: 960px;
-}
-
-#applicationFooter {
-  background: transparent;
-}
 
 .uif-progressiveDisclosure-highlight {
   background: transparent !important;
@@ -67,16 +44,12 @@ a, a:hover,a:active,a:visited,a:focus {
   margin: 0 0 10px 0;
 }
 
-.ksap-view {
-  min-height: 600px;
-}
-
-#applicationHeader #applicationHeading {
+#applicationHeading {
   position: relative;
   height: 127px;
 }
 /*Header Title*/
-#applicationHeading #applicationLogo {
+#applicationLogo {
   font-style: normal;
   font-size: 38px;
   text-shadow: 0px 1px 2px #cfcabf;
@@ -85,120 +58,98 @@ a, a:hover,a:active,a:visited,a:focus {
   left: 0px;
 }
 
-#applicationHeading #applicationUser {
-  text-align: right;
-  position: absolute;
-  top: 45px;
-  right: 95px;
-}
-
-
+/*App navigation styles*/
 #applicationNavigation {
   position: absolute;
   bottom: 0px;
   left: 0px;
+  ul, ul li {
+    list-style: none;
+  }
+  ul li {
+    display: inline-block;
+    margin: 0 0 0 60px;
+
+    &:first-child { margin: 0; }
+    a {
+      font-size: 1.3846em;
+      border-bottom: solid 4px transparent;
+      padding: 5px;
+      text-decoration: none;
+      display: block;
+
+      &:hover {
+        text-decoration: none;
+        border-bottom-color: #000000;
+      }
+      &.active {
+        border-bottom-color: #000000;
+        font-weight: bold;
+      }
+    }
+  }
 }
 
-#applicationNavigation ul,
-#applicationNavigation ul li {
-  list-style: none;
-}
-
-#applicationNavigation ul li {
-  display: inline-block;
-  margin: 0 0 0 60px;
-}
-
-#applicationNavigation ul li:first-child {
-  margin: 0;
-}
-/*Default header underlining*/
-#applicationNavigation ul li a {
-  font-size: 1.3846em;
-  border-bottom: solid 4px transparent; /*#fea931;*/
-  padding: 5px;
-  text-decoration: none;
-  display: block;
-}
-/*Underline color of header links*/
-#applicationNavigation ul li a:hover {
-  text-decoration: none;
-  border-bottom-color: #000000;
-}
-/*House Icon in header navigation*/
-#applicationNavigation ul li.home a {
-  padding-left: 27px;
-}
-/*Underline color of header links*/
-#applicationNavigation ul li a.active {
-  border-bottom-color: #000000;
-  font-weight: bold;
-}
 /*Footer background*/
 #applicationFooter {
   color: #000;
   font-size: 1em;
-}
+  background: #fff;
+  width: 100%;
+  min-width: 960px;
 
-#applicationFooter .smaller {
-  font-size: 0.84615384615385em;
+  .smaller {
+    font-size: 0.84615384615385em;
+  }
 }
 
 #applicationFooterSection {
   position: relative;
   min-height: 90px;
+
+  .links {
+    position: absolute;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+  }
+  .version {
+    position: absolute;
+    white-space: nowrap;
+    top: 20px;
+    right: 0px;
+    color: #555;
+  }
+  .host {
+    position: absolute;
+    white-space: nowrap;
+    top: 40px;
+    right: 0px;
+    color: #555;
+  }
+  ul {
+    list-style: none;
+    margin: 20px auto;
+    display: block;
+    text-align: center;
+
+    li {
+      list-style: none;
+      display: inline-block;
+      margin: 0 0 0 10px;
+      padding: 0 0 0 10px;
+      border-left: solid 1px #7e7e7e;
+
+      &:first-child {
+        margin: 0;
+        padding: 0;
+        border: none;
+      }
+    }
+  }
 }
 
-#applicationFooterSection .links {
-  position: absolute;
-  width: 100%;
-  top: 0px;
-  left: 0px;
-}
-
-#applicationFooterSection .version {
-  position: absolute;
-  white-space: nowrap;
-  top: 20px;
-  right: 0px;
-  color: #555;
-}
-
-#applicationFooterSection .host {
-  position: absolute;
-  white-space: nowrap;
-  top: 40px;
-  right: 0px;
-  color: #555;
-}
-
-#applicationFooterSection ul {
-  list-style: none;
-  margin: 20px auto;
-  display: block;
-  text-align: center;
-}
-
-#applicationFooterSection ul li {
-  list-style: none;
-  display: inline-block;
-  margin: 0 0 0 10px;
-  padding: 0 0 0 10px;
-  border-left: solid 1px #7e7e7e;
-}
-
-#applicationFooterSection ul li:first-child {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
-
-.ksap-view .uif-pageHeader {
-  margin: 0 0 1em 0;
-}
-
-.backdoor,
-.adviser-banner {
+.backdoor, .adviser-banner {
   width: 930px;
   margin: 20px auto;
   color: #333;
@@ -212,71 +163,53 @@ a, a:hover,a:active,a:visited,a:focus {
   position: relative;
 }
 
-.backdoor a,
-.adviser-banner a {
+.backdoor a, .adviser-banner a {
   text-decoration: underline;
 }
 
 /* Overwrite KRAD Styles ########################################################################### */
-.ksap-view #Uif-PageContentWrapper,
-.ksap-view #viewfooter_div {
-  margin: 0;
-  padding: 0;
-  width: auto;
-  clear: both;
-}
+.ksap-view {
+  min-height: 600px;
 
-.ksap-view #Uif-Navigation {
-  display: none;
-}
+  .uif-boxLayoutVerticalItem {
+    margin: 0 0 10px 0;
 
-.ksap-view .uif-pageHeaderField .uif-header {
-  border: none;
-  font-size: 1.8462em;
-  line-height: 1.6667em;
-  padding: 0;
-}
+    &.bold {font-weight: bold;}
+    &.uif-link {display:inline;}
+  }
+  .uif-boxLayoutHorizontalItem {
+    &.uif-tooltip { border-bottom: 1px dotted @ksapDarkGrey; }
+  }
+  .uif-pageHeader {
+    margin: 0 0 1em 0;
+  }
+  .uif-viewHeader-contentWrapper {
+    padding-bottom: 0px;
+    box-shadow: none;
+  }
+  .uif-pageContentWrapper {
+    padding: 0;
+    width: auto;
+    clear: both;
+  }
+  .uif-pageContentWrapper,.uif-viewHeader,.uif-header {
+    margin: 0;
+  }
+  .uif-collectionGroup > div:nth-child(2) {
+    padding: 0;
+    margin: 0;
+  }
+  .uif-stackedCollectionLayout,
+  .uif-stackedCollectionLayout > .uif-collectionItem {
+    padding: 0;
+    margin: 0;
+    background: none;
+  }
+  .uif-instructionalMessage {
+    max-width: none;
+    font-size: 1em;
+  }
 
-.ksap-view .kr-breadcrumbs {
-  margin: 0 0 1em 0;
-  padding: 0;
-  width: auto;
-  clear: both;
-}
-
-.ksap-view .uif-boxLayoutVerticalItem,
-.base-view .uif-boxLayoutVerticalItem,
-.jquerybubblepopup .uif-boxLayoutVerticalItem {
-  margin: 0 0 10px 0;
-}
-
-.ksap-view .uif-boxLayoutHorizontalItem,
-.base-view .uif-boxLayoutHorizontalItem,
-.jquerybubblepopup .uif-boxLayoutHorizontalItem {
-  margin: 0 0px 0 0;
-}
-
-.ksap-view.ks-plan-View .uif-boxLayoutHorizontalItem,
-.base-view .uif-boxLayoutHorizontalItem,
-.jquerybubblepopup .uif-boxLayoutHorizontalItem {
-  margin: 0 10px 0 0;
-}
-
-.ksap-view .uif-instructionalMessage {
-  max-width: none;
-  font-size: 1em;
-}
-
-.ksap-view .uif-collectionGroup > div:nth-child(2) {
-  padding: 0;
-  margin: 0;
-}
-
-.ksap-view .uif-stackedCollectionLayout,
-.ksap-view .uif-stackedCollectionLayout > .uif-collectionItem {
-  padding: 0;
-  margin: 0;
-  background: none;
 }
 
 /* Layout styles ########################################################################### */
@@ -311,42 +244,43 @@ a, a:hover,a:active,a:visited,a:focus {
 .ksap-status {
   border-radius: 3px;
   text-shadow: 1px 1px 1px #ffffff;
+  &.success {
+    border-color: #d9ffde;
+    background-color: #f4fdf5;
+  }
+  &.info {
+    border-color: #daeaff;
+    background-color: #f4f8fd;
+  }
+  &.error {
+    border-color: #fcd5e4;
+    background-color: #fce9f1;
+  }
+  &.alert {
+    border-color: #feea49;
+    background-color: #faf5ca;
+  }
+  .message {
+    margin-left: 26px;
+  }
 }
 
-.ksap-feedback.success {
-  color: #006600;
-}
-
-.ksap-feedback.info {
-  color: #333;
-}
-
-.ksap-feedback.error {
-  color: #cc0000;
-}
-
-.ksap-feedback.alert {
-  color: #333;
-}
-
-.ksap-status.success {
-  border-color: #d9ffde;
-  background-color: #f4fdf5;
-}
-
-.ksap-status.info {
-  border-color: #daeaff;
-  background-color: #f4f8fd;
-}
-
-.ksap-status.error {
-  border-color: #fcd5e4;
-  background-color: #fce9f1;
-}
-
-.ksap-status.alert {
-  border-color: #feea49;
-  background-color: #faf5ca;
+.ksap-feedback {
+  &.success {
+    color: #006600;
+  }
+  &.info {
+    color: #333;
+  }
+  &.error {
+    color: #cc0000;
+  }
+  &.alert {
+    color: #333;
+  }
+  .message {
+    margin-left: 23px;
+  }
 }
 
 .ksap-feedback img.icon,
@@ -368,14 +302,6 @@ a, a:hover,a:active,a:visited,a:focus {
 .ksap-feedback .icon .uif-image {
   top: 4px;
   left: 0px;
-}
-
-.ksap-feedback .message {
-  margin-left: 23px;
-}
-
-.ksap-status .message {
-  margin-left: 26px;
 }
 
 .ksap-feedback.success img.icon,
