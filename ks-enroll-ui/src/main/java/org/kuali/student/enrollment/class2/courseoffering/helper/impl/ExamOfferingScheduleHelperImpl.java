@@ -16,6 +16,7 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.helper.impl;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.common.collection.KSCollectionUtils;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.enrollment.class2.courseoffering.dto.ExamOfferingWrapper;
@@ -134,24 +135,33 @@ public class ExamOfferingScheduleHelperImpl implements ExamOfferingScheduleHelpe
             }
 
             if (!componentInfo.getRoomIds().isEmpty()){
-                RoomInfo room = CourseOfferingManagementUtil.getRoomService().getRoom(KSCollectionUtils.getOptionalZeroElement(componentInfo.getRoomIds()), defaultContextInfo);
-                scheduleWrapper.setRoom(room);
-                if (!room.getRoomUsages().isEmpty()){
-                    int firstRoomUsagesIndex = 0;
-                    scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(firstRoomUsagesIndex).getHardCapacity());
+                int firstRoomIndex = 0;
+                String roomId = componentInfo.getRoomIds().get(firstRoomIndex);
+                if (StringUtils.isNotBlank(roomId)) {
+                    RoomInfo room = CourseOfferingManagementUtil.getRoomService().getRoom(roomId, defaultContextInfo);
+                    scheduleWrapper.setRoom(room);
+                    if (!room.getRoomUsages().isEmpty()){
+                        int firstRoomUsagesIndex = 0;
+                        scheduleWrapper.setRoomCapacity(room.getRoomUsages().get(firstRoomUsagesIndex).getHardCapacity());
+                    }
+
+                    BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(room.getBuildingId(), defaultContextInfo);
+                    scheduleWrapper.setBuilding(buildingInfo);
+                    scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                    scheduleWrapper.setBuildingId(room.getBuildingId());
                 }
 
-                BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(room.getBuildingId(), defaultContextInfo);
-                scheduleWrapper.setBuilding(buildingInfo);
-                scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
-                scheduleWrapper.setBuildingId(room.getBuildingId());
             } else if (!componentInfo.getBuildingIds().isEmpty()){
                 int firstBuildingIndex = 0;
                 String buildingId = componentInfo.getBuildingIds().get(firstBuildingIndex);
-                BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(buildingId, defaultContextInfo);
-                scheduleWrapper.setBuilding(buildingInfo);
-                scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
-                scheduleWrapper.setBuildingId(buildingId);
+
+                if (StringUtils.isNotBlank(buildingId)) {
+                    BuildingInfo buildingInfo = CourseOfferingManagementUtil.getRoomService().getBuilding(buildingId, defaultContextInfo);
+                    scheduleWrapper.setBuilding(buildingInfo);
+                    scheduleWrapper.setBuildingCode(buildingInfo.getBuildingCode());
+                    scheduleWrapper.setBuildingId(buildingId);
+                }
+
             }
 
         } catch (Exception e) {
