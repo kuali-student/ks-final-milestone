@@ -7,12 +7,7 @@ function initAMQListener(principal) {
     });
 
     amq.addListener('theBrowser', 'org.kuali.student.user.message.' + principal, function(msg) {
-        showGrowl(msg.textContent, 'title', 'WARNING');
+        showGrowl(msg.textContent, '', 'WARNING');
     });
 
-    amq.startPolling();
-}
-
-function removeAMQListener(principal) {
-    org.activemq.Amq.removeListener( 'theBrowser', 'org.kuali.student.user.message.' + principal );
 }

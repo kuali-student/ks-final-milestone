@@ -50,7 +50,7 @@ org.activemq.Amq = function() {
 	var pollDelay;
 
 	// Inidicates whether logging is active or not. Not by default.
-	var logging = false;
+	var logging = true;
 
 	// 5 second delay if an error occurs during poll. This could be due to
 	// server capacity problems or a timeout condition.
@@ -61,26 +61,17 @@ org.activemq.Amq = function() {
 	// handler.  
 	var messageHandlers = {};
 
-	// Indicates whether an AJAX post call is in progress.
-	var batchInProgress = false;
-
-	// A collection of pending messages that accumulate when an AJAX call is in
-	// progress. These messages will be delivered as soon as the current call
-	// completes. The array contains objects in the format { destination,
-	// message, messageType }.
-	var messageQueue = [];
-
-  // String to distinguish this client from others sharing the same session.
-  // This can occur when multiple browser windows or tabs using amq.js simultaneously.
-  // All windows share the same JESSIONID, but need to consume messages independently.
-  var clientId = null;
+      // String to distinguish this client from others sharing the same session.
+    // This can occur when multiple browser windows or tabs using amq.js simultaneously.
+    // All windows share the same JESSIONID, but need to consume messages independently.
+    var clientId = null;
   
 	/**
 	 * Iterate over the returned XML and for each message in the response, 
 	 * invoke the handler with the matching id.
 	 */
 	var messageHandler = function(data) {
-		var response = data.getElementsByTagName("ajax-response");
+        var response = data.getElementsByTagName("ajax-response");
 		if (response != null && response.length == 1) {
 			connectStatusHandler(true);
 			var responses = response[0].childNodes;    // <response>
@@ -133,7 +124,7 @@ org.activemq.Amq = function() {
 	};
 
 	var sendPoll = function() {
-		// Workaround IE6 bug where it caches the response
+        // Workaround IE6 bug where it caches the response
 		// Generate a unique query string with date and random
 		var now = new Date();
 		var data = 'timeout=' + timeout * 1000
@@ -154,16 +145,11 @@ org.activemq.Amq = function() {
 			messageType: type
 		};
 		// Add message to outbound queue
-		if (batchInProgress) {
-			messageQueue[messageQueue.length] = {message:message, headers:headers};
-		} else {
-			org.activemq.Amq.startBatch();
-			adapter.ajax(uri, { method: 'post',
-				data: addClientId( buildParams( [message] ) ),
-				error: errorHandler,
-				headers: headers,
-				success: org.activemq.Amq.endBatch});
-		}
+		adapter.ajax(uri, { method: 'post',
+			data: addClientId( buildParams( [message] ) ),
+			error: errorHandler,
+			headers: headers,
+			success: org.activemq.Amq.startPolling});
 	};
 
 	var buildParams = function(msgs) {
@@ -208,50 +194,6 @@ org.activemq.Amq = function() {
 
 		},
 		    
-		startBatch : function() {
-			batchInProgress = true;
-		},
-
-		endBatch : function() {
-			if (messageQueue.length > 0) {
-				var messagesToSend = [];
-				var messagesToQueue = [];
-				var outgoingHeaders = null;
-				
-				// we need to ensure that messages which set headers are sent by themselves.
-				// if 2 'listen' messages were sent together, and a 'selector' header were added to one of them,
-				// AMQ would add the selector to both 'listen' commands.
-				for(i=0;i<messageQueue.length;i++) {
-					// a message with headers should always be sent by itself.	if other messages have been added, send this one later.
-					if ( messageQueue[ i ].headers && messagesToSend.length == 0 ) {
-						messagesToSend[ messagesToSend.length ] = messageQueue[ i ].message;
-						outgoingHeaders = messageQueue[ i ].headers;
-					} else if ( ! messageQueue[ i ].headers && ! outgoingHeaders ) {
-						messagesToSend[ messagesToSend.length ] = messageQueue[ i ].message;
-					} else {
-						messagesToQueue[ messagesToQueue.length ] = messageQueue[ i ];
-					}
-				}
-				var body = buildParams(messagesToSend);
-				messageQueue = messagesToQueue;
-				org.activemq.Amq.startBatch();
-				adapter.ajax(uri, {
-					method: 'post',
-					headers: outgoingHeaders,
-					data: addClientId( body ),
-					success: org.activemq.Amq.endBatch, 
-					error: errorHandler});
-			} else {
-				batchInProgress = false;
-			}
-		},
-
-		// Send a JMS message to a destination (eg topic://MY.TOPIC).  Message
-		// should be xml or encoded xml content.
-		sendMessage : function(destination, message) {
-			sendJmsMessage(destination, message, 'send');
-		},
-
 		// Listen on a channel or topic.
 		// handler must be a function taking a message argument
 		//
@@ -273,13 +215,9 @@ org.activemq.Amq = function() {
 		},
 
         startPolling : function() {
-            sendPoll();
+           sendPoll();
         },
 		
-		// for unit testing
-		getMessageQueue: function() {
-			return messageQueue;
-		},
 		testPollHandler: function( data ) {
 			return pollHandler( data );
 		}
