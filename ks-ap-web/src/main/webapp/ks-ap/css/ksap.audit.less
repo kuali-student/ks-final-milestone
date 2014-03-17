@@ -1,0 +1,369 @@
+.ksap-audit-report h1 {
+  color: #fff;
+  text-transform: uppercase;
+  background: #39275b;
+  padding: 15px;
+  font-size: 1.3846em;
+  border-radius: 5px 5px 0px 0px;
+  -moz-border-radius: 5px 5px 0px 0px;
+  -webkit-border-radius: 5px 5px 0px 0px;
+}
+.ksap-audit-report .audit-summary {
+  background: #dddddd;
+  border-radius:  0px 0px 5px 5px;
+  -moz-border-radius: 0px 0px 5px 5px;
+  -webkit-border-radius: 0px 0px 5px 5px;
+  padding: 10px 15px;
+  overflow: auto;
+  margin: 0 0 10px 0;
+}
+.ksap-audit-report .audit-summary .date-prepared,
+.ksap-audit-report .audit-summary .prepared-for,
+.ksap-audit-report .audit-summary .program-entry-qtr,
+.ksap-audit-report .audit-summary .graduation-date {
+  float: left;
+  width: 50%;
+}
+.ksap-audit-report .toptext,
+.ksap-audit-report .audit-status-msg,
+.ksap-audit-report .advisory {
+  margin-top: 1em;
+}
+.ksap-audit-report .audit-status-msg {
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  background: #faf7ff;
+  padding: 10px 15px 10px 85px;
+  position: relative;
+}
+.ksap-audit-report .audit-status-msg label {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: #eee6fc;
+  padding: 10px 15px;
+  border-radius: 5px 0 0 5px;
+  -moz-border-radius: 5px 0 0 5px;
+  -webkit-border-radius: 5px 0 0 5px;
+}
+.ksap-audit-report .control-toolbar {
+  padding: 10px;
+  background: #fcf9f0;
+  border: solid 1px #e4e3e3;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  margin: 0 0 20px 0;
+}
+.ksap-audit-report .control-toolbar label {
+  font-weight: normal;
+  margin: 0 7px 0 0;
+}
+.ksap-audit-report .section {
+  margin: 20px 0 0 0;
+}
+.ksap-audit-report .section .heading {
+  font-family: Arial, Helvetica, Verdana, sans-serif;
+  font-size: 1.1538em !important;
+  background: #dddddd;
+  border: solid 1px #e6e6e6;
+  padding: 10px;
+  margin: 0 0 20px 0;
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+.ksap-audit-report .requirement,
+.ksap-audit-report .bigsection {
+  margin: 0 10px 5px 10px;
+  clear: both;
+  border-top: dotted 1px #e4e3e3;
+  padding: 10px;
+  /*@TODO ksap-961 Use CSS gradient instead of an image for this*/
+  background: url('../images/ksap_audit_req_gradient.png') repeat-x;
+  overflow: hidden;
+  height: auto;
+}
+.ksap-audit-report .bigsection .heading {
+  margin-left: 66px;
+  font: inherit !important;
+  background: none;
+  border: none;
+  padding: 0;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+}
+.ksap-audit-report .requirement .header {
+  line-height: 1.75em;
+  overflow: auto;
+}
+.ksap-audit-report .requirement .header .toggle,
+.ksap-audit-report .requirement .header .status,
+.ksap-audit-report .requirement .header .reqNumber,
+.ksap-audit-report .requirement .header .reqGroup,
+.ksap-audit-report .requirement .header .title,
+.ksap-audit-report .requirement .subrequirement .header .status,
+.ksap-audit-report .requirement .subrequirement .header .required,
+.ksap-audit-report .requirement .subrequirement .header .subreqNumber,
+.ksap-audit-report .requirement .subrequirement .header .title,
+.ksap-audit-report .requirement .subrequirement .header .subreqCline {
+  float: left;
+  margin: 0 10px 0 0;
+  vertical-align: middle;
+  padding: 0;
+  min-height: 1px;
+}
+.ksap-audit-report .requirement .header .title,
+.ksap-audit-report .requirement .subrequirement .header .title {
+  margin: 0;
+}
+.ksap-audit-report .requirement .header .reqNumber {
+  width: 20px;
+}
+.ksap-audit-report .requirement .header .toggle {
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat -1000px -1000px;
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  cursor: pointer;
+}
+.ksap-audit-report .requirement.expanded .header .toggle {
+  background-position: 0px -16px;
+}
+.ksap-audit-report .requirement.expanded .header .toggle:hover {
+  background-position: -16px -16px;
+}
+.ksap-audit-report .requirement.collapsed .header .toggle {
+  background-position: 0px -32px;
+}
+.ksap-audit-report .requirement.collapsed .header .toggle:hover {
+  background-position: -16px -32px;
+}
+.ksap-audit-report .requirement .header .title {
+  text-overflow: ellipsis;
+  cursor: pointer;
+  width: 564px;
+}
+.ksap-audit-report .requirement .header .status,
+.ksap-audit-report .requirement .subrequirement .header .status {
+  color: #fff;
+  font-size: 9px;
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  width: 28px;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 13px;
+  height: 13px;
+  margin-top: 3px;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border: solid 1px transparent;
+  text-shadow: 0px 1px 2px rgba(50, 50, 50, 1);
+}
+.ksap-audit-report .requirement .header .status.Status_NO {
+  background-color: #990000;
+  border-color: #b76066;
+}
+.ksap-audit-report .requirement .header .status.Status_IP {
+  background-color: #fcc336;
+  border-color: #f7c033;
+  color: #5f4402;
+  text-shadow: 0px 1px 2px rgba(250, 250, 250, 0.8);
+}
+.ksap-audit-report .requirement .header .status.Status_OK {
+  background-color: #4a7c01;
+  border-color: #92b067;
+}
+.ksap-audit-report .requirement .header .status.Status_NONE {
+  background-color: transparent;
+  display: none;
+}
+.ksap-audit-report .requirement .subrequirement .status.Status_NONE {
+  visibility: hidden;
+  display: block;
+}
+.ksap-audit-report .requirement .body {
+  clear: both;
+  margin: 20px 0 0 66px;
+}
+.ksap-audit-report .requirement .body .totals .value {
+  font-weight: bold;
+}
+.ksap-audit-report .requirement .body .totals .earned,
+.ksap-audit-report .requirement .body .totals .inprogress,
+.ksap-audit-report .requirement .body .totals .needs,
+.ksap-audit-report .requirement .body .totals .required {
+  margin: 0 20px 0 0;
+}
+.ksap-audit-report .requirement .subrequirement .header .status {
+  background-color: #666;
+  border-color: #aaa;
+  color: #fff;
+}
+.ksap-audit-report .requirement .subrequirement .header .Status_IP {
+  text-shadow: none;
+}
+.ksap-audit-report .requirement .subrequirement .header .Status_NONE {
+  text-shadow: none;
+}
+.ksap-audit-report .requirement .subrequirement .header .required.subreqNumber {
+  width: 30px;
+  text-align: right;
+}
+.ksap-audit-report .requirement .subrequirement .header .title {
+  text-overflow: clip;
+  cursor: default;
+  width: 474px;
+}
+/*
+.ksap-audit-report .requirement .subrequirement.justtitle {
+    padding: 10px 0px;
+}
+.ksap-audit-report .requirement .subrequirement.justtitle .subreqNumber.required {
+	display: none;
+}
+.ksap-audit-report .requirement .subrequirement.justtitle .title {
+	margin-left: 80px;
+    font-weight: bold;
+    border-top:dotted 1px #ccc;
+    border-bottom:dotted 1px #ccc;
+    padding: 4px 0px;
+}
+*/
+.ksap-audit-report table,
+.ksap-audit-report table th,
+.ksap-audit-report table td {
+  padding: 0;
+  border-collapse:collapse;
+}
+.ksap-audit-report table caption {
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  line-height: 2em;
+}
+.ksap-audit-report .subrequirement .totals,
+.ksap-audit-report .subrequirement .taken,
+.ksap-audit-report .subrequirement .fromcourses {
+  margin-left: 80px;
+}
+.ksap-audit-report .requirement table.taken {
+  border-top: solid 1px #ddd;
+  margin-top: 0.75em;
+  margin-bottom: 0.75em;
+}
+.ksap-audit-report .requirement table th,
+.ksap-audit-report .requirement table td {
+  font-size: 12px;
+  padding: 0 0.4em 0 0;
+}
+.ksap-audit-report .requirement .taken td,
+.ksap-audit-report .requirement .taken th {
+  padding-right: 1.25em;
+  border-bottom: solid 1px #ddd;
+  line-height: 1.88em;
+}
+.ksap-audit-report .requirement .taken td:first-child,
+.ksap-audit-report .requirement .taken th:first-child {
+  padding-left: 1.25em;
+}
+.ksap-audit-report .requirement table th {
+  font-size: 10px;
+  color: #777;
+  text-align: left;
+}
+.ksap-audit-report .taken .ccode {
+  cursor: help;
+}
+.ksap-audit-report .section.rname_WHAT-IF .heading{
+  border: none;
+  margin: 0;
+  padding: 0px;
+  background: transparent;
+  font-size: 1em !important;
+  height: 20px;
+}
+.ksap-audit-report .section.rname_LINE1 .heading {
+  border: none;
+  margin: 0;
+  padding: 0px;
+  background: transparent !important;
+  font-size: 1em !important;
+  height: 20px;
+}
+.ksap-audit-report .footer {
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 1.75em;
+}
+.ksap-audit-report .footer .gray-line {
+  background: #dddddd;
+}
+.ksap-audit-report .footer .purple-line {
+  background: #39275b;
+  border-radius: 0px 0px 5px 5px;
+  -moz-border-radius: 0px 0px 5px 5px;
+  -webkit-border-radius: 0px 0px 5px 5px;
+  color: #fff;
+}
+
+/*Degree Audit search box*/
+.ksap-run-audit-panel .uif-label {
+  margin: 0 10px 0 0;
+}
+
+.ksap-run-audit-panel select {
+  font-size: 13px;
+  border: 1px solid #dddddd;
+  border-radius: 3px;
+  vertical-align: middle;
+  background: #fff;
+  overflow: hidden;
+  width: 450px;
+  height: 30px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 5px 10px;
+}
+
+.ksap-audit-report iframe.blockUI {
+  display: none !important;
+}
+
+.ksap-audit-report .blockUI.blockOverlay {
+  background-color: #fff;
+  opacity: .85 !important;
+}
+
+.ksap-audit-report .blockUI.blockMsg.blockElement {
+  left: 0px !important;
+  top: 0px !important;
+}
+
+.ksap-audit-report .blockUI.blockMsg.blockElement .icon {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  width: 32px;
+  height: 32px;
+}
+
+.ksap-audit-report .blockUI.blockMsg.blockElement .heading {
+  font-size: 1.25em;
+  margin-bottom: 20px;
+}
+
+.ksap-audit-report .blockUI.blockMsg.blockElement .heading .programName {
+  font-weight: bold;
+}
+
+.ksap-audit-report pre a {
+  text-decoration: underline;
+}

@@ -1,0 +1,740 @@
+@import "ksap.variables.less";
+@import "ksap.mixins.less";
+/*
+    Course Search
+    KSAP-886
+    input min character error messaging overrides
+    Candidate for LESS refactoring
+*/
+#text_searchQuery.uif-inputField { position: relative; }
+#text_searchQuery.uif-inputField .uif-validationMessages {
+  position: absolute;
+  top: -25px;
+  left: 64px;
+  background: transparent;
+  border: none;
+}
+#text_searchQuery.uif-inputField .uif-validationMessages ul {border: none; color:red;}
+#text_searchQuery.uif-inputField .uif-validationMessages ul .uif-errorMessageItem-field .uif-validationImage {display: none;}
+/* --end KSAP-886-- */
+
+/* CourseSearchUI.xml styles*/
+#course_search_results_facets {
+  width: 15%;
+  margin-right: 10px;
+}
+
+/*
+	Course Details
+*/
+
+#course_details_section {
+  width: 73%;
+}
+.ksap-view .ksap-underline-header {
+  border-bottom: solid 2px #f2e4b7;
+  margin-bottom: 20px;
+}
+
+.ksap-view .ksap-underline-header .uif-headerText {
+  font-weight: 700;
+}
+
+.ksap-view .ksap-course-detail-label {
+  width: 150px;
+  margin-right: 20px;
+}
+
+.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout {
+  float: right;
+}
+
+.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout span {
+  vertical-align: middle;
+  margin: 0;
+}
+
+.ksap-course-detail-label > .uif-verticalBoxLayout.uif-horizontalBoxLayout img {
+  margin: 0 0 0 10px;
+}
+
+.ksap-view .ksap-course-detail-field {
+  width: 500px;
+  margin: 0;
+}
+
+.ksap-course-sections h5.uif-headerText {
+  text-transform: uppercase;
+  color: #666;
+  font-size: 1.4em;
+  font-weight: 500;
+  padding: 2px 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+/* Reset */
+.ksap-course-sections .dataTables_wrapper,
+.ksap-course-sections .dataTables_wrapper .dataTables_info,
+.ksap-course-sections table.uif-tableCollectionLayout tr,
+.ksap-course-sections table.uif-tableCollectionLayout th,
+.ksap-course-sections table.uif-tableCollectionLayout td,
+.ksap-course-sections table.uif-tableCollectionLayout td.uif-rowDetails {
+  padding: 0;
+  margin: 0;
+  border: 1px solid #000000;
+  background: transparent;
+}
+
+/* End Reset */
+.ksap-course-sections .dataTables_wrapper {
+  margin: 20px 0px;
+}
+
+.ksap-course-sections table.uif-tableCollectionLayout {
+  border: 1px solid #ccc;
+  line-height: 16px;
+}
+.ksap-course-sections table.uif-tableCollectionLayout td {
+  padding: 4px;
+  border: 1px solid #ccc;
+  vertical-align: middle;
+}
+
+.ksap-course-sections table.uif-tableCollectionLayout th,
+.ksap-course-sections table.uif-tableCollectionLayout td {
+  padding: 4px;
+  border: 1px solid #ccc;
+  vertical-align: middle;
+}
+
+.ksap-course-sections table.uif-tableCollectionLayout label {
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 10px;
+  color: #777;
+  white-space: nowrap;
+}
+
+.ksap-course-sections table.uif-tableCollectionLayout tbody tr.even,
+.ksap-course-sections table.uif-tableCollectionLayout tbody tr.odd {
+  border-top: 1px solid #ccc;
+}
+
+.ksap-course-sections table.uif-tableCollectionLayout tbody td.uif-rowDetails > .uif-group {
+  border-left: 1px dotted #ccc;
+  border-right: 1px dotted #ccc;
+}
+
+.ksap-course-sections table.uif-tableCollectionLayout tbody .closed {
+  color: #b4b4b4 !important;
+}
+
+.ksap-course-sections table.uif-tableCollectionLayout tbody td.uif-rowDetails > .uif-group .uif-field {
+  border-top: 1px dotted #ccc;
+  margin: 0;
+  padding: 4px;
+}
+
+.ksap-course-sections .uif-tableCollectionLayout .uif-rowDetails .uif-verticalFieldGroup .uif-verticalBoxGroup .uif-verticalBoxLayout > span {
+  margin: 0;
+}
+
+.ksap-course-sections table.uif-tableCollectionLayout td a {
+  white-space: normal;
+}
+
+.ksap-course-sections .dataTables_filter label {
+  font-weight: normal;
+  margin: 0 10px 0 0;
+}
+
+.ksap-course-sections .meetingdetails {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.ksap-course-sections .meetingdetails .meetingdays,
+.ksap-course-sections .meetingdetails .meetingtime,
+.ksap-course-sections .meetingdetails .meetingtba,
+.ksap-course-sections .meetingdetails .meetingbuilding,
+.ksap-course-sections .meetingdetails .meetingroom {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.ksap-course-sections .meetingdetails .meetingdays {
+  width: 56px;
+}
+
+.ksap-course-sections .meetingdetails .meetingtime {
+  width: 127px;
+}
+
+.ksap-course-sections .meetingdetails .meetingtba {
+  width: 191px;
+}
+
+.ksap-course-sections .meetingdetails .meetingbuilding {
+  width: 40px;
+}
+
+.ksap-course-sections .meetingdetails .meetingroom {
+  width: 30px;
+  margin: 0;
+}
+.myplan-section-additional .uif-disclosureContent .uif-stackedCollectionLayout table tr,
+.myplan-section-additional .uif-disclosureContent .uif-stackedCollectionLayout table td,
+.myplan-section-additional .uif-disclosureContent .uif-stackedCollectionLayout table th{
+  border: none;
+}
+.myplan-section-additional .uif-disclosureContent .uif-stackedCollectionLayout table th{
+  display: none;
+}
+button img.rightArrowLarge {
+  width: 8px;
+  height: 12px;
+  margin: 0 0 0 2px;
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat -42px -101px;
+  vertical-align: -1px;
+}
+
+button img.rightArrowSmall {
+  width: 7px;
+  height: 10px;
+  margin: 0 0 0 2px;
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat -55px -102px;
+  vertical-align: -1px;
+}
+
+
+
+/*
+	Datatables for search results
+*/
+.ksap-view table.dataTable thead th.sorting_disabled {cursor: default;}
+table.ksap-course-search-results-datatable tbody tr td.ksap-status-column {
+  padding: 0 0 0 20px;
+}
+.ksap-status-column span {
+  color: #0088cc;
+  font-size: 16px;
+  position: relative;
+  height: 16px;
+  width: 16px;
+}
+.ksap-status-column span:hover {
+  color: #005590;
+  cursor: pointer;
+}
+.ksap-status-column span.bookmarked, .ksap-status-column span.planned {
+  color: #ccc;
+  font-size:10px;
+  font-style: italic;
+  margin-left: -20px;
+}
+.ksap-status-column span.bookmarked:before, .ksap-status-column span.planned:before{
+  display:none;
+}
+.ksap-status-column input.ksap-add {
+  position: absolute;
+  left: 3px;
+  height: 30px;
+  width: 30px;
+}
+input.ksap-delete,
+.uif-imageField.ksap-delete img.uif-image {
+  width: 16px;
+  height: 16px;
+  /*
+      @TODO: ksap-961 fix path to point at ksboot provided validation message icon
+  */
+  background: url('../images/iconError16.png') no-repeat 0px 0px;
+  vertical-align: middle;
+}
+
+.ksap-stacked-list,
+.ksap-stacked-list ul,
+.ksap-stacked-list li,
+.ksap-stacked-list ul li,
+.ksap-stacked-list dl,
+.ksap-stacked-list dd,
+.ksap-stacked-list dl dd {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ksap-stacked-list li,
+.ksap-stacked-list ul li,
+.ksap-stacked-list dd,
+.ksap-stacked-list dl dd {
+  display: block;
+}
+
+.ksap-data-list dl,
+.ksap-data-list dl dd {
+  margin: 0;
+  padding: 0;
+  display: inline;
+}
+.ksap-data-list dd.scheduled,
+.ksap-data-list dd.projected {
+  clear: both;
+  display: block;
+}
+
+.ksap-data-list .scheduled dl dd,
+.ksap-data-list dl.scheduled dd {
+  background: #ccc;
+  color: #333;
+  border-radius: 3px;
+  font-weight: bold;
+  font-size: 80%;
+  padding: 0 4px;
+  clear: none;
+  line-height: 1.8em;
+  display: inline-block;
+}
+
+.ksap-data-list .scheduled dl dd a,
+.ksap-data-list dl.scheduled dd a {
+  color: #333;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Seasonal colors */
+.AU, .FA {
+  background: #FFCCCC !important;
+}
+
+.WI {
+  background: #CCDDFF !important;
+}
+
+.SP {
+  background: #CCFFCC !important;
+}
+
+.SU {
+  background: #FCF990 !important;
+}
+
+.ksap-data-list dl dd:before {
+  content: ", ";
+}
+
+.ksap-data-list dl dd:first-child:before,
+.ksap-data-list .scheduled:before,
+.ksap-data-list .projected:before,
+.ksap-data-list .scheduled dl dd:before,
+.ksap-data-list dl.scheduled dd:before {
+  content: "";
+}
+
+.ksap-course-search-results .dataTables_wrapper {
+  float: left;
+  clear: none;
+  margin: 0;
+  width:80%;
+}
+
+.ksap-course-search-results .dataTables_wrapper .dataTables_info {
+  width: 70%;
+  padding-top: 3px;
+  font-family: @ksHeadingFontFamily;
+  font-size: 1em;
+}
+
+.ksap-course-search-results .dataTables_wrapper .dataTables_length {
+  float: left;
+  text-align: right;
+  width: 30%;
+  margin: 0 0 0.5em 0;
+}
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword {
+  font-style: italic;
+}
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword:before {
+  content: open-quote;
+}
+.ksap-course-search-results .dataTables_wrapper .dataTables_info .search_keyword:after {
+  content: close-quote;
+}
+table.ksap-course-search-results-datatable thead tr {
+
+}
+
+table.ksap-course-search-results-datatable thead tr th {
+  border: none;
+  padding: 12px 0 12px 10px;
+  font-weight: bold;
+  color: #333;
+  font-size: 1em;
+  text-transform: none;
+  background-color: #eee;
+  cursor: default;
+  font-size:1em;
+  font-weight: bold;
+}
+
+table.ksap-course-search-results-datatable thead tr th[aria-sort='ascending'],
+table.ksap-course-search-results-datatable thead tr th[aria-sort='descending'] {
+  color: #06c;
+}
+
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper {
+  display: inline;
+  cursor: default;
+}
+
+table.ksap-course-search-results-datatable thead tr th.sortable,
+table.ksap-course-search-results-datatable thead tr th.sortable .DataTables_sort_wrapper {
+  cursor: pointer;
+}
+
+table.ksap-course-search-results-datatable thead tr th.sortable:hover,
+table.ksap-course-search-results-datatable thead tr th.sortable .DataTables_sort_wrapper:hover {
+  /*color: #06c;
+  text-decoration: underline;*/
+}
+
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 5px;
+  width: 16px;
+  height: 16px;
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat 0px -48px transparent;
+}
+
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-carat-2-n-s {
+  background-position: 0px -48px;
+}
+
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-n {
+  background-position: -16px -48px;
+}
+
+table.ksap-course-search-results-datatable thead tr th .DataTables_sort_wrapper .ui-icon.ui-icon-triangle-1-s {
+  background-position: -32px -48px;
+}
+
+table.ksap-course-search-results-datatable tbody tr {
+  border: none;
+}
+table.ksap-course-search-results-datatable tbody tr th,
+table.ksap-course-search-results-datatable tbody tr td {
+  vertical-align: middle;
+}
+
+table.ksap-course-search-results-datatable tbody tr td {
+  padding: 10px 15px;
+}
+
+table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  -ms-text-overflow: ellipsis;
+  width: 160px;
+}
+table.ksap-course-search-results-datatable tbody tr td a.ksap-text-ellipsis:visited{
+  color: #3355a6;
+}
+
+table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.scheduled {
+  min-width: 110px;
+}
+
+table.ksap-course-search-results-datatable tbody tr td.ksap-data-list dd.projected {
+  margin-top: 3px;
+  width: 85px;
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.ksap-data-list dl dd.projected dl dd:before {
+  content: '' !important;
+  display: none;
+}
+.ksap-data-list dl dd.projected dl dd {
+  border: 1px solid black;
+  padding: 1px 3px;
+  background: #ffffff;
+  border-right: none;
+  color:#A3A2A2;
+  font-weight: normal;
+}
+.ksap-data-list dl dd.projected dl dd.termHighlight {
+  background: #c4c4c4;
+  color:#000000;
+}
+.ksap-data-list dl dd.projected dl dd:last-child {
+  border-right: 1px solid black;
+}
+
+table.ksap-course-search-results-datatable tbody tr td.ksap-status-column {
+  /*position: relative;
+  padding-left:0;*/
+}
+
+table.ksap-course-search-results-datatable .odd,
+table.ksap-course-search-results-datatable .odd td[class^='sorting_'] {
+  background-color: #fff;
+}
+
+table.ksap-course-search-results-datatable .even,
+table.ksap-course-search-results-datatable .even td[class^='sorting_'] {
+  background-color: #f7f7f7;
+}
+table.ksap-course-search-results-datatable tbody tr:hover td.dataTables_empty {
+  background-color: #fff;
+}
+
+table.ksap-course-search-results-datatable .blockUI {
+  display: none !important;
+}
+
+/*Datatable Pagination overrides*/
+.dataTables_paginate a {padding:0;}
+.dataTables_paginate a:hover {
+  border: 1px solid #ccc;
+  border-right: none;
+}
+.dataTables_paginate a.first.paginate_button:before, .dataTables_paginate a.last.paginate_button:after {
+  font-weight: 400;
+  font-size: 10px;
+}
+
+/* Styles for empty result set page ########################################################################### */
+.ksap-course-search-empty {
+  padding: 25px 100px;
+}
+
+.ksap-course-search-empty ul li {
+  display: list-item;
+  margin: 0;
+  list-style-type: disc;
+  list-style-position: inside;
+}
+
+/*Course Search, Search Box*/
+.ksap-course-search-panel {
+  padding: 20px 10px 10px 20px;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.ksap-container-75 {
+  width: 75px;
+}
+.ksap-course-search-panel .uif-label {
+  margin: 0 10px 0 0;
+}
+
+.ksap-course-search-panel input[type='text'],
+.ksap-course-search-panel select {
+  font-size: 13px;
+  border: solid 1px #dddddd;
+  padding: 5px 10px;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+.ksap-course-search-panel input[type='text'] {
+  width: 270px;
+  height: 18px;
+  background: #fff;
+
+}
+
+.ksap-course-search-panel select {
+  background: #fff;
+  overflow: hidden;
+  width: 200px;
+  height: 30px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ksap-course-search-params span input[type='checkbox'] {
+  margin: 0 5px 0 0;
+}
+
+.ksap-course-search-params span label {
+  margin: 0 35px 0 0;
+}
+
+#text_searchQuery,
+#select_searchTerm { margin-right: 10px; }
+#course_search_panel { padding-left:0; }
+
+/*
+	Facets
+*/
+.ksap-facets-panel {
+  border: solid 1px #ddd;
+  border-radius: 5px;
+}
+
+.ksap-facets-panel a, .ksap-facets-panel a:hover {
+  color: #333;
+  vertical-align: bottom;
+}
+
+.ksap-facets-panel .uif-boxLayoutVerticalItem,
+.ksap-facets-panel .ksap-facets-group ul,
+.ksap-facets-panel .ksap-facets-group ul li {
+  margin: 0;
+  padding: 0;
+}
+
+.ksap-facets-group a[id$='_toggle'] {
+  text-decoration: none;
+}
+
+.ksap-facets-panel .uif-header {
+  background: #f5f2e8;
+  padding: 7px 10px;
+  border: none;
+}
+
+.ksap-facets-panel .uif-header.primary {
+  box-shadow: inset 0px 1px 1px 0px rgba(242, 237, 220, 1);
+  border-bottom: solid 1px #ddd;
+  background: #efe8d3;
+  padding: 10px;
+}
+
+.ksap-facets-panel .uif-header .uif-header-rightGroup {
+  position: relative;
+  right: auto;
+  top: auto;
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 0 5px;
+}
+
+.ksap-facets-panel .uif-headerText {
+  font-size: 13px;
+  font-weight: normal;
+  vertical-align: middle;
+  display: inline-block;
+  padding: 0px;
+}
+
+.ksap-facets-panel h5.uif-headerText {
+  color: #000;
+  text-transform: uppercase;
+}
+
+.ksap-facets-panel h6.uif-headerText {
+  color: #323232;
+  text-transform: none;
+}
+
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image {
+  position: absolute;
+  top: 9px;
+  right: 10px;
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat 0px -16px;
+  margin: 0;
+  padding: 0;
+  width: 16px;
+  height: 16px;
+
+}
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="expand"] {
+  background-position: 0px -16px;
+}
+
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="expand"]:hover {
+  background-position: -16px -16px;
+}
+
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="collapse"] {
+  background-position: 0px -32px;
+}
+
+.ksap-facets-panel .ksap-facets-group .uif-header img.uif-disclosure-image[alt="collapse"]:hover {
+  background-position: -16px -32px;
+}
+
+.ksap-facets-panel .ksap-facets-group div.facets {
+  max-height: 72px;
+  overflow-y: auto;
+}
+
+.ksap-facets-panel .ksap-facets-group div.facets ul {
+  overflow: hidden;
+}
+
+.ksap-facets-panel .ksap-facets-group div.all,
+.ksap-facets-panel .ksap-facets-group div.facets {
+  padding: 0 0 0 10px;
+}
+
+.ksap-facets-panel .ksap-facets-group div.all {
+  border-bottom: dotted 1px #cfcfcf;
+}
+
+.ksap-facets-panel .ksap-facets-group ul li {
+  padding: 0 0 0 19px;
+  margin: 4px 0 4px 0;
+  /*
+      @TODO ksap-961 use icon font instead of images
+  */
+  background: url('../images/ksap_icon_sprites.png') no-repeat 0px -64px transparent;
+  min-height: 18px;
+  line-height: 18px;
+  display: block;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.ksap-facets-panel .ksap-facets-group ul li.checked {
+  background-position: 0px -82px;
+}
+
+.ksap-facets-panel .ksap-facets-group ul li span {
+  color: #777;
+  margin-left: 4px;
+  font-size: 11px;
+  line-height: 11px;
+}
+
+.ksap-facets-panel .ksap-facets-group ul li:hover a {
+  text-decoration: underline;
+}
+
+.ksap-facets-panel .ksap-facets-group ul li.disabled,
+.ksap-facets-panel .ksap-facets-group ul li.disabled:hover {
+  text-decoration: none;
+  cursor: default;
+  opacity: 0.33;
+}
+.ksap-facets-panel .ksap-facets-group ul li.static,
+.ksap-facets-panel .ksap-facets-group ul li.static:hover,
+.ksap-facets-panel .ksap-facets-group ul li.static a,
+.ksap-facets-panel .ksap-facets-group ul li.static a:hover {
+  background-position: 0px -82px;
+  cursor: default;
+  text-decoration: none;
+}

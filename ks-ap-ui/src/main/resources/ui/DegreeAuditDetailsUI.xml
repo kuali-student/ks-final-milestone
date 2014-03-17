@@ -38,7 +38,7 @@
         </property>
         <property name="additionalCssFiles">
             <list>
-                <value>ks-ap/css/audit.css</value>
+                <value>ks-ap/css/ksap.audit.css</value>
             </list>
         </property>
         <property name="items">

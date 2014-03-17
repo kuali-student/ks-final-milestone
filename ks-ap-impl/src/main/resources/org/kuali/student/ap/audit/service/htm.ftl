@@ -42,7 +42,7 @@
 }>
 <html>
 <head>
-<link href="/student/ks-ap/css/audit.css" rel="stylesheet" type="text/css"/>
+<link href="/student/ks-ap/css/ksap.audit.css" rel="stylesheet" type="text/css"/>
 </head>    
 <div class="ksap-audit-report">
 	<h1>${dpTitle1?xml}</h1>   
