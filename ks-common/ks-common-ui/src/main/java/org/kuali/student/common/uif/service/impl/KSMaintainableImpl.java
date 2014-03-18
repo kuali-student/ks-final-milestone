@@ -19,6 +19,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.maintenance.MaintainableImpl;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.util.ObjectUtils;
 import org.kuali.student.common.uif.service.KSMaintainable;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -66,8 +67,7 @@ public class KSMaintainableImpl extends MaintainableImpl implements KSMaintainab
         ContextInfo contextInfo = ContextUtils.createDefaultContextInfo();
         AttributeInfo attr = new AttributeInfo();
         attr.setKey(MessengerConstants.USER_MESSAGE_PROCESS_ID);
-        //attr.setValue(contextInfo.getPrincipalId()+"-"+this.getDocumentNumber());
-        attr.setValue(contextInfo.getPrincipalId());
+        attr.setValue(GlobalVariables.getUserSession().getKualiSessionId());
         contextInfo.getAttributes().add(attr);
         return contextInfo;
     }

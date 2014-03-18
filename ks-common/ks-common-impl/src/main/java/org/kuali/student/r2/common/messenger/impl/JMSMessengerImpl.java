@@ -72,23 +72,24 @@ public class JMSMessengerImpl implements Messenger {
         return null;
     }
 
-    private void sendMessage(final String user, final String key, final String theme, final String[] parameters) {
+    private void sendMessage(final String processId, final String key, final String theme, final String[] parameters) {
 
         if(this.messageService == null){
             messageService = GlobalResourceLoader.getService("messageService");
         }
         final String messageText = messageService.getMessageText(null, null,
                 key);
-/*
+
         //Comment out for now to make sure this is not the cause for the memory leaks.
-        jmsTemplate.send(MessengerConstants.USER_MESSAGE_DESTINATION + "." + user, new MessageCreator() {
+        jmsTemplate.send(MessengerConstants.USER_MESSAGE_DESTINATION, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
 
                 TextMessage message = session.createTextMessage();
-                message.setText(messageText);
+                message.setText(theme + ":" + messageText);
+                message.setJMSCorrelationID(processId);
                 return message;
             }
-        });*/
+        });
     }
 
     public JmsTemplate getJmsTemplate() {
