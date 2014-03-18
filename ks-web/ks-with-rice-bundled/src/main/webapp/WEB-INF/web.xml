@@ -31,7 +31,17 @@
         <param-name>spring.profiles.default</param-name>
         <param-value>ks-core,ks-cm,ks-enroll,ks-ap,ks-web</param-value>
     </context-param>
-    
+
+    <context-param>
+        <param-name>org.apache.activemq.brokerURL</param-name>
+        <param-value>vm://localhost</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>org.apache.activemq.embeddedBroker</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
 	<listener>
     	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   	</listener>
@@ -278,6 +288,12 @@
        <load-on-startup>3</load-on-startup>
     </servlet>
 
+    <servlet>
+        <servlet-name>AjaxServlet</servlet-name>
+        <servlet-class>org.apache.activemq.web.MessageListenerServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
     <filter>
         <filter-name>DefaultContext</filter-name>
         <filter-class>org.kuali.student.ap.framework.context.support.DefaultKsapContext$Filter</filter-class>
@@ -349,7 +365,12 @@
 		<url-pattern>/services/*</url-pattern>
 	</servlet-mapping>
 
-	<!--  added by bonnie -->	
+    <servlet-mapping>
+        <servlet-name>AjaxServlet</servlet-name>
+        <url-pattern>/kr-krad/amq</url-pattern>
+    </servlet-mapping>
+
+	<!--  added by bonnie -->
 	<servlet-mapping>
       <servlet-name>ks-krad</servlet-name>
       <url-pattern>/kr-krad/*</url-pattern>
