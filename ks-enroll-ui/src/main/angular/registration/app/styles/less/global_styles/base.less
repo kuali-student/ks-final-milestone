@@ -14,6 +14,18 @@ input[type="radio"] {
     margin-right: 5px;
 }
 
+:-moz-placeholder { /* Firefox 18- */
+   font-style: italic;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   font-style: italic;
+}
+
+:-ms-input-placeholder {
+   font-style: italic;
+}
+
 .Rounded(@radius:@defaultRadius){
     -webkit-border-radius:@radius;
        -moz-border-radius:@radius;
