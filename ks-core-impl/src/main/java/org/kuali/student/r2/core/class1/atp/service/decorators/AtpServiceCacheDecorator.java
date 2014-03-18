@@ -2,7 +2,6 @@ package org.kuali.student.r2.core.class1.atp.service.decorators;
 
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
-import org.apache.commons.collections.keyvalue.MultiKey;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -15,6 +14,11 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.class1.util.SearchCacheDecoratorUtil;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
+
+import javax.jws.WebParam;
 
 /**
  * Caches Atps and Milestones
@@ -23,6 +27,10 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
 
     private static final String ATP_CACHE_NAME = "atpCache";
     private static final String MILESTONE_CACHE_NAME = "milestoneCache";
+    private static final String ATP_SEARCH_KEY_PREFIX = "atpsearch";
+
+    private static final String INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY = "atp.cache.search.invalidateSearchCacheOnly";
+    private static final String VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY = "atp.cache.search.verifyResultsBeforeInvalidate";
 
     private CacheManager cacheManager;
 
@@ -44,12 +52,16 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
     public StatusInfo deleteAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo result = getNextDecorator().deleteAtp(atpId, context);
         getCacheManager().getCache(ATP_CACHE_NAME).remove(atpId);
+        SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(ATP_CACHE_NAME), ATP_SEARCH_KEY_PREFIX,
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, atpId, "atp.resultColumn.atpId");
         return result;
     }
 
     @Override
     public AtpInfo createAtp(String atpTypeKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AtpInfo result = getNextDecorator().createAtp(atpTypeKey, atpInfo, context);
+        SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(ATP_CACHE_NAME), ATP_SEARCH_KEY_PREFIX,
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, null, "atp.resultColumn.atpId");
         getCacheManager().getCache(ATP_CACHE_NAME).put(new Element(result.getId(), result));
         return result;
     }
@@ -58,6 +70,8 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
     public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
         AtpInfo result = getNextDecorator().updateAtp(atpId, atpInfo, context);
         getCacheManager().getCache(ATP_CACHE_NAME).remove(atpId);
+        SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(ATP_CACHE_NAME), ATP_SEARCH_KEY_PREFIX,
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, atpId, "atp.resultColumn.atpId");
         getCacheManager().getCache(ATP_CACHE_NAME).put(new Element(atpId, result));
         return result;
     }
@@ -96,6 +110,11 @@ public class AtpServiceCacheDecorator extends AtpServiceDecorator {
         StatusInfo result = getNextDecorator().deleteMilestone(milestoneId, context);
         getCacheManager().getCache(MILESTONE_CACHE_NAME).remove(milestoneId);
         return result;
+    }
+
+    @Override
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+            return SearchCacheDecoratorUtil.search(getCacheManager().getCache(ATP_CACHE_NAME), ATP_SEARCH_KEY_PREFIX, getNextDecorator(), searchRequestInfo, contextInfo);
     }
 
     public CacheManager getCacheManager() {

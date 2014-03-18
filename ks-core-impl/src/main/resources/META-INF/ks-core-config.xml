@@ -53,4 +53,9 @@ c
 	<param name="ks.core.dictionary.old.serviceContextLocations">classpath:organization-dictionary-config.xml,classpath:statement-dictionary-config.xml</param>
 	<param name="ks.core.orchestration.dictionaryContextLocations">classpath:org-orchestration-dictionary.xml</param>
 
+    <param name="atp.cache.search.invalidateSearchCacheOnly">true</param>
+    <param name="atp.cache.search.verifyResultsBeforeInvalidate">false</param>
+    <param name="org.cache.search.invalidateSearchCacheOnly">true</param>
+    <param name="org.cache.search.verifyResultsBeforeInvalidate">false</param>
+
 </config>
