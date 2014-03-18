@@ -1,16 +1,17 @@
 function initAMQListener() {
+    var kualiSessionId = getKualiSessionId();
     var amq = org.activemq.Amq;
     amq.init({
         uri: 'amq',
         logging: true,
-        timeout: 30
+        timeout: 20,
+        clientId: kualiSessionId
     });
 
-    var kualiSessionId = getKualiSessionId();
     amq.addListener('theBrowser', 'org.kuali.student.user.message', function(msg) {
         var res = msg.textContent.split(":");
         showGrowl(res[1], '', res[0]);
-    }, 'JMSCorrelationId=' + kualiSessionId);
+    }, { selector: "JMSCorrelationID='" + kualiSessionId + "'" });
 
 }
 
