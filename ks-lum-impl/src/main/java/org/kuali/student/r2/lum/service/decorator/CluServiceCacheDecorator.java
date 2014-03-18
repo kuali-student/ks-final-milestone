@@ -15,7 +15,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.class1.util.SearchCacheDecoratorUtil;
+import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 
@@ -33,12 +35,18 @@ public class CluServiceCacheDecorator extends CluServiceDecorator {
 
     private static final String CLU_CACHE_NAME = "cluCache";
     private static final String CLU_CLU_RELTN_KEY = "cluclureltn";
+    private static final String CLU_SEARCH_KEY_PREFIX = "clusearch";
+
+    private static final String INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY = "clu.cache.search.invalidateSearchCacheOnly";
+    private static final String VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY = "clu.cache.search.verifyResultsBeforeInvalidate";
 
     private CacheManager cacheManager;
 
     @Override
     public CluInfo createClu(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         CluInfo result = getNextDecorator().createClu(luTypeKey, cluInfo, contextInfo);
+        SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX,
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, null, "lu.resultColumn.cluId");
         getCacheManager().getCache(CLU_CACHE_NAME).put(new Element(result.getId(), result));
         return result;
     }
@@ -51,6 +59,8 @@ public class CluServiceCacheDecorator extends CluServiceDecorator {
             //remove the related Clus
             removeRelatedClusByClu(cluCluRelationInfo.getCluId());
         }
+        SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX,
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, cluId, "lu.resultColumn.cluId");
         return result;
     }
 
@@ -76,6 +86,8 @@ public class CluServiceCacheDecorator extends CluServiceDecorator {
             //remove the related Clus
             removeRelatedClusByClu(cluCluRelationInfo.getCluId());
         }
+        SearchCacheDecoratorUtil.invalidateCache(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX,
+                INVALIDATE_SEARCH_CACHE_ONLY_CONFIG_KEY, VERIFY_RESULTS_BEFORE_INVALIDATE_CONFIG_KEY, cluId, "lu.resultColumn.cluId");
         getCacheManager().getCache(CLU_CACHE_NAME).put(new Element(cluId, result));
         return result;
     }
@@ -117,6 +129,11 @@ public class CluServiceCacheDecorator extends CluServiceDecorator {
         removeRelatedClusByClu(cluId);
         removeRelatedClusByClu(relatedCluId);
         return getNextDecorator().createCluCluRelation(cluId, relatedCluId, cluCluRelationTypeKey, cluCluRelationInfo, contextInfo);
+    }
+
+    @Override
+    public SearchResultInfo search(SearchRequestInfo searchRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws MissingParameterException, InvalidParameterException, OperationFailedException, PermissionDeniedException {
+        return SearchCacheDecoratorUtil.search(getCacheManager().getCache(CLU_CACHE_NAME), CLU_SEARCH_KEY_PREFIX, getNextDecorator(), searchRequestInfo, contextInfo);
     }
 
     private void removeRelatedClusByClu(String cluId) {
