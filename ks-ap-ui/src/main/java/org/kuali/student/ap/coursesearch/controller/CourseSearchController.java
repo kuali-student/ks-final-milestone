@@ -15,24 +15,6 @@
  */
 package org.kuali.student.ap.coursesearch.controller;
 
-import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.regex.Pattern;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.apache.commons.lang.StringUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -74,6 +56,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 
 @Controller
 @RequestMapping(value = "/course/**")
@@ -923,7 +922,7 @@ public class CourseSearchController extends UifControllerBase {
 	/**
 	 * Synchronously retrieve session bound search results for an incoming
 	 * request.
-	 * 
+	 *
 	 * <p>
 	 * This method ensures that only one back-end search per HTTP session is
 	 * running at the same time for the same set of criteria. This is important
@@ -931,7 +930,7 @@ public class CourseSearchController extends UifControllerBase {
 	 * independently, so this consideration constrains those two requests to
 	 * operating synchronously on the same set of results.
 	 * </p>
-	 * 
+	 *
 	 * @param request
 	 *            The incoming request.
 	 * @return Session-bound search results for the request.
@@ -959,8 +958,8 @@ public class CourseSearchController extends UifControllerBase {
 		SessionSearchInfo table = null;
 		// Synchronize on the result table to constrain sessions to one back-end search at a time
 		synchronized (results) {
-			// dump search results in excess of 3
-			while (results.size() > 3) {
+			// dump search results in excess of 1
+			while (results.size() > 1) {
 				Iterator<?> ei = results.entrySet().iterator();
 				ei.next();
 				ei.remove();
