@@ -23,6 +23,7 @@
     <cache name="atpCache" maxElementsInMemory="500" eternal="true" />
     <cache name="milestoneCache" maxElementsInMemory="500" eternal="true" />
     <cache name="cluCache" maxElementsInMemory="100" eternal="true" />
+    <cache name="orgCache" maxElementsInMemory="100" eternal="true" />
 
     <!-- This is for the Course Code Lookup Cache.  -->
     <cache name="CourseOfferingMaintainableImplCache" maxElementsInMemory="2000" eternal="false" timeToIdleSeconds="0" timeToLiveSeconds="300" />
