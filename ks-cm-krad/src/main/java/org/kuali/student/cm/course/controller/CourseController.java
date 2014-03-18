@@ -206,6 +206,10 @@ public class CourseController extends CourseRuleEditorController {
                 courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
             }
 
+            // Initialize formats
+            if (courseInfoWrapper.getCourseInfo().getFormats().isEmpty()) {
+                courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
+            }
         }
         else if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, maintenanceDocForm.getCommand()) && maintenanceDocForm.getDocId() != null) {
             ProposalInfo proposal = null;
