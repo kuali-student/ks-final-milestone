@@ -38,6 +38,7 @@ import org.kuali.rice.krad.util.UrlFactory;
 import org.kuali.rice.krad.web.form.LookupForm;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
+import org.kuali.student.cm.maintenance.CMMaintenanceDocument;
 import org.kuali.student.common.uif.service.impl.KSLookupableImpl;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r2.common.dto.AttributeInfo;
@@ -183,7 +184,7 @@ public class ProposalLookupableImpl extends KSLookupableImpl {
 
         List<Document> documents = null;
         try {
-            documents = KRADServiceLocatorWeb.getDocumentService().getDocumentsByListOfDocumentHeaderIds(MaintenanceDocumentBase.class,workflowIds);
+            documents = KRADServiceLocatorWeb.getDocumentService().getDocumentsByListOfDocumentHeaderIds(CMMaintenanceDocument.class,workflowIds);
         } catch (WorkflowException e) {
             throw new RuntimeException("Error loading maintenance document",e);
         }

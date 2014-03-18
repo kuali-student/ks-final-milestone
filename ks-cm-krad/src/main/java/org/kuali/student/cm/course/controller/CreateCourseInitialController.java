@@ -70,6 +70,8 @@ public class CreateCourseInitialController  extends UifControllerBase {
         Properties urlParameters = new Properties();
         if (maintenanceDocForm.isCurriculumSpecialist() && !maintenanceDocForm.isUseReviewProcess()){
             urlParameters.put(KRADConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
+        } else {
+            urlParameters.put(KRADConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.create");
         }
         urlParameters.put("pageId", PAGE_ID);
         urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, DISPATCH_REQUEST_PARAMETER);

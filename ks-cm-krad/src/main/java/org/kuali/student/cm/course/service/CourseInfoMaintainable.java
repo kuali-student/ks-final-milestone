@@ -15,42 +15,30 @@
  */
 package org.kuali.student.cm.course.service;
 
-import java.util.List;
-
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krms.dto.AgendaEditor;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
-import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
-import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
-import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
-import org.kuali.student.cm.course.form.ResultValuesGroupInfoWrapper;
-import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
-import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
-import org.kuali.student.r2.core.comment.dto.CommentInfo;
-import org.kuali.student.r2.core.comment.dto.DecisionInfo;
-import org.kuali.student.r2.core.document.dto.DocumentInfo;
-import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+
+import java.util.List;
 
 /**
  * {@link CourseInfo} Maintainable interface
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public interface CourseInfoMaintainable extends Maintainable {
+public interface CourseInfoMaintainable {
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order 
      * to suggest back to the user an Administering Organization
      *
      * @param organizationName  
-     * @return {@link List} of wrapper instances which get added to the {@link CourseForm}
+     * @return {@link List} of wrapper instances which get added to the {@link org.kuali.student.cm.course.form.CreateCourseForm}
      */
 	List<OrganizationInfoWrapper> getOrganizationsForSuggest(final String organizationName);
 

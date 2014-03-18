@@ -129,6 +129,7 @@
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.create"/>
+        <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
         <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
         <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>
         <property name="lockingKeys">
@@ -141,6 +142,7 @@
     <bean id="CourseInfoAdminMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
         <property name="dataObjectClass" value="org.kuali.student.cm.course.form.CourseInfoWrapper" />
         <property name="maintainableClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl"/>
+        <property name="documentClass" value="org.kuali.student.cm.maintenance.CMMaintenanceDocument"/>
         <property name="documentTypeName" value="kuali.proposal.type.course.create.admin"/>
         <property name="documentAuthorizerClass" value="org.kuali.student.cm.course.auth.CMMaintenanceDocumentAuthorizer"/>
         <property name="businessRulesClass" value="org.kuali.student.cm.course.rule.CourseRule"/>

@@ -16,8 +16,14 @@
 package org.kuali.student.cm.course.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
+import org.kuali.rice.core.api.exception.RiceIllegalStateException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.tree.Tree;
+import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.krad.maintenance.MaintenanceDocument;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.container.Container;
@@ -39,30 +45,53 @@ import org.kuali.rice.krms.tree.node.CompareTreeNode;
 import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CourseJointInfoWrapper;
 import org.kuali.student.cm.course.form.CourseRuleManagementWrapper;
 import org.kuali.student.cm.course.form.LoCategoryInfoWrapper;
+import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.OrganizationInfoWrapper;
+import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SubjectCodeWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
+import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
+import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
+import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
-import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
+import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
-import org.kuali.student.common.util.security.ContextUtils;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.LearningObjectiveServiceConstants;
+import org.kuali.student.r2.common.util.date.DateFormatters;
+import org.kuali.student.r2.common.util.date.KSDateTimeFormatter;
+import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
+import org.kuali.student.r2.core.class1.type.service.TypeService;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r2.core.comment.dto.DecisionInfo;
+import org.kuali.student.r2.core.comment.service.CommentService;
+import org.kuali.student.r2.core.constants.CommentServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
+import org.kuali.student.r2.core.constants.ProposalServiceConstants;
+import org.kuali.student.r2.core.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultCellInfo;
@@ -70,17 +99,27 @@ import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultRowInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 
+import javax.persistence.Transient;
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.kuali.student.logging.FormattedLogger.error;
+import static org.kuali.student.logging.FormattedLogger.info;
+import static org.kuali.student.logging.FormattedLogger.warn;
 
 /**
  *
@@ -92,6 +131,8 @@ import static org.kuali.student.logging.FormattedLogger.error;
 public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService {
     
     private static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
+
+    private static final String CREDIT_COURSE_CLU_TYPE_KEY  = "kuali.lu.typeKey.CreditCourse";
 
     private static final long serialVersionUID = 1338662637708570500L;
 
@@ -115,12 +156,20 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     private transient NaturalLanguageHelper nlHelper;
 
+    private transient CommentService commentService;
+
+    private transient IdentityService identityService;
+
+    @Transient
+    private ProposalService proposalService;
+
+    private TypeService typeService;
+
 
     /**
      * Method called when queryMethodToCall is executed for Administering Organizations in order to suggest back to the user an Administering Organization
      *
      * @param organizationName
-     * @return {@link List} of wrapper instances which get added to the {@link CourseForm}
      * @see CourseInfoMaintainable#getOrganizationsForSuggest(String)
      */
     public List<OrganizationInfoWrapper> getOrganizationsForSuggest(final String organizationName) {
@@ -306,7 +355,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     }
 
     /**
-     * @see CourseInfoMaintainable#getCollaboratorWrappersSuggest(String)
      */
     public List<CollaboratorWrapper> getCollaboratorWrappersSuggest(
         String principalId) {
@@ -365,28 +413,28 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * Specifically created for KRMS purposes.
      */
     public Tree<RuleEditorTreeNode, String> getEditTree() {
-        return courseRuleManagementWrapper.getEditTree();
+        return getCourseRuleManagementWrapper().getEditTree();
     }
 
     /**
      * Specifically created for KRMS purposes.
      */
     public Tree<TreeNode, String> getPreviewTree() {
-        return courseRuleManagementWrapper.getPreviewTree();
+        return getCourseRuleManagementWrapper().getPreviewTree();
     }
 
     /**
      * Specifically created for KRMS purposes.
      */
     public Tree<TreeNode, String> getViewTree() {
-        return courseRuleManagementWrapper.getViewTree();
+        return getCourseRuleManagementWrapper().getViewTree();
     }
 
     /**
      * Specifically created for KRMS purposes.
      */
     public String getSelectedKey() {
-        return courseRuleManagementWrapper.getSelectedKey();
+        return getCourseRuleManagementWrapper().getSelectedKey();
     }
 
 
@@ -406,49 +454,49 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
      * Specifically created for KRMS purposes.
      */
     public void setSelectedKey(String selectedKey) {
-        courseRuleManagementWrapper.setSelectedKey(selectedKey);
+        getCourseRuleManagementWrapper().setSelectedKey(selectedKey);
     }
 
     /**
      * Specifically created for KRMS purposes.
      */
     public String getCutKey() {
-        return courseRuleManagementWrapper.getCutKey();
+        return getCourseRuleManagementWrapper().getCutKey();
     }
 
     /**
      * Specifically created for KRMS purposes.
      */
     public void setCutKey(String cutKey) {
-        courseRuleManagementWrapper.setCutKey(cutKey);
+        getCourseRuleManagementWrapper().setCutKey(cutKey);
     }
     
     /**
      * Specifically created for KRMS purposes.
      */
     public String getCopyKey() {
-        return courseRuleManagementWrapper.getCopyKey();
+        return getCourseRuleManagementWrapper().getCopyKey();
     }
 
     /**
      * Specifically created for KRMS purposes.
      */
     public void setCopyKey(String copyKey) {
-        courseRuleManagementWrapper.setCopyKey(copyKey);
+        getCourseRuleManagementWrapper().setCopyKey(copyKey);
     }
     
     /**
      * Specifically created for KRMS purposes.
      */
     public String getLogicArea() {
-        return courseRuleManagementWrapper.getLogicArea();
+        return getCourseRuleManagementWrapper().getLogicArea();
     }
 
     /**
      * Specifically created for KRMS purposes.
      */
     public void setLogicArea(String logicArea) {
-        courseRuleManagementWrapper.setLogicArea(logicArea);
+        getCourseRuleManagementWrapper().setLogicArea(logicArea);
     }
 
     @Override
@@ -756,6 +804,461 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 .getService(new QName("http://student.kuali.org/wsdl/organization", "OrganizationService"));
         }
         return organizationService;
-    }    
+    }
 
+    @Override
+    public void processAfterNew(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
+        courseInfoWrapper.setUserId(ContextUtils.getContextInfo().getPrincipalId());
+
+        // Initialize Course Requisites
+        final CourseRuleManagementWrapper ruleWrapper = getCourseRuleManagementWrapper();
+        ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
+
+        ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
+        ruleWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
+
+        ruleWrapper.setAgendas(getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
+
+        courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
+        courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
+        courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
+
+        courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
+
+        // Initialize Curriculum Oversight if it hasn't already been.
+        if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
+            courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
+        }
+    }
+
+    @Override
+    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        final CourseRuleManagementWrapper ruleWrapper = getCourseRuleManagementWrapper();
+
+        ProposalInfo proposal = null;
+        try {
+            proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.getContextInfo());
+            courseInfoWrapper.setProposalInfo(proposal);
+        }
+        catch (Exception e) {
+            warn("Unable to retrieve the proposal: %s", e.getMessage());
+        }
+        updateReview();
+    }
+
+    protected void updateReview() {
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
+        CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
+
+        // Update course section
+        final ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
+        reviewData.getcourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
+//        maintenanceDocForm.setProposalName(courseInfoWrapper.getProposalInfo().getName());
+        reviewData.getcourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
+        reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
+        reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
+        reviewData.getcourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
+
+        // Update governance section
+        reviewData.getgovernanceSection().getCampusLocations().clear();
+        reviewData.getgovernanceSection().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
+        reviewData.getgovernanceSection().getCurriculumOversight().clear();
+        reviewData.getgovernanceSection().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
+
+        // update course logistics section
+        reviewData.getcourseLogisticsSection().getTerms().clear();
+        try {
+            for(String termType : savedCourseInfo.getTermsOffered())  {
+                TypeInfo term = getTypeService().getType(termType, ContextUtils.getContextInfo());
+                reviewData.getcourseLogisticsSection().getTerms().add(term.getName());
+            }
+        } catch (Exception e) {
+            throw new RiceIllegalStateException(e);
+        }
+
+      if(savedCourseInfo.getDuration() != null &&  StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
+        try{
+                TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
+                reviewData.getcourseLogisticsSection().setAtpDurationType(term.getName());
+            } catch (Exception e) {
+                throw new RiceIllegalStateException(e);
+            }
+      }
+
+        reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
+
+        // update learning Objectives Section;
+        // update  course Requisites Section;
+        // update  active Dates Section;
+        // update  financials Section;
+        // update  collaborator Section;
+        // update  supporting Documents Section;
+    }
+
+    @Override
+    public void saveDataObject(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        //Clear collection fields (those with matching 'wrapper' collections)
+        courseInfoWrapper.getCourseInfo().getJoints().clear();
+        courseInfoWrapper.getCourseInfo().getInstructors().clear();
+        courseInfoWrapper.getCourseInfo().getUnitsDeployment().clear();
+        courseInfoWrapper.getCourseInfo().getCourseSpecificLOs().clear();
+
+        //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
+        if (courseInfoWrapper.getCourseJointWrappers() != null) {
+            for (final CourseJointInfoWrapper jointInfoDisplay : courseInfoWrapper.getCourseJointWrappers()) {
+                courseInfoWrapper.getCourseInfo().getJoints().add(CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService()));
+            }
+        }
+
+        if (courseInfoWrapper.getInstructorWrappers() != null) {
+            for (final CluInstructorInfoWrapper instructorDisplay : courseInfoWrapper.getInstructorWrappers()) {
+                final CluInstructorInfoWrapper retrievedInstructor = getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
+                courseInfoWrapper.getCourseInfo().getInstructors().add(retrievedInstructor);
+            }
+        }
+
+        if (courseInfoWrapper.getAdministeringOrganizations() != null) {
+            for (final OrganizationInfoWrapper org : courseInfoWrapper.getAdministeringOrganizations()) {
+                courseInfoWrapper.getCourseInfo().getUnitsDeployment().add(org.getOrganizationName());
+            }
+        }
+
+        if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
+            List<LoDisplayInfoWrapper> loWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
+            List<LoDisplayInfo> courseLos = courseInfoWrapper.getCourseInfo().getCourseSpecificLOs();
+            for (int i = 0; i < loWrappers.size(); i++) {
+
+                LoDisplayInfoWrapper currentLo = loWrappers.get(i);
+
+                boolean rootLevel = true;
+                int parentIndex = i - 1;
+                while (parentIndex >= 0) {
+                    LoDisplayInfoWrapper potentialParent = loWrappers.get(parentIndex);
+                    boolean parentMatch = currentLo.getIndentLevel() > potentialParent.getIndentLevel();
+                    if (parentMatch) {
+                        //currentLo.setParentLoRelationid(potentialParent.getLoInfo().getId());
+                        //currentLo.setParentRelType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
+                        potentialParent.getLoDisplayInfoList().add(currentLo);
+
+                        rootLevel = false;
+                        break;
+                    } else {
+                        parentIndex--;
+                    }
+                }
+
+                if (rootLevel) {
+                    courseLos.add(currentLo);
+                }
+            }
+        }
+
+        // Set derived course fields before saving/updating
+        courseInfoWrapper.setCourseInfo(calculateCourseDerivedFields(courseInfoWrapper.getCourseInfo()));
+        courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
+
+        courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
+        for (final KeyValue wrapper : courseInfoWrapper.getUnitsContentOwner()) {
+            courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getValue());
+        }
+
+        //Formats
+        for (FormatInfo format : courseInfoWrapper.getCourseInfo().getFormats()){
+            if (StringUtils.isBlank(format.getId())){ // If it's new
+                format.setState(DtoConstants.STATE_DRAFT);
+                if (StringUtils.isBlank(format.getTypeKey())){
+                    format.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
+                }
+            }
+            for (ActivityInfo activity : format.getActivities()){
+                if (StringUtils.isBlank(activity.getId())){ // If it's new
+                    activity.setState(DtoConstants.STATE_DRAFT);
+                }
+            }
+        }
+
+        try {
+            handleFirstTimeSave();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+//        super.saveDataObject();
+
+    }
+
+    /**
+     * Converts the display name of the instructor into the plain user name (for use in a search query)
+     *
+     * @param displayName The display name of the instructor.
+     * @return The user name of the instructor.
+     */
+    protected String getInstructorSearchString(String displayName) {
+        String searchString = null;
+        if (displayName.contains("(") && displayName.contains(")")) {
+            searchString = displayName.substring(displayName.lastIndexOf('(') + 1, displayName.lastIndexOf(')'));
+        }
+        return searchString;
+    }
+
+    /**
+     * Copied this method from CourseDataService.
+     * This calculates and sets fields on course object that are derived from other course object fields.
+     */
+    protected CourseInfo calculateCourseDerivedFields(CourseInfo courseInfo) {
+        // Course code is not populated in UI, need to derive them from the subject area and suffix fields
+        if (StringUtils.isNotBlank(courseInfo.getCourseNumberSuffix()) && StringUtils.isNotBlank(courseInfo.getSubjectArea())) {
+            courseInfo.setCode(calculateCourseCode(courseInfo.getSubjectArea(), courseInfo.getCourseNumberSuffix()));
+        }
+
+        // Derive course code for crosslistings
+        for (CourseCrossListingInfo crossListing : courseInfo.getCrossListings()) {
+            if (StringUtils.isNotBlank(crossListing.getCourseNumberSuffix()) && StringUtils.isNotBlank(crossListing.getSubjectArea())) {
+                crossListing.setCode(calculateCourseCode(crossListing.getSubjectArea(), crossListing.getCourseNumberSuffix()));
+            }
+        }
+
+        return courseInfo;
+    }
+
+
+    /**
+     * Copied this method from CourseDataService
+     * This method calculates code for course and cross listed course.
+     *
+     * @param subjectArea
+     * @param suffixNumber
+     * @return
+     */
+    protected String calculateCourseCode(final String subjectArea, final String suffixNumber) {
+        return subjectArea + suffixNumber;
+    }
+
+    /*public void retrieveDataObject(Document document,Map<String, String> dataObjectDetails) {
+
+        CourseInfoWrapper dataObject = (CourseInfoWrapper)getDataObject();
+
+        try {
+            ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.getContextInfo());
+            dataObject.setProposalInfo(proposal);
+
+            CourseInfo course = getCourseService().getCourse(dataObjectDetails.get("id"),createContextInfo());
+            dataObject.setCourseInfo(course);
+
+            redrawDecisionTable();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }*/
+
+    /**
+     * Handles functionality that should only happen when the document is first saved.
+     *
+     */
+    protected void handleFirstTimeSave() throws Exception {
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
+
+        final CourseInfo course = courseInfoWrapper.getCourseInfo();
+        for (final CourseVariationInfo variation : course.getVariations()) {
+            variation.setTypeKey("kuali.lu.type.Variation");
+        }
+        if (StringUtils.isBlank(course.getId())){
+            courseInfoWrapper.setCourseInfo(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
+        } else {
+            courseInfoWrapper.setCourseInfo(getCourseService().updateCourse(course.getId(), course, ContextUtils.getContextInfo()));
+        }
+
+        info("Saving Proposal for course %s", courseInfoWrapper.getCourseInfo().getId());
+
+        ProposalInfo proposal = courseInfoWrapper.getProposalInfo();
+        proposal.setWorkflowId(getDocumentNumber());
+        if (StringUtils.isBlank(proposal.getId())){
+            proposal.setState(ProposalConstants.PROPOSAL_STATE_SAVED);     // remove proposal constant, try to use KualiStudentPostProcessorBase
+            proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
+            proposal.setProposalReferenceType("kuali.proposal.referenceType.clu");
+            proposal.getProposalReference().add(courseInfoWrapper.getCourseInfo().getId());
+            proposal.getProposerOrg().clear();
+            proposal.getProposerPerson().clear();
+        }
+
+        try {
+            if (StringUtils.isBlank(proposal.getId())){
+                proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
+            } else {
+                proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.getContextInfo());
+            }
+            courseInfoWrapper.setProposalInfo(proposal);
+        }
+        catch (Exception e) {
+            warn("Unable to create a proposal: %s", e.getMessage());
+        }
+    }
+
+    /**
+     *
+     * @throws InvalidParameterException when incorrect parameters are used for looking up the comments made
+     * @throws MissingParameterException when null or empty parameters are used for looking up the comments made
+     * @throws OperationFailedException when it cannot be determined what comments were made.
+     * @throws PermissionDeniedException when the user doesn't have rights to look up comments.
+     */
+    protected void redrawDecisionTable()
+        throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<CommentInfo> commentInfos = null;
+        try {
+            commentInfos = getCommentService()
+                .getCommentsByReferenceAndType("temp_reference_id",
+                                               "referenceType.clu.proposal",
+                                               ContextUtils.getContextInfo());
+        }
+        catch (DoesNotExistException e) {
+            // Add a dummy row
+            // form.getDecisions().add(new DecisionInfo());
+
+            // If there are no comments, don't go any further
+            return;
+        }
+
+        // Collect person ids to search
+        final List<String> personIds = new ArrayList<String>();
+        for (CommentInfo comment : commentInfos) {
+            if(comment.getMeta().getCreateId()!=null){
+                personIds.add(comment.getMeta().getCreateId());
+            }
+            else{
+                personIds.add("");
+            }
+        }
+
+        final Map<String, MembershipInfo> members = getNamesForPersonIds(personIds);
+
+        redrawDecisionTable(commentInfos, members);
+    }
+
+    /**
+     * Responsible for rebuilding/reloading content within the decision view's HTML table.
+     *
+     * @param commentInfos {@link List} of {@link CommentInfo} instances that currently exist.
+     * These are comments for decisions that represent our rationale
+     * @param members {@link Map} of {@link MembershipInfo} instances mapped by commenter ids.
+     * Commenter ids are supplied in the {@link CommentInfo} instances. The {@link MembershipInfo}
+     * is used to determine who is responsible for the decision.
+     * @see {@link #getNamesForPersonIds(List)} for the method that typically populates the members parameter.
+     */
+    protected void redrawDecisionTable(final List<CommentInfo> commentInfos,
+                                       final Map<String, MembershipInfo> members) {
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        //final DateTimeFormatter dateFormat = DateTimeFormat.forPattern("MM/dd/yyyy");
+        final KSDateTimeFormatter dateFormat = DateFormatters.MONTH_DAY_YEAR_DATE_FORMATTER;
+
+        if (commentInfos != null) {
+            for (final CommentInfo commentInfo : commentInfos) {
+                /* we only want decision rationale comments so if no DecisionRationaleDetail is returned for comment
+                 * type then don't add that comment to the table
+                 */
+                final WorkflowUtilities.DecisionRationaleDetail drDetails = WorkflowUtilities.DecisionRationaleDetail.getByType(commentInfo.getTypeKey());
+                if (drDetails != null) {
+                    final DecisionInfo decision = new DecisionInfo();
+                    decision.setDecision(drDetails.getLabel());
+                    decision.setId(commentInfo.getId());
+
+                    final String rationaleDate = dateFormat.format(new DateTime(commentInfo.getMeta().getCreateTime().getTime()));
+                    decision.setDate(rationaleDate);
+
+                    if (members.get(commentInfo.getMeta().getCreateId()) != null) {
+                        final MembershipInfo memberInfo = members.get(commentInfo.getMeta().getCreateId());
+                        final StringBuilder memberName = new StringBuilder();
+                        memberName.append(memberInfo.getFirstName());
+                        memberName.append(" ");
+                        memberName.append(memberInfo.getLastName());
+
+                        decision.setActor(memberName.toString());
+                    }
+                    decision.setRationale(commentInfo.getCommentText().getPlain());
+                    courseInfoWrapper.getDecisions().add(decision);
+                }
+            }
+        }
+    }
+
+    /**
+     * Retrieve {@link MembershipInfo} instances populated with first and last names using {@link org.kuali.rice.kim.api.identity.entity.EntityDefault}
+     * instances of the personIds
+     *
+     * @param personIds {@link List} of ids used to get {@link org.kuali.rice.kim.api.identity.entity.EntityDefault}s with first and last names
+     * @param {@link Map} of {@link MembershipInfo} instances with first and last names mapped to each personId
+     */
+    protected Map<String, MembershipInfo> getNamesForPersonIds(final List<String> personIds) {
+        final Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
+        for (String pId : personIds ){
+            final EntityDefault entity = getIdentityService().getEntityDefaultByPrincipalId(pId);
+            final MembershipInfo memeberEntity = new MembershipInfo();
+            memeberEntity.setFirstName(entity.getName().getFirstName());
+            memeberEntity.setLastName(entity.getName().getLastName());
+            identities.put(pId, memeberEntity);
+        }
+        return identities;
+    }
+
+    /**
+     * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session
+     *
+     * @param form {@link MaintenanceDocumentForm}
+     * @param {@link CourseInfoMaintainable}
+     */
+    protected CourseInfoMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
+        return (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
+    }
+
+    /*@Override
+    public Map<String,String> prepareDataObjectKeys() {
+        Map<String,String> dataObjectDetails = new HashMap<String, String>();
+        String courseId = ((CourseInfoWrapper)getDataObject()).getCourseInfo().getId();
+        dataObjectDetails.put("id",courseId);
+        return dataObjectDetails;
+    }*/
+
+    protected CommentService getCommentService() {
+        if (commentService == null) {
+            commentService = (CommentService) GlobalResourceLoader.getService(new QName(CommentServiceConstants.NAMESPACE, CommentService.class.getSimpleName()));
+        }
+        return commentService;
+    }
+
+    protected ProposalService getProposalService() {
+        if (proposalService == null) {
+            proposalService = (ProposalService) GlobalResourceLoader.getService(new QName(ProposalServiceConstants.NAMESPACE, ProposalServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return proposalService;
+    }
+
+    protected IdentityService getIdentityService() {
+        if (identityService == null) {
+            identityService = GlobalResourceLoader.getService(new QName(KimConstants.Namespaces.KIM_NAMESPACE_2_0, "identityService"));
+        }
+        return identityService;
+    }
+
+    protected TypeService getTypeService() {
+        if(typeService == null) {
+            typeService =  (TypeService) GlobalResourceLoader.getService(new QName(TypeServiceConstants.NAMESPACE, TypeServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+
+        return typeService;
+    }
 }
