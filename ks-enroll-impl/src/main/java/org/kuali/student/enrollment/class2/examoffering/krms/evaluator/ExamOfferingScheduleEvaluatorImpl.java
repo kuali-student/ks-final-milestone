@@ -221,6 +221,13 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     private void createRDLForExamOffering(ScheduleRequestComponentInfo componentInfo, TimeSlotInfo timeSlot,
                                           String examOfferingId, ContextInfo context) {
 
+        List<ScheduleRequestSetInfo> requestSetList = new ArrayList<ScheduleRequestSetInfo>();
+        try {
+            requestSetList = getSchedulingService().getScheduleRequestSetsByRefObject(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, examOfferingId, context);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+       if(requestSetList.isEmpty() ||requestSetList == null){
         //Create new sch set for this eo.
         ScheduleRequestSetInfo requestSet = new ScheduleRequestSetInfo();
         requestSet.setRefObjectTypeKey(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING);
@@ -261,6 +268,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
         } catch (Exception e) {
             throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
         }
+       }
     }
 
     /**
