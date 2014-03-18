@@ -5,6 +5,7 @@ import org.kuali.student.enrollment.class2.coursewaitlist.dao.CourseWaitListDaoA
 import org.kuali.student.enrollment.class2.coursewaitlist.model.CourseWaitListEntity;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.WaitListPositionInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -425,5 +426,31 @@ public class CourseWaitListServiceImpl implements CourseWaitListService {
 
     public void setCourseWaitListDao(CourseWaitListDaoApi courseWaitListDao) {
         this.courseWaitListDao = courseWaitListDao;
+    }
+
+    @Override
+    public WaitListPositionInfo getWaitListPositionForStudent(@WebParam(name = "studentId") String studentId,
+                                                              @WebParam(name = "courseWaitListId") String courseWaitListId,
+                                                              @WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                              @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new OperationFailedException("not implemented");
+    }
+
+    @Override
+    public List<CourseWaitListEntryInfo> getTopCourseWaitListEntries(@WebParam(name = "courseWaitListId") String courseWaitListId,
+                                                                     @WebParam(name = "activityOfferingId") String activityOfferingId,
+                                                                     @WebParam(name = "count") Integer count,
+                                                                     @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        throw new OperationFailedException("not implemented");
     }
 }

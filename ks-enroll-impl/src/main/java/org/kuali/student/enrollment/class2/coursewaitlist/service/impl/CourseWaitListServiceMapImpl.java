@@ -21,6 +21,7 @@ import org.kuali.student.common.UUIDHelper;
 import org.kuali.student.common.mock.MockService;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListEntryInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitListInfo;
+import org.kuali.student.enrollment.coursewaitlist.dto.WaitListPositionInfo;
 import org.kuali.student.enrollment.coursewaitlist.service.CourseWaitListService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
@@ -562,6 +563,30 @@ public class CourseWaitListServiceMapImpl implements MockService, CourseWaitList
                 updatedEntry.setMeta(updateMeta(updatedEntry.getMeta(), contextInfo));
             }
         }
+    }
+
+    @Override
+    public WaitListPositionInfo getWaitListPositionForStudent(String studentId, String courseWaitListId, String activityOfferingId, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        // UNKNOWN
+        throw new OperationFailedException ("getWaitListPositionForStudent has not been implemented");
+    }
+
+    @Override
+    public List<CourseWaitListEntryInfo> getTopCourseWaitListEntries(String courseWaitListId, String activityOfferingId, Integer count, ContextInfo contextInfo)
+            throws DoesNotExistException
+            ,InvalidParameterException
+            ,MissingParameterException
+            ,OperationFailedException
+            ,PermissionDeniedException
+    {
+        // UNKNOWN
+        throw new OperationFailedException ("getTopCourseWaitListEntries has not been implemented");
     }
 
     private StatusInfo newStatus() {
