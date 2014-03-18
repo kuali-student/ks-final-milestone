@@ -16,42 +16,53 @@
 }
 
 
-.ks-cm-find-course-button-centre  {
-    margin-right: 780px;
+/*
+ * Styling for the course lookup page.
+ */
+
+.ks-cm-find-course .uif-message {
+	line-height: 3em;
 }
 
-.ks-cm-find-course-InstructionalMessage {
-    line-height: 3;
-}
-
-.ks-cm-find-course-remove-table .table.uif-gridLayout {
+.ks-cm-find-course .table.uif-gridLayout {
     border: 0 none;
     margin-bottom: 10px;
     margin-top: 0;
     outline: 0 none;
     padding: 0;
-    width: 40%;
+    width: 450px;
 }
 
-.ks-cm-find-course-remove-row-col .table-bordered th, .ks-cm-find-course-remove-row-col .table-bordered td {
+.ks-cm-find-course .table-bordered th,
+.ks-cm-find-course .table-bordered td {
     border-bottom: 0 none;
     border-left: 0 none;
     border-top: 0 none;
 }
 
-.ks-cm-find-course-remove-grid .uif-gridLayout th,.ks-cm-find-course-remove-grid .uif-tableCollectionLayout th {
+.ks-cm-find-course .uif-gridLayout th[scope="row"] {
+    text-align: right;
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
 }
 
-.ks-cm-find-course-input-field .uif-gridLayout td,.ks-cm-find-course-input-field .uif-inputField input:first-child {
+.ks-cm-find-course .uif-gridLayout th,
+.ks-cm-find-course .uif-tableCollectionLayout th {
+    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+}
+
+.ks-cm-find-course .uif-gridLayout td,
+.ks-cm-find-course .uif-inputField input:first-child {
     margin-bottom: 0;
     width: 100%;
 }
 
-.ks-cm-find-course-grid-row .uif-gridLayout th[scope="row"] {
-    text-align: right;
-    background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+.ks-cm-find-course .ks-uif-footer div {
+	float: none;
+	margin-left: 356px;
+    white-space: nowrap;
 }
+ /* end */
+
 
 .tree-bar-button {
     background-image: url('./images/buttonNormal.png');

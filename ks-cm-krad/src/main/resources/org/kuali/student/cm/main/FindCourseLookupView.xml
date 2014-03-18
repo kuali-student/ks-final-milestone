@@ -32,6 +32,10 @@ limitations under the License.
         </property>
 
         <property name="cssClasses">
+            <list>
+                <value>ks-cm-find-course</value>
+            </list>
+            <!--
             <list merge="true">
                 <value>ks-cm-find-course-remove-table</value>
                 <value>ks-cm-find-course-remove-row-col</value>
@@ -39,6 +43,7 @@ limitations under the License.
                 <value>ks-cm-find-course-input-field</value>
                 <value>ks-cm-find-course-grid-row</value>
             </list>
+            -->
         </property>
 
         <property name="applicationHeader">
@@ -61,11 +66,6 @@ limitations under the License.
                 </property>
                 <property name="instructionalMessage">
                     <bean parent="Uif-Message" p:width="auto">
-                        <property name="cssClasses">
-                            <list merge="true">
-                                <value>ks-cm-find-course-InstructionalMessage</value>
-                            </list>
-                        </property>
                         <property name="messageText"
                                   value=" Enter search terms in one or more fields" />
                     </bean>
@@ -91,19 +91,12 @@ limitations under the License.
 
         <property name="criteriaGroup.footer.items">
             <list>
-                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find Courses">
-                    <property name="cssClasses">
-                        <list merge="true">
-                            <value>ks-cm-find-course-button-centre</value>
-                        </list>
-                    </property>
-                </bean>
+                <bean parent="Uif-SecondaryActionButton" p:methodToCall="search" p:actionLabel="Find Courses" />
             </list>
         </property>
 
         <property name="footer.items">
-            <list>
-            </list>
+            <list />
         </property>
     </bean>
 </beans>
