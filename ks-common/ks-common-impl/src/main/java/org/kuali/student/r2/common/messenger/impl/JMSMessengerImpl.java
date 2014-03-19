@@ -15,6 +15,7 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import java.text.MessageFormat;
 
 /**
  * This class is a JMS implementation of the Messenger interface that sends messages to the user that will
@@ -74,18 +75,25 @@ public class JMSMessengerImpl implements Messenger {
 
     private void sendMessage(final String processId, final String key, final String theme, final String[] parameters) {
 
-        if(this.messageService == null){
+        if (this.messageService == null) {
             messageService = GlobalResourceLoader.getService("messageService");
         }
-        final String messageText = messageService.getMessageText(null, null,
-                key);
+        String messageText = messageService.getMessageText(null, null, key);
+
+        if (StringUtils.isNotBlank(messageText)) {
+            if (parameters != null) {
+                messageText = MessageFormat.format(messageText, (Object[]) parameters);
+            }
+        }
+
+        final String completeMessage = messageText;
 
         //Comment out for now to make sure this is not the cause for the memory leaks.
         jmsTemplate.send(MessengerConstants.USER_MESSAGE_DESTINATION, new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
 
                 TextMessage message = session.createTextMessage();
-                message.setText(theme + ":" + messageText);
+                message.setText(theme + ":" + completeMessage);
                 message.setJMSCorrelationID(processId);
                 return message;
             }
