@@ -2281,6 +2281,9 @@
                 <search:resultColumn id="course.code">
                     <search:dataType>string</search:dataType>
                 </search:resultColumn>
+                <search:resultColumn id="course.versionIndId">
+                    <search:dataType>string</search:dataType>
+                </search:resultColumn>
             </search:resultColumns>
         </search:searchResultTypeInfo>
         <search:searchCriteriaTypeInfo>
@@ -2963,35 +2966,6 @@
                         ORDER BY ident.code
                     </value>
                 </entry>
-                <!--<entry key="ksap.course.info">-->
-                <!--<value>NATIVE:-->
-                <!--SELECT-->
-                <!--ident.LNG_NAME,-->
-                <!--trim( ident.SUFX_CD ),-->
-                <!--trim( ident.DIVISION ),-->
-                <!--trim( ident.LVL ),-->
-                <!--opt.RES_COMP_ID,-->
-                <!--ident.cd-->
-                <!--FROM-->
-                <!--KSLU_CLU clu,-->
-                <!--KSLU_CLU_IDENT ident,-->
-                <!--KSLU_CLU_RSLT res,-->
-                <!--KSLU_CLURES_JN_RESOPT jn,-->
-                <!--KSLU_RSLT_OPT opt-->
-                <!--WHERE-->
-                <!--clu.offic_clu_id = ident.id-->
-                <!--and-->
-                <!--clu.id = res.clu_id-->
-                <!--AND-->
-                <!--res.id = jn.clu_res_id-->
-                <!--AND-->
-                <!--jn.res_opt_id = opt.id-->
-                <!--AND-->
-                <!--res.TYPE_KEY_ID = 'kuali.resultType.creditCourseResult'-->
-                <!--AND-->
-                <!--clu.id = :courseID-->
-                <!--</value>-->
-                <!--</entry>-->
 
                 <entry key="ksap.course.info">
                     <value>NATIVE:
@@ -3002,7 +2976,8 @@
                         trim( ident.DIVISION ),
                         trim( ident.LVL ),
                         opt.RES_COMP_ID,
-                        ident.cd
+                        ident.cd,
+                        clu.ver_ind_id
                         FROM
                         KSLU_CLU clu,
                         KSLU_CLU_IDENT ident,
@@ -3038,36 +3013,18 @@
                 <entry key="ksap.course.info.gened">
                     <value>NATIVE:
                         SELECT
-                        OWNER,
-                        ATTR_NAME
-                        FROM KSLU_CLU_ATTR
+                        setJnClu.CLU_VER_IND_ID,
+                        setAttr.ATTR_VALUE
+                        FROM
+                        KSLU_CLU_SET_ATTR setAttr,
+                        KSLU_CLU_SET_JN_CLU setJnClu
                         WHERE
-                        owner IN :courseIDs
-                        AND
-                        ATTR_VALUE = 'Y'
-                        AND
-                        ATTR_NAME like 'course.genEdRequirement.%'
+                        setJnClu.CLU_VER_IND_ID IN :courseIDs
+                        AND setAttr.OWNER = setJnClu.CLU_SET_ID
+
                     </value>
                 </entry>
 
-                <!--<entry key="ksap.course.info.credits.details">-->
-                <!--<value>NATIVE:-->
-                <!--SELECT-->
-                <!--max( v.result_scale_id ),-->
-                <!--max( c.result_scale_type ),-->
-                <!--min( to_number( v.result_value )),-->
-                <!--max( to_number( v.result_value ))-->
-                <!--from-->
-                <!--ksen_lrc_result_value v,-->
-                <!--ksen_lrc_result_scale c-->
-                <!--where-->
-                <!--c.id = v.result_scale_id-->
-                <!--and-->
-                <!--c.result_scale_type = 'kuali.result.scale.type.credit'-->
-                <!--group by-->
-                <!--v.result_scale_id-->
-                <!--</value>-->
-                <!--</entry>-->
                 <entry key="ksap.course.info.credits.details">
                     <value>NATIVE:
                         SELECT
