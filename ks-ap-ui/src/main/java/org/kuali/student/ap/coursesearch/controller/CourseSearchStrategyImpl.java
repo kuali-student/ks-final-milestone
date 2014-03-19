@@ -25,14 +25,12 @@ import org.kuali.student.ap.framework.course.CourseSearchStrategy;
 import org.kuali.student.ap.framework.course.Credit;
 import org.kuali.student.ap.framework.util.KsapHelperUtil;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseofferingset.dto.SocInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.acal.infc.Term;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
@@ -308,7 +306,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalArgumentException("CLU lookup error", e);
 		}
-		if ((result != null) && (!result.getRows().isEmpty())) {
+        if ((result != null) && (!result.getRows().isEmpty())) {
             for (String courseId : courseIDs){
                 for (SearchResultRow row : result.getRows()) {
                     String id = KsapHelperUtil.getCellValue(row, "course.id");
@@ -320,7 +318,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                         course.setLevel(KsapHelperUtil.getCellValue(row, "course.level"));
                         course.setCourseName(KsapHelperUtil.getCellValue(row, "course.name"));
                         course.setCode(KsapHelperUtil.getCellValue(row, "course.code"));
-
+                        course.setVersionIndependentId(KsapHelperUtil.getCellValue(row, "course.versionIndId"));
                         String cellValue = KsapHelperUtil.getCellValue(row, "course.credits");
                         Credit credit = getCreditByID(cellValue);
                         if (credit != null) {
@@ -540,8 +538,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 			if (genEdsOut.length() != 0) {
 				genEdsOut.append(", ");
 			}
-			req = KsapFrameworkServiceLocator.getEnumerationHelper()
-					.getEnumAbbrValForCode(req);
+
 			/* Doing this to fix a bug in IE8 which is trimming off the I&S as I */
 			if (req.contains("&")) {
 				req = req.replace("&", "&amp;");
@@ -551,29 +548,33 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		return genEdsOut.toString();
 	}
 
-    // This needs rewrote.  Looks like an incomplete translation of a single course entry into a list of courses
     /**
      * Loads the gen ed information for the courses.
-     * Gen ed information is stored as attributes of the course's clu entry.
+     * Gen Ed information is store as course sets that can be returned using the independent version id
      *
      * @param courses - The list of course inforamtion for the courses
-     * @param courseIDs - The list of course ids for the courses
      */
-	private void loadGenEduReqs(List<CourseSearchItemImpl> courses,
-			final List<String> courseIDs) {
+	private void loadGenEduReqs(List<CourseSearchItemImpl> courses) {
 		LOG.info("Start of method loadGenEduReqs of CourseSearchController: {}",
 				System.currentTimeMillis());
 
         // Search for gen ed requirements
 		SearchRequestInfo request = new SearchRequestInfo(
 				"ksap.course.info.gened");
-		request.addParam("courseIDs", courseIDs);
-		List<String> reqs = new ArrayList<String>();
-		SearchResult result;
+
+        // Create a list of version Ids for the search
+        List<String> versionIndIds = new ArrayList<String>();
+        for(CourseSearchItemImpl course : courses){
+            versionIndIds.add(course.getVersionIndependentId());
+        }
+		request.addParam("courseIDs", versionIndIds);
+
+        // Search for the requirements
+        SearchResult result;
 		try {
 			result = KsapFrameworkServiceLocator.getCluService().search(
-					request,
-					KsapFrameworkServiceLocator.getContext().getContextInfo());
+                    request,
+                    KsapFrameworkServiceLocator.getContext().getContextInfo());
 		} catch (MissingParameterException e) {
 			throw new IllegalArgumentException(
 					"Invalid course ID or CLU lookup error", e);
@@ -585,24 +586,35 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		} catch (PermissionDeniedException e) {
 			throw new IllegalArgumentException("CLU lookup error", e);
 		}
+
+        // Return if no entries found
 		if (result == null) {
 			return;
 		}
+
+        // Create a map of the gen ed entries to its related course
+        Map<String, List<String>> genEdResults = new HashMap<String,List<String>>();
 		for (SearchResultRow row : result.getRows()) {
 			String genEd = KsapHelperUtil.getCellValue(row, "gened.name");
-			reqs.add(genEd);
+			String id = KsapHelperUtil.getCellValue(row, "course.owner");
+            if(genEdResults.containsKey(id)){
+                genEdResults.get(id).add(genEd);
+            }else{
+                List<String> newEntry = new ArrayList<String>();
+                newEntry.add(genEd);
+                genEdResults.put(id,newEntry);
+            }
 		}
-		String courseId = null;
-		for (SearchResultRow row : result.getRows()) {
-			courseId = KsapHelperUtil.getCellValue(row, "course.owner");
-			for (CourseSearchItemImpl course : courses) {
-				if (courseId.equals(course.getCourseId())) {
-					String formatted = formatGenEduReq(reqs);
-					course.setGenEduReq(formatted);
-					break;
-				}
-			}
-		}
+
+        // Fill in the course information
+        for(CourseSearchItemImpl course : courses){
+            if(genEdResults.containsKey(course.getVersionIndependentId())){
+                List<String> reqs = genEdResults.get(course.getVersionIndependentId());
+                String formatted = formatGenEduReq(reqs);
+                course.setGenEduReq(formatted);
+            }
+        }
+
 		LOG.info("End of method loadGenEduReqs of CourseSearchController: {}",
 				System.currentTimeMillis());
 	}
@@ -764,7 +776,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
                 loadCampuses(courses, courseIDs);
                 loadScheduledTerms(courses);
                 loadTermsOffered(courses, courseIDs);
-                loadGenEduReqs(courses, courseIDs);
+                loadGenEduReqs(courses);
             }
         }
 		for (CourseSearchItemImpl course : courses) {
@@ -1265,12 +1277,14 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
         completedCodes = QueryTokenizer.extractCompleteCourseCodes(pureQuery,divisions,codes);
         completedLevels = QueryTokenizer.extractCompleteCourseLevels(pureQuery,divisions,levels);
 
+        // Remove found completed levels to not make full text for them
         for(String completedLevel : completedLevels){
             String division = completedLevel.substring(0,completedLevel.indexOf(','));
             String level = completedLevel.substring(completedLevel.indexOf(',')+1);
             pureQuery = pureQuery.replace(division+level,"");
         }
 
+        // Remove found completed codes to not make full text for them
         for(String completedCode : completedCodes){
             String division = completedCode.substring(0,completedCode.indexOf(','));
             String code = completedCode.substring(completedCode.indexOf(',')+1);

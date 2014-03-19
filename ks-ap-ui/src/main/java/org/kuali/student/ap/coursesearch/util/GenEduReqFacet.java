@@ -42,7 +42,7 @@ public class GenEduReqFacet extends AbstractFacet {
 				|| genEdString.equals("")) {
 			facetKeys.add(getUnknownFacetKey());
 		} else {
-			// TODO: KSAP-757
+
 			// Remove white space before tokenizing.
 			genEdString = genEdString.replaceAll("\\s+", "");
 			String k[] = genEdString.split(",");
@@ -57,22 +57,10 @@ public class GenEduReqFacet extends AbstractFacet {
 					key = key.replace("&amp;", "&");
 				}
 				if (isNewFacetKey(key)) {
-					EnumeratedValueInfo e = KsapFrameworkServiceLocator
-							.getEnumerationHelper().getGenEdReqEnumInfo(
-									KsapFrameworkServiceLocator
-											.getEnumerationHelper()
-											.getEnumCodeForAbbrVal(key),
-									context);
-					if (e == null)
-						continue;
-					key = e.getAbbrevValue();
-					String title = e.getValue();
-					if (!StringUtils.isEmpty(title)) {
-						itemFacet.setTitle(title);
-						itemFacet.setKey(key);
-						itemFacet.setDisplayName(key);
-						facetItems.add(itemFacet);
-					}
+                    itemFacet.setTitle(key);
+                    itemFacet.setKey(key);
+                    itemFacet.setDisplayName(key);
+                    facetItems.add(itemFacet);
 				}
 				facetKeys.add(key);
 			}

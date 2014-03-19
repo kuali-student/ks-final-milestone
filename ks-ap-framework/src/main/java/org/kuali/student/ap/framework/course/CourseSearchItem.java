@@ -156,4 +156,11 @@ public interface CourseSearchItem {
      * @return A list of campuses.
      */
     List<String> getCampuses();
+
+    /**
+     * Get the version independent id of the course
+     *
+     * @return A identifier for the course not related to a specific version
+     */
+    public String getVersionIndependentId();
 }

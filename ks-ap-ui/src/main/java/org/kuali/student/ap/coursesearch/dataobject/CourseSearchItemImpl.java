@@ -40,6 +40,7 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
 	private String courseId;
 	private String code;
+    private String versionIndependentId;
 
 	private String number;
 	private String subject;
@@ -582,5 +583,14 @@ public class CourseSearchItemImpl implements CourseSearchItem {
 
     public void setSessionid(String sessionid) {
         this.sessionid = sessionid;
+    }
+
+    @Override
+    public String getVersionIndependentId() {
+        return versionIndependentId;
+    }
+
+    public void setVersionIndependentId(String versionIndependentId) {
+        this.versionIndependentId = versionIndependentId;
     }
 }
