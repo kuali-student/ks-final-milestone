@@ -174,11 +174,11 @@
         <property name="headerText" value="Create Course"/>
         <property name="footer.items">
             <list>
-                <bean parent="KS-CourseView-Footer" p:render="@{!#form.curriculumSpecialist}"/>
-                <bean parent="KS-CourseView-CurriculumSpecialistFooter" p:render="@{#form.curriculumSpecialist}"/>
+                <bean parent="KS-CourseView-Footer" p:render="@{!#form.curriculumSpecialistUser}"/>
+                <bean parent="KS-CourseView-CurriculumSpecialistFooter" p:render="@{#form.curriculumSpecialistUser}"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialist}, '@{#form.selectedSection.sectionId}')"/>
+        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialistUser}, '@{#form.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
@@ -205,7 +205,7 @@
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
-                <bean id="course_tabs_header" parent="Uif-VerticalBoxGroup" p:render="@{! #form.adminProposal}">
+                <bean id="course_tabs_header" parent="Uif-VerticalBoxGroup" p:render="@{(!#form.curriculumSpecialistUser) or #form.useReviewProcess}">
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -219,7 +219,7 @@
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{! #form.adminProposal}">
+                <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{(!#form.curriculumSpecialistUser) or #form.useReviewProcess}">
                     <property name="header">
                         <bean id="course_tabs_footer_header" parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -261,7 +261,7 @@
                 <property name="items">
                     <list>
                         <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
-                              p:showLabel="false" p:render="@{#form.curriculumSpecialist}"
+                              p:showLabel="false" p:render="@{#form.curriculumSpecialistUser}"
                               p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
                             <property name="items">
                                 <list>

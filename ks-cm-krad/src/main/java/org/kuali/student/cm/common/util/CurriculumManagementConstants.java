@@ -18,11 +18,38 @@
 package org.kuali.student.cm.common.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.student.r2.lum.course.infc.Course;
 
 /**
  * This class defines constants used in the Curriculum Management UI
  */
 public class CurriculumManagementConstants {
+
+    public static class ControllerRequestMappings {
+        public final static String CREATE_COURSE_INITIAL = "/createcourse_initial";
+        public final static String CREATE_COURSE = "/courses";
+    }
+
+    public static class DocumentTypeNames {
+
+        public final static String[] ADMIN_DOC_TYPE_NAMES =
+                {CourseProposal.COURSE_CREATE_ADMIN, CourseProposal.COURSE_MODIFY_ADMIN};
+
+        public static class CourseProposal {
+            public final static String COURSE_CREATE = "kuali.proposal.type.course.create";
+            public final static String COURSE_MODIFY = "kuali.proposal.type.course.modify";
+            public final static String COURSE_RETIRE = "kuali.proposal.type.course.retire";
+            public final static String COURSE_CREATE_ADMIN = "kuali.proposal.type.course.create.admin";
+            public final static String COURSE_MODIFY_ADMIN = "kuali.proposal.type.course.modify.admin";
+        }
+
+        public static class ProgramProposal {
+            public final static String MAJOR_DISCIPLINE_CREATE = "kuali.proposal.type.majorDiscipline.create";
+            public final static String MAJOR_DISCIPLINE_MODIFY = "kuali.proposal.type.majorDiscipline.modify";
+        }
+    }
+
     /**
      * The bean ids of the tab sections.
      */

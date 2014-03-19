@@ -109,7 +109,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-Link" p:linkText="Create a Course"
-                      p:href="@{#ConfigProperties['application.url']}/kr-krad/createcourse?viewId=createCourseInitialView&amp;methodtocall=start"/>
+                      p:href="@{#ConfigProperties['application.url']}/kr-krad/createcourse_initial?viewId=createCourseInitialView&amp;methodtocall=start"/>
             </list>
         </property>
     </bean>

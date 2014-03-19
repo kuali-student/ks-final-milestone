@@ -17,17 +17,9 @@
 package org.kuali.student.cm.course.form;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.api.KewApiConstants;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
-import org.kuali.rice.krad.util.GlobalVariables;
-import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
-import org.kuali.student.r2.lum.clu.CLUConstants;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Form for create course.
@@ -36,18 +28,21 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     private String createCourseInitialAction;
 
-    private boolean useReviewProcess = false;
+    private boolean useReviewProcess;
 
-    private boolean isCurriculumSpecialist = false;
+    private boolean curriculumSpecialistUser;
 
-    private CourseViewSections selectedSection = CourseViewSections.COURSE_INFO;
+    private CourseViewSections selectedSection;
 
     private String proposalName;
 
     public CreateCourseForm() {
-        Map<String,String> permDetails = new HashMap<String, String>();
-        permDetails.put(KewApiConstants.DOCUMENT_TYPE_NAME_DETAIL, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
-        isCurriculumSpecialist = KimApiServiceLocator.getPermissionService().hasPermissionByTemplate(GlobalVariables.getUserSession().getPrincipalId(), KRADConstants.KUALI_RICE_SYSTEM_NAMESPACE, KewApiConstants.INITIATE_PERMISSION, permDetails);
+        super();
+        // assume user is not a Curriculum Specialist (CS) user
+        curriculumSpecialistUser = false;
+        // default to true as only CS users are able to disable curriculum review
+        useReviewProcess = true;
+        selectedSection = CourseViewSections.COURSE_INFO;
     }
 
     public String getCreateCourseInitialAction() {
@@ -66,17 +61,12 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         this.useReviewProcess = useReviewProcess;
     }
 
-    public boolean isCurriculumSpecialist() {
-        return isCurriculumSpecialist;
+    public boolean isCurriculumSpecialistUser() {
+        return curriculumSpecialistUser;
     }
 
-    /**
-     * A CS not using workflow gets an admin workflow document type. Some UI elements/behavior are conditional based on doc type.
-     *
-     * @return True if an admin doc type is being used. Otherwise, false.
-     */
-    public boolean isAdminProposal() {
-        return isCurriculumSpecialist() && ! isUseReviewProcess();
+    public void setCurriculumSpecialistUser(boolean curriculumSpecialistUser) {
+        this.curriculumSpecialistUser = curriculumSpecialistUser;
     }
 
     public String getProposalName() {
@@ -98,7 +88,7 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
     public String getHeaderText() {
         String headerSuffixText;
 
-        if (isAdminProposal()) {
+        if (!isUseReviewProcess()) {
             headerSuffixText = " (Admin Proposal)";
         } else {
             headerSuffixText = " (Proposal)";

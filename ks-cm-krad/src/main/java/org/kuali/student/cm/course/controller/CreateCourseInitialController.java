@@ -16,13 +16,15 @@
 package org.kuali.student.cm.course.controller;
 
 import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
 import org.kuali.student.cm.course.form.CreateCourseForm;
-import org.kuali.student.r2.lum.clu.CLUConstants;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,23 +44,22 @@ import java.util.Properties;
  */
 
 @Controller
-@RequestMapping(value = "/createcourse")
+@RequestMapping(value = CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE_INITIAL)
 public class CreateCourseInitialController  extends UifControllerBase {
 
-    private final String RETURN_LOCATION_PARAMETER = "cmHome?methodToCall=start&viewId=curriculumHomeView";
-    private final String DISPATCH_REQUEST_PARAMETER = "docHandler";
+    private final String RETURN_LOCATION_PARAMETER = "cmHome?" + KRADConstants.DISPATCH_REQUEST_PARAMETER + "=" + KRADConstants.START_METHOD + "&" + UifConstants.UrlParams.VIEW_ID + "=curriculumHomeView";
     private final String PAGE_ID = "KS-CourseView-CoursePage";
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
-        CreateCourseForm createCourseForm = new CreateCourseForm();
-        return createCourseForm;  //To change body of implemented methods use File | Settings | File Templates.
+        CreateCourseForm courseForm= new CreateCourseForm();
+        courseForm.setUseReviewProcess(false);
+        courseForm.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
+        return courseForm;
     }
 
-
-
     /**
-     * After the Craete course initial data is filled call the method to show the navigation panel and
+     * After the Create course initial data is filled call the method to show the navigation panel and
      * setup the maintenance object
      */
     @RequestMapping(params = "methodToCall=continueCreateCourse")
@@ -66,21 +67,22 @@ public class CreateCourseInitialController  extends UifControllerBase {
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
-        Boolean isUseReviewProcess = maintenanceDocForm.isUseReviewProcess();
         Properties urlParameters = new Properties();
-        if (maintenanceDocForm.isCurriculumSpecialist() && !maintenanceDocForm.isUseReviewProcess()){
-            urlParameters.put(KRADConstants.DOCUMENT_TYPE_NAME, CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
+        if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
+            // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review
+            urlParameters.put(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW,Boolean.TRUE.toString());
         } else {
-            urlParameters.put(KRADConstants.DOCUMENT_TYPE_NAME, "kuali.proposal.type.course.create");
+            // if user is a CS user, check the checkbox value
+            urlParameters.put(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW,Boolean.toString(maintenanceDocForm.isUseReviewProcess()));
         }
-        urlParameters.put("pageId", PAGE_ID);
-        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, DISPATCH_REQUEST_PARAMETER);
+        urlParameters.put(UifConstants.UrlParams.PAGE_ID, PAGE_ID);
+        urlParameters.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, KRADConstants.DOC_HANDLER_METHOD);
         urlParameters.put(KRADConstants.PARAMETER_COMMAND, KewApiConstants.INITIATE_COMMAND);
         urlParameters.put(KRADConstants.DATA_OBJECT_CLASS_ATTRIBUTE, CourseInfoWrapper.class.getName());
         urlParameters.put(KRADConstants.RETURN_LOCATION_PARAMETER, RETURN_LOCATION_PARAMETER );
-        urlParameters.put("UseReviewProcess",isUseReviewProcess.toString() );
-        String uri = request.getRequestURL().toString().replace("createcourse","courses");
+        String uri = request.getRequestURL().toString().replace(CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE_INITIAL,CurriculumManagementConstants.ControllerRequestMappings.CREATE_COURSE);
 
         return performRedirect(form, uri, urlParameters);
     }
+
 }
