@@ -823,6 +823,16 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             }
         }
 
+        // This could not be done at the time of copying so it is done here for the copied acals
+        // find out the parent terms
+        // find their subterms
+        // reassign the subterm's parent to this.
+            for (AcademicTermWrapper termWrapper : acalForm.getTermWrapperList()) {
+                for(AcademicTermWrapper subtermWrapper : termWrapper.getSubterms()){
+                    subtermWrapper.setParentTermInfo(termWrapper.getTermInfo());
+                }
+            }
+
         // sort the light-weighted term wrappers for displaying error/warning messages on the correct term section
         List<SimplifiedAcademicTermWrapper> simplifiedAcademicTermWrappers = populateSimplifiedAcademicTermWrappers(acalForm.getTermWrapperList());
 
