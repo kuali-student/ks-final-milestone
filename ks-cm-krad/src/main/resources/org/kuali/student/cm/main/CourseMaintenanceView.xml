@@ -160,6 +160,9 @@
                 <value>course_details_tab_section</value>
             </list>
         </property>
+        <property name="header">
+            <bean parent="Uif-HeaderTwo" />
+        </property>
         <!--  Turn off validation messages for the tab sections -->
         <property name="validationMessages.displayMessages" value="false" />
     </bean>

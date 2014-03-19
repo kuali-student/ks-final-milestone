@@ -26,9 +26,6 @@
              But since the validation messaging is weird in the sub-section without a header we are actually
              displaying this header in the sub-section. -->
         <property name="headerText" value="Course Information"/>
-        <property name="header">
-            <bean parent="Uif-HeaderTwo" />
-        </property>
         <property name="header.render" value="false" />
         <property name="items">
             <list>

@@ -20,6 +20,7 @@
             </list>
         </property>
         <property name="header.headerText" value="Authors &amp; Collaborators"/>
+        <property name="header.headerLevel" value="h2"/>
         <property name="header.style" value="font-weight:bold;"/>
         <property name="items">
             <list>
