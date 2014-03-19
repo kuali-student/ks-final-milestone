@@ -472,7 +472,10 @@ function compareSubjectCodeInput(value, element) {
         } else {
             jQuery("#"+element.id).attr('value', data.resultData[0].value);
 
-            retrieveComponent('KS-SubjectArea-Field');
+            retrieveComponent('KS-SubjectArea-Field',undefined, function () {
+                jQuery('#KS-SubjectArea-Field').attr('class', 'uif-inputField uif-inputField-labelTop uif-boxLayoutHorizontalItem');
+                jQuery('#KS-SubjectArea-Field').show();
+            });
             return true;
         }
     };
