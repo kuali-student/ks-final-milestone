@@ -833,6 +833,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
             courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
         }
+
+        // Initialize formats
+        if (courseInfoWrapper.getCourseInfo().getFormats().isEmpty()) {
+            courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
+        }
     }
 
     @Override
