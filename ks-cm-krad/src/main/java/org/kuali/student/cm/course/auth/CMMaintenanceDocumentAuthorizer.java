@@ -26,6 +26,7 @@ public class CMMaintenanceDocumentAuthorizer extends MaintenanceDocumentAuthoriz
 
     @Override
     public boolean canCancel(Document document, Person user) {
+        // TODO KSCM-1722 -- current default permission is invalid due to workflow configuration using invalid org ids
         return false;
     }
 
