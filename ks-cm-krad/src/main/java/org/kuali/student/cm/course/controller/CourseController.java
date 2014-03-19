@@ -41,7 +41,6 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants.CourseViewSections;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.form.CreateCourseForm;
 import org.kuali.student.cm.course.form.LoDisplayInfoWrapper;
 import org.kuali.student.cm.course.form.LoDisplayWrapperModel;
 import org.kuali.student.cm.course.form.RecentlyViewedDocsUtil;
@@ -49,9 +48,9 @@ import org.kuali.student.cm.course.form.ReviewProposalDisplay;
 import org.kuali.student.cm.course.form.SupportingDocumentInfoWrapper;
 import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
-import org.kuali.student.common.uif.util.KSViewAttributeValueReader;
 import org.kuali.student.common.uif.util.GrowlIcon;
 import org.kuali.student.common.uif.util.KSUifUtils;
+import org.kuali.student.common.uif.util.KSViewAttributeValueReader;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
@@ -129,8 +128,8 @@ public class CourseController extends CourseRuleEditorController {
      * @return a new instance of a CreateCourseForm
      */
     @Override
-    protected CreateCourseForm createInitialForm(HttpServletRequest request) {
-        CreateCourseForm courseForm = new CreateCourseForm();
+    protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
+        MaintenanceDocumentForm form = new MaintenanceDocumentForm();
         String useReviewProcessParam = request.getParameter(URL_PARAM_USE_CURRICULUM_REVIEW);
         // only do the manually setup of the CreateCourseForm fields if the URL_PARAM_USE_CURRICULUM_REVIEW param was passed in from initial view
         if (StringUtils.isNotBlank(useReviewProcessParam)) {
@@ -140,9 +139,9 @@ public class CourseController extends CourseRuleEditorController {
                 throw new RuntimeException("A user " + GlobalVariables.getUserSession().getPerson().getPrincipalName() + " who is not allowed to disable Curriculum Review (Workflow Approval) has attempted to.");
             }
             // set the doc type name based on the whether the user is CS and if they have chosen to use curriculum review
-            courseForm.setDocTypeName((!isUseReviewProcess) ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
+            form.setDocTypeName((!isUseReviewProcess) ? CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE_ADMIN : CurriculumManagementConstants.DocumentTypeNames.CourseProposal.COURSE_CREATE);
         }
-        return courseForm;
+        return form;
     }
 
     /**
@@ -156,7 +155,7 @@ public class CourseController extends CourseRuleEditorController {
     protected void createDocument(DocumentFormBase form) throws WorkflowException {
         super.createDocument(form);
         // at this point we have the document type name set on the form so we use it to update the Course specific fields
-        updateCourseForm((CreateCourseForm)form);
+        updateCourseForm(form);
     }
 
     /**
@@ -170,7 +169,7 @@ public class CourseController extends CourseRuleEditorController {
     protected void loadDocument(DocumentFormBase form) throws WorkflowException {
         super.loadDocument(form);
         // at this point we have the document type name set on the form so we use it to update the Course specific fields
-        updateCourseForm((CreateCourseForm)form);
+        updateCourseForm(form);
     }
 
     /**
@@ -181,9 +180,10 @@ public class CourseController extends CourseRuleEditorController {
      *
      * @param form the CreateCourseForm object to update
      */
-    protected void updateCourseForm(CreateCourseForm form) {
-        form.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
-        form.setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
+    protected void updateCourseForm(DocumentFormBase form) {
+        CourseInfoWrapper wrapper = ((CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject());
+        wrapper.getUiHelper().setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
+        wrapper.getUiHelper().setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
     }
 
     /**
@@ -277,12 +277,13 @@ public class CourseController extends CourseRuleEditorController {
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
         String displaySectionId = form.getActionParameters().get("displaySection");
+        CourseInfoWrapper wrapper = ((CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject());
 
         if (displaySectionId == null) {
-            ((CreateCourseForm) form).setSelectedSection(CourseViewSections.COURSE_INFO);
+            wrapper.getUiHelper().setSelectedSection(CourseViewSections.COURSE_INFO);
         }  else {
             CourseViewSections section = CourseViewSections.getSection(displaySectionId);
-            ((CreateCourseForm) form).setSelectedSection(section);
+            wrapper.getUiHelper().setSelectedSection(section);
         }
         return getUIFModelAndView(form, "KS-CourseView-CoursePage");
     }
@@ -650,10 +651,10 @@ public class CourseController extends CourseRuleEditorController {
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
 
         if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
-            CourseViewSections currentSection = ((CreateCourseForm)form).getSelectedSection();
+            CourseViewSections currentSection = courseInfoWrapper.getUiHelper().getSelectedSection();
             if (currentSection.ordinal() < CourseViewSections.values().length) {
                  CourseViewSections nextSection = CourseViewSections.values()[currentSection.ordinal() + 1];
-                ((CreateCourseForm)form).setSelectedSection(nextSection);
+                 courseInfoWrapper.getUiHelper().setSelectedSection(nextSection);
             }
             return getUIFModelAndView(form);
         } else if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "KS-CourseView-ReviewProposalLink")) {
@@ -681,14 +682,12 @@ public class CourseController extends CourseRuleEditorController {
      * @param form
      */
     protected void updateReview(final DocumentFormBase form) {
-        final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
 
         // Update course section
         final ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
         reviewData.getcourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
-        maintenanceDocForm.setProposalName(courseInfoWrapper.getProposalInfo().getName());
         reviewData.getcourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
         reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());

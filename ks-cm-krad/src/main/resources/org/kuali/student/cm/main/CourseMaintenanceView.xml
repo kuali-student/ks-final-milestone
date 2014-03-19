@@ -46,7 +46,7 @@
         commenting below code in case required in future.
          @{!#empty(document.newMaintainableObject.proposal.name) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'} -->
         <!--<property name="headerText" value="@{(document.newMaintainableObject.proposal != null and !#empty(document.newMaintainableObject.proposal.name)) ? document.newMaintainableObject.proposal.name + ' (Proposal)': 'New Course (Proposal)'}" />-->
-        <property name="headerText" value="@{(#form.headerText eq null or #form.headerText.length() lt 1) ? 'Create Course': #form.headerText }" />
+        <property name="headerText" value="@{(#uiHelper.headerText eq null or #uiHelper.headerText.length() lt 1) ? 'Create Course': #uiHelper.headerText }" />
         <property name="singlePageView" value="false"/><!-- Override the default to allow for navigation -->
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
         <property name="applyDirtyCheck" value="true" />
@@ -123,6 +123,11 @@
                 <value>themes/ksboot/stylesheets/krms.css</value>
             </list>
         </property>
+        <property name="expressionVariables">
+            <map merge="true">
+                <entry key="uiHelper" value="document.newMaintainableObject.dataObject.uiHelper"/>
+            </map>
+        </property>
     </bean>
 
     <bean id="CourseInfoMaintenanceDocument" parent="uifMaintenanceDocumentEntry">
@@ -174,11 +179,11 @@
         <property name="headerText" value="Create Course"/>
         <property name="footer.items">
             <list>
-                <bean parent="KS-CourseView-Footer" p:render="@{!#form.curriculumSpecialistUser}"/>
-                <bean parent="KS-CourseView-CurriculumSpecialistFooter" p:render="@{#form.curriculumSpecialistUser}"/>
+                <bean parent="KS-CourseView-Footer" p:render="@{!#uiHelper.curriculumSpecialistUser}"/>
+                <bean parent="KS-CourseView-CurriculumSpecialistFooter" p:render="@{#uiHelper.curriculumSpecialistUser}"/>
             </list>
         </property>
-        <property name="onDocumentReadyScript" value="onCourseLoad(@{#form.curriculumSpecialistUser}, '@{#form.selectedSection.sectionId}')"/>
+        <property name="onDocumentReadyScript" value="onCourseLoad(@{#uiHelper.curriculumSpecialistUser}, '@{#uiHelper.selectedSection.sectionId}')"/>
         <property name="items">
             <list>
                 <bean parent="Uif-TabGroup" p:id="course_tabs">
@@ -198,14 +203,14 @@
                     </property>
                     <property name="tabsWidget.templateOptionsJSString">
                         <value>
-                            { selected: @{selectedSection.ordinal() - 1} }
+                            { selected: @{#uiHelper.selectedSection.ordinal() - 1} }
                         </value>
                     </property>
                     <property name="tabsWidget.position" value="LEFT"/>
                 </bean>
 
                 <!-- The text above the tab panel. This gets fixed positioning via JS. -->
-                <bean id="course_tabs_header" parent="Uif-VerticalBoxGroup" p:render="@{(!#form.curriculumSpecialistUser) or #form.useReviewProcess}">
+                <bean id="course_tabs_header" parent="Uif-VerticalBoxGroup" p:render="@{!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess}">
                     <property name="header">
                         <bean parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -219,7 +224,7 @@
                 </bean>
 
                 <!-- The text and link below the tab panel. This gets fixed positioning via JS. -->
-                <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{(!#form.curriculumSpecialistUser) or #form.useReviewProcess}">
+                <bean id="KS-CourseView-ReviewProposalLink" parent="Uif-VerticalBoxGroup" p:render="@{!#uiHelper.curriculumSpecialistUser or #uiHelper.useReviewProcess}">
                     <property name="header">
                         <bean id="course_tabs_footer_header" parent="Uif-HeaderFour">
                             <property name="cssClasses">
@@ -261,7 +266,7 @@
                 <property name="items">
                     <list>
                         <bean id="KS-CourseView-Admin-Message-TreeExpandCollapse" parent="Uif-HorizontalFieldGroup"
-                              p:showLabel="false" p:render="@{#form.curriculumSpecialistUser}"
+                              p:showLabel="false" p:render="@{#uiHelper.curriculumSpecialistUser}"
                               p:additionalCssClasses="uif-validationMessages,uif-groupValidationMessages,uif-pageValidationMessages-warning,ks-subSection">
                             <property name="items">
                                 <list>
@@ -466,7 +471,7 @@
         <property name="label" value="Course Information"></property>
     </bean>
     <bean id="KS-HomewardPathBreadcrumbs-NewCourse" parent="Uif-BreadcrumbItem">
-        <property name="label" value=" @{(#form.pageId eq 'KS-CourseView-CoursePage') ? #form.headerText : 'Create Course'}" />
+        <property name="label" value=" @{(#form.pageId eq 'KS-CourseView-CoursePage') ? #uiHelper.headerText : 'Create Course'}" />
         <property name="url.baseUrl" value="cmHome"/>
         <property name="url.viewId" value="curriculumHomeView"/>
     </bean>

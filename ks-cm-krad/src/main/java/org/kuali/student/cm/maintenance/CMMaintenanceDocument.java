@@ -52,7 +52,7 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         super(documentTypeName);
     }
 
-   /* @Override
+    @Override
     public void processAfterRetrieve() {
 
         if (documentHeader == null || !documentHeader.hasWorkflowDocument()){
@@ -89,13 +89,13 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
         super.processAfterRetrieve();
 
-        Map<String,String> dataObjectDetails = getDataObjectDetailsDeSerialization();
+//        Map<String,String> dataObjectDetails = getDataObjectDetailsDeSerialization();
 
-        ((CMMaintainable)newMaintainableObject).retrieveDataObject(this,dataObjectDetails);
+        ((CMMaintainable)newMaintainableObject).retrieveDataObject();
 
     }
 
-    @Override
+    /*@Override
     public void prepareForSave(KualiDocumentEvent event) {
 
         super.prepareForSave(event);
@@ -144,13 +144,13 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
      * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
      */
 
-    /*@Override
+    @Override
     public void populateXmlDocumentContentsFromMaintainables() {
-//        xmlDocumentContents = StringUtils.EMPTY;
+        xmlDocumentContents = StringUtils.EMPTY;
     }
 
     @Override
     public void populateMaintainablesFromXmlDocumentContents() {
-//        xmlDocumentContents = StringUtils.EMPTY;
-    }*/
+        xmlDocumentContents = StringUtils.EMPTY;
+    }
 }

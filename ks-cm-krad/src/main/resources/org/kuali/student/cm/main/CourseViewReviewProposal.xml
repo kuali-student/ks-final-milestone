@@ -562,7 +562,7 @@
     </bean>
 
     <bean id="KS-HomewardPathBreadcrumbs-ReviewProposal-Page" parent="Uif-BreadcrumbItem">
-        <property name="label" value="@{#form.proposalName}: Review Proposal"></property>
+        <property name="label" value="@{#uiHelper.proposalName}: Review Proposal"></property>
     </bean>
 
      <bean id="KS-CourseView-ReviewLink" parent="Uif-VerticalBoxGroup">

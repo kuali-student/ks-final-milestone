@@ -15,6 +15,7 @@
  */
 package org.kuali.student.cm.course.service.impl;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -46,6 +47,7 @@ import org.kuali.rice.krms.tree.node.RuleEditorTreeNode;
 import org.kuali.rice.krms.tree.node.TreeNode;
 import org.kuali.rice.krms.util.NaturalLanguageHelper;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.controller.CourseController;
 import org.kuali.student.cm.course.form.CluInstructorInfoWrapper;
 import org.kuali.student.cm.course.form.CollaboratorWrapper;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
@@ -61,6 +63,7 @@ import org.kuali.student.cm.course.service.CourseInfoMaintainable;
 import org.kuali.student.cm.course.service.util.CourseCodeSearchUtil;
 import org.kuali.student.cm.course.service.util.LoCategorySearchUtil;
 import org.kuali.student.cm.course.service.util.OrganizationSearchUtil;
+import org.kuali.student.cm.maintenance.CMMaintainable;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.core.krms.tree.KSRuleViewTreeBuilder;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
@@ -68,6 +71,7 @@ import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.lu.ui.krms.dto.LUAgendaEditor;
 import org.kuali.student.lum.lu.ui.krms.dto.LURuleEditor;
 import org.kuali.student.lum.lu.ui.krms.tree.LURuleViewTreeBuilder;
+import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenName;
 import org.kuali.student.r1.core.proposal.ProposalConstants;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
@@ -107,8 +111,11 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 
 import javax.persistence.Transient;
 import javax.xml.namespace.QName;
@@ -128,11 +135,12 @@ import static org.kuali.student.logging.FormattedLogger.warn;
  *
  * @author OpenCollab/rSmart KRAD CM Conversion Alliance!
  */
-public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService {
-    
-    private static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
+public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl implements CourseInfoMaintainable, RuleViewHelperService,CMMaintainable {
 
-    private static final String CREDIT_COURSE_CLU_TYPE_KEY  = "kuali.lu.typeKey.CreditCourse";
+
+    protected transient static final String DEFAULT_REQUIRED_WORKFLOW_MODE = "Submit";
+
+    protected transient static final String CREDIT_COURSE_CLU_TYPE_KEY  = "kuali.lu.typeKey.CreditCourse";
 
     private static final long serialVersionUID = 1338662637708570500L;
 
@@ -838,9 +846,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (courseInfoWrapper.getCourseInfo().getFormats().isEmpty()) {
             courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
         }
+
+        if (requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW) != null || requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW).length != 0){
+            Boolean isUseReviewProcess = BooleanUtils.toBoolean(requestParameters.get(CourseController.URL_PARAM_USE_CURRICULUM_REVIEW)[0]);
+            courseInfoWrapper.getUiHelper().setUseReviewProcess(isUseReviewProcess);
+        }
+
+
     }
 
-    @Override
+    /*@Override
     public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
@@ -856,7 +871,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             warn("Unable to retrieve the proposal: %s", e.getMessage());
         }
         updateReview();
-    }
+    }*/
 
     protected void updateReview() {
 
@@ -864,7 +879,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
 
         // Update course section
-        final ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
+        ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
+        if (reviewData == null){
+            reviewData = new ReviewProposalDisplay();
+            courseInfoWrapper.setReviewProposalDisplay(reviewData);
+        }
+
         reviewData.getcourseSection().setProposalName(courseInfoWrapper.getProposalInfo().getName());
 //        maintenanceDocForm.setProposalName(courseInfoWrapper.getProposalInfo().getName());
         reviewData.getcourseSection().setCourseTitle(savedCourseInfo.getCourseTitle());
@@ -898,7 +918,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
       }
 
-        reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
+        if (savedCourseInfo.getDuration() != null){
+            reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
+        }
 
         // update learning Objectives Section;
         // update  course Requisites Section;
@@ -993,6 +1015,42 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             }
         }
 
+        courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
+
+        //Credit Options
+        if (courseInfoWrapper.isAudit()){
+            ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
+            resultValuesGroupInfo.setName("Audit");
+            resultValuesGroupInfo.setTypeKey(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
+            //This should be based on the course state. But for now, it's draft
+            resultValuesGroupInfo.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
+            courseInfoWrapper.getCourseInfo().getCreditOptions().add(resultValuesGroupInfo);
+        }
+
+        //Pass Fail
+        if (courseInfoWrapper.isPassFail()){
+            ResultValuesGroupInfo resultValuesGroupInfo = new ResultValuesGroupInfo();
+            resultValuesGroupInfo.setName("Pass Fail");
+            resultValuesGroupInfo.setTypeKey(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
+            //This should be based on the course state. But for now, it's draft
+            resultValuesGroupInfo.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
+            courseInfoWrapper.getCourseInfo().getCreditOptions().add(resultValuesGroupInfo);
+        }
+
+        courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
+
+        /*for (ResultValuesGroupInfoWrapper rvgWrapper : courseInfoWrapper.getCreditOptionWrappers()){
+            ResultValuesGroupInfoWrapper rvg = new ResultValuesGroupInfoWrapper();
+            rvg.setTypeKey(rvgWrapper.getTypeKey());
+            if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)){
+                rvg.set
+            } else if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
+
+            } else if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
+
+            }
+        }*/
+
         try {
             handleFirstTimeSave();
         } catch (Exception e) {
@@ -1050,7 +1108,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         return subjectArea + suffixNumber;
     }
 
-    /*public void retrieveDataObject(Document document,Map<String, String> dataObjectDetails) {
+    public void retrieveDataObject() {
 
         CourseInfoWrapper dataObject = (CourseInfoWrapper)getDataObject();
 
@@ -1058,16 +1116,35 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             ProposalInfo proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.getContextInfo());
             dataObject.setProposalInfo(proposal);
 
-            CourseInfo course = getCourseService().getCourse(dataObjectDetails.get("id"),createContextInfo());
+            CourseInfo course = getCourseService().getCourse(proposal.getProposalReference().get(0),createContextInfo());
             dataObject.setCourseInfo(course);
 
-            redrawDecisionTable();
+            populateWrappers(dataObject);
 
+            redrawDecisionTable();
+            updateReview();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
-    }*/
+    }
+
+    protected void populateWrappers(CourseInfoWrapper courseWrapper){
+
+        CourseInfo course = courseWrapper.getCourseInfo();
+
+        for (ResultValuesGroup rg : course.getCreditOptions()){
+            if (StringUtils.equals(rg.getTypeKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
+                courseWrapper.setAudit(true);
+            } else if (StringUtils.equals(rg.getTypeKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
+                courseWrapper.setPassFail(true);
+            }
+        }
+
+//        courseWrapper.setAdministeringOrganizations();
+//        courseWrapper.
+
+    }
 
     /**
      * Handles functionality that should only happen when the document is first saved.
@@ -1079,7 +1156,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         final CourseInfo course = courseInfoWrapper.getCourseInfo();
         for (final CourseVariationInfo variation : course.getVariations()) {
-            variation.setTypeKey("kuali.lu.type.Variation");
+            variation.setTypeKey(ProgramConstants.VARIATION_TYPE_KEY);
         }
         if (StringUtils.isBlank(course.getId())){
             courseInfoWrapper.setCourseInfo(getCourseService().createCourse(course, ContextUtils.getContextInfo()));
@@ -1094,7 +1171,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         if (StringUtils.isBlank(proposal.getId())){
             proposal.setState(ProposalConstants.PROPOSAL_STATE_SAVED);     // remove proposal constant, try to use KualiStudentPostProcessorBase
             proposal.setType(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY);
-            proposal.setProposalReferenceType("kuali.proposal.referenceType.clu");
+            proposal.setProposalReferenceType(ProposalServiceConstants.PROPOSAL_DOC_RELATION_TYPE_CLU_KEY);
             proposal.getProposalReference().add(courseInfoWrapper.getCourseInfo().getId());
             proposal.getProposerOrg().clear();
             proposal.getProposerPerson().clear();

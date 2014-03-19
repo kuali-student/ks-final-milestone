@@ -17,17 +17,28 @@
 
 package org.kuali.student.cm.course.form;
 
+import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
+import org.kuali.student.cm.common.util.CurriculumManagementConstants;
+import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.lum.clu.CLUConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -69,6 +80,8 @@ public class CourseInfoWrapper implements Serializable {
     private Date expirationDate;
     private boolean pilotCourse;
     private String startTerm;
+
+    private UIHelper uiHelper;
 
     public String getEndTerm() {
         return endTerm;
@@ -173,6 +186,7 @@ public class CourseInfoWrapper implements Serializable {
         unitsContentOwnerToAdd = "";
         unitsContentOwner = new ArrayList<KeyValue>();
         loDisplayWrapperModel = new LoDisplayWrapperModel();
+        uiHelper = new UIHelper();
     }
 
 
@@ -402,5 +416,79 @@ public class CourseInfoWrapper implements Serializable {
 
     public void setReviewProposalDisplay(ReviewProposalDisplay reviewProposalDisplay) {
         this.reviewProposalDisplay = reviewProposalDisplay;
+    }
+
+    public UIHelper getUiHelper() {
+        return uiHelper;
+    }
+
+    public void setUiHelper(UIHelper uiHelper) {
+        this.uiHelper = uiHelper;
+    }
+
+    public class UIHelper {
+
+        CurriculumManagementConstants.CourseViewSections selectedSection;
+        boolean curriculumSpecialistUser;
+        boolean useReviewProcess;
+
+        public UIHelper(){
+            curriculumSpecialistUser = CourseProposalUtil.isUserCurriculumSpecialist();
+            selectedSection = CurriculumManagementConstants.CourseViewSections.COURSE_INFO;
+        }
+
+        /**
+         * A CS not using workflow gets an admin workflow document type. Some UI elements/behavior are conditional based on doc type.
+         *
+         * @return True if an admin doc type is being used. Otherwise, false.
+         */
+        public boolean isAdminProposal() {
+            return curriculumSpecialistUser && ! isUseReviewProcess();
+        }
+
+        public void setCurriculumSpecialistUser(boolean curriculumSpecialistUser) {
+            this.curriculumSpecialistUser = curriculumSpecialistUser;
+        }
+
+        public boolean isCurriculumSpecialistUser() {
+            return curriculumSpecialistUser;
+        }
+
+        public String getProposalName() {
+            return getProposalInfo() != null ? getProposalInfo().getName() : "";
+        }
+
+
+        public boolean isUseReviewProcess() {
+            return useReviewProcess;
+        }
+
+        public void setUseReviewProcess(boolean useReviewProcess) {
+            this.useReviewProcess = useReviewProcess;
+        }
+
+        public CurriculumManagementConstants.CourseViewSections getSelectedSection() {
+            return selectedSection;
+        }
+
+        public void setSelectedSection(CurriculumManagementConstants.CourseViewSections selectedSection) {
+            this.selectedSection = selectedSection;
+        }
+
+        public String getHeaderText() {
+            String headerSuffixText;
+
+            if (!isUseReviewProcess()) {
+                headerSuffixText = " (Admin Proposal)";
+            } else {
+                headerSuffixText = " (Proposal)";
+            }
+
+            if (proposalInfo != null && StringUtils.isNotBlank(proposalInfo.getName())){
+                return proposalInfo.getName() + headerSuffixText;
+            } else {
+                return "New Course" + headerSuffixText;
+            }
+        }
     }
 }
