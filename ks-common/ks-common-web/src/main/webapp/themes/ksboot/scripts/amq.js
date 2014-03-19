@@ -108,12 +108,10 @@ org.activemq.Amq = function() {
 		connectStatusHandler(false);
 		if (status === 'error' && xhr.status === 0) {
 			if (logging) adapter.log('Server connection dropped.');
-            setTimeout(function() { sendPoll(); }, pollErrorDelay);
 			return;
 		}
 		if (logging) adapter.log('Error occurred in poll. HTTP result: ' +
 		                         xhr.status + ', status: ' + status);
-        setTimeout(function() { sendPoll(); }, pollErrorDelay);
 	}
 
 	var pollHandler = function(data) {
@@ -122,9 +120,7 @@ org.activemq.Amq = function() {
 		} catch(e) {
 			if (logging) adapter.log('Exception in the poll handler: ' + data, e);
 			throw(e);
-		} finally {
-            setTimeout(sendPoll, pollDelay);
-        }
+		}
 	};
 
 	var sendPoll = function() {

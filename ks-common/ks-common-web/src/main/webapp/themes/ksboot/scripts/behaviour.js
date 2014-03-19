@@ -4,7 +4,7 @@ function initAMQListener() {
     amq.init({
         uri: 'amq',
         logging: true,
-        timeout: 20,
+        timeout: 1,
         clientId: kualiSessionId
     });
 
