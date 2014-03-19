@@ -53,14 +53,13 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 
 
 import javax.xml.namespace.QName;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
- * This class is an implementation of the ExamOfferingScheduleEvaluator interface. It uses an abstract evaluator
+ * This class is an implementation of the ExamOfferingSlottingEvaluator interface. It uses an abstract evaluator
  * class to execute the exam offering matrix that is saved as KRMS agendas.
  * <p/>
  * On a successful execution of a rule it will create the schedule request component and link it to the given
@@ -68,7 +67,7 @@ import java.util.Map;
  *
  * @author Kuali Student Team
  */
-public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements ExamOfferingScheduleEvaluator {
+public class ExamOfferingSlottingEvaluatorImpl extends KRMSEvaluator implements ExamOfferingSlottingEvaluator {
 
     private List<TermResolver<?>> eoTermResolvers;
 
@@ -82,9 +81,9 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     private Messenger userMessenger;
 
     /**
-     * @see ExamOfferingScheduleEvaluator
+     * @see ExamOfferingSlottingEvaluator
      */
-    public void executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
+    public void executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
                                            ContextInfo context) throws OperationFailedException {
 
         //Retrieve the matrix for the specific term type.
@@ -107,7 +106,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
         Map<String, Object> executionFacts = new HashMap<String, Object>();
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, timeSlotsForAO);
-        if (!executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
+        if (!executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
             String[] parameters = {activityOffering.getActivityCode()};
             userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, parameters, context);
         }
@@ -156,9 +155,9 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
     }
 
     /**
-     * @see ExamOfferingScheduleEvaluator
+     * @see ExamOfferingSlottingEvaluator
      */
-    public void executeRuleForCOScheduling(CourseOffering courseOffering, String examOfferingId, String termType,
+    public void executeRuleForCOSlotting(CourseOffering courseOffering, String examOfferingId, String termType,
                                            ContextInfo context) throws OperationFailedException {
 
         KrmsTypeDefinition typeDefinition = this.getKrmsTypeRepositoryService().getTypeByName(
@@ -176,7 +175,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
                 throw new OperationFailedException("Unable to retrieve course version independent id.", e);
             }
 
-            if (!executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
+            if (!executeRuleForSlotting(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
                 String[] parameters = {courseOffering.getCourseOfferingCode()};
                 userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, parameters, context);
             }
@@ -198,7 +197,7 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
      * @param examOfferingId
      * @param context
      */
-    private boolean executeRuleForScheduling(Agenda agenda, String typeId, Map<String, Object> executionFacts,
+    private boolean executeRuleForSlotting(Agenda agenda, String typeId, Map<String, Object> executionFacts,
                                              String examOfferingId, ContextInfo context) {
 
         Map<String, String> agendaQualifiers = new HashMap<String, String>();

@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
  *
  * @author Kuali Student Team
  */
-public interface ExamOfferingScheduleEvaluator {
+public interface ExamOfferingSlottingEvaluator {
 
     /**
      * This method will evaluate the appropriate final exam matrix and create the requested delivery logistic.
@@ -37,7 +37,7 @@ public interface ExamOfferingScheduleEvaluator {
      * @param context
      * @throws OperationFailedException
      */
-    public void executeRuleForAOScheduling(ActivityOffering activityOffering, String examOfferingId, String termType,
+    public void executeRuleForAOSlotting(ActivityOffering activityOffering, String examOfferingId, String termType,
                                     ContextInfo context) throws OperationFailedException;
 
     /**
@@ -49,6 +49,6 @@ public interface ExamOfferingScheduleEvaluator {
      * @param context
      * @throws OperationFailedException
      */
-    public void executeRuleForCOScheduling(CourseOffering courseOffering,String examOfferingId, String termType,
+    public void executeRuleForCOSlotting(CourseOffering courseOffering,String examOfferingId, String termType,
                                     ContextInfo context) throws OperationFailedException;
 }

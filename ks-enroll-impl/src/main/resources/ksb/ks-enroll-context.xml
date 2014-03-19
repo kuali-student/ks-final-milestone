@@ -665,7 +665,7 @@
         <property name="setLocation" value="true" />
     </bean>
 
-    <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluatorImpl">
+    <bean id="examOfferingScheduleEvaluator" class="org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluatorImpl">
         <property name="schedulingService" ref="SchedulingService"/>
         <property name="courseService" ref="courseServiceImpl"/>
         <property name="userMessenger" ref="userMessenger"/>

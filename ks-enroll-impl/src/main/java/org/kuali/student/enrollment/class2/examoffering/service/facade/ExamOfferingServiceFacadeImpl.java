@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class2.courseofferingset.util.CourseOfferingSetUtil;
-import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingScheduleEvaluator;
+import org.kuali.student.enrollment.class2.examoffering.krms.evaluator.ExamOfferingSlottingEvaluator;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FinalExam;
@@ -67,7 +67,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
     private TypeService typeService;
     private boolean setLocation;
 
-    private ExamOfferingScheduleEvaluator scheduleEvaluator;
+    private ExamOfferingSlottingEvaluator scheduleEvaluator;
 
     private enum Driver {PER_CO, PER_FO, PER_AO, NONE}
 
@@ -247,7 +247,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
             }
 
             if(this.getScheduleEvaluator()!=null){
-                this.getScheduleEvaluator().executeRuleForCOScheduling(courseOffering, eo.getId(), termType, context);
+                this.getScheduleEvaluator().executeRuleForCOSlotting(courseOffering, eo.getId(), termType, context);
             }
 
             //Create new Exam Offering Relationship
@@ -446,7 +446,7 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
                 }
 
                 if (this.getScheduleEvaluator() != null) {
-                    this.getScheduleEvaluator().executeRuleForAOScheduling(aoInfo, eo.getId(), termType, context);
+                    this.getScheduleEvaluator().executeRuleForAOSlotting(aoInfo, eo.getId(), termType, context);
                 }
 
             }
@@ -827,11 +827,11 @@ public class ExamOfferingServiceFacadeImpl implements ExamOfferingServiceFacade 
         this.typeService = typeService;
     }
 
-    public ExamOfferingScheduleEvaluator getScheduleEvaluator() {
+    public ExamOfferingSlottingEvaluator getScheduleEvaluator() {
         return scheduleEvaluator;
     }
 
-    public void setScheduleEvaluator(ExamOfferingScheduleEvaluator scheduleEvaluator) {
+    public void setScheduleEvaluator(ExamOfferingSlottingEvaluator scheduleEvaluator) {
         this.scheduleEvaluator = scheduleEvaluator;
     }
 
