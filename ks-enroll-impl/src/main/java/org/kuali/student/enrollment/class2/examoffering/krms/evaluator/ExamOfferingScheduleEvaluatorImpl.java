@@ -53,6 +53,7 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 
 
 import javax.xml.namespace.QName;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,7 +107,10 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
         Map<String, Object> executionFacts = new HashMap<String, Object>();
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_CONTEXTINFO, context);
         executionFacts.put(KSKRMSServiceConstants.TERM_PREREQUISITE_TIMESLOTS, timeSlotsForAO);
-        executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+        if (!executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
+            String[] parameters = {activityOffering.getActivityCode()};
+            userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, parameters, context);
+        }
 
     }
 
@@ -172,7 +176,10 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
                 throw new OperationFailedException("Unable to retrieve course version independent id.", e);
             }
 
-            executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context);
+            if (!executeRuleForScheduling(agenda, typeDefinition.getId(), executionFacts, examOfferingId, context)) {
+                String[] parameters = {courseOffering.getCourseOfferingCode()};
+                userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, parameters, context);
+            }
         } else {
             userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_NOT_FOUND, null, context);
         }
@@ -191,8 +198,8 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
      * @param examOfferingId
      * @param context
      */
-    private void executeRuleForScheduling(Agenda agenda, String typeId, Map<String, Object> executionFacts,
-                                          String examOfferingId, ContextInfo context) {
+    private boolean executeRuleForScheduling(Agenda agenda, String typeId, Map<String, Object> executionFacts,
+                                             String examOfferingId, ContextInfo context) {
 
         Map<String, String> agendaQualifiers = new HashMap<String, String>();
         agendaQualifiers.put("typeId", typeId);
@@ -204,8 +211,9 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
             TimeSlotInfo timeslot = (TimeSlotInfo) results.getAttribute("timeslotInfo");
             createRDLForExamOffering(componentInfo, timeslot, examOfferingId, context);
         } else {
-            userMessenger.sendWarningMessage(ExamOfferingServiceConstants.EXAM_OFFERING_MATRIX_MATCH_NOT_FOUND, null, context);
+            return false;
         }
+        return true;
 
     }
 
@@ -227,48 +235,48 @@ public class ExamOfferingScheduleEvaluatorImpl extends KRMSEvaluator implements 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-       if(requestSetList.isEmpty() ||requestSetList == null){
-        //Create new sch set for this eo.
-        ScheduleRequestSetInfo requestSet = new ScheduleRequestSetInfo();
-        requestSet.setRefObjectTypeKey(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING);
+        if (requestSetList.isEmpty() || requestSetList == null) {
+            //Create new sch set for this eo.
+            ScheduleRequestSetInfo requestSet = new ScheduleRequestSetInfo();
+            requestSet.setRefObjectTypeKey(ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING);
 
-        requestSet.setName("Exam Schedule request set");
-        requestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
-        requestSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
-        requestSet.getRefObjectIds().add(examOfferingId);
-        try {
-            requestSet = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
-                    ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, requestSet, context);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
-        scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
-        scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
-        scheduleRequest.setScheduleRequestSetId(requestSet.getId());
-
-        try {
-            List<TimeSlotInfo> existingList = this.getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM,
-                    timeSlot.getWeekdays(), timeSlot.getStartTime(), timeSlot.getEndTime(), context);
-            if (existingList.isEmpty()) {
-                TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(
-                        SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, timeSlot, context);
-                componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
-            } else {
-                for (TimeSlotInfo existing : existingList) {
-                    componentInfo.getTimeSlotIds().add(existing.getId());
-                }
+            requestSet.setName("Exam Schedule request set");
+            requestSet.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_STATE_CREATED);
+            requestSet.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET);
+            requestSet.getRefObjectIds().add(examOfferingId);
+            try {
+                requestSet = getSchedulingService().createScheduleRequestSet(SchedulingServiceConstants.SCHEDULE_REQUEST_SET_TYPE_SCHEDULE_REQUEST_SET,
+                        ExamOfferingServiceConstants.REF_OBJECT_URI_EXAM_OFFERING, requestSet, context);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
 
-            scheduleRequest.getScheduleRequestComponents().add(componentInfo);
+            ScheduleRequestInfo scheduleRequest = new ScheduleRequestInfo();
+            scheduleRequest.setTypeKey(SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST);
+            scheduleRequest.setStateKey(SchedulingServiceConstants.SCHEDULE_REQUEST_STATE_CREATED);
+            scheduleRequest.setScheduleRequestSetId(requestSet.getId());
 
-            this.getSchedulingService().createScheduleRequest(
-                    SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, scheduleRequest, context);
-        } catch (Exception e) {
-            throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
+            try {
+                List<TimeSlotInfo> existingList = this.getSchedulingService().getTimeSlotsByDaysAndStartTimeAndEndTime(SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM,
+                        timeSlot.getWeekdays(), timeSlot.getStartTime(), timeSlot.getEndTime(), context);
+                if (existingList.isEmpty()) {
+                    TimeSlotInfo createdTimeSlot = getSchedulingService().createTimeSlot(
+                            SchedulingServiceConstants.TIME_SLOT_TYPE_EXAM, timeSlot, context);
+                    componentInfo.getTimeSlotIds().add(createdTimeSlot.getId());
+                } else {
+                    for (TimeSlotInfo existing : existingList) {
+                        componentInfo.getTimeSlotIds().add(existing.getId());
+                    }
+                }
+
+                scheduleRequest.getScheduleRequestComponents().add(componentInfo);
+
+                this.getSchedulingService().createScheduleRequest(
+                        SchedulingServiceConstants.SCHEDULE_REQUEST_TYPE_SCHEDULE_REQUEST, scheduleRequest, context);
+            } catch (Exception e) {
+                throw new RuntimeException("Error creating timeslot: " + timeSlot, e);
+            }
         }
-       }
     }
 
     /**
