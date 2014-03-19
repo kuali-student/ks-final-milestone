@@ -19,7 +19,7 @@ INSERT INTO KSEN_STATE_CNSTRNT_ROS (REL_OBJ_STATE_ID,STATE_CNSTRNT_ID)
   VALUES ('kuali.lui.activity.offering.state.offered','kuali.stateconstraint.registrationgroup.pending.offered')
 /
 INSERT INTO KSEN_STATE_CNSTRNT_ROS (REL_OBJ_STATE_ID,STATE_CNSTRNT_ID)
-  VALUES ('kuali.lui.format.offering.state.offered','kuali.stateconstraint.courseoffering.planned.offered')
+  VALUES ('kuali.lui.format.offering.state.offered',' kuali.stateconstraint.courseoffering.planned.offered')
 /
 INSERT INTO KSEN_STATE_CNSTRNT_ROS (REL_OBJ_STATE_ID,STATE_CNSTRNT_ID)
   VALUES ('kuali.lui.format.offering.state.planned','kuali.stateconstraint.courseoffering.draft.planned')
