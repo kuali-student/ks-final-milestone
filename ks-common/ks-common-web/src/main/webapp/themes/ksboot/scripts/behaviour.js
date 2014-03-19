@@ -9,8 +9,7 @@ function initAMQListener() {
     });
 
     amq.addListener('theBrowser', 'org.kuali.student.user.message', function(msg) {
-        var res = msg.textContent.split(":");
-        showGrowl(res[1], '', res[0]);
+        var res = displayMessage(msg);
     }, { selector: "JMSCorrelationID='" + kualiSessionId + "'" });
 
 }
@@ -33,4 +32,11 @@ function getKualiSessionId() {
     if(end == -1) end = kualiSessionId.length;
 
     return kualiSessionId.substring(15, end);
+}
+
+function displayMessage(msg){
+    var index = msg.textContent.indexOf(":");
+    var theme = msg.textContent.substring(0,index);
+    var message = msg.textContent.substring(index+1);
+    showGrowl(message, '', theme);
 }
