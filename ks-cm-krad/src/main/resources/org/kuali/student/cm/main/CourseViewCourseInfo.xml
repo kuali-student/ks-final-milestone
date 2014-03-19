@@ -136,17 +136,23 @@
                             THIS IS FOR USE WITH THE REQUIRED BY STATE STUFF
                             <bean parent="KS-Uif-InputField-LabelTop-RequiredForEnrouteState"
 -->
-                            <bean parent="KS-Uif-InputField-LabelTop"
+                            <bean parent="KS-Uif-InputField-LabelTop" id="KS-CourseDescription"
                                   p:label="Description" p:propertyName="dataObject.courseInfo.descr.plain" >
-                                <property name="cssClasses">
+                                <!--<property name="cssClasses">
                                     <list>
                                         <value>uif-label</value>
                                     </list>
-                                </property>
+                                </property>-->
                                 <property name="instructionalText"
                                           value="This description will appear in the catalog." />
                                 <property name="control">
-                                    <bean parent="Uif-LargeTextAreaControl" />
+                                    <bean parent="Uif-LargeTextAreaControl" p:maxLength="1000">
+                                        <property name="cssClasses">
+                                            <list merge="true">
+                                                <value>cm-charcount-max-1000</value>
+                                            </list>
+                                        </property>
+                                    </bean>
                                 </property>
                             </bean>
 <!--

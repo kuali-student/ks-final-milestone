@@ -104,6 +104,9 @@
 .cm-charcount-max-500 {
 }
 
+.cm-charcount-max-1000 {
+}
+
 .cm-lo-indent-0 {
 	margin-left: 0px;
 }
@@ -146,6 +149,46 @@
 
 .cm-lo-indent-500 {
 	margin-left: 500px;
+}
+
+.cm-lo-indent-550 {
+    margin-left: 550px
+}
+
+.cm-lo-indent-600 {
+    margin-left: 600px;
+}
+
+.cm-lo-indent-650 {
+    margin-left: 650px;
+}
+
+.cm-lo-indent-700 {
+    margin-left: 700px;
+}
+
+.cm-lo-indent-750 {
+    margin-left: 750px;
+}
+
+.cm-lo-indent-800 {
+    margin-left: 800px;
+}
+
+.cm-lo-indent-850 {
+    margin-left: 850px;
+}
+
+.cm-lo-indent-900 {
+    margin-left: 900px;
+}
+
+.cm-lo-indent-950 {
+    margin-left: 950px;
+}
+
+.cm-lo-indent-1000 {
+    margin-left: 1000px;
 }
 
 .cm-home-view-instruction {
