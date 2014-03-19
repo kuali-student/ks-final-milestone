@@ -230,7 +230,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-HorizontalBoxSection">
+                <bean id="KS-CM-SubjectCode-CourseNumberSuffix" parent="Uif-HorizontalBoxSection" >
                     <property name="items">
                         <list>
 <!--
@@ -245,7 +245,8 @@
                                     <bean parent="AlphaPatternConstraint"/>
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA"/>
+                                    <bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA"
+                                          p:cssClasses="validSubjectCode" />
                                 </property>
                                 <property name="suggest">
                                     <bean parent="Uif-Suggest" p:render="true">

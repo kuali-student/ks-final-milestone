@@ -455,3 +455,49 @@ function updateStickyHeaderText() {
 function reDrawOutcomeComponent() {
     retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets');
 }
+
+function reDrawSubjectCode() {
+    jQuery('#KS-SubjectArea-Field').attr('class', 'uif-inputField uif-inputField-labelTop uif-boxLayoutHorizontalItem');
+}
+
+function compareSubjectCodeInput(value, element) {
+
+    if(value == null || value.length < 4) {
+        return false;
+    }
+
+    var successFunction = function (data) {
+        if(data == null || data.resultData == null || data.resultData.length != 1)  {
+            return false;
+        } else {
+            jQuery("#"+element.id).attr('value', data.resultData[0].value);
+
+            retrieveComponent('KS-SubjectArea-Field');
+            return true;
+        }
+    };
+
+    var queryData = {};
+
+    queryData.methodToCall = 'performFieldSuggest';
+    queryData.ajaxRequest = true;
+    queryData.ajaxReturnType = 'update-none';
+    queryData.formKey = jQuery("input#formKey").val();
+    queryData.queryTerm = value;
+    queryData.queryFieldId = "KS-SubjectArea-Field";
+
+    jQuery.ajax({
+        url: jQuery("form#kualiForm").attr("action"),
+        dataType: "json",
+        beforeSend: null,
+        complete: null,
+        error: null,
+        data: queryData,
+        success: successFunction
+    });
+}
+
+jQuery.validator.addMethod("validSubjectCode",
+    function(value, element) {
+         return this.optional(element) || compareSubjectCodeInput(value, element);
+    }, "Subject code is invalid")
