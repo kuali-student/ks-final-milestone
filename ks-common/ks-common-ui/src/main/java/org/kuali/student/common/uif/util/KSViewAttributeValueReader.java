@@ -70,17 +70,6 @@ public class KSViewAttributeValueReader extends ViewAttributeValueReader {
         }
     }
 
-    /*  TODO allow it to be page specific only
-        public ViewAttributeValueReader(View view, Page page, UifFormBase form) {
-        this.view = view;
-        this.form = form;
-        for(DataField field: view.getViewIndex().getDataFieldIndex().values()){
-            if(field instanceof Constrainable){
-                inputFields.add((Constrainable)field);
-            }
-        }
-    }*/
-
     /**
      * Gets the definition which is an InputField on the View/Page
      */
