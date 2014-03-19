@@ -27,17 +27,14 @@ import org.kuali.rice.krms.api.repository.language.NaturalLanguageTemplate;
 import org.kuali.rice.krms.api.repository.language.NaturalLanguageUsage;
 import org.kuali.rice.krms.api.repository.type.KrmsTypeRepositoryService;
 import org.kuali.rice.krms.api.repository.typerelation.TypeTypeRelation;
-import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
 import org.kuali.rice.krms.dto.RuleManagementWrapper;
+import org.kuali.rice.krms.impl.repository.KrmsRepositoryServiceLocator;
+import org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * Helper class that returns all agenda types that are valid for a given context.
@@ -51,7 +48,9 @@ public class KSCoursePropositionTypeValuesFinder extends UifKeyValuesFinderBase 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         MaintenanceDocumentForm maintenanceDocumentForm = (MaintenanceDocumentForm) model;
-        RuleManagementWrapper ruleManagementWrapper = (RuleManagementWrapper)maintenanceDocumentForm.getDocument().getNewMaintainableObject().getDataObject();
+
+        CourseInfoMaintainableImpl courseInfoMaintainableImpl = (CourseInfoMaintainableImpl)maintenanceDocumentForm.getDocument().getNewMaintainableObject();
+        RuleManagementWrapper ruleManagementWrapper = courseInfoMaintainableImpl.getCourseRuleManagementWrapper();
 
         String ruleTypeId = ruleManagementWrapper.getRuleEditor().getTypeId();
 
