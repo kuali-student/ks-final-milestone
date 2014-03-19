@@ -99,6 +99,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
+    @Transactional
     public RegistrationResponseInfo submitCart(ContextInfo contextInfo, String cartId) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, LoginException {
 
         //Make sure that the user is the owner of the cart!
@@ -403,6 +404,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
     }
 
     @Override
+    @Transactional
     //This will need to be changed to the cartItemResponse object in the future!
     public CartItemResult updateCartItem(ContextInfo contextInfo, String cartId, String cartItemId, String credits, String gradingOptionId) throws LoginException, InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
 
@@ -494,7 +496,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return response.build();
     }
 
-    @Transactional
+
     public CartResult searchForCart(ContextInfo contextInfo, String termId) throws LoginException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, DataValidationErrorException, ReadOnlyException {
         if (termId == null) {
             throw new InvalidParameterException("Term Id cannot be null.");

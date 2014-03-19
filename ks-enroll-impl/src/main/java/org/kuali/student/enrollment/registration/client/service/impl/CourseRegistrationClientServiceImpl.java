@@ -46,6 +46,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jms.JMSException;
 import javax.security.auth.login.LoginException;
@@ -67,6 +68,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     private LprService lprService;
 
     @Override
+    @Transactional
     public Response registerForRegistrationGroupRS(String termCode, String courseCode, String regGroupCode, String regGroupId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
@@ -81,6 +83,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
+    @Transactional
     public Response dropRegistrationGroupRS(String masterLprId) {
         Response.ResponseBuilder response;
 
@@ -630,6 +633,7 @@ public class CourseRegistrationClientServiceImpl implements CourseRegistrationCl
     }
 
     @Override
+    @Transactional
     public Response updateScheduleItemRS(String courseCode, String regGroupCode, String masterLprId, String credits, String gradingOptionId) {
         Response.ResponseBuilder response;
 
