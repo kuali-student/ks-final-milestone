@@ -136,7 +136,7 @@ module.exports = function (grunt) {
                         changeOrigin: true,
                         headers: {
                             'Access-Control-Allow-Origin':'http://127.0.0.1:9000',
-                            'Access-Control-Allow-Methods':'POST, GET, OPTIONS',
+                            'Access-Control-Allow-Methods':'POST, GET, OPTIONS, DELETE, PUT',
                             'Access-Control-Allow-Header':'Content-Type'
                         }
                     }

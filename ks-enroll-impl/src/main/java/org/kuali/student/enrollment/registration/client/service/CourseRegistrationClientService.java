@@ -12,7 +12,11 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 
 import javax.security.auth.login.LoginException;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -101,14 +105,13 @@ public interface CourseRegistrationClientService {
      *
      * @return Http Response
      */
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @DELETE
     @Path("/stats/regengine/clear")
     public Response clearRegEngineStatsRS();
 
     /**
      * Finds all LPRs for a given personId and deletes them
-     * Returns an empty List of StudentScheduleCourseResult
+     * Returns a Response object with status
      *
      * @param personId Principal ID
      * @return Empty Response Object or Response object with Error text
@@ -119,8 +122,7 @@ public interface CourseRegistrationClientService {
      * @throws DoesNotExistException
      */
 
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @DELETE
     @Path("/clearpersonlprs")
     public Response clearLPRsByPersonRS(@QueryParam("person") String personId) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException;
 
@@ -144,14 +146,15 @@ public interface CourseRegistrationClientService {
      * @throws AlreadyExistsException
      */
 
-    @GET
+    @PUT
     @Produces({MediaType.APPLICATION_JSON})
+    @Consumes({MediaType.APPLICATION_FORM_URLENCODED})
     @Path("/updateScheduleItem")
-    public Response updateScheduleItemRS(@QueryParam("courseCode") String courseCode,
-                                         @QueryParam("regGroupCode") String regGroupCode,
-                                         @QueryParam("masterLprId") String masterLprId,
-                                         @QueryParam("credits") String credits,
-                                         @QueryParam("gradingOptionId") String gradingOptionId);
+    public Response updateScheduleItemRS(@FormParam("courseCode") String courseCode,
+                                         @FormParam("regGroupCode") String regGroupCode,
+                                         @FormParam("masterLprId") String masterLprId,
+                                         @FormParam("credits") String credits,
+                                         @FormParam("gradingOptionId") String gradingOptionId);
 
     /**
      * This is the "one click" registration method. It will first create a registration request then submit that
@@ -170,8 +173,7 @@ public interface CourseRegistrationClientService {
      * @throws AlreadyExistsException
      * @throws LoginException
      */
-    @GET
-    @Produces({MediaType.APPLICATION_JSON})
+    @DELETE
     @Path("/dropRegistrationGroup")
     public Response dropRegistrationGroupRS(@QueryParam("masterLprId") String masterLprId);
 

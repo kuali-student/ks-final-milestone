@@ -106,7 +106,7 @@ angular.module('regCartApp')
 
                     var actionUri;
                     angular.forEach(response.actionLinks, function (actionLink) {
-                        if (actionLink.action === 'addCourseToCart') {
+                        if (actionLink.action === 'undoDeleteCourse') {
                             actionUri = actionLink.uri;
                         }
                     });

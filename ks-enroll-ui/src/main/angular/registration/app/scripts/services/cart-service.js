@@ -15,12 +15,22 @@ angular.module('regCartApp')
         };
         this.addCourseToCart = function () {
             return $resource(APP_URL + 'CourseRegistrationCartClientService/addCourseToCart', {}, {
-                query: {method: 'GET', cache: false, isArray: false}
+                query: {headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    method: 'POST', cache: false, isArray: false,
+                    transformRequest: function(obj) {
+                        var str = [];
+                        for(var p in obj){
+                            if(obj[p]){
+                                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                            }
+                        }
+                        return str.join("&");
+                    }}
             });
         };
         this.removeItemFromCart = function ($actionLink) {
             return $resource(APP_URL + $actionLink, {}, {
-                query: {method: 'GET', cache: false, isArray: false}
+                query: {method: 'DELETE', cache: false, isArray: false}
             });
         };
 
@@ -31,11 +41,25 @@ angular.module('regCartApp')
         };
         this.updateCartItem = function () {
             return $resource(APP_URL + 'CourseRegistrationCartClientService/updateCartItem', {}, {
-                query: {method: 'GET', cache: false, isArray: false}
+                query: {headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'},
+                    method: 'PUT', cache: false, isArray: false, transformRequest: function(obj) {
+                        var str = [];
+                        for(var p in obj){
+                            if(obj[p]){
+                                str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                            }
+                        }
+                        return str.join("&");
+                    }}
             });
         };
         this.submitCart = function () {
             return $resource(APP_URL + 'CourseRegistrationCartClientService/submitCart', {}, {
+                query: {method: 'GET', cache: false, isArray: false}
+            });
+        };
+    this.undoDeleteCourse = function () {
+        return $resource(APP_URL + 'CourseRegistrationCartClientService/undoDeleteCourse', {}, {
                 query: {method: 'GET', cache: false, isArray: false}
             });
         };

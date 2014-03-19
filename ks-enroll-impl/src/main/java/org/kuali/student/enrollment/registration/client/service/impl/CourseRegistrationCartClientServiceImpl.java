@@ -146,11 +146,16 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return response.build();
     }
 
+    @Override
+    public Response undoDeleteCourseRS(String cartId, String courseCode, String regGroupId, String regGroupCode, String gradingOptionId, String credits) throws MissingParameterException, PermissionDeniedException, InvalidParameterException, OperationFailedException, DoesNotExistException, ReadOnlyException, DataValidationErrorException, VersionMismatchException {
+        return addCourseToCartRS(cartId, courseCode, regGroupId, regGroupCode, gradingOptionId, credits);
+    }
+
     private Response.ResponseBuilder getResponse(Response.Status status, Object entity) {
         //The request needs additional options (HTTP status 400 Bad Request)
         Response.ResponseBuilder response = Response.status(status).entity(entity);
         response.header("Access-Control-Allow-Header", "Content-Type");
-        response.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
+        response.header("Access-Control-Allow-Methods", "POST, PUT, DELETE, GET, OPTIONS");
         response.header("Access-Control-Allow-Origin", "*");
         return response;
     }
@@ -163,9 +168,9 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         return new Link(action, uri);
     }
 
-    protected Link buildAddLink(String cartId, String regGroupId, String gradingOptionId, String credits) {
-        String action = "addCourseToCart";
-        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/addCourseToCart?cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
+    protected Link buildUndoLink(String cartId, String regGroupId, String gradingOptionId, String credits) {
+        String action = "undoDeleteCourse";
+        String uriFormat = CourseRegistrationCartClientServiceConstants.SERVICE_NAME_LOCAL_PART + "/undoDeleteCourse?cartId=%s&regGroupId=%s&gradingOptionId=%s&credits=%s";
         String uri = String.format(uriFormat, cartId, regGroupId, gradingOptionId, credits);
 
         return new Link(action, uri);
@@ -178,7 +183,7 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         try {
             CartItemResult result = removeItemFromCart(cartId, cartItemId);
             // build the link to add this item.
-            result.getActionLinks().add(buildAddLink(cartId, result.getRegGroupId(), result.getGrading(), result.getCredits()));
+            result.getActionLinks().add(buildUndoLink(cartId, result.getRegGroupId(), result.getGrading(), result.getCredits()));
 
             //This will need to be changed to the cartItemResponse object in the future!
             response = Response.ok(result);
