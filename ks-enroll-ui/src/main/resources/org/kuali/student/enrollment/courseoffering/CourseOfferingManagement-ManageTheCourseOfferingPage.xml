@@ -90,10 +90,10 @@
                     <property name="items">
                         <list>
                             <bean id="KS-CourseOfferingManagement-AliasMessage" parent="Uif-Message"
-                                  p:messageText="@{currentCourseOfferingWrapper.courseOfferingCode} is a crosslisted alias
+                                  p:messageText="@{currentCourseOfferingWrapper.ownerAliases} is a crosslisted alias
                                             for: @{currentCourseOfferingWrapper.ownerCode}. Changes made on
                                             this page to @{currentCourseOfferingWrapper.ownerCode} will be applied to all
-                                            aliases, including @{currentCourseOfferingWrapper.courseOfferingCode}." />
+                                            aliases, including @{currentCourseOfferingWrapper.ownerAliases}." />
                         </list>
                     </property>
                 </bean>
