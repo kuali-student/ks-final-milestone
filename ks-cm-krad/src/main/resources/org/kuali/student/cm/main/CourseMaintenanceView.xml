@@ -40,7 +40,6 @@
 
     <bean id="KS-CourseView" parent="KS-Uif-MaintenanceView">
         <property name="defaultBindingObjectPath" value="document.newMaintainableObject" />
-        <property name="formClass" value="org.kuali.student.cm.course.form.CreateCourseForm"/>
         <property name="dataObjectClassName" value="org.kuali.student.cm.course.form.CourseInfoWrapper"/>
         <!-- New Course header requires static string therefore below string construction is not required.
         commenting below code in case required in future.
