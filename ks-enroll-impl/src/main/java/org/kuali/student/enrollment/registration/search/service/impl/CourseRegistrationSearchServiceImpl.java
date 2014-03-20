@@ -406,7 +406,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
                 "AND grading.RESULT_VAL_GRP_ID LIKE 'kuali.resultComponent.grade.%' " +
                 "WHERE " +
                 "    lprt.REQUESTING_PERS_ID = :personId " +
-                "AND lprt.LPR_TRANS_TYPE= :lprtType " +
+                "AND ( lprt.LPR_TRANS_TYPE= :lprtType " +
+                "      OR " +
+                "    (lprt.LPR_TRANS_TYPE= :lprtRegistrationType AND  lprt.LPR_TRANS_STATE = :lprtProcessingState )) " +  // shows processing items
                 "AND lprt.ATP_ID = :atpId " +
                 "AND lprti.LPR_TRANS_ID=lprt.ID " +
                 "AND rg2ao.LUILUI_RELTN_TYPE='kuali.lui.lui.relation.type.registeredforvia.rg2ao' " +
@@ -430,6 +432,9 @@ public class CourseRegistrationSearchServiceImpl extends SearchServiceAbstractHa
         query.setParameter(SearchParameters.PERSON_ID, personId);
         query.setParameter(SearchParameters.ATP_ID, atpId);
         query.setParameter(SearchParameters.LPRT_TYPE, lprtType);
+        query.setParameter("lprtRegistrationType", LprServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
+        query.setParameter("lprtProcessingState", LprServiceConstants.LPRTRANS_PROCESSING_STATE_KEY);
+
         if(!StringUtils.isEmpty(cartItemId)){
             query.setParameter(SearchParameters.CART_ITEM_ID, cartItemId);
         }
