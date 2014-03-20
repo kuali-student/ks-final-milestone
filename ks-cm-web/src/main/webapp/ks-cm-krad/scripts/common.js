@@ -461,22 +461,17 @@ function reDrawSubjectCode() {
 }
 
 function compareSubjectCodeInput(value, element) {
-
-    if(value == null || value.length < 4) {
-        return false;
+    var testResult;
+    if(value == null || value.length < 2) {
+        testResult = "0";
     }
 
     var successFunction = function (data) {
         if(data == null || data.resultData == null || data.resultData.length != 1)  {
-            return false;
+            testResult = "0";
         } else {
             jQuery("#"+element.id).attr('value', data.resultData[0].value);
-
-            retrieveComponent('KS-SubjectArea-Field',undefined, function () {
-                jQuery('#KS-SubjectArea-Field').attr('class', 'uif-inputField uif-inputField-labelTop uif-boxLayoutHorizontalItem');
-                jQuery('#KS-SubjectArea-Field').show();
-            });
-            return true;
+            testResult = "1";
         }
     };
 
@@ -492,12 +487,21 @@ function compareSubjectCodeInput(value, element) {
     jQuery.ajax({
         url: jQuery("form#kualiForm").attr("action"),
         dataType: "json",
+        async: false,
         beforeSend: null,
         complete: null,
         error: null,
         data: queryData,
         success: successFunction
     });
+
+    if(testResult=="1")
+    {
+        return true;
+    } else
+    {
+        return false;
+    }
 }
 
 jQuery.validator.addMethod("validSubjectCode",
