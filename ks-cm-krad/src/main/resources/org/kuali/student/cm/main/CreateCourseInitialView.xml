@@ -42,7 +42,7 @@
     <bean id="KS-CourseView-createCourseInitialView" parent="KS-Uif-FormView">
         <property name="id" value="createCourseInitialView"/>
         <property name="headerText"  value="Create Course " />
-        <property name="formClass" value="org.kuali.student.cm.course.form.CreateCourseForm"/>
+        <property name="formClass" value="org.kuali.student.cm.course.form.CourseInitialForm"/>
         <property name="viewHelperServiceClass" value="org.kuali.student.cm.course.service.impl.CourseInfoMaintainableImpl" />
         <property name="viewSourceFile" value="CreateCourseInitialView.xml" /> <!-- Shows up in HTML so devs can find the code -->
         <property name="items">

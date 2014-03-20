@@ -24,7 +24,7 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 /**
  * Form for create course.
  */
-public class CreateCourseForm extends MaintenanceDocumentForm {
+public class CourseInitialForm extends MaintenanceDocumentForm {
 
     private String createCourseInitialAction;
 
@@ -32,17 +32,12 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
 
     private boolean curriculumSpecialistUser;
 
-    private CourseViewSections selectedSection;
-
-    private String proposalName;
-
-    public CreateCourseForm() {
+    public CourseInitialForm() {
         super();
         // assume user is not a Curriculum Specialist (CS) user
         curriculumSpecialistUser = false;
         // default to true as only CS users are able to disable curriculum review
         useReviewProcess = true;
-        selectedSection = CourseViewSections.COURSE_INFO;
     }
 
     public String getCreateCourseInitialAction() {
@@ -69,37 +64,4 @@ public class CreateCourseForm extends MaintenanceDocumentForm {
         this.curriculumSpecialistUser = curriculumSpecialistUser;
     }
 
-    public String getProposalName() {
-        return proposalName;
-    }
-
-    public void setProposalName(String proposalName) {
-        this.proposalName = proposalName;
-    }
-
-    public CourseViewSections getSelectedSection() {
-        return selectedSection;
-    }
-
-    public void setSelectedSection(CourseViewSections selectedSection) {
-        this.selectedSection = selectedSection;
-    }
-
-    public String getHeaderText() {
-        String headerSuffixText;
-
-        if (!isUseReviewProcess()) {
-            headerSuffixText = " (Admin Proposal)";
-        } else {
-            headerSuffixText = " (Proposal)";
-        }
-        ProposalInfo proposalInfo = ((CourseInfoWrapper)
-                getDocument().getNewMaintainableObject().getDataObject()).getProposalInfo();
-
-        if (proposalInfo != null && StringUtils.isNotBlank(proposalInfo.getName())){
-            return proposalInfo.getName() + headerSuffixText;
-        } else {
-            return "New Course" + headerSuffixText;
-        }
-    }
 }

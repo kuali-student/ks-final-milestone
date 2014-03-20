@@ -873,10 +873,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         updateReview();
     }*/
 
-    protected void updateReview() {
+    public void updateReview() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
+        ProposalInfo proposalInfo = courseInfoWrapper.getProposalInfo();
 
         // Update course section
         ReviewProposalDisplay reviewData = courseInfoWrapper.getReviewProposalDisplay();
@@ -891,6 +892,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getcourseSection().setTranscriptTitle(savedCourseInfo.getTranscriptTitle());
         reviewData.getcourseSection().setSubjectArea(savedCourseInfo.getSubjectArea());
         reviewData.getcourseSection().setCourseNumberSuffix(savedCourseInfo.getCourseNumberSuffix());
+        reviewData.getcourseSection().setDescription(savedCourseInfo.getDescr().getPlain());
+        reviewData.getcourseSection().setRationale(proposalInfo.getRationale().getPlain());
 
         // Update governance section
         reviewData.getgovernanceSection().getCampusLocations().clear();
@@ -1290,16 +1293,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             identities.put(pId, memeberEntity);
         }
         return identities;
-    }
-
-    /**
-     * Retrieves the {@link CourseInfoMaintainable} instance from the {@link MaintenanceDocumentForm} in session
-     *
-     * @param form {@link MaintenanceDocumentForm}
-     * @param {@link CourseInfoMaintainable}
-     */
-    protected CourseInfoMaintainable getCourseMaintainableFrom(final MaintenanceDocumentForm form) {
-        return (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
     }
 
     /*@Override

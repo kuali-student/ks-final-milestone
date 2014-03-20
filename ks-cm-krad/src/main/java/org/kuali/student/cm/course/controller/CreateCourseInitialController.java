@@ -23,7 +23,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.cm.common.util.CurriculumManagementConstants;
 import org.kuali.student.cm.course.form.CourseInfoWrapper;
-import org.kuali.student.cm.course.form.CreateCourseForm;
+import org.kuali.student.cm.course.form.CourseInitialForm;
 import org.kuali.student.cm.course.util.CourseProposalUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -52,7 +52,7 @@ public class CreateCourseInitialController  extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
-        CreateCourseForm courseForm= new CreateCourseForm();
+        CourseInitialForm courseForm= new CourseInitialForm();
         courseForm.setUseReviewProcess(false);
         courseForm.setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
         return courseForm;
@@ -66,7 +66,7 @@ public class CreateCourseInitialController  extends UifControllerBase {
     public ModelAndView continueCreateCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
 
-        final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
+        final CourseInitialForm maintenanceDocForm = (CourseInitialForm) form;
         Properties urlParameters = new Properties();
         if (!CourseProposalUtil.isUserCurriculumSpecialist()) {
             // if user is not a CS user, then curriculum review must be used because only CS users can disable curriculum review

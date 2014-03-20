@@ -126,13 +126,13 @@ public class CourseController extends CourseRuleEditorController {
      * #URL_PARAM_USE_CURRICULUM_REVIEW
      *
      * @param request
-     * @return a new instance of a CreateCourseForm
+     * @return a new instance of a MaintenanceDocumentForm
      */
     @Override
     protected MaintenanceDocumentForm createInitialForm(HttpServletRequest request) {
         MaintenanceDocumentForm form = new MaintenanceDocumentForm();
         String useReviewProcessParam = request.getParameter(URL_PARAM_USE_CURRICULUM_REVIEW);
-        // only do the manually setup of the CreateCourseForm fields if the URL_PARAM_USE_CURRICULUM_REVIEW param was passed in from initial view
+        // only do the manually setup of the MaintenanceDocumentForm fields if the URL_PARAM_USE_CURRICULUM_REVIEW param was passed in from initial view
         if (StringUtils.isNotBlank(useReviewProcessParam)) {
             Boolean isUseReviewProcess = new Boolean(useReviewProcessParam);
             // throw an exception if the user is not a CS use but attempts to disable Curriculum Review for a proposal
@@ -174,79 +174,18 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * Currently updates the CreateCourseForm to set the 'useReviewProcess' property based on the document type name. If
+     * Currently updates the MaintenanceDocumentForm to set the 'useReviewProcess' property based on the document type name. If
      * the document type name is CurriculumManagementConstants#DocumentTypeNames#CourseProposal#COURSE_CREATE_ADMIN or
      * CurriculumManagementConstants#DocumentTypeNames#CourseProposal#COURSE_MODIFY_ADMIN then set 'useReviewProcss' to
      * false
      *
-     * @param form the CreateCourseForm object to update
+     * @param form the DocumentFormBase object to update
      */
     protected void updateCourseForm(DocumentFormBase form) {
         CourseInfoWrapper wrapper = ((CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject());
         wrapper.getUiHelper().setUseReviewProcess(!ArrayUtils.contains(CurriculumManagementConstants.DocumentTypeNames.ADMIN_DOC_TYPE_NAMES, form.getDocTypeName()));
         wrapper.getUiHelper().setCurriculumSpecialistUser(CourseProposalUtil.isUserCurriculumSpecialist());
     }
-
-    /**
-     * After the document is loaded calls method to setup the maintenance object
-     */
-//    @RequestMapping(params = "methodToCall=docHandler")
-//    public ModelAndView docHandler(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-//                HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-//        final MaintenanceDocumentForm maintenanceDocForm = (MaintenanceDocumentForm) form;
-//
-//        final ModelAndView retval = super.docHandler(maintenanceDocForm, result, request, response);
-//
-//        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
-
-//        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceDocForm.getDocument().getNewMaintainableObject().getDataObject();
-//
-//        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
-//        courseInfoWrapper.setUserId(ContextUtils.getContextInfo().getPrincipalId());
-
-//        // Initialize Course Requisites
-//        final CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
-//        ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
-//
-//        ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
-//        ruleWrapper.setRefObjectId(courseInfoWrapper.getCourseInfo().getId());
-//
-//        ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
-
-        /*if (KewApiConstants.INITIATE_COMMAND.equals(maintenanceDocForm.getCommand())) {
-
-            // After creating the document, modify the state
-//            courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
-//            courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
-//            courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
-//
-//            courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
-//
-//            // Initialize Curriculum Oversight if it hasn't already been.
-//            if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
-//                courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
-//            }
-
-            // Initialize formats
-            if (courseInfoWrapper.getCourseInfo().getFormats().isEmpty()) {
-                courseInfoWrapper.getCourseInfo().getFormats().add(new FormatInfo());
-            }
-        }
-        else if (ArrayUtils.contains(DOCUMENT_LOAD_COMMANDS, maintenanceDocForm.getCommand()) && maintenanceDocForm.getDocId() != null) {
-            ProposalInfo proposal = null;
-            try {
-                proposal = getProposalService().getProposalByWorkflowId(maintenanceDocForm.getDocument().getDocumentHeader().getDocumentNumber(), ContextUtils.getContextInfo());
-                courseInfoWrapper.setProposalInfo(proposal);
-            }
-            catch (Exception e) {
-                warn("Unable to retrieve the proposal: %s", e.getMessage());
-            }
-            updateReview(form);
-        }*/
-
-//        return retval;
-//    }
 
     @Override
     public ModelAndView route(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result, HttpServletRequest request, HttpServletResponse response) {
@@ -266,7 +205,7 @@ public class CourseController extends CourseRuleEditorController {
     @RequestMapping(params = "methodToCall=reviewCourseProposal")
     public ModelAndView reviewCourseProposal(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
-        updateReview(form);
+        ((CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject()).updateReview();
         return getUIFModelAndView(form, "KS-CourseView-ReviewProposalPage");
     }
 
@@ -290,77 +229,15 @@ public class CourseController extends CourseRuleEditorController {
     }
 
     /**
-     * After the Craete course initial data is filled call the method to show the navigation panel and
-     * setup the maintenance object
-     */
-//    @RequestMapping(params = "methodToCall=continueCreateCourse")
-//    public ModelAndView continueCreateCourse(@ModelAttribute("KualiForm") DocumentFormBase form, BindingResult result,
-//                                             HttpServletRequest request, HttpServletResponse response) throws Exception {
-//        final CreateCourseForm maintenanceDocForm = (CreateCourseForm) form;
-//
-//
-//        /**
-//         * If the user is CS, then make sure the user checked the 'Curriculum Review process'.
-//         * If checked, create an admin document. Otherwise, create a regular proposal create
-//         * document.
-//         */
-//        if (maintenanceDocForm.isCurriculumSpecialist() && !maintenanceDocForm.isUseReviewProcess()){
-//            maintenanceDocForm.setDocTypeName(CLUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
-//            super.docHandler(maintenanceDocForm, result, request, response);
-//            final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
-//            CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceDocForm.getDocument().getNewMaintainableObject().getDataObject();
-//            // After creating the document, modify the state
-//            courseInfoWrapper.getCourseInfo().setStateKey(DtoConstants.STATE_DRAFT);
-//            courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
-//            courseInfoWrapper.getCourseInfo().setEffectiveDate(new java.util.Date());
-//
-//            courseInfoWrapper.getCourseInfo().setTypeKey(CREDIT_COURSE_CLU_TYPE_KEY);
-//
-//            // Initialize Curriculum Oversight if it hasn't already been.
-//            if (courseInfoWrapper.getCourseInfo().getUnitsContentOwner() == null) {
-//                courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
-//            }
-//        }
-//
-////        try {
-////            redrawDecisionTable(maintenanceDocForm);
-////        }
-////        catch (Exception e) {
-////            error("Unable to create decision table: %s", e.getMessage());
-////        }
-//
-//        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(maintenanceDocForm);
-//
-//        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) maintenanceDocForm.getDocument().getNewMaintainableObject().getDataObject();
-//
-//
-//        CourseInfo coInfo = courseInfoWrapper.getCourseInfo();
-//
-//        // We can actually get this from the workflow document initiator id. It doesn't need to be stored in the form.
-//        courseInfoWrapper.setUserId(ContextUtils.getContextInfo().getPrincipalId());
-//
-//        // Initialize Course Requisites
-//        final CourseRuleManagementWrapper ruleWrapper = maintainable.getCourseRuleManagementWrapper();
-//        ruleWrapper.setNamespace(KSKRMSServiceConstants.NAMESPACE_CODE);
-//
-//        ruleWrapper.setRefDiscriminatorType(CourseServiceConstants.REF_OBJECT_URI_COURSE);
-//        ruleWrapper.setRefObjectId(coInfo.getId());
-//
-//        ruleWrapper.setAgendas(maintainable.getAgendasForRef(ruleWrapper.getRefDiscriminatorType(), ruleWrapper.getRefObjectId()));
-//
-//        return getUIFModelAndView(form, "KS-CourseView-CoursePage");
-//    }
-
-        /**
-        * Add a Supporting Document line
-        *
-        *
-        * @param form {@link MaintenanceDocumentForm} instance used for this action
-        * @param result
-        * @param request {@link HttpServletRequest} instance of the actual HTTP request made
-        * @param response The intended {@link HttpServletResponse} sent back to the user
-        * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
-        */
+    * Add a Supporting Document line
+    *
+    *
+    * @param form {@link MaintenanceDocumentForm} instance used for this action
+    * @param result
+    * @param request {@link HttpServletRequest} instance of the actual HTTP request made
+    * @param response The intended {@link HttpServletResponse} sent back to the user
+    * @return The new {@link ModelAndView} that contains the newly created/updated Supporting document information.
+    */
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addSupportingDocument")
     public ModelAndView addSupportingDocument(@ModelAttribute("KualiForm") MaintenanceDocumentForm form, BindingResult result,
                                 HttpServletRequest request, HttpServletResponse response) {
@@ -563,104 +440,8 @@ public class CourseController extends CourseRuleEditorController {
             return modelAndView;
         }
 
-
-        //Clear collection fields (those with matching 'wrapper' collections)
-        /*courseInfoWrapper.getCourseInfo().getJoints().clear();
-        courseInfoWrapper.getCourseInfo().getInstructors().clear();
-        courseInfoWrapper.getCourseInfo().getUnitsDeployment().clear();
-        courseInfoWrapper.getCourseInfo().getCourseSpecificLOs().clear();
-        
-        //Retrieve the collection display values and get the fully loaded object (containing all the IDs and related IDs)
-        if (courseInfoWrapper.getCourseJointWrappers() != null) {
-            for (final CourseJointInfoWrapper jointInfoDisplay : courseInfoWrapper.getCourseJointWrappers()) {
-                courseInfoWrapper.getCourseInfo().getJoints().add(CourseCodeSearchUtil.getCourseJointInfoWrapper(jointInfoDisplay.getCourseCode(), getCluService()));
-            }
-        }
-        
-        if (courseInfoWrapper.getInstructorWrappers() != null) {
-            for (final CluInstructorInfoWrapper instructorDisplay : courseInfoWrapper.getInstructorWrappers()) {
-                final CluInstructorInfoWrapper retrievedInstructor = getCourseMaintainableFrom(form).getInstructor(getInstructorSearchString(instructorDisplay.getDisplayName()));
-                courseInfoWrapper.getCourseInfo().getInstructors().add(retrievedInstructor);
-            }
-        }
-
-        if (courseInfoWrapper.getAdministeringOrganizations() != null) {
-            for (final OrganizationInfoWrapper org : courseInfoWrapper.getAdministeringOrganizations()) {
-                courseInfoWrapper.getCourseInfo().getUnitsDeployment().add(org.getOrganizationName());
-            }
-        }
-        
-        if (courseInfoWrapper.getLoDisplayWrapperModel() != null && courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers() != null) {
-            List<LoDisplayInfoWrapper> loWrappers = courseInfoWrapper.getLoDisplayWrapperModel().getLoWrappers();
-            List<LoDisplayInfo> courseLos = courseInfoWrapper.getCourseInfo().getCourseSpecificLOs();
-            for (int i = 0; i < loWrappers.size(); i++) {
-                
-                LoDisplayInfoWrapper currentLo = loWrappers.get(i);
-                
-                boolean rootLevel = true;
-                int parentIndex = i - 1;
-                while (parentIndex >= 0) {
-                    LoDisplayInfoWrapper potentialParent = loWrappers.get(parentIndex);
-                    boolean parentMatch = currentLo.getIndentLevel() > potentialParent.getIndentLevel();
-                    if (parentMatch) {
-                        // TODO KSCM-1737: Implement this on the 'Find Course' functionality
-                        //currentLo.setParentLoRelationid(potentialParent.getLoInfo().getId());
-                        //currentLo.setParentRelType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
-                        potentialParent.getLoDisplayInfoList().add(currentLo);
-                        
-                        rootLevel = false;
-                        break;
-                    } else {
-                        parentIndex--;
-                    }
-                }
-                
-                if (rootLevel) {
-                    courseLos.add(currentLo);
-                }
-            }
-        }
-        
-        // Set derived course fields before saving/updating
-        courseInfoWrapper.setCourseInfo(calculateCourseDerivedFields(courseInfoWrapper.getCourseInfo()));
-        courseInfoWrapper.setLastUpdated(DateFormatters.SIMPLE_TIMESTAMP_FORMATTER.format(new DateTime()));
-
-        courseInfoWrapper.getCourseInfo().setUnitsContentOwner(new ArrayList<String>());
-        for (final KeyValue wrapper : courseInfoWrapper.getUnitsContentOwner()) {
-            courseInfoWrapper.getCourseInfo().getUnitsContentOwner().add(wrapper.getValue());
-        }
-
-        form.getDocument().getDocumentHeader().setDocumentDescription(courseInfoWrapper.getProposalInfo().getName());
-
-        //Formats
-        for (FormatInfo format : courseInfoWrapper.getCourseInfo().getFormats()){
-            if (StringUtils.isBlank(format.getId())){ // If it's new
-                format.setState(DtoConstants.STATE_DRAFT);
-                if (StringUtils.isBlank(format.getTypeKey())){
-                    format.setTypeKey(CluServiceConstants.COURSE_FORMAT_TYPE_KEY);
-                }
-            }
-            for (ActivityInfo activity : format.getActivities()){
-                if (StringUtils.isBlank(activity.getId())){ // If it's new
-                    activity.setState(DtoConstants.STATE_DRAFT);
-                }
-            }
-        }
-
-        try {
-//            if (form.getDocument().getDocumentHeader().getWorkflowDocument().isInitiated()) {
-                handleFirstTimeSave(form);
-//            }
-            save(form, result, request, response);
-        }
-        catch (Exception e) {
-            error("Unable to save document: %s", e.getMessage());
-        }*/
-
         RecentlyViewedDocsUtil.addRecentDoc(form.getDocument().getDocumentHeader().getDocumentDescription(), form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentHandlerUrl() + "&docId=" + form.getDocument().getDocumentHeader().getWorkflowDocument().getDocumentId());
 
-        // After saving successfully update the reviewProposalDisplay
-        updateReview(form);
         String nextOrCurrentPage = form.getActionParameters().get("displayPage");
 
         if (StringUtils.equalsIgnoreCase(nextOrCurrentPage, "NEXT")) {
@@ -694,7 +475,7 @@ public class CourseController extends CourseRuleEditorController {
      *
      * @param form
      */
-    protected void updateReview(final DocumentFormBase form) {
+    /*protected void updateReview(final DocumentFormBase form) {
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
         CourseInfo savedCourseInfo = courseInfoWrapper.getCourseInfo();
 
@@ -740,7 +521,7 @@ public class CourseController extends CourseRuleEditorController {
         // update  financials Section;
         // update  collaborator Section;
         // update  supporting Documents Section;
-    }
+    }*/
 
     /**
      * Copied this method from CourseDataService.
@@ -1074,7 +855,7 @@ public class CourseController extends CourseRuleEditorController {
         final ModelAndView retval = super.navigate(form, result, request, response);
         final CourseInfoMaintainable maintainable = getCourseMaintainableFrom((MaintenanceDocumentForm) form);
 
-        updateReview((DocumentFormBase) form);
+        ((CourseInfoMaintainable)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject()).updateReview();
 
         return retval;
     }

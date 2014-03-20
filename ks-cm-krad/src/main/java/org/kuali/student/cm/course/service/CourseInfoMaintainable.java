@@ -38,7 +38,7 @@ public interface CourseInfoMaintainable {
      * to suggest back to the user an Administering Organization
      *
      * @param organizationName  
-     * @return {@link List} of wrapper instances which get added to the {@link org.kuali.student.cm.course.form.CreateCourseForm}
+     * @return {@link List} of wrapper instances which get added to the {@link org.kuali.student.cm.course.form.CourseInitialForm}
      */
 	List<OrganizationInfoWrapper> getOrganizationsForSuggest(final String organizationName);
 
@@ -61,5 +61,7 @@ public interface CourseInfoMaintainable {
      * @return {@link CourseRuleManagementWrapper}
      */
     CourseRuleManagementWrapper getCourseRuleManagementWrapper();
+
+    public void updateReview();
 
 }
