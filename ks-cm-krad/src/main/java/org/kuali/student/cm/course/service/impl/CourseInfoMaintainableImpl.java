@@ -1177,17 +1177,12 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             proposal.getProposerPerson().clear();
         }
 
-        try {
-            if (StringUtils.isBlank(proposal.getId())){
-                proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
-            } else {
-                proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.getContextInfo());
-            }
-            courseInfoWrapper.setProposalInfo(proposal);
+        if (StringUtils.isBlank(proposal.getId())){
+            proposal = getProposalService().createProposal(ProposalServiceConstants.PROPOSAL_TYPE_COURSE_CREATE_KEY, proposal, ContextUtils.getContextInfo());
+        } else {
+            proposal = getProposalService().updateProposal(proposal.getId(), proposal, ContextUtils.getContextInfo());
         }
-        catch (Exception e) {
-            warn("Unable to create a proposal: %s", e.getMessage());
-        }
+        courseInfoWrapper.setProposalInfo(proposal);
     }
 
     /**

@@ -53,6 +53,7 @@ import org.kuali.student.common.uif.util.KSUifUtils;
 import org.kuali.student.common.uif.util.KSViewAttributeValueReader;
 import org.kuali.student.common.util.security.ContextUtils;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.DtoConstants.DtoState;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.date.DateFormatters;
@@ -500,6 +501,10 @@ public class CourseController extends CourseRuleEditorController {
         return retval;
     }
 
+    public void performWorkflowActionSuper(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
+        super.performWorkflowAction(form,action,checkSensitiveData);
+    }
+
     /**
      * Here we move the success messages displayed in UI from header to growl.
      * @param form
@@ -508,9 +513,18 @@ public class CourseController extends CourseRuleEditorController {
      */
     @Override
     protected void performWorkflowAction(DocumentFormBase form, UifConstants.WorkflowAction action, boolean checkSensitiveData) {
-        super.performWorkflowAction(form, action, checkSensitiveData);
+//        try {
+            CourseControllerTransactionHelper helper = GlobalResourceLoader.getService(new QName(CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "courseControllerTransactionHelper", CourseControllerTransactionHelper.class.getSimpleName()));
+            helper.performWorkflowActionSuper(form, action, checkSensitiveData, this);
+//            performWorkflowActionSuper(form,action,checkSensitiveData);
+//        } catch (Exception e) {
+//            LOG.error("Caught Exception attempting to perform action " + action.name() + " for document: " + form.getDocument().getDocumentNumber(),e);
+//            Throwable rootCause = KSObjectUtils.unwrapException(20,e);
+//            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, rootCause.getMessage());
+//        }
+//        super.performWorkflowAction(form, action, checkSensitiveData);
         AutoPopulatingList<ErrorMessage> infoMessages = GlobalVariables.getMessageMap().getInfoMessagesForProperty(KRADConstants.GLOBAL_MESSAGES);
-        if (infoMessages != null){
+        if (infoMessages != null) {
             for (ErrorMessage message : infoMessages) {
                 KSUifUtils.addGrowlMessageIcon(GrowlIcon.SUCCESS, message.getErrorKey(), message.getMessageParameters());
             }
@@ -534,8 +548,7 @@ public class CourseController extends CourseRuleEditorController {
 //
 //
 
-        final CourseInfoMaintainable maintainable = getCourseMaintainableFrom(form);
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)((MaintenanceDocumentForm)form).getDocument().getNewMaintainableObject().getDataObject();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)form.getDocument().getNewMaintainableObject().getDataObject();
         form.getDocument().getDocumentHeader().setDocumentDescription(courseInfoWrapper.getProposalInfo().getName());
 
         ModelAndView modelAndView;
