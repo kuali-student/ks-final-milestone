@@ -91,7 +91,7 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
     private RegistrationResponseInfo submitRegistrationCart(String registrationCartId, ContextInfo contextInfo)
             throws PermissionDeniedException, MissingParameterException, InvalidParameterException,
             OperationFailedException, DoesNotExistException, AlreadyExistsException {
-        Exception ex = null;
+
         try {
             RegistrationRequestInfo cartInfo =
                     getRegistrationRequest(registrationCartId, contextInfo);
@@ -116,24 +116,14 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             cartInfo.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
             cartInfo = updateRegistrationRequest(cartInfo.getId(), cartInfo, contextInfo);
             // Submit the copy
-            submitRegistrationRequest(updated.getId(), contextInfo);
-        } catch (ReadOnlyException e) {
-            ex = e;
-        } catch (DataValidationErrorException e) {
-            ex = e;
-        } catch (VersionMismatchException e) {
-            ex = e;
-        }
-        if (ex != null) {
-            // Rethrow
+            return submitRegistrationRequest(updated.getId(), contextInfo);
+        } catch (ReadOnlyException ex) {
+            throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
+        } catch (DataValidationErrorException ex) {
+            throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
+        } catch (VersionMismatchException ex) {
             throw new OperationFailedException("Exception: " + ex.getMessage(), ex);
         }
-
-        RegistrationResponseInfo regResp = new RegistrationResponseInfo();
-        regResp.setRegistrationRequestId(registrationCartId);
-        regResp.getMessages().add("Reg Cart Submitted");
-
-        return regResp;
     }
     /**
      * If the registration request type key is LPRTRANS_REG_CART_TYPE_KEY, then it will check the types
