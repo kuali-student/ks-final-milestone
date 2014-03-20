@@ -58,6 +58,13 @@ angular.module('regCartApp')
                 query: {method: 'GET', cache: false, isArray: false}
             });
         };
+
+        this.getRegistrationStatus = function () {
+            return $resource(APP_URL + 'CourseRegistrationClientService/getRegistrationStatus', {}, {
+                query: {method: 'GET', cache: false, isArray: false}
+            });
+        };
+
     this.undoDeleteCourse = function () {
         return $resource(APP_URL + 'CourseRegistrationCartClientService/undoDeleteCourse', {}, {
                 query: {method: 'GET', cache: false, isArray: false}

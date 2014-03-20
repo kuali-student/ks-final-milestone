@@ -2,7 +2,7 @@
 
 angular.module('regCartApp')
     .controller('CartCtrl',
-    function ($scope, $modal, CartService, ScheduleService, GlobalVarsService) {
+    function ($scope, $modal, CartService, ScheduleService, GlobalVarsService, $timeout) {
         $scope.oneAtATime = false;
         //Add a watch so that when termId changes, the cart is reloaded with the new termId
         $scope.$watch('termId', function (newValue) {
@@ -171,15 +171,41 @@ angular.module('regCartApp')
 
             CartService.submitCart().query({
                 cartId: $scope.cart.cartId
-            }, function () {
-                console.log('Submiting cart.');
-                CartService.getCart().query({termId: $scope.termId}, function (theCart) {
-                    $scope.cart = theCart;
-                    $scope.userMessage = {txt: 'Cart was submitted.', type: 'success'};
-                    GlobalVarsService.setRegisteredCourseCount(currentCartCourseCount + currentScheduleCourseCount);
-                    GlobalVarsService.setRegisteredCredits(currentCartCreditCount + currentScheduleCreditCount);
+            }, function (registrationResponseInfo) {
+                console.log('Submitted cart. RegReqId[' + registrationResponseInfo.registrationRequestId + ']');
+
+                // set cart and all items in cart to processing
+                $scope.cart.state = 'kuali.lpr.trans.state.processing';
+                angular.forEach($scope.cart.items, function (item) {
+                    item.state = 'kuali.lpr.trans.item.state.processing';
                 });
+                $timeout(function(){}, 250);    // delay for 250 milliseconds
+                console.log('Just waited 250, now start the polling');
+                cartPoller(registrationResponseInfo.registrationRequestId);
             });
+        };
+
+        var cartPoller = function(registrationRequestId){
+            $scope.pollingCart = false; // prime to false
+            $timeout(function(){
+                CartService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
+                    $scope.cart.state = regResponseResult.state;
+                    angular.forEach(regResponseResult.responseItemResults, function (responseItem) {
+                        angular.forEach($scope.cart.items, function (item) {
+                            if (item.cartItemId === responseItem.registrationRequestItemId) {
+                                item.state = responseItem.state;
+                            }
+                            if(responseItem.state === 'kuali.lpr.trans.item.state.processing'){
+                                $scope.pollingCart = true;
+                            }
+                        });
+                    });
+                });
+                if($scope.pollingCart){
+                    console.log('Continue polling');
+                    cartPoller(registrationRequestId);
+                }else { console.log('Stop polling');}
+            }, 1000);
         };
 
         function creditTotal() {
