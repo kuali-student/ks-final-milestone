@@ -217,7 +217,7 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
 
                 // generate exam offerings if exam period exists
-                if (!StringUtils.isEmpty(examPeriodId)) {
+                if (!StringUtils.isEmpty(examPeriodId) && !activityOfferingWrapper.isColocatedAO()) {  //Co-located already has an EO, do not create
                     CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(activityOfferingWrapper.getAoInfo(),
                             activityOfferingWrapper.getAoInfo().getTermId(), examPeriodId, new ArrayList<String>(), contextInfo);
                 }
