@@ -1,23 +1,45 @@
 
-<div class="kscr-MainHeading util-Grid util-Grid--center">
-    <div class="util-Grid-cell">
-        <span class="kscr-MainHeading-header">MY CART  </span>
-        <span id="credit_count_title" class="kscr-Heading-support">
-            <ng-pluralize count="cart.items.length"
-                          when="{'1'    : '{} course',
-                                     'other': '{} courses'}">
-            </ng-pluralize>
-            (<ng-pluralize count="creditTotal"
-                          when="{'1'    : '{} credit',
-                                     'other': '{} credits'}">
-            </ng-pluralize>)
-        </span>
-    </div>
+<div>
+    <!--My Cart Main Heading-->
+    <div class="kscr-MainHeading util-Grid util-Grid--center" ng-hide="showConfirmation">
+        <div class="util-Grid-cell">
+            <span class="kscr-MainHeading-header">MY CART  </span>
+            <div id="credit_count_title" class="kscr-MainHeading-support">
+                <ng-pluralize count="cart.items.length"
+                              when="{'1'    : '{} course',
+                                         'other': '{} courses'}">
+                </ng-pluralize>
+                (<ng-pluralize count="creditTotal"
+                               when="{'1'    : '{} credit',
+                                         'other': '{} credits'}">
+                </ng-pluralize>)
+            </div>
+        </div>
 
-    <div>
-        <button id="register" class="kscr-Button--primary" type="submit" ng-click="register()">Register</button>
+        <div>
+            <button id="register" ng-disabled="cart.items.length < 1" class="kscr-Button--primary" type="button" ng-click="showConfirmation =!showConfirmation">Register</button>
+        </div>
     </div>
+    <form ng-submit="register()">
+        <!-- Registration Confirmation Box-->
+        <div ng-show="showConfirmation" class="kscr-Confirmation-container">
+            <div class="kscr-Confirmation-header  util-Grid">
+                <ng-pluralize count="cart.items.length"
+                    when="{  '1'    : 'Register for the course below?',
+                             'other': 'Register for the courses below?'}">
+                </ng-pluralize>
+            </div>
+            <div class="util-Grid">
+                <span class="kscr-Confirmation-buttons util-Grid-cell">
+                    <button id="confirmRegistration" class="kscr-Button--primary" type="submit" ng-click="showConfirmation = !showConfirmation">Confirm Registration</button>
+                        <div class="global-Base-divider"></div>
+                    <button id="cancelRegistration" class="kscr-Button" type="button" ng-click="showConfirmation = !showConfirmation">Cancel</button>
+                </span>
+            </div>
+        </div>
+    </form>
 </div>
+
 
 <!--My Cart Input Boxes and Add to Cart Button -->
 <div class="kscr-RegInput">

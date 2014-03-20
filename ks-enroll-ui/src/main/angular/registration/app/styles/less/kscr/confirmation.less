@@ -1,0 +1,37 @@
+
+
+.kscr-Confirmation-container{
+    background-color: #FCFCFC;
+    padding: 10px;
+
+        -webkit-transition: all (@transitionSpeed + 0.1s) linear;
+        transition: all (@transitionSpeed + 0.1s) linear;
+        //transition: @transition;
+        opacity:1;
+}
+
+.kscr-Confirmation-header{
+    font-family: @secondaryFontFamily;
+    font-size: 14px;
+    font-weight: normal;
+    color: @primaryTextColor;
+    border-bottom:@horizontalLineBorder;
+    padding-bottom: 5px;
+}
+
+.kscr-Confirmation-buttons{
+   padding: 10px 0px;
+   text-align: right;
+
+}
+
+.kscr-Confirmation-container.ng-hide-add,
+.kscr-Confirmation-container.ng-hide-remove {
+    display:block!important;
+}
+
+.kscr-Confirmation-container.ng-hide {
+    line-height:0;
+    opacity:0;
+    //padding:0 10px;
+}
