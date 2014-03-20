@@ -90,6 +90,13 @@ public class CourseRegistrationEngineServiceImpl implements CourseRegistrationEn
         return;
     }
 
+    @Override
+    public LprTransactionInfo updateLprTransaction(String lprTransactionId, String state, ContextInfo contextInfo) throws PermissionDeniedException, MissingParameterException, InvalidParameterException, OperationFailedException, DoesNotExistException, VersionMismatchException, DataValidationErrorException {
+        LprTransactionInfo lprTransactionInfo = getLprService().getLprTransaction(lprTransactionId, contextInfo);
+        lprTransactionInfo.setStateKey(state);
+        return  getLprService().updateLprTransaction(lprTransactionId, lprTransactionInfo, contextInfo);
+    }
+
     /**
      * This method will build a LprTransactionInfo object from a regGroup
      *

@@ -4,8 +4,9 @@
         xmlns:jms="http://www.springframework.org/schema/jms"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
-  http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
-  http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd">
+            http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd
+            http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms-2.5.xsd
+            http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
     <!-- NOTE: these declarations must be maintained in ALPHABETICAL-order or they will break the build
          http://stackoverflow.com/a/2785026
@@ -42,14 +43,27 @@
         <constructor-arg ref="connectionFactory" />
     </bean>
 
+    <bean id="jmsConfig"
+          class="org.apache.camel.component.jms.JmsConfiguration">
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <property name="concurrentConsumers" value="10"/>
+    </bean>
+
+    <bean id="activemq"
+          class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="configuration" ref="jmsConfig"/>
+    </bean>
+
     <jms:listener-container concurrency="1" >
         <!-- This is used for performance monitoring of queues -->
         <jms:listener id="regPerfListener" destination="org.kuali.student.enrollment.registration.performanceStatsQueue" ref="performanceStatsListener" />
         <!-- These listeners are the nodes in the registration engine -->
         <jms:listener id="regInitListener" destination="org.kuali.student.enrollment.registration.initilizationListenerQueue" ref="registrationInitilizationListener" />
         <jms:listener id="regVerificationListener" destination="org.kuali.student.enrollment.registration.verificationQueue" ref="registrationVerificationListener" />
+        <!-- The following have been overridden by camel.
         <jms:listener id="regSplitByItemListener" destination="org.kuali.student.enrollment.registration.splitByItemQueue" ref="registrationSplitByItemListener" />
         <jms:listener id="regLprActionListener" destination="org.kuali.student.enrollment.registration.lprActionQueue" ref="registrationLprActionListener" />
+        -->
     </jms:listener-container>
 
     <!--Used to collect performance statistics -->
@@ -83,7 +97,59 @@
         </property>
     </bean>
 
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+        <route> <!-- This route splits the reg request into it's items. Adding needed info to the message header.  -->
+            <from uri="activemq:org.kuali.student.enrollment.registration.splitByItemQueue" />  <!-- pick up the reg req -->
+            <setHeader headerName="regReqId"> <!-- Need to store the Reg Req in the header  -->
+                <simple>${body.registrationRequest.id}</simple>
+            </setHeader>
+            <setHeader headerName="regReqItemCount"> <!-- In order to join back later we need to know the req item count -->
+                <simple>${body.registrationRequest.registrationRequestItems.size}</simple>
+            </setHeader>
+            <split parallelProcessing="true"> <!-- Split the RegRequestInfo into it's individual requestItems (add, drop, etc) -->
+                <method ref="requestSplitter"  method="split" />   <!-- does the actual splitting -->
+                <setHeader headerName="JMSXGroupID"> <!-- This is CRITICAL. It is how we ensure valid seat check counts without db locking -->
+                    <simple>FOID=${body.registrationGroup.formatOfferingId}</simple>  <!-- grouping on the foid -->
+                </setHeader>
+                <to uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue"/> <!-- send to queue's for processing-->
+            </split>
+        </route>
+
+        <route>    <!-- performs the update/drop/(waitlist check + seat check + add) -->
+            <from uri="activemq:org.kuali.student.enrollment.registration.lprActionQueue" />
+            <bean ref="courseRegistrationLprActionProcessor" method="process"/> <!-- go to the java code that makes all the decisions -->
+            <to uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue"/> <!-- send to join queue's for final processing-->
+        </route>
+
+        <route>    <!-- This route joins items from the reg req item split. Once all items have completed, update lprTrans state-->
+            <from uri="activemq:org.kuali.student.enrollment.registration.regReqItemJoinQueue" />  <!-- Every Reg Req Item will come here-->
+            <aggregate strategyRef="simpleAggregator" ignoreInvalidCorrelationKeys="true"> <!-- take all the Reg Req Items an join them to their req -->
+                <correlationExpression>
+                    <header>regReqId</header> <!-- correlate on the regReqId we stored in the header -->
+                </correlationExpression>
+                <completionSize>
+                    <header>regReqItemCount</header> <!-- stop aggregating when we've reached the reg req item count size-->
+                </completionSize>
+                <bean ref="courseRegistrationLprActionProcessor" method="updateRegistrationRequestStatus"/> <!-- update lprTrans status -->
+
+                <bean ref="regEnginePerfPojo" method="notifyPerfEnd(${header.regReqId})" /> <!-- notify perf listener that we're done -->
+            </aggregate>
+        </route>
+    </camelContext>
+
+    <bean id="requestSplitter" class="org.kuali.student.enrollment.registration.engine.camel.splitter.RegistrationRequestSplitter"/>  <!-- pull reg info from db. transform into useful objects -->
+    <bean id="simpleAggregator" class="org.kuali.student.enrollment.registration.engine.camel.aggregator.SimpleAggregator"/>  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
+    <bean id="regEnginePerfPojo" class="org.kuali.student.enrollment.registration.engine.processor.RegEnginePerformanceProcessor">  <!-- very simple aggregator that takes the ao results and combines them into a list. Should return a more complex object in future -->
+        <property name="jmsTemplate" ref="jmsTemplate"/>
+    </bean>
+    <bean id="regEngineImpl" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl" />
+    <bean id="courseRegistrationLprActionProcessor" class="org.kuali.student.enrollment.registration.engine.processor.CourseRegistrationLprActionProcessor">
+        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+    </bean>
+
+
     <!-- splits the reg request into multiple queues, one for each item, with a group id of the item's FO -->
+    <!-- overwritten to use camel
     <bean id="registrationSplitByItemListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationSplitRequestItemsNode">
         <property name="jmsTemplate" ref="jmsTemplate"/>
         <property name="destinations">
@@ -92,17 +158,25 @@
             </list>
         </property>
     </bean>
+    -->
 
     <!-- performs the update/drop/(waitlist check + seat check + add) -->
+    <!-- overwritten to use camel
     <bean id="registrationLprActionListener" class="org.kuali.student.enrollment.registration.engine.node.impl.CourseRegistrationLprActionNode">
         <property name="jmsTemplate" ref="jmsTemplate"/>
-        <property name="courseRegistrationEngineService" ref="courseRegistrationEngineService"/>
+        <property name="courseRegistrationLprActionProcessor" ref="courseRegistrationLprActionProcessor"/>
+        <property name="destinations">
+            <list>
+                <value>org.kuali.student.enrollment.registration.regReqItemJoinQueue</value>
+            </list>
+        </property>
         <property name="filters">
             <list>
                 <bean class="org.kuali.student.enrollment.registration.engine.node.filter.PerformanceEndNodeFilter"/>
             </list>
         </property>
     </bean>
+    -->
 
     <!-- Groups common registration functions into a single service -->
     <bean id="courseRegistrationEngineService" class="org.kuali.student.enrollment.registration.engine.service.impl.CourseRegistrationEngineServiceImpl"/>
