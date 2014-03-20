@@ -830,6 +830,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
             for (AcademicTermWrapper termWrapper : acalForm.getTermWrapperList()) {
                 for(AcademicTermWrapper subtermWrapper : termWrapper.getSubterms()){
                     subtermWrapper.setParentTermInfo(termWrapper.getTermInfo());
+                    subtermWrapper.getParentTermInfo().setStartDate(termWrapper.getStartDate());
+                    subtermWrapper.getParentTermInfo().setEndDate(termWrapper.getEndDate());
                 }
             }
 
