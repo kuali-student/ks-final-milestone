@@ -11,6 +11,8 @@ import org.kuali.student.r2.core.search.infc.SearchResultRow;
  */
 public interface CourseSearchStrategy {
 
+    public static final int MAX_HITS = 1000;
+
 	static enum ProjectedOrder {
 		AU, FA, WI, SP, SU;
 	}

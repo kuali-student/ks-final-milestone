@@ -21,7 +21,9 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.ap.coursesearch.dataobject.CourseSummaryDetails;
@@ -980,7 +982,7 @@ public class CourseSearchController extends UifControllerBase {
 
 	@Override
 	protected UifFormBase createInitialForm(HttpServletRequest request) {
-		return (UifFormBase) searcher.createSearchForm();
+        return (UifFormBase) searcher.createSearchForm();
 	}
 
 	@RequestMapping(value = "/course/{courseCd}", method = RequestMethod.GET)
@@ -1119,8 +1121,19 @@ public class CourseSearchController extends UifControllerBase {
 			return;
 		}
 
+        ObjectNode json = mapper.createObjectNode();
+
         // Validate search results
 		if (table.searchResults != null && !table.searchResults.isEmpty()) {
+            String maxCountProp = ConfigContext.getCurrentContextConfig()
+                    .getProperty("ksap.search.results.max");
+            int maxCount = maxCountProp != null && !"".equals(maxCountProp.trim()) ? Integer
+                    .valueOf(maxCountProp) : CourseSearchStrategy.MAX_HITS;
+            if(table.getSearchResults().size()>=maxCount){
+                json.put("LimitExceeded", maxCount);
+            }else{
+                json.put("LimitExceeded", 0);
+            }
 			SearchInfo firstRow = table.searchResults.iterator().next();
 			// Validate incoming jQuery datatables inputs
 			assert table != null;
@@ -1155,7 +1168,6 @@ public class CourseSearchController extends UifControllerBase {
 				.getFilteredResults(dataTablesInputs);
 
 		// Render JSON response for DataTables
-		ObjectNode json = mapper.createObjectNode();
 		json.put("iTotalRecords", table.searchResults.size());
 		json.put("iTotalDisplayRecords", filteredResults.size());
 		json.put("sEcho", Integer.toString(dataTablesInputs.sEcho));

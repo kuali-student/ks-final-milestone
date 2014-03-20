@@ -3,6 +3,8 @@ package org.kuali.student.ap.coursesearch.controller;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.rice.core.api.criteria.Predicate;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.ap.academicplan.dto.LearningPlanInfo;
 import org.kuali.student.ap.academicplan.dto.PlanItemInfo;
 import org.kuali.student.ap.academicplan.infc.LearningPlan;
@@ -63,7 +65,7 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 	private static final Logger LOG = LoggerFactory.getLogger(CourseSearchStrategyImpl.class);
 
 	private static final Map<String, Comparator<String>> FACET_SORT;
-	private static final int MAX_HITS = 1000;
+
 	private static WeakReference<Map<String, Credit>> creditMapRef;
 
 	public static final String NO_CAMPUS = "-1";
@@ -766,7 +768,10 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
 		Map<String, CourseSearchItem.PlanState> courseStatusMap = getCourseStatusMap(studentId);
 		List<String> courseIDs = new ArrayList<String>();
 		for (Hit hit : hits) {
-			courseIDs.add(hit.courseID);
+			if(courseIDs.size() >= maxCount){
+                break;
+            }
+            courseIDs.add(hit.courseID);
 		}
         List<CourseSearchItemImpl> courses = new ArrayList<CourseSearchItemImpl>();
         if(!courseIDs.isEmpty()){
@@ -786,9 +791,6 @@ public class CourseSearchStrategyImpl implements CourseSearchStrategy {
             }
             course.setSessionid(form.getSessionId());
             courseList.add(course);
-            if (courseList.size() >= maxCount) {
-                break;
-            }
 		}
 		populateFacets(form, courseList);
 

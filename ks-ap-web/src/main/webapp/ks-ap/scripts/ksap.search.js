@@ -29,13 +29,13 @@ function ksapCourseSearchTableWidth() {
 
 /**
  * Override this method to redefine course search columns.
- * 
+ *
  * <p>
  * NOTE: Display fields and search fields do not work on the same data on the
  * back end. There need to be enough columns defined to accommodate the largest
  * of these two lists. Column order for search fields (facets) is internal to
  * CourseSearchController
- * 
+ *
  * @returns aoColumns Value for DataTables.
  */
 function ksapCourseSearchColumns() {
@@ -133,7 +133,7 @@ function fnSelectAllCampuses() {
 
 /**
  * Perform a course search.
- * 
+ *
  * @param id
  *            The ID of the course search DataTables table element.
  * @param parentId
@@ -141,13 +141,6 @@ function fnSelectAllCampuses() {
  *            be hidden while the initial search is taking place.
  */
 function searchForCourses(id, parentId) {
-    if(jQuery('#text_searchQuery_control').val().length<3){
-        jQuery('#searchValidationMessages').removeClass("ksap-hide");
-        return;
-    }else{
-        jQuery('#searchValidationMessages').addClass("ksap-hide");
-    }
-
 
 	var results = jQuery("#" + parentId); // course_search_results_panel
 	results.fadeOut("fast");
@@ -244,7 +237,18 @@ function searchForCourses(id, parentId) {
 										type : "GET",
 										url : sSource,
 										data : aoData,
-										success : fnCallback,
+                                        success : function(data, textStatus, jqXHR){
+                                            if(data.LimitExceeded>0){
+                                                var message = jQuery('#searchValidationMessages div span');
+                                                var text = message.html();
+                                                var formatted = text.replace('__KSAP_SEARCH_LIMIT__',data.LimitExceeded+'');
+                                                jQuery('#searchValidationMessages div span').html(formatted);
+                                                jQuery('#searchValidationMessages').removeClass("ksap-hide");
+                                            }else{
+                                                jQuery('#searchValidationMessages').addClass("ksap-hide");
+                                            }
+                                            fnCallback(data,textStatus,jqXHR);
+                                        },
 										error : function(jqXHR, textStatus,
 												errorThrown) {
 											hideLoading();
@@ -324,7 +328,7 @@ function fnLoadFacets() {
 /**
  * Send a facet click event to the server, and receive an updated facet state in
  * oFacets.
- * 
+ *
  * @param sFilter
  *            The facet key that was clicked.
  * @param i
@@ -368,12 +372,12 @@ function fnClickFacet(sFilter, fcol, e) {
 
 /**
  * GENERATE_FACETS event handler.
- * 
+ *
  * <p>
  * This event is sent to all facet groups after receiving initial facet state
  * from the server in conjunction with a search.
  * </p>
- * 
+ *
  * @param i
  *            The facet columns index.
  * @param obj
@@ -439,12 +443,12 @@ function fnGenerateFacetGroup(obj) {
 
 /**
  * UPDATE_FACETS event handler.
- * 
+ *
  * <p>
  * This event is sent to all facet groups after receiving updated facet state
  * from the server.
  * </p>
- * 
+ *
  * @param i
  *            The facet column index.
  * @param obj
