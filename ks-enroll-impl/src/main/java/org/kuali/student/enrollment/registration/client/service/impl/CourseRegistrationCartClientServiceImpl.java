@@ -81,8 +81,8 @@ public class CourseRegistrationCartClientServiceImpl implements CourseRegistrati
         Response.ResponseBuilder response;
 
         try {
-            submitCart(ContextUtils.createDefaultContextInfo(), cartId);
-            response = Response.ok(Boolean.TRUE);
+            RegistrationResponseInfo info = submitCart(ContextUtils.createDefaultContextInfo(), cartId);
+            response = Response.ok(info);
         } catch (Exception e) {
             LOGGER.warn("Error submitting cart", e);
             // Convert the generic user message into something useful to the UI.
