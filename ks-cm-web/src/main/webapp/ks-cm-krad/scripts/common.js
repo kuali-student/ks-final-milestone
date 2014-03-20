@@ -456,22 +456,18 @@ function reDrawOutcomeComponent() {
     retrieveComponent('KS-CourseView-CourseLogisticsPage-Outcome-Widgets');
 }
 
-function reDrawSubjectCode() {
-    jQuery('#KS-SubjectArea-Field').attr('class', 'uif-inputField uif-inputField-labelTop uif-boxLayoutHorizontalItem');
-}
-
 function compareSubjectCodeInput(value, element) {
-    var testResult;
+    var isValid;
     if(value == null || value.length < 2) {
-        testResult = "0";
+        isValid = false;
     }
 
     var successFunction = function (data) {
         if(data == null || data.resultData == null || data.resultData.length != 1)  {
-            testResult = "0";
+            isValid = false;
         } else {
             jQuery("#"+element.id).attr('value', data.resultData[0].value);
-            testResult = "1";
+            isValid = true;
         }
     };
 
@@ -495,13 +491,7 @@ function compareSubjectCodeInput(value, element) {
         success: successFunction
     });
 
-    if(testResult=="1")
-    {
-        return true;
-    } else
-    {
-        return false;
-    }
+    return isValid;
 }
 
 jQuery.validator.addMethod("validSubjectCode",
