@@ -14,6 +14,7 @@ import org.kuali.rice.krad.web.form.DocumentFormBase;
 import org.kuali.rice.krad.web.form.MaintenanceDocumentForm;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.common.collection.KSCollectionUtils;
+import org.kuali.student.common.object.KSObjectUtils;
 import org.kuali.student.common.uif.form.KSUifMaintenanceDocumentForm;
 import org.kuali.student.common.uif.util.KSControllerHelper;
 import org.kuali.student.common.uif.util.KSUifUtils;
@@ -219,7 +220,7 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         	ActivityOfferingControllerTransactionHelper helper = CourseOfferingManagementUtil.getActivityOfferingControllerTransactionHelper();
             helper.routeSuper(form, result, request, response, this);
         } catch (Exception e) {
-            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, unwrapException(e).getMessage());
+            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, KSObjectUtils.unwrapException(20, e).getMessage());
         }
 
         if (GlobalVariables.getMessageMap().hasErrors()) {
@@ -267,16 +268,6 @@ public class ActivityOfferingController extends MaintenanceDocumentController {
         Properties urlParameters = new Properties();
         urlParameters.put(EnrollConstants.GROWL_MESSAGE, ActivityOfferingConstants.MSG_INFO_AO_MODIFIED);
         return performRedirect(form, url, urlParameters);
-    }
-
-    /**
-     * Fish out the original cause.
-     */
-    private Throwable unwrapException(Throwable e) {
-        if (e.getCause() != null) {
-             unwrapException(e.getCause());
-        }
-        return e;
     }
 
     @RequestMapping(params = "methodToCall=cancel")
