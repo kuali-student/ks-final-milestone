@@ -259,11 +259,17 @@
                       p:collectionObjectClass="org.kuali.student.cm.course.form.ResultValueKeysWrapper"
                       p:progressiveRender="#lp.typeKey eq 'kuali.result.values.group.type.multiple'"
                       p:progressiveRenderViaAJAX="true" p:propertyName="resultValueKeysDisplay">
+                     <property name="addLineActions">
+                        <list>
+                            <bean id="addBlankLine-outcome-multiple" parent="KSCM-Uif-AddBlankLineAction">
+                            </bean>
+                        </list>
+                    </property>
                     <property name="addLinePlacement" value="BOTTOM" />
                     <property name="addLineLabel.messageText" value=" " />
                     <property name="items">
                         <list>
-                            <bean parent="Uif-InputField-LabelTop" p:label="Credit Value"
+                            <bean id="outcome-multiple-credit" parent="Uif-InputField-LabelTop" p:label="Credit Value"
                                   p:propertyName="creditValueDisplay">
                                 <property name="validCharactersConstraint">
                                     <bean parent="NumericPatternConstraint" />
@@ -405,4 +411,6 @@
             </list>
         </property>
     </bean>
+    <bean id="KSCM-Uif-AddBlankLineAction" parent="Uif-PrimaryActionButton-Small" p:methodToCall="addBlankLine"
+          p:actionLabel="Add" p:actionEvent="addBlankLine" p:id="addBlankLine-outcome-multiple"/>
 </beans>
