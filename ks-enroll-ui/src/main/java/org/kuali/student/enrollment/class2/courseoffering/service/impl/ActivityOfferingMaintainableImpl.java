@@ -217,11 +217,19 @@ public class ActivityOfferingMaintainableImpl extends KSMaintainableImpl impleme
                 }
 
                 // generate exam offerings if exam period exists
-                if (!StringUtils.isEmpty(examPeriodId) && !activityOfferingWrapper.isColocatedAO()) {  //Co-located already has an EO, do not create
-                    CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(activityOfferingWrapper.getAoInfo(),
+                if (!StringUtils.isEmpty(examPeriodId) ) {
+                    if ( !activityOfferingWrapper.isColocatedAO() ) {
+                        CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(activityOfferingWrapper.getAoInfo(),
                             activityOfferingWrapper.getAoInfo().getTermId(), examPeriodId, new ArrayList<String>(), contextInfo);
+                    } else {  //Co-located > generate if the AO does not have an EO
+                        List <String> eoRels =  CourseOfferingManagementUtil.getExamOfferingService().getExamOfferingRelationIdsByActivityOffering(
+                                                                                           activityOfferingWrapper.getAoInfo().getId(), contextInfo);
+                        if (eoRels == null || eoRels.size() < 1 ) {
+                            CourseOfferingManagementUtil.getExamOfferingServiceFacade().generateFinalExamOfferingForAO(activityOfferingWrapper.getAoInfo(),
+                                activityOfferingWrapper.getAoInfo().getTermId(), examPeriodId, new ArrayList<String>(), contextInfo);
+                        }
+                    }
                 }
-
             } catch (Exception e) {
                 throw convertServiceExceptionsToUI(e);
             }
