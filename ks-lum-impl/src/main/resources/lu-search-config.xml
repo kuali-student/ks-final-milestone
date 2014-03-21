@@ -3017,10 +3017,15 @@
                         setAttr.ATTR_VALUE
                         FROM
                         KSLU_CLU_SET_ATTR setAttr,
-                        KSLU_CLU_SET_JN_CLU setJnClu
+                        KSLU_CLU_SET_JN_CLU setJnClu,
+                        KSLU_CLU_SET_JN_CLU_SET setJnSet,
+                        KSLU_CLU_SET cluSet
                         WHERE
                         setJnClu.CLU_VER_IND_ID IN :courseIDs
                         AND setAttr.OWNER = setJnClu.CLU_SET_ID
+                        AND setJnClu.CLU_SET_ID = setJNSet.CLU_SET_CHILD_ID
+                        AND setJnSet.CLU_SET_PARENT_ID = cluSet.ID
+                        AND cluSet.NAME = 'General Education'
 
                     </value>
                 </entry>
