@@ -6,6 +6,12 @@ angular.module('regCartApp')
         var registeredCredits = 0;
         var registeredCourseCount = 0;
 
+        var processingStates = ["kuali.lpr.trans.item.state.processing","kuali.lpr.trans.state.processing"];
+        var successStates = ["kuali.lpr.trans.state.succeeded", "kuali.lpr.trans.item.state.succeeded"]
+        var errorStates = ["kuali.lpr.trans.state.failed", "kuali.lpr.trans.item.state.failed"];
+        var actionStates = ["", ""];
+
+
         this.getRegisteredCredits = function () {
             return registeredCredits;
         };
@@ -22,12 +28,18 @@ angular.module('regCartApp')
             registeredCourseCount = value;
         };
 
+        // In this method we pass in a state and it returns a status
+        this.getCorrespondingStatusFromState = function(state){
+            var retStatus = 'new';
+            if(processingStates.indexOf(state) >= 0){
+                retStatus = 'processing';
+            } else if(successStates.indexOf(state) >= 0){
+                retStatus = 'success';
+            } else if(errorStates.indexOf(state) >= 0){
+                retStatus = 'error';
+            }
 
-        this.removeCourseFromStudentSchedule = function(value){
-            angular.forEach(value, function (schedule) {
-                var index= schedule.courseOfferings.indexOf(value);
-                schedule.courseOfferings.splice(index,1);
-            });
+            return retStatus;
         };
 
         /**

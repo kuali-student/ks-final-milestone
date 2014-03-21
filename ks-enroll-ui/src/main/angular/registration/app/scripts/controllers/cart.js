@@ -176,8 +176,10 @@ angular.module('regCartApp')
 
                 // set cart and all items in cart to processing
                 $scope.cart.state = 'kuali.lpr.trans.state.processing';
+                $scope.cart.status = 'processing';  // set the overall status to processing
                 angular.forEach($scope.cart.items, function (item) {
                     item.state = 'kuali.lpr.trans.item.state.processing';
+                    item.status = 'processing';
                 });
                 $timeout(function(){}, 250);    // delay for 250 milliseconds
                 console.log('Just waited 250, now start the polling');
@@ -185,16 +187,19 @@ angular.module('regCartApp')
             });
         };
 
+        // This method is used to update the states/status of each cart item by polling the server
         var cartPoller = function(registrationRequestId){
             $scope.pollingCart = false; // prime to false
             $timeout(function(){
                 CartService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
                     $scope.cart.state = regResponseResult.state;
-                    var locCart = $scope.cart;
+                    var locCart = $scope.cart;  // for debug only
                     angular.forEach(regResponseResult.responseItemResults, function (responseItem) {
                         angular.forEach($scope.cart.items, function (item) {
                             if (item.cartItemId === responseItem.registrationRequestItemId) {
                                 item.state = responseItem.state;
+                                // we need to update the status, which is used to controll css
+                                item.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
                             }
                             if(responseItem.state === 'kuali.lpr.trans.item.state.processing'){
                                 $scope.pollingCart = true;
@@ -206,9 +211,10 @@ angular.module('regCartApp')
                         cartPoller(registrationRequestId);
                     }else {
                         console.log('Stop polling');
+                        $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
                     }
                 });
-            }, 1000);
+            }, 1000);  // right now we're going to wait 1 second per poll
         };
 
         function creditTotal() {
