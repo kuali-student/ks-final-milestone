@@ -207,7 +207,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		
 		lprTransItemInfo.getResultValuesGroupKeys().addAll(getResultValueGroupIds());
 
-        if (this.getResultingLprId() != null && this.getStatus() != null && this.getResultMessage() != null) {
+        if (this.getResultingLprId() != null || this.getStatus() != null || this.getResultMessage() != null) {
             //only record the details if the values are not null
             LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
             lprItemResult.setResultingLprId(this.getResultingLprId());
