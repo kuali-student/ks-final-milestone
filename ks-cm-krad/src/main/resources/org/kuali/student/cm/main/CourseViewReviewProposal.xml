@@ -106,15 +106,15 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:label="Proposal Title" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
+                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.proposalInfo.name"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:label="Course Title" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
+                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.courseInfo.courseTitle"
                                   p:required="true"/>
                             <bean parent="Uif-DataField" p:label="Transcript Course Title" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
+                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.courseInfo.transcriptTitle"/>
                             <bean parent="Uif-DataField" p:label="Subject Code" p:colSpan="3"
                                   p:fieldLabel.renderColon="false"
@@ -136,10 +136,10 @@
                                   p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Description" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
+                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Proposal Rationale" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false"
+                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                         </list>
                     </property>
@@ -185,8 +185,10 @@
                             <bean parent="Uif-DataField" p:label="Campus Locations" p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.governanceSection.campusLocations" />
                             <bean parent="Uif-DataField" p:label="Curriculum Oversight" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.governanceSection.curriculumOversight" p:required="true" />
                             <bean parent="Uif-DataField" p:label="Administering Organization" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.governanceSection.administeringOrganization" />
                         </list>
                     </property>
@@ -234,6 +236,7 @@
                             <bean parent="Uif-DataField" p:label="Duration" p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.atpDurationType" />
                             <bean parent="Uif-DataField" p:label="Assessment Scale" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.gradingOptions" p:required="true" />
                             <bean parent="Uif-DataField" p:label="Audit"   p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.timeQuantity" />
@@ -242,6 +245,7 @@
                             <bean parent="Uif-DataField" p:label="Final Exam Status"  p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatus" p:required="true" />
                             <bean parent="Uif-DataField" p:label="Final Exam Rationale"  p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.audit" />
                             <bean parent="Uif-DataField" p:label="Outcomes"  p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
@@ -289,6 +293,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:label="Learning Objectives" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.learningObjectivesSection.learningObjectives" />
                         </list>
                     </property>
@@ -434,6 +439,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-DataField" p:label="Justification of Fees" p:colSpan="3" p:fieldLabel.renderColon="false"
+                                  p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.financialsSection.justificationOfFees" />
                         </list>
                     </property>

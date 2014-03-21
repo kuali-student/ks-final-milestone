@@ -80,9 +80,9 @@
 			<list>
 				<bean parent="Uif-DataField" p:propertyName="id" p:label="Internal ID" />
 				<bean parent="Uif-DataField" p:propertyName="organizationName"
-					p:label="Organization Name" />
+					p:label="Organization Name" p:escapeHtmlInPropertyValue="false" />
 				<bean parent="Uif-DataField" p:propertyName="abbreviation"
-					p:label="Abbreviation" />
+					p:label="Abbreviation" p:escapeHtmlInPropertyValue="false" />
 			</list>
 		</property>
 	</bean>

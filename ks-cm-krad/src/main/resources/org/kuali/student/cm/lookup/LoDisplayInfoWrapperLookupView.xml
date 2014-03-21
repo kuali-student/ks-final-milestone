@@ -103,7 +103,7 @@
                 <bean parent="Uif-DataField" p:propertyName="code" p:label="Code" />
                 <bean parent="Uif-DataField" p:propertyName="typeName" p:label="Type" p:hidden="@{(lookupCriteria['searchBy'] eq 'COURSE_ONLY') or (lookupCriteria['searchBy'] eq 'PROGRAM_ONLY')}" />
                 <bean parent="Uif-DataField" p:propertyName="name" p:label="Lo Category" />
-                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Lo Description" />
+                <bean parent="Uif-DataField" p:propertyName="descr.plain" p:label="Lo Description" p:escapeHtmlInPropertyValue="false" />
            </list>
         </property>
     </bean>

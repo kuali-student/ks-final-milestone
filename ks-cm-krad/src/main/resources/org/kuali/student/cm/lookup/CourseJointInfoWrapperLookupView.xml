@@ -60,11 +60,11 @@
 		</property>
 		<property name="resultFields">
 			<list>
-				<bean parent="Uif-DataField" p:propertyName="name" p:label="Name" />
+				<bean parent="Uif-DataField" p:propertyName="name" p:label="Name" p:escapeHtmlInPropertyValue="false" />
 				<bean parent="Uif-DataField" p:propertyName="courseCode"
 					p:label="Code" />
-				<bean parent="Uif-DataField" p:propertyName="descr.plain"
-					p:label="Description" />
+				<bean parent="Uif-DataField" p:propertyName="descr.plain" p:escapeHtmlInPropertyValue="false"
+                      p:label="Description" />
 			</list>
 		</property>
 	</bean>
