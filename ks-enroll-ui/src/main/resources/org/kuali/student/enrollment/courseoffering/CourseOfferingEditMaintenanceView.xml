@@ -312,7 +312,7 @@
                     <property name="items">
                         <list>
                             <bean parent="Uif-Label" p:labelText="Course Title" />
-                            <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:showLabel="false" />
+                            <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:showLabel="false" p:escapeHtmlInPropertyValue="false"/>
                         </list>
                     </property>
                 </bean>
