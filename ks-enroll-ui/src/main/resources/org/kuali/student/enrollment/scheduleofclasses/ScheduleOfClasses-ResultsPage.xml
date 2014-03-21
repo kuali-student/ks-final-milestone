@@ -98,7 +98,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:label="Title" p:propertyName="courseOfferingDesc"/>
+                <bean parent="Uif-DataField" p:label="Title" p:propertyName="courseOfferingDesc" p:escapeHtmlInPropertyValue="false"/>
                 <bean parent="Uif-DataField" p:label="Credits" p:propertyName="courseOfferingCreditOptionDisplay"/>
                 <bean parent="Uif-MessageField" p:label="Additional Info" p:messageText="@{#line.information}"
                       p:additionalCssClasses="course-offering-display-info-icon">
