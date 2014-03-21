@@ -832,6 +832,8 @@ public class AcademicCalendarViewHelperServiceImpl extends KSViewHelperServiceIm
                     subtermWrapper.setParentTermInfo(termWrapper.getTermInfo());
                     subtermWrapper.getParentTermInfo().setStartDate(termWrapper.getStartDate());
                     subtermWrapper.getParentTermInfo().setEndDate(termWrapper.getEndDate());
+                    subtermWrapper.setParentTermName(termWrapper.getName());
+                    subtermWrapper.getParentTermInfo().setName(termWrapper.getName());
                 }
             }
 
