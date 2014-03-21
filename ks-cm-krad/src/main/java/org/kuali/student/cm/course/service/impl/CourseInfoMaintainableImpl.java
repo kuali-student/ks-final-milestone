@@ -118,6 +118,7 @@ import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstant
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
@@ -177,6 +178,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private ProposalService proposalService;
 
     private TypeService typeService;
+
+    private LRCService lrcService;
 
 
     /**
@@ -914,6 +917,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
         }
 
+        reviewData.getcourseLogisticsSection().setGradingOptions(getAssessementScaleString());
+
         // update learning Objectives Section;
         // update  course Requisites Section;
         // update  active Dates Section;
@@ -1192,6 +1197,27 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
+    protected String getAssessementScaleString(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        if (!courseInfoWrapper.getCourseInfo().getGradingOptions().isEmpty()){
+            try {
+                List<ResultValuesGroupInfo> resultValuesGroupInfos = getLRCService().getResultValuesGroupsByKeys(courseInfoWrapper.getCourseInfo().getGradingOptions(),createContextInfo());
+                StringBuilder builder = new StringBuilder();
+                for (ResultValuesGroupInfo info : resultValuesGroupInfos){
+                    builder.append(info.getName() + ",");
+                }
+                return StringUtils.removeEnd(builder.toString(), ",");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        return "";
+    }
+
     /**
      * Converts the display name of the instructor into the plain user name (for use in a search query)
      *
@@ -1255,30 +1281,11 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             populatePassFailOnWrapper();
             populateOutComesOnWrapper();
 
-            populateWrappers(dataObject);
-
             redrawDecisionTable();
-            updateReview();
+            updateReview(); 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-    }
-
-    protected void populateWrappers(CourseInfoWrapper courseWrapper){
-
-        CourseInfo course = courseWrapper.getCourseInfo();
-
-        for (ResultValuesGroup rg : course.getCreditOptions()){
-            if (StringUtils.equals(rg.getTypeKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
-                courseWrapper.setAudit(true);
-            } else if (StringUtils.equals(rg.getTypeKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
-                courseWrapper.setPassFail(true);
-            }
-        }
-
-//        courseWrapper.setAdministeringOrganizations();
-//        courseWrapper.
 
     }
 
@@ -1463,5 +1470,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         return typeService;
+    }
+
+    private LRCService getLRCService() {
+        if (lrcService == null)
+        {
+            QName qname = new QName(LrcServiceConstants.NAMESPACE, LrcServiceConstants.SERVICE_NAME_LOCAL_PART);
+            lrcService = (LRCService) GlobalResourceLoader.getService(qname);
+        }
+        return lrcService;
     }
 }
