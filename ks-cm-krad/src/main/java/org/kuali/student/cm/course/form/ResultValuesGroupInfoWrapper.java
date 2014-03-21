@@ -30,6 +30,8 @@ public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo{
     
     private static final long serialVersionUID = 8595074563846388089L;
     private List<ResultValueKeysWrapper> resultValueKeysDisplay;
+
+    private ResultValuesGroupInfo resultValuesGroupInfo;
     
     public ResultValuesGroupInfoWrapper() {
         this.resultValueKeysDisplay = new ArrayList<ResultValueKeysWrapper>();
@@ -43,4 +45,11 @@ public class ResultValuesGroupInfoWrapper extends ResultValuesGroupInfo{
         this.resultValueKeysDisplay = resultValueKeysDisplay;
     }
 
+    public ResultValuesGroupInfo getResultValuesGroupInfo() {
+        return resultValuesGroupInfo;
+    }
+
+    public void setResultValuesGroupInfo(ResultValuesGroupInfo resultValuesGroupInfo) {
+        this.resultValuesGroupInfo = resultValuesGroupInfo;
+    }
 }

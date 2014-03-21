@@ -114,12 +114,14 @@ import org.kuali.student.r2.lum.course.dto.CourseVariationInfo;
 import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r2.lum.util.constants.LrcServiceConstants;
+import org.springframework.beans.BeanUtils;
 
 import javax.persistence.Transient;
 import javax.xml.namespace.QName;
@@ -858,24 +860,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    /*@Override
-    public void processAfterEdit(MaintenanceDocument document, Map<String, String[]> requestParameters) {
-
-        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
-
-        final CourseRuleManagementWrapper ruleWrapper = getCourseRuleManagementWrapper();
-
-        ProposalInfo proposal = null;
-        try {
-            proposal = getProposalService().getProposalByWorkflowId(getDocumentNumber(), ContextUtils.getContextInfo());
-            courseInfoWrapper.setProposalInfo(proposal);
-        }
-        catch (Exception e) {
-            warn("Unable to retrieve the proposal: %s", e.getMessage());
-        }
-        updateReview();
-    }*/
-
     public void updateReview() {
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper)getDataObject();
@@ -917,14 +901,14 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             throw new RiceIllegalStateException(e);
         }
 
-      if(savedCourseInfo.getDuration() != null &&  StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
-        try{
+        if (savedCourseInfo.getDuration() != null && StringUtils.isNotBlank(savedCourseInfo.getDuration().getAtpDurationTypeKey())) {
+            try {
                 TypeInfo term = getTypeService().getType(savedCourseInfo.getDuration().getAtpDurationTypeKey(), ContextUtils.getContextInfo());
                 reviewData.getcourseLogisticsSection().setAtpDurationType(term.getName());
             } catch (Exception e) {
                 throw new RiceIllegalStateException(e);
             }
-      }
+        }
 
         if (savedCourseInfo.getDuration() != null){
             reviewData.getcourseLogisticsSection().setTimeQuantity(savedCourseInfo.getDuration().getTimeQuantity());
@@ -1062,8 +1046,16 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
 
         for (ResultValuesGroupInfoWrapper rvgWrapper : courseInfoWrapper.getCreditOptionWrappers()){
-            ResultValuesGroupInfoWrapper rvg = new ResultValuesGroupInfoWrapper();
-            rvg.setTypeKey(rvgWrapper.getTypeKey());
+
+            ResultValuesGroupInfo rvg = rvgWrapper.getResultValuesGroupInfo();
+
+            if (rvg == null){
+                rvg = new ResultValuesGroupInfo();
+                courseInfoWrapper.getCourseInfo().getCreditOptions().add(rvg);
+                rvg.setTypeKey(rvgWrapper.getTypeKey());
+                rvg.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
+            }
+
             if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)){
                 rvg.setResultValueRange(rvgWrapper.getResultValueRange());
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
@@ -1073,7 +1065,6 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             } else if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
                 rvg.setResultValueRange(rvgWrapper.getResultValueRange());
             }
-            courseInfoWrapper.getCourseInfo().getCreditOptions().add(rvg);
         }
 
     }
@@ -1081,23 +1072,21 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     protected void populateOutComesOnWrapper(){
 
-        /*CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        courseInfoWrapper.getCourseInfo().getCreditOptions().clear();
-
-        for (ResultValuesGroupInfoWrapper rvgWrapper : courseInfoWrapper.getCreditOptionWrappers()){
-            ResultValuesGroupInfoWrapper rvg = new ResultValuesGroupInfoWrapper();
-            rvg.setTypeKey(rvgWrapper.getTypeKey());
-            if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED)){
-                rvg.setResultValueRange(rvgWrapper.getResultValueRange());
-            } else if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
-                for (ResultValueKeysWrapper rvKeys : rvgWrapper.getResultValueKeysDisplay()){
-                    rvg.getResultValueKeys().add(rvKeys.getCreditValueDisplay());
+        for (ResultValuesGroupInfo rvg : courseInfoWrapper.getCourseInfo().getCreditOptions()){
+            ResultValuesGroupInfoWrapper rvgWrapper = new ResultValuesGroupInfoWrapper();
+            BeanUtils.copyProperties(rvg,rvgWrapper);
+            rvgWrapper.setResultValuesGroupInfo(rvg);
+            if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE)){
+                for (String rvKey : rvg.getResultValueKeys()){
+                    ResultValueKeysWrapper keysWrapper = new ResultValueKeysWrapper();
+                    keysWrapper.setCreditValueDisplay(rvKey);
+                    rvgWrapper.getResultValueKeysDisplay().add(keysWrapper);
                 }
-            } else if (StringUtils.equals(rvgWrapper.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_RANGE)){
-                rvg.setResultValueRange(rvgWrapper.getResultValueRange());
             }
-        }*/
+            courseInfoWrapper.getCreditOptionWrappers().add(rvgWrapper);
+        }
 
     }
 
@@ -1105,36 +1094,30 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        ResultValuesGroupInfo resultValuesGroupInfo = null;
-        for (ResultValuesGroupInfo rvg : courseInfoWrapper.getCourseInfo().getCreditOptions()){
-            if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
-                resultValuesGroupInfo = rvg;
+        AttributeInfo passFailAttr = null;
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
+            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL)){
+                passFailAttr = attr;
+                break;
             }
         }
 
-        if (courseInfoWrapper.isPassFail()){
-            if (resultValuesGroupInfo == null){
-                resultValuesGroupInfo = new ResultValuesGroupInfo();
-                //This should be based on the course state. But for now, it's draft
-                resultValuesGroupInfo.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
-                resultValuesGroupInfo.setTypeKey(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
-                resultValuesGroupInfo.setName("Pass Fail");
-                courseInfoWrapper.getCourseInfo().getCreditOptions().add(resultValuesGroupInfo);
-            }
-        } else {
-            if (resultValuesGroupInfo != null){
-                courseInfoWrapper.getCourseInfo().getCreditOptions().remove(resultValuesGroupInfo);
-            }
+        if (passFailAttr == null){
+            passFailAttr = new AttributeInfo();
+            passFailAttr.setKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL);
+            courseInfoWrapper.getCourseInfo().getAttributes().add(passFailAttr);
         }
+
+        passFailAttr.setValue(BooleanUtils.toStringTrueFalse(courseInfoWrapper.isPassFail()));
     }
 
     protected void populatePassFailOnWrapper(){
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        for (ResultValuesGroupInfo rvg : courseInfoWrapper.getCourseInfo().getCreditOptions()){
-            if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL)){
-                courseInfoWrapper.setAudit(true);
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
+            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_PASSFAIL)){
+                courseInfoWrapper.setPassFail(BooleanUtils.toBoolean(attr.getValue()));
                 break;
             }
         }
@@ -1145,38 +1128,30 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        ResultValuesGroupInfo resultValuesGroupInfo = null;
-        for (ResultValuesGroupInfo rvg : courseInfoWrapper.getCourseInfo().getCreditOptions()){
-            if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
-                resultValuesGroupInfo = rvg;
+        AttributeInfo auditAttr = null;
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
+            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)){
+                auditAttr = attr;
                 break;
             }
         }
 
-        if (courseInfoWrapper.isAudit()){
-            if (resultValuesGroupInfo == null){
-                resultValuesGroupInfo = new ResultValuesGroupInfo();
-                //This should be based on the course state. But for now, it's draft
-                resultValuesGroupInfo.setStateKey(LrcServiceConstants.RESULT_GROUPS_STATE_DRAFT);
-                resultValuesGroupInfo.setTypeKey(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT);
-                resultValuesGroupInfo.setName("Audit");
-                courseInfoWrapper.getCourseInfo().getCreditOptions().add(resultValuesGroupInfo);
-            }
-        } else {
-            if (resultValuesGroupInfo != null){
-                courseInfoWrapper.getCourseInfo().getCreditOptions().remove(resultValuesGroupInfo);
-            }
+        if (auditAttr == null){
+            auditAttr = new AttributeInfo();
+            auditAttr.setKey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT);
+            courseInfoWrapper.getCourseInfo().getAttributes().add(auditAttr);
         }
+
+        auditAttr.setValue(BooleanUtils.toStringTrueFalse(courseInfoWrapper.isAudit()));
     }
 
     protected void populateAuditOnWrapper(){
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        ResultValuesGroupInfo resultValuesGroupInfo = null;
-        for (ResultValuesGroupInfo rvg : courseInfoWrapper.getCourseInfo().getCreditOptions()){
-            if (StringUtils.equals(rvg.getTypeKey(),LrcServiceConstants.RESULT_GROUP_KEY_GRADE_AUDIT)){
-                courseInfoWrapper.setAudit(true);
+        for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
+            if (StringUtils.equals(attr.getKey(), CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)){
+                courseInfoWrapper.setAudit(BooleanUtils.toBoolean(attr.getValue()));
                 break;
             }
         }
