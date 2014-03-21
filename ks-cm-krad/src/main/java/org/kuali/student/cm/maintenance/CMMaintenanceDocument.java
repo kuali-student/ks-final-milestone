@@ -17,23 +17,20 @@
 package org.kuali.student.cm.maintenance;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.krad.bo.PersistableAttachment;
-import org.kuali.rice.krad.bo.PersistableAttachmentList;
-import org.kuali.rice.krad.maintenance.Maintainable;
 import org.kuali.rice.krad.maintenance.MaintenanceDocumentBase;
 import org.kuali.rice.krad.rules.rule.event.KualiDocumentEvent;
 import org.kuali.rice.krad.rules.rule.event.SaveEvent;
-import org.kuali.student.common.collection.KSCollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.persistence.Entity;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 /**
+ * Document class for all CM maintenance documents which skips the xml serialization of <class>MaintainableImpl</class>
+ * Also, on document save, the data will be stored in KS tables instead of serializing the data to KRNS_MAINT_DOC_T.
+ * As we skipped the serialization, on retrieve, this class should take care of loading the data from KS tables
+ * whenever we load the maintenace document. This happens at <method>processAfterRetrieve()</method> which should
+ * be calling <method>CMMaintainable.retrieveDataObject()</method> to load the data.
  *
  * @author Kuali Student Team
  */
@@ -42,7 +39,7 @@ import java.util.Map;
 public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
     private static final long serialVersionUID = -505085142412593315L;
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CMMaintenanceDocument.class);
+    private static final Logger LOG = LoggerFactory.getLogger(CMMaintenanceDocument.class);
 
     public CMMaintenanceDocument() {
         super();
@@ -89,23 +86,9 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
 
         super.processAfterRetrieve();
 
-//        Map<String,String> dataObjectDetails = getDataObjectDetailsDeSerialization();
-
         ((CMMaintainable)newMaintainableObject).retrieveDataObject();
 
     }
-
-    /*@Override
-    public void prepareForSave(KualiDocumentEvent event) {
-
-        super.prepareForSave(event);
-
-        ((CMMaintainable)newMaintainableObject).saveDataObject(this);
-        Map<String,String> dataObjectDetails = ((CMMaintainable)newMaintainableObject).prepareDataObjectKeys();
-
-        populateDataObjectDetailsSerialization(dataObjectDetails);
-    }*/
-
 
     @Override
     public void prepareForSave(KualiDocumentEvent event) {
@@ -116,33 +99,6 @@ public class CMMaintenanceDocument extends MaintenanceDocumentBase {
         }
     }
 
-    /*protected void populateDataObjectDetailsSerialization(Map<String,String> dataObjectDetails){
-        StringBuilder dataObjectBuffer = new StringBuilder();
-        if (dataObjectDetails != null){
-            Iterator iterator = dataObjectDetails.entrySet().iterator();
-            while (iterator.hasNext()) {
-                Map.Entry mapEntry = (Map.Entry) iterator.next();
-                dataObjectBuffer.append(mapEntry.getKey() + "=" + mapEntry.getValue() + ",");
-            }
-            xmlDocumentContents = StringUtils.stripEnd(dataObjectBuffer.toString(),",");
-        }
-    }
-
-    protected Map<String,String> getDataObjectDetailsDeSerialization(){
-        Map<String,String> dataObjectDetails = new HashMap<String, String>();
-        if (!StringUtils.isEmpty(xmlDocumentContents)) {
-            String[] xmlData = StringUtils.split(xmlDocumentContents,",");
-            for (String data : xmlData){
-                String[] keyValue = StringUtils.split(data, "=");
-                dataObjectDetails.put(keyValue[0],keyValue[1]);
-            }
-        }
-        return dataObjectDetails;
-    }*/
-
-    /**
-     * @see org.kuali.rice.krad.document.DocumentBase#doRouteStatusChange(org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange)
-     */
 
     @Override
     public void populateXmlDocumentContentsFromMaintainables() {

@@ -20,6 +20,8 @@ import org.kuali.student.common.uif.service.KSMaintainable;
 
 /**
  *
+ * Provides contract for implementing a maintenance object within CM.
+ *
  * @author Kuali Student Team
  */
 public interface CMMaintainable extends KSMaintainable {
