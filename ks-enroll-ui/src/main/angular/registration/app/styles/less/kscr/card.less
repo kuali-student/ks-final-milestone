@@ -131,6 +131,63 @@
     opacity:0;
 }
 
+.panel.cart-item-status-success {
+    background-color: @successBackground;   // #dff0d8;
+    border-color: @successBorder;  //#D6E9C6;
+    color: @successText; // #3B723B;
+    text-shadow: 0 .5px #fff;
 
+    .panel-heading {
+        background-image: url("../images/validation/success.png");
+        background-repeat: no-repeat;
+        background-position: @iconPosition;
+        background-color: inherit;
+        .kscr-Card-icon {
+            display:none;
+        }
+    }
+    .kscr-Card-buttons {
+        display: none;
+    }
+}
+
+.panel.cart-item-status-processing {
+    .panel-heading {
+        background-image: url("../images/validation/spinner_small.gif");
+        background-repeat: no-repeat;
+        background-position: @iconPosition;
+        background-color: inherit;
+        .kscr-Card-icon {
+            display:none;
+        }
+    }
+    .kscr-Card-buttons {
+        display: none;
+    }
+}
+
+.panel.cart-item-status-error {
+    background-color: @errorBackground; //#F2DEDE;
+    border-color: @errorBorder;  //#EFD3D7;
+    color: @errorText; //#A3403C;
+    text-shadow: 0 .5px #fff;
+    .panel-heading {
+        background-image: url("../images/validation/error.png");
+        background-repeat: no-repeat;
+        background-position: @iconPosition;
+        background-color: inherit;
+        .kscr-Card-icon {
+            display:none;
+        }
+    }
+    .kscr-Card-buttons {
+        display: none;
+    }
+}
+
+
+.panel.cart-item-status- .panel-heading .kscr-Card-icon {
+    display:block;
+}
 
 /**** End ****/

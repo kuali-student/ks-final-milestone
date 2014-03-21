@@ -132,11 +132,11 @@ angular.module('regCartApp')
         $scope.editCartItem = function (cartItem) {
             $scope.newCredits = cartItem.credits;
             $scope.newGrading = cartItem.grading;
-            cartItem.editing = true;
+            cartItem.status = 'editing';
         };
 
         $scope.cancelEditItem = function (cartItem) {
-            cartItem.editing = false;
+            cartItem.status = '';
         };
 
         $scope.updateCartItem = function (cartItem, newCredits, newGrading) {
@@ -153,7 +153,7 @@ angular.module('regCartApp')
                 console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
                 cartItem.grading = newCartItem.grading;
                 console.log('old: ' + cartItem.grading + ' To: ' + newCartItem.grading);
-                cartItem.editing = false;
+                cartItem.status = '';
                 cartItem.actionLinks = newCartItem.actionLinks;
                 $scope.creditTotal = creditTotal();
                 $scope.userMessage = {txt: 'Updated Successfully', type: 'success'};
@@ -172,6 +172,7 @@ angular.module('regCartApp')
             CartService.submitCart().query({
                 cartId: $scope.cart.cartId
             }, function (registrationResponseInfo) {
+                $scope.userMessage.txt = '';
                 console.log('Submitted cart. RegReqId[' + registrationResponseInfo.registrationRequestId + ']');
 
                 // set cart and all items in cart to processing
@@ -238,6 +239,10 @@ angular.module('regCartApp')
             //console.log("Cart Item Grading: " + JSON.stringify(cartItem));
             return cartItem.gradingOptions[cartItem.grading] != 'Letter';
         };
+
+        $scope.editing = function (cartItem) {
+            return cartItem.status =='editing';
+        }
 
     });
 
