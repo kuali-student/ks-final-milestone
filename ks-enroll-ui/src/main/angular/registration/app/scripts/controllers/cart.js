@@ -162,13 +162,6 @@ angular.module('regCartApp')
         };
 
         $scope.register = function () {
-
-            // We are updating the counts here, but in the future we will be polling for the updates.
-            var currentCartCreditCount = creditTotal();
-            var currentCartCourseCount = $scope.cart.items.length;
-            var currentScheduleCreditCount = GlobalVarsService.getRegisteredCredits();
-            var currentScheduleCourseCount = GlobalVarsService.getRegisteredCourseCount();
-
             CartService.submitCart().query({
                 cartId: $scope.cart.cartId
             }, function (registrationResponseInfo) {
@@ -178,6 +171,7 @@ angular.module('regCartApp')
                 // set cart and all items in cart to processing
                 $scope.cart.state = 'kuali.lpr.trans.state.processing';
                 $scope.cart.status = 'processing';  // set the overall status to processing
+                $scope.creditTotal = 0; // your cart will always update to zero upon submit
                 angular.forEach($scope.cart.items, function (item) {
                     item.state = 'kuali.lpr.trans.item.state.processing';
                     item.status = 'processing';
@@ -203,6 +197,7 @@ angular.module('regCartApp')
                                 item.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
                                 item.statusMessage = responseItem.message;
                             }
+                            // If anything is still processing, continue polling
                             if(responseItem.state === 'kuali.lpr.trans.item.state.processing'){
                                 $scope.pollingCart = true;
                             }
@@ -214,6 +209,14 @@ angular.module('regCartApp')
                     }else {
                         console.log('Stop polling');
                         $scope.cart.status = '';  // set the overall status to nothing... which is the default i guess
+
+                        // After all the processing is complete, get the final Schedule counts.
+                        ScheduleService.getScheduleFromServer().query({termId: $scope.termId }, function (result) {
+                            console.log('called rest service to get schedule data - in main.js');
+                            GlobalVarsService.updateScheduleCounts(result);
+                            $scope.registeredCredits = GlobalVarsService.getRegisteredCredits;   // notice that i didn't put the (). in the ui call: {{registeredCredits()}}
+                            $scope.registeredCourseCount = GlobalVarsService.getRegisteredCourseCount; // notice that i didn't put the (). in the ui call: {{registeredCourseCount()}}
+                        });
                     }
                 });
             }, 1000);  // right now we're going to wait 1 second per poll
@@ -242,7 +245,7 @@ angular.module('regCartApp')
 
         $scope.editing = function (cartItem) {
             return cartItem.status =='editing';
-        }
+        };
 
     });
 

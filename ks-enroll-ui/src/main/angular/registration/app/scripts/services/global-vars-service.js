@@ -6,10 +6,10 @@ angular.module('regCartApp')
         var registeredCredits = 0;
         var registeredCourseCount = 0;
 
-        var processingStates = ["kuali.lpr.trans.item.state.processing","kuali.lpr.trans.state.processing"];
-        var successStates = ["kuali.lpr.trans.state.succeeded", "kuali.lpr.trans.item.state.succeeded"]
-        var errorStates = ["kuali.lpr.trans.state.failed", "kuali.lpr.trans.item.state.failed"];
-        var actionStates = ["", ""];
+        var processingStates = ['kuali.lpr.trans.item.state.processing','kuali.lpr.trans.state.processing'];
+        var successStates = ['kuali.lpr.trans.state.succeeded', 'kuali.lpr.trans.item.state.succeeded'];
+        var errorStates = ['kuali.lpr.trans.state.failed', 'kuali.lpr.trans.item.state.failed'];
+        //var actionStates = ["", ""];
 
 
         this.getRegisteredCredits = function () {
