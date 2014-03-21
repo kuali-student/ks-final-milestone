@@ -173,6 +173,23 @@
                             </sourceDirs>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>generate-conformance-tests</id>
+                        <phase>${ks.conftest.phase}</phase>
+                        <goals>
+                            <goal>kscreateconftest</goal>
+                        </goals>
+                        <configuration>
+                            <!-- generate only on the kuali student api -->
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <!-- generate only on the kuali student api -->
                     <!-- generate only on the kuali student api -->
                     <execution>
                         <id>generate-validation-decorators</id>

@@ -46,7 +46,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 
 /**
  * The Course Registration Service is a Class II service supporting
@@ -65,7 +64,7 @@ import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConst
  * @author Kuali Student Team (sambit)
  */
 
-@WebService(name = "CourseRegistrationService", targetNamespace = CourseRegistrationServiceConstants.NAMESPACE)
+@WebService(name = "CourseRegistrationService", targetNamespace = CourseRegistrationNamespaceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface CourseRegistrationService  {
 
