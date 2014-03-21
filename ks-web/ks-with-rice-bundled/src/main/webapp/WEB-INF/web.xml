@@ -23,7 +23,7 @@
     <!-- HTML escape for XSS prevention -->
     <context-param>
         <param-name>defaultHtmlEscape</param-name>
-        <param-value>true</param-value>
+        <param-value>false</param-value>
     </context-param>
 
 	<!-- By default activate all modules -->
