@@ -112,6 +112,15 @@ function fixLeftNavElementPositioning(initial) {
     }
 }
 
+//remove the stacked collection
+
+function removeCurrciulumOversight() {
+    var oversightComponent = jQuery("#KS-Course-CurriculumOversight-Section");
+    if(oversightComponent!=null){
+        oversightComponent.remove();
+    }
+}
+
 /**
  * Checks if a particular scroll event handler has been bound to the window.
  * @param namespace The scroll event namespace.

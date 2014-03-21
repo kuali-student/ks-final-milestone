@@ -245,7 +245,7 @@
                                     <bean parent="AlphaPatternConstraint"/>
                                 </property>
                                 <property name="control">
-                                    <bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA"
+                                    <bean parent="Uif-TextControl" p:size="6" p:maxLength="4" p:watermarkText="AAAA" p:onChangeScript="removeCurrciulumOversight();"
                                           p:cssClasses="validSubjectCode" />
                                 </property>
                                 <property name="suggest">

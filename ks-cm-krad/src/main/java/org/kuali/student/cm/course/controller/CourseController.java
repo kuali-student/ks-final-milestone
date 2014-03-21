@@ -759,6 +759,7 @@ public class CourseController extends CourseRuleEditorController {
         info("Adding a unitsContentOwner");
         final CourseInfoMaintainable maintainable = (CourseInfoMaintainable) form.getDocument().getNewMaintainableObject();
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) form.getDocument().getNewMaintainableObject().getDataObject();
+        courseInfoWrapper.getUnitsContentOwner().clear();
         if (courseInfoWrapper.getUnitsContentOwnerToAdd() == null) {
             info("Units Content Owner is null");
             return getUIFModelAndView(form);

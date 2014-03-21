@@ -56,7 +56,7 @@
                     </property>
                 </bean>
 
-                <bean parent="Uif-StackedCollectionGroup"
+                <bean id = "KS-Course-CurriculumOversight-Section" parent="Uif-StackedCollectionGroup"
                       p:propertyName="dataObject.unitsContentOwner"
                       p:headerText="Curriculum Oversight"
                       p:collectionObjectClass="org.kuali.rice.core.api.util.ConcreteKeyValue"
