@@ -190,6 +190,7 @@ angular.module('regCartApp')
             $timeout(function(){
                 CartService.getRegistrationStatus().query({regReqId: registrationRequestId}, function (regResponseResult) {
                     $scope.cart.state = regResponseResult.state;
+                    var locCart = $scope.cart;
                     angular.forEach(regResponseResult.responseItemResults, function (responseItem) {
                         angular.forEach($scope.cart.items, function (item) {
                             if (item.cartItemId === responseItem.registrationRequestItemId) {
@@ -200,11 +201,13 @@ angular.module('regCartApp')
                             }
                         });
                     });
+                    if($scope.pollingCart){
+                        console.log('Continue polling');
+                        cartPoller(registrationRequestId);
+                    }else {
+                        console.log('Stop polling');
+                    }
                 });
-                if($scope.pollingCart){
-                    console.log('Continue polling');
-                    cartPoller(registrationRequestId);
-                }else { console.log('Stop polling');}
             }, 1000);
         };
 
