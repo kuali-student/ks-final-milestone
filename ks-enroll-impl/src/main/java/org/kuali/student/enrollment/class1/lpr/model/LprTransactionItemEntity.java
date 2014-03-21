@@ -15,10 +15,17 @@
  */
 package org.kuali.student.enrollment.class1.lpr.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
+import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
+import org.kuali.student.r1.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -27,21 +34,12 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.kuali.student.r1.common.entity.KSEntityConstants;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemRequestOptionInfo;
-import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
-import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
-import org.kuali.student.enrollment.lpr.infc.LprTransactionItemRequestOption;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.RichTextHelper;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS_ITEM")
@@ -137,6 +135,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 					.getLprTransactionItemResult().getResultingLprId());
 			this.setStatus(lprTransactionItem.getLprTransactionItemResult()
 					.getStatus() ? "Y" : "N");
+            this.setResultMessage(lprTransactionItem.getLprTransactionItemResult().getMessage());
 		}
 
 		
@@ -207,16 +206,15 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 		}
 		
 		lprTransItemInfo.getResultValuesGroupKeys().addAll(getResultValueGroupIds());
-		
-		if (this.getResultingLprId() != null && this.getStatus() != null) {
-			// only record the details if the values are not null
-			LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
 
-			lprItemResult.setResultingLprId(this.getResultingLprId());
-			lprItemResult.setStatus(Boolean.valueOf(
-					"Y".equals(this.getStatus()) ? true : false));
-			lprTransItemInfo.setLprTransactionItemResult(lprItemResult);
-		}
+        LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
+
+        lprItemResult.setResultingLprId(this.getResultingLprId());
+        lprItemResult.setStatus(Boolean.valueOf(
+                "Y".equals(this.getStatus()) ? true : false));
+        lprItemResult.setMessage(this.getResultMessage());
+        lprTransItemInfo.setLprTransactionItemResult(lprItemResult);
+
 		return lprTransItemInfo;
 
 	}
