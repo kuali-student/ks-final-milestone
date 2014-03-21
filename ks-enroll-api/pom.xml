@@ -103,7 +103,7 @@
             </plugin>
             <plugin>
                 <groupId>org.kuali.maven.plugins</groupId>
-                <artifactId>maven-kscontractdoc-plugin</artifactId>
+                <artifactId>kscontractdoc-maven-plugin</artifactId>
                 <version>${ks-contract-docs.plugin.version}</version>
                 <!-- For instructions see https://wiki.kuali.org/display/STUDENT/Using+the+Contract+Doc+Maven+Plugin  -->
                 <executions>
@@ -140,6 +140,7 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -158,6 +159,7 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -175,6 +177,7 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
@@ -191,9 +194,27 @@
                                 <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
                                 <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
+		    <execution>
+                        <id>generate-conformance-tests</id>
+                        <phase>${ks.conftest.phase}</phase>
+                        <goals>
+                            <goal>kscreateconftest</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-core-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-common-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-lum-api/src/main/java</sourceDir>
+                                <sourceDir>${project.basedir}/../ks-ap-api/src/main/java</sourceDir>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+
                 </executions>
                 <dependencies>
                     <dependency>
