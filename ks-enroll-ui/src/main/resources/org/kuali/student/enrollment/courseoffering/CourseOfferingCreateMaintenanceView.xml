@@ -190,7 +190,7 @@
                         <bean parent="Uif-TextControl" p:size="10" />
                     </property>
                 </bean>
-                <bean parent="Uif-DataField" p:propertyName="course.courseTitle" p:label="Course Title"/>
+                <bean parent="Uif-DataField" p:propertyName="course.courseTitle" p:label="Course Title" p:escapeHtmlInPropertyValue="false"/>
                 <bean parent="Uif-DataField" p:propertyName="creditCount" p:label="Credits"/>
                 <ref bean="KS-CoListed-Checkbox-Group"/>
             </list>
@@ -354,7 +354,7 @@
 		<property name="items">
            <list>
                <bean parent="Uif-DataField" p:propertyName="courseOfferingCode" p:label="Course Offering Code"/>
-               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:label="Course Title"/>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:label="Course Title" p:escapeHtmlInPropertyValue="false"/>
                <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.creditCnt" p:label="Credits"/>
                <bean parent="Uif-DataField" p:propertyName="gradingOption" p:label="Grading"/>
            </list>
@@ -617,7 +617,7 @@
                    </property>
                </bean>
                <bean parent="Uif-DataField" p:propertyName="term.code" p:label="Offered Term"/>
-               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:label="Course Title"/>
+               <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.courseOfferingTitle" p:label="Course Title" p:escapeHtmlInPropertyValue="false"/>
                <bean parent="Uif-DataField" p:propertyName="courseOfferingInfo.creditCnt" p:label="Credits"/>
                <bean parent="Uif-DataField" p:propertyName="gradingOption" p:label="Grading"/>
            </list>
