@@ -200,6 +200,7 @@ angular.module('regCartApp')
                                 item.state = responseItem.state;
                                 // we need to update the status, which is used to controll css
                                 item.status = GlobalVarsService.getCorrespondingStatusFromState(responseItem.state);
+                                item.statusMessage = responseItem.message;
                             }
                             if(responseItem.state === 'kuali.lpr.trans.item.state.processing'){
                                 $scope.pollingCart = true;
