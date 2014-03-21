@@ -16,7 +16,6 @@
  */
 package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.util.type.KualiDecimal;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.class2.courseoffering.form.DevTestWidgetForm;
@@ -46,6 +45,8 @@ import org.kuali.student.r2.common.util.constants.LprServiceConstants;
 import org.kuali.student.r2.core.search.dto.SearchRequestInfo;
 import org.kuali.student.r2.core.search.dto.SearchResultInfo;
 import org.kuali.student.r2.core.search.service.SearchService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -58,7 +59,7 @@ import java.util.List;
  * @author Kuali Student Team
  */
 public class DevTestWidgetViewHelperServiceImpl extends ViewHelperServiceImpl implements DevTestWidgetViewHelperService {
-    private static final Logger LOGGER = Logger.getLogger(DevTestWidgetViewHelperServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DevTestWidgetViewHelperServiceImpl.class);
     private static final String LETTER_GRADE = "kuali.resultComponent.grade.letter";
     private static final String SPRING_2012_TERM = "kuali.atp.2012Spring";
 

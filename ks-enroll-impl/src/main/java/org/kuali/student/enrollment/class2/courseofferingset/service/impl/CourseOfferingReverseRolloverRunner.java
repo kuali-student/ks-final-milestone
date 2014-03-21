@@ -4,7 +4,6 @@
  */
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +21,8 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,7 +30,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConsta
  */
 public class CourseOfferingReverseRolloverRunner implements Runnable {
 
-    final static Logger logger = Logger.getLogger(CourseOfferingRolloverRunner.class);
+    private static final Logger logger = LoggerFactory.getLogger(CourseOfferingRolloverRunner.class);
     private CourseOfferingService coService;
     private CourseOfferingSetService socService;
     private CourseService courseService;
@@ -142,7 +143,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
                         ex.toString()));
                 this.socService.updateSocRolloverResult(reverseResult.getId(), reverseResult, context);
             } catch (Exception ex1) {
-                logger.fatal(reverseResult, ex);
+                logger.error(String.format("%s", reverseResult), ex);
                 throw new RuntimeException(ex1);
             }
         }
@@ -164,7 +165,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
         int errors = 0;
         List<SocRolloverResultItemInfo> items = new ArrayList<SocRolloverResultItemInfo>();
         for (String targetCoId : targetCoIds) {
-            logger.info("Processing" + targetCoId);
+            logger.info("Processing {}", targetCoId);
             try {
                 SocRolloverResultItemInfo item = reverseOneCourseOffering(targetCoId);
                 items.add(item);
@@ -180,7 +181,7 @@ public class CourseOfferingReverseRolloverRunner implements Runnable {
                 }
             } catch (Exception ex) {
                 // log some conetxt for the exception
-                logger.fatal("failed while processing the " + i + "th course offering " + targetCoId, ex);
+                logger.error(String.format("failed while processing the %sth course offering %s", i, targetCoId), ex);
                 throw ex;
             }
             i++;

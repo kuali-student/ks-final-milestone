@@ -15,7 +15,6 @@
 
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -26,6 +25,8 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.scheduling.service.SchedulingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.List;
@@ -38,9 +39,7 @@ import java.util.List;
  */
 public class CourseOfferingSetSchedulingRunner implements Runnable {
 
-    final static Logger logger = Logger.getLogger(CourseOfferingSetSchedulingRunner.class);
-
-    private final StringBuilder logBuffer = new StringBuilder();
+    private static final Logger logger = LoggerFactory.getLogger(CourseOfferingSetSchedulingRunner.class);
 
     private final String socId;
 
@@ -97,33 +96,33 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
             SocInfo soc = socService.getSoc(socId, contextInfo);
             List<String> coIds = socService.getCourseOfferingIdsBySoc(soc.getId(), contextInfo);
 
-            log("Submitting ", coIds.size(), " course offerings for scheduling");
+            logger.info("Submitting {} course offerings for scheduling", coIds.size());
 
             for (String id : coIds) {
                 CourseOfferingInfo coInfo = coService.getCourseOffering(id, contextInfo);
-                log("Processing schedule requests in AOs for CO, id=", coInfo.getId(), " , coCode=",coInfo.getCourseOfferingCode());
+                logger.info("Processing schedule requests in AOs for CO, id={} , coCode={}", coInfo.getId(), coInfo.getCourseOfferingCode());
 
                 List<ActivityOfferingInfo> activityOfferings = coService.getActivityOfferingsByCourseOffering(id, contextInfo);
 
                 for (ActivityOfferingInfo aoInfo : activityOfferings) {
-                    log("\tProcessing schedule requests in AO, id=", aoInfo.getId(), " , code=",aoInfo.getActivityCode(), " type=", aoInfo.getTypeKey());
+                    logger.info("\tProcessing schedule requests in AO, id={}, code={} type={}", aoInfo.getId(), aoInfo.getActivityCode(), aoInfo.getTypeKey());
 
                     if(aoInfo.getStateKey().equals(LuiServiceConstants.LUI_AO_STATE_APPROVED_KEY)) {
                         StatusInfo status = coService.scheduleActivityOffering(aoInfo.getId(), contextInfo);
-                        log("\t...scheduleActivityOffering returned with a status of ", status.getIsSuccess(), " , message=", status.getMessage());
+                        logger.info("\t...scheduleActivityOffering returned with a status of {}, message={}", status.getIsSuccess(), status.getMessage());
 
                         //perform AO state change
                         if (status.getIsSuccess()){
                             StatusInfo statusInfo = coService.changeActivityOfferingState(aoInfo.getId(), LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, contextInfo);
                             if (!statusInfo.getIsSuccess()){
-                                log("\t...Error updating Activity offering state to " + LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY + " " + statusInfo);
+                                logger.info("\t...Error updating Activity offering state to {} {}", LuiServiceConstants.LUI_AO_STATE_OFFERED_KEY, statusInfo);
                             }
                         } else {
-                            log("\t...Error scheduling Activity offering: " + aoInfo.getActivityCode() + " " + status);
+                            logger.info("\t...Error scheduling Activity offering: {} {}", aoInfo.getActivityCode(), status);
                         }
                     }
                     else {
-                        log("\t...Activity Offering not sent to scheduler, not in a valid state to schedule: ", aoInfo.getStateKey());
+                        logger.info("\t...Activity Offering not sent to scheduler, not in a valid state to schedule: {}", aoInfo.getStateKey());
                     }
                 }
             }
@@ -134,18 +133,8 @@ public class CourseOfferingSetSchedulingRunner implements Runnable {
 
         } catch (Exception e) {
             // When SoC failed state is created, set SoC scheduling state as failed here
-            logger.fatal(e);
+            logger.error("", e);
             throw new RuntimeException(e);
         }
     }
-
-    private void log(Object ... params) {
-        logBuffer.setLength(0);
-        for (Object o : params) {
-            logBuffer.append(o);
-        }
-        logger.info(logBuffer.toString());
-        logBuffer.setLength(0);
-    }
-
 }

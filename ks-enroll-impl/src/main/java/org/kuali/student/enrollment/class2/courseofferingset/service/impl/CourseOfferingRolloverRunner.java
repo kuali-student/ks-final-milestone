@@ -5,7 +5,6 @@
 package org.kuali.student.enrollment.class2.courseofferingset.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.kuali.student.enrollment.class2.courseofferingset.service.facade.RolloverAssist;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
@@ -23,6 +22,8 @@ import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.common.util.constants.CourseOfferingSetServiceConstants;
 import org.kuali.student.r2.core.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.lum.course.service.CourseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +35,7 @@ import java.util.List;
  */
 public class CourseOfferingRolloverRunner implements Runnable {
 
-    final static Logger logger = Logger.getLogger(CourseOfferingRolloverRunner.class);
+    private static final Logger logger = LoggerFactory.getLogger(CourseOfferingRolloverRunner.class);
     private CourseOfferingService coService;
     private CourseOfferingSetService socService;
     private CourseService courseService;
@@ -148,7 +149,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
                         + ex.toString()));
                 this.socService.updateSocRolloverResult(result.getId(), result, context);
             } catch (Exception ex1) {
-                logger.fatal(result, ex);
+                logger.error(String.format("%s", result), ex);
                 throw new RuntimeException(ex1);
             }
         }
@@ -220,7 +221,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
                 Date end = new Date();
                 String timeInSeconds = _computeDiffInSeconds(start, end);
                 start = end; // Get ready for next one
-                logger.info("(" + count + ") Processing: " + sourceCoId + " (" + timeInSeconds + ")");
+                logger.info("({}) Processing: {} ({})", count, sourceCoId, timeInSeconds);
 
                 items.add(item);
                 reportProgressIfModulo(items, sourceCoIdsHandled);
@@ -240,7 +241,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
                 }
             } catch (Exception ex) {
                 // log some conetxt for the exception
-                logger.fatal("failed while processing the " + sourceCoIdsHandled + "th course offering " + sourceCoId, ex);
+                logger.error("failed while processing the " + sourceCoIdsHandled + "th course offering " + sourceCoId, ex);
                 throw ex;
             }
             sourceCoIdsHandled++;
@@ -250,7 +251,7 @@ public class CourseOfferingRolloverRunner implements Runnable {
         // Compute total rollover time in hours, minutes, and seconds
         String totalTime = _computeTotalTimeString(origStart, end);
 
-        logger.info("======= Finished processing rollover ======= (" + totalTime + ")");
+        logger.info("======= Finished processing rollover ======= ({})", totalTime);
         _removeRolloverAssistIdFromContext(context); // KSENROLL-8062
         reportProgress(items, sourceCoIdsHandled - errors);      // Items Processed = Items - Errors
         // mark finished
