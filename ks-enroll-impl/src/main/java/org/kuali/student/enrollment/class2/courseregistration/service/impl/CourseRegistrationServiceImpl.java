@@ -106,15 +106,18 @@ public class CourseRegistrationServiceImpl extends AbstractCourseRegistrationSer
             copy.setId(null);
             copy.setMeta(null);
             for (RegistrationRequestItemInfo item: copy.getRegistrationRequestItems()) {
-                item.setId(null);
+                //item.setId(null);
                 item.setMeta(null);
             }
-            // Persist this
-            RegistrationRequestInfo updated =
-                    createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
+
             // Empty out original cart so it can be reused
             cartInfo.setRegistrationRequestItems(new ArrayList<RegistrationRequestItemInfo>());
             cartInfo = updateRegistrationRequest(cartInfo.getId(), cartInfo, contextInfo);
+
+            // Persist this
+            RegistrationRequestInfo updated =
+                    createRegistrationRequest(copy.getTypeKey(), copy, contextInfo);
+
             // Submit the copy
             return submitRegistrationRequest(updated.getId(), contextInfo);
         } catch (ReadOnlyException ex) {
