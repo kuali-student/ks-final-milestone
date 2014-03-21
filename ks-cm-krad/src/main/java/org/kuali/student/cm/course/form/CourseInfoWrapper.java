@@ -81,7 +81,7 @@ public class CourseInfoWrapper implements Serializable {
     private boolean pilotCourse;
     private String startTerm;
 
-    private UIHelper uiHelper;
+    private CreateCourseUIHelper uiHelper;
 
     public String getEndTerm() {
         return endTerm;
@@ -186,7 +186,7 @@ public class CourseInfoWrapper implements Serializable {
         unitsContentOwnerToAdd = "";
         unitsContentOwner = new ArrayList<KeyValue>();
         loDisplayWrapperModel = new LoDisplayWrapperModel();
-        uiHelper = new UIHelper();
+        uiHelper = new CreateCourseUIHelper();
     }
 
 
@@ -418,21 +418,33 @@ public class CourseInfoWrapper implements Serializable {
         this.reviewProposalDisplay = reviewProposalDisplay;
     }
 
-    public UIHelper getUiHelper() {
+    public CreateCourseUIHelper getUiHelper() {
         return uiHelper;
     }
 
-    public void setUiHelper(UIHelper uiHelper) {
+    public void setUiHelper(CreateCourseUIHelper uiHelper) {
         this.uiHelper = uiHelper;
     }
 
-    public class UIHelper {
+    /**
+     * A helper class which holds all the properties needed for display at the ui but not part of the model.
+     * As <class>CourseInfoWrapper</class> is just a wrapper for <class>CourseInfo</class> and most of the
+     * properties are involved in interacting with services later, it's confussing to mix up the ui only
+     * properties with those. This seperation would help to easily identify which are the ui only properties.
+     * Also, the same <class>CourseInfoWrapper</class> class can be used at other views, we can have multiple ui helper
+     * implementation if needed to support multiple ways to display the same data.
+     *
+     * For example, <method>getHeaderText</method> is used to display the header text at Create Course view only and not
+     * involved in data persistance.
+     *
+     */
+    public class CreateCourseUIHelper {
 
         CurriculumManagementConstants.CourseViewSections selectedSection;
         boolean curriculumSpecialistUser;
         boolean useReviewProcess;
 
-        public UIHelper(){
+        public CreateCourseUIHelper(){
             curriculumSpecialistUser = CourseProposalUtil.isUserCurriculumSpecialist();
             selectedSection = CurriculumManagementConstants.CourseViewSections.COURSE_INFO;
         }
