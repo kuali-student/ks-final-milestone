@@ -137,7 +137,7 @@
         <!-- should align to the same or earlier phase than the contract doc or dictionary doc phase -->
         <ks.prepare-contract-dependencies.phase>site</ks.prepare-contract-dependencies.phase>
         <ks.vdecorator.phase>none</ks.vdecorator.phase>
-	<ks.conftest.phase>none</ks.conftest.phase>
+        <ks.conftest.phase>none</ks.conftest.phase>
         <!-- Spring config that creates META-INF files describing SQL resources -->
         <metainf.sql.context>org.kuali.common.util.metainf.spring.SqlConfig</metainf.sql.context>
         <metainf.sql.propertySource>org.kuali.student.deploy.spring.SqlPropertySourceConfig</metainf.sql.propertySource>
