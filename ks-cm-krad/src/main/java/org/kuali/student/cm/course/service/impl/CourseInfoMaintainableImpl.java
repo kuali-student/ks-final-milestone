@@ -918,6 +918,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         }
 
         reviewData.getcourseLogisticsSection().setGradingOptions(getAssessementScaleString());
+        reviewData.getcourseLogisticsSection().setAudit(BooleanUtils.toStringYesNo(courseInfoWrapper.isAudit()));
+        reviewData.getcourseLogisticsSection().setPassFail(BooleanUtils.toStringYesNo(courseInfoWrapper.isPassFail()));
 
         // update learning Objectives Section;
         // update  course Requisites Section;
