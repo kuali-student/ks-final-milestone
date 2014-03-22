@@ -198,7 +198,7 @@
                             </sourceDirs>
                         </configuration>
                     </execution>
-		    <execution>
+                    <execution>
                         <id>generate-conformance-tests</id>
                         <phase>${ks.conftest.phase}</phase>
                         <goals>
@@ -214,7 +214,6 @@
                             </sourceDirs>
                         </configuration>
                     </execution>
-
                 </executions>
                 <dependencies>
                     <dependency>
