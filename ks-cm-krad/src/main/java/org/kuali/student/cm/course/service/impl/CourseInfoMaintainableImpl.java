@@ -117,7 +117,6 @@ import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
@@ -889,7 +888,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         // Update governance section
         reviewData.getgovernanceSection().getCampusLocations().clear();
-        reviewData.getgovernanceSection().getCampusLocations().addAll(savedCourseInfo.getCampusLocations());
+        reviewData.getgovernanceSection().getCampusLocations().addAll(updateCampusLocations(savedCourseInfo.getCampusLocations()));
         reviewData.getgovernanceSection().getCurriculumOversight().clear();
         reviewData.getgovernanceSection().getCurriculumOversight().addAll(savedCourseInfo.getUnitsContentOwner());
 
@@ -927,6 +926,31 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         // update  financials Section;
         // update  collaborator Section;
         // update  supporting Documents Section;
+    }
+
+    private List<String> updateCampusLocations(List<String> campusLocations){
+
+        String CAMPUS_LOCATION_NORTH = "NO";
+        String CAMPUS_LOCATION_SOUTH = "SO";
+        String NORTH_CAMPUS          = "North Campus";
+        String SOUTH_CAMPUS          = "South Campus";
+        List<String> newCampusLocationsName = new ArrayList<String>();
+
+
+        newCampusLocationsName.addAll(campusLocations);
+        if(campusLocations.contains(CAMPUS_LOCATION_NORTH))
+        {
+            newCampusLocationsName.add(NORTH_CAMPUS);
+            newCampusLocationsName.remove(newCampusLocationsName.indexOf(CAMPUS_LOCATION_NORTH));
+        }
+
+        if(campusLocations.contains(CAMPUS_LOCATION_SOUTH))
+        {
+            newCampusLocationsName.add(SOUTH_CAMPUS);
+            newCampusLocationsName.remove(newCampusLocationsName.indexOf(CAMPUS_LOCATION_SOUTH));
+        }
+
+        return newCampusLocationsName;
     }
 
     @Override
