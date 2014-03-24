@@ -1,4 +1,4 @@
-<div class="kscr-Header-container">
+<div class="kscr-Header-container" ng-class="{'kscr-Menu-background--disabled' : dropMenu}">
     <div class="kscr-Header">
         <div class="kscr-Header-logo">
             <span class="kscr-Header-title kscr-Visibility-mobileElement">COURSE REGISTRATION</span>
@@ -10,10 +10,11 @@
                     <!--<a id="goToSchedule" ui-sref="root.schedule" class="glyphicon glyphicon-calendar"><span class="kscr-Visibility-mobileElement">Schedule</span></a>-->
                 <!--</div>-->
                 <span >
-                    <button type="button" id="reg_menu_button" class="kscr-Menu-button" ng-click="dropMenu = !dropMenu">MENU</button>
+                    <button id="reg_menu_button" type="button" ng-model="dropMenu" class="kscr-Menu-button" ng-class="{'kscr-Menu-button--clicked' : dropMenu}" ng-click="dropMenu = !dropMenu">MENU</button>
                 </span>
             </nav>
         </div>
+
             <div class="kscr-Menu-container" ng-show="dropMenu">
                 <!--Header section-->
                 <div class="kscr-Menu-Header">
@@ -23,14 +24,16 @@
                 <div class="kscr-Menu-searchTerm">
                     <!-- Defaults to the current term-->
                     <strong>Term</strong>
-                    <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
+                    <div>
+                        <select id="searchTerm" ng-model="termId" ng-options="t.termId as t.termName for t in terms"></select>
+                    </div>
                 </div>
 
                 <!--Search Courses section-->
                 <a id="goToSearch" href="{{appUrl}}kscr-poc/index.jsp">
                     <div class="kscr-Menu-links">
                         <span>
-                                <strong>Search Courses <span>&#187;</span> </strong>
+                                <div class="kscr-Menu-links-heading">Search Courses <span>&#187;</span> </div>
                                 <div>
 
                                 </div>
@@ -42,7 +45,7 @@
                 <a id="goToSchedule" ng-click="dropMenu = !dropMenu" ui-sref="root.schedule">
                     <div class="kscr-Menu-links">
                         <span>
-                            <strong>My Schedule <span>&#187;</span> </strong>
+                            <div class="kscr-Menu-links-heading">My Schedule <span>&#187;</span></div>
                                 <div>
                                     Registered for
                                     <ng-pluralize count="registeredCourseCount()"
@@ -62,7 +65,7 @@
                 <a id="goToCart" ng-click="dropMenu = !dropMenu" ui-sref="root.cart" >
                     <div class="kscr-Menu-links">
                         <span>
-                            <strong>My Cart <span>&#187;</span> </strong>
+                            <div class="kscr-Menu-links-heading">My Cart <span>&#187;</span> </div>
                                 <div>
 
                                 </div>
@@ -75,6 +78,7 @@
 
 
 <div class="global-Base-body">
-
-    <div ui-view></div>
+   <div ng-disabled="dropMenu" >
+        <div ui-view></div>
+   </div>
 </div>

@@ -2,28 +2,37 @@
 
 .kscr-Menu-button{
     background-color: black;
-    //text-align: right;
-    color: #f8f8f8;
+    color: @whiteText;
     border: 1px solid #797979;
     border-radius: 5px;
-    padding:3px; font-family: 'Montserrat', sans-serif;
+    padding:3px;
+    font-family: @primaryFontFamily;
     font-weight: normal;
     font-size: 13px;
+
 }
+
+.kscr-Menu-button--clicked{
+    background-color: @whiteBackground;
+    color: @secondaryTextColor;
+}
+
 
 .kscr-Menu-container{
     background-color: @whiteBackground; //#FCFCFC;
     max-width: 90%;
     z-index: 160;
     float: right;
-    margin: 2px -4px 0 0;
-    border: @horizontalLineBorder;
+    margin: 0.2em -0.2em 0 0;
+    //border: @horizontalLineBorder;
     border-bottom-left-radius: 5px;
-   // padding: 5px 5px 10px;
+    margin-bottom: 100%;
+    overflow: hidden;
+    height: 100%;
 
-    -webkit-transition: @transition;;
-    transition: @transition;
-    opacity:1;
+   -webkit-transition: @transition;
+   transition: @transition;
+   opacity:1;
         a{
           font-size: 1em;
           color: @primaryTextColor;
@@ -35,9 +44,9 @@
 }
 
 .kscr-Menu-Header{
-  background-color: @lightGray;
-  margin-top: -1px;
-  height:1em;
+    background-color: @lightGray;
+    margin: -1px;
+    height:1em;
 
 }
 
@@ -54,13 +63,23 @@
     cursor: hand;
 }
 
+.kscr-Menu-links-heading{
+    color: @primaryTextColor;
+    font-weight: bold;
+}
+
 .kscr-Menu-container.ng-hide-add,
 .kscr-Menu-container.ng-hide-remove {
     display:block!important;
+    max-width: 90%;
+    height: 16em;
 }
 
 .kscr-Menu-container.ng-hide {
     opacity:0.8;
+    max-width:0%;
+    height: 16em;
+
 }
 
 
@@ -71,6 +90,12 @@
 }
 
 #searchTerm{
-font-size: 12px;
- max-width: 100%;
+    font-size: 12px;
+    max-width: 100%;
+}
+
+.kscr-Menu-background--disabled{
+    background: rgb(244, 244, 244); /* The Fallback */
+    background: rgba(244, 244, 244, 0.5);
+
 }
