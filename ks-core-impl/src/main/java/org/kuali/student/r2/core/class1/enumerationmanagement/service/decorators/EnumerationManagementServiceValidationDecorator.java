@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -17,15 +16,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 
-public class EnumerationManagementServiceValidationDecorator extends EnumerationManagementServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
+public class EnumerationManagementServiceValidationDecorator extends EnumerationManagementServiceDecorator implements HoldsValidator {
     
     private DataDictionaryValidator validator;
-    private DataDictionaryService dataDictionaryService;
 
     @Override
     public DataDictionaryValidator getValidator() {
@@ -35,16 +32,6 @@ public class EnumerationManagementServiceValidationDecorator extends Enumeration
     @Override
     public void setValidator(DataDictionaryValidator validator) {
         this.validator = validator;
-    }
-
-    @Override
-    public DataDictionaryService getDataDictionaryService() {
-        return dataDictionaryService;
-    }
-
-    @Override
-    public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
-        this.dataDictionaryService = dataDictionaryService;
     }
 
     @Override

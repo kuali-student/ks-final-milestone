@@ -17,13 +17,9 @@
 package org.kuali.student.r2.core.class1.appointment.service.decorators;
 
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 
 public class AppointmentServiceValidationDecorator extends AppointmentServiceDecorator {
     // Need data dictionary
 
     private DataDictionaryValidator validator;
-    private DataDictionaryService dataDictionaryService;
-
-
 }
