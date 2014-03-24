@@ -28,7 +28,9 @@ public class CourseServiceConstants {
     public static final String PER_DAY_FREQUENCY_KEY = "per day";
     public static final String PER_MONTH_FREQUENCY_KEY = "per month";
     public static final String PER_WEEK_FREQUENCY_KEY = "per week";
-    
+
+    public static final String FINAL_EXAM = "finalExamStatus";
+    public static final String FINAL_EXAM_RATIONALE = "finalExamRationale";
     
     /*
      * Constants needed to search for personSearch
