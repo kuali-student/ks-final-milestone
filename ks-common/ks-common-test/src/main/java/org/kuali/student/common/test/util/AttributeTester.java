@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 public class AttributeTester {
 
     private static final Logger log = LoggerFactory.getLogger(AttributeTester.class);
-    
+
     public void add2ForCreate(List<AttributeInfo> expected) {
         AttributeInfo attr = new AttributeInfo();
         attr.setKey("attribute.key1");
