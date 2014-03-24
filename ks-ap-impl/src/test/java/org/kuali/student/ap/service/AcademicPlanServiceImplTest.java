@@ -30,7 +30,6 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.type.dto.TypeInfo;
 import org.kuali.student.r2.lum.clu.CLUConstants;
@@ -84,7 +83,7 @@ public class AcademicPlanServiceImplTest {
 	@Test
 	public void getLearningPlans() throws Throwable {
 		String studentId = "student1";
-		List<LearningPlanInfo> learningPlans = null;
+		List<LearningPlanInfo> learningPlans;
 		learningPlans = KsapFrameworkServiceLocator.getAcademicPlanService().getLearningPlansForStudentByType(
 				studentId,
 				AcademicPlanServiceConstants.LEARNING_PLAN_TYPE_PLAN,
