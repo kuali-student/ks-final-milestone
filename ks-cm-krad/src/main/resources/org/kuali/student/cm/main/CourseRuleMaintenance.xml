@@ -255,7 +255,7 @@ limitations under the License.
             <map>
                 <entry key="selected" value="0"/>
                 <entry key="select"
-                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KRMS-RuleEditor-TreeGroup', 'KS-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
+                       value="function(event, ui) {ajaxCallOnTabSelect(event, ui, 'KS-RuleEditor-TreeGroup', 'KS-EditWithLogic-EditGroup', 'refreshLogicArea', 'KRMS-LogicArea-InputField');}"/>
             </map>
         </property>
     </bean>
@@ -274,7 +274,7 @@ limitations under the License.
             <list>
                 <ref bean="KS-EditRule-ToolbarSection"/>
                 <ref bean="KRMS-RuleEditor-TreeExpandCollapse"/>
-                <ref bean="KRMS-RuleEditor-TreeGroup"/>
+                <ref bean="KS-RuleEditor-TreeGroup"/>
             </list>
         </property>
     </bean>
@@ -381,9 +381,78 @@ limitations under the License.
             </list>
         </property>
     </bean>
+
+    <!-- Note: this bean id is important, it is used for component matching in an ajax refresh -->
+    <!-- also, the bogus refreshWhenChanged is important because it puts a RuleEditorView-TreeGroup_refreshWrapper around the group that
+        is needed for the javascript hack that is refreshing -->
+    <bean id="KS-RuleEditor-TreeGroup" parent="KRMS-RuleEditor-TreeGroup">
+        <property name="items">
+            <list>
+                <bean parent="Uif-Message" p:messageText="Click on rule statement to move or modify"
+                      p:style="font-weight:bold;margin-left: 2em;"/>
+                <bean parent="KS-RulerEditor-TreeSection"/>
+                <bean id="proposition_selected" parent="KRMS-Rules-HiddenField"
+                      p:propertyName="selectedKey"/>
+                <bean id="proposition_copy" parent="KRMS-Rules-HiddenField" p:propertyName="copyKey"/>
+                <bean id="proposition_cut" parent="KRMS-Rules-HiddenField" p:propertyName="cutKey"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-RulerEditor-TreeSection" parent="KRMS-RulerEditor-TreeSection-parent">
+        <property name="nodePrototypeMap">
+            <map key-type="java.lang.Class">
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.RuleEditorTreeNode) }">
+                    <bean parent="KRMS-RuleTreeNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionNode) }">
+                    <bean parent="KRMS-SimplePropositionNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.SimplePropositionEditNode) }">
+                    <bean parent="KS-SimplePropositionEditNodePrototype"/>
+                </entry>
+                <entry key="#{ T(org.kuali.rice.krms.tree.node.CompoundOpCodeNode) }">
+                    <bean parent="KRMS-CompoundOpCodeNodePrototype"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="KS-SimplePropositionEditNodePrototype" parent="KRMS-SimplePropositionEditNodePrototype">
+        <property name="dataGroupPrototype">
+            <bean id="KS-PropositionEdit-BoxSection" parent="KS-PropositionBo-MaintenanceView-Custom" p:cssClasses="editModeNode">
+                <property name="layoutManager.orientation" value="VERTICAL"/>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-PropositionBo-MaintenanceView-Custom" parent="PropositionBo-MaintenanceView-Custom-parentBean">
+        <property name="items">
+            <list>
+                <ref bean="KS-PropositionEdit-DefineSection"/>
+                <ref bean="KRMS-PropositionEdit-DetailSection"/>
+            </list>
+        </property>
+        <property name="footer">
+            <!--Add button to update the preview-->
+            <bean parent="Uif-HorizontalBoxGroup">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-SecondaryActionButton-Small" p:performClientSideValidation="true">
+                            <property name="actionLabel" value="Preview Change"/>
+                            <property name="actionScript" value="updateProposition('updateProposition', 'KS-RuleEditor-TreeGroup');"/>
+                        </bean>
+                        <bean parent="Uif-ActionLink" p:style="margin-left: 0.5em;margin-top: 0.3em;color: #3F7826;">
+                            <property name="actionLabel" value="Cancel"/>
+                            <property name="actionScript" value="updateProposition('cancelEditProposition', 'KS-RuleEditor-TreeGroup');"/>
+                        </bean>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
     
-    <bean id="KRMS-PropositionEdit-DefineSection-parentBean" abstract="true" parent="KRMS-VerticalBoxSubSection">
-        <property name="headerText" value="Define Rule Statement"/>
+    <bean id="KS-PropositionEdit-DefineSection" parent="KRMS-PropositionEdit-DefineSection-parentBean">
         <property name="items">
             <list>
 
