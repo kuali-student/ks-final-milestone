@@ -89,7 +89,7 @@
     <div  ng-repeat="cartResultItem in cartResults.items" is-open="isopen" class="panel cart-item-status-{{cartResultItem.status}}">
         <div class="kscr-cartResult-heading">
             <!--credits-->
-            <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-supportText">
+            <div id="course_remove_{{cartResultItem.courseCode}}_{{cartResultItem.regGroupCode}}" class="kscr-Card-supportText" ng-if="cartResultItem.status != 'processing'">
                 <span class="kscr-cartResult-remove"><a href="" ng-click="removeCartResultItem(cartResultItem)"><i class="glyphicon glyphicon-remove"></i></a></span>
             </div>
 
