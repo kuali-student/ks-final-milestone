@@ -183,7 +183,7 @@
                 </bean>
                 <bean id="KS-FinalExamRationale" parent="Uif-InputField-LabelTop"
                       p:label="Final Exam Rationale" p:required="true"
-                      p:progressiveRender="#dp.dataObject.finalExamStatus eq 'NONE' or #dp.dataObject.finalExamStatus eq 'ALTERNATE'"
+                      p:progressiveRender="#dp.dataObject.finalExamStatus eq 'None' or #dp.dataObject.finalExamStatus eq 'ALT'"
                       p:propertyName="dataObject.finalExamRationale">
                     <property name="control">
                         <bean parent="Uif-LargeTextAreaControl" p:maxLength="255" />

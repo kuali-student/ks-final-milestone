@@ -94,9 +94,12 @@ import org.kuali.student.r2.core.comment.dto.CommentInfo;
 import org.kuali.student.r2.core.comment.dto.DecisionInfo;
 import org.kuali.student.r2.core.comment.service.CommentService;
 import org.kuali.student.r2.core.constants.CommentServiceConstants;
+import org.kuali.student.r2.core.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.r2.core.constants.KSKRMSServiceConstants;
 import org.kuali.student.r2.core.constants.ProposalServiceConstants;
 import org.kuali.student.r2.core.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
@@ -181,6 +184,8 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
     private TypeService typeService;
 
     private LRCService lrcService;
+
+    private transient EnumerationManagementService enumerationManagementService;
 
 
     /**
@@ -926,6 +931,9 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
         reviewData.getcourseLogisticsSection().setGradingOptions(getAssessementScaleString());
         reviewData.getcourseLogisticsSection().setAudit(BooleanUtils.toStringYesNo(courseInfoWrapper.isAudit()));
         reviewData.getcourseLogisticsSection().setPassFail(BooleanUtils.toStringYesNo(courseInfoWrapper.isPassFail()));
+        reviewData.getcourseLogisticsSection().setGradingOptions(getGradingOptionString());
+        reviewData.getcourseLogisticsSection().setFinalExamStatus(getFinalExamString());
+        reviewData.getcourseLogisticsSection().setFinalExamStatusRationale(courseInfoWrapper.getFinalExamRationale());
 
         // update learning Objectives Section;
         // update  course Requisites Section;
@@ -1061,7 +1069,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
         populatePassFailOnDTO();
 
-        populateFinalExamStatusOnDTO();
+        populateFinalExamOnDTO();
 
         populateOutComesOnDTO();
 
@@ -1196,35 +1204,51 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
 
     }
 
-    protected void populateFinalExamStatusOnDTO(){
+    protected void populateFinalExamOnDTO(){
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
-        AttributeInfo finalExamDetail = null;
+        AttributeInfo finalExamStatusDetail = null;
+        AttributeInfo finalExamRationalDetail = null;
         for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
-            if (StringUtils.equals(attr.getKey(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_KEY)){
-                finalExamDetail = attr;
-                break;
+            if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM)){
+                finalExamStatusDetail = attr;
+            } else if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM_RATIONALE)){
+                finalExamRationalDetail = attr;
             }
         }
 
-        if (finalExamDetail == null){
-            finalExamDetail = new AttributeInfo();
-            courseInfoWrapper.getCourseInfo().getAttributes().add(finalExamDetail);
+        if (finalExamStatusDetail == null){
+            finalExamStatusDetail = new AttributeInfo();
+            finalExamStatusDetail.setKey(CourseServiceConstants.FINAL_EXAM);
+            courseInfoWrapper.getCourseInfo().getAttributes().add(finalExamStatusDetail);
         }
 
-        finalExamDetail.setValue(courseInfoWrapper.getFinalExamStatus());
+        if (StringUtils.isNotBlank(courseInfoWrapper.getFinalExamStatus()) &&
+            !StringUtils.equals(courseInfoWrapper.getFinalExamStatus(),CourseServiceConstants.STD_EXAM_FINAL_ENUM_KEY) &&
+            finalExamRationalDetail == null){
+            finalExamRationalDetail = new AttributeInfo();
+            finalExamRationalDetail.setKey(CourseServiceConstants.FINAL_EXAM_RATIONALE);
+            courseInfoWrapper.getCourseInfo().getAttributes().add(finalExamRationalDetail);
+        }
+
+        if (finalExamRationalDetail != null){
+            finalExamRationalDetail.setValue(courseInfoWrapper.getFinalExamRationale());
+        }
+
+        finalExamStatusDetail.setValue(courseInfoWrapper.getFinalExamStatus());
     }
 
 
-    protected void populateFinalExamStatusOnWrapper(){
+    protected void populateFinalExamOnWrapper(){
 
         CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
 
         for (AttributeInfo attr : courseInfoWrapper.getCourseInfo().getAttributes()){
-            if (StringUtils.equals(attr.getKey(), CourseOfferingConstants.COURSEOFFERING_FINAL_EXAM_TYPE_KEY)){
+            if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM)){
                 courseInfoWrapper.setFinalExamStatus(attr.getValue());
-                break;
+            } else if (StringUtils.equals(attr.getKey(), CourseServiceConstants.FINAL_EXAM_RATIONALE)){
+                courseInfoWrapper.setFinalExamRationale(attr.getValue());
             }
         }
 
@@ -1246,6 +1270,49 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
                 throw new RuntimeException(e);
             }
 
+        }
+
+        return "";
+    }
+
+    protected String getGradingOptionString(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        if (!courseInfoWrapper.getCourseInfo().getGradingOptions().isEmpty()){
+            StringBuilder builder = new StringBuilder();
+            try {
+                List<ResultValuesGroupInfo> rvgs = getLRCService().getResultValuesGroupsByKeys(courseInfoWrapper.getCourseInfo().getGradingOptions(),createContextInfo());
+                for (ResultValuesGroupInfo rvg : rvgs){
+                    builder.append(rvg.getName() + ",");
+                }
+                return StringUtils.removeEnd(builder.toString(), ",");
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return "";
+    }
+
+    protected String getFinalExamString(){
+
+        CourseInfoWrapper courseInfoWrapper = (CourseInfoWrapper) getDataObject();
+
+        if (StringUtils.isNotBlank(courseInfoWrapper.getFinalExamStatus())){
+            List<EnumeratedValueInfo> enumerationInfos = null;
+            try {
+                enumerationInfos = getEnumerationManagementService().getEnumeratedValues(
+                        CluServiceConstants.FINAL_EXAM_STATUS_ENUM_KEY, null, null, null, ContextUtils.getContextInfo());
+
+                for (EnumeratedValueInfo enumerationInfo : enumerationInfos) {
+                    if (StringUtils.equals(courseInfoWrapper.getFinalExamStatus(), enumerationInfo.getCode())) {
+                        return enumerationInfo.getValue();
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
         }
 
         return "";
@@ -1310,7 +1377,7 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             dataObject.setCourseInfo(course);
 
             populateAuditOnWrapper();
-            populateFinalExamStatusOnWrapper();
+            populateFinalExamOnWrapper();
             populatePassFailOnWrapper();
             populateOutComesOnWrapper();
 
@@ -1512,5 +1579,13 @@ public class CourseInfoMaintainableImpl extends RuleEditorMaintainableImpl imple
             lrcService = (LRCService) GlobalResourceLoader.getService(qname);
         }
         return lrcService;
+    }
+
+    protected EnumerationManagementService getEnumerationManagementService() {
+        if (enumerationManagementService == null) {
+            enumerationManagementService = (EnumerationManagementService) GlobalResourceLoader.getService(new QName(
+                    EnumerationManagementServiceConstants.NAMESPACE, EnumerationManagementServiceConstants.SERVICE_NAME_LOCAL_PART));
+        }
+        return this.enumerationManagementService;
     }
 }

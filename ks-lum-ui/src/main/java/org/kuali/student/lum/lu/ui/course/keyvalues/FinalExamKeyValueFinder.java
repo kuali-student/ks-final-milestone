@@ -61,11 +61,11 @@ public class FinalExamKeyValueFinder extends UifKeyValuesFinderBase implements S
 
             for (EnumeratedValueInfo enumerationInfo : enumerationInfos) {
                 if (enumerationInfo.getCode().equals(CourseServiceConstants.ALT_EXAM_FINAL_ENUM_KEY)) {
-                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.ALTERNATE_STRING_EXAM_FINAL_ENUM, enumerationInfo.getValue()));
+                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.ALT_EXAM_FINAL_ENUM_KEY, enumerationInfo.getValue()));
                 } else if (enumerationInfo.getCode().equals(CourseServiceConstants.NONE_EXAM_ENUM_KEY)) {
-                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.NONE_STRING_EXAM_ENUM, enumerationInfo.getValue()));
+                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.NONE_EXAM_ENUM_KEY, enumerationInfo.getValue()));
                 } else if (enumerationInfo.getCode().equals(CourseServiceConstants.STD_EXAM_FINAL_ENUM_KEY)) {
-                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.STANDARD_STRING_EXAM_ENUM, enumerationInfo.getValue()));
+                    keyValues.add(new ConcreteKeyValue(CourseServiceConstants.STD_EXAM_FINAL_ENUM_KEY, enumerationInfo.getValue()));
                 }
             }
         } catch (Exception e) {

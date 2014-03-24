@@ -136,11 +136,11 @@
                                   p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
                             <bean parent="Uif-DataField" p:label="Description" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.description"/>
                             <bean parent="Uif-DataField" p:label="Proposal Rationale" p:colSpan="3"
-                                  p:fieldLabel.renderColon="false" p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.instructors"/>
+                                  p:fieldLabel.renderColon="false"
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseSection.rationale"/>
                         </list>
                     </property>
                 </bean>
@@ -239,18 +239,13 @@
                                   p:escapeHtmlInPropertyValue="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.gradingOptions" p:required="true" />
                             <bean parent="Uif-DataField" p:label="Audit"   p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.timeQuantity" />
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.audit" />
                             <bean parent="Uif-DataField" p:label="Pass Fail Transcript Grade"   p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.passFail" />
                             <bean parent="Uif-DataField" p:label="Final Exam Status"  p:colSpan="3" p:fieldLabel.renderColon="false"
                                   p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatus" p:required="true" />
                             <bean parent="Uif-DataField" p:label="Final Exam Rationale"  p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:escapeHtmlInPropertyValue="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.audit" />
-                            <bean parent="Uif-DataField" p:label="Outcomes"  p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
-                            <bean parent="Uif-DataField" p:label="Course Format" p:colSpan="3" p:fieldLabel.renderColon="false"
-                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.terms" />
+                                  p:propertyName="dataObject.reviewProposalDisplay.courseLogisticsSection.finalExamStatusRationale" p:required="true" />
                         </list>
                     </property>
                 </bean>

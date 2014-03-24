@@ -233,6 +233,7 @@ public class ReviewProposalDisplay implements java.io.Serializable {
         private String passFail;
         private String audit;
         private String finalExamStatus;
+        private String finalExamStatusRationale;
 
         public List<String> getTerms() {
             if(terms == null) {
@@ -288,6 +289,14 @@ public class ReviewProposalDisplay implements java.io.Serializable {
 
         public void setFinalExamStatus(String finalExamStatus) {
             this.finalExamStatus = finalExamStatus;
+        }
+
+        public String getFinalExamStatusRationale() {
+            return finalExamStatusRationale;
+        }
+
+        public void setFinalExamStatusRationale(String finalExamStatusRationale) {
+            this.finalExamStatusRationale = finalExamStatusRationale;
         }
     }
 
